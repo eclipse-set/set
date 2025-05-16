@@ -8,6 +8,7 @@
  */
 package org.eclipse.set.feature.table.compile;
 
+import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.Set;
@@ -42,15 +43,13 @@ public class TableCompileServiceImpl implements TableCompileService {
 		final Map<TableType, Table> result = new EnumMap<>(TableType.class);
 		if (PlanProSchnittstelleExtensions
 				.isPlanning(modelSession.getPlanProSchnittstelle())) {
-			final Table start = tableService.transformToTable(shortcut,
-					TableType.INITIAL, modelSession, controlAreaIds);
-			final Table ziel = tableService.transformToTable(shortcut,
-					TableType.FINAL, modelSession, controlAreaIds);
-			final Table diff = diffService.createDiffTable(start, ziel);
-
-			result.put(TableType.INITIAL, start);
-			result.put(TableType.DIFF, diff);
-			result.put(TableType.FINAL, ziel);
+			Arrays.stream(TableType.values())
+					.filter(type -> type != TableType.SINGLE)
+					.forEach(type -> {
+						final Table table = tableService.transformToTable(
+								shortcut, type, modelSession, controlAreaIds);
+						result.put(type, table);
+					});
 		} else {
 			final Table single = tableService.transformToTable(shortcut,
 					TableType.SINGLE, modelSession, controlAreaIds);
