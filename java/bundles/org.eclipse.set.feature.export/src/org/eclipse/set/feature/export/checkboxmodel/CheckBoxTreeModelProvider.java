@@ -56,7 +56,7 @@ public class CheckBoxTreeModelProvider implements ITreeContentProvider {
 	@Override
 	public boolean hasChildren(final Object element) {
 		if (element instanceof final CheckBoxTreeElement treeElement) {
-			return treeElement.isParent();
+			return !treeElement.getChildElements().isEmpty();
 		}
 		return false;
 	}
