@@ -313,6 +313,9 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 			],
 			null
 		)
+		if (pzb.identitaet.wert == "6022EB4A-0C16-479F-9E4F-ECD1CE36E4A0") {
+			println("test")
+		}
 
 		// J: Sskp.Gleismagnete.Abstand_GM_2000
 		fillSwitch(
@@ -322,23 +325,36 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 			new Case<PZB_Element>(
 				[PZBArt?.wert === ENUMPZBArt.ENUMPZB_ART_500_HZ],
 				[
-					""
-				]
+					val bezugspunktSignals = PZBElementBezugspunkt.filter(
+						Signal)
+					container.PZBElement.filter [ pzbEle |
+						pzbEle !== pzb &&
+							pzbEle.PZBArt?.wert ===
+								ENUMPZBArt.ENUMPZB_ART_2000_HZ &&
+							pzbEle?.PZBElementGM !== null
+					].filter [ pzbEle |
+						pzbEle.PZBElementBezugspunkt.filter(Signal).exists [ signal |
+							bezugspunktSignals.contains(signal)
+						]
+					].flatMap [pzbEle | getPointsDistance(it,pzbEle)].filter[doubleValue !== 0].map[
+						AgateRounding.roundDown(it).toString
+					]
+				],
+				ITERABLE_FILLING_SEPARATOR,
+				NUMERIC_COMPARATOR
 			),
 			new Case<PZB_Element>(
 				[PZBArt?.wert === ENUMPZBArt.ENUMPZB_ART_1000_HZ],
 				[
 					val bezugspunktSignals = PZBElementBezugspunkt.filter(
 						Signal)
-					val pzbZuordnungSignals = PZBZuordnungSignal.map [
-						IDSignal?.value
-					]
-					val distance = bezugspunktSignals.filter [
-						pzbZuordnungSignals.contains(it)
-					].map [
-						AgateRounding.roundDown(getPointsDistance(pzb, it).min)
-					].filter[it !== 0]
-					return distance.map[it.toString]
+					container.PZBElement.filter[pzbEle|pzbEle !== it].filter [ pzbEle |
+						pzbEle.PZBZuordnungSignal.exists [ signal |
+							bezugspunktSignals.contains(signal)
+						]
+					].flatMap[pzbEle|getPointsDistance(it, pzbEle)].filter [
+						doubleValue !== 0.0
+					].map[AgateRounding.roundDown(it).toString]
 				],
 				ITERABLE_FILLING_SEPARATOR,
 				NUMERIC_COMPARATOR
@@ -413,7 +429,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 					bahnsteigDistance.distanceEnd.getAsDouble.toTableInteger
 				]
 			)
-			
+
 			// O: Sskp.Ina.H-Tafel_Abstand
 			fillIterableWithConditional(
 				instance,
@@ -497,7 +513,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				pzb,
 				[pzbGUEs],
 				null,
-				[pruefzeit?.wert.toTableInteger]
+				[pruefzeit?.wert.toTableDecimal]
 			)
 
 			// T: Sskp.Gue.Messfehler
