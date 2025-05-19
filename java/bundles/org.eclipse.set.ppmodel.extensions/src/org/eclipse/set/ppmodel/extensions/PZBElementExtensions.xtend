@@ -78,7 +78,7 @@ class PZBElementExtensions extends BasisObjektExtensions {
 	def static Iterable<PZB_Zuordnung_Signal> getPZBZuordnungSignal(
 		PZB_Element pzb) {
 		return pzb.container.PZBZuordnungSignal.filter [
-			IDPZBElementZuordnung === pzb.PZBElementZuordnung
+			IDPZBElementZuordnung?.value === pzb.PZBElementZuordnung
 		]
 	}
 

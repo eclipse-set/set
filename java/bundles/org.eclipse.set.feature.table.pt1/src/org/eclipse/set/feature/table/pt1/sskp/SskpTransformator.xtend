@@ -413,7 +413,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 					bahnsteigDistance.distanceEnd.getAsDouble.toTableInteger
 				]
 			)
-
+			
 			// O: Sskp.Ina.H-Tafel_Abstand
 			fillIterableWithConditional(
 				instance,
@@ -430,7 +430,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				[
 					PZBZuordnungSignal?.map[IDSignal?.value].map [ signal |
 						getPointsDistance(pzb, signal).min
-					].filter[it.doubleValue === 0.0].map [
+					].filter[it.doubleValue !== 0.0].map [
 						AgateRounding.roundDown(it).toString
 					]
 				],
@@ -452,7 +452,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				[
 					PZBZuordnungSignal?.map[IDSignal?.value].map [ signal |
 						getPointsDistance(pzb, signal).min
-					].filter[it.doubleValue === 0.0].map [
+					].filter[it.doubleValue !== 0.0].map [
 						AgateRounding.roundDown(it).toString
 					]
 				],
@@ -470,7 +470,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 			)
 
 		} else {
-			for (var i = 9; i < 15; i++) {
+			for (var i = 10; i < 17; i++) {
 				fillBlank(instance, i)
 			}
 		}
@@ -561,7 +561,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				[GUEEnergieversorgung?.translate]
 			)
 		} else {
-			for (var i = 15; i < 23; i++) {
+			for (var i = 17; i < 25; i++) {
 				fillBlank(instance, i)
 			}
 		}
