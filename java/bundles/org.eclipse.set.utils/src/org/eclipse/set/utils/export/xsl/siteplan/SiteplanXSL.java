@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.IntStream;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -52,6 +53,7 @@ import org.xml.sax.SAXException;
  */
 public class SiteplanXSL {
 	private static final String SITEPLAN_XSL_TEMPLATE = "data/export/pdf/siteplan_template.xsl"; //$NON-NLS-1$
+	private static final double PAGE_WIDTH_TOLERANCE = 50.0;
 	private static final List<SiteplanXSLPage> avaiablePageSize = List.of(
 			getSiteplanPageA0(), getSiteplanPageA1(), getSiteplanPageA2(),
 			getSiteplanPageA3());
@@ -71,6 +73,7 @@ public class SiteplanXSL {
 	private final double ppm;
 	private final int pagePosition;
 	private final String pagePostfix;
+	private final double customPageWidth;
 
 	/**
 	 * @param image
@@ -93,6 +96,7 @@ public class SiteplanXSL {
 		this.pageStyle = determinePageStyle();
 		this.pagePosition = pageIndex;
 		this.pagePostfix = pagePostfix;
+		this.customPageWidth = getCustomPageWidth();
 	}
 
 	/**
@@ -120,8 +124,7 @@ public class SiteplanXSL {
 					"Es gibt kein passendes Papierformat für diesen Lageplan im aktuellen Layout. Bitte DPI-Zahl or Skalierungsfaktor ändern"); //$NON-NLS-1$
 		}
 
-		return this
-				.setPageSize(pageStyle.getPageDIN(), pageStyle.getRegionBody())
+		return this.setPageSize(pageStyle.getPageDIN())
 				.setRegionBodySize(pageStyle.getRegionBody())
 				.setFreeFeldHeight(pageStyle.getTitleBoxRegion())
 				.setSignificantSize(pageStyle.getSignificantInformation())
@@ -130,15 +133,27 @@ public class SiteplanXSL {
 				.setPagePosition().doc;
 	}
 
-	private SiteplanXSL setPageSize(final PageDIN pageDIN,
-			final RegionBody regionBody) throws NullPointerException {
+	private double getCustomPageWidth() {
 		final double imageWidthMilimet = pxToMilimeter(image.getWidth(), ppm);
-		final double pageWidth = pageDIN.getPageWidth()
-				+ (regionBody.width() > imageWidthMilimet ? 0
-						: imageWidthMilimet - regionBody.width());
+		final Optional<SiteplanXSLPage> relevantPageWidth = avaiablePageSize
+				.stream()
+				.filter(page -> Math.abs(page.getRegionBody().width()
+						- imageWidthMilimet) < PAGE_WIDTH_TOLERANCE)
+				.findFirst();
+
+		if (relevantPageWidth.isEmpty()) {
+			return pageStyle.getPageDIN().getPageWidth() + imageWidthMilimet
+					- pageStyle.getRegionBody().width();
+		}
+		return relevantPageWidth.get().getPageDIN().getPageWidth();
+	}
+
+	private SiteplanXSL setPageSize(final PageDIN pageDIN)
+			throws NullPointerException {
 		setXSLElementValue(doc, XSL_ATTRIBUTE, ATTR_PAGE_HEIGHT,
 				pageDIN.getPageHeight());
-		setXSLElementValue(doc, XSL_ATTRIBUTE, ATTR_PAGE_WIDTH, pageWidth);
+		setXSLElementValue(doc, XSL_ATTRIBUTE, ATTR_PAGE_WIDTH,
+				customPageWidth);
 		return this;
 	}
 
@@ -170,12 +185,11 @@ public class SiteplanXSL {
 
 	private SiteplanXSL setFoldingMarkTemplates(final List<FoldingMark> marks)
 			throws NullPointerException {
-		final List<FoldingMark> topBottomMarks = marks.stream()
-				.filter(mark -> mark.position() == BEFORE
-						|| mark.position() == AFTER)
-				.toList();
-		if (!topBottomMarks.isEmpty()) {
-			createFoldingMarkTopBottomTemplate(topBottomMarks.getFirst());
+		final List<Double> customFolding = SiteplanXSLExtension
+				.calculateCustomFoldingTopBottom(customPageWidth);
+		if (customFolding != null && !customFolding.isEmpty()) {
+			createFoldingMarkTopBottomTemplate(
+					new FoldingMark(AFTER, customFolding));
 		}
 
 		final List<FoldingMark> sideMarks = marks.stream()
@@ -191,6 +205,7 @@ public class SiteplanXSL {
 
 	private void createFoldingMarkTopBottomTemplate(
 			final FoldingMark topBottomMark) {
+
 		final Element topBottomMarkTemplate = getFoldingMarkTemplate(
 				SITEPLAN_FOLDING_MARK_TOP_BOTTOM);
 
@@ -228,6 +243,9 @@ public class SiteplanXSL {
 	}
 
 	private void createFoldingMarkSideTemplate(final FoldingMark sideMark) {
+		if (sideMark.distances().isEmpty()) {
+			return;
+		}
 		final Element sideMarkTemplate = getFoldingMarkTemplate(
 				SITEPLAN_FOLDING_MARK_SIDE);
 
