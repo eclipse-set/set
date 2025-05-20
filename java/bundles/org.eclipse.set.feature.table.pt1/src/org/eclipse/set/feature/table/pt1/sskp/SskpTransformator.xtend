@@ -313,9 +313,6 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 			],
 			null
 		)
-		if (pzb.identitaet.wert == "6022EB4A-0C16-479F-9E4F-ECD1CE36E4A0") {
-			println("test")
-		}
 
 		// J: Sskp.Gleismagnete.Abstand_GM_2000
 		fillSwitch(
