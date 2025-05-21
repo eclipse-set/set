@@ -45,7 +45,7 @@ class FootnoteTransformation {
 
 	private def dispatch Iterable<ID_Bearbeitungsvermerk_TypeClass> getObjectFootnotes(
 		Signal signal) {
-		val signalFootNotes = signal.IDBearbeitungsvermerk
+		val signalFootNotes = signal?.IDBearbeitungsvermerk
 		val signalRahmenFootNotes = signal?.signalRahmen?.flatMap [
 			IDBearbeitungsvermerk
 		]
