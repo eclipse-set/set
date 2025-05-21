@@ -37,23 +37,34 @@ class FootnoteTransformation {
 		this.row = row
 		object?.objectFootnotes?.map[value]?.toSet?.forEach[addFootnote]
 	}
-	
-	private def dispatch Iterable<ID_Bearbeitungsvermerk_TypeClass> getObjectFootnotes(Basis_Objekt object) {
+
+	private def dispatch Iterable<ID_Bearbeitungsvermerk_TypeClass> getObjectFootnotes(
+		Basis_Objekt object) {
 		return object.IDBearbeitungsvermerk
 	}
-	
-	private def dispatch Iterable<ID_Bearbeitungsvermerk_TypeClass> getObjectFootnotes(Signal signal) {
+
+	private def dispatch Iterable<ID_Bearbeitungsvermerk_TypeClass> getObjectFootnotes(
+		Signal signal) {
 		val signalFootNotes = signal.IDBearbeitungsvermerk
-		val signalRahmenFootNotes = signal.signalRahmen.flatMap[IDBearbeitungsvermerk]
-		val signalBefestigungFootNotes = signal.signalRahmen.flatMap[signalBefestigung.IDBearbeitungsvermerk]
-		return #[signalFootNotes, signalRahmenFootNotes, signalBefestigungFootNotes].flatten
+		val signalRahmenFootNotes = signal?.signalRahmen?.flatMap [
+			IDBearbeitungsvermerk
+		]
+		val signalBefestigungFootNotes = signal?.signalRahmen?.flatMap [
+			signalBefestigung?.IDBearbeitungsvermerk
+		].filterNull
+		return #[signalFootNotes, signalRahmenFootNotes,
+			signalBefestigungFootNotes].filterNull.flatten
 	}
-	
-	private def dispatch Iterable<ID_Bearbeitungsvermerk_TypeClass> getObjectFootnotes(W_Kr_Gsp_Element gspElement) {
-		val gspElementFootNotes = gspElement.IDBearbeitungsvermerk
-		val gspKomponentFootNotes = gspElement.WKrGspKomponenten.flatMap[IDBearbeitungsvermerk]
-		val gspAnlageFootNotes = gspElement.WKrAnlage.IDBearbeitungsvermerk
-		return #[gspElementFootNotes, gspKomponentFootNotes, gspAnlageFootNotes].flatten
+
+	private def dispatch Iterable<ID_Bearbeitungsvermerk_TypeClass> getObjectFootnotes(
+		W_Kr_Gsp_Element gspElement) {
+		val gspElementFootNotes = gspElement?.IDBearbeitungsvermerk
+		val gspKomponentFootNotes = gspElement?.WKrGspKomponenten?.flatMap [
+			IDBearbeitungsvermerk
+		]
+		val gspAnlageFootNotes = gspElement?.WKrAnlage?.IDBearbeitungsvermerk
+		return #[gspElementFootNotes, gspKomponentFootNotes,
+			gspAnlageFootNotes].filterNull.flatten
 	}
 
 	private def void addFootnote(Bearbeitungsvermerk comment) {
