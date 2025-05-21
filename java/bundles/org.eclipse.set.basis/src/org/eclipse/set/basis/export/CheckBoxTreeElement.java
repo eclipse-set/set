@@ -58,7 +58,7 @@ public class CheckBoxTreeElement extends CheckboxModelElement {
 	 * @return true, when this element have child
 	 */
 	public boolean isParent() {
-		return !childs.isEmpty();
+		return !childs.isEmpty() || parent == null;
 	}
 
 	/**
