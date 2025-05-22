@@ -32,7 +32,7 @@ import com.google.common.collect.Streams;
  * 
  */
 @Component
-public class TeilbereichOverlappCheck extends AbstractPlazContainerCheck
+public class TeilbereichOverlapCheck extends AbstractPlazContainerCheck
 		implements PlazCheck {
 
 	@Override
@@ -63,19 +63,19 @@ public class TeilbereichOverlappCheck extends AbstractPlazContainerCheck
 					.stream()
 					.filter(l -> l.size() > 1)
 					.toList();
-			final Set<Bereich_Objekt_Teilbereich_AttributeGroup> overlappBotb = new HashSet<>();
+			final Set<Bereich_Objekt_Teilbereich_AttributeGroup> overlapBotb = new HashSet<>();
 			sameTopKanteTeilBereich.forEach(botbs -> {
 				for (int i = 0; i < botbs.size(); i++) {
 					for (int j = i + 1; j < botbs.size(); j++) {
 						if (isTeilbereichOverlapp(botbs.get(i), botbs.get(j))) {
-							overlappBotb.add(botbs.get(i));
-							overlappBotb.add(botbs.get(j));
+							overlapBotb.add(botbs.get(i));
+							overlapBotb.add(botbs.get(j));
 						}
 					}
 				}
 			});
-			if (!overlappBotb.isEmpty()) {
-				return overlappBotb.stream()
+			if (!overlapBotb.isEmpty()) {
+				return overlapBotb.stream()
 						.map(botb -> createPlaZError(bo, botb));
 			}
 			return null;
