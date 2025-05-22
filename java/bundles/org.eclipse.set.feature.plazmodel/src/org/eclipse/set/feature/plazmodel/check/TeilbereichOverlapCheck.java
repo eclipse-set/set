@@ -67,7 +67,7 @@ public class TeilbereichOverlapCheck extends AbstractPlazContainerCheck
 			sameTopKanteTeilBereich.forEach(botbs -> {
 				for (int i = 0; i < botbs.size(); i++) {
 					for (int j = i + 1; j < botbs.size(); j++) {
-						if (isTeilbereichOverlapp(botbs.get(i), botbs.get(j))) {
+						if (isTeilbereichOverlap(botbs.get(i), botbs.get(j))) {
 							overlapBotb.add(botbs.get(i));
 							overlapBotb.add(botbs.get(j));
 						}
@@ -82,7 +82,7 @@ public class TeilbereichOverlapCheck extends AbstractPlazContainerCheck
 		}).filter(Objects::nonNull).toList();
 	}
 
-	private static boolean isTeilbereichOverlapp(
+	private static boolean isTeilbereichOverlap(
 			final Bereich_Objekt_Teilbereich_AttributeGroup botb1,
 			final Bereich_Objekt_Teilbereich_AttributeGroup botb2) {
 		if (botb1.getIDTOPKante().getValue() != botb2.getIDTOPKante()
