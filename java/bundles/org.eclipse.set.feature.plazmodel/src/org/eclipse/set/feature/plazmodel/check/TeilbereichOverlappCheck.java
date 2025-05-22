@@ -37,17 +37,17 @@ public class TeilbereichOverlappCheck extends AbstractPlazContainerCheck
 
 	@Override
 	public String checkType() {
-		return "Überlappen Teilbereiche"; //$NON-NLS-1$
+		return "Überlappende Teilbereiche"; //$NON-NLS-1$
 	}
 
 	@Override
 	public String getDescription() {
-		return "Teilbereichsgrenzen der LST-Objekte sind pausible"; //$NON-NLS-1$
+		return "Teilbereichsgrenzen der LST-Objekte sind plausibel"; //$NON-NLS-1$
 	}
 
 	@Override
 	public String getGeneralErrMsg() {
-		return "Es gibt Teilbereiche, die sich überlappen, in Objekt {GUID}"; //$NON-NLS-1$
+		return "Es gibt überlappende Teilbereiche in Objekt {GUID}"; //$NON-NLS-1$
 	}
 
 	@Override
