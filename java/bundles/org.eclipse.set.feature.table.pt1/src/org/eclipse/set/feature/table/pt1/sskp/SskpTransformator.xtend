@@ -322,23 +322,36 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 			new Case<PZB_Element>(
 				[PZBArt?.wert === ENUMPZBArt.ENUMPZB_ART_500_HZ],
 				[
-					""
-				]
+					val bezugspunktSignals = PZBElementBezugspunkt.filter(
+						Signal)
+					container.PZBElement.filter [ pzbEle |
+						pzbEle !== pzb &&
+							pzbEle.PZBArt?.wert ===
+								ENUMPZBArt.ENUMPZB_ART_2000_HZ &&
+							pzbEle?.PZBElementGM !== null
+					].filter [ pzbEle |
+						pzbEle.PZBElementBezugspunkt.filter(Signal).exists [ signal |
+							bezugspunktSignals.contains(signal)
+						]
+					].flatMap [pzbEle | getPointsDistance(it,pzbEle)].filter[doubleValue !== 0].map[
+						AgateRounding.roundDown(it).toString
+					]
+				],
+				ITERABLE_FILLING_SEPARATOR,
+				NUMERIC_COMPARATOR
 			),
 			new Case<PZB_Element>(
 				[PZBArt?.wert === ENUMPZBArt.ENUMPZB_ART_1000_HZ],
 				[
 					val bezugspunktSignals = PZBElementBezugspunkt.filter(
 						Signal)
-					val pzbZuordnungSignals = PZBZuordnungSignal.map [
-						IDSignal?.value
-					]
-					val distance = bezugspunktSignals.filter [
-						pzbZuordnungSignals.contains(it)
-					].map [
-						AgateRounding.roundDown(getPointsDistance(pzb, it).min)
-					].filter[it !== 0]
-					return distance.map[it.toString]
+					container.PZBElement.filter[pzbEle|pzbEle !== it].filter [ pzbEle |
+						pzbEle.PZBZuordnungSignal.exists [ signal |
+							bezugspunktSignals.contains(signal)
+						]
+					].flatMap[pzbEle|getPointsDistance(it, pzbEle)].filter [
+						doubleValue !== 0.0
+					].map[AgateRounding.roundDown(it).toString]
 				],
 				ITERABLE_FILLING_SEPARATOR,
 				NUMERIC_COMPARATOR
@@ -430,7 +443,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				[
 					PZBZuordnungSignal?.map[IDSignal?.value].map [ signal |
 						getPointsDistance(pzb, signal).min
-					].filter[it.doubleValue === 0.0].map [
+					].filter[it.doubleValue !== 0.0].map [
 						AgateRounding.roundDown(it).toString
 					]
 				],
@@ -452,7 +465,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				[
 					PZBZuordnungSignal?.map[IDSignal?.value].map [ signal |
 						getPointsDistance(pzb, signal).min
-					].filter[it.doubleValue === 0.0].map [
+					].filter[it.doubleValue !== 0.0].map [
 						AgateRounding.roundDown(it).toString
 					]
 				],
@@ -470,7 +483,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 			)
 
 		} else {
-			for (var i = 9; i < 15; i++) {
+			for (var i = 10; i < 17; i++) {
 				fillBlank(instance, i)
 			}
 		}
@@ -497,7 +510,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				pzb,
 				[pzbGUEs],
 				null,
-				[pruefzeit?.wert.toTableInteger]
+				[pruefzeit?.wert.toTableDecimal]
 			)
 
 			// T: Sskp.Gue.Messfehler
@@ -561,7 +574,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				[GUEEnergieversorgung?.translate]
 			)
 		} else {
-			for (var i = 15; i < 23; i++) {
+			for (var i = 17; i < 25; i++) {
 				fillBlank(instance, i)
 			}
 		}
