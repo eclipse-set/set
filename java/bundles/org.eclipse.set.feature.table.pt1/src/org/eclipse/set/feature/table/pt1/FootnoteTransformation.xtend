@@ -8,11 +8,18 @@
  */
 package org.eclipse.set.feature.table.pt1
 
+import org.eclipse.set.model.planpro.BasisTypen.ID_Bearbeitungsvermerk_TypeClass
 import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
 import org.eclipse.set.model.planpro.Basisobjekte.Bearbeitungsvermerk
+import org.eclipse.set.model.planpro.Signale.Signal
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element
 import org.eclipse.set.model.tablemodel.SimpleFootnoteContainer
 import org.eclipse.set.model.tablemodel.TableRow
 import org.eclipse.set.model.tablemodel.TablemodelFactory
+
+import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.SignalRahmenExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.WKrGspElementExtensions.*
 
 /**
  * Transform basis objects to footnotes.
@@ -28,7 +35,36 @@ class FootnoteTransformation {
 	 */
 	def void transform(Basis_Objekt object, TableRow row) {
 		this.row = row
-		object.IDBearbeitungsvermerk?.forEach[value?.addFootnote]
+		object?.objectFootnotes?.map[value]?.toSet?.forEach[addFootnote]
+	}
+
+	private def dispatch Iterable<ID_Bearbeitungsvermerk_TypeClass> getObjectFootnotes(
+		Basis_Objekt object) {
+		return object.IDBearbeitungsvermerk
+	}
+
+	private def dispatch Iterable<ID_Bearbeitungsvermerk_TypeClass> getObjectFootnotes(
+		Signal signal) {
+		val signalFootNotes = signal?.IDBearbeitungsvermerk
+		val signalRahmenFootNotes = signal?.signalRahmen?.flatMap [
+			IDBearbeitungsvermerk
+		]
+		val signalBefestigungFootNotes = signal?.signalRahmen?.flatMap [
+			signalBefestigung?.IDBearbeitungsvermerk
+		].filterNull
+		return #[signalFootNotes, signalRahmenFootNotes,
+			signalBefestigungFootNotes].filterNull.flatten
+	}
+
+	private def dispatch Iterable<ID_Bearbeitungsvermerk_TypeClass> getObjectFootnotes(
+		W_Kr_Gsp_Element gspElement) {
+		val gspElementFootNotes = gspElement?.IDBearbeitungsvermerk
+		val gspKomponentFootNotes = gspElement?.WKrGspKomponenten?.flatMap [
+			IDBearbeitungsvermerk
+		]
+		val gspAnlageFootNotes = gspElement?.WKrAnlage?.IDBearbeitungsvermerk
+		return #[gspElementFootNotes, gspKomponentFootNotes,
+			gspAnlageFootNotes].filterNull.flatten
 	}
 
 	private def void addFootnote(Bearbeitungsvermerk comment) {
