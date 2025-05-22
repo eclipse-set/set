@@ -683,10 +683,16 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 			if (IDSignalSignalbegriffZiel === null) {
 				return signalSignalbegriffSymbol
 			}
-			return '''«signalSignalbegriffSymbol»(«
-				»«IF IDSignalSignalbegriffZiel.value !== null && IDSignalSignalbegriffZiel.value.hasSignalbegriffID(typeof(Hp0))»0«ENDIF»«
-				»«IDSignalSignalbegriffZiel.value?.signalBegriffSymbol»)'''
-		].toList
+			val signalSignalbegriffziel = IDSignalSignalbegriffZiel.value
+			if (signalSignalbegriffziel !== null &&
+				(signalSignalbegriffziel.hasSignalbegriffID(typeof(Zs3)) ||
+					signalSignalbegriffziel.hasSignalbegriffID(typeof(Hp0)))) {
+				return '''«signalSignalbegriffSymbol»(«
+					»«IF signalSignalbegriffziel.hasSignalbegriffID(typeof(Hp0))»0«
+					»«ELSE»«signalSignalbegriffziel.signalBegriffSymbol»«ENDIF»)'''
+			}
+			return null
+		].filterNull.toList
 	}
 
 	private def List<Signal_Signalbegriff> getRelevantSignalBegriffAtSignal(
