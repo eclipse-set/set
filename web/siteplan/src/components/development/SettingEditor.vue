@@ -149,8 +149,6 @@ import { SubscribeOptions } from 'vuex'
       }
 
       if (m.type === 'setCustomPpm') {
-        console.log
-        ('Custom ppm changed to: ' + s.customPpm)
         this.ppm = s.customPpm
       }
     })
