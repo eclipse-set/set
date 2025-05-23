@@ -10,7 +10,10 @@
  */
 package org.eclipse.set.application.initializationservice;
 
+import org.eclipse.set.basis.guid.Guid;
 import org.eclipse.set.core.services.initialization.InitializationStep;
+import org.eclipse.set.model.planpro.Basisobjekte.BasisobjekteFactory;
+import org.eclipse.set.model.planpro.Basisobjekte.Identitaet_TypeClass;
 import org.eclipse.set.model.planpro.Layoutinformationen.DocumentRoot;
 import org.eclipse.set.model.planpro.Layoutinformationen.LayoutinformationenFactory;
 import org.eclipse.set.model.planpro.Layoutinformationen.PlanPro_Layoutinfo;
@@ -42,6 +45,10 @@ public class LayoutinformationenInitialization implements InitializationStep {
 		final DocumentRoot documentRoot = (DocumentRoot) model;
 		final PlanPro_Layoutinfo layoutinfo = LayoutinformationenFactory.eINSTANCE
 				.createPlanPro_Layoutinfo();
+		final Identitaet_TypeClass layoutInfoIdentitaet = BasisobjekteFactory.eINSTANCE
+				.createIdentitaet_TypeClass();
+		layoutInfoIdentitaet.setWert(Guid.create().toString());
+		layoutinfo.setIdentitaet(layoutInfoIdentitaet);
 		documentRoot.setPlanProLayoutinfo(layoutinfo);
 	}
 }
