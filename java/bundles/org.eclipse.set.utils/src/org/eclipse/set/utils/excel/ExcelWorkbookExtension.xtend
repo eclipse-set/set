@@ -9,9 +9,9 @@
 package org.eclipse.set.utils.excel
 
 import java.util.Collections
+import java.util.LinkedHashSet
 import java.util.List
 import java.util.Optional
-import java.util.Set
 import org.apache.poi.ss.usermodel.Cell
 import org.apache.poi.ss.usermodel.Sheet
 import org.apache.poi.ss.util.CellRangeAddress
@@ -92,7 +92,7 @@ class ExcelWorkbookExtension {
 		return sheet.mergedRegions.filter[firstRow === 1]
 	}
 
-	static def Set<Integer> getRepeatingColumns(Sheet sheet) {
+	static def LinkedHashSet<Integer> getRepeatingColumns(Sheet sheet) {
 		val result = <Integer>newLinkedHashSet
 		if (sheet === null || sheet.repeatingColumns === null) {
 			return result
