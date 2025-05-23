@@ -114,6 +114,7 @@ export async function getPixelProMeterAtScale (map: Map, view: View, scale: numb
       const topLeftSphereCoord = transform(getTopLeft(viewportExtent), 'EPSG:3857', 'EPSG:4326')
       const topRightSphereCoord = transform(getTopRight(viewportExtent), 'EPSG:3857', 'EPSG:4326')
       const distanceInMeter = getDistance(topLeftSphereCoord, topRightSphereCoord)
+      view.setResolution(currentResolution)
       const currentPpm = viewportSize[0] / distanceInMeter
       resolve(currentPpm)
     })
