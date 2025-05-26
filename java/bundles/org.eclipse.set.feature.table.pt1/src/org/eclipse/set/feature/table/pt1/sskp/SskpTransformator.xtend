@@ -514,7 +514,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				pzb,
 				[pzbGUEs],
 				null,
-				[pruefzeit?.wert.toTableDecimal]
+				[pruefzeit?.wert.toTableDecimal(2)]
 			)
 
 			// T: Sskp.Gue.Messfehler

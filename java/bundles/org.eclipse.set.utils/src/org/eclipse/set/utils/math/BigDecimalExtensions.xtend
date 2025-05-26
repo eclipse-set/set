@@ -11,6 +11,7 @@ package org.eclipse.set.utils.math
 import java.math.BigDecimal
 import java.math.RoundingMode
 import org.eclipse.emf.common.util.Enumerator
+import java.text.DecimalFormat
 
 /**
  * Extensions for {@link Enumerator}.
@@ -31,6 +32,13 @@ class BigDecimalExtensions {
 		return null
 	}
 
+
+	static def String toTableDecimal(BigDecimal length, int decimalPlace) {
+		if (length !== null) {
+			val decimal = length.setScale(decimalPlace, RoundingMode.FLOOR)
+			return decimal.toPlainString
+		}
+	}
 	/**
 	 * @param length the length
 	 * @param multiplier the multiplier
