@@ -33,7 +33,7 @@ import org.eclipse.swt.widgets.Control;
 public class PlazModelTableView extends AbstractTreeLayerTable {
 	@SuppressWarnings("nls")
 	static final String HEADER_PATTERN = """
-			PlaZ-Modell-Prüfung
+			PlaZ Modell-Prüfung
 			Datei: %s
 			Prüfungszeit: %s
 			Werkzeugkofferversion: %s
