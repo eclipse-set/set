@@ -11,7 +11,6 @@ package org.eclipse.set.utils.math
 import java.math.BigDecimal
 import java.math.RoundingMode
 import org.eclipse.emf.common.util.Enumerator
-import java.text.DecimalFormat
 
 /**
  * Extensions for {@link Enumerator}.

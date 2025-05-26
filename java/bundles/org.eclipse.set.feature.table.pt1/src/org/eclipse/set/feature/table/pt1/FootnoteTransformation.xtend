@@ -59,6 +59,9 @@ class FootnoteTransformation {
 
 	private def dispatch Iterable<ID_Bearbeitungsvermerk_TypeClass> getObjectFootnotes(
 		Signal_Befestigung signalBefestigung) {
+		if (signalBefestigung === null) {
+			return null
+		}
 		val befestigungFootnotes = signalBefestigung?.IDBearbeitungsvermerk
 		if (signalBefestigung?.IDSignalBefestigung?.value !== null) {
 			return #[befestigungFootnotes,
