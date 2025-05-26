@@ -31,6 +31,13 @@ class BigDecimalExtensions {
 		return null
 	}
 
+
+	static def String toTableDecimal(BigDecimal length, int decimalPlace) {
+		if (length !== null) {
+			val decimal = length.setScale(decimalPlace, RoundingMode.FLOOR)
+			return decimal.toPlainString
+		}
+	}
 	/**
 	 * @param length the length
 	 * @param multiplier the multiplier

@@ -20,6 +20,7 @@ import org.eclipse.set.model.tablemodel.TablemodelFactory
 import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalRahmenExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspElementExtensions.*
+import org.eclipse.set.model.planpro.Signale.Signal_Befestigung
 
 /**
  * Transform basis objects to footnotes.
@@ -50,10 +51,24 @@ class FootnoteTransformation {
 			IDBearbeitungsvermerk
 		]
 		val signalBefestigungFootNotes = signal?.signalRahmen?.flatMap [
-			signalBefestigung?.IDBearbeitungsvermerk
+			signalBefestigung?.objectFootnotes
 		].filterNull
 		return #[signalFootNotes, signalRahmenFootNotes,
 			signalBefestigungFootNotes].filterNull.flatten
+	}
+
+	private def dispatch Iterable<ID_Bearbeitungsvermerk_TypeClass> getObjectFootnotes(
+		Signal_Befestigung signalBefestigung) {
+		if (signalBefestigung === null) {
+			return null
+		}
+		val befestigungFootnotes = signalBefestigung?.IDBearbeitungsvermerk
+		if (signalBefestigung?.IDSignalBefestigung?.value !== null) {
+			return #[befestigungFootnotes,
+				signalBefestigung?.IDSignalBefestigung?.value?.objectFootnotes].
+				filterNull.flatten
+		}
+		return befestigungFootnotes
 	}
 
 	private def dispatch Iterable<ID_Bearbeitungsvermerk_TypeClass> getObjectFootnotes(

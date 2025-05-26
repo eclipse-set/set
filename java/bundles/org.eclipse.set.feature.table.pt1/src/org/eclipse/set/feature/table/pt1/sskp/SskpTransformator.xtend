@@ -326,14 +326,18 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 						Signal)
 					container.PZBElement.filter [ pzbEle |
 						pzbEle !== pzb &&
-							pzbEle.PZBArt?.wert ===
-								ENUMPZBArt.ENUMPZB_ART_2000_HZ &&
+							(pzbEle.PZBArt?.wert ===
+								ENUMPZBArt.ENUMPZB_ART_2000_HZ ||
+								pzbEle.PZBArt?.wert ===
+									ENUMPZBArt.ENUMPZB_ART_1000_2000_HZ) &&
 							pzbEle?.PZBElementGM !== null
 					].filter [ pzbEle |
 						pzbEle.PZBElementBezugspunkt.filter(Signal).exists [ signal |
 							bezugspunktSignals.contains(signal)
 						]
-					].flatMap [pzbEle | getPointsDistance(it,pzbEle)].filter[doubleValue !== 0].map[
+					].flatMap[pzbEle|getPointsDistance(it, pzbEle)].filter [
+						doubleValue !== 0
+					].map [
 						AgateRounding.roundDown(it).toString
 					]
 				],
@@ -510,7 +514,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				pzb,
 				[pzbGUEs],
 				null,
-				[pruefzeit?.wert.toTableDecimal]
+				[pruefzeit?.wert.toTableDecimal(2)]
 			)
 
 			// T: Sskp.Gue.Messfehler
@@ -602,8 +606,8 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 	static dispatch def String fillBezugsElement(Signal object) {
 		return object.signalReal.signalFunktion.wert ===
 			ENUMSignalFunktion.ENUM_SIGNAL_FUNKTION_BUE_UEBERWACHUNGSSIGNAL
-			? '''BÜ-K «object?.bezeichnung?.bezeichnungTabelle?.wert»''' : object?.
-			bezeichnung?.bezeichnungTabelle?.wert
+			? '''BÜ-K «object?.bezeichnung?.bezeichnungTabelle?.wert»'''
+			: object?.bezeichnung?.bezeichnungTabelle?.wert
 	}
 
 	private dispatch def String getDistanceSignalTrackSwitch(TopGraph topGraph,
@@ -619,8 +623,9 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				getPointsDistance(pzb, signal).min)
 			val directionSign = topGraph.
 					isInWirkrichtungOfSignal(signal, pzb) ? "+" : "-"
-			return distance == 0 ? distance.
-				toString : '''«directionSign»«distance.toString»'''
+			return distance == 0
+				? distance.toString
+				: '''«directionSign»«distance.toString»'''
 		}
 
 		val bueSpezifischesSignal = signal.container.BUESpezifischesSignal.

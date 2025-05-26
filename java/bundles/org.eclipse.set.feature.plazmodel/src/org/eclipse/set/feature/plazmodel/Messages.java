@@ -15,7 +15,7 @@ package org.eclipse.set.feature.plazmodel;
  */
 public class Messages {
 	/**
-	 * PlaZ-Modell
+	 * PlaZ Modell
 	 */
 	public String PlazModelDescriptionService_ViewName;
 
@@ -40,7 +40,7 @@ public class Messages {
 	public String PlazModellPart_ExpandAllGroup;
 
 	/**
-	 * PlaZ-Modell-Prüfung wird durchgeführt
+	 * PlaZ Modell-Prüfung wird durchgeführt
 	 */
 	public String PlaZService_MonitorDisplay_GeneratePlazModel;
 

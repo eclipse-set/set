@@ -33,7 +33,7 @@ public class PlaZModelTest extends AbstractTableTest {
 	}
 
 	private void whenOpeningPlaZModelNatTable() {
-		givenNattableBot("PlaZ-Modell");
+		givenNattableBot("PlaZ Modell");
 		bot.button("Alle ausklappen").click();
 
 	}
