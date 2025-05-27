@@ -20,7 +20,7 @@
     "material-design-icons": "^3.0.1",
     "ol": "^10.5.0",
     "ol-mapbox-style": "^12.6.0",
-    "vue": "^3.5.14",
+    "vue": "^3.5.15",
     "vue-class-component": "^8.0.0-1",
     "vue-router": "^4.5.1",
     "vuex": "^4.1.0"
