@@ -168,16 +168,16 @@ export default class TrackFeature extends LageplanFeature<Track> {
           )))
         }
       }
+      id (m.type === ...)
     })
 
     // Display direction of edges:
-
-    // let coordinates_with_arrows
-    // if (store.state.showTopologicalEdgeDirections) {
-    const coordinates_with_arrows = this.add_arrowheads_to_track_section(coordinates)
-    // } else {
-    //  coordinates_with_arrows = coordinates
-    // }
+    let coordinates_with_arrows
+    if (store.state.showTopologicalEdgeDirections) {
+      coordinates_with_arrows = this.add_arrowheads_to_track_section(coordinates)
+    } else {
+      coordinates_with_arrows = coordinates
+    }
 
     const feature = createFeature(
       FeatureType.Track,
@@ -484,3 +484,36 @@ export default class TrackFeature extends LageplanFeature<Track> {
     return coordinates_with_arrows
   }
 }
+
+/*
+   * Collision displacememt again, when configuration parameter changed
+   *
+  subscribeConfiguration () {
+    store.subscribe((m, s) => {
+      if (m.type === 'setTrackOutlineWidth' && s.trackOutlineWidth !== Configuration.getTrackWidth().outline) {
+        const newtrackOutline = this.trackOutlineHandler.getTrackOutlineLookUp(s.featureLayers)
+        if (newtrackOutline) {
+          this.trackOutlineFeatures = newtrackOutline
+          this.onChangeConfigurationListener()
+        }
+      }
+
+      if (m.type === 'setBoundingBoxScaleFactor' && s.boundingBoxScaleFactor) {
+        this.bboxFeatures = this.boundingBoxesHandler.rescaleBoundingBoxes(
+          this.bboxFeatures,
+          this.scale,
+          s.boundingBoxScaleFactor
+        )
+        this.scale = s.boundingBoxScaleFactor
+        this.onChangeConfigurationListener()
+      }
+
+      if (m.type === 'setCollisionEnabled') {
+        if (s.collisionEnabled) {
+          this.onChangeConfigurationListener()
+        } else {
+          this.resetDisplacement()
+        }
+      }
+    })
+  } */

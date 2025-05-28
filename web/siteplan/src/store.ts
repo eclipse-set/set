@@ -63,6 +63,7 @@ export interface State {
   boundingBoxScaleFactor: number
   sessionState: TableType
   collisionEnabled: boolean
+  showTopologicalEdgeDirections: boolean
   planningObjectGuids: { [key: string]: true, }
   sheetCutCRS: DBRef
   isSheetCutAvaiable: boolean
@@ -114,6 +115,7 @@ export const store = createStore<State>({
     boundingBoxScaleFactor: 90,
     sessionState: TableType.DIFF,
     collisionEnabled: true,
+    showTopologicalEdgeDirections: false,
     planningObjectGuids: {},
     sheetCutCRS: DBRef.DR0,
     isSheetCutAvaiable: false,
@@ -200,6 +202,10 @@ export const store = createStore<State>({
     },
     setCollisionEnabled (state, payload: boolean) {
       state.collisionEnabled = payload
+    },
+    setShowTopologicalEdgeDirections (state, payload: boolean) {
+      state.showTopologicalEdgeDirections = payload
+      store.commit('refreshMap')
     },
     defaultTrackWidth (state, payload: TrackWidth) {
       state.mainTrackWidth = payload.main
