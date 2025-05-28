@@ -38,7 +38,8 @@ export enum FeatureType {
   Cant,
   CantLine,
   Unknown,
-  Flash
+  Flash,
+  TrackDirectionArrow,
 }
 
 export enum FeatureLayerType
@@ -58,7 +59,8 @@ export enum FeatureLayerType
     Cant,
     Unknown,
     Flash,
-    Measure
+    Measure,
+    TrackDirection,
 }
 
 export function getFeatureLayerByType (type: FeatureType): FeatureLayerType {
