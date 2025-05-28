@@ -114,3 +114,76 @@ export function toDeg (rad:number) {
 export function toRad (deg:number) {
   return deg / 180 * Math.PI
 }
+
+/**
+ * normalized vector from a to b.
+ * if distance of a and b is smaller then eps = 0.000001, undefined is returned.
+ * @param a first point
+ * @param b second point
+ * @returns the the normalized vector from a to b
+ */
+export function normalized_direction (a:number[], b:number[]): number[] | undefined {
+  const len = distance(a,b)
+  if (Math.abs(len) <= 0.000001) {
+    return undefined
+  }
+
+  const result = []
+  for (let i = 0; i < Math.min(a.length,b.length); i++) {
+    result.push((b[i] - a[i]) / len)
+  }
+  return result
+}
+
+/**
+ * normalized orthogonal vector to v.
+ * if length of v is smaller then eps = 0.000001, undefined is returned.
+ * @param v vector
+ * @returns one of the normalized orthogonal vectors of v
+ */
+export function orth_to_vec2d (v:number[]): number[] | undefined {
+  const len = distance([0,0],v)
+
+  if (len < 0.000001) {
+    return undefined
+  }
+
+  return [-v[1] / len,v[0] / len]
+}
+
+/**
+ * adds to vectors of any equal dimension
+ * @param a first vector
+ * @param b second vector
+ * @returns the sum of both vectors ("elementwise sum")
+ */
+export function sum_vec (a:number[], b:number[]): number[] {
+  const result = []
+  for (let i = 0; i < Math.min(a.length,b.length); i++) {
+    result.push(b[i] + a[i])
+  }
+  return result
+}
+
+/**
+ * negative of a vector of any equal dimension
+ * @param v vector
+ * @returns negative of v
+ */
+export function negative_vec (v:number[]): number[] {
+  return scale_vec(v,-1)
+}
+
+/**
+ * scalar multiplication of a vector of any dimension
+ * @param v vector
+ * @param s scalar
+ * @returns v * s
+ */
+export function scale_vec (v:number[], s: number): number[] {
+  const result = []
+  for (let i = 0; i < v.length; i++) {
+    result.push(v[i] * s)
+  }
+  return result
+}
