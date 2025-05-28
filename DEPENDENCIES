@@ -168,7 +168,7 @@ npm/npmjs/-/ajv-keywords/3.5.2, MIT, approved, clearlydefined
 npm/npmjs/-/ajv-keywords/5.1.0, MIT, approved, clearlydefined
 npm/npmjs/-/ajv/6.12.6, MIT, approved, #15286
 npm/npmjs/-/ajv/8.11.0, MIT, approved, #4969
-npm/npmjs/-/ajv/8.12.0, MIT AND OFL-1.1 AND (EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0), approved, #6025
+npm/npmjs/-/ajv/8.12.0, MIT AND OFL-1.1 AND (EPL-2.0 OR GPL-2.0-only WITH Classpath-exception-2.0), approved, #6025
 npm/npmjs/-/ajv/8.17.1, MIT, approved, clearlydefined
 npm/npmjs/-/ansi-html-community/0.0.8, Apache-2.0, approved, clearlydefined
 npm/npmjs/-/ansi-regex/5.0.1, MIT, approved, clearlydefined
@@ -517,7 +517,7 @@ npm/npmjs/-/minimalistic-assert/1.0.1, ISC, approved, clearlydefined
 npm/npmjs/-/minimatch/3.1.2, ISC, approved, clearlydefined
 npm/npmjs/-/minimatch/9.0.5, ISC, approved, #9190
 npm/npmjs/-/minimist/1.2.8, MIT, approved, #5886
-npm/npmjs/-/monaco-editor/0.52.2, , approved, #16243
+npm/npmjs/-/monaco-editor/0.52.2, MIT AND Apache-2.0 AND (Apache-2.0 AND MIT AND Unicode-TOU AND W3C-20150513 AND CC-BY-4.0 AND LicenseRef-W3C-Community-Final-Specification-Agreement AND LicenseRef-W3C-WD-html51), approved, #16243
 npm/npmjs/-/ms/2.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/ms/2.1.2, MIT, approved, #5895
 npm/npmjs/-/ms/2.1.3, MIT, approved, #5895
