@@ -21,6 +21,7 @@ import SvgDrawLockKey from '@/util/SVG/Draw/SvgDrawLockKey'
 import SvgDrawOthers from '@/util/SVG/Draw/SvgDrawOthers'
 import SvgDrawPZB from '@/util/SVG/Draw/SvgDrawPZB'
 import SvgDrawTrackClose from '@/util/SVG/Draw/SvgDrawTrackClose'
+import SvgDrawTrackDirectionArrow from '@/util/SVG/Draw/SvgDrawTrackDirectionArrow'
 import SvgDrawTracklock from '@/util/SVG/Draw/SvgDrawTracklock'
 import SvgDrawTrackSwitch from '@/util/SVG/Draw/SvgDrawTrackSwitch'
 import { AxiosStatic } from 'axios'
@@ -59,6 +60,7 @@ export default class SvgService {
     this.drawFeatureClass.push(new SvgDrawExternalElementControl(this.catalogService))
     this.drawFeatureClass.push(new SvgDrawOthers(this.catalogService))
     this.drawFeatureClass.push(new SvgDrawCant(this.catalogService))
+    this.drawFeatureClass.push(new SvgDrawTrackDirectionArrow(this.catalogService))
   }
 
   /**

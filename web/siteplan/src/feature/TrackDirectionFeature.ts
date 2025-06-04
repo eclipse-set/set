@@ -30,20 +30,12 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
   private createTrackDirectionArrowFeature (track: Track): Feature<Geometry> {
     const feature = createFeature(
       FeatureType.TrackDirectionArrow,
-      {},
+      track,
       new OlPoint([track.sections[0].segments[0].positions[0].x, track.sections[0].segments[0].positions[0].y]),
       undefined // no label
     )
 
-    const style = new Style({
-      geometry: geometry ?? undefined,
-      fill: this.getFill() ? this.getFill().clone() : undefined,
-      image: this.getImage() ? this.getImage().clone() : undefined,
-      renderer: this.getRenderer() ?? undefined,
-      stroke: this.getStroke() ? this.getStroke().clone() : undefined,
-      text: this.getText() ? this.getText().clone() : undefined,
-      zIndex: this.getZIndex(),
-    }
+    const style = this.svgService.getFeatureStyle(track, FeatureType.TrackDirectionArrow)
 
     const svg = this.getObjectSvg()
 

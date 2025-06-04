@@ -197,6 +197,19 @@ export default class SvgDraw {
     return new SvgElement('KMMarker', svg, [], null, [])
   }
 
+  public static getTrackDirectionArrowMarker (): ISvgElement {
+    // TODO change
+    const svg = SvgDraw.createSvgWithHead(this.SVG_KMMARKER_DRAWAREA_X, this.SVG_KMMARKER_DRAWAREA_Y)
+    const circle = document.createElement('circle')
+    circle.setAttribute('r', '10')
+    circle.setAttribute('cx', this.SVG_KMMARKER_DRAWAREA_CENTER_X.toString())
+    circle.setAttribute('cy', this.SVG_KMMARKER_DRAWAREA_CENTER_Y.toString())
+    circle.setAttribute('style', 'stroke:black; stroke-width: 3; fill: none')
+    svg.appendChild(circle)
+
+    return new SvgElement('TrackDirectionArrowMarker', svg, [], null, [])
+  }
+
   static getTrackSectionMarker (): ISvgElement {
     const svg = SvgDraw.createSvgWithHead(
       this.SVG_TRACK_SECTION_MARKER_DRAWAREA_X,
