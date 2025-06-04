@@ -104,6 +104,8 @@ export function getFeatureLayerByType (type: FeatureType): FeatureLayerType {
       return FeatureLayerType.Cant
     case FeatureType.Unknown:
       return FeatureLayerType.Unknown
+    case FeatureType.TrackDirectionArrow:
+      return FeatureLayerType.TrackDirection
     default: throw new Error('Missing layer for type: ' + type)
   }
 }
@@ -131,6 +133,7 @@ export function getFeatureLayerDisplayName (type: FeatureLayerType) : string {
     case FeatureLayerType.Cant: return 'Überhöhungen'
     case FeatureLayerType.Unknown: return 'Weitere Objekte'
     case FeatureLayerType.Measure: return 'Messen'
+    case FeatureLayerType.TrackDirection: return 'Gleisausrichtung'
     default: throw new Error('Missing name for layer type: ' + type)
   }
 }
@@ -184,6 +187,8 @@ export function getFeatureName (type: FeatureType): string {
       return 'Überhöhungslinie'
     case FeatureType.Unknown:
       return 'Unbekannt'
+    case FeatureType.TrackDirectionArrow:
+      return 'GleisausrichtungsPfeil'
     default:
       console.error('Missing name for type: ' + type)
       return 'Unbenanntes Objekt'
@@ -214,6 +219,7 @@ export function getFeatureMovePriority (feature: Feature<Geometry>) {
     case FeatureType.TrackOutline:
     case FeatureType.ExternalElementControl:
     case FeatureType.LockKey:
+    case FeatureType.TrackDirectionArrow:
       return 0
     default:
       return -1

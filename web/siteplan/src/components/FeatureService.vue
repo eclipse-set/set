@@ -68,6 +68,7 @@ import Configuration from '../util/Configuration'
 import CenterMainRouteControl from '../util/Controls/CenterMainRouteControl'
 import ExtentControl from '../util/Controls/ExtentControl'
 import NamedFeatureLayer from '../util/NamedFeatureLayer'
+import TrackDirectionFeature from '@/feature/TrackDirectionFeature'
 
 /**
  * Feature service to create open layers features for the siteplan model
@@ -196,9 +197,9 @@ export default class FeatureService extends Vue {
         })
 
       // Create bounding boxes
-      CollisionFeature.addCollisionFeatures(this.featureLayers)
+      // CollisionFeature.addCollisionFeatures(this.featureLayers)
       // Start collision detection
-      this.collisionService.processCollisions(this.featureLayers)
+      // this.collisionService.processCollisions(this.featureLayers)
     } catch (exception) {
       console.error('Siteplan model update failed')
       console.error(exception)
@@ -330,6 +331,7 @@ export default class FeatureService extends Vue {
     this.listFeature.push(new CantFeature(this.map))
     this.listFeature.push(new CantLineFeature(this.map))
     this.listFeature.push(new UnknownObjectFeature(this.map))
+    this.listFeature.push(new TrackDirectionFeature(this.map))
   }
 
   private modelLoaded (model: SiteplanModel) {

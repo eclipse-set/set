@@ -73,7 +73,12 @@ export default class TrackFeature extends LageplanFeature<Track> {
         trackSegment
       )
       , this.createTrackOutlineFeature(track.guid, trackSection, trackSegment)
+      // , this.createTrackDirection(track.guid, trackSection, trackSegment)
     ]
+  }
+
+  createTrackDirection (guid: string, trackSection: TrackSection, trackSegment: TrackSegment): Feature<Geometry> {
+    throw new Error('Method not implemented.')
   }
 
   private createTrackOutlineFeature (
@@ -168,7 +173,7 @@ export default class TrackFeature extends LageplanFeature<Track> {
           )))
         }
       }
-      id (m.type === ...)
+      // TODO id (m.type === ...)
     })
 
     // Display direction of edges:
