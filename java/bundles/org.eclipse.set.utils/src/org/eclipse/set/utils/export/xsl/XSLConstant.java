@@ -86,6 +86,16 @@ public class XSLConstant {
 		 */
 		public static final String SITEPLAN_FOLDING_MARK_RIGHT_WIDTH = "siteplan-folding-mark-right-width";
 
+		/**
+		 * pagePosition
+		 */
+		public static final String SITEPLAN_PAGEPOSITION = "pagePosition";
+
+		/**
+		 * pagePostFix
+		 */
+		public static final String SITEPLAN_PAGE_POSTFIX = "pagePostFix";
+
 	}
 
 	/**
