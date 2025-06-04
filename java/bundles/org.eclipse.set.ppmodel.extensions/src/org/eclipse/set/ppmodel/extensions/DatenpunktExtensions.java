@@ -15,6 +15,8 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.eclipse.set.basis.graph.TopPath;
+import org.eclipse.set.basis.graph.TopPoint;
 import org.eclipse.set.model.planpro.Balisentechnik_ETCS.Datenpunkt;
 import org.eclipse.set.model.planpro.Balisentechnik_ETCS.ETCS_Kante;
 import org.eclipse.set.model.planpro.Geodaten.TOP_Kante;
@@ -34,7 +36,8 @@ public class DatenpunktExtensions extends BasisObjektExtensions {
 	public static Set<ETCS_Kante> getETCSKanten(final Datenpunkt dp) {
 		final List<TOP_Kante> dpTopEdges = PunktObjektExtensions
 				.getTopKanten(dp);
-		return Streams.stream(getContainer(dp).getETCSKante())
+		final Set<ETCS_Kante> listETCSKante = Streams
+				.stream(getContainer(dp).getETCSKante())
 				.filter(etcsEdge -> etcsEdge.getIDTOPKante()
 						.stream()
 						.filter(Objects::nonNull)
@@ -42,5 +45,14 @@ public class DatenpunktExtensions extends BasisObjektExtensions {
 						.filter(Objects::nonNull)
 						.anyMatch(dpTopEdges::contains))
 				.collect(Collectors.toSet());
+		return listETCSKante.stream().filter(etcsEdge -> {
+			final TopPath topPath = ETCSKanteExtensions
+					.getETCSKantePath(etcsEdge);
+			return dp.getPunktObjektTOPKante()
+					.stream()
+					.map(TopPoint::new)
+					.anyMatch(point -> topPath.getDistance(point).isPresent());
+		}).collect(Collectors.toSet());
+
 	}
 }

@@ -14,6 +14,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.commons.lang3.Range;
 import org.eclipse.set.model.planpro.Geodaten.TOP_Kante;
 import org.eclipse.set.model.planpro.Geodaten.TOP_Knoten;
 
@@ -233,6 +234,16 @@ public class TopPath {
 			final BigDecimal edgeLength) {
 		if (point.distance().compareTo(startNode.distance()) == 0) {
 			return Optional.of(BigDecimal.ZERO);
+		}
+
+		// When path have only one edge
+		if (firstEdgeLength.compareTo(length) == 0) {
+			return Range
+					.of(startNode.distance(), startNode.distance().add(length))
+					.contains(point.distance())
+							? Optional.of(point.distance()
+									.subtract(startNode.distance()))
+							: Optional.empty();
 		}
 
 		final boolean inTopDirection = edgeLength.subtract(startNode.distance())
