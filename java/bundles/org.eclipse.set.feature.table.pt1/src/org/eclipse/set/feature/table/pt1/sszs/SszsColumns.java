@@ -29,17 +29,17 @@ public class SszsColumns {
 	/**
 	 * Sszs.Signal.Standort.Strecke
 	 */
-	public static final String Strecke = "E";
+	public static final String Strecke = "C";
 
 	/**
 	 * Sszs.Signal.Standort.km
 	 */
-	public static final String Standort_Km = "C";
+	public static final String Standort_Km = "D";
 
 	/**
 	 * Sszs.Signalisierung.Zs_1
 	 */
-	public static final String Zs_1 = "D";
+	public static final String Zs_1 = "E";
 
 	/**
 	 * Sszs.Signalisierung.Zs_2

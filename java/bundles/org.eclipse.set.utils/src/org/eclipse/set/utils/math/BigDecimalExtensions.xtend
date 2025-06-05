@@ -11,6 +11,7 @@ package org.eclipse.set.utils.math
 import java.math.BigDecimal
 import java.math.RoundingMode
 import org.eclipse.emf.common.util.Enumerator
+import java.text.DecimalFormat
 
 /**
  * Extensions for {@link Enumerator}.
@@ -25,10 +26,15 @@ class BigDecimalExtensions {
 	 * @return the formatted length
 	 */
 	static def String toTableDecimal(BigDecimal length) {
-		if (length !== null) {
-			return String.format("%.3f", length)
+		if (length === null) {
+			return null
 		}
-		return null
+		val decimalFormat = new DecimalFormat("0.###")
+		// Maximal place after comma
+		decimalFormat.maximumFractionDigits = 3
+		// Minimun place after comma
+		decimalFormat.minimumFractionDigits = 0
+		return decimalFormat.format(length)
 	}
 
 
