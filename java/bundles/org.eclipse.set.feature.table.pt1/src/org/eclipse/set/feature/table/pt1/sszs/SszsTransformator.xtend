@@ -4,7 +4,7 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
  * 
  */
@@ -59,6 +59,7 @@ import static extension org.eclipse.set.ppmodel.extensions.StellBereichExtension
 import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.CollectionExtensions.*
 import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
+import static extension org.eclipse.set.utils.math.DoubleExtensions.*
 import org.eclipse.set.utils.math.AgateRounding
 
 /**
@@ -387,7 +388,7 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 				cols.getColumn(Dweg_49),
 				etcsSignal,
 				[ETCSSignalDWeg?.DWegIntervall50?.wert !== null],
-				[ETCSSignalDWeg?.DWegIntervall50?.wert.doubleValue.toString]
+				[ETCSSignalDWeg?.DWegIntervall50?.wert.toTableDecimal]
 			)
 
 			// R: Sszs.Kuerzester_DWeg.ab50bis199m
@@ -396,7 +397,7 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 				cols.getColumn(Dweg_50_199),
 				etcsSignal,
 				[ETCSSignalDWeg?.DWegIntervall50200?.wert !== null],
-				[ETCSSignalDWeg?.DWegIntervall50200?.wert.doubleValue.toString]
+				[ETCSSignalDWeg?.DWegIntervall50200?.wert.toTableDecimal]
 			)
 
 			// S: Sszs.Kuerzester_DWeg.ab200m
@@ -405,7 +406,7 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 				cols.getColumn(Dweg_200),
 				etcsSignal,
 				[ETCSSignalDWeg?.DWegIntervall200?.wert !== null],
-				[ETCSSignalDWeg?.DWegIntervall200?.wert.doubleValue.toString]
+				[ETCSSignalDWeg?.DWegIntervall200?.wert.toTableDecimal]
 			)
 
 			// T: Sszs.Sonstige_Funktionen.Dunkelschaltanstoss
@@ -513,7 +514,7 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 					val distance = IDSignal?.value?.
 						getNearstFMAKomponent(topGraph)
 					if (distance.isPresent) {
-						return distance.get.toString
+						return distance.get.toTableDecimal
 					}
 
 				],
