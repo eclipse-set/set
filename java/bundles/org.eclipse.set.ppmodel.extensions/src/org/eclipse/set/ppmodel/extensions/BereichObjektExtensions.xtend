@@ -500,7 +500,7 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 	/**
 	 * @param bereich this Bereichsobjekt
 	 * @param singlePoint the single point
-	 * @param tolerant the tolerant distance
+	 * @param tolerant the tolerant distance in meter
 	 * 
 	 * @returns whether this Bereichsobjekt contains the given 
 	 * 			single point with tolerant distance
@@ -545,7 +545,7 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 	/**
 	 * @param teilbereich the Teilbereich
 	 * @param singlePoint the single point
-	 * @param tolerant the tolerant distance
+	 * @param tolerant the tolerant distance in meter
 	 * 
 	 * @returns whether this teilbereich contains the given 
 	 * 			single point with tolerant distance
