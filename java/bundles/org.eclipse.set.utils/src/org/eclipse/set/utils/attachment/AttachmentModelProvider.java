@@ -18,6 +18,8 @@ import org.eclipse.set.basis.constants.ContainerType;
 import org.eclipse.set.model.planpro.Basisobjekte.Anhang;
 import org.eclipse.set.model.planpro.PlanPro.Container_AttributeGroup;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Iterables;
 
@@ -28,6 +30,8 @@ import com.google.common.collect.Iterables;
  *
  */
 public class AttachmentModelProvider {
+	private static final Logger logger = LoggerFactory
+			.getLogger(AttachmentModelProvider.class);
 	private final List<Anhang> domainAttachmentsFinal;
 	private final List<Anhang> domainAttachmentsInitial;
 	private final List<Anhang> domainAttachmentsSingle;
@@ -83,13 +87,28 @@ public class AttachmentModelProvider {
 	private static void addAttachment(final List<Anhang> list,
 			final Anhang attachment) {
 		// Filter same attachment
-		if (list.stream()
-				.anyMatch(ele -> ele.getIdentitaet()
-						.getWert()
-						.equals(attachment.getIdentitaet().getWert()))) {
-			return;
+		try {
+			if (!isValidAttachment(attachment) || list.stream()
+					.anyMatch(ele -> ele.getIdentitaet()
+							.getWert()
+							.equals(attachment.getIdentitaet().getWert()))) {
+				return;
+			}
+			list.add(attachment);
+		} catch (final Exception e) {
+			logger.error(e.getMessage());
 		}
-		list.add(attachment);
+	}
+
+	private static boolean isValidAttachment(final Anhang attachment) {
+		try {
+			// The attachment id is needed for get attachment data
+			final String attachmentId = attachment.getIdentitaet().getWert();
+			return attachmentId != null && !attachmentId.isEmpty()
+					&& !attachmentId.isBlank();
+		} catch (final Exception e) {
+			return false;
+		}
 	}
 
 	/**
