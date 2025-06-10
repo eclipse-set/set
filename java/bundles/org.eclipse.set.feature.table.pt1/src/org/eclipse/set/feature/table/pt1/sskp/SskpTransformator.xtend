@@ -45,6 +45,7 @@ import static extension org.eclipse.set.ppmodel.extensions.SignalRahmenExtension
 import static extension org.eclipse.set.ppmodel.extensions.SignalbegriffExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspElementExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
 import static extension org.eclipse.set.utils.math.BigIntegerExtensions.*
 import static extension org.eclipse.set.utils.math.DoubleExtensions.*
@@ -332,6 +333,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 						pzbEle?.PZBElementGM !== null
 				].toList
 				val bezugspunktSignals = PZBElementBezugspunkt.filter(Signal)
+
 				pzbGM2000.filter [ pzbEle |
 					if (PZBArt?.wert === ENUMPZBArt.ENUMPZB_ART_500_HZ) {
 						return pzbEle.PZBElementBezugspunkt.filter(Signal).
@@ -342,12 +344,19 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 						filterNull.exists [ signal |
 							bezugspunktSignals.contains(signal)
 						]
-				].filterNull.flatMap[pzbEle|getPointsDistance(it, pzbEle)].
-					filter[doubleValue !== 0].map [
-						AgateRounding.roundDown(it).toString
-					]
+				].filterNull.map [ pzbEle |
+					pzbEle -> getPointsDistance(it, pzbEle).min
+				].filter[value.doubleValue !== 0].map [ pair |
+					val distance = AgateRounding.roundDown(pair.value).toString
+					if (PZBArt?.wert === ENUMPZBArt.ENUMPZB_ART_500_HZ) {
+						return distance
+					}
+					val signal = pair.key.PZBElementBezugspunkt.filter(Signal).
+						firstOrNull
+					return '''«distance» «IF signal !== null»(«signal.bezeichnung?.bezeichnungTabelle?.wert»)«ENDIF»'''
+				]
 			],
-			NUMERIC_COMPARATOR
+			MIXED_STRING_COMPARATOR
 		)
 
 		if (pzb.PZBElementZuordnungBP !== null &&
@@ -442,10 +451,13 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				NUMERIC_COMPARATOR,
 				ITERABLE_FILLING_SEPARATOR
 			)
-	
+
 			// P: Sskp.Ina.Abstand_VorsignalWdh_GM_2000
-			val vorSignalWiederholer = pzb.PZBZuordnungSignal?.map[IDSignal?.value].filter[
-				signalReal?.signalRealAktivSchirm?.signalArt?.wert === ENUMSignalArt.ENUM_SIGNAL_ART_VORSIGNALWIEDERHOLER
+			val vorSignalWiederholer = pzb.PZBZuordnungSignal?.map [
+				IDSignal?.value
+			].filter [
+				signalReal?.signalRealAktivSchirm?.signalArt?.wert ===
+					ENUMSignalArt.ENUM_SIGNAL_ART_VORSIGNALWIEDERHOLER
 			]
 			fillIterableWithConditional(
 				instance,
@@ -456,12 +468,14 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				],
 				[
 					vorSignalWiederholer.map [ signal |
-						getPointsDistance(pzb, signal).min
-					].filter[it.doubleValue !== 0.0].map [
-						AgateRounding.roundDown(it).toString
+						signal -> getPointsDistance(pzb, signal).min
+					].filter[value.doubleValue !== 0.0].map [
+
+						'''«AgateRounding.roundDown(value).toString» «
+						»(«key.bezeichnung?.bezeichnungTabelle?.wert»)'''
 					]
 				],
-				NUMERIC_COMPARATOR,
+				MIXED_STRING_COMPARATOR,
 				ITERABLE_FILLING_SEPARATOR
 			)
 
@@ -594,8 +608,8 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 	static dispatch def String fillBezugsElement(Signal object) {
 		return object.signalReal.signalFunktion.wert ===
 			ENUMSignalFunktion.ENUM_SIGNAL_FUNKTION_BUE_UEBERWACHUNGSSIGNAL
-			? '''BÜ-K «object?.bezeichnung?.bezeichnungTabelle?.wert»''' : object?.
-			bezeichnung?.bezeichnungTabelle?.wert
+			? '''BÜ-K «object?.bezeichnung?.bezeichnungTabelle?.wert»'''
+			: object?.bezeichnung?.bezeichnungTabelle?.wert
 	}
 
 	private dispatch def String getDistanceSignalTrackSwitch(TopGraph topGraph,
@@ -611,8 +625,9 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				getPointsDistance(pzb, signal).min)
 			val directionSign = topGraph.
 					isInWirkrichtungOfSignal(signal, pzb) ? "+" : "-"
-			return distance == 0 ? distance.
-				toString : '''«directionSign»«distance.toString»'''
+			return distance == 0
+				? distance.toString
+				: '''«directionSign»«distance.toString»'''
 		}
 
 		val bueSpezifischesSignal = signal.container.BUESpezifischesSignal.
