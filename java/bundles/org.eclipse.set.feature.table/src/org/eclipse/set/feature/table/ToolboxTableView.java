@@ -25,6 +25,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.ThreadUtils;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.e4.core.services.nls.Translation;
 import org.eclipse.e4.ui.di.UISynchronize;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
@@ -44,6 +45,7 @@ import org.eclipse.nebula.widgets.nattable.group.ColumnGroupHeaderLayer;
 import org.eclipse.nebula.widgets.nattable.group.ColumnGroupModel;
 import org.eclipse.nebula.widgets.nattable.layer.DataLayer;
 import org.eclipse.nebula.widgets.nattable.layer.ILayer;
+import org.eclipse.nebula.widgets.nattable.layer.LabelStack;
 import org.eclipse.nebula.widgets.nattable.layer.SpanningDataLayer;
 import org.eclipse.nebula.widgets.nattable.layer.cell.ILayerCell;
 import org.eclipse.nebula.widgets.nattable.resize.command.RowHeightResetCommand;
@@ -59,6 +61,7 @@ import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.basis.constants.ToolboxViewState;
 import org.eclipse.set.basis.extensions.MApplicationElementExtensions;
+import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.eclipse.set.basis.guid.Guid;
 import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.configurationservice.UserConfigurationService;
@@ -71,7 +74,9 @@ import org.eclipse.set.feature.table.messages.MessagesWrapper;
 import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
 import org.eclipse.set.model.planpro.PlanPro.Container_AttributeGroup;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
+import org.eclipse.set.model.tablemodel.CompareTableCellContent;
 import org.eclipse.set.model.tablemodel.Table;
+import org.eclipse.set.model.tablemodel.TableCell;
 import org.eclipse.set.model.tablemodel.TableRow;
 import org.eclipse.set.model.tablemodel.extensions.ColumnDescriptorExtensions;
 import org.eclipse.set.model.tablemodel.extensions.Headings;
@@ -109,6 +114,7 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.osgi.service.event.EventHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -185,6 +191,8 @@ public final class ToolboxTableView extends BasePart {
 	MessagesWrapper wrapper;
 
 	private TableModelInstanceBodyDataProvider bodyDataProvider;
+
+	private EventHandler secondaryPlaningLoadedHanlder;
 
 	/**
 	 * constructor
@@ -293,6 +301,21 @@ public final class ToolboxTableView extends BasePart {
 		ToolboxEvents.subscribe(getBroker(),
 				SelectedControlAreaChangedEvent.class,
 				selectionControlAreaHandler);
+
+		secondaryPlaningLoadedHanlder = event -> {
+
+			if (!event.getTopic()
+					.equalsIgnoreCase(Events.SECONDARY_MODEL_LOADED)) {
+				return;
+			}
+			if (event.getProperty(
+					IEventBroker.DATA) instanceof final IModelSession secondModel) {
+				updateModel(getToolboxPart(), secondModel);
+			}
+
+		};
+		getBroker().subscribe(Events.SECONDARY_MODEL_LOADED,
+				secondaryPlaningLoadedHanlder);
 	}
 
 	@PreDestroy
@@ -301,6 +324,7 @@ public final class ToolboxTableView extends BasePart {
 		ToolboxEvents.unsubscribe(getBroker(), tableSelectRowHandler);
 		ToolboxEvents.unsubscribe(getBroker(), tableDataChangeHandler);
 		ToolboxEvents.unsubscribe(getBroker(), selectionControlAreaHandler);
+		getBroker().unsubscribe(secondaryPlaningLoadedHanlder);
 		getBroker().send(Events.CLOSE_PART, getTableShortcut().toLowerCase());
 	}
 
@@ -334,8 +358,13 @@ public final class ToolboxTableView extends BasePart {
 	 */
 	private Table transformToTableModel(final String elementId,
 			final IModelSession modelSession) {
-		return tableService.transformToTable(elementId, tableType, modelSession,
-				controlAreaIds);
+		TableType transformTableType = tableType;
+		if (modelSession.getToolboxFile()
+				.getRole() == ToolboxFileRole.SECONDARY_PLANNING) {
+			transformTableType = TableType.DIFF;
+		}
+		return tableService.transformToTable(elementId, transformTableType,
+				modelSession, controlAreaIds);
 	}
 
 	private void updateTableView(final List<Pt1TableCategory> tableCategories) {
@@ -426,6 +455,7 @@ public final class ToolboxTableView extends BasePart {
 		Assert.isNotNull(tableInstances);
 		bodyDataProvider = new TableModelInstanceBodyDataProvider(
 				TableExtensions.getPropertyCount(table), tableInstances);
+
 		final SpanningDataLayer bodyDataLayer = new SpanningDataLayer(
 				bodyDataProvider);
 
@@ -484,14 +514,25 @@ public final class ToolboxTableView extends BasePart {
 		addMenuItems();
 		natTable.addConfiguration(tableMenuService
 				.createMenuConfiguration(natTable, selectionLayer));
-
 		natTable.configure();
 		// set style
 		natTable.setTheme(new ToolboxTableModelThemeConfiguration(natTable,
 				columnHeaderDataLayer, bodyDataLayer, gridLayer,
 				rootColumnDescriptor, bodyLayerStack, bodyDataProvider,
 				getDialogService()));
-
+		bodyLayerStack.setConfigLabelAccumulator((final LabelStack configLabels,
+				final int columnPosition, final int rowPosition) -> {
+			final int rowIndexByPosition = bodyLayerStack
+					.getRowIndexByPosition(rowPosition);
+			final int columnIndexByPosition = bodyLayerStack
+					.getColumnIndexByPosition(columnPosition);
+			final TableRow tableRow = tableInstances.get(rowIndexByPosition);
+			final TableCell tableCell = tableRow.getCells()
+					.get(columnIndexByPosition);
+			if (tableCell.getContent() instanceof CompareTableCellContent) {
+				configLabels.addLabel("BLUE_BORDER");
+			}
+		});
 		bodyLayerStack.getSelectionLayer().clear();
 
 		// display footnotes
@@ -717,6 +758,15 @@ public final class ToolboxTableView extends BasePart {
 		// update banderole
 		getBanderole().setTableType(tableType);
 		table = transformToTableModel(part.getElementId(), modelSession);
+
+		if (getSessionService()
+				.getLoadedSession(ToolboxFileRole.SECONDARY_PLANNING) != null
+				&& modelSession.getToolboxFile()
+						.getRole() != ToolboxFileRole.SECONDARY_PLANNING) {
+			table = transformToTableModel(part.getElementId(),
+					getSessionService().getLoadedSession(
+							ToolboxFileRole.SECONDARY_PLANNING));
+		}
 		// flag creation
 		MApplicationElementExtensions.setViewState(part,
 				ToolboxViewState.CREATED);

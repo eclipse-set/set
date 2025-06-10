@@ -24,6 +24,7 @@ import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.ColumnWidthMode;
 import org.eclipse.set.model.tablemodel.CompareCellContent;
 import org.eclipse.set.model.tablemodel.CompareFootnoteContainer;
+import org.eclipse.set.model.tablemodel.CompareTableCellContent;
 import org.eclipse.set.model.tablemodel.FootnoteContainer;
 import org.eclipse.set.model.tablemodel.MultiColorCellContent;
 import org.eclipse.set.model.tablemodel.MultiColorContent;
@@ -176,6 +177,13 @@ public class TablemodelPackageImpl extends EPackageImpl
 	 * @generated
 	 */
 	private EClass simpleFootnoteContainerEClass = null;
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	private EClass compareTableCellContentEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -812,6 +820,40 @@ public class TablemodelPackageImpl extends EPackageImpl
 	 * @generated
 	 */
 	@Override
+	public EClass getCompareTableCellContent() {
+		return compareTableCellContentEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
+	public EReference getCompareTableCellContent_FirstPlanCellContent() {
+		return (EReference) compareTableCellContentEClass
+				.getEStructuralFeatures()
+				.get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
+	public EReference getCompareTableCellContent_SecondPlanCellContent() {
+		return (EReference) compareTableCellContentEClass
+				.getEStructuralFeatures()
+				.get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
 	public EEnum getColumnWidthMode() {
 		return columnWidthModeEEnum;
 	}
@@ -933,6 +975,13 @@ public class TablemodelPackageImpl extends EPackageImpl
 		createEReference(simpleFootnoteContainerEClass,
 				SIMPLE_FOOTNOTE_CONTAINER__FOOTNOTES);
 
+		compareTableCellContentEClass = createEClass(
+				COMPARE_TABLE_CELL_CONTENT);
+		createEReference(compareTableCellContentEClass,
+				COMPARE_TABLE_CELL_CONTENT__FIRST_PLAN_CELL_CONTENT);
+		createEReference(compareTableCellContentEClass,
+				COMPARE_TABLE_CELL_CONTENT__SECOND_PLAN_CELL_CONTENT);
+
 		// Create enums
 		columnWidthModeEEnum = createEEnum(COLUMN_WIDTH_MODE);
 		rowMergeModeEEnum = createEEnum(ROW_MERGE_MODE);
@@ -980,6 +1029,8 @@ public class TablemodelPackageImpl extends EPackageImpl
 				.add(this.getFootnoteContainer());
 		simpleFootnoteContainerEClass.getESuperTypes()
 				.add(this.getFootnoteContainer());
+		compareTableCellContentEClass.getESuperTypes()
+				.add(this.getCellContent());
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(tableEClass, Table.class, "Table", !IS_ABSTRACT,
@@ -1194,6 +1245,20 @@ public class TablemodelPackageImpl extends EPackageImpl
 				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE,
 				IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED,
 				IS_ORDERED);
+
+		initEClass(compareTableCellContentEClass, CompareTableCellContent.class,
+				"CompareTableCellContent", !IS_ABSTRACT, !IS_INTERFACE,
+				IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getCompareTableCellContent_FirstPlanCellContent(),
+				this.getCellContent(), null, "firstPlanCellContent", null, 0, 1,
+				CompareTableCellContent.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getCompareTableCellContent_SecondPlanCellContent(),
+				this.getCellContent(), null, "secondPlanCellContent", null, 0,
+				1, CompareTableCellContent.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(columnWidthModeEEnum, ColumnWidthMode.class,

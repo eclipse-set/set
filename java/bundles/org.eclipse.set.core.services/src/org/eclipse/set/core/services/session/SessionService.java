@@ -20,6 +20,7 @@ import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.InitializationData;
 import org.eclipse.set.basis.files.ToolboxFile.Format;
 import org.eclipse.set.basis.files.ToolboxFileExtension;
+import org.eclipse.set.basis.files.ToolboxFileRole;
 
 /**
  * Provide session specific information.
@@ -33,10 +34,12 @@ public interface SessionService {
 	 * 
 	 * @param modelSession
 	 *            the model session
+	 * @param role
+	 *            the role of session
 	 * 
 	 * @return whether the session was closed
 	 */
-	boolean close(IModelSession modelSession);
+	boolean close(IModelSession modelSession, ToolboxFileRole role);
 
 	/**
 	 * Create a new editing domain for the given file format.
@@ -117,14 +120,28 @@ public interface SessionService {
 	 * 
 	 * @param path
 	 *            the path to the toolbox file
+	 * @param role
+	 *            the role
 	 * 
 	 * @return the new model session
 	 */
-	IModelSession loadModelSession(Path path);
+	IModelSession loadModelSession(Path path, ToolboxFileRole role);
 
 	/**
 	 * @param application
 	 *            the application
 	 */
 	void setApplication(MApplication application);
+
+	/**
+	 * @return the map of loaded session with corresponding role
+	 */
+	Map<ToolboxFileRole, IModelSession> getLoadedSessions();
+
+	/**
+	 * @param role
+	 *            the {@link ToolboxFileRole}
+	 * @return the model session
+	 */
+	IModelSession getLoadedSession(ToolboxFileRole role);
 }

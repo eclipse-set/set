@@ -25,6 +25,14 @@ public interface Events {
 	String MODEL_CHANGED = "modelsession/change/model";
 
 	/**
+	 * The container in focus of the second model session loaded.
+	 * <ul>
+	 * <li><b>DATA:</b> the second PlanPro Schnittstelle</li>
+	 * </ul>
+	 */
+	String SECONDARY_MODEL_LOADED = "modelsession/secondary/loaded";
+
+	/**
 	 * The layout information in focus of the model session changed.
 	 * <ul>
 	 * <li><b>DATA:</b> the new PlanPro Schnittstelle</li>

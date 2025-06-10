@@ -33,14 +33,19 @@ public enum ToolboxFileRole {
 	IMPORT_INITIAL_STATE,
 
 	/**
+	 * The ToolboxFile is used as a first planning to import
+	 */
+	FIRST_PLANNING_TO_IMPORT,
+
+	/**
 	 * The ToolboxFile is used as a secondary planning
 	 */
 	SECONDARY_PLANNING,
 
 	/**
-	 * The toolboxFile is used as a
+	 * The toolboxFile is used as a second planning to import
 	 */
-	THIRD_PLANNING,
+	SECOND_PLANNING_TO_IMPORT,
 
 	/**
 	 * The ToolboxFile is used to start a session (default)
@@ -62,8 +67,9 @@ public enum ToolboxFileRole {
 			case EXPORT -> ToolboxConstants.TOOLBOX_DIRECTORY_NAME_EXPORT;
 			case IMPORT_INITIAL_STATE -> ToolboxConstants.TOOLBOX_DIRECTORY_NAME_IMPORT_INITIAL_STATE;
 			case IMPORT_FINAL_STATE -> ToolboxConstants.TOOLBOX_DIRECTORY_NAME_IMPORT_FINAL_STATE;
+			case FIRST_PLANNING_TO_IMPORT -> ToolboxConstants.TOOLBOX_DIRECTORY_NAME_FIRST_PLANNING_TO_IMPORT;
+			case SECOND_PLANNING_TO_IMPORT -> ToolboxConstants.TOOLBOX_DIRECTORY_NAME_SECOND_PLANNING_TO_IMPORT;
 			case SECONDARY_PLANNING -> ToolboxConstants.TOOLBOX_DIRECTORY_NAME_SECONDARY_PLANNING;
-			case THIRD_PLANNING -> ToolboxConstants.TOOLBOX_DIRECTORY_NAME_THIRD_PLANNING;
 			default -> ToolboxConstants.TOOLBOX_DIRECTORY_NAME_SESSION;
 		};
 	}

@@ -28,6 +28,7 @@ import static org.eclipse.set.model.tablemodel.extensions.Utils.*
 
 import static extension org.eclipse.set.model.tablemodel.extensions.TableCellExtensions.*
 import static extension org.eclipse.set.utils.StringExtensions.*
+import org.eclipse.set.model.tablemodel.CompareTableCellContent
 
 /**
  * Extensions for {@link CellContent}.
@@ -84,7 +85,12 @@ class CellContentExtensions {
 	static def dispatch String getRichTextValue(MultiColorCellContent content) {
 		return '''<p style="text-align:«content.textAlign»">«content.multiColorFormat»</p>'''
 	}
-	
+
+	static def dispatch String getRichTextValue(
+		CompareTableCellContent content) {
+		return content.secondPlanCellContent.richTextValue
+	}
+
 	/**
 	 * Returns a formatted string representation intended for rendering as
 	 * rich text. This method should only be called in the context of rendering
@@ -137,7 +143,8 @@ class CellContentExtensions {
 			[WARNING_MARK_BLACK],
 			[WARNING_MARK_RED],
 			[ text, mark |
-				getCompareValueFormat(mark, '''*«getFootnoteNumber(content, text)»''')
+				getCompareValueFormat(
+					mark, '''*«getFootnoteNumber(content, text)»''')
 			]
 		)
 
@@ -177,6 +184,15 @@ class CellContentExtensions {
 		»«String.format(value.stringFormat, value.multiColorValue)»«ENDFOR»'''
 	}
 
+	static def dispatch String getPlainStringValue(
+		CompareTableCellContent content) {
+		if (content.firstPlanCellContent === null) {
+			return content.secondPlanCellContent.plainStringValue
+		}
+
+		return '''«content.firstPlanCellContent.plainStringValue»/«content.secondPlanCellContent.plainStringValue»'''
+	}
+
 	static def dispatch Iterable<String> getStringValueIterable(Void content) {
 		return #[]
 	}
@@ -190,7 +206,7 @@ class CellContentExtensions {
 		StringCellContent content) {
 		return content.value
 	}
-	
+
 	/**
 	 * @param text the text
 	 * 
@@ -206,9 +222,12 @@ class CellContentExtensions {
 	 * @return the table cell of this cell content
 	 */
 	static def dispatch TableCell getTableCell(CellContent content) {
+		if (content.eContainer instanceof CompareTableCellContent) {
+			return content.eContainer.eContainer as TableCell
+		}
 		return content.eContainer as TableCell
 	}
-	
+
 	static def dispatch TableCell getTableCell(MultiColorContent content) {
 		return content.eContainer.eContainer as TableCell
 	}
@@ -245,7 +264,7 @@ class CellContentExtensions {
 			postFormatter
 		)
 	}
-	
+
 	static def <R, T, U> Iterable<U> formatCompareContent(
 		Iterable<R> oldContent,
 		Iterable<R> newContent,
@@ -331,7 +350,7 @@ class CellContentExtensions {
 			}
 		}
 	}
-	
+
 	private static def String getMultiColorFormat(
 		MultiColorCellContent content) {
 		if (content.value.isEmpty) {
@@ -343,11 +362,10 @@ class CellContentExtensions {
 
 	private static def String getMultiColorFormat(MultiColorContent content) {
 		if (Strings.isNullOrEmpty(content.multiColorValue)) {
-			return Strings.isNullOrEmpty(content.stringFormat)
-				? ""
-				: content.stringFormat.htmlString
+			return Strings.isNullOrEmpty(content.stringFormat) ? "" : content.
+				stringFormat.htmlString
 		}
-		
+
 		if (content.isDisableMultiColor) {
 			return '''<span>«String.format(content.stringFormat, content.multiColorValue)»</span>'''
 		}

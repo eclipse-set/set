@@ -37,13 +37,8 @@ public class WarningPainter extends ImagePainter {
 	}
 
 	private boolean showWarning(final Object value) {
-		if (value instanceof String) {
-			final String text = (String) value;
-			if (text.contains(warningPattern)) {
-				return true;
-			}
-		}
-		return false;
+		return value instanceof final String text
+				&& text.contains(warningPattern);
 	}
 
 	@Override

@@ -157,13 +157,13 @@ public class TableModelInstanceBodyDataProvider
 
 	private static CellContent getNewContent(final CellContent oldContent,
 			final Pt1TableChangeProperties properties) {
-		if (oldContent instanceof final StringCellContent stringCOntent) {
-			return getNewContent(stringCOntent, properties);
-		} else if (oldContent instanceof final CompareCellContent compareContent) {
-			return getNewContent(compareContent, properties);
-		} else {
-			throw new UnsupportedOperationException();
-		}
+		return switch (oldContent) {
+			case final StringCellContent stringCOntent -> getNewContent(
+					stringCOntent, properties);
+			case final CompareCellContent compareContent -> getNewContent(
+					compareContent, properties);
+			default -> throw new UnsupportedOperationException();
+		};
 	}
 
 	private static CellContent getNewContent(final StringCellContent oldContent,

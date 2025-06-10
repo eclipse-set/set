@@ -31,7 +31,10 @@ import org.eclipse.nebula.widgets.nattable.painter.cell.BackgroundPainter;
 import org.eclipse.nebula.widgets.nattable.painter.cell.ICellPainter;
 import org.eclipse.nebula.widgets.nattable.painter.cell.ImagePainter;
 import org.eclipse.nebula.widgets.nattable.painter.cell.TextPainter;
+import org.eclipse.nebula.widgets.nattable.painter.cell.decorator.LineBorderDecorator;
 import org.eclipse.nebula.widgets.nattable.painter.cell.decorator.PaddingDecorator;
+import org.eclipse.nebula.widgets.nattable.style.BorderStyle;
+import org.eclipse.nebula.widgets.nattable.style.BorderStyle.LineStyleEnum;
 import org.eclipse.nebula.widgets.nattable.style.CellStyleAttributes;
 import org.eclipse.nebula.widgets.nattable.style.DisplayMode;
 import org.eclipse.nebula.widgets.nattable.style.HorizontalAlignmentEnum;
@@ -243,6 +246,14 @@ public class PlanProTableThemeConfiguration
 		registerExceptionStyle(configRegistry);
 		registerAlignLeftStyle(configRegistry);
 		registerHeaderStyle(configRegistry);
+		final ICellPainter lineBorderDecorator = new LineBorderDecorator(
+				defaultCellPainter,
+				new BorderStyle(1, GUIHelper.COLOR_BLUE, LineStyleEnum.SOLID));
+
+		configRegistry.registerConfigAttribute(
+				CellConfigAttributes.CELL_PAINTER, lineBorderDecorator,
+				DisplayMode.NORMAL, "BLUE_BORDER");
+
 	}
 
 	private void addExceptionLabel() {

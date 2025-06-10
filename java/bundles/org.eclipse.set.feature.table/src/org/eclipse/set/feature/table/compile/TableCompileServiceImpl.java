@@ -31,9 +31,6 @@ import jakarta.inject.Inject;
 public class TableCompileServiceImpl implements TableCompileService {
 
 	@Inject
-	private TableDiffService diffService;
-
-	@Inject
 	TableService tableService;
 
 	@Override

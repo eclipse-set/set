@@ -8,17 +8,25 @@
  */
 package org.eclipse.set.feature.export.tablediff;
 
-import java.util.LinkedHashSet;
+import static org.eclipse.set.model.tablemodel.extensions.TableCellExtensions.getIterableStringValue;
+
 import java.util.List;
 import java.util.Set;
+import java.util.function.BiFunction;
+import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.set.basis.constants.TableType;
+import org.eclipse.set.basis.files.ToolboxFileRole;
+import org.eclipse.set.core.services.session.SessionService;
 import org.eclipse.set.model.planpro.Basisobjekte.Bearbeitungsvermerk;
 import org.eclipse.set.model.planpro.Basisobjekte.Identitaet_TypeClass;
 import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
+import org.eclipse.set.model.tablemodel.CellContent;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.CompareCellContent;
 import org.eclipse.set.model.tablemodel.CompareFootnoteContainer;
+import org.eclipse.set.model.tablemodel.CompareTableCellContent;
 import org.eclipse.set.model.tablemodel.MultiColorCellContent;
 import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.model.tablemodel.SimpleFootnoteContainer;
@@ -27,10 +35,13 @@ import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.TableCell;
 import org.eclipse.set.model.tablemodel.TableRow;
 import org.eclipse.set.model.tablemodel.TablemodelFactory;
-import org.eclipse.set.model.tablemodel.extensions.TableCellExtensions;
+import org.eclipse.set.model.tablemodel.extensions.CellContentExtensions;
 import org.eclipse.set.model.tablemodel.extensions.TableExtensions;
 import org.eclipse.set.services.table.TableDiffService;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+
+import com.google.common.collect.Streams;
 
 /**
  * Custom implementation of {@link TableDiffService}.
@@ -41,6 +52,9 @@ import org.osgi.service.component.annotations.Component;
  */
 @Component(immediate = true)
 public class CustomTableDiffService implements TableDiffService {
+	@Reference
+	SessionService sessionService;
+
 	private static void addEmptyValue(final TableRow row,
 			final ColumnDescriptor descriptor) {
 		final TableCell cell = TablemodelFactory.eINSTANCE.createTableCell();
@@ -95,26 +109,24 @@ public class CustomTableDiffService implements TableDiffService {
 	}
 
 	private static void createDiffContent(final int i, final TableRow row,
-			final TableRow match) {
+			final TableRow match,
+			final BiFunction<TableCell, TableCell, CellContent> createCompareContent) {
 		final TableCell oldCell = row.getCells().get(i);
-		final Set<String> oldValue = TableCellExtensions
-				.getIterableStringValue(oldCell);
-		final Set<String> newValue = new LinkedHashSet<>();
-		if (match != null) {
-			newValue.addAll(TableCellExtensions
-					.getIterableStringValue(match.getCells().get(i)));
+		if (match == null) {
+			return;
 		}
 
-		if (oldCell.getContent() instanceof MultiColorCellContent
-				&& match != null) {
+		if (oldCell.getContent() instanceof MultiColorCellContent) {
 			createMultiColorDiffCotent(oldCell, match.getCells().get(i));
 			return;
 		}
 
-		if (!oldValue.equals(newValue)) {
-			oldCell.setContent(createCompareCellContent(oldValue, newValue,
-					oldCell.getContent().getSeparator()));
+		final CellContent compareCellContent = createCompareContent
+				.apply(oldCell, match.getCells().get(i));
+		if (compareCellContent == null) {
+			return;
 		}
+		oldCell.setContent(compareCellContent);
 	}
 
 	// IMPROVE: this function isn't completely.
@@ -168,14 +180,130 @@ public class CustomTableDiffService implements TableDiffService {
 	}
 
 	private static CompareCellContent createCompareCellContent(
-			final Set<String> oldValue, final Set<String> newValue,
-			final String separator) {
+			final TableCell oldCell, final TableCell newCell) {
+		final Set<String> oldValues = getIterableStringValue(oldCell);
+		final Set<String> newValues = getIterableStringValue(newCell);
+		if (oldValues.equals(newValues)) {
+			return null;
+		}
 		final CompareCellContent compareContent = TablemodelFactory.eINSTANCE
 				.createCompareCellContent();
-		compareContent.getOldValue().addAll(oldValue);
-		compareContent.getNewValue().addAll(newValue);
-		compareContent.setSeparator(separator);
+		compareContent.getOldValue().addAll(oldValues);
+		compareContent.getNewValue().addAll(newValues);
+		compareContent.setSeparator(oldCell.getContent().getSeparator());
 		return compareContent;
+	}
+
+	private CompareTableCellContent createTableCompareCellConten(
+			final TableCell firstTableCell, final TableCell secondTableCell) {
+		final CellContent firstTableCellContent = firstTableCell.getContent();
+		final boolean isSameValue = switch (secondTableCell.getContent()) {
+			case final StringCellContent stringContent -> isSameValue(
+					stringContent, firstTableCellContent);
+			case final CompareCellContent compareContent -> isSameValue(
+					compareContent, firstTableCellContent);
+			case final MultiColorCellContent multiColorContent -> isSameValue(
+					multiColorContent, firstTableCellContent);
+			default -> true;
+		};
+		if (isSameValue) {
+			return null;
+		}
+
+		final CompareTableCellContent compareTableCellContent = TablemodelFactory.eINSTANCE
+				.createCompareTableCellContent();
+		compareTableCellContent
+				.setFirstPlanCellContent(secondTableCell.getContent());
+		compareTableCellContent
+				.setSecondPlanCellContent(firstTableCell.getContent());
+		return compareTableCellContent;
+
+	}
+
+	private boolean isSameValue(final CompareCellContent firstCellContent,
+			final CellContent secondCellContent) {
+		// Compare between CompareCellContent with another cell content is only
+		// in compare table between two Project available.
+		// That mean by table DIFF state will compare FINAL state
+		final TableType tableType = sessionService
+				.getLoadedSession(ToolboxFileRole.SESSION)
+				.getTableType();
+		final StringCellContent compareCellStringContent = TablemodelFactory.eINSTANCE
+				.createStringCellContent();
+		if (tableType == TableType.INITIAL) {
+			compareCellStringContent.getValue()
+					.addAll(firstCellContent.getOldValue());
+		} else {
+			compareCellStringContent.getValue()
+					.addAll(firstCellContent.getNewValue());
+		}
+		return isSameValue(compareCellStringContent, secondCellContent);
+	}
+
+	private boolean isSameValue(final MultiColorCellContent firstCellContent,
+			final CellContent secondCellContent) {
+		return firstCellContent.getValue().stream().allMatch(value -> {
+			final StringCellContent stringCellContent = TablemodelFactory.eINSTANCE
+					.createStringCellContent();
+			if (value.getMultiColorValue() == null
+					|| value.getMultiColorValue().isEmpty()) {
+				stringCellContent.getValue().add(value.getStringFormat());
+
+			} else {
+				stringCellContent.getValue()
+						.add(String.format(value.getStringFormat(),
+								value.getMultiColorValue()));
+			}
+
+			return isSameValue(stringCellContent, secondCellContent);
+		});
+	}
+
+	private boolean isSameValue(final StringCellContent firstCellContent,
+			final CellContent secondCellContent) {
+		final Set<String> firstValues = Streams
+				.stream(CellContentExtensions
+						.getStringValueIterable(firstCellContent))
+				.collect(Collectors.toSet());
+		return switch (secondCellContent) {
+			case final StringCellContent stringContent -> {
+				final Set<String> secondValues = Streams
+						.stream(CellContentExtensions
+								.getStringValueIterable(stringContent))
+						.collect(Collectors.toSet());
+				yield firstValues.equals(secondValues);
+			}
+			case final CompareCellContent compareContent -> {
+				final TableType tableType = sessionService
+						.getLoadedSession(ToolboxFileRole.SESSION)
+						.getTableType();
+				final Set<String> values = switch (tableType) {
+					case TableType.INITIAL -> compareContent.getOldValue()
+							.stream()
+							.collect(Collectors.toSet());
+					default -> compareContent.getNewValue()
+							.stream()
+							.collect(Collectors.toSet());
+
+				};
+				yield firstValues.equals(values);
+			}
+			case final MultiColorCellContent multiColorContent -> {
+				final Set<String> values = multiColorContent.getValue()
+						.stream()
+						.map(content -> {
+							if (content.getMultiColorValue() == null
+									|| content.getMultiColorValue().isEmpty()) {
+								return content.getStringFormat();
+							}
+							return String.format(content.getStringFormat(),
+									content.getMultiColorValue());
+						})
+						.collect(Collectors.toSet());
+				yield firstValues.equals(values);
+			}
+			default -> false;
+		};
 	}
 
 	private static Table expandNewRowGroups(final Table oldTable,
@@ -191,7 +319,8 @@ public class CustomTableDiffService implements TableDiffService {
 		final TableRow match = TableExtensions.getMatchingRow(newTable, row);
 		// Create diff content
 		for (int i = 0; i < row.getCells().size(); i++) {
-			createDiffContent(i, row, match);
+			createDiffContent(i, row, match,
+					(a, b) -> createCompareCellContent(a, b));
 		}
 
 		// Create diff footnotes
@@ -249,5 +378,24 @@ public class CustomTableDiffService implements TableDiffService {
 
 		// create diff table by matching each row of the expanded table
 		return matchRows(expanded, newTable);
+	}
+
+	@Override
+	public Table createCompareTable(final Table firstPlanTable,
+			final Table secondPlanDiffTable) {
+		final Table copy = EcoreUtil.copy(secondPlanDiffTable);
+		final Table expandedTable = expandNewRowGroups(firstPlanTable, copy);
+		final List<TableRow> rows = TableExtensions.getTableRows(copy);
+		rows.forEach(row -> {
+			final TableRow match = TableExtensions.getMatchingRow(expandedTable,
+					row);
+			// Create diff content
+			for (int i = 0; i < row.getCells().size(); i++) {
+				createDiffContent(i, row, match,
+						this::createTableCompareCellConten);
+			}
+		});
+
+		return copy;
 	}
 }
