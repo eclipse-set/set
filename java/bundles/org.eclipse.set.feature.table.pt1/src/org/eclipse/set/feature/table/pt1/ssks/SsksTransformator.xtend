@@ -129,6 +129,7 @@ import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensi
 import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
 import static extension org.eclipse.set.utils.math.DoubleExtensions.*
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_Strecke_AttributeGroup
+import org.locationtech.jts.geom.Coordinate
 
 /**
  * Table transformation for a Signaltabelle (Ssks).
@@ -568,7 +569,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							signal,
 							[controlBox !== null],
 							[
-								distance(controlBox).toTableDecimal
+								distance(controlBox).toTableIntegerAgateUp
 							]
 						)
 
@@ -1495,22 +1496,23 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 		return '''«FOR bemerkung : bemerkungen SEPARATOR ", "»«bemerkung»«ENDFOR»'''
 	}
 
-	private def double distance(
+	private def BigDecimal distance(
 		Punkt_Objekt punktObjekt,
 		Unterbringung unterbringung
 	) {
+		val c1 = punktObjekt.coordinate
+		var Coordinate c2 = null
 		if (unterbringung.punktObjektTOPKante !== null) {
-			val points = punktObjekt.singlePoints.map[new TopPoint(it)]
-			val pb = new TopPoint(unterbringung.punktObjektTOPKante)
-			return points.map[topGraphService.findShortestDistance(it, pb)].
-				filter [
-					present
-				].map[get.doubleValue].min
+			c2 = unterbringung.punktObjektTOPKante.coordinate.coordinate
 		} else {
-			val c1 = punktObjekt.coordinate
-			val c2 = unterbringung.geoPunkt.coordinate
-			return c1.distance(c2)
+			c2 = unterbringung.geoPunkt.coordinate
 		}
+		if (c2 === null) {
+			throw new IllegalArgumentException(
+				String.format("Can't find coordinate of Unterbringung: %s",
+					unterbringung.identitaet.wert))
+		}
+		return BigDecimal.valueOf(c1.distance(c2))
 	}
 
 	private def void fillUeberhoehung(TableRow row, Signal signal) {
