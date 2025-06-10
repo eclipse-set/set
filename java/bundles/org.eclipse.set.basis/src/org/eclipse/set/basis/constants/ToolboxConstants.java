@@ -196,16 +196,22 @@ public final class ToolboxConstants {
 	public static final String TOOLBOX_DIRECTORY_NAME_IMPORT_INITIAL_STATE = "importinitialfile";
 
 	/**
+	 * The name for the temporary directory of a toolbox file used as a first
+	 * planning to import.
+	 */
+	public static final String TOOLBOX_DIRECTORY_NAME_FIRST_PLANNING_TO_IMPORT = "firstimportplanningfile";
+
+	/**
+	 * The name for the temporary directory of a toolbox file used as a second
+	 * planning to import.
+	 */
+	public static final String TOOLBOX_DIRECTORY_NAME_SECOND_PLANNING_TO_IMPORT = "secondimportplanningfile";
+
+	/**
 	 * The name for the temporary directory of a toolbox file used as a
 	 * secondary planning.
 	 */
-	public static final String TOOLBOX_DIRECTORY_NAME_SECONDARY_PLANNING = "secondaryplanningfile";
-
-	/**
-	 * The name for the temporary directory of a toolbox file used as a third
-	 * planning.
-	 */
-	public static final String TOOLBOX_DIRECTORY_NAME_THIRD_PLANNING = "thridplanningfile";
+	public static final String TOOLBOX_DIRECTORY_NAME_SECONDARY_PLANNING = "secondaryplaning";
 
 	/**
 	 * The name for the temporary directory of a toolbox file used to start a

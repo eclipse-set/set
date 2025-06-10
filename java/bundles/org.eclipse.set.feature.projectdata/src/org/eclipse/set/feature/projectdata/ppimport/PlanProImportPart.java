@@ -67,7 +67,7 @@ public class PlanProImportPart extends BasePart {
 			importModelGroup = new ImportSubworkdControlGroup(serviceProvider,
 					getModelSession(), getBroker());
 			importModelGroup.createControl(parent, getToolboxShell(),
-					ToolboxFileRole.SECONDARY_PLANNING);
+					ToolboxFileRole.FIRST_PLANNING_TO_IMPORT);
 
 			importContainerGroup = new ImportContainerControlGroup(
 					serviceProvider, getModelSession(), getBroker());
@@ -76,7 +76,7 @@ public class PlanProImportPart extends BasePart {
 			importLayout = new ImportLayoutControlGroup(serviceProvider,
 					getModelSession(), getBroker());
 			importLayout.createControl(parent, getToolboxShell(),
-					ToolboxFileRole.THIRD_PLANNING);
+					ToolboxFileRole.SECOND_PLANNING_TO_IMPORT);
 		} else {
 			modelInformationGroup.createNotSupportedInfo(parent);
 		}

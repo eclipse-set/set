@@ -283,6 +283,7 @@ public class ZippedPlanProToolboxFile extends AbstractToolboxFile {
 	 * 
 	 * @return the role
 	 */
+	@Override
 	public ToolboxFileRole getRole() {
 		return role;
 	}

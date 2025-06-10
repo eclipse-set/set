@@ -280,10 +280,11 @@ public class SetSessionService implements SessionService {
 	}
 
 	@Override
-	public ModelSession loadModelSession(final Path path) {
+	public ModelSession loadModelSession(final Path path,
+			final ToolboxFileRole role) {
 		final ModelSession modelSession = new ModelSession(
-				getFileService().load(path, ToolboxFileRole.SESSION), this,
-				getMainWindow(), serviceProvider);
+				getFileService().load(path, role), this, getMainWindow(),
+				serviceProvider);
 		modelSession.setNewProject(false);
 		return modelSession;
 	}

@@ -25,6 +25,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.ThreadUtils;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.e4.core.services.nls.Translation;
 import org.eclipse.e4.ui.di.UISynchronize;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
@@ -70,6 +71,7 @@ import org.eclipse.set.feature.table.messages.Messages;
 import org.eclipse.set.feature.table.messages.MessagesWrapper;
 import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
 import org.eclipse.set.model.planpro.PlanPro.Container_AttributeGroup;
+import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.TableRow;
@@ -109,6 +111,8 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.osgi.service.event.Event;
+import org.osgi.service.event.EventHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -149,6 +153,7 @@ public final class ToolboxTableView extends BasePart {
 	private ToolboxEventHandler<TableDataChangeEvent> tableDataChangeHandler;
 
 	private ToolboxEventHandler<SelectedControlAreaChangedEvent> selectionControlAreaHandler;
+	private EventHandler secondaryPlaningLoadedHanlder;
 
 	private int scrollToPositionRequested = -1;
 
@@ -216,11 +221,10 @@ public final class ToolboxTableView extends BasePart {
 	private Titlebox getTitlebox(final String shortcut) {
 		final PlanProToTitleboxTransformation planProToTitlebox = PlanProToTitleboxTransformation
 				.create();
-		final Titlebox titlebox = planProToTitlebox.transform(
+		return planProToTitlebox.transform(
 				getModelSession().getPlanProSchnittstelle(),
 				tableService.getTableNameInfo(shortcut),
 				this::getAttachmentPath);
-		return titlebox;
 	}
 
 	private boolean isDisplayedDataAffected(
@@ -257,10 +261,9 @@ public final class ToolboxTableView extends BasePart {
 				if (!t.getProperties().isEmpty() && t.getProperties()
 						.getFirst() instanceof Pt1TableChangeProperties) {
 
-					t.getProperties().forEach(ele -> {
-						bodyDataProvider.updateContent(tableType,
-								(Pt1TableChangeProperties) ele);
-					});
+					t.getProperties()
+							.forEach(ele -> bodyDataProvider.updateContent(
+									tableType, (Pt1TableChangeProperties) ele));
 					natTable.refresh();
 				}
 			}
@@ -293,6 +296,24 @@ public final class ToolboxTableView extends BasePart {
 		ToolboxEvents.subscribe(getBroker(),
 				SelectedControlAreaChangedEvent.class,
 				selectionControlAreaHandler);
+
+		secondaryPlaningLoadedHanlder = new EventHandler() {
+
+			@Override
+			public void handleEvent(final Event event) {
+				if (!event.getTopic()
+						.equalsIgnoreCase(Events.SECONDARY_MODEL_LOADED)) {
+					return;
+				}
+				if (event.getProperty(
+						IEventBroker.DATA) instanceof final PlanPro_Schnittstelle secondModel) {
+					updateTableView(null);
+				}
+
+			}
+		};
+		getBroker().subscribe(Events.SECONDARY_MODEL_LOADED,
+				secondaryPlaningLoadedHanlder);
 	}
 
 	@PreDestroy
@@ -301,6 +322,7 @@ public final class ToolboxTableView extends BasePart {
 		ToolboxEvents.unsubscribe(getBroker(), tableSelectRowHandler);
 		ToolboxEvents.unsubscribe(getBroker(), tableDataChangeHandler);
 		ToolboxEvents.unsubscribe(getBroker(), selectionControlAreaHandler);
+		getBroker().unsubscribe(secondaryPlaningLoadedHanlder);
 		getBroker().send(Events.CLOSE_PART, getTableShortcut().toLowerCase());
 	}
 

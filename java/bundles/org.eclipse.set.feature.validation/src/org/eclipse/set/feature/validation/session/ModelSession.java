@@ -1014,18 +1014,20 @@ public class ModelSession implements IModelSession {
 	}
 
 	void setTitleFilename(final String filename) {
-		Display.getDefault().asyncExec(new Runnable() {
-			@Override
-			public void run() {
-				final String title = mainWindow.getText();
-				final String[] split = title.split(TITLE_SEPARATOR);
-				final String titleProgrammPart = split[0];
-				if (filename != null) {
-					mainWindow.setText(
-							titleProgrammPart + TITLE_SEPARATOR + filename);
-				} else {
-					mainWindow.setText(titleProgrammPart);
-				}
+		Display.getDefault().asyncExec(() -> {
+			final String title = mainWindow.getText();
+			final String[] split = title.split(TITLE_SEPARATOR);
+			final String titleProgrammPart = split[0];
+			String titleFileName = filename;
+			if (split.length > 1 && toolboxFile
+					.getRole() == ToolboxFileRole.SECONDARY_PLANNING) {
+				titleFileName = String.format("%s ⇔ %s", split[1], filename); //$NON-NLS-1$
+			}
+			if (titleFileName != null && !titleFileName.isEmpty()) {
+				mainWindow.setText(
+						titleProgrammPart + TITLE_SEPARATOR + titleFileName);
+			} else {
+				mainWindow.setText(titleProgrammPart);
 			}
 		});
 	}

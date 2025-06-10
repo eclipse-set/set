@@ -189,6 +189,11 @@ public interface ToolboxFile {
 	PlanProFileResource getLayoutResource();
 
 	/**
+	 * @return the {@link ToolboxFileRole}
+	 */
+	ToolboxFileRole getRole();
+
+	/**
 	 * @param contentName
 	 *            name of document
 	 * @return DOM document with line number

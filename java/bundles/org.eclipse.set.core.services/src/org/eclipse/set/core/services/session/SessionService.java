@@ -20,6 +20,8 @@ import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.InitializationData;
 import org.eclipse.set.basis.files.ToolboxFile.Format;
 import org.eclipse.set.basis.files.ToolboxFileExtension;
+import org.eclipse.set.basis.files.ToolboxFileRole;
+import org.eclipse.set.core.services.modelloader.ModelLoader.ModelContents;
 
 /**
  * Provide session specific information.
@@ -117,14 +119,28 @@ public interface SessionService {
 	 * 
 	 * @param path
 	 *            the path to the toolbox file
+	 * @param role
+	 *            the role
 	 * 
 	 * @return the new model session
 	 */
-	IModelSession loadModelSession(Path path);
+	IModelSession loadModelSession(Path path, ToolboxFileRole role);
 
 	/**
 	 * @param application
 	 *            the application
 	 */
 	void setApplication(MApplication application);
+
+	/**
+	 * @return the map of loaded project with corresponding role
+	 */
+	Map<ToolboxFileRole, ModelContents> getLoadedModels();
+
+	/**
+	 * @param role
+	 *            the {@link ToolboxFileRole}
+	 * @return the {@link ModelContents}
+	 */
+	ModelContents getLoadedModels(ToolboxFileRole role);
 }

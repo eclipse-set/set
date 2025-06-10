@@ -8,15 +8,14 @@
  */
 package org.eclipse.set.application.handler;
 
-import jakarta.inject.Inject;
-
 import org.eclipse.e4.core.di.annotations.CanExecute;
 import org.eclipse.e4.core.di.annotations.Execute;
 import org.eclipse.e4.core.di.annotations.Optional;
-import org.eclipse.swt.widgets.Shell;
-
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.core.services.dialog.DialogService;
+import org.eclipse.swt.widgets.Shell;
+
+import jakarta.inject.Inject;
 
 /**
  * Dieses Steuerungsprogramm setzt die Session zurück
@@ -37,11 +36,11 @@ public class CloseHandler {
 	@Execute
 	private void execute(final IModelSession modelSession, final Shell shell) {
 		if (modelSession != null) {
-			if (modelSession.isDirty()) {
-				if (!dialogService.confirmCloseUnsaved(shell)) {
-					return;
-				}
+			if (modelSession.isDirty()
+					&& !dialogService.confirmCloseUnsaved(shell)) {
+				return;
 			}
+
 			modelSession.close();
 		}
 	}

@@ -85,7 +85,7 @@ public class PlainFileFormatService implements ToolboxFileFormatService {
 		final Format format = sessionService.getFormat(path);
 		Assert.isTrue(format.isPlain());
 		return new PlainToolboxFile(sessionService, path, format,
-				createEditingDomain(), true);
+				createEditingDomain(), true, role);
 	}
 
 	private EditingDomain createEditingDomain() {
