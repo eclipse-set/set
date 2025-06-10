@@ -442,20 +442,20 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				NUMERIC_COMPARATOR,
 				ITERABLE_FILLING_SEPARATOR
 			)
-
+	
 			// P: Sskp.Ina.Abstand_VorsignalWdh_GM_2000
+			val vorSignalWiederholer = pzb.PZBZuordnungSignal?.map[IDSignal?.value].filter[
+				signalReal?.signalRealAktivSchirm?.signalArt?.wert === ENUMSignalArt.ENUM_SIGNAL_ART_VORSIGNALWIEDERHOLER
+			]
 			fillIterableWithConditional(
 				instance,
 				cols.getColumn(Abstand_vorsignalWdh_GM_2000),
 				pzb,
 				[
-					PZBZuordnungSignal?.map[IDSignal?.value].exists [
-						signalReal?.signalRealAktivSchirm?.signalArt?.wert ===
-							ENUMSignalArt.ENUM_SIGNAL_ART_VORSIGNALWIEDERHOLER
-					]
+					!vorSignalWiederholer.isNullOrEmpty
 				],
 				[
-					PZBZuordnungSignal?.map[IDSignal?.value].map [ signal |
+					vorSignalWiederholer.map [ signal |
 						getPointsDistance(pzb, signal).min
 					].filter[it.doubleValue !== 0.0].map [
 						AgateRounding.roundDown(it).toString
