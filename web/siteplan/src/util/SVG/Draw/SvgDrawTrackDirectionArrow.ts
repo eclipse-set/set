@@ -25,9 +25,9 @@ export default class SvgDrawTrackDirectionArrow extends AbstractDrawSVG {
 
   public drawSVG<T extends object> (data: T, label?: Label | undefined): ISvgElement {
     const track = data as Track
-    const svg = this.getSvgFromCatalog(data)
+    const svg = this.getSvgFromCatalog({})
     if (svg === null) {
-      console.warn('Unsupported AFJWOPJAOGAWD ' + track.toString())
+      console.warn('Failed to draw TrackDirection Marker' + track.toString())
       return SvgDraw.getErrorSVG()
     }
 

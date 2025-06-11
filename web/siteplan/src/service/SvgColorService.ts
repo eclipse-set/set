@@ -52,10 +52,6 @@ export default class SvgColorService {
   }
 
   private static shouldApplyColor (svg: Element, obj: ObjectColor) {
-    if (obj.id == '6A0D768F-1C7E-412F-95A0-8C7E841BF02E' || obj.id == '6996727B-D66A-4A11-86F9-DC05B43A5B8A') {
-      console.log('found id')
-    }
-
     return svg.querySelector('#' + obj.id) !== null
   }
 

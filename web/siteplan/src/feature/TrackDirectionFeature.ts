@@ -1,13 +1,15 @@
 
 import LageplanFeature from '@/feature/LageplanFeature'
-import { SignalPart } from '@/model/Signal'
 import { SiteplanState } from '@/model/SiteplanModel'
 import { ISvgElement } from '@/model/SvgElement'
 import Track from '@/model/Track'
+import SvgDrawTrackDirectionArrow from '@/util/SVG/Draw/SvgDrawTrackDirectionArrow'
 import { Feature } from 'ol'
 import { getCenter } from 'ol/extent'
 import Geometry from 'ol/geom/Geometry'
 import OlPoint from 'ol/geom/Point'
+import OlIcon from 'ol/style/Icon'
+import OlStyle from 'ol/style/Style'
 import { createFeature, FeatureType } from './FeatureInfo'
 
 /**
@@ -23,8 +25,8 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
     return model.tracks
   }
 
-  protected getObjectSvg () {
-    return this.svgService.getFeatureSvg({}, FeatureType.TrackDirectionArrow) // no data!
+  protected getObjectSvg (track: Track) {
+    return this.svgService.getFeatureSvg(track, FeatureType.TrackDirectionArrow) // no data!
   }
 
   private createTrackDirectionArrowFeature (track: Track): Feature<Geometry> {
@@ -35,9 +37,20 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
       undefined // no label
     )
 
-    const style = this.svgService.getFeatureStyle(track, FeatureType.TrackDirectionArrow)
+    // const style =  this.svgService.getFeatureStyle(track, FeatureType.TrackDirectionArrow)
 
-    const svg = this.getObjectSvg()
+    const drawer = new SvgDrawTrackDirectionArrow(this.svgService.getCatalogService())
+    const svg = drawer.drawSVG(track, undefined)
+    // const svg = this.drawFeatureSVG(drawData.data, .......
+    // drawData.featureType, drawData.label)
+    // const svg = this.getObjectSvg(track)
+    const style = new OlStyle({
+      image: new OlIcon({
+        opacity: 1,
+        src: 'data:image/svg+xml;utf8,' + svg.content.outerHTML,
+        rotateWithView: true
+      })
+    })
 
     this.createArrowBBox(feature, track, svg)
     feature.setStyle((_, resolution) => {
@@ -91,16 +104,7 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
   }
 
   setFeatureColor (feature: Feature<Geometry>, color?: number[], partID?: string): Feature<Geometry> {
-    if (!color && !partID) {
-      this.resetFeatureColor(feature)
-    } else if (partID) {
-      super.setFeatureColor(feature, color, partID)
-    } else {
-      Object.values(SignalPart).forEach(part => {
-        this.setFeatureRegionColor(feature, part, color)
-      })
-    }
-
+    // TODO allow new colors!
     return feature
   }
 
@@ -119,6 +123,6 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
   } */
 
   compareChangedState (initial: SiteplanState, final: SiteplanState): Feature<Geometry>[] {
-    return super.compareChangedState(initial, final, [], mount => this.getObjectSvg(), Object.values(SignalPart))
+    return super.compareChangedState(initial, final, [], mount => this.getObjectSvg(mount))
   }
 }

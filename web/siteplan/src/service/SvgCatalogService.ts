@@ -111,6 +111,8 @@ export default class SvgCatalogService {
         return this.cantCatalog.getCantSvg()
       case FeatureType.Unknown:
         return this.othersCatalog.getUnknownSvg(object as UnknownObject)
+      case FeatureType.TrackDirectionArrow:
+        return (this.catalog.get('GleisTopologischeAusrichtung') ?? [null])[0] // return first element or null
       default:
         return null
     }
