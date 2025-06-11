@@ -154,6 +154,10 @@ class CellContentExtensions {
 			: content.separator
 		)»</p>'''
 	}
+	
+	static def dispatch String getRichTextValueWithFootnotes(CellContent content, CompareTableCellContent fc) {
+		
+	}
 
 	/**
 	 * @param content this cell content
