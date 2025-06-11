@@ -46,7 +46,11 @@ public class OpenSecondProjectHandler extends OpenPlanProHandler {
 
 	@Override
 	protected void closeOldSession(final Shell shell) {
-		// do nothing
+		final IModelSession secondarySession = sessionService
+				.getLoadedSession(getRole());
+		if (secondarySession != null) {
+			secondarySession.close();
+		}
 	}
 
 	@Override
@@ -57,8 +61,7 @@ public class OpenSecondProjectHandler extends OpenPlanProHandler {
 	@Override
 	protected void success(final IModelSession modelSession,
 			final MApplication application) {
-		eventBroker.send(Events.SECONDARY_MODEL_LOADED,
-				modelSession.getPlanProSchnittstelle());
+		eventBroker.send(Events.SECONDARY_MODEL_LOADED, modelSession);
 	}
 
 }

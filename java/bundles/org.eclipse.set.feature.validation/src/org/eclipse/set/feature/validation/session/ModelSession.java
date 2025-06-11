@@ -154,6 +154,7 @@ public class ModelSession implements IModelSession {
 	private static final String APPLICATION_NAME = "Werkzeugkoffer"; //$NON-NLS-1$
 	private static final String SESSIONS_SUBDIR = "sessions"; //$NON-NLS-1$
 	protected static final String TITLE_SEPARATOR = " - "; //$NON-NLS-1$
+	protected static final String TITLE_FILE_NAME_SEPARATOR = " ⇔ "; //$NON-NLS-1$
 	static final Logger logger = LoggerFactory.getLogger(ModelSession.class);
 
 	private static String getSessionsSubDir() {
@@ -334,12 +335,11 @@ public class ModelSession implements IModelSession {
 	public void close() {
 		// flush the command stack
 		getToolboxFile().getEditingDomain().getCommandStack().flush();
-
 		// reset filename
 		setTitleFilename(null);
 
 		// close the project
-		sessionService.close(this);
+		sessionService.close(this, getToolboxFile().getRole());
 	}
 
 	@Override
@@ -1016,16 +1016,24 @@ public class ModelSession implements IModelSession {
 	void setTitleFilename(final String filename) {
 		Display.getDefault().asyncExec(() -> {
 			final String title = mainWindow.getText();
-			final String[] split = title.split(TITLE_SEPARATOR);
+			final String[] split = title.split(String.format("[%s,%s]", //$NON-NLS-1$
+					TITLE_SEPARATOR, TITLE_FILE_NAME_SEPARATOR));
 			final String titleProgrammPart = split[0];
-			String titleFileName = filename;
-			if (split.length > 1 && toolboxFile
-					.getRole() == ToolboxFileRole.SECONDARY_PLANNING) {
-				titleFileName = String.format("%s ⇔ %s", split[1], filename); //$NON-NLS-1$
+			if (toolboxFile.getRole() == ToolboxFileRole.SECONDARY_PLANNING) {
+				final String titleFileName = titleProgrammPart + TITLE_SEPARATOR
+						+ split[1];
+				if (filename == null) {
+					mainWindow.setText(titleFileName);
+				} else {
+					mainWindow.setText(titleFileName + TITLE_FILE_NAME_SEPARATOR
+							+ filename);
+				}
+				return;
 			}
-			if (titleFileName != null && !titleFileName.isEmpty()) {
+
+			if (filename != null && !filename.isEmpty()) {
 				mainWindow.setText(
-						titleProgrammPart + TITLE_SEPARATOR + titleFileName);
+						titleProgrammPart + TITLE_SEPARATOR + filename);
 			} else {
 				mainWindow.setText(titleProgrammPart);
 			}

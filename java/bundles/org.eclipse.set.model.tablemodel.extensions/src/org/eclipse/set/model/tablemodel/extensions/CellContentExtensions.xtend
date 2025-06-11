@@ -28,6 +28,7 @@ import static org.eclipse.set.model.tablemodel.extensions.Utils.*
 
 import static extension org.eclipse.set.model.tablemodel.extensions.TableCellExtensions.*
 import static extension org.eclipse.set.utils.StringExtensions.*
+import org.eclipse.set.model.tablemodel.CompareTableCellContent
 
 /**
  * Extensions for {@link CellContent}.
@@ -83,6 +84,10 @@ class CellContentExtensions {
 
 	static def dispatch String getRichTextValue(MultiColorCellContent content) {
 		return '''<p style="text-align:«content.textAlign»">«content.multiColorFormat»</p>'''
+	}
+	
+	static def dispatch String getRichTextValue(CompareTableCellContent content) {
+		return ""
 	}
 	
 	/**
@@ -170,11 +175,22 @@ class CellContentExtensions {
 	static def dispatch String getPlainStringValue(CompareCellContent content) {
 		return '''«content.oldValue»/«content.newValue»'''
 	}
+	
 
 	static def dispatch String getPlainStringValue(
 		MultiColorCellContent content) {
 		return '''«FOR value : content.value SEPARATOR content.separator»«
 		»«String.format(value.stringFormat, value.multiColorValue)»«ENDFOR»'''
+	}
+	
+	static def dispatch String getPlainStringValue(CompareTableCellContent content) {
+		val firstPlanCell = content.firstPlanCellContent
+		val secondPlanCell = content.secondPlanCellContent
+		if (firstPlanCell.newValue.nullOrEmpty) {
+			return '''«firstPlanCell.oldValue»/«secondPlanCell.oldValue»'''
+		}
+		
+		return '''«firstPlanCell.newValue»/«secondPlanCell.newValue»'''
 	}
 
 	static def dispatch Iterable<String> getStringValueIterable(Void content) {

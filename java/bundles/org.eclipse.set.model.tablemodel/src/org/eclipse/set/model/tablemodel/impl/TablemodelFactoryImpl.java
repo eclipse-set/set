@@ -90,6 +90,8 @@ public class TablemodelFactoryImpl extends EFactoryImpl
 				return createCompareFootnoteContainer();
 			case TablemodelPackage.SIMPLE_FOOTNOTE_CONTAINER:
 				return createSimpleFootnoteContainer();
+			case TablemodelPackage.COMPARE_TABLE_CELL_CONTENT:
+				return createCompareTableCellContent();
 			default:
 				throw new IllegalArgumentException("The class '"
 						+ eClass.getName() + "' is not a valid classifier");
@@ -273,6 +275,17 @@ public class TablemodelFactoryImpl extends EFactoryImpl
 	public SimpleFootnoteContainer createSimpleFootnoteContainer() {
 		SimpleFootnoteContainerImpl simpleFootnoteContainer = new SimpleFootnoteContainerImpl();
 		return simpleFootnoteContainer;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
+	public CompareTableCellContent createCompareTableCellContent() {
+		CompareTableCellContentImpl compareTableCellContent = new CompareTableCellContentImpl();
+		return compareTableCellContent;
 	}
 
 	/**

@@ -62,6 +62,8 @@ public class SetSessionService implements SessionService {
 
 	protected static final Map<String, Set<ToolboxFileExtension>> ZIPPED_SUPPORT_MAP;
 
+	protected static final Map<ToolboxFileRole, IModelSession> loadedModels;
+
 	static {
 		final Set<ToolboxFileExtension> ppfile = Sets.newHashSet(
 				new ToolboxFileExtension(ToolboxConstants.EXTENSION_PPXML, 100),
@@ -90,6 +92,8 @@ public class SetSessionService implements SessionService {
 				ppall);
 		ZIPPED_SUPPORT_MAP.put(ToolboxConstants.EXTENSION_CATEGORY_PPMERGE,
 				ppmerge);
+
+		loadedModels = new HashMap<>();
 	}
 
 	protected static String getDefaultExtensionPlainPlanPro() {
@@ -126,9 +130,18 @@ public class SetSessionService implements SessionService {
 	protected ServiceProvider serviceProvider;
 
 	@Override
-	public boolean close(final IModelSession modelSession) {
+	public boolean close(final IModelSession modelSession,
+			final ToolboxFileRole role) {
+		if (role == ToolboxFileRole.SECONDARY_PLANNING) {
+			loadedModels.remove(role);
+			serviceProvider.broker.send(Events.MODEL_CHANGED,
+					loadedModels.getOrDefault(ToolboxFileRole.SESSION, null));
+			return true;
+		}
+
 		if (modelSession == null) {
 			serviceProvider.broker.send(Events.CLOSE_SESSION, null);
+			loadedModels.clear();
 			return true;
 		}
 
@@ -143,6 +156,7 @@ public class SetSessionService implements SessionService {
 
 			// remove the session from the application context
 			getApplication().getContext().set(IModelSession.class, null);
+			loadedModels.clear();
 			serviceProvider.broker.send(Events.CLOSE_SESSION, null);
 			return true;
 		}
@@ -287,6 +301,16 @@ public class SetSessionService implements SessionService {
 				serviceProvider);
 		modelSession.setNewProject(false);
 		return modelSession;
+	}
+
+	@Override
+	public Map<ToolboxFileRole, IModelSession> getLoadedSessions() {
+		return loadedModels;
+	}
+
+	@Override
+	public IModelSession getLoadedSession(final ToolboxFileRole role) {
+		return loadedModels.getOrDefault(role, null);
 	}
 
 }

@@ -250,4 +250,11 @@ public class CustomTableDiffService implements TableDiffService {
 		// create diff table by matching each row of the expanded table
 		return matchRows(expanded, newTable);
 	}
+
+	@Override
+	public Table createCompareTable(final Table firstPlanTable,
+			final Table secondPlanDiffTable) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

@@ -60,6 +60,7 @@ import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.basis.constants.ToolboxViewState;
 import org.eclipse.set.basis.extensions.MApplicationElementExtensions;
+import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.eclipse.set.basis.guid.Guid;
 import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.configurationservice.UserConfigurationService;
@@ -71,7 +72,6 @@ import org.eclipse.set.feature.table.messages.Messages;
 import org.eclipse.set.feature.table.messages.MessagesWrapper;
 import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
 import org.eclipse.set.model.planpro.PlanPro.Container_AttributeGroup;
-import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.TableRow;
@@ -111,7 +111,6 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
-import org.osgi.service.event.Event;
 import org.osgi.service.event.EventHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -297,20 +296,17 @@ public final class ToolboxTableView extends BasePart {
 				SelectedControlAreaChangedEvent.class,
 				selectionControlAreaHandler);
 
-		secondaryPlaningLoadedHanlder = new EventHandler() {
+		secondaryPlaningLoadedHanlder = event -> {
 
-			@Override
-			public void handleEvent(final Event event) {
-				if (!event.getTopic()
-						.equalsIgnoreCase(Events.SECONDARY_MODEL_LOADED)) {
-					return;
-				}
-				if (event.getProperty(
-						IEventBroker.DATA) instanceof final PlanPro_Schnittstelle secondModel) {
-					updateTableView(null);
-				}
-
+			if (!event.getTopic()
+					.equalsIgnoreCase(Events.SECONDARY_MODEL_LOADED)) {
+				return;
 			}
+			if (event.getProperty(
+					IEventBroker.DATA) instanceof final IModelSession secondModel) {
+				updateModel(getToolboxPart(), secondModel);
+			}
+
 		};
 		getBroker().subscribe(Events.SECONDARY_MODEL_LOADED,
 				secondaryPlaningLoadedHanlder);
@@ -356,8 +352,13 @@ public final class ToolboxTableView extends BasePart {
 	 */
 	private Table transformToTableModel(final String elementId,
 			final IModelSession modelSession) {
-		return tableService.transformToTable(elementId, tableType, modelSession,
-				controlAreaIds);
+		TableType transformTableType = tableType;
+		if (modelSession.getToolboxFile()
+				.getRole() == ToolboxFileRole.SECONDARY_PLANNING) {
+			transformTableType = TableType.DIFF;
+		}
+		return tableService.transformToTable(elementId, transformTableType,
+				modelSession, controlAreaIds);
 	}
 
 	private void updateTableView(final List<Pt1TableCategory> tableCategories) {
@@ -738,7 +739,17 @@ public final class ToolboxTableView extends BasePart {
 	void updateModel(final MPart part, final IModelSession modelSession) {
 		// update banderole
 		getBanderole().setTableType(tableType);
+
 		table = transformToTableModel(part.getElementId(), modelSession);
+
+		if (getSessionService()
+				.getLoadedSession(ToolboxFileRole.SECONDARY_PLANNING) != null
+				&& modelSession.getToolboxFile()
+						.getRole() != ToolboxFileRole.SECONDARY_PLANNING) {
+			table = transformToTableModel(part.getElementId(),
+					getSessionService().getLoadedSession(
+							ToolboxFileRole.SECONDARY_PLANNING));
+		}
 		// flag creation
 		MApplicationElementExtensions.setViewState(part,
 				ToolboxViewState.CREATED);

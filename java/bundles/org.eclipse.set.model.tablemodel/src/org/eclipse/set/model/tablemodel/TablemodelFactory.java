@@ -145,6 +145,15 @@ public interface TablemodelFactory extends EFactory {
 	SimpleFootnoteContainer createSimpleFootnoteContainer();
 
 	/**
+	 * Returns a new object of class '<em>Compare Table Cell Content</em>'. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @return a new object of class '<em>Compare Table Cell Content</em>'.
+	 * @generated
+	 */
+	CompareTableCellContent createCompareTableCellContent();
+
+	/**
 	 * Returns the package supported by this factory. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * 

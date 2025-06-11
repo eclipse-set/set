@@ -26,4 +26,13 @@ public interface TableDiffService {
 	 * @return the difference table
 	 */
 	Table createDiffTable(Table oldTable, Table newTable);
+
+	/**
+	 * @param firstPlanTable
+	 *            the initial or final table of first plan
+	 * @param secondPlanDiffTable
+	 *            the diff table of second plan
+	 * @return the compare table
+	 */
+	Table createCompareTable(Table firstPlanTable, Table secondPlanDiffTable);
 }
