@@ -15,15 +15,15 @@
      <rect
      style="fill:#4df26f;fill-opacity:0.41958;stroke-width:1.00157;stroke-linecap:round"
      id="rect1"
-     width="117.28814"
-     height="105.76271"
-     x="49.943504"
-     y="49.943504" />
-     <toolbox:rectbound x="0" y="12.5" width="30" height="55" />
+     width="160"
+     height="160"
+     x="20.0"
+     y="20.0" />
+     <toolbox:rectbound x="0" y="0" width="200" height="200" />
      </g>
      </defs>
 
-     <g width="100" height="100" transform="translate(30,50)">
+     <g width="200" height="200" transform="translate(0,0)">
         <use xlink:href="#TDA" />
     </g>
      

@@ -175,6 +175,10 @@ export default class FeatureService extends Vue {
             return feature.getLayoutFeatures(newValue.layoutInfo)
           }
 
+          if (feature instanceof TrackDirectionFeature) {
+            console.log('ADd Direction feature')
+          }
+
           return this.loadFeatureType(newValue, feature)
         })
         .groupBy(c => getFeatureLayer(c))
@@ -182,6 +186,10 @@ export default class FeatureService extends Vue {
           const layer = this.featureLayers.find(
             c => c.getLayerType() === layerIndex
           )
+          if (layer?.getLayerType() == FeatureLayerType.TrackDirection) {
+            console.log(features)
+          }
+
           layer?.getSource()?.addFeatures(features)
         })
 

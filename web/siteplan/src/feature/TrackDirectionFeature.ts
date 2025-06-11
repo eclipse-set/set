@@ -18,7 +18,8 @@ import { createFeature, FeatureType } from './FeatureInfo'
  */
 export default class TrackDirectionFeature extends LageplanFeature<Track> {
   getFeatures (model: SiteplanState): Feature<Geometry>[] {
-    return this.getObjectsModel(model).map(element => this.createTrackDirectionArrowFeature(element))
+    const res = this.getObjectsModel(model).map(element => this.createTrackDirectionArrowFeature(element))
+    return res
   }
 
   protected getObjectsModel (model: SiteplanState): Track[] {
@@ -30,33 +31,46 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
   }
 
   private createTrackDirectionArrowFeature (track: Track): Feature<Geometry> {
+    const drawer = new SvgDrawTrackDirectionArrow(this.svgService.getCatalogService())
+    const svg = drawer.drawSVG(track, undefined)
+
+    const icon = new OlIcon({
+      opacity: 1,
+      src: 'data:image/svg+xml;utf8,' + svg.content.outerHTML,
+      rotateWithView: true
+    })
+
+    icon.setDisplacement([track.sections[0].segments[0].positions[0].x, track.sections[0].segments[0].positions[0].y])
+
     const feature = createFeature(
       FeatureType.TrackDirectionArrow,
-      track,
-      new OlPoint([track.sections[0].segments[0].positions[0].x, track.sections[0].segments[0].positions[0].y]),
+      {
+        guid: 'TestGuid',
+        data: track
+      },
+      // new OlPoint([track.sections[0].segments[0].positions[0].x + 5, track.sections[0].segments[0].positions[0].y + 5]),
+      new OlPoint([785329.388944429,6603565.665619974]),
       undefined // no label
     )
 
-    // const style =  this.svgService.getFeatureStyle(track, FeatureType.TrackDirectionArrow)
+    // const style =  this.svgService.getFeatureStyle(
+    // track, FeatureType.TrackDirectionArrow)
 
-    const drawer = new SvgDrawTrackDirectionArrow(this.svgService.getCatalogService())
-    const svg = drawer.drawSVG(track, undefined)
     // const svg = this.drawFeatureSVG(drawData.data, .......
     // drawData.featureType, drawData.label)
     // const svg = this.getObjectSvg(track)
-    const style = new OlStyle({
-      image: new OlIcon({
-        opacity: 1,
-        src: 'data:image/svg+xml;utf8,' + svg.content.outerHTML,
-        rotateWithView: true
-      })
-    })
+    // "x" : 785329.388944429,
+    //       "y" : 6603565.665619974,
 
     this.createArrowBBox(feature, track, svg)
     feature.setStyle((_, resolution) => {
       const baseResolution = this.map.getView().getResolutionForZoom(this.svgService.getBaseZoomLevel())
       const scale = baseResolution / resolution
+      const style = new OlStyle({
+        geometry: new OlPoint([785329.388944429,6603565.665619974])
 
+      // image: icon
+      })
       // Rotate the signal labels according to the map rotation
       // signalMount.attachedSignals.forEach(mount =>
       //  updateLabelOrientation(mount.label, signalMount.position.rotation, this.map))
@@ -65,9 +79,13 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
 
       // Rescale the feature according to the current zoom level
       // to keep a constant size
-      style.getImage()?.setScale(scale)
-      // Rotate the feature
-      style.getImage()?.setRotation(((0.0) * Math.PI) / 180) // TODO
+      // style.getImage()?.setScale(scale)
+      // // Rotate the feature
+      // style.getImage()?.setRotation(((0.0) * Math.PI) / 180) // TODO
+      // style.getImage()?.setDisplacement([
+      //   track.sections[0].segments[0].positions[0].x + 5,
+      //   track.sections[0].segments[0].positions[0].y + 5
+      // ]) // TODO
       return style
     })
     return feature
@@ -103,10 +121,10 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
     }
   }
 
-  setFeatureColor (feature: Feature<Geometry>, color?: number[], partID?: string): Feature<Geometry> {
+  /* setFeatureColor (feature: Feature<Geometry>, color?: number[], partID?: string): Feature<Geometry> {
     // TODO allow new colors!
     return feature
-  }
+  } */
 
   /* protected setFeatureRegionColor (
     feature: Feature<Geometry>,
