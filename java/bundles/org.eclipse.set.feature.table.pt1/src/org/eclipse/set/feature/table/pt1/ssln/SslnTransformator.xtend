@@ -129,7 +129,6 @@ class SslnTransformator extends AbstractPlanPro2TableModelTransformator {
 			null
 		)
 
-//		val getWKrGspElementFunc = 
 		// G: Ssln.Element.Weiche_Gs.frei_stellbar
 		fillIterable(
 			cols.getColumn(Weiche_Gs_frei_stellebar),
