@@ -764,7 +764,7 @@ npm/npmjs/@aashutoshrathi/word-wrap/1.2.6, MIT, approved, #9212
 npm/npmjs/@babel/helper-string-parser/7.27.1, MIT, approved, clearlydefined
 npm/npmjs/@babel/helper-validator-identifier/7.27.1, MIT, approved, clearlydefined
 npm/npmjs/@babel/parser/7.27.4, MIT, approved, #21023
-npm/npmjs/@babel/types/7.27.3, MIT, approved, clearlydefined
+npm/npmjs/@babel/types/7.27.3, MIT, approved, #21827
 npm/npmjs/@discoveryjs/json-ext/0.6.3, MIT, approved, #17984
 npm/npmjs/@esbuild/aix-ppc64/0.25.0, Apache-2.0 AND MIT AND BSD-3-Clause AND (BSD-2-Clause AND BSD-3-Clause), approved, #19970
 npm/npmjs/@esbuild/android-arm/0.25.0, Apache-2.0 AND MIT AND BSD-3-Clause AND (BSD-2-Clause AND BSD-3-Clause), approved, #19547
