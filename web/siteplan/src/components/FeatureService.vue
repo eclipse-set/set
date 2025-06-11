@@ -186,9 +186,6 @@ export default class FeatureService extends Vue {
           const layer = this.featureLayers.find(
             c => c.getLayerType() === layerIndex
           )
-          if (layer?.getLayerType() == FeatureLayerType.TrackDirection) {
-            console.log(features)
-          }
 
           layer?.getSource()?.addFeatures(features)
         })

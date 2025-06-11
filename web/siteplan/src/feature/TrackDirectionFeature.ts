@@ -31,6 +31,11 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
   }
 
   private createTrackDirectionArrowFeature (track: Track): Feature<Geometry> {
+    const geometry = new OlPoint([
+      track.sections[0].segments[0].positions[0].x,
+      track.sections[0].segments[0].positions[0].y
+    ])
+
     const drawer = new SvgDrawTrackDirectionArrow(this.svgService.getCatalogService())
     const svg = drawer.drawSVG(track, undefined)
 
@@ -49,7 +54,7 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
         data: track
       },
       // new OlPoint([track.sections[0].segments[0].positions[0].x + 5, track.sections[0].segments[0].positions[0].y + 5]),
-      new OlPoint([785329.388944429,6603565.665619974]),
+      geometry,
       undefined // no label
     )
 
@@ -63,7 +68,15 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
     //       "y" : 6603565.665619974,
 
     this.createArrowBBox(feature, track, svg)
-    feature.setStyle((_, resolution) => {
+
+    feature.setStyle(_ => {
+      return new OlStyle({
+        image: icon,
+        geometry: geometry
+      })
+    })
+
+    /* feature.setStyle((_, resolution) => {
       const baseResolution = this.map.getView().getResolutionForZoom(this.svgService.getBaseZoomLevel())
       const scale = baseResolution / resolution
       const style = new OlStyle({
@@ -87,7 +100,7 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
       //   track.sections[0].segments[0].positions[0].y + 5
       // ]) // TODO
       return style
-    })
+    }) */
     return feature
   }
 
