@@ -60,7 +60,16 @@ class PlazModelServiceImpl implements PlazModelService {
 
 		val errors = <PlazCheck, List<PlazError>>newHashMap
 		plazChecks.forEach [
-			errors.put(it, it.run(modelSession))
+			try {
+				errors.put(it, it.run(modelSession))
+			} catch (Exception e) {
+				val error = PlazFactory.eINSTANCE.createPlazError
+				error.severity = ValidationSeverity.ERROR
+				error.type = it.checkType
+				error.message = e.message
+				errors.put(it, #[error])
+			}
+			
 		]
 		val entries = <ValidationProblem>newLinkedList
 		for (var m = 0, var n = 0; m < errors.size; n +=

@@ -23,6 +23,7 @@ import org.eclipse.set.model.planpro.Basisobjekte.Bereich_Objekt_Teilbereich_Att
 import org.eclipse.set.model.plazmodel.PlazError;
 import org.eclipse.set.model.plazmodel.PlazFactory;
 import org.eclipse.set.model.validationreport.ValidationSeverity;
+import org.eclipse.set.ppmodel.extensions.EObjectExtensions;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.osgi.service.component.annotations.Component;
 
@@ -57,6 +58,10 @@ public class TeilbereichOverlapCheck extends AbstractPlazContainerCheck
 			final List<List<Bereich_Objekt_Teilbereich_AttributeGroup>> sameTopKanteTeilBereich = bo
 					.getBereichObjektTeilbereich()
 					.stream()
+					.filter(botb -> EObjectExtensions
+							.getNullableObject(botb,
+									e -> e.getIDTOPKante().getValue())
+							.isPresent())
 					.collect(Collectors.groupingBy(
 							botb -> botb.getIDTOPKante().getValue()))
 					.values()
