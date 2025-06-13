@@ -4,7 +4,7 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
  * 
  */
@@ -25,6 +25,7 @@ import org.eclipse.set.model.planpro.Balisentechnik_ETCS.ETCS_Signal
 import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Nichthaltfall
+import org.eclipse.set.model.planpro.Geodaten.Strecke
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Kl
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Ne14
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.OzBk
@@ -40,27 +41,35 @@ import org.eclipse.set.model.planpro.Signalbegriffe_Struktur.Signalbegriff_ID_Ty
 import org.eclipse.set.model.planpro.Signale.ENUMAnschaltdauer
 import org.eclipse.set.model.planpro.Signale.Signal
 import org.eclipse.set.model.tablemodel.ColumnDescriptor
+import org.eclipse.set.model.tablemodel.TableRow
+import org.eclipse.set.model.tablemodel.extensions.CellContentExtensions
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.ppmodel.extensions.utils.Case
 import org.eclipse.set.ppmodel.extensions.utils.TopGraph
+import org.eclipse.set.utils.events.TableDataChangeEvent
+import org.eclipse.set.utils.math.AgateRounding
+import org.eclipse.set.utils.table.Pt1TableChangeProperties
 import org.eclipse.set.utils.table.TMFactory
+import org.osgi.service.event.EventAdmin
 
 import static org.eclipse.set.feature.table.pt1.sszs.SszsColumns.*
 import static org.eclipse.set.model.planpro.Signale.ENUMAutoEinstellung.*
 import static org.eclipse.set.model.planpro.Signale.ENUMFiktivesSignalFunktion.*
 import static org.eclipse.set.model.planpro.Signale.ENUMSignalArt.*
+import static org.eclipse.set.ppmodel.extensions.geometry.GEOKanteGeometryExtensions.*
 
 import static extension org.eclipse.set.ppmodel.extensions.AussenelementansteuerungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FstrNichthaltfallExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.PunktObjektStreckeExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.MultiContainer_AttributeGroupExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.StellBereichExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.utils.CollectionExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.utils.CacheUtils.*
 import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
 import static extension org.eclipse.set.utils.math.DoubleExtensions.*
-import org.eclipse.set.utils.math.AgateRounding
 
 /**
  * Table transformation for ETCS Melde- und Kommandoanschaltung Muka Signale (Sszs).
@@ -69,12 +78,17 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 	static BigDecimal MAX_TOP_DISTANCE_IN_METER = BigDecimal.ZERO
 	static Range<Double> FMA_KOMPONENT_DISTANCE_RANGE = Range.of(-3.0, 350.0);
 	TopologicalGraphService topGraphService
+	EventAdmin eventAdmin
+	String shortcut
 
 	new(Set<ColumnDescriptor> cols,
 		EnumTranslationService enumTranslationService,
-		TopologicalGraphService topGraphService) {
+		TopologicalGraphService topGraphService,
+		EventAdmin eventAdmin, String shortcut) {
 		super(cols, enumTranslationService)
 		this.topGraphService = topGraphService
+		this.eventAdmin = eventAdmin
+		this.shortcut = shortcut
 	}
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
@@ -182,24 +196,34 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 				)
 			)
 
+			val streckeAnKm = getStreckeAndKm(refSignal)
+
 			// C: Sszs.Signal.Standort.Strecke
-			fill(
+			fillIterable(
 				row,
 				cols.getColumn(Strecke),
 				refSignal,
 				[
-					punktObjektStrecke.unique.strecke.bezeichnung.
-						bezeichnungStrecke.wert
-				]
+					streckeAnKm.map[key]
+				],
+				MIXED_STRING_COMPARATOR
 			)
 
 			// D: Sszs.Signal.Standort.km
-			fill(
-				row,
-				cols.getColumn(Standort_Km),
-				refSignal,
-				[punktObjektStrecke.unique.streckeKm.wert]
-			)
+			if (!isFindGeometryComplete || streckeAnKm.flatMap[value].exists [
+				!nullOrEmpty
+			]) {
+				fillIterable(
+					row,
+					cols.getColumn(Standort_Km),
+					refSignal,
+					[streckeAnKm.flatMap[value]],
+					null
+				)
+			} else {
+				val routeThroughBereichObjekt = refSignal.singlePoint.streckenThroughBereichObjekt
+				row.fillStreckeKm(refSignal, routeThroughBereichObjekt)
+			}
 
 			// E: Sszs.Signalisierung.Zs_1
 			fillConditional(
@@ -366,9 +390,11 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 					[IDETCSGefahrpunkt2?.value !== null],
 					[
 						val distanceToETCSGefahrpunkt = distanceToSignal(
-							IDETCSGefahrpunkt?.value?.IDMarkanteStelle?.value).toTableDecimal
+							IDETCSGefahrpunkt?.value?.IDMarkanteStelle?.value).
+							toTableDecimal
 						val distanceToETCSGefahrpunkt2 = distanceToSignal(
-							IDETCSGefahrpunkt2?.value?.IDMarkanteStelle?.value).toTableDecimal
+							IDETCSGefahrpunkt2?.value?.IDMarkanteStelle?.value).
+							toTableDecimal
 						return '''«distanceToETCSGefahrpunkt»(«distanceToETCSGefahrpunkt2»)'''
 					]
 				),
@@ -462,9 +488,9 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 						return ""
 					}
 					val distanceValue = distance.get
-					return distanceValue <= 5 ||
-						distanceValue >= -3 ? "0" : AgateRounding.roundUp(
-						distanceValue).toString
+					return distanceValue <= 5 || distanceValue >= -3
+						? "0"
+						: AgateRounding.roundUp(distanceValue).toString
 				]
 			)
 
@@ -702,9 +728,8 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 			if (distances.compareTo(BigDecimal.ZERO) == 0) {
 				return fma -> 0.0
 			}
-			return topGraph.isInWirkrichtungOfSignal(signal, fma)
-				? fma -> distances.doubleValue
-				: fma -> -distances.doubleValue
+			return topGraph.isInWirkrichtungOfSignal(signal, fma) ? fma ->
+				distances.doubleValue : fma -> -distances.doubleValue
 		].filterNull
 		if (distanceToSignal.empty) {
 			return Optional.empty
@@ -746,5 +771,42 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 		}
 		return Optional.ofNullable(
 			begriffeGeschalteValues.contains(Boolean.TRUE))
+	}
+	
+		// IMPROVE: Make the thread in this function generic.
+	// It do same thing like fill function for Banking and Sidedistance
+	private def void fillStreckeKm(TableRow row, Signal signal,
+		List<Strecke> routeThroughBereichObjekt) {
+		val threadName = '''«shortcut.toLowerCase»/StreckKm/«signal.cacheKey»'''
+		val containerType = signal.container.containerType
+		new Thread([
+			try {
+				if (!isFindGeometryComplete) {
+					fill(
+						row,
+						cols.getColumn(Standort_Km),
+						signal,
+						[
+							CellContentExtensions.HOURGLASS_ICON
+						]
+					)
+				}
+				var streckeKms = signal.getStreckeKm(routeThroughBereichObjekt)
+				while (streckeKms === null) {
+					streckeKms = signal.getStreckeKm(routeThroughBereichObjekt)
+					Thread.sleep(5000)
+				}
+				val changeProperties = new Pt1TableChangeProperties(
+					containerType, row, cols.getColumn(Standort_Km), streckeKms,
+					ITERABLE_FILLING_SEPARATOR)
+				val updateValuesEvent = new TableDataChangeEvent(
+					shortcut.toLowerCase, changeProperties)
+				// Send update event 
+				TableDataChangeEvent.sendEvent(eventAdmin, updateValuesEvent)
+			} catch (InterruptedException exc) {
+				Thread.currentThread.interrupt
+			}
+
+		], threadName).start
 	}
 }

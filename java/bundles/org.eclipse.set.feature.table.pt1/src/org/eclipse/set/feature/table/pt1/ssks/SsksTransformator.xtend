@@ -22,7 +22,6 @@ import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Unterbringung
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
-import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_Strecke_AttributeGroup
 import org.eclipse.set.model.planpro.Geodaten.Strecke
 import org.eclipse.set.model.planpro.Geodaten.Technischer_Punkt
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Hl10
@@ -1595,77 +1594,5 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 			}
 
 		], threadName).start
-	}
-
-	private def List<Pair<String, List<String>>> getStreckeAndKm(
-		Signal signal) {
-		if (signal.punktObjektStrecke.nullOrEmpty) {
-			return #[]
-		}
-
-		val getStreckeFunc = [ Punkt_Objekt_Strecke_AttributeGroup pos |
-			pos.IDStrecke?.value?.bezeichnung?.bezeichnungStrecke?.wert ?: ""
-		]
-		if (signal.punktObjektStrecke.size === 1) {
-			return #[getStreckeFunc.apply(signal.punktObjektStrecke.first) ->
-				#[signal.punktObjektStrecke.first.streckeKm.wert]]
-		}
-
-		val kmMassgebends = signal.punktObjektStrecke.filter [
-			kmMassgebend?.wert === true
-		]
-		if (!kmMassgebends.nullOrEmpty) {
-			return kmMassgebends.map [
-				getStreckeFunc.apply(it) -> #[streckeKm.wert]
-			].toList
-		}
-
-		val routeThroughBereichObjekt = signal.singlePoint.
-			streckenThroughBereichObjekt
-
-		if (!isFindGeometryComplete) {
-			return routeThroughBereichObjekt.map [
-				bezeichnung?.bezeichnungStrecke?.wert ?: "" -> #[]
-			]
-		}
-		return routeThroughBereichObjekt.map [ route |
-			route.bezeichnung?.bezeichnungStrecke?.wert ?: "" ->
-				signal.getStreckeKm(#[route])
-		].toList
-
-	}
-
-	private def List<String> getStreckeKm(Signal signal,
-		List<Strecke> routeThroughBereichObjekt) {
-		if (!isFindGeometryComplete) {
-			return null
-		}
-		val kmMassgebend = signal.punktObjektStrecke.filter [
-			kmMassgebend?.wert === true
-		]
-		if (!kmMassgebend.nullOrEmpty) {
-			return kmMassgebend.map[streckeKm.wert].toList
-		}
-
-		val result = routeThroughBereichObjekt.map [ route |
-			try {
-				return signal.singlePoint.getStreckeKmThroughProjection(route).
-					toTableDecimal
-			} catch (Exception e) {
-				LOGGER.error(
-					"Can't find the Signal route km through projection point on route",
-					e)
-				return signal.punktObjektStrecke.findFirst [ pos |
-					pos.IDStrecke.value == route
-				]?.streckeKm?.wert
-			}
-		].filterNull.toList
-
-		if (result.isNullOrEmpty) {
-			return signal.punktObjektStrecke.map[streckeKm.wert].toList
-		}
-
-		return result
-
 	}
 }

@@ -131,7 +131,7 @@ class SignalRahmenExtensions extends BasisObjektExtensions {
 	 */
 	def static Signal_Befestigung getSignalBefestigung(
 		Signal_Rahmen signalRahmen) {
-		return signalRahmen.IDSignalBefestigung?.value
+		return signalRahmen?.IDSignalBefestigung?.value
 	}
 
 	/**
