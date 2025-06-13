@@ -18,11 +18,11 @@ import org.eclipse.set.basis.constants.ToolboxConstants
 import org.eclipse.set.basis.graph.TopPoint
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.core.services.graph.BankService
-import org.eclipse.set.core.services.graph.TopologicalGraphService
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Unterbringung
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
+import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_Strecke_AttributeGroup
 import org.eclipse.set.model.planpro.Geodaten.Strecke
 import org.eclipse.set.model.planpro.Geodaten.Technischer_Punkt
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Hl10
@@ -94,6 +94,7 @@ import org.eclipse.set.utils.events.TableDataChangeEvent
 import org.eclipse.set.utils.table.Pt1TableChangeProperties
 import org.eclipse.set.utils.table.TMFactory
 import org.eclipse.set.utils.table.TableError
+import org.locationtech.jts.geom.Coordinate
 import org.osgi.service.event.EventAdmin
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -127,8 +128,6 @@ import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.CacheUtils.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
-import static extension org.eclipse.set.utils.math.DoubleExtensions.*
-import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_Strecke_AttributeGroup
 
 /**
  * Table transformation for a Signaltabelle (Ssks).
@@ -148,7 +147,6 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 		ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_SONSTIGE_NIEDRIG,
 		ENUM_BEFESTIGUNG_ART_SONDERANORDNUNG_MAST_HOCH,
 		ENUM_BEFESTIGUNG_ART_SONDERANORDNUNG_MAST_NIEDRIG]
-	val TopologicalGraphService topGraphService
 	val BankService bankingService
 	val EventAdmin eventAdmin
 	val String tableShortCut
@@ -156,10 +154,9 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 	// Container the thread, which will be refresh table after all thread is done
 	new(Set<ColumnDescriptor> cols,
 		EnumTranslationService enumTranslationService,
-		TopologicalGraphService topGraphService, BankService bankingService,
+		BankService bankingService,
 		EventAdmin eventAdmin, String tableShortCut) {
 		super(cols, enumTranslationService)
-		this.topGraphService = topGraphService
 		this.bankingService = bankingService
 		this.eventAdmin = eventAdmin
 		this.tableShortCut = tableShortCut
@@ -568,7 +565,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							signal,
 							[controlBox !== null],
 							[
-								distance(controlBox).toTableDecimal
+								distance(controlBox).toTableIntegerAgateUp
 							]
 						)
 
@@ -1495,22 +1492,23 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 		return '''«FOR bemerkung : bemerkungen SEPARATOR ", "»«bemerkung»«ENDFOR»'''
 	}
 
-	private def double distance(
+	private def BigDecimal distance(
 		Punkt_Objekt punktObjekt,
 		Unterbringung unterbringung
 	) {
+		val c1 = punktObjekt.coordinate
+		var Coordinate c2 = null
 		if (unterbringung.punktObjektTOPKante !== null) {
-			val points = punktObjekt.singlePoints.map[new TopPoint(it)]
-			val pb = new TopPoint(unterbringung.punktObjektTOPKante)
-			return points.map[topGraphService.findShortestDistance(it, pb)].
-				filter [
-					present
-				].map[get.doubleValue].min
+			c2 = unterbringung.punktObjektTOPKante.coordinate.coordinate
 		} else {
-			val c1 = punktObjekt.coordinate
-			val c2 = unterbringung.geoPunkt.coordinate
-			return c1.distance(c2)
+			c2 = unterbringung.geoPunkt.coordinate
 		}
+		if (c2 === null) {
+			throw new IllegalArgumentException(
+				String.format("Can't find coordinate of Unterbringung: %s",
+					unterbringung.identitaet.wert))
+		}
+		return BigDecimal.valueOf(c1.distance(c2))
 	}
 
 	private def void fillUeberhoehung(TableRow row, Signal signal) {
