@@ -50,9 +50,11 @@ class FootnoteTransformation {
 		val signalRahmenFootNotes = signal?.signalRahmen?.flatMap [
 			IDBearbeitungsvermerk
 		]
-		val signalBefestigungFootNotes = signal?.signalRahmen?.flatMap [
-			signalBefestigung?.objectFootnotes
-		].filterNull
+		val signalBefestigungFootNotes = signal?.signalRahmen?.map [
+			signalBefestigung
+		].filterNull.flatMap [
+			objectFootnotes
+		]
 		return #[signalFootNotes, signalRahmenFootNotes,
 			signalBefestigungFootNotes].filterNull.flatten
 	}
@@ -60,7 +62,7 @@ class FootnoteTransformation {
 	private def dispatch Iterable<ID_Bearbeitungsvermerk_TypeClass> getObjectFootnotes(
 		Signal_Befestigung signalBefestigung) {
 		if (signalBefestigung === null) {
-			return null
+			return #[]
 		}
 		val befestigungFootnotes = signalBefestigung?.IDBearbeitungsvermerk
 		if (signalBefestigung?.IDSignalBefestigung?.value !== null) {
