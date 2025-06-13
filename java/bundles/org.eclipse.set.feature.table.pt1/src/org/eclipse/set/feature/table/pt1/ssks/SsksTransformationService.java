@@ -18,7 +18,6 @@ import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.core.services.graph.BankService;
-import org.eclipse.set.core.services.graph.TopologicalGraphService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableTransformationService;
@@ -53,8 +52,6 @@ public final class SsksTransformationService extends
 	@Reference
 	private EnumTranslationService enumTranslationService;
 	@Reference
-	private TopologicalGraphService topGraphService;
-	@Reference
 	private BankService bankingService;
 
 	@Reference
@@ -70,8 +67,7 @@ public final class SsksTransformationService extends
 	@Override
 	public AbstractPlanPro2TableModelTransformator createTransformator() {
 		return new SsksTransformator(cols, enumTranslationService,
-				topGraphService, bankingService, eventAdmin,
-				messages.ToolboxTableNameSsksShort);
+				bankingService, eventAdmin, messages.ToolboxTableNameSsksShort);
 	}
 
 	@Override

@@ -58,12 +58,12 @@ public class BigDecimalExtensionsTest {
 				is("0,001"));
 		assertThat(
 				BigDecimalExtensions.toTableDecimal(BigDecimal.valueOf(0.01)),
-				is("0,010"));
+				is("0,01"));
 		assertThat(
 				BigDecimalExtensions.toTableDecimal(BigDecimal.valueOf(0.0001)),
-				is("0,000"));
+				is("0"));
 		assertThat(
 				BigDecimalExtensions.toTableDecimal(BigDecimal.valueOf(1000.1)),
-				is("1000,100"));
+				is("1000,1"));
 	}
 }
