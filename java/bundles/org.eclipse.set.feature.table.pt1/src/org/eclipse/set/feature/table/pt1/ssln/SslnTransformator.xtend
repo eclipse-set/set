@@ -45,7 +45,7 @@ import static extension org.eclipse.set.ppmodel.extensions.WKrGspKomponenteExten
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element
 
 /**
- * Table transformation for a Nahbedienungstabelle (SSLN).
+ * Table transformation for a Nahbedienungstabelle (Ssln).
  * 
  * @author Schaefer
  */
@@ -118,7 +118,10 @@ class SslnTransformator extends AbstractPlanPro2TableModelTransformator {
 			nbZone,
 			[
 				NBZoneGrenzen.filter [
-					NBGrenzeArt?.wert === ENUMNBGrenzeArt.ENUMNB_GRENZE_ART_ESTW_BEREICH || NBGrenzeArt?.wert === ENUMNBGrenzeArt.ENUMNB_GRENZE_ART_NB_ZONE
+					NBGrenzeArt?.wert ===
+						ENUMNBGrenzeArt.ENUMNB_GRENZE_ART_ESTW_BEREICH ||
+						NBGrenzeArt?.wert ===
+							ENUMNBGrenzeArt.ENUMNB_GRENZE_ART_NB_ZONE
 				].map [
 					markanterPunkt?.markanteStelle?.toBezeichnungGrenze(it)
 				].filterNull
@@ -132,12 +135,20 @@ class SslnTransformator extends AbstractPlanPro2TableModelTransformator {
 			nbZone,
 			[
 				val nBZoneElemente = NBZoneElemente.filter [
-					NBZoneElementAllg?.freieStellbarkeit?.wert &&
-						nbElement instanceof W_Kr_Gsp_Komponente
+					NBZoneElementAllg?.freieStellbarkeit?.wert
 				]
 
 				nBZoneElemente.filterMultipleNbElements.map [
-					'''«(nbElement as W_Kr_Gsp_Komponente)?.WKrGspElement?.bezeichnung?.bezeichnungTabelle?.wert» («NBZoneElementAllg?.NBRueckgabevoraussetzung?.translate»)'''
+					val zonenElement = nbElement
+					if (zonenElement instanceof W_Kr_Gsp_Komponente) {
+						return it -> zonenElement.WKrGspElement
+					}
+					if (zonenElement instanceof W_Kr_Gsp_Element) {
+						return it -> zonenElement
+					}
+					return null
+				].filterNull.toSet.map [
+					'''«value?.bezeichnung?.bezeichnungTabelle?.wert» («key?.NBZoneElementAllg?.NBRueckgabevoraussetzung?.translate»)'''
 				]
 			],
 			MIXED_STRING_COMPARATOR,
@@ -149,8 +160,10 @@ class SslnTransformator extends AbstractPlanPro2TableModelTransformator {
 			cols.getColumn(Weiche_Gs_verschlossen),
 			nbZone,
 			[
-				val zoneElements = NBZoneElemente.filter[!NBZoneElementAllg?.freieStellbarkeit?.wert]
-				val wKrGspElements = zoneElements.map[ 
+				val zoneElements = NBZoneElemente.filter [
+					!NBZoneElementAllg?.freieStellbarkeit?.wert
+				]
+				val wKrGspElements = zoneElements.map [
 					val zonenElement = nbElement;
 					if (zonenElement instanceof W_Kr_Gsp_Komponente) {
 						return new Pair(it, zonenElement.WKrGspElement)
@@ -160,7 +173,7 @@ class SslnTransformator extends AbstractPlanPro2TableModelTransformator {
 					}
 					return null
 				].filterNull
-				
+
 				return wKrGspElements.map [
 					'''«second.bezeichnung?.bezeichnungTabelle?.wert» («first?.NBZoneElementAllg?.WGspLage?.translate ?: "-"»)'''
 				]
