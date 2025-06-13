@@ -53,6 +53,7 @@ import org.xml.sax.SAXException;
  */
 public class SiteplanXSL {
 	private static final String SITEPLAN_XSL_TEMPLATE = "data/export/pdf/siteplan_template.xsl"; //$NON-NLS-1$
+	private static final double PAGE_WIDTH_TOLERANCE = 50.0;
 	private static final List<SiteplanXSLPage> avaiablePageSize = List.of(
 			getSiteplanPageA0(), getSiteplanPageA1(), getSiteplanPageA2(),
 			getSiteplanPageA3());
@@ -68,25 +69,34 @@ public class SiteplanXSL {
 		return pageStyle;
 	}
 
-	private final List<BufferedImage> images;
-	private final String modelState;
+	private final BufferedImage image;
 	private final double ppm;
+	private final int pagePosition;
+	private final String pagePostfix;
+	private final double customPageWidth;
 
 	/**
-	 * @param images
-	 *            the sheet cut images
+	 * @param image
+	 *            the sheet cut image
 	 * @param ppm
 	 *            pixel per physical meter in Openlayer at scale
 	 *            {@link ToolboxConfiguration#getSiteplanExportScale()}
 	 * @param modelState
 	 *            the table state (initial/final/diff)
+	 * @param pageIndex
+	 *            the page index
+	 * @param pagePostfix
+	 *            the page indes postfix (+/-)
 	 */
-	public SiteplanXSL(final List<BufferedImage> images, final double ppm,
-			final String modelState) {
-		this.images = images;
-		this.modelState = modelState;
+	public SiteplanXSL(final BufferedImage image, final double ppm,
+			final String modelState, final int pageIndex,
+			final String pagePostfix) {
+		this.image = image;
 		this.ppm = ppm;
 		this.pageStyle = determinePageStyle();
+		this.pagePosition = pageIndex;
+		this.pagePostfix = pagePostfix;
+		this.customPageWidth = getCustomPageWidth();
 	}
 
 	/**
@@ -120,7 +130,22 @@ public class SiteplanXSL {
 				.setSignificantSize(pageStyle.getSignificantInformation())
 				.setFoldingMarkTemplates(pageStyle.getFoldingMarks())
 				.setFoldingMarkRightRegionWidth(pageStyle.getFoldingMarks())
-				.setWatermarkContent().doc;
+				.setPagePosition().doc;
+	}
+
+	private double getCustomPageWidth() {
+		final double imageWidthMilimet = pxToMilimeter(image.getWidth(), ppm);
+		final Optional<SiteplanXSLPage> relevantPageWidth = avaiablePageSize
+				.stream()
+				.filter(page -> Math.abs(page.getRegionBody().width()
+						- imageWidthMilimet) < PAGE_WIDTH_TOLERANCE)
+				.findFirst();
+
+		if (relevantPageWidth.isEmpty()) {
+			return pageStyle.getPageDIN().getPageWidth() + imageWidthMilimet
+					- pageStyle.getRegionBody().width();
+		}
+		return relevantPageWidth.get().getPageDIN().getPageWidth();
 	}
 
 	private SiteplanXSL setPageSize(final PageDIN pageDIN)
@@ -128,7 +153,7 @@ public class SiteplanXSL {
 		setXSLElementValue(doc, XSL_ATTRIBUTE, ATTR_PAGE_HEIGHT,
 				pageDIN.getPageHeight());
 		setXSLElementValue(doc, XSL_ATTRIBUTE, ATTR_PAGE_WIDTH,
-				pageDIN.getPageWidth());
+				customPageWidth);
 		return this;
 	}
 
@@ -137,7 +162,7 @@ public class SiteplanXSL {
 		setXSLElementValue(doc, XSL_VARIABLE, REGION_BODY_HEIGHT,
 				regionBody.height());
 		setXSLElementValue(doc, XSL_VARIABLE, REGION_BODY_WIDTH,
-				regionBody.width());
+				pxToMilimeter(image.getWidth(), ppm));
 		return this;
 	}
 
@@ -158,22 +183,13 @@ public class SiteplanXSL {
 		return this;
 	}
 
-	private SiteplanXSL setWatermarkContent() {
-		if (modelState != null) {
-			setXSLElementValue(doc, XSL_VARIABLE, WATER_MARK_TEMPLATE_NAME,
-					modelState);
-		}
-		return this;
-	}
-
 	private SiteplanXSL setFoldingMarkTemplates(final List<FoldingMark> marks)
 			throws NullPointerException {
-		final List<FoldingMark> topBottomMarks = marks.stream()
-				.filter(mark -> mark.position() == BEFORE
-						|| mark.position() == AFTER)
-				.toList();
-		if (!topBottomMarks.isEmpty()) {
-			createFoldingMarkTopBottomTemplate(topBottomMarks.getFirst());
+		final List<Double> customFolding = SiteplanXSLExtension
+				.calculateCustomFoldingTopBottom(customPageWidth);
+		if (customFolding != null && !customFolding.isEmpty()) {
+			createFoldingMarkTopBottomTemplate(
+					new FoldingMark(AFTER, customFolding));
 		}
 
 		final List<FoldingMark> sideMarks = marks.stream()
@@ -189,6 +205,7 @@ public class SiteplanXSL {
 
 	private void createFoldingMarkTopBottomTemplate(
 			final FoldingMark topBottomMark) {
+
 		final Element topBottomMarkTemplate = getFoldingMarkTemplate(
 				SITEPLAN_FOLDING_MARK_TOP_BOTTOM);
 
@@ -226,6 +243,9 @@ public class SiteplanXSL {
 	}
 
 	private void createFoldingMarkSideTemplate(final FoldingMark sideMark) {
+		if (sideMark.distances().isEmpty()) {
+			return;
+		}
 		final Element sideMarkTemplate = getFoldingMarkTemplate(
 				SITEPLAN_FOLDING_MARK_SIDE);
 
@@ -294,26 +314,20 @@ public class SiteplanXSL {
 		return this;
 	}
 
-	private SiteplanXSLPage determinePageStyle() {
-		final Optional<Integer> maxHeightPx = images.stream()
-				.map(image -> Integer.valueOf(image.getHeight()))
-				.max(Integer::compare);
+	private SiteplanXSL setPagePosition() {
+		setXSLElementValue(doc, XSL_VARIABLE, SITEPLAN_PAGEPOSITION,
+				String.valueOf(pagePosition));
+		setXSLElementValue(doc, XSL_VARIABLE, SITEPLAN_PAGE_POSTFIX,
+				pagePostfix);
+		return this;
+	}
 
-		final Optional<Integer> maxWidthPx = images.stream()
-				.map(image -> Integer.valueOf(image.getWidth()))
-				.max(Integer::compare);
-		if (maxWidthPx.isEmpty() || maxHeightPx.isEmpty()) {
-			throw new IllegalArgumentException();
-		}
-		final double maxHeightMillimet = pxToMilimeter(
-				maxHeightPx.get().intValue(), ppm);
-		final double maxWidthMillimet = pxToMilimeter(
-				maxWidthPx.get().intValue(), ppm);
+	private SiteplanXSLPage determinePageStyle() {
+		final double imgHeightMillimet = pxToMilimeter(image.getHeight(), ppm);
 		return avaiablePageSize.stream()
-				.filter(page -> page.regionBody.width() >= maxWidthMillimet
-						&& page.regionBody.height() >= maxHeightMillimet)
-				.min((first, second) -> Double.compare(first.regionBody.width(),
-						second.regionBody.width()))
+				.filter(page -> page.regionBody.height() >= imgHeightMillimet)
+				.min((first, second) -> Double.compare(
+						first.regionBody.height(), second.regionBody.height()))
 				.orElse(null);
 	}
 
