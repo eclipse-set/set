@@ -188,7 +188,6 @@ public class CustomTableDiffService implements TableDiffService {
 	// oldCell.setContent(clone);
 	// }
 	// }
-	}
 
 	private static CompareCellContent createCompareCellContent(
 			final TableCell oldCell, final TableCell newCell) {
