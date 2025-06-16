@@ -4,7 +4,7 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
  * 
  */
@@ -241,8 +241,10 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 			cols.getColumn(ESTWZentraleinheit),
 			refWKrAnlage,
 			[
-				WKrGspElemente.flatMap [ gsp |
-					gsp.aussenelementansteuerung.IDInformationPrimaer
+				WKrGspElemente.filter [ gsp |
+					gsp?.aussenelementansteuerung !== null
+				].flatMap [ gsp |
+					gsp?.aussenelementansteuerung?.IDInformationPrimaer
 				].filterNull.map[value].filter(ESTW_Zentraleinheit).map [
 					oertlichkeitNamensgebend?.bezeichnung?.
 						oertlichkeitAbkuerzung?.wert

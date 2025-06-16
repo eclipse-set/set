@@ -4,7 +4,7 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
  * 
  */
@@ -196,7 +196,7 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 				)
 			)
 
-			val streckeAnKm = getStreckeAndKm(refSignal)
+			val streckeAndKm = getStreckeAndKm(refSignal)
 
 			// C: Sszs.Signal.Standort.Strecke
 			fillIterable(
@@ -204,20 +204,20 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 				cols.getColumn(Strecke),
 				refSignal,
 				[
-					streckeAnKm.map[key]
+					streckeAndKm.map[key]
 				],
 				MIXED_STRING_COMPARATOR
 			)
 
 			// D: Sszs.Signal.Standort.km
-			if (!isFindGeometryComplete || streckeAnKm.flatMap[value].exists [
+			if (!isFindGeometryComplete || streckeAndKm.flatMap[value].exists [
 				!nullOrEmpty
 			]) {
 				fillIterable(
 					row,
 					cols.getColumn(Standort_Km),
 					refSignal,
-					[streckeAnKm.flatMap[value]],
+					[streckeAndKm.flatMap[value]],
 					null
 				)
 			} else {
