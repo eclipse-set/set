@@ -178,7 +178,7 @@ public final class TableServiceImpl implements TableService {
 		final Table diffTable = diffService.createDiffTable(startTable,
 				zielTable);
 		if (modelSession.getToolboxFile()
-				.getRole() == ToolboxFileRole.SECONDARY_PLANNING) {
+				.getRole() == ToolboxFileRole.COMPARE_PLANNING) {
 			final Table sessionTable = getSessionTable(ToolboxFileRole.SESSION,
 					elementId, controlAreaId);
 			return diffService.createCompareTable(sessionTable, diffTable);

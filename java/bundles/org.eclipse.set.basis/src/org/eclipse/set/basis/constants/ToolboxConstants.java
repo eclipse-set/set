@@ -211,7 +211,7 @@ public final class ToolboxConstants {
 	 * The name for the temporary directory of a toolbox file used as a
 	 * secondary planning.
 	 */
-	public static final String TOOLBOX_DIRECTORY_NAME_SECONDARY_PLANNING = "secondaryplanning";
+	public static final String TOOLBOX_DIRECTORY_NAME_COMPARE_PLANNING = "compareplanning";
 
 	/**
 	 * The name for the temporary directory of a toolbox file used to start a

@@ -1043,7 +1043,7 @@ public class ModelSession implements IModelSession {
 			final String[] split = title.split(String.format("%s|%s", //$NON-NLS-1$
 					TITLE_SEPARATOR, TITLE_FILE_NAME_SEPARATOR));
 			final String titleProgrammPart = split[0];
-			if (toolboxFile.getRole() == ToolboxFileRole.SECONDARY_PLANNING) {
+			if (toolboxFile.getRole() == ToolboxFileRole.COMPARE_PLANNING) {
 				final String titleFileName = titleProgrammPart + TITLE_SEPARATOR
 						+ split[1];
 				if (filename == null) {

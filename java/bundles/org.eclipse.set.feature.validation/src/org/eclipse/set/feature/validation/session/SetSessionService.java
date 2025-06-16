@@ -132,7 +132,7 @@ public class SetSessionService implements SessionService {
 	@Override
 	public boolean close(final IModelSession modelSession,
 			final ToolboxFileRole role) {
-		if (role == ToolboxFileRole.SECONDARY_PLANNING) {
+		if (role == ToolboxFileRole.COMPARE_PLANNING) {
 			serviceProvider.broker.send(Events.CLOSE_SESSION, role);
 			loadedModels.remove(role);
 			return true;

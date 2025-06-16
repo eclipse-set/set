@@ -262,7 +262,7 @@ public class TableModelInstanceBodyDataProvider
 						oldContent.getFirstPlanCellContent(), properties));
 				break;
 			}
-			case SECONDARY_PLANNING: {
+			case COMPARE_PLANNING: {
 				clone.setSecondPlanCellContent(getNewContent(
 						oldContent.getSecondPlanCellContent(), properties));
 				break;

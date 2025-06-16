@@ -360,7 +360,7 @@ public final class ToolboxTableView extends BasePart {
 			final IModelSession modelSession) {
 		TableType transformTableType = tableType;
 		if (modelSession.getToolboxFile()
-				.getRole() == ToolboxFileRole.SECONDARY_PLANNING) {
+				.getRole() == ToolboxFileRole.COMPARE_PLANNING) {
 			transformTableType = TableType.DIFF;
 		}
 		return tableService.transformToTable(elementId, transformTableType,
@@ -766,12 +766,12 @@ public final class ToolboxTableView extends BasePart {
 		table = transformToTableModel(part.getElementId(), modelSession);
 
 		if (getSessionService()
-				.getLoadedSession(ToolboxFileRole.SECONDARY_PLANNING) != null
+				.getLoadedSession(ToolboxFileRole.COMPARE_PLANNING) != null
 				&& modelSession.getToolboxFile()
-						.getRole() != ToolboxFileRole.SECONDARY_PLANNING) {
+						.getRole() != ToolboxFileRole.COMPARE_PLANNING) {
 			table = transformToTableModel(part.getElementId(),
 					getSessionService().getLoadedSession(
-							ToolboxFileRole.SECONDARY_PLANNING));
+							ToolboxFileRole.COMPARE_PLANNING));
 		}
 		// flag creation
 		MApplicationElementExtensions.setViewState(part,

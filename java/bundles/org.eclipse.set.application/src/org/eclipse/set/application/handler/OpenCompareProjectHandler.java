@@ -26,7 +26,7 @@ import org.eclipse.swt.widgets.Shell;
  * 
  * @author Truong
  */
-public class OpenSecondProjectHandler extends OpenPlanProHandler {
+public class OpenCompareProjectHandler extends OpenPlanProHandler {
 	/**
 	 * @return can execute only when a project was loaded
 	 */
@@ -39,22 +39,22 @@ public class OpenSecondProjectHandler extends OpenPlanProHandler {
 	 * @return currently available only by development mode
 	 */
 	@Evaluate
-	public static boolean isOpenSecondProjectVisible() {
+	public static boolean isOpenCompareProjectVisible() {
 		return ToolboxConfiguration.isDevelopmentMode();
 	}
 
 	@Override
 	protected void closeOldSession(final Shell shell) {
-		final IModelSession secondarySession = sessionService
+		final IModelSession compareSession = sessionService
 				.getLoadedSession(getRole());
-		if (secondarySession != null) {
-			secondarySession.close();
+		if (compareSession != null) {
+			compareSession.close();
 		}
 	}
 
 	@Override
 	protected ToolboxFileRole getRole() {
-		return ToolboxFileRole.SECONDARY_PLANNING;
+		return ToolboxFileRole.COMPARE_PLANNING;
 	}
 
 	@Override

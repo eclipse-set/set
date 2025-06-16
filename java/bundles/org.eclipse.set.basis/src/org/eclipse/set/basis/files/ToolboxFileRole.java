@@ -38,9 +38,9 @@ public enum ToolboxFileRole {
 	FIRST_PLANNING_TO_IMPORT,
 
 	/**
-	 * The ToolboxFile is used as a secondary planning
+	 * The ToolboxFile is used as a compare planning
 	 */
-	SECONDARY_PLANNING,
+	COMPARE_PLANNING,
 
 	/**
 	 * The toolboxFile is used as a second planning to import
@@ -69,7 +69,7 @@ public enum ToolboxFileRole {
 			case IMPORT_FINAL_STATE -> ToolboxConstants.TOOLBOX_DIRECTORY_NAME_IMPORT_FINAL_STATE;
 			case FIRST_PLANNING_TO_IMPORT -> ToolboxConstants.TOOLBOX_DIRECTORY_NAME_FIRST_PLANNING_TO_IMPORT;
 			case SECOND_PLANNING_TO_IMPORT -> ToolboxConstants.TOOLBOX_DIRECTORY_NAME_SECOND_PLANNING_TO_IMPORT;
-			case SECONDARY_PLANNING -> ToolboxConstants.TOOLBOX_DIRECTORY_NAME_SECONDARY_PLANNING;
+			case COMPARE_PLANNING -> ToolboxConstants.TOOLBOX_DIRECTORY_NAME_COMPARE_PLANNING;
 			default -> ToolboxConstants.TOOLBOX_DIRECTORY_NAME_SESSION;
 		};
 	}
