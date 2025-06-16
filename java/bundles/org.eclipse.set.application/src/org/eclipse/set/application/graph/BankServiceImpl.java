@@ -26,10 +26,12 @@ import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.set.basis.constants.ContainerType;
 import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.basis.constants.ToolboxConstants;
+import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.eclipse.set.basis.graph.TopPath;
 import org.eclipse.set.basis.graph.TopPoint;
 import org.eclipse.set.core.services.graph.BankService;
 import org.eclipse.set.core.services.graph.TopologicalGraphService;
+import org.eclipse.set.core.services.session.SessionService;
 import org.eclipse.set.model.planpro.Geodaten.TOP_Kante;
 import org.eclipse.set.model.planpro.Geodaten.Ueberhoehung;
 import org.eclipse.set.model.planpro.Geodaten.Ueberhoehungslinie;
@@ -61,6 +63,8 @@ public class BankServiceImpl implements BankService, EventHandler {
 	@Reference
 	private EventAdmin eventAdmin;
 
+	@Reference
+	private SessionService sessionService;
 	private Map<TOP_Kante, Set<BankingInformation>> topEdgeBanking;
 	private Map<Ueberhoehungslinie, Optional<BankingInformation>> bankingInformations;
 
@@ -77,9 +81,13 @@ public class BankServiceImpl implements BankService, EventHandler {
 		if (topic.equals(Events.TOPMODEL_CHANGED)) {
 			final PlanPro_Schnittstelle planProSchnittstelle = (PlanPro_Schnittstelle) event
 					.getProperty(IEventBroker.DATA);
+			if (sessionService.getLoadedSession(ToolboxFileRole.SESSION)
+					.getPlanProSchnittstelle()
+					.equals(planProSchnittstelle)) {
+				topEdgeBanking = new ConcurrentHashMap<>();
+				bankingInformations = new ConcurrentHashMap<>();
+			}
 
-			topEdgeBanking = new ConcurrentHashMap<>();
-			bankingInformations = new ConcurrentHashMap<>();
 			// final Use thread for final find banking value,
 			// because this process can take a long time
 			findBankingThread = new Thread() {

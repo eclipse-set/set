@@ -193,7 +193,7 @@ public final class ToolboxTableView extends BasePart {
 
 	private TableModelInstanceBodyDataProvider bodyDataProvider;
 
-	private EventHandler secondaryPlaningLoadedHanlder;
+	private EventHandler secondaryPlanningLoadedHanlder;
 
 	/**
 	 * constructor
@@ -303,7 +303,7 @@ public final class ToolboxTableView extends BasePart {
 				SelectedControlAreaChangedEvent.class,
 				selectionControlAreaHandler);
 
-		secondaryPlaningLoadedHanlder = event -> {
+		secondaryPlanningLoadedHanlder = event -> {
 
 			if (!event.getTopic()
 					.equalsIgnoreCase(Events.SECONDARY_MODEL_LOADED)) {
@@ -316,7 +316,7 @@ public final class ToolboxTableView extends BasePart {
 
 		};
 		getBroker().subscribe(Events.SECONDARY_MODEL_LOADED,
-				secondaryPlaningLoadedHanlder);
+				secondaryPlanningLoadedHanlder);
 	}
 
 	@PreDestroy
@@ -325,7 +325,7 @@ public final class ToolboxTableView extends BasePart {
 		ToolboxEvents.unsubscribe(getBroker(), tableSelectRowHandler);
 		ToolboxEvents.unsubscribe(getBroker(), tableDataChangeHandler);
 		ToolboxEvents.unsubscribe(getBroker(), selectionControlAreaHandler);
-		getBroker().unsubscribe(secondaryPlaningLoadedHanlder);
+		getBroker().unsubscribe(secondaryPlanningLoadedHanlder);
 		getBroker().send(Events.CLOSE_PART, getTableShortcut().toLowerCase());
 	}
 

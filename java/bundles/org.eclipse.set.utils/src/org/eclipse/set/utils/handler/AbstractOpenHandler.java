@@ -182,8 +182,7 @@ public abstract class AbstractOpenHandler extends AbstractHandler {
 		// set the new, global model session
 		application.getContext().set(IModelSession.class, modelSession);
 
-		eventBroker.send(Events.MODEL_CHANGED,
-				modelSession.getPlanProSchnittstelle());
+		eventBroker.send(Events.MODEL_CHANGED, modelSession);
 
 		// reset the default part
 		toolboxViewService.showDefaultPart(null);

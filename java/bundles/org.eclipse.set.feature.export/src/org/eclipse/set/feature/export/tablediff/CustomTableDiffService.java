@@ -37,8 +37,8 @@ import org.eclipse.set.model.tablemodel.TableCell;
 import org.eclipse.set.model.tablemodel.TableRow;
 import org.eclipse.set.model.tablemodel.TablemodelFactory;
 import org.eclipse.set.model.tablemodel.extensions.CellContentExtensions;
+import org.eclipse.set.model.tablemodel.extensions.TableCellExtensions;
 import org.eclipse.set.model.tablemodel.extensions.TableExtensions;
-import org.eclipse.set.ppmodel.extensions.EObjectExtensions;
 import org.eclipse.set.services.table.TableDiffService;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -114,17 +114,18 @@ public class CustomTableDiffService implements TableDiffService {
 			final TableRow match,
 			final BiFunction<TableCell, TableCell, CellContent> createCompareContent) {
 		final TableCell oldCell = row.getCells().get(i);
-
+		TableCell newCell = TablemodelFactory.eINSTANCE.createTableCell();
+		newCell.setContent(
+				TablemodelFactory.eINSTANCE.createStringCellContent());
+		if (match != null) {
+			newCell = match.getCells().get(i);
+		}
 		if (oldCell.getContent() instanceof MultiColorCellContent) {
-			createMultiColorDiffCotent(oldCell, match.getCells().get(i));
+			createMultiColorDiffCotent(oldCell, newCell);
 			return;
 		}
-
-		final CellContent compareCellContent = createCompareContent.apply(
-				oldCell,
-				EObjectExtensions
-						.getNullableObject(match, e -> e.getCells().get(i))
-						.orElse(null));
+		final CellContent compareCellContent = createCompareContent
+				.apply(oldCell, newCell);
 		if (compareCellContent == null) {
 			return;
 		}
@@ -208,7 +209,8 @@ public class CustomTableDiffService implements TableDiffService {
 	private CompareTableCellContent createTableCompareCellConten(
 			final TableCell firstTableCell, final TableCell secondTableCell) {
 		final CellContent firstTableCellContent = firstTableCell.getContent();
-		if (secondTableCell != null) {
+
+		if (secondTableCell != null && secondTableCell.getContent() != null) {
 			final boolean isSameValue = switch (secondTableCell.getContent()) {
 				case final StringCellContent stringContent -> isSameValue(
 						stringContent, firstTableCellContent);
@@ -226,7 +228,9 @@ public class CustomTableDiffService implements TableDiffService {
 		final CompareTableCellContent compareTableCellContent = TablemodelFactory.eINSTANCE
 				.createCompareTableCellContent();
 		compareTableCellContent.setFirstPlanCellContent(
-				secondTableCell == null ? null : secondTableCell.getContent());
+				secondTableCell == null || secondTableCell.getContent() == null
+						? null
+						: secondTableCell.getContent());
 		compareTableCellContent
 				.setSecondPlanCellContent(firstTableCell.getContent());
 		return compareTableCellContent;
@@ -278,6 +282,9 @@ public class CustomTableDiffService implements TableDiffService {
 				.stream(CellContentExtensions
 						.getStringValueIterable(firstCellContent))
 				.collect(Collectors.toSet());
+		if (secondCellContent == null) {
+			return firstCellContent == null;
+		}
 		return switch (secondCellContent) {
 			case final StringCellContent stringContent -> {
 				final Set<String> secondValues = Streams
@@ -402,6 +409,10 @@ public class CustomTableDiffService implements TableDiffService {
 		rows.forEach(row -> {
 			final TableRow match = TableExtensions.getMatchingRow(expandedTable,
 					row);
+			if (TableCellExtensions.getPlainStringValue(row.getCells().get(0))
+					.contains("63N4")) {
+				System.out.println("test");
+			}
 			// Create diff content
 			for (int i = 0; i < row.getCells().size(); i++) {
 				createDiffContent(i, row, match,

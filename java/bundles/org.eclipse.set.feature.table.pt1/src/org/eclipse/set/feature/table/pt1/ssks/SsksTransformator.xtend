@@ -308,6 +308,9 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 						)
 
 						// I: Ssks.Standortmerkmale.Ueberhoehung
+						if (signal.identitaet.wert == "2C1AB3A4-6E0E-4285-B095-1AFD8CF27A7E") {
+							println("TEST")
+						}
 						if (signal.signalReal !== null) {
 							if (bankingService.isFindBankingComplete) {
 								fillIterable(

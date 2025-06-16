@@ -10,6 +10,9 @@
  ********************************************************************************/
 package org.eclipse.set.application.graph;
 
+import static org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.getContainer;
+import static org.eclipse.set.ppmodel.extensions.MultiContainer_AttributeGroupExtensions.getPlanProSchnittstelle;
+
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
@@ -18,6 +21,7 @@ import java.util.Optional;
 import java.util.function.Predicate;
 
 import org.eclipse.e4.core.services.events.IEventBroker;
+import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.constants.ContainerType;
 import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.basis.graph.TopPath;
@@ -45,12 +49,13 @@ import org.osgi.service.event.EventHandler;
 /**
  * TopologicalGraph service for finding distances in the topological model
  */
-@Component(property = EventConstants.EVENT_TOPIC + "="
-		+ Events.MODEL_CHANGED, service = { EventHandler.class,
-				TopologicalGraphService.class })
+@Component(property = { EventConstants.EVENT_TOPIC + "=" + Events.MODEL_CHANGED,
+		EventConstants.EVENT_TOPIC + "="
+				+ Events.SECONDARY_MODEL_LOADED }, service = {
+						EventHandler.class, TopologicalGraphService.class })
 public class TopologicalGraphServiceImpl
 		implements TopologicalGraphService, EventHandler {
-	private WeightedPseudograph<AsSplitTopGraph.Node, AsSplitTopGraph.Edge> topGraphBase;
+	private final Map<PlanPro_Schnittstelle, WeightedPseudograph<AsSplitTopGraph.Node, AsSplitTopGraph.Edge>> topGraphBaseMap;
 
 	@Reference
 	EventAdmin eventAdmin;
@@ -59,21 +64,25 @@ public class TopologicalGraphServiceImpl
 	 * The default constructor
 	 */
 	public TopologicalGraphServiceImpl() {
+		this.topGraphBaseMap = new HashMap<>();
 		Services.setTopGraphService(this);
 	}
 
 	@Override
 	public void handleEvent(final Event event) {
 		// Create a new graph for the new model
-		topGraphBase = new WeightedPseudograph<>(AsSplitTopGraph.Edge.class);
 
-		final PlanPro_Schnittstelle planProSchnittstelle = (PlanPro_Schnittstelle) event
+		final IModelSession modelsession = (IModelSession) event
 				.getProperty(IEventBroker.DATA);
-		addContainerToGraph(PlanProSchnittstelleExtensions
+		final PlanPro_Schnittstelle planProSchnittstelle = modelsession
+				.getPlanProSchnittstelle();
+		final WeightedPseudograph<Node, Edge> topGraphBase = getTopGraphBase(
+				planProSchnittstelle);
+		addContainerToGraph(topGraphBase, PlanProSchnittstelleExtensions
 				.getContainer(planProSchnittstelle, ContainerType.INITIAL));
-		addContainerToGraph(PlanProSchnittstelleExtensions
+		addContainerToGraph(topGraphBase, PlanProSchnittstelleExtensions
 				.getContainer(planProSchnittstelle, ContainerType.FINAL));
-		addContainerToGraph(PlanProSchnittstelleExtensions
+		addContainerToGraph(topGraphBase, PlanProSchnittstelleExtensions
 				.getContainer(planProSchnittstelle, ContainerType.SINGLE));
 
 		// Notify that the top model changed
@@ -82,15 +91,24 @@ public class TopologicalGraphServiceImpl
 		eventAdmin.sendEvent(new Event(Events.TOPMODEL_CHANGED, properties));
 	}
 
-	private void addContainerToGraph(
+	private static void addContainerToGraph(
+			final WeightedPseudograph<Node, Edge> topGraphBase,
 			final MultiContainer_AttributeGroup container) {
 		if (container == null) {
 			return;
 		}
-		container.getTOPKante().forEach(this::addEdge);
+		container.getTOPKante().forEach(edge -> addEdge(topGraphBase, edge));
 	}
 
-	private void addEdge(final TOP_Kante edge) {
+	private WeightedPseudograph<AsSplitTopGraph.Node, AsSplitTopGraph.Edge> getTopGraphBase(
+			final PlanPro_Schnittstelle schnittstelle) {
+		return topGraphBaseMap.computeIfAbsent(schnittstelle,
+				k -> new WeightedPseudograph<>(AsSplitTopGraph.Edge.class));
+	}
+
+	private static void addEdge(
+			final WeightedPseudograph<AsSplitTopGraph.Node, AsSplitTopGraph.Edge> topGraphBase,
+			final TOP_Kante edge) {
 		final Node a = new Node(edge.getIDTOPKnotenA().getValue());
 		final Node b = new Node(edge.getIDTOPKnotenB().getValue());
 		topGraphBase.addVertex(a);
@@ -104,14 +122,24 @@ public class TopologicalGraphServiceImpl
 	@Override
 	public List<TopPath> findAllPathsBetween(final TopPoint from,
 			final TopPoint to, final int limit) {
-		return AsDirectedTopGraph.getAllPaths(new AsSplitTopGraph(topGraphBase),
+		final MultiContainer_AttributeGroup container = getContainer(
+				from.edge());
+		final PlanPro_Schnittstelle planProSchnittstelle = getPlanProSchnittstelle(
+				container);
+		return AsDirectedTopGraph.getAllPaths(
+				new AsSplitTopGraph(getTopGraphBase(planProSchnittstelle)),
 				from, to, limit);
 	}
 
 	@Override
 	public TopPath findPathBetween(final TopPoint from, final TopPoint to,
 			final int limit, final Predicate<TopPath> condition) {
-		return AsDirectedTopGraph.getPath(new AsSplitTopGraph(topGraphBase),
+		final MultiContainer_AttributeGroup container = getContainer(
+				from.edge());
+		final PlanPro_Schnittstelle planProSchnittstelle = getPlanProSchnittstelle(
+				container);
+		return AsDirectedTopGraph.getPath(
+				new AsSplitTopGraph(getTopGraphBase(planProSchnittstelle)),
 				from, to, limit, condition);
 	}
 
@@ -119,7 +147,12 @@ public class TopologicalGraphServiceImpl
 	public Optional<BigDecimal> findShortestDistanceInDirection(
 			final TopPoint from, final TopPoint to,
 			final boolean searchInTopDirection) {
-		final AsSplitTopGraph graphView = new AsSplitTopGraph(topGraphBase);
+		final MultiContainer_AttributeGroup container = getContainer(
+				from.edge());
+		final PlanPro_Schnittstelle planProSchnittstelle = getPlanProSchnittstelle(
+				container);
+		final AsSplitTopGraph graphView = new AsSplitTopGraph(
+				getTopGraphBase(planProSchnittstelle));
 		final Node fromNode = graphView.splitGraphAt(from,
 				Boolean.valueOf(searchInTopDirection));
 		final Node toNode = graphView.splitGraphAt(to);
@@ -132,7 +165,12 @@ public class TopologicalGraphServiceImpl
 	@Override
 	public Optional<TopPath> findShortestPath(final TopPoint from,
 			final TopPoint to) {
-		final AsSplitTopGraph graphView = new AsSplitTopGraph(topGraphBase);
+		final MultiContainer_AttributeGroup container = getContainer(
+				from.edge());
+		final PlanPro_Schnittstelle planProSchnittstelle = getPlanProSchnittstelle(
+				container);
+		final AsSplitTopGraph graphView = new AsSplitTopGraph(
+				getTopGraphBase(planProSchnittstelle));
 
 		final Node fromNode = graphView.splitGraphAt(from);
 		final Node toNode = graphView.splitGraphAt(to);
@@ -177,7 +215,12 @@ public class TopologicalGraphServiceImpl
 	@Override
 	public Optional<TopPoint> findClosestPoint(final TopPoint from,
 			final List<TopPoint> points, final boolean searchInTopDirection) {
-		final AsSplitTopGraph graphView = new AsSplitTopGraph(topGraphBase);
+		final MultiContainer_AttributeGroup container = getContainer(
+				from.edge());
+		final PlanPro_Schnittstelle planProSchnittstelle = getPlanProSchnittstelle(
+				container);
+		final AsSplitTopGraph graphView = new AsSplitTopGraph(
+				getTopGraphBase(planProSchnittstelle));
 		final Node fromNode = graphView.splitGraphAt(from,
 				Boolean.valueOf(searchInTopDirection));
 

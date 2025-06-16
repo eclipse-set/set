@@ -182,9 +182,7 @@ public class AsSplitTopGraph
 		final TOP_Kante edge = at.edge();
 		final List<Edge> pointEdgeList = pointEdgeGraph.edgeSet()
 				.stream()
-				.filter(c -> c.edge.getIdentitaet()
-						.getWert()
-						.equals(edge.getIdentitaet().getWert()))
+				.filter(c -> c.edge == edge)
 				.filter(c -> c.offset.compareTo(at.distance()) <= 0)
 				.filter(c -> c.offset.add(c.length)
 						.compareTo(at.distance()) >= 0)
@@ -203,9 +201,7 @@ public class AsSplitTopGraph
 
 		final Optional<Edge> graphEdge = baseGraph.edgeSet()
 				.stream()
-				.filter(c -> c.edge.getIdentitaet()
-						.getWert()
-						.equals(edge.getIdentitaet().getWert()))
+				.filter(c -> c.edge == edge)
 				.findFirst();
 		if (graphEdge.isPresent()) {
 			return splitGraphAt(baseGraph, at, graphEdge.get(), inTopDirection);

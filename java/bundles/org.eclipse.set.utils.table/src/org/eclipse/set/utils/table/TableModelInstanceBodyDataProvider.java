@@ -158,8 +158,8 @@ public class TableModelInstanceBodyDataProvider
 	private static CellContent getNewContent(final CellContent oldContent,
 			final Pt1TableChangeProperties properties) {
 		return switch (oldContent) {
-			case final StringCellContent stringCOntent -> getNewContent(
-					stringCOntent, properties);
+			case final StringCellContent stringContent -> getNewContent(
+					stringContent, properties);
 			case final CompareCellContent compareContent -> getNewContent(
 					compareContent, properties);
 			default -> throw new UnsupportedOperationException();
