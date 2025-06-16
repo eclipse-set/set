@@ -133,14 +133,13 @@ public class SetSessionService implements SessionService {
 	public boolean close(final IModelSession modelSession,
 			final ToolboxFileRole role) {
 		if (role == ToolboxFileRole.SECONDARY_PLANNING) {
+			serviceProvider.broker.send(Events.CLOSE_SESSION, role);
 			loadedModels.remove(role);
-			serviceProvider.broker.send(Events.MODEL_CHANGED,
-					loadedModels.getOrDefault(ToolboxFileRole.SESSION, null));
 			return true;
 		}
 
 		if (modelSession == null) {
-			serviceProvider.broker.send(Events.CLOSE_SESSION, null);
+			serviceProvider.broker.send(Events.CLOSE_SESSION, role);
 			loadedModels.clear();
 			return true;
 		}

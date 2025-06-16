@@ -225,11 +225,10 @@ public final class ToolboxTableView extends BasePart {
 	private Titlebox getTitlebox(final String shortcut) {
 		final PlanProToTitleboxTransformation planProToTitlebox = PlanProToTitleboxTransformation
 				.create();
-		final Titlebox titlebox = planProToTitlebox.transform(
+		return planProToTitlebox.transform(
 				getModelSession().getPlanProSchnittstelle(),
 				tableService.getTableNameInfo(shortcut),
 				this::getAttachmentPath);
-		return titlebox;
 	}
 
 	private boolean isDisplayedDataAffected(
@@ -455,7 +454,8 @@ public final class ToolboxTableView extends BasePart {
 		// is called
 		Assert.isNotNull(tableInstances);
 		bodyDataProvider = new TableModelInstanceBodyDataProvider(
-				TableExtensions.getPropertyCount(table), tableInstances);
+				TableExtensions.getPropertyCount(table), tableInstances,
+				getSessionService());
 
 		final SpanningDataLayer bodyDataLayer = new SpanningDataLayer(
 				bodyDataProvider);
@@ -571,8 +571,8 @@ public final class ToolboxTableView extends BasePart {
 	}
 
 	private IConfigLabelAccumulator compareTableCellLabelConfig() {
-		return (final LabelStack configLabels,
-				final int columnPosition, final int rowPosition) -> {
+		return (final LabelStack configLabels, final int columnPosition,
+				final int rowPosition) -> {
 			final int rowIndexByPosition = bodyLayerStack
 					.getRowIndexByPosition(rowPosition);
 			final int columnIndexByPosition = bodyLayerStack

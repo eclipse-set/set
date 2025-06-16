@@ -778,7 +778,7 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 	private def void fillStreckeKm(TableRow row, Signal signal,
 		List<Strecke> routeThroughBereichObjekt) {
 		val threadName = '''«shortcut.toLowerCase»/StreckKm/«signal.cacheKey»'''
-		val containerType = signal.container.containerType
+		val container = signal.container
 		new Thread([
 			try {
 				if (!isFindGeometryComplete) {
@@ -797,7 +797,7 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 					Thread.sleep(5000)
 				}
 				val changeProperties = new Pt1TableChangeProperties(
-					containerType, row, cols.getColumn(Standort_Km), streckeKms,
+					container, row, cols.getColumn(Standort_Km), streckeKms,
 					ITERABLE_FILLING_SEPARATOR)
 				val updateValuesEvent = new TableDataChangeEvent(
 					shortcut.toLowerCase, changeProperties)

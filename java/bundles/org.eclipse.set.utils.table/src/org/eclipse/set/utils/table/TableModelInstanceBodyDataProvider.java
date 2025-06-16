@@ -12,22 +12,34 @@ import static org.eclipse.set.model.tablemodel.extensions.CellContentExtensions.
 import static org.eclipse.set.model.tablemodel.extensions.CellContentExtensions.getStringValueIterable;
 
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.nebula.widgets.nattable.data.ISpanningDataProvider;
 import org.eclipse.nebula.widgets.nattable.layer.cell.DataCell;
+import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.constants.ContainerType;
 import org.eclipse.set.basis.constants.TableType;
+import org.eclipse.set.basis.files.ToolboxFileRole;
+import org.eclipse.set.core.services.session.SessionService;
+import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.set.model.tablemodel.CellContent;
 import org.eclipse.set.model.tablemodel.CompareCellContent;
+import org.eclipse.set.model.tablemodel.CompareTableCellContent;
 import org.eclipse.set.model.tablemodel.StringCellContent;
 import org.eclipse.set.model.tablemodel.TableCell;
 import org.eclipse.set.model.tablemodel.TableRow;
 import org.eclipse.set.model.tablemodel.TablemodelFactory;
+import org.eclipse.set.model.tablemodel.extensions.CellContentExtensions;
 import org.eclipse.set.model.tablemodel.extensions.TableRowExtensions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.common.collect.Streams;
 
 /**
  * Provides data from the table model.
@@ -45,18 +57,23 @@ public class TableModelInstanceBodyDataProvider
 	private final List<TableRow> instances;
 	private final int propertyCount;
 	private final TableSpanUtils spanUtils;
+	private final SessionService sessionService;
 
 	/**
 	 * @param propertyCount
 	 *            the number of columns
 	 * @param instances
 	 *            the table model
+	 * @param sessionService
+	 *            the sessionService
 	 */
 	public TableModelInstanceBodyDataProvider(final int propertyCount,
-			final List<TableRow> instances) {
+			final List<TableRow> instances,
+			final SessionService sessionService) {
 		this.instances = instances;
 		this.propertyCount = propertyCount;
 		this.spanUtils = new TableSpanUtils(instances);
+		this.sessionService = sessionService;
 	}
 
 	@Override
@@ -155,13 +172,15 @@ public class TableModelInstanceBodyDataProvider
 		});
 	}
 
-	private static CellContent getNewContent(final CellContent oldContent,
+	private CellContent getNewContent(final CellContent oldContent,
 			final Pt1TableChangeProperties properties) {
 		return switch (oldContent) {
 			case final StringCellContent stringContent -> getNewContent(
 					stringContent, properties);
 			case final CompareCellContent compareContent -> getNewContent(
 					compareContent, properties);
+			case final CompareTableCellContent compareTableContent -> getNewContent(
+					compareTableContent, properties);
 			default -> throw new UnsupportedOperationException();
 		};
 	}
@@ -218,6 +237,53 @@ public class TableModelInstanceBodyDataProvider
 						"SingelState can't have compare cell content"); //$NON-NLS-1$
 		}
 		return null;
+	}
+
+	private CellContent getNewContent(final CompareTableCellContent oldContent,
+			final Pt1TableChangeProperties properties) {
+		final PlanPro_Schnittstelle planProSchnittstelle = properties
+				.getPlanProSchnittstelle();
+
+		final Optional<Entry<ToolboxFileRole, IModelSession>> targetSession = sessionService
+				.getLoadedSessions()
+				.entrySet()
+				.stream()
+				.filter(entry -> entry.getValue()
+						.getPlanProSchnittstelle()
+						.equals(planProSchnittstelle))
+				.findFirst();
+		if (targetSession.isEmpty()) {
+			return null;
+		}
+		final CompareTableCellContent clone = EcoreUtil.copy(oldContent);
+		switch (targetSession.get().getKey()) {
+			case SESSION: {
+				clone.setFirstPlanCellContent(getNewContent(
+						oldContent.getFirstPlanCellContent(), properties));
+				break;
+			}
+			case SECONDARY_PLANNING: {
+				clone.setSecondPlanCellContent(getNewContent(
+						oldContent.getSecondPlanCellContent(), properties));
+				break;
+			}
+			default:
+				return null;
+		}
+
+		final Set<String> firstPlanCellValues = Streams
+				.stream(CellContentExtensions.getStringValueIterable(
+						clone.getFirstPlanCellContent()))
+				.filter(value -> value != null && !value.isEmpty())
+				.collect(Collectors.toSet());
+		final Set<String> secondPlanCellValues = Streams
+				.stream(CellContentExtensions.getStringValueIterable(
+						clone.getSecondPlanCellContent()))
+				.filter(value -> value != null && !value.isEmpty())
+				.collect(Collectors.toSet());
+		return firstPlanCellValues.equals(secondPlanCellValues)
+				? clone.getFirstPlanCellContent()
+				: clone;
 	}
 
 	private static CompareCellContent createCompareCellContent(

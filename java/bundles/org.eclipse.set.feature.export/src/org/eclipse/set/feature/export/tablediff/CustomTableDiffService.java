@@ -37,8 +37,8 @@ import org.eclipse.set.model.tablemodel.TableCell;
 import org.eclipse.set.model.tablemodel.TableRow;
 import org.eclipse.set.model.tablemodel.TablemodelFactory;
 import org.eclipse.set.model.tablemodel.extensions.CellContentExtensions;
-import org.eclipse.set.model.tablemodel.extensions.TableCellExtensions;
 import org.eclipse.set.model.tablemodel.extensions.TableExtensions;
+import org.eclipse.set.ppmodel.extensions.EObjectExtensions;
 import org.eclipse.set.services.table.TableDiffService;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -206,23 +206,19 @@ public class CustomTableDiffService implements TableDiffService {
 		return compareContent;
 	}
 
-	private CompareTableCellContent createTableCompareCellConten(
+	private CompareTableCellContent createTableCompareCellContent(
 			final TableCell firstTableCell, final TableCell secondTableCell) {
-		final CellContent firstTableCellContent = firstTableCell.getContent();
 
-		if (secondTableCell != null && secondTableCell.getContent() != null) {
-			final boolean isSameValue = switch (secondTableCell.getContent()) {
-				case final StringCellContent stringContent -> isSameValue(
-						stringContent, firstTableCellContent);
-				case final CompareCellContent compareContent -> isSameValue(
-						compareContent, firstTableCellContent);
-				case final MultiColorCellContent multiColorContent -> isSameValue(
-						multiColorContent, firstTableCellContent);
-				default -> true;
-			};
-			if (isSameValue) {
-				return null;
-			}
+		if (isSameValue(
+				EObjectExtensions
+						.getNullableObject(firstTableCell,
+								TableCell::getContent)
+						.orElse(null),
+				EObjectExtensions
+						.getNullableObject(secondTableCell,
+								TableCell::getContent)
+						.orElse(null))) {
+			return null;
 		}
 
 		final CompareTableCellContent compareTableCellContent = TablemodelFactory.eINSTANCE
@@ -235,6 +231,31 @@ public class CustomTableDiffService implements TableDiffService {
 				.setSecondPlanCellContent(firstTableCell.getContent());
 		return compareTableCellContent;
 
+	}
+
+	/**
+	 * @param sessionService
+	 *            the {@link SessionService}
+	 * @param first
+	 *            the first cell
+	 * @param second
+	 *            the second cell
+	 * @return true, if the table cell haven same value
+	 */
+	private boolean isSameValue(final CellContent first,
+			final CellContent second) {
+		if (first == null || second == null) {
+			return first == second;
+		}
+		return switch (first) {
+			case final StringCellContent stringContent -> isSameValue(
+					stringContent, second);
+			case final CompareCellContent compareContent -> isSameValue(
+					compareContent, second);
+			case final MultiColorCellContent multiColorContent -> isSameValue(
+					multiColorContent, second);
+			default -> true;
+		};
 	}
 
 	private boolean isSameValue(final CompareCellContent firstCellContent,
@@ -281,15 +302,18 @@ public class CustomTableDiffService implements TableDiffService {
 		final Set<String> firstValues = Streams
 				.stream(CellContentExtensions
 						.getStringValueIterable(firstCellContent))
+				.filter(value -> value != null && !value.trim().isEmpty())
 				.collect(Collectors.toSet());
-		if (secondCellContent == null) {
-			return firstCellContent == null;
+		if (firstValues.contains(CellContentExtensions.HOURGLASS_ICON)) {
+			return false;
 		}
 		return switch (secondCellContent) {
 			case final StringCellContent stringContent -> {
 				final Set<String> secondValues = Streams
 						.stream(CellContentExtensions
 								.getStringValueIterable(stringContent))
+						.filter(value -> value != null
+								&& !value.trim().isEmpty())
 						.collect(Collectors.toSet());
 				yield firstValues.equals(secondValues);
 			}
@@ -300,9 +324,13 @@ public class CustomTableDiffService implements TableDiffService {
 				final Set<String> values = switch (tableType) {
 					case TableType.INITIAL -> compareContent.getOldValue()
 							.stream()
+							.filter(value -> value != null
+									&& !value.trim().isEmpty())
 							.collect(Collectors.toSet());
 					default -> compareContent.getNewValue()
 							.stream()
+							.filter(value -> value != null
+									&& !value.trim().isEmpty())
 							.collect(Collectors.toSet());
 
 				};
@@ -409,14 +437,10 @@ public class CustomTableDiffService implements TableDiffService {
 		rows.forEach(row -> {
 			final TableRow match = TableExtensions.getMatchingRow(expandedTable,
 					row);
-			if (TableCellExtensions.getPlainStringValue(row.getCells().get(0))
-					.contains("63N4")) {
-				System.out.println("test");
-			}
 			// Create diff content
 			for (int i = 0; i < row.getCells().size(); i++) {
 				createDiffContent(i, row, match,
-						this::createTableCompareCellConten);
+						this::createTableCompareCellContent);
 			}
 		});
 

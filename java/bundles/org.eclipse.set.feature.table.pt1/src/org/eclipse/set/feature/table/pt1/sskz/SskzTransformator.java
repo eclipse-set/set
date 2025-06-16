@@ -32,7 +32,6 @@ import java.util.function.Function;
 import java.util.stream.Stream;
 
 import org.eclipse.set.basis.Pair;
-import org.eclipse.set.basis.constants.ContainerType;
 import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.basis.graph.TopPoint;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
@@ -60,7 +59,6 @@ import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.TableRow;
 import org.eclipse.set.model.tablemodel.extensions.CellContentExtensions;
 import org.eclipse.set.model.tablemodel.extensions.TableRowExtensions;
-import org.eclipse.set.ppmodel.extensions.MultiContainer_AttributeGroupExtensions;
 import org.eclipse.set.ppmodel.extensions.PZBElementExtensions;
 import org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteExtensions;
 import org.eclipse.set.ppmodel.extensions.UrObjectExtensions;
@@ -322,9 +320,7 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 			}
 		}
 
-		final ContainerType containerType = MultiContainer_AttributeGroupExtensions
-				.getContainerType(container);
-		changeProperties.add(new Pt1TableChangeProperties(containerType, row,
+		changeProperties.add(new Pt1TableChangeProperties(container, row,
 				getColumn(cols, Abstand_FEAx_Gleismitte), List.of(fillValue),
 				ITERABLE_FILLING_SEPARATOR));
 	}
@@ -541,9 +537,8 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 						.map(BigDecimalExtensions::toTableInteger)
 						.toList();
 				final Pt1TableChangeProperties changeProperties = new Pt1TableChangeProperties(
-						MultiContainer_AttributeGroupExtensions
-								.getContainerType(getContainer(control)),
-						row, getColumn(cols, Ueberhoehung), bankValues,
+						getContainer(control), row,
+						getColumn(cols, Ueberhoehung), bankValues,
 						ITERABLE_FILLING_SEPARATOR);
 				final TableDataChangeEvent updateValuesEvent = new TableDataChangeEvent(
 						tableShortcut.toLowerCase(), changeProperties);

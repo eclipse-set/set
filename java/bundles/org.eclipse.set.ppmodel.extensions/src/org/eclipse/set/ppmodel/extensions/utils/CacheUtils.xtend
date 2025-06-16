@@ -8,12 +8,11 @@
  */
 package org.eclipse.set.ppmodel.extensions.utils
 
-import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt
 import org.eclipse.emf.common.util.EList
 import org.eclipse.emf.ecore.EObject
+import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt
 
 import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.*
-import org.eclipse.set.basis.files.ToolboxFileRole
 
 /**
  * Utility functions for caching model objects
@@ -67,10 +66,6 @@ class CacheUtils {
 		return '''«object.container.cacheString»/«object.identitaet.wert»'''
 	}
 
-	static def String getCacheKey(ToolboxFileRole role, Ur_Objekt object) {
-		return '''«role.toDirectoryName»/«object.container.cacheString»/«object.identitaet.wert»'''
-	}
-
 	/**
 	 * @param object this Ur Objekt
 	 * @param other another object (with a sensible string representation)
@@ -80,10 +75,5 @@ class CacheUtils {
 	 */
 	def static String getCacheKey(Ur_Objekt object, Object other) {
 		return '''«object.cacheKey»/other=«other»'''
-	}
-
-	def static String getCacheKey(ToolboxFileRole role, Ur_Objekt object,
-		Object other) {
-		return '''«role.toDirectoryName»/«object.getCacheKey(other)»'''
 	}
 }

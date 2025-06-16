@@ -174,6 +174,7 @@ public final class TableServiceImpl implements TableService {
 		if (zielTable == null || startTable == null) {
 			return null;
 		}
+
 		final Table diffTable = diffService.createDiffTable(startTable,
 				zielTable);
 		if (modelSession.getToolboxFile()

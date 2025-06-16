@@ -22,6 +22,7 @@ import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Unterbringung
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
+import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_Strecke_AttributeGroup
 import org.eclipse.set.model.planpro.Geodaten.Strecke
 import org.eclipse.set.model.planpro.Geodaten.Technischer_Punkt
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Hl10
@@ -115,7 +116,6 @@ import static extension org.eclipse.set.model.tablemodel.extensions.TableRowExte
 import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.GeoPunktExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.MultiContainer_AttributeGroupExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
@@ -308,9 +308,6 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 						)
 
 						// I: Ssks.Standortmerkmale.Ueberhoehung
-						if (signal.identitaet.wert == "2C1AB3A4-6E0E-4285-B095-1AFD8CF27A7E") {
-							println("TEST")
-						}
 						if (signal.signalReal !== null) {
 							if (bankingService.isFindBankingComplete) {
 								fillIterable(
@@ -938,13 +935,13 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 			rightValues = List.of('''«ERROR_PREFIX»«errorMsg»''')
 		}
 
-		val containerType = signal.container.containerType
+		val container = signal.container
 		changeProperties.add(
-			new Pt1TableChangeProperties(containerType, row,
+			new Pt1TableChangeProperties(container, row,
 				cols.getColumn(Mastmitte_Links), leftValues,
 				ITERABLE_FILLING_SEPARATOR))
 		changeProperties.add(
-			new Pt1TableChangeProperties(containerType, row,
+			new Pt1TableChangeProperties(container, row,
 				cols.getColumn(Mastmitte_Rechts), rightValues,
 				ITERABLE_FILLING_SEPARATOR))
 	}
@@ -1514,7 +1511,7 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 	}
 
 	private def void fillUeberhoehung(TableRow row, Signal signal) {
-		val containerType = signal.container.containerType
+		val containerType = signal.container
 		// Because find bank value process can take a long time,
 		// therefore the bank column will be fill during find process.
 		val threadName = '''«tableShortCut.toLowerCase»/Banking/«signal.cacheKey»'''
@@ -1567,7 +1564,7 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 	private def void fillStreckeKm(TableRow row, Signal signal,
 		List<Strecke> routeThroughBereichObjekt) {
 		val threadName = '''«tableShortCut.toLowerCase»/StreckKm/«signal.cacheKey»'''
-		val containerType = signal.container.containerType
+		val container = signal.container
 		new Thread([
 			try {
 				if (!isFindGeometryComplete) {
@@ -1586,7 +1583,7 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 					Thread.sleep(5000)
 				}
 				val changeProperties = new Pt1TableChangeProperties(
-					containerType, row, cols.getColumn(Km), streckeKms,
+					container, row, cols.getColumn(Km), streckeKms,
 					ITERABLE_FILLING_SEPARATOR)
 				val updateValuesEvent = new TableDataChangeEvent(
 					tableShortCut.toLowerCase, changeProperties)

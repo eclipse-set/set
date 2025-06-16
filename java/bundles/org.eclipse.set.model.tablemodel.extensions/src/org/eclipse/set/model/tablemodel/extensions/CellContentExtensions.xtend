@@ -304,6 +304,9 @@ class CellContentExtensions {
 			CompareCellContent:
 				formatCompareContent(content.oldValue, content.newValue,
 					oldFormatter, commonFormatter, newFormatter, postFormatter)
+			CompareTableCellContent:
+				formatCompareContent(content.secondPlanCellContent,
+					oldFormatter, commonFormatter, newFormatter, postFormatter)
 		}
 	}
 
@@ -362,8 +365,9 @@ class CellContentExtensions {
 
 	private static def String getMultiColorFormat(MultiColorContent content) {
 		if (Strings.isNullOrEmpty(content.multiColorValue)) {
-			return Strings.isNullOrEmpty(content.stringFormat) ? "" : content.
-				stringFormat.htmlString
+			return Strings.isNullOrEmpty(content.stringFormat)
+				? ""
+				: content.stringFormat.htmlString
 		}
 
 		if (content.isDisableMultiColor) {
