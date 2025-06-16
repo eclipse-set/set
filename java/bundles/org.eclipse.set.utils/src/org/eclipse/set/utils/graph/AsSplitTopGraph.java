@@ -19,6 +19,7 @@ import java.util.function.Supplier;
 import org.eclipse.set.basis.graph.TopPoint;
 import org.eclipse.set.model.planpro.Geodaten.TOP_Kante;
 import org.eclipse.set.model.planpro.Geodaten.TOP_Knoten;
+import org.eclipse.set.utils.ToolboxConfiguration;
 import org.jgrapht.Graph;
 import org.jgrapht.GraphType;
 import org.jgrapht.graph.AbstractGraph;
@@ -385,7 +386,12 @@ public class AsSplitTopGraph
 
 	@Override
 	public double getEdgeWeight(final Edge e) {
-		return unionGraph.getEdgeWeight(e);
+		final double edgeWeight = unionGraph.getEdgeWeight(e);
+		if (edgeWeight < 0.0 && Math.abs(edgeWeight) <= ToolboxConfiguration
+				.getPathFindingTolerance()) {
+			return 0.0;
+		}
+		return edgeWeight;
 	}
 
 	@Override

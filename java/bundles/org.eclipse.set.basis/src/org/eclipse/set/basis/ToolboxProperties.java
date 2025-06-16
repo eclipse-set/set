@@ -175,4 +175,10 @@ public interface ToolboxProperties {
 	 * Property key for siteplan scale at export
 	 */
 	public static final String EXPORT_SITEPLAN_SCALE = "toolbox.siteplan.export.scale";
+
+	/**
+	 * Property key for the tolerance of length offsets when searching a
+	 * topological path
+	 */
+	public static final String PATH_FINDING_TOLERANCE = "toolbox.path_finding_tolerance";
 }
