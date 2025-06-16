@@ -95,6 +95,7 @@
       <property name="toolbox.siteplan.default_collisions_enabled" value="false" />
       <property name="toolbox.siteplan.export_dpi" value="300" />
       <property name="toolbox.siteplan.export.scale" value="1000" />
+      <property name="toolbox.path_finding_tolerance" value="0.001" />
    </configurations>
 
    <preferencesInfo>

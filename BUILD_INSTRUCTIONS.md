@@ -17,6 +17,9 @@ Other operating systems or processor architectures may work, but are generally n
 - Maven (3.9.6) 
 - Eclipse IDE (2024-06)
 - [hugo](https://gohugo.io/) (v0.101.0+)
+  - should be available in your $PATH as `hugo`
+- [asciidoctor](https://docs.asciidoctor.org/)
+  - should be available in your $PATH as `asciidoctor`
 
 ## Maven Settings
 
@@ -124,7 +127,7 @@ If you want to develop SET, this is not recommended as the subcomponents are rel
         4. Copy the contents of the resulting `build`-directory to the matching Eclipse SET directory in `java/bundles/org.eclipse.set.feature/rootdir`. 
     2. In `web/about` and `web/developerhelp`: 
         1. Run `hugo` to build the info pages
-        2. Copy the conte
+        2. Copy the contents of the resulting `public`-directory to `java/bundles/org.eclipse.set.feature/rootdir/about`.
 6. Build via maven: `mvn clean verify`
 
 The SET product is now located under `java/bundles/org.eclipse.set.releng.set.product/target/products`. 
