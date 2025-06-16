@@ -115,7 +115,7 @@ class AussenelementansteuerungExtensions extends BasisObjektExtensions {
 
 	def static List<Stell_Bereich> getStellBereich(
 		Aussenelementansteuerung aussenElement) {
-		return aussenElement.container.stellBereich.filter [ area |
+		return aussenElement?.container?.stellBereich?.filter [ area |
 			aussenElement.isBelongToControlArea(area)
 		].toList
 	}

@@ -261,7 +261,7 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 			[
 				val outsideControl = WKrGspElements.map [ gsp |
 					gsp.aussenelementansteuerung
-				]
+				].filterNull
 				if (!outsideControl.flatMap[stellBereich].isNullOrEmpty) {
 					return outsideControl.map [
 						oertlichkeitNamensgebend.bezeichnung?.
@@ -269,7 +269,7 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 							bezeichnung?.bezeichnungAEA?.wert
 					]
 				}
-				return List.of(stellbereich.oertlichkeitBezeichnung)
+				return #[stellbereich?.oertlichkeitBezeichnung].filterNull
 			],
 			null
 		)
