@@ -288,6 +288,11 @@ public final class ToolboxConstants {
 	public static final int ROUNDING_TO_PLACE = 5;
 
 	/**
+	 * Labels for CompareTableCellContent cell
+	 */
+	public static final String TABLE_COMPARE_TABLE_CELL_LABEL = "tableCompareCell";
+
+	/**
 	 * The id of the web developer help part
 	 */
 	public static String WEB_DEVELOPER_HELP_PART_ID = "org.eclipse.set.application.ppt.nosessionpart.WebDeveloperHelpPart";

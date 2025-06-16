@@ -10,6 +10,7 @@ package org.eclipse.set.feature.export.tablediff;
 
 import static org.eclipse.set.model.tablemodel.extensions.TableCellExtensions.getIterableStringValue;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.function.BiFunction;
@@ -37,6 +38,7 @@ import org.eclipse.set.model.tablemodel.TableRow;
 import org.eclipse.set.model.tablemodel.TablemodelFactory;
 import org.eclipse.set.model.tablemodel.extensions.CellContentExtensions;
 import org.eclipse.set.model.tablemodel.extensions.TableExtensions;
+import org.eclipse.set.ppmodel.extensions.EObjectExtensions;
 import org.eclipse.set.services.table.TableDiffService;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -112,17 +114,17 @@ public class CustomTableDiffService implements TableDiffService {
 			final TableRow match,
 			final BiFunction<TableCell, TableCell, CellContent> createCompareContent) {
 		final TableCell oldCell = row.getCells().get(i);
-		if (match == null) {
-			return;
-		}
 
 		if (oldCell.getContent() instanceof MultiColorCellContent) {
 			createMultiColorDiffCotent(oldCell, match.getCells().get(i));
 			return;
 		}
 
-		final CellContent compareCellContent = createCompareContent
-				.apply(oldCell, match.getCells().get(i));
+		final CellContent compareCellContent = createCompareContent.apply(
+				oldCell,
+				EObjectExtensions
+						.getNullableObject(match, e -> e.getCells().get(i))
+						.orElse(null));
 		if (compareCellContent == null) {
 			return;
 		}
@@ -132,57 +134,67 @@ public class CustomTableDiffService implements TableDiffService {
 	// IMPROVE: this function isn't completely.
 	private static void createMultiColorDiffCotent(final TableCell oldCell,
 			final TableCell newCell) {
-		if (newCell
-				.getContent() instanceof final MultiColorCellContent newCellContent) {
-			final MultiColorCellContent clone = EcoreUtil.copy(newCellContent);
-			clone.getValue().forEach(e -> e.setDisableMultiColor(false));
-			oldCell.setContent(clone);
+		if (oldCell.getContent() instanceof MultiColorCellContent) {
+			if (newCell != null && newCell
+					.getContent() instanceof final MultiColorCellContent newCellContent) {
+				final MultiColorCellContent clone = EcoreUtil
+						.copy(newCellContent);
+
+				oldCell.setContent(clone);
+			}
+			final MultiColorCellContent oldCellContent = (MultiColorCellContent) oldCell
+					.getContent();
+			oldCellContent.getValue()
+					.forEach(e -> e.setDisableMultiColor(false));
 		}
-		// if (oldCell
-		// .getContent() instanceof final MultiColorCellContent oldCellContent
-		// && newCell
-		// .getContent() instanceof final MultiColorCellContent newCellContent)
-		// {
-		// final BiFunction<MultiColorCellContent, Function<MultiColorContent,
-		// String>, Set<String>> getIterableStr = (
-		// cellContent, getValueFunc) -> cellContent.getValue()
-		// .stream()
-		// .map(getValueFunc::apply)
-		// .collect(Collectors.toSet());
-		//
-		// final Set<String> oldMultiColorValueStr = getIterableStr.apply(
-		// oldCellContent, MultiColorContent::getMultiColorValue);
-		// final Set<String> newMultiColorValueStr = getIterableStr.apply(
-		// newCellContent, MultiColorContent::getMultiColorValue);
-		// final Set<String> oldStringformatValueStr = getIterableStr
-		// .apply(oldCellContent, MultiColorContent::getStringFormat);
-		// final Set<String> newStringformatValueStr = getIterableStr
-		// .apply(newCellContent, MultiColorContent::getStringFormat);
-		// // Fall multicolor value of both is empty, but stringformat is
-		// // difference, then replace OldContent with CompareCellContent
-		// if (oldMultiColorValueStr.isEmpty()
-		// && newMultiColorValueStr.isEmpty()
-		// && !oldStringformatValueStr
-		// .equals(newStringformatValueStr)) {
-		// oldCell.setContent(createCompareCellContent(
-		// oldStringformatValueStr, newStringformatValueStr,
-		// oldCellContent.getSeparator()));
-		// // Fall multicolor
-		// } else if (!oldMultiColorValueStr.isEmpty()
-		// && !newMultiColorValueStr.isEmpty()
-		// && !oldMultiColorValueStr.equals(newMultiColorValueStr)) {
-		// final MultiColorCellContent clone = EcoreUtil
-		// .copy(newCellContent);
-		// clone.getValue().forEach(e -> e.setDisableMultiColor(false));
-		// oldCell.setContent(clone);
-		// }
-		// }
+	}
+
+	// if (oldCell
+	// .getContent() instanceof final MultiColorCellContent oldCellContent
+	// && newCell
+	// .getContent() instanceof final MultiColorCellContent newCellContent)
+	// {
+	// final BiFunction<MultiColorCellContent, Function<MultiColorContent,
+	// String>, Set<String>> getIterableStr = (
+	// cellContent, getValueFunc) -> cellContent.getValue()
+	// .stream()
+	// .map(getValueFunc::apply)
+	// .collect(Collectors.toSet());
+	//
+	// final Set<String> oldMultiColorValueStr = getIterableStr.apply(
+	// oldCellContent, MultiColorContent::getMultiColorValue);
+	// final Set<String> newMultiColorValueStr = getIterableStr.apply(
+	// newCellContent, MultiColorContent::getMultiColorValue);
+	// final Set<String> oldStringformatValueStr = getIterableStr
+	// .apply(oldCellContent, MultiColorContent::getStringFormat);
+	// final Set<String> newStringformatValueStr = getIterableStr
+	// .apply(newCellContent, MultiColorContent::getStringFormat);
+	// // Fall multicolor value of both is empty, but stringformat is
+	// // difference, then replace OldContent with CompareCellContent
+	// if (oldMultiColorValueStr.isEmpty()
+	// && newMultiColorValueStr.isEmpty()
+	// && !oldStringformatValueStr
+	// .equals(newStringformatValueStr)) {
+	// oldCell.setContent(createCompareCellContent(
+	// oldStringformatValueStr, newStringformatValueStr,
+	// oldCellContent.getSeparator()));
+	// // Fall multicolor
+	// } else if (!oldMultiColorValueStr.isEmpty()
+	// && !newMultiColorValueStr.isEmpty()
+	// && !oldMultiColorValueStr.equals(newMultiColorValueStr)) {
+	// final MultiColorCellContent clone = EcoreUtil
+	// .copy(newCellContent);
+	// clone.getValue().forEach(e -> e.setDisableMultiColor(false));
+	// oldCell.setContent(clone);
+	// }
+	// }
 	}
 
 	private static CompareCellContent createCompareCellContent(
 			final TableCell oldCell, final TableCell newCell) {
 		final Set<String> oldValues = getIterableStringValue(oldCell);
-		final Set<String> newValues = getIterableStringValue(newCell);
+		final Set<String> newValues = newCell == null ? Collections.emptySet()
+				: getIterableStringValue(newCell);
 		if (oldValues.equals(newValues)) {
 			return null;
 		}
@@ -197,23 +209,25 @@ public class CustomTableDiffService implements TableDiffService {
 	private CompareTableCellContent createTableCompareCellConten(
 			final TableCell firstTableCell, final TableCell secondTableCell) {
 		final CellContent firstTableCellContent = firstTableCell.getContent();
-		final boolean isSameValue = switch (secondTableCell.getContent()) {
-			case final StringCellContent stringContent -> isSameValue(
-					stringContent, firstTableCellContent);
-			case final CompareCellContent compareContent -> isSameValue(
-					compareContent, firstTableCellContent);
-			case final MultiColorCellContent multiColorContent -> isSameValue(
-					multiColorContent, firstTableCellContent);
-			default -> true;
-		};
-		if (isSameValue) {
-			return null;
+		if (secondTableCell != null) {
+			final boolean isSameValue = switch (secondTableCell.getContent()) {
+				case final StringCellContent stringContent -> isSameValue(
+						stringContent, firstTableCellContent);
+				case final CompareCellContent compareContent -> isSameValue(
+						compareContent, firstTableCellContent);
+				case final MultiColorCellContent multiColorContent -> isSameValue(
+						multiColorContent, firstTableCellContent);
+				default -> true;
+			};
+			if (isSameValue) {
+				return null;
+			}
 		}
 
 		final CompareTableCellContent compareTableCellContent = TablemodelFactory.eINSTANCE
 				.createCompareTableCellContent();
-		compareTableCellContent
-				.setFirstPlanCellContent(secondTableCell.getContent());
+		compareTableCellContent.setFirstPlanCellContent(
+				secondTableCell == null ? null : secondTableCell.getContent());
 		compareTableCellContent
 				.setSecondPlanCellContent(firstTableCell.getContent());
 		return compareTableCellContent;

@@ -47,6 +47,7 @@ import org.eclipse.nebula.widgets.nattable.layer.DataLayer;
 import org.eclipse.nebula.widgets.nattable.layer.ILayer;
 import org.eclipse.nebula.widgets.nattable.layer.LabelStack;
 import org.eclipse.nebula.widgets.nattable.layer.SpanningDataLayer;
+import org.eclipse.nebula.widgets.nattable.layer.cell.IConfigLabelAccumulator;
 import org.eclipse.nebula.widgets.nattable.layer.cell.ILayerCell;
 import org.eclipse.nebula.widgets.nattable.resize.command.RowHeightResetCommand;
 import org.eclipse.nebula.widgets.nattable.selection.SelectionLayer;
@@ -520,19 +521,7 @@ public final class ToolboxTableView extends BasePart {
 				columnHeaderDataLayer, bodyDataLayer, gridLayer,
 				rootColumnDescriptor, bodyLayerStack, bodyDataProvider,
 				getDialogService()));
-		bodyLayerStack.setConfigLabelAccumulator((final LabelStack configLabels,
-				final int columnPosition, final int rowPosition) -> {
-			final int rowIndexByPosition = bodyLayerStack
-					.getRowIndexByPosition(rowPosition);
-			final int columnIndexByPosition = bodyLayerStack
-					.getColumnIndexByPosition(columnPosition);
-			final TableRow tableRow = tableInstances.get(rowIndexByPosition);
-			final TableCell tableCell = tableRow.getCells()
-					.get(columnIndexByPosition);
-			if (tableCell.getContent() instanceof CompareTableCellContent) {
-				configLabels.addLabel("BLUE_BORDER");
-			}
-		});
+		bodyLayerStack.setConfigLabelAccumulator(compareTableCellLabelConfig());
 		bodyLayerStack.getSelectionLayer().clear();
 
 		// display footnotes
@@ -579,6 +568,23 @@ public final class ToolboxTableView extends BasePart {
 		});
 
 		updateButtons();
+	}
+
+	private IConfigLabelAccumulator compareTableCellLabelConfig() {
+		return (final LabelStack configLabels,
+				final int columnPosition, final int rowPosition) -> {
+			final int rowIndexByPosition = bodyLayerStack
+					.getRowIndexByPosition(rowPosition);
+			final int columnIndexByPosition = bodyLayerStack
+					.getColumnIndexByPosition(columnPosition);
+			final TableRow tableRow = tableInstances.get(rowIndexByPosition);
+			final TableCell tableCell = tableRow.getCells()
+					.get(columnIndexByPosition);
+			if (tableCell.getContent() instanceof CompareTableCellContent) {
+				configLabels.addLabel(
+						ToolboxConstants.TABLE_COMPARE_TABLE_CELL_LABEL);
+			}
+		};
 	}
 
 	private boolean existsColumnGroup(final ColumnDescriptor columnDescriptor) {

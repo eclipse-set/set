@@ -45,6 +45,7 @@ import org.eclipse.nebula.widgets.nattable.style.theme.ModernNatTableThemeConfig
 import org.eclipse.nebula.widgets.nattable.ui.util.CellEdgeEnum;
 import org.eclipse.nebula.widgets.nattable.util.GUIHelper;
 import org.eclipse.set.basis.ToolboxProperties;
+import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.extensions.CellContentExtensions;
 import org.eclipse.set.model.tablemodel.extensions.ColumnDescriptorExtensions;
@@ -246,13 +247,7 @@ public class PlanProTableThemeConfiguration
 		registerExceptionStyle(configRegistry);
 		registerAlignLeftStyle(configRegistry);
 		registerHeaderStyle(configRegistry);
-		final ICellPainter lineBorderDecorator = new LineBorderDecorator(
-				defaultCellPainter,
-				new BorderStyle(1, GUIHelper.COLOR_BLUE, LineStyleEnum.SOLID));
-
-		configRegistry.registerConfigAttribute(
-				CellConfigAttributes.CELL_PAINTER, lineBorderDecorator,
-				DisplayMode.NORMAL, "BLUE_BORDER");
+		registerCompareTableCellStyle(configRegistry);
 
 	}
 
@@ -329,6 +324,18 @@ public class PlanProTableThemeConfiguration
 				fatHeaderStyle, DisplayMode.NORMAL, GridRegion.COLUMN_HEADER);
 		configRegistry.registerConfigAttribute(CellConfigAttributes.CELL_STYLE,
 				fatHeaderStyle, DisplayMode.SELECT, GridRegion.COLUMN_HEADER);
+	}
+
+	private void registerCompareTableCellStyle(
+			final IConfigRegistry configRegistry) {
+		final ICellPainter lineBorderDecorator = new LineBorderDecorator(
+				defaultCellPainter,
+				new BorderStyle(1, GUIHelper.COLOR_BLUE, LineStyleEnum.SOLID));
+
+		configRegistry.registerConfigAttribute(
+				CellConfigAttributes.CELL_PAINTER, lineBorderDecorator,
+				DisplayMode.NORMAL,
+				ToolboxConstants.TABLE_COMPARE_TABLE_CELL_LABEL);
 	}
 
 	private void registerWarningPainter(final IConfigRegistry configRegistry) {
