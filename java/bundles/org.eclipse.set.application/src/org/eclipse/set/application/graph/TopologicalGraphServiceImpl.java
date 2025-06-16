@@ -125,8 +125,7 @@ public class TopologicalGraphServiceImpl
 		final Node toNode = graphView.splitGraphAt(to);
 
 		return Optional.ofNullable( //
-				DijkstraShortestPath.findPathBetween(graphView, fromNode,
-						toNode))
+				findPathBetween(graphView, fromNode, toNode))
 				.map(p -> getPathWeight(p));
 	}
 
@@ -139,13 +138,26 @@ public class TopologicalGraphServiceImpl
 		final Node toNode = graphView.splitGraphAt(to);
 
 		return Optional.ofNullable( //
-				DijkstraShortestPath.findPathBetween(graphView, fromNode,
-						toNode))
+				findPathBetween(graphView, fromNode, toNode))
 				.map(p -> new TopPath(p.getEdgeList()
 						.stream()
 						.map(Edge::edge)
 						.distinct()
 						.toList(), getPathWeight(p), from));
+	}
+
+	private static GraphPath<AsSplitTopGraph.Node, AsSplitTopGraph.Edge> findPathBetween(
+			final AsSplitTopGraph graphView, final Node fromNode,
+			final Node toNode) {
+		try {
+			return DijkstraShortestPath.findPathBetween(graphView, fromNode,
+					toNode);
+		} catch (final IllegalArgumentException ex) {
+			if (ex.getMessage().equals("Negative edge weight not allowed")) { //$NON-NLS-1$
+				throw new IllegalArgumentException("Invalid spot location", ex); //$NON-NLS-1$
+			}
+			throw ex;
+		}
 	}
 
 	private static BigDecimal getPathWeight(final GraphPath<Node, Edge> path) {
@@ -178,8 +190,8 @@ public class TopologicalGraphServiceImpl
 			} catch (final IllegalArgumentException e) {
 				continue;
 			}
-			final GraphPath<Node, Edge> path = DijkstraShortestPath
-					.findPathBetween(graphView, fromNode, toNode);
+			final GraphPath<Node, Edge> path = findPathBetween(graphView,
+					fromNode, toNode);
 			if (path == null) {
 				continue;
 			}
