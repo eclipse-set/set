@@ -115,7 +115,6 @@ import static extension org.eclipse.set.model.tablemodel.extensions.TableRowExte
 import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.GeoPunktExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.MultiContainer_AttributeGroupExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
@@ -153,8 +152,8 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 	// Container the thread, which will be refresh table after all thread is done
 	new(Set<ColumnDescriptor> cols,
 		EnumTranslationService enumTranslationService,
-		BankService bankingService,
-		EventAdmin eventAdmin, String tableShortCut) {
+		BankService bankingService, EventAdmin eventAdmin,
+		String tableShortCut) {
 		super(cols, enumTranslationService)
 		this.bankingService = bankingService
 		this.eventAdmin = eventAdmin
@@ -935,13 +934,13 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 			rightValues = List.of('''«ERROR_PREFIX»«errorMsg»''')
 		}
 
-		val containerType = signal.container.containerType
+		val container = signal.container
 		changeProperties.add(
-			new Pt1TableChangeProperties(containerType, row,
+			new Pt1TableChangeProperties(container, row,
 				cols.getColumn(Mastmitte_Links), leftValues,
 				ITERABLE_FILLING_SEPARATOR))
 		changeProperties.add(
-			new Pt1TableChangeProperties(containerType, row,
+			new Pt1TableChangeProperties(container, row,
 				cols.getColumn(Mastmitte_Rechts), rightValues,
 				ITERABLE_FILLING_SEPARATOR))
 	}
@@ -1511,17 +1510,26 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 	}
 
 	private def void fillUeberhoehung(TableRow row, Signal signal) {
-		val containerType = signal.container.containerType
+		// Fill Hourglass icon.
+		fill(
+			row,
+			cols.getColumn(Ueberhoehung),
+			signal,
+			[
+				CellContentExtensions.HOURGLASS_ICON
+			]
+		)
 		// Because find bank value process can take a long time,
 		// therefore the bank column will be fill during find process.
 		val threadName = '''«tableShortCut.toLowerCase»/Banking/«signal.cacheKey»'''
 		new Thread([
 			try {
+
 				val bankValue = row.getUeberhoehung(signal).map [
 					multiply(new BigDecimal(1000)).toTableInteger ?: ""
 				]
 				val changeProperties = new Pt1TableChangeProperties(
-					containerType, row, cols.getColumn(Ueberhoehung), bankValue,
+					signal.container, row, cols.getColumn(Ueberhoehung), bankValue,
 					ITERABLE_FILLING_SEPARATOR)
 				val updateValuesEvent = new TableDataChangeEvent(
 					tableShortCut.toLowerCase, changeProperties)
@@ -1538,16 +1546,7 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 		Signal signal) throws InterruptedException {
 		val topPoint = new TopPoint(signal)
 		var bankValue = bankingService.findBankValue(topPoint)
-		// Fill Hourglass icon, when values is empty and find bank process still running.
-		if (bankValue.isEmpty && !bankingService.isFindBankingComplete)
-			fill(
-				row,
-				cols.getColumn(Ueberhoehung),
-				signal,
-				[
-					CellContentExtensions.HOURGLASS_ICON
-				]
-			)
+		
 		// Get bank value again during the find bank process.
 		while (bankValue.isNullOrEmpty) {
 			bankValue = bankingService.findBankValue(topPoint)
@@ -1564,7 +1563,7 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 	private def void fillStreckeKm(TableRow row, Signal signal,
 		List<Strecke> routeThroughBereichObjekt) {
 		val threadName = '''«tableShortCut.toLowerCase»/StreckKm/«signal.cacheKey»'''
-		val containerType = signal.container.containerType
+		val container = signal.container
 		new Thread([
 			try {
 				if (!isFindGeometryComplete) {
@@ -1583,7 +1582,7 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 					Thread.sleep(5000)
 				}
 				val changeProperties = new Pt1TableChangeProperties(
-					containerType, row, cols.getColumn(Km), streckeKms,
+					container, row, cols.getColumn(Km), streckeKms,
 					ITERABLE_FILLING_SEPARATOR)
 				val updateValuesEvent = new TableDataChangeEvent(
 					tableShortCut.toLowerCase, changeProperties)

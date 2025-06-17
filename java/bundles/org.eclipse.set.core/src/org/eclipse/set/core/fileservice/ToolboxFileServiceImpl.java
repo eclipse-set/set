@@ -11,7 +11,6 @@ package org.eclipse.set.core.fileservice;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.set.basis.constants.ToolboxConstants;
@@ -128,7 +127,7 @@ public class ToolboxFileServiceImpl implements ToolboxFileService {
 				.sorted((a, b) -> Integer.compare(b.getPriority(),
 						a.getPriority()))
 				.map(e -> e.getExtension())
-				.collect(Collectors.toList());
+				.toList();
 	}
 
 	@Override

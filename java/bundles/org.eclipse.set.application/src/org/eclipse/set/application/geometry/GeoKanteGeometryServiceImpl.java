@@ -41,6 +41,7 @@ import org.eclipse.set.basis.Pair;
 import org.eclipse.set.basis.constants.ContainerType;
 import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.basis.constants.ToolboxConstants;
+import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.eclipse.set.basis.geometry.GEOKanteCoordinate;
 import org.eclipse.set.basis.geometry.GEOKanteMetadata;
 import org.eclipse.set.basis.geometry.GEOKanteSegment;
@@ -51,11 +52,13 @@ import org.eclipse.set.basis.geometry.SegmentPosition;
 import org.eclipse.set.basis.graph.DirectedElement;
 import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.geometry.GeoKanteGeometryService;
+import org.eclipse.set.core.services.session.SessionService;
 import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung;
 import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt;
 import org.eclipse.set.model.planpro.Basisobjekte.Bereich_Objekt;
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt;
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup;
+import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
 import org.eclipse.set.model.planpro.Geodaten.GEO_Kante;
 import org.eclipse.set.model.planpro.Geodaten.GEO_Knoten;
 import org.eclipse.set.model.planpro.Geodaten.Strecke;
@@ -63,8 +66,10 @@ import org.eclipse.set.model.planpro.Geodaten.Strecke_Punkt;
 import org.eclipse.set.model.planpro.Geodaten.TOP_Kante;
 import org.eclipse.set.model.planpro.Geodaten.TOP_Knoten;
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
+import org.eclipse.set.ppmodel.extensions.BasisAttributExtensions;
 import org.eclipse.set.ppmodel.extensions.GeoKanteExtensions;
 import org.eclipse.set.ppmodel.extensions.GeoKnotenExtensions;
+import org.eclipse.set.ppmodel.extensions.MultiContainer_AttributeGroupExtensions;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
 import org.eclipse.set.ppmodel.extensions.StreckeExtensions;
 import org.eclipse.set.ppmodel.extensions.TopKanteExtensions;
@@ -93,9 +98,26 @@ import org.slf4j.LoggerFactory;
 		EventConstants.EVENT_TOPIC + "=" + Events.TOPMODEL_CHANGED,
 		EventConstants.EVENT_TOPIC + "=" + Events.CLOSE_SESSION }, service = {
 				GeoKanteGeometryService.class, EventHandler.class })
-
 public class GeoKanteGeometryServiceImpl
 		implements GeoKanteGeometryService, EventHandler {
+	private class GeoKanteGeometrySessionData {
+		private final Map<GEO_Kante, LineString> edgeGeometry;
+		private final Map<String, List<GEOKanteMetadata>> geoKanteMetadas;
+
+		private GeoKanteGeometrySessionData() {
+			edgeGeometry = new ConcurrentHashMap<>();
+			geoKanteMetadas = new ConcurrentHashMap<>();
+		}
+
+		public Map<GEO_Kante, LineString> getEdgeGeometry() {
+			return edgeGeometry;
+		}
+
+		public Map<String, List<GEOKanteMetadata>> getGeoKanteMetadas() {
+			return geoKanteMetadas;
+		}
+	}
+
 	private Thread findGeometryThread;
 	// Acceptable tolerance between the length of all GEO_Kante on a TOP_Kante
 	// and the length of the TOP_Kante
@@ -109,12 +131,13 @@ public class GeoKanteGeometryServiceImpl
 	static final Logger logger = LoggerFactory
 			.getLogger(GeoKanteGeometryServiceImpl.class);
 
-	private Map<GEO_Kante, LineString> edgeGeometry;
-	private Map<String, List<GEOKanteMetadata>> geoKanteMetadas;
 	private boolean isProcessComplete = false;
-
+	private final Map<PlanPro_Schnittstelle, GeoKanteGeometrySessionData> sessionesData = new HashMap<>();
 	@Reference
 	private EventAdmin eventAdmin;
+
+	@Reference
+	private SessionService sessionService;
 
 	/**
 	 * Constructor
@@ -128,18 +151,25 @@ public class GeoKanteGeometryServiceImpl
 		final String topic = event.getTopic();
 		if (topic.equals(Events.TOPMODEL_CHANGED) && event.getProperty(
 				IEventBroker.DATA) instanceof final PlanPro_Schnittstelle schnitstelle) {
-			edgeGeometry = new ConcurrentHashMap<>();
-			geoKanteMetadas = new ConcurrentHashMap<>();
+			// Only clear geometry data when main session change
+			final GeoKanteGeometrySessionData sessionData = getSessionData(
+					schnitstelle);
+			sessionData.getEdgeGeometry().clear();
+			sessionData.getGeoKanteMetadas().clear();
+
 			findGeometryThread = new Thread(() -> {
 				try {
 					logger.debug("Start find geometry of GEO_Kante"); //$NON-NLS-1$
 					isProcessComplete = false;
-					findGeoKanteGeometry(PlanProSchnittstelleExtensions
-							.getContainer(schnitstelle, ContainerType.INITIAL));
-					findGeoKanteGeometry(PlanProSchnittstelleExtensions
-							.getContainer(schnitstelle, ContainerType.FINAL));
-					findGeoKanteGeometry(PlanProSchnittstelleExtensions
-							.getContainer(schnitstelle, ContainerType.SINGLE));
+					findGeoKanteGeometry(sessionData,
+							PlanProSchnittstelleExtensions.getContainer(
+									schnitstelle, ContainerType.INITIAL));
+					findGeoKanteGeometry(sessionData,
+							PlanProSchnittstelleExtensions.getContainer(
+									schnitstelle, ContainerType.FINAL));
+					findGeoKanteGeometry(sessionData,
+							PlanProSchnittstelleExtensions.getContainer(
+									schnitstelle, ContainerType.SINGLE));
 					isProcessComplete = true;
 					final HashMap<String, Object> properties = new HashMap<>();
 					properties.put(EventConstants.EVENT_TOPIC,
@@ -156,17 +186,41 @@ public class GeoKanteGeometryServiceImpl
 			findGeometryThread.start();
 		}
 
-		if (topic.equals(Events.CLOSE_SESSION) && findGeometryThread != null
-				&& findGeometryThread.isAlive()
-				&& !findGeometryThread.isInterrupted()) {
-			findGeometryThread.interrupt();
-			isProcessComplete = false;
-			edgeGeometry.clear();
-			geoKanteMetadas.clear();
+		if (topic.equals(Events.CLOSE_SESSION)) {
+			if (!isProcessComplete) {
+				findGeometryThread.interrupt();
+				isProcessComplete = false;
+			}
+
+			final ToolboxFileRole role = (ToolboxFileRole) event
+					.getProperty(IEventBroker.DATA);
+			if (role == ToolboxFileRole.SESSION) {
+				sessionesData.clear();
+			} else {
+				final PlanPro_Schnittstelle closed = sessionService
+						.getLoadedSession(role)
+						.getPlanProSchnittstelle();
+				sessionesData.remove(closed);
+			}
 		}
 	}
 
-	private void findGeoKanteGeometry(
+	private GeoKanteGeometrySessionData getSessionData(final Ur_Objekt object) {
+		final MultiContainer_AttributeGroup container = BasisAttributExtensions
+				.getContainer(object);
+		final PlanPro_Schnittstelle planProSchnittstelle = MultiContainer_AttributeGroupExtensions
+				.getPlanProSchnittstelle(container);
+		return getSessionData(planProSchnittstelle);
+	}
+
+	private GeoKanteGeometrySessionData getSessionData(
+			final PlanPro_Schnittstelle schnittstelle) {
+		return sessionesData.computeIfAbsent(schnittstelle,
+				k -> new GeoKanteGeometrySessionData());
+	}
+
+	private static void findGeoKanteGeometry(
+			final GeoKanteGeometrySessionData sessionData,
 			final MultiContainer_AttributeGroup container)
 			throws InterruptedException {
 		if (container == null) {
@@ -179,7 +233,7 @@ public class GeoKanteGeometryServiceImpl
 			try {
 				final LineString geometry = defineEdgeGeometry(edge);
 				if (geometry != null) {
-					edgeGeometry.put(edge, geometry);
+					sessionData.getEdgeGeometry().put(edge, geometry);
 				}
 			} catch (final GeometryException | NullPointerException e) {
 				logger.warn("Cannot determine geometry for edge {}.", //$NON-NLS-1$
@@ -203,7 +257,8 @@ public class GeoKanteGeometryServiceImpl
 				return null;
 			}
 		}
-		return edgeGeometry.getOrDefault(edge, null);
+		final GeoKanteGeometrySessionData sessionData = getSessionData(edge);
+		return sessionData.getEdgeGeometry().getOrDefault(edge, null);
 	}
 
 	/**
@@ -343,8 +398,9 @@ public class GeoKanteGeometryServiceImpl
 
 	@Override
 	public List<GEOKanteMetadata> getStreckeMetaData(final Strecke strecke) {
+		final GeoKanteGeometrySessionData sessionData = getSessionData(strecke);
 		final String key = CacheUtils.getCacheKey(strecke);
-		return geoKanteMetadas.computeIfAbsent(key, k -> {
+		return sessionData.getGeoKanteMetadas().computeIfAbsent(key, k -> {
 			try {
 				final Strecke_Punkt[] startEnd = StreckeExtensions
 						.getStartEnd(strecke);
@@ -387,9 +443,10 @@ public class GeoKanteGeometryServiceImpl
 	 */
 	private List<GEOKanteMetadata> getGeoKanteMetadatas(final TOP_Kante topEdge,
 			final TOP_Knoten start) {
+		final GeoKanteGeometrySessionData sessionData = getSessionData(topEdge);
 		final String key = CacheUtils.getCacheKey(topEdge, start);
 
-		return geoKanteMetadas.computeIfAbsent(key, k -> {
+		return sessionData.getGeoKanteMetadas().computeIfAbsent(key, k -> {
 			final List<Bereich_Objekt> bereichObjekt = StreamSupport
 					.stream(getContainer(start).getBereichObjekt()
 							.spliterator(), false)

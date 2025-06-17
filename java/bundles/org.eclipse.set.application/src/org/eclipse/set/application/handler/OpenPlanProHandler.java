@@ -11,19 +11,20 @@ package org.eclipse.set.application.handler;
 import java.nio.file.Path;
 import java.util.Optional;
 
-import jakarta.inject.Inject;
-
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.e4.core.services.nls.Translation;
 import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.eclipse.set.application.Messages;
 import org.eclipse.set.basis.IModelSession;
+import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.eclipse.set.core.services.configurationservice.UserConfigurationService;
 import org.eclipse.set.utils.ToolboxConfiguration;
 import org.eclipse.set.utils.handler.AbstractOpenHandler;
 import org.eclipse.swt.widgets.Shell;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import jakarta.inject.Inject;
 
 /**
  * This handler can present a file dialog, assigns the selected file to a new
@@ -64,7 +65,8 @@ public class OpenPlanProHandler extends AbstractOpenHandler {
 
 	@Override
 	protected IModelSession createSession(final Path path) {
-		final IModelSession session = sessionService.loadModelSession(path);
+		final IModelSession session = sessionService.loadModelSession(path,
+				getRole());
 		session.init();
 		return session;
 	}
@@ -129,5 +131,10 @@ public class OpenPlanProHandler extends AbstractOpenHandler {
 
 		}
 		return modelSession;
+	}
+
+	@Override
+	protected ToolboxFileRole getRole() {
+		return ToolboxFileRole.SESSION;
 	}
 }

@@ -41,6 +41,8 @@ public class PlainToolboxFile extends AbstractToolboxFile {
 	private boolean loadable;
 	private final SessionService sessionService;
 
+	private final ToolboxFileRole role;
+
 	/**
 	 * @param toolboxFile
 	 *            the original toolbox file
@@ -53,6 +55,7 @@ public class PlainToolboxFile extends AbstractToolboxFile {
 		addResource(PathExtensions.getBaseFileName(toolboxFile.getPath()),
 				toolboxFile.getPlanProResource());
 		this.loadable = false;
+		this.role = toolboxFile.getRole();
 
 	}
 
@@ -60,12 +63,13 @@ public class PlainToolboxFile extends AbstractToolboxFile {
 	// here. Use {@link #load()} to explicitly load the resource.
 	PlainToolboxFile(final SessionService sessionService, final Path path,
 			final Format format, final EditingDomain editingDomain,
-			final boolean loadable) {
+			final boolean loadable, final ToolboxFileRole role) {
 		this.sessionService = sessionService;
 		this.commonPath = path;
 		this.format = format;
 		this.editingDomain = editingDomain;
 		this.loadable = loadable;
+		this.role = role;
 	}
 
 	@Override
@@ -217,5 +221,10 @@ public class PlainToolboxFile extends AbstractToolboxFile {
 	@Override
 	public void openLayout() throws IOException {
 		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public ToolboxFileRole getRole() {
+		return role;
 	}
 }

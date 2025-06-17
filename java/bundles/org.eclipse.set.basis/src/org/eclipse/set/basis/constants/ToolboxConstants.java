@@ -196,16 +196,22 @@ public final class ToolboxConstants {
 	public static final String TOOLBOX_DIRECTORY_NAME_IMPORT_INITIAL_STATE = "importinitialfile";
 
 	/**
+	 * The name for the temporary directory of a toolbox file used as a first
+	 * planning to import.
+	 */
+	public static final String TOOLBOX_DIRECTORY_NAME_FIRST_PLANNING_TO_IMPORT = "firstimportplanningfile";
+
+	/**
+	 * The name for the temporary directory of a toolbox file used as a second
+	 * planning to import.
+	 */
+	public static final String TOOLBOX_DIRECTORY_NAME_SECOND_PLANNING_TO_IMPORT = "secondimportplanningfile";
+
+	/**
 	 * The name for the temporary directory of a toolbox file used as a
 	 * secondary planning.
 	 */
-	public static final String TOOLBOX_DIRECTORY_NAME_SECONDARY_PLANNING = "secondaryplanningfile";
-
-	/**
-	 * The name for the temporary directory of a toolbox file used as a third
-	 * planning.
-	 */
-	public static final String TOOLBOX_DIRECTORY_NAME_THIRD_PLANNING = "thridplanningfile";
+	public static final String TOOLBOX_DIRECTORY_NAME_COMPARE_PLANNING = "compareplanning";
 
 	/**
 	 * The name for the temporary directory of a toolbox file used to start a
@@ -280,6 +286,11 @@ public final class ToolboxConstants {
 	 * Rounding result of BigDecimal.divide to place after comma
 	 */
 	public static final int ROUNDING_TO_PLACE = 5;
+
+	/**
+	 * Labels for CompareTableCellContent cell
+	 */
+	public static final String TABLE_COMPARE_TABLE_CELL_LABEL = "tableCompareCell";
 
 	/**
 	 * The id of the web developer help part

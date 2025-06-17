@@ -116,7 +116,6 @@ public abstract class AbstractImportGroup {
 		serviceProvider.dialogService.reportImported(shell);
 		resetGroup();
 		ToolboxEvents.send(broker, new EditingCompleted());
-		broker.send(Events.MODEL_CHANGED,
-				modelSession.getPlanProSchnittstelle());
+		broker.send(Events.MODEL_CHANGED, modelSession);
 	}
 }

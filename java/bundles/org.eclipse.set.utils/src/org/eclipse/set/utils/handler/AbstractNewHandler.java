@@ -12,8 +12,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
 import java.util.Date;
 
-import jakarta.inject.Inject;
-
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.e4.core.di.annotations.Execute;
 import org.eclipse.e4.core.di.annotations.Optional;
@@ -37,6 +35,8 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import jakarta.inject.Inject;
 
 /**
  * Common functions for new PlanPro files.
@@ -196,8 +196,7 @@ public abstract class AbstractNewHandler<T extends InitializationData>
 			if (newSession != null) {
 				// set the new, global model session
 				application.getContext().set(IModelSession.class, newSession);
-				eventBroker.send(Events.MODEL_CHANGED,
-						newSession.getPlanProSchnittstelle());
+				eventBroker.send(Events.MODEL_CHANGED, newSession);
 			}
 		} catch (final InvocationTargetException | InterruptedException ex) {
 			if (ex instanceof InvocationTargetException) {

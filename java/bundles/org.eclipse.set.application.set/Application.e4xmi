@@ -15,6 +15,9 @@
     <mainMenu xmi:id="_D9x1qR5jEeW1jPyxhgRGUg" elementId="menu:org.eclipse.ui.main.menu">
       <children xsi:type="menu:Menu" xmi:id="_D9x1qh5jEeW1jPyxhgRGUg" elementId="menu:org.eclipse.ui.main.menu.file" label="%menu.label.file">
         <children xsi:type="menu:HandledMenuItem" xmi:id="_D9x1qx5jEeW1jPyxhgRGUg" elementId="item:org.eclipse.set.planpro.menu.file.openproject" label="%menu.label.file.open" iconURI="platform:/plugin/org.eclipse.set.utils/icons/ic_folder_open_black_18dp_1x.png" command="_D9x1oB5jEeW1jPyxhgRGUg"/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_aehkIELvEfCk1o_6Tmtp2Q" elementId="item:org.eclipse.set.planpro.menu.file.openSecondProject" label="%menu.label.file.openSecond" iconURI="platform:/plugin/org.eclipse.set.utils/icons/ic_folder_open_black_18dp_1x.png" command="_XhDcEEXREfC3AqjYdj1JDA">
+          <visibleWhen xsi:type="ui:ImperativeExpression" xmi:id="_fzVl4EXSEfC3AqjYdj1JDA" contributionURI="bundleclass://org.eclipse.set.application/org.eclipse.set.application.handler.OpenCompareProjectHandler"/>
+        </children>
         <children xsi:type="menu:Menu" xmi:id="_wq_6IBOLEfCjhIyK-hnYbA" elementId="org.eclipse.set.application.set.menu.openrecent" label="%menu.label.file.openrecent" iconURI="platform:/plugin/org.eclipse.set.utils/icons/ic_folder_open_black_18dp_1x.png">
           <children xsi:type="menu:DynamicMenuContribution" xmi:id="_xv660BOLEfCjhIyK-hnYbA" elementId="org.eclipse.set.application.set.dynamicmenucontribution.0" contributionURI="bundleclass://org.eclipse.set.application/org.eclipse.set.application.contribution.OpenRecentMenuContribution"/>
         </children>
@@ -61,6 +64,7 @@
   <handlers xmi:id="_ot2bECiOEemmpqOXtBHImg" elementId="org.eclipse.set.application.handler.revert" contributionURI="bundleclass://org.eclipse.set.application/org.eclipse.set.application.handler.RevertHandler" command="_jy488CiOEemmpqOXtBHImg"/>
   <handlers xmi:id="_tJU5UIYxEeuNU-GyWYwVKw" elementId="org.eclipse.set.application.set.handler.restoreactionarea" contributionURI="bundleclass://org.eclipse.set.application/org.eclipse.set.application.handler.RestoreActionAreaHandler" command="_HBip8IYxEeuNU-GyWYwVKw"/>
   <handlers xmi:id="_kiN_MF0vEe6gKuocBy_cVw" elementId="org.eclipse.set.application.handler.developerHelpCommand" contributionURI="bundleclass://org.eclipse.set.application/org.eclipse.set.application.handler.DeveloperHelpHandler" command="_e2hnsF0vEe6gKuocBy_cVw"/>
+  <handlers xmi:id="_fi7AwEXREfC3AqjYdj1JDA" elementId="org.eclipse.set.application.set.handler.openSecondProject" contributionURI="bundleclass://org.eclipse.set.application/org.eclipse.set.application.handler.OpenCompareProjectHandler" command="_XhDcEEXREfC3AqjYdj1JDA"/>
   <bindingTables xmi:id="_D9x1nh5jEeW1jPyxhgRGUg" bindingContext="_D9x1mR5jEeW1jPyxhgRGUg">
     <bindings xmi:id="_D9x1nx5jEeW1jPyxhgRGUg" keySequence="M1+Q" command="_D9x1nB5jEeW1jPyxhgRGUg"/>
     <bindings xmi:id="_D9x1oh5jEeW1jPyxhgRGUg" keySequence="M1+O" command="_D9x1oB5jEeW1jPyxhgRGUg"/>
@@ -82,6 +86,7 @@
   <commands xmi:id="_cHSywBJfEem7h5-_uEYOFw" elementId="org.eclipse.set.application.command.toolboxnews" commandName="Toolboxnews"/>
   <commands xmi:id="_jy488CiOEemmpqOXtBHImg" elementId="org.eclipse.set.application.command.revert" commandName="Revert"/>
   <commands xmi:id="_HBip8IYxEeuNU-GyWYwVKw" elementId="org.eclipse.set.application.set.command.restoreactionarea" commandName="RestoreActionArea"/>
+  <commands xmi:id="_XhDcEEXREfC3AqjYdj1JDA" elementId="org.eclipse.set.application.set.command.openSecondProjectCommand" commandName="openSecondProject"/>
   <addons xmi:id="_D9x1kh5jEeW1jPyxhgRGUg" elementId="org.eclipse.e4.core.commands.service" contributionURI="bundleclass://org.eclipse.e4.core.commands/org.eclipse.e4.core.commands.CommandServiceAddon"/>
   <addons xmi:id="_D9x1kx5jEeW1jPyxhgRGUg" elementId="org.eclipse.e4.ui.contexts.service" contributionURI="bundleclass://org.eclipse.e4.ui.services/org.eclipse.e4.ui.services.ContextServiceAddon"/>
   <addons xmi:id="_D9x1lB5jEeW1jPyxhgRGUg" elementId="org.eclipse.e4.ui.bindings.service" contributionURI="bundleclass://org.eclipse.e4.ui.bindings/org.eclipse.e4.ui.bindings.BindingServiceAddon"/>

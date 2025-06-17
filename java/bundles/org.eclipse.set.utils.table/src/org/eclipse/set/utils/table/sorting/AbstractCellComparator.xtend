@@ -17,6 +17,7 @@ import org.eclipse.set.model.tablemodel.StringCellContent
 import org.eclipse.set.model.tablemodel.TableCell
 
 import static extension org.eclipse.set.model.tablemodel.extensions.CellContentExtensions.*
+import org.eclipse.set.model.tablemodel.CompareTableCellContent
 
 /**
  * Comparator for TableCells
@@ -101,6 +102,22 @@ package abstract class AbstractCellComparator implements Comparator<TableCell> {
 		StringCellContent c2
 	) {
 		return c1.compareCellContentString.compareCell(c2.value)
+	}
+
+	private def dispatch int compareDispatch(CompareTableCellContent c1,
+		CellContent c2) {
+		return c1.secondPlanCellContent.compareDispatch(c2)
+	}
+
+	private def dispatch int compareDispatch(CellContent c1,
+		CompareTableCellContent c2) {
+		return c1.compareDispatch(c2.secondPlanCellContent)
+	}
+
+	private def dispatch int compareDispatch(CompareTableCellContent c1,
+		CompareTableCellContent c2) {
+		return c1.secondPlanCellContent.compareDispatch(
+			c2.secondPlanCellContent)
 	}
 
 	private def Iterable<String> compareCellContentString(

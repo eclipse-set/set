@@ -11,8 +11,6 @@ package org.eclipse.set.utils.handler;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
 
-import jakarta.inject.Inject;
-
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.e4.core.di.annotations.Execute;
 import org.eclipse.e4.core.di.annotations.Optional;
@@ -25,6 +23,7 @@ import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.Wrapper;
 import org.eclipse.set.basis.constants.Events;
+import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.eclipse.set.core.services.dialog.DialogService;
 import org.eclipse.set.core.services.part.ToolboxPartService;
 import org.eclipse.set.core.services.session.SessionService;
@@ -33,6 +32,8 @@ import org.eclipse.set.utils.Messages;
 import org.eclipse.swt.widgets.Shell;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import jakarta.inject.Inject;
 
 /**
  * Common functions for loading PlanPro files.
@@ -58,7 +59,7 @@ public abstract class AbstractOpenHandler extends AbstractHandler {
 
 	@Inject
 	@Optional
-	private IModelSession oldModelSession;
+	protected IModelSession oldModelSession;
 
 	@Inject
 	private ToolboxPartService toolboxViewService;
@@ -83,20 +84,10 @@ public abstract class AbstractOpenHandler extends AbstractHandler {
 		return menuItem;
 	}
 
-	private void loadSession(final Shell shell,
+	protected void loadSession(final Shell shell,
 			final MApplication application) {
 
-		// unsaved data
-		if (oldModelSession != null && oldModelSession.isDirty()) {
-			if (!dialogService.confirmCloseUnsaved(shell)) {
-				return;
-			}
-		}
-
-		// close the current session
-		if (oldModelSession != null) {
-			oldModelSession.close();
-		}
+		closeOldSession(shell);
 
 		// choose file if not present
 		final Path path = chooseFile(shell);
@@ -152,6 +143,19 @@ public abstract class AbstractOpenHandler extends AbstractHandler {
 		logger.trace("Execute done."); //$NON-NLS-1$
 	}
 
+	protected void closeOldSession(final Shell shell) {
+		// unsaved data
+		if (oldModelSession != null && oldModelSession.isDirty()
+				&& !dialogService.confirmCloseUnsaved(shell)) {
+			return;
+		}
+
+		// close the current session
+		if (oldModelSession != null) {
+			oldModelSession.close();
+		}
+	}
+
 	protected abstract Path chooseFile(Shell shell);
 
 	protected abstract IModelSession createSession(Path path);
@@ -171,13 +175,14 @@ public abstract class AbstractOpenHandler extends AbstractHandler {
 
 	protected abstract String getTaskMessage();
 
+	protected abstract ToolboxFileRole getRole();
+
 	protected void success(final IModelSession modelSession,
 			final MApplication application) {
 		// set the new, global model session
 		application.getContext().set(IModelSession.class, modelSession);
 
-		eventBroker.send(Events.MODEL_CHANGED,
-				modelSession.getPlanProSchnittstelle());
+		eventBroker.send(Events.MODEL_CHANGED, modelSession);
 
 		// reset the default part
 		toolboxViewService.showDefaultPart(null);

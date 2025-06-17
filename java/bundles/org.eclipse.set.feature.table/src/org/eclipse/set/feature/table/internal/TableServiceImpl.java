@@ -42,6 +42,7 @@ import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.basis.constants.ToolboxViewState;
 import org.eclipse.set.basis.extensions.MApplicationElementExtensions;
+import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.eclipse.set.basis.graph.AbstractDirectedEdgePath;
 import org.eclipse.set.basis.graph.Digraphs;
 import org.eclipse.set.basis.part.PartDescription;
@@ -50,6 +51,7 @@ import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.cache.CacheService;
 import org.eclipse.set.core.services.dialog.DialogService;
 import org.eclipse.set.core.services.part.ToolboxPartService;
+import org.eclipse.set.core.services.session.SessionService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.messages.Messages;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
@@ -100,13 +102,14 @@ import jakarta.inject.Inject;
  */
 public final class TableServiceImpl implements TableService {
 
-	static final Logger logger = LoggerFactory.getLogger(TableService.class);
+	static final Logger logger = LoggerFactory
+			.getLogger(TableServiceImpl.class);
 
 	@Inject
-	private TableDiffService diffService;
+	TableDiffService diffService;
 
 	@Inject
-	private IEventBroker broker;
+	IEventBroker broker;
 
 	@Inject
 	CacheService cacheService;
@@ -120,6 +123,9 @@ public final class TableServiceImpl implements TableService {
 
 	@Inject
 	DialogService dialogService;
+
+	@Inject
+	SessionService sessionService;
 
 	private final Map<TableInfo, PlanPro2TableTransformationService> modelServiceMap = new ConcurrentHashMap<>();
 	private static final Queue<Pair<BasePart, Runnable>> transformTableThreads = new LinkedList<>();
@@ -168,7 +174,27 @@ public final class TableServiceImpl implements TableService {
 		if (zielTable == null || startTable == null) {
 			return null;
 		}
-		return diffService.createDiffTable(startTable, zielTable);
+
+		final Table diffTable = diffService.createDiffTable(startTable,
+				zielTable);
+		if (modelSession.getToolboxFile()
+				.getRole() == ToolboxFileRole.COMPARE_PLANNING) {
+			final Table sessionTable = getSessionTable(ToolboxFileRole.SESSION,
+					elementId, controlAreaId);
+			return diffService.createCompareTable(sessionTable, diffTable);
+		}
+		return diffTable;
+	}
+
+	private Table getSessionTable(final ToolboxFileRole role,
+			final String shortcut, final String controlAreaId) {
+		final IModelSession loadedSession = sessionService
+				.getLoadedSession(role);
+		final TableType tableType = TableType.DIFF;
+		return transformToTable(shortcut, tableType, loadedSession,
+				controlAreaId == null || controlAreaId.isEmpty()
+						? Collections.emptySet()
+						: Set.of(controlAreaId));
 	}
 
 	@Override
@@ -184,7 +210,6 @@ public final class TableServiceImpl implements TableService {
 
 	private String getContainerCacheId(final IModelSession modelSession,
 			final TableType tableType) {
-
 		// For table diffs, combine initial and final cache ids
 		if (tableType == TableType.DIFF) {
 			return getContainerCacheId(modelSession, TableType.INITIAL) + "#" //$NON-NLS-1$
@@ -377,9 +402,11 @@ public final class TableServiceImpl implements TableService {
 	 * @param table
 	 * @return table as csv string
 	 */
-
 	@SuppressWarnings("static-method")
 	private String transformToCsv(final Table table) {
+		if (table == null) {
+			return ""; //$NON-NLS-1$
+		}
 		final List<TableRow> rows = TableExtensions.getTableRows(table);
 		final List<ColumnDescriptor> colNames = table.getColumndescriptors()
 				.stream() //
@@ -387,25 +414,25 @@ public final class TableServiceImpl implements TableService {
 						.isNullOrEmpty(descriptor.getLabel())) //
 				.toList();
 		final String delimeter = ";"; //$NON-NLS-1$
-		String result = ""; //$NON-NLS-1$
+		final StringBuilder builder = new StringBuilder();
 		for (final ColumnDescriptor colName : colNames) {
-			result += colName.getLabel() + delimeter;
+			builder.append(colName.getLabel() + delimeter);
 		}
-		result += "\n"; //$NON-NLS-1$
+		builder.append("\n"); //$NON-NLS-1$
 
 		for (final TableRow row : rows) {
 			for (final ColumnDescriptor colName : colNames) {
 				try {
-					result += TableCellExtensions.getPlainStringValue(
+					builder.append(TableCellExtensions.getPlainStringValue(
 							TableRowExtensions.getCell(row, colName))
-							+ delimeter;
+							+ delimeter);
 				} catch (final Exception e) {
-					result += e.toString();
+					builder.append(e.toString());
 				}
 			}
-			result += "\n"; //$NON-NLS-1$
+			builder.append("\n"); //$NON-NLS-1$
 		}
-		return result;
+		return builder.toString();
 	}
 
 	private List<Pair<String, String>> getCacheKeys(final String shortCut,
@@ -433,8 +460,11 @@ public final class TableServiceImpl implements TableService {
 			final Set<String> controlAreaIds) {
 		final String shortCut = extractShortcut(elementId);
 		final String containerId = getContainerCacheId(modelSession, tableType);
-		final Cache cache = getCache().getCache(
-				ToolboxConstants.SHORTCUT_TO_TABLE_CACHE_ID, containerId);
+		final ToolboxFileRole role = modelSession.getToolboxFile().getRole();
+		final String sessionTableCacheId = role.toDirectoryName() + "/" //$NON-NLS-1$
+				+ ToolboxConstants.SHORTCUT_TO_TABLE_CACHE_ID;
+		final Cache cache = getCache().getCache(sessionTableCacheId,
+				containerId);
 
 		Table resultTable = null;
 
@@ -448,8 +478,8 @@ public final class TableServiceImpl implements TableService {
 			if (table == null) {
 				table = (Table) loadTransform(shortCut, tableType, modelSession,
 						areaId);
-				saveTableToCache(table, containerId, shortCut, tableType,
-						areaCacheKey);
+				saveTableToCache(table, sessionTableCacheId, containerId,
+						shortCut, tableType, areaCacheKey);
 			}
 			if (resultTable == null) {
 				resultTable = EcoreUtil.copy(table);
@@ -460,6 +490,7 @@ public final class TableServiceImpl implements TableService {
 				}
 			}
 		}
+
 		// sorting
 		if (resultTable != null && resultTable.getTablecontent() != null) {
 			ECollections.sort(resultTable.getTablecontent().getRowgroups(),
@@ -469,7 +500,8 @@ public final class TableServiceImpl implements TableService {
 		return resultTable;
 	}
 
-	private void saveTableToCache(final Table table, final String containerId,
+	private void saveTableToCache(final Table table,
+			final String sessionTableCacheId, final String containerId,
 			final String shortCut, final TableType tableType,
 			final String areaCacheKey) {
 		final String threadName = String.format("%s/saveCache/%s", shortCut, //$NON-NLS-1$
@@ -481,8 +513,7 @@ public final class TableServiceImpl implements TableService {
 		final Collection<TableError> errors = modelService.getTableErrors();
 		final Thread storageCacheThread = new Thread(() -> {
 			final Runnable storageFunc = () -> {
-				final Cache cache = getCache().getCache(
-						ToolboxConstants.SHORTCUT_TO_TABLE_CACHE_ID,
+				final Cache cache = getCache().getCache(sessionTableCacheId,
 						containerId);
 				if (table != null) {
 					cache.set(areaCacheKey, table);
@@ -574,7 +605,7 @@ public final class TableServiceImpl implements TableService {
 	private IRunnableWithProgress createProgressMonitor() {
 		// runnable for the transformation
 		return monitor -> {
-			// start a single task with unknown timeframe
+			// start a single task with unknown time frame
 			monitor.beginTask(
 					messages.Abstracttableview_transformation_progress,
 					transformTableThreads.size() > 1

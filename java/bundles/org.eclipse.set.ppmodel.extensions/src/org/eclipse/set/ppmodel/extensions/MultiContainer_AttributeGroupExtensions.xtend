@@ -58,11 +58,7 @@ class MultiContainer_AttributeGroupExtensions {
 	def static ContainerType getContainerType(
 		MultiContainer_AttributeGroup container) {
 		val lstZustand = container.firstLSTZustand
-		var parent = lstZustand.eContainer
-		while (parent !== null && !(parent instanceof PlanPro_Schnittstelle)) {
-			parent = parent.eContainer
-		}
-		val schnittStelle = parent as PlanPro_Schnittstelle
+		val schnittStelle = container.planProSchnittstelle
 		if (schnittStelle?.LSTZustand !== null) {
 			return ContainerType.SINGLE
 		}
@@ -87,5 +83,14 @@ class MultiContainer_AttributeGroupExtensions {
 		}
 
 		throw new IllegalArgumentException('''PlanProSchinttStelle not contains LST_Zustand: «lstZustand.identitaet.wert»''')
+	}
+	
+	def static PlanPro_Schnittstelle getPlanProSchnittstelle(MultiContainer_AttributeGroup container) {
+		val lstZustand = container.firstLSTZustand
+		var parent = lstZustand.eContainer
+		while (parent !== null && !(parent instanceof PlanPro_Schnittstelle)) {
+			parent = parent.eContainer
+		}
+		return parent as PlanPro_Schnittstelle
 	}
 }

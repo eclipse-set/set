@@ -84,7 +84,9 @@ public final class SsksTransformationService extends
 
 	@Override
 	public void handleEvent(final Event event) {
-		final String property = (String) event.getProperty(IEventBroker.DATA);
+		final String property = event.getTopic().equals(Events.CLOSE_PART)
+				? (String) event.getProperty(IEventBroker.DATA)
+				: ""; //$NON-NLS-1$
 		if (messages.ToolboxTableNameSsksShort.toLowerCase().equals(property)
 				|| event.getTopic().equals(Events.CLOSE_SESSION)) {
 			Thread.getAllStackTraces().keySet().forEach(thread -> {
