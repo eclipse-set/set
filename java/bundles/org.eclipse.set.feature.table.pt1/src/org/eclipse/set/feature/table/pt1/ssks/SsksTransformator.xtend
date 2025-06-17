@@ -22,7 +22,6 @@ import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Unterbringung
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
-import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_Strecke_AttributeGroup
 import org.eclipse.set.model.planpro.Geodaten.Strecke
 import org.eclipse.set.model.planpro.Geodaten.Technischer_Punkt
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Hl10
@@ -153,8 +152,8 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 	// Container the thread, which will be refresh table after all thread is done
 	new(Set<ColumnDescriptor> cols,
 		EnumTranslationService enumTranslationService,
-		BankService bankingService,
-		EventAdmin eventAdmin, String tableShortCut) {
+		BankService bankingService, EventAdmin eventAdmin,
+		String tableShortCut) {
 		super(cols, enumTranslationService)
 		this.bankingService = bankingService
 		this.eventAdmin = eventAdmin
@@ -1511,17 +1510,26 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 	}
 
 	private def void fillUeberhoehung(TableRow row, Signal signal) {
-		val containerType = signal.container
+		// Fill Hourglass icon.
+		fill(
+			row,
+			cols.getColumn(Ueberhoehung),
+			signal,
+			[
+				CellContentExtensions.HOURGLASS_ICON
+			]
+		)
 		// Because find bank value process can take a long time,
 		// therefore the bank column will be fill during find process.
 		val threadName = '''«tableShortCut.toLowerCase»/Banking/«signal.cacheKey»'''
 		new Thread([
 			try {
+
 				val bankValue = row.getUeberhoehung(signal).map [
 					multiply(new BigDecimal(1000)).toTableInteger ?: ""
 				]
 				val changeProperties = new Pt1TableChangeProperties(
-					containerType, row, cols.getColumn(Ueberhoehung), bankValue,
+					signal.container, row, cols.getColumn(Ueberhoehung), bankValue,
 					ITERABLE_FILLING_SEPARATOR)
 				val updateValuesEvent = new TableDataChangeEvent(
 					tableShortCut.toLowerCase, changeProperties)
@@ -1538,16 +1546,7 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 		Signal signal) throws InterruptedException {
 		val topPoint = new TopPoint(signal)
 		var bankValue = bankingService.findBankValue(topPoint)
-		// Fill Hourglass icon, when values is empty and find bank process still running.
-		if (bankValue.isEmpty && !bankingService.isFindBankingComplete)
-			fill(
-				row,
-				cols.getColumn(Ueberhoehung),
-				signal,
-				[
-					CellContentExtensions.HOURGLASS_ICON
-				]
-			)
+		
 		// Get bank value again during the find bank process.
 		while (bankValue.isNullOrEmpty) {
 			bankValue = bankingService.findBankValue(topPoint)

@@ -24,10 +24,12 @@ import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.constants.ContainerType;
 import org.eclipse.set.basis.constants.Events;
+import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.eclipse.set.basis.graph.TopPath;
 import org.eclipse.set.basis.graph.TopPoint;
 import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.graph.TopologicalGraphService;
+import org.eclipse.set.core.services.session.SessionService;
 import org.eclipse.set.model.planpro.Geodaten.TOP_Kante;
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
@@ -50,15 +52,17 @@ import org.osgi.service.event.EventHandler;
  * TopologicalGraph service for finding distances in the topological model
  */
 @Component(property = { EventConstants.EVENT_TOPIC + "=" + Events.MODEL_CHANGED,
-		EventConstants.EVENT_TOPIC + "="
-				+ Events.SECONDARY_MODEL_LOADED }, service = {
-						EventHandler.class, TopologicalGraphService.class })
+		EventConstants.EVENT_TOPIC + "=" + Events.SECONDARY_MODEL_LOADED,
+		EventConstants.EVENT_TOPIC + "=" + Events.CLOSE_SESSION }, service = {
+				EventHandler.class, TopologicalGraphService.class })
 public class TopologicalGraphServiceImpl
 		implements TopologicalGraphService, EventHandler {
 	private final Map<PlanPro_Schnittstelle, WeightedPseudograph<AsSplitTopGraph.Node, AsSplitTopGraph.Edge>> topGraphBaseMap;
 
 	@Reference
 	EventAdmin eventAdmin;
+	@Reference
+	SessionService sessionService;
 
 	/**
 	 * The default constructor
@@ -70,8 +74,19 @@ public class TopologicalGraphServiceImpl
 
 	@Override
 	public void handleEvent(final Event event) {
-		// Create a new graph for the new model
+		if (event.getTopic().equals(Events.CLOSE_SESSION)) {
+			final ToolboxFileRole role = (ToolboxFileRole) event
+					.getProperty(IEventBroker.DATA);
+			if (role == ToolboxFileRole.SESSION) {
+				topGraphBaseMap.clear();
+			} else {
+				topGraphBaseMap.remove(sessionService.getLoadedSession(role)
+						.getPlanProSchnittstelle());
+			}
 
+			return;
+		}
+		// Create a new graph for the new model
 		final IModelSession modelsession = (IModelSession) event
 				.getProperty(IEventBroker.DATA);
 		final PlanPro_Schnittstelle planProSchnittstelle = modelsession

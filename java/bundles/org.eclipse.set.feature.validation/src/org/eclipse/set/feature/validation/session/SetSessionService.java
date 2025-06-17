@@ -156,7 +156,7 @@ public class SetSessionService implements SessionService {
 			// remove the session from the application context
 			getApplication().getContext().set(IModelSession.class, null);
 			loadedModels.clear();
-			serviceProvider.broker.send(Events.CLOSE_SESSION, null);
+			serviceProvider.broker.send(Events.CLOSE_SESSION, role);
 			return true;
 		}
 

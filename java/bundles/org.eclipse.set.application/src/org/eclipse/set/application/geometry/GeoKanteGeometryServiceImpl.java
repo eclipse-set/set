@@ -186,11 +186,12 @@ public class GeoKanteGeometryServiceImpl
 			findGeometryThread.start();
 		}
 
-		if (topic.equals(Events.CLOSE_SESSION) && findGeometryThread != null
-				&& findGeometryThread.isAlive()
-				&& !findGeometryThread.isInterrupted()) {
-			findGeometryThread.interrupt();
-			isProcessComplete = false;
+		if (topic.equals(Events.CLOSE_SESSION)) {
+			if (!isProcessComplete) {
+				findGeometryThread.interrupt();
+				isProcessComplete = false;
+			}
+
 			final ToolboxFileRole role = (ToolboxFileRole) event
 					.getProperty(IEventBroker.DATA);
 			if (role == ToolboxFileRole.SESSION) {

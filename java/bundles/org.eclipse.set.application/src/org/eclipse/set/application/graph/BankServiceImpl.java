@@ -142,8 +142,7 @@ public class BankServiceImpl implements BankService, EventHandler {
 
 		}
 
-		if (topic.equals(Events.CLOSE_SESSION) && findBankingThread.isAlive()
-				&& !findBankingThread.isInterrupted()) {
+		if (topic.equals(Events.CLOSE_SESSION)) {
 			final ToolboxFileRole role = (ToolboxFileRole) event
 					.getProperty(IEventBroker.DATA);
 			if (role == ToolboxFileRole.SESSION) {
@@ -154,7 +153,11 @@ public class BankServiceImpl implements BankService, EventHandler {
 						.getPlanProSchnittstelle();
 				bankingSessiones.remove(closed);
 			}
-			findBankingThread.interrupt();
+			if (!isComplete) {
+				findBankingThread.interrupt();
+				isComplete = false;
+			}
+
 		}
 	}
 
