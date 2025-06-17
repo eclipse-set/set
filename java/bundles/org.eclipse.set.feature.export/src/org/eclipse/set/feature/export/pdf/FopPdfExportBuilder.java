@@ -194,7 +194,7 @@ public class FopPdfExportBuilder implements TableExport {
 		try {
 			final String tableDocumentText = createTableDocumentText(table,
 					titlebox, freeFieldInfo);
-			if (ToolboxConfiguration.isDevelopmentMode()) {
+			if (ToolboxConfiguration.isDebugMode()) {
 				exportTableDocument(
 						Paths.get(outputDir, getFilename(shortcut, "xml")), //$NON-NLS-1$
 						tableDocumentText);
@@ -319,7 +319,7 @@ public class FopPdfExportBuilder implements TableExport {
 			final OverwriteHandling overwriteHandling) throws IOException,
 			SAXException, TransformerException, UserAbortion {
 		if (xslDoc != null) {
-			if (ToolboxConfiguration.isDevelopmentMode()) {
+			if (ToolboxConfiguration.isDebugMode()) {
 				final Transformer documentToString = newTransformerFactory()
 						.newTransformer();
 				final DOMSource source = new DOMSource(xslDoc);

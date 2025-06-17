@@ -137,7 +137,7 @@ public class SiteplanPdfExportBuilder extends FopPdfExportBuilder {
 			final String imageDocumentText = createImageDocumentText(imagesData,
 					titleBox, freeFieldInfo, ppm);
 
-			if (ToolboxConfiguration.isDevelopmentMode()) {
+			if (ToolboxConfiguration.isDebugMode()) {
 				exportTableDocument(
 						Paths.get(outputDir,
 								getFilename(SITEPLAN_EXPORT_NAME, "xml")), //$NON-NLS-1$
@@ -175,7 +175,7 @@ public class SiteplanPdfExportBuilder extends FopPdfExportBuilder {
 		final String pageDIN = siteplanXSL.getPageStyle()
 				.getPageDIN()
 				.toString();
-		if (ToolboxConfiguration.isDevelopmentMode()) {
+		if (ToolboxConfiguration.isDebugMode()) {
 			final Transformer documentToString = newTransformerFactory()
 					.newTransformer();
 			final DOMSource source = new DOMSource(xslDoc);
