@@ -131,8 +131,9 @@ public class Messages {
 	public String PlanproImportPart_Subwork_Notset;
 
 	/**
-	 * Ausgewählt Fachdaten zu importieren enthält keine Untergewerk_Art. Bitte
-	 * wählen eine Art oder ändern Fachdaten
+	 * Die zum Import gewählten Fachdaten enthalten keine Information zum
+	 * Untergewerk. Bitte ein Untergewerk auswählen oder andere Fachdaten
+	 * wählen.
 	 */
 	public String PlanProImportPart_SelectSubworkMessage;
 
@@ -221,4 +222,19 @@ public class Messages {
 	 * Fachdatencontainer importieren
 	 */
 	public String PlanpRoImportPart_importContainerButton;
+
+	/**
+	 * Daten für Start- und Zielzustand importieren
+	 */
+	public String PlanProImportPart_ImportDialog_Title_ALL;
+
+	/**
+	 * Daten für Startzustand importieren
+	 */
+	public String PlanProImportPart_ImportDialog_Title_INITIAL;
+
+	/**
+	 * Daten für Zielzustand importieren
+	 */
+	public String PlanProImportPart_ImportDialog_Title_FINAL;
 }

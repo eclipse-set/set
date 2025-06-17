@@ -57,6 +57,9 @@ public class PlanungGruppeExtensions {
 	public static Optional<Planung_Gruppe> getPlanungGruppe(
 			final PlanPro_Schnittstelle schnittStelle,
 			final ENUMUntergewerkArt subworkType) {
+		if (subworkType == null || subworkType.getLiteral() == null) {
+			return Optional.empty();
+		}
 		return getPlanungGruppe(schnittStelle, subworkType.getLiteral(), ""); //$NON-NLS-1$
 	}
 

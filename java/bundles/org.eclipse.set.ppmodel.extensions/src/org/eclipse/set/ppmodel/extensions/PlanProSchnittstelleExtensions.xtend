@@ -261,7 +261,7 @@ class PlanProSchnittstelleExtensions {
 
 		val planungGruppe = factory.createPlanung_Gruppe();
 		planungProject.setLSTPlanungGruppe(planungGruppe);
-
+		planungGruppe.fixGuids
 		val planungEinzel = factory.createPlanung_Einzel();
 		planungGruppe.setLSTPlanungEinzel(planungEinzel);
 
@@ -277,7 +277,7 @@ class PlanProSchnittstelleExtensions {
 		planungPAllg.projektleiter = projektleiter
 
 		planungProject.planungPAllg = planungPAllg
-
+		
 		val fachdaten = factory.createFachdaten_AttributeGroup
 		val ausgabeFachdaten = factory.createAusgabe_Fachdaten
 		ausgabeFachdaten.fixGuids
