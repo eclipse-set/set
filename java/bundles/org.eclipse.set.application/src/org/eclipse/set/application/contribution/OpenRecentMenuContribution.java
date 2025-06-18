@@ -16,7 +16,7 @@ import java.util.List;
 import org.eclipse.e4.ui.di.AboutToShow;
 import org.eclipse.e4.ui.model.application.ui.menu.MMenuElement;
 import org.eclipse.e4.ui.workbench.modeling.EModelService;
-import org.eclipse.set.basis.ExampleFile;
+import org.eclipse.set.basis.RecentOpenFile;
 import org.eclipse.set.core.services.configurationservice.UserConfigurationService;
 
 import jakarta.inject.Inject;
@@ -25,9 +25,10 @@ import jakarta.inject.Inject;
  * 
  */
 public class OpenRecentMenuContribution extends LoadExampleContribution {
+
 	@Inject
 	UserConfigurationService userConfigService;
-	private static final String CONTRIBUTION_CLASS = "bundleclass://org.eclipse.set.application/org.eclipse.set.application.contribution.OpenRecentMenuItem"; //$NON-NLS-1$
+	private static final String OPEN_CONTRIBUTION_CLASS = "bundleclass://org.eclipse.set.application/org.eclipse.set.application.handler.OpenPlanProHandler";//$NON-NLS-1$
 
 	@Override
 	@AboutToShow
@@ -35,15 +36,13 @@ public class OpenRecentMenuContribution extends LoadExampleContribution {
 			final EModelService modelService) {
 		final List<Path> lastOpenFiles = userConfigService.getLastOpenFiles();
 		lastOpenFiles.stream()
-				.map(file -> new ExampleFile(file.getFileName().toString(),
+				.map(file -> new RecentOpenFile(file.getFileName().toString(),
 						file))
-				.forEach(file -> {
-					addExample(file, modelService, items);
-				});
+				.forEach(file -> addExample(file, modelService, items));
 	}
 
 	@Override
 	protected String getItemContributionClass() {
-		return CONTRIBUTION_CLASS;
+		return OPEN_CONTRIBUTION_CLASS;
 	}
 }

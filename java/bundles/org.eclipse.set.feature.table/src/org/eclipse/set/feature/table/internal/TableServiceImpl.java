@@ -175,26 +175,7 @@ public final class TableServiceImpl implements TableService {
 			return null;
 		}
 
-		final Table diffTable = diffService.createDiffTable(startTable,
-				zielTable);
-		if (modelSession.getToolboxFile()
-				.getRole() == ToolboxFileRole.COMPARE_PLANNING) {
-			final Table sessionTable = getSessionTable(ToolboxFileRole.SESSION,
-					elementId, controlAreaId);
-			return diffService.createCompareTable(sessionTable, diffTable);
-		}
-		return diffTable;
-	}
-
-	private Table getSessionTable(final ToolboxFileRole role,
-			final String shortcut, final String controlAreaId) {
-		final IModelSession loadedSession = sessionService
-				.getLoadedSession(role);
-		final TableType tableType = TableType.DIFF;
-		return transformToTable(shortcut, tableType, loadedSession,
-				controlAreaId == null || controlAreaId.isEmpty()
-						? Collections.emptySet()
-						: Set.of(controlAreaId));
+		return diffService.createDiffTable(startTable, zielTable);
 	}
 
 	@Override
@@ -359,6 +340,7 @@ public final class TableServiceImpl implements TableService {
 				|| transformedTable == null) {
 			return MissingSupplier.MISSING_VALUE;
 		}
+
 		// sorting
 		ECollections.sort(transformedTable.getTablecontent().getRowgroups(),
 				modelService.getRowGroupComparator());
@@ -678,5 +660,27 @@ public final class TableServiceImpl implements TableService {
 		}
 		monitor.done();
 		return result;
+	}
+
+	@Override
+	public Table createCompareProjectTable(final String elementId,
+			final TableType tableType, final Set<String> controlAreaIds) {
+		final Table mainSessionTable = transformToTable(elementId, tableType,
+				sessionService.getLoadedSession(ToolboxFileRole.SESSION),
+				controlAreaIds);
+		final IModelSession compareSession = sessionService
+				.getLoadedSession(ToolboxFileRole.COMPARE_PLANNING);
+		if (compareSession == null) {
+			return mainSessionTable;
+		}
+
+		final Table compareSessionTable = transformToTable(elementId, tableType,
+				compareSession, controlAreaIds);
+		final Table compareTable = diffService
+				.createCompareTable(mainSessionTable, compareSessionTable);
+		ECollections.sort(compareTable.getTablecontent().getRowgroups(),
+				getModelService(extractShortcut(elementId))
+						.getRowGroupComparator());
+		return compareTable;
 	}
 }

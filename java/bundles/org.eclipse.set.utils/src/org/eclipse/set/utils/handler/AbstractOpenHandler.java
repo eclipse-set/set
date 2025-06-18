@@ -86,7 +86,6 @@ public abstract class AbstractOpenHandler extends AbstractHandler {
 
 	protected void loadSession(final Shell shell,
 			final MApplication application) {
-
 		closeOldSession(shell);
 
 		// choose file if not present

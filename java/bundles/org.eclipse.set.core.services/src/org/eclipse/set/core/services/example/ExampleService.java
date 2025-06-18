@@ -10,7 +10,7 @@ package org.eclipse.set.core.services.example;
 
 import java.util.List;
 
-import org.eclipse.set.basis.ExampleFile;
+import org.eclipse.set.basis.RecentOpenFile;
 
 /**
  * Provides access to the example folder.
@@ -20,12 +20,12 @@ import org.eclipse.set.basis.ExampleFile;
 public interface ExampleService {
 
 	/**
-	 * Key used to locate the {@link ExampleFile} within the transient data.
+	 * Key used to locate the {@link RecentOpenFile} within the transient data.
 	 */
 	String EXAMPLE_FILE_KEY = "example.file.key"; //$NON-NLS-1$
 
 	/**
 	 * @return the example files
 	 */
-	List<ExampleFile> getExampleFiles();
+	List<RecentOpenFile> getExampleFiles();
 }
