@@ -55,7 +55,6 @@ public class SelectValueDialog extends AbstractSelectionDialog<String> {
 	protected Control createDialogArea(final Composite parent) {
 		final Composite composite = (Composite) super.createDialogArea(parent);
 		createMessageArea(composite);
-
 		final GridData data = new GridData(GridData.FILL_BOTH);
 		data.horizontalSpan = 2;
 		data.heightHint = convertHeightInCharsToPixels(10);
@@ -95,6 +94,12 @@ public class SelectValueDialog extends AbstractSelectionDialog<String> {
 	protected void okPressed() {
 		setResult(listViewer.getStructuredSelection(), String.class);
 		super.okPressed();
+	}
+
+	@Override
+	protected void createButtonsForButtonBar(final Composite parent) {
+		super.createButtonsForButtonBar(parent);
+		getButton(IDialogConstants.OK_ID).setEnabled(false);
 	}
 
 	@Override
