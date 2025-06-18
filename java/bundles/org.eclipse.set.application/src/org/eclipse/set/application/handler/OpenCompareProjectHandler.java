@@ -27,6 +27,7 @@ import org.eclipse.swt.widgets.Shell;
  * @author Truong
  */
 public class OpenCompareProjectHandler extends OpenPlanProHandler {
+
 	/**
 	 * @return can execute only when a project was loaded
 	 */
@@ -60,6 +61,6 @@ public class OpenCompareProjectHandler extends OpenPlanProHandler {
 	@Override
 	protected void success(final IModelSession modelSession,
 			final MApplication application) {
-		eventBroker.send(Events.SECONDARY_MODEL_LOADED, modelSession);
+		eventBroker.send(Events.COMPARE_MODEL_LOADED, modelSession);
 	}
 }

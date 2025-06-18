@@ -25,7 +25,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.ThreadUtils;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.e4.core.services.nls.Translation;
 import org.eclipse.e4.ui.di.UISynchronize;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
@@ -53,7 +52,6 @@ import org.eclipse.nebula.widgets.nattable.resize.command.RowHeightResetCommand;
 import org.eclipse.nebula.widgets.nattable.selection.SelectionLayer;
 import org.eclipse.nebula.widgets.nattable.viewport.command.ShowRowInViewportCommand;
 import org.eclipse.set.basis.FreeFieldInfo;
-import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.OverwriteHandling;
 import org.eclipse.set.basis.Pair;
 import org.eclipse.set.basis.constants.Events;
@@ -62,7 +60,6 @@ import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.basis.constants.ToolboxViewState;
 import org.eclipse.set.basis.extensions.MApplicationElementExtensions;
-import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.eclipse.set.basis.guid.Guid;
 import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.configurationservice.UserConfigurationService;
@@ -303,18 +300,14 @@ public final class ToolboxTableView extends BasePart {
 				selectionControlAreaHandler);
 
 		secondaryPlanningLoadedHanlder = event -> {
-
 			if (!event.getTopic()
-					.equalsIgnoreCase(Events.SECONDARY_MODEL_LOADED)) {
+					.equalsIgnoreCase(Events.COMPARE_MODEL_LOADED)) {
 				return;
 			}
-			if (event.getProperty(
-					IEventBroker.DATA) instanceof final IModelSession secondModel) {
-				updateModel(getToolboxPart(), secondModel);
-			}
+			updateModel(getToolboxPart());
 
 		};
-		getBroker().subscribe(Events.SECONDARY_MODEL_LOADED,
+		getBroker().subscribe(Events.COMPARE_MODEL_LOADED,
 				secondaryPlanningLoadedHanlder);
 	}
 
@@ -356,20 +349,14 @@ public final class ToolboxTableView extends BasePart {
 	 * 
 	 * @return the table view model
 	 */
-	private Table transformToTableModel(final String elementId,
-			final IModelSession modelSession) {
-		TableType transformTableType = tableType;
-		if (modelSession.getToolboxFile()
-				.getRole() == ToolboxFileRole.COMPARE_PLANNING) {
-			transformTableType = TableType.DIFF;
-		}
-		return tableService.transformToTable(elementId, transformTableType,
-				modelSession, controlAreaIds);
+	private Table transformToTableModel(final String elementId) {
+		return tableService.createCompareProjectTable(elementId, tableType,
+				controlAreaIds);
 	}
 
 	private void updateTableView(final List<Pt1TableCategory> tableCategories) {
 		tableService.updateTable(this, tableCategories, () -> {
-			updateModel(getToolboxPart(), getModelSession());
+			updateModel(getToolboxPart());
 			natTable.doCommand(new RowHeightResetCommand());
 			natTable.refresh();
 			updateButtons();
@@ -422,8 +409,7 @@ public final class ToolboxTableView extends BasePart {
 				.collect(Collectors.toSet());
 
 		tableService.updateTable(this, Collections.emptyList(),
-				() -> updateModel(getToolboxPart(), getModelSession()),
-				tableInstances::clear);
+				() -> updateModel(getToolboxPart()), tableInstances::clear);
 
 		// if the table was not created (possibly the creation was canceled by
 		// the user), we stop here with creating the view
@@ -760,19 +746,10 @@ public final class ToolboxTableView extends BasePart {
 		getBanderole().setEnableExport(!getModelSession().isDirty());
 	}
 
-	void updateModel(final MPart part, final IModelSession modelSession) {
+	void updateModel(final MPart part) {
 		// update banderole
 		getBanderole().setTableType(tableType);
-		table = transformToTableModel(part.getElementId(), modelSession);
-
-		if (getSessionService()
-				.getLoadedSession(ToolboxFileRole.COMPARE_PLANNING) != null
-				&& modelSession.getToolboxFile()
-						.getRole() != ToolboxFileRole.COMPARE_PLANNING) {
-			table = transformToTableModel(part.getElementId(),
-					getSessionService().getLoadedSession(
-							ToolboxFileRole.COMPARE_PLANNING));
-		}
+		table = transformToTableModel(part.getElementId());
 		// flag creation
 		MApplicationElementExtensions.setViewState(part,
 				ToolboxViewState.CREATED);

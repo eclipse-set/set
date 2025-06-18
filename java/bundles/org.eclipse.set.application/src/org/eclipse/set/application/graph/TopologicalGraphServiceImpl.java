@@ -52,7 +52,7 @@ import org.osgi.service.event.EventHandler;
  * TopologicalGraph service for finding distances in the topological model
  */
 @Component(property = { EventConstants.EVENT_TOPIC + "=" + Events.MODEL_CHANGED,
-		EventConstants.EVENT_TOPIC + "=" + Events.SECONDARY_MODEL_LOADED,
+		EventConstants.EVENT_TOPIC + "=" + Events.COMPARE_MODEL_LOADED,
 		EventConstants.EVENT_TOPIC + "=" + Events.CLOSE_SESSION }, service = {
 				EventHandler.class, TopologicalGraphService.class })
 public class TopologicalGraphServiceImpl

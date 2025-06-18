@@ -11,11 +11,11 @@ package org.eclipse.set.basis;
 import java.nio.file.Path;
 
 /**
- * A file in the example folder.
+ * A file was loaded before or a example .
  * 
  * @author Schaefer
  */
-public class ExampleFile {
+public class RecentOpenFile {
 
 	private final String label;
 	private final Path path;
@@ -26,7 +26,7 @@ public class ExampleFile {
 	 * @param path
 	 *            the path of the example file
 	 */
-	public ExampleFile(final String label, final Path path) {
+	public RecentOpenFile(final String label, final Path path) {
 		this.label = label;
 		this.path = path;
 	}

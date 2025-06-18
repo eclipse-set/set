@@ -63,6 +63,7 @@ import static extension org.eclipse.set.ppmodel.extensions.utils.CacheUtils.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.CollectionExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.Debug.*
 import static extension org.eclipse.set.utils.graph.DirectedEdgeExtensions.*
+import org.eclipse.set.utils.ToolboxConfiguration
 
 /**
  * Extensions for {@link Fstr_Fahrweg}.
@@ -71,8 +72,6 @@ class FahrwegExtensions extends BereichObjektExtensions {
 
 	static val Logger logger = LoggerFactory.getLogger(
 		typeof(FahrwegExtensions))
-
-	static val double DISTANCE_TOLERANCE = 1e-6
 
 	static var Cache cache
 
@@ -149,8 +148,7 @@ class FahrwegExtensions extends BereichObjektExtensions {
 		Fstr_Fahrweg fahrweg) {
 		val result = new LinkedList<Fstr_Abhaengigkeit>
 		for (abhaengigkeit : fahrweg.container.fstrAbhaengigkeit) {
-			if (abhaengigkeit.IDFstrFahrweg?.wert ==
-				fahrweg.identitaet.wert) {
+			if (abhaengigkeit.IDFstrFahrweg?.wert == fahrweg.identitaet.wert) {
 				result.add(abhaengigkeit)
 			}
 		}
@@ -448,10 +446,12 @@ class FahrwegExtensions extends BereichObjektExtensions {
 			Assert.isTrue(topKanten.contains(fwEdge.element))
 			val topKanteCr = topKanten.filter[it !== fwEdge.element].get(0)
 			val tangentFw = fwEdge.getGeoKanten.map [
-				getSegmentWith(centerCoordinate, DISTANCE_TOLERANCE)
+				getSegmentWith(centerCoordinate,
+					ToolboxConfiguration.pathFindingTolerance)
 			].filterNull.toList.unique
 			val tangentCr = topKanteCr.geoKanten.map [
-				getSegmentWith(centerCoordinate, DISTANCE_TOLERANCE)
+				getSegmentWith(centerCoordinate,
+					ToolboxConfiguration.pathFindingTolerance)
 			].filterNull.toList.unique
 
 			// find the vectors
