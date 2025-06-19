@@ -207,15 +207,14 @@ public class CustomTableDiffService implements TableDiffService {
 	}
 
 	private CompareTableCellContent createTableCompareCellContent(
-			final TableCell firstTableCell, final TableCell secondTableCell) {
+			final TableCell mainTableCell, final TableCell compareTableCell) {
 
 		if (isSameValue(
 				EObjectExtensions
-						.getNullableObject(firstTableCell,
-								TableCell::getContent)
+						.getNullableObject(mainTableCell, TableCell::getContent)
 						.orElse(null),
 				EObjectExtensions
-						.getNullableObject(secondTableCell,
+						.getNullableObject(compareTableCell,
 								TableCell::getContent)
 						.orElse(null))) {
 			return null;
@@ -224,11 +223,11 @@ public class CustomTableDiffService implements TableDiffService {
 		final CompareTableCellContent compareTableCellContent = TablemodelFactory.eINSTANCE
 				.createCompareTableCellContent();
 		compareTableCellContent
-				.setFirstPlanCellContent(firstTableCell.getContent());
-		compareTableCellContent.setSecondPlanCellContent(
-				secondTableCell == null || secondTableCell.getContent() == null
-						? null
-						: secondTableCell.getContent());
+				.setMainPlanCellContent(mainTableCell.getContent());
+		compareTableCellContent
+				.setComparePlanCellContent(compareTableCell == null
+						|| compareTableCell.getContent() == null ? null
+								: compareTableCell.getContent());
 		return compareTableCellContent;
 
 	}
@@ -429,10 +428,10 @@ public class CustomTableDiffService implements TableDiffService {
 	}
 
 	@Override
-	public Table createCompareTable(final Table firstPlanTable,
-			final Table secondPlanDiffTable) {
-		final Table copy = EcoreUtil.copy(secondPlanDiffTable);
-		final Table expandedTable = expandNewRowGroups(firstPlanTable, copy);
+	public Table createCompareTable(final Table mainPlanTable,
+			final Table comparePlanTable) {
+		final Table copy = EcoreUtil.copy(mainPlanTable);
+		final Table expandedTable = expandNewRowGroups(comparePlanTable, copy);
 		final List<TableRow> rows = TableExtensions.getTableRows(copy);
 		rows.forEach(row -> {
 			final TableRow match = TableExtensions.getMatchingRow(expandedTable,

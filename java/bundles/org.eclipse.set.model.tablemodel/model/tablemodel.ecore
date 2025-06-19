@@ -200,9 +200,9 @@
         eType="ecore:EClass ../../org.eclipse.set.model.planpro/model/Basisobjekte.ecore#//Bearbeitungsvermerk"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CompareTableCellContent" eSuperTypes="#//CellContent">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="firstPlanCellContent" eType="#//CellContent"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="mainPlanCellContent" eType="#//CellContent"
         containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="secondPlanCellContent"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="comparePlanCellContent"
         eType="#//CellContent" containment="true"/>
   </eClassifiers>
 </ecore:EPackage>

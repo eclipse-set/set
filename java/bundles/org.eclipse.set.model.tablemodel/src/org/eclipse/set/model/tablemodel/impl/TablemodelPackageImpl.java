@@ -830,7 +830,7 @@ public class TablemodelPackageImpl extends EPackageImpl
 	 * @generated
 	 */
 	@Override
-	public EReference getCompareTableCellContent_FirstPlanCellContent() {
+	public EReference getCompareTableCellContent_MainPlanCellContent() {
 		return (EReference) compareTableCellContentEClass
 				.getEStructuralFeatures()
 				.get(0);
@@ -842,7 +842,7 @@ public class TablemodelPackageImpl extends EPackageImpl
 	 * @generated
 	 */
 	@Override
-	public EReference getCompareTableCellContent_SecondPlanCellContent() {
+	public EReference getCompareTableCellContent_ComparePlanCellContent() {
 		return (EReference) compareTableCellContentEClass
 				.getEStructuralFeatures()
 				.get(1);
@@ -978,9 +978,9 @@ public class TablemodelPackageImpl extends EPackageImpl
 		compareTableCellContentEClass = createEClass(
 				COMPARE_TABLE_CELL_CONTENT);
 		createEReference(compareTableCellContentEClass,
-				COMPARE_TABLE_CELL_CONTENT__FIRST_PLAN_CELL_CONTENT);
+				COMPARE_TABLE_CELL_CONTENT__MAIN_PLAN_CELL_CONTENT);
 		createEReference(compareTableCellContentEClass,
-				COMPARE_TABLE_CELL_CONTENT__SECOND_PLAN_CELL_CONTENT);
+				COMPARE_TABLE_CELL_CONTENT__COMPARE_PLAN_CELL_CONTENT);
 
 		// Create enums
 		columnWidthModeEEnum = createEEnum(COLUMN_WIDTH_MODE);
@@ -1249,13 +1249,13 @@ public class TablemodelPackageImpl extends EPackageImpl
 		initEClass(compareTableCellContentEClass, CompareTableCellContent.class,
 				"CompareTableCellContent", !IS_ABSTRACT, !IS_INTERFACE,
 				IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getCompareTableCellContent_FirstPlanCellContent(),
-				this.getCellContent(), null, "firstPlanCellContent", null, 0, 1,
+		initEReference(getCompareTableCellContent_MainPlanCellContent(),
+				this.getCellContent(), null, "mainPlanCellContent", null, 0, 1,
 				CompareTableCellContent.class, !IS_TRANSIENT, !IS_VOLATILE,
 				IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
 				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getCompareTableCellContent_SecondPlanCellContent(),
-				this.getCellContent(), null, "secondPlanCellContent", null, 0,
+		initEReference(getCompareTableCellContent_ComparePlanCellContent(),
+				this.getCellContent(), null, "comparePlanCellContent", null, 0,
 				1, CompareTableCellContent.class, !IS_TRANSIENT, !IS_VOLATILE,
 				IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
 				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
