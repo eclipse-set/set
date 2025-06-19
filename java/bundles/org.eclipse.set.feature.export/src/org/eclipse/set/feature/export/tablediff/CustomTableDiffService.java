@@ -223,12 +223,12 @@ public class CustomTableDiffService implements TableDiffService {
 
 		final CompareTableCellContent compareTableCellContent = TablemodelFactory.eINSTANCE
 				.createCompareTableCellContent();
-		compareTableCellContent.setFirstPlanCellContent(
+		compareTableCellContent
+				.setFirstPlanCellContent(firstTableCell.getContent());
+		compareTableCellContent.setSecondPlanCellContent(
 				secondTableCell == null || secondTableCell.getContent() == null
 						? null
 						: secondTableCell.getContent());
-		compareTableCellContent
-				.setSecondPlanCellContent(firstTableCell.getContent());
 		return compareTableCellContent;
 
 	}
