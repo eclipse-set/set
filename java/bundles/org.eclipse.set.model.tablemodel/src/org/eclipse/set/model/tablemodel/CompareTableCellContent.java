@@ -16,10 +16,10 @@ package org.eclipse.set.model.tablemodel;
  * The following features are supported:
  * </p>
  * <ul>
- * <li>{@link org.eclipse.set.model.tablemodel.CompareTableCellContent#getFirstPlanCellContent
- * <em>First Plan Cell Content</em>}</li>
- * <li>{@link org.eclipse.set.model.tablemodel.CompareTableCellContent#getSecondPlanCellContent
- * <em>Second Plan Cell Content</em>}</li>
+ * <li>{@link org.eclipse.set.model.tablemodel.CompareTableCellContent#getMainPlanCellContent
+ * <em>Main Plan Cell Content</em>}</li>
+ * <li>{@link org.eclipse.set.model.tablemodel.CompareTableCellContent#getComparePlanCellContent
+ * <em>Compare Plan Cell Content</em>}</li>
  * </ul>
  *
  * @see org.eclipse.set.model.tablemodel.TablemodelPackage#getCompareTableCellContent()
@@ -28,57 +28,57 @@ package org.eclipse.set.model.tablemodel;
  */
 public interface CompareTableCellContent extends CellContent {
 	/**
-	 * Returns the value of the '<em><b>First Plan Cell Content</b></em>'
+	 * Returns the value of the '<em><b>Main Plan Cell Content</b></em>'
 	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @return the value of the '<em>First Plan Cell Content</em>' containment
+	 * @return the value of the '<em>Main Plan Cell Content</em>' containment
 	 *         reference.
-	 * @see #setFirstPlanCellContent(CellContent)
-	 * @see org.eclipse.set.model.tablemodel.TablemodelPackage#getCompareTableCellContent_FirstPlanCellContent()
+	 * @see #setMainPlanCellContent(CellContent)
+	 * @see org.eclipse.set.model.tablemodel.TablemodelPackage#getCompareTableCellContent_MainPlanCellContent()
 	 * @model containment="true"
 	 * @generated
 	 */
-	CellContent getFirstPlanCellContent();
+	CellContent getMainPlanCellContent();
 
 	/**
 	 * Sets the value of the
-	 * '{@link org.eclipse.set.model.tablemodel.CompareTableCellContent#getFirstPlanCellContent
-	 * <em>First Plan Cell Content</em>}' containment reference. <!--
+	 * '{@link org.eclipse.set.model.tablemodel.CompareTableCellContent#getMainPlanCellContent
+	 * <em>Main Plan Cell Content</em>}' containment reference. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @param value
-	 *            the new value of the '<em>First Plan Cell Content</em>'
+	 *            the new value of the '<em>Main Plan Cell Content</em>'
 	 *            containment reference.
-	 * @see #getFirstPlanCellContent()
+	 * @see #getMainPlanCellContent()
 	 * @generated
 	 */
-	void setFirstPlanCellContent(CellContent value);
+	void setMainPlanCellContent(CellContent value);
 
 	/**
-	 * Returns the value of the '<em><b>Second Plan Cell Content</b></em>'
+	 * Returns the value of the '<em><b>Compare Plan Cell Content</b></em>'
 	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @return the value of the '<em>Second Plan Cell Content</em>' containment
+	 * @return the value of the '<em>Compare Plan Cell Content</em>' containment
 	 *         reference.
-	 * @see #setSecondPlanCellContent(CellContent)
-	 * @see org.eclipse.set.model.tablemodel.TablemodelPackage#getCompareTableCellContent_SecondPlanCellContent()
+	 * @see #setComparePlanCellContent(CellContent)
+	 * @see org.eclipse.set.model.tablemodel.TablemodelPackage#getCompareTableCellContent_ComparePlanCellContent()
 	 * @model containment="true"
 	 * @generated
 	 */
-	CellContent getSecondPlanCellContent();
+	CellContent getComparePlanCellContent();
 
 	/**
 	 * Sets the value of the
-	 * '{@link org.eclipse.set.model.tablemodel.CompareTableCellContent#getSecondPlanCellContent
-	 * <em>Second Plan Cell Content</em>}' containment reference. <!--
+	 * '{@link org.eclipse.set.model.tablemodel.CompareTableCellContent#getComparePlanCellContent
+	 * <em>Compare Plan Cell Content</em>}' containment reference. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @param value
-	 *            the new value of the '<em>Second Plan Cell Content</em>'
+	 *            the new value of the '<em>Compare Plan Cell Content</em>'
 	 *            containment reference.
-	 * @see #getSecondPlanCellContent()
+	 * @see #getComparePlanCellContent()
 	 * @generated
 	 */
-	void setSecondPlanCellContent(CellContent value);
+	void setComparePlanCellContent(CellContent value);
 
 } // CompareTableCellContent

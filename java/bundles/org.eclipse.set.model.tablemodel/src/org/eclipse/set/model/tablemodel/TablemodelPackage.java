@@ -868,23 +868,23 @@ public interface TablemodelPackage extends EPackage {
 	int COMPARE_TABLE_CELL_CONTENT__SEPARATOR = CELL_CONTENT__SEPARATOR;
 
 	/**
-	 * The feature id for the '<em><b>First Plan Cell Content</b></em>'
+	 * The feature id for the '<em><b>Main Plan Cell Content</b></em>'
 	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @generated
 	 * @ordered
 	 */
-	int COMPARE_TABLE_CELL_CONTENT__FIRST_PLAN_CELL_CONTENT = CELL_CONTENT_FEATURE_COUNT
+	int COMPARE_TABLE_CELL_CONTENT__MAIN_PLAN_CELL_CONTENT = CELL_CONTENT_FEATURE_COUNT
 			+ 0;
 
 	/**
-	 * The feature id for the '<em><b>Second Plan Cell Content</b></em>'
+	 * The feature id for the '<em><b>Compare Plan Cell Content</b></em>'
 	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @generated
 	 * @ordered
 	 */
-	int COMPARE_TABLE_CELL_CONTENT__SECOND_PLAN_CELL_CONTENT = CELL_CONTENT_FEATURE_COUNT
+	int COMPARE_TABLE_CELL_CONTENT__COMPARE_PLAN_CELL_CONTENT = CELL_CONTENT_FEATURE_COUNT
 			+ 1;
 
 	/**
@@ -1535,31 +1535,31 @@ public interface TablemodelPackage extends EPackage {
 
 	/**
 	 * Returns the meta object for the containment reference
-	 * '{@link org.eclipse.set.model.tablemodel.CompareTableCellContent#getFirstPlanCellContent
-	 * <em>First Plan Cell Content</em>}'. <!-- begin-user-doc --> <!--
+	 * '{@link org.eclipse.set.model.tablemodel.CompareTableCellContent#getMainPlanCellContent
+	 * <em>Main Plan Cell Content</em>}'. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
 	 * 
-	 * @return the meta object for the containment reference '<em>First Plan
-	 *         Cell Content</em>'.
-	 * @see org.eclipse.set.model.tablemodel.CompareTableCellContent#getFirstPlanCellContent()
+	 * @return the meta object for the containment reference '<em>Main Plan Cell
+	 *         Content</em>'.
+	 * @see org.eclipse.set.model.tablemodel.CompareTableCellContent#getMainPlanCellContent()
 	 * @see #getCompareTableCellContent()
 	 * @generated
 	 */
-	EReference getCompareTableCellContent_FirstPlanCellContent();
+	EReference getCompareTableCellContent_MainPlanCellContent();
 
 	/**
 	 * Returns the meta object for the containment reference
-	 * '{@link org.eclipse.set.model.tablemodel.CompareTableCellContent#getSecondPlanCellContent
-	 * <em>Second Plan Cell Content</em>}'. <!-- begin-user-doc --> <!--
+	 * '{@link org.eclipse.set.model.tablemodel.CompareTableCellContent#getComparePlanCellContent
+	 * <em>Compare Plan Cell Content</em>}'. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
 	 * 
-	 * @return the meta object for the containment reference '<em>Second Plan
+	 * @return the meta object for the containment reference '<em>Compare Plan
 	 *         Cell Content</em>'.
-	 * @see org.eclipse.set.model.tablemodel.CompareTableCellContent#getSecondPlanCellContent()
+	 * @see org.eclipse.set.model.tablemodel.CompareTableCellContent#getComparePlanCellContent()
 	 * @see #getCompareTableCellContent()
 	 * @generated
 	 */
-	EReference getCompareTableCellContent_SecondPlanCellContent();
+	EReference getCompareTableCellContent_ComparePlanCellContent();
 
 	/**
 	 * Returns the meta object for enum
@@ -2105,24 +2105,24 @@ public interface TablemodelPackage extends EPackage {
 				.getCompareTableCellContent();
 
 		/**
-		 * The meta object literal for the '<em><b>First Plan Cell
+		 * The meta object literal for the '<em><b>Main Plan Cell
 		 * Content</b></em>' containment reference feature. <!-- begin-user-doc
 		 * --> <!-- end-user-doc -->
 		 * 
 		 * @generated
 		 */
-		EReference COMPARE_TABLE_CELL_CONTENT__FIRST_PLAN_CELL_CONTENT = eINSTANCE
-				.getCompareTableCellContent_FirstPlanCellContent();
+		EReference COMPARE_TABLE_CELL_CONTENT__MAIN_PLAN_CELL_CONTENT = eINSTANCE
+				.getCompareTableCellContent_MainPlanCellContent();
 
 		/**
-		 * The meta object literal for the '<em><b>Second Plan Cell
+		 * The meta object literal for the '<em><b>Compare Plan Cell
 		 * Content</b></em>' containment reference feature. <!-- begin-user-doc
 		 * --> <!-- end-user-doc -->
 		 * 
 		 * @generated
 		 */
-		EReference COMPARE_TABLE_CELL_CONTENT__SECOND_PLAN_CELL_CONTENT = eINSTANCE
-				.getCompareTableCellContent_SecondPlanCellContent();
+		EReference COMPARE_TABLE_CELL_CONTENT__COMPARE_PLAN_CELL_CONTENT = eINSTANCE
+				.getCompareTableCellContent_ComparePlanCellContent();
 
 		/**
 		 * The meta object literal for the

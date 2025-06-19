@@ -73,9 +73,9 @@ public class CompareTableCellContentItemProvider
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
 			childrenFeatures.add(
-					TablemodelPackage.Literals.COMPARE_TABLE_CELL_CONTENT__FIRST_PLAN_CELL_CONTENT);
+					TablemodelPackage.Literals.COMPARE_TABLE_CELL_CONTENT__MAIN_PLAN_CELL_CONTENT);
 			childrenFeatures.add(
-					TablemodelPackage.Literals.COMPARE_TABLE_CELL_CONTENT__SECOND_PLAN_CELL_CONTENT);
+					TablemodelPackage.Literals.COMPARE_TABLE_CELL_CONTENT__COMPARE_PLAN_CELL_CONTENT);
 		}
 		return childrenFeatures;
 	}
@@ -133,8 +133,8 @@ public class CompareTableCellContentItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(CompareTableCellContent.class)) {
-			case TablemodelPackage.COMPARE_TABLE_CELL_CONTENT__FIRST_PLAN_CELL_CONTENT:
-			case TablemodelPackage.COMPARE_TABLE_CELL_CONTENT__SECOND_PLAN_CELL_CONTENT:
+			case TablemodelPackage.COMPARE_TABLE_CELL_CONTENT__MAIN_PLAN_CELL_CONTENT:
+			case TablemodelPackage.COMPARE_TABLE_CELL_CONTENT__COMPARE_PLAN_CELL_CONTENT:
 				fireNotifyChanged(new ViewerNotification(notification,
 						notification.getNotifier(), true, false));
 				return;
@@ -155,35 +155,35 @@ public class CompareTableCellContentItemProvider
 		super.collectNewChildDescriptors(newChildDescriptors, object);
 
 		newChildDescriptors.add(createChildParameter(
-				TablemodelPackage.Literals.COMPARE_TABLE_CELL_CONTENT__FIRST_PLAN_CELL_CONTENT,
+				TablemodelPackage.Literals.COMPARE_TABLE_CELL_CONTENT__MAIN_PLAN_CELL_CONTENT,
 				TablemodelFactory.eINSTANCE.createStringCellContent()));
 
 		newChildDescriptors.add(createChildParameter(
-				TablemodelPackage.Literals.COMPARE_TABLE_CELL_CONTENT__FIRST_PLAN_CELL_CONTENT,
+				TablemodelPackage.Literals.COMPARE_TABLE_CELL_CONTENT__MAIN_PLAN_CELL_CONTENT,
 				TablemodelFactory.eINSTANCE.createCompareCellContent()));
 
 		newChildDescriptors.add(createChildParameter(
-				TablemodelPackage.Literals.COMPARE_TABLE_CELL_CONTENT__FIRST_PLAN_CELL_CONTENT,
+				TablemodelPackage.Literals.COMPARE_TABLE_CELL_CONTENT__MAIN_PLAN_CELL_CONTENT,
 				TablemodelFactory.eINSTANCE.createMultiColorCellContent()));
 
 		newChildDescriptors.add(createChildParameter(
-				TablemodelPackage.Literals.COMPARE_TABLE_CELL_CONTENT__FIRST_PLAN_CELL_CONTENT,
+				TablemodelPackage.Literals.COMPARE_TABLE_CELL_CONTENT__MAIN_PLAN_CELL_CONTENT,
 				TablemodelFactory.eINSTANCE.createCompareTableCellContent()));
 
 		newChildDescriptors.add(createChildParameter(
-				TablemodelPackage.Literals.COMPARE_TABLE_CELL_CONTENT__SECOND_PLAN_CELL_CONTENT,
+				TablemodelPackage.Literals.COMPARE_TABLE_CELL_CONTENT__COMPARE_PLAN_CELL_CONTENT,
 				TablemodelFactory.eINSTANCE.createStringCellContent()));
 
 		newChildDescriptors.add(createChildParameter(
-				TablemodelPackage.Literals.COMPARE_TABLE_CELL_CONTENT__SECOND_PLAN_CELL_CONTENT,
+				TablemodelPackage.Literals.COMPARE_TABLE_CELL_CONTENT__COMPARE_PLAN_CELL_CONTENT,
 				TablemodelFactory.eINSTANCE.createCompareCellContent()));
 
 		newChildDescriptors.add(createChildParameter(
-				TablemodelPackage.Literals.COMPARE_TABLE_CELL_CONTENT__SECOND_PLAN_CELL_CONTENT,
+				TablemodelPackage.Literals.COMPARE_TABLE_CELL_CONTENT__COMPARE_PLAN_CELL_CONTENT,
 				TablemodelFactory.eINSTANCE.createMultiColorCellContent()));
 
 		newChildDescriptors.add(createChildParameter(
-				TablemodelPackage.Literals.COMPARE_TABLE_CELL_CONTENT__SECOND_PLAN_CELL_CONTENT,
+				TablemodelPackage.Literals.COMPARE_TABLE_CELL_CONTENT__COMPARE_PLAN_CELL_CONTENT,
 				TablemodelFactory.eINSTANCE.createCompareTableCellContent()));
 	}
 
@@ -200,8 +200,8 @@ public class CompareTableCellContentItemProvider
 		Object childFeature = feature;
 		Object childObject = child;
 
-		boolean qualify = childFeature == TablemodelPackage.Literals.COMPARE_TABLE_CELL_CONTENT__FIRST_PLAN_CELL_CONTENT
-				|| childFeature == TablemodelPackage.Literals.COMPARE_TABLE_CELL_CONTENT__SECOND_PLAN_CELL_CONTENT;
+		boolean qualify = childFeature == TablemodelPackage.Literals.COMPARE_TABLE_CELL_CONTENT__MAIN_PLAN_CELL_CONTENT
+				|| childFeature == TablemodelPackage.Literals.COMPARE_TABLE_CELL_CONTENT__COMPARE_PLAN_CELL_CONTENT;
 
 		if (qualify) {
 			return getString("_UI_CreateChild_text2",

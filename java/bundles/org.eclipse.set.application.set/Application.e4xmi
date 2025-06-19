@@ -46,7 +46,7 @@
       <children xsi:type="menu:ToolBar" xmi:id="_D9x1th5jEeW1jPyxhgRGUg" elementId="toolbar:org.eclipse.ui.main.toolbar">
         <tags>NoMove</tags>
         <children xsi:type="menu:HandledToolItem" xmi:id="_D9x1tx5jEeW1jPyxhgRGUg" elementId="org.eclipse.set.planpro.toolbar.item.openPlanpro" iconURI="platform:/plugin/org.eclipse.set.utils/icons/ic_folder_open_black_24dp_1x.png" tooltip="%toolbar.file.open.tooltip" command="_D9x1oB5jEeW1jPyxhgRGUg"/>
-        <children xsi:type="menu:HandledToolItem" xmi:id="_yrIyQEt4EfC4sfbyghwnaQ" elementId="org.eclipse.set.planpro.toolbar.item.openPlanpro.opencompare" label="" iconURI="platform:/plugin/org.eclipse.set.utils/icons/baseline_compare_arrows_black_18dp.png" tooltip="%menu.label.file.openCompare" command="_XhDcEEXREfC3AqjYdj1JDA">
+        <children xsi:type="menu:HandledToolItem" xmi:id="_yrIyQEt4EfC4sfbyghwnaQ" elementId="org.eclipse.set.planpro.toolbar.item.openPlanpro.opencompare" label="" iconURI="platform:/plugin/org.eclipse.set.utils/icons/baseline_compare_arrows_black_24dp.png" tooltip="%menu.label.file.openCompare" command="_XhDcEEXREfC3AqjYdj1JDA">
           <visibleWhen xsi:type="ui:ImperativeExpression" xmi:id="_T-JOkEt6EfC4sfbyghwnaQ" contributionURI="bundleclass://org.eclipse.set.application/org.eclipse.set.application.handler.OpenCompareProjectHandler"/>
         </children>
         <children xsi:type="menu:HandledToolItem" xmi:id="_1H4GAClCEemkzbGe08D9Gw" elementId="org.eclipse.set.toolbar.item.save" iconURI="platform:/plugin/org.eclipse.set.utils/icons/baseline_save_black_24dp.png" tooltip="%toolbar.file.save.tooltip" command="_D9x1ox5jEeW1jPyxhgRGUg"/>

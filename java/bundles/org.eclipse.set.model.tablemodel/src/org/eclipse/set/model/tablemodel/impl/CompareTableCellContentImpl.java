@@ -27,10 +27,10 @@ import org.eclipse.set.model.tablemodel.TablemodelPackage;
  * The following features are implemented:
  * </p>
  * <ul>
- * <li>{@link org.eclipse.set.model.tablemodel.impl.CompareTableCellContentImpl#getFirstPlanCellContent
- * <em>First Plan Cell Content</em>}</li>
- * <li>{@link org.eclipse.set.model.tablemodel.impl.CompareTableCellContentImpl#getSecondPlanCellContent
- * <em>Second Plan Cell Content</em>}</li>
+ * <li>{@link org.eclipse.set.model.tablemodel.impl.CompareTableCellContentImpl#getMainPlanCellContent
+ * <em>Main Plan Cell Content</em>}</li>
+ * <li>{@link org.eclipse.set.model.tablemodel.impl.CompareTableCellContentImpl#getComparePlanCellContent
+ * <em>Compare Plan Cell Content</em>}</li>
  * </ul>
  *
  * @generated
@@ -38,26 +38,26 @@ import org.eclipse.set.model.tablemodel.TablemodelPackage;
 public class CompareTableCellContentImpl extends CellContentImpl
 		implements CompareTableCellContent {
 	/**
-	 * The cached value of the '{@link #getFirstPlanCellContent() <em>First Plan
+	 * The cached value of the '{@link #getMainPlanCellContent() <em>Main Plan
 	 * Cell Content</em>}' containment reference. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
 	 * 
-	 * @see #getFirstPlanCellContent()
+	 * @see #getMainPlanCellContent()
 	 * @generated
 	 * @ordered
 	 */
-	protected CellContent firstPlanCellContent;
+	protected CellContent mainPlanCellContent;
 
 	/**
-	 * The cached value of the '{@link #getSecondPlanCellContent() <em>Second
+	 * The cached value of the '{@link #getComparePlanCellContent() <em>Compare
 	 * Plan Cell Content</em>}' containment reference. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * 
-	 * @see #getSecondPlanCellContent()
+	 * @see #getComparePlanCellContent()
 	 * @generated
 	 * @ordered
 	 */
-	protected CellContent secondPlanCellContent;
+	protected CellContent comparePlanCellContent;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -84,8 +84,8 @@ public class CompareTableCellContentImpl extends CellContentImpl
 	 * @generated
 	 */
 	@Override
-	public CellContent getFirstPlanCellContent() {
-		return firstPlanCellContent;
+	public CellContent getMainPlanCellContent() {
+		return mainPlanCellContent;
 	}
 
 	/**
@@ -93,15 +93,15 @@ public class CompareTableCellContentImpl extends CellContentImpl
 	 * 
 	 * @generated
 	 */
-	public NotificationChain basicSetFirstPlanCellContent(
-			CellContent newFirstPlanCellContent, NotificationChain msgs) {
-		CellContent oldFirstPlanCellContent = firstPlanCellContent;
-		firstPlanCellContent = newFirstPlanCellContent;
+	public NotificationChain basicSetMainPlanCellContent(
+			CellContent newMainPlanCellContent, NotificationChain msgs) {
+		CellContent oldMainPlanCellContent = mainPlanCellContent;
+		mainPlanCellContent = newMainPlanCellContent;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this,
 					Notification.SET,
-					TablemodelPackage.COMPARE_TABLE_CELL_CONTENT__FIRST_PLAN_CELL_CONTENT,
-					oldFirstPlanCellContent, newFirstPlanCellContent);
+					TablemodelPackage.COMPARE_TABLE_CELL_CONTENT__MAIN_PLAN_CELL_CONTENT,
+					oldMainPlanCellContent, newMainPlanCellContent);
 			if (msgs == null)
 				msgs = notification;
 			else
@@ -116,28 +116,28 @@ public class CompareTableCellContentImpl extends CellContentImpl
 	 * @generated
 	 */
 	@Override
-	public void setFirstPlanCellContent(CellContent newFirstPlanCellContent) {
-		if (newFirstPlanCellContent != firstPlanCellContent) {
+	public void setMainPlanCellContent(CellContent newMainPlanCellContent) {
+		if (newMainPlanCellContent != mainPlanCellContent) {
 			NotificationChain msgs = null;
-			if (firstPlanCellContent != null)
-				msgs = ((InternalEObject) firstPlanCellContent).eInverseRemove(
+			if (mainPlanCellContent != null)
+				msgs = ((InternalEObject) mainPlanCellContent).eInverseRemove(
 						this,
 						EOPPOSITE_FEATURE_BASE
-								- TablemodelPackage.COMPARE_TABLE_CELL_CONTENT__FIRST_PLAN_CELL_CONTENT,
+								- TablemodelPackage.COMPARE_TABLE_CELL_CONTENT__MAIN_PLAN_CELL_CONTENT,
 						null, msgs);
-			if (newFirstPlanCellContent != null)
-				msgs = ((InternalEObject) newFirstPlanCellContent).eInverseAdd(
+			if (newMainPlanCellContent != null)
+				msgs = ((InternalEObject) newMainPlanCellContent).eInverseAdd(
 						this,
 						EOPPOSITE_FEATURE_BASE
-								- TablemodelPackage.COMPARE_TABLE_CELL_CONTENT__FIRST_PLAN_CELL_CONTENT,
+								- TablemodelPackage.COMPARE_TABLE_CELL_CONTENT__MAIN_PLAN_CELL_CONTENT,
 						null, msgs);
-			msgs = basicSetFirstPlanCellContent(newFirstPlanCellContent, msgs);
+			msgs = basicSetMainPlanCellContent(newMainPlanCellContent, msgs);
 			if (msgs != null)
 				msgs.dispatch();
 		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
-					TablemodelPackage.COMPARE_TABLE_CELL_CONTENT__FIRST_PLAN_CELL_CONTENT,
-					newFirstPlanCellContent, newFirstPlanCellContent));
+					TablemodelPackage.COMPARE_TABLE_CELL_CONTENT__MAIN_PLAN_CELL_CONTENT,
+					newMainPlanCellContent, newMainPlanCellContent));
 	}
 
 	/**
@@ -146,8 +146,8 @@ public class CompareTableCellContentImpl extends CellContentImpl
 	 * @generated
 	 */
 	@Override
-	public CellContent getSecondPlanCellContent() {
-		return secondPlanCellContent;
+	public CellContent getComparePlanCellContent() {
+		return comparePlanCellContent;
 	}
 
 	/**
@@ -155,15 +155,15 @@ public class CompareTableCellContentImpl extends CellContentImpl
 	 * 
 	 * @generated
 	 */
-	public NotificationChain basicSetSecondPlanCellContent(
-			CellContent newSecondPlanCellContent, NotificationChain msgs) {
-		CellContent oldSecondPlanCellContent = secondPlanCellContent;
-		secondPlanCellContent = newSecondPlanCellContent;
+	public NotificationChain basicSetComparePlanCellContent(
+			CellContent newComparePlanCellContent, NotificationChain msgs) {
+		CellContent oldComparePlanCellContent = comparePlanCellContent;
+		comparePlanCellContent = newComparePlanCellContent;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this,
 					Notification.SET,
-					TablemodelPackage.COMPARE_TABLE_CELL_CONTENT__SECOND_PLAN_CELL_CONTENT,
-					oldSecondPlanCellContent, newSecondPlanCellContent);
+					TablemodelPackage.COMPARE_TABLE_CELL_CONTENT__COMPARE_PLAN_CELL_CONTENT,
+					oldComparePlanCellContent, newComparePlanCellContent);
 			if (msgs == null)
 				msgs = notification;
 			else
@@ -178,29 +178,28 @@ public class CompareTableCellContentImpl extends CellContentImpl
 	 * @generated
 	 */
 	@Override
-	public void setSecondPlanCellContent(CellContent newSecondPlanCellContent) {
-		if (newSecondPlanCellContent != secondPlanCellContent) {
+	public void setComparePlanCellContent(
+			CellContent newComparePlanCellContent) {
+		if (newComparePlanCellContent != comparePlanCellContent) {
 			NotificationChain msgs = null;
-			if (secondPlanCellContent != null)
-				msgs = ((InternalEObject) secondPlanCellContent).eInverseRemove(
-						this,
-						EOPPOSITE_FEATURE_BASE
-								- TablemodelPackage.COMPARE_TABLE_CELL_CONTENT__SECOND_PLAN_CELL_CONTENT,
-						null, msgs);
-			if (newSecondPlanCellContent != null)
-				msgs = ((InternalEObject) newSecondPlanCellContent).eInverseAdd(
-						this,
-						EOPPOSITE_FEATURE_BASE
-								- TablemodelPackage.COMPARE_TABLE_CELL_CONTENT__SECOND_PLAN_CELL_CONTENT,
-						null, msgs);
-			msgs = basicSetSecondPlanCellContent(newSecondPlanCellContent,
+			if (comparePlanCellContent != null)
+				msgs = ((InternalEObject) comparePlanCellContent)
+						.eInverseRemove(this, EOPPOSITE_FEATURE_BASE
+								- TablemodelPackage.COMPARE_TABLE_CELL_CONTENT__COMPARE_PLAN_CELL_CONTENT,
+								null, msgs);
+			if (newComparePlanCellContent != null)
+				msgs = ((InternalEObject) newComparePlanCellContent)
+						.eInverseAdd(this, EOPPOSITE_FEATURE_BASE
+								- TablemodelPackage.COMPARE_TABLE_CELL_CONTENT__COMPARE_PLAN_CELL_CONTENT,
+								null, msgs);
+			msgs = basicSetComparePlanCellContent(newComparePlanCellContent,
 					msgs);
 			if (msgs != null)
 				msgs.dispatch();
 		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
-					TablemodelPackage.COMPARE_TABLE_CELL_CONTENT__SECOND_PLAN_CELL_CONTENT,
-					newSecondPlanCellContent, newSecondPlanCellContent));
+					TablemodelPackage.COMPARE_TABLE_CELL_CONTENT__COMPARE_PLAN_CELL_CONTENT,
+					newComparePlanCellContent, newComparePlanCellContent));
 	}
 
 	/**
@@ -212,10 +211,10 @@ public class CompareTableCellContentImpl extends CellContentImpl
 	public NotificationChain eInverseRemove(InternalEObject otherEnd,
 			int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case TablemodelPackage.COMPARE_TABLE_CELL_CONTENT__FIRST_PLAN_CELL_CONTENT:
-				return basicSetFirstPlanCellContent(null, msgs);
-			case TablemodelPackage.COMPARE_TABLE_CELL_CONTENT__SECOND_PLAN_CELL_CONTENT:
-				return basicSetSecondPlanCellContent(null, msgs);
+			case TablemodelPackage.COMPARE_TABLE_CELL_CONTENT__MAIN_PLAN_CELL_CONTENT:
+				return basicSetMainPlanCellContent(null, msgs);
+			case TablemodelPackage.COMPARE_TABLE_CELL_CONTENT__COMPARE_PLAN_CELL_CONTENT:
+				return basicSetComparePlanCellContent(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -228,10 +227,10 @@ public class CompareTableCellContentImpl extends CellContentImpl
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case TablemodelPackage.COMPARE_TABLE_CELL_CONTENT__FIRST_PLAN_CELL_CONTENT:
-				return getFirstPlanCellContent();
-			case TablemodelPackage.COMPARE_TABLE_CELL_CONTENT__SECOND_PLAN_CELL_CONTENT:
-				return getSecondPlanCellContent();
+			case TablemodelPackage.COMPARE_TABLE_CELL_CONTENT__MAIN_PLAN_CELL_CONTENT:
+				return getMainPlanCellContent();
+			case TablemodelPackage.COMPARE_TABLE_CELL_CONTENT__COMPARE_PLAN_CELL_CONTENT:
+				return getComparePlanCellContent();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -244,11 +243,11 @@ public class CompareTableCellContentImpl extends CellContentImpl
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case TablemodelPackage.COMPARE_TABLE_CELL_CONTENT__FIRST_PLAN_CELL_CONTENT:
-				setFirstPlanCellContent((CellContent) newValue);
+			case TablemodelPackage.COMPARE_TABLE_CELL_CONTENT__MAIN_PLAN_CELL_CONTENT:
+				setMainPlanCellContent((CellContent) newValue);
 				return;
-			case TablemodelPackage.COMPARE_TABLE_CELL_CONTENT__SECOND_PLAN_CELL_CONTENT:
-				setSecondPlanCellContent((CellContent) newValue);
+			case TablemodelPackage.COMPARE_TABLE_CELL_CONTENT__COMPARE_PLAN_CELL_CONTENT:
+				setComparePlanCellContent((CellContent) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -262,11 +261,11 @@ public class CompareTableCellContentImpl extends CellContentImpl
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case TablemodelPackage.COMPARE_TABLE_CELL_CONTENT__FIRST_PLAN_CELL_CONTENT:
-				setFirstPlanCellContent((CellContent) null);
+			case TablemodelPackage.COMPARE_TABLE_CELL_CONTENT__MAIN_PLAN_CELL_CONTENT:
+				setMainPlanCellContent((CellContent) null);
 				return;
-			case TablemodelPackage.COMPARE_TABLE_CELL_CONTENT__SECOND_PLAN_CELL_CONTENT:
-				setSecondPlanCellContent((CellContent) null);
+			case TablemodelPackage.COMPARE_TABLE_CELL_CONTENT__COMPARE_PLAN_CELL_CONTENT:
+				setComparePlanCellContent((CellContent) null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -280,10 +279,10 @@ public class CompareTableCellContentImpl extends CellContentImpl
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case TablemodelPackage.COMPARE_TABLE_CELL_CONTENT__FIRST_PLAN_CELL_CONTENT:
-				return firstPlanCellContent != null;
-			case TablemodelPackage.COMPARE_TABLE_CELL_CONTENT__SECOND_PLAN_CELL_CONTENT:
-				return secondPlanCellContent != null;
+			case TablemodelPackage.COMPARE_TABLE_CELL_CONTENT__MAIN_PLAN_CELL_CONTENT:
+				return mainPlanCellContent != null;
+			case TablemodelPackage.COMPARE_TABLE_CELL_CONTENT__COMPARE_PLAN_CELL_CONTENT:
+				return comparePlanCellContent != null;
 		}
 		return super.eIsSet(featureID);
 	}

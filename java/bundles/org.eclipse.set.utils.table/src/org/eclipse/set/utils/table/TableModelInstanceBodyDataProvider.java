@@ -258,31 +258,31 @@ public class TableModelInstanceBodyDataProvider
 		final CompareTableCellContent clone = EcoreUtil.copy(oldContent);
 		switch (targetSession.get().getKey()) {
 			case SESSION: {
-				clone.setFirstPlanCellContent(getNewContent(
-						oldContent.getFirstPlanCellContent(), properties));
+				clone.setMainPlanCellContent(getNewContent(
+						oldContent.getMainPlanCellContent(), properties));
 				break;
 			}
 			case COMPARE_PLANNING: {
-				clone.setSecondPlanCellContent(getNewContent(
-						oldContent.getSecondPlanCellContent(), properties));
+				clone.setComparePlanCellContent(getNewContent(
+						oldContent.getComparePlanCellContent(), properties));
 				break;
 			}
 			default:
 				return null;
 		}
 
-		final Set<String> firstPlanCellValues = Streams
-				.stream(CellContentExtensions.getStringValueIterable(
-						clone.getFirstPlanCellContent()))
-				.filter(value -> value != null && !value.isEmpty())
+		final Set<String> mainPlanCellValues = Streams
+				.stream(CellContentExtensions
+						.getStringValueIterable(clone.getMainPlanCellContent()))
+				.filter(value -> value != null && !value.trim().isEmpty())
 				.collect(Collectors.toSet());
-		final Set<String> secondPlanCellValues = Streams
+		final Set<String> comparePlanCellValues = Streams
 				.stream(CellContentExtensions.getStringValueIterable(
-						clone.getSecondPlanCellContent()))
-				.filter(value -> value != null && !value.isEmpty())
+						clone.getComparePlanCellContent()))
+				.filter(value -> value != null && !value.trim().isEmpty())
 				.collect(Collectors.toSet());
-		return firstPlanCellValues.equals(secondPlanCellValues)
-				? clone.getFirstPlanCellContent()
+		return mainPlanCellValues.equals(comparePlanCellValues)
+				? clone.getMainPlanCellContent()
 				: clone;
 	}
 

@@ -106,18 +106,18 @@ package abstract class AbstractCellComparator implements Comparator<TableCell> {
 
 	private def dispatch int compareDispatch(CompareTableCellContent c1,
 		CellContent c2) {
-		return c1.secondPlanCellContent.compareDispatch(c2)
+		return c1.mainPlanCellContent.compareDispatch(c2)
 	}
 
 	private def dispatch int compareDispatch(CellContent c1,
 		CompareTableCellContent c2) {
-		return c1.compareDispatch(c2.secondPlanCellContent)
+		return c1.compareDispatch(c2.mainPlanCellContent)
 	}
 
 	private def dispatch int compareDispatch(CompareTableCellContent c1,
 		CompareTableCellContent c2) {
-		return c1.secondPlanCellContent.compareDispatch(
-			c2.secondPlanCellContent)
+		return c1.mainPlanCellContent.compareDispatch(
+			c2.mainPlanCellContent)
 	}
 
 	private def Iterable<String> compareCellContentString(

@@ -88,7 +88,7 @@ class CellContentExtensions {
 
 	static def dispatch String getRichTextValue(
 		CompareTableCellContent content) {
-		return content.secondPlanCellContent.richTextValue
+		return content.mainPlanCellContent.richTextValue
 	}
 
 	/**
@@ -186,11 +186,11 @@ class CellContentExtensions {
 
 	static def dispatch String getPlainStringValue(
 		CompareTableCellContent content) {
-		if (content.firstPlanCellContent === null) {
-			return content.secondPlanCellContent.plainStringValue
+		if (content.mainPlanCellContent === null) {
+			return content.mainPlanCellContent.plainStringValue
 		}
 
-		return '''«content.firstPlanCellContent.plainStringValue»/«content.secondPlanCellContent.plainStringValue»'''
+		return '''«content.mainPlanCellContent.plainStringValue»/«content.comparePlanCellContent.plainStringValue»'''
 	}
 
 	static def dispatch Iterable<String> getStringValueIterable(Void content) {
@@ -305,7 +305,7 @@ class CellContentExtensions {
 				formatCompareContent(content.oldValue, content.newValue,
 					oldFormatter, commonFormatter, newFormatter, postFormatter)
 			CompareTableCellContent:
-				formatCompareContent(content.secondPlanCellContent,
+				formatCompareContent(content.mainPlanCellContent,
 					oldFormatter, commonFormatter, newFormatter, postFormatter)
 		}
 	}
