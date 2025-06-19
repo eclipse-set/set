@@ -271,17 +271,17 @@ public class TableModelInstanceBodyDataProvider
 				return null;
 		}
 
-		final Set<String> firstPlanCellValues = Streams
+		final Set<String> mainPlanCellValues = Streams
 				.stream(CellContentExtensions
 						.getStringValueIterable(clone.getMainPlanCellContent()))
-				.filter(value -> value != null && !value.isEmpty())
+				.filter(value -> value != null && !value.trim().isEmpty())
 				.collect(Collectors.toSet());
-		final Set<String> secondPlanCellValues = Streams
+		final Set<String> comparePlanCellValues = Streams
 				.stream(CellContentExtensions.getStringValueIterable(
 						clone.getComparePlanCellContent()))
-				.filter(value -> value != null && !value.isEmpty())
+				.filter(value -> value != null && !value.trim().isEmpty())
 				.collect(Collectors.toSet());
-		return firstPlanCellValues.equals(secondPlanCellValues)
+		return mainPlanCellValues.equals(comparePlanCellValues)
 				? clone.getMainPlanCellContent()
 				: clone;
 	}
