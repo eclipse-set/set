@@ -8,7 +8,6 @@
  */
 package org.eclipse.set.basis.geometry;
 
-import static java.lang.Math.PI;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 
@@ -26,7 +25,7 @@ public class Chord {
 	/**
 	 * Step size for linearization
 	 */
-	private static final double STEP_SIZE = PI / 100;
+	private static final double STEP_SIZE = 0.0001;
 
 	/**
 	 * Describes the orientation of the chord.

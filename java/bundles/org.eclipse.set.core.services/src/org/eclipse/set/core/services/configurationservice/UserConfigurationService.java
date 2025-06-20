@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import org.eclipse.set.basis.files.ToolboxFileRole;
+
 /**
  * Service for handle user configurations
  */
@@ -36,17 +38,17 @@ public interface UserConfigurationService {
 	 * @param path
 	 *            the last file open path
 	 */
-	void setLastFileOpenPath(Path path);
+	void setLastFileOpenPath(Path path, ToolboxFileRole role);
 
 	/**
 	 * @return the last file open path if set
 	 */
-	Optional<Path> getLastFileOpenPath();
+	Optional<Path> getLastFileOpenPath(ToolboxFileRole role);
 
 	/**
 	 * @return give last five opened file
 	 */
-	List<Path> getLastOpenFiles();
+	List<Path> getLastOpenFiles(ToolboxFileRole role);
 
 	/**
 	 * @param path
@@ -63,6 +65,6 @@ public interface UserConfigurationService {
 	 * @param path
 	 *            the last open path
 	 */
-	void addPathToOpenRecent(Path path);
+	void addPathToOpenRecent(Path path, ToolboxFileRole role);
 
 }

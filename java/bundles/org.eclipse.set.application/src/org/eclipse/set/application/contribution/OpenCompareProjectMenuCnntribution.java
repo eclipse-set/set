@@ -10,6 +10,8 @@
  */
 package org.eclipse.set.application.contribution;
 
+import org.eclipse.set.basis.files.ToolboxFileRole;
+
 /**
  * 
  */
@@ -20,5 +22,10 @@ public class OpenCompareProjectMenuCnntribution
 	@Override
 	protected String getItemContributionClass() {
 		return OPEN_COMPARE_CONTRIBUTION_CLASS;
+	}
+
+	@Override
+	protected ToolboxFileRole getRole() {
+		return ToolboxFileRole.COMPARE_PLANNING;
 	}
 }
