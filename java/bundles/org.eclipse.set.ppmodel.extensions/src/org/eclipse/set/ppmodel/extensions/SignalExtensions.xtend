@@ -456,7 +456,8 @@ class SignalExtensions extends PunktObjektExtensions {
 		].toList.unique
 	}
 
-	static final double tolerantDistance = 1000
+	// Tolerant distance in meter
+	static final double tolerantDistance = 1
 
 	def static boolean isBelongToControlArea(Signal signal,
 		Stell_Bereich controlArea) {
