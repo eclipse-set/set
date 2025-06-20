@@ -11,12 +11,10 @@
 package org.eclipse.set.application.handler;
 
 import org.eclipse.e4.core.di.annotations.CanExecute;
-import org.eclipse.e4.core.di.annotations.Evaluate;
 import org.eclipse.e4.ui.model.application.MApplication;
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.basis.files.ToolboxFileRole;
-import org.eclipse.set.utils.ToolboxConfiguration;
 import org.eclipse.swt.widgets.Shell;
 
 /**
@@ -34,14 +32,6 @@ public class OpenCompareProjectHandler extends OpenPlanProHandler {
 	@CanExecute
 	public boolean canExecute() {
 		return oldModelSession != null;
-	}
-
-	/**
-	 * @return currently available only by development mode
-	 */
-	@Evaluate
-	public static boolean isOpenCompareProjectVisible() {
-		return ToolboxConfiguration.isDevelopmentMode();
 	}
 
 	@Override
