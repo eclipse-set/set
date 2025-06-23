@@ -274,12 +274,8 @@
 								<sourceDirectory>${project.basedir}/OSGI-INF</sourceDirectory>
 								<sourceDirectory>${project.basedir}/src</sourceDirectory>
 							</sourceDirectories>
-							<headerFile />
 							<headerLocation />
-							<!-- Default value is: ${project.compileSourceRoots}. -->
-							<encoding>UTF-8</encoding>
 							<failsOnError>false</failsOnError>
-							<linkXRef>false</linkXRef>
 						</configuration>
 					</plugin>
 
