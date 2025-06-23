@@ -37,15 +37,21 @@ public interface UserConfigurationService {
 	/**
 	 * @param path
 	 *            the last file open path
+	 * @param role
+	 *            the session role
 	 */
 	void setLastFileOpenPath(Path path, ToolboxFileRole role);
 
 	/**
+	 * @param role
+	 *            the session role
 	 * @return the last file open path if set
 	 */
 	Optional<Path> getLastFileOpenPath(ToolboxFileRole role);
 
 	/**
+	 * @param role
+	 *            the session role
 	 * @return give last five opened file
 	 */
 	List<Path> getLastOpenFiles(ToolboxFileRole role);
@@ -64,6 +70,8 @@ public interface UserConfigurationService {
 	/**
 	 * @param path
 	 *            the last open path
+	 * @param role
+	 *            the session role
 	 */
 	void addPathToOpenRecent(Path path, ToolboxFileRole role);
 
