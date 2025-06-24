@@ -1364,7 +1364,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMAusstieg_ETCS_Sperre_nein_Alternative;
 
 	/**
-	 * regulaer
+	 * regulär
 	 */
 	public String ENUMAusstieg_ETCS_Sperre_regulaer_Presentation;
 
@@ -1374,7 +1374,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMAusstieg_ETCS_Sperre_regulaer_Sorting;
 
 	/**
-	 * regulaer
+	 * regulär
 	 */
 	public String ENUMAusstieg_ETCS_Sperre_regulaer_Alternative;
 
@@ -1559,7 +1559,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBahnsteig_Zugang_Art_Weg_Alternative;
 
 	/**
-	 * BSS 86
+	 * BSS 85
 	 */
 	public String ENUMBalisenhalter_BSS_85_Presentation;
 
@@ -1569,7 +1569,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBalisenhalter_BSS_85_Sorting;
 
 	/**
-	 * BSS 86
+	 * BSS 85
 	 */
 	public String ENUMBalisenhalter_BSS_85_Alternative;
 
@@ -2114,19 +2114,19 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBefestigung_Art_Bahnsteig_Alternative;
 
 	/**
-	 * Dach/Decke
+	 * Dach
 	 */
-	public String ENUMBefestigung_Art_Dach_Decke_Presentation;
+	public String ENUMBefestigung_Art_Dach_Presentation;
 
 	/**
 	 * null
 	 */
-	public String ENUMBefestigung_Art_Dach_Decke_Sorting;
+	public String ENUMBefestigung_Art_Dach_Sorting;
 
 	/**
-	 * Dach/Decke
+	 * Dach
 	 */
-	public String ENUMBefestigung_Art_Dach_Decke_Alternative;
+	public String ENUMBefestigung_Art_Dach_Alternative;
 
 	/**
 	 * Fundament
@@ -5594,7 +5594,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Link_Art_sonstige_Alternative;
 
 	/**
-	 * primaer
+	 * primär
 	 */
 	public String ENUMDP_Typ_Art_primaer_Presentation;
 
@@ -5604,12 +5604,12 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_Art_primaer_Sorting;
 
 	/**
-	 * primaer
+	 * primär
 	 */
 	public String ENUMDP_Typ_Art_primaer_Alternative;
 
 	/**
-	 * sekundaer
+	 * sekundär
 	 */
 	public String ENUMDP_Typ_Art_sekundaer_Presentation;
 
@@ -5619,7 +5619,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_Art_sekundaer_Sorting;
 
 	/**
-	 * sekundaer
+	 * sekundär
 	 */
 	public String ENUMDP_Typ_Art_sekundaer_Alternative;
 
@@ -8604,7 +8604,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFiktives_Signal_Funktion_Zug_Ziel_Strecke_Sorting;
 
 	/**
-	 * ZZS
+	 * ZZS 
 	 */
 	public String ENUMFiktives_Signal_Funktion_Zug_Ziel_Strecke_Alternative;
 
@@ -15519,7 +15519,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMNB_Rueckgabevoraussetzung_abgelegt_Sorting;
 
 	/**
-	 * abgelegt
+	 * ab
 	 */
 	public String ENUMNB_Rueckgabevoraussetzung_abgelegt_Alternative;
 
@@ -15534,7 +15534,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMNB_Rueckgabevoraussetzung_aufgelegt_Sorting;
 
 	/**
-	 * aufgelegt
+	 * auf
 	 */
 	public String ENUMNB_Rueckgabevoraussetzung_aufgelegt_Alternative;
 
@@ -15579,7 +15579,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMNB_Rueckgabevoraussetzung_Kennlicht_Sorting;
 
 	/**
-	 * Kennlicht
+	 * Kl
 	 */
 	public String ENUMNB_Rueckgabevoraussetzung_Kennlicht_Alternative;
 
@@ -15594,7 +15594,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMNB_Rueckgabevoraussetzung_links_Sorting;
 
 	/**
-	 * links
+	 * L
 	 */
 	public String ENUMNB_Rueckgabevoraussetzung_links_Alternative;
 
@@ -15609,7 +15609,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMNB_Rueckgabevoraussetzung_rechts_Sorting;
 
 	/**
-	 * rechts
+	 * R
 	 */
 	public String ENUMNB_Rueckgabevoraussetzung_rechts_Alternative;
 
@@ -15624,7 +15624,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMNB_Rueckgabevoraussetzung_Schluessel_eingeschlossen_Sorting;
 
 	/**
-	 * Schlüssel eingeschlossen
+	 * Schlüssel ein
 	 */
 	public String ENUMNB_Rueckgabevoraussetzung_Schluessel_eingeschlossen_Alternative;
 
@@ -22739,7 +22739,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMUntergewerk_Art_Bedienung_Fdl_ESTW_ZE_Alternative;
 
 	/**
-	 * BUE
+	 * BÜ
 	 */
 	public String ENUMUntergewerk_Art_BUE_Presentation;
 
@@ -22749,7 +22749,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMUntergewerk_Art_BUE_Sorting;
 
 	/**
-	 * BUE
+	 * BÜ
 	 */
 	public String ENUMUntergewerk_Art_BUE_Alternative;
 
