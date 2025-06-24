@@ -57,6 +57,7 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.RGB;
 
 /**
  * Toolbox theme configuration.
@@ -329,8 +330,8 @@ public class PlanProTableThemeConfiguration
 	private void registerCompareTableCellStyle(
 			final IConfigRegistry configRegistry) {
 		final ICellPainter lineBorderDecorator = new LineBorderDecorator(
-				defaultCellPainter,
-				new BorderStyle(1, GUIHelper.COLOR_BLUE, LineStyleEnum.SOLID));
+				defaultCellPainter, new BorderStyle(1,
+						new Color(new RGB(0, 102, 255)), LineStyleEnum.SOLID));
 
 		configRegistry.registerConfigAttribute(
 				CellConfigAttributes.CELL_PAINTER, lineBorderDecorator,
