@@ -293,8 +293,7 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 			}
 		}
 
-		if (fstrZugRangier?.fstrZug?.fstrZugDWeg !== null ||
-			fstrZugRangier?.fstrMittel !== null) {
+		if (fstrZugRangier?.fstrZug?.fstrZugDWeg !== null) {
 			if (fstrReihenfolge == BigInteger.ZERO) {
 				return '''«fstrZugRangier?.fstrFahrweg?.
 					transformFahrwegStartZiel» («fstrZugRangier?.
@@ -366,9 +365,9 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 		Fstr_Zug_Rangier fstrZug
 	) {
 		val zugArt = fstrZug?.fstrZug?.fstrZugArt?.wert
-		val zugMittleArt = fstrZug?.fstrMittel?.fstrMittelArt?.wert
+		val fstrMittleArt = fstrZug?.fstrMittel?.fstrMittelArt?.wert
 
-		return #[zugArt, zugMittleArt].filterNull.exists [
+		return #[zugArt, fstrMittleArt].filterNull.exists [
 			literal !== null && literal.matches("Z.*")
 		]
 	}
