@@ -107,7 +107,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 				return null
 			}
 			// Generalbedingung
-			val isZ = isZ(fstrZugRangier.fstrZug?.fstrZugArt)
+			val isZ = fstrZugRangier.isZ
 
 			if (isZ) {
 				val instance = factory.newTableRow(fstrZugRangier)
@@ -188,8 +188,12 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 						]
 					),
 					new Case<Fstr_Zug_Rangier>(
-						[true],
+						[fstrZug?.fstrZugArt?.wert !== null],
 						[fstrZug?.fstrZugArt?.wert.literal.substring(1)]
+					),
+					new Case<Fstr_Zug_Rangier>(
+						[fstrMittel?.fstrMittelArt?.wert !== null],
+						[fstrMittel?.fstrMittelArt?.wert.literal.substring(1)]
 					)
 				)
 

@@ -239,8 +239,11 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 
 	def static <T> String getFstrZugRangierBezeichnung(
 		Fstr_Zug_Rangier fstrZugRangier) {
-		if (fstrZugRangier?.fstrZug !== null) {
-			return fstrZugRangier.getZugFstrBezeichnung[isZ]
+		if (fstrZugRangier?.fstrZug !== null ||
+			fstrZugRangier?.fstrMittel !== null) {
+			return fstrZugRangier.getZugFstrBezeichnung([
+				isZ
+			])
 		}
 
 		if (fstrZugRangier?.fstrRangier !== null) {
@@ -269,20 +272,21 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 	}
 
 	def static String getZugFstrBezeichnung(Fstr_Zug_Rangier fstrZugRangier,
-		(Fstr_Zug_Art_TypeClass)=>boolean condition) {
-		if (!condition.apply(fstrZugRangier?.fstrZug?.fstrZugArt)) {
+		(Fstr_Zug_Rangier)=>boolean condition) {
+		if (!condition.apply(fstrZugRangier)) {
 			return null
 		}
+		val fstrReihenfolge = fstrZugRangier?.fstrZugRangierAllg?.
+			fstrReihenfolge?.wert
 
-		if (fstrZugRangier?.fstrZug?.fstrZugDWeg === null ||
-			fstrZugRangier?.fstrDWeg?.fstrDWegSpezifisch === null) {
-			if (fstrZugRangier?.fstrZugRangierAllg?.fstrReihenfolge?.wert ==
-				BigInteger.ZERO) {
+		if (fstrZugRangier?.fstrDWeg === null ||
+			fstrZugRangier?.fstrDWeg?.fstrDWegSpezifisch === null ||
+			fstrZugRangier.fstrMittel !== null) {
+			if (fstrReihenfolge == BigInteger.ZERO) {
 				return fstrZugRangier?.fstrFahrweg?.transformFahrwegStartZiel
 			}
 
-			if (fstrZugRangier?.fstrZugRangierAllg?.fstrReihenfolge?.wert.
-				isNotNullAndGreater(BigInteger.ZERO)) {
+			if (fstrReihenfolge.isNotNullAndGreater(BigInteger.ZERO)) {
 				return '''«fstrZugRangier?.fstrFahrweg?.
 					transformFahrwegStartZiel» [U«fstrZugRangier?.
 					fstrZugRangierAllg?.fstrReihenfolge?.wert»]'''
@@ -290,16 +294,14 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 		}
 
 		if (fstrZugRangier?.fstrZug?.fstrZugDWeg !== null) {
-			if (fstrZugRangier?.fstrZugRangierAllg?.fstrReihenfolge?.wert ==
-				BigInteger.ZERO) {
+			if (fstrReihenfolge == BigInteger.ZERO) {
 				return '''«fstrZugRangier?.fstrFahrweg?.
 					transformFahrwegStartZiel» («fstrZugRangier?.
 					fstrDWeg?.bezeichnung?.bezeichnungFstrDWeg?.wert»)'''
 
 			}
 
-			if (fstrZugRangier?.fstrZugRangierAllg?.fstrReihenfolge?.wert.
-				isNotNullAndGreater(BigInteger.ZERO)) {
+			if (fstrReihenfolge.isNotNullAndGreater(BigInteger.ZERO)) {
 				return '''«fstrZugRangier?.fstrFahrweg?.
 					transformFahrwegStartZiel» [U«fstrZugRangier?.
 					fstrZugRangierAllg?.fstrReihenfolge?.wert»] («fstrZugRangier?.
@@ -360,10 +362,14 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 	}
 
 	def static boolean isZ(
-		Fstr_Zug_Art_TypeClass typeClazz
+		Fstr_Zug_Rangier fstrZug
 	) {
-		val lit = typeClazz?.wert?.literal
-		return lit !== null && lit.matches("Z.*")
+		val zugArt = fstrZug?.fstrZug?.fstrZugArt?.wert
+		val fstrMittleArt = fstrZug?.fstrMittel?.fstrMittelArt?.wert
+
+		return #[zugArt, fstrMittleArt].filterNull.exists [
+			literal !== null && literal.matches("Z.*")
+		]
 	}
 
 	def static boolean isR(Fstr_Zug_Rangier fstrZugRangier) {
@@ -432,7 +438,7 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 			return fstrZugRangier.isRangierStrBelongToControlArea(controlArea)
 		}
 
-		if (isZ(fstrZugRangier.fstrZug?.fstrZugArt)) {
+		if (fstrZugRangier.isZ) {
 			return fstrZugRangier.isZugStrBelongToControlArea(controlArea)
 		}
 
