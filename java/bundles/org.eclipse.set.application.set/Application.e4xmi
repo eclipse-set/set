@@ -14,14 +14,14 @@
     </children>
     <mainMenu xmi:id="_D9x1qR5jEeW1jPyxhgRGUg" elementId="menu:org.eclipse.ui.main.menu">
       <children xsi:type="menu:Menu" xmi:id="_D9x1qh5jEeW1jPyxhgRGUg" elementId="menu:org.eclipse.ui.main.menu.file" label="%menu.label.file">
+        <children xsi:type="menu:Menu" xmi:id="_wq_6IBOLEfCjhIyK-hnYbA" elementId="org.eclipse.set.application.set.menu.openrecent" label="%menu.label.file.openrecent" iconURI="platform:/plugin/org.eclipse.set.utils/icons/ic_folder_open_black_18dp_1x.png">
+          <children xsi:type="menu:DynamicMenuContribution" xmi:id="_xv660BOLEfCjhIyK-hnYbA" elementId="org.eclipse.set.application.set.dynamicmenucontribution.recentProjects" contributionURI="bundleclass://org.eclipse.set.application/org.eclipse.set.application.contribution.OpenRecentMenuContribution"/>
+        </children>
         <children xsi:type="menu:HandledMenuItem" xmi:id="_D9x1qx5jEeW1jPyxhgRGUg" elementId="item:org.eclipse.set.planpro.menu.file.openproject" label="%menu.label.file.open" iconURI="platform:/plugin/org.eclipse.set.utils/icons/ic_folder_open_black_18dp_1x.png" command="_D9x1oB5jEeW1jPyxhgRGUg"/>
         <children xsi:type="menu:Menu" xmi:id="_mP3H4Et5EfC4sfbyghwnaQ" elementId="org.eclipse.set.planpro.menu.file.openCompareProject" label="%menu.label.file.openCompare" iconURI="platform:/plugin/org.eclipse.set.utils/icons/baseline_compare_arrows_black_18dp.png">
           <children xsi:type="menu:DynamicMenuContribution" xmi:id="_u3ynAEt5EfC4sfbyghwnaQ" elementId="org.eclipse.set.application.set.dynamicmenucontribution.compareProjects" contributionURI="bundleclass://org.eclipse.set.application/org.eclipse.set.application.contribution.OpenCompareProjectMenuCnntribution"/>
           <children xsi:type="menu:MenuSeparator" xmi:id="_yL9GcEt5EfC4sfbyghwnaQ" elementId="org.eclipse.set.application.set.menuseparator.0"/>
           <children xsi:type="menu:HandledMenuItem" xmi:id="_z7o7YEt5EfC4sfbyghwnaQ" elementId="item:org.eclipse.set.planpro.menu.file.openCompareProject" label="%menu.label.file.openOther" command="_XhDcEEXREfC3AqjYdj1JDA"/>
-        </children>
-        <children xsi:type="menu:Menu" xmi:id="_wq_6IBOLEfCjhIyK-hnYbA" elementId="org.eclipse.set.application.set.menu.openrecent" label="%menu.label.file.openrecent" iconURI="platform:/plugin/org.eclipse.set.utils/icons/ic_folder_open_black_18dp_1x.png">
-          <children xsi:type="menu:DynamicMenuContribution" xmi:id="_xv660BOLEfCjhIyK-hnYbA" elementId="org.eclipse.set.application.set.dynamicmenucontribution.recentProjects" contributionURI="bundleclass://org.eclipse.set.application/org.eclipse.set.application.contribution.OpenRecentMenuContribution"/>
         </children>
         <children xsi:type="menu:HandledMenuItem" xmi:id="_R4SaoMB4EeaWZ76dmA8Scw" elementId="item:org.eclipse.set.planpro.menu.file.newproject" label="%menu.label.file.newproject" iconURI="platform:/plugin/org.eclipse.set.utils/icons/ic_create_black_18dp_1x.png" command="_oWU2QMEuEea6HfDE-VF0AQ"/>
         <children xsi:type="menu:Menu" xmi:id="_gV-b8Bq8Eee8665UL49_kA" elementId="org.eclipse.set.application.set.menu.examples" label="%menu.label.file.exampleproject" iconURI="platform:/plugin/org.eclipse.set.utils/icons/ic_lightbulb_outline_black_18dp_1x.png">

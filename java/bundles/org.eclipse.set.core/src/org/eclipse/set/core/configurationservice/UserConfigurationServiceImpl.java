@@ -24,6 +24,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.eclipse.set.basis.constants.ToolboxConstants;
+import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.configurationservice.UserConfigurationService;
 import org.eclipse.set.utils.ToolboxConfiguration;
@@ -63,6 +64,7 @@ public class UserConfigurationServiceImpl implements UserConfigurationService {
 		public Path lastFileExportPath;
 
 		public List<Path> lastOpenFiles;
+		public List<Path> lastOpenCompareFiles;
 
 		/**
 		 * Any unknown properties must be stored and preserverd, as new versions
@@ -159,14 +161,16 @@ public class UserConfigurationServiceImpl implements UserConfigurationService {
 	}
 
 	@Override
-	public void setLastFileOpenPath(final Path path) {
+	public void setLastFileOpenPath(final Path path,
+			final ToolboxFileRole role) {
 		configuration.lastFileOpenPath = path;
-		addPathToOpenRecent(path);
+		addPathToOpenRecent(path, role);
 	}
 
 	@Override
-	public void addPathToOpenRecent(final Path path) {
-		final List<Path> lastOpenFiles = getLastOpenFiles();
+	public void addPathToOpenRecent(final Path path,
+			final ToolboxFileRole role) {
+		final List<Path> lastOpenFiles = getLastOpenFiles(role);
 		final Optional<Path> alreadyOpenPath = lastOpenFiles.stream()
 				.filter(p -> p.toAbsolutePath()
 						.toString()
@@ -193,7 +197,7 @@ public class UserConfigurationServiceImpl implements UserConfigurationService {
 	}
 
 	@Override
-	public Optional<Path> getLastFileOpenPath() {
+	public Optional<Path> getLastFileOpenPath(final ToolboxFileRole role) {
 		return Optional.ofNullable(configuration.lastFileOpenPath);
 	}
 
@@ -206,16 +210,33 @@ public class UserConfigurationServiceImpl implements UserConfigurationService {
 	}
 
 	@Override
-	public List<Path> getLastOpenFiles() {
-		if (configuration.lastOpenFiles == null) {
-			configuration.lastOpenFiles = new LinkedList<>();
-			saveConfiguration();
+	public List<Path> getLastOpenFiles(final ToolboxFileRole role) {
+		final List<Path> pathList = getPathList(role);
+		if (pathList.size() > 5) {
+			pathList.removeLast();
 		}
-
-		if (configuration.lastOpenFiles.size() > 5) {
-			configuration.lastOpenFiles.removeLast();
-		}
-		return configuration.lastOpenFiles;
+		return pathList;
 	}
 
+	private void createPathList(final ToolboxFileRole role) {
+		if (role == ToolboxFileRole.COMPARE_PLANNING) {
+			configuration.lastOpenCompareFiles = new LinkedList<>();
+		} else {
+			configuration.lastOpenFiles = new LinkedList<>();
+		}
+		saveConfiguration();
+	}
+
+	private List<Path> getPathList(final ToolboxFileRole role) {
+		final List<Path> list = switch (role) {
+			case COMPARE_PLANNING -> configuration.lastOpenCompareFiles;
+			default -> configuration.lastOpenFiles;
+		};
+		if (list == null) {
+			createPathList(role);
+			return getPathList(role);
+		}
+		return list;
+
+	}
 }

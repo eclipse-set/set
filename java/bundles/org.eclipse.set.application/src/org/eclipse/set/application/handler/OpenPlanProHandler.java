@@ -71,7 +71,7 @@ public class OpenPlanProHandler extends AbstractOpenHandler {
 		if (path.isEmpty()) {
 			path = getDialogService().openFileDialog(shell,
 					getDialogService().getPlanProFileFilters(),
-					userConfigService.getLastFileOpenPath());
+					userConfigService.getLastFileOpenPath(getRole()));
 		}
 		path.ifPresent(this::setLastOpenPath);
 		return path.orElse(null);
@@ -85,7 +85,7 @@ public class OpenPlanProHandler extends AbstractOpenHandler {
 				return;
 			}
 		}
-		userConfigService.setLastFileOpenPath(path);
+		userConfigService.setLastFileOpenPath(path, getRole());
 	}
 
 	@Override

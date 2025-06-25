@@ -17,6 +17,7 @@ import org.eclipse.e4.ui.di.AboutToShow;
 import org.eclipse.e4.ui.model.application.ui.menu.MMenuElement;
 import org.eclipse.e4.ui.workbench.modeling.EModelService;
 import org.eclipse.set.basis.RecentOpenFile;
+import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.eclipse.set.core.services.configurationservice.UserConfigurationService;
 
 import jakarta.inject.Inject;
@@ -34,7 +35,8 @@ public class OpenRecentMenuContribution extends LoadExampleContribution {
 	@AboutToShow
 	protected void aboutToShow2(final List<MMenuElement> items,
 			final EModelService modelService) {
-		final List<Path> lastOpenFiles = userConfigService.getLastOpenFiles();
+		final List<Path> lastOpenFiles = userConfigService
+				.getLastOpenFiles(getRole());
 		lastOpenFiles.stream()
 				.map(file -> new RecentOpenFile(file.getFileName().toString(),
 						file))
@@ -44,5 +46,10 @@ public class OpenRecentMenuContribution extends LoadExampleContribution {
 	@Override
 	protected String getItemContributionClass() {
 		return OPEN_CONTRIBUTION_CLASS;
+	}
+
+	@SuppressWarnings("static-method")
+	protected ToolboxFileRole getRole() {
+		return ToolboxFileRole.SESSION;
 	}
 }
