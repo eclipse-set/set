@@ -20,6 +20,7 @@ import org.eclipse.set.basis.FreeFieldInfo
 import org.eclipse.set.model.tablemodel.CellContent
 import org.eclipse.set.model.tablemodel.CompareCellContent
 import org.eclipse.set.model.tablemodel.CompareFootnoteContainer
+import org.eclipse.set.model.tablemodel.CompareTableCellContent
 import org.eclipse.set.model.tablemodel.FootnoteContainer
 import org.eclipse.set.model.tablemodel.MultiColorCellContent
 import org.eclipse.set.model.tablemodel.MultiColorContent
@@ -366,6 +367,15 @@ class TableToTableDocument {
 		return element
 	}
 
+	private def dispatch Element createContent(CompareTableCellContent content,
+		FootnoteContainer fc, int columnNumber, boolean isRemarkColumn) {
+		val element = doc.createElement("CompareProjectContent");
+		val mainContentElement = content.mainPlanCellContent.createContent(fc, columnNumber,
+				isRemarkColumn)
+		element.appendChild(mainContentElement)
+		return element
+	}
+
 	private def void addFootnoteChild(Element element, String content,
 		String mark, int columnNumber, boolean isRemarkColumn) {
 		val child = createCompareValueElement(mark, content)
@@ -450,8 +460,9 @@ class TableToTableDocument {
 	private def Element addContentToElement(String content, Element element,
 		int columnNumber, boolean isRemarkColumn) {
 		val checkOutput = content.checkForTestOutput(columnNumber)
-		element.textContent = isRemarkColumn ? checkOutput : checkOutput.
-			intersperseWithZeroSpacesSC
+		element.textContent = isRemarkColumn
+			? checkOutput
+			: checkOutput.intersperseWithZeroSpacesSC
 		return element
 	}
 
