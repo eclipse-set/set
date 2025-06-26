@@ -40,11 +40,8 @@ class MultiContainer_AttributeGroupExtensions {
 		}
 
 		val cacheService = Services.getCacheService();
-		val cache = cacheService.getCache(
-			ToolboxConstants.CacheId.GUID_TO_OBJECT,
-			container.cacheString
-		);
-
+		val cache = cacheService.getCache(container.planProSchnittstelle,
+			ToolboxConstants.CacheId.GUID_TO_OBJECT, container.cacheString)
 		try {
 			return cache.get(guid,
 				new UrObjectLoader<T>(container.contents.filter [
@@ -84,8 +81,9 @@ class MultiContainer_AttributeGroupExtensions {
 
 		throw new IllegalArgumentException('''PlanProSchinttStelle not contains LST_Zustand: «lstZustand.identitaet.wert»''')
 	}
-	
-	def static PlanPro_Schnittstelle getPlanProSchnittstelle(MultiContainer_AttributeGroup container) {
+
+	def static PlanPro_Schnittstelle getPlanProSchnittstelle(
+		MultiContainer_AttributeGroup container) {
 		val lstZustand = container.firstLSTZustand
 		var parent = lstZustand.eContainer
 		while (parent !== null && !(parent instanceof PlanPro_Schnittstelle)) {

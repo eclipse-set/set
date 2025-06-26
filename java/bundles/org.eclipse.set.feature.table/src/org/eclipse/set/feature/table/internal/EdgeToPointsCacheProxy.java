@@ -17,6 +17,7 @@ import org.eclipse.set.basis.cache.Cache;
 import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.core.services.cache.CacheService;
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup;
+import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
 
 /**
  * A Proxy of the directed edge to single points cache dealing with abstract
@@ -29,11 +30,14 @@ public class EdgeToPointsCacheProxy implements Cache {
 	private final Cache directedEdgeToSinglepointsCache;
 
 	/**
+	 * @param schnittstelle
+	 *            the {@link PlanPro_Schnittstelle}
 	 * @param cacheService
 	 *            the cache service
 	 */
-	public EdgeToPointsCacheProxy(final CacheService cacheService) {
-		directedEdgeToSinglepointsCache = cacheService.getCache(
+	public EdgeToPointsCacheProxy(final PlanPro_Schnittstelle schnittstelle,
+			final CacheService cacheService) {
+		directedEdgeToSinglepointsCache = cacheService.getCache(schnittstelle,
 				ToolboxConstants.CacheId.DIRECTED_EDGE_TO_SINGLEPOINTS);
 	}
 

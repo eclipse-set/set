@@ -11,7 +11,9 @@ package org.eclipse.set.core.services.cache;
 import org.eclipse.set.basis.cache.Cache;
 import org.eclipse.set.basis.cache.NoCache;
 import org.eclipse.set.basis.constants.ToolboxConstants;
+import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.eclipse.set.core.services.Services;
+import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
 
 /**
  * A cache service without caching for test purposes.
@@ -21,25 +23,48 @@ import org.eclipse.set.core.services.Services;
 public class NoCacheService implements CacheService {
 
 	@Override
-	public Cache getCache(final String cacheId)
-			throws IllegalArgumentException {
+	public Cache getCache(final PlanPro_Schnittstelle schnittStellle,
+			final String cacheId) throws IllegalArgumentException {
 		if (cacheId.equals(ToolboxConstants.CacheId.TABLE_ERRORS)
 				|| cacheId.equals(ToolboxConstants.CacheId.TABLE_ERRORS_INITIAL)
 				|| cacheId
 						.equals(ToolboxConstants.CacheId.TABLE_ERRORS_FINAL)) {
-			return Services.getCacheService().getCache(cacheId);
+			return Services.getCacheService().getCache(schnittStellle, cacheId);
 		}
 		return new NoCache();
 	}
 
 	@Override
-	public Cache getCache(final String cacheId, final String containerCacheId)
+	public Cache getCache(final PlanPro_Schnittstelle schnittStellle,
+			final String cacheId, final String containerCacheId)
 			throws IllegalArgumentException {
 		return new NoCache();
 	}
 
 	@Override
-	public Boolean existCache(final String cacheID) {
+	public Boolean existCache(final PlanPro_Schnittstelle schnittStellle,
+			final String cacheID) {
 		return Boolean.FALSE;
+	}
+
+	@Override
+	public Cache getCache(final ToolboxFileRole role, final String cacheId)
+			throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Cache getCache(final ToolboxFileRole role, final String cacheId,
+			final String containerCacheId) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Boolean existCache(final ToolboxFileRole role,
+			final String cacheID) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

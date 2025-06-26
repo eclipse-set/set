@@ -8,6 +8,15 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
+import java.util.LinkedList
+import java.util.List
+import java.util.Set
+import org.eclipse.core.runtime.Assert
+import org.eclipse.set.basis.constants.ToolboxConstants
+import org.eclipse.set.basis.geometry.GeometryException
+import org.eclipse.set.basis.graph.Digraphs
+import org.eclipse.set.basis.graph.DirectedEdge
+import org.eclipse.set.basis.graph.DirectedEdgePath
 import org.eclipse.set.model.planpro.Bahnuebergang.BUE_Anlage
 import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung
 import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
@@ -25,23 +34,13 @@ import org.eclipse.set.model.planpro.Signale.Signal
 import org.eclipse.set.model.planpro.Signale.Signal_Signalbegriff
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.Kreuzung_AttributeGroup
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Komponente
-import java.util.LinkedList
-import java.util.List
-import java.util.Set
-import org.eclipse.core.runtime.Assert
-import org.eclipse.set.basis.cache.Cache
-import org.eclipse.set.basis.constants.ToolboxConstants
-import org.eclipse.set.basis.geometry.GeometryException
-import org.eclipse.set.basis.graph.Digraphs
-import org.eclipse.set.basis.graph.DirectedEdge
-import org.eclipse.set.basis.graph.DirectedEdgePath
-import org.eclipse.set.core.services.Services
 import org.eclipse.set.ppmodel.extensions.utils.CrossingRoute
 import org.eclipse.set.ppmodel.extensions.utils.GestellteWeiche
 import org.eclipse.set.ppmodel.extensions.utils.GestellteWeiche.Lage
 import org.eclipse.set.ppmodel.extensions.utils.TeilFahrweg
 import org.eclipse.set.ppmodel.extensions.utils.TopRouting
 import org.eclipse.set.ppmodel.extensions.utils.WeichenSchenkel
+import org.eclipse.set.utils.ToolboxConfiguration
 import org.locationtech.jts.algorithm.Angle
 import org.locationtech.jts.geom.Coordinate
 import org.slf4j.Logger
@@ -63,7 +62,6 @@ import static extension org.eclipse.set.ppmodel.extensions.utils.CacheUtils.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.CollectionExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.Debug.*
 import static extension org.eclipse.set.utils.graph.DirectedEdgeExtensions.*
-import org.eclipse.set.utils.ToolboxConfiguration
 
 /**
  * Extensions for {@link Fstr_Fahrweg}.
@@ -72,8 +70,6 @@ class FahrwegExtensions extends BereichObjektExtensions {
 
 	static val Logger logger = LoggerFactory.getLogger(
 		typeof(FahrwegExtensions))
-
-	static var Cache cache
 
 	/**
 	 * @param fahrweg this Fahrweg
@@ -235,8 +231,7 @@ class FahrwegExtensions extends BereichObjektExtensions {
 			logger.
 				debug('''fahrweg=«fahrweg.debugName» komponente=«komponente.debugName»''')
 		}
-
-		createCache
+		val cache = fahrweg.getCache(ToolboxConstants.CacheId.FAHRWEG_TO_ROUTES)
 		val routes = cache.get(
 			fahrweg.getCacheKey(notUsable),
 			[fahrweg.routes(notUsable)]
@@ -301,14 +296,6 @@ class FahrwegExtensions extends BereichObjektExtensions {
 
 		// wrong orientation for Entscheidungsweiche
 		return entscheidungsweiche
-	}
-
-	private def static void createCache() {
-		if (cache === null) {
-			cache = Services.cacheService.getCache(
-				ToolboxConstants.CacheId.FAHRWEG_TO_ROUTES
-			)
-		}
 	}
 
 	private def static List<DirectedEdgePath<TOP_Kante, TOP_Knoten, Punkt_Objekt_TOP_Kante_AttributeGroup>> routes(

@@ -15,6 +15,7 @@ import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
 import org.eclipse.set.model.planpro.Geodaten.TOP_Knoten
 
 import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.MultiContainer_AttributeGroupExtensions.*
 import org.eclipse.set.ppmodel.extensions.internal.SinglePointIterator
 
 /**
@@ -111,6 +112,7 @@ class DirectedTopKante extends DirectedElementImpl<TOP_Kante> implements Directe
 	}
 	
 	override getCacheKey() {
-		return '''«element.container.cacheString»/«element.identitaet.wert»/«forwards ? "/F" : "/B"»'''
+		val schnittstelle = element.container.planProSchnittstelle
+		return '''«schnittstelle?.identitaet?.wert»/«element.container.cacheString»/«element.identitaet.wert»/«forwards ? "/F" : "/B"»'''
 	}
 }

@@ -9,14 +9,21 @@
 package org.eclipse.set.application.cacheservice;
 
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.eclipse.e4.core.services.events.IEventBroker;
+import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.cache.Cache;
 import org.eclipse.set.basis.constants.Events;
+import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.cache.CacheService;
 import org.eclipse.set.core.services.cache.NoCacheService;
+import org.eclipse.set.core.services.session.SessionService;
+import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.event.Event;
 import org.osgi.service.event.EventConstants;
 import org.osgi.service.event.EventHandler;
@@ -26,10 +33,12 @@ import org.osgi.service.event.EventHandler;
  * 
  * @author Schaefer
  */
-@Component(property = EventConstants.EVENT_TOPIC + "="
-		+ Events.MODEL_CHANGED, service = { EventHandler.class,
-				CacheService.class })
+@Component(property = { EventConstants.EVENT_TOPIC + "=" + Events.MODEL_CHANGED,
+		EventConstants.EVENT_TOPIC + "=" + Events.CLOSE_SESSION }, service = {
+				EventHandler.class, CacheService.class })
 public class CacheServiceImpl implements CacheService, EventHandler {
+	@Reference
+	SessionService sessionService;
 
 	/**
 	 * Constructor
@@ -39,34 +48,90 @@ public class CacheServiceImpl implements CacheService, EventHandler {
 		Services.setNoCacheService(new NoCacheService());
 	}
 
-	private final Map<String, Cache> caches = new ConcurrentHashMap<>();
+	private final Map<ToolboxFileRole, Map<String, Cache>> caches = new ConcurrentHashMap<>();
 
 	@Override
-	public Cache getCache(final String cacheId) {
-		caches.computeIfAbsent(cacheId, CacheImpl::new);
-		return caches.get(cacheId);
+	public Cache getCache(final PlanPro_Schnittstelle schnittstelle,
+			final String cacheId) {
+		return getCache(getSessionRole(schnittstelle), cacheId);
 	}
 
 	@Override
-	public Cache getCache(final String cacheId, final String containerCacheId)
+	public Cache getCache(final PlanPro_Schnittstelle schnittstelle,
+			final String cacheId, final String containerCacheId)
 			throws IllegalArgumentException {
-		final String cacheKey = cacheId + "/" + containerCacheId; //$NON-NLS-1$
-		caches.computeIfAbsent(cacheKey, CacheImpl::new);
-		return caches.get(cacheKey);
+		return getCache(getSessionRole(schnittstelle), cacheId,
+				containerCacheId);
 	}
 
-	private void invalidate() {
-		caches.values().forEach(Cache::invalidate);
+	private void invalidate(final ToolboxFileRole role) {
+		if (role == ToolboxFileRole.SESSION) {
+			caches.values()
+					.stream()
+					.flatMap(ele -> ele.values().stream())
+					.forEach(Cache::invalidate);
+		} else {
+			caches.get(role).values().forEach(Cache::invalidate);
+		}
+
 	}
 
 	@Override
 	public void handleEvent(final Event event) {
+		if (event.getTopic().equals(Events.CLOSE_SESSION)) {
+			final ToolboxFileRole role = (ToolboxFileRole) event
+					.getProperty(IEventBroker.DATA);
+			invalidate(role);
+			return;
+		}
+
+		final IModelSession modelSession = (IModelSession) event
+				.getProperty(IEventBroker.DATA);
 		// Invalidate all caches if the model is changed
-		this.invalidate();
+		this.invalidate(modelSession.getToolboxFile().getRole());
 	}
 
 	@Override
-	public Boolean existCache(final String cacheID) {
-		return Boolean.valueOf(caches.keySet().contains(cacheID));
+	public Boolean existCache(final PlanPro_Schnittstelle schnittstelle,
+			final String cacheID) {
+		return existCache(getSessionRole(schnittstelle), cacheID);
+	}
+
+	private ToolboxFileRole getSessionRole(
+			final PlanPro_Schnittstelle schnittStelle) {
+		final Map<ToolboxFileRole, IModelSession> loadedSessions = sessionService
+				.getLoadedSessions();
+		final Entry<ToolboxFileRole, IModelSession> targetSession = loadedSessions
+				.entrySet()
+				.stream()
+				.filter(entry -> entry.getValue()
+						.getPlanProSchnittstelle() == schnittStelle)
+				.findFirst()
+				.orElse(null);
+		if (targetSession != null) {
+			return targetSession.getKey();
+		}
+		return ToolboxFileRole.SESSION;
+	}
+
+	@Override
+	public Cache getCache(final ToolboxFileRole role, final String cacheId)
+			throws IllegalArgumentException {
+		final Map<String, Cache> sessionCahces = caches.computeIfAbsent(role,
+				k -> new ConcurrentHashMap<>());
+		return sessionCahces.computeIfAbsent(cacheId, CacheImpl::new);
+	}
+
+	@Override
+	public Cache getCache(final ToolboxFileRole role, final String cacheId,
+			final String containerCacheId) throws IllegalArgumentException {
+		final String cacheKey = cacheId + "/" + containerCacheId; //$NON-NLS-1$
+		return getCache(role, cacheKey);
+	}
+
+	@Override
+	public Boolean existCache(final ToolboxFileRole role,
+			final String cacheID) {
+		return Boolean.valueOf(caches.get(role).keySet().contains(cacheID));
 	}
 }

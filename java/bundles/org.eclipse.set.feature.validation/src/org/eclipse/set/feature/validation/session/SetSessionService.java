@@ -36,6 +36,7 @@ import org.eclipse.set.basis.files.ToolboxFile.Format;
 import org.eclipse.set.basis.files.ToolboxFileExtension;
 import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.eclipse.set.basis.viewgroups.ToolboxViewGroup;
+import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.files.ToolboxFileService;
 import org.eclipse.set.core.services.part.ToolboxPartService;
 import org.eclipse.set.core.services.session.SessionService;
@@ -63,6 +64,13 @@ public class SetSessionService implements SessionService {
 	protected static final Map<String, Set<ToolboxFileExtension>> ZIPPED_SUPPORT_MAP;
 
 	protected static final Map<ToolboxFileRole, IModelSession> loadedModels;
+
+	/**
+	 * Default constructor
+	 */
+	public SetSessionService() {
+		Services.setSessionService(this);
+	}
 
 	static {
 		final Set<ToolboxFileExtension> ppfile = Sets.newHashSet(

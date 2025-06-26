@@ -94,7 +94,6 @@ public class TableServiceContextFunction extends ContextFunction {
 		final MApplication application = context.get(MApplication.class);
 		final IEclipseContext applicationContext = application.getContext();
 		applicationContext.set(TableService.class, tableService);
-		tableService.activate();
 		return tableService;
 	}
 

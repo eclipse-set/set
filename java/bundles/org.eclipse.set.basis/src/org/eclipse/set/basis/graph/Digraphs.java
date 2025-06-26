@@ -49,7 +49,7 @@ public class Digraphs {
 	 */
 	public static void setEdgeToSubPathCacheSupplier(
 			final Supplier<Cache> edgeToSubPathCacheSupplier) {
-		Digraphs.edgeToSubPathCacheSupplier = edgeToSubPathCacheSupplier;
+		// Digraphs.edgeToSubPathCacheSupplier = edgeToSubPathCacheSupplier;
 	}
 
 	/**

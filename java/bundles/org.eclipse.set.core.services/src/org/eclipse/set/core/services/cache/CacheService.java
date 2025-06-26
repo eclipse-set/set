@@ -9,6 +9,8 @@
 package org.eclipse.set.core.services.cache;
 
 import org.eclipse.set.basis.cache.Cache;
+import org.eclipse.set.basis.files.ToolboxFileRole;
+import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
 
 /**
  * Provides different caches.
@@ -18,6 +20,7 @@ import org.eclipse.set.basis.cache.Cache;
 public interface CacheService {
 
 	/**
+	 * @param schnittstelle
 	 * @param cacheId
 	 *            the id for the cache
 	 * 
@@ -26,9 +29,11 @@ public interface CacheService {
 	 * @throws IllegalArgumentException
 	 *             if no cache for the given id is found
 	 */
-	public Cache getCache(String cacheId) throws IllegalArgumentException;
+	public Cache getCache(PlanPro_Schnittstelle schnittstelle, String cacheId)
+			throws IllegalArgumentException;
 
 	/**
+	 * @param schnittstelle
 	 * @param cacheId
 	 *            the id for the cache
 	 * @param containerCacheId
@@ -38,8 +43,47 @@ public interface CacheService {
 	 * @throws IllegalArgumentException
 	 *             if no cache for the given id is found
 	 */
-	public Cache getCache(String cacheId, String containerCacheId)
+	public Cache getCache(PlanPro_Schnittstelle schnittstelle, String cacheId,
+			String containerCacheId) throws IllegalArgumentException;
+
+	/**
+	 * check if already storage cache
+	 * 
+	 * @param schnittstelle
+	 * 
+	 * @param cacheID
+	 *            the id for the cache
+	 * @return true, if the cache already storage
+	 */
+	public Boolean existCache(PlanPro_Schnittstelle schnittstelle,
+			String cacheID);
+
+	/**
+	 * @param role
+	 * @param cacheId
+	 *            the id for the cache
+	 * 
+	 * @return the cache
+	 * 
+	 * @throws IllegalArgumentException
+	 *             if no cache for the given id is found
+	 */
+	public Cache getCache(ToolboxFileRole role, String cacheId)
 			throws IllegalArgumentException;
+
+	/**
+	 * @param role
+	 * @param cacheId
+	 *            the id for the cache
+	 * @param containerCacheId
+	 *            the id for the container to consider
+	 * @return the container cache
+	 * 
+	 * @throws IllegalArgumentException
+	 *             if no cache for the given id is found
+	 */
+	public Cache getCache(ToolboxFileRole role, String cacheId,
+			String containerCacheId) throws IllegalArgumentException;
 
 	/**
 	 * check if already storage cache
@@ -48,7 +92,7 @@ public interface CacheService {
 	 *            the id for the cache
 	 * @return true, if the cache already storage
 	 */
-	public Boolean existCache(String cacheID);
+	public Boolean existCache(ToolboxFileRole role, String cacheID);
 
 	/**
 	 * @param args

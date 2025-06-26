@@ -15,6 +15,7 @@ import org.eclipse.set.core.services.geometry.GeoKanteGeometryService;
 import org.eclipse.set.core.services.geometry.PointObjectPositionService;
 import org.eclipse.set.core.services.graph.TopologicalGraphService;
 import org.eclipse.set.core.services.planningaccess.PlanningAccessService;
+import org.eclipse.set.core.services.session.SessionService;
 import org.eclipse.set.core.services.siteplan.SiteplanService;
 import org.eclipse.set.core.services.viewmodel.ToolboxViewModelService;
 
@@ -31,7 +32,7 @@ public class Services {
 	private static GeoKanteGeometryService geometryService;
 	private static SiteplanService siteplanService;
 	private static UserConfigurationService userConfigurationService;
-
+	private static SessionService sessionService;
 	private static TopologicalGraphService topGraphService;
 	private static PointObjectPositionService pointObjectPositionService;
 
@@ -183,5 +184,20 @@ public class Services {
 	public static void setPointObjectPositionService(
 			final PointObjectPositionService pointObjectPositionService) {
 		Services.pointObjectPositionService = pointObjectPositionService;
+	}
+
+	/**
+	 * @param sessionService
+	 *            the {@link SessionService}
+	 */
+	public static void setSessionService(final SessionService sessionService) {
+		Services.sessionService = sessionService;
+	}
+
+	/**
+	 * @return the {@link SessionService}
+	 */
+	public static SessionService getSessionService() {
+		return sessionService;
 	}
 }
