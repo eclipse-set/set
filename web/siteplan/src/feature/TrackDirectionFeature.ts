@@ -190,49 +190,13 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
         guid: 'TestGuid',
         data: track
       },
-      // new OlPoint([track.sections[0].segments[0].positions[0].x + 5, track.sections[0].segments[0].positions[0].y + 5]),
       geometry,
       undefined // no label
     )
 
-    // const style =  this.svgService.getFeatureStyle(
-    // track, FeatureType.TrackDirectionArrow)
-
-    // const svg = this.drawFeatureSVG(drawData.data, .......
-    // drawData.featureType, drawData.label)
-    // const svg = this.getObjectSvg(track)
-    // "x" : 785329.388944429,
-    //       "y" : 6603565.665619974,
-
     // this.createArrowBBox(feature, track, svg)
 
     feature.setStyle(TrackDirectionFeature.TDF_FEATURE)
-
-    /* feature.setStyle((_, resolution) => {
-      const baseResolution = this.map.getView().getResolutionForZoom(this.svgService.getBaseZoomLevel())
-      const scale = baseResolution / resolution
-      const style = new OlStyle({
-        geometry: new OlPoint([785329.388944429,6603565.665619974])
-
-      // image: icon
-      })
-      // Rotate the signal labels according to the map rotation
-      // signalMount.attachedSignals.forEach(mount =>
-      //  updateLabelOrientation(mount.label, signalMount.position.rotation, this.map))
-
-      // Determine style for the signal mount
-
-      // Rescale the feature according to the current zoom level
-      // to keep a constant size
-      // style.getImage()?.setScale(scale)
-      // // Rotate the feature
-      // style.getImage()?.setRotation(((0.0) * Math.PI) / 180) // TODO
-      // style.getImage()?.setDisplacement([
-      //   track.sections[0].segments[0].positions[0].x + 5,
-      //   track.sections[0].segments[0].positions[0].y + 5
-      // ]) // TODO
-      return style
-    }) */
 
     return feature
   }
