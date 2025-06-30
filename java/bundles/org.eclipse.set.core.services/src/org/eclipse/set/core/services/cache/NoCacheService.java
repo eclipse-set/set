@@ -50,21 +50,18 @@ public class NoCacheService implements CacheService {
 	@Override
 	public Cache getCache(final ToolboxFileRole role, final String cacheId)
 			throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+		return new NoCache();
 	}
 
 	@Override
 	public Cache getCache(final ToolboxFileRole role, final String cacheId,
 			final String containerCacheId) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+		return new NoCache();
 	}
 
 	@Override
 	public Boolean existCache(final ToolboxFileRole role,
 			final String cacheID) {
-		// TODO Auto-generated method stub
-		return null;
+		return Boolean.FALSE;
 	}
 }

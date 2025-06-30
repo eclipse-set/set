@@ -21,6 +21,7 @@ public interface CacheService {
 
 	/**
 	 * @param schnittstelle
+	 *            the {@link PlanPro_Schnittstelle}
 	 * @param cacheId
 	 *            the id for the cache
 	 * 
@@ -34,6 +35,7 @@ public interface CacheService {
 
 	/**
 	 * @param schnittstelle
+	 *            the {@link PlanPro_Schnittstelle}
 	 * @param cacheId
 	 *            the id for the cache
 	 * @param containerCacheId
@@ -50,6 +52,7 @@ public interface CacheService {
 	 * check if already storage cache
 	 * 
 	 * @param schnittstelle
+	 *            the {@link PlanPro_Schnittstelle}
 	 * 
 	 * @param cacheID
 	 *            the id for the cache
@@ -60,6 +63,7 @@ public interface CacheService {
 
 	/**
 	 * @param role
+	 *            the {@link ToolboxFileRole}
 	 * @param cacheId
 	 *            the id for the cache
 	 * 
@@ -73,6 +77,7 @@ public interface CacheService {
 
 	/**
 	 * @param role
+	 *            {@link ToolboxFileRole}
 	 * @param cacheId
 	 *            the id for the cache
 	 * @param containerCacheId
@@ -88,6 +93,8 @@ public interface CacheService {
 	/**
 	 * check if already storage cache
 	 * 
+	 * @param role
+	 *            the {@link ToolboxFileRole}
 	 * @param cacheID
 	 *            the id for the cache
 	 * @return true, if the cache already storage

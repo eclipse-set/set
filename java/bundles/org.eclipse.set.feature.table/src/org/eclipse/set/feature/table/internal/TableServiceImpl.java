@@ -625,20 +625,6 @@ public final class TableServiceImpl implements TableService {
 		};
 	}
 
-	/**
-	 * Activation after injection.
-	 */
-	// public void activate() {
-	// wireCacheSupplier();
-	// }
-	//
-	// private void wireCacheSupplier() {
-	// AbstractDirectedEdgePath.setEdgeToPointsCacheSupplier(
-	// () -> new EdgeToPointsCacheProxy(getCacheService()));
-	// Digraphs.setEdgeToSubPathCacheSupplier(() -> getCacheService()
-	// .getCache(ToolboxConstants.CacheId.DIRECTED_EDGE_TO_SUBPATH));
-	// }
-
 	@Override
 	public Map<TableInfo, Table> transformTables(final IProgressMonitor monitor,
 			final IModelSession modelSession,

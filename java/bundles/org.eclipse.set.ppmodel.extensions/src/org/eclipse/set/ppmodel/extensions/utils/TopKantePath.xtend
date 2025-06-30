@@ -23,7 +23,6 @@ import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
 import org.eclipse.set.model.planpro.Geodaten.TOP_Knoten
 import org.eclipse.set.ppmodel.extensions.exception.EndOfTopPathNotFound
 
-import static extension org.eclipse.set.ppmodel.extensions.MultiContainer_AttributeGroupExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.Debug.*
@@ -58,11 +57,11 @@ class TopKantePath extends AbstractDirectedEdgePath<TOP_Kante, TOP_Knoten, Punkt
 		}
 
 		val cacheKeyPathEnds = #[start, end].map [
-			#[abstand?.wert, IDTOPKante?.value?.identitaet?.wert, wirkrichtung?.wert,
-				seitlicheLage?.wert, seitlicherAbstand?.wert]
+			#[abstand?.wert, IDTOPKante?.value?.identitaet?.wert,
+				wirkrichtung?.wert, seitlicheLage?.wert,
+				seitlicherAbstand?.wert]
 		].flatten.join
-		val schnittStelle = bereich.container.planProSchnittstelle
-		cacheKey = '''«schnittStelle.identitaet.wert»/«bereich?.identitaet?.wert»/«cacheKeyPathEnds»'''
+		cacheKey = '''«bereich?.identitaet?.wert»/«cacheKeyPathEnds»'''
 	}
 
 	/**

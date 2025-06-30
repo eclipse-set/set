@@ -15,7 +15,16 @@ import org.eclipse.e4.core.contexts.ContextFunction;
 import org.eclipse.e4.core.contexts.ContextInjectionFactory;
 import org.eclipse.e4.core.contexts.IContextFunction;
 import org.eclipse.e4.core.contexts.IEclipseContext;
+import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.e4.ui.model.application.MApplication;
+import org.eclipse.set.basis.IModelSession;
+import org.eclipse.set.basis.constants.Events;
+import org.eclipse.set.basis.constants.ToolboxConstants;
+import org.eclipse.set.basis.files.ToolboxFileRole;
+import org.eclipse.set.basis.graph.AbstractDirectedEdgePath;
+import org.eclipse.set.basis.graph.Digraphs;
+import org.eclipse.set.core.services.Services;
+import org.eclipse.set.core.services.session.SessionService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.services.table.TableService;
 import org.eclipse.set.utils.table.TableInfo;
@@ -23,6 +32,9 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ReferenceCardinality;
 import org.osgi.service.component.annotations.ReferencePolicy;
+import org.osgi.service.event.Event;
+import org.osgi.service.event.EventConstants;
+import org.osgi.service.event.EventHandler;
 
 /**
  * Create and publish the {@link TableService}.
@@ -31,8 +43,17 @@ import org.osgi.service.component.annotations.ReferencePolicy;
  * 
  * @usage production
  */
-@Component(service = IContextFunction.class, property = "service.context.key:String=org.eclipse.set.services.table.TableService")
-public class TableServiceContextFunction extends ContextFunction {
+@Component(service = { IContextFunction.class,
+		EventHandler.class }, property = {
+				"service.context.key:String=org.eclipse.set.services.table.TableService",
+				EventConstants.EVENT_TOPIC + "=" + Events.MODEL_CHANGED,
+				EventConstants.EVENT_TOPIC + "="
+						+ Events.COMPARE_MODEL_LOADED })
+public class TableServiceContextFunction extends ContextFunction
+		implements EventHandler {
+
+	@Reference
+	SessionService sessionService;
 
 	/**
 	 * @param properties
@@ -116,6 +137,29 @@ public class TableServiceContextFunction extends ContextFunction {
 			tableService.removeModelService(properties);
 		} else {
 			modelServiceMap.remove(tableInfo);
+		}
+	}
+
+	@Override
+	public void handleEvent(final Event event) {
+		if (event.getTopic().equals(Events.MODEL_CHANGED)
+				|| event.getTopic().equals(Events.COMPARE_MODEL_LOADED)) {
+			AbstractDirectedEdgePath.setEdgeToPointsCacheSupplier(
+					schnittstelle -> EdgeToPointsCacheProxy.getCacheInstance(
+							schnittstelle, Services.getCacheService()));
+			Digraphs.setEdgeToSubPathCacheSupplier(schnitstelle -> Services
+					.getCacheService()
+					.getCache(schnitstelle,
+							ToolboxConstants.CacheId.DIRECTED_EDGE_TO_SUBPATH));
+		}
+
+		if (event.getTopic().equals(Events.CLOSE_SESSION)) {
+			final ToolboxFileRole closeSession = (ToolboxFileRole) event
+					.getProperty(IEventBroker.DATA);
+			final IModelSession loadedSession = sessionService
+					.getLoadedSession(closeSession);
+			EdgeToPointsCacheProxy.clearCacheInstance(
+					loadedSession.getPlanProSchnittstelle());
 		}
 	}
 }
