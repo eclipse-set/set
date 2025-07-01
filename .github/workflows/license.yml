@@ -9,7 +9,7 @@ on:
 
 jobs:
   license:
-    uses: eclipse-set/build/.github/workflows/dash.yml@main
+    uses: truongquangsb/build/.github/workflows/dash.yml@main
     permissions:
       contents: write
       issues: write
