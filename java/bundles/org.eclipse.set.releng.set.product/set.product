@@ -66,6 +66,7 @@
       <plugin id="org.eclipse.set.emfforms" autoStart="true" startLevel="4" />
       <plugin id="org.eclipse.set.feature.integration" autoStart="true" startLevel="4" />
       <plugin id="org.eclipse.set.feature.table" autoStart="true" startLevel="4" />
+      <plugin id="org.eclipse.set.offo.hyphenation" autoStart="true" startLevel="4" />
       <plugin id="org.eclipse.set.sessionservice" autoStart="true" startLevel="2" />
       <property name="toolbox.tmpdir" value="$user.home$/.toolbox/" os="win32" />
       <property name="toolbox.curved.geometry.tolerance" value="0.001" />

@@ -48,21 +48,22 @@ class StringExtensions {
 	}
 	
 	static def String intersperseWithZeroSpacesLength(String string , int maxChar) {
-		if (string.length < maxChar) {
-			return string
-		}
-		val result = string.split(" ").map[
-			if (it.length < maxChar) {
-				return it
-			}
-			val sb = new StringBuilder(it)
-			val head = sb.subSequence(0, maxChar)
-			val tail = sb.substring(maxChar)
-			val newTail = tail.intersperseWithZeroSpacesLength(maxChar)
-			return head + ZERO_WIDTH_SPACE + newTail
-			
-		]
-		return result.join(' ')
+//		if (string.length < maxChar) {
+//			return string
+//		}
+//		val result = string.split(" ").map[
+//			if (it.length < maxChar) {
+//				return it
+//			}
+//			val sb = new StringBuilder(it)
+//			val head = sb.subSequence(0, maxChar)
+//			val tail = sb.substring(maxChar)
+//			val newTail = tail.intersperseWithZeroSpacesLength(maxChar)
+//			return head + ZERO_WIDTH_SPACE + newTail
+//			
+//		]
+//		return result.join(' ')
+return string
 	}
 	
 	static def int maxCharInCell(float cellWidth) {

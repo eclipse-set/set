@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Offo Hyphenation
+Bundle-SymbolicName: org.eclipse.set.offo.hyphenation
+Bundle-Vendor: Eclipse Signalling Engineering Toolbox
+Bundle-Version: 2.5.0.qualifier
+Eclipse-RegisterBuddy: maven.org.apache.xmlgraphics.artifact.fop
+Require-Bundle: maven.org.apache.xmlgraphics.artifact.fop;bundle-version="2.6.0"
+Bundle-ClassPath: .,
+ offo-hyphenation-compiled/fop-hyph.jar,
+ offo-hyphenation-compiled/
+Automatic-Module-Name: org.eclipse.set.offo.hyphenation

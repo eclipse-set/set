@@ -1450,5 +1450,8 @@ http://www.eclipse.org/legal/epl-v20.html
    <plugin
          id="org.apache.commons.commons-logging"
          version="0.0.0"/>
-
+         
+   <plugin
+         id="org.eclipse.set.offo.hyphenation"
+         version="0.0.0"/>
 </feature>
