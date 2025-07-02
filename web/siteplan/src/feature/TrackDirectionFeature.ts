@@ -1,11 +1,8 @@
-
 import LageplanFeature from '@/feature/LageplanFeature'
 import { Coordinate } from '@/model/Position'
 import { SiteplanState } from '@/model/SiteplanModel'
-import { ISvgElement } from '@/model/SvgElement'
 import Track from '@/model/Track'
 import { Feature } from 'ol'
-import { getCenter } from 'ol/extent'
 import Geometry from 'ol/geom/Geometry'
 import OlPoint from 'ol/geom/Point'
 import OlIcon from 'ol/style/Icon'
@@ -17,12 +14,7 @@ import { createFeature, FeatureType } from './FeatureInfo'
  * @author Voigt
  */
 export default class TrackDirectionFeature extends LageplanFeature<Track> {
-  static readonly TDF_FEATURE = (feature,resolution) => {
-    // const baseResolution = this.map.getView()
-    // .getResolutionForZoom(this.svgService.getBaseZoomLevel())
-    // const baseResolution = 0.1 // TODO????
-    // const scale = baseResolution / resolution
-
+  static readonly TDF_FEATURE = feature => {
     const rotation = feature.values_.data.model.data
 
     const style = new OlStyle({
@@ -32,7 +24,7 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
         src: 'SvgKatalog/GleisModellAusrichtung.svg',
         rotateWithView: true,
         scale: 0.4,
-        rotation: rotation,
+        rotation,
         anchor: [0.5,0.5],
         anchorXUnits: 'fraction',
         anchorYUnits: 'fraction'
@@ -41,8 +33,6 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
       // geometry: geometry
 
     })
-    // console.log('tdf icon size: ',style.getImage.getSize())
-    // style.getImage()?.setRotation(0) // TODO
     return style
   }
 
@@ -148,55 +138,6 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
 
     return markers
   }
-
-  private createArrowBBox (feature: Feature<Geometry>, track: Track, svg: ISvgElement) {
-    if (!svg.nullpunkt) {
-      svg.boundingBox.forEach(bbox => (
-        LageplanFeature.createBBox( // TODO
-          feature,
-          {
-            x: track.sections[0].segments[0].positions[0].x,
-            y: track.sections[0].segments[0].positions[0].y,
-            rotation: 0.0
-          },
-          bbox,
-          [0, 0],
-          [1, 1]
-        )
-      ))
-    } else {
-      for (const bbox of svg.boundingBox) {
-        const translate = [
-          getCenter(bbox)[0] - svg.nullpunkt.x,
-          svg.nullpunkt.y - getCenter(bbox)[1]
-        ]
-        LageplanFeature.createBBox(feature, {
-          x: track.sections[0].segments[0].positions[0].x, // TODO
-          y: track.sections[0].segments[0].positions[0].y,
-          rotation: 0.0
-        }, bbox, translate, [1, 1])
-      }
-    }
-  }
-
-  /* setFeatureColor (feature: Feature<Geometry>, color?: number[], partID?: string): Feature<Geometry> {
-    // TODO allow new colors!
-    return feature
-  } */
-
-  /* protected setFeatureRegionColor (
-    feature: Feature<Geometry>,
-    objectPart?: string | undefined,
-    color?: number[]
-  ): Feature<Geometry> {
-    const signalModel = getFeatureData(feature) as Track
-    // IMPROVE: Because at the moment Signal Additive doesn't have GUID,
-    // you can't set region color for this.
-
-    this.setObjectColor(signalModel, objectPart, color ?? this.getRegionColor(feature))
-
-    return feature
-  } */
 
   compareChangedState (initial: SiteplanState, final: SiteplanState): Feature<Geometry>[] {
     return super.compareChangedState(initial, final, [], mount => this.getObjectSvg(mount))
