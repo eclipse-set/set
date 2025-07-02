@@ -175,10 +175,6 @@ export default class FeatureService extends Vue {
             return feature.getLayoutFeatures(newValue.layoutInfo)
           }
 
-          if (feature instanceof TrackDirectionFeature) {
-            console.log('ADd Direction feature')
-          }
-
           return this.loadFeatureType(newValue, feature)
         })
         .groupBy(c => getFeatureLayer(c))
@@ -186,7 +182,6 @@ export default class FeatureService extends Vue {
           const layer = this.featureLayers.find(
             c => c.getLayerType() === layerIndex
           )
-
           layer?.getSource()?.addFeatures(features)
         })
 
@@ -202,9 +197,9 @@ export default class FeatureService extends Vue {
         })
 
       // Create bounding boxes
-      // CollisionFeature.addCollisionFeatures(this.featureLayers)
+      CollisionFeature.addCollisionFeatures(this.featureLayers)
       // Start collision detection
-      // this.collisionService.processCollisions(this.featureLayers)
+      this.collisionService.processCollisions(this.featureLayers)
     } catch (exception) {
       console.error('Siteplan model update failed')
       console.error(exception)
