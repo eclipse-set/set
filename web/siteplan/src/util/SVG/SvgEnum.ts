@@ -40,8 +40,7 @@ export enum OtherSVGCatalog {
   TrackClose = 'Gleisabschuluesse',
   ExternalElementControl = 'AEA',
   LockKey = 'Schluesselsperren',
-  Others = 'Sonstige',
-  TrackDirectuionArrow = 'GleisTopologischeAusrichtung'
+  Others = 'Sonstige'
 }
 
 export enum AnchorPoint {

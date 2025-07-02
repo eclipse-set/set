@@ -53,8 +53,6 @@ export default abstract class AbstractDrawSVG {
         return label ? SvgDraw.getTrackMarker(label) : SvgDraw.getErrorSVG()
       case FeatureType.RouteMarker:
         return label ? SvgDraw.getKMMarker(data as KMMarker, label) : SvgDraw.getErrorSVG()
-      case FeatureType.TrackDirectionArrow:
-        return SvgDraw.getTrackDirectionArrowMarker()
       default:
         return null
     }
