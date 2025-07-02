@@ -166,9 +166,6 @@ import { DBRef } from '@/model/Position'
     collisionEnabled (value: boolean) {
       store.commit('setCollisionEnabled', value)
     },
-    showTopologicalEdgeDirections (value: boolean) {
-      store.commit('setShowTopologicalEdgeDirections', value)
-    },
     sheetCutCRS (value: DBRef) {
       store.commit('setSheetCutCRS', value)
     }
@@ -182,7 +179,6 @@ export default class ModelSummaryControl extends Vue {
   boundingBoxScale = store.state.boundingBoxScaleFactor
   viewState = store.state.sessionState
   collisionEnabled = store.state.collisionEnabled
-  showTopologicalEdgeDirections = store.state.showTopologicalEdgeDirections
   sheetCutCRS = store.state.sheetCutCRS
   trackWidth = Configuration.getTrackWidth()
   unsubscribe: SubscribeOptions | undefined
