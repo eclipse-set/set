@@ -53,7 +53,7 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
   }
 
   protected getObjectSvg (track: Track) {
-    return this.svgService.getFeatureSvg(track, FeatureType.TrackDirectionArrow) // no data!
+    return this.svgService.getFeatureSvg(track, FeatureType.TrackDirectionArrow) // no data needed!
   }
 
   /**

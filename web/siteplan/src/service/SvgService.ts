@@ -61,10 +61,6 @@ export default class SvgService {
     this.drawFeatureClass.push(new SvgDrawCant(this.catalogService))
   }
 
-  public getCatalogService () {
-    return this.catalogService
-  }
-
   /**
    * Returns the base zoom level.
    * This is used to calculate the final size of the image.
