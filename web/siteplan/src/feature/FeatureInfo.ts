@@ -112,7 +112,12 @@ export function getFeatureLayerByType (type: FeatureType): FeatureLayerType {
 
 export function getFeatureLayerDefaultVisibility (type: FeatureLayerType) : boolean | undefined {
   // Hide collision layer, cants and unknown objects by default
-  return ![FeatureLayerType.Collision, FeatureLayerType.Cant, FeatureLayerType.Unknown].includes(type)
+  return ![
+    FeatureLayerType.Collision,
+    FeatureLayerType.Cant,
+    FeatureLayerType.Unknown,
+    FeatureLayerType.TrackDirection
+  ].includes(type)
 }
 
 export function getFeatureLayerDisplayName (type: FeatureLayerType) : string {

@@ -82,14 +82,6 @@
               >
               <label for="checkbox-collision">Kollisionsvermeidung aktiv</label>
             </li>
-            <li>
-              <input
-                id="checkbox-topo-edge-dir"
-                v-model="showTopologicalEdgeDirections"
-                type="checkbox"
-              >
-              <label for="checkbox-topo-edge-dir">Zeige Gleisabschnitts-Richtung</label>
-            </li>
           </div>
           <li>
             Koordinatenreferenzsystem für Blattschnitte: <br>
