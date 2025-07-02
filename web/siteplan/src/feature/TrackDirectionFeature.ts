@@ -29,7 +29,7 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
       image: new OlIcon({
         opacity: 1,
         // src: 'https://openlayers.org/en/latest/examples/data/icon.png',
-        src: 'SvgKatalog/trackdirectionmarker.png',
+        src: 'SvgKatalog/GleisModellAusrichtung.svg',
         rotateWithView: true,
         scale: 0.4,
         rotation: rotation,
