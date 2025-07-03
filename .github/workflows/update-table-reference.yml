@@ -40,6 +40,7 @@ jobs:
             const payload = await github.rest.repos.getCollaboratorPermissionLevel({
               ...context.repo, username: context.actor
             });
+            echo "context.actor.id"
             const userPermission = payload?.data?.permission;
             let reaction = 'rocket'
             if (!(userPermission == 'write' || userPermission == 'admin')) { // not a committer
