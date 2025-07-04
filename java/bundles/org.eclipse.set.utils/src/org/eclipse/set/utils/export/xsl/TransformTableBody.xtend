@@ -15,16 +15,18 @@ import org.apache.poi.ss.usermodel.Cell
 import org.apache.poi.ss.usermodel.CellStyle
 import org.apache.poi.ss.usermodel.HorizontalAlignment
 import org.apache.poi.ss.usermodel.Sheet
+import org.eclipse.set.basis.constants.ToolboxConstants
+import org.eclipse.set.utils.export.xsl.XSLConstant.TableAttribute.BorderDirection
+import org.eclipse.set.utils.export.xsl.XSLConstant.XSLFoAttributeName
 import org.w3c.dom.Document
 import org.w3c.dom.Element
 
-import static org.eclipse.set.utils.export.xsl.XSLConstant.XSLStyleSets.*
-
-import static extension org.eclipse.set.utils.export.xsl.TransformStyle.*
-import static org.eclipse.set.utils.export.xsl.XSLConstant.XSLTag.*
 import static org.eclipse.set.utils.export.xsl.XSLConstant.TableAttribute.*
-import org.eclipse.set.utils.export.xsl.XSLConstant.TableAttribute.BorderDirection
+import static org.eclipse.set.utils.export.xsl.XSLConstant.XSLStyleSets.*
+import static org.eclipse.set.utils.export.xsl.XSLConstant.XSLTag.*
+
 import static extension org.eclipse.set.utils.excel.ExcelWorkbookExtension.*
+import static extension org.eclipse.set.utils.export.xsl.TransformStyle.*
 
 /**
  * Transform excel table body style
@@ -67,14 +69,17 @@ class TransformTableBody {
 			val cell = sheet.getCellAt(firstDataRow.rowNum, i)
 			if (cell.present) {
 				if (parentGroupLastIndex.contains(i)) {
-					setExcelCellBorderStyle(cell, BorderDirection.RIGHT, BorderStyle.MEDIUM)
+					setExcelCellBorderStyle(cell, BorderDirection.RIGHT,
+						BorderStyle.MEDIUM)
 				// Set border style for The break column and the after
 				} else if (pageBreakAt.contains(i - 1)) {
-					setExcelCellBorderStyle(cell, BorderDirection.LEFT, BorderStyle.MEDIUM)
+					setExcelCellBorderStyle(cell, BorderDirection.LEFT,
+						BorderStyle.MEDIUM)
 				} else if (pageBreakAt.contains(i)) {
-					setExcelCellBorderStyle(cell, BorderDirection.RIGHT, BorderStyle.MEDIUM)
+					setExcelCellBorderStyle(cell, BorderDirection.RIGHT,
+						BorderStyle.MEDIUM)
 				}
-				
+
 				if (!cell.get.cellStyle.defaultStyle) {
 					val sameStyleGroup = result.findFirst [
 						it.findFirst [ lastColumnCell |
@@ -82,9 +87,8 @@ class TransformTableBody {
 								lastColumnCell.cellStyle)
 						] !== null
 					]
-					sameStyleGroup !== null
-						? sameStyleGroup.add(cell.get)
-						: result.add(newLinkedHashSet(cell.get))
+					sameStyleGroup !== null ? sameStyleGroup.add(
+						cell.get) : result.add(newLinkedHashSet(cell.get))
 				}
 			}
 		}
@@ -156,7 +160,7 @@ class TransformTableBody {
 			valueof.setAttribute("select", "../@group-number")
 			block.appendChild(valueof)
 			numberCountColStyle.appendChild(block)
-	
+
 			val applyTemplates = doc.createElement(XSL_APPLY_TEMPLATE)
 			applyTemplates.setAttribute("select", "../*[@column-number = '1']")
 			appendChild(numberCountColStyle)
@@ -201,16 +205,32 @@ class TransformTableBody {
 			LAST_ROW_CELL_STYLE,
 			exclusionColumns.get(0)
 		)
-
 		template.appendChild(tableCell)
 		return template
 	}
+
+	
 
 	private static def Element createStyleTemplate(Document doc,
 		String expression) {
 		val template = doc.createElement(XSL_TEMPLATE)
 		template.setAttribute("match", expression)
 		return template
+	}
+
+	private static def Element createChooseElement(Document doc,
+		String expression, Element ifTrue, Element whenFalse) {
+		val choose = doc.createElement(XSL_CHOOSE)
+		val when = doc.createElement(XSL_WHEN)
+
+		choose.appendChild(when)
+		when.setAttribute("test", expression)
+		when.appendChild(ifTrue)
+
+		val otherwise = doc.createElement(XSL_OTHERWISE)
+		otherwise.appendChild(whenFalse)
+		choose.appendChild(otherwise)
+		return choose
 	}
 
 	private static def Element createCellStyleElement(Document doc,
@@ -220,8 +240,24 @@ class TransformTableBody {
 		tableCell.setAttribute(XSL_USE_ATTRIBUTE_SETS, styleSets)
 		tableCell.setAttribute(NUMBER_ROWS_SPANNED,
 			String.format("{@%s}", NUMBER_ROWS_SPANNED))
+		tableCell.addChooseForCompareProjectCell(doc)
 		tableCell.appendChild(doc.createElement(XSL_APPLY_TEMPLATE))
 		return tableCell
+	}
+	
+	private static def void addChooseForCompareProjectCell(Element tableCell, Document doc) {
+		val compareCellBorderAttribute = doc.createElement(XSL_ATTRIBUTE)
+		compareCellBorderAttribute.setAttribute(XSLFoAttributeName.ATTR_NAME,
+			"border")
+		compareCellBorderAttribute.textContent = '''0.3mm solid «ToolboxConstants.TABLE_COMPARE_TABLE_CELL_BORDER_COLOR»'''
+
+		val borderColorAttribute = doc.createElement(XSL_ATTRIBUTE)
+		borderColorAttribute.setAttribute(XSLFoAttributeName.ATTR_NAME,
+			"border-color")
+		borderColorAttribute.textContent = "black"
+		val chooseElement = createChooseElement(doc, "CompareProjectContent",
+			compareCellBorderAttribute, borderColorAttribute)
+		tableCell.appendChild(chooseElement)
 	}
 
 }
