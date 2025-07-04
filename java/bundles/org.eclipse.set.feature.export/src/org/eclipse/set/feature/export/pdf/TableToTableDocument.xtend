@@ -40,7 +40,6 @@ import org.w3c.dom.Document
 import org.w3c.dom.Element
 
 import static extension org.eclipse.set.model.tablemodel.extensions.CellContentExtensions.*
-import static extension org.eclipse.set.model.tablemodel.extensions.ColumnDescriptorExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.TableContentExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.TableRowExtensions.*
@@ -284,9 +283,7 @@ class TableToTableDocument {
 		var element = doc.createElement("StringContent")
 		if (isRemarkColumn)
 			element = doc.createElement("DiffContent")
-		val columnWidth = content.tableCell.columndescriptor.columnWidth
-		val stringValue = content.plainStringValue.
-			intersperseWithZeroSpacesLength(columnWidth.maxCharInCell)
+		val stringValue = content.plainStringValue
 		if (isRemarkColumn) {
 			val child = doc.createElement("UnchangedValue")
 			element.appendChild(
@@ -331,8 +328,6 @@ class TableToTableDocument {
 	private def dispatch Element createContent(CompareCellContent content,
 		FootnoteContainer fc, int columnNumber, boolean isRemarkColumn) {
 		val element = doc.createElement("DiffContent")
-		val columndWidth = content.tableCell.columndescriptor.columnWidth
-		val maxChar = columndWidth.maxCharInCell
 		formatCompareContent(
 			content.oldValue,
 			content.newValue,
@@ -340,7 +335,7 @@ class TableToTableDocument {
 			[doc.createElement("UnchangedValue")],
 			[doc.createElement("NewValue")],
 			[ text, child |
-				text.intersperseWithZeroSpacesLength(maxChar).
+				text.
 					addContentToElement(child, columnNumber, isRemarkColumn)
 			]
 		).forEach[element.appendChild(it)]
@@ -415,20 +410,16 @@ class TableToTableDocument {
 
 	private def Element createMultiColorElement(MultiColorContent content,
 		int columnNumber, boolean isRemarkColumn) {
-		val columndWidth = content.tableCell.columndescriptor.columnWidth
-		val maxChar = columndWidth.maxCharInCell
 		if (content.multiColorValue === null || content.disableMultiColor) {
 			val cellValue = String.format(content.stringFormat,
-				content.multiColorValue ?: "").
-				intersperseWithZeroSpacesLength(maxChar)
+				content.multiColorValue ?: "")
 			return cellValue.createContentElement("SimpleValue", columnNumber,
 				isRemarkColumn)
 
 		}
 		// IMPROVE: currently the order of multicolor content is static.
 		// The underlying issue is a limitation in XSL 1.0 and string splitting.
-		val multiColorValue = content.stringFormat.
-			intersperseWithZeroSpacesLength(maxChar)
+		val multiColorValue = content.stringFormat
 		val multiColorElement = multiColorValue.replace("%s", "").
 			createContentElement("MultiColorValue", columnNumber,
 				isRemarkColumn)

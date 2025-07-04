@@ -320,6 +320,12 @@
           <version>${set-version}</version>
           <type>jar</type>
         </dependency>
+        <dependency>
+          <groupId>org.eclipse.set</groupId>
+          <artifactId>org.eclipse.set.offo.hyphenation</artifactId>
+          <version>${set-version}</version>
+          <type>jar</type>
+        </dependency>
       </dependencies>
       <repositories>
         <repository>
