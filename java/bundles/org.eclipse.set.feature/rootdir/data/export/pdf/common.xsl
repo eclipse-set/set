@@ -11,14 +11,14 @@ http://www.eclipse.org/legal/epl-v20.html
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	xmlns:fo="http://www.w3.org/1999/XSL/Format" exclude-result-prefixes="fo">
 
-	<xsl:variable name="small-border-width" select="0.125"/>
-	<xsl:variable name="wide-border-width" select="0.3"/>
+	<xsl:variable name="small-border-width" select="0.125" />
+	<xsl:variable name="wide-border-width" select="0.3" />
 
-	<xsl:variable name="small-border-style" select="concat($small-border-width, 'mm solid black')"/>
-	<xsl:variable name="wide-border-style" select="concat($wide-border-width, 'mm solid black')"/>
+	<xsl:variable name="small-border-style" select="concat($small-border-width, 'mm solid black')" />
+	<xsl:variable name="wide-border-style" select="concat($wide-border-width, 'mm solid black')" />
 	<!-- SB = small border / 2, WB = wide border / 2 -->
-	<xsl:variable name="SB" select="$small-border-width div 2"/>
-	<xsl:variable name="WB" select="$wide-border-width div 2"/>
+	<xsl:variable name="SB" select="$small-border-width div 2" />
+	<xsl:variable name="WB" select="$wide-border-width div 2" />
 
 	<xsl:variable name="folding-mark-region-extend">10mm</xsl:variable>
 	<xsl:variable name="title-box-region-extend">90mm</xsl:variable>
@@ -175,25 +175,38 @@ http://www.eclipse.org/legal/epl-v20.html
 		</fo:table-row>
 	</xsl:template>
 
+	<xsl:template match="Row[not(Cell[@column-number = '1'])]">
+		<fo:table-row xsl:use-attribute-sets="body-row-style"
+			keep-with-previous.within-page="always">
+			<fo:table-cell xsl:use-attribute-sets="body-row-cell-style">
+				<fo:block>
+					<xsl:value-of select="@group-number" />
+				</fo:block>
+			</fo:table-cell>
+			<xsl:apply-templates />
+		</fo:table-row>
+	</xsl:template>
+
 	<xsl:template name="TitleboxRegion">
 		<xsl:param name="pagePostfix" select="''" />
 		<fo:table table-layout="fixed" width="100%">
-			<fo:table-column column-width="proportional-column-width(1)"/>
+			<fo:table-column column-width="proportional-column-width(1)" />
 			<!-- IMPROVE: Schriftfeld ist etwas breiter als erwartet -->
-			<fo:table-column column-width="{180 + $WB + $WB + $WB + $WB}mm"/>
-			<fo:table-body start-indent="{$WB + $WB + $WB + $WB}mm" end-indent="{- $WB - $WB - $WB - $WB}mm">
+			<fo:table-column column-width="{180 + $WB + $WB + $WB + $WB}mm" />
+			<fo:table-body start-indent="{$WB + $WB + $WB + $WB}mm"
+				end-indent="{- $WB - $WB - $WB - $WB}mm">
 				<fo:table-row>
 					<fo:table-cell min-height="70mm">
 						<fo:block></fo:block>
 					</fo:table-cell>
 					<fo:table-cell column-number="2" padding-top="5mm" number-rows-spanned="2">
 						<fo:table table-layout="fixed" width="100%">
-							<fo:table-column column-width="100%"/>
+							<fo:table-column column-width="100%" />
 							<fo:table-body>
 								<fo:table-row max-height="75mm">
 									<fo:table-cell>
 										<xsl:apply-templates select="//TitleBox">
-											<xsl:with-param name="pagePostfix" select="$pagePostfix"/>
+											<xsl:with-param name="pagePostfix" select="$pagePostfix" />
 										</xsl:apply-templates>
 									</fo:table-cell>
 								</fo:table-row>
@@ -206,7 +219,8 @@ http://www.eclipse.org/legal/epl-v20.html
 						<fo:block-container height="10mm" overflow="hidden" display-align="after">
 							<xsl:choose>
 								<xsl:when test="/Table/Freefield/SignificantInformation">
-									<xsl:apply-templates select="/Table/Freefield/SignificantInformation"/>
+									<xsl:apply-templates
+										select="/Table/Freefield/SignificantInformation" />
 								</xsl:when>
 								<xsl:otherwise>
 									<fo:block></fo:block>
