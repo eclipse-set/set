@@ -36,6 +36,7 @@ import org.eclipse.set.model.planpro.Gleis.ENUMGleisart;
 import org.eclipse.set.model.planpro.Gleis.Gleis_Art;
 import org.eclipse.set.model.planpro.Signale.Signal;
 import org.eclipse.set.model.planpro.Signale.Signal_Befestigung;
+import org.eclipse.set.ppmodel.extensions.BereichObjektExtensions;
 import org.eclipse.set.ppmodel.extensions.EObjectExtensions;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -152,7 +153,8 @@ public class PointObjectPositionServiceImpl
 				.stream()
 				.filter(Gleis_Art.class::isInstance)
 				.map(Gleis_Art.class::cast)
-				.filter(Objects::nonNull)
+				.filter(ga -> BereichObjektExtensions.contains(ga, singlePoint))
+				.filter(c -> c != null)
 				.toList();
 
 		final Optional<ENUMGleisart> trackType = segmentRegions.stream()
@@ -162,7 +164,7 @@ public class PointObjectPositionServiceImpl
 				.filter(Objects::nonNull)
 				.collect(Collectors.toSet())
 				.stream()
-				.max((first, second) -> Integer.compare(first.getValue(),
+				.min((first, second) -> Integer.compare(first.getValue(),
 						second.getValue()));
 
 		// Determine the object distance according to the local track type
