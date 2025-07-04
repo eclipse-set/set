@@ -749,6 +749,7 @@ public final class ToolboxTableView extends BasePart {
 	void updateModel(final MPart part) {
 		// update banderole
 		getBanderole().setTableType(tableType);
+
 		table = transformToTableModel(part.getElementId());
 		// flag creation
 		MApplicationElementExtensions.setViewState(part,

@@ -9,6 +9,7 @@
 package org.eclipse.set.ppmodel.extensions
 
 import org.eclipse.emf.ecore.EObject
+import org.eclipse.set.basis.cache.Cache
 import org.eclipse.set.core.services.Services
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
@@ -31,6 +32,17 @@ class UrObjectExtensions extends BasisAttributExtensions {
 	def static String getTypeName(EObject object) {
 		val interfaces = object.class.interfaces
 		return '''«FOR i : interfaces»«i.simpleName»«ENDFOR»'''
+	}
+
+	def static Cache getCache(Ur_Objekt object, String cacheKey) {
+		return Services.cacheService.getCache(object.planProSchnittstelle,
+			cacheKey)
+	}
+
+	def static Cache getCache(Ur_Objekt object, String containerIdCacheId,
+		String cacheKey) {
+		return Services.cacheService.getCache(object.planProSchnittstelle,
+			cacheKey, containerIdCacheId)
 	}
 
 	/**

@@ -10,6 +10,7 @@ package org.eclipse.set.feature.siteplan.browserfunctions;
 
 import org.eclipse.set.basis.cache.Cache;
 import org.eclipse.set.basis.constants.ToolboxConstants;
+import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.eclipse.set.browser.swt.BrowserFunction;
 import org.eclipse.set.core.services.cache.CacheService;
 import org.eclipse.set.feature.siteplan.transform.LayoutTransformator;
@@ -48,8 +49,8 @@ public class LayoutChangeCRSBrowserFunction extends BrowserFunction {
 
 	private final void execute(final String crs) {
 		LayoutTransformator.setCRS(crs);
-		final Cache cache = cacheService
-				.getCache(ToolboxConstants.CacheId.SITEPLAN_CACHE_ID);
+		final Cache cache = cacheService.getCache(ToolboxFileRole.SESSION,
+				ToolboxConstants.CacheId.SITEPLAN_CACHE_ID);
 		cache.invalidate();
 	}
 

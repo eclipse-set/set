@@ -24,6 +24,7 @@ import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.basis.constants.ToolboxViewState;
 import org.eclipse.set.basis.extensions.MApplicationElementExtensions;
+import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.eclipse.set.core.services.cache.CacheService;
 import org.eclipse.set.core.services.configurationservice.UserConfigurationService;
 import org.eclipse.set.core.services.dialog.DialogService;
@@ -249,8 +250,8 @@ public class ValidationPart extends AbstractEmfFormsPart {
 	}
 
 	private void storageReport() {
-		final Cache cache = cacheService
-				.getCache(ToolboxConstants.CacheId.PROBLEM_MESSAGE);
+		final Cache cache = cacheService.getCache(ToolboxFileRole.SESSION,
+				ToolboxConstants.CacheId.PROBLEM_MESSAGE);
 		final List<ProblemMessage> problems = cache.get(VIEW_VALIDATION_REPORT,
 				ArrayList::new);
 		problems.clear();

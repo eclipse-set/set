@@ -9,6 +9,7 @@
 package org.eclipse.set.application.cacheservice;
 
 import org.eclipse.set.basis.cache.Cache;
+import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -93,21 +94,23 @@ public class CacheServiceImplTest {
 	}
 
 	private void givenCache(final String cacheId) {
-		givenCache = testee.getCache(cacheId);
+		givenCache = testee.getCache(ToolboxFileRole.SESSION, cacheId);
 	}
 
 	private void givenContainerCache(final String cacheId,
 			final String containerId) {
-		givenCache = testee.getCache(cacheId, containerId);
+		givenCache = testee.getCache(ToolboxFileRole.SESSION, cacheId,
+				containerId);
 	}
 
 	private void whenRequestingCache(final String cacheId) {
-		requestedCache = testee.getCache(cacheId);
+		requestedCache = testee.getCache(ToolboxFileRole.SESSION, cacheId);
 	}
 
 	private void whenRequestingContainerCache(final String cacheId,
 			final String containerId) {
-		requestedCache = testee.getCache(cacheId, containerId);
+		requestedCache = testee.getCache(ToolboxFileRole.SESSION, cacheId,
+				containerId);
 	}
 
 	private void thenIdenticalCachesArePresent() {

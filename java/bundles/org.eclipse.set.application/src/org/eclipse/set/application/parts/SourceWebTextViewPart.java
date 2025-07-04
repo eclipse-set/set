@@ -23,6 +23,7 @@ import org.eclipse.set.basis.ProblemMessage;
 import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.basis.constants.ToolboxConstants;
+import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.eclipse.set.browser.RequestHandler.Request;
 import org.eclipse.set.browser.RequestHandler.Response;
 import org.eclipse.set.core.services.cache.CacheService;
@@ -139,7 +140,8 @@ public class SourceWebTextViewPart extends BasePart {
 			final Response response) throws JsonProcessingException {
 		// Get the list of validation problems
 		final Iterable<Object> problems = cacheService
-				.getCache(ToolboxConstants.CacheId.PROBLEM_MESSAGE)
+				.getCache(ToolboxFileRole.SESSION,
+						ToolboxConstants.CacheId.PROBLEM_MESSAGE)
 				.values();
 		final List<ProblemMessage> problemMessages = new ArrayList<>();
 		problems.forEach(problemContainer -> problemMessages

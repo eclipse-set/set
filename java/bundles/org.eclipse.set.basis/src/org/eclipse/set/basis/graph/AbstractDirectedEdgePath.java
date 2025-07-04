@@ -15,12 +15,12 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
-import java.util.function.Supplier;
-import java.util.stream.Collectors;
+import java.util.function.Function;
 
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.set.basis.cache.Cache;
 import org.eclipse.set.basis.cache.NoCache;
+import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.xtext.xbase.lib.IteratorExtensions;
 
 import com.google.common.collect.Iterators;
@@ -53,9 +53,7 @@ public abstract class AbstractDirectedEdgePath<E, N, P>
 
 	private P start;
 
-	private static Cache edgeToPointsCache;
-
-	private static Supplier<Cache> edgeToPointsCacheSupplier;
+	protected static Function<PlanPro_Schnittstelle, Cache> edgeToPointsCacheSupplier;
 
 	/**
 	 * Set a cache supplier, to provide a cache used to store edge to point
@@ -65,7 +63,7 @@ public abstract class AbstractDirectedEdgePath<E, N, P>
 	 *            the edge to points cache supplier
 	 */
 	public static void setEdgeToPointsCacheSupplier(
-			final Supplier<Cache> edgeToPointsCacheSupplier) {
+			final Function<PlanPro_Schnittstelle, Cache> edgeToPointsCacheSupplier) {
 		AbstractDirectedEdgePath.edgeToPointsCacheSupplier = edgeToPointsCacheSupplier;
 	}
 
@@ -186,8 +184,6 @@ public abstract class AbstractDirectedEdgePath<E, N, P>
 		final List<DirectedEdgePoint<E, N, P>> directedEdgePoints = new LinkedList<>();
 		final Iterator<DirectedEdge<E, N, P>> edgeIter = getEdgeIterator();
 
-		createCache();
-
 		while (edgeIter.hasNext()) {
 			final DirectedEdge<E, N, P> edge = edgeIter.next();
 
@@ -198,17 +194,17 @@ public abstract class AbstractDirectedEdgePath<E, N, P>
 			// at a later time.
 			// Actually the edgeToPointsCache is doing some runtime type
 			// checking to fail fast but this is out of scope here.
-			final List<P> pointList = edgeToPointsCache.get(edge.getCacheKey(),
+			final List<P> pointList = getCache(edge).get(edge.getCacheKey(),
 					() -> getPointList(edge));
-			for (final P point : pointList) {
-				directedEdgePoints.add(new DirectedEdgePoint<>(edge, point));
-			}
+			pointList.stream()
+					.map(point -> new DirectedEdgePoint<>(edge, point))
+					.forEach(directedEdgePoints::add);
 		}
 
 		// only the points
 		final List<P> points = directedEdgePoints.stream()
 				.map(DirectedEdgePoint::getPoint)
-				.collect(Collectors.toList());
+				.toList();
 
 		// points between start and end of path
 		final List<DirectedEdgePoint<E, N, P>> pathDirectedEdgePoints;
@@ -239,14 +235,12 @@ public abstract class AbstractDirectedEdgePath<E, N, P>
 		return IteratorExtensions.toList(edge.getIterator());
 	}
 
-	private static void createCache() {
-		if (edgeToPointsCache == null) {
-			if (edgeToPointsCacheSupplier != null) {
-				edgeToPointsCache = edgeToPointsCacheSupplier.get();
-			} else {
-				edgeToPointsCache = new NoCache();
-			}
+	protected Cache getCache(final DirectedEdge<E, N, P> edge) {
+		if (edgeToPointsCacheSupplier != null) {
+			return edgeToPointsCacheSupplier
+					.apply(edge.getPlanProSchnittstelle());
 		}
+		return new NoCache();
 	}
 
 	@Override

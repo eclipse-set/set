@@ -15,11 +15,12 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.function.Supplier;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.eclipse.set.basis.cache.Cache;
 import org.eclipse.set.basis.cache.NoCache;
+import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,9 +37,7 @@ public class Digraphs {
 	private static final Logger logger = LoggerFactory
 			.getLogger(Digraphs.class);
 
-	private static Cache edgeToSubPathCache;
-
-	private static Supplier<Cache> edgeToSubPathCacheSupplier;
+	private static Function<PlanPro_Schnittstelle, Cache> edgeToSubPathCacheSupplier;
 
 	/**
 	 * Set a cache supplier, to provide a cache used to store edge to subpath
@@ -48,7 +47,7 @@ public class Digraphs {
 	 *            the edge to subpath cache supplier
 	 */
 	public static void setEdgeToSubPathCacheSupplier(
-			final Supplier<Cache> edgeToSubPathCacheSupplier) {
+			final Function<PlanPro_Schnittstelle, Cache> edgeToSubPathCacheSupplier) {
 		Digraphs.edgeToSubPathCacheSupplier = edgeToSubPathCacheSupplier;
 	}
 
@@ -149,9 +148,7 @@ public class Digraphs {
 	public static <E, N, P> Set<DirectedEdgePath<E, N, P>> getPaths(
 			final DirectedEdge<E, N, P> start, final Routing<E, N, P> routing,
 			final BigDecimal minDistance) {
-		createCache();
-		return edgeToSubPathCache.get(
-				getPathCacheKey(start, routing, minDistance),
+		return getCache(start).get(getPathCacheKey(start, routing, minDistance),
 				() -> calculateSubPaths(start, routing, minDistance));
 	}
 
@@ -180,14 +177,12 @@ public class Digraphs {
 		return subpaths;
 	}
 
-	private static void createCache() {
-		if (edgeToSubPathCache == null) {
-			if (edgeToSubPathCacheSupplier != null) {
-				edgeToSubPathCache = edgeToSubPathCacheSupplier.get();
-			} else {
-				edgeToSubPathCache = new NoCache();
-			}
+	private static <E, N, P> Cache getCache(final DirectedEdge<E, N, P> edge) {
+		if (edgeToSubPathCacheSupplier != null) {
+			return edgeToSubPathCacheSupplier
+					.apply(edge.getPlanProSchnittstelle());
 		}
+		return new NoCache();
 	}
 
 	/**

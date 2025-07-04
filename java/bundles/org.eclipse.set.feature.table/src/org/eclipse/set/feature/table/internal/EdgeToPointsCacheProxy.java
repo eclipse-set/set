@@ -10,13 +10,16 @@
 package org.eclipse.set.feature.table.internal;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.set.basis.MissingSupplier;
 import org.eclipse.set.basis.cache.Cache;
 import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.core.services.cache.CacheService;
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup;
+import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
 
 /**
  * A Proxy of the directed edge to single points cache dealing with abstract
@@ -28,12 +31,17 @@ public class EdgeToPointsCacheProxy implements Cache {
 
 	private final Cache directedEdgeToSinglepointsCache;
 
+	private static final Map<PlanPro_Schnittstelle, EdgeToPointsCacheProxy> cacheInstances = new HashMap<>();
+
 	/**
+	 * @param schnittstelle
+	 *            the {@link PlanPro_Schnittstelle}
 	 * @param cacheService
 	 *            the cache service
 	 */
-	public EdgeToPointsCacheProxy(final CacheService cacheService) {
-		directedEdgeToSinglepointsCache = cacheService.getCache(
+	private EdgeToPointsCacheProxy(final PlanPro_Schnittstelle schnittstelle,
+			final CacheService cacheService) {
+		directedEdgeToSinglepointsCache = cacheService.getCache(schnittstelle,
 				ToolboxConstants.CacheId.DIRECTED_EDGE_TO_SINGLEPOINTS);
 	}
 
@@ -109,5 +117,30 @@ public class EdgeToPointsCacheProxy implements Cache {
 	@Override
 	public Collection<String> getKeys() {
 		return directedEdgeToSinglepointsCache.getKeys();
+	}
+
+	/**
+	 * @param schnittstelle
+	 *            the {@link PlanPro_Schnittstelle}
+	 * @param cacheService
+	 *            the {@link CacheService}
+	 * @return the cache instance of this schnittstelle
+	 */
+	public static EdgeToPointsCacheProxy getCacheInstance(
+			final PlanPro_Schnittstelle schnittstelle,
+			final CacheService cacheService) {
+		return cacheInstances.computeIfAbsent(schnittstelle,
+				k -> new EdgeToPointsCacheProxy(schnittstelle, cacheService));
+	}
+
+	/**
+	 * Clear instance
+	 * 
+	 * @param schnittstelle
+	 *            the {@link PlanPro_Schnittstelle}
+	 */
+	public static void clearCacheInstance(
+			final PlanPro_Schnittstelle schnittstelle) {
+		cacheInstances.remove(schnittstelle);
 	}
 }

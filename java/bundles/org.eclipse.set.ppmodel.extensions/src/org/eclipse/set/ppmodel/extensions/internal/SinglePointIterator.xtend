@@ -8,27 +8,25 @@
  */
 package org.eclipse.set.ppmodel.extensions.internal
 
-import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
-import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
-import org.eclipse.set.model.planpro.Geodaten.TOP_Knoten
 import java.util.Comparator
 import java.util.Iterator
 import java.util.List
 import java.util.concurrent.ExecutionException
-import org.eclipse.set.basis.cache.Cache
 import org.eclipse.set.basis.constants.ToolboxConstants
 import org.eclipse.set.basis.graph.DirectedEdge
-import org.eclipse.set.core.services.Services
+import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
+import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
+import org.eclipse.set.model.planpro.Geodaten.TOP_Knoten
 import org.eclipse.set.ppmodel.extensions.utils.Distance
 
 import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 
 /**
  * An iterator for single points of a TOP Kante.
  */
 class SinglePointIterator implements Iterator<Punkt_Objekt_TOP_Kante_AttributeGroup> {
 
-	static var Cache cache
 
 	private static enum Direction {
 		AB,
@@ -64,7 +62,8 @@ class SinglePointIterator implements Iterator<Punkt_Objekt_TOP_Kante_AttributeGr
 		DirectedEdge<TOP_Kante, TOP_Knoten, Punkt_Objekt_TOP_Kante_AttributeGroup> edge
 	) {
 		try {
-			createCache();
+			val cache = edge.element.getCache(
+				ToolboxConstants.CacheId.DIRECTED_EDGE_TO_SINGLEPOINTS)
 			val singlePoints = cache.get(
 				edge.cacheKey,
 				[edge.singlePoints]
@@ -72,14 +71,6 @@ class SinglePointIterator implements Iterator<Punkt_Objekt_TOP_Kante_AttributeGr
 			internalIterator = singlePoints.iterator
 		} catch (ExecutionException e) {
 			throw new RuntimeException(e)
-		}
-	}
-
-	private def void createCache() {
-		if (cache === null) {
-			cache = Services.cacheService.getCache(
-				ToolboxConstants.CacheId.DIRECTED_EDGE_TO_SINGLEPOINTS
-			)
 		}
 	}
 
