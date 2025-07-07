@@ -109,8 +109,8 @@ public class TeilbereichOverlapCheck extends AbstractPlazContainerCheck
 		plazError.setSeverity(ValidationSeverity.ERROR);
 		plazError.setMessage(
 				transformErrorMsg(Map.of("Objektart", bo.eClass().getName(), //$NON-NLS-1$
-						"OBJEKT_GUID", bo.getIdentitaet().getWert(),
-						"TOP_KANTE_GUID", botb.getIDTOPKante().getWert())));
+						"OBJEKT_GUID", bo.getIdentitaet().getWert(), //$NON-NLS-1$
+						"TOP_KANTE_GUID", botb.getIDTOPKante().getWert()))); //$NON-NLS-1$
 		plazError.setType(checkType());
 		plazError.setObject(botb);
 		return plazError;
