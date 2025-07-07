@@ -91,7 +91,7 @@ public class UniqueTopKanteBereichObject extends AbstractPlazContainerCheck
 		error.setMessage(
 				transformErrorMsg(Map.of("Objektart", bo.eClass().getName(), //$NON-NLS-1$
 						"OBJEKT_GUID", bo.getIdentitaet().getWert(), //$NON-NLS-1$
-						"GUID", topKante.getIdentitaet().getWert()))); //$NON-NLS-1$
+						"TOP_KANTE_GUID", topKante.getIdentitaet().getWert()))); //$NON-NLS-1$
 		return error;
 	}
 
