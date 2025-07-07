@@ -1589,7 +1589,7 @@ p2/orbit/p2.eclipse.plugin/org.eclipse.tips.ui.nl_de/4.26.0.v20230220105658, EPL
 p2/orbit/p2.eclipse.plugin/org.eclipse.tools.layout.spy.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, tools.cdt
 p2/orbit/p2.eclipse.plugin/org.eclipse.tools.layout.spy.source/1.2.200.v20231108-1957, EPL-2.0, approved, tools.cdt
 p2/orbit/p2.eclipse.plugin/org.eclipse.tools.layout.spy/1.2.200.v20231108-1957, EPL-2.0, approved, tools.cdt
-p2/orbit/p2.eclipse.plugin/org.eclipse.ua.tests.doc.nl_de/4.26.0.v20230220105658, unknown, restricted, none
+p2/orbit/p2.eclipse.plugin/org.eclipse.ua.tests.doc.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.ui.browser.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.ui.browser.source/3.8.100.v20230727-0604, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.ui.browser/3.8.100.v20230727-0604, EPL-2.0, approved, eclipse.platform
@@ -1682,7 +1682,7 @@ p2/orbit/p2.eclipse.plugin/org.eclipse.ui.workbench.texteditor.source/3.17.200.v
 p2/orbit/p2.eclipse.plugin/org.eclipse.ui.workbench.texteditor/3.17.200.v20231106-1600, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.ui.workbench/3.131.0.v20231201-0512, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.ui/3.205.0.v20230922-1312, EPL-2.0, approved, eclipse.platform
-p2/orbit/p2.eclipse.plugin/org.eclipse.unittest.ui.nl_de/4.26.0.v20230220105658, unknown, restricted, none
+p2/orbit/p2.eclipse.plugin/org.eclipse.unittest.ui.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.update.configurator.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.update.configurator.source/3.5.200.v20231102-0934, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.update.configurator/3.5.200.v20231102-0934, EPL-2.0, approved, eclipse.platform
