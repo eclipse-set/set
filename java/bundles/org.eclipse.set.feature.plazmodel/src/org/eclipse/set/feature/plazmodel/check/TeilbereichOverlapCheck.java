@@ -48,7 +48,7 @@ public class TeilbereichOverlapCheck extends AbstractPlazContainerCheck
 
 	@Override
 	public String getGeneralErrMsg() {
-		return "Es gibt überlappende Teilbereiche in Objekt {GUID}"; //$NON-NLS-1$
+		return "Für das Bereichsobjekt {Objektart} {OBJEKT_GUID} sind mehrere überlappende/​mehrere ​Teilbereiche ​auf ​der TOP-Kante {TOP_KANTE_GUID} definiert."; //$NON-NLS-1$
 	}
 
 	@Override
@@ -107,8 +107,10 @@ public class TeilbereichOverlapCheck extends AbstractPlazContainerCheck
 			final Bereich_Objekt_Teilbereich_AttributeGroup botb) {
 		final PlazError plazError = PlazFactory.eINSTANCE.createPlazError();
 		plazError.setSeverity(ValidationSeverity.ERROR);
-		plazError.setMessage(transformErrorMsg(
-				Map.of("GUID", bo.getIdentitaet().getWert()))); //$NON-NLS-1$
+		plazError.setMessage(
+				transformErrorMsg(Map.of("Objektart", bo.eClass().getName(), //$NON-NLS-1$
+						"OBJEKT_GUID", bo.getIdentitaet().getWert(),
+						"TOP_KANTE_GUID", botb.getIDTOPKante().getWert())));
 		plazError.setType(checkType());
 		plazError.setObject(botb);
 		return plazError;
