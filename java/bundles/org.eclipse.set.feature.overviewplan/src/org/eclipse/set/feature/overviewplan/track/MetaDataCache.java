@@ -20,9 +20,10 @@ import java.util.Map;
 import java.util.Objects;
 
 import org.eclipse.set.basis.cache.Cache;
+import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.eclipse.set.core.services.Services;
-import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.eclipse.set.model.planpro.Geodaten.TOP_Kante;
+import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.eclipse.set.utils.ToolboxConfiguration;
 
 /**
@@ -54,7 +55,8 @@ public class MetaDataCache {
 			final MultiContainer_AttributeGroup container) {
 		if (!ToolboxConfiguration.isDevelopmentMode()) {
 			final Cache cache = Services.getCacheService()
-					.getCache(getCacheString(container));
+					.getCache(ToolboxFileRole.SESSION,
+							getCacheString(container));
 			final List<TOPKanteMetaData> metadatas = cache.getKeys()
 					.stream()
 					.map(key -> (TOPKanteMetaData) cache.getIfPresent(key))
@@ -76,7 +78,8 @@ public class MetaDataCache {
 		if (!ToolboxConfiguration.isDevelopmentMode()) {
 			final MultiContainer_AttributeGroup container = getContainer(edge);
 			final Cache cache = Services.getCacheService()
-					.getCache(getCacheString(container));
+					.getCache(ToolboxFileRole.SESSION,
+							getCacheString(container));
 			return (TOPKanteMetaData) cache
 					.getIfPresent(edge.getIdentitaet().getWert());
 		}
@@ -96,7 +99,8 @@ public class MetaDataCache {
 		if (!ToolboxConfiguration.isDevelopmentMode()) {
 			final MultiContainer_AttributeGroup container = getContainer(edge);
 			final Cache cache = Services.getCacheService()
-					.getCache(getCacheString(container));
+					.getCache(ToolboxFileRole.SESSION,
+							getCacheString(container));
 			cache.set(edge.getIdentitaet().getWert(), edgeMetadata);
 			return;
 		}
@@ -111,7 +115,8 @@ public class MetaDataCache {
 			final MultiContainer_AttributeGroup container) {
 		if (!ToolboxConfiguration.isDevelopmentMode()) {
 			final Cache cache = Services.getCacheService()
-					.getCache(getCacheString(container));
+					.getCache(ToolboxFileRole.SESSION,
+							getCacheString(container));
 			cache.invalidate();
 			return;
 		}

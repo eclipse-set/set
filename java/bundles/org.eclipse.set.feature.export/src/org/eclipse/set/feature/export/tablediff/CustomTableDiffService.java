@@ -91,7 +91,7 @@ public class CustomTableDiffService implements TableDiffService {
 			newRowGroup.setLeadingObjectIndex(group.getLeadingObjectIndex());
 
 			// we add the same number of empty rows to the new group
-			for (int i = 0; i < group.getRows().size(); i++) {
+			for (final TableRow element : group.getRows()) {
 				final TableRow newRow = TablemodelFactory.eINSTANCE
 						.createTableRow();
 				newRowGroup.getRows().add(newRow);

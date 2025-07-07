@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.eclipse.set.basis.graph.DirectedEdge;
+import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
 
 import com.google.common.collect.Lists;
 
@@ -178,5 +179,11 @@ public class TestEdge implements DirectedEdge<String, Character, Integer> {
 
 	private void checkPoint(final Integer point) {
 		checkIndex(points.indexOf(point), point);
+	}
+
+	@Override
+	public PlanPro_Schnittstelle getPlanProSchnittstelle() {
+		throw new UnsupportedOperationException(
+				"not implemented for test model"); //$NON-NLS-1$
 	}
 }
