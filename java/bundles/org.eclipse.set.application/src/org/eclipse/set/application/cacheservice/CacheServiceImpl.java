@@ -117,9 +117,9 @@ public class CacheServiceImpl implements CacheService, EventHandler {
 	@Override
 	public Cache getCache(final ToolboxFileRole role, final String cacheId)
 			throws IllegalArgumentException {
-		final Map<String, Cache> sessionCahces = caches.computeIfAbsent(role,
+		final Map<String, Cache> sessionCaches = caches.computeIfAbsent(role,
 				k -> new ConcurrentHashMap<>());
-		return sessionCahces.computeIfAbsent(cacheId, CacheImpl::new);
+		return sessionCaches.computeIfAbsent(cacheId, CacheImpl::new);
 	}
 
 	@Override
