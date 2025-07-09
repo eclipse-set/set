@@ -173,6 +173,21 @@ public class XSLConstant {
 		 * fo:simple-page-master
 		 */
 		public static final String FO_SIMPLE_PAGE_MASTER = "fo:simple-page-master"; //$NON-NLS-1$
+
+		/**
+		 * xsl:choose
+		 */
+		public static final String XSL_CHOOSE = "xsl:choose";
+
+		/**
+		 * xsl:when
+		 */
+		public static final String XSL_WHEN = "xsl:when";
+
+		/**
+		 * xsl:otherwise
+		 */
+		public static final String XSL_OTHERWISE = "xsl:otherwise";
 	}
 
 	/**
