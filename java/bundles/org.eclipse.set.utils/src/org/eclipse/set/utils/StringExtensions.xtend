@@ -24,6 +24,7 @@ class StringExtensions {
 	/**
 	 * This constant determine manual with OpenSans font 
 	 */
+	static val int CHARACTER_PRO_CM = 8
 	static final String ZERO_WIDTH_SPACE = "\u200b"
 
 	/**

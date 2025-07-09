@@ -62,7 +62,7 @@ class TableToTableDocument {
 	var String tablename
 	var int groupNumber
 	var TableSpanUtils spanUtils
-
+	var remarkTextInlnie = true
 	static val String FOOTNOTE_SEPARATOR = ", "
 
 	private new() throws ParserConfigurationException {
@@ -117,8 +117,11 @@ class TableToTableDocument {
 
 	private def Element create doc.createElement("Table") transform(Table table,
 		Titlebox titlebox, FreeFieldInfo freeFieldInfo) {
+		remarkTextInlnie = table.isInlineFootnote
 		appendChild(table.tablecontent.transform)
-		appendChild(transformToFootnotes(table))
+		if (!remarkTextInlnie) {
+			appendChild(transformToFootnotes(table))	
+		}
 		appendChild(titlebox.transform)
 		appendChild(freeFieldInfo.transform)
 		return
@@ -288,9 +291,7 @@ class TableToTableDocument {
 		val stringValue = content.plainStringValue
 		if (isRemarkColumn) {
 			val child = doc.createElement("UnchangedValue")
-			element.appendChild(
-				stringValue.addContentToElement(child, columnNumber,
-					isRemarkColumn))
+			stringValue.addContentToElement(child, columnNumber, isRemarkColumn)
 			element.addFootnoteContent(fc, columnNumber, isRemarkColumn)
 		} else {
 			element.textContent = stringValue.checkForTestOutput(columnNumber).
@@ -391,25 +392,26 @@ class TableToTableDocument {
 
 	private dispatch def void addFootnoteContent(Element element,
 		SimpleFootnoteContainer fc, int columnNumber, boolean isRemarkColumn) {
-
-		val footnotes = fc.footnotes.map[getFootnoteInfo(fc, it).toShorthand].
-			iterableToString(FOOTNOTE_SEPARATOR)
+		val footNotesInfo = fc.footnotes.map[getFootnoteInfo(fc, it)].filterNull
+		val footnotes = footNotesInfo.map [
+			remarkTextInlnie ? toText : toShorthand
+		].iterableToString(FOOTNOTE_SEPARATOR)
 		element.addFootnoteChild(footnotes, WARNING_MARK_BLACK, columnNumber,
 			isRemarkColumn)
 	}
 
 	private dispatch def void addFootnoteContent(Element element,
 		CompareFootnoteContainer fc, int columnNumber, boolean isRemarkColumn) {
-
-		val oldFootnotes = fc.oldFootnotes.map [
-			getFootnoteInfo(fc, it).toShorthand
+		val oldFootnotes = fc.oldFootnotes.map[getFootnoteInfo(fc, it)].map [
+			remarkTextInlnie ? toText : toShorthand
 		].iterableToString(FOOTNOTE_SEPARATOR)
-		val newFootnotes = fc.newFootnotes.map [
-			getFootnoteInfo(fc, it).toShorthand
+		val newFootnotes = fc.newFootnotes.map[getFootnoteInfo(fc, it)].map [
+			remarkTextInlnie ? toText : toShorthand
 		].iterableToString(FOOTNOTE_SEPARATOR)
 		val unchangedFootnotes = fc.unchangedFootnotes.map [
-			getFootnoteInfo(fc, it).toShorthand
-		].iterableToString(FOOTNOTE_SEPARATOR)
+			getFootnoteInfo(fc, it)
+		].map[remarkTextInlnie ? toText : toShorthand].iterableToString(
+			FOOTNOTE_SEPARATOR)
 
 		element.addFootnoteChild(oldFootnotes, WARNING_MARK_YELLOW,
 			columnNumber, isRemarkColumn)
