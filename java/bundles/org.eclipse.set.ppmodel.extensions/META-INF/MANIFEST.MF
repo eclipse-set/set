@@ -17,7 +17,6 @@ Require-Bundle: org.eclipse.xtend.lib,
  org.eclipse.set.model.planpro,
  org.eclipse.set.utils,
  org.locationtech.proj4j,
- org.eclipse.osgi.services;bundle-version="3.11.200",
  slf4j.api;bundle-version="2.0.9"
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Import-Package: jakarta.inject;version="1.0.0",

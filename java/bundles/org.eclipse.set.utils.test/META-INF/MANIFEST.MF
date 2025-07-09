@@ -6,8 +6,8 @@ Bundle-Version: 2.5.0.qualifier
 Fragment-Host: org.eclipse.set.utils;bundle-version="0.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Bundle-Vendor: Eclipse Signalling Engineering Toolbox
-Require-Bundle: org.hamcrest.core;bundle-version="1.3.0"
-Import-Package: org.junit.jupiter.api;version="5.6.0",
- org.junit.jupiter.api.function;version="5.6.0",
- org.junit.jupiter.params;version="5.6.0",
- org.junit.jupiter.params.provider;version="5.6.0"
+Require-Bundle: org.hamcrest
+Import-Package: org.junit.jupiter.api,
+ org.junit.jupiter.api.function,
+ org.junit.jupiter.params,
+ org.junit.jupiter.params.provider
