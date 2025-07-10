@@ -1,6 +1,6 @@
 PlaZ Modell-Prüfung
 Datei: plaz_model_current.csv
-Prüfungszeit: 2025-06-23 09:39:34
+Prüfungszeit: 2025-07-10 12:47:21
 Werkzeugkofferversion: ${application-version}
 
 
@@ -188,8 +188,9 @@ Werkzeugkofferversion: ${application-version}
 "177";"Erfolg";"Mehrfache Teilbereiche";"";"";"";"Fachdaten";"";"Teilbereichsgrenzen der LST-Objekte sind einzigartig."
 "178";"Erfolg";"Planungs-/Betrachtungsbereich";"";"";"";"Fachdaten";"";"Objekte sind eindeutig im Planungs- oder Betrachtungsbereich verortet."
 "179";"Erfolg";"Punktobjektabstand";"";"";"";"Fachdaten";"";"Der Punktobjektabstand aller LST-Objekte ist gültig."
-"180";"Erfolg";"TOP_Kante";"";"";"";"Fachdaten";"";"TOP_Kanten haben eindeutige Endknoten."
-"181";"Erfolg";"TOP_Kante";"";"";"";"Fachdaten";"";"TOP_Kanten und GEO_Kanten haben übereinstimmende Längen."
-"182";"Erfolg";"Ungültiger ID-Verweis";"";"";"";"Fachdaten";"";"Verweise verweisen auf ein Objekt vom erwarteten Typ."
-"183";"Erfolg";"Verortungsvergleich";"";"";"";"Fachdaten";"";"Die topologische Verortung der berechneten Geo-Koordinaten sind plausibilisiert"
-"184";"Erfolg";"Überlappende Teilbereiche";"";"";"";"Fachdaten";"";"Teilbereichsgrenzen der LST-Objekte sind plausibel"
+"180";"Erfolg";"Signalbefestigungsketten";"";"";"";"Fachdaten";"";"Die Verweisketten der Signalbefestigungen sind pausibel"
+"181";"Erfolg";"TOP_Kante";"";"";"";"Fachdaten";"";"TOP_Kanten haben eindeutige Endknoten."
+"182";"Erfolg";"TOP_Kante";"";"";"";"Fachdaten";"";"TOP_Kanten und GEO_Kanten haben übereinstimmende Längen."
+"183";"Erfolg";"Ungültiger ID-Verweis";"";"";"";"Fachdaten";"";"Verweise verweisen auf ein Objekt vom erwarteten Typ."
+"184";"Erfolg";"Verortungsvergleich";"";"";"";"Fachdaten";"";"Die topologische Verortung der berechneten Geo-Koordinaten sind plausibilisiert"
+"185";"Erfolg";"Überlappende Teilbereiche";"";"";"";"Fachdaten";"";"Teilbereichsgrenzen der LST-Objekte sind plausibel"
