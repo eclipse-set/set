@@ -214,6 +214,11 @@
 					<version>2.6</version>
 					<type>jar</type>
 				</dependency>
+				<dependency>
+				    <groupId>net.sf.offo</groupId>
+				    <artifactId>fop-hyph</artifactId>
+				    <version>2.0</version>
+				</dependency>
 			</dependencies>
 			<instructions><![CDATA[
 Bundle-Name:           Bundle derived from maven artifact ${mvnGroupId}:${mvnArtifactId}:${mvnVersion}

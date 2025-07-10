@@ -1452,7 +1452,7 @@ http://www.eclipse.org/legal/epl-v20.html
          version="0.0.0"/>
 
    <plugin
-         id="org.eclipse.set.offo.hyphenation"
+         id="maven.net.sf.offo.artifact.fop-hyph"
          version="0.0.0"/>
 
 </feature>
