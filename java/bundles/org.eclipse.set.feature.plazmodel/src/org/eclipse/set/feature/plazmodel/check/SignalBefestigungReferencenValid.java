@@ -36,17 +36,17 @@ public class SignalBefestigungReferencenValid extends AbstractPlazContainerCheck
 
 	@Override
 	public String checkType() {
-		return "Kaskadierte Signalbefestigungen"; //$NON-NLS-1$
+		return "Signalbefestigungsketten"; //$NON-NLS-1$
 	}
 
 	@Override
 	public String getDescription() {
-		return "Die Verweisketten den Signalbefestigungen sind pausible"; //$NON-NLS-1$
+		return "Die Verweisketten der Signalbefestigungen sind pausibel"; //$NON-NLS-1$
 	}
 
 	@Override
 	public String getGeneralErrMsg() {
-		return "Für die Signalbefesitung {GUID} gibst es Rückverwies in der Verweiskette"; //$NON-NLS-1$
+		return "Die Signalbefestigung {GUID} enthält einen Ring in der Verweiskette"; //$NON-NLS-1$
 	}
 
 	@Override
