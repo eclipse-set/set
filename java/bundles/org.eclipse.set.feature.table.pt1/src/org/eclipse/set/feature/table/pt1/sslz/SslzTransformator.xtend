@@ -78,7 +78,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 		typeof(SslzTransformator))
 
 	static val SIGNALBEGRIFF_COMPARATOR = new MixedStringComparator(
-		"(?<letters1>[A-Za-z]*)(?<number>[0-9]*)(?<letters2>[A-Za-z]*)")
+		"(?<letters1>[A-Za-z]*)(?<number1>[0-9]*)(?<letters2>[A-Za-z]*)(\\((?<number2>[0-9]*)(?<letters3>[A-Za-z]*)\\))?")
 
 	static val List<ENUMGleisart> NOT_USABLE = #[ENUM_GLEISART_ANSCHLUSSGLEIS,
 		ENUM_GLEISART_NEBENGLEIS, ENUM_GLEISART_SONSTIGE]
