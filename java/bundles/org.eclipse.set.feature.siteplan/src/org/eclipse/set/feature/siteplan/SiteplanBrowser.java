@@ -24,6 +24,7 @@ import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.cache.Cache;
 import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.basis.constants.ToolboxConstants;
+import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.eclipse.set.browser.DownloadListener;
 import org.eclipse.set.core.services.cache.CacheService;
 import org.eclipse.set.core.services.dialog.DialogService;
@@ -113,8 +114,8 @@ public class SiteplanBrowser extends FileWebBrowser
 	private void serveSiteplan(final Response response)
 			throws JsonProcessingException {
 		// Transform the planpro data to the siteplan data
-		final Cache cache = cacheService
-				.getCache(ToolboxConstants.CacheId.SITEPLAN_CACHE_ID);
+		final Cache cache = cacheService.getCache(ToolboxFileRole.SESSION,
+				ToolboxConstants.CacheId.SITEPLAN_CACHE_ID);
 		final Siteplan siteplan = cache
 				.get(SiteplanConstants.SITEPLAN_TRANSFORMATION_CACHE_ID, () -> {
 					broker.send(Events.SITEPLAN_OPEN_FIRST_TIME, Boolean.TRUE);

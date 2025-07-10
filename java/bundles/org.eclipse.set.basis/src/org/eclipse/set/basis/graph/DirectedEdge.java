@@ -11,6 +11,8 @@ package org.eclipse.set.basis.graph;
 import java.math.BigDecimal;
 import java.util.Iterator;
 
+import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
+
 /**
  * A directed edge with point objects on it.
  * 
@@ -85,4 +87,9 @@ public interface DirectedEdge<E, N, P> extends DirectedElement<E> {
 	 * @return a key usable for caching the directed edge
 	 */
 	String getCacheKey();
+
+	/**
+	 * @return the {@link PlanPro_Schnittstelle}
+	 */
+	PlanPro_Schnittstelle getPlanProSchnittstelle();
 }

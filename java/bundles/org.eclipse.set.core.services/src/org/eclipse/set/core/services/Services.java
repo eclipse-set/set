@@ -31,7 +31,6 @@ public class Services {
 	private static GeoKanteGeometryService geometryService;
 	private static SiteplanService siteplanService;
 	private static UserConfigurationService userConfigurationService;
-
 	private static TopologicalGraphService topGraphService;
 	private static PointObjectPositionService pointObjectPositionService;
 
