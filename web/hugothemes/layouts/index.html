@@ -1,0 +1,12 @@
+{{ partial "head.html" . }}
+{{ partial "sidebar.html" . }}
+<script src="./js/searchFunction.js">
+</script>
+<div class="content">
+    {{ with .Sections }}
+    {{ range .ByWeight }}
+    {{ partial "section_list.html" . }}
+    {{ end }}
+    {{ end }}
+</div>
+{{ partial "tail.html" . }}
