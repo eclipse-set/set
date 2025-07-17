@@ -93,15 +93,15 @@
 			<repository location="https://download.eclipse.org/technology/babel/update-site/R0.20.0/2022-12/"/>
 		</location>
 		<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="slicer" includeSource="true" type="InstallableUnit">
-			<unit id="org.eclipse.xtend.lib" version="2.35.0.v20240528-1523"/>
-			<unit id="org.eclipse.xtend.lib.macro" version="2.35.0.v20240528-1523"/>
-			<unit id="org.eclipse.xtend.lib.macro.source" version="2.35.0.v20240528-1523"/>
-			<unit id="org.eclipse.xtend.lib.source" version="2.35.0.v20240528-1523"/>
-			<unit id="org.eclipse.xtend.sdk.feature.group" version="2.35.0.v20240528-1523"/>
-			<unit id="org.eclipse.xtext.xbase.lib" version="2.35.0.v20240528-1523"/>
-			<unit id="org.eclipse.xtext.xbase.lib.source" version="2.35.0.v20240528-1523"/>
-			<unit id="com.google.guava" version="33.2.0.jre"/>
-			<repository location="https://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.35.0/"/>
+			<unit id="org.eclipse.xtend.lib" version="2.38.0.v20250226-0658"/>
+			<unit id="org.eclipse.xtend.lib.macro" version="2.38.0.v20250226-0658"/>
+			<unit id="org.eclipse.xtend.lib.macro.source" version="2.38.0.v20250226-0658"/>
+			<unit id="org.eclipse.xtend.lib.source" version="2.38.0.v20250226-0658"/>
+			<unit id="org.eclipse.xtend.sdk.feature.group" version="2.38.0.v20250226-0658"/>
+			<unit id="org.eclipse.xtext.xbase.lib" version="2.38.0.v20250226-0658"/>
+			<unit id="org.eclipse.xtext.xbase.lib.source" version="2.38.0.v20250226-0658"/>
+			<unit id="com.google.guava" version="33.4.0.jre"/>
+			<repository location="https://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.38.0/"/>
 		</location>
 		<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="slicer" includeSource="true" type="InstallableUnit">
 			<unit id="org.eclipse.nebula.widgets.nattable.core.feature.feature.group" version="2.2.0.202306301103"/>
@@ -213,6 +213,11 @@
 					<artifactId>fop</artifactId>
 					<version>2.6</version>
 					<type>jar</type>
+				</dependency>
+				<dependency>
+				    <groupId>net.sf.offo</groupId>
+				    <artifactId>fop-hyph</artifactId>
+				    <version>2.0</version>
 				</dependency>
 			</dependencies>
 			<instructions><![CDATA[

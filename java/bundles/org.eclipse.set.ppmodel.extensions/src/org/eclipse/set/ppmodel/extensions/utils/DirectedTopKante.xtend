@@ -13,9 +13,11 @@ import org.eclipse.set.basis.graph.DirectedElementImpl
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
 import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
 import org.eclipse.set.model.planpro.Geodaten.TOP_Knoten
-
-import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
 import org.eclipse.set.ppmodel.extensions.internal.SinglePointIterator
+
+import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 
 /**
  * Implementation of {@link DirectedEdge} for TOP-Kanten with single points.
@@ -113,4 +115,9 @@ class DirectedTopKante extends DirectedElementImpl<TOP_Kante> implements Directe
 	override getCacheKey() {
 		return '''«element.container.cacheString»/«element.identitaet.wert»/«forwards ? "/F" : "/B"»'''
 	}
+	
+	override getPlanProSchnittstelle() {
+		return element.planProSchnittstelle
+	}
+	
 }

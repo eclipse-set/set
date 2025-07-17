@@ -29,6 +29,7 @@ import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
 import org.eclipse.set.model.planpro.Basisobjekte.Bereich_Objekt_Teilbereich_AttributeGroup
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
+import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt
 import org.eclipse.set.model.planpro.Geodaten.ENUMTOPAnschluss
 import org.eclipse.set.model.planpro.Geodaten.GEO_Kante
 import org.eclipse.set.model.planpro.Geodaten.GEO_Knoten
@@ -75,8 +76,6 @@ class TopKanteExtensions extends BasisObjektExtensions {
 
 	static final Logger logger = LoggerFactory.getLogger(
 		typeof(TopKanteExtensions));
-
-	static Cache cache
 
 	/**
 	 * @param topKante this TOP Kante
@@ -298,18 +297,14 @@ class TopKanteExtensions extends BasisObjektExtensions {
 	 */
 	def static List<TOP_Kante> getAdjacentTopKanten(TOP_Kante topKante,
 		Iterable<TOP_Kante> topKanten) {
-		createCache
-		return cache.get(topKante.cacheKey, [
+		return topKante.cache.get(topKante.cacheKey, [
 			calcAdjacentTopKanten(topKante, topKanten)
 		])
 	}
 
-	def static void createCache() {
-		if (cache === null) {
-			cache = Services.cacheService.getCache(
-				ToolboxConstants.CacheId.TOPKANTE_TO_ADJACENT_TOPKANTEN
-			)
-		}
+	private static def Cache getCache(Ur_Objekt object) {
+		return Services.cacheService.getCache(object.planProSchnittstelle,
+			ToolboxConstants.CacheId.TOPKANTE_TO_ADJACENT_TOPKANTEN)
 	}
 
 	/**
@@ -344,7 +339,8 @@ class TopKanteExtensions extends BasisObjektExtensions {
 	def static List<Punkt_Objekt_TOP_Kante_AttributeGroup> getConnected(
 		TOP_Kante topKante) {
 		val cacheService = Services.getCacheService();
-		val cache = cacheService.getCache(
+
+		val cache = cacheService.getCache(topKante.planProSchnittstelle,
 			ToolboxConstants.CacheId.TOPKANTE_TO_SINGLEPOINTS,
 			topKante.container.cacheString);
 		return cache.get(

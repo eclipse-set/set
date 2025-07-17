@@ -57,10 +57,11 @@ class TopKantePath extends AbstractDirectedEdgePath<TOP_Kante, TOP_Knoten, Punkt
 		}
 
 		val cacheKeyPathEnds = #[start, end].map [
-			#[abstand?.wert, IDTOPKante?.value?.identitaet?.wert, wirkrichtung?.wert,
-				seitlicheLage?.wert, seitlicherAbstand?.wert]
+			#[abstand?.wert, IDTOPKante?.value?.identitaet?.wert,
+				wirkrichtung?.wert, seitlicheLage?.wert,
+				seitlicherAbstand?.wert]
 		].flatten.join
-		cacheKey = bereich?.identitaet?.wert + cacheKeyPathEnds
+		cacheKey = '''«bereich?.identitaet?.wert»/«cacheKeyPathEnds»'''
 	}
 
 	/**

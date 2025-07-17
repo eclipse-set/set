@@ -51,7 +51,7 @@ public class UniqueTopKanteBereichObject extends AbstractPlazContainerCheck
 
 	@Override
 	public String getGeneralErrMsg() {
-		return "Für das Bereichsobjekt {Objektart} sind mehrere Teilbereiche auf der TOP-Kante {GUID} definiert."; //$NON-NLS-1$
+		return "Für das Bereichsobjekt {Objektart} {OBJEKT_GUID} sind mehrere überlappende/​mehrere ​Teilbereiche ​auf ​der TOP-Kante {TOP_KANTE_GUID} definiert."; //$NON-NLS-1$
 	}
 
 	@Override
@@ -90,7 +90,8 @@ public class UniqueTopKanteBereichObject extends AbstractPlazContainerCheck
 		error.setType(checkType());
 		error.setMessage(
 				transformErrorMsg(Map.of("Objektart", bo.eClass().getName(), //$NON-NLS-1$
-						"GUID", topKante.getIdentitaet().getWert()))); //$NON-NLS-1$
+						"OBJEKT_GUID", bo.getIdentitaet().getWert(), //$NON-NLS-1$
+						"TOP_KANTE_GUID", topKante.getIdentitaet().getWert()))); //$NON-NLS-1$
 		return error;
 	}
 

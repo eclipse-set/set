@@ -18,27 +18,27 @@
     "axios": "^1.10.0",
     "geojson": "^0.5.0",
     "material-design-icons": "^3.0.1",
-    "ol": "^10.5.0",
+    "ol": "^10.6.1",
     "ol-mapbox-style": "^13.0.1",
-    "vue": "^3.5.16",
+    "vue": "^3.5.17",
     "vue-class-component": "^8.0.0-1",
     "vue-router": "^4.5.1",
     "vuex": "^4.1.0"
   },
   "devDependencies": {
-    "@stylistic/eslint-plugin": "4.4.1",
+    "@stylistic/eslint-plugin": "5.1.0",
     "@types/geojson": "^7946.0.15",
-    "@typescript-eslint/eslint-plugin": "^8.34.1",
+    "@typescript-eslint/eslint-plugin": "^8.36.0",
     "@typescript-eslint/parser": "^8.32.1",
-    "@vitejs/plugin-vue": "^5.2.4",
-    "dotenv": "^16.5.0",
-    "eslint": "^9.29.0",
-    "eslint-plugin-import": "^2.31.0",
+    "@vitejs/plugin-vue": "^6.0.0",
+    "dotenv": "^17.2.0",
+    "eslint": "^9.31.0",
+    "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^7.2.1",
-    "eslint-plugin-vue": "^10.2.0",
+    "eslint-plugin-vue": "^10.3.0",
     "tslib": "^2.8.1",
     "typescript": "^5.8.3",
-    "vite": "^6.3.5"
+    "vite": "^7.0.4"
   }
 }
