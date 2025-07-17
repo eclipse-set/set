@@ -202,11 +202,8 @@ public class StellBereichExtensions {
 					.isBelongToControlArea(estwZentral, area);
 			case final Bedien_Einrichtung_Oertlich oertlich -> BedienEinrichtungOertlichExtensions
 					.isBelongToControlArea(oertlich, area);
-			case final FMA_Anlage fmaAnlage -> isOverlappingControlArea(area,
-					getNullableObject(fmaAnlage,
-							anlage -> anlage.getIDGleisAbschnitt().getValue())
-									.orElse(null),
-					50);
+			case final FMA_Anlage fmaAnlage -> FmaAnlageExtensions
+					.isBelongToControlArea(fmaAnlage, area);
 			case final FMA_Komponente fmaKomponente -> FmaKomponenteExtensions
 					.isBelongToControlArea(fmaKomponente, area);
 			case final Zugeinwirkung zugeinwirkung -> ZugEinwirkungExtensions

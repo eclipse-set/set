@@ -20,6 +20,7 @@ import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.Gleis_Abschluss
 
 import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FmaKomponenteExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.StellBereichExtensions.*
 
 /**
  * Diese Klasse erweitert {@link FMA_Anlage}.
@@ -123,4 +124,13 @@ class FmaAnlageExtensions extends BasisObjektExtensions {
 		val gleisAbschnitt = anlage?.IDGleisAbschnitt?.value
 		return gleisAbschnitt.mostOverlapControlArea
 	}
+
+	def static boolean isBelongToControlArea(FMA_Anlage anlage,
+		Stell_Bereich area) {
+		val anlageControl = anlage?.IDGleisfreimeldeInnenanlage?.value
+		return (anlageControl !== null &&
+			anlageControl === area.aussenElementAnsteuerung) ||
+			area.isOverlappingControlArea(anlage?.IDGleisAbschnitt?.value, 50)
+	}
+
 }
