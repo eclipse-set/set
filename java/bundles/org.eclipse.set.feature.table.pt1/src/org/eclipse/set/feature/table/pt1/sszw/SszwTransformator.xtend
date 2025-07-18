@@ -4,7 +4,7 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
  * 
  */
@@ -24,12 +24,14 @@ import org.eclipse.set.model.planpro.Balisentechnik_ETCS.ETCS_W_Kr
 import org.eclipse.set.model.planpro.BasisTypen.ENUMLinksRechts
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.ENUMWKrArt
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Anlage
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Komponente
 import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.model.tablemodel.Table
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.ppmodel.extensions.utils.Case
 import org.eclipse.set.utils.table.TMFactory
+import org.osgi.service.event.EventAdmin
 
 import static org.eclipse.set.feature.table.pt1.sszw.SszwColumns.*
 import static org.eclipse.set.model.planpro.BasisTypen.ENUMLinksRechts.*
@@ -57,8 +59,8 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 	TopologicalGraphService topGraphService
 
 	new(Set<ColumnDescriptor> cols,
-		EnumTranslationService enumTranslationService) {
-		super(cols, enumTranslationService)
+		EnumTranslationService enumTranslationService, EventAdmin eventAdmin) {
+		super(cols, enumTranslationService, eventAdmin)
 		this.topGraphService = Services.topGraphService
 	}
 
@@ -74,25 +76,23 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 			if (Thread.currentThread.interrupted) {
 				return
 			}
-			transform
+			IDWKrAnlage?.value.WKrGspElemente.forEach [ gspElement |
+				transform(gspElement)
+			]
 		]
 		return
 	}
 
-	private def transform(ETCS_W_Kr etcsWkr) {
+	private def transform(ETCS_W_Kr etcsWkr, W_Kr_Gsp_Element wKrGspElement) {
 		val row = factory.newTableRow(etcsWkr)
 		val refWKrAnlage = etcsWkr.IDWKrAnlage?.value
 		// A: Sszw.W_Kr.Bezeichnung
-		fillConditional(
+		fill(
 			row,
 			cols.getColumn(Bezeichnung),
-			refWKrAnlage,
+			wKrGspElement,
 			[
-				WKrAnlageArt === ENUMW_KR_ART_EW
-			],
-			[
-				WKrGspElemente.map[bezeichnung?.bezeichnungTabelle?.wert].toSet.
-					firstOrNull ?: ""
+				bezeichnung?.bezeichnungTabelle?.wert
 			]
 		)
 
