@@ -8,19 +8,28 @@
  */
 package org.eclipse.set.feature.table.pt1.sslb
 
+import java.math.BigDecimal
+import java.util.HashMap
 import java.util.Set
 import org.eclipse.set.basis.Pair
+import org.eclipse.set.basis.graph.TopPoint
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
+import org.eclipse.set.core.services.graph.TopologicalGraphService
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
+import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung
 import org.eclipse.set.model.planpro.Block.Block_Element
 import org.eclipse.set.model.planpro.Block.ENUMBetriebsfuehrung
 import org.eclipse.set.model.planpro.Geodaten.ENUMOertlichkeitArt
+import org.eclipse.set.model.planpro.Gleis.ENUMGleisart
+import org.eclipse.set.model.planpro.Ortung.FMA_Anlage
 import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.model.tablemodel.Table
 import org.eclipse.set.model.tablemodel.TableRow
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.ppmodel.extensions.utils.Case
 import org.eclipse.set.utils.table.TMFactory
+import org.osgi.service.event.EventAdmin
 
 import static org.eclipse.set.feature.table.pt1.sslb.SslbColumns.*
 
@@ -30,16 +39,8 @@ import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensio
 import static extension org.eclipse.set.ppmodel.extensions.BlockAnlageExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BlockElementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BlockStreckeExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FmaAnlageExtensions.*
-import org.eclipse.set.basis.graph.TopPoint
-import org.eclipse.set.model.planpro.Gleis.ENUMGleisart
-import java.math.BigDecimal
-import java.util.HashMap
-import org.eclipse.set.model.planpro.Ortung.FMA_Anlage
-import org.eclipse.set.core.services.graph.TopologicalGraphService
-import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung
-import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
+import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 
 /**
  * Table transformation for a Inselgleistabelle (Sslb).
@@ -55,8 +56,8 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	new(Set<ColumnDescriptor> cols,
 		EnumTranslationService enumTranslationService,
-		TopologicalGraphService topGraphService) {
-		super(cols, enumTranslationService)
+		TopologicalGraphService topGraphService, EventAdmin eventAdmin) {
+		super(cols, enumTranslationService, eventAdmin)
 		topGraph = topGraphService
 	}
 

@@ -25,7 +25,6 @@ import org.eclipse.set.model.planpro.Balisentechnik_ETCS.ETCS_Signal
 import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Nichthaltfall
-import org.eclipse.set.model.planpro.Geodaten.Strecke
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Kl
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Ne14
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.OzBk
@@ -41,14 +40,10 @@ import org.eclipse.set.model.planpro.Signalbegriffe_Struktur.Signalbegriff_ID_Ty
 import org.eclipse.set.model.planpro.Signale.ENUMAnschaltdauer
 import org.eclipse.set.model.planpro.Signale.Signal
 import org.eclipse.set.model.tablemodel.ColumnDescriptor
-import org.eclipse.set.model.tablemodel.TableRow
-import org.eclipse.set.model.tablemodel.extensions.CellContentExtensions
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.ppmodel.extensions.utils.Case
 import org.eclipse.set.ppmodel.extensions.utils.TopGraph
-import org.eclipse.set.utils.events.TableDataChangeEvent
 import org.eclipse.set.utils.math.AgateRounding
-import org.eclipse.set.utils.table.Pt1TableChangeProperties
 import org.eclipse.set.utils.table.TMFactory
 import org.osgi.service.event.EventAdmin
 
@@ -61,13 +56,11 @@ import static org.eclipse.set.ppmodel.extensions.geometry.GEOKanteGeometryExtens
 import static extension org.eclipse.set.ppmodel.extensions.AussenelementansteuerungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FstrNichthaltfallExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.MultiContainer_AttributeGroupExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.StellBereichExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.utils.CacheUtils.*
 import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
 import static extension org.eclipse.set.utils.math.DoubleExtensions.*
 
@@ -78,17 +71,13 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 	static BigDecimal MAX_TOP_DISTANCE_IN_METER = BigDecimal.ZERO
 	static Range<Double> FMA_KOMPONENT_DISTANCE_RANGE = Range.of(-3.0, 350.0);
 	TopologicalGraphService topGraphService
-	EventAdmin eventAdmin
-	String shortcut
 
 	new(Set<ColumnDescriptor> cols,
 		EnumTranslationService enumTranslationService,
 		TopologicalGraphService topGraphService,
-		EventAdmin eventAdmin, String shortcut) {
-		super(cols, enumTranslationService)
+		EventAdmin eventAdmin) {
+		super(cols, enumTranslationService, eventAdmin)
 		this.topGraphService = topGraphService
-		this.eventAdmin = eventAdmin
-		this.shortcut = shortcut
 	}
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
@@ -210,20 +199,23 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 			)
 
 			// D: Sszs.Signal.Standort.km
-			if (!isFindGeometryComplete || streckeAndKm.flatMap[value].exists [
-				!nullOrEmpty
-			]) {
-				fillIterable(
-					row,
-					cols.getColumn(Standort_Km),
-					refSignal,
-					[streckeAndKm.flatMap[value]],
-					null
-				)
-			} else {
-				val routeThroughBereichObjekt = refSignal.singlePoint.streckenThroughBereichObjekt
-				row.fillStreckeKm(refSignal, routeThroughBereichObjekt)
-			}
+			fillIterableMultiCellWhenAllow(
+				row,
+				cols.getColumn(Standort_Km),
+				refSignal,
+				[isFindGeometryComplete || !streckeAndKm.flatMap[value].filter[!nullOrEmpty].nullOrEmpty],
+				[
+					val kmValues = streckeAndKm.flatMap[value].filter[!nullOrEmpty]
+					if (!kmValues.nullOrEmpty) {
+						return kmValues.toList
+					}
+					val routeThroughBereichObjekt = singlePoint.streckenThroughBereichObjekt
+					return getStreckeKm(routeThroughBereichObjekt).toList
+					
+				],
+				null,
+				ITERABLE_FILLING_SEPARATOR
+			)
 
 			// E: Sszs.Signalisierung.Zs_1
 			fillConditional(
@@ -771,42 +763,5 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 		}
 		return Optional.ofNullable(
 			begriffeGeschalteValues.contains(Boolean.TRUE))
-	}
-	
-		// IMPROVE: Make the thread in this function generic.
-	// It do same thing like fill function for Banking and Sidedistance
-	private def void fillStreckeKm(TableRow row, Signal signal,
-		List<Strecke> routeThroughBereichObjekt) {
-		val threadName = '''«shortcut.toLowerCase»/StreckKm/«signal.cacheKey»'''
-		val container = signal.container
-		new Thread([
-			try {
-				if (!isFindGeometryComplete) {
-					fill(
-						row,
-						cols.getColumn(Standort_Km),
-						signal,
-						[
-							CellContentExtensions.HOURGLASS_ICON
-						]
-					)
-				}
-				var streckeKms = signal.getStreckeKm(routeThroughBereichObjekt)
-				while (streckeKms === null) {
-					streckeKms = signal.getStreckeKm(routeThroughBereichObjekt)
-					Thread.sleep(5000)
-				}
-				val changeProperties = new Pt1TableChangeProperties(
-					container, row, cols.getColumn(Standort_Km), streckeKms,
-					ITERABLE_FILLING_SEPARATOR)
-				val updateValuesEvent = new TableDataChangeEvent(
-					shortcut.toLowerCase, changeProperties)
-				// Send update event 
-				TableDataChangeEvent.sendEvent(eventAdmin, updateValuesEvent)
-			} catch (InterruptedException exc) {
-				Thread.currentThread.interrupt
-			}
-
-		], threadName).start
 	}
 }

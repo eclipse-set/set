@@ -24,6 +24,7 @@ import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
 import org.eclipse.set.utils.table.sorting.TableRowGroupComparator;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.event.EventAdmin;
 
 /**
  * Service for creating the ssld table model.
@@ -44,6 +45,8 @@ public final class SsldTransformationService
 	private EnumTranslationService enumTranslationService;
 	@Reference
 	private TopologicalGraphService topGraphService;
+	@Reference
+	private EventAdmin eventAdmin;
 
 	/**
 	 * constructor.
@@ -55,7 +58,7 @@ public final class SsldTransformationService
 	@Override
 	public AbstractPlanPro2TableModelTransformator createTransformator() {
 		return new SsldTransformator(cols, enumTranslationService,
-				topGraphService);
+				topGraphService, eventAdmin);
 	}
 
 	@Override
@@ -76,6 +79,11 @@ public final class SsldTransformationService
 	@Override
 	protected String getTableHeading() {
 		return messages.SsldTableView_Heading;
+	}
+
+	@Override
+	protected String getShortcut() {
+		return messages.ToolboxTableNameSsldShort.toLowerCase();
 	}
 
 }

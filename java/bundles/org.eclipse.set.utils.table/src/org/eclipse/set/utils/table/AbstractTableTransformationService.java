@@ -38,7 +38,7 @@ public abstract class AbstractTableTransformationService<T>
 
 	protected static final float LINE_HEIGHT = 0.6f;
 
-	private TableModelTransformator<T> transformator;
+	protected TableModelTransformator<T> transformator;
 
 	/**
 	 * constructor.
