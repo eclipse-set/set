@@ -30,11 +30,15 @@ themesDir = "../hugothemes/themes"
     target = "static/fonts"
 
   [[module.mounts]]
+    source = "../hugothemes/static/js"
+    target = "static/js"
+
+  [[module.mounts]]
     source = "static"
     target = "static"
 
 [params]
-  customCss = ["css/font.css"]
+  customCss = ["css/font.css", "css/common.css"]
 
 # Update security policy to allow asciidoctor
 [security]
