@@ -4,7 +4,7 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
  * 
  */
@@ -46,6 +46,7 @@ import static extension org.eclipse.set.ppmodel.extensions.WKrAnlageExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspElementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element
 
 /**
  * Table transformation for ETCS Melde- und Kommandoanschaltung Weichen (Sszw)
@@ -74,25 +75,23 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 			if (Thread.currentThread.interrupted) {
 				return
 			}
-			transform
+			IDWKrAnlage?.value.WKrGspElemente.forEach [ gspElement |
+				transform(gspElement)
+			]
 		]
 		return
 	}
 
-	private def transform(ETCS_W_Kr etcsWkr) {
+	private def transform(ETCS_W_Kr etcsWkr, W_Kr_Gsp_Element wKrGspElement) {
 		val row = factory.newTableRow(etcsWkr)
 		val refWKrAnlage = etcsWkr.IDWKrAnlage?.value
 		// A: Sszw.W_Kr.Bezeichnung
-		fillConditional(
+		fill(
 			row,
 			cols.getColumn(Bezeichnung),
-			refWKrAnlage,
+			wKrGspElement,
 			[
-				WKrAnlageArt === ENUMW_KR_ART_EW
-			],
-			[
-				WKrGspElemente.map[bezeichnung?.bezeichnungTabelle?.wert].toSet.
-					firstOrNull ?: ""
+				bezeichnung?.bezeichnungTabelle?.wert
 			]
 		)
 
