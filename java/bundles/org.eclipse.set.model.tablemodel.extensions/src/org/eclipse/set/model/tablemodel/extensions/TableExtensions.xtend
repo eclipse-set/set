@@ -454,8 +454,60 @@ class TableExtensions {
 		}
 		return getFootnoteInfo(object as Table, fn)
 	}
-	
+
 	static def boolean isTableEmpty(Table table) {
 		return table.tableRows.nullOrEmpty
+	}
+
+	static def boolean isInlineFootnote(Table table) {
+		val remarkColumn = table.columndescriptors.findFirst [
+			isFootnoteReferenceColumn
+		]
+		if (remarkColumn === null) {
+			return false
+		}
+		val remarkColumnWidth = remarkColumn.columnWidth
+		val maxCharInCell = remarkColumnWidth.maxCharInCell
+		return table.tableRows.forall [ row |
+			val fc = row.footnotes
+			if (fc === null) {
+				return true
+			}
+
+			if (fc instanceof SimpleFootnoteContainer) {
+				val remarks = fc.footnotes.map[getFootnoteInfo(table, it)].
+					filterNull
+				return remarks.isEmpty || (remarks.size == 1 &&
+					remarks.firstOrNull.toText.length < maxCharInCell)
+			}
+
+			if (fc instanceof CompareFootnoteContainer) {
+				val oldFootnotes = fc.oldFootnotes.map [
+					getFootnoteInfo(table, it)
+				].filterNull
+				val newFootnotes = fc.newFootnotes.map [
+					getFootnoteInfo(table, it)
+				].filterNull
+				val unchangedFootnotes = fc.unchangedFootnotes.map [
+					getFootnoteInfo(table, it)
+				].filterNull
+				val notEmptyContainer = #[oldFootnotes, newFootnotes,
+					unchangedFootnotes].filter[!isEmpty]
+
+				return switch (notEmptyContainer.size) {
+					case 0:
+						true
+					case 1: {
+						val remarks = notEmptyContainer.firstOrNull.map[toText].
+							filterNull
+						return remarks.isEmpty || (remarks.size == 1 &&
+							remarks.firstOrNull.length < maxCharInCell)
+					}
+					default:
+						false
+				}
+			}
+			return true
+		]
 	}
 }
