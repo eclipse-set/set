@@ -23,6 +23,7 @@ import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
 import org.eclipse.set.utils.table.sorting.TableRowGroupComparator;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.event.EventAdmin;
 
 /**
  * Service for creating the sskf table model. org.eclipse.set.feature.table
@@ -41,6 +42,8 @@ public final class SskfTransformationService
 	private Messages messages;
 	@Reference
 	private EnumTranslationService enumTranslationService;
+	@Reference
+	private EventAdmin eventAdmin;
 
 	/**
 	 * constructor.
@@ -51,7 +54,7 @@ public final class SskfTransformationService
 
 	@Override
 	public AbstractPlanPro2TableModelTransformator createTransformator() {
-		return new SskfTransformator(cols, enumTranslationService);
+		return new SskfTransformator(cols, enumTranslationService, eventAdmin);
 	}
 
 	@Override
@@ -71,5 +74,10 @@ public final class SskfTransformationService
 	@Override
 	protected String getTableHeading() {
 		return messages.SskfTableView_Heading;
+	}
+
+	@Override
+	protected String getShortcut() {
+		return messages.ToolboxTableNameSskfShort.toLowerCase();
 	}
 }

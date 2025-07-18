@@ -11,7 +11,6 @@
 package org.eclipse.set.feature.table.pt1.sskz;
 
 import static org.eclipse.set.feature.table.pt1.sskz.SskzColumns.*;
-import static org.eclipse.set.model.tablemodel.extensions.CellContentExtensions.HOURGLASS_ICON;
 import static org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.getContainer;
 import static org.eclipse.set.ppmodel.extensions.EObjectExtensions.getNullableObject;
 import static org.eclipse.set.ppmodel.extensions.geometry.GEOKanteGeometryExtensions.isFindGeometryComplete;
@@ -57,13 +56,11 @@ import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.TableRow;
-import org.eclipse.set.model.tablemodel.extensions.CellContentExtensions;
 import org.eclipse.set.model.tablemodel.extensions.TableRowExtensions;
 import org.eclipse.set.ppmodel.extensions.PZBElementExtensions;
 import org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteExtensions;
 import org.eclipse.set.ppmodel.extensions.UrObjectExtensions;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
-import org.eclipse.set.ppmodel.extensions.utils.CacheUtils;
 import org.eclipse.set.ppmodel.extensions.utils.Case;
 import org.eclipse.set.utils.events.TableDataChangeEvent;
 import org.eclipse.set.utils.math.BigDecimalExtensions;
@@ -84,7 +81,6 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	private final BankService bankService;
 	private final String tableShortcut;
-	private final EventAdmin eventAdmin;
 	private final Map<TableRow, Aussenelementansteuerung> waitingFillTrackMitteDistance;
 
 	private record OperationalIdentifierFieldElement(
@@ -135,9 +131,8 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 			final BankService bankService,
 			final EnumTranslationService enumTranslationService,
 			final EventAdmin eventAdmin, final String tableShortcut) {
-		super(cols, enumTranslationService);
+		super(cols, enumTranslationService, eventAdmin);
 		this.bankService = bankService;
-		this.eventAdmin = eventAdmin;
 		this.tableShortcut = tableShortcut;
 		this.waitingFillTrackMitteDistance = new HashMap<>();
 	}
@@ -227,19 +222,19 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 						.getPunktObjektTOPKante();
 
 				// F: Sskz.Ueberhoehung
-				if (bankService.isFindBankingComplete()) {
-					fillIterable(row, getColumn(cols, Ueberhoehung), control,
-							e -> bankService.findBankValue(new TopPoint(potk))
-									.stream()
-									.filter(Objects::nonNull)
-									.map(ele -> ele
-											.multiply(BigDecimal.valueOf(1000)))
-									.map(BigDecimalExtensions::toTableInteger)
-									.toList(),
-							null);
-				} else {
-					fillUeberhoehung(row, control);
-				}
+				fillIterableDelaySingleCell(row, getColumn(cols, Ueberhoehung),
+						control,
+						() -> Boolean
+								.valueOf(bankService.isFindBankingComplete()),
+						ele -> bankService.findBankValue(new TopPoint(potk))
+								.stream()
+								.filter(Objects::nonNull)
+								.map(value -> value
+										.multiply(BigDecimal.valueOf(1000)))
+								.map(BigDecimalExtensions::toTableInteger)
+								.toList(),
+						MIXED_STRING_COMPARATOR, ITERABLE_FILLING_SEPARATOR,
+						tableShortcut);
 
 				// G: Sskz.Abstand_FEAx_Gleismitte
 				if (getNullableObject(potk,
@@ -329,29 +324,20 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 	private void fillTrackMitteDistance(final TableRow row,
 			final Aussenelementansteuerung control,
 			final Punkt_Objekt_TOP_Kante_AttributeGroup potk) {
-		if (!isFindGeometryComplete()) {
-			fill(row, getColumn(cols, Abstand_FEAx_Gleismitte), control,
-					ele -> HOURGLASS_ICON);
-			waitingFillTrackMitteDistance.put(row, control);
-		} else {
-			try {
-				final Pair<Long, Long> sideDistance = getSideDistance(potk);
-				if (sideDistance != null) {
-					final String trackDistance = sideDistance.getSecond()
-							.longValue() > 0 ? String.format("(%d)", //$NON-NLS-1$
-									sideDistance.getSecond()) : ""; //$NON-NLS-1$
-					fill(row, getColumn(cols, Abstand_FEAx_Gleismitte), control,
-							ele -> String.format("%s%s", //$NON-NLS-1$
-									Math.abs(sideDistance.getFirst()),
-									trackDistance.isEmpty() ? "" //$NON-NLS-1$
-											: " " + trackDistance)); //$NON-NLS-1$
-				}
-
-			} catch (final Exception e) {
-				handleFillingException(e, row,
-						getColumn(cols, Abstand_FEAx_Gleismitte));
-			}
-		}
+		fillDelayMultiCell(row, getColumn(cols, Abstand_FEAx_Gleismitte),
+				control, () -> isFindGeometryComplete(), ele -> {
+					final Pair<Long, Long> sideDistance = getSideDistance(potk);
+					if (sideDistance != null) {
+						final String trackDistance = sideDistance.getSecond()
+								.longValue() > 0 ? String.format("(%d)", //$NON-NLS-1$
+										sideDistance.getSecond()) : ""; //$NON-NLS-1$
+						return String.format("%s%s", //$NON-NLS-1$
+								Math.abs(sideDistance.getFirst()),
+								trackDistance.isEmpty() ? "" //$NON-NLS-1$
+										: " " + trackDistance); //$NON-NLS-1$
+					}
+					return ""; //$NON-NLS-1$
+				});
 	}
 
 	private List<OperationalIdentifierFieldElement> getFieldElementIdentifier(
@@ -512,65 +498,6 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 				.filter(ele -> getControlFromFieldELement(ele)
 						.contains(control))
 				.toList();
-	}
-
-	// IMPRVOE: this function is like fill Ueberhoehung in Ssks table. It will
-	// be better,when we implementation a generic function for Filling the
-	// value, which must be wait for result of another process
-	private void fillUeberhoehung(final TableRow row,
-			final Aussenelementansteuerung control) {
-		final Punkt_Objekt_TOP_Kante_AttributeGroup potk = getNullableObject(
-				control,
-				e -> e.getIDUnterbringung().getValue().getPunktObjektTOPKante())
-						.orElse(null);
-		if (potk == null) {
-			return;
-		}
-		final String threadName = String.format("%s/Banking/%s", //$NON-NLS-1$
-				tableShortcut.toLowerCase(), CacheUtils.getCacheKey(control));
-		new Thread(() -> {
-			try {
-				final List<String> bankValues = getUeberhoehung(row, control)
-						.stream()
-						.filter(Objects::nonNull)
-						.map(value -> value.multiply(BigDecimal.valueOf(1000)))
-						.map(BigDecimalExtensions::toTableInteger)
-						.toList();
-				final Pt1TableChangeProperties changeProperties = new Pt1TableChangeProperties(
-						getContainer(control), row,
-						getColumn(cols, Ueberhoehung), bankValues,
-						ITERABLE_FILLING_SEPARATOR);
-				final TableDataChangeEvent updateValuesEvent = new TableDataChangeEvent(
-						tableShortcut.toLowerCase(), changeProperties);
-				TableDataChangeEvent.sendEvent(eventAdmin, updateValuesEvent);
-			} catch (final InterruptedException exc) {
-				Thread.currentThread().interrupt();
-			}
-		}, threadName).start();
-	}
-
-	private List<BigDecimal> getUeberhoehung(final TableRow row,
-			final Aussenelementansteuerung control)
-			throws InterruptedException {
-		final Punkt_Objekt_TOP_Kante_AttributeGroup potk = control
-				.getIDUnterbringung()
-				.getValue()
-				.getPunktObjektTOPKante();
-		final TopPoint topPoint = new TopPoint(potk);
-		List<BigDecimal> bankValues = bankService.findBankValue(topPoint);
-		if (bankValues.isEmpty() && !bankService.isFindBankingComplete()) {
-			fill(row, getColumn(cols, Ueberhoehung), control,
-					ele -> CellContentExtensions.HOURGLASS_ICON);
-		}
-
-		while (bankValues == null || bankValues.isEmpty()) {
-			bankValues = bankService.findBankValue(topPoint);
-			if (bankService.isFindBankingComplete()) {
-				return bankValues;
-			}
-			Thread.sleep(5000);
-		}
-		return bankValues;
 	}
 
 	private static Pair<Long, Long> getSideDistance(

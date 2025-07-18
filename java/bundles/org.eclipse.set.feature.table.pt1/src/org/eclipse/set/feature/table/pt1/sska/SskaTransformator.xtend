@@ -26,6 +26,7 @@ import org.eclipse.set.ppmodel.extensions.AussenelementansteuerungExtensions
 import org.eclipse.set.ppmodel.extensions.ESTW_ZentraleinheitExtensions
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.utils.table.TMFactory
+import org.osgi.service.event.EventAdmin
 
 import static org.eclipse.set.feature.table.pt1.sska.SskaColumns.*
 import static org.eclipse.set.model.planpro.Bedienung.ENUMBedienPlatzArt.*
@@ -46,8 +47,8 @@ import static extension org.eclipse.set.ppmodel.extensions.utils.CollectionExten
 class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	new(Set<ColumnDescriptor> cols,
-		EnumTranslationService enumTranslationService) {
-		super(cols, enumTranslationService)
+		EnumTranslationService enumTranslationService, EventAdmin eventAdmin) {
+		super(cols, enumTranslationService, eventAdmin)
 	}
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
