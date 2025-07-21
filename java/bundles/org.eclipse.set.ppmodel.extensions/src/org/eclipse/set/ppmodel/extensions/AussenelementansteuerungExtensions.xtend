@@ -110,9 +110,20 @@ class AussenelementansteuerungExtensions extends BasisObjektExtensions {
 
 	def static boolean isBelongToControlArea(
 		Aussenelementansteuerung aussenElement, Stell_Bereich area) {
-		val informationPrimaer = aussenElement.IDInformationPrimaer.map[value].
-			filterNull.filter(Aussenelementansteuerung)
-		return informationPrimaer.exists[it === area.aussenElementAnsteuerung];
+		if (aussenElement === null) {
+			return false
+		}
+		val areaAEA = area.aussenElementAnsteuerung
+		if (areaAEA === aussenElement) {
+			return true
+		}
+		val areaAEAInformationPrimaer = areaAEA.informationPrimaer.filter(
+			Aussenelementansteuerung).toList
+		val currentInformationPrimaer = aussenElement.informationPrimaer.filter(
+			Aussenelementansteuerung).toList
+		return areaAEAInformationPrimaer.exists [ firstAEA |
+			currentInformationPrimaer.exists[secondAEA|secondAEA === firstAEA]
+		]
 	}
 
 	def static List<Stell_Bereich> getStellBereich(

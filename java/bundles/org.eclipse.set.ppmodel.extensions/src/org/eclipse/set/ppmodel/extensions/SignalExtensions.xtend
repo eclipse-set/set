@@ -462,10 +462,8 @@ class SignalExtensions extends PunktObjektExtensions {
 	def static boolean isBelongToControlArea(Signal signal,
 		Stell_Bereich controlArea) {
 		val stellElement = signal.stellelement
-		if (stellElement?.IDEnergie?.value ===
-			controlArea.IDAussenelementansteuerung.value ||
-			stellElement?.IDInformation?.value ===
-				controlArea.IDAussenelementansteuerung.value) {
+		if (stellElement?.IDEnergie?.value.isBelongToControlArea(controlArea) ||
+			stellElement?.IDInformation?.value.isBelongToControlArea(controlArea)) {
 			return true
 		}
 		val existsFiktivesSignalFAPStart = signal.signalFiktiv !== null &&

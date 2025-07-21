@@ -18,6 +18,7 @@ import org.eclipse.set.model.planpro.Ortung.FMA_Komponente
 import org.eclipse.set.model.planpro.Ortung.Schaltmittel_Zuordnung
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.Gleis_Abschluss
 
+import static extension org.eclipse.set.ppmodel.extensions.AussenelementansteuerungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FmaKomponenteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.StellBereichExtensions.*
@@ -127,9 +128,8 @@ class FmaAnlageExtensions extends BasisObjektExtensions {
 
 	def static boolean isBelongToControlArea(FMA_Anlage anlage,
 		Stell_Bereich area) {
-		val anlageControl = anlage?.IDGleisfreimeldeInnenanlage?.value
-		return (anlageControl !== null &&
-			anlageControl === area.aussenElementAnsteuerung) ||
+		val anlageAEA = anlage?.IDGleisfreimeldeInnenanlage?.value
+		return anlageAEA.isBelongToControlArea(area) ||
 			area.isOverlappingControlArea(anlage?.IDGleisAbschnitt?.value, 50)
 	}
 
