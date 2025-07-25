@@ -29,8 +29,8 @@ import static extension org.eclipse.set.ppmodel.extensions.FstrAbhaengigkeitExte
 import static extension org.eclipse.set.ppmodel.extensions.FstrZugRangierExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SchlossExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SchlosskombinationExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.SchluesselsperreExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SchluesselExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.SchluesselsperreExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.StellBereichExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.UnterbringungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
@@ -405,8 +405,8 @@ class SskoTransformator extends AbstractPlanPro2TableModelTransformator {
 		val result = newHashSet
 		// 1. Condition
 		// IMPROVE: Not completely, because the requirements for this case aren't clear
-		val stellelements = controlArea.aussenElementAnsteuerung?.
-			informationSekundaer?.filterNull?.flatMap[stellelements] ?: #[]
+		val stellelements = container.stellelement.map[IDInformation?.value].
+			filterNull.filter[isBelongToControlArea(controlArea)]
 		val ssp = container.schluesselsperre.filter [ ssp |
 			stellelements.exists[it === ssp.IDStellelement.value]
 		]

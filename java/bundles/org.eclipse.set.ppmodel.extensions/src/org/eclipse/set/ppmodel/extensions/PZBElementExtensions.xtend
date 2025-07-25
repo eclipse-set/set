@@ -22,8 +22,8 @@ import org.eclipse.set.model.planpro.PZB.PZB_Zuordnung_Signal
 import org.eclipse.set.model.planpro.Signale.Signal
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element
 
+import static extension org.eclipse.set.ppmodel.extensions.AussenelementansteuerungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.StellBereichExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FstrFahrwegExtensions.getFstrDweg
 
 /**
@@ -88,7 +88,7 @@ class PZBElementExtensions extends BasisObjektExtensions {
 			signalReal !== null && signalReal.signalRealAktiv === null
 		]
 		return !signals.nullOrEmpty && !pzb?.stellelements?.filterNull?.filter [
-			IDInformation?.value === controlArea.aussenElementAnsteuerung
+			IDInformation?.value.isBelongToControlArea(controlArea)
 		].nullOrEmpty && signals.exists[controlArea.contains(it)]
 	}
 

@@ -15,7 +15,7 @@ import org.eclipse.set.model.planpro.Ortung.FMA_Komponente
 import org.eclipse.set.model.planpro.Ortung.Schaltmittel_Zuordnung
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 
-import static extension org.eclipse.set.ppmodel.extensions.StellBereichExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.AussenelementansteuerungExtensions.*
 
 /**
  * This class extends {@link FMA_Komponente}.
@@ -71,8 +71,7 @@ class FmaKomponenteExtensions extends BasisObjektExtensions {
 
 		return !aussenElementAnsteuerungen.nullOrEmpty &&
 			aussenElementAnsteuerungen.filterNull.exists [
-				area.aussenElementAnsteuerung !== null &&
-					it === area.aussenElementAnsteuerung
+				isBelongToControlArea(area)
 			]
 	}
 }
