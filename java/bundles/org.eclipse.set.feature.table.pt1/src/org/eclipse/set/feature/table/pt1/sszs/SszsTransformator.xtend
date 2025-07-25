@@ -4,7 +4,7 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
  * 
  */
@@ -74,8 +74,7 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	new(Set<ColumnDescriptor> cols,
 		EnumTranslationService enumTranslationService,
-		TopologicalGraphService topGraphService,
-		EventAdmin eventAdmin) {
+		TopologicalGraphService topGraphService, EventAdmin eventAdmin) {
 		super(cols, enumTranslationService, eventAdmin)
 		this.topGraphService = topGraphService
 	}
@@ -203,15 +202,22 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 				row,
 				cols.getColumn(Standort_Km),
 				refSignal,
-				[isFindGeometryComplete || !streckeAndKm.flatMap[value].filter[!nullOrEmpty].nullOrEmpty],
 				[
-					val kmValues = streckeAndKm.flatMap[value].filter[!nullOrEmpty]
+					isFindGeometryComplete ||
+						!streckeAndKm.flatMap[value].filter[!nullOrEmpty].
+							nullOrEmpty
+				],
+				[
+					val kmValues = streckeAndKm.flatMap[value].filter [
+						!nullOrEmpty
+					]
 					if (!kmValues.nullOrEmpty) {
 						return kmValues.toList
 					}
-					val routeThroughBereichObjekt = singlePoint.streckenThroughBereichObjekt
+					val routeThroughBereichObjekt = singlePoint.
+						streckenThroughBereichObjekt
 					return getStreckeKm(routeThroughBereichObjekt).toList
-					
+
 				],
 				null,
 				ITERABLE_FILLING_SEPARATOR
@@ -480,9 +486,9 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 						return ""
 					}
 					val distanceValue = distance.get
-					return distanceValue <= 5 || distanceValue >= -3
-						? "0"
-						: AgateRounding.roundUp(distanceValue).toString
+					return distanceValue <= 5 ||
+						distanceValue >= -3 ? "0" : AgateRounding.roundUp(
+						distanceValue).toString
 				]
 			)
 
@@ -720,8 +726,9 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 			if (distances.compareTo(BigDecimal.ZERO) == 0) {
 				return fma -> 0.0
 			}
-			return topGraph.isInWirkrichtungOfSignal(signal, fma) ? fma ->
-				distances.doubleValue : fma -> -distances.doubleValue
+			return topGraph.isInWirkrichtungOfSignal(signal, fma)
+				? fma -> distances.doubleValue
+				: fma -> -distances.doubleValue
 		].filterNull
 		if (distanceToSignal.empty) {
 			return Optional.empty
