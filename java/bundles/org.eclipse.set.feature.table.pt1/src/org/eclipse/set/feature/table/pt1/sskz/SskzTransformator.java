@@ -31,7 +31,6 @@ import java.util.function.Function;
 import java.util.stream.Stream;
 
 import org.eclipse.set.basis.Pair;
-import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.basis.graph.TopPoint;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.core.services.graph.BankService;
@@ -56,17 +55,13 @@ import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.TableRow;
-import org.eclipse.set.model.tablemodel.extensions.TableRowExtensions;
 import org.eclipse.set.ppmodel.extensions.PZBElementExtensions;
 import org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteExtensions;
 import org.eclipse.set.ppmodel.extensions.UrObjectExtensions;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.eclipse.set.ppmodel.extensions.utils.Case;
-import org.eclipse.set.utils.events.TableDataChangeEvent;
 import org.eclipse.set.utils.math.BigDecimalExtensions;
-import org.eclipse.set.utils.table.Pt1TableChangeProperties;
 import org.eclipse.set.utils.table.TMFactory;
-import org.eclipse.set.utils.table.TableError;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.osgi.service.event.EventAdmin;
 
@@ -222,8 +217,8 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 						.getPunktObjektTOPKante();
 
 				// F: Sskz.Ueberhoehung
-				fillIterableSingleCellWhenAllowed(row, getColumn(cols, Ueberhoehung),
-						control,
+				fillIterableSingleCellWhenAllowed(row,
+						getColumn(cols, Ueberhoehung), control,
 						() -> Boolean
 								.valueOf(bankService.isFindBankingComplete()),
 						ele -> bankService.findBankValue(new TopPoint(potk))
@@ -249,83 +244,17 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 			// G: Sskz.Bemerkung
 			fillFootnotes(row, control);
 		}
-
-		// IMPOVE: here is same like fill Ueberhoehung. It is already define in
-		// SsksTransformator. This should be generic
-		new Thread(() -> {
-			while (!isFindGeometryComplete()) {
-				try {
-					Thread.sleep(5000);
-				} catch (final InterruptedException exc) {
-					Thread.currentThread().interrupt();
-					return;
-				}
-
-				final List<Pt1TableChangeProperties> changeProperties = new ArrayList<>();
-				waitingFillTrackMitteDistance.forEach((row, control) -> {
-					refillTrackMitteDistance(row, container, control,
-							changeProperties);
-				});
-				final TableDataChangeEvent updateValuesEvent = new TableDataChangeEvent(
-						tableShortcut.toLowerCase(), changeProperties);
-				TableDataChangeEvent.sendEvent(eventAdmin, updateValuesEvent);
-			}
-		}, String.format("%s/%s/s", tableShortcut.toLowerCase(), //$NON-NLS-1$
-				ToolboxConstants.CacheId.GEOKANTE_GEOMETRY,
-				container.getCacheString())).start();
 		return factory.getTable();
 
-	}
-
-	@SuppressWarnings("boxing")
-	private void refillTrackMitteDistance(final TableRow row,
-			final MultiContainer_AttributeGroup container,
-			final Aussenelementansteuerung control,
-			final List<Pt1TableChangeProperties> changeProperties) {
-		final Punkt_Objekt_TOP_Kante_AttributeGroup potk = control
-				.getIDUnterbringung()
-				.getValue()
-				.getPunktObjektTOPKante();
-		String fillValue = ""; //$NON-NLS-1$
-		try {
-			final Pair<Long, Long> sideDistance = getSideDistance(potk);
-
-			if (sideDistance != null) {
-				final String trackDistance = sideDistance.getSecond()
-						.longValue() > 0 ? String.format("(%d)", //$NON-NLS-1$
-								sideDistance.getSecond()) : ""; //$NON-NLS-1$
-				fillValue = String.format("%s%s", //$NON-NLS-1$
-						Math.abs(sideDistance.getFirst()),
-						trackDistance.isEmpty() ? "" //$NON-NLS-1$
-								: " " + trackDistance); //$NON-NLS-1$
-			}
-
-		} catch (final Exception e) {
-			final String errorMsg = createErrorMsg(e, row);
-			final String guid = getNullableObject(row,
-					r -> TableRowExtensions.getGroup(r)
-							.getLeadingObject()
-							.getIdentitaet()
-							.getWert()).orElse(""); //$NON-NLS-1$
-			if (!guid.isEmpty()) {
-				final String leadingObjectIdentifier = getLeadingObjectIdentifier(
-						row, guid);
-				tableErrors.add(new TableError(guid, leadingObjectIdentifier,
-						"", errorMsg, row)); //$NON-NLS-1$
-			}
-		}
-
-		changeProperties.add(new Pt1TableChangeProperties(container, row,
-				getColumn(cols, Abstand_FEAx_Gleismitte), List.of(fillValue),
-				ITERABLE_FILLING_SEPARATOR));
 	}
 
 	@SuppressWarnings("boxing")
 	private void fillTrackMitteDistance(final TableRow row,
 			final Aussenelementansteuerung control,
 			final Punkt_Objekt_TOP_Kante_AttributeGroup potk) {
-		fillIterableMultiCellWhenAllowed(row, getColumn(cols, Abstand_FEAx_Gleismitte),
-				control, () -> isFindGeometryComplete(), ele -> {
+		fillIterableMultiCellWhenAllowed(row,
+				getColumn(cols, Abstand_FEAx_Gleismitte), control,
+				() -> isFindGeometryComplete(), ele -> {
 					final Pair<Long, Long> sideDistance = getSideDistance(potk);
 					if (sideDistance != null) {
 						final String trackDistance = sideDistance.getSecond()
