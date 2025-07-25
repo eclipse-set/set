@@ -199,7 +199,7 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 			)
 
 			// D: Sszs.Signal.Standort.km
-			fillIterableDelayMultiCell(
+			fillIterableMultiCellWhenAllow(
 				row,
 				cols.getColumn(Standort_Km),
 				refSignal,

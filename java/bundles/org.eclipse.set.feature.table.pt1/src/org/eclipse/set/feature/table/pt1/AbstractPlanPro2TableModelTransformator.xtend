@@ -132,20 +132,20 @@ abstract class AbstractPlanPro2TableModelTransformator extends AbstractTableMode
 		return transformTableContent(container, factory, null)
 	}
 
-	def <S, T extends Ur_Objekt> void fillDelaySingleCell(
+	def <S, T extends Ur_Objekt> void fillSingleCellWhenAllowed(
 		TableRow row,
 		ColumnDescriptor column,
 		T object,
-		()=>Boolean shouldFill,
+		()=>Boolean fillCondition,
 		String tableShortcut,
 		String threadName,
 		(T)=>String filling
 	) {
-		fillIterableDelaySingleCell(
+		fillIterableSingleCellWhenAllowed(
 			row,
 			column,
 			object,
-			shouldFill,
+			fillCondition,
 			[#[filling.apply(it)]],
 			null,
 			ITERABLE_FILLING_SEPARATOR,
@@ -153,18 +153,18 @@ abstract class AbstractPlanPro2TableModelTransformator extends AbstractTableMode
 		)
 	}
 
-	def <S, T extends Ur_Objekt> void fillIterableDelaySingleCell(
+	def <S, T extends Ur_Objekt> void fillIterableSingleCellWhenAllowed(
 		TableRow row,
 		ColumnDescriptor column,
 		T object,
-		()=>Boolean shouldFill,
+		()=>Boolean fillCondition,
 		(T)=>List<String> sequence,
 		Comparator<String> comparator,
 		String separator,
 		String tableShortcut
 	) {
 		try {
-			if (shouldFill.apply) {
+			if (fillCondition.apply) {
 				fillIterable(row, column, object, sequence, comparator, [
 					it
 				], separator)
@@ -174,7 +174,7 @@ abstract class AbstractPlanPro2TableModelTransformator extends AbstractTableMode
 			new Thread([
 				val changeProperty = newArrayList
 				try {
-					while (!shouldFill.apply()) {
+					while (!fillCondition.apply()) {
 						Thread.sleep(5000)
 					}
 					val result = sequence.apply(object)
@@ -191,7 +191,7 @@ abstract class AbstractPlanPro2TableModelTransformator extends AbstractTableMode
 								nullOrEmpty ? ITERABLE_FILLING_SEPARATOR : separator))
 				} catch (Exception e) {
 					changeProperty.add(
-						fillDelayCellException(row, column, object.container,
+						fillWaitingCellException(row, column, object.container,
 							e))
 				}
 				val updateValueEvent = new TableDataChangeEvent(
@@ -205,38 +205,38 @@ abstract class AbstractPlanPro2TableModelTransformator extends AbstractTableMode
 	}
 
 	val delayFillingCells = Collections.synchronizedList(
-		new ArrayList<DelayFillingCell<Ur_Objekt>>)
+		new ArrayList<WaitFillingCell<Ur_Objekt>>)
 
-	def <S, T extends Ur_Objekt> void fillDelayMultiCell(
+	def <S, T extends Ur_Objekt> void fillIterableMultiCellWhenAllowed(
 		TableRow row,
 		ColumnDescriptor column,
 		T object,
-		()=>Boolean shouldFill,
+		()=>Boolean fillCondition,
 		(T)=>String filling
 	) {
 
-		fillIterableDelayMultiCell(row, column, object, shouldFill, [
+		fillIterableMultiCellWhenAllow(row, column, object, fillCondition, [
 			#[filling.apply(it)]
 		], null, ITERABLE_FILLING_SEPARATOR)
 	}
 
-	def <S, T extends Ur_Objekt> void fillIterableDelayMultiCell(
+	def <S, T extends Ur_Objekt> void fillIterableMultiCellWhenAllow(
 		TableRow row,
 		ColumnDescriptor column,
 		T object,
-		()=>Boolean shouldFill,
+		()=>Boolean fillCondition,
 		(T)=>List<String> sequence,
 		Comparator<String> comparator,
 		String separator
 	) {
-		if (shouldFill.apply) {
+		if (fillCondition.apply) {
 			fillIterable(row, column, object, sequence, comparator, [it],
 				separator)
 			return
 		}
 		fill(row, column, object, [CellContentExtensions.HOURGLASS_ICON])
 		delayFillingCells.add(
-			new DelayFillingCell(column, row, object, sequence, shouldFill))
+			new WaitFillingCell(column, row, object, sequence, fillCondition))
 	}
 
 	def void updateWaitingFillCell(String tableShortcut) {
@@ -254,7 +254,7 @@ abstract class AbstractPlanPro2TableModelTransformator extends AbstractTableMode
 									ITERABLE_FILLING_SEPARATOR))
 						} catch (Exception e) {
 							changeProperties.add(
-								fillDelayCellException(row, column, container,
+								fillWaitingCellException(row, column, container,
 									e)
 							)
 						}
@@ -280,7 +280,7 @@ abstract class AbstractPlanPro2TableModelTransformator extends AbstractTableMode
 		fillDelayCellThread.start
 	}
 
-	private def Pt1TableChangeProperties fillDelayCellException(TableRow row,
+	private def Pt1TableChangeProperties fillWaitingCellException(TableRow row,
 		ColumnDescriptor column, MultiContainer_AttributeGroup container,
 		Exception e) {
 		val errorMsg = createErrorMsg(e, row)

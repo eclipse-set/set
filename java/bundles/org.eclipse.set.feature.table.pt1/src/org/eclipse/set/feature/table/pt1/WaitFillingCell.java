@@ -27,7 +27,7 @@ import org.eclipse.set.model.tablemodel.TableRow;
  *            the Ur_Objekt
  * 
  */
-public class DelayFillingCell<T extends Ur_Objekt> {
+public class WaitFillingCell<T extends Ur_Objekt> {
 	private final ColumnDescriptor column;
 	private final TableRow row;
 	private final Function<T, List<String>> sequenceFunction;
@@ -46,7 +46,7 @@ public class DelayFillingCell<T extends Ur_Objekt> {
 	 * @param shouldFill
 	 *            should fill test
 	 */
-	public DelayFillingCell(final ColumnDescriptor column, final TableRow row,
+	public WaitFillingCell(final ColumnDescriptor column, final TableRow row,
 			final T object, final Function<T, List<String>> sequenceFunction,
 			final Supplier<Boolean> shouldFill) {
 		this.column = column;

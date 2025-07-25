@@ -4,7 +4,7 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
  * 
  */
@@ -24,7 +24,6 @@ import org.eclipse.set.model.planpro.Balisentechnik_ETCS.ETCS_W_Kr
 import org.eclipse.set.model.planpro.BasisTypen.ENUMLinksRechts
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.ENUMWKrArt
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Anlage
-import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Komponente
 import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.model.tablemodel.Table
@@ -76,23 +75,25 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 			if (Thread.currentThread.interrupted) {
 				return
 			}
-			IDWKrAnlage?.value.WKrGspElemente.forEach [ gspElement |
-				transform(gspElement)
-			]
+			transform
 		]
 		return
 	}
 
-	private def transform(ETCS_W_Kr etcsWkr, W_Kr_Gsp_Element wKrGspElement) {
+	private def transform(ETCS_W_Kr etcsWkr) {
 		val row = factory.newTableRow(etcsWkr)
 		val refWKrAnlage = etcsWkr.IDWKrAnlage?.value
 		// A: Sszw.W_Kr.Bezeichnung
-		fill(
+		fillConditional(
 			row,
 			cols.getColumn(Bezeichnung),
-			wKrGspElement,
+			refWKrAnlage,
 			[
-				bezeichnung?.bezeichnungTabelle?.wert
+				WKrAnlageArt === ENUMW_KR_ART_EW
+			],
+			[
+				WKrGspElemente.map[bezeichnung?.bezeichnungTabelle?.wert].toSet.
+					firstOrNull ?: ""
 			]
 		)
 

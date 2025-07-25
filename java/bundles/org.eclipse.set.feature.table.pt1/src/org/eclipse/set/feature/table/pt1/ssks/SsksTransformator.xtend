@@ -249,7 +249,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 						)
 
 						// F: Ssks.Standortmerkmale.Standort.km
-						fillIterableDelaySingleCell(
+						fillIterableSingleCellWhenAllowed(
 							row,
 							cols.getColumn(Km),
 							signal,
@@ -305,7 +305,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 
 						// I: Ssks.Standortmerkmale.Ueberhoehung
 						if (signal.signalReal !== null) {
-							fillIterableDelaySingleCell(
+							fillIterableSingleCellWhenAllowed(
 								row,
 								cols.getColumn(Ueberhoehung),
 								signal,
@@ -323,7 +323,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							)
 
 							// J: Ssks.Standortmerkmale.Abstand_Mastmitte.links
-							fillIterableDelayMultiCell(
+							fillIterableMultiCellWhenAllow(
 								row,
 								cols.getColumn(Mastmitte_Links),
 								signal,
@@ -343,7 +343,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							)
 
 							// K: Ssks.Standortmerkmale.Abstand_Mastmitte.rechts
-							fillIterableDelayMultiCell(
+							fillIterableMultiCellWhenAllow(
 								row,
 								cols.getColumn(Mastmitte_Rechts),
 								signal,

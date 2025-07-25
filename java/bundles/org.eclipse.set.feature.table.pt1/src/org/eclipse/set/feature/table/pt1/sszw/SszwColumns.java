@@ -86,10 +86,5 @@ public class SszwColumns {
 	/**
 	 * Sszw.Bemerkung
 	 */
-	public static final String RBA_Anschaltung = "N";
-
-	/**
-	 * Sszw.RBC-Anschaltung
-	 */
-	public static final String Bemerkung = "O";
+	public static final String Bemerkung = "N";
 }

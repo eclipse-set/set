@@ -222,7 +222,7 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 						.getPunktObjektTOPKante();
 
 				// F: Sskz.Ueberhoehung
-				fillIterableDelaySingleCell(row, getColumn(cols, Ueberhoehung),
+				fillIterableSingleCellWhenAllowed(row, getColumn(cols, Ueberhoehung),
 						control,
 						() -> Boolean
 								.valueOf(bankService.isFindBankingComplete()),
@@ -324,7 +324,7 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 	private void fillTrackMitteDistance(final TableRow row,
 			final Aussenelementansteuerung control,
 			final Punkt_Objekt_TOP_Kante_AttributeGroup potk) {
-		fillDelayMultiCell(row, getColumn(cols, Abstand_FEAx_Gleismitte),
+		fillIterableMultiCellWhenAllowed(row, getColumn(cols, Abstand_FEAx_Gleismitte),
 				control, () -> isFindGeometryComplete(), ele -> {
 					final Pair<Long, Long> sideDistance = getSideDistance(potk);
 					if (sideDistance != null) {
