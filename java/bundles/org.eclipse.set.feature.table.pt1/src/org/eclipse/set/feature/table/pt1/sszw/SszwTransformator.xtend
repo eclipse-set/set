@@ -30,6 +30,7 @@ import org.eclipse.set.model.tablemodel.Table
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.ppmodel.extensions.utils.Case
 import org.eclipse.set.utils.table.TMFactory
+import org.osgi.service.event.EventAdmin
 
 import static org.eclipse.set.feature.table.pt1.sszw.SszwColumns.*
 import static org.eclipse.set.model.planpro.BasisTypen.ENUMLinksRechts.*
@@ -57,8 +58,8 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 	TopologicalGraphService topGraphService
 
 	new(Set<ColumnDescriptor> cols,
-		EnumTranslationService enumTranslationService) {
-		super(cols, enumTranslationService)
+		EnumTranslationService enumTranslationService, EventAdmin eventAdmin) {
+		super(cols, enumTranslationService, eventAdmin)
 		this.topGraphService = Services.topGraphService
 	}
 
