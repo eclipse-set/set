@@ -4,13 +4,14 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
  * 
  */
 package org.eclipse.set.feature.table.pt1.sszw
 
 import java.math.BigDecimal
+import java.math.BigInteger
 import java.util.Collections
 import java.util.List
 import java.util.Optional
@@ -23,7 +24,10 @@ import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
 import org.eclipse.set.model.planpro.Ansteuerung_Element.ESTW_Zentraleinheit
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.Balisentechnik_ETCS.ETCS_W_Kr
+import org.eclipse.set.model.planpro.BasisTypen.ENUMLinksRechts
 import org.eclipse.set.model.planpro.Geodaten.ENUMTOPAnschluss
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.ENUMWKrArt
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.ENUMWKrGspStellart
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Anlage
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Komponente
@@ -36,6 +40,7 @@ import org.osgi.service.event.EventAdmin
 
 import static org.eclipse.set.feature.table.pt1.sszw.SszwColumns.*
 import static org.eclipse.set.model.planpro.BasisTypen.ENUMLinksRechts.*
+import static org.eclipse.set.model.planpro.Weichen_und_Gleissperren.ENUMWKrArt.*
 import static org.eclipse.set.ppmodel.extensions.geometry.GEOKanteGeometryExtensions.*
 
 import static extension org.eclipse.set.ppmodel.extensions.AussenelementansteuerungExtensions.*
@@ -50,8 +55,6 @@ import static extension org.eclipse.set.ppmodel.extensions.WKrAnlageExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspElementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
-import static org.eclipse.set.model.planpro.Weichen_und_Gleissperren.ENUMWKrArt.*
-import org.eclipse.set.model.planpro.BasisTypen.ENUMLinksRechts
 
 /**
  * Table transformation for ETCS Melde- und Kommandoanschaltung Weichen (Sszw)
@@ -219,103 +222,92 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 				[getWKrLaenge(wKomponentDKW_EKW_R)]
 			)
 		)
+
+		val trackSwitchTypes = #[ENUMW_KR_ART_EW, ENUMW_KR_ART_IBW,
+			ENUMW_KR_ART_ABW, ENUMW_KR_ART_DW, ENUMW_KR_ART_KLOTHOIDENWEICHE,
+			ENUMW_KR_ART_KORBBOGENWEICHE, ENUMW_KR_ART_SONSTIGE,
+			ENUMW_KR_ART_EKW, ENUMW_KR_ART_DKW]
 		// H: Sszw.Zulaessige_Geschwindigkeit.Weiche.li
-		fillSwitch(
+		fill(
 			row,
 			cols.getColumn(Geschwindigkeit_W_L),
 			refWKrAnlage,
-			new Case<W_Kr_Anlage>(
-				[isSimpleTrackSwitch],
-				[
-					val gspKomponent = wKrGspElement.WKrGspKomponenten.
-						firstOrNull
-					return gspKomponent?.zungenpaar?.geschwindigkeitL?.wert?.
-						toString ?: ""
-				]
-			),
-			new Case<W_Kr_Anlage>(
-				[
-					(WKrAnlageArt === ENUMW_KR_ART_EKW ||
-						WKrAnlageArt === ENUMW_KR_ART_DKW)
-				],
-				[
-					val gspKomponent = wKrGspElement.WKrGspKomponenten.filter [
-						zungenpaar?.kreuzungsgleis?.wert ===
-							ENUM_LINKS_RECHTS_RECHTS
-					].firstOrNull
-					gspKomponent?.zungenpaar?.geschwindigkeitL?.wert.toString ?:
-						""
-				]
-			)
-		)
-		
-		// I: Sszw.Zulaessige_Geschwindigkeit.Weiche.re
-		fillSwitch(
-			row,
-			cols.getColumn(Geschwindigkeit_W_L),
-			refWKrAnlage,
-			new Case<W_Kr_Anlage>(
-				[isSimpleTrackSwitch],
-				[
-					val gspKomponent = wKrGspElement.WKrGspKomponenten.
-						firstOrNull
-					return gspKomponent?.zungenpaar?.geschwindigkeitR?.wert?.
-						toString ?: ""
-				]
-			),
-			new Case<W_Kr_Anlage>(
-				[
-					(WKrAnlageArt === ENUMW_KR_ART_EKW ||
-						WKrAnlageArt === ENUMW_KR_ART_DKW)
-				],
-				[
-					val gspKomponent = wKrGspElement.WKrGspKomponenten.filter [
-						zungenpaar?.kreuzungsgleis?.wert ===
-							ENUM_LINKS_RECHTS_LINKS
-					].firstOrNull
-					gspKomponent?.zungenpaar?.geschwindigkeitR?.wert.toString ?:
-						""
-				]
-			)
-		)
-		// J: Sszw.Zulaessige_Geschwindigkeit.Kreuzung.li
-		fillSwitch(
-			row,
-			cols.getColumn(Geschwindigkeit_Kr_L),
-			refWKrAnlage,
-			new Case<W_Kr_Anlage>(
-				[#[]],
-				[]
-			)
+			[
+				getWKrGeschwindigkeit(
+					wKrGspElement,
+					[zungenpaar?.geschwindigkeitL?.wert],
+					[zungenpaar?.geschwindigkeitL?.wert],
+					[trackSwitchTypes.contains(it)],
+					ENUM_LINKS_RECHTS_RECHTS
+				)
+			]
 		)
 
-		// K 
+		// I: Sszw.Zulaessige_Geschwindigkeit.Weiche.re
+		fill(
+			row,
+			cols.getColumn(Geschwindigkeit_W_R),
+			refWKrAnlage,
+			[
+				getWKrGeschwindigkeit(
+					wKrGspElement,
+					[zungenpaar?.geschwindigkeitR?.wert],
+					[zungenpaar?.geschwindigkeitR?.wert],
+					[trackSwitchTypes.contains(it)],
+					ENUM_LINKS_RECHTS_LINKS
+				)
+			]
+		)
+
+		val crossTypes = #[ENUMW_KR_ART_FLACHKREUZUNG, ENUMW_KR_ART_KR,
+			ENUMW_KR_ART_SONSTIGE, ENUMW_KR_ART_EKW, ENUMW_KR_ART_DKW]
+
+		// J: Sszw.Zulaessige_Geschwindigkeit.Kreuzung.li
+		fill(
+			row,
+			cols.getColumn(Geschwindigkeit_W_L),
+			refWKrAnlage,
+			[
+				getWKrGeschwindigkeit(
+					wKrGspElement,
+					[kreuzung?.geschwindigkeitL?.wert],
+					[zungenpaar?.geschwindigkeitL?.wert],
+					[crossTypes.contains(it)],
+					ENUM_LINKS_RECHTS_LINKS
+				)
+			]
+		)
+
+		// K: Sszw.Zulaessige_Geschwindigkeit.Kreuzung.re
 		fill(
 			row,
 			cols.getColumn(Geschwindiket_Kr_R),
 			refWKrAnlage,
 			[
-				// TODO
-				"TODO"
+				getWKrGeschwindigkeit(
+					wKrGspElement,
+					[kreuzung?.geschwindigkeitR?.wert],
+					[zungenpaar?.geschwindigkeitR?.wert],
+					[crossTypes.contains(it)],
+					ENUM_LINKS_RECHTS_RECHTS
+				)
 			]
 		)
 
 		// L: Sszw.Ansteuerung.ESTW_Zentraleinheit
-		fillIterable(
+		fillIterableWithConditional(
 			row,
 			cols.getColumn(ESTWZentraleinheit),
-			refWKrAnlage,
+			wKrGspElement,
+			[aussenelementansteuerung !== null],
 			[
-				WKrGspElemente.filter [ gsp |
-					gsp?.aussenelementansteuerung !== null
-				].flatMap [ gsp |
-					gsp?.aussenelementansteuerung?.IDInformationPrimaer
-				].filterNull.map[value].filter(ESTW_Zentraleinheit).map [
-					oertlichkeitNamensgebend?.bezeichnung?.
-						oertlichkeitAbkuerzung?.wert
-				]
+				aussenelementansteuerung.IDInformationPrimaer.filter(
+					ESTW_Zentraleinheit).map [
+					oertlichkeitAbkuerzung
+				].filterNull
 			],
-			null
+			null,
+			ITERABLE_FILLING_SEPARATOR
 		)
 
 		// M: Sszw.Ansteuerung.Stellbereich
@@ -324,22 +316,37 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 			cols.getColumn(Stellbereich),
 			etcsWkr,
 			[
-				val outsideControl = WKrGspElements.map [ gsp |
-					gsp.aussenelementansteuerung
-				].filterNull
-				if (!outsideControl.flatMap[stellBereich].isNullOrEmpty) {
-					return outsideControl.map [
-						oertlichkeitNamensgebend.bezeichnung?.
+				val outsideControl = wKrGspElement.aussenelementansteuerung
+				if (container.stellBereich.exists [
+					IDAussenelementansteuerung?.value === outsideControl
+				]) {
+					return #[
+						outsideControl.oertlichkeitNamensgebend.bezeichnung?.
 							oertlichkeitAbkuerzung?.wert ?:
-							bezeichnung?.bezeichnungAEA?.wert
-					]
+							outsideControl.bezeichnung?.bezeichnungAEA?.wert]
 				}
 				return #[stellbereich?.oertlichkeitBezeichnung].filterNull
 			],
 			null
 		)
 
-		// N: Sszw.Bemerkung
+		// N: Sszw.RBC-Anschaltung
+		fillConditional(
+			row,
+			cols.getColumn(RBA_Anschaltung),
+			wKrGspElement,
+			[
+				#[
+					ENUMWKrGspStellart.
+						ENUMW_KR_GSP_STELLART_ELEKTRISCH_ORTSGESTELLT,
+					ENUMWKrGspStellart.
+						ENUMW_KR_GSP_STELLART_MECHANISCH_ORTSGESTELLT].contains(
+					WKrGspElementAllg?.WKrGspStellart.wert)
+			],
+			["x"]
+		)
+
+		// O: Sszw.Bemerkung
 		fill(
 			row,
 			cols.getColumn(Bemerkung),
@@ -423,20 +430,40 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 		].map[orElse(null)].filterNull
 		return distance.nullOrEmpty ? "" : distance.min.toTableDecimal
 	}
-	
-	private def String getWKrGeschwindigkeit(W_Kr_Anlage wKrAnlage, W_Kr_Gsp_Element gspElement,
-		(W_Kr_Anlage) => Boolean typeCondition,
-		ENUMLinksRechts leftRight
+
+	private def String getWKrGeschwindigkeit(
+		W_Kr_Anlage wKrAnlage,
+		W_Kr_Gsp_Element gspElement,
+		(W_Kr_Gsp_Komponente)=>BigInteger allowSpeed,
+		(W_Kr_Gsp_Komponente)=>BigInteger allowSpeedEKW_DKW,
+		(ENUMWKrArt)=>Boolean typeCondition,
+		ENUMLinksRechts leftRightCross
 	) {
-		if (wKrAnlage.isSimpleTrackSwitch) {
-			val gspKomponent = gspElement.WKrGspKomponenten.firstOrNull
-			return switch (leftRight) {
-				case ENUM_LINKS_RECHTS_LINKS:
-					gspKomponent?.zungenpaar?.geschwindigkeitL?.wert
-				case ENUM_LINKS_RECHTS_RECHTS:
-					gspKomponent?.zungenpaar?.geschwindigkeitL?.wert
-				default: null
-			}?.toString ?: ""
+		val type = wKrAnlage.WKrAnlageArt
+		if (!typeCondition.apply(wKrAnlage.WKrAnlageArt)) {
+			return ""
+		}
+
+		switch (type) {
+			case ENUMW_KR_ART_DKW,
+			case ENUMW_KR_ART_EKW: {
+				val gspKomponent = gspElement.WKrGspKomponenten.findFirst [
+					zungenpaar?.kreuzungsgleis?.wert === leftRightCross
+				]
+				return allowSpeedEKW_DKW.apply(gspKomponent)?.toString ?: ""
+			}
+			case ENUMW_KR_ART_ABW,
+			case ENUMW_KR_ART_DW,
+			case ENUMW_KR_ART_EW,
+			case ENUMW_KR_ART_IBW,
+			case ENUMW_KR_ART_KLOTHOIDENWEICHE,
+			case ENUMW_KR_ART_KORBBOGENWEICHE,
+			case ENUMW_KR_ART_FLACHKREUZUNG,
+			case ENUMW_KR_ART_KR,
+			case ENUMW_KR_ART_SONSTIGE: {
+				val gspKomponent = gspElement.WKrGspKomponenten.firstOrNull
+				return allowSpeed.apply(gspKomponent)?.toString ?: ""
+			}
 		}
 	}
 
