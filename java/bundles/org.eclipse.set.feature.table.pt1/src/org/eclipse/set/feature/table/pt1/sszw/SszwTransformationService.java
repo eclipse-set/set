@@ -52,7 +52,8 @@ public final class SszwTransformationService
 
 	@Override
 	public AbstractPlanPro2TableModelTransformator createTransformator() {
-		return new SszwTransformator(cols, enumTranslationService, eventAdmin);
+		return new SszwTransformator(cols, enumTranslationService, eventAdmin,
+				getShortcut());
 	}
 
 	@Override

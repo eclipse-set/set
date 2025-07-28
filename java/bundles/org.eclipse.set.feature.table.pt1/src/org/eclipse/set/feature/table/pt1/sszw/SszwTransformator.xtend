@@ -131,7 +131,7 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 		)
 
 		// E: Sszw.W_Kr.Standort.Km
-		fillIterableDelaySingleCell(
+		fillIterableSingleCellWhenAllowed(
 			row,
 			cols.getColumn(km),
 			etcsWkr,
