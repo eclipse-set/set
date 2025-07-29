@@ -139,7 +139,8 @@ public class PointObjectPositionServiceImpl
 		return geometryService.getGeoKanteAt(topKante, topKnotenA, distance);
 	}
 
-	private static BigDecimal getLateralDistance(
+	@Override
+	public BigDecimal getLateralDistance(
 			final Punkt_Objekt_TOP_Kante_AttributeGroup singlePoint,
 			final GEOKanteMetadata geoKante) {
 		if (singlePoint.getSeitlicherAbstand() != null
