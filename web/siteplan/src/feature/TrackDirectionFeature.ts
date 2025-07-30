@@ -8,6 +8,7 @@ import OlPoint from 'ol/geom/Point'
 import OlIcon from 'ol/style/Icon'
 import OlStyle from 'ol/style/Style'
 import { createFeature, FeatureType } from './FeatureInfo'
+import {normalizedDirection, distanceCoords} from '@/util/Math'
 
 /**
  * A small arrow head, at every segment of every section,
@@ -67,29 +68,13 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
   private createTrackDirectionArrowFeatures (track: Track): Feature<Geometry>[] {
     const markers: Feature<Geometry>[] = []
 
-    function distance_coord (a: Coordinate, b: Coordinate): number {
-      return Math.sqrt((a.x - b.x) ** 2 + (a.y - b.y) ** 2)
-    }
-
-    function normalized_direction (a: Coordinate, b: Coordinate): Coordinate | undefined {
-      const len = distance_coord(a,b)
-      if (len <= 0.000001) {
-        return undefined
-      }
-
-      return {
-        x: (b.x - a.x) / len,
-        y: (b.y - a.y) / len
-      }
-    }
-
     for (const section of track.sections) {
       for (const segment of section.segments) {
         const segmentparts_length = []
         const cumulative_length = [0.0]
 
         for (let i = 1; i < segment.positions.length; i++) {
-          const length_this_part = distance_coord(segment.positions[i - 1],segment.positions[i])
+          const length_this_part = distanceCoords(segment.positions[i - 1],segment.positions[i])
           segmentparts_length.push(length_this_part)
           cumulative_length.push(cumulative_length.at(-1)! + length_this_part)
         }
@@ -105,7 +90,7 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
           .findLastIndex(value => value < half_length)!
         // is defined, cumlen[0] = 0, cumlen[-1] > length > 0
 
-        const dir = normalized_direction(
+        const dir = normalizedDirection(
           segment.positions[last_pos_before_midle],
           segment.positions[last_pos_before_midle + 1]
         )
