@@ -9,6 +9,8 @@ import OlStyle from 'ol/style/Style'
 import { createFeature, FeatureType, getFeatureData } from './FeatureInfo'
 import { normalizedDirection, distanceCoords } from '@/util/Math'
 import { FeatureLike } from 'ol/Feature'
+import SvgService from '../service/SvgService'
+import axios from 'axios'
 
 /** data stored per track direction feature */
 interface TrackDirectionArrowData {
@@ -27,6 +29,7 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
   /** if a track is shorter then this, no arrow head is created for that track segment. */
   static readonly MIN_TRACK_LENGTH_TO_DISPLAY_FEATURE = 0.0001
 
+  static readonly ICON_PATH = 'SvgKatalog/GleisModellAusrichtung.svg'
   /**
    * styling for all TrackDirectionFeatures. It is dependent on the feature,
    * specifically the model.data value "rotation"
@@ -37,7 +40,7 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
     return new OlStyle({
       image: new OlIcon({
         opacity: 1,
-        src: 'SvgKatalog/GleisModellAusrichtung.svg',
+        src: TrackDirectionFeature.ICON_PATH,
         rotateWithView: true,
         scale: 0.4,
         rotation: getFeatureData(feature as Feature<Geometry>).rotation, // is this cast always possible?
