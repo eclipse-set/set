@@ -1,5 +1,4 @@
 import LageplanFeature from '@/feature/LageplanFeature'
-import { Coordinate } from '@/model/Position'
 import { SiteplanState } from '@/model/SiteplanModel'
 import Track from '@/model/Track'
 import { Feature } from 'ol'
@@ -10,6 +9,12 @@ import OlStyle from 'ol/style/Style'
 import { createFeature, FeatureType, getFeatureData } from './FeatureInfo'
 import { normalizedDirection, distanceCoords } from '@/util/Math'
 import { FeatureLike } from 'ol/Feature'
+
+/** data stored per track direction feature */
+interface TrackDirectionArrowData {
+  guid: string
+  rotation: number
+}
 
 /**
  * A small arrow head, at every segment of every section,
@@ -35,7 +40,7 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
         src: 'SvgKatalog/GleisModellAusrichtung.svg',
         rotateWithView: true,
         scale: 0.4,
-        rotation: getFeatureData(feature as Feature<Geometry>).data, // is this cast always possible?
+        rotation: getFeatureData(feature as Feature<Geometry>).rotation, // is this cast always possible?
         anchor: [0.5,0.5],
         anchorXUnits: 'fraction',
         anchorYUnits: 'fraction'
@@ -116,12 +121,14 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
 
         const angleRad = - Math.atan2(dir.y, dir.x)  // y, x
 
+        const data : TrackDirectionArrowData = {
+          guid: track.guid,
+          rotation: angleRad
+        }
+
         const feature = createFeature(
           FeatureType.TrackDirectionArrow,
-          {
-            guid: track.guid,
-            data: angleRad
-          },
+          data,
           geometry,
           undefined // no label
         )
