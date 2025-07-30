@@ -7,8 +7,9 @@ import Geometry from 'ol/geom/Geometry'
 import OlPoint from 'ol/geom/Point'
 import OlIcon from 'ol/style/Icon'
 import OlStyle from 'ol/style/Style'
-import { createFeature, FeatureType } from './FeatureInfo'
-import {normalizedDirection, distanceCoords} from '@/util/Math'
+import { createFeature, FeatureType, getFeatureData } from './FeatureInfo'
+import { normalizedDirection, distanceCoords } from '@/util/Math'
+import { FeatureLike } from 'ol/Feature'
 
 /**
  * A small arrow head, at every segment of every section,
@@ -18,29 +19,29 @@ import {normalizedDirection, distanceCoords} from '@/util/Math'
  * @author Voigt
  */
 export default class TrackDirectionFeature extends LageplanFeature<Track> {
+  /** if a track is shorter then this, no arrow head is created for that track segment. */
+  static readonly MIN_TRACK_LENGTH_TO_DISPLAY_FEATURE = 0.0001
+
   /**
    * styling for all TrackDirectionFeatures. It is dependent on the feature,
    * specifically the model.data value "rotation"
    * @param feature sty
    * @returns
    */
-  static readonly TDF_FEATURE_STYLE = feature => {
-    const rotation = feature.values_.data.model.data
-
-    const style = new OlStyle({
+  static readonly TDF_FEATURE_STYLE = (feature: FeatureLike) => {
+    return new OlStyle({
       image: new OlIcon({
         opacity: 1,
         src: 'SvgKatalog/GleisModellAusrichtung.svg',
         rotateWithView: true,
         scale: 0.4,
-        rotation,
+        rotation: getFeatureData(feature as Feature<Geometry>).data, // is this cast always possible?
         anchor: [0.5,0.5],
         anchorXUnits: 'fraction',
         anchorYUnits: 'fraction'
 
       })
     })
-    return style
   }
 
   getFeatures (model: SiteplanState): Feature<Geometry>[] {
@@ -79,12 +80,13 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
           cumulative_length.push(cumulative_length.at(-1)! + length_this_part)
         }
 
-        if (cumulative_length.at(-1) == undefined || cumulative_length.at(-1)! < 0.000001) {
+        if (cumulative_length.at(-1) == undefined ||
+            cumulative_length.at(-1)! < TrackDirectionFeature.MIN_TRACK_LENGTH_TO_DISPLAY_FEATURE) {
           // part too short to display!
           continue
         }
 
-        const half_length = cumulative_length.at(-1)! * 0.66 // place at 2/3rds
+        const half_length = cumulative_length.at(-1)! / 2
         // len zero => last index = -1. In that case, 0 should be returned
         const last_pos_before_midle: number = cumulative_length
           .findLastIndex(value => value < half_length)!
@@ -95,43 +97,38 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
           segment.positions[last_pos_before_midle + 1]
         )
 
-        if (dir != undefined) {
-          const remaining_length = half_length - cumulative_length[last_pos_before_midle]
-          const middle = {
-            x: segment.positions[last_pos_before_midle].x + dir.x * remaining_length,
-            y: segment.positions[last_pos_before_midle].y + dir.y * remaining_length
-          }
-
-          // markers.push([middle, direction_vector])
-
-          const geometry = new OlPoint([
-            middle.x,
-            middle.y
-          ])
-
-          const angleRad = - Math.atan2(dir.y, dir.x)  // y, x
-
-          const feature = createFeature(
-            FeatureType.TrackDirectionArrow,
-            {
-              guid: track.guid,
-              data: angleRad
-            },
-            geometry,
-            undefined // no label
-          )
-          feature.setStyle(TrackDirectionFeature.TDF_FEATURE_STYLE)
-          markers.push(feature)
-        } else {
+        if (dir == undefined) {
           // dir_vec = undefined <=> len of that part is zero.
           // In that case: no top-dir can sensibly be shown!
+          continue
         }
+
+        const remaining_length = half_length - cumulative_length[last_pos_before_midle]
+        const middle = {
+          x: segment.positions[last_pos_before_midle].x + dir.x * remaining_length,
+          y: segment.positions[last_pos_before_midle].y + dir.y * remaining_length
+        }
+
+        const geometry = new OlPoint([
+          middle.x,
+          middle.y
+        ])
+
+        const angleRad = - Math.atan2(dir.y, dir.x)  // y, x
+
+        const feature = createFeature(
+          FeatureType.TrackDirectionArrow,
+          {
+            guid: track.guid,
+            data: angleRad
+          },
+          geometry,
+          undefined // no label
+        )
+        feature.setStyle(TrackDirectionFeature.TDF_FEATURE_STYLE)
+        markers.push(feature)
       }
     }
     return markers
-  }
-
-  compareChangedState (initial: SiteplanState, final: SiteplanState): Feature<Geometry>[] {
-    return super.compareChangedState(initial, final, [], mount => this.getObjectSvg(mount))
   }
 }
