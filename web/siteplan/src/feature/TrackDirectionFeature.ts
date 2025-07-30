@@ -9,8 +9,6 @@ import OlStyle from 'ol/style/Style'
 import { createFeature, FeatureType, getFeatureData } from './FeatureInfo'
 import { normalizedDirection, distanceCoords } from '@/util/Math'
 import { FeatureLike } from 'ol/Feature'
-import SvgService from '../service/SvgService'
-import axios from 'axios'
 
 /** data stored per track direction feature */
 interface TrackDirectionArrowData {
