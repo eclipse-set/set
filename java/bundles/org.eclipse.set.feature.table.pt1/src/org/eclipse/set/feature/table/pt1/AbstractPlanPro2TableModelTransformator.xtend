@@ -40,7 +40,8 @@ abstract class AbstractPlanPro2TableModelTransformator extends AbstractTableMode
 	protected val EnumTranslationService enumTranslationService
 	protected val Set<ColumnDescriptor> cols = newHashSet
 	protected val EventAdmin eventAdmin
-	protected static val String FILL_DELAY_CELL_THREAD = "fillDelayCell";
+	protected static val String FILL_DELAY_CELL_THREAD = "fillDelayCell"
+	protected val List<WaitFillingCell<Ur_Objekt>> delayFillingCells
 
 	/**
 	 * Compares mixed strings groupwise.
@@ -53,6 +54,8 @@ abstract class AbstractPlanPro2TableModelTransformator extends AbstractTableMode
 		super()
 		this.enumTranslationService = enumTranslationService
 		this.cols.addAll(cols)
+		delayFillingCells = Collections.synchronizedList(
+			new ArrayList<WaitFillingCell<Ur_Objekt>>)
 		this.eventAdmin = eventAdmin
 	}
 
@@ -203,9 +206,6 @@ abstract class AbstractPlanPro2TableModelTransformator extends AbstractTableMode
 			handleFillingException(e, row, column)
 		}
 	}
-
-	val delayFillingCells = Collections.synchronizedList(
-		new ArrayList<WaitFillingCell<Ur_Objekt>>)
 
 	def <S, T extends Ur_Objekt> void fillIterableMultiCellWhenAllowed(
 		TableRow row,
