@@ -31,11 +31,17 @@ import SvgDrawSignal from '../util/SVG/Draw/SvgDrawSignal'
 import SvgCatalogService from './SvgCatalogService'
 import SvgColorService from './SvgColorService'
 
+/** all data required to produce any svg. Different featureTypes store different data T */
 export interface DrawSVGData<T> {
   data: T
   featureType: FeatureType
   label?: Label
 }
+
+/** Given some DrawSVGData, it produeces svg or styling on request.
+ *  DrawSVGData is cached, so for repeated requests of the same data a SVG
+ *  is constructed only once.
+*/
 export default class SvgService {
   private catalog: Map<string, ISvgElement[]>
   private featureStyleCache: Map<string, OlStyle> = new Map<string, OlStyle>()
