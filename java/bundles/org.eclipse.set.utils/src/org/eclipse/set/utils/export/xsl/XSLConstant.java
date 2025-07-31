@@ -165,6 +165,11 @@ public class XSLConstant {
 		public static final String FO_BLOCK = "fo:block"; //$NON-NLS-1$
 
 		/**
+		 * fo:inline
+		 */
+		public static final String FO_INLINE = "fo:inline"; //$NON-NLS-1$
+
+		/**
 		 * fo:layout-master-set
 		 */
 		public static final String FO_LAYOUT_MASTER_SET = "fo:layout-master-set"; //$NON-NLS-1$
