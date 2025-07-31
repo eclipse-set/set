@@ -4,7 +4,7 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
  * 
  */
@@ -30,7 +30,6 @@ import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
 import org.eclipse.set.model.planpro.Fahrstrasse.Markanter_Punkt
 import org.eclipse.set.model.planpro.Geodaten.Strecke
-import org.eclipse.set.model.planpro.Gleis.Gleis_Bezeichnung
 import org.eclipse.set.model.planpro.Ortung.FMA_Anlage
 import org.eclipse.set.model.planpro.Ortung.FMA_Komponente
 import org.eclipse.set.model.planpro.Ortung.Zugeinwirkung
@@ -53,7 +52,6 @@ import static extension org.eclipse.set.ppmodel.extensions.DatenpunktExtensions.
 import static extension org.eclipse.set.ppmodel.extensions.FmaAnlageExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.StellBereichExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
@@ -170,13 +168,14 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 			bezugspunktCase(
 				BUE_Kante,
 				[
-					val bos = container.bereichObjekt
-					val relevantBereichs = bos.filter[bo|bo.contains(it)].
-						filter(Gleis_Bezeichnung).toList
+					val relevantBereichs = container.gleisBezeichnung.filter [ bo |
+						bo.contains(it)
+					].toList
 					val tracksDesignation = relevantBereichs.filterNull.map [
 						bezeichnung?.bezGleisBezeichnung?.wert
 					]
-					'''BÜ-K «IDBUEAnlage?.value?.bezeichnung?.bezeichnungTabelle?.wert», Gl. «tracksDesignation.join(", ")»'''
+					'''BÜ-K «IDBUEAnlage?.value?.bezeichnung?.bezeichnungTabelle?.wert»«
+					»«IF !tracksDesignation.nullOrEmpty», Gl. «tracksDesignation.join(", ")»«ENDIF»'''
 				]
 			),
 			bezugspunktCase(
@@ -425,7 +424,11 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 		]
 
 		return new Case<Basis_Objekt>(
-			[clazz.exists[isInstance(it)]],
+			[
+				clazz.exists [ c |
+					c.isInstance(it)
+				]
+			],
 			action.andThen(filling),
 			ITERABLE_FILLING_SEPARATOR,
 			null
@@ -439,9 +442,9 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 				result.add(b.relevantAreaControl)
 			ZUB_Streckeneigenschaft:
 				result.add(b.mostOverlapControlArea)
-			default:
+			Punkt_Objekt:
 				result.addAll(b.container.stellBereich.filter [
-					isInControlArea(b)
+					contains(b)
 				])
 		}
 		return result.map[stellbereichBezeichnung].filterNull
