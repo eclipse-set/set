@@ -28,7 +28,6 @@ public class EmptyLastCellComparator extends AbstractCellComparator {
 		super(direction);
 	}
 
-	@SuppressWarnings("null")
 	@Override
 	public int compareString(final String text1, final String text2) {
 		final boolean isFirstTextEmpty = text1 == null || text1.isEmpty()
