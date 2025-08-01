@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2017 DB Netz AG and others.
- *
+ * 
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -16,14 +16,15 @@ import java.util.regex.Pattern
  * @author Schaefer
  */
 class StringExtensions {
-	
-	static val ENV_PATTERN = Pattern.compile("(?<start>[^$]*)\\$(?<var>[^$]+)\\$(?<end>.*)")
+
+	static val ENV_PATTERN = Pattern.compile(
+		"(?<start>[^$]*)\\$(?<var>[^$]+)\\$(?<end>.*)")
 	static val ENV_VAR = "var"
-	
-	
+
 	/**
 	 * This constant determine manual with OpenSans font 
 	 */
+	static val int CHARACTER_PRO_CM = 8
 	static final String ZERO_WIDTH_SPACE = "\u200b"
 
 	/**
@@ -45,7 +46,11 @@ class StringExtensions {
 	static def String intersperseWithZeroSpacesSC(String string) {
 		return string.replaceAll("([ /\\-_)}\\]])", "$1" + ZERO_WIDTH_SPACE)
 	}
-	
+
+	static def int maxCharInCell(float cellWidth) {
+		return Math.round(cellWidth * CHARACTER_PRO_CM)
+	}
+
 	/**
 	 * @param string this string
 	 * 
@@ -70,7 +75,7 @@ class StringExtensions {
 		}
 		return ""
 	}
-	
+
 	/**
 	 * Remove the given suffix from this string.
 	 * 
@@ -78,17 +83,19 @@ class StringExtensions {
 	 * @param suffix the given suffix collection
 	 */
 	static def String removeSuffix(String string, String... suffix) {
-		val sortedSuffix = suffix.sortWith([a,b|Integer.compare(b.length, a.length)])
-		
+		val sortedSuffix = suffix.sortWith([ a, b |
+			Integer.compare(b.length, a.length)
+		])
+
 		for (p : sortedSuffix) {
 			if (string.endsWith(p)) {
 				return string.substring(0, string.length - p.length)
 			}
 		}
-		
+
 		return string
 	}
-	
+
 	/**
 	 * Compares the arguments. Any argument may be <code>null</code>.
 	 * 
@@ -101,7 +108,7 @@ class StringExtensions {
 		}
 		return string.equals(other)
 	}
-	
+
 	/**
 	 * Expand the given path with environment variables, marked with dollarsigns.
 	 * <p>
@@ -113,10 +120,8 @@ class StringExtensions {
 	 */
 	static def String expandFromEnvironment(String string) {
 		var String result = String.valueOf(string)
-		for (var matcher = ENV_PATTERN.matcher(result);
-			matcher.matches;
-			matcher = ENV_PATTERN.matcher(result)
-		) {
+		for (var matcher = ENV_PATTERN.matcher(result); matcher.
+			matches; matcher = ENV_PATTERN.matcher(result)) {
 			val name = matcher.group(ENV_VAR)
 			val expanded = System.getenv(name)
 			result = string.replace('''$«name»$''', expanded)
