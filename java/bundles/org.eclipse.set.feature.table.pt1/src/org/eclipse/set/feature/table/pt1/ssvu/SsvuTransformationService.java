@@ -23,6 +23,7 @@ import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
 import org.eclipse.set.utils.table.sorting.TableRowGroupComparator;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.event.EventAdmin;
 
 /**
  * Service for creating the ssvu table model. org.eclipse.set.feature.table
@@ -41,6 +42,8 @@ public final class SsvuTransformationService
 	private Messages messages;
 	@Reference
 	private EnumTranslationService enumTranslationService;
+	@Reference
+	private EventAdmin eventAdmin;
 
 	/**
 	 * constructor.
@@ -51,7 +54,7 @@ public final class SsvuTransformationService
 
 	@Override
 	public AbstractPlanPro2TableModelTransformator createTransformator() {
-		return new SsvuTransformator(cols, enumTranslationService);
+		return new SsvuTransformator(cols, enumTranslationService, eventAdmin);
 	}
 
 	@Override
@@ -71,6 +74,11 @@ public final class SsvuTransformationService
 	@Override
 	protected String getTableHeading() {
 		return messages.SsvuTableView_Heading;
+	}
+
+	@Override
+	protected String getShortcut() {
+		return messages.ToolboxTableNameSsvuShort.toLowerCase();
 	}
 
 }
