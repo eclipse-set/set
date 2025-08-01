@@ -123,6 +123,18 @@ class TopKanteExtensions extends BasisObjektExtensions {
 		return geoKanten.get(0)
 	}
 
+	def static GEO_Kante getGeoKanteAt(TOP_Kante topKante,
+		BigDecimal distance) {
+		val startNode = topKante.TOPKnotenA?.GEOKnoten
+		val geoKantenWithDistances = startNode.
+			getGeoKantenWithDistance(topKante)
+		return geoKantenWithDistances.findFirst [
+			val geoKanteLength = key?.GEOKanteAllg?.GEOLaenge?.wert
+			return geoKanteLength !== null && value < distance &&
+				value + geoKanteLength > distance
+		]?.key
+	}
+
 	/**
 	 * This method returns a list of directed GEO edges (a "GEO path") in the
 	 * direction, implied by the directed TOP edge. If there is no complete
@@ -556,8 +568,9 @@ class TopKanteExtensions extends BasisObjektExtensions {
 		if (geoKante === null) {
 			throw new IllegalArgumentException
 		}
-		val nextKnoten = geoKante.IDGEOKnotenA.value === startKnoten ? geoKante.
-				IDGEOKnotenB.value : geoKante.IDGEOKnotenA.value
+		val nextKnoten = geoKante.IDGEOKnotenA.value === startKnoten
+				? geoKante.IDGEOKnotenB.value
+				: geoKante.IDGEOKnotenA.value
 		val remainingGeoKanten = geoKanten.filter[it !== geoKante].toList
 		return getAbstand(remainingGeoKanten, nextKnoten, targetKnoten,
 			distance +
