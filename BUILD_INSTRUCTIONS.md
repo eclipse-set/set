@@ -15,7 +15,7 @@ Other operating systems or processor architectures may work, but are generally n
 - A Java Development Kit 21
 - node.js 20
 - Maven (3.9.6) 
-- Eclipse IDE (2024-06)
+- Eclipse IDE (2025-03)
 - [hugo](https://gohugo.io/) (v0.101.0+)
   - should be available in your $PATH as `hugo`
 - [asciidoctor](https://docs.asciidoctor.org/)
@@ -83,18 +83,18 @@ The requirement plugins can install through Eclipse IDE (Help -> Installed New S
 
 ||Plugin Name| Install URL|
 |------|------|------|
-1|Eclipse Platform | https://download.eclipse.org/eclipse/updates/4.32
-2|Eclipse RPC Target Components | https://download.eclipse.org/eclipse/updates/4.32
-3|Eclipse Plugin Developments | https://download.eclipse.org/eclipse/updates/4.32
-4|Equinox Target Components | https://download.eclipse.org/eclipse/updates/4.32
-5|Eclipse e4 Tools Developer Resources | https://download.eclipse.org/eclipse/updates/4.32
-6|Xtext Complete SDK | https://download.eclipse.org/releases/2024-06
-7|EMF - Eclipse Modeling Framework SDK | https://download.eclipse.org/releases/2024-06
+1|Eclipse Platform | https://download.eclipse.org/eclipse/updates/4.35
+2|Eclipse RPC Target Components | https://download.eclipse.org/eclipse/updates/4.35
+3|Eclipse Plugin Developments | https://download.eclipse.org/eclipse/updates/4.35
+4|Equinox Target Components | https://download.eclipse.org/eclipse/updates/4.35
+5|Eclipse e4 Tools Developer Resources | https://download.eclipse.org/eclipse/updates/4.35
+6|Xtext Complete SDK | https://download.eclipse.org/releases/2025-03
+7|EMF - Eclipse Modeling Framework SDK | https://download.eclipse.org/releases/2025-03
 8|EMF Forms SDK | http://download.eclipse.org/ecp/releases/releases_127
-9|Ecore Tools | https://download.eclipse.org/ecoretools/updates/releases/3.5.1/2023-06/
-10|M2E PDE Integration | https://download.eclipse.org/releases/2024-06
+9|Ecore Tools | https://download.eclipse.org/ecoretools/updates/releases/3.5.2/2023-06/
+10|M2E PDE Integration | https://download.eclipse.org/releases/2025-03
 11|Checkstyle | https://checkstyle.org/eclipse-cs-update-site
-12|SWTBot for Eclipse Testing | https://download.eclipse.org/releases/2024-06
+12|SWTBot for Eclipse Testing | https://download.eclipse.org/releases/2025-03
 
 ## Development build
 
