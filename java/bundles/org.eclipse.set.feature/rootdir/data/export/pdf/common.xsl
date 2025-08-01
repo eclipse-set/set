@@ -279,4 +279,14 @@ http://www.eclipse.org/legal/epl-v20.html
 			</fo:inline>
 		</fo:block>
 	</xsl:template>
+
+	<xsl:template name="CutMark">
+		<!-- By default the page will be margin left 20mm -->
+        <fo:block-container left="-20mm" top="0mm" height="5mm" width="10mm" background-color="black" absolute-position="absolute">
+            <fo:block>.</fo:block>
+            </fo:block-container>
+        <fo:block-container left="-20mm" top="5mm" height="5mm" width="5mm" background-color="black" absolute-position="absolute">
+            <fo:block>.</fo:block>
+        </fo:block-container>
+    </xsl:template>
 </xsl:stylesheet>

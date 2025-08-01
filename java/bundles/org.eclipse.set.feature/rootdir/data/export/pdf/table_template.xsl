@@ -74,6 +74,7 @@ http://www.eclipse.org/legal/epl-v20.html
             </fo:layout-master-set>
             <fo:page-sequence master-reference="page-sequence-master">
                 <fo:static-content flow-name="folding-mark-region">
+                    <xsl:call-template name="CutMark" />
                     <xsl:call-template name="FoldingMarksTop"/>
                     <xsl:call-template name="WaterMark"/>
                 </fo:static-content>
