@@ -7,7 +7,11 @@ document.addEventListener("keydown", (ev) => {
     }
 
     if (ev.key.toLowerCase() === "enter" && document.activeElement.parentElement === searchFeld) {
-        toNext()
+        if (ev.shiftKey) {
+            toPrevious()
+        } else {
+            toNext()
+        }
     }
 })
 function createSearchFeld() {
