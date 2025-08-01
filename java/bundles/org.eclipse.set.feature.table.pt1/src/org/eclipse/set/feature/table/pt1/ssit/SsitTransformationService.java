@@ -23,6 +23,7 @@ import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
 import org.eclipse.set.utils.table.sorting.TableRowGroupComparator;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.event.EventAdmin;
 
 /**
  * Service for creating the Ssit table model.
@@ -39,10 +40,12 @@ public class SsitTransformationService
 	private Messages messages;
 	@Reference
 	private EnumTranslationService enumTranslationService;
+	@Reference
+	private EventAdmin eventAdmin;
 
 	@Override
 	public AbstractPlanPro2TableModelTransformator createTransformator() {
-		return new SsitTransformator(cols, enumTranslationService);
+		return new SsitTransformator(cols, enumTranslationService, eventAdmin);
 	}
 
 	@Override
@@ -62,6 +65,11 @@ public class SsitTransformationService
 	@Override
 	protected String getTableHeading() {
 		return messages.SsitTableView_Heading;
+	}
+
+	@Override
+	protected String getShortcut() {
+		return messages.ToolboxTableNameSsitShort.toLowerCase();
 	}
 
 }
