@@ -47,7 +47,7 @@ public class PlanProTableCellPainter extends BackgroundPainter {
 						BaseEdgeEnum.BEFORE,
 						new WarningPainter(blackWarningImage,
 								CellContentExtensions.WARNING_MARK_BLACK)),
-				BaseEdgeEnum.AFTER,
+				BaseEdgeEnum.BEFORE,
 				new WarningPainter(yellowWarningImage,
 						CellContentExtensions.WARNING_MARK_YELLOW)),
 				TOP_PADDING, RIGHT_PADDING, BOTTOM_PADDING, LEFT_PADDING,

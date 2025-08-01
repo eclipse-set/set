@@ -61,7 +61,6 @@ import static org.eclipse.set.ppmodel.extensions.geometry.GEOKanteGeometryExtens
 import static extension org.eclipse.set.ppmodel.extensions.AussenelementansteuerungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FstrNichthaltfallExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.MultiContainer_AttributeGroupExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
@@ -83,8 +82,8 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	new(Set<ColumnDescriptor> cols,
 		EnumTranslationService enumTranslationService,
-		TopologicalGraphService topGraphService,
-		EventAdmin eventAdmin, String shortcut) {
+		TopologicalGraphService topGraphService, EventAdmin eventAdmin,
+		String shortcut) {
 		super(cols, enumTranslationService)
 		this.topGraphService = topGraphService
 		this.eventAdmin = eventAdmin
@@ -116,7 +115,7 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 				new Case<ETCS_Signal>(
 					[
 						isRelevantSignal(
-							IDSignal.value,
+							IDSignal?.value,
 							[
 								signalReal?.signalRealAktiv?.autoEinstellung?.
 									wert === ENUM_AUTO_EINSTELLUNG_SB
@@ -221,7 +220,8 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 					null
 				)
 			} else {
-				val routeThroughBereichObjekt = refSignal.singlePoint.streckenThroughBereichObjekt
+				val routeThroughBereichObjekt = refSignal.singlePoint.
+					streckenThroughBereichObjekt
 				row.fillStreckeKm(refSignal, routeThroughBereichObjekt)
 			}
 
@@ -256,9 +256,9 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 						if (isZs3SignalGeschaltet.empty) {
 							return #[]
 						}
-						val symbols = refSignal?.getSignalbegriffe(Zs3).
-							filterNull.map[signalbegriffID?.symbol]?.
-							filterNull ?: []
+						val symbols = zs3Signals.filterNull.map [
+							signalbegriffID?.symbol
+						]?.filterNull ?: []
 						return isZs3SignalGeschaltet.get
 							? symbols
 							: symbols.map [
@@ -303,7 +303,7 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 				["x"]
 			)
 
-			// K: Sszs.Signalisierung.Loeschung_Zs
+			// K: Sszs.Signalisierung.Loeschung_Zs_1_7_8
 			fillConditional(
 				row,
 				cols.getColumn(Loeschung_Zs),
@@ -488,9 +488,9 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 						return ""
 					}
 					val distanceValue = distance.get
-					return distanceValue <= 5 || distanceValue >= -3
-						? "0"
-						: AgateRounding.roundUp(distanceValue).toString
+					return distanceValue <= 5 ||
+						distanceValue >= -3 ? "0" : AgateRounding.roundUp(
+						distanceValue).toString
 				]
 			)
 
@@ -558,7 +558,24 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 				["x"]
 			)
 
-			// AA: Sszs.TBV.Meldepunkt
+			// AA: Sszs.SOnstige_FUnktionen.ZSS
+			fillConditional(
+				row,
+				cols.getColumn(ZSS),
+				refSignal,
+				[
+					container.ZUBBereichsgrenze.exists [ zubBereich |
+						zubBereich.ZUBBereichsgrenzeNachL2.exists [ zubBereichL2 |
+							zubBereichL2.IDSignalZufahrtsicherungL2oS.exists [ idSignal |
+								idSignal.value === it
+							]
+						]
+					]
+				],
+				["x"]
+			)
+
+			// AB: Sszs.TBV.Meldepunkt
 			fill(
 				row,
 				cols.getColumn(Meldepunkt),
@@ -566,7 +583,7 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 				[ETCSSignalTBV?.TBVMeldepunkt?.wert.translate]
 			)
 
-			// AB: Sszs.TBV.Laenge_Tunnelbereich
+			// AC: Sszs.TBV.Laenge_Tunnelbereich
 			fill(
 				row,
 				cols.getColumn(Laenge_Tunnelbereich),
@@ -577,7 +594,7 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 				]
 			)
 
-			// AC: Sszs.TBV.Tunnelsignal
+			// AD: Sszs.TBV.Tunnelsignal
 			fill(
 				row,
 				cols.getColumn(Tunnelsignal),
@@ -585,7 +602,7 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 				[ETCSSignalTBV?.TBVTunnelsignal?.wert.translate]
 			)
 
-			// AD: Sszs.Ansteuerung.ESTW-Zentraleinheit
+			// AE: Sszs.Ansteuerung.ESTW-Zentraleinheit
 			fillIterable(
 				row,
 				cols.getColumn(ESTW_Zentraleinheit),
@@ -599,7 +616,7 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 				MIXED_STRING_COMPARATOR
 			)
 
-			// AE: Sszs.Ansteuerung.Stellbereich
+			// AF: Sszs.Ansteuerung.Stellbereich
 			fillIterable(
 				row,
 				cols.getColumn(Stellbereich),
@@ -614,6 +631,15 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 
 				],
 				MIXED_STRING_COMPARATOR
+			)
+			
+			// AG: Sszs.Ansteuerung.RBC-Anschaltung
+			fillConditional(
+				row,
+				cols.getColumn(RBC_Anschaltung),
+				etcsSignal,
+				[IDRBC.nullOrEmpty],
+				["x"]
 			)
 
 			// AF: Sszs.Bemerkung
@@ -728,8 +754,9 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 			if (distances.compareTo(BigDecimal.ZERO) == 0) {
 				return fma -> 0.0
 			}
-			return topGraph.isInWirkrichtungOfSignal(signal, fma) ? fma ->
-				distances.doubleValue : fma -> -distances.doubleValue
+			return topGraph.isInWirkrichtungOfSignal(signal, fma)
+				? fma -> distances.doubleValue
+				: fma -> -distances.doubleValue
 		].filterNull
 		if (distanceToSignal.empty) {
 			return Optional.empty
@@ -772,8 +799,8 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 		return Optional.ofNullable(
 			begriffeGeschalteValues.contains(Boolean.TRUE))
 	}
-	
-		// IMPROVE: Make the thread in this function generic.
+
+	// IMPROVE: Make the thread in this function generic.
 	// It do same thing like fill function for Banking and Sidedistance
 	private def void fillStreckeKm(TableRow row, Signal signal,
 		List<Strecke> routeThroughBereichObjekt) {
