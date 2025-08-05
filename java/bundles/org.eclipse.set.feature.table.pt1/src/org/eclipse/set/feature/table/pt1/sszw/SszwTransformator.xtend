@@ -141,11 +141,7 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 				val kmValues = streckeInfos.map[value].filter[isPresent].map [
 					get
 				].toList
-				if (!kmValues.nullOrEmpty) {
-					return kmValues
-				}
-
-				return streckeInfo.map[value].filter[isPresent].map[get].toList
+				return kmValues
 			],
 			null,
 			ITERABLE_FILLING_SEPARATOR,
