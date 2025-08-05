@@ -379,8 +379,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							signal,
 							[isHauptbefestigung],
 							[
-									signalReal?.signalsichtMindest?.wert?.
-										toString
+								signalReal?.signalsichtMindest?.wert?.toString
 							]
 						)
 
@@ -449,8 +448,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 								filter[
 									rahmenArt.wert == ENUM_RAHMEN_ART_SCHIRM
 								].map [
-										signalBefestigung?.
-											signalBefestigungAllg?.
+									signalBefestigung?.signalBefestigungAllg?.
 										obereLichtpunkthoehe?.wert
 								].toSet.map [ b |
 									if (b !== null)
@@ -495,8 +493,8 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							cols.getColumn(Fundament_Art_Regelzeichnung),
 							signalRahmen,
 							[
-									val regelzeichnung = map[fundament].
-										filterNull.flatMap[IDRegelzeichnung].map [
+								val regelzeichnung = map[fundament].filterNull.
+									flatMap[IDRegelzeichnung].map [
 										value?.fillRegelzeichnung
 									].filterNull
 								val fundament = map[
@@ -554,8 +552,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 						// Z: Ssks.Anschluss.Schaltkasten_separat.Bezeichnung
 						fillConditional(
 							row,
-								cols.getColumn(
-									Schaltkasten_Separat_Bezeichnung),
+							cols.getColumn(Schaltkasten_Separat_Bezeichnung),
 							signal,
 							[hasSchaltkastenSeparatBezeichnung],
 							[
@@ -682,8 +679,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							cols.getColumn(Zusatzanzeiger_Zs_3v),
 							signalRahmen,
 							[
-									fillSignalisierungSymbolGeschaltet(
-										typeof(Zs3v))
+								fillSignalisierungSymbolGeschaltet(typeof(Zs3v))
 							],
 							MIXED_STRING_COMPARATOR,
 							[it]
@@ -734,8 +730,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 										identitaet?.wert ==
 										signal.identitaet.wert
 								].map [ r |
-										r.signal.bezeichnung.bezeichnungTabelle.
-											wert
+									r.signal.bezeichnung.bezeichnungTabelle.wert
 								]
 							],
 							MIXED_STRING_COMPARATOR,
@@ -832,8 +827,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							cols.getColumn(Ueberwachung_Zs_2v),
 							signal,
 							[
-									val zs2v = getSignalbegriffe(Zs2v).
-										filterNull
+								val zs2v = getSignalbegriffe(Zs2v).filterNull
 								// Is there any Zs2v without zs2Ueberwacht = true?
 								if (zs2v.empty || zs2v.findFirst [
 									signalSignalbegriffAllg?.
