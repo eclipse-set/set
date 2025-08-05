@@ -117,13 +117,17 @@ class AussenelementansteuerungExtensions extends BasisObjektExtensions {
 		if (areaAEA === aussenElement) {
 			return true
 		}
-		val areaAEAInformationPrimaer = areaAEA.informationPrimaer.filter(
-			Aussenelementansteuerung).toList
 		val currentInformationPrimaer = aussenElement.informationPrimaer.filter(
 			Aussenelementansteuerung).toList
-		return areaAEAInformationPrimaer.exists [ firstAEA |
-			currentInformationPrimaer.exists[secondAEA|secondAEA === firstAEA]
-		]
+		val areaAEAInformationPrimaer = areaAEA.informationPrimaer.filter(
+			Aussenelementansteuerung).toList
+
+		return currentInformationPrimaer.exists[it === areaAEA] ||
+			areaAEAInformationPrimaer.exists [ firstAEA |
+				currentInformationPrimaer.exists [ secondAEA |
+					secondAEA === firstAEA
+				]
+			]
 	}
 
 	def static List<Stell_Bereich> getStellBereich(
