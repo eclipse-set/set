@@ -27,6 +27,7 @@ import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
 import org.eclipse.set.utils.table.ColumnDescriptorModelBuilder;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.event.EventAdmin;
 
 /**
  * Service for creating the ssza table model. org.eclipse.set.feature.table
@@ -47,6 +48,8 @@ public final class SszaTransformationService
 	private EnumTranslationService enumTranslationService;
 	@Reference
 	private TopologicalGraphService topGraphService;
+	@Reference
+	private EventAdmin eventAdmin;
 
 	/**
 	 * constructor.
@@ -58,7 +61,7 @@ public final class SszaTransformationService
 	@Override
 	public AbstractPlanPro2TableModelTransformator createTransformator() {
 		return new SszaTransformator(cols, enumTranslationService,
-				topGraphService);
+				topGraphService, eventAdmin);
 	}
 
 	@Override
@@ -90,6 +93,11 @@ public final class SszaTransformationService
 				.forEach(
 						col -> col.setMergeCommonValues(RowMergeMode.DISABLED));
 		return cd;
+	}
+
+	@Override
+	protected String getShortcut() {
+		return messages.ToolboxTableNameSszaShort.toLowerCase();
 	}
 
 }

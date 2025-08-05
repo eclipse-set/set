@@ -18,6 +18,7 @@ import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
+import org.eclipse.set.model.planpro.Fahrstrasse.ENUMFstrMittelArt
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Abhaengigkeit
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Signalisierung
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Zug_Rangier
@@ -44,6 +45,7 @@ import org.eclipse.set.model.tablemodel.extensions.Utils
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.ppmodel.extensions.utils.Case
 import org.eclipse.set.utils.table.TMFactory
+import org.osgi.service.event.EventAdmin
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -65,7 +67,6 @@ import static extension org.eclipse.set.ppmodel.extensions.SignalRahmenExtension
 import static extension org.eclipse.set.ppmodel.extensions.SignalbegriffExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.Debug.*
-import org.eclipse.set.model.planpro.Fahrstrasse.ENUMFstrMittelArt
 
 /**
  * Table transformation for a Zugstraßentabelle (SSLZ).
@@ -88,8 +89,8 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 	static val String WARNING_SYMBOL = "\u26A0"
 
 	new(Set<ColumnDescriptor> cols,
-		EnumTranslationService enumTranslationService) {
-		super(cols, enumTranslationService)
+		EnumTranslationService enumTranslationService, EventAdmin eventAdmin) {
+		super(cols, enumTranslationService, eventAdmin)
 	}
 
 	override transformTableContent(MultiContainer_AttributeGroup container,

@@ -91,4 +91,9 @@ public class SskzTransformationService extends
 			});
 		}
 	}
+
+	@Override
+	protected String getShortcut() {
+		return messages.ToolboxTableNameSskzShort.toLowerCase();
+	}
 }

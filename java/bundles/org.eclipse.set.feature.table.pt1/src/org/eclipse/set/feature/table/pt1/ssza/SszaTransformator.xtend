@@ -42,6 +42,7 @@ import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGrou
 import org.eclipse.set.ppmodel.extensions.utils.Case
 import org.eclipse.set.utils.table.RowFactory
 import org.eclipse.set.utils.table.TMFactory
+import org.osgi.service.event.EventAdmin
 
 import static org.eclipse.set.feature.table.pt1.sskp.SskpTransformator.*
 import static org.eclipse.set.feature.table.pt1.ssza.SszaColumns.*
@@ -67,8 +68,8 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	new(Set<ColumnDescriptor> cols,
 		EnumTranslationService enumTranslationService,
-		TopologicalGraphService topGraphService) {
-		super(cols, enumTranslationService)
+		TopologicalGraphService topGraphService, EventAdmin eventAdmin) {
+		super(cols, enumTranslationService, eventAdmin)
 	}
 
 	override transformTableContent(MultiContainer_AttributeGroup container,

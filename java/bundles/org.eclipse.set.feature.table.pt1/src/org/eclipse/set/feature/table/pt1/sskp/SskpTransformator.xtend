@@ -32,6 +32,7 @@ import org.eclipse.set.ppmodel.extensions.utils.Case
 import org.eclipse.set.ppmodel.extensions.utils.TopGraph
 import org.eclipse.set.utils.math.AgateRounding
 import org.eclipse.set.utils.table.TMFactory
+import org.osgi.service.event.EventAdmin
 
 import static org.eclipse.set.basis.constants.ToolboxConstants.NUMERIC_COMPARATOR
 import static org.eclipse.set.feature.table.pt1.sskp.SskpColumns.*
@@ -63,8 +64,9 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	new(Set<ColumnDescriptor> cols,
 		EnumTranslationService enumTranslationService,
-		TopologicalGraphService topGraphService) {
-		super(cols, enumTranslationService)
+		TopologicalGraphService topGraphService,
+		EventAdmin eventAdmin) {
+		super(cols, enumTranslationService, eventAdmin)
 		this.topGraphService = topGraphService
 	}
 

@@ -109,4 +109,9 @@ public final class SsksTransformationService extends
 				.sort("A", LEXICOGRAPHICAL, ASC)
 				.build();
 	}
+
+	@Override
+	protected String getShortcut() {
+		return messages.ToolboxTableNameSsksShort.toLowerCase();
+	}
 }

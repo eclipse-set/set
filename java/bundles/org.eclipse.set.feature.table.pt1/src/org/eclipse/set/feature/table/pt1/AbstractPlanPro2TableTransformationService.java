@@ -27,10 +27,12 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.extensions.ColumnDescriptorExtensions;
 import org.eclipse.set.model.tablemodel.format.TextAlignment;
+import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.eclipse.set.utils.table.ColumnDescriptorModelBuilder;
 import org.eclipse.set.utils.table.GroupBuilder;
 
@@ -140,4 +142,16 @@ public abstract class AbstractPlanPro2TableTransformationService
 
 		});
 	}
+
+	@Override
+	public Table transform(final MultiContainer_AttributeGroup model,
+			final Stell_Bereich controlArea) {
+		final Table table = super.transform(model, controlArea);
+		if (transformator instanceof final AbstractPlanPro2TableModelTransformator pt1TableTransformator) {
+			pt1TableTransformator.updateWaitingFillCell(getShortcut());
+		}
+		return table;
+	}
+
+	protected abstract String getShortcut();
 }
