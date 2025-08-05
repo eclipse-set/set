@@ -64,9 +64,10 @@ import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
 class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 	var TMFactory factory = null
 	TopologicalGraphService topGraphService
-
+	String tableShortcut
+	
 	new(Set<ColumnDescriptor> cols,
-		EnumTranslationService enumTranslationService, EventAdmin eventAdmin) {
+		EnumTranslationService enumTranslationService, EventAdmin eventAdmin, String tableShortcut) {
 		super(cols, enumTranslationService, eventAdmin)
 		this.topGraphService = Services.topGraphService
 		this.tableShortcut = tableShortcut
