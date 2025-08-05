@@ -80,7 +80,7 @@ public class GeometryCalculationOptions {
 	 * The builder for {@link GeometryCalculationOptions}
 	 */
 	public static class GeometryCalculationOptionsBuilder {
-		private GeometryOptions chrodOptionsBuilder;
+		private GeometryOptions chordOptionsBuilder;
 		private GeometryOptions blossOptionsBuilder;
 		private GeometryOptions clothoidOptionsBuilder;
 
@@ -88,7 +88,7 @@ public class GeometryCalculationOptions {
 		 * 
 		 */
 		public GeometryCalculationOptionsBuilder() {
-			chrodOptionsBuilder = new GeometryOptionsBuilder().build();
+			chordOptionsBuilder = new GeometryOptionsBuilder().build();
 			blossOptionsBuilder = new GeometryOptionsBuilder()
 					.setStepSize(DEFAULT_BLOSS_SEGMENTS_PER_LENGTH)
 					.setAccuracy(DEFAULT_BLOSS_PRECISION)
@@ -108,7 +108,7 @@ public class GeometryCalculationOptions {
 		 */
 		public GeometryCalculationOptionsBuilder setChordOptions(
 				final GeometryOptions chordOptions) {
-			this.chrodOptionsBuilder = chordOptions;
+			this.chordOptionsBuilder = chordOptions;
 			return this;
 		}
 
@@ -138,7 +138,7 @@ public class GeometryCalculationOptions {
 		 * @return the {@link GeometryCalculationOptions}
 		 */
 		public GeometryCalculationOptions build() {
-			return new GeometryCalculationOptions(chrodOptionsBuilder,
+			return new GeometryCalculationOptions(chordOptionsBuilder,
 					blossOptionsBuilder, clothoidOptionsBuilder);
 		}
 	}

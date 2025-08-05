@@ -18,12 +18,12 @@ public class GeometryOptionsBuilder {
 	/**
 	 * @param stepSize
 	 *            the step size
-	 * @param percision
+	 * @param precision
 	 *            the accuracy
 	 * @param minSegmentCount
 	 *            the segment count
 	 */
-	public static record GeometryOptions(double stepSize, int percision,
+	public static record GeometryOptions(double stepSize, int precision,
 			int minSegmentCount) {
 
 		/**
@@ -36,8 +36,8 @@ public class GeometryOptionsBuilder {
 		/**
 		 * @return the accuracy
 		 */
-		public int percision() {
-			return percision;
+		public int precision() {
+			return precision;
 		}
 
 		/**

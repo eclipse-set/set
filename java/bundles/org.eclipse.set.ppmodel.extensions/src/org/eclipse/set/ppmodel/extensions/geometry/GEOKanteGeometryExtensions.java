@@ -146,7 +146,7 @@ public class GEOKanteGeometryExtensions {
 			// length
 			// Determine the center point
 			final Clothoid clothoid = new Clothoid(Math.abs(radiusB), length,
-					geometryOptions.percision());
+					geometryOptions.precision());
 			final double angleRad = Math.PI / 200 * (100 - angle);
 			final double[] point = clothoid.getPoint(length / 2);
 			Coordinate centerCoordinate = new Coordinate(point[0], point[1]);
@@ -188,7 +188,7 @@ public class GEOKanteGeometryExtensions {
 		final int segmentCount = (int) Math.max(length * options.stepSize(),
 				options.minSegmentCount());
 		final Clothoid clothoid = new Clothoid(Math.abs(radius), length,
-				options.percision());
+				options.precision());
 		final List<double[]> clothoidCoordinates = clothoid
 				.getPoints(segmentCount);
 		final List<Coordinate> coords = clothoidCoordinates.stream()
@@ -256,7 +256,7 @@ public class GEOKanteGeometryExtensions {
 			final Coordinate toCoordinate, final double radius,
 			final double length, final GeometryOptions geometryOptions) {
 		final Bloss bloss = new Bloss(Math.abs(radius), length,
-				geometryOptions.percision());
+				geometryOptions.precision());
 		final int segmentCount = (int) Math.max(
 				length * geometryOptions.stepSize(),
 				geometryOptions.minSegmentCount());
