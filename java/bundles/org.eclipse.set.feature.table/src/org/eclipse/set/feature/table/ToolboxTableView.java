@@ -46,6 +46,7 @@ import org.eclipse.nebula.widgets.nattable.layer.DataLayer;
 import org.eclipse.nebula.widgets.nattable.layer.ILayer;
 import org.eclipse.nebula.widgets.nattable.layer.LabelStack;
 import org.eclipse.nebula.widgets.nattable.layer.SpanningDataLayer;
+import org.eclipse.nebula.widgets.nattable.layer.cell.DataCell;
 import org.eclipse.nebula.widgets.nattable.layer.cell.IConfigLabelAccumulator;
 import org.eclipse.nebula.widgets.nattable.layer.cell.ILayerCell;
 import org.eclipse.nebula.widgets.nattable.resize.command.RowHeightResetCommand;
@@ -453,9 +454,6 @@ public final class ToolboxTableView extends BasePart {
 
 		final SelectionLayer selectionLayer = bodyLayerStack
 				.getSelectionLayer();
-		// selectionLayer.addConfiguration(
-		// new RowSelectionListener(getToolboxPart().getElementId(),
-		// selectionLayer, tableInstances, getBroker()));
 
 		// column header stack
 		final IDataProvider columnHeaderDataProvider = new DefaultColumnHeaderDataProvider(
@@ -499,6 +497,15 @@ public final class ToolboxTableView extends BasePart {
 				.applyTo(natTable);
 
 		addMenuItems();
+		bodyLayerStack.addSearchConfiguration(natTable.getConfigRegistry(),
+				cell -> {
+					final DataCell cellByPosition = bodyDataProvider
+							.getCellByPosition(cell.getColumnPosition(),
+									cell.getRowPosition());
+					return TableRowExtensions.getPlainStringValue(
+							tableInstances.get(cellByPosition.getRowPosition()),
+							cellByPosition.getColumnPosition());
+				});
 		natTable.addConfiguration(tableMenuService
 				.createMenuConfiguration(natTable, selectionLayer));
 		natTable.configure();
@@ -508,6 +515,11 @@ public final class ToolboxTableView extends BasePart {
 				rootColumnDescriptor, bodyLayerStack, bodyDataProvider,
 				getDialogService()));
 		bodyLayerStack.setConfigLabelAccumulator(compareTableCellLabelConfig());
+		selectionLayer.setConfigLabelAccumulator((final LabelStack configLabels,
+				final int columnPosition, final int rowPosition) -> {
+			configLabels.addLabel(ToolboxConstants.RICHTEXT_CELL_LABEL);
+		});
+
 		bodyLayerStack.getSelectionLayer().clear();
 
 		// display footnotes
