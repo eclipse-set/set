@@ -240,10 +240,9 @@ abstract class AbstractPlanPro2TableModelTransformator extends AbstractTableMode
 	}
 
 	def void updateWaitingFillCell(String tableShortcut) {
-		val fillDelayCellThread = new Thread([
+		new Thread([
 			val changeProperties = newArrayList
-			while (delayFillingCells.exists[!shouldFill] ||
-				!delayFillingCells.nullOrEmpty) {
+			while (!delayFillingCells.nullOrEmpty) {
 				try {
 					delayFillingCells.filter[shouldFill].forEach [
 						val container = object.container
@@ -276,8 +275,7 @@ abstract class AbstractPlanPro2TableModelTransformator extends AbstractTableMode
 			val updateTableEvent = new TableDataChangeEvent(
 				tableShortcut.toLowerCase, changeProperties)
 			TableDataChangeEvent.sendEvent(eventAdmin, updateTableEvent)
-		], '''«tableShortcut»/«FILL_DELAY_CELL_THREAD»''')
-		fillDelayCellThread.start
+		], '''«tableShortcut»/«FILL_DELAY_CELL_THREAD»''').start
 	}
 
 	private def Pt1TableChangeProperties fillWaitingCellException(TableRow row,
