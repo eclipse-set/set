@@ -215,7 +215,7 @@ public class TransformStyle {
 
 				final Element formatElement = switch (fontOfFormattingRun
 						.getTypeOffset()) {
-					case Font.SS_SUPER -> addSupSubElement.apply(text, "sub"); //$NON-NLS-1$
+					case Font.SS_SUPER -> addSupSubElement.apply(text, "super"); //$NON-NLS-1$
 					case Font.SS_SUB -> addSupSubElement.apply(text, "sub"); //$NON-NLS-1$
 					default -> null;
 				};
