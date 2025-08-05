@@ -10,9 +10,17 @@
  */
 package org.eclipse.set.feature.plazmodel.check;
 
+import static org.eclipse.set.basis.geometry.Geometries.getSegmentPosition;
 import static org.eclipse.set.ppmodel.extensions.EObjectExtensions.getNullableObject;
+import static org.eclipse.set.ppmodel.extensions.GeoKanteExtensions.getCoordinate;
+import static org.eclipse.set.ppmodel.extensions.GeoKanteExtensions.getTangent;
+import static org.eclipse.set.ppmodel.extensions.GeoKnotenExtensions.getCRS;
+import static org.eclipse.set.ppmodel.extensions.GeoKnotenExtensions.getCoordinate;
+import static org.eclipse.set.ppmodel.extensions.TopKanteExtensions.getAbstand;
+import static org.eclipse.set.ppmodel.extensions.TopKanteExtensions.getGeoKanteAt;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,25 +31,40 @@ import java.util.Objects;
 import org.apache.commons.text.StringSubstitutor;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.set.basis.constants.Events;
+import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.basis.geometry.GEOKanteCoordinate;
+import org.eclipse.set.basis.geometry.GEOKanteMetadata;
+import org.eclipse.set.basis.geometry.GeoPosition;
+import org.eclipse.set.basis.geometry.GeometryCalculationOptions.GeometryCalculationOptionsBuilder;
+import org.eclipse.set.basis.geometry.GeometryOptionsBuilder;
+import org.eclipse.set.basis.geometry.SegmentPosition;
 import org.eclipse.set.core.services.geometry.GeoKanteGeometryService;
 import org.eclipse.set.core.services.geometry.PointObjectPositionService;
 import org.eclipse.set.model.planpro.BasisTypen.ENUMLinksRechts;
+import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung;
+import org.eclipse.set.model.planpro.Basisobjekte.Bereich_Objekt;
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt;
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup;
 import org.eclipse.set.model.planpro.Geodaten.ENUMGEOKoordinatensystem;
+import org.eclipse.set.model.planpro.Geodaten.GEO_Kante;
 import org.eclipse.set.model.planpro.Geodaten.GEO_Punkt;
+import org.eclipse.set.model.planpro.Geodaten.TOP_Kante;
 import org.eclipse.set.model.planpro.Ortung.FMA_Komponente;
 import org.eclipse.set.model.planpro.PZB.PZB_Element;
 import org.eclipse.set.model.planpro.Verweise.ID_GEO_Punkt_ohne_Proxy_TypeClass;
 import org.eclipse.set.model.plazmodel.PlazError;
 import org.eclipse.set.model.plazmodel.PlazFactory;
 import org.eclipse.set.model.validationreport.ValidationSeverity;
+import org.eclipse.set.ppmodel.extensions.BasisAttributExtensions;
 import org.eclipse.set.ppmodel.extensions.EObjectExtensions;
+import org.eclipse.set.ppmodel.extensions.GeoKanteExtensions;
 import org.eclipse.set.ppmodel.extensions.GeoPunktExtensions;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
+import org.eclipse.set.ppmodel.extensions.geometry.GEOKanteGeometryExtensions;
 import org.eclipse.set.ppmodel.extensions.utils.IterableExtensions;
 import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.LineSegment;
+import org.locationtech.jts.geom.LineString;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.event.Event;
@@ -63,6 +86,7 @@ import com.google.common.collect.Streams;
 @SuppressWarnings("nls")
 public class GeoCoordinateValid extends AbstractPlazContainerCheck
 		implements PlazCheck, EventHandler {
+
 	private static final double TOLERANT = 0.1;
 	@Reference
 	GeoKanteGeometryService geometryService;
@@ -98,7 +122,7 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 								Map.of("GUID", po.getIdentitaet().getWert())));
 						return;
 					}
-					final GEOKanteCoordinate geoKanteCoordinate = getPointGEOCoordinate(
+					final GEOKanteCoordinate geoKanteCoordinate = calculateCoordinate(
 							po, potk);
 					if (geoKanteCoordinate == null
 							|| getNullableObject(geoKanteCoordinate,
@@ -118,6 +142,7 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 					if (gpCoordinate == null) {
 						result.add(creatErrorReport(relevantGeoPunkt));
 					}
+
 					final double diff = coordinate.distance(gpCoordinate);
 					if (diff > TOLERANT) {
 						result.add(createErrorReport(po, potk, relevantGeoPunkt,
@@ -141,27 +166,117 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 				.toList();
 	}
 
-	private GEOKanteCoordinate getPointGEOCoordinate(final Punkt_Objekt po,
+	private GEOKanteCoordinate calculateCoordinate(final Punkt_Objekt po,
 			final Punkt_Objekt_TOP_Kante_AttributeGroup potk) {
-		BigDecimal lateralDistance = null;
-		if (po instanceof PZB_Element) {
-			lateralDistance = PZB_LATERAL_DISTANCE;
-		} else if (po instanceof FMA_Komponente) {
-			lateralDistance = FMA_LATERAL_DISTANCE;
-		}
-		if (lateralDistance != null) {
-			final ENUMLinksRechts side = getNullableObject(potk,
-					point -> point.getSeitlicheLage().getWert()).orElse(null);
-			if (side != null
-					&& side == ENUMLinksRechts.ENUM_LINKS_RECHTS_LINKS) {
-				return pointObjectPositionService.getCoordinate(potk,
-						lateralDistance.negate());
+		try {
+			BigDecimal lateralDistance = null;
+			final GEOKanteMetadata geoKanteMetaData = getGeoKanteMetaData(potk);
+			if (po instanceof PZB_Element) {
+				lateralDistance = PZB_LATERAL_DISTANCE;
+			} else if (po instanceof FMA_Komponente) {
+				lateralDistance = FMA_LATERAL_DISTANCE;
 			}
-			return pointObjectPositionService.getCoordinate(potk,
-					lateralDistance);
+			if (lateralDistance != null) {
+				final ENUMLinksRechts side = getNullableObject(potk,
+						point -> point.getSeitlicheLage().getWert())
+								.orElse(null);
+				if (side != null
+						&& side == ENUMLinksRechts.ENUM_LINKS_RECHTS_LINKS) {
+					return calculateCoordinate(geoKanteMetaData, potk,
+							lateralDistance.negate());
+				}
+				return calculateCoordinate(geoKanteMetaData, potk,
+						lateralDistance);
 
+			}
+			return calculateCoordinate(geoKanteMetaData, potk);
+		} catch (final Exception e) {
+			return null;
 		}
-		return pointObjectPositionService.getCoordinate(potk);
+
+	}
+
+	private GEOKanteCoordinate calculateCoordinate(
+			final GEOKanteMetadata geoKanteMetadata,
+			final Punkt_Objekt_TOP_Kante_AttributeGroup potk) {
+		final BigDecimal lateralDistance = pointObjectPositionService
+				.getLateralDistance(potk, geoKanteMetadata);
+		return calculateCoordinate(geoKanteMetadata, potk, lateralDistance);
+	}
+
+	private static GEOKanteCoordinate calculateCoordinate(
+			final GEOKanteMetadata geoKanteMetadata,
+			final Punkt_Objekt_TOP_Kante_AttributeGroup potk,
+			final BigDecimal lateralDistance) {
+		ENUMWirkrichtung direction = null;
+		if (potk.getWirkrichtung() != null) {
+			direction = potk.getWirkrichtung().getWert();
+		}
+		if (direction == ENUMWirkrichtung.ENUM_WIRKRICHTUNG_BEIDE) {
+			direction = ENUMWirkrichtung.ENUM_WIRKRICHTUNG_IN;
+		}
+		return calculateCoordinate(geoKanteMetadata, potk, lateralDistance,
+				direction);
+	}
+
+	private static GEOKanteCoordinate calculateCoordinate(
+			final GEOKanteMetadata md,
+			final Punkt_Objekt_TOP_Kante_AttributeGroup potk,
+			final BigDecimal lateralDistance,
+			final ENUMWirkrichtung wirkrichtung) {
+		final BigDecimal geoLength = BigDecimal
+				.valueOf(md.getGeometry().getLength());
+		final BigDecimal geoKanteLength = md.getGeoKante()
+				.getGEOKanteAllg()
+				.getGEOLaenge()
+				.getWert();
+		final BigDecimal localDistance = potk.getAbstand()
+				.getWert()
+				.subtract(md.getStart());
+		final BigDecimal scaleDistance = lateralDistance.doubleValue() != 0
+				? localDistance.multiply(geoLength.divide(geoKanteLength,
+						ToolboxConstants.ROUNDING_TO_PLACE,
+						RoundingMode.HALF_UP))
+				: BigDecimal.ZERO;
+		final SegmentPosition position = getSegmentPosition(md.getGeometry(),
+				getCoordinate(md.getGeoKnoten()), scaleDistance);
+		final LineSegment tangent = getTangent(md.getGeoKante(), position);
+		final GeoPosition geoPosition = getCoordinate(tangent, position,
+				lateralDistance, wirkrichtung);
+		return new GEOKanteCoordinate(geoPosition, md,
+				getCRS(md.getGeoKnoten()));
+	}
+
+	private static GEOKanteMetadata getGeoKanteMetaData(
+			final Punkt_Objekt_TOP_Kante_AttributeGroup potk) {
+		try {
+			final TOP_Kante topkante = potk.getIDTOPKante().getValue();
+			final BigDecimal distance = potk.getAbstand().getWert();
+			final GEO_Kante geoKanteAt = getGeoKanteAt(topkante, distance);
+			final BigDecimal geoKanteAbstand = getAbstand(topkante,
+					GeoKanteExtensions.getGeoKnotenA(geoKanteAt));
+			final BigDecimal geoKanteLength = geoKanteAt.getGEOKanteAllg()
+					.getGEOLaenge()
+					.getWert();
+			final LineString geometry = GEOKanteGeometryExtensions
+					.defineEdgeGeometry(geoKanteAt,
+							new GeometryCalculationOptionsBuilder()
+									.setChordOptions(
+											new GeometryOptionsBuilder()
+													.setStepSize(0.0001)
+													.build())
+									.build());
+			final List<Bereich_Objekt> bereichObjekts = Streams
+					.stream(BasisAttributExtensions.getContainer(topkante)
+							.getBereichObjekt())
+					.toList();
+			return new GEOKanteMetadata(geoKanteAt, geoKanteAbstand,
+					geoKanteLength, bereichObjekts, topkante,
+					GeoKanteExtensions.getGeoKnotenA(geoKanteAt), geometry);
+		} catch (final Exception e) {
+			return null;
+		}
+
 	}
 
 	private static GEO_Punkt getSameCRSGEOPunkt(
