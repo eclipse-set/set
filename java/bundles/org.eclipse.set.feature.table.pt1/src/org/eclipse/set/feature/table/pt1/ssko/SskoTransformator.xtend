@@ -406,8 +406,8 @@ class SskoTransformator extends AbstractPlanPro2TableModelTransformator {
 		val result = newHashSet
 		// 1. Condition
 		// IMPROVE: Not completely, because the requirements for this case aren't clear
-		val stellelements = controlArea.aussenElementAnsteuerung?.
-			informationSekundaer?.filterNull?.flatMap[stellelements] ?: #[]
+		val stellelements = container.stellelement.map[IDInformation?.value].
+			filterNull.filter[isBelongToControlArea(controlArea)]
 		val ssp = container.schluesselsperre.filter [ ssp |
 			stellelements.exists[it === ssp.IDStellelement.value]
 		]
