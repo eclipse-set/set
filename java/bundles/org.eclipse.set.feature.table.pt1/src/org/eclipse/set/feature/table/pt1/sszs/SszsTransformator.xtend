@@ -71,15 +71,12 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 	static BigDecimal MAX_TOP_DISTANCE_IN_METER = BigDecimal.ZERO
 	static Range<Double> FMA_KOMPONENT_DISTANCE_RANGE = Range.of(-3.0, 350.0);
 	TopologicalGraphService topGraphService
-	String shortcut
 
 	new(Set<ColumnDescriptor> cols,
 		EnumTranslationService enumTranslationService,
-		TopologicalGraphService topGraphService, EventAdmin eventAdmin,
-		String shortcut) {
+		TopologicalGraphService topGraphService, EventAdmin eventAdmin) {
 		super(cols, enumTranslationService, eventAdmin)
 		this.topGraphService = topGraphService
-		this.shortcut = shortcut
 	}
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
