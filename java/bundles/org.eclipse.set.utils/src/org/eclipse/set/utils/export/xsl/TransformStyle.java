@@ -194,7 +194,8 @@ public class TransformStyle {
 				attributeValue) -> {
 			final Element inline = XMLDocumentExtensions
 					.createXMLElementWithAttr(doc, FO_INLINE,
-							new XMLAttribute("baseline-shift", attributeValue)); //$NON-NLS-1$
+							new XMLAttribute("baseline-shift", attributeValue), //$NON-NLS-1$
+							new XMLAttribute("font-size", "4pt")); //$NON-NLS-1$ //$NON-NLS-2$
 			inline.setTextContent(textValue);
 			return inline;
 		};
