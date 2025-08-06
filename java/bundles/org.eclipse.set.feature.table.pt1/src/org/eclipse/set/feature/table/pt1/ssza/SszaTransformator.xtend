@@ -148,20 +148,23 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 			]
 		)
 
-		// F: Ssza.Bezugspunkt.Bezeichnung
-		fillSwitch(
-			cols.getColumn(Bezugspunkt_Bezeichnung),
-			dpBezug,
-			bezugspunktCase(
-				BUE_Anlage,
-				[bezeichnung?.bezeichnungTabelle?.wert]
-			),
-			bezugspunktCaseIterable(
-				BUE_Einschaltung,
-				[
-					schaltmittelZuordnung.map [
-						'''«schaltmittelFunktion?.translate» «getSwitchName(IDSchalter?.value)»'''
+		if (dpBezug !== null) {
+			// F: Ssza.Bezugspunkt.Bezeichnung
+			fillSwitch(
+				cols.getColumn(Bezugspunkt_Bezeichnung),
+				dpBezug,
+				bezugspunktCase(
+					BUE_Anlage,
+					[bezeichnung?.bezeichnungTabelle?.wert]
+				),
+				bezugspunktCaseIterable(
+					BUE_Einschaltung,
+					[
+						schaltmittelZuordnung.map [
+							'''«schaltmittelFunktion?.translate» «getSwitchName(IDSchalter?.value)»'''
+						]
 					]
+<<<<<<< Updated upstream
 				]
 			),
 			bezugspunktCase(
@@ -209,29 +212,77 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 				dpBezugStreckeAndKm,
 				[map[key?.bezeichnung?.bezeichnungStrecke?.wert].filterNull],
 				MIXED_STRING_COMPARATOR
+=======
+				),
+				bezugspunktCase(
+					BUE_Kante,
+					[
+						val bos = container.bereichObjekt
+						val relevantBereichs = bos.filter[bo|bo.contains(it)].
+							filter(Gleis_Bezeichnung).toList
+						val tracksDesignation = relevantBereichs.filterNull.map [
+							bezeichnung?.bezGleisBezeichnung?.wert
+						]
+						'''BÜ-K «IDBUEAnlage?.value?.bezeichnung?.bezeichnungTabelle?.wert», Gl. «tracksDesignation.join(", ")»'''
+					]
+				),
+				bezugspunktCase(
+					PZB_Element,
+					[
+						'''GM «PZBArt?.translate» «IDPZBElementZuordnung?.value?.PZBElementZuordnungBP?.map[fillBezugsElement(IDPZBElementBezugspunkt?.value)].join»'''
+					]
+				),
+				bezugspunktCase(
+					ZUB_Streckeneigenschaft,
+					[bezeichnung?.bezeichnungZUBSE?.wert]
+				),
+				bezugspunktCase(
+					Markanter_Punkt,
+					[bezeichnung?.bezeichnungMarkanterPunkt?.wert]
+				)
+>>>>>>> Stashed changes
 			)
+			var List<Pair<Strecke, String>> dpBezugStreckeAndKm = newLinkedList
+			try {
+				dpBezugStreckeAndKm.addAll(datenpunkt.getStreckeAndKm(dpBezug))
+			} catch (Exception e) {
+				handleFillingException(e, it,
+					cols.getColumn(Bezugspunkt_Standort_Strecke))
+				handleFillingException(e, it,
+					cols.getColumn(Bezugspunkt_Standort_km))
+				handleFillingException(e, it, cols.getColumn(Bemerkung))
+			}
+			if (!dpBezugStreckeAndKm.nullOrEmpty) {
+				// G: Ssza.Bezugspunkt.Standort.Strecke
+				fillIterable(
+					cols.getColumn(Bezugspunkt_Standort_Strecke),
+					dpBezugStreckeAndKm,
+					[map[key?.bezeichnung?.bezeichnungStrecke?.wert].filterNull],
+					MIXED_STRING_COMPARATOR
+				)
 
-			// H: Ssza.Bezugspunkt.Standort.km
-			fillIterable(
-				cols.getColumn(Bezugspunkt_Standort_km),
-				dpBezugStreckeAndKm,
-				[map[value]],
-				MIXED_STRING_COMPARATOR
-			)
+				// H: Ssza.Bezugspunkt.Standort.km
+				fillIterable(
+					cols.getColumn(Bezugspunkt_Standort_km),
+					dpBezugStreckeAndKm,
+					[map[value]],
+					MIXED_STRING_COMPARATOR
+				)
 
-			val firstStreckekm = dpBezugStreckeAndKm.firstOrNull?.value
-			// O: Ssza.Bemerkung
-			fillConditional(
-				cols.getColumn(Bemerkung),
-				datenpunkt,
-				[
-					ZUB_Streckeneigenschaft.isInstance(it) &&
-						(it as ZUB_Streckeneigenschaft).metallteil !== null
-				],
-				[
-					firstStreckekm ?: ""
-				]
-			)
+				val firstStreckekm = dpBezugStreckeAndKm.firstOrNull?.value
+				// O: Ssza.Bemerkung
+				fillConditional(
+					cols.getColumn(Bemerkung),
+					datenpunkt,
+					[
+						ZUB_Streckeneigenschaft.isInstance(it) &&
+							(it as ZUB_Streckeneigenschaft).metallteil !== null
+					],
+					[
+						firstStreckekm ?: ""
+					]
+				)
+			}
 		}
 
 		// J: Ssza.DP-Standort.Stellbereich
