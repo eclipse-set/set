@@ -47,6 +47,7 @@ import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt;
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup;
 import org.eclipse.set.model.planpro.Geodaten.ENUMGEOKoordinatensystem;
 import org.eclipse.set.model.planpro.Geodaten.GEO_Kante;
+import org.eclipse.set.model.planpro.Geodaten.GEO_Knoten;
 import org.eclipse.set.model.planpro.Geodaten.GEO_Punkt;
 import org.eclipse.set.model.planpro.Geodaten.TOP_Kante;
 import org.eclipse.set.model.planpro.Ortung.FMA_Komponente;
@@ -98,6 +99,8 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 	// Fixed lateral distance for PZB_Element and FMA_Komponent
 	static BigDecimal FMA_LATERAL_DISTANCE = BigDecimal.valueOf(0.85);
 	static BigDecimal PZB_LATERAL_DISTANCE = BigDecimal.valueOf(1.05);
+
+	private static final List<GEOKanteMetadata> alreadyFoundMetaData = new ArrayList<>();
 
 	@Override
 	public void handleEvent(final Event event) {
@@ -170,7 +173,24 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 			final Punkt_Objekt_TOP_Kante_AttributeGroup potk) {
 		try {
 			BigDecimal lateralDistance = null;
-			final GEOKanteMetadata geoKanteMetaData = getGeoKanteMetaData(potk);
+			GEOKanteMetadata geoKanteMetaData = alreadyFoundMetaData
+					.parallelStream()
+					.filter(md -> md.getGeoKante()
+							.getIDGEOArt()
+							.getValue()
+							.equals(potk.getIDTOPKante().getValue())
+							&& md.getStart()
+									.compareTo(potk.getAbstand().getWert()) <= 0
+							&& md.getEnd()
+									.compareTo(
+											potk.getAbstand().getWert()) >= 0)
+					.findFirst()
+					.orElse(null);
+			if (geoKanteMetaData == null) {
+				geoKanteMetaData = getGeoKanteMetaData(potk);
+				alreadyFoundMetaData.add(geoKanteMetaData);
+			}
+
 			if (po instanceof PZB_Element) {
 				lateralDistance = PZB_LATERAL_DISTANCE;
 			} else if (po instanceof FMA_Komponente) {
@@ -253,8 +273,9 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 			final TOP_Kante topkante = potk.getIDTOPKante().getValue();
 			final BigDecimal distance = potk.getAbstand().getWert();
 			final GEO_Kante geoKanteAt = getGeoKanteAt(topkante, distance);
-			final BigDecimal geoKanteAbstand = getAbstand(topkante,
-					GeoKanteExtensions.getGeoKnotenA(geoKanteAt));
+			final GEO_Knoten geoKnotenA = GeoKanteExtensions
+					.getGeoKnotenA(geoKanteAt);
+			final BigDecimal geoKanteAbstand = getAbstand(topkante, geoKnotenA);
 			final BigDecimal geoKanteLength = geoKanteAt.getGEOKanteAllg()
 					.getGEOLaenge()
 					.getWert();
