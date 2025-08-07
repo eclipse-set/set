@@ -240,6 +240,10 @@ abstract class AbstractPlanPro2TableModelTransformator extends AbstractTableMode
 	}
 
 	def void updateWaitingFillCell(String tableShortcut) {
+		if (delayFillingCells.nullOrEmpty) {
+			return
+		}
+		
 		new Thread([
 			val changeProperties = newArrayList
 			while (!delayFillingCells.nullOrEmpty) {
