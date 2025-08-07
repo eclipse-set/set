@@ -822,29 +822,23 @@ class TopKanteExtensions extends BasisObjektExtensions {
 
 	def static Iterable<Pair<GEO_Knoten, BigDecimal>> getGeoKnotenWithDistance(
 		TOP_Kante topKante) {
-		val startGeoKnoten = topKante.TOPKnotenA.IDGEOKnoten.value
-		return topKante.geoKantenWithDistance.sortBy[value].
-			getGeoKnotenWithDistance(startGeoKnoten)
-	}
+		val result = #[]
+		var geoKanten = topKante.geoKantenWithDistance.sortBy[value]
 
-	private def static Iterable<Pair<GEO_Knoten, BigDecimal>> getGeoKnotenWithDistance(
-		Iterable<Pair<GEO_Kante, BigDecimal>> geoKanteWithDistance,
-		GEO_Knoten currentNode) {
-		if (geoKanteWithDistance.nullOrEmpty) {
-			return #[]
+		var current = topKante.TOPKnotenA.IDGEOKnoten.value
+		while (!geoKanten.nullOrEmpty) {
+			var geoKante = geoKanten.head.key
+			var distance = geoKanten.head.value
+			result.add(current -> distance)
+			current = geoKante.getOpposite(current)
+			geoKanten.remove(0)
+			if (geoKanten.nullOrEmpty) {
+				result.add(current ->
+					distance +
+						(geoKante.GEOKanteAllg?.GEOLaenge?.wert ?:
+							BigDecimal.ZERO))
+			}
 		}
-		val head = geoKanteWithDistance.head
-		val geoKante = head.key
-		val distance = head.value
-		var GEO_Knoten nextNode = null
-		if (geoKante.geoKnotenA === currentNode) {
-			nextNode = geoKante.geoKnotenB
-		} else if (geoKante.geoKnotenB === currentNode) {
-			nextNode = geoKante.geoKnotenA
-		}
-
-		return #[currentNode -> distance] +
-			geoKanteWithDistance.tail.getGeoKnotenWithDistance(nextNode)
-
+		return result
 	}
 }

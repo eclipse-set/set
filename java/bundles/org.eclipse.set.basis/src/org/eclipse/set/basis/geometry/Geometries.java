@@ -240,13 +240,10 @@ public class Geometries {
 				return new SegmentPosition(midSegment.segment,
 						distance.subtract(midSegment.startDistance));
 			}
-			final SegmentWithDistance leftSegment = segments.get(left);
-			final SegmentWithDistance rightSegment = segments.get(right);
-
-			if (leftSegment.endDistance().compareTo(distance) <= 0) {
-				left = mid + 1;
-			} else if (rightSegment.startDistance.compareTo(distance) >= 0) {
+			if (midSegment.startDistance().compareTo(distance) >= 0) {
 				right = mid - 1;
+			} else {
+				left = mid + 1;
 			}
 		}
 		return null;
