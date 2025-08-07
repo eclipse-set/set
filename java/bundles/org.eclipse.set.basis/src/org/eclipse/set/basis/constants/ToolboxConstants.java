@@ -302,6 +302,9 @@ public final class ToolboxConstants {
 	 */
 	public static String WEB_DEVELOPER_HELP_PART_ID = "org.eclipse.set.application.ppt.nosessionpart.WebDeveloperHelpPart";
 
+	/**
+	 * The name of compare project cell content
+	 */
 	public static final String XSL_PROJECT_COMPARE_CELL = "CompareProjectContent";
 
 	static {

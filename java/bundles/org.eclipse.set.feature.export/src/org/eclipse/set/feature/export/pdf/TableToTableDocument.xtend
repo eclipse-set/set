@@ -46,6 +46,7 @@ import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensi
 import static extension org.eclipse.set.model.tablemodel.extensions.TableRowExtensions.*
 import static extension org.eclipse.set.utils.StringExtensions.*
 import static extension org.eclipse.set.utils.export.xsl.siteplan.SiteplanXSL.pxToMilimeter
+import org.eclipse.set.basis.constants.ToolboxConstants
 
 /**
  * Transformation from {@link Table} to TableDocument {@link Document}.
@@ -369,7 +370,7 @@ class TableToTableDocument {
 
 	private def dispatch Element createContent(CompareTableCellContent content,
 		FootnoteContainer fc, int columnNumber, boolean isRemarkColumn) {
-		val element = doc.createElement("CompareProjectContent");
+		val element = doc.createElement(ToolboxConstants.XSL_PROJECT_COMPARE_CELL);
 		val mainContentElement = content.mainPlanCellContent.createContent(fc, columnNumber,
 				isRemarkColumn)
 		element.appendChild(mainContentElement)
