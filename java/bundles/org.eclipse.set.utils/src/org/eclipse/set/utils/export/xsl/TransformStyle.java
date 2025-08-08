@@ -10,19 +10,27 @@
  */
 package org.eclipse.set.utils.export.xsl;
 
+import static org.eclipse.set.utils.export.xsl.XSLConstant.XSLTag.FO_INLINE;
+
 import java.io.IOException;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.BiFunction;
 
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.RichTextString;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFFont;
+import org.apache.poi.xssf.usermodel.XSSFRichTextString;
+import org.eclipse.set.utils.export.xsl.XMLDocumentExtensions.XMLAttribute;
 import org.eclipse.set.utils.export.xsl.XSLConstant.TableAttribute;
 import org.eclipse.set.utils.export.xsl.XSLConstant.TableAttribute.BorderDirection;
 import org.eclipse.set.utils.export.xsl.XSLConstant.XSLStyleSets;
+import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
@@ -162,6 +170,60 @@ public class TransformStyle {
 			}
 		} catch (final IOException e) {
 			throw new RuntimeException(e);
+		}
+	}
+
+	/**
+	 * Set block text content
+	 * 
+	 * @param xslBlock
+	 *            the fo:block element
+	 * @param excelCell
+	 *            the excel cell
+	 */
+	public static void setCellContent(final Element xslBlock,
+			final Cell excelCell) {
+		final Document doc = xslBlock.getOwnerDocument();
+		final RichTextString richStringCellValue = excelCell
+				.getRichStringCellValue();
+		if (richStringCellValue.numFormattingRuns() == 0) {
+			xslBlock.setTextContent(richStringCellValue.getString());
+			return;
+		}
+		final BiFunction<String, String, Element> addSupSubElement = (textValue,
+				attributeValue) -> {
+			final Element inline = XMLDocumentExtensions
+					.createXMLElementWithAttr(doc, FO_INLINE,
+							new XMLAttribute("baseline-shift", attributeValue), //$NON-NLS-1$
+							new XMLAttribute("font-size", "4pt")); //$NON-NLS-1$ //$NON-NLS-2$
+			inline.setTextContent(textValue);
+			return inline;
+		};
+		if (richStringCellValue instanceof final XSSFRichTextString richtext) {
+			for (int i = 0; i < richtext.numFormattingRuns(); i++) {
+				final int startIndex = richtext.getIndexOfFormattingRun(i);
+				final int endIndex = i + 1 < richtext.numFormattingRuns()
+						? richtext.getIndexOfFormattingRun(i + 1)
+						: richtext.length();
+				final String text = richtext.getString()
+						.substring(startIndex, endIndex);
+				final XSSFFont fontOfFormattingRun = richtext
+						.getFontOfFormattingRun(i);
+				if (fontOfFormattingRun == null) {
+					xslBlock.appendChild(doc.createTextNode(text));
+					continue;
+				}
+
+				final Element formatElement = switch (fontOfFormattingRun
+						.getTypeOffset()) {
+					case Font.SS_SUPER -> addSupSubElement.apply(text, "super"); //$NON-NLS-1$
+					case Font.SS_SUB -> addSupSubElement.apply(text, "sub"); //$NON-NLS-1$
+					default -> null;
+				};
+				if (formatElement != null) {
+					xslBlock.appendChild(formatElement);
+				}
+			}
 		}
 	}
 
