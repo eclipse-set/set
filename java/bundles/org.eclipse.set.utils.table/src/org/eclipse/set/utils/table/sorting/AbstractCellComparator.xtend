@@ -64,22 +64,9 @@ package abstract class AbstractCellComparator implements Comparator<TableCell> {
 		CompareCellContent c1,
 		CompareCellContent c2
 	) {
-
-		val newResult = c1.newValue.compareDispatch(c2.newValue)
-
-		if (newResult != 0) {
-			return newResult
-		}
-
-		val oldResult = c1.oldValue.compareDispatch(c2.oldValue)
-		if (oldResult != 0) {
-			return oldResult
-		}
-		val mix1 = c1.newValue.compareDispatch(c2.oldValue)
-		if (mix1 != 0) {
-			return mix1
-		}
-		return c1.oldValue.compareDispatch(c2.newValue)
+		// To avoid compare error, the compare cell shouldn't separate compare new/old value 
+		return c1.compareCellContentString.compareCell(
+			c2.compareCellContentString)
 	}
 
 	private def dispatch compareDispatch(List<String> value1,
@@ -116,8 +103,7 @@ package abstract class AbstractCellComparator implements Comparator<TableCell> {
 
 	private def dispatch int compareDispatch(CompareTableCellContent c1,
 		CompareTableCellContent c2) {
-		return c1.mainPlanCellContent.compareDispatch(
-			c2.mainPlanCellContent)
+		return c1.mainPlanCellContent.compareDispatch(c2.mainPlanCellContent)
 	}
 
 	private def Iterable<String> compareCellContentString(
