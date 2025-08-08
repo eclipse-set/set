@@ -23,7 +23,6 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -76,7 +75,6 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	private final BankService bankService;
 	private final String tableShortcut;
-	private final Map<TableRow, Aussenelementansteuerung> waitingFillTrackMitteDistance;
 
 	private record OperationalIdentifierFieldElement(
 			Class<? extends Ur_Objekt> clazz,
@@ -129,7 +127,6 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 		super(cols, enumTranslationService, eventAdmin);
 		this.bankService = bankService;
 		this.tableShortcut = tableShortcut;
-		this.waitingFillTrackMitteDistance = new HashMap<>();
 	}
 
 	@Override
@@ -142,11 +139,10 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 				.toList();
 		final Iterable<Aussenelementansteuerung> relevantControlsInArea = UrObjectExtensions
 				.filterObjectsInControlArea(outsideControls, controlArea);
-		return transform(container, relevantControlsInArea, factory);
+		return transform(relevantControlsInArea, factory);
 	}
 
-	private Table transform(final MultiContainer_AttributeGroup container,
-			final Iterable<Aussenelementansteuerung> controls,
+	private Table transform(final Iterable<Aussenelementansteuerung> controls,
 			final TMFactory factory) {
 		for (final Aussenelementansteuerung control : controls) {
 			Thread.currentThread();

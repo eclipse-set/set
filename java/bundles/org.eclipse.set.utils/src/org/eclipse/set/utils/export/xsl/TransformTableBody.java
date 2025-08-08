@@ -247,7 +247,8 @@ public class TransformTableBody {
 		}
 
 		final String expression = String.format(
-				"Cell[contains(' %s ', concat(' ', @column-number, ' '))]", //$NON-NLS-1$
+				"Cell[contains(' %s ', concat(' ', @column-number, ' '))" //$NON-NLS-1$
+						+ " and ../@group-number != count(/Table/Rows/Row)]", //$NON-NLS-1$
 				String.join(" ", exclusionColumns.stream() //$NON-NLS-1$
 						.map(col -> String.valueOf(col.getColumnIndex()))
 						.toList()));
