@@ -8,7 +8,11 @@
  */
 package org.eclipse.set.nattable.utils;
 
+import org.eclipse.nebula.widgets.nattable.config.IConfigRegistry;
+import org.eclipse.nebula.widgets.nattable.data.convert.IDisplayConverter;
 import org.eclipse.nebula.widgets.nattable.extension.nebula.richtext.RichTextCellPainter;
+import org.eclipse.nebula.widgets.nattable.extension.nebula.richtext.RichTextConfigAttributes;
+import org.eclipse.nebula.widgets.nattable.layer.cell.ILayerCell;
 
 /**
  * Renders HTML formatted text by using the Nebula RichTextPainter with word
@@ -40,5 +44,24 @@ public class PlanProRichTextCellPainter extends RichTextCellPainter {
 			final boolean calculateByTextHeight) {
 		super(wrapText, calculateByTextLength, calculateByTextHeight);
 		richTextPainter.setWordSplitRegex(WORD_SPLIT_REGEX);
+	}
+
+	@Override
+	protected String getHtmlText(final ILayerCell cell,
+			final IConfigRegistry configRegistry) {
+		final Object canonicalValue = cell.getDataValue();
+		Object displayValue;
+		final IDisplayConverter markupDisplayConverter = configRegistry
+				.getConfigAttribute(
+						RichTextConfigAttributes.MARKUP_DISPLAY_CONVERTER,
+						cell.getDisplayMode(), cell.getConfigLabels());
+
+		if (markupDisplayConverter != null) {
+			displayValue = markupDisplayConverter.canonicalToDisplayValue(cell,
+					configRegistry, canonicalValue);
+		} else {
+			displayValue = canonicalValue;
+		}
+		return displayValue == null ? "" : String.valueOf(displayValue); //$NON-NLS-1$
 	}
 }
