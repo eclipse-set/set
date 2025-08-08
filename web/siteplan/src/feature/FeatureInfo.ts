@@ -38,7 +38,8 @@ export enum FeatureType {
   Cant,
   CantLine,
   Unknown,
-  Flash
+  Flash,
+  TrackDirectionArrow,
 }
 
 export enum FeatureLayerType
@@ -58,7 +59,8 @@ export enum FeatureLayerType
     Cant,
     Unknown,
     Flash,
-    Measure
+    Measure,
+    TrackDirection,
 }
 
 export function getFeatureLayerByType (type: FeatureType): FeatureLayerType {
@@ -102,13 +104,20 @@ export function getFeatureLayerByType (type: FeatureType): FeatureLayerType {
       return FeatureLayerType.Cant
     case FeatureType.Unknown:
       return FeatureLayerType.Unknown
+    case FeatureType.TrackDirectionArrow:
+      return FeatureLayerType.TrackDirection
     default: throw new Error('Missing layer for type: ' + type)
   }
 }
 
 export function getFeatureLayerDefaultVisibility (type: FeatureLayerType) : boolean | undefined {
   // Hide collision layer, cants and unknown objects by default
-  return ![FeatureLayerType.Collision, FeatureLayerType.Cant, FeatureLayerType.Unknown].includes(type)
+  return ![
+    FeatureLayerType.Collision,
+    FeatureLayerType.Cant,
+    FeatureLayerType.Unknown,
+    FeatureLayerType.TrackDirection
+  ].includes(type)
 }
 
 export function getFeatureLayerDisplayName (type: FeatureLayerType) : string {
@@ -129,6 +138,7 @@ export function getFeatureLayerDisplayName (type: FeatureLayerType) : string {
     case FeatureLayerType.Cant: return 'Überhöhungen'
     case FeatureLayerType.Unknown: return 'Weitere Objekte'
     case FeatureLayerType.Measure: return 'Messen'
+    case FeatureLayerType.TrackDirection: return 'Gleisausrichtung'
     default: throw new Error('Missing name for layer type: ' + type)
   }
 }
@@ -182,6 +192,8 @@ export function getFeatureName (type: FeatureType): string {
       return 'Überhöhungslinie'
     case FeatureType.Unknown:
       return 'Unbekannt'
+    case FeatureType.TrackDirectionArrow:
+      return 'GleisausrichtungsPfeil'
     default:
       console.error('Missing name for type: ' + type)
       return 'Unbenanntes Objekt'
@@ -212,6 +224,7 @@ export function getFeatureMovePriority (feature: Feature<Geometry>) {
     case FeatureType.TrackOutline:
     case FeatureType.ExternalElementControl:
     case FeatureType.LockKey:
+    case FeatureType.TrackDirectionArrow:
       return 0
     default:
       return -1
