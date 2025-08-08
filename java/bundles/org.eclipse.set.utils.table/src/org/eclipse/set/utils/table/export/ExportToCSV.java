@@ -36,6 +36,9 @@ import org.eclipse.xtend.lib.annotations.Accessors;
  *
  */
 public class ExportToCSV<T> {
+	// UTF-8 BOM byte sequence
+	byte[] utf8Bom = new byte[] { (byte) 0xEF, (byte) 0xBB, (byte) 0xBF };
+
 	private static class HeaderInfo {
 		@Accessors
 		private final String file;
@@ -81,9 +84,13 @@ public class ExportToCSV<T> {
 		if (filePath.isPresent()) {
 			final HeaderInfo headerInfo = new HeaderInfo(
 					filePath.get().toString());
-			try (final OutputStreamWriter writer = new OutputStreamWriter(
-					new FileOutputStream(filePath.get().toString()),
-					StandardCharsets.UTF_8)) {
+			try (final FileOutputStream fos = new FileOutputStream(
+					filePath.get().toString());
+					final OutputStreamWriter writer = new OutputStreamWriter(
+							fos, StandardCharsets.UTF_8)) {
+				// Write the BOM to the beginning of the file to Excel detect
+				// special character
+				fos.write(utf8Bom);
 				writer.write(String.format(headerPatter, headerInfo.file,
 						headerInfo.time, headerInfo.version));
 
@@ -110,9 +117,13 @@ public class ExportToCSV<T> {
 		if (filePath.isPresent()) {
 			final HeaderInfo headerInfo = new HeaderInfo(
 					filePath.get().toString());
-			try (final OutputStreamWriter writer = new OutputStreamWriter(
-					new FileOutputStream(filePath.get().toString()),
-					StandardCharsets.UTF_8)) {
+			try (final FileOutputStream fos = new FileOutputStream(
+					filePath.get().toString());
+					OutputStreamWriter writer = new OutputStreamWriter(fos,
+							StandardCharsets.UTF_8)) {
+				// Write the BOM to the beginning of the file to Excel detect
+				// special character
+				fos.write(utf8Bom);
 				writer.write(String.format(headerPatter, headerInfo.file,
 						headerInfo.time, headerInfo.version));
 				final ConsumerThrowingException<String> consumerException = writer::write;
