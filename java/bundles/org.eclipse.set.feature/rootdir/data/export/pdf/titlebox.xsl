@@ -733,7 +733,7 @@ http://www.eclipse.org/legal/epl-v20.html
 						<fo:table-row>
 							<fo:table-cell column-number="1">
 								<fo:block>
-									<fo:external-graphic src="{@logo}" height="{5+5+10-7*$titlebox-WB}mm" content-height="scale-down-to-fit" content-width="scale-down-to-fit" />
+									<fo:external-graphic src="{@logo}" width="10mm" height="{5+5+10-7*$titlebox-WB}mm" content-height="scale-down-to-fit" content-width="scale-down-to-fit" />
 								</fo:block>
 							</fo:table-cell>
 							<fo:table-cell column-number="2">
