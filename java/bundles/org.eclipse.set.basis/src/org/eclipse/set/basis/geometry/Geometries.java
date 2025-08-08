@@ -12,7 +12,6 @@ import java.math.BigDecimal;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.eclipse.set.basis.Lists;
 import org.eclipse.set.basis.graph.DirectedElementImpl;
 import org.locationtech.jts.algorithm.Angle;
 import org.locationtech.jts.geom.Coordinate;
@@ -29,6 +28,24 @@ import org.locationtech.jts.geom.util.AffineTransformationFactory;
  * @author Schaefer
  */
 public class Geometries {
+
+	private static record SegmentWithDistance(
+			DirectedElementImpl<LineSegment> segment,
+			BigDecimal startDistance) {
+
+		public BigDecimal endDistance() {
+			return startDistance.add(segmentLength());
+		}
+
+		public BigDecimal segmentLength() {
+			return BigDecimal.valueOf(segment.getElement().getLength());
+		}
+
+		public boolean contains(final BigDecimal distance) {
+			return startDistance.compareTo(distance) <= 0
+					&& endDistance().compareTo(distance) >= 0;
+		}
+	}
 
 	private static final double ACCURACY = 0.1;
 
@@ -103,13 +120,14 @@ public class Geometries {
 	public static SegmentPosition getSegmentPosition(
 			final LineString lineString, final Coordinate start,
 			final BigDecimal distance) throws IllegalLineStringDistance {
-		final List<DirectedElementImpl<LineSegment>> segments = getSegments(
+		final List<SegmentWithDistance> segments = getSegments(
 				DirectedElementImpl.forwards(lineString), start);
 		final SegmentPosition position = getSegmentPosition(segments, distance);
 		if (position == null) {
 			throw new IllegalLineStringDistance(lineString,
 					distance.doubleValue());
 		}
+
 		return position;
 	}
 
@@ -210,24 +228,31 @@ public class Geometries {
 	}
 
 	private static SegmentPosition getSegmentPosition(
-			final List<DirectedElementImpl<LineSegment>> segments,
+			final List<SegmentWithDistance> segments,
 			final BigDecimal distance) {
-		if (segments.isEmpty()) {
-			return null;
+		int left = 0;
+		int right = segments.size();
+		while (left <= right) {
+			final int mid = left + (right - left) / 2;
+			final SegmentWithDistance midSegment = segments.get(mid);
+
+			if (midSegment.contains(distance)) {
+				return new SegmentPosition(midSegment.segment,
+						distance.subtract(midSegment.startDistance));
+			}
+			if (midSegment.startDistance().compareTo(distance) >= 0) {
+				right = mid - 1;
+			} else {
+				left = mid + 1;
+			}
 		}
-		final DirectedElementImpl<LineSegment> head = Lists.head(segments);
-		final double length = head.getElement().getLength();
-		if (distance.doubleValue() <= length + ACCURACY) {
-			return new SegmentPosition(head, distance);
-		}
-		return getSegmentPosition(Lists.tail(segments),
-				distance.subtract(BigDecimal.valueOf(length)));
+		return null;
 	}
 
-	private static List<DirectedElementImpl<LineSegment>> getSegments(
+	private static List<SegmentWithDistance> getSegments(
 			final DirectedElementImpl<LineString> directedLineString,
 			final Coordinate start) {
-		final LinkedList<DirectedElementImpl<LineSegment>> result = new LinkedList<>();
+		final LinkedList<SegmentWithDistance> result = new LinkedList<>();
 		final DirectedElementImpl<LineString> directedLineStringAtStart = getLineStringAtStart(
 				directedLineString, start);
 		final CoordinateSequence sequence = directedLineStringAtStart
@@ -238,11 +263,16 @@ public class Geometries {
 			return result;
 		}
 		Coordinate segmentStart = sequence.getCoordinate(0);
+		BigDecimal distanceToStart = BigDecimal.ZERO;
 		for (int i = 1; i < size; i++) {
 			final Coordinate segmentEnd = sequence.getCoordinate(i);
-			result.add(new DirectedElementImpl<>(
+			final DirectedElementImpl<LineSegment> segment = new DirectedElementImpl<>(
 					new LineSegment(segmentStart, segmentEnd),
-					directedLineStringAtStart.isForwards()));
+					directedLineStringAtStart.isForwards());
+			result.add(new SegmentWithDistance(segment, distanceToStart));
+
+			distanceToStart = distanceToStart
+					.add(BigDecimal.valueOf(segment.getElement().getLength()));
 			segmentStart = segmentEnd;
 		}
 
