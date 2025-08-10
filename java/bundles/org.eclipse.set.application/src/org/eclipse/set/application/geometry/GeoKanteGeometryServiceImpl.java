@@ -67,12 +67,12 @@ import org.eclipse.set.model.planpro.Geodaten.TOP_Kante;
 import org.eclipse.set.model.planpro.Geodaten.TOP_Knoten;
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.set.ppmodel.extensions.BasisAttributExtensions;
+import org.eclipse.set.ppmodel.extensions.BasisObjektExtensions;
 import org.eclipse.set.ppmodel.extensions.GeoKanteExtensions;
 import org.eclipse.set.ppmodel.extensions.GeoKnotenExtensions;
 import org.eclipse.set.ppmodel.extensions.MultiContainer_AttributeGroupExtensions;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
 import org.eclipse.set.ppmodel.extensions.StreckeExtensions;
-import org.eclipse.set.ppmodel.extensions.TopKanteExtensions;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.eclipse.set.ppmodel.extensions.utils.CacheUtils;
 import org.locationtech.jts.geom.Coordinate;
@@ -619,7 +619,8 @@ public class GeoKanteGeometryServiceImpl
 			final Basis_Objekt geoArt, final GEO_Knoten startKnoten,
 			final List<Bereich_Objekt> bereichObjekte) {
 
-		final BigDecimal distanceScalingFactor = getScalingFactor(geoArt);
+		final BigDecimal distanceScalingFactor = BasisObjektExtensions
+				.getGeoArtScalingFactor(geoArt);
 		BigDecimal distance = BigDecimal.ZERO;
 		GEO_Knoten geoKnoten = startKnoten;
 		GEO_Kante geoKante = null;
@@ -661,74 +662,5 @@ public class GeoKanteGeometryServiceImpl
 			// Get the next GEO_Knoten (on the other end of the GEO_Kante)
 			geoKnoten = getOpposite(geoKante, geoKnoten);
 		}
-	}
-
-	private static BigDecimal getScalingFactor(final Basis_Objekt geoArt)
-			throws IllegalArgumentException {
-		// In some planning data there is a minor deviation between the length
-		// of a
-		// TOP_Kante and the total length of all GEO_Kanten on the TOP_Kante
-		// As objects are positioned on a TOP_Kante but a GEO_Kante is used
-		// to determine the geographical position, calculate a scaling factor
-		final List<GEO_Kante> geoKantenOnGeoArt = getGeoKanten(geoArt);
-
-		BigDecimal geoLength = BigDecimal.ZERO;
-		for (final GEO_Kante geoKante : geoKantenOnGeoArt) {
-			try {
-				geoLength = geoLength.add(
-						geoKante.getGEOKanteAllg().getGEOLaenge().getWert());
-			} catch (final NullPointerException e) {
-				logger.error("Geo_Kante: {} missing Geo_Laenge", //$NON-NLS-1$
-						geoKante.getIdentitaet().getWert());
-			}
-		}
-
-		final BigDecimal geoArtLength = getGeoArtLength(geoArt);
-		final BigDecimal difference = geoLength.subtract(geoArtLength).abs();
-		final BigDecimal tolerance = BigDecimal
-				.valueOf(GEO_LENGTH_DEVIATION_TOLERANCE)
-				.max(geoArtLength.multiply(BigDecimal
-						.valueOf(GEO_LENGTH_DEVIATION_TOLERANCE_RELATIVE)));
-		// Warn if the length difference is too big
-		if (difference.compareTo(tolerance) > 0) {
-			logger.debug("lengthGeoArt={}", geoArtLength); //$NON-NLS-1$
-			logger.debug("lengthGeoKanten={}", geoLength); //$NON-NLS-1$
-			logger.debug("geoKantenOnGeoArt={}", //$NON-NLS-1$
-					Integer.valueOf(geoKantenOnGeoArt.size()));
-			logger.warn(
-					"Difference of GEO Kanten length and GeoArt length for GeoArt {} greater than tolerance {} ({}).", //$NON-NLS-1$
-					geoArt.getIdentitaet().getWert(), tolerance, difference);
-		}
-
-		if (geoLength.compareTo(BigDecimal.ZERO) <= 0
-				|| geoArtLength.compareTo(BigDecimal.ZERO) <= 0) {
-			return BigDecimal.ONE;
-		}
-		final BigDecimal scale = geoLength.divide(geoArtLength,
-				ToolboxConstants.ROUNDING_TO_PLACE, RoundingMode.HALF_UP);
-		return scale.compareTo(BigDecimal.ZERO) > 0 ? scale : BigDecimal.ONE;
-	}
-
-	private static List<GEO_Kante> getGeoKanten(final Basis_Objekt geoArt) {
-		return switch (geoArt) {
-			case final TOP_Kante topKante -> TopKanteExtensions
-					.getGeoKanten(topKante);
-			case final Strecke strecke -> StreckeExtensions
-					.getGeoKanten(strecke);
-			default -> throw new IllegalArgumentException(
-					"Unexpected value: " + geoArt); //$NON-NLS-1$
-		};
-	}
-
-	private static BigDecimal getGeoArtLength(final Basis_Objekt geoArt) {
-		return switch (geoArt) {
-			case final TOP_Kante topKante -> topKante.getTOPKanteAllg()
-					.getTOPLaenge()
-					.getWert();
-			case final Strecke strecke -> StreckeExtensions
-					.getStreckeLength(strecke);
-			default -> throw new IllegalArgumentException(
-					"Unexpected value: " + geoArt); //$NON-NLS-1$
-		};
 	}
 }
