@@ -36,6 +36,8 @@ import static extension org.eclipse.set.ppmodel.extensions.geometry.GEOKanteGeom
 import static extension org.eclipse.set.ppmodel.extensions.utils.LineStringExtensions.*
 import org.eclipse.set.basis.constants.ToolboxConstants
 import java.math.RoundingMode
+import org.eclipse.set.basis.geometry.GeometryOptionsBuilder.GeometryOptions
+import org.eclipse.set.basis.geometry.GeometryCalculationOptions
 
 /**
  * This class extends {@link GEO_Kante}.
@@ -45,7 +47,6 @@ import java.math.RoundingMode
 class GeoKanteExtensions extends BasisObjektExtensions {
 	static final Logger logger = LoggerFactory.getLogger(
 		typeof(GeoKanteExtensions));
-
 
 	def static GeoPosition getCoordinate(
 		GEO_Kante geoKante,
@@ -57,15 +58,16 @@ class GeoKanteExtensions extends BasisObjektExtensions {
 		val geometry = geoKante.getGeometry
 		// If the geometry size is smaller than the GEO_Laenge of the GEO_Kante
 		// adjust the distance to fit within the GEO_Kante
-		val edgeLength =
-			geoKante.GEOKanteAllg?.GEOLaenge?.wert?.abs
+		val edgeLength = geoKante.GEOKanteAllg?.GEOLaenge?.wert?.abs
 		var distance = abstand
 		val geoLength = BigDecimal.valueOf(geometry.length)
 		if (geoLength < edgeLength) {
-			distance = abstand * (geoLength.divide(edgeLength, ToolboxConstants.ROUNDING_TO_PLACE, RoundingMode.HALF_UP))
+			distance = abstand *
+				(geoLength.divide(edgeLength,
+					ToolboxConstants.ROUNDING_TO_PLACE, RoundingMode.HALF_UP))
 		}
-		val SegmentPosition position = Geometries.getSegmentPosition(
-			geometry, startGeoKnoten.coordinate, distance)
+		val SegmentPosition position = Geometries.getSegmentPosition(geometry,
+			startGeoKnoten.coordinate, distance)
 		val LineSegment tangent = geoKante.getTangent(position)
 
 		return getCoordinate(tangent, position, seitlicherAbstand,
@@ -81,9 +83,7 @@ class GeoKanteExtensions extends BasisObjektExtensions {
 		val LineSegment lateralSegement = Geometries.clone(tangent)
 		Geometries.translate(lateralSegement, lateralSegement.p0,
 			position.getCoordinate())
-			
-				
-			
+
 		var double angle
 		if (seitlicherAbstand.doubleValue < 0) {
 			angle = 90
@@ -102,7 +102,6 @@ class GeoKanteExtensions extends BasisObjektExtensions {
 
 		return new GeoPosition(lateralSegement.p1, rotation, wirkrichtung)
 	}
-
 
 	static def boolean isCRSConsistent(GEO_Kante geoKante) {
 		val crsA = geoKante.geoKnotenA.CRS
@@ -218,10 +217,14 @@ class GeoKanteExtensions extends BasisObjektExtensions {
 		);
 	}
 
-	def static LineSegment getTangent(
-		GEO_Kante geoKante,
-		SegmentPosition position
-	) {
+	def static LineSegment getTangent(GEO_Kante geoKante,
+		SegmentPosition position) {
+		return getTangent(geoKante, position,
+			GeometryCalculationOptions.defaultOptions.chordOptions)
+	}
+
+	def static LineSegment getTangent(GEO_Kante geoKante,
+		SegmentPosition position, GeometryOptions options) {
 		val ENUMGEOForm form = geoKante.GEOKanteAllg.GEOForm.wert
 		switch (form) {
 			case ENUMGEO_FORM_GERADE,
@@ -243,7 +246,8 @@ class GeoKanteExtensions extends BasisObjektExtensions {
 						if (radius < 0)
 							Chord.Orientation.ARC_RIGHT
 						else
-							Chord.Orientation.ARC_LEFT
+							Chord.Orientation.ARC_LEFT,
+						options.stepSize
 					)
 				).getTangent(position.coordinate)
 				if (radius > 0 && position.directedLineSegment.forwards) {
@@ -275,7 +279,8 @@ class GeoKanteExtensions extends BasisObjektExtensions {
 		double tolerance
 	) {
 		try {
-			return getGeometry(edge).segments.getSegmentWith(coordinate, tolerance)
+			return getGeometry(edge).segments.getSegmentWith(coordinate,
+				tolerance)
 		} catch (GeometryException e) {
 			throw new RuntimeException(e)
 		}
@@ -349,7 +354,7 @@ class GeoKanteExtensions extends BasisObjektExtensions {
 
 		return result
 	}
-	
+
 	def static Double getRadiusAtKnoten(GEO_Kante geoKante,
 		GEO_Knoten geoKnoten) {
 		switch (geoKante?.GEOKanteAllg?.GEOForm?.wert) {
@@ -361,13 +366,15 @@ class GeoKanteExtensions extends BasisObjektExtensions {
 					doubleValue
 			default: {
 				if (geoKnoten === geoKante.geoKnotenA) {
-					return (geoKante?.GEOKanteAllg?.GEORadiusA?.wert ?: 0).doubleValue
+					return (geoKante?.GEOKanteAllg?.GEORadiusA?.wert ?: 0).
+						doubleValue
 				}
-		
+
 				if (geoKnoten === geoKante.geoKnotenB) {
-					return (geoKante?.GEOKanteAllg?.GEORadiusB?.wert ?: 0).doubleValue
+					return (geoKante?.GEOKanteAllg?.GEORadiusB?.wert ?: 0).
+						doubleValue
 				}
-				
+
 				throw new IllegalArgumentException('''GEOKnoten: «geoKnoten.identitaet.wert» doesn't belong to GEOKanten: «geoKante.identitaet.wert»''')
 			}
 		}
