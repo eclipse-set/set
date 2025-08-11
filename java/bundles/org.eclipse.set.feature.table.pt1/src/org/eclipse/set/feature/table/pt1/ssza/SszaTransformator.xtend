@@ -4,7 +4,7 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
  * 
  */
@@ -148,91 +148,92 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 				return counts.max.toString
 			]
 		)
-
-		// F: Ssza.Bezugspunkt.Bezeichnung
-		fillSwitch(
-			cols.getColumn(Bezugspunkt_Bezeichnung),
-			dpBezug,
-			bezugspunktCase(
-				BUE_Anlage,
-				[bezeichnung?.bezeichnungTabelle?.wert]
-			),
-			bezugspunktCaseIterable(
-				BUE_Einschaltung,
-				[
-					schaltmittelZuordnung.map [
-						'''«schaltmittelFunktion?.translate» «getSwitchName(IDSchalter?.value)»'''
+		if (dpBezug !== null) {
+			// F: Ssza.Bezugspunkt.Bezeichnung
+			fillSwitch(
+				cols.getColumn(Bezugspunkt_Bezeichnung),
+				dpBezug,
+				bezugspunktCase(
+					BUE_Anlage,
+					[bezeichnung?.bezeichnungTabelle?.wert]
+				),
+				bezugspunktCaseIterable(
+					BUE_Einschaltung,
+					[
+						schaltmittelZuordnung.map [
+							'''«schaltmittelFunktion?.translate» «getSwitchName(IDSchalter?.value)»'''
+						]
 					]
-				]
-			),
-			bezugspunktCase(
-				BUE_Kante,
-				[
-					val relevantBereichs = container.gleisBezeichnung.filter [ bo |
-						bo.contains(it)
-					].toList
-					val tracksDesignation = relevantBereichs.filterNull.map [
-						bezeichnung?.bezGleisBezeichnung?.wert
-					]
-					'''BÜ-K «IDBUEAnlage?.value?.bezeichnung?.bezeichnungTabelle?.wert»«
+				),
+				bezugspunktCase(
+					BUE_Kante,
+					[
+						val relevantBereichs = container.gleisBezeichnung.filter [ bo |
+							bo.contains(it)
+						].toList
+						val tracksDesignation = relevantBereichs.filterNull.map [
+							bezeichnung?.bezGleisBezeichnung?.wert
+						]
+						'''BÜ-K «IDBUEAnlage?.value?.bezeichnung?.bezeichnungTabelle?.wert»«
 					»«IF !tracksDesignation.nullOrEmpty», Gl. «tracksDesignation.join(", ")»«ENDIF»'''
-				]
-			),
-			bezugspunktCase(
-				PZB_Element,
-				[
-					'''GM «PZBArt?.translate» «IDPZBElementZuordnung?.value?.PZBElementZuordnungBP?.map[fillBezugsElement(IDPZBElementBezugspunkt?.value)].join»'''
-				]
-			),
-			bezugspunktCase(
-				ZUB_Streckeneigenschaft,
-				[bezeichnung?.bezeichnungZUBSE?.wert]
-			),
-			bezugspunktCase(
-				Markanter_Punkt,
-				[bezeichnung?.bezeichnungMarkanterPunkt?.wert]
+					]
+				),
+				bezugspunktCase(
+					PZB_Element,
+					[
+						'''GM «PZBArt?.translate» «IDPZBElementZuordnung?.value?.PZBElementZuordnungBP?.map[fillBezugsElement(IDPZBElementBezugspunkt?.value)].join»'''
+					]
+				),
+				bezugspunktCase(
+					ZUB_Streckeneigenschaft,
+					[bezeichnung?.bezeichnungZUBSE?.wert]
+				),
+				bezugspunktCase(
+					Markanter_Punkt,
+					[bezeichnung?.bezeichnungMarkanterPunkt?.wert]
+				)
 			)
-		)
-		var List<Pair<Strecke, String>> dpBezugStreckeAndKm = newLinkedList
-		try {
-			dpBezugStreckeAndKm.addAll(datenpunkt.getStreckeAndKm(dpBezug))
-		} catch (Exception e) {
-			handleFillingException(e, it,
-				cols.getColumn(Bezugspunkt_Standort_Strecke))
-			handleFillingException(e, it,
-				cols.getColumn(Bezugspunkt_Standort_km))
-			handleFillingException(e, it, cols.getColumn(Bemerkung))
-		}
-		if (!dpBezugStreckeAndKm.nullOrEmpty) {
-			// G: Ssza.Bezugspunkt.Standort.Strecke
-			fillIterable(
-				cols.getColumn(Bezugspunkt_Standort_Strecke),
-				dpBezugStreckeAndKm,
-				[map[key?.bezeichnung?.bezeichnungStrecke?.wert].filterNull],
-				MIXED_STRING_COMPARATOR
-			)
+			var List<Pair<Strecke, String>> dpBezugStreckeAndKm = newLinkedList
+			try {
+				dpBezugStreckeAndKm.addAll(datenpunkt.getStreckeAndKm(dpBezug))
+			} catch (Exception e) {
+				handleFillingException(e, it,
+					cols.getColumn(Bezugspunkt_Standort_Strecke))
+				handleFillingException(e, it,
+					cols.getColumn(Bezugspunkt_Standort_km))
+				handleFillingException(e, it, cols.getColumn(Bemerkung))
+			}
+			if (!dpBezugStreckeAndKm.nullOrEmpty) {
+				// G: Ssza.Bezugspunkt.Standort.Strecke
+				fillIterable(
+					cols.getColumn(Bezugspunkt_Standort_Strecke),
+					dpBezugStreckeAndKm,
+					[map[key?.bezeichnung?.bezeichnungStrecke?.wert].filterNull],
+					MIXED_STRING_COMPARATOR
+				)
 
-			// H: Ssza.Bezugspunkt.Standort.km
-			fillIterable(
-				cols.getColumn(Bezugspunkt_Standort_km),
-				dpBezugStreckeAndKm,
-				[map[value]],
-				MIXED_STRING_COMPARATOR
-			)
+				// H: Ssza.Bezugspunkt.Standort.km
+				fillIterable(
+					cols.getColumn(Bezugspunkt_Standort_km),
+					dpBezugStreckeAndKm,
+					[map[value]],
+					MIXED_STRING_COMPARATOR
+				)
 
-			val firstStreckekm = dpBezugStreckeAndKm.firstOrNull?.value
-			// O: Ssza.Bemerkung
-			fillConditional(
-				cols.getColumn(Bemerkung),
-				datenpunkt,
-				[
-					ZUB_Streckeneigenschaft.isInstance(it) &&
-						(it as ZUB_Streckeneigenschaft).metallteil !== null
-				],
-				[
-					firstStreckekm ?: ""
-				]
-			)
+				val firstStreckekm = dpBezugStreckeAndKm.firstOrNull?.value
+				// O: Ssza.Bemerkung
+				fillConditional(
+					cols.getColumn(Bemerkung),
+					datenpunkt,
+					[
+						ZUB_Streckeneigenschaft.isInstance(it) &&
+							(it as ZUB_Streckeneigenschaft).metallteil !== null
+					],
+					[
+						firstStreckekm ?: ""
+					]
+				)
+			}
 		}
 
 		// J: Ssza.DP-Standort.Stellbereich
