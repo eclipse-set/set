@@ -37,7 +37,7 @@ http://www.eclipse.org/legal/epl-v20.html
 	</xsl:template>
 
 	<xsl:template match="DiffContent">
-		<fo:block>
+		<fo:block keep-together.within-page="always">
 			<xsl:apply-templates />
 		</fo:block>
 	</xsl:template>
