@@ -155,32 +155,32 @@ public class SiteplanPdfExportBuilder extends FopPdfExportBuilder {
 						imagesData.get(i), titleBox, freeFieldInfo, ppm);
 				final String siteplanExportName = SITEPLAN_EXPORT_NAME + "_" //$NON-NLS-1$
 						+ i;
-			if (ToolboxConfiguration.isDebugMode()) {
-				exportTableDocument(
+				if (ToolboxConfiguration.isDebugMode()) {
+					exportTableDocument(
 							Paths.get(exportTmpDir.toString(),
 									getFilename(siteplanExportName, "xml")), //$NON-NLS-1$
-						imageDocumentText);
-			}
-			final ByteArrayInputStream tableDocumentStream = new ByteArrayInputStream(
-					imageDocumentText.getBytes(UTF_8));
-			final StreamSource imageDocumentSource = new StreamSource(
-					tableDocumentStream);
+							imageDocumentText);
+				}
+				final ByteArrayInputStream tableDocumentStream = new ByteArrayInputStream(
+						imageDocumentText.getBytes(UTF_8));
+				final StreamSource imageDocumentSource = new StreamSource(
+						tableDocumentStream);
 				final String exportFileName = getFilename(siteplanExportName,
 						"xsl"); //$NON-NLS-1$
 				final String pagePostFix = i == imagesData.size() - 1 ? "-" //$NON-NLS-1$
 						: "+"; //$NON-NLS-1$
-			final Pair<String, StreamSource> xslStreamSource = getSiteplanXSLTemplate(
+				final Pair<String, StreamSource> xslStreamSource = getSiteplanXSLTemplate(
 						imagesData.get(i), ppm, tableType,
 						exportTmpDir.toString(), exportFileName, i + 1,
 						pagePostFix);
-			final Path outputPath = toolboxPaths.getTableExportPath(
+				final Path outputPath = toolboxPaths.getTableExportPath(
 						String.format("%s_%s_%d", SITEPLAN_EXPORT_NAME, //$NON-NLS-1$
 								xslStreamSource.getFirst(), Integer.valueOf(i)),
 						exportTmpDir, ExportType.PLANNING_RECORDS,
-					TABLE_PDF_EXPORT_EXTENSION);
-			fopService.fop(OutputFormat.PDF, xslStreamSource.getSecond(),
-					imageDocumentSource, outputPath, PdfAMode.PDF_A_3a,
-					overwriteHandling, null);
+						TABLE_PDF_EXPORT_EXTENSION);
+				fopService.fop(OutputFormat.PDF, xslStreamSource.getSecond(),
+						imageDocumentSource, outputPath, PdfAMode.PDF_A_3a,
+						overwriteHandling, null);
 				pdfMergerUtility.addSource(outputPath.toFile());
 			}
 			pdfMergerUtility
@@ -200,7 +200,7 @@ public class SiteplanPdfExportBuilder extends FopPdfExportBuilder {
 			} catch (final IOException e) {
 				throw new FileExportException(
 						Path.of(outputDir, SITEPLAN_EXPORT_NAME), e);
-	}
+			}
 		}
 
 	}
