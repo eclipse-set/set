@@ -77,13 +77,12 @@ class TableToTableDocument {
 	static def TableToTableDocument createTransformation() throws ParserConfigurationException {
 		return new TableToTableDocument
 	}
-
-	def Document transformToDocument(List<BufferedImage> imagesData,
-		Titlebox titleBox, FreeFieldInfo freeFieldInfo, double ppm) {
+	
+	def Document transformToDocument(BufferedImage imageData, Titlebox titleBox, FreeFieldInfo freeFieldInfo, double ppm) {
 		tablename = "siteplan export"
 		logger.debug("transform siteplan to document")
 		val rootNode = doc.createElement("Siteplan")
-		imagesData.forEach[rootNode.appendChild(transform(ppm))]
+		rootNode.appendChild(imageData.transform(ppm))
 		rootNode.appendChild(titleBox.transform)
 		rootNode.appendChild(freeFieldInfo.transform)
 		doc.appendChild(rootNode)

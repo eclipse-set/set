@@ -31,6 +31,8 @@ public class SiteplanXSLPage {
 	SignificantInformation significantInformation;
 
 	PageDIN pageDIN;
+	private final double pageWidth;
+	private final double pageHeight;
 
 	/**
 	 * @param pageDIN
@@ -53,13 +55,61 @@ public class SiteplanXSLPage {
 		this.titleBoxRegion = titleBoxRegion;
 		this.regionBody = regionBody;
 		this.significantInformation = significant;
+		this.pageHeight = pageDIN.getPageHeight();
+		this.pageWidth = pageDIN.getPageWidth();
 	}
 
 	/**
-	 * @return {@link PageDIN}
+	 * @param pageHeight
+	 *            the page height
+	 * @param pageWidth
+	 *            the page width
+	 * @param titleBoxRegion
+	 *            {@link TitleBoxRegion}
+	 * @param regionBody
+	 *            {@link RegionBody}
+	 * @param foldingMarks
+	 *            list of {@link FoldingMark}
+	 * @param signfInformation
+	 *            {@link SignificantInformation}
 	 */
-	public PageDIN getPageDIN() {
-		return pageDIN;
+	public SiteplanXSLPage(final double pageHeight, final double pageWidth,
+			final TitleBoxRegion titleBoxRegion, final RegionBody regionBody,
+			final List<FoldingMark> foldingMarks,
+			final SignificantInformation signfInformation) {
+		this.pageDIN = null;
+		this.foldingMarks = foldingMarks;
+		this.titleBoxRegion = titleBoxRegion;
+		this.regionBody = regionBody;
+		this.significantInformation = signfInformation;
+		this.pageHeight = pageHeight;
+		this.pageWidth = pageWidth;
+	}
+
+	/**
+	 * @return {@link PageDIN#toString()}
+	 */
+	public String getPageDIN() {
+		try {
+			return pageDIN.toString();
+		} catch (final Exception e) {
+			return "Custom"; //$NON-NLS-1$
+		}
+
+	}
+
+	/**
+	 * @return the page width
+	 */
+	public double getPageWidth() {
+		return pageWidth;
+	}
+
+	/**
+	 * @return the page height
+	 */
+	public double getPageHeight() {
+		return pageHeight;
 	}
 
 	/**

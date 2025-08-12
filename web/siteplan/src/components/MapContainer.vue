@@ -37,7 +37,7 @@ import Configuration from '@/util/Configuration'
 import ExportControl from '@/util/Controls/ExportControl'
 import RotateViewControl from '@/util/Controls/RotateViewControl'
 import ScaleBarControl from '@/util/Controls/ScaleBarControl'
-import { setMapScale } from '@/util/MapScale'
+import { getPixelProMeterAtScale, setMapScale } from '@/util/MapScale'
 import OlMap from 'ol/Map'
 import 'ol/ol.css'
 import OlView from 'ol/View'
@@ -78,6 +78,11 @@ export default class MapContainer extends Vue {
       this.scaleLine = new ScaleBarControl(() => {
         this.scaleLocked = Configuration.getInternalDefaultLodScale()
         setMapScale(this.map.getView(), this.scaleLocked)
+        getPixelProMeterAtScale(
+          this.map,
+          this.map.getView(),
+          100
+        )
       })
       this.map.addControl(this.scaleLine)
       // Reapply zoom level after moving
@@ -97,6 +102,33 @@ export default class MapContainer extends Vue {
         }
       })
     }
+
+    this.map.once('rendercomplete', () => {
+      // the export to image should have high resolution
+      // than scale value to avoid blurred symbols.
+      const scaleValue = Configuration.getExportScaleValue() / 4
+      if (store.state.pixelPerMeterAtScale.has(scaleValue)) {
+        return
+      }
+
+      getPixelProMeterAtScale(
+        this.map,
+        this.map.getView(),
+        scaleValue
+      ).then(pixelProMeter => {
+        if (pixelProMeter === undefined) {
+          return
+        }
+
+        // Set the pixel pro meter value in the store
+        store.commit('setPixelProMeter', {
+          scaleValue: Configuration.getExportScaleValue() / 4,
+          ppm: Math.round(pixelProMeter)
+        })
+        console.log(pixelProMeter)
+        store.commit('setCustomPpm', Math.round(pixelProMeter))
+      })
+    })
 
     // Disable locked scale after manually zooming
     this.map.on('movestart', e => {
@@ -151,7 +183,7 @@ div.side-info-container {
   background-color: #f7f7f7;
   border-left: 1px solid #e7e7e7;
   border-top: 1px solid #e7e7e7;
-  width: 250px;
+  width: 400px;
   height: auto;
   overflow: auto;
 }
