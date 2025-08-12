@@ -63,7 +63,6 @@ class TableToTableDocument {
 	var int groupNumber
 	var TableSpanUtils spanUtils
 	var remarkTextInlnie = true
-	static val String FOOTNOTE_SEPARATOR = ", "
 
 	private new() throws ParserConfigurationException {
 		val docFactory = DocumentBuilderFactory.newInstance

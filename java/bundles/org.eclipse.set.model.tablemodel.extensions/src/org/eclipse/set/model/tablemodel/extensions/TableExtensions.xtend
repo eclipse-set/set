@@ -41,7 +41,7 @@ import org.eclipse.set.model.planpro.Basisobjekte.Bearbeitungsvermerk
  * Extensions for {@link Table}.
  */
 class TableExtensions {
-
+	public static val String FOOTNOTE_SEPARATOR = "; "
 	/**
 	 * @param columnLabels the column labels
 	 * 
@@ -477,8 +477,9 @@ class TableExtensions {
 			if (fc instanceof SimpleFootnoteContainer) {
 				val remarks = fc.footnotes.map[getFootnoteInfo(table, it)].
 					filterNull
-				return remarks.isEmpty || (remarks.size == 1 &&
-					remarks.firstOrNull.toText.length < maxCharInCell)
+					
+				return remarks.isEmpty ||
+					remarks.map[toText].join(", ").length < maxCharInCell
 			}
 
 			if (fc instanceof CompareFootnoteContainer) {
@@ -500,8 +501,8 @@ class TableExtensions {
 					case 1: {
 						val remarks = notEmptyContainer.firstOrNull.map[toText].
 							filterNull
-						return remarks.isEmpty || (remarks.size == 1 &&
-							remarks.firstOrNull.length < maxCharInCell)
+						return remarks.isEmpty || 
+							remarks.join(FOOTNOTE_SEPARATOR).length < maxCharInCell
 					}
 					default:
 						false
