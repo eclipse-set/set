@@ -148,33 +148,43 @@ public class SszsColumns {
 	public static final String Haltfallkriterium_2 = "Z";
 
 	/**
+	 * Sszs.Sonstige_Funktionen.ZSS
+	 */
+	public static final String ZSS = "AA";
+
+	/**
 	 * Sszs.TBV.Meldepunkt
 	 */
-	public static final String Meldepunkt = "AA";
+	public static final String Meldepunkt = "AB";
 
 	/**
 	 * Sszs.TBV.Laenge_Tunnelbereich
 	 */
-	public static final String Laenge_Tunnelbereich = "AB";
+	public static final String Laenge_Tunnelbereich = "AC";
 
 	/**
 	 * Sszs.TBV.Tunnelsignal
 	 */
-	public static final String Tunnelsignal = "AC";
+	public static final String Tunnelsignal = "AD";
 
 	/**
 	 * Sszs.Ansteuerung.ESTW-Zentraleinheit
 	 */
-	public static final String ESTW_Zentraleinheit = "AD";
+	public static final String ESTW_Zentraleinheit = "AE";
 
 	/**
 	 * Sszs.Ansteuerung.Stellbereich
 	 */
-	public static final String Stellbereich = "AE";
+	public static final String Stellbereich = "AF";
+
+	/**
+	 * Sszs.Ansteuerung.RBC-Anschaltung
+	 */
+	public static final String RBC_Anschaltung = "AG";
 
 	/**
 	 * Sssz.Bemerkung
 	 */
-	public static final String Bemerkung = "AF";
+	public static final String Bemerkung = "AH";
 
 }
