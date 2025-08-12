@@ -24,6 +24,18 @@ import java.util.Optional;
  * @author Truong
  */
 public class SiteplanXSLExtension {
+	/**
+	 * Default margin top/bottom value (mm)
+	 */
+	public static final double DEFAULT_MARGIN_TOP_BOTTOM = 10;
+	/**
+	 * Default margin left value (mm)
+	 */
+	public static final double DEFAULT_MARGIN_LEFT = 20;
+	/**
+	 * Default margin right value (mm)
+	 */
+	public static final double DEFAULT_MARGIN_RIGHT = 10;
 
 	/**
 	 * Region position of FOP

@@ -17,13 +17,17 @@ import static org.eclipse.set.utils.export.xsl.XSLConstant.XSLFoAttributeName.*;
 import static org.eclipse.set.utils.export.xsl.XSLConstant.XSLNodeName.*;
 import static org.eclipse.set.utils.export.xsl.XSLConstant.XSLTag.*;
 import static org.eclipse.set.utils.export.xsl.siteplan.SiteplanExportPage.*;
+import static org.eclipse.set.utils.export.xsl.siteplan.SiteplanXSLExtension.*;
 import static org.eclipse.set.utils.export.xsl.siteplan.SiteplanXSLExtension.FoldingMark.DEFAULT_EXTENT_TOP_BOTTOM_RIGHT;
 import static org.eclipse.set.utils.export.xsl.siteplan.SiteplanXSLExtension.RegionPosition.*;
+import static org.eclipse.set.utils.export.xsl.siteplan.SiteplanXSLExtension.TitleBoxRegion.TITLEBOX_HEIGHT;
+import static org.eclipse.set.utils.export.xsl.siteplan.SiteplanXSLExtension.TitleBoxRegion.TITLEBOX_WIDTH;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
@@ -37,8 +41,8 @@ import org.eclipse.set.utils.export.xsl.XMLDocumentExtensions.XMLAttribute;
 import org.eclipse.set.utils.export.xsl.XSLConstant;
 import org.eclipse.set.utils.export.xsl.XSLConstant.TableAttribute.BorderDirection;
 import org.eclipse.set.utils.export.xsl.siteplan.SiteplanXSLExtension.FoldingMark;
-import org.eclipse.set.utils.export.xsl.siteplan.SiteplanXSLExtension.PageDIN;
 import org.eclipse.set.utils.export.xsl.siteplan.SiteplanXSLExtension.RegionBody;
+import org.eclipse.set.utils.export.xsl.siteplan.SiteplanXSLExtension.RegionPosition;
 import org.eclipse.set.utils.export.xsl.siteplan.SiteplanXSLExtension.SignificantInformation;
 import org.eclipse.set.utils.export.xsl.siteplan.SiteplanXSLExtension.TitleBoxRegion;
 import org.w3c.dom.Document;
@@ -124,7 +128,7 @@ public class SiteplanXSL {
 					"Es gibt kein passendes Papierformat für diesen Lageplan im aktuellen Layout. Bitte DPI-Zahl or Skalierungsfaktor ändern"); //$NON-NLS-1$
 		}
 
-		return this.setPageSize(pageStyle.getPageDIN())
+		return this.setPageSize(pageStyle.getPageHeight())
 				.setRegionBodySize(pageStyle.getRegionBody())
 				.setFreeFeldHeight(pageStyle.getTitleBoxRegion())
 				.setSignificantSize(pageStyle.getSignificantInformation())
@@ -142,16 +146,15 @@ public class SiteplanXSL {
 				.findFirst();
 
 		if (relevantPageWidth.isEmpty()) {
-			return pageStyle.getPageDIN().getPageWidth() + imageWidthMilimet
+			return pageStyle.getPageWidth() + imageWidthMilimet
 					- pageStyle.getRegionBody().width();
 		}
-		return relevantPageWidth.get().getPageDIN().getPageWidth();
+		return relevantPageWidth.get().getPageWidth();
 	}
 
-	private SiteplanXSL setPageSize(final PageDIN pageDIN)
+	private SiteplanXSL setPageSize(final double pageHeight)
 			throws NullPointerException {
-		setXSLElementValue(doc, XSL_ATTRIBUTE, ATTR_PAGE_HEIGHT,
-				pageDIN.getPageHeight());
+		setXSLElementValue(doc, XSL_ATTRIBUTE, ATTR_PAGE_HEIGHT, pageHeight);
 		setXSLElementValue(doc, XSL_ATTRIBUTE, ATTR_PAGE_WIDTH,
 				customPageWidth);
 		return this;
@@ -324,11 +327,25 @@ public class SiteplanXSL {
 
 	private SiteplanXSLPage determinePageStyle() {
 		final double imgHeightMillimet = pxToMilimeter(image.getHeight(), ppm);
-		return avaiablePageSize.stream()
+		final Optional<SiteplanXSLPage> xslPage = avaiablePageSize.stream()
 				.filter(page -> page.regionBody.height() >= imgHeightMillimet)
 				.min((first, second) -> Double.compare(
-						first.regionBody.height(), second.regionBody.height()))
-				.orElse(null);
+						first.regionBody.height(), second.regionBody.height()));
+		if (xslPage.isPresent()) {
+			return xslPage.get();
+		}
+		final RegionBody customRegion = new RegionBody(
+				pxToMilimeter(image.getWidth(), ppm), imgHeightMillimet);
+		final double customWidth = customRegion.width() + TITLEBOX_WIDTH
+				+ DEFAULT_MARGIN_LEFT + DEFAULT_MARGIN_RIGHT;
+		final double customHeight = customRegion.height()
+				+ DEFAULT_MARGIN_TOP_BOTTOM * 2;
+		final TitleBoxRegion titleBoxRegion = new TitleBoxRegion(
+				RegionPosition.END, TITLEBOX_WIDTH + DEFAULT_MARGIN_RIGHT,
+				customHeight - DEFAULT_MARGIN_TOP_BOTTOM - TITLEBOX_HEIGHT);
+		return new SiteplanXSLPage(customHeight, customWidth, titleBoxRegion,
+				customRegion, Collections.emptyList(),
+				new SignificantInformation(205));
 	}
 
 	/**
