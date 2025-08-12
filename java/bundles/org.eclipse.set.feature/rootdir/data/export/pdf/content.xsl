@@ -161,4 +161,10 @@ http://www.eclipse.org/legal/epl-v20.html
 			<fo:external-graphic xsl:use-attribute-sets="external-graphic-style" src="data/pictures/warning_black.svg" fox:alt-text="Error"/>
 		</fo:block>
 	</xsl:template>
+
+	<xsl:template match="CompareProjectContent">
+		 <fo:block>
+			<xsl:apply-templates />
+		</fo:block>
+	</xsl:template>
 </xsl:stylesheet>

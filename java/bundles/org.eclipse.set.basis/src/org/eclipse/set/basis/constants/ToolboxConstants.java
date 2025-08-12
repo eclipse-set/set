@@ -293,9 +293,19 @@ public final class ToolboxConstants {
 	public static final String TABLE_COMPARE_TABLE_CELL_LABEL = "tableCompareCell";
 
 	/**
+	 * Color of the compare table cell border
+	 */
+	public static final String TABLE_COMPARE_TABLE_CELL_BORDER_COLOR = "#0066FF";
+
+	/**
 	 * The id of the web developer help part
 	 */
 	public static String WEB_DEVELOPER_HELP_PART_ID = "org.eclipse.set.application.ppt.nosessionpart.WebDeveloperHelpPart";
+
+	/**
+	 * The name of compare project cell content
+	 */
+	public static final String XSL_PROJECT_COMPARE_CELL = "CompareProjectContent";
 
 	static {
 		DEFAULT_HOME_DIR = "./";
