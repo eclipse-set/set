@@ -292,6 +292,8 @@ public final class ToolboxConstants {
 	 */
 	public static final String TABLE_COMPARE_TABLE_CELL_LABEL = "tableCompareCell";
 
+	public static final String RICHTEXT_CELL_LABEL = "tableRichTextCell";
+
 	/**
 	 * Color of the compare table cell border
 	 */
