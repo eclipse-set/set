@@ -27,7 +27,6 @@
         </fo:layout-master-set>
         <fo:page-sequence force-page-count="no-force" master-reference="table-master-a">
             <fo:static-content flow-name="folding-mark-region">
-                <xsl:call-template name="CutMark" />
                 <xsl:call-template name="FoldingMarksTop"/>
                 <xsl:call-template name="WaterMark"/>
             </fo:static-content>
@@ -43,7 +42,6 @@
         </fo:page-sequence>
         <fo:page-sequence force-page-count="no-force" master-reference="page-sequence-master-b" initial-page-number="1">
             <fo:static-content flow-name="folding-mark-region">
-                <xsl:call-template name="CutMark" />
                 <xsl:call-template name="FoldingMarksTop"/>
                 <xsl:call-template name="WaterMark"/>
             </fo:static-content>

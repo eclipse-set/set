@@ -66,7 +66,6 @@ http://www.eclipse.org/legal/epl-v20.html
 
       <fo:page-sequence master-reference="page-sequence-master" initial-page-number="{$pagePosition}">
         <fo:static-content flow-name="folding-mark-region-top">
-          <xsl:call-template name="CutMark" />
           <fo:block-container height="100%" width="100%">
             <xsl:call-template name="siteplan-folding-mark-top-bottom"/>
           </fo:block-container>
