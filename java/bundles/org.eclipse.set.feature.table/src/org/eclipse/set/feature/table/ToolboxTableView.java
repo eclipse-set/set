@@ -371,7 +371,6 @@ public final class ToolboxTableView extends BasePart {
 		final List<String> lines = new ArrayList<>();
 		final List<StyleRange> styles = new ArrayList<>();
 		int startOffset = 0;
-
 		for (final FootnoteInfo footnote : TableExtensions
 				.getAllFootnotes(table)) {
 			final String text = footnote.toReferenceText();
