@@ -14,7 +14,11 @@ import { store } from '@/store'
 import Configuration from '@/util/Configuration'
 import { getFirstValue } from '@/util/ObjectExtension'
 import SvgDraw from '@/util/SVG/Draw/SvgDraw'
+import SvgDrawCant from '@/util/SVG/Draw/SvgDrawCant'
+import SvgDrawExternalElementControl from '@/util/SVG/Draw/SvgDrawExternalElementControl'
 import SvgDrawFMAComponent from '@/util/SVG/Draw/SvgDrawFMAComponent'
+import SvgDrawLockKey from '@/util/SVG/Draw/SvgDrawLockKey'
+import SvgDrawOthers from '@/util/SVG/Draw/SvgDrawOthers'
 import SvgDrawPZB from '@/util/SVG/Draw/SvgDrawPZB'
 import SvgDrawTrackClose from '@/util/SVG/Draw/SvgDrawTrackClose'
 import SvgDrawTracklock from '@/util/SVG/Draw/SvgDrawTracklock'
@@ -22,20 +26,22 @@ import SvgDrawTrackSwitch from '@/util/SVG/Draw/SvgDrawTrackSwitch'
 import { AxiosStatic } from 'axios'
 import OlIcon from 'ol/style/Icon'
 import OlStyle from 'ol/style/Style'
-import SvgDrawSignal from '../util/SVG/Draw/SvgDrawSignal'
 import AbstractDrawSVG from '../util/SVG/Draw/AbstractDrawSVG'
+import SvgDrawSignal from '../util/SVG/Draw/SvgDrawSignal'
 import SvgCatalogService from './SvgCatalogService'
 import SvgColorService from './SvgColorService'
-import SvgDrawExternalElementControl from '@/util/SVG/Draw/SvgDrawExternalElementControl'
-import SvgDrawLockKey from '@/util/SVG/Draw/SvgDrawLockKey'
-import SvgDrawOthers from '@/util/SVG/Draw/SvgDrawOthers'
-import SvgDrawCant from '@/util/SVG/Draw/SvgDrawCant'
 
+/** all data required to produce any svg. Different featureTypes store different data T */
 export interface DrawSVGData<T> {
   data: T
   featureType: FeatureType
   label?: Label
 }
+
+/** Given some DrawSVGData, it produeces svg or styling on request.
+ *  DrawSVGData is cached, so for repeated requests of the same data a SVG
+ *  is constructed only once.
+*/
 export default class SvgService {
   private catalog: Map<string, ISvgElement[]>
   private featureStyleCache: Map<string, OlStyle> = new Map<string, OlStyle>()
