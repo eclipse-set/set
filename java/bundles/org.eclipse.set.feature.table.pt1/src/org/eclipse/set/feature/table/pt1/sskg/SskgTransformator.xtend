@@ -15,7 +15,11 @@ import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.core.services.graph.TopologicalGraphService
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
+import org.eclipse.set.model.planpro.Bahnuebergang.BUE_Anlage
+import org.eclipse.set.model.planpro.Bahnuebergang.BUE_Kante
+import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
+import org.eclipse.set.model.planpro.Fahrstrasse.Markanter_Punkt
 import org.eclipse.set.model.planpro.Ortung.FMA_Komponente
 import org.eclipse.set.model.planpro.Ortung.Zugeinwirkung
 import org.eclipse.set.model.tablemodel.ColumnDescriptor
@@ -28,7 +32,6 @@ import static org.eclipse.set.feature.table.pt1.sskg.SskgColumns.*
 
 import static extension org.eclipse.set.ppmodel.extensions.FmaKomponenteAchszaehlpunktExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FmaKomponenteExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.MarkanterPunktExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektStreckeExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
@@ -45,8 +48,7 @@ class SskgTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	new(Set<ColumnDescriptor> cols,
 		EnumTranslationService enumTranslationService,
-		TopologicalGraphService topGraphService,
-		EventAdmin eventAdmin) {
+		TopologicalGraphService topGraphService, EventAdmin eventAdmin) {
 		super(cols, enumTranslationService, eventAdmin)
 		this.topGraphService = topGraphService;
 	}
@@ -76,8 +78,7 @@ class SskgTransformator extends AbstractPlanPro2TableModelTransformator {
 				cols.getColumn(Art),
 				ein,
 				[
-					ein?.zugeinwirkungAllg?.zugeinwirkungArt?.translate ?:
-						""
+					ein?.zugeinwirkungAllg?.zugeinwirkungArt?.translate ?: ""
 				]
 			)
 
@@ -127,8 +128,7 @@ class SskgTransformator extends AbstractPlanPro2TableModelTransformator {
 				cols.getColumn(Bezugspunkt_Bezeichnung),
 				ein,
 				[
-					ein?.markanterPunkt?.bezeichnung?.
-						bezeichnungMarkanterPunkt?.wert ?: ""
+					bezugspunktBezeichnung
 				]
 			)
 
@@ -138,11 +138,11 @@ class SskgTransformator extends AbstractPlanPro2TableModelTransformator {
 				cols.getColumn(Bezugspunkt_Abstand),
 				ein,
 				[
-					val mp = markanterPunkt?.markanteStelle
-					if (mp === null) {
+					val punkt = bezugspunkt
+					if (punkt === null) {
 						return null
 					}
-					String.format("%.0f", getShortestPathLength(ein, mp))
+					String.format("%.0f", getShortestPathLength(ein, punkt))
 				]
 			)
 
@@ -271,8 +271,7 @@ class SskgTransformator extends AbstractPlanPro2TableModelTransformator {
 					cols.getColumn(Bezugspunkt_Bezeichnung),
 					fma,
 					[
-						fma?.markanterPunkt?.bezeichnung?.
-							bezeichnungMarkanterPunkt?.wert ?: ""
+						bezugspunktBezeichnung ?: ""
 					]
 				)
 
@@ -282,11 +281,11 @@ class SskgTransformator extends AbstractPlanPro2TableModelTransformator {
 					cols.getColumn(Bezugspunkt_Abstand),
 					fma,
 					[
-						val mp = markanterPunkt?.markanteStelle
-						if (mp === null) {
+						val punkt = bezugsPunkt
+						if (punkt === null) {
 							return null
 						}
-						String.format("%.0f", getShortestPathLength(fma, mp))
+						String.format("%.0f", getShortestPathLength(fma, punkt))
 					]
 				)
 
@@ -342,4 +341,29 @@ class SskgTransformator extends AbstractPlanPro2TableModelTransformator {
 			]
 		].filter[present].map[get.doubleValue].min
 	}
+
+	def dispatch String getBezugspunktBezeichnung(FMA_Komponente fma) {
+		return fma.IDBezugspunkt?.value.bezugspunktBezeichnung
+	}
+	
+	def dispatch String getBezugspunktBezeichnung(Zugeinwirkung ein) {
+		return ein.IDBezugspunkt?.value?.bezugspunktBezeichnung
+	}
+
+	def dispatch String getBezugspunktBezeichnung(Basis_Objekt fma) {
+		return ""
+	}
+
+	def dispatch String getBezugspunktBezeichnung(BUE_Anlage bueAnlage) {
+		return bueAnlage.bezeichnung?.bezeichnungTabelle?.wert
+	}
+
+	def dispatch String getBezugspunktBezeichnung(BUE_Kante bueKante) {
+		return bueKante?.IDBUEAnlage?.value?.bezugspunktBezeichnung
+	}
+
+	def dispatch String getBezugspunktBezeichnung(Markanter_Punkt markanter) {
+		return markanter?.bezeichnung?.bezeichnungMarkanterPunkt?.wert
+	}
+
 }

@@ -28,6 +28,7 @@ import org.eclipse.set.basis.extensions.PathExtensions;
 import org.eclipse.set.basis.files.ExtendedPlanProValidator;
 import org.eclipse.set.basis.files.PlanProFileResource;
 import org.eclipse.set.basis.files.ToolboxFile;
+import org.eclipse.set.core.services.version.PlanProVersionService;
 import org.eclipse.set.model.planpro.PlanPro.DocumentRoot;
 import org.w3c.dom.Document;
 
@@ -80,10 +81,11 @@ public abstract class AbstractToolboxFile implements ToolboxFile {
 	}
 
 	protected void loadResource(final Path path,
-			final EditingDomain editingDomain) throws IOException {
+			final EditingDomain editingDomain,
+			final PlanProVersionService versionService) throws IOException {
 		ExtendedPlanProValidator.registerValidator();
 		final ResourceSet resourceSet = editingDomain.getResourceSet();
-
+		versionService.createSupportedVersion();
 		// Allow file extesion with Uppercase
 		final URI resourceUri = URI.createFileURI(
 				PathExtensions.toLowerCaseExtension(path).toString());
@@ -91,7 +93,8 @@ public abstract class AbstractToolboxFile implements ToolboxFile {
 				.getResource(resourceUri, false);
 		if (newResource == null) {
 			// Load the resource
-			newResource = new PlanProFileResource(resourceUri);
+			newResource = new PlanProFileResource(resourceUri,
+					new PlanProXMLHelper(newResource, versionService));
 			resourceSet.getResources().add(newResource);
 			// Allow ppxml files with unknown features to be loaded
 			// by ignoring wrapped FeatureNotFoundExceptions
