@@ -224,7 +224,7 @@ public class Messages extends AbstractMessageService {
 	public String ToolboxTableNameSskpLong;
 
 	/**
-	 * 10/36
+	 * 10/38
 	 */
 	public String ToolboxTableNameSskpPlanningNumber;
 
