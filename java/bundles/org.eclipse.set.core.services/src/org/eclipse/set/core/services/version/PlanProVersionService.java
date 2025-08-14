@@ -20,9 +20,41 @@ import org.eclipse.set.model.validationreport.VersionInfo;
 public interface PlanProVersionService {
 
 	/**
+	 * The PlanPro Version format <major>.<patch>.<minor>
+	 * 
+	 * @param major
+	 *            the major version
+	 * @param patch
+	 *            the patch version
+	 * @param minor
+	 *            the minor version
+	 */
+	public record PlanProVersionFormat(String major, String patch,
+			String minor) {
+		/**
+		 * @return <major>.<patch>
+		 */
+		public String getMajorPatchVersion() {
+			return major + "." + patch; //$NON-NLS-1$
+		}
+
+		/**
+		 * @return <major>.<patch>.<version>
+		 */
+		public String getFullVersion() {
+			return String.format("%s.%s.%s", major, patch, minor); //$NON-NLS-1$
+		}
+	}
+
+	/**
 	 * @return the supported PlanPro version
 	 */
 	public VersionInfo createSupportedVersion();
+
+	/**
+	 * @return the supported PlanPro version format
+	 */
+	public PlanProVersionFormat getSupportedVersionFormat();
 
 	/**
 	 * @param location
@@ -31,4 +63,9 @@ public interface PlanProVersionService {
 	 * @return the used version
 	 */
 	public VersionInfo createUsedVersion(Path location);
+
+	/**
+	 * @return the current PlanPro version
+	 */
+	public String getCurrentVersion();
 }
