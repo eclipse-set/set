@@ -143,6 +143,13 @@ public class SiteplanPdfExportBuilder extends FopPdfExportBuilder {
 		final Path exportTmpDir = Path.of(outputDir, SITEPLAN_TMP_DIR);
 		if (!exportTmpDir.toFile().exists()) {
 			exportTmpDir.toFile().mkdirs();
+		} else if (exportTmpDir.toFile().isDirectory()) {
+			final File[] listFiles = exportTmpDir.toFile().listFiles();
+			if (listFiles != null) {
+				for (final File file : listFiles) {
+					file.delete();
+				}
+			}
 		}
 		final PDFMergerUtility pdfMergerUtility = new PDFMergerUtility();
 		pdfMergerUtility.setDestinationFileName(toolboxPaths
