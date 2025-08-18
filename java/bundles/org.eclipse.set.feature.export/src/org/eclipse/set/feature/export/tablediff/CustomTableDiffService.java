@@ -202,7 +202,9 @@ public class CustomTableDiffService implements TableDiffService {
 				.createCompareCellContent();
 		compareContent.getOldValue().addAll(oldValues);
 		compareContent.getNewValue().addAll(newValues);
-		compareContent.setSeparator(oldCell.getContent().getSeparator());
+		compareContent.setSeparator(EObjectExtensions
+				.getNullableObject(oldCell, c -> c.getContent().getSeparator())
+				.orElse(null));
 		return compareContent;
 	}
 
