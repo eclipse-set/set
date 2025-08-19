@@ -292,7 +292,10 @@ public final class ToolboxConstants {
 	 */
 	public static final String TABLE_COMPARE_TABLE_CELL_LABEL = "tableCompareCell";
 
-	public static final String RICHTEXT_CELL_LABEL = "tableRichTextCell";
+	/**
+	 * Labels for converter search cell
+	 */
+	public static final String SEARCH_CELL_DISPLAY_CONVERTER = "searchCellConverter";
 
 	/**
 	 * Color of the compare table cell border
