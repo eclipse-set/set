@@ -343,7 +343,7 @@ class SskgTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	def dispatch String getBezugspunktBezeichnung(FMA_Komponente fma) {
-		return fma.IDBezugspunkt?.value.bezugspunktBezeichnung
+		return fma.IDBezugspunkt?.value?.bezugspunktBezeichnung
 	}
 	
 	def dispatch String getBezugspunktBezeichnung(Zugeinwirkung ein) {
