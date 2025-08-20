@@ -9,7 +9,7 @@
 
 package org.eclipse.set.core.fileservice
 
-import java.io.IOException
+import java.lang.Throwable
 import java.nio.file.Files
 import java.nio.file.Paths
 import org.eclipse.set.basis.files.ToolboxFile
@@ -34,11 +34,13 @@ class ZippedToolboxFileTest extends AbstractToolboxFileTest {
 	 * Test method for {@link ZippedPlanProToolboxFile#open()}
 	 */
 	@Test
-	def void testOpen() throws IOException{
-		whenOpen
-		thenExpectContentsExists(true)
-		thenExpectLayoutContentExists(true)
-		thenExpectResourceCallsWithinZipDirectory
+	def void testOpen() throws Throwable{
+		MockPlanProVersionService.mockPlanProVersionService([
+			whenOpen
+			thenExpectContentsExists(true)
+			thenExpectLayoutContentExists(true)
+			thenExpectResourceCallsWithinZipDirectory
+		])
 	}
 
 	/**
@@ -46,37 +48,44 @@ class ZippedToolboxFileTest extends AbstractToolboxFileTest {
 	 * 
 	 */
 	@Test
-	def void testClose() throws IOException {
-		whenOpen
-		whenClose
-		thenExpectZippedDirectoryNotExist
-		thenExpectContentsExists(false)
+	def void testClose() throws Throwable {
+		MockPlanProVersionService.mockPlanProVersionService([
+			whenOpen
+			whenClose
+			thenExpectZippedDirectoryNotExist
+			thenExpectContentsExists(false)
+		])
 	}
 
 	/**
 	 * Test method for multiple {@link ZippedPlanProToolboxFile#close()}
 	 */
 	@Test
-	def void testMultipleClose() throws IOException {
-		whenOpen
-		whenClose
-		whenClose
-		thenExpectZippedDirectoryNotExist
-		thenExpectContentsExists(false)
-		thenExpectLayoutContentExists(false)
+	def void testMultipleClose() throws Throwable {
+		MockPlanProVersionService.mockPlanProVersionService([
+			whenOpen
+			whenClose
+			whenClose
+			thenExpectZippedDirectoryNotExist
+			thenExpectContentsExists(false)
+			thenExpectLayoutContentExists(false)
+		])
 	}
 
 	/**
 	 * Test method for multiple {@link ZippedPlanProToolboxFile#close()}
 	 */
 	@Test
-	def void testAutoclose() throws IOException {
-		PlanProPackage.eINSTANCE.eClass();
-		org.eclipse.set.model.planpro.PlanPro.PlanProPackage.eINSTANCE.
-			eClass();
+	def void testAutoclose() throws Throwable {
+		MockPlanProVersionService.mockPlanProVersionService([
+			PlanProPackage.eINSTANCE.eClass();
+			org.eclipse.set.model.planpro.PlanPro.PlanProPackage.eINSTANCE.
+				eClass();
 
-		ToolboxFileRole.SESSION.whenOpenAndAutoclose
-		thenExpectZippedDirectoryNotExist
+			ToolboxFileRole.SESSION.whenOpenAndAutoclose
+			thenExpectZippedDirectoryNotExist
+
+		])
 	}
 
 	/**
@@ -85,17 +94,20 @@ class ZippedToolboxFileTest extends AbstractToolboxFileTest {
 	 * 
 	 */
 	@Test
-	def void testCloseThenOpen() throws IOException{
-		whenOpen
-		thenExpectContentsExists(true)
-		thenExpectLayoutContentExists(true)
-		whenClose
-		thenExpectContentsExists(false)
-		thenExpectLayoutContentExists(false)
-		whenOpen
-		thenExpectContentsExists(true)
-		thenExpectLayoutContentExists(true)
-		thenExpectResourceCallsWithinZipDirectory
+	def void testCloseThenOpen() throws Throwable{
+		MockPlanProVersionService.mockPlanProVersionService([
+			whenOpen
+			thenExpectContentsExists(true)
+			thenExpectLayoutContentExists(true)
+			whenClose
+			thenExpectContentsExists(false)
+			thenExpectLayoutContentExists(false)
+			whenOpen
+			thenExpectContentsExists(true)
+			thenExpectLayoutContentExists(true)
+			thenExpectResourceCallsWithinZipDirectory
+
+		])
 	}
 
 	def void thenExpectLayoutContentExists(boolean exists) {

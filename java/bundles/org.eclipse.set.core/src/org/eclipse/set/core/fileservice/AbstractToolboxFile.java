@@ -85,7 +85,6 @@ public abstract class AbstractToolboxFile implements ToolboxFile {
 			final PlanProVersionService versionService) throws IOException {
 		ExtendedPlanProValidator.registerValidator();
 		final ResourceSet resourceSet = editingDomain.getResourceSet();
-		versionService.createSupportedVersion();
 		// Allow file extesion with Uppercase
 		final URI resourceUri = URI.createFileURI(
 				PathExtensions.toLowerCaseExtension(path).toString());
@@ -187,7 +186,6 @@ public abstract class AbstractToolboxFile implements ToolboxFile {
 		} catch (final UnsupportedOperationException e) {
 			return null;
 		}
-
 	}
 
 	/**
