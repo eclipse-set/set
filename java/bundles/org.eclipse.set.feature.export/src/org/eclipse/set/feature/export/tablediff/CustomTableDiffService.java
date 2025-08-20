@@ -68,6 +68,7 @@ public class CustomTableDiffService implements TableDiffService {
 		row.getCells().add(cell);
 	}
 
+	@SuppressWarnings("unused")
 	private static void addMissingRowGroup(final RowGroup group,
 			final Table table) {
 		String groupGuid = null;
@@ -110,7 +111,7 @@ public class CustomTableDiffService implements TableDiffService {
 		}
 	}
 
-	private static void createDiffContent(final int i, final TableRow row,
+	private void createDiffContent(final int i, final TableRow row,
 			final TableRow match,
 			final BiFunction<TableCell, TableCell, CellContent> createCompareContent) {
 		final TableCell oldCell = row.getCells().get(i);
@@ -120,75 +121,21 @@ public class CustomTableDiffService implements TableDiffService {
 		if (match != null) {
 			newCell = match.getCells().get(i);
 		}
-		if (oldCell.getContent() instanceof MultiColorCellContent) {
-			createMultiColorDiffCotent(oldCell, newCell);
+
+		final CellContent oldCellContent = EObjectExtensions
+				.getNullableObject(oldCell, TableCell::getContent)
+				.orElse(null);
+		final CellContent newCellContent = EObjectExtensions
+				.getNullableObject(newCell, TableCell::getContent)
+				.orElse(null);
+		if (isSameValue(oldCellContent, newCellContent)) {
 			return;
 		}
+
 		final CellContent compareCellContent = createCompareContent
 				.apply(oldCell, newCell);
-		if (compareCellContent == null) {
-			return;
-		}
 		oldCell.setContent(compareCellContent);
 	}
-
-	// IMPROVE: this function isn't completely.
-	private static void createMultiColorDiffCotent(final TableCell oldCell,
-			final TableCell newCell) {
-		if (oldCell.getContent() instanceof MultiColorCellContent) {
-			if (newCell != null && newCell
-					.getContent() instanceof final MultiColorCellContent newCellContent) {
-				final MultiColorCellContent clone = EcoreUtil
-						.copy(newCellContent);
-
-				oldCell.setContent(clone);
-			}
-			final MultiColorCellContent oldCellContent = (MultiColorCellContent) oldCell
-					.getContent();
-			oldCellContent.getValue()
-					.forEach(e -> e.setDisableMultiColor(false));
-		}
-	}
-
-	// if (oldCell
-	// .getContent() instanceof final MultiColorCellContent oldCellContent
-	// && newCell
-	// .getContent() instanceof final MultiColorCellContent newCellContent)
-	// {
-	// final BiFunction<MultiColorCellContent, Function<MultiColorContent,
-	// String>, Set<String>> getIterableStr = (
-	// cellContent, getValueFunc) -> cellContent.getValue()
-	// .stream()
-	// .map(getValueFunc::apply)
-	// .collect(Collectors.toSet());
-	//
-	// final Set<String> oldMultiColorValueStr = getIterableStr.apply(
-	// oldCellContent, MultiColorContent::getMultiColorValue);
-	// final Set<String> newMultiColorValueStr = getIterableStr.apply(
-	// newCellContent, MultiColorContent::getMultiColorValue);
-	// final Set<String> oldStringformatValueStr = getIterableStr
-	// .apply(oldCellContent, MultiColorContent::getStringFormat);
-	// final Set<String> newStringformatValueStr = getIterableStr
-	// .apply(newCellContent, MultiColorContent::getStringFormat);
-	// // Fall multicolor value of both is empty, but stringformat is
-	// // difference, then replace OldContent with CompareCellContent
-	// if (oldMultiColorValueStr.isEmpty()
-	// && newMultiColorValueStr.isEmpty()
-	// && !oldStringformatValueStr
-	// .equals(newStringformatValueStr)) {
-	// oldCell.setContent(createCompareCellContent(
-	// oldStringformatValueStr, newStringformatValueStr,
-	// oldCellContent.getSeparator()));
-	// // Fall multicolor
-	// } else if (!oldMultiColorValueStr.isEmpty()
-	// && !newMultiColorValueStr.isEmpty()
-	// && !oldMultiColorValueStr.equals(newMultiColorValueStr)) {
-	// final MultiColorCellContent clone = EcoreUtil
-	// .copy(newCellContent);
-	// clone.getValue().forEach(e -> e.setDisableMultiColor(false));
-	// oldCell.setContent(clone);
-	// }
-	// }
 
 	private static CompareCellContent createCompareCellContent(
 			final TableCell oldCell, final TableCell newCell) {
@@ -210,17 +157,6 @@ public class CustomTableDiffService implements TableDiffService {
 
 	private CompareTableCellContent createTableCompareCellContent(
 			final TableCell mainTableCell, final TableCell compareTableCell) {
-
-		if (isSameValue(
-				EObjectExtensions
-						.getNullableObject(mainTableCell, TableCell::getContent)
-						.orElse(null),
-				EObjectExtensions
-						.getNullableObject(compareTableCell,
-								TableCell::getContent)
-						.orElse(null))) {
-			return null;
-		}
 
 		final CompareTableCellContent compareTableCellContent = TablemodelFactory.eINSTANCE
 				.createCompareTableCellContent();
@@ -364,7 +300,7 @@ public class CustomTableDiffService implements TableDiffService {
 		return result;
 	}
 
-	private static void matchRow(final TableRow row, final Table newTable) {
+	private void matchRow(final TableRow row, final Table newTable) {
 		final TableRow match = TableExtensions.getMatchingRow(newTable, row);
 		// Create diff content
 		for (int i = 0; i < row.getCells().size(); i++) {
@@ -413,7 +349,7 @@ public class CustomTableDiffService implements TableDiffService {
 		return ((SimpleFootnoteContainer) row.getFootnotes()).getFootnotes();
 	}
 
-	private static Table matchRows(final Table expanded, final Table newTable) {
+	private Table matchRows(final Table expanded, final Table newTable) {
 		final Table result = EcoreUtil.copy(expanded);
 		final List<TableRow> rows = TableExtensions.getTableRows(result);
 		rows.forEach(row -> matchRow(row, newTable));
