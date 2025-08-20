@@ -243,7 +243,7 @@
 Bundle-Name:           Bundle derived from maven artifact ${mvnGroupId}:${mvnArtifactId}:${mvnVersion}
 version:               ${version_cleanup;${mvnVersion}}
 Bundle-SymbolicName:   maven.${mvnGroupId}.artifact.${mvnArtifactId}
-Bundle-Version:        2.6
+Bundle-Version:        ${version}
 Import-Package:        *;resolution:=optional
 Export-Package:        *;version="${version}";-noimport:=true
 Require-Bundle:        org.apache.batik.util
