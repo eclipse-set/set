@@ -25,7 +25,7 @@ export default class OthersSVGCatalog extends AbstractSVGCatalog{
       case 'Sonstiger_Punkt':
         return this.getSVGFromCatalog(obj.objectType)
       case 'Gleisausrichtungsmarkierung':
-        return this.trackdirectionmarker()
+        return this.trackDirectionMarker()
       default:
         return null
     }
@@ -43,7 +43,7 @@ export default class OthersSVGCatalog extends AbstractSVGCatalog{
      * styling for all TrackDirectionFeatures. It is dependent on the feature,
      * specifically the model.data value "rotation"
      */
-  private trackdirectionmarker (): OlStyle {
+  private trackDirectionMarker ():  (feature: FeatureLike) => OlStyle {
     const ICON_PATH = 'SvgKatalog/GleisModellAusrichtung.svg'
     const TDF_FEATURE_STYLE = (feature: FeatureLike) => {
       return new OlStyle({
