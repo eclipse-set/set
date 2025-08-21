@@ -130,13 +130,15 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
           rotation: angleRad
         }
 
+        const style = TrackDirectionFeature.TDF_FEATURE_STYLE
+
         const feature = createFeature(
           FeatureType.TrackDirectionArrow,
           data,
           geometry,
           undefined // no label
         )
-        feature.setStyle(TrackDirectionFeature.TDF_FEATURE_STYLE)
+        feature.setStyle(style)
         markers.push(feature)
       }
     }
