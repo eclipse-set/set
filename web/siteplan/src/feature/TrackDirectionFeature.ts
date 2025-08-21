@@ -129,8 +129,7 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
           guid: track.guid,
           rotation: angleRad
         }
-
-        const style = TrackDirectionFeature.TDF_FEATURE_STYLE
+        const style = this.svgService.getFeatureStyle({}, FeatureType.TrackDirectionArrow)
 
         const feature = createFeature(
           FeatureType.TrackDirectionArrow,
