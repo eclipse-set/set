@@ -9,6 +9,7 @@ import OlStyle from 'ol/style/Style'
 import { createFeature, FeatureType, getFeatureData } from './FeatureInfo'
 import { normalizedDirection, distanceCoords } from '@/util/Math'
 import { FeatureLike } from 'ol/Feature'
+import { ISvgElement } from '@/model/SvgElement'
 
 /** data stored per track direction feature */
 interface TrackDirectionArrowData {
@@ -35,6 +36,8 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
    * @returns
    */
   static readonly TDF_FEATURE_STYLE = (feature: FeatureLike) => {
+    // 'data:image/svg+xml;utf8,' + svg.content.outerHTML,
+
     return new OlStyle({
       image: new OlIcon({
         opacity: 1,
@@ -60,7 +63,7 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
     return model.tracks
   }
 
-  protected getObjectSvg (track: Track) {
+  protected getObjectSvg (track: Track): ISvgElement {
     return this.svgService.getFeatureSvg(track, FeatureType.TrackDirectionArrow) // no data needed!
   }
 
