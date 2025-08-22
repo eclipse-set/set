@@ -110,6 +110,11 @@ class TrackTransformator extends BaseTransformator<TOP_Kante> {
 		section.guid = md.geoKante.identitaet.wert
 		section.shape = transformGeoForm(md.geoKante.GEOKanteAllg.GEOForm)
 		section.color = sectionColor
+		val knotenACoordinate = md.geoKante.geoKnotenA.coordinate
+		section.startCoordinate = SiteplanFactory.eINSTANCE.createCoordinate
+		section.startCoordinate.x = knotenACoordinate.x;
+		section.startCoordinate.y = knotenACoordinate.y;
+		
 		transform(md).filter[segment|!segment.positions.empty].forEach [
 			section.segments.add(it)
 		]

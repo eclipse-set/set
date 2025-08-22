@@ -1402,6 +1402,16 @@ public class SiteplanPackageImpl extends EPackageImpl
 	 * @generated
 	 */
 	@Override
+	public EReference getTrackSection_StartCoordinate() {
+		return (EReference) trackSectionEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
 	public EClass getTrackSegment() {
 		return trackSegmentEClass;
 	}
@@ -2575,6 +2585,7 @@ public class SiteplanPackageImpl extends EPackageImpl
 		createEAttribute(trackSectionEClass, TRACK_SECTION__SHAPE);
 		createEReference(trackSectionEClass, TRACK_SECTION__SEGMENTS);
 		createEAttribute(trackSectionEClass, TRACK_SECTION__COLOR);
+		createEReference(trackSectionEClass, TRACK_SECTION__START_COORDINATE);
 
 		trackSegmentEClass = createEClass(TRACK_SEGMENT);
 		createEAttribute(trackSegmentEClass, TRACK_SEGMENT__TYPE);
@@ -3112,6 +3123,11 @@ public class SiteplanPackageImpl extends EPackageImpl
 				"color", null, 0, 1, TrackSection.class, !IS_TRANSIENT,
 				!IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
 				!IS_DERIVED, IS_ORDERED);
+		initEReference(getTrackSection_StartCoordinate(), this.getCoordinate(),
+				null, "startCoordinate", null, 0, 1, TrackSection.class,
+				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE,
+				!IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED,
+				IS_ORDERED);
 
 		initEClass(trackSegmentEClass, TrackSegment.class, "TrackSegment",
 				!IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);

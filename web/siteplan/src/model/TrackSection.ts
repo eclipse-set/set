@@ -7,6 +7,7 @@
  * http://www.eclipse.org/legal/epl-v20.html
  */
 import { checkInstance } from '@/util/ObjectExtension'
+import { Coordinate, defaultCoordinateObj } from './Position'
 import TrackSegment, { defaultTrackSegmentObj } from './TrackSegment'
 
 export enum TrackShape {
@@ -29,6 +30,7 @@ export default interface TrackSection
     shape: TrackShape
     segments: TrackSegment[]
     color: string
+    startCoordinate: Coordinate
 }
 
 export function defaultTrackSectionObj (): TrackSection {
@@ -36,7 +38,8 @@ export function defaultTrackSectionObj (): TrackSection {
     guid: '123',
     shape: TrackShape.BlossCurvedSimple,
     segments: [defaultTrackSegmentObj()],
-    color: 'black'
+    color: 'black',
+    startCoordinate: defaultCoordinateObj()
   }
 }
 
