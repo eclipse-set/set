@@ -10,6 +10,9 @@ import { createFeature, FeatureType, getFeatureData } from './FeatureInfo'
 import { normalizedDirection, distanceCoords } from '@/util/Math'
 import { FeatureLike } from 'ol/Feature'
 import { ISvgElement } from '@/model/SvgElement'
+import SvgDraw from '@/util/SVG/Draw/SvgDraw'
+import Style from 'ol/style/Style'
+import Icon from 'ol/style/Icon'
 
 /** data stored per track direction feature */
 interface TrackDirectionArrowData {
@@ -129,7 +132,9 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
           guid: track.guid,
           rotation: angleRad
         }
-        const style = this.svgService.getFeatureStyle({}, FeatureType.TrackDirectionArrow)
+
+
+        const arrowStyle = this.drawArrow(geometry,angleRad, 1.0)
 
         const feature = createFeature(
           FeatureType.TrackDirectionArrow,
@@ -137,10 +142,26 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
           geometry,
           undefined // no label
         )
-        feature.setStyle(style)
+        feature.setStyle(arrowStyle)
         markers.push(feature)
       }
     }
     return markers
+  }
+
+  private drawArrow (position: OlPoint , rotation: number, scale: number) :Style { //add rotation
+    const arrowSVG = SvgDraw.drawArrow(8, 15, 'black').content
+    arrowSVG.setAttribute('stroke-width', '2')
+
+    return new Style({
+      geometry: position,
+      image: new Icon({
+        src: 'data:image/svg+xml;utf8,' + arrowSVG.outerHTML,
+        scale,
+        rotateWithView: true,
+        anchor: [0.5, 0],
+        rotation: rotation + Math.PI / 2.0
+      })
+    })
   }
 }
