@@ -133,7 +133,6 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
           rotation: angleRad
         }
 
-
         const arrowStyle = this.drawArrow(geometry,angleRad, 1.0)
 
         const feature = createFeature(
@@ -142,7 +141,13 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
           geometry,
           undefined // no label
         )
-        feature.setStyle(arrowStyle)
+        feature.setStyle((_, resolution) => {
+          const baseResolution = this.map.getView().getResolutionForZoom(this.svgService.getBaseZoomLevel())
+          const scale = baseResolution / resolution
+
+          arrowStyle.getImage().setScale(scale)
+          return arrowStyle
+        })
         markers.push(feature)
       }
     }
