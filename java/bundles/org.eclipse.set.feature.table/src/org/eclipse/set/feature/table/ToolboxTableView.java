@@ -221,10 +221,9 @@ public final class ToolboxTableView extends BasePart {
 	}
 
 	private Titlebox getTitlebox(final String shortcut) {
-		final PlanProToTitleboxTransformation planProToTitlebox = PlanProToTitleboxTransformation
-				.create();
+		final PlanProToTitleboxTransformation planProToTitlebox = new PlanProToTitleboxTransformation(
+				getSessionService());
 		return planProToTitlebox.transform(
-				getModelSession().getPlanProSchnittstelle(),
 				tableService.getTableNameInfo(shortcut),
 				this::getAttachmentPath);
 	}
