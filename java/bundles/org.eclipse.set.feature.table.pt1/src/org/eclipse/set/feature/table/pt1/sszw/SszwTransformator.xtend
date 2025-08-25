@@ -35,6 +35,7 @@ import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.model.tablemodel.Table
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.ppmodel.extensions.utils.Case
+import org.eclipse.set.utils.math.AgateRounding
 import org.eclipse.set.utils.table.TMFactory
 import org.osgi.service.event.EventAdmin
 
@@ -65,9 +66,10 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 	var TMFactory factory = null
 	TopologicalGraphService topGraphService
 	String tableShortcut
-	
+
 	new(Set<ColumnDescriptor> cols,
-		EnumTranslationService enumTranslationService, EventAdmin eventAdmin, String tableShortcut) {
+		EnumTranslationService enumTranslationService, EventAdmin eventAdmin,
+		String tableShortcut) {
 		super(cols, enumTranslationService, eventAdmin)
 		this.topGraphService = Services.topGraphService
 		this.tableShortcut = tableShortcut
@@ -87,7 +89,7 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 			}
 			IDWKrAnlage?.value.WKrGspElemente.forEach [ gspElement |
 				transform(gspElement)
-		]
+			]
 		]
 		return
 	}
@@ -331,9 +333,8 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 			cols.getColumn(RBA_Anschaltung),
 			wKrGspElement,
 			[
-				#[
-					ENUMWKrGspStellart.
-						ENUMW_KR_GSP_STELLART_ELEKTRISCH_ORTSGESTELLT,
+				#[ENUMWKrGspStellart.
+					ENUMW_KR_GSP_STELLART_ELEKTRISCH_ORTSGESTELLT,
 					ENUMWKrGspStellart.
 						ENUMW_KR_GSP_STELLART_MECHANISCH_ORTSGESTELLT].contains(
 					WKrGspElementAllg?.WKrGspStellart.wert)
@@ -423,7 +424,8 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 		val distance = gspKomponente.map[new TopPoint(it)].map [ gspPoint |
 			topGraphService.findShortestDistance(signalTopPoint, gspPoint)
 		].map[orElse(null)].filterNull
-		return distance.nullOrEmpty ? "" : distance.min.toTableDecimal
+		return distance.nullOrEmpty ? "" : AgateRounding.roundUp(
+			distance.min.doubleValue).toString
 	}
 
 	private def String getWKrGeschwindigkeit(
