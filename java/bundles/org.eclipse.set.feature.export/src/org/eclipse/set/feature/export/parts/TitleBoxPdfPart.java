@@ -26,7 +26,6 @@ import org.eclipse.set.core.services.pdf.PdfRendererService;
 import org.eclipse.set.core.services.pdf.PdfViewer;
 import org.eclipse.set.core.services.pdf.PdfViewer.SaveListener;
 import org.eclipse.set.feature.export.Messages;
-import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.set.model.titlebox.Titlebox;
 import org.eclipse.set.ppmodel.extensions.utils.PlanProToTitleboxTransformation;
 import org.eclipse.set.services.export.ExportService;
@@ -88,8 +87,7 @@ public class TitleBoxPdfPart extends BasePart implements SaveListener {
 							monitor.beginTask(
 									messages.TitleBoxPdfPart_LoadTitlebox,
 									IProgressMonitor.UNKNOWN);
-							createTitleboxPdf(getModelSession()
-									.getPlanProSchnittstelle());
+							createTitleboxPdf();
 							monitor.done();
 						} catch (final Exception e) {
 							throw new InvocationTargetException(e);
@@ -113,12 +111,11 @@ public class TitleBoxPdfPart extends BasePart implements SaveListener {
 		}
 	}
 
-	void createTitleboxPdf(final PlanPro_Schnittstelle planProSchnittstelle)
-			throws Exception {
-		final PlanProToTitleboxTransformation planProToTitlebox = PlanProToTitleboxTransformation
-				.create();
-		final Titlebox titlebox = planProToTitlebox
-				.transform(planProSchnittstelle, null, this::getAttachmentPath);
+	void createTitleboxPdf() throws Exception {
+		final PlanProToTitleboxTransformation planProToTitlebox = new PlanProToTitleboxTransformation(
+				getSessionService());
+		final Titlebox titlebox = planProToTitlebox.transform(null,
+				this::getAttachmentPath);
 		exportService.exportTitleboxPdf(titlebox, getTitleBoxPath(),
 				OverwriteHandling.forCheckbox(true),
 				new ExceptionHandler(getToolboxShell(), getDialogService()));

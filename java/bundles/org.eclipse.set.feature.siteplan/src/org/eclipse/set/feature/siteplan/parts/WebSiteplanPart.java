@@ -175,7 +175,7 @@ public class WebSiteplanPart extends BasePart {
 				siteplanService, webBrowser);
 		webBrowser.registerJSFunction(new ExportSiteplanBrowserFunction(
 				webBrowser, "planproSiteplanExport", getModelSession(), //$NON-NLS-1$
-				exportService, getToolboxShell(), getDialogService(),
+				getSessionService(), exportService, getToolboxShell(), getDialogService(),
 				messages));
 	}
 }

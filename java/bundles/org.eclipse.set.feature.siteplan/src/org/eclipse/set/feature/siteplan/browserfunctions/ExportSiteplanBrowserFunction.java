@@ -25,9 +25,9 @@ import org.eclipse.set.basis.FreeFieldInfo;
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.OverwriteHandling;
 import org.eclipse.set.core.services.dialog.DialogService;
+import org.eclipse.set.core.services.session.SessionService;
 import org.eclipse.set.feature.siteplan.Messages;
 import org.eclipse.set.feature.siteplan.SiteplanBrowser;
-import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.set.model.titlebox.Titlebox;
 import org.eclipse.set.ppmodel.extensions.utils.PlanProToFreeFieldTransformation;
 import org.eclipse.set.ppmodel.extensions.utils.PlanProToTitleboxTransformation;
@@ -47,6 +47,7 @@ public class ExportSiteplanBrowserFunction
 	private final IModelSession modelSession;
 	private final ExportService exportService;
 	private final Messages message;
+	private final SessionService sessionService;
 
 	/**
 	 * Constructor.
@@ -57,6 +58,8 @@ public class ExportSiteplanBrowserFunction
 	 *            name of this function for Javascript
 	 * @param modelSession
 	 *            the model session
+	 * @param sessionService
+	 *            the {@link SessionService}
 	 * @param exportService
 	 *            the export service
 	 * @param shell
@@ -68,10 +71,12 @@ public class ExportSiteplanBrowserFunction
 	 */
 	public ExportSiteplanBrowserFunction(final SiteplanBrowser browser,
 			final String name, final IModelSession modelSession,
+			final SessionService sessionService,
 			final ExportService exportService, final Shell shell,
 			final DialogService dialogService, final Messages message) {
 		super(browser, name, shell, dialogService);
 		this.modelSession = modelSession;
+		this.sessionService = sessionService;
 		this.exportService = exportService;
 		this.message = message;
 	}
@@ -133,10 +138,8 @@ public class ExportSiteplanBrowserFunction
 	}
 
 	private Titlebox createTitleBox() {
-		final PlanPro_Schnittstelle planProSchnittstelle = modelSession
-				.getPlanProSchnittstelle();
-		final PlanProToTitleboxTransformation titleBoxTransform = PlanProToTitleboxTransformation
-				.create();
-		return titleBoxTransform.transform(planProSchnittstelle, null, null);
+		final PlanProToTitleboxTransformation titleBoxTransform = new PlanProToTitleboxTransformation(
+				sessionService);
+		return titleBoxTransform.transform(null, null);
 	}
 }
