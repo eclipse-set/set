@@ -8,14 +8,12 @@
  */
 package org.eclipse.set.core.fileservice
 
-import java.io.IOException
 import java.nio.file.Paths
 import org.eclipse.set.basis.files.ToolboxFile
 import org.eclipse.set.basis.files.ToolboxFileRole
-import org.eclipse.set.core.services.files.ToolboxFileFormatService
+import org.eclipse.set.feature.validation.session.SetSessionService
 import org.eclipse.set.unittest.utils.toolboxfile.AbstractToolboxFileTest
 import org.junit.jupiter.api.Test
-import org.eclipse.set.feature.validation.session.SetSessionService
 
 /**
  * Test for {@link PlainToolboxFile}
@@ -28,30 +26,37 @@ class PlainToolboxFileTest extends AbstractToolboxFileTest {
 	 * Test method for {@link PlainToolboxFile#open()}
 	 */
 	@Test
-	def void testOpen() throws IOException{
-		whenOpen
-		thenExpectContentsExists(true)
+	def void testOpen() throws Throwable{
+		MockPlanProVersionService.mockPlanProVersionService([
+			whenOpen
+			thenExpectContentsExists(true)
+		])
 	}
 
 	/**
 	 * Test method for {@link PlainToolboxFile#close()}
 	 */
 	@Test
-	def void testClose() throws IOException{
-		whenOpen
-		whenClose
-		thenExpectContentsExists(false)
+	def void testClose() throws Throwable{
+		MockPlanProVersionService.mockPlanProVersionService([
+			whenOpen
+			whenClose
+			thenExpectContentsExists(false)
+		])
+
 	}
 
 	/**
 	 * Test method for multiple {@link PlainToolboxFile#close()}
 	 */
 	@Test
-	def void testMultipleClose() throws IOException{
-		whenOpen
-		whenClose
-		whenClose
-		thenExpectContentsExists(false)
+	def void testMultipleClose() throws Throwable{
+		MockPlanProVersionService.mockPlanProVersionService([
+			whenOpen
+			whenClose
+			whenClose
+			thenExpectContentsExists(false)
+		])
 	}
 
 	/**
@@ -60,19 +65,15 @@ class PlainToolboxFileTest extends AbstractToolboxFileTest {
 	 * 
 	 */
 	@Test
-	def void testCloseThenOpen() throws IOException{
-		whenOpen
-		thenExpectContentsExists(true)
-		whenClose
-		thenExpectContentsExists(false)
-		whenOpen
-		thenExpectContentsExists(true)
-	}
-
-	def ToolboxFileFormatService setUpFormatService() {
-		val formatService = new PlainFileFormatService
-		formatService.sessionService = new SetSessionService
-		return formatService
+	def void testCloseThenOpen() throws Throwable {
+		MockPlanProVersionService.mockPlanProVersionService([
+			whenOpen
+			thenExpectContentsExists(true)
+			whenClose
+			thenExpectContentsExists(false)
+			whenOpen
+			thenExpectContentsExists(true)
+		])
 	}
 
 	override protected ToolboxFile createToolboxFile(ToolboxFileRole role) {
