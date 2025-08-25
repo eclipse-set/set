@@ -455,15 +455,17 @@ export default class ExportControl extends Control {
 
     // Apply the transform to the export map context
     context.setTransform(matrix[0], matrix[1], matrix[2], matrix[3], matrix[4], matrix[5])
-
+    // The Openlayer resolution isn't change when the devicePixelRatio (Display scale)
+    // change. Therefore muss the x/y offset here with the ratio multiply for
+    // correct transfrom
+    const xOffset = (x * matrix[0] + y * matrix[1]) * Math.pow(window.devicePixelRatio, 2)
+    const yOffset = (x * matrix[2] + y * matrix[3]) * Math.pow(window.devicePixelRatio, 2)
     const backgroundColor = (mapLayer.parentNode as HTMLHtmlElement | null)?.style.backgroundColor
     if (backgroundColor) {
       context.fillStyle = backgroundColor
-      context.fillRect(0, 0, mapLayer.width, mapLayer.height)
+      context.fillRect(xOffset, yOffset, mapLayer.width, mapLayer.height)
     }
 
-    const xOffset = x * matrix[0] + y * matrix[1]
-    const yOffset = x * matrix[2] + y * matrix[3]
     context.drawImage(mapLayer, xOffset, yOffset)
     // Reset transform
     context.setTransform(1, 0, 0, 1, 0 ,0)

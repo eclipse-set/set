@@ -242,7 +242,7 @@ export const store = createStore<State>({
     setMeasureEnable (state, value: boolean) {
       state.measureEnable = value
     },
-    setPixelPerMeter (state, payload: {
+    setPixelProMeter (state, payload: {
       scaleValue: number
       ppm: number
     }) {
