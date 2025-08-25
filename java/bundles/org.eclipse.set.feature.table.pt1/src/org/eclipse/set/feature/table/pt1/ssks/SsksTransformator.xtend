@@ -1008,7 +1008,17 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 
 	private static def List<String> fillSignalisierungSchirmZs(
 		List<Signal_Rahmen> signalRahmen) {
-		return signalRahmen.map[signalbegriffe].flatten.map [
+		return signalRahmen.map [ rahmen |
+			val begriffs = rahmen.signalbegriffe
+			if (begriffs.exists[hasSignalbegriffID(Zs7)]) {
+				return rahmen?.rahmenArt?.wert === ENUM_RAHMEN_ART_SCHIRM
+					? begriffs
+					: begriffs.filter [
+					!hasSignalbegriffID(Zs7)
+				]
+			}
+			return begriffs
+		].flatten.map [
 			signalbegriffID.fillSignalisierungSchirmZs
 		].filterNull.toList
 	}
@@ -1044,7 +1054,17 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 
 	private static def List<String> fillSignalisierungZusatzanzeigerZs(
 		List<Signal_Rahmen> signalRahmen) {
-		return signalRahmen.map[signalbegriffe].flatten.map [
+		return signalRahmen.map [ rahmen |
+			val begriffs = rahmen.signalbegriffe
+			if (begriffs.exists[hasSignalbegriffID(Zs7)]) {
+				return rahmen.rahmenArt.wert === ENUM_RAHMEN_ART_ZUSATZANZEIGER
+					? begriffs
+					: begriffs.filter [
+					!hasSignalbegriffID(Zs7)
+				]
+			}
+			return begriffs
+		].flatten.map [
 			fillSignalisierungZusatzanzeigerZs
 		].filterNull.toList
 	}
@@ -1213,6 +1233,8 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 				return "6F"
 			case id instanceof Zs8 || id instanceof Zs8A:
 				return "8"
+			case id instanceof Zs7:
+				return "7"
 			case id instanceof Zs12:
 				return "12"
 			case id instanceof Zs13 && geschaltet:
