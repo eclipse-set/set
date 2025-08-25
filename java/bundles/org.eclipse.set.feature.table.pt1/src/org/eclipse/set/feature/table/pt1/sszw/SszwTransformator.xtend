@@ -424,7 +424,7 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 		val distance = gspKomponente.map[new TopPoint(it)].map [ gspPoint |
 			topGraphService.findShortestDistance(signalTopPoint, gspPoint)
 		].map[orElse(null)].filterNull
-		return distance.nullOrEmpty ? "" : AgateRounding.roundUp(
+		return distance.nullOrEmpty ? "" : AgateRounding.roundDown(
 			distance.min.doubleValue).toString
 	}
 
