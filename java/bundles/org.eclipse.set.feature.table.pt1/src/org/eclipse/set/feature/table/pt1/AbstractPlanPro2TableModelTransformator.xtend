@@ -31,6 +31,7 @@ import org.eclipse.set.utils.table.TMFactory
 import org.eclipse.set.utils.table.TableError
 import org.osgi.service.event.EventAdmin
 
+import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.TableRowExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.CacheUtils.*
@@ -132,7 +133,15 @@ abstract class AbstractPlanPro2TableModelTransformator extends AbstractTableMode
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
 		TMFactory factory) {
-		return transformTableContent(container, factory, null)
+		val table = transformTableContent(container, factory, null)
+		table.tableRows.forEach [ row |
+			row.cells.forEach [ cell, index |
+				if (cell.content === null) {
+					fillBlank(row, index)
+				}
+			]
+		]
+		return table
 	}
 
 	def <S, T extends Ur_Objekt> void fillSingleCellWhenAllowed(
@@ -243,7 +252,7 @@ abstract class AbstractPlanPro2TableModelTransformator extends AbstractTableMode
 		if (delayFillingCells.nullOrEmpty) {
 			return
 		}
-		
+
 		new Thread([
 			val changeProperties = newArrayList
 			while (!delayFillingCells.nullOrEmpty) {

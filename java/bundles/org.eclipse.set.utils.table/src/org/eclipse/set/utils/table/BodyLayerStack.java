@@ -17,6 +17,7 @@ import org.eclipse.nebula.widgets.nattable.config.CellConfigAttributes;
 import org.eclipse.nebula.widgets.nattable.config.IConfigRegistry;
 import org.eclipse.nebula.widgets.nattable.data.IDataProvider;
 import org.eclipse.nebula.widgets.nattable.data.convert.ContextualDisplayConverter;
+import org.eclipse.nebula.widgets.nattable.data.convert.DefaultDisplayConverter;
 import org.eclipse.nebula.widgets.nattable.freeze.CompositeFreezeLayer;
 import org.eclipse.nebula.widgets.nattable.freeze.FreezeHelper;
 import org.eclipse.nebula.widgets.nattable.freeze.FreezeLayer;
@@ -192,6 +193,12 @@ public class BodyLayerStack extends AbstractLayerTransform {
 			public Object displayToCanonicalValue(final ILayerCell cell,
 					final IConfigRegistry configRegistry,
 					final Object displayValue) {
+				// Only apply this converted for the selectionlayer
+				if (cell.getLayer() != selectionLayer) {
+					return new DefaultDisplayConverter()
+							.displayToCanonicalValue(cell, configRegistry,
+									displayValue);
+				}
 				return getCellValue.apply(cell);
 			}
 
@@ -199,12 +206,18 @@ public class BodyLayerStack extends AbstractLayerTransform {
 			public Object canonicalToDisplayValue(final ILayerCell cell,
 					final IConfigRegistry configRegistry,
 					final Object canonicalValue) {
+				// Only apply this converted for the selectionlayer
+				if (cell.getLayer() != selectionLayer) {
+					return new DefaultDisplayConverter()
+							.canonicalToDisplayValue(cell, configRegistry,
+									canonicalValue);
+				}
 				return displayToCanonicalValue(cell, configRegistry,
 						canonicalValue);
 			}
 		};
 		registry.registerConfigAttribute(CellConfigAttributes.DISPLAY_CONVERTER,
 				displayConverter, DisplayMode.NORMAL,
-				ToolboxConstants.RICHTEXT_CELL_LABEL);
+				ToolboxConstants.SEARCH_CELL_DISPLAY_CONVERTER);
 	}
 }
