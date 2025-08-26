@@ -53,6 +53,7 @@ import static extension org.eclipse.set.ppmodel.extensions.WKrAnlageExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspElementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspKomponenteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
+import org.eclipse.set.ppmodel.extensions.GeoKnotenExtensions
 
 /**
  * Transforms a track from the PlanPro model to a siteplan track
@@ -110,7 +111,8 @@ class TrackTransformator extends BaseTransformator<TOP_Kante> {
 		section.guid = md.geoKante.identitaet.wert
 		section.shape = transformGeoForm(md.geoKante.GEOKanteAllg.GEOForm)
 		section.color = sectionColor
-		val knotenACoordinate = md.geoKante.geoKnotenA.coordinate
+		val geoKnotenA = md.geoKante.geoKnotenA
+		val knotenACoordinate = positionService.transformCoordinate(geoKnotenA.coordinate, geoKnotenA.CRS) 
 		section.startCoordinate = SiteplanFactory.eINSTANCE.createCoordinate
 		section.startCoordinate.x = knotenACoordinate.x;
 		section.startCoordinate.y = knotenACoordinate.y;
