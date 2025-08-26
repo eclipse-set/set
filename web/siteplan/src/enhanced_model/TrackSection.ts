@@ -4,6 +4,14 @@ import TrackSegment from '@/model/TrackSegment'
 import { distance } from '@/util/Math'
 import { FlippedFlag } from '@/util/TrivialTypes'
 
+/**
+ * This implementation of TrackSection provides useful functionality on TrackSections.
+ * It makes sense to add it as methods to the TrackSection,
+ * instead of implementing it as a utility function, because these fn are run
+ * precisely only on TrackSections.
+ * It also makes sense to leave the model/TrackSection unaltered,
+ * so that the folder "model" is only for specification of the LageplanModel.
+ */
 export class TrackSectionC implements TrackSection {
   guid: string
   shape: TrackShape

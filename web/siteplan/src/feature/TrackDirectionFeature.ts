@@ -113,16 +113,7 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
       // This seems to be incorrect:
       // const section = sectionI as TrackSectionC
       // instead do it this way:
-      const section = new TrackSectionC(
-        sectionI.guid,
-        sectionI.shape,
-        sectionI.segments,
-        sectionI.color,
-        sectionI.startCoordinate
-      )
-
-      console.assert(section !== null,'section !== null')
-      // console.log('typeof(section)',typeof(section))
+      const section = TrackSectionC.fromTrackSection(sectionI)!
 
       // startCoordinate might be undefined. In that case, don't draw the segment
       // (as we don't know where it starts!)
