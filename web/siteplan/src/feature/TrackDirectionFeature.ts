@@ -2,6 +2,7 @@ import LageplanFeature from '@/feature/LageplanFeature'
 import { SiteplanState } from '@/model/SiteplanModel'
 import { ISvgElement } from '@/model/SvgElement'
 import Track from '@/model/Track'
+import TrackSection, { TrackSectionC } from '@/model/TrackSection'
 import { distance, distanceCoords, normalizedDirection } from '@/util/Math'
 import SvgDraw from '@/util/SVG/Draw/SvgDraw'
 import { Feature } from 'ol'
@@ -68,6 +69,34 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
     return this.svgService.getFeatureSvg(track, FeatureType.TrackDirectionArrow) // no data needed!
   }
 
+  private assertStartPosOccursInPositions (startPos: unknown, section: TrackSection, withDist = true, tolerance = 0.0) {
+    const segmentsWithStartCoord = section.segments
+      .filter(seg => seg.positions.find(pos => pos.x === startPos.x && pos.y === startPos.y))
+
+    if (!withDist && tolerance === 0.0) {
+      console.assert(segmentsWithStartCoord.length > 0, section.guid)
+    }
+
+    // this is only used in the error text of the assertion below!
+    const segmentPosDistances = []
+    for (const segment of section.segments) {
+      for (const pos of segment.positions) {
+        segmentPosDistances.push(distance([pos.x,pos.y],[startPos.x,startPos.y]))
+      }
+    }
+    // TODO why does this not do the same thing?
+    // const segmentDistances =
+    // const segmentPosDistances = section.segments.map(
+    //   seg => seg.positions.map(
+    //     pos => Math.sqrt((pos.x - startCoord.x) ** 2 + (pos.y, startCoord.y) ** 2)
+    //   )
+    // ).flat()
+
+    const anyBelowDistTolerance = segmentPosDistances.filter(dist => dist <= tolerance).length > 0
+
+    console.assert(anyBelowDistTolerance, section.guid, 'distance:',Math.min(...segmentPosDistances))
+  }
+
   /**
    * creates all markers for that track. A track may consist of multiple segments.
    * A Segment is a list of points.
@@ -79,76 +108,76 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
   private createTrackDirectionArrowFeatures (track: Track): Feature<Geometry>[] {
     const markers: Feature<Geometry>[] = []
 
-    for (const section of track.sections) {
-      // find start and end
-      const inReverse = !(section.segments[0].positions[0].x === section.startCoordinate.x && section.segments[0].positions[0].y === section.startCoordinate.y)
+    for (const sectionI of track.sections) {
+      // This seems to be incorrect:
+      // const section = sectionI as TrackSectionC
+      // instead do it this way:
+      const section = new TrackSectionC(
+        sectionI.guid,
+        sectionI.shape,
+        sectionI.segments,
+        sectionI.color,
+        sectionI.startCoordinate
+      )
 
-      // assume segments are all oriented in the same direction.
-      // if not inReverse:
-      //      A---x---y---z---B
-      // segments: A-x, x-y, y-z, z-B
-      // if in inReverse:
-      //      A---x---y---z---B
-      // segments: B-z, z-y, y-x, x-A
-      // assert this assumption here:
-      // assert.strictEqual('1=2',1,2)
+      console.assert(section !== null,'section !== null')
+      // console.log('typeof(section)',typeof(section))
+
+      // startCoordinate might be undefined. In that case, don't draw the segment
+      // (as we don't know where it starts!)
+      if (!section.startCoordinate)
+        continue
 
       const startCoord = { 'x':section.startCoordinate.x,'y':section.startCoordinate.y }
 
-      const segmentPosDistances = []
-      for (const segment of section.segments) {
-        for (const pos of segment.positions) {
-          segmentPosDistances.push(distance([pos.x,pos.y],[startCoord.x,startCoord.y]))
-        }
-      }
-      // TODO why does this not do the same thing?
-      // const segmentDistances =
-      // const segmentPosDistances = section.segments.map(
-      //   seg => seg.positions.map(
-      //     pos => Math.sqrt((pos.x - startCoord.x) ** 2 + (pos.y, startCoord.y) ** 2)
-      //   )
-      // ).flat()
+      // TODO move these tolerances somewhere else!
+      this.assertStartPosOccursInPositions(startCoord, section,true, 0.0)
 
-      const segmentsWithStartCoord = section.segments.filter(seg => seg.positions.find(pos => pos.x === startCoord.x && pos.y === startCoord.y))
-      console.assert(segmentsWithStartCoord.length > 0, section.guid, 'distance:',Math.min(...segmentPosDistances))
+      const orderedSegments = section.orderedSegments()
+      if (!orderedSegments)
+        continue
 
-      if (!inReverse) {
-        const lastPos = { 'x':section.startCoordinate.x,'y':section.startCoordinate.y }
+      const positionList = []
+      let lastPos = null
 
-        for (const segment of section.segments) {
-          const nextPos = segment.positions[0]
-          // console.assert(nextPos.x === lastPos.x,'segment wrong or flipped',nextPos.x,nextPos.y,lastPos.x,lastPos.y)
-          // console.assert(nextPos.y === lastPos.y,'segment wrong or flipped',nextPos.x,nextPos.y,lastPos.x,lastPos.y)
-          lastPos.x = segment.positions[segment.positions.length - 1].x
-          lastPos.y = segment.positions[segment.positions.length - 1].y
-        }
-      } else {
-        const lastPos = { 'x':section.startCoordinate.x,'y':section.startCoordinate.y }
-        // const segmentsClone = structuredClone(section.segments)
-        const segmentsClone = JSON.parse(JSON.stringify(section.segments)) // deep copy TODO remove
+      for (const [segment,isFlipped] of section.orderedSegments()!) {
+        const segmentFirst = segment.positions[0]
+        const segmentLast = segment.positions[segment.positions.length - 1]
+        if (!isFlipped) {
+          console.assert(lastPos === null || (segmentFirst.x === lastPos.x &&  segmentFirst.y === lastPos.y))
+          // push positions in correct order.
+          // First element is only pushed in very first segment!
+          if (!lastPos) {
+            positionList.push(segmentFirst)
+          }
 
-        // iterate backwards through section.segments
-        for (let i = section.segments.length - 1; i >= 0; --i) {
-          const segment = segmentsClone[i] // TODO remove copy above
+          for (let i = 1; i < segment.positions.length; i++) {
+            positionList.push(segment.positions[i])
+          }
 
-          const nextPos = segment.positions[segment.positions.length - 1]
-          // console.assert(nextPos.x === lastPos.x,'segment wrong or flipped',nextPos.x,nextPos.y,lastPos.x,lastPos.y)
-          // console.assert(nextPos.y === lastPos.y,'segment wrong or flipped',nextPos.x,nextPos.y,lastPos.x,lastPos.y)
-          lastPos.x = segment.positions[0].x
-          lastPos.y = segment.positions[0].y
+          lastPos = { x: segmentLast.x,y:segmentLast.y }
+        } else {
+          console.assert(lastPos === null || (segmentLast.x === lastPos.x &&  segmentLast.y === lastPos.y))
+          // push positions in inverse order.
+          // First element is only pushed in very first segment!
+          if (!lastPos) {
+            positionList.push(segmentLast)
+          }
+
+          for (let i = segment.positions.length - 2; i >= 0 ; i--) {
+            positionList.push(segment.positions[i])
+          }
+          lastPos = { x: segmentFirst.x, y:segmentFirst.y }
         }
       }
 
-      // var start = inReverse ? section.segments[section.segments.length-1] :
-      for (const segment of section.segments) {
+      for (let i = 1; i < positionList.length; i++) {
         const segmentparts_length = []
         const cumulative_length = [0.0]
 
-        for (let i = 1; i < segment.positions.length; i++) {
-          const length_this_part = distanceCoords(segment.positions[i - 1],segment.positions[i])
-          segmentparts_length.push(length_this_part)
-          cumulative_length.push(cumulative_length.at(-1)! + length_this_part)
-        }
+        const length_this_part = distanceCoords(positionList[i - 1],positionList[i])
+        segmentparts_length.push(length_this_part)
+        cumulative_length.push(cumulative_length.at(-1)! + length_this_part)
 
         if (cumulative_length.at(-1) == undefined ||
             cumulative_length.at(-1)! < TrackDirectionFeature.MIN_TRACK_LENGTH_TO_DISPLAY_FEATURE) {
@@ -163,8 +192,8 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
         // is defined, cumlen[0] = 0, cumlen[-1] > length > 0
 
         const dir = normalizedDirection(
-          segment.positions[last_pos_before_midle],
-          segment.positions[last_pos_before_midle + 1]
+          positionList[last_pos_before_midle],
+          positionList[last_pos_before_midle + 1]
         )
 
         if (dir == undefined) {
@@ -175,8 +204,8 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
 
         const remaining_length = half_length - cumulative_length[last_pos_before_midle]
         const middle = {
-          x: segment.positions[last_pos_before_midle].x + dir.x * remaining_length,
-          y: segment.positions[last_pos_before_midle].y + dir.y * remaining_length
+          x: positionList[last_pos_before_midle].x + dir.x * remaining_length,
+          y: positionList[last_pos_before_midle].y + dir.y * remaining_length
         }
 
         const geometry = new OlPoint([
