@@ -1,10 +1,11 @@
+import { Coord } from '@/enhanced_model/Coordinate'
 import { TrackSectionC } from '@/enhanced_model/TrackSection'
 import LageplanFeature from '@/feature/LageplanFeature'
 import { SiteplanState } from '@/model/SiteplanModel'
 import { ISvgElement } from '@/model/SvgElement'
 import Track from '@/model/Track'
 import TrackSection from '@/model/TrackSection'
-import { distance, distanceCoords, normalizedDirection } from '@/util/Math'
+import { distance } from '@/util/Math'
 import SvgDraw from '@/util/SVG/Draw/SvgDraw'
 import { Feature } from 'ol'
 import { FeatureLike } from 'ol/Feature'
@@ -129,13 +130,13 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
       if (!orderedSegments)
         continue
 
-      const positionList = []
+      const positionList : Coord[] = []
       let lastPos = null
 
       for (const [segment,isFlipped] of section.orderedSegments()!) {
         console.assert(segment != null, 'all segments must be not null') // TODO check this in unittest for section.orderedSegments()
-        const segmentFirst = segment.positions[0]
-        const segmentLast = segment.positions[segment.positions.length - 1]
+        const segmentFirst = Coord.fromCoordinate(segment.positions[0])
+        const segmentLast = Coord.fromCoordinate(segment.positions[segment.positions.length - 1])
         if (!isFlipped) {
           console.assert(lastPos === null || (segmentFirst.x === lastPos.x &&  segmentFirst.y === lastPos.y))
           // push positions in correct order.
@@ -145,7 +146,7 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
           }
 
           for (let i = 1; i < segment.positions.length; i++) {
-            positionList.push(segment.positions[i])
+            positionList.push(Coord.fromCoordinate(segment.positions[i]))
           }
 
           lastPos = { x: segmentLast.x,y:segmentLast.y }
@@ -158,7 +159,7 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
           }
 
           for (let i = segment.positions.length - 2; i >= 0 ; i--) {
-            positionList.push(segment.positions[i])
+            positionList.push(Coord.fromCoordinate(segment.positions[i]))
           }
           lastPos = { x: segmentFirst.x, y:segmentFirst.y }
         }
@@ -168,7 +169,7 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
         const segmentparts_length = []
         const cumulative_length = [0.0]
 
-        const length_this_part = distanceCoords(positionList[i - 1],positionList[i])
+        const length_this_part = Coord.distance(positionList[i - 1],positionList[i])
         segmentparts_length.push(length_this_part)
         cumulative_length.push(cumulative_length.at(-1)! + length_this_part)
 
@@ -184,7 +185,7 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
           .findLastIndex(value => value < half_length)!
         // is defined, cumlen[0] = 0, cumlen[-1] > length > 0
 
-        const dir = normalizedDirection(
+        const dir = Coord.normalizedDirection(
           positionList[last_pos_before_midle],
           positionList[last_pos_before_midle + 1]
         )

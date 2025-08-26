@@ -115,23 +115,3 @@ export function toRad (deg:number) {
   return deg / 180 * Math.PI
 }
 
-import { Coordinate } from '@/model/Position'
-
-export function distanceCoords (a: Coordinate, b: Coordinate): number {
-  return Math.sqrt((a.x - b.x) ** 2 + (a.y - b.y) ** 2)
-}
-
-const EPSILON_DISTANCE_ZERO = 0.000001
-
-export function normalizedDirection (a: Coordinate, b: Coordinate): Coordinate | undefined {
-  const len = distanceCoords(a,b)
-  if (len < EPSILON_DISTANCE_ZERO ) {
-    return undefined
-  }
-
-  return {
-    x: (b.x - a.x) / len,
-    y: (b.y - a.y) / len
-  }
-}
-
