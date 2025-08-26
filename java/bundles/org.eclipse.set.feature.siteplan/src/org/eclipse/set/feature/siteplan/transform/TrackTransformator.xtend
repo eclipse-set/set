@@ -36,6 +36,8 @@ import org.eclipse.set.model.siteplan.TrackSegment
 import org.eclipse.set.model.siteplan.TrackShape
 import org.eclipse.set.model.siteplan.TrackType
 import org.locationtech.jts.geom.Coordinate
+// there are two Coordinate-classes. use this one "inline", if needed. 
+// import org.eclipse.set.model.siteplan.Coordinate
 import org.osgi.service.component.annotations.Component
 import org.osgi.service.component.annotations.Reference
 
@@ -105,17 +107,67 @@ class TrackTransformator extends BaseTransformator<TOP_Kante> {
 
 		track.addSiteplanElement(SiteplanPackage.eINSTANCE.siteplanState_Tracks)
 	}
+	
+	
+	//		in transform TrackSegment:		
+//		result.positions.addAll(segment.getCoordinates(md).map [
+//			positionService.transformPosition(it)
+//		])
+
+
+
+//	private def TrackDesignation transform(
+//		Gleis_Bezeichnung gleisBezeichnung,
+//		GEOKanteMetadata md
+//	) {
+//		val result = SiteplanFactory.eINSTANCE.createTrackDesignation
+//		result.name = gleisBezeichnung.bezeichnung.bezGleisBezeichnung.wert
+//		// Find the longest stretch
+//		val maxTB = gleisBezeichnung.bereichObjektTeilbereich.max [ a, b |
+//			a.length.compareTo(b.length)
+//		]
+//
+//		// Is the stretch within this GEO_Kante?	
+//		if (maxTB.IDTOPKante?.value?.identitaet?.wert !=
+//			md.geoKante.topKante.identitaet?.wert)
+//			return null
+//
+//		val centerDistance = maxTB.length.divide(BigDecimal.valueOf(2),
+//			ToolboxConstants.ROUNDING_TO_PLACE, RoundingMode.HALF_UP)
+//		if (centerDistance < md.start || centerDistance >= md.end)
+//			return null;
+//		val coordinate = geometryService.getCoordinate(md, centerDistance,
+//			BigDecimal.ZERO, ENUMWirkrichtung.ENUM_WIRKRICHTUNG_IN)
+//		result.position = positionService.transformPosition(coordinate)
+//		return result
+//	}
+	
+	// Coordinate from basis.geometry
+	private def org.eclipse.set.model.siteplan.Coordinate startCoordinate(GEOKanteMetadata md) {
+		// val geoKnotenA = md.geoKante.geoKnotenA
+		val coordWrongCRS = geometryService.getCoordinate(md, BigDecimal.ZERO, BigDecimal.ZERO, ENUMWirkrichtung.ENUM_WIRKRICHTUNG_IN)
+		val knotenACoordinate = positionService.transformPosition(coordWrongCRS) 
+		
+		// LEARNING:
+		// don't use:
+		//  val geoKnotenA = md.geoKante.geoKnotenA
+		// positionService.transformPosition(geoKnotenA, geoKnotenA.CRS) 
+		// It gives slightly wrong results!
+		
+		//val result = positionService.transformPosition(coordinate)
+		val result = SiteplanFactory.eINSTANCE.createCoordinate;
+		result.x = knotenACoordinate.x // copy because of error: Type mismatch: cannot convert from Coordinate to Coordinate
+		result.y = knotenACoordinate.y // copy because of error: Type mismatch: cannot convert from Coordinate to Coordinate
+		return result
+	}
+	
 
 	def TrackSection transformTrackSection(GEOKanteMetadata md) {
 		val section = SiteplanFactory.eINSTANCE.createTrackSection
 		section.guid = md.geoKante.identitaet.wert
 		section.shape = transformGeoForm(md.geoKante.GEOKanteAllg.GEOForm)
 		section.color = sectionColor
-		val geoKnotenA = md.geoKante.geoKnotenA
-		val knotenACoordinate = positionService.transformCoordinate(geoKnotenA.coordinate, geoKnotenA.CRS) 
-		section.startCoordinate = SiteplanFactory.eINSTANCE.createCoordinate
-		section.startCoordinate.x = knotenACoordinate.x;
-		section.startCoordinate.y = knotenACoordinate.y;
+		section.startCoordinate =  startCoordinate(md)
 		
 		transform(md).filter[segment|!segment.positions.empty].forEach [
 			section.segments.add(it)
