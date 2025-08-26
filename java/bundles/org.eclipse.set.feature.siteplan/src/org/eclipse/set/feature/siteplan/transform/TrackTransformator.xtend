@@ -144,9 +144,13 @@ class TrackTransformator extends BaseTransformator<TOP_Kante> {
 	
 	// Coordinate from basis.geometry
 	private def org.eclipse.set.model.siteplan.Coordinate startCoordinate(GEOKanteMetadata md) {
-		// val geoKnotenA = md.geoKante.geoKnotenA
-		val coordWrongCRS = geometryService.getCoordinate(md, BigDecimal.ZERO, BigDecimal.ZERO, ENUMWirkrichtung.ENUM_WIRKRICHTUNG_IN)
-		val knotenACoordinate = positionService.transformPosition(coordWrongCRS) 
+		//this yields a startCoordinate < 0.001 off the expected value from the segments
+		val geoKnotenA = md.geoKante.geoKnotenA
+		val knotenACoordinate = positionService.transformCoordinate(geoKnotenA.coordinate, geoKnotenA.CRS) 
+		
+		// new approach
+		// val coordWrongCRS = geometryService.getCoordinate(md, BigDecimal.ZERO, BigDecimal.ZERO, ENUMWirkrichtung.ENUM_WIRKRICHTUNG_IN)
+		// val knotenACoordinate = positionService.transformCoordinate(geoKnotenA.coordinate, geoKnotenA.CRS) 
 		
 		// LEARNING:
 		// don't use:
