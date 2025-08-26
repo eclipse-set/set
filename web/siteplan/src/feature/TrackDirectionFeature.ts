@@ -83,6 +83,41 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
       // find start and end
       const inReverse = !(section.segments[0].positions[0].x === section.startCoordinate.x && section.segments[0].positions[0].y === section.startCoordinate.y)
 
+      // assume segments are all oriented in the same direction.
+      // if not inReverse:
+      //      A---x---y---z---B
+      // segments: A-x, x-y, y-z, z-B
+      // if in inReverse:
+      //      A---x---y---z---B
+      // segments: B-z, z-y, y-x, x-A
+      // assert this assumption here:
+      // assert.strictEqual('1=2',1,2)
+
+      if (!inReverse) {
+        const lastPos = { 'x':section.startCoordinate.x,'y':section.startCoordinate.y }
+
+        for (const segment of section.segments) {
+          const nextPos = segment.positions[0]
+          console.assert(nextPos.x === lastPos.x,'segment wrong or flipped',nextPos.x,nextPos.y,lastPos.x,lastPos.y)
+          console.assert(nextPos.y === lastPos.y,'segment wrong or flipped',nextPos.x,nextPos.y,lastPos.x,lastPos.y)
+          lastPos.x = segment.positions[segment.positions.length - 1].x
+          lastPos.y = segment.positions[segment.positions.length - 1].y
+        }
+      } else {
+        const lastPos = { 'x':section.startCoordinate.x,'y':section.startCoordinate.y }
+        // iterate backwards through section.segments
+        for (let i = section.segments.length - 1; i >= 0; --i) {
+          const segment = section.segments[i]
+
+          const nextPos = segment.positions[segment.positions.length - 1]
+          console.assert(nextPos.x === lastPos.x,'segment wrong or flipped',nextPos.x,nextPos.y,lastPos.x,lastPos.y)
+          console.assert(nextPos.y === lastPos.y,'segment wrong or flipped',nextPos.x,nextPos.y,lastPos.x,lastPos.y)
+          lastPos.x = segment.positions[0].x
+          lastPos.y = segment.positions[0].y
+        }
+      }
+
+      // var start = inReverse ? section.segments[section.segments.length-1] :
       for (const segment of section.segments) {
         const segmentparts_length = []
         const cumulative_length = [0.0]
