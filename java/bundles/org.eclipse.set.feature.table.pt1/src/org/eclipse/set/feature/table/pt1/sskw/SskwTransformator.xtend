@@ -805,13 +805,14 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 			val actuator = actuatorNumberSelector.apply(it)
 			val noOfActuators = actuator !== null ? actuator.intValue : 0
 			val position = it.getPosition(actuator, actuatorPositionSelector)
+			val fillPositionCondition = noOfActuators > 0 && position !== null && kreuzung !== null
 			if (austauschAntriebe?.wert === true &&
 				container.containerType == ContainerType.FINAL) {
 				multiColorContent.multiColorValue = noOfActuators.toString
-				multiColorContent.stringFormat = '''%s«IF noOfActuators > 0 && position !== null» («position»)«ENDIF»'''
+				multiColorContent.stringFormat = '''%s«IF fillPositionCondition» («position»)«ENDIF»'''
 			} else {
 				multiColorContent.multiColorValue = null
-				multiColorContent.stringFormat = '''«noOfActuators»«IF noOfActuators > 0 && position !== null» («position»)«ENDIF»'''
+				multiColorContent.stringFormat = '''«noOfActuators»«IF fillPositionCondition» («position»)«ENDIF»'''
 			}
 
 			return multiColorContent
