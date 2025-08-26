@@ -131,7 +131,7 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
       const startCoord = { 'x':section.startCoordinate.x,'y':section.startCoordinate.y }
 
       // TODO move these tolerances somewhere else!
-      this.assertStartPosOccursInPositions(startCoord, section,true, 0.0)
+      this.assertStartPosOccursInPositions(startCoord, section,true, 0.001)
 
       const orderedSegments = section.orderedSegments()
       if (!orderedSegments)
@@ -141,6 +141,7 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
       let lastPos = null
 
       for (const [segment,isFlipped] of section.orderedSegments()!) {
+        console.assert(segment != null, 'all segments must be not null') // TODO check this in unittest for section.orderedSegments()
         const segmentFirst = segment.positions[0]
         const segmentLast = segment.positions[segment.positions.length - 1]
         if (!isFlipped) {

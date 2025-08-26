@@ -6,6 +6,7 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v20.html
  */
+import { distance } from '@/util/Math'
 import { checkInstance } from '@/util/ObjectExtension'
 import { FlippedFlag } from '@/util/TrivialTypes'
 import { Coordinate, defaultCoordinateObj } from './Position'
@@ -85,8 +86,28 @@ export class TrackSectionC implements TrackSection {
    * If a is flipped and b is not, then:    a.positions[0] = b.positions[0]
    * If a and b are flipped,       then:    a.positions[0] = b.positions[last]
    */
+
   // TODO unittest this!
+
   public orderedSegments (): [TrackSegment, FlippedFlag][] | undefined {
+    return this.orderedSegmentsWithTolerance(0.001) // TODO remove tolerance and move body of ... withtolerance to here!
+    // the code that needs to be swapped is this one:
+    /*
+    const segmentsWithPosNotFlipped = this.segments.filter(
+      seg => seg.positions[0].x === lastPos.x && seg.positions[0].y === lastPos.y
+    )
+    const segmentsWithPosFlipped = this.segments.filter(
+      seg => seg.positions[seg.positions.length - 1].x === lastPos.x
+          && seg.positions[seg.positions.length - 1].y === lastPos.y
+    )
+    */
+  }
+
+  // look orderedSegments() for documentation!
+  // TODO unittest this!
+  // TODO remove this (with tolerance). And fix the underlying problem:
+  // TODO         startCoordinate is not exactly any position of segments.positions!
+  private orderedSegmentsWithTolerance (tolerance = 0.0): [TrackSegment, FlippedFlag][] | undefined {
     // if undefined (like in invalid .planpro-files),
     // it's not possible to determine the correct ordering!
     if (!this.startCoordinate)
@@ -97,11 +118,14 @@ export class TrackSectionC implements TrackSection {
 
     // find at first pos of all segments:
     const segmentsWithPosNotFlipped = this.segments.filter(
-      seg => seg.positions[0].x === lastPos.x && seg.positions[0].y === lastPos.y
+      seg => distance([seg.positions[0].x,seg.positions[0].y],[lastPos.x,lastPos.y]) <= tolerance
     )
     const segmentsWithPosFlipped = this.segments.filter(
-      seg => seg.positions[seg.positions.length - 1].x === lastPos.x
-          && seg.positions[seg.positions.length - 1].y === lastPos.y
+      seg => distance(
+        [seg.positions[seg.positions.length - 1].x,seg.positions[seg.positions.length - 1].y],
+        [lastPos.x,lastPos.y]
+      ) <= tolerance
+
     )
     // TODO throw exception?
     const amountSegmentsWithLastPos = segmentsWithPosNotFlipped.length + segmentsWithPosFlipped.length
@@ -113,7 +137,7 @@ export class TrackSectionC implements TrackSection {
     if (segmentsWithPosNotFlipped.length === 1) {
       result.push([segmentsWithPosNotFlipped[0],false])
     } else if (segmentsWithPosFlipped.length === 1) {
-      result.push([segmentsWithPosNotFlipped[0],true])
+      result.push([segmentsWithPosFlipped[0],true])
     } else {
     // the assertion above will then fail...
       return undefined

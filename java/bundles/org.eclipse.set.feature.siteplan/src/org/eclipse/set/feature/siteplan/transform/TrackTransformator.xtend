@@ -173,13 +173,15 @@ class TrackTransformator extends BaseTransformator<TOP_Kante> {
 		val tolerance = 0.001 //TODO move somewhere else. assign a proper value!
 		if (difference > tolerance) {
 			logger.error(
-					"startCoordinate of section diverges a lot from the coordinate in positions. TOP_Kante: {}", //$NON-NLS-1$
-					0); //md.topKante.
+					"startCoordinate of section diverges a lot ({}) from the coordinate in positions. TOP_Kante: {}", //$NON-NLS-1$
+					difference,
+					"unknown"); //TODO give me GUID! md.topKante.
 			return null;
 		}
  		
  		// is this needed or can you just use coordAlongGeoKante.coordinate? 
- 		val knotenACoordinate = positionService.transformPosition(coordAlongGeoKante)	
+ 		// answer: coordAlongGeoKante.coordinate is very wrong!
+ 		val knotenACoordinate = positionService.transformPosition(coordAlongGeoKante)
 		val result = SiteplanFactory.eINSTANCE.createCoordinate;
 		result.x = knotenACoordinate.x // copy because of error: Type mismatch: cannot convert from Coordinate to Coordinate
 		result.y = knotenACoordinate.y // copy because of error: Type mismatch: cannot convert from Coordinate to Coordinate
