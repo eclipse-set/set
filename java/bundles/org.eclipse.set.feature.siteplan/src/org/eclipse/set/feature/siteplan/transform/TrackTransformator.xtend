@@ -56,6 +56,8 @@ import static extension org.eclipse.set.ppmodel.extensions.WKrGspElementExtensio
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspKomponenteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 import org.eclipse.set.ppmodel.extensions.GeoKnotenExtensions
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Transforms a track from the PlanPro model to a siteplan track
@@ -72,6 +74,10 @@ class TrackTransformator extends BaseTransformator<TOP_Kante> {
 	static val ERROR_NO_GLEIS_ART = "Keine Gleisart für Segment der GEO_Kante '%s' gefunden."
 	static val ERROR_MULTIPLE_GLEIS_ART = "Mehrere Gleisarten für Segment der GEO_Kante '%s' gefunden."
 	var sectionColor = ''
+	
+	static final Logger logger = LoggerFactory
+			.getLogger(TrackTransformator);
+	
 
 	/**
 	 * Transforms a PlanPro TOP_Kante to a Siteplan track
@@ -143,26 +149,47 @@ class TrackTransformator extends BaseTransformator<TOP_Kante> {
 //	}
 	
 	// Coordinate from basis.geometry
+	// if not a valid .planpro file, 'getCoordinate' might throw:  Can't found Geo_Kante by TOP_Knoten: 5C03...8F9C of TOP_Kante: 6A89...E1 
+	// in that case: return null.
 	private def org.eclipse.set.model.siteplan.Coordinate startCoordinate(GEOKanteMetadata md) {
-		//this yields a startCoordinate < 0.001 off the expected value from the segments
-		val geoKnotenA = md.geoKante.geoKnotenA
-		val knotenACoordinate = positionService.transformCoordinate(geoKnotenA.coordinate, geoKnotenA.CRS) 
+		// geoKnotenA is in many cases not equal to any Coordinate found in any p from: 
+		// ∀sec:section ∀seg: sec.segments ∀ p: sec.postions
+		//this is because a segment with is e.g. an arch, usually has a different calculated length then the sum of all linear segments.
 		
-		// new approach
-		// val coordWrongCRS = geometryService.getCoordinate(md, BigDecimal.ZERO, BigDecimal.ZERO, ENUMWirkrichtung.ENUM_WIRKRICHTUNG_IN)
-		// val knotenACoordinate = positionService.transformCoordinate(geoKnotenA.coordinate, geoKnotenA.CRS) 
+		// get actual start coord from model
+		val geoKnotenA = md.geoKante.geoKnotenA
+		val knotenACoordinateModel = positionService.transformCoordinate(geoKnotenA.coordinate, geoKnotenA.CRS) 
+		
+		// calculate start coord by walking along geo kante. gives slightly different pos, but it occurs in position-list: section.segment.positions 
+		var GEOKanteCoordinate coordAlongGeoKante;
+		try { 
+			 coordAlongGeoKante = geometryService.getCoordinate(md, md.start, BigDecimal.ZERO, ENUMWirkrichtung.ENUM_WIRKRICHTUNG_IN)
+		} catch (Exception e) {
+			return null
+		}
+		
+		// if tolerance is too big, produce an error?
+		val difference = geoKnotenA.coordinate.distance(coordAlongGeoKante.coordinate)
+		val tolerance = 0.001 //TODO move somewhere else. assign a proper value!
+		if (difference > tolerance) {
+			logger.error(
+					"startCoordinate of section diverges a lot from the coordinate in positions. TOP_Kante: {}", //$NON-NLS-1$
+					0); //md.topKante.
+			return null;
+		}
+ 		
+ 		// is this needed or can you just use coordAlongGeoKante.coordinate? 
+ 		val knotenACoordinate = positionService.transformPosition(coordAlongGeoKante)	
+		val result = SiteplanFactory.eINSTANCE.createCoordinate;
+		result.x = knotenACoordinate.x // copy because of error: Type mismatch: cannot convert from Coordinate to Coordinate
+		result.y = knotenACoordinate.y // copy because of error: Type mismatch: cannot convert from Coordinate to Coordinate
+		return result
 		
 		// LEARNING:
 		// don't use:
 		//  val geoKnotenA = md.geoKante.geoKnotenA
 		// positionService.transformPosition(geoKnotenA, geoKnotenA.CRS) 
-		// It gives slightly wrong results!
-		
-		//val result = positionService.transformPosition(coordinate)
-		val result = SiteplanFactory.eINSTANCE.createCoordinate;
-		result.x = knotenACoordinate.x // copy because of error: Type mismatch: cannot convert from Coordinate to Coordinate
-		result.y = knotenACoordinate.y // copy because of error: Type mismatch: cannot convert from Coordinate to Coordinate
-		return result
+		// It gives slightly different results to the ones in the sections.segments.positions!
 	}
 	
 
@@ -171,7 +198,7 @@ class TrackTransformator extends BaseTransformator<TOP_Kante> {
 		section.guid = md.geoKante.identitaet.wert
 		section.shape = transformGeoForm(md.geoKante.GEOKanteAllg.GEOForm)
 		section.color = sectionColor
-		section.startCoordinate =  startCoordinate(md)
+		section.startCoordinate =  startCoordinate(md) //TODO might be null!
 		
 		transform(md).filter[segment|!segment.positions.empty].forEach [
 			section.segments.add(it)
