@@ -30,9 +30,8 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
   static readonly MIN_TRACK_LENGTH_TO_DISPLAY_FEATURE = 0.0001
 
   getFeatures (model: SiteplanState): Feature<Geometry>[] {
-    const res = this.getObjectsModel(model).map(element => this.createTrackDirectionArrowFeatures(element))
+    return this.getObjectsModel(model).map(element => this.createTrackDirectionArrowFeatures(element))
       .flat()
-    return res
   }
 
   protected getObjectsModel (model: SiteplanState): Track[] {

@@ -9,7 +9,7 @@
 import { checkInstance } from '@/util/ObjectExtension'
 import { defaultPositionObj, Position } from './Position'
 import SiteplanObject, { defaultObjectColorObj } from './SiteplanObject'
-import TrackSection, { defaultTrackSectionObj } from './TrackSection'
+import TrackSection from './TrackSection'
 
 export interface TrackDesignation {
     name: string
@@ -39,7 +39,7 @@ export function defaultTrackObj (): Track {
   return {
     guid: 'abc',
     designations: [defaultTrackDesignationObj()],
-    sections: [defaultTrackSectionObj()],
+    sections: [TrackSection.defaultTrackSectionObj()],
     objectColors: [defaultObjectColorObj()]
   }
 }
