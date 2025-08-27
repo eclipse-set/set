@@ -4,7 +4,6 @@ import { SiteplanState } from '@/model/SiteplanModel'
 import { ISvgElement } from '@/model/SvgElement'
 import Track from '@/model/Track'
 import TrackSection, { orderedSegmentsOfTrackSection } from '@/model/TrackSection'
-import { distance } from '@/util/Math'
 import SvgDraw from '@/util/SVG/Draw/SvgDraw'
 import { Feature } from 'ol'
 import Geometry from 'ol/geom/Geometry'
@@ -44,9 +43,9 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
     return this.svgService.getFeatureSvg(track, FeatureType.TrackDirectionArrow) // no data needed!
   }
 
-  private assertStartPosOccursInPositions (startPos: unknown, section: TrackSection, withDist = true, tolerance = 0.0) {
+  private assertStartPosOccursInPositions (startPos: Coord, section: TrackSection, withDist = true, tolerance = 0.0) {
     const segmentsWithStartCoord = section.segments
-      .filter(seg => seg.positions.find(pos => pos.x === startPos.x && pos.y === startPos.y))
+      .filter(seg => seg.positions.find(pos => startPos.exact_eq(pos)))
 
     if (!withDist && tolerance === 0.0) {
       console.assert(segmentsWithStartCoord.length > 0, section.guid)
@@ -56,7 +55,7 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
     const segmentPosDistances = []
     for (const segment of section.segments) {
       for (const pos of segment.positions) {
-        segmentPosDistances.push(distance([pos.x,pos.y],[startPos.x,startPos.y]))
+        segmentPosDistances.push(startPos.distanceTo(pos))
       }
     }
     // TODO why does this not do the same thing?
@@ -93,7 +92,7 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
       if (!section.startCoordinate)
         continue
 
-      const startCoord = { 'x':section.startCoordinate.x,'y':section.startCoordinate.y }
+      const startCoord = Coord.fromCoordinate(section.startCoordinate)
 
       // TODO move these tolerances somewhere else!
       this.assertStartPosOccursInPositions(startCoord, section,true, 0.001)
@@ -103,14 +102,14 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
         continue
 
       const positionList : Coord[] = []
-      let lastPos = null
+      let lastPos: Coord | null = null
 
       for (const [segment,isFlipped] of orderedSegments!) {
         console.assert(segment != null, 'all segments must be not null') // TODO check this in unittest for section.orderedSegments()
         const segmentFirst = Coord.fromCoordinate(segment.positions[0])
         const segmentLast = Coord.fromCoordinate(segment.positions[segment.positions.length - 1])
         if (!isFlipped) {
-          console.assert(lastPos === null || (segmentFirst.x === lastPos.x &&  segmentFirst.y === lastPos.y))
+          console.assert(lastPos === null || segmentFirst.exact_eq(lastPos))
           // push positions in correct order.
           // First element is only pushed in very first segment!
           if (!lastPos) {
@@ -121,9 +120,9 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
             positionList.push(Coord.fromCoordinate(segment.positions[i]))
           }
 
-          lastPos = { x: segmentLast.x,y:segmentLast.y }
+          lastPos = segmentLast
         } else {
-          console.assert(lastPos === null || (segmentLast.x === lastPos.x &&  segmentLast.y === lastPos.y))
+          console.assert(lastPos === null || segmentLast.exact_eq(lastPos))
           // push positions in inverse order.
           // First element is only pushed in very first segment!
           if (!lastPos) {
@@ -133,7 +132,7 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
           for (let i = segment.positions.length - 2; i >= 0 ; i--) {
             positionList.push(Coord.fromCoordinate(segment.positions[i]))
           }
-          lastPos = { x: segmentFirst.x, y:segmentFirst.y }
+          lastPos = segmentFirst
         }
       }
 
@@ -169,15 +168,13 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
         }
 
         const remaining_length = half_length - cumulative_length[last_pos_before_midle]
-        const middle = {
-          x: positionList[last_pos_before_midle].x + dir.x * remaining_length,
-          y: positionList[last_pos_before_midle].y + dir.y * remaining_length
-        }
+        const middle : Coord =
+          positionList[last_pos_before_midle]
+            .plus(
+              dir.scaledBy(remaining_length)
+            )
 
-        const geometry = new OlPoint([
-          middle.x,
-          middle.y
-        ])
+        const geometry = middle.toOlPoint()
 
         const angleRad = - Math.atan2(dir.y, dir.x)  // y, x
 

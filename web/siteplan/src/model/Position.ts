@@ -1,4 +1,5 @@
 import { checkInstance } from '@/util/ObjectExtension'
+import OlPoint from 'ol/geom/Point'
 
 /**
  * Copyright (c) 2022 DB Netz AG and others.
@@ -34,11 +35,11 @@ export class Coord implements Coordinate {
     return new Coord(c.x,c.y)
   }
 
-  public static distance (a: Coord, b:Coord): number {
+  public static distance (a: Coordinate, b:Coordinate): number {
     return Math.sqrt((a.x - b.x) ** 2 + (a.y - b.y) ** 2)
   }
 
-  public distanceTo (other:Coord) : number {
+  public distanceTo (other:Coordinate) : number {
     return Coord.distance(this,other)
   }
 
@@ -49,6 +50,25 @@ export class Coord implements Coordinate {
     }
 
     return new Coord((b.x - a.x) / len,(b.y - a.y) / len)
+  }
+
+  public exact_eq (other:Coordinate): boolean {
+    return this.x === other.x && this.y === other.y
+  }
+
+  public scaledBy (scalar: number): Coord{
+    return new Coord(this.x * scalar, this.y * scalar)
+  }
+
+  public plus (other: Coord): Coord{
+    return new Coord(this.x + other.x, this.y + other.y)
+  }
+
+  public toOlPoint () {
+    return new OlPoint([
+      this.x,
+      this.y
+    ])
   }
 }
 
