@@ -28,6 +28,9 @@ export enum TrackShape {
 
 /**
  * segments are not ordered!
+ * TrackSection is a class. When parsing the SiteplanModel, it gets treated as an
+ * Interface. This is because e.g. Track is an interface, which uses TrackSection.
+ * Pay great attention to the difference between extends and implements in the future.
  */
 export default class TrackSection {
   guid: string
@@ -63,13 +66,6 @@ export default class TrackSection {
       color: 'black',
       startCoordinate: defaultCoordinateObj()
     } as TrackSection
-  }
-
-  /**
-   * name
-   */
-  public testCallable () {
-
   }
 
   /**

@@ -85,9 +85,8 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
     for (const sec of track.sections) {
       // const section: TrackSection = sectionA as TrackSection
 
-      /* this is ugly! */
+      /* this is ugly! This is not needed, when Track is a class! */
       const section: TrackSection = new TrackSection(sec.guid,sec.shape,sec.segments,sec.color,sec.startCoordinate)
-      section.testCallable()
 
       // startCoordinate might be undefined. In that case, don't draw the segment
       // (as we don't know where it starts!)
