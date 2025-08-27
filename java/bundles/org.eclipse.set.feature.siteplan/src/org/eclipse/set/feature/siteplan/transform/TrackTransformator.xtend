@@ -40,9 +40,7 @@ import org.locationtech.jts.geom.Coordinate
 // import org.eclipse.set.model.siteplan.Coordinate
 import org.osgi.service.component.annotations.Component
 import org.osgi.service.component.annotations.Reference
-
 import static org.eclipse.set.model.planpro.Geodaten.ENUMTOPAnschluss.*
-
 import static extension org.eclipse.set.feature.siteplan.transform.TransformUtils.*
 import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
@@ -55,7 +53,6 @@ import static extension org.eclipse.set.ppmodel.extensions.WKrAnlageExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspElementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspKomponenteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
-import org.eclipse.set.ppmodel.extensions.GeoKnotenExtensions
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -154,7 +151,7 @@ class TrackTransformator extends BaseTransformator<TOP_Kante> {
 	private def org.eclipse.set.model.siteplan.Coordinate startCoordinate(GEOKanteMetadata md) {
 		// geoKnotenA is in many cases not equal to any Coordinate found in any p from: 
 		// ∀sec:section ∀seg: sec.segments ∀ p: sec.postions
-		//this is because a segment with is e.g. an arch, usually has a different calculated length then the sum of all linear segments.
+		// this is because a segment with is e.g. an arch, usually has a different calculated length then the sum of all linear segments.
 		
 		// get actual start coord from model
 		val geoKnotenA = md.geoKante.geoKnotenA
