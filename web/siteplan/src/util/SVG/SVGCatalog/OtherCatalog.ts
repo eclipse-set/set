@@ -10,12 +10,6 @@
 import UnknownObject from '@/model/UnknownObject'
 import { OtherSVGCatalog } from '../SvgEnum'
 import AbstractSVGCatalog from './AbstractSVGCatalog'
-import TrackDirectionFeature from '@/feature/TrackDirectionFeature'
-import Feature, { FeatureLike } from 'ol/Feature'
-import OlIcon from 'ol/style/Icon'
-import OlStyle from 'ol/style/Style'
-import { createFeature, FeatureType, getFeatureData } from '@/feature/FeatureInfo'
-import Geometry from 'ol/geom/Geometry'
 
 export default class OthersSVGCatalog extends AbstractSVGCatalog{
   getUnknownSvg (obj: UnknownObject) {
@@ -37,29 +31,5 @@ export default class OthersSVGCatalog extends AbstractSVGCatalog{
 
   public catalogName (): string {
     return OtherSVGCatalog.Others
-  }
-
-  /**
-     * styling for all TrackDirectionFeatures. It is dependent on the feature,
-     * specifically the model.data value "rotation"
-     */
-  private trackDirectionMarker ():  (feature: FeatureLike) => OlStyle {
-    const ICON_PATH = 'SvgKatalog/GleisModellAusrichtung.svg'
-    const TDF_FEATURE_STYLE = (feature: FeatureLike) => {
-      return new OlStyle({
-        image: new OlIcon({
-          opacity: 1,
-          src: ICON_PATH,
-          rotateWithView: true,
-          scale: 0.4,
-          rotation: getFeatureData(feature as Feature<Geometry>).rotation, // is this cast always possible?
-          anchor: [0.5,0.5],
-          anchorXUnits: 'fraction',
-          anchorYUnits: 'fraction'
-
-        })
-      })
-    }
-    return TDF_FEATURE_STYLE
   }
 }

@@ -8,12 +8,11 @@ import TrackSection from '@/model/TrackSection'
 import { distance } from '@/util/Math'
 import SvgDraw from '@/util/SVG/Draw/SvgDraw'
 import { Feature } from 'ol'
-import { FeatureLike } from 'ol/Feature'
 import Geometry from 'ol/geom/Geometry'
 import OlPoint from 'ol/geom/Point'
-import { default as Icon, default as OlIcon } from 'ol/style/Icon'
-import { default as OlStyle, default as Style } from 'ol/style/Style'
-import { createFeature, FeatureType, getFeatureData } from './FeatureInfo'
+import { default as Icon } from 'ol/style/Icon'
+import { default as Style } from 'ol/style/Style'
+import { createFeature, FeatureType } from './FeatureInfo'
 
 /** data stored per track direction feature */
 interface TrackDirectionArrowData {
@@ -31,31 +30,6 @@ interface TrackDirectionArrowData {
 export default class TrackDirectionFeature extends LageplanFeature<Track> {
   /** if a track is shorter then this, no arrow head is created for that track segment. */
   static readonly MIN_TRACK_LENGTH_TO_DISPLAY_FEATURE = 0.0001
-
-  static readonly ICON_PATH = 'SvgKatalog/GleisModellAusrichtung.svg'
-  /**
-   * styling for all TrackDirectionFeatures. It is dependent on the feature,
-   * specifically the model.data value "rotation"
-   * @param feature sty
-   * @returns
-   */
-  static readonly TDF_FEATURE_STYLE = (feature: FeatureLike) => {
-    // 'data:image/svg+xml;utf8,' + svg.content.outerHTML,
-
-    return new OlStyle({
-      image: new OlIcon({
-        opacity: 1,
-        src: TrackDirectionFeature.ICON_PATH,
-        rotateWithView: true,
-        scale: 0.4,
-        rotation: getFeatureData(feature as Feature<Geometry>).rotation, // is this cast always possible?
-        anchor: [0.5,0.5],
-        anchorXUnits: 'fraction',
-        anchorYUnits: 'fraction'
-
-      })
-    })
-  }
 
   getFeatures (model: SiteplanState): Feature<Geometry>[] {
     const res = this.getObjectsModel(model).map(element => this.createTrackDirectionArrowFeatures(element))
