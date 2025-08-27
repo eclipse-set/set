@@ -83,10 +83,6 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
     const markers: Feature<Geometry>[] = []
 
     for (const section of track.sections) {
-      // This seems to be incorrect:
-      // const section = sectionI as TrackSectionC
-      // instead do it this way:
-
       // startCoordinate might be undefined. In that case, don't draw the segment
       // (as we don't know where it starts!)
       if (!section.startCoordinate)
