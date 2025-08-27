@@ -111,40 +111,6 @@ class TrackTransformator extends BaseTransformator<TOP_Kante> {
 		track.addSiteplanElement(SiteplanPackage.eINSTANCE.siteplanState_Tracks)
 	}
 	
-	
-	//		in transform TrackSegment:		
-//		result.positions.addAll(segment.getCoordinates(md).map [
-//			positionService.transformPosition(it)
-//		])
-
-
-
-//	private def TrackDesignation transform(
-//		Gleis_Bezeichnung gleisBezeichnung,
-//		GEOKanteMetadata md
-//	) {
-//		val result = SiteplanFactory.eINSTANCE.createTrackDesignation
-//		result.name = gleisBezeichnung.bezeichnung.bezGleisBezeichnung.wert
-//		// Find the longest stretch
-//		val maxTB = gleisBezeichnung.bereichObjektTeilbereich.max [ a, b |
-//			a.length.compareTo(b.length)
-//		]
-//
-//		// Is the stretch within this GEO_Kante?	
-//		if (maxTB.IDTOPKante?.value?.identitaet?.wert !=
-//			md.geoKante.topKante.identitaet?.wert)
-//			return null
-//
-//		val centerDistance = maxTB.length.divide(BigDecimal.valueOf(2),
-//			ToolboxConstants.ROUNDING_TO_PLACE, RoundingMode.HALF_UP)
-//		if (centerDistance < md.start || centerDistance >= md.end)
-//			return null;
-//		val coordinate = geometryService.getCoordinate(md, centerDistance,
-//			BigDecimal.ZERO, ENUMWirkrichtung.ENUM_WIRKRICHTUNG_IN)
-//		result.position = positionService.transformPosition(coordinate)
-//		return result
-//	}
-	
 	// Coordinate from basis.geometry
 	// if not a valid .planpro file, 'getCoordinate' might throw:  Can't found Geo_Kante by TOP_Knoten: 5C03...8F9C of TOP_Kante: 6A89...E1 
 	// in that case: return null.
@@ -197,7 +163,8 @@ class TrackTransformator extends BaseTransformator<TOP_Kante> {
 		section.guid = md.geoKante.identitaet.wert
 		section.shape = transformGeoForm(md.geoKante.GEOKanteAllg.GEOForm)
 		section.color = sectionColor
-		section.startCoordinate =  startCoordinate(md) //TODO might be null!
+		section.startCoordinate =  startCoordinate(md) 
+		//startCoordinate might be null. In that case no field "startCoordinate" will appear in TrackSection (in ts)
 		
 		transform(md).filter[segment|!segment.positions.empty].forEach [
 			section.segments.add(it)
