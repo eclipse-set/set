@@ -1,10 +1,9 @@
-import { Coord } from '@/enhanced_model/Coordinate'
-import { TrackSectionC } from '@/enhanced_model/TrackSection'
 import LageplanFeature from '@/feature/LageplanFeature'
+import { Coord } from '@/model/Position'
 import { SiteplanState } from '@/model/SiteplanModel'
 import { ISvgElement } from '@/model/SvgElement'
 import Track from '@/model/Track'
-import TrackSection from '@/model/TrackSection'
+import TrackSection, { orderedSegmentsOfTrackSection } from '@/model/TrackSection'
 import { distance } from '@/util/Math'
 import SvgDraw from '@/util/SVG/Draw/SvgDraw'
 import { Feature } from 'ol'
@@ -84,11 +83,10 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
   private createTrackDirectionArrowFeatures (track: Track): Feature<Geometry>[] {
     const markers: Feature<Geometry>[] = []
 
-    for (const sectionI of track.sections) {
+    for (const section of track.sections) {
       // This seems to be incorrect:
       // const section = sectionI as TrackSectionC
       // instead do it this way:
-      const section = TrackSectionC.fromTrackSection(sectionI)!
 
       // startCoordinate might be undefined. In that case, don't draw the segment
       // (as we don't know where it starts!)
@@ -100,14 +98,14 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
       // TODO move these tolerances somewhere else!
       this.assertStartPosOccursInPositions(startCoord, section,true, 0.001)
 
-      const orderedSegments = section.orderedSegments()
+      const orderedSegments = orderedSegmentsOfTrackSection(section)
       if (!orderedSegments)
         continue
 
       const positionList : Coord[] = []
       let lastPos = null
 
-      for (const [segment,isFlipped] of section.orderedSegments()!) {
+      for (const [segment,isFlipped] of orderedSegments!) {
         console.assert(segment != null, 'all segments must be not null') // TODO check this in unittest for section.orderedSegments()
         const segmentFirst = Coord.fromCoordinate(segment.positions[0])
         const segmentLast = Coord.fromCoordinate(segment.positions[segment.positions.length - 1])
