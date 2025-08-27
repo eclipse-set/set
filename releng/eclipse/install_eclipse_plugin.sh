@@ -20,9 +20,9 @@ if [ ! -f "$ECLIPSE_EXEC" ]; then
   exit 1
 fi
 
-UPDATE_SITES="https://download.eclipse.org/eclipse/updates/4.32,
-  https://download.eclipse.org/releases/2024-06,
-  https://download.eclipse.org/ecoretools/updates/releases/3.5.1/2023-06/,
+UPDATE_SITES="https://download.eclipse.org/eclipse/updates/4.35,
+  https://download.eclipse.org/releases/2025-03,
+  https://download.eclipse.org/ecoretools/updates/releases/3.5.2/2023-06/,
   https://checkstyle.org/eclipse-cs-update-site,
   http://download.eclipse.org/ecp/releases/releases_127"
 PLUGINS="org.eclipse.platform.feature.group,

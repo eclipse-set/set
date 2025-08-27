@@ -8,26 +8,41 @@
  */
 package org.eclipse.set.feature.table.pt1
 
+import java.util.ArrayList
+import java.util.Collections
 import java.util.Comparator
+import java.util.List
 import java.util.Set
 import org.eclipse.emf.common.util.Enumerator
 import org.eclipse.set.basis.constants.ToolboxConstants
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.model.planpro.BasisTypen.BasisAttribut_AttributeGroup
 import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
+import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt
 import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.model.tablemodel.TableRow
 import org.eclipse.set.model.tablemodel.TablemodelFactory
+import org.eclipse.set.model.tablemodel.extensions.CellContentExtensions
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
+import org.eclipse.set.utils.events.TableDataChangeEvent
 import org.eclipse.set.utils.table.AbstractTableModelTransformator
+import org.eclipse.set.utils.table.Pt1TableChangeProperties
 import org.eclipse.set.utils.table.TMFactory
+import org.eclipse.set.utils.table.TableError
+import org.osgi.service.event.EventAdmin
 
+import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.TableRowExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.utils.CacheUtils.*
 
 abstract class AbstractPlanPro2TableModelTransformator extends AbstractTableModelTransformator<MultiContainer_AttributeGroup> {
 	protected val FootnoteTransformation footnoteTransformation = new FootnoteTransformation()
 	protected val EnumTranslationService enumTranslationService
 	protected val Set<ColumnDescriptor> cols = newHashSet
+	protected val EventAdmin eventAdmin
+	protected static val String FILL_DELAY_CELL_THREAD = "fillDelayCell"
+	protected val List<WaitFillingCell<Ur_Objekt>> delayFillingCells
 
 	/**
 	 * Compares mixed strings groupwise.
@@ -36,10 +51,13 @@ abstract class AbstractPlanPro2TableModelTransformator extends AbstractTableMode
 		LST_OBJECT_NAME_COMPARATOR
 
 	new(Set<ColumnDescriptor> cols,
-		EnumTranslationService enumTranslationService) {
+		EnumTranslationService enumTranslationService, EventAdmin eventAdmin) {
 		super()
 		this.enumTranslationService = enumTranslationService
 		this.cols.addAll(cols)
+		delayFillingCells = Collections.synchronizedList(
+			new ArrayList<WaitFillingCell<Ur_Objekt>>)
+		this.eventAdmin = eventAdmin
 	}
 
 	protected def void fillFootnotes(TableRow row, Basis_Objekt object) {
@@ -115,6 +133,173 @@ abstract class AbstractPlanPro2TableModelTransformator extends AbstractTableMode
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
 		TMFactory factory) {
-		return transformTableContent(container, factory, null)
+		val table = transformTableContent(container, factory, null)
+		table.tableRows.forEach [ row |
+			row.cells.forEach [ cell, index |
+				if (cell.content === null) {
+					fillBlank(row, index)
+				}
+			]
+		]
+		return table
 	}
+
+	def <S, T extends Ur_Objekt> void fillSingleCellWhenAllowed(
+		TableRow row,
+		ColumnDescriptor column,
+		T object,
+		()=>Boolean fillCondition,
+		String tableShortcut,
+		String threadName,
+		(T)=>String filling
+	) {
+		fillIterableSingleCellWhenAllowed(
+			row,
+			column,
+			object,
+			fillCondition,
+			[#[filling.apply(it)]],
+			null,
+			ITERABLE_FILLING_SEPARATOR,
+			tableShortcut
+		)
+	}
+
+	def <S, T extends Ur_Objekt> void fillIterableSingleCellWhenAllowed(
+		TableRow row,
+		ColumnDescriptor column,
+		T object,
+		()=>Boolean fillCondition,
+		(T)=>List<String> sequence,
+		Comparator<String> comparator,
+		String separator,
+		String tableShortcut
+	) {
+		try {
+			if (fillCondition.apply) {
+				fillIterable(row, column, object, sequence, comparator, [
+					it
+				], separator)
+				return
+			}
+			fill(row, column, object, [CellContentExtensions.HOURGLASS_ICON])
+			new Thread([
+				val changeProperty = newArrayList
+				try {
+					while (!fillCondition.apply()) {
+						Thread.sleep(5000)
+					}
+					val result = sequence.apply(object)
+					if (comparator === null) {
+						result.sortWith(
+							ToolboxConstants.LST_OBJECT_NAME_COMPARATOR)
+					} else {
+						result.sortWith(comparator)
+					}
+					changeProperty.add(
+						new Pt1TableChangeProperties(object.container, row,
+							column, result.toList,
+							separator.
+								nullOrEmpty ? ITERABLE_FILLING_SEPARATOR : separator))
+				} catch (Exception e) {
+					changeProperty.add(
+						fillWaitingCellException(row, column, object.container,
+							e))
+				}
+				val updateValueEvent = new TableDataChangeEvent(
+					tableShortcut.toLowerCase, changeProperty)
+				TableDataChangeEvent.sendEvent(eventAdmin, updateValueEvent)
+			], '''«tableShortcut»/«FILL_DELAY_CELL_THREAD»/«column.label»/«object.cacheKey»''').
+				start
+		} catch (Exception e) {
+			handleFillingException(e, row, column)
+		}
+	}
+
+	def <S, T extends Ur_Objekt> void fillIterableMultiCellWhenAllowed(
+		TableRow row,
+		ColumnDescriptor column,
+		T object,
+		()=>Boolean fillCondition,
+		(T)=>String filling
+	) {
+
+		fillIterableMultiCellWhenAllow(row, column, object, fillCondition, [
+			#[filling.apply(it)]
+		], null, ITERABLE_FILLING_SEPARATOR)
+	}
+
+	def <S, T extends Ur_Objekt> void fillIterableMultiCellWhenAllow(
+		TableRow row,
+		ColumnDescriptor column,
+		T object,
+		()=>Boolean fillCondition,
+		(T)=>List<String> sequence,
+		Comparator<String> comparator,
+		String separator
+	) {
+		if (fillCondition.apply) {
+			fillIterable(row, column, object, sequence, comparator, [it],
+				separator)
+			return
+		}
+		fill(row, column, object, [CellContentExtensions.HOURGLASS_ICON])
+		delayFillingCells.add(
+			new WaitFillingCell(column, row, object, sequence, fillCondition))
+	}
+
+	def void updateWaitingFillCell(String tableShortcut) {
+		if (delayFillingCells.nullOrEmpty) {
+			return
+		}
+
+		new Thread([
+			val changeProperties = newArrayList
+			while (!delayFillingCells.nullOrEmpty) {
+				try {
+					delayFillingCells.filter[shouldFill].forEach [
+						val container = object.container
+						try {
+							changeProperties.add(
+								new Pt1TableChangeProperties(container, row,
+									column, fillValue,
+									ITERABLE_FILLING_SEPARATOR))
+						} catch (Exception e) {
+							changeProperties.add(
+								fillWaitingCellException(row, column, container,
+									e)
+							)
+						}
+
+					]
+					delayFillingCells.removeIf [ cell |
+						changeProperties.exists [ property |
+							cell.column === property.changeDataColumn &&
+								cell.row == property.row
+						]
+					]
+					Thread.sleep(5000)
+				} catch (Exception e) {
+					Thread.currentThread.interrupt
+					return
+				}
+
+			}
+			val updateTableEvent = new TableDataChangeEvent(
+				tableShortcut.toLowerCase, changeProperties)
+			TableDataChangeEvent.sendEvent(eventAdmin, updateTableEvent)
+		], '''«tableShortcut»/«FILL_DELAY_CELL_THREAD»''').start
+	}
+
+	private def Pt1TableChangeProperties fillWaitingCellException(TableRow row,
+		ColumnDescriptor column, MultiContainer_AttributeGroup container,
+		Exception e) {
+		val errorMsg = createErrorMsg(e, row)
+		val guid = row.group.leadingObject?.identitaet?.wert
+		val leadingObject = getLeadingObjectIdentifier(row, guid)
+		tableErrors.add(new TableError(guid, leadingObject, "", errorMsg, row))
+		return new Pt1TableChangeProperties(container, row, column,
+			#['''«ERROR_PREFIX»«errorMsg»'''], ITERABLE_FILLING_SEPARATOR)
+	}
+
 }

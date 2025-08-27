@@ -20,6 +20,7 @@ import org.eclipse.set.basis.FreeFieldInfo
 import org.eclipse.set.model.tablemodel.CellContent
 import org.eclipse.set.model.tablemodel.CompareCellContent
 import org.eclipse.set.model.tablemodel.CompareFootnoteContainer
+import org.eclipse.set.model.tablemodel.CompareTableCellContent
 import org.eclipse.set.model.tablemodel.FootnoteContainer
 import org.eclipse.set.model.tablemodel.MultiColorCellContent
 import org.eclipse.set.model.tablemodel.MultiColorContent
@@ -40,12 +41,12 @@ import org.w3c.dom.Document
 import org.w3c.dom.Element
 
 import static extension org.eclipse.set.model.tablemodel.extensions.CellContentExtensions.*
-import static extension org.eclipse.set.model.tablemodel.extensions.ColumnDescriptorExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.TableContentExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.TableRowExtensions.*
 import static extension org.eclipse.set.utils.StringExtensions.*
 import static extension org.eclipse.set.utils.export.xsl.siteplan.SiteplanXSL.pxToMilimeter
+import org.eclipse.set.basis.constants.ToolboxConstants
 
 /**
  * Transformation from {@link Table} to TableDocument {@link Document}.
@@ -61,8 +62,7 @@ class TableToTableDocument {
 	var String tablename
 	var int groupNumber
 	var TableSpanUtils spanUtils
-
-	static val String FOOTNOTE_SEPARATOR = ", "
+	var remarkTextInlnie = true
 
 	private new() throws ParserConfigurationException {
 		val docFactory = DocumentBuilderFactory.newInstance
@@ -76,13 +76,12 @@ class TableToTableDocument {
 	static def TableToTableDocument createTransformation() throws ParserConfigurationException {
 		return new TableToTableDocument
 	}
-
-	def Document transformToDocument(List<BufferedImage> imagesData,
-		Titlebox titleBox, FreeFieldInfo freeFieldInfo, double ppm) {
+	
+	def Document transformToDocument(BufferedImage imageData, Titlebox titleBox, FreeFieldInfo freeFieldInfo, double ppm) {
 		tablename = "siteplan export"
 		logger.debug("transform siteplan to document")
 		val rootNode = doc.createElement("Siteplan")
-		imagesData.forEach[rootNode.appendChild(transform(ppm))]
+		rootNode.appendChild(imageData.transform(ppm))
 		rootNode.appendChild(titleBox.transform)
 		rootNode.appendChild(freeFieldInfo.transform)
 		doc.appendChild(rootNode)
@@ -116,8 +115,11 @@ class TableToTableDocument {
 
 	private def Element create doc.createElement("Table") transform(Table table,
 		Titlebox titlebox, FreeFieldInfo freeFieldInfo) {
+		remarkTextInlnie = table.isInlineFootnote
 		appendChild(table.tablecontent.transform)
-		appendChild(transformToFootnotes(table))
+		if (!remarkTextInlnie) {
+			appendChild(transformToFootnotes(table))	
+		}
 		appendChild(titlebox.transform)
 		appendChild(freeFieldInfo.transform)
 		return
@@ -284,14 +286,10 @@ class TableToTableDocument {
 		var element = doc.createElement("StringContent")
 		if (isRemarkColumn)
 			element = doc.createElement("DiffContent")
-		val columnWidth = content.tableCell.columndescriptor.columnWidth
-		val stringValue = content.plainStringValue.
-			intersperseWithZeroSpacesLength(columnWidth.maxCharInCell)
+		val stringValue = content.plainStringValue
 		if (isRemarkColumn) {
 			val child = doc.createElement("UnchangedValue")
-			element.appendChild(
-				stringValue.addContentToElement(child, columnNumber,
-					isRemarkColumn))
+			stringValue.addContentToElement(child, columnNumber, isRemarkColumn)
 			element.addFootnoteContent(fc, columnNumber, isRemarkColumn)
 		} else {
 			element.textContent = stringValue.checkForTestOutput(columnNumber).
@@ -331,8 +329,6 @@ class TableToTableDocument {
 	private def dispatch Element createContent(CompareCellContent content,
 		FootnoteContainer fc, int columnNumber, boolean isRemarkColumn) {
 		val element = doc.createElement("DiffContent")
-		val columndWidth = content.tableCell.columndescriptor.columnWidth
-		val maxChar = columndWidth.maxCharInCell
 		formatCompareContent(
 			content.oldValue,
 			content.newValue,
@@ -340,7 +336,7 @@ class TableToTableDocument {
 			[doc.createElement("UnchangedValue")],
 			[doc.createElement("NewValue")],
 			[ text, child |
-				text.intersperseWithZeroSpacesLength(maxChar).
+				text.
 					addContentToElement(child, columnNumber, isRemarkColumn)
 			]
 		).forEach[element.appendChild(it)]
@@ -371,6 +367,15 @@ class TableToTableDocument {
 		return element
 	}
 
+	private def dispatch Element createContent(CompareTableCellContent content,
+		FootnoteContainer fc, int columnNumber, boolean isRemarkColumn) {
+		val element = doc.createElement(ToolboxConstants.XSL_PROJECT_COMPARE_CELL);
+		val mainContentElement = content.mainPlanCellContent.createContent(fc, columnNumber,
+				isRemarkColumn)
+		element.appendChild(mainContentElement)
+		return element
+	}
+
 	private def void addFootnoteChild(Element element, String content,
 		String mark, int columnNumber, boolean isRemarkColumn) {
 		val child = createCompareValueElement(mark, content)
@@ -385,25 +390,26 @@ class TableToTableDocument {
 
 	private dispatch def void addFootnoteContent(Element element,
 		SimpleFootnoteContainer fc, int columnNumber, boolean isRemarkColumn) {
-
-		val footnotes = fc.footnotes.map[getFootnoteInfo(fc, it).toShorthand].
-			iterableToString(FOOTNOTE_SEPARATOR)
+		val footNotesInfo = fc.footnotes.map[getFootnoteInfo(fc, it)].filterNull
+		val footnotes = footNotesInfo.map [
+			remarkTextInlnie ? toText : toShorthand
+		].iterableToString(FOOTNOTE_SEPARATOR)
 		element.addFootnoteChild(footnotes, WARNING_MARK_BLACK, columnNumber,
 			isRemarkColumn)
 	}
 
 	private dispatch def void addFootnoteContent(Element element,
 		CompareFootnoteContainer fc, int columnNumber, boolean isRemarkColumn) {
-
-		val oldFootnotes = fc.oldFootnotes.map [
-			getFootnoteInfo(fc, it).toShorthand
+		val oldFootnotes = fc.oldFootnotes.map[getFootnoteInfo(fc, it)].map [
+			remarkTextInlnie ? toText : toShorthand
 		].iterableToString(FOOTNOTE_SEPARATOR)
-		val newFootnotes = fc.newFootnotes.map [
-			getFootnoteInfo(fc, it).toShorthand
+		val newFootnotes = fc.newFootnotes.map[getFootnoteInfo(fc, it)].map [
+			remarkTextInlnie ? toText : toShorthand
 		].iterableToString(FOOTNOTE_SEPARATOR)
 		val unchangedFootnotes = fc.unchangedFootnotes.map [
-			getFootnoteInfo(fc, it).toShorthand
-		].iterableToString(FOOTNOTE_SEPARATOR)
+			getFootnoteInfo(fc, it)
+		].map[remarkTextInlnie ? toText : toShorthand].iterableToString(
+			FOOTNOTE_SEPARATOR)
 
 		element.addFootnoteChild(oldFootnotes, WARNING_MARK_YELLOW,
 			columnNumber, isRemarkColumn)
@@ -415,20 +421,16 @@ class TableToTableDocument {
 
 	private def Element createMultiColorElement(MultiColorContent content,
 		int columnNumber, boolean isRemarkColumn) {
-		val columndWidth = content.tableCell.columndescriptor.columnWidth
-		val maxChar = columndWidth.maxCharInCell
 		if (content.multiColorValue === null || content.disableMultiColor) {
 			val cellValue = String.format(content.stringFormat,
-				content.multiColorValue ?: "").
-				intersperseWithZeroSpacesLength(maxChar)
+				content.multiColorValue ?: "")
 			return cellValue.createContentElement("SimpleValue", columnNumber,
 				isRemarkColumn)
 
 		}
 		// IMPROVE: currently the order of multicolor content is static.
 		// The underlying issue is a limitation in XSL 1.0 and string splitting.
-		val multiColorValue = content.stringFormat.
-			intersperseWithZeroSpacesLength(maxChar)
+		val multiColorValue = content.stringFormat
 		val multiColorElement = multiColorValue.replace("%s", "").
 			createContentElement("MultiColorValue", columnNumber,
 				isRemarkColumn)
@@ -459,8 +461,9 @@ class TableToTableDocument {
 	private def Element addContentToElement(String content, Element element,
 		int columnNumber, boolean isRemarkColumn) {
 		val checkOutput = content.checkForTestOutput(columnNumber)
-		element.textContent = isRemarkColumn ? checkOutput : checkOutput.
-			intersperseWithZeroSpacesSC
+		element.textContent = isRemarkColumn
+			? checkOutput
+			: checkOutput.intersperseWithZeroSpacesSC
 		return element
 	}
 

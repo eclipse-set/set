@@ -196,16 +196,22 @@ public final class ToolboxConstants {
 	public static final String TOOLBOX_DIRECTORY_NAME_IMPORT_INITIAL_STATE = "importinitialfile";
 
 	/**
+	 * The name for the temporary directory of a toolbox file used as a first
+	 * planning to import.
+	 */
+	public static final String TOOLBOX_DIRECTORY_NAME_FIRST_PLANNING_TO_IMPORT = "firstimportplanningfile";
+
+	/**
+	 * The name for the temporary directory of a toolbox file used as a second
+	 * planning to import.
+	 */
+	public static final String TOOLBOX_DIRECTORY_NAME_SECOND_PLANNING_TO_IMPORT = "secondimportplanningfile";
+
+	/**
 	 * The name for the temporary directory of a toolbox file used as a
 	 * secondary planning.
 	 */
-	public static final String TOOLBOX_DIRECTORY_NAME_SECONDARY_PLANNING = "secondaryplanningfile";
-
-	/**
-	 * The name for the temporary directory of a toolbox file used as a third
-	 * planning.
-	 */
-	public static final String TOOLBOX_DIRECTORY_NAME_THIRD_PLANNING = "thridplanningfile";
+	public static final String TOOLBOX_DIRECTORY_NAME_COMPARE_PLANNING = "compareplanning";
 
 	/**
 	 * The name for the temporary directory of a toolbox file used to start a
@@ -282,9 +288,29 @@ public final class ToolboxConstants {
 	public static final int ROUNDING_TO_PLACE = 5;
 
 	/**
+	 * Labels for CompareTableCellContent cell
+	 */
+	public static final String TABLE_COMPARE_TABLE_CELL_LABEL = "tableCompareCell";
+
+	/**
+	 * Labels for converter search cell
+	 */
+	public static final String SEARCH_CELL_DISPLAY_CONVERTER = "searchCellConverter";
+
+	/**
+	 * Color of the compare table cell border
+	 */
+	public static final String TABLE_COMPARE_TABLE_CELL_BORDER_COLOR = "#0066FF";
+
+	/**
 	 * The id of the web developer help part
 	 */
 	public static String WEB_DEVELOPER_HELP_PART_ID = "org.eclipse.set.application.ppt.nosessionpart.WebDeveloperHelpPart";
+
+	/**
+	 * The name of compare project cell content
+	 */
+	public static final String XSL_PROJECT_COMPARE_CELL = "CompareProjectContent";
 
 	static {
 		DEFAULT_HOME_DIR = "./";

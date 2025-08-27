@@ -848,6 +848,67 @@ public interface TablemodelPackage extends EPackage {
 
 	/**
 	 * The meta object id for the
+	 * '{@link org.eclipse.set.model.tablemodel.impl.CompareTableCellContentImpl
+	 * <em>Compare Table Cell Content</em>}' class. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
+	 * @see org.eclipse.set.model.tablemodel.impl.CompareTableCellContentImpl
+	 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getCompareTableCellContent()
+	 * @generated
+	 */
+	int COMPARE_TABLE_CELL_CONTENT = 15;
+
+	/**
+	 * The feature id for the '<em><b>Separator</b></em>' attribute. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 * @ordered
+	 */
+	int COMPARE_TABLE_CELL_CONTENT__SEPARATOR = CELL_CONTENT__SEPARATOR;
+
+	/**
+	 * The feature id for the '<em><b>Main Plan Cell Content</b></em>'
+	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 * @ordered
+	 */
+	int COMPARE_TABLE_CELL_CONTENT__MAIN_PLAN_CELL_CONTENT = CELL_CONTENT_FEATURE_COUNT
+			+ 0;
+
+	/**
+	 * The feature id for the '<em><b>Compare Plan Cell Content</b></em>'
+	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 * @ordered
+	 */
+	int COMPARE_TABLE_CELL_CONTENT__COMPARE_PLAN_CELL_CONTENT = CELL_CONTENT_FEATURE_COUNT
+			+ 1;
+
+	/**
+	 * The number of structural features of the '<em>Compare Table Cell
+	 * Content</em>' class. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 * @ordered
+	 */
+	int COMPARE_TABLE_CELL_CONTENT_FEATURE_COUNT = CELL_CONTENT_FEATURE_COUNT
+			+ 2;
+
+	/**
+	 * The number of operations of the '<em>Compare Table Cell Content</em>'
+	 * class. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 * @ordered
+	 */
+	int COMPARE_TABLE_CELL_CONTENT_OPERATION_COUNT = CELL_CONTENT_OPERATION_COUNT
+			+ 0;
+
+	/**
+	 * The meta object id for the
 	 * '{@link org.eclipse.set.model.tablemodel.ColumnWidthMode <em>Column Width
 	 * Mode</em>}' enum. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
@@ -855,7 +916,7 @@ public interface TablemodelPackage extends EPackage {
 	 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getColumnWidthMode()
 	 * @generated
 	 */
-	int COLUMN_WIDTH_MODE = 15;
+	int COLUMN_WIDTH_MODE = 16;
 
 	/**
 	 * The meta object id for the
@@ -866,7 +927,7 @@ public interface TablemodelPackage extends EPackage {
 	 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getRowMergeMode()
 	 * @generated
 	 */
-	int ROW_MERGE_MODE = 16;
+	int ROW_MERGE_MODE = 17;
 
 	/**
 	 * Returns the meta object for class
@@ -1461,6 +1522,46 @@ public interface TablemodelPackage extends EPackage {
 	EReference getSimpleFootnoteContainer_Footnotes();
 
 	/**
+	 * Returns the meta object for class
+	 * '{@link org.eclipse.set.model.tablemodel.CompareTableCellContent
+	 * <em>Compare Table Cell Content</em>}'. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
+	 * @return the meta object for class '<em>Compare Table Cell Content</em>'.
+	 * @see org.eclipse.set.model.tablemodel.CompareTableCellContent
+	 * @generated
+	 */
+	EClass getCompareTableCellContent();
+
+	/**
+	 * Returns the meta object for the containment reference
+	 * '{@link org.eclipse.set.model.tablemodel.CompareTableCellContent#getMainPlanCellContent
+	 * <em>Main Plan Cell Content</em>}'. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
+	 * @return the meta object for the containment reference '<em>Main Plan Cell
+	 *         Content</em>'.
+	 * @see org.eclipse.set.model.tablemodel.CompareTableCellContent#getMainPlanCellContent()
+	 * @see #getCompareTableCellContent()
+	 * @generated
+	 */
+	EReference getCompareTableCellContent_MainPlanCellContent();
+
+	/**
+	 * Returns the meta object for the containment reference
+	 * '{@link org.eclipse.set.model.tablemodel.CompareTableCellContent#getComparePlanCellContent
+	 * <em>Compare Plan Cell Content</em>}'. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
+	 * @return the meta object for the containment reference '<em>Compare Plan
+	 *         Cell Content</em>'.
+	 * @see org.eclipse.set.model.tablemodel.CompareTableCellContent#getComparePlanCellContent()
+	 * @see #getCompareTableCellContent()
+	 * @generated
+	 */
+	EReference getCompareTableCellContent_ComparePlanCellContent();
+
+	/**
 	 * Returns the meta object for enum
 	 * '{@link org.eclipse.set.model.tablemodel.ColumnWidthMode <em>Column Width
 	 * Mode</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -1989,6 +2090,39 @@ public interface TablemodelPackage extends EPackage {
 		 */
 		EReference SIMPLE_FOOTNOTE_CONTAINER__FOOTNOTES = eINSTANCE
 				.getSimpleFootnoteContainer_Footnotes();
+
+		/**
+		 * The meta object literal for the
+		 * '{@link org.eclipse.set.model.tablemodel.impl.CompareTableCellContentImpl
+		 * <em>Compare Table Cell Content</em>}' class. <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * 
+		 * @see org.eclipse.set.model.tablemodel.impl.CompareTableCellContentImpl
+		 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getCompareTableCellContent()
+		 * @generated
+		 */
+		EClass COMPARE_TABLE_CELL_CONTENT = eINSTANCE
+				.getCompareTableCellContent();
+
+		/**
+		 * The meta object literal for the '<em><b>Main Plan Cell
+		 * Content</b></em>' containment reference feature. <!-- begin-user-doc
+		 * --> <!-- end-user-doc -->
+		 * 
+		 * @generated
+		 */
+		EReference COMPARE_TABLE_CELL_CONTENT__MAIN_PLAN_CELL_CONTENT = eINSTANCE
+				.getCompareTableCellContent_MainPlanCellContent();
+
+		/**
+		 * The meta object literal for the '<em><b>Compare Plan Cell
+		 * Content</b></em>' containment reference feature. <!-- begin-user-doc
+		 * --> <!-- end-user-doc -->
+		 * 
+		 * @generated
+		 */
+		EReference COMPARE_TABLE_CELL_CONTENT__COMPARE_PLAN_CELL_CONTENT = eINSTANCE
+				.getCompareTableCellContent_ComparePlanCellContent();
 
 		/**
 		 * The meta object literal for the

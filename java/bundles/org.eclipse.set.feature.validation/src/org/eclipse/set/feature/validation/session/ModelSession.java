@@ -154,6 +154,7 @@ public class ModelSession implements IModelSession {
 	private static final String APPLICATION_NAME = "Werkzeugkoffer"; //$NON-NLS-1$
 	private static final String SESSIONS_SUBDIR = "sessions"; //$NON-NLS-1$
 	protected static final String TITLE_SEPARATOR = " - "; //$NON-NLS-1$
+	protected static final String TITLE_FILE_NAME_SEPARATOR = " ⇔ "; //$NON-NLS-1$
 	static final Logger logger = LoggerFactory.getLogger(ModelSession.class);
 
 	private static String getSessionsSubDir() {
@@ -190,6 +191,8 @@ public class ModelSession implements IModelSession {
 	private SaveFixResult saveFixResult = SaveFixResult.NONE;
 	protected ValidationResult layoutinfoValidationResult = null;
 
+	private Path tempDir;
+
 	/**
 	 * @param toolboxFile
 	 *            the toolbox file
@@ -203,6 +206,24 @@ public class ModelSession implements IModelSession {
 	public ModelSession(final ToolboxFile toolboxFile,
 			final SessionService sessionService, final Shell mainWindow,
 			final ServiceProvider serviceProvider) {
+		this(toolboxFile, sessionService, mainWindow, serviceProvider, null);
+	}
+
+	/**
+	 * @param toolboxFile
+	 *            the toolbox file
+	 * @param sessionService
+	 *            the session service
+	 * @param mainWindow
+	 *            the main window of the application
+	 * @param serviceProvider
+	 *            the service provider
+	 * @param tempDir
+	 *            the temporary directory
+	 */
+	public ModelSession(final ToolboxFile toolboxFile,
+			final SessionService sessionService, final Shell mainWindow,
+			final ServiceProvider serviceProvider, final Path tempDir) {
 		this.sessionService = sessionService;
 		this.toolboxFile = toolboxFile;
 		this.mainWindow = mainWindow;
@@ -218,11 +239,12 @@ public class ModelSession implements IModelSession {
 			checkForDirtyEvent();
 		});
 		guid = Guid.create();
-
+		this.tempDir = tempDir;
 		createTempDir();
 		toolboxFile.setTemporaryDirectory(getTempDir());
 		toolboxPaths = new ToolboxPathsImpl(this);
 		subcribeToolboxEvent();
+
 		logger.debug("created session {}", this); //$NON-NLS-1$
 	}
 
@@ -334,12 +356,11 @@ public class ModelSession implements IModelSession {
 	public void close() {
 		// flush the command stack
 		getToolboxFile().getEditingDomain().getCommandStack().flush();
-
 		// reset filename
 		setTitleFilename(null);
 
 		// close the project
-		sessionService.close(this);
+		sessionService.close(this, getToolboxFile().getRole());
 	}
 
 	@Override
@@ -502,7 +523,10 @@ public class ModelSession implements IModelSession {
 
 	@Override
 	public Path getTempDir() {
-		return Paths.get(getSessionsSubDir(), getGuid());
+		if (tempDir == null) {
+			tempDir = Paths.get(getSessionsSubDir(), getGuid());
+		}
+		return tempDir;
 	}
 
 	/*
@@ -1014,18 +1038,28 @@ public class ModelSession implements IModelSession {
 	}
 
 	void setTitleFilename(final String filename) {
-		Display.getDefault().asyncExec(new Runnable() {
-			@Override
-			public void run() {
-				final String title = mainWindow.getText();
-				final String[] split = title.split(TITLE_SEPARATOR);
-				final String titleProgrammPart = split[0];
-				if (filename != null) {
-					mainWindow.setText(
-							titleProgrammPart + TITLE_SEPARATOR + filename);
+		Display.getDefault().asyncExec(() -> {
+			final String title = mainWindow.getText();
+			final String[] split = title.split(String.format("%s|%s", //$NON-NLS-1$
+					TITLE_SEPARATOR, TITLE_FILE_NAME_SEPARATOR));
+			final String titleProgrammPart = split[0];
+			if (toolboxFile.getRole() == ToolboxFileRole.COMPARE_PLANNING) {
+				final String titleFileName = titleProgrammPart + TITLE_SEPARATOR
+						+ split[1];
+				if (filename == null) {
+					mainWindow.setText(titleFileName);
 				} else {
-					mainWindow.setText(titleProgrammPart);
+					mainWindow.setText(titleFileName + TITLE_FILE_NAME_SEPARATOR
+							+ filename);
 				}
+				return;
+			}
+
+			if (filename != null && !filename.isEmpty()) {
+				mainWindow.setText(
+						titleProgrammPart + TITLE_SEPARATOR + filename);
+			} else {
+				mainWindow.setText(titleProgrammPart);
 			}
 		});
 	}

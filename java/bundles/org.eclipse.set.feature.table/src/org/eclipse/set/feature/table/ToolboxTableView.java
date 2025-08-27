@@ -44,13 +44,15 @@ import org.eclipse.nebula.widgets.nattable.group.ColumnGroupHeaderLayer;
 import org.eclipse.nebula.widgets.nattable.group.ColumnGroupModel;
 import org.eclipse.nebula.widgets.nattable.layer.DataLayer;
 import org.eclipse.nebula.widgets.nattable.layer.ILayer;
+import org.eclipse.nebula.widgets.nattable.layer.LabelStack;
 import org.eclipse.nebula.widgets.nattable.layer.SpanningDataLayer;
+import org.eclipse.nebula.widgets.nattable.layer.cell.DataCell;
+import org.eclipse.nebula.widgets.nattable.layer.cell.IConfigLabelAccumulator;
 import org.eclipse.nebula.widgets.nattable.layer.cell.ILayerCell;
 import org.eclipse.nebula.widgets.nattable.resize.command.RowHeightResetCommand;
 import org.eclipse.nebula.widgets.nattable.selection.SelectionLayer;
 import org.eclipse.nebula.widgets.nattable.viewport.command.ShowRowInViewportCommand;
 import org.eclipse.set.basis.FreeFieldInfo;
-import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.OverwriteHandling;
 import org.eclipse.set.basis.Pair;
 import org.eclipse.set.basis.constants.Events;
@@ -71,7 +73,9 @@ import org.eclipse.set.feature.table.messages.MessagesWrapper;
 import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
 import org.eclipse.set.model.planpro.PlanPro.Container_AttributeGroup;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
+import org.eclipse.set.model.tablemodel.CompareTableCellContent;
 import org.eclipse.set.model.tablemodel.Table;
+import org.eclipse.set.model.tablemodel.TableCell;
 import org.eclipse.set.model.tablemodel.TableRow;
 import org.eclipse.set.model.tablemodel.extensions.ColumnDescriptorExtensions;
 import org.eclipse.set.model.tablemodel.extensions.Headings;
@@ -109,6 +113,7 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.osgi.service.event.EventHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -186,6 +191,8 @@ public final class ToolboxTableView extends BasePart {
 
 	private TableModelInstanceBodyDataProvider bodyDataProvider;
 
+	private EventHandler secondaryPlanningLoadedHanlder;
+
 	/**
 	 * constructor
 	 */
@@ -214,13 +221,11 @@ public final class ToolboxTableView extends BasePart {
 	}
 
 	private Titlebox getTitlebox(final String shortcut) {
-		final PlanProToTitleboxTransformation planProToTitlebox = PlanProToTitleboxTransformation
-				.create();
-		final Titlebox titlebox = planProToTitlebox.transform(
-				getModelSession().getPlanProSchnittstelle(),
+		final PlanProToTitleboxTransformation planProToTitlebox = new PlanProToTitleboxTransformation(
+				getSessionService());
+		return planProToTitlebox.transform(
 				tableService.getTableNameInfo(shortcut),
 				this::getAttachmentPath);
-		return titlebox;
 	}
 
 	private boolean isDisplayedDataAffected(
@@ -293,6 +298,17 @@ public final class ToolboxTableView extends BasePart {
 		ToolboxEvents.subscribe(getBroker(),
 				SelectedControlAreaChangedEvent.class,
 				selectionControlAreaHandler);
+
+		secondaryPlanningLoadedHanlder = event -> {
+			if (!event.getTopic()
+					.equalsIgnoreCase(Events.COMPARE_MODEL_LOADED)) {
+				return;
+			}
+			updateModel(getToolboxPart());
+
+		};
+		getBroker().subscribe(Events.COMPARE_MODEL_LOADED,
+				secondaryPlanningLoadedHanlder);
 	}
 
 	@PreDestroy
@@ -301,6 +317,7 @@ public final class ToolboxTableView extends BasePart {
 		ToolboxEvents.unsubscribe(getBroker(), tableSelectRowHandler);
 		ToolboxEvents.unsubscribe(getBroker(), tableDataChangeHandler);
 		ToolboxEvents.unsubscribe(getBroker(), selectionControlAreaHandler);
+		getBroker().unsubscribe(secondaryPlanningLoadedHanlder);
 		getBroker().send(Events.CLOSE_PART, getTableShortcut().toLowerCase());
 	}
 
@@ -332,15 +349,14 @@ public final class ToolboxTableView extends BasePart {
 	 * 
 	 * @return the table view model
 	 */
-	private Table transformToTableModel(final String elementId,
-			final IModelSession modelSession) {
-		return tableService.transformToTable(elementId, tableType, modelSession,
+	private Table transformToTableModel(final String elementId) {
+		return tableService.createCompareProjectTable(elementId, tableType,
 				controlAreaIds);
 	}
 
 	private void updateTableView(final List<Pt1TableCategory> tableCategories) {
 		tableService.updateTable(this, tableCategories, () -> {
-			updateModel(getToolboxPart(), getModelSession());
+			updateModel(getToolboxPart());
 			natTable.doCommand(new RowHeightResetCommand());
 			natTable.refresh();
 			updateButtons();
@@ -354,7 +370,6 @@ public final class ToolboxTableView extends BasePart {
 		final List<String> lines = new ArrayList<>();
 		final List<StyleRange> styles = new ArrayList<>();
 		int startOffset = 0;
-
 		for (final FootnoteInfo footnote : TableExtensions
 				.getAllFootnotes(table)) {
 			final String text = footnote.toReferenceText();
@@ -393,8 +408,7 @@ public final class ToolboxTableView extends BasePart {
 				.collect(Collectors.toSet());
 
 		tableService.updateTable(this, Collections.emptyList(),
-				() -> updateModel(getToolboxPart(), getModelSession()),
-				tableInstances::clear);
+				() -> updateModel(getToolboxPart()), tableInstances::clear);
 
 		// if the table was not created (possibly the creation was canceled by
 		// the user), we stop here with creating the view
@@ -425,7 +439,9 @@ public final class ToolboxTableView extends BasePart {
 		// is called
 		Assert.isNotNull(tableInstances);
 		bodyDataProvider = new TableModelInstanceBodyDataProvider(
-				TableExtensions.getPropertyCount(table), tableInstances);
+				TableExtensions.getPropertyCount(table), tableInstances,
+				getSessionService());
+
 		final SpanningDataLayer bodyDataLayer = new SpanningDataLayer(
 				bodyDataProvider);
 
@@ -436,9 +452,6 @@ public final class ToolboxTableView extends BasePart {
 
 		final SelectionLayer selectionLayer = bodyLayerStack
 				.getSelectionLayer();
-		// selectionLayer.addConfiguration(
-		// new RowSelectionListener(getToolboxPart().getElementId(),
-		// selectionLayer, tableInstances, getBroker()));
 
 		// column header stack
 		final IDataProvider columnHeaderDataProvider = new DefaultColumnHeaderDataProvider(
@@ -482,15 +495,29 @@ public final class ToolboxTableView extends BasePart {
 				.applyTo(natTable);
 
 		addMenuItems();
+		bodyLayerStack.addSearchConfiguration(natTable.getConfigRegistry(),
+				cell -> {
+					final DataCell cellByPosition = bodyDataProvider
+							.getCellByPosition(cell.getColumnPosition(),
+									cell.getRowPosition());
+					return TableRowExtensions.getPlainStringValue(
+							tableInstances.get(cellByPosition.getRowPosition()),
+							cellByPosition.getColumnPosition());
+				});
 		natTable.addConfiguration(tableMenuService
 				.createMenuConfiguration(natTable, selectionLayer));
-
 		natTable.configure();
 		// set style
 		natTable.setTheme(new ToolboxTableModelThemeConfiguration(natTable,
 				columnHeaderDataLayer, bodyDataLayer, gridLayer,
 				rootColumnDescriptor, bodyLayerStack, bodyDataProvider,
 				getDialogService()));
+		bodyLayerStack.setConfigLabelAccumulator(compareTableCellLabelConfig());
+		selectionLayer.setConfigLabelAccumulator((final LabelStack configLabels,
+				final int columnPosition, final int rowPosition) -> {
+			configLabels
+					.addLabel(ToolboxConstants.SEARCH_CELL_DISPLAY_CONVERTER);
+		});
 
 		bodyLayerStack.getSelectionLayer().clear();
 
@@ -538,6 +565,23 @@ public final class ToolboxTableView extends BasePart {
 		});
 
 		updateButtons();
+	}
+
+	private IConfigLabelAccumulator compareTableCellLabelConfig() {
+		return (final LabelStack configLabels, final int columnPosition,
+				final int rowPosition) -> {
+			final int rowIndexByPosition = bodyLayerStack
+					.getRowIndexByPosition(rowPosition);
+			final int columnIndexByPosition = bodyLayerStack
+					.getColumnIndexByPosition(columnPosition);
+			final TableRow tableRow = tableInstances.get(rowIndexByPosition);
+			final TableCell tableCell = tableRow.getCells()
+					.get(columnIndexByPosition);
+			if (tableCell.getContent() instanceof CompareTableCellContent) {
+				configLabels.addLabel(
+						ToolboxConstants.TABLE_COMPARE_TABLE_CELL_LABEL);
+			}
+		};
 	}
 
 	private boolean existsColumnGroup(final ColumnDescriptor columnDescriptor) {
@@ -713,10 +757,11 @@ public final class ToolboxTableView extends BasePart {
 		getBanderole().setEnableExport(!getModelSession().isDirty());
 	}
 
-	void updateModel(final MPart part, final IModelSession modelSession) {
+	void updateModel(final MPart part) {
 		// update banderole
 		getBanderole().setTableType(tableType);
-		table = transformToTableModel(part.getElementId(), modelSession);
+
+		table = transformToTableModel(part.getElementId());
 		// flag creation
 		MApplicationElementExtensions.setViewState(part,
 				ToolboxViewState.CREATED);

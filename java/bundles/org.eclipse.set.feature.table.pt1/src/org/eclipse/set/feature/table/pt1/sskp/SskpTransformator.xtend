@@ -32,6 +32,7 @@ import org.eclipse.set.ppmodel.extensions.utils.Case
 import org.eclipse.set.ppmodel.extensions.utils.TopGraph
 import org.eclipse.set.utils.math.AgateRounding
 import org.eclipse.set.utils.table.TMFactory
+import org.osgi.service.event.EventAdmin
 
 import static org.eclipse.set.basis.constants.ToolboxConstants.NUMERIC_COMPARATOR
 import static org.eclipse.set.feature.table.pt1.sskp.SskpColumns.*
@@ -45,6 +46,7 @@ import static extension org.eclipse.set.ppmodel.extensions.SignalRahmenExtension
 import static extension org.eclipse.set.ppmodel.extensions.SignalbegriffExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspElementExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
 import static extension org.eclipse.set.utils.math.BigIntegerExtensions.*
 import static extension org.eclipse.set.utils.math.DoubleExtensions.*
@@ -62,8 +64,9 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	new(Set<ColumnDescriptor> cols,
 		EnumTranslationService enumTranslationService,
-		TopologicalGraphService topGraphService) {
-		super(cols, enumTranslationService)
+		TopologicalGraphService topGraphService,
+		EventAdmin eventAdmin) {
+		super(cols, enumTranslationService, eventAdmin)
 		this.topGraphService = topGraphService
 	}
 
@@ -315,51 +318,47 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 		)
 
 		// J: Sskp.Gleismagnete.Abstand_GM_2000
-		fillSwitch(
+		fillIterable(
 			instance,
 			cols.getColumn(Abstand_GM_2000),
 			pzb,
-			new Case<PZB_Element>(
-				[PZBArt?.wert === ENUMPZBArt.ENUMPZB_ART_500_HZ],
-				[
-					val bezugspunktSignals = PZBElementBezugspunkt.filter(
-						Signal)
-					container.PZBElement.filter [ pzbEle |
-						pzbEle !== pzb &&
-							(pzbEle.PZBArt?.wert ===
-								ENUMPZBArt.ENUMPZB_ART_2000_HZ ||
-								pzbEle.PZBArt?.wert ===
-									ENUMPZBArt.ENUMPZB_ART_1000_2000_HZ) &&
-							pzbEle?.PZBElementGM !== null
-					].filter [ pzbEle |
-						pzbEle.PZBElementBezugspunkt.filter(Signal).exists [ signal |
+			[
+				if (PZBArt?.wert === ENUMPZBArt.ENUMPZB_ART_2000_HZ) {
+					return #[]
+				}
+				val pzbGM2000 = container.PZBElement.filter [ pzbEle |
+					pzbEle !== it &&
+						(pzbEle.PZBArt?.wert ===
+							ENUMPZBArt.ENUMPZB_ART_2000_HZ ||
+							pzbEle.PZBArt?.wert ===
+								ENUMPZBArt.ENUMPZB_ART_1000_2000_HZ) &&
+						pzbEle?.PZBElementGM !== null
+				].toList
+				val bezugspunktSignals = PZBElementBezugspunkt.filter(Signal)
+
+				pzbGM2000.filter [ pzbEle |
+					if (PZBArt?.wert === ENUMPZBArt.ENUMPZB_ART_500_HZ) {
+						return pzbEle.PZBElementBezugspunkt.filter(Signal).
+							exists[signal|bezugspunktSignals.contains(signal)]
+					}
+
+					return pzbEle.PZBZuordnungSignal.map[IDSignal?.value].
+						filterNull.exists [ signal |
 							bezugspunktSignals.contains(signal)
 						]
-					].flatMap[pzbEle|getPointsDistance(it, pzbEle)].filter [
-						doubleValue !== 0
-					].map [
-						AgateRounding.roundDown(it).toString
-					]
-				],
-				ITERABLE_FILLING_SEPARATOR,
-				NUMERIC_COMPARATOR
-			),
-			new Case<PZB_Element>(
-				[PZBArt?.wert === ENUMPZBArt.ENUMPZB_ART_1000_HZ],
-				[
-					val bezugspunktSignals = PZBElementBezugspunkt.filter(
-						Signal)
-					container.PZBElement.filter[pzbEle|pzbEle !== it].filter [ pzbEle |
-						pzbEle.PZBZuordnungSignal.exists [ signal |
-							bezugspunktSignals.contains(signal)
-						]
-					].flatMap[pzbEle|getPointsDistance(it, pzbEle)].filter [
-						doubleValue !== 0.0
-					].map[AgateRounding.roundDown(it).toString]
-				],
-				ITERABLE_FILLING_SEPARATOR,
-				NUMERIC_COMPARATOR
-			)
+				].filterNull.map [ pzbEle |
+					pzbEle -> getPointsDistance(it, pzbEle).min
+				].filter[value.doubleValue !== 0].map [ pair |
+					val distance = AgateRounding.roundDown(pair.value).toString
+					if (PZBArt?.wert === ENUMPZBArt.ENUMPZB_ART_500_HZ) {
+						return distance
+					}
+					val signal = pair.key.PZBElementBezugspunkt.filter(Signal).
+						firstOrNull
+					return '''«distance» «IF signal !== null»(«signal.bezeichnung?.bezeichnungTabelle?.wert»)«ENDIF»'''
+				]
+			],
+			MIXED_STRING_COMPARATOR
 		)
 
 		if (pzb.PZBElementZuordnungBP !== null &&
@@ -456,24 +455,29 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 			)
 
 			// P: Sskp.Ina.Abstand_VorsignalWdh_GM_2000
+			val vorSignalWiederholer = pzb.PZBZuordnungSignal?.map [
+				IDSignal?.value
+			].filter [
+				signalReal?.signalRealAktivSchirm?.signalArt?.wert ===
+					ENUMSignalArt.ENUM_SIGNAL_ART_VORSIGNALWIEDERHOLER
+			]
 			fillIterableWithConditional(
 				instance,
 				cols.getColumn(Abstand_vorsignalWdh_GM_2000),
 				pzb,
 				[
-					PZBZuordnungSignal?.map[IDSignal?.value].exists [
-						signalReal?.signalRealAktivSchirm?.signalArt?.wert ===
-							ENUMSignalArt.ENUM_SIGNAL_ART_VORSIGNALWIEDERHOLER
-					]
+					!vorSignalWiederholer.isNullOrEmpty
 				],
 				[
-					PZBZuordnungSignal?.map[IDSignal?.value].map [ signal |
-						getPointsDistance(pzb, signal).min
-					].filter[it.doubleValue !== 0.0].map [
-						AgateRounding.roundDown(it).toString
+					vorSignalWiederholer.map [ signal |
+						signal -> getPointsDistance(pzb, signal).min
+					].filter[value.doubleValue !== 0.0].map [
+
+						'''«AgateRounding.roundDown(value).toString» «
+						»(«key.bezeichnung?.bezeichnungTabelle?.wert»)'''
 					]
 				],
-				NUMERIC_COMPARATOR,
+				MIXED_STRING_COMPARATOR,
 				ITERABLE_FILLING_SEPARATOR
 			)
 

@@ -23,6 +23,7 @@ import org.eclipse.set.model.planpro.Basisobjekte.Bereich_Objekt_Teilbereich_Att
 import org.eclipse.set.model.plazmodel.PlazError;
 import org.eclipse.set.model.plazmodel.PlazFactory;
 import org.eclipse.set.model.validationreport.ValidationSeverity;
+import org.eclipse.set.ppmodel.extensions.EObjectExtensions;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.osgi.service.component.annotations.Component;
 
@@ -47,7 +48,7 @@ public class TeilbereichOverlapCheck extends AbstractPlazContainerCheck
 
 	@Override
 	public String getGeneralErrMsg() {
-		return "Es gibt überlappende Teilbereiche in Objekt {GUID}"; //$NON-NLS-1$
+		return "Für das Bereichsobjekt {Objektart} {OBJEKT_GUID} sind mehrere überlappende/​mehrere ​Teilbereiche ​auf ​der TOP-Kante {TOP_KANTE_GUID} definiert."; //$NON-NLS-1$
 	}
 
 	@Override
@@ -57,6 +58,10 @@ public class TeilbereichOverlapCheck extends AbstractPlazContainerCheck
 			final List<List<Bereich_Objekt_Teilbereich_AttributeGroup>> sameTopKanteTeilBereich = bo
 					.getBereichObjektTeilbereich()
 					.stream()
+					.filter(botb -> EObjectExtensions
+							.getNullableObject(botb,
+									e -> e.getIDTOPKante().getValue())
+							.isPresent())
 					.collect(Collectors.groupingBy(
 							botb -> botb.getIDTOPKante().getValue()))
 					.values()
@@ -102,8 +107,10 @@ public class TeilbereichOverlapCheck extends AbstractPlazContainerCheck
 			final Bereich_Objekt_Teilbereich_AttributeGroup botb) {
 		final PlazError plazError = PlazFactory.eINSTANCE.createPlazError();
 		plazError.setSeverity(ValidationSeverity.ERROR);
-		plazError.setMessage(transformErrorMsg(
-				Map.of("GUID", bo.getIdentitaet().getWert()))); //$NON-NLS-1$
+		plazError.setMessage(
+				transformErrorMsg(Map.of("Objektart", bo.eClass().getName(), //$NON-NLS-1$
+						"OBJEKT_GUID", bo.getIdentitaet().getWert(), //$NON-NLS-1$
+						"TOP_KANTE_GUID", botb.getIDTOPKante().getWert()))); //$NON-NLS-1$
 		plazError.setType(checkType());
 		plazError.setObject(botb);
 		return plazError;

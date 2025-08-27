@@ -15,7 +15,7 @@ import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.eclipse.set.basis.ExampleFile;
+import org.eclipse.set.basis.RecentOpenFile;
 import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.basis.extensions.PathExtensions;
 import org.eclipse.set.core.services.example.ExampleService;
@@ -35,12 +35,12 @@ public class ExampleServiceImpl implements ExampleService {
 
 	private static final String EXAMPLE_DIR = "examples"; //$NON-NLS-1$
 
-	private List<ExampleFile> exampleFiles;
+	private List<RecentOpenFile> exampleFiles;
 
 	ToolboxFileService fileService;
 
 	@Override
-	public List<ExampleFile> getExampleFiles() {
+	public List<RecentOpenFile> getExampleFiles() {
 		if (exampleFiles == null) {
 			exampleFiles = findFiles();
 		}
@@ -56,7 +56,7 @@ public class ExampleServiceImpl implements ExampleService {
 		this.fileService = fileService;
 	}
 
-	private List<ExampleFile> findFiles() {
+	private List<RecentOpenFile> findFiles() {
 		final Path pExamplesDir = Paths.get(EXAMPLE_DIR).toAbsolutePath();
 		final File fExamplesDir = pExamplesDir.toFile();
 		final String[] examples = fExamplesDir.list(new FilenameFilter() {
@@ -71,10 +71,10 @@ public class ExampleServiceImpl implements ExampleService {
 			}
 		});
 
-		final LinkedList<ExampleFile> result = new LinkedList<>();
+		final LinkedList<RecentOpenFile> result = new LinkedList<>();
 		if (examples != null) {
 			for (final String filename : examples) {
-				result.add(new ExampleFile(filename,
+				result.add(new RecentOpenFile(filename,
 						Paths.get(EXAMPLE_DIR, filename)));
 			}
 		}

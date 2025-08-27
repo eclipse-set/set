@@ -439,7 +439,7 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-clean-plugin</artifactId>
-            <version>3.4.1</version>
+            <version>3.5.0</version>
             <configuration>
               <filesets>
                 <fileset>
@@ -473,9 +473,7 @@
                 <sourceDirectory>${project.basedir}/src</sourceDirectory>
               </sourceDirectories>
               <headerLocation />
-              <inputEncoding>UTF-8</inputEncoding>
               <failsOnError>false</failsOnError>
-              <linkXRef>false</linkXRef>
             </configuration>
           </plugin>
         </plugins>

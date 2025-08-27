@@ -53,6 +53,12 @@ public interface PlazCheck {
 	 * @return specifically error message
 	 */
 	default String transformErrorMsg(final Map<String, String> params) {
-		return StringSubstitutor.replace(getGeneralErrMsg(), params, "{", "}"); //$NON-NLS-1$//$NON-NLS-2$
+		try {
+			return StringSubstitutor.replace(getGeneralErrMsg(), params, "{", //$NON-NLS-1$
+					"}"); //$NON-NLS-1$
+		} catch (final Exception e) {
+			return "Es gibt einen Fehler beim Generieren der Fehlermeldung"; //$NON-NLS-1$
+		}
+
 	}
 }

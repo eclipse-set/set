@@ -14,6 +14,9 @@ import static org.eclipse.set.ppmodel.extensions.EObjectExtensions.getNullableOb
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.eclipse.set.basis.Pair;
 import org.eclipse.set.basis.geometry.GEOKanteCoordinate;
@@ -33,6 +36,8 @@ import org.eclipse.set.model.planpro.Gleis.ENUMGleisart;
 import org.eclipse.set.model.planpro.Gleis.Gleis_Art;
 import org.eclipse.set.model.planpro.Signale.Signal;
 import org.eclipse.set.model.planpro.Signale.Signal_Befestigung;
+import org.eclipse.set.ppmodel.extensions.BereichObjektExtensions;
+import org.eclipse.set.ppmodel.extensions.EObjectExtensions;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -67,7 +72,6 @@ public class PointObjectPositionServiceImpl
 		if (singlePoints == null || singlePoints.isEmpty()) {
 			return null;
 		}
-
 		final Punkt_Objekt_TOP_Kante_AttributeGroup singlePoint = singlePoints
 				.getFirst();
 		return getCoordinate(singlePoint);
@@ -135,7 +139,8 @@ public class PointObjectPositionServiceImpl
 		return geometryService.getGeoKanteAt(topKante, topKnotenA, distance);
 	}
 
-	private static BigDecimal getLateralDistance(
+	@Override
+	public BigDecimal getLateralDistance(
 			final Punkt_Objekt_TOP_Kante_AttributeGroup singlePoint,
 			final GEOKanteMetadata geoKante) {
 		if (singlePoint.getSeitlicherAbstand() != null
@@ -145,20 +150,32 @@ public class PointObjectPositionServiceImpl
 		final BigDecimal distance = singlePoint.getAbstand().getWert();
 		// Determine the track type
 		final GEOKanteSegment segment = geoKante.getContainingSegment(distance);
-		final List<ENUMGleisart> trackType = segment.getBereichObjekte()
+		final List<Gleis_Art> segmentRegions = segment.getBereichObjekte()
 				.stream()
 				.filter(Gleis_Art.class::isInstance)
-				.map(ga -> ((Gleis_Art) ga).getGleisart().getWert())
+				.map(Gleis_Art.class::cast)
+				.filter(ga -> BereichObjektExtensions.contains(ga, singlePoint))
 				.filter(c -> c != null)
 				.toList();
+
+		final Optional<ENUMGleisart> trackType = segmentRegions.stream()
+				.map(ga -> EObjectExtensions
+						.getNullableObject(ga, e -> e.getGleisart().getWert())
+						.orElse(null))
+				.filter(Objects::nonNull)
+				.collect(Collectors.toSet())
+				.stream()
+				.min((first, second) -> Integer.compare(first.getValue(),
+						second.getValue()));
 
 		// Determine the object distance according to the local track type
 		if (trackType.isEmpty()) {
 			// No local track type. Default to 0 and record an error
 			return BigDecimal.ZERO;
 		}
+
 		final double lateralDistance = trackType
-				.getFirst() == ENUMGleisart.ENUM_GLEISART_STRECKENGLEIS
+				.get() == ENUMGleisart.ENUM_GLEISART_STRECKENGLEIS
 						? PUNKT_OBJEKT_LATERAL_DISTANCE_OTHER
 						: PUNKT_OBJEKT_LATERAL_DISTANCE_IN_STATION;
 		final ENUMLinksRechts side = getNullableObject(singlePoint,

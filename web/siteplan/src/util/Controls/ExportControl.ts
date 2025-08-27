@@ -19,11 +19,9 @@ import { Control } from 'ol/control'
 import { getBottomLeft, getBottomRight, getCenter, getHeight, getTopLeft, getTopRight, getWidth } from 'ol/extent'
 import { GeoJSONPolygon } from 'ol/format/GeoJSON'
 import { Geometry, MultiPolygon, Polygon } from 'ol/geom'
-import { transform } from 'ol/proj'
-import { getDistance } from 'ol/sphere'
 import { Style } from 'ol/style'
 import Configuration from '../Configuration'
-import { setMapScale } from '../MapScale'
+import { getScaleForPpm, setMapScale } from '../MapScale'
 import EmptyMap from '../MapSources/EmptyMap'
 import { angle, pointRotate, toDeg, toRad } from '../Math'
 import NamedFeatureLayer from '../NamedFeatureLayer'
@@ -95,14 +93,9 @@ export default class ExportControl extends Control {
 
   private async onClick () {
     const sheetCutFeatures = this.getSheetcutFeatures()
-    // the export to image should have high resolution than pdf to avoid blurred symbols.
-    const exportImageScale = Configuration.getExportScaleValue() / 2
+    const targetPpm = store.state.customPpm
+    const exportImageScale = this.determineExportScale(targetPpm)
     if (PlanProToolbox.inPPT()) {
-      const ppm = await this.getPixelProMeterAtScale(Configuration.getExportScaleValue())
-      // Convert ppm by image scale to ppm by export scale
-      const targetPpm = ppm !== undefined
-        ? ppm * Configuration.getExportScaleValue() / exportImageScale
-        : undefined
       PlanProToolbox.exportSiteplan(
         (folder: string | null) => {
           if (folder === null)
@@ -118,37 +111,24 @@ export default class ExportControl extends Control {
     }
   }
 
-  private async getPixelProMeterAtScale (scale: number) : Promise<number | undefined>{
-    const storagePpm = store.state.pixelPerMeter.get(scale)
-    if (storagePpm) {
-      return storagePpm
+  private determineExportScale (targetPpm: number) {
+    let result = 0
+    store.state.pixelPerMeterAtScale.forEach((ppm, scale) => {
+      if (ppm === targetPpm) {
+        result = scale
+        return
+      }
+    })
+    if (result === 0) {
+      result = Configuration.getExportScaleValue()
     }
 
-    const view = this.map.getView()
-    const currentResolution = view.getResolution() ?? 1
-    setMapScale(view, scale)
-    return await new Promise(resolve => {
-      this.map.once('rendercomplete', () => {
-        const viewportSize = this.map.getSize()
-        if (!viewportSize) {
-          view.setResolution(currentResolution)
-          resolve(undefined)
-          return
-        }
-
-        const viewportExtent = view.calculateExtent(viewportSize)
-        const topLeftSphereCoord = transform(getTopLeft(viewportExtent), 'EPSG:3857', 'EPSG:4326')
-        const topRightSphereCoord = transform(getTopRight(viewportExtent), 'EPSG:3857', 'EPSG:4326')
-        const distanceInMeter = getDistance(topLeftSphereCoord, topRightSphereCoord)
-        view.setResolution(currentResolution)
-        const currentPpm = viewportSize[0] / distanceInMeter
-        store.commit('setPixelPerMeter', {
-          scaleValue: scale,
-          ppm: currentPpm
-        })
-        resolve(currentPpm)
-      })
+    const scaleValue = getScaleForPpm(this.map.getView(), targetPpm)
+    store.commit('setPixelProMeter', {
+      scaleValue,
+      ppm: targetPpm
     })
+    return scaleValue
   }
 
   private getSheetcutFeatures (): Feature<Geometry>[] | undefined {
@@ -372,6 +352,7 @@ export default class ExportControl extends Control {
 
     context.fillStyle = 'white'
     context.fillRect(0, 0, canvas.width, canvas.height)
+
     for (const tileData of tilesdata) {
       const [tileMinX,,, tileMaxY] = tileData.tileExtent
       const rotatedCenter = horizontalRotate
@@ -474,15 +455,17 @@ export default class ExportControl extends Control {
 
     // Apply the transform to the export map context
     context.setTransform(matrix[0], matrix[1], matrix[2], matrix[3], matrix[4], matrix[5])
-
+    // The Openlayer resolution isn't change when the devicePixelRatio (Display scale)
+    // change. Therefore muss the x/y offset here with the ratio multiply for
+    // correct transfrom
+    const xOffset = (x * matrix[0] + y * matrix[1]) * Math.pow(window.devicePixelRatio, 2)
+    const yOffset = (x * matrix[2] + y * matrix[3]) * Math.pow(window.devicePixelRatio, 2)
     const backgroundColor = (mapLayer.parentNode as HTMLHtmlElement | null)?.style.backgroundColor
     if (backgroundColor) {
       context.fillStyle = backgroundColor
-      context.fillRect(0, 0, mapLayer.width, mapLayer.height)
+      context.fillRect(xOffset, yOffset, mapLayer.width, mapLayer.height)
     }
 
-    const xOffset = x * matrix[0] + y * matrix[1]
-    const yOffset = x * matrix[2] + y * matrix[3]
     context.drawImage(mapLayer, xOffset, yOffset)
     // Reset transform
     context.setTransform(1, 0, 0, 1, 0 ,0)

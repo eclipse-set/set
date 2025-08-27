@@ -55,6 +55,7 @@ import static extension org.eclipse.set.ppmodel.extensions.WKrGspKomponenteExten
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.google.common.collect.Range
 
 /**
  * Transforms a track from the PlanPro model to a siteplan track
@@ -273,7 +274,14 @@ class TrackTransformator extends BaseTransformator<TOP_Kante> {
 
 	private def Set<TrackType> getTrackType(GEOKanteSegment segment,
 		GEOKanteMetadata md) {
-		val trackTypeAreas = segment.bereichObjekte.filter(Gleis_Art).distinctBy [
+		val segmentRange = Range.closed(segment.start,
+			segment.start + segment.length)
+		val trackTypeAreas = segment.bereichObjekte.filter(Gleis_Art).filter [ ga |
+			ga.bereichObjektTeilbereich.exists [ botb |
+				botb.IDTOPKante.value == md.geoKante.IDGEOArt.value &&
+					segmentRange.isConnected(Range.closed(botb.begrenzungA.wert, botb.begrenzungB.wert))
+			]
+		].distinctBy [
 			it.gleisart.wert
 		].toSet
 		val siteplanTrackType = trackTypeAreas.map[transformTrackType].toSet

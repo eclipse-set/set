@@ -67,9 +67,16 @@ class ESTW_ZentraleinheitExtensions extends BasisObjektExtensions {
 		ESTW_Zentraleinheit estw_zentraleinheit) {
 		return estw_zentraleinheit.IDBedienBezirkVirtuell?.value
 	}
-	
-	def static Oertlichkeit getOertlichkeitNamensgebend(ESTW_Zentraleinheit estw_zentraleinheit) {
+
+	def static Oertlichkeit getOertlichkeitNamensgebend(
+		ESTW_Zentraleinheit estw_zentraleinheit) {
 		return estw_zentraleinheit?.IDOertlichkeitNamensgebend?.value
+	}
+
+	def static String getOertlichkeitAbkuerzung(
+		ESTW_Zentraleinheit estw_zentraleinheit) {
+		return estw_zentraleinheit.oertlichkeitNamensgebend?.bezeichnung?.
+			oertlichkeitAbkuerzung?.wert
 	}
 
 	/**

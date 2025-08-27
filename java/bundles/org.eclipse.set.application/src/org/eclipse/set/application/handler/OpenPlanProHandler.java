@@ -11,19 +11,25 @@ package org.eclipse.set.application.handler;
 import java.nio.file.Path;
 import java.util.Optional;
 
-import jakarta.inject.Inject;
-
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.e4.core.services.nls.Translation;
+import org.eclipse.e4.ui.model.application.ui.MElementContainer;
+import org.eclipse.e4.ui.model.application.ui.MUIElement;
 import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.eclipse.set.application.Messages;
 import org.eclipse.set.basis.IModelSession;
+import org.eclipse.set.basis.RecentOpenFile;
+import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.eclipse.set.core.services.configurationservice.UserConfigurationService;
+import org.eclipse.set.core.services.example.ExampleService;
+import org.eclipse.set.ppmodel.extensions.EObjectExtensions;
 import org.eclipse.set.utils.ToolboxConfiguration;
 import org.eclipse.set.utils.handler.AbstractOpenHandler;
 import org.eclipse.swt.widgets.Shell;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import jakarta.inject.Inject;
 
 /**
  * This handler can present a file dialog, assigns the selected file to a new
@@ -32,6 +38,8 @@ import org.slf4j.LoggerFactory;
  * @author Schaefer
  */
 public class OpenPlanProHandler extends AbstractOpenHandler {
+
+	private static final String EXAMPLE_MENU_ID = "org.eclipse.set.application.set.menu.examples"; //$NON-NLS-1$
 
 	static final Logger logger = LoggerFactory
 			.getLogger(OpenPlanProHandler.class);
@@ -55,16 +63,35 @@ public class OpenPlanProHandler extends AbstractOpenHandler {
 
 	@Override
 	protected Path chooseFile(final Shell shell) {
-		final Optional<Path> path = getDialogService().openFileDialog(shell,
-				getDialogService().getPlanProFileFilters(),
-				userConfigService.getLastFileOpenPath());
-		path.ifPresent(userConfigService::setLastFileOpenPath);
+		Optional<Path> path = EObjectExtensions
+				.getNullableObject(getMenuItem(),
+						item -> ((RecentOpenFile) item.getTransientData()
+								.get(ExampleService.EXAMPLE_FILE_KEY))
+										.getPath());
+		if (path.isEmpty()) {
+			path = getDialogService().openFileDialog(shell,
+					getDialogService().getPlanProFileFilters(),
+					userConfigService.getLastFileOpenPath(getRole()));
+		}
+		path.ifPresent(this::setLastOpenPath);
 		return path.orElse(null);
+	}
+
+	protected void setLastOpenPath(final Path path) {
+		if (getMenuItem() != null) {
+			final MElementContainer<MUIElement> parent = getMenuItem()
+					.getParent();
+			if (parent.getElementId().equals(EXAMPLE_MENU_ID)) {
+				return;
+			}
+		}
+		userConfigService.setLastFileOpenPath(path, getRole());
 	}
 
 	@Override
 	protected IModelSession createSession(final Path path) {
-		final IModelSession session = sessionService.loadModelSession(path);
+		final IModelSession session = sessionService.loadModelSession(path,
+				getRole());
 		session.init();
 		return session;
 	}
@@ -129,5 +156,10 @@ public class OpenPlanProHandler extends AbstractOpenHandler {
 
 		}
 		return modelSession;
+	}
+
+	@Override
+	protected ToolboxFileRole getRole() {
+		return ToolboxFileRole.SESSION;
 	}
 }

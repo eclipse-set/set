@@ -10,6 +10,9 @@
   <div>
     <h2>Gleis: {{ trackLabel }}</h2>
     <ul>
+      <li v-if="isDevelopmentMode">
+        TOP_Kante: {{ trackGuid }}
+      </li>
       <li>GUID: {{ trackSection.guid }}</li>
       <li>Form: {{ trackTrackShapeToText() }}</li>
       <li>Gleisart: {{ trackType() }}</li>
@@ -18,13 +21,14 @@
 </template>
 
 <script lang="ts">
-import { Options, Vue } from 'vue-class-component'
+import { getFeatureData, getFeatureLabel } from '@/feature/FeatureInfo'
+import { TrackSectionFeatureData } from '@/feature/TrackFeature'
 import TrackSection, { TrackShape } from '@/model/TrackSection'
 import TrackSegment, { TrackType } from '@/model/TrackSegment'
+import Configuration from '@/util/Configuration'
 import { Feature } from 'ol'
 import Geometry from 'ol/geom/Geometry'
-import { TrackSectionFeatureData } from '@/feature/TrackFeature'
-import { getFeatureData, getFeatureLabel } from '@/feature/FeatureInfo'
+import { Options, Vue } from 'vue-class-component'
 
 /**
  * Popup contents for track features
@@ -45,6 +49,9 @@ import { getFeatureData, getFeatureLabel } from '@/feature/FeatureInfo'
     },
     trackLabel: function () {
       return getFeatureLabel(this.feature)
+    },
+    trackGuid: function () {
+      return this.getData()?.guid
     }
   }
 })
@@ -53,6 +60,8 @@ export default class TrackSectionPopup extends Vue {
   trackSegment!: TrackSegment
   feature!: Feature<Geometry>
   trackLabel!: string
+  trackGuid!: string
+  isDevelopmentMode: boolean = Configuration.developmentMode()
 
   private getData (): TrackSectionFeatureData | undefined {
     return getFeatureData(this.feature)

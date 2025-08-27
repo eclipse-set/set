@@ -18,7 +18,6 @@ import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.core.services.graph.BankService;
-import org.eclipse.set.core.services.graph.TopologicalGraphService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableTransformationService;
@@ -53,8 +52,6 @@ public final class SsksTransformationService extends
 	@Reference
 	private EnumTranslationService enumTranslationService;
 	@Reference
-	private TopologicalGraphService topGraphService;
-	@Reference
 	private BankService bankingService;
 
 	@Reference
@@ -70,8 +67,7 @@ public final class SsksTransformationService extends
 	@Override
 	public AbstractPlanPro2TableModelTransformator createTransformator() {
 		return new SsksTransformator(cols, enumTranslationService,
-				topGraphService, bankingService, eventAdmin,
-				messages.ToolboxTableNameSsksShort);
+				bankingService, eventAdmin, messages.ToolboxTableNameSsksShort);
 	}
 
 	@Override
@@ -88,7 +84,9 @@ public final class SsksTransformationService extends
 
 	@Override
 	public void handleEvent(final Event event) {
-		final String property = (String) event.getProperty(IEventBroker.DATA);
+		final String property = event.getTopic().equals(Events.CLOSE_PART)
+				? (String) event.getProperty(IEventBroker.DATA)
+				: ""; //$NON-NLS-1$
 		if (messages.ToolboxTableNameSsksShort.toLowerCase().equals(property)
 				|| event.getTopic().equals(Events.CLOSE_SESSION)) {
 			Thread.getAllStackTraces().keySet().forEach(thread -> {
@@ -110,5 +108,10 @@ public final class SsksTransformationService extends
 				.sort("D", EMPTY_LAST, ASC)
 				.sort("A", LEXICOGRAPHICAL, ASC)
 				.build();
+	}
+
+	@Override
+	protected String getShortcut() {
+		return messages.ToolboxTableNameSsksShort.toLowerCase();
 	}
 }

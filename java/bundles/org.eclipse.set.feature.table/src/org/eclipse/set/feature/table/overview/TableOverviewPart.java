@@ -216,9 +216,16 @@ public class TableOverviewPart extends BasePart {
 		final TableType tableType = getModelSession().isSingleState()
 				? TableType.SINGLE
 				: TableType.DIFF;
+		if (tableType == TableType.DIFF) {
+			// We don't need create DIFF instance for Errors detecting
+			tableService.transformTables(monitor, getModelSession(),
+					new HashSet<>(missingTables), TableType.INITIAL,
+					controlAreaIds);
+			tableService.transformTables(monitor, getModelSession(),
+					new HashSet<>(missingTables), TableType.FINAL,
+					controlAreaIds);
+		}
 
-		tableService.transformTables(monitor, getModelSession(),
-				new HashSet<>(missingTables), tableType, controlAreaIds);
 	}
 
 	private void openAllTablesWithErrors() {

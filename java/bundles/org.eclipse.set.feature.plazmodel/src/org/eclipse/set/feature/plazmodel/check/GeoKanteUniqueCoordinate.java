@@ -78,12 +78,13 @@ public class GeoKanteUniqueCoordinate extends AbstractPlazContainerCheck
 				.stream(container.getGEOKante())
 				.toList();
 		final List<PlazError> errors = new ArrayList<>();
-		geoKanten.stream().filter(geoKante -> {
+		geoKanten.parallelStream().filter(geoKante -> {
 			final Optional<BigDecimal> kanteLength = getNullableObject(geoKante,
 					kante -> kante.getGEOKanteAllg().getGEOLaenge().getWert());
 			// The GEO_Kante have length equal 0 or KM_Sprung GEO_Form isn't
 			// considered
 			return !(kanteLength.isEmpty()
+					|| kanteLength.get().compareTo(BigDecimal.ZERO) == 0
 					|| MeridianBetweenGEOKante.isMeridianGEOKante(geoKante)
 					|| geoKante.getGEOKanteAllg()
 							.getGEOForm()

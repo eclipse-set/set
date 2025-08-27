@@ -193,6 +193,10 @@ public class TableCellItemProvider extends ItemProviderAdapter
 				TablemodelFactory.eINSTANCE.createMultiColorCellContent()));
 
 		newChildDescriptors.add(createChildParameter(
+				TablemodelPackage.Literals.TABLE_CELL__CONTENT,
+				TablemodelFactory.eINSTANCE.createCompareTableCellContent()));
+
+		newChildDescriptors.add(createChildParameter(
 				TablemodelPackage.Literals.TABLE_CELL__CELLANNOTATION,
 				TablemodelFactory.eINSTANCE.createCellAnnotation()));
 	}

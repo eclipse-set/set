@@ -171,6 +171,7 @@ public class ToolboxConfiguration {
 	private static final String DEFAULT_SHEETCUT_CRS = "DR0"; //$NON-NLS-1$
 	private static final String BANK_LINE_TOP_PATH_OFFSET_LIMIT = "0.2"; //$NON-NLS-1$
 	private static final String EXPORT_SITEPLAN_SCALE_DEFAULT = "1000"; //$NON-NLS-1$
+	private static final String PATH_FINDING_TOLERANCE = "0.001"; //$NON-NLS-1$
 
 	/**
 	 * @return a string describing the map sources
@@ -294,5 +295,14 @@ public class ToolboxConfiguration {
 		return Double.parseDouble(System.getProperty(
 				ToolboxProperties.BANK_LINE_TOP_PATH_OFFSET_LIMIT,
 				BANK_LINE_TOP_PATH_OFFSET_LIMIT));
+	}
+
+	/**
+	 * @return tolerance for length offsets when searching a topological path
+	 */
+	public static double getPathFindingTolerance() {
+		return Double.parseDouble(
+				System.getProperty(ToolboxProperties.PATH_FINDING_TOLERANCE,
+						PATH_FINDING_TOLERANCE));
 	}
 }

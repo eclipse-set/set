@@ -1,0 +1,50 @@
+#searchFeld {
+  position: fixed;
+  top: 20px;
+  right: 50px;
+  background: white;
+  border: 1px solid #ccc;
+  padding: 6px 10px;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+}
+
+#searchFeld input[type="text"] {
+  border: none;
+  outline: none;
+  width: 200px;
+  font-size: 14px;
+  background-color: #dddcdc;
+  margin-right: 5px;
+}
+
+#searchFeld input[type="text"]:focus {
+  border: 1px solid blue;
+}
+
+#searchFeld button {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+#searchFeld button:hover {
+  background: #d8d8d8;
+}
+
+#searchFeld .counter {
+  font-size: 12px;
+  color: #555;
+  min-width: 40px;
+  text-align: center;
+}
+
+.searchHightlight {
+  background: rgb(255, 220, 156);
+}
+
+.searchHightlight.active {
+  background: rgb(244, 255, 85);
+}

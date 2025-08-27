@@ -68,7 +68,9 @@ export interface State {
   isSheetCutAvaiable: boolean
   visibleCants: { [key: string]: true, }
   measureEnable: boolean
-  pixelPerMeter: Map<number, number>
+  pixelPerMeterAtScale: Map<number, number>
+  customPpm: number
+
 }
 
 export const state: InjectionKey<Store<State>> = Symbol('PlanProState')
@@ -120,7 +122,8 @@ export const store = createStore<State>({
     visibleCants: {},
     planproModelType: PlanProModelType.SITEPLAN,
     measureEnable: false,
-    pixelPerMeter: new Map()
+    pixelPerMeterAtScale: new Map(),
+    customPpm: 5
   },
   mutations: {
     setpptConfiguration (state, payload: ToolboxConfiguration) {
@@ -239,11 +242,14 @@ export const store = createStore<State>({
     setMeasureEnable (state, value: boolean) {
       state.measureEnable = value
     },
-    setPixelPerMeter (state, payload: {
+    setPixelProMeter (state, payload: {
       scaleValue: number
       ppm: number
     }) {
-      state.pixelPerMeter.set(payload.scaleValue, payload.ppm)
+      state.pixelPerMeterAtScale.set(payload.scaleValue, payload.ppm)
+    },
+    setCustomPpm (state, payload: number) {
+      state.customPpm = payload
     }
   }
 })

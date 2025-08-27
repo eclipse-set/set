@@ -28,7 +28,9 @@ class GuidRefInvalid implements PlazCheck {
 			eGet(getValidFeature(it)).equals(Boolean.TRUE)
 		].map [
 			val err = PlazFactory.eINSTANCE.createPlazError
-			err.message = '''Der Verweis «it.eClass.name.replace("_TypeClass", "")» im Objekt «it.eContainer.eClass.name» führt auf ein falsches Objekt.'''
+			val refName = it.eClass.name.replace("_TypeClass", "")
+			val objName = it.eContainer.eClass.name.replace("_AttributeGroup", "")
+			err.message = '''Der Verweis «refName» im Objekt «objName» führt auf ein falsches Objekt.'''
 
 			err.type = checkType
 			err.object = it

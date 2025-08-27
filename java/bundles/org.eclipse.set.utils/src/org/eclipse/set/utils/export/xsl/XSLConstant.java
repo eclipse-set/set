@@ -86,6 +86,16 @@ public class XSLConstant {
 		 */
 		public static final String SITEPLAN_FOLDING_MARK_RIGHT_WIDTH = "siteplan-folding-mark-right-width";
 
+		/**
+		 * pagePosition
+		 */
+		public static final String SITEPLAN_PAGEPOSITION = "pagePosition";
+
+		/**
+		 * pagePostFix
+		 */
+		public static final String SITEPLAN_PAGE_POSTFIX = "pagePostFix";
+
 	}
 
 	/**
@@ -165,6 +175,11 @@ public class XSLConstant {
 		public static final String FO_BLOCK = "fo:block"; //$NON-NLS-1$
 
 		/**
+		 * fo:inline
+		 */
+		public static final String FO_INLINE = "fo:inline"; //$NON-NLS-1$
+
+		/**
 		 * fo:layout-master-set
 		 */
 		public static final String FO_LAYOUT_MASTER_SET = "fo:layout-master-set"; //$NON-NLS-1$
@@ -173,6 +188,21 @@ public class XSLConstant {
 		 * fo:simple-page-master
 		 */
 		public static final String FO_SIMPLE_PAGE_MASTER = "fo:simple-page-master"; //$NON-NLS-1$
+
+		/**
+		 * xsl:choose
+		 */
+		public static final String XSL_CHOOSE = "xsl:choose";
+
+		/**
+		 * xsl:when
+		 */
+		public static final String XSL_WHEN = "xsl:when";
+
+		/**
+		 * xsl:otherwise
+		 */
+		public static final String XSL_OTHERWISE = "xsl:otherwise";
 	}
 
 	/**

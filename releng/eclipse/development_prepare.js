@@ -25,7 +25,7 @@ copyResourceDirectory()
 compileWebPackages()
 
 async function copyResourceDirectory() {
-  console.log("****Compile Textviewer****")
+  console.log("****Copy resource directory****")
   const copyFunc = (src, dest) => {
     console.log(`Copy ${src} to ${dest}`)
     fs.cpSync(src, dest, { recursive: true, force: true })

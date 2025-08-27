@@ -23,6 +23,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.eclipse.emf.common.command.Command;
@@ -136,7 +137,7 @@ public class ImportModelHandler {
 			importDatas.addAll(getImportDatas());
 		}
 
-		return importDatas.stream().filter(data -> {
+		return importDatas.stream().filter(Objects::nonNull).filter(data -> {
 			final ENUMUntergewerkArt subworkType = data.getSecond()
 					.getUntergewerkArt()
 					.getWert();
@@ -147,7 +148,8 @@ public class ImportModelHandler {
 							: getAusgabeFachdaten(source, sourceGruppe);
 			final Optional<LST_Zustand> sourceContainer = getSourceContainer(
 					sourceSubwork);
-			// When import source already exist, then ask the user to overwrite
+			// When import source already exist, then ask the user to
+			// overwrite
 			if ((sourceGruppe.isPresent() || sourceSubwork.isPresent()
 					|| sourceContainer.isPresent() && !sourceContainer.get()
 							.getContainer()
@@ -263,6 +265,9 @@ public class ImportModelHandler {
 		// Subwork not exist by single state model, the users must choose
 		// one
 		final ENUMUntergewerkArt untergewerkArt = chooseSubworkType(shell);
+		if (untergewerkArt == null) {
+			return null;
+		}
 		final PlanPro_Schnittstelle newSchnitStelle = transformSingleState(
 				modelToImport);
 		ToolboxIDResolver.resolveIDReferences(newSchnitStelle);
@@ -326,8 +331,7 @@ public class ImportModelHandler {
 				.map(e -> e.getLiteral())
 				.toList();
 		final String selectedType = serviceProvider.dialogService
-				.selectValueDialog(shell,
-						serviceProvider.messages.PlanProImportDescriptionService_ViewName,
+				.selectValueDialog(shell, getImportDialogTilte(),
 						serviceProvider.messages.PlanProImportPart_SelectSubworkMessage,
 						serviceProvider.messages.PlanProImportPart_SelectSubworkLabel,
 						subworkTypes);
@@ -510,5 +514,14 @@ public class ImportModelHandler {
 		return SetCommand.create(editingDomain, owner.getIdentitaet(),
 				BasisobjektePackage.eINSTANCE.getIdentitaet_TypeClass_Wert(),
 				Guid.create().toString());
+	}
+
+	private String getImportDialogTilte() {
+		return switch (target) {
+			case ALL -> serviceProvider.messages.PlanProImportPart_ImportDialog_Title_ALL;
+			case INITIAL -> serviceProvider.messages.PlanProImportPart_ImportDialog_Title_INITIAL;
+			case FINAL -> serviceProvider.messages.PlanProImportPart_ImportDialog_Title_FINAL;
+			default -> serviceProvider.messages.PlanProImportDescriptionService_ViewName;
+		};
 	}
 }

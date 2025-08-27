@@ -19,6 +19,7 @@ import org.eclipse.set.model.tablemodel.TablemodelFactory
 
 import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalRahmenExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.SignalBefestigungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspElementExtensions.*
 import org.eclipse.set.model.planpro.Signale.Signal_Befestigung
 
@@ -50,9 +51,11 @@ class FootnoteTransformation {
 		val signalRahmenFootNotes = signal?.signalRahmen?.flatMap [
 			IDBearbeitungsvermerk
 		]
-		val signalBefestigungFootNotes = signal?.signalRahmen?.flatMap [
-			signalBefestigung?.objectFootnotes
-		].filterNull
+		val signalBefestigungFootNotes = signal?.signalRahmen?.map [
+			signalBefestigung
+		].filterNull.flatMap [
+			objectFootnotes
+		]
 		return #[signalFootNotes, signalRahmenFootNotes,
 			signalBefestigungFootNotes].filterNull.flatten
 	}
@@ -60,15 +63,11 @@ class FootnoteTransformation {
 	private def dispatch Iterable<ID_Bearbeitungsvermerk_TypeClass> getObjectFootnotes(
 		Signal_Befestigung signalBefestigung) {
 		if (signalBefestigung === null) {
-			return null
+			return #[]
 		}
-		val befestigungFootnotes = signalBefestigung?.IDBearbeitungsvermerk
-		if (signalBefestigung?.IDSignalBefestigung?.value !== null) {
-			return #[befestigungFootnotes,
-				signalBefestigung?.IDSignalBefestigung?.value?.objectFootnotes].
-				filterNull.flatten
-		}
-		return befestigungFootnotes
+		return signalBefestigung.signalBefestigungen.filter [
+			IDBearbeitungsvermerk !== null
+		].flatMap[IDBearbeitungsvermerk]
 	}
 
 	private def dispatch Iterable<ID_Bearbeitungsvermerk_TypeClass> getObjectFootnotes(

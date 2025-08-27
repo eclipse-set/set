@@ -8,9 +8,9 @@
  */
 package org.eclipse.set.ppmodel.extensions.utils
 
-import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt
 import org.eclipse.emf.common.util.EList
 import org.eclipse.emf.ecore.EObject
+import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt
 
 import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.*
 

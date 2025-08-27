@@ -9,7 +9,7 @@
 	<packaging>pom</packaging>
 
 	<properties>
-		<tycho-version>4.0.5</tycho-version>
+		<tycho-version>4.0.11</tycho-version>
 		<deploy-plugin-version>3.1.4</deploy-plugin-version>
 		<assembly.version>2.4</assembly.version>
 		<replacer.version>1.4.1</replacer.version>
@@ -188,7 +188,7 @@
 					<plugin>
 						<groupId>org.eclipse.xtend</groupId>
 						<artifactId>xtend-maven-plugin</artifactId>
-						<version>2.35.0</version>
+						<version>2.38.0</version>
 						<executions>
 							<execution>
 								<goals>
@@ -204,7 +204,7 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-clean-plugin</artifactId>
-						<version>3.4.1</version>
+						<version>3.5.0</version>
 						<configuration>
 							<filesets>
 								<fileset>
@@ -258,7 +258,7 @@
 							<dependency>
 								<groupId>com.puppycrawl.tools</groupId>
 								<artifactId>checkstyle</artifactId>
-								<version>10.23.1</version>
+								<version>11.0.0</version>
 							</dependency>
 						</dependencies>
 						<configuration>
@@ -274,12 +274,8 @@
 								<sourceDirectory>${project.basedir}/OSGI-INF</sourceDirectory>
 								<sourceDirectory>${project.basedir}/src</sourceDirectory>
 							</sourceDirectories>
-							<headerFile />
 							<headerLocation />
-							<!-- Default value is: ${project.compileSourceRoots}. -->
-							<encoding>UTF-8</encoding>
 							<failsOnError>false</failsOnError>
-							<linkXRef>false</linkXRef>
 						</configuration>
 					</plugin>
 

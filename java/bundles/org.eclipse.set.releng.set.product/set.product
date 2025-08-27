@@ -52,6 +52,7 @@
 
    <configurations>
       <plugin id="ch.qos.logback.classic" autoStart="true" startLevel="2" />
+      <plugin id="maven.net.sf.offo.artifact.fop-hyph" autoStart="true" startLevel="4" />
       <plugin id="org.apache.aries.spifly.dynamic.bundle" autoStart="true" startLevel="2" />
       <plugin id="org.apache.felix.scr" autoStart="true" startLevel="2" />
       <plugin id="org.eclipse.core.runtime" autoStart="true" startLevel="1" />
@@ -95,6 +96,7 @@
       <property name="toolbox.siteplan.default_collisions_enabled" value="false" />
       <property name="toolbox.siteplan.export_dpi" value="300" />
       <property name="toolbox.siteplan.export.scale" value="1000" />
+      <property name="toolbox.path_finding_tolerance" value="0.001" />
    </configurations>
 
    <preferencesInfo>

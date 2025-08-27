@@ -43,35 +43,39 @@ import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.ppmodel.extensions.utils.Case
 import org.eclipse.set.ppmodel.extensions.utils.TopGraph
+import org.eclipse.set.utils.math.AgateRounding
 import org.eclipse.set.utils.table.TMFactory
+import org.osgi.service.event.EventAdmin
 
 import static org.eclipse.set.feature.table.pt1.sszs.SszsColumns.*
 import static org.eclipse.set.model.planpro.Signale.ENUMAutoEinstellung.*
 import static org.eclipse.set.model.planpro.Signale.ENUMFiktivesSignalFunktion.*
 import static org.eclipse.set.model.planpro.Signale.ENUMSignalArt.*
+import static org.eclipse.set.ppmodel.extensions.geometry.GEOKanteGeometryExtensions.*
 
 import static extension org.eclipse.set.ppmodel.extensions.AussenelementansteuerungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FstrNichthaltfallExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.PunktObjektStreckeExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.StellBereichExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.utils.CollectionExtensions.*
 import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
+import static extension org.eclipse.set.utils.math.DoubleExtensions.*
 
 /**
  * Table transformation for ETCS Melde- und Kommandoanschaltung Muka Signale (Sszs).
  */
 class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
-	static double MAX_TOP_DISTANCE_IN_METER = 1
+	static BigDecimal MAX_TOP_DISTANCE_IN_METER = BigDecimal.ZERO
 	static Range<Double> FMA_KOMPONENT_DISTANCE_RANGE = Range.of(-3.0, 350.0);
 	TopologicalGraphService topGraphService
 
 	new(Set<ColumnDescriptor> cols,
 		EnumTranslationService enumTranslationService,
-		TopologicalGraphService topGraphService) {
-		super(cols, enumTranslationService)
+		TopologicalGraphService topGraphService, EventAdmin eventAdmin) {
+		super(cols, enumTranslationService, eventAdmin)
 		this.topGraphService = topGraphService
 	}
 
@@ -100,7 +104,7 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 				new Case<ETCS_Signal>(
 					[
 						isRelevantSignal(
-							IDSignal.value,
+							IDSignal?.value,
 							[
 								signalReal?.signalRealAktiv?.autoEinstellung?.
 									wert === ENUM_AUTO_EINSTELLUNG_SB
@@ -180,23 +184,36 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 				)
 			)
 
+			val streckeAndKm = getStreckeAndKm(refSignal)
+
 			// C: Sszs.Signal.Standort.Strecke
-			fill(
+			fillIterable(
 				row,
 				cols.getColumn(Strecke),
 				refSignal,
 				[
-					punktObjektStrecke.unique.strecke.bezeichnung.
-						bezeichnungStrecke.wert
-				]
+					streckeAndKm.map[key]
+				],
+				MIXED_STRING_COMPARATOR
 			)
 
 			// D: Sszs.Signal.Standort.km
-			fill(
+			fillIterableMultiCellWhenAllow(
 				row,
 				cols.getColumn(Standort_Km),
 				refSignal,
-				[punktObjektStrecke.unique.streckeKm.wert]
+				[isFindGeometryComplete || !streckeAndKm.flatMap[value].filter[!nullOrEmpty].nullOrEmpty],
+				[
+					val kmValues = streckeAndKm.flatMap[value].filter[!nullOrEmpty]
+					if (!kmValues.nullOrEmpty) {
+						return kmValues.toList
+					}
+					val routeThroughBereichObjekt = singlePoint.streckenThroughBereichObjekt
+					return getStreckeKm(routeThroughBereichObjekt).toList
+					
+				],
+				null,
+				ITERABLE_FILLING_SEPARATOR
 			)
 
 			// E: Sszs.Signalisierung.Zs_1
@@ -230,9 +247,9 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 						if (isZs3SignalGeschaltet.empty) {
 							return #[]
 						}
-						val symbols = refSignal?.getSignalbegriffe(Zs3).
-							filterNull.map[signalbegriffID?.symbol]?.
-							filterNull ?: []
+						val symbols = zs3Signals.filterNull.map [
+							signalbegriffID?.symbol
+						]?.filterNull ?: []
 						return isZs3SignalGeschaltet.get
 							? symbols
 							: symbols.map [
@@ -277,7 +294,7 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 				["x"]
 			)
 
-			// K: Sszs.Signalisierung.Loeschung_Zs
+			// K: Sszs.Signalisierung.Loeschung_Zs_1_7_8
 			fillConditional(
 				row,
 				cols.getColumn(Loeschung_Zs),
@@ -358,17 +375,17 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 				etcsSignal,
 				new Case<ETCS_Signal>(
 					[ETCSGefahrpunktabstandAbweichend !== null],
-					[ETCSGefahrpunktabstandAbweichend.wert.toString]
+					[ETCSGefahrpunktabstandAbweichend?.wert?.toTableDecimal]
 				),
 				new Case<ETCS_Signal>(
 					[IDETCSGefahrpunkt2?.value !== null],
 					[
 						val distanceToETCSGefahrpunkt = distanceToSignal(
-							IDETCSGefahrpunkt?.value.IDMarkanteStelle?.
-								value as Punkt_Objekt)
+							IDETCSGefahrpunkt?.value?.IDMarkanteStelle?.value).
+							toTableDecimal
 						val distanceToETCSGefahrpunkt2 = distanceToSignal(
-							IDETCSGefahrpunkt2?.value.IDMarkanteStelle?.
-								value as Punkt_Objekt)
+							IDETCSGefahrpunkt2?.value?.IDMarkanteStelle?.value).
+							toTableDecimal
 						return '''«distanceToETCSGefahrpunkt»(«distanceToETCSGefahrpunkt2»)'''
 					]
 				),
@@ -377,7 +394,7 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 					[
 						distanceToSignal(
 							IDETCSGefahrpunkt?.value?.IDMarkanteStelle?.value).
-							toString
+							toTableDecimal
 					]
 				)
 			)
@@ -388,7 +405,7 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 				cols.getColumn(Dweg_49),
 				etcsSignal,
 				[ETCSSignalDWeg?.DWegIntervall50?.wert !== null],
-				[ETCSSignalDWeg?.DWegIntervall50?.wert.doubleValue.toString]
+				[ETCSSignalDWeg?.DWegIntervall50?.wert.toTableDecimal]
 			)
 
 			// R: Sszs.Kuerzester_DWeg.ab50bis199m
@@ -397,7 +414,7 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 				cols.getColumn(Dweg_50_199),
 				etcsSignal,
 				[ETCSSignalDWeg?.DWegIntervall50200?.wert !== null],
-				[ETCSSignalDWeg?.DWegIntervall50200?.wert.doubleValue.toString]
+				[ETCSSignalDWeg?.DWegIntervall50200?.wert.toTableDecimal]
 			)
 
 			// S: Sszs.Kuerzester_DWeg.ab200m
@@ -406,7 +423,7 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 				cols.getColumn(Dweg_200),
 				etcsSignal,
 				[ETCSSignalDWeg?.DWegIntervall200?.wert !== null],
-				[ETCSSignalDWeg?.DWegIntervall200?.wert.doubleValue.toString]
+				[ETCSSignalDWeg?.DWegIntervall200?.wert.toTableDecimal]
 			)
 
 			// T: Sszs.Sonstige_Funktionen.Dunkelschaltanstoss
@@ -458,9 +475,13 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 				refSignal,
 				[
 					val distance = getNearstFMAKomponent(topGraph)
-					if (distance.present) {
-						return distance.get.toString
+					if (distance.empty) {
+						return ""
 					}
+					val distanceValue = distance.get
+					return distanceValue <= 5 ||
+						distanceValue >= -3 ? "0" : AgateRounding.roundUp(
+						distanceValue).toString
 				]
 			)
 
@@ -500,8 +521,9 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 						return #[]
 					}
 					val fstrNichtHaltfall = signal.fstrNichtHaltfall
-					return fstrNichtHaltfall.map [
-						FMAKomponentOnFstr.map[fma|distanceToSignal(fma)].max
+					return fstrNichtHaltfall.map [ fstr |
+						fstr.FMAKomponentOnFstr.map[fma|distanceToSignal(fma)].
+							max
 					].filterNull.toSet.map[toString]
 				],
 				ToolboxConstants.NUMERIC_COMPARATOR,
@@ -509,7 +531,7 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 					val distance = IDSignal?.value?.
 						getNearstFMAKomponent(topGraph)
 					if (distance.isPresent) {
-						return distance.get.toString
+						return distance.get.toTableDecimal
 					}
 
 				],
@@ -527,7 +549,24 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 				["x"]
 			)
 
-			// AA: Sszs.TBV.Meldepunkt
+			// AA: Sszs.SOnstige_FUnktionen.ZSS
+			fillConditional(
+				row,
+				cols.getColumn(ZSS),
+				refSignal,
+				[
+					container.ZUBBereichsgrenze.exists [ zubBereich |
+						zubBereich.ZUBBereichsgrenzeNachL2.exists [ zubBereichL2 |
+							zubBereichL2.IDSignalZufahrtsicherungL2oS.exists [ idSignal |
+								idSignal.value === it
+							]
+						]
+					]
+				],
+				["x"]
+			)
+
+			// AB: Sszs.TBV.Meldepunkt
 			fill(
 				row,
 				cols.getColumn(Meldepunkt),
@@ -535,7 +574,7 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 				[ETCSSignalTBV?.TBVMeldepunkt?.wert.translate]
 			)
 
-			// AB: Sszs.TBV.Laenge_Tunnelbereich
+			// AC: Sszs.TBV.Laenge_Tunnelbereich
 			fill(
 				row,
 				cols.getColumn(Laenge_Tunnelbereich),
@@ -546,7 +585,7 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 				]
 			)
 
-			// AC: Sszs.TBV.Tunnelsignal
+			// AD: Sszs.TBV.Tunnelsignal
 			fill(
 				row,
 				cols.getColumn(Tunnelsignal),
@@ -554,7 +593,7 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 				[ETCSSignalTBV?.TBVTunnelsignal?.wert.translate]
 			)
 
-			// AD: Sszs.Ansteuerung.ESTW-Zentraleinheit
+			// AE: Sszs.Ansteuerung.ESTW-Zentraleinheit
 			fillIterable(
 				row,
 				cols.getColumn(ESTW_Zentraleinheit),
@@ -568,7 +607,7 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 				MIXED_STRING_COMPARATOR
 			)
 
-			// AE: Sszs.Ansteuerung.Stellbereich
+			// AF: Sszs.Ansteuerung.Stellbereich
 			fillIterable(
 				row,
 				cols.getColumn(Stellbereich),
@@ -583,6 +622,15 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 
 				],
 				MIXED_STRING_COMPARATOR
+			)
+			
+			// AG: Sszs.Ansteuerung.RBC-Anschaltung
+			fillConditional(
+				row,
+				cols.getColumn(RBC_Anschaltung),
+				etcsSignal,
+				[IDRBC.nullOrEmpty],
+				["x"]
 			)
 
 			// AF: Sszs.Bemerkung
@@ -697,8 +745,9 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 			if (distances.compareTo(BigDecimal.ZERO) == 0) {
 				return fma -> 0.0
 			}
-			return topGraph.isInWirkrichtungOfSignal(signal, fma) ? fma ->
-				distances.doubleValue : fma -> -distances.doubleValue
+			return topGraph.isInWirkrichtungOfSignal(signal, fma)
+				? fma -> distances.doubleValue
+				: fma -> -distances.doubleValue
 		].filterNull
 		if (distanceToSignal.empty) {
 			return Optional.empty
@@ -708,20 +757,21 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 		].minBy[value].value)
 	}
 
-	private def dispatch double distanceToSignal(ETCS_Signal etcsSignal,
+	private def dispatch BigDecimal distanceToSignal(ETCS_Signal etcsSignal,
 		Basis_Objekt object) {
 		throw new IllegalArgumentException()
 	}
 
-	private def dispatch double distanceToSignal(Signal signal,
+	private def dispatch BigDecimal distanceToSignal(ETCS_Signal etcsSignal,
 		Punkt_Objekt po) {
+		val signal = etcsSignal.IDSignal?.value
 		if (signal !== null && po !== null) {
 			val signalTopPoint = new TopPoint(signal)
 			val topPoint = new TopPoint(po)
 			val distance = topGraphService.findShortestDistance(signalTopPoint,
 				topPoint)
 			if (distance.present) {
-				return distance.get.doubleValue
+				return distance.get
 			}
 		}
 

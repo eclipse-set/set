@@ -14,16 +14,13 @@ import java.util.LinkedList
 import java.util.List
 import java.util.Set
 import org.eclipse.set.basis.MixedStringComparator
-import org.eclipse.set.basis.constants.ToolboxConstants
 import org.eclipse.set.basis.graph.TopPoint
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.core.services.graph.BankService
-import org.eclipse.set.core.services.graph.TopologicalGraphService
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Unterbringung
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
-import org.eclipse.set.model.planpro.Geodaten.Strecke
 import org.eclipse.set.model.planpro.Geodaten.Technischer_Punkt
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Hl10
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Hl11
@@ -87,13 +84,10 @@ import org.eclipse.set.model.planpro.Signale.Signal_Rahmen
 import org.eclipse.set.model.planpro.Signale.Signal_Signalbegriff
 import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.model.tablemodel.TableRow
-import org.eclipse.set.model.tablemodel.extensions.CellContentExtensions
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.ppmodel.extensions.utils.Case
-import org.eclipse.set.utils.events.TableDataChangeEvent
-import org.eclipse.set.utils.table.Pt1TableChangeProperties
 import org.eclipse.set.utils.table.TMFactory
-import org.eclipse.set.utils.table.TableError
+import org.locationtech.jts.geom.Coordinate
 import org.osgi.service.event.EventAdmin
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -111,11 +105,9 @@ import static org.eclipse.set.model.planpro.Signale.ENUMSignalFunktion.*
 import static org.eclipse.set.model.planpro.Signale.ENUMTunnelsignal.*
 import static org.eclipse.set.ppmodel.extensions.geometry.GEOKanteGeometryExtensions.*
 
-import static extension org.eclipse.set.model.tablemodel.extensions.TableRowExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.GeoPunktExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.MultiContainer_AttributeGroupExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
@@ -124,11 +116,8 @@ import static extension org.eclipse.set.ppmodel.extensions.SignalbegriffExtensio
 import static extension org.eclipse.set.ppmodel.extensions.StellelementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.UnterbringungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.utils.CacheUtils.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
-import static extension org.eclipse.set.utils.math.DoubleExtensions.*
-import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_Strecke_AttributeGroup
 
 /**
  * Table transformation for a Signaltabelle (Ssks).
@@ -148,28 +137,23 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 		ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_SONSTIGE_NIEDRIG,
 		ENUM_BEFESTIGUNG_ART_SONDERANORDNUNG_MAST_HOCH,
 		ENUM_BEFESTIGUNG_ART_SONDERANORDNUNG_MAST_NIEDRIG]
-	val TopologicalGraphService topGraphService
 	val BankService bankingService
-	val EventAdmin eventAdmin
 	val String tableShortCut
 
 	// Container the thread, which will be refresh table after all thread is done
 	new(Set<ColumnDescriptor> cols,
 		EnumTranslationService enumTranslationService,
-		TopologicalGraphService topGraphService, BankService bankingService,
-		EventAdmin eventAdmin, String tableShortCut) {
-		super(cols, enumTranslationService)
-		this.topGraphService = topGraphService
+		BankService bankingService, EventAdmin eventAdmin,
+		String tableShortCut) {
+		super(cols, enumTranslationService, eventAdmin)
 		this.bankingService = bankingService
-		this.eventAdmin = eventAdmin
 		this.tableShortCut = tableShortCut
 	}
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
 		TMFactory factory, Stell_Bereich controlArea) {
 		// iterate signal-wise
-		val waitingFillSideDistanceSignal = newHashMap
-		// IMPROVE:It give some column need the geometr
+		val sideDistancesSignal = newHashMap
 		for (Signal signal : container?.signal?.filter[isPlanningObject].
 			filterObjectsInControlArea(controlArea).filter[ssksSignal]) {
 			if (Thread.currentThread.interrupted) {
@@ -265,22 +249,30 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 						)
 
 						// F: Ssks.Standortmerkmale.Standort.km
-						if (isFindGeometryComplete ||
-							streckAndKm.flatMap[value].exists[!nullOrEmpty]) {
-							fillIterable(
-								row,
-								cols.getColumn(Km),
-								signal,
-								[
-									streckAndKm.flatMap[value]
-								],
-								null
-							)
-						} else {
-							val routeThroughBereichObjekt = signal.singlePoint.
-								streckenThroughBereichObjekt
-							row.fillStreckeKm(signal, routeThroughBereichObjekt)
-						}
+						fillIterableSingleCellWhenAllowed(
+							row,
+							cols.getColumn(Km),
+							signal,
+							[
+								isFindGeometryComplete || streckAndKm.flatMap [
+									value
+								].exists[!nullOrEmpty]
+							],
+							[
+								if (streckAndKm.flatMap[value].exists [
+									!nullOrEmpty
+								]) {
+									return streckAndKm.flatMap[value].toList
+								}
+								val routeThroughBereichObjekt = singlePoint.
+									streckenThroughBereichObjekt
+								return getStreckeKm(routeThroughBereichObjekt).
+									toList
+							],
+							null,
+							ITERABLE_FILLING_SEPARATOR,
+							tableShortCut
+						)
 
 						// G: Ssks.Standortmerkmale.Sonstige_Zulaessige_Anordnung
 						fill(
@@ -313,76 +305,61 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 
 						// I: Ssks.Standortmerkmale.Ueberhoehung
 						if (signal.signalReal !== null) {
-							if (bankingService.isFindBankingComplete) {
-								fillIterable(
-									row,
-									cols.getColumn(Ueberhoehung),
-									signal,
-									[
-										bankingService.findBankValue(
-											new TopPoint(signal)).map [
-											multiply(new BigDecimal(1000)).
-												toTableInteger ?: ""
-										]
-									],
-									null
-								)
-							} else {
-								// Fill Banking through thread, when find process not complete
-								row.fillUeberhoehung(signal)
-							}
+							fillIterableSingleCellWhenAllowed(
+								row,
+								cols.getColumn(Ueberhoehung),
+								signal,
+								[bankingService.isFindBankingComplete],
+								[
+									bankingService.findBankValue(
+										new TopPoint(it)).map [
+										multiply(new BigDecimal(1000)).
+											toTableInteger ?: ""
+									]
+								],
+								null,
+								ITERABLE_FILLING_SEPARATOR,
+								tableShortCut
+							)
 						}
-
 						// J: Ssks.Standortmerkmale.Abstand_Mastmitte.links
+						fillIterableMultiCellWhenAllow(
+							row,
+							cols.getColumn(Mastmitte_Links),
+							signal,
+							[isFindGeometryComplete],
+							[
+								val signalSideDistances = sideDistancesSignal.
+									computeIfAbsent(it, [ s |
+										new SignalSideDistance(s)
+									])
+								return signalSideDistances.sideDistancesLeft.map [
+									toString
+								].toList
+							],
+							null,
+							ITERABLE_FILLING_SEPARATOR
+						)
+
 						// K: Ssks.Standortmerkmale.Abstand_Mastmitte.rechts
-						if (!isFindGeometryComplete) {
-							#[Mastmitte_Links, Mastmitte_Rechts].forEach [
-								fill(
-									row,
-									cols.getColumn(it),
-									signal,
-									[CellContentExtensions.HOURGLASS_ICON]
-								)
-							]
-							waitingFillSideDistanceSignal.put(row, signal)
-						} else {
-							try {
-								val signalSideDistances = new SignalSideDistance(
-									signal)
-
-								fillIterable(
-									row,
-									cols.getColumn(Mastmitte_Links),
-									signal,
-									[
-										signalSideDistances.sideDistancesLeft.
-											map [
-												toString
-											]
-									],
-									null,
-									[toString]
-								)
-
-								fillIterable(
-									row,
-									cols.getColumn(Mastmitte_Rechts),
-									signal,
-									[
-										signalSideDistances.sideDistancesRight.
-											map [
-												toString
-											]
-									],
-									null
-								)
-							} catch (Exception e) {
-								handleFillingException(e, row,
-									cols.getColumn(Mastmitte_Links))
-								handleFillingException(e, row,
-									cols.getColumn(Mastmitte_Rechts))
-							}
-						}
+						fillIterableMultiCellWhenAllow(
+							row,
+							cols.getColumn(Mastmitte_Rechts),
+							signal,
+							[isFindGeometryComplete],
+							[
+								val signalSideDistances = sideDistancesSignal.
+									computeIfAbsent(it, [ s |
+										new SignalSideDistance(s)
+									])
+								return signalSideDistances.
+									sideDistancesRight.map [
+										toString
+									].toList
+							],
+							null,
+							ITERABLE_FILLING_SEPARATOR
+						)
 
 						// L: Ssks.Standortmerkmale.Sichtbarkeit.Soll
 						fillConditional(
@@ -568,7 +545,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							signal,
 							[controlBox !== null],
 							[
-								distance(controlBox).toTableDecimal
+								distance(controlBox).toTableIntegerAgateUp
 							]
 						)
 
@@ -876,6 +853,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 						)
 					}
 				}
+
 			} catch (Exception e) {
 				LOGGER.error('''«e.
 
@@ -891,63 +869,7 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 
 		}
 
-		// Thread for send refresh table event after all process done	
-		new Thread([
-			// Wait for find geometry process done
-			while (!isFindGeometryComplete) {
-				try {
-					Thread.sleep(5000)
-				} catch (InterruptedException exc) {
-					Thread.currentThread.interrupt
-					return
-				}
-			}
-			val changeProperties = newArrayList
-			waitingFillSideDistanceSignal.forEach [ row, signal |
-				row.refillSideDistance(signal, changeProperties)
-			]
-			val updateValuesEvent = new TableDataChangeEvent(
-				tableShortCut.toLowerCase, changeProperties)
-			TableDataChangeEvent.sendEvent(eventAdmin, updateValuesEvent)
-
-		], '''«tableShortCut»/«ToolboxConstants.CacheId.GEOKANTE_GEOMETRY»/«container.cacheString»''').
-			start
 		return factory.table
-	}
-
-	private def void refillSideDistance(TableRow row, Signal signal,
-		List<Pt1TableChangeProperties> changeProperties) {
-
-		var List<String> leftValues = newArrayList
-		var List<String> rightValues = newArrayList
-
-		try {
-			val signalSideDistances = new SignalSideDistance(signal)
-			leftValues.addAll(signalSideDistances.sideDistancesLeft.map [
-				toString
-			])
-			rightValues.addAll(signalSideDistances.sideDistancesRight.map [
-				toString
-			])
-		} catch (Exception e) {
-			val errorMsg = createErrorMsg(e, row)
-			val guid = row.group.leadingObject?.identitaet?.wert
-			val leadingObject = getLeadingObjectIdentifier(row, guid)
-			tableErrors.add(
-				new TableError(guid, leadingObject, "", errorMsg, row))
-			leftValues = List.of('''«ERROR_PREFIX»«errorMsg»''')
-			rightValues = List.of('''«ERROR_PREFIX»«errorMsg»''')
-		}
-
-		val containerType = signal.container.containerType
-		changeProperties.add(
-			new Pt1TableChangeProperties(containerType, row,
-				cols.getColumn(Mastmitte_Links), leftValues,
-				ITERABLE_FILLING_SEPARATOR))
-		changeProperties.add(
-			new Pt1TableChangeProperties(containerType, row,
-				cols.getColumn(Mastmitte_Rechts), rightValues,
-				ITERABLE_FILLING_SEPARATOR))
 	}
 
 	private static def List<List<Signal_Befestigung>> getBefestigungsgruppen(
@@ -1086,7 +1008,17 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 
 	private static def List<String> fillSignalisierungSchirmZs(
 		List<Signal_Rahmen> signalRahmen) {
-		return signalRahmen.map[signalbegriffe].flatten.map [
+		return signalRahmen.map [ rahmen |
+			val begriffs = rahmen.signalbegriffe
+			if (begriffs.exists[hasSignalbegriffID(Zs7)]) {
+				return rahmen?.rahmenArt?.wert === ENUM_RAHMEN_ART_SCHIRM
+					? begriffs
+					: begriffs.filter [
+					!hasSignalbegriffID(Zs7)
+				]
+			}
+			return begriffs
+		].flatten.map [
 			signalbegriffID.fillSignalisierungSchirmZs
 		].filterNull.toList
 	}
@@ -1122,7 +1054,17 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 
 	private static def List<String> fillSignalisierungZusatzanzeigerZs(
 		List<Signal_Rahmen> signalRahmen) {
-		return signalRahmen.map[signalbegriffe].flatten.map [
+		return signalRahmen.map [ rahmen |
+			val begriffs = rahmen.signalbegriffe
+			if (begriffs.exists[hasSignalbegriffID(Zs7)]) {
+				return rahmen.rahmenArt.wert === ENUM_RAHMEN_ART_ZUSATZANZEIGER
+					? begriffs
+					: begriffs.filter [
+					!hasSignalbegriffID(Zs7)
+				]
+			}
+			return begriffs
+		].flatten.map [
 			fillSignalisierungZusatzanzeigerZs
 		].filterNull.toList
 	}
@@ -1291,6 +1233,8 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 				return "6F"
 			case id instanceof Zs8 || id instanceof Zs8A:
 				return "8"
+			case id instanceof Zs7:
+				return "7"
 			case id instanceof Zs12:
 				return "12"
 			case id instanceof Zs13 && geschaltet:
@@ -1495,179 +1439,22 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 		return '''«FOR bemerkung : bemerkungen SEPARATOR ", "»«bemerkung»«ENDFOR»'''
 	}
 
-	private def double distance(
+	private def BigDecimal distance(
 		Punkt_Objekt punktObjekt,
 		Unterbringung unterbringung
 	) {
+		val c1 = punktObjekt.coordinate
+		var Coordinate c2 = null
 		if (unterbringung.punktObjektTOPKante !== null) {
-			val points = punktObjekt.singlePoints.map[new TopPoint(it)]
-			val pb = new TopPoint(unterbringung.punktObjektTOPKante)
-			return points.map[topGraphService.findShortestDistance(it, pb)].
-				filter [
-					present
-				].map[get.doubleValue].min
+			c2 = unterbringung.punktObjektTOPKante.coordinate.coordinate
 		} else {
-			val c1 = punktObjekt.coordinate
-			val c2 = unterbringung.geoPunkt.coordinate
-			return c1.distance(c2)
+			c2 = unterbringung.geoPunkt.coordinate
 		}
-	}
-
-	private def void fillUeberhoehung(TableRow row, Signal signal) {
-		val containerType = signal.container.containerType
-		// Because find bank value process can take a long time,
-		// therefore the bank column will be fill during find process.
-		val threadName = '''«tableShortCut.toLowerCase»/Banking/«signal.cacheKey»'''
-		new Thread([
-			try {
-				val bankValue = row.getUeberhoehung(signal).map [
-					multiply(new BigDecimal(1000)).toTableInteger ?: ""
-				]
-				val changeProperties = new Pt1TableChangeProperties(
-					containerType, row, cols.getColumn(Ueberhoehung), bankValue,
-					ITERABLE_FILLING_SEPARATOR)
-				val updateValuesEvent = new TableDataChangeEvent(
-					tableShortCut.toLowerCase, changeProperties)
-				// Send update event after find bank value process complete
-				// or relevant bank value was found
-				TableDataChangeEvent.sendEvent(eventAdmin, updateValuesEvent)
-			} catch (InterruptedException exc) {
-				Thread.currentThread.interrupt
-			}
-		], threadName).start
-	}
-
-	private def List<BigDecimal> getUeberhoehung(TableRow row,
-		Signal signal) throws InterruptedException {
-		val topPoint = new TopPoint(signal)
-		var bankValue = bankingService.findBankValue(topPoint)
-		// Fill Hourglass icon, when values is empty and find bank process still running.
-		if (bankValue.isEmpty && !bankingService.isFindBankingComplete)
-			fill(
-				row,
-				cols.getColumn(Ueberhoehung),
-				signal,
-				[
-					CellContentExtensions.HOURGLASS_ICON
-				]
-			)
-		// Get bank value again during the find bank process.
-		while (bankValue.isNullOrEmpty) {
-			bankValue = bankingService.findBankValue(topPoint)
-			if (bankingService.isFindBankingComplete) {
-				return bankValue
-			}
-			Thread.sleep(5000)
+		if (c2 === null) {
+			throw new IllegalArgumentException(
+				String.format("Can't find coordinate of Unterbringung: %s",
+					unterbringung.identitaet.wert))
 		}
-		return bankValue
-	}
-
-	// IMPROVE: Make the thread in this function generic.
-	// It do same thing like fill function for Banking and Sidedistance
-	private def void fillStreckeKm(TableRow row, Signal signal,
-		List<Strecke> routeThroughBereichObjekt) {
-		val threadName = '''«tableShortCut.toLowerCase»/StreckKm/«signal.cacheKey»'''
-		val containerType = signal.container.containerType
-		new Thread([
-			try {
-				if (!isFindGeometryComplete) {
-					fill(
-						row,
-						cols.getColumn(Km),
-						signal,
-						[
-							CellContentExtensions.HOURGLASS_ICON
-						]
-					)
-				}
-				var streckeKms = signal.getStreckeKm(routeThroughBereichObjekt)
-				while (streckeKms === null) {
-					streckeKms = signal.getStreckeKm(routeThroughBereichObjekt)
-					Thread.sleep(5000)
-				}
-				val changeProperties = new Pt1TableChangeProperties(
-					containerType, row, cols.getColumn(Km), streckeKms,
-					ITERABLE_FILLING_SEPARATOR)
-				val updateValuesEvent = new TableDataChangeEvent(
-					tableShortCut.toLowerCase, changeProperties)
-				// Send update event 
-				TableDataChangeEvent.sendEvent(eventAdmin, updateValuesEvent)
-			} catch (InterruptedException exc) {
-				Thread.currentThread.interrupt
-			}
-
-		], threadName).start
-	}
-
-	private def List<Pair<String, List<String>>> getStreckeAndKm(
-		Signal signal) {
-		if (signal.punktObjektStrecke.nullOrEmpty) {
-			return #[]
-		}
-
-		val getStreckeFunc = [ Punkt_Objekt_Strecke_AttributeGroup pos |
-			pos.IDStrecke?.value?.bezeichnung?.bezeichnungStrecke?.wert ?: ""
-		]
-		if (signal.punktObjektStrecke.size === 1) {
-			return #[getStreckeFunc.apply(signal.punktObjektStrecke.first) ->
-				#[signal.punktObjektStrecke.first.streckeKm.wert]]
-		}
-
-		val kmMassgebends = signal.punktObjektStrecke.filter [
-			kmMassgebend?.wert === true
-		]
-		if (!kmMassgebends.nullOrEmpty) {
-			return kmMassgebends.map [
-				getStreckeFunc.apply(it) -> #[streckeKm.wert]
-			].toList
-		}
-
-		val routeThroughBereichObjekt = signal.singlePoint.
-			streckenThroughBereichObjekt
-
-		if (!isFindGeometryComplete) {
-			return routeThroughBereichObjekt.map [
-				bezeichnung?.bezeichnungStrecke?.wert ?: "" -> #[]
-			]
-		}
-		return routeThroughBereichObjekt.map [ route |
-			route.bezeichnung?.bezeichnungStrecke?.wert ?: "" ->
-				signal.getStreckeKm(#[route])
-		].toList
-
-	}
-
-	private def List<String> getStreckeKm(Signal signal,
-		List<Strecke> routeThroughBereichObjekt) {
-		if (!isFindGeometryComplete) {
-			return null
-		}
-		val kmMassgebend = signal.punktObjektStrecke.filter [
-			kmMassgebend?.wert === true
-		]
-		if (!kmMassgebend.nullOrEmpty) {
-			return kmMassgebend.map[streckeKm.wert].toList
-		}
-
-		val result = routeThroughBereichObjekt.map [ route |
-			try {
-				return signal.singlePoint.getStreckeKmThroughProjection(route).
-					toTableDecimal
-			} catch (Exception e) {
-				LOGGER.error(
-					"Can't find the Signal route km through projection point on route",
-					e)
-				return signal.punktObjektStrecke.findFirst [ pos |
-					pos.IDStrecke.value == route
-				]?.streckeKm?.wert
-			}
-		].filterNull.toList
-
-		if (result.isNullOrEmpty) {
-			return signal.punktObjektStrecke.map[streckeKm.wert].toList
-		}
-
-		return result
-
+		return BigDecimal.valueOf(c1.distance(c2))
 	}
 }

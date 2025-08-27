@@ -163,37 +163,37 @@ jobs:
         uses: eclipse-set/build/.github/actions/setup-java@main
       
       - name: Fetch pdf viewer
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: pdfviewer-artifact
           path: web/pdf/dist
       
       - name: Fetch text viewer
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: textviewer-artifact
           path: web/textviewer/dist
       
       - name: Fetch about
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: about-artifact
           path: web/about/dist   
 
       - name: Fetch siteplan
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: siteplan-artifact
           path: web/siteplan/dist
 
       - name: Fetch developerhelp
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: developerhelp-artifact
           path: web/developerhelp/dist
 
       - name: Fetch news
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: news-artifact
           path: web/news/public
@@ -232,12 +232,12 @@ jobs:
 
       - name: Upload release asset
         if: startsWith(github.ref, 'refs/tags/')
-        uses: softprops/action-gh-release@da05d552573ad5aba039eaac05058a918a7bf631 # v2.2.2
+        uses: softprops/action-gh-release@72f2c25fcb47643c292f7107632f7a47c1df5cd8 # v2.3.2
         with: 
           files: java/bundles/org.eclipse.set.releng.set.product/target/products/unsigned-Eclipse-SET-*.zip
           
       - name: Publish Test Results
-        uses: EnricoMi/publish-unit-test-result-action@afb2984f4d89672b2f9d9c13ae23d53779671984 # v2.19.0
+        uses: EnricoMi/publish-unit-test-result-action@3a74b2957438d0b6e2e61d67b05318aa25c9e6c6 # v2.20.0
         if: always()
         with:
           files: |
@@ -263,13 +263,13 @@ jobs:
         uses: eclipse-set/build/.github/actions/setup-java@main
         
       - name: Fetch SET
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: eclipse-set-snapshot-${{github.run_number}}
           path: ${{ env.TEST_APPLICATION_DIR }}
 
       - name: Fetch m2 Deploy
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: set-m2deploy-${{github.run_number}}
           path: ${{ env.DEPLOY_DIR }}
@@ -322,7 +322,7 @@ jobs:
 
       - name: Fetch table csv
         if: needs.swtbot.result == 'failure'
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: table-csv-${{github.run_number}}
           path: ${{ env.DIFF_DIR }}

@@ -13,9 +13,12 @@ import java.nio.file.Path
 import java.util.Collections
 import java.util.List
 import org.eclipse.emf.common.util.URI
+import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
+import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl
+import org.eclipse.set.model.planpro.Basisobjekte.Bearbeitungsvermerk
 import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt
 import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.model.tablemodel.CompareFootnoteContainer
@@ -31,16 +34,15 @@ import static extension org.eclipse.set.model.tablemodel.extensions.ColumnDescri
 import static extension org.eclipse.set.model.tablemodel.extensions.RowGroupExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.TableContentExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.TableRowExtensions.*
-import static extension org.eclipse.set.utils.StringExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.EObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
-import org.eclipse.emf.ecore.EObject
-import org.eclipse.emf.ecore.util.EcoreUtil
-import org.eclipse.set.model.planpro.Basisobjekte.Bearbeitungsvermerk
+import static extension org.eclipse.set.utils.StringExtensions.*
 
 /**
  * Extensions for {@link Table}.
  */
 class TableExtensions {
+	public static val String FOOTNOTE_SEPARATOR = "; "
 
 	/**
 	 * @param columnLabels the column labels
@@ -282,8 +284,10 @@ class TableExtensions {
 	static def TableRow getMatchingRow(Table table, TableRow row) {
 		val group = row.group
 		val rowIndex = group.rows.indexOf(row)
-		return table.getGroupByLeadingObject(group.leadingObject,
-			group.leadingObjectIndex)?.rows?.get(rowIndex)
+		table.getGroupByLeadingObject(group.leadingObject,
+			group.leadingObjectIndex)?.rows?.
+			getIndexOutBoundableObject(rowIndex)?.orElse(null)
+
 	}
 
 	/**
@@ -454,8 +458,62 @@ class TableExtensions {
 		}
 		return getFootnoteInfo(object as Table, fn)
 	}
-	
+
 	static def boolean isTableEmpty(Table table) {
 		return table.tableRows.nullOrEmpty
+	}
+
+	static def boolean isInlineFootnote(Table table) {
+		val remarkColumn = table.columndescriptors.findFirst [
+			isFootnoteReferenceColumn
+		]
+		if (remarkColumn === null) {
+			return false
+		}
+		val remarkColumnWidth = remarkColumn.columnWidth
+		val maxCharInCell = remarkColumnWidth.maxCharInCell
+		return table.tableRows.forall [ row |
+			val fc = row.footnotes
+			if (fc === null) {
+				return true
+			}
+
+			if (fc instanceof SimpleFootnoteContainer) {
+				val remarks = fc.footnotes.map[getFootnoteInfo(table, it)].
+					filterNull
+
+				return remarks.isEmpty ||
+					remarks.map[toText].join(", ").length < maxCharInCell
+			}
+
+			if (fc instanceof CompareFootnoteContainer) {
+				val oldFootnotes = fc.oldFootnotes.map [
+					getFootnoteInfo(table, it)
+				].filterNull
+				val newFootnotes = fc.newFootnotes.map [
+					getFootnoteInfo(table, it)
+				].filterNull
+				val unchangedFootnotes = fc.unchangedFootnotes.map [
+					getFootnoteInfo(table, it)
+				].filterNull
+				val notEmptyContainer = #[oldFootnotes, newFootnotes,
+					unchangedFootnotes].filter[!isEmpty]
+
+				return switch (notEmptyContainer.size) {
+					case 0:
+						true
+					case 1: {
+						val remarks = notEmptyContainer.firstOrNull.map[toText].
+							filterNull
+						return remarks.isEmpty ||
+							remarks.join(FOOTNOTE_SEPARATOR).length <
+								maxCharInCell
+					}
+					default:
+						false
+				}
+			}
+			return true
+		]
 	}
 }

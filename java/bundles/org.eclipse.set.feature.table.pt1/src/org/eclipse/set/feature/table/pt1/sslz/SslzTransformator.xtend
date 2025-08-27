@@ -18,6 +18,7 @@ import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
+import org.eclipse.set.model.planpro.Fahrstrasse.ENUMFstrMittelArt
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Abhaengigkeit
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Signalisierung
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Zug_Rangier
@@ -44,6 +45,7 @@ import org.eclipse.set.model.tablemodel.extensions.Utils
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.ppmodel.extensions.utils.Case
 import org.eclipse.set.utils.table.TMFactory
+import org.osgi.service.event.EventAdmin
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -65,7 +67,6 @@ import static extension org.eclipse.set.ppmodel.extensions.SignalRahmenExtension
 import static extension org.eclipse.set.ppmodel.extensions.SignalbegriffExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.Debug.*
-import org.eclipse.set.model.planpro.Fahrstrasse.ENUMFstrMittelArt
 
 /**
  * Table transformation for a Zugstraßentabelle (SSLZ).
@@ -78,7 +79,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 		typeof(SslzTransformator))
 
 	static val SIGNALBEGRIFF_COMPARATOR = new MixedStringComparator(
-		"(?<letters1>[A-Za-z]*)(?<number>[0-9]*)(?<letters2>[A-Za-z]*)")
+		"(?<letters1>[A-Za-z]*)(?<number1>[0-9]*)(?<letters2>[A-Za-z]*)(\\((?<number2>[0-9]*)(?<letters3>[A-Za-z]*)\\))?")
 
 	static val List<ENUMGleisart> NOT_USABLE = #[ENUM_GLEISART_ANSCHLUSSGLEIS,
 		ENUM_GLEISART_NEBENGLEIS, ENUM_GLEISART_SONSTIGE]
@@ -88,8 +89,8 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 	static val String WARNING_SYMBOL = "\u26A0"
 
 	new(Set<ColumnDescriptor> cols,
-		EnumTranslationService enumTranslationService) {
-		super(cols, enumTranslationService)
+		EnumTranslationService enumTranslationService, EventAdmin eventAdmin) {
+		super(cols, enumTranslationService, eventAdmin)
 	}
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
@@ -107,7 +108,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 				return null
 			}
 			// Generalbedingung
-			val isZ = isZ(fstrZugRangier.fstrZug?.fstrZugArt)
+			val isZ = fstrZugRangier.isZ
 
 			if (isZ) {
 				val instance = factory.newTableRow(fstrZugRangier)
@@ -188,8 +189,12 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 						]
 					),
 					new Case<Fstr_Zug_Rangier>(
-						[true],
+						[fstrZug?.fstrZugArt?.wert !== null],
 						[fstrZug?.fstrZugArt?.wert.literal.substring(1)]
+					),
+					new Case<Fstr_Zug_Rangier>(
+						[fstrMittel?.fstrMittelArt?.wert !== null],
+						[fstrMittel?.fstrMittelArt?.wert.literal.substring(1)]
 					)
 				)
 

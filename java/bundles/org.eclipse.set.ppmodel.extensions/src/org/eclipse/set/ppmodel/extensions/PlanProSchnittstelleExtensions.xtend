@@ -261,7 +261,7 @@ class PlanProSchnittstelleExtensions {
 
 		val planungGruppe = factory.createPlanung_Gruppe();
 		planungProject.setLSTPlanungGruppe(planungGruppe);
-
+		planungGruppe.fixGuids
 		val planungEinzel = factory.createPlanung_Einzel();
 		planungGruppe.setLSTPlanungEinzel(planungEinzel);
 
@@ -710,13 +710,13 @@ class PlanProSchnittstelleExtensions {
 		val bauzustand = schnittstelle.bauzustandKurzbezeichnung.orElse(
 			"(bauzustand)"
 		)
-		  
+
 		val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm")
-		
-		val timestamp = schnittstelle.erzeugungZeitstempel.map["_" + it.toGregorianCalendar.toZonedDateTime.format(formatter)].orElse("")
-		
-		
-		
+
+		val timestamp = schnittstelle.erzeugungZeitstempel.map [
+			"_" + it.toGregorianCalendar.toZonedDateTime.format(formatter)
+		].orElse("")
+
 		var String filename
 		if (exportType === ExportType.INVENTORY_RECORDS) {
 			filename = '''«oertlichkeit»_«index»_«lfdNummer»_B_«bauzustand»«timestamp».«fileExtension»'''
@@ -822,7 +822,7 @@ class PlanProSchnittstelleExtensions {
 		if (source.planning) {
 			return source;
 		}
-		
+
 		val singleStateContainer = source.LSTZustand
 		val copyContainer = EcoreUtil.copy(singleStateContainer)
 		val newSchnittstelle = createEmptyModel

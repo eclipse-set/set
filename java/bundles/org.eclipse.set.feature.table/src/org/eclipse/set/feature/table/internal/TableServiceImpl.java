@@ -42,14 +42,14 @@ import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.basis.constants.ToolboxViewState;
 import org.eclipse.set.basis.extensions.MApplicationElementExtensions;
-import org.eclipse.set.basis.graph.AbstractDirectedEdgePath;
-import org.eclipse.set.basis.graph.Digraphs;
+import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.eclipse.set.basis.part.PartDescription;
 import org.eclipse.set.basis.threads.Threads;
 import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.cache.CacheService;
 import org.eclipse.set.core.services.dialog.DialogService;
 import org.eclipse.set.core.services.part.ToolboxPartService;
+import org.eclipse.set.core.services.session.SessionService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.messages.Messages;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
@@ -100,13 +100,14 @@ import jakarta.inject.Inject;
  */
 public final class TableServiceImpl implements TableService {
 
-	static final Logger logger = LoggerFactory.getLogger(TableService.class);
+	static final Logger logger = LoggerFactory
+			.getLogger(TableServiceImpl.class);
 
 	@Inject
-	private TableDiffService diffService;
+	TableDiffService diffService;
 
 	@Inject
-	private IEventBroker broker;
+	IEventBroker broker;
 
 	@Inject
 	CacheService cacheService;
@@ -121,13 +122,16 @@ public final class TableServiceImpl implements TableService {
 	@Inject
 	DialogService dialogService;
 
+	@Inject
+	SessionService sessionService;
+
 	private final Map<TableInfo, PlanPro2TableTransformationService> modelServiceMap = new ConcurrentHashMap<>();
 	private static final Queue<Pair<BasePart, Runnable>> transformTableThreads = new LinkedList<>();
 
 	private static final String EMPTY = "empty"; //$NON-NLS-1$
 	private static final String IGNORED_PLANNING_AREA_CACHE_KEY = "ignoredPlanningArea";//$NON-NLS-1$
 
-	private CacheService getCache() {
+	private CacheService getCacheService() {
 		return ToolboxConfiguration.isDebugMode() ? Services.getNoCacheService()
 				: cacheService;
 	}
@@ -168,6 +172,7 @@ public final class TableServiceImpl implements TableService {
 		if (zielTable == null || startTable == null) {
 			return null;
 		}
+
 		return diffService.createDiffTable(startTable, zielTable);
 	}
 
@@ -184,7 +189,6 @@ public final class TableServiceImpl implements TableService {
 
 	private String getContainerCacheId(final IModelSession modelSession,
 			final TableType tableType) {
-
 		// For table diffs, combine initial and final cache ids
 		if (tableType == TableType.DIFF) {
 			return getContainerCacheId(modelSession, TableType.INITIAL) + "#" //$NON-NLS-1$
@@ -235,8 +239,9 @@ public final class TableServiceImpl implements TableService {
 			final IModelSession modelSession, final Set<String> controlAreaIds,
 			final Pt1TableCategory tableCategory) {
 		final HashMap<String, Collection<TableError>> map = new HashMap<>();
-		final Cache cache = getCache()
-				.getCache(ToolboxConstants.CacheId.TABLE_ERRORS);
+		final Cache cache = getCacheService().getCache(
+				modelSession.getPlanProSchnittstelle(),
+				ToolboxConstants.CacheId.TABLE_ERRORS);
 		getAvailableTables().forEach(tableInfo -> {
 			if (tableInfo.category().equals(tableCategory)) {
 				final List<Pair<String, String>> cacheKeys = getCacheKeys(
@@ -260,12 +265,15 @@ public final class TableServiceImpl implements TableService {
 	}
 
 	@SuppressWarnings("unchecked")
-	private boolean combineTableErrors(final String cacheKey) {
-		final Collection<TableError> initialErrors = (Collection<TableError>) getCache()
-				.getCache(ToolboxConstants.CacheId.TABLE_ERRORS_INITIAL)
+	private boolean combineTableErrors(final IModelSession modelSession,
+			final String cacheKey) {
+		final Collection<TableError> initialErrors = (Collection<TableError>) getCacheService()
+				.getCache(modelSession.getPlanProSchnittstelle(),
+						ToolboxConstants.CacheId.TABLE_ERRORS_INITIAL)
 				.getIfPresent(cacheKey);
-		final Collection<TableError> finalErrors = (Collection<TableError>) getCache()
-				.getCache(ToolboxConstants.CacheId.TABLE_ERRORS_FINAL)
+		final Collection<TableError> finalErrors = (Collection<TableError>) getCacheService()
+				.getCache(modelSession.getPlanProSchnittstelle(),
+						ToolboxConstants.CacheId.TABLE_ERRORS_FINAL)
 				.getIfPresent(cacheKey);
 		if (initialErrors == null || finalErrors == null) {
 			return false;
@@ -273,15 +281,17 @@ public final class TableServiceImpl implements TableService {
 		final Collection<TableError> combined = new ArrayList<>();
 		combined.addAll(initialErrors);
 		combined.addAll(finalErrors);
-		getCache().getCache(ToolboxConstants.CacheId.TABLE_ERRORS)
+		getCacheService()
+				.getCache(modelSession.getPlanProSchnittstelle(),
+						ToolboxConstants.CacheId.TABLE_ERRORS)
 				.set(cacheKey, combined);
 		broker.post(Events.TABLEERROR_CHANGED, null);
 		return true;
 	}
 
 	private void saveTableError(final String shortCut,
-			final TableType tableType, final Collection<TableError> errors,
-			final String cacheKey) {
+			final IModelSession modelSession, final TableType tableType,
+			final Collection<TableError> errors, final String cacheKey) {
 		final String shortName = getTableNameInfo(shortCut).getShortName();
 		errors.forEach(error -> {
 			error.setSource(shortName);
@@ -289,18 +299,21 @@ public final class TableServiceImpl implements TableService {
 		});
 		switch (tableType) {
 			case INITIAL:
-				getCache()
-						.getCache(ToolboxConstants.CacheId.TABLE_ERRORS_INITIAL)
+				getCacheService()
+						.getCache(modelSession.getPlanProSchnittstelle(),
+								ToolboxConstants.CacheId.TABLE_ERRORS_INITIAL)
 						.set(cacheKey, errors);
 				break;
 			case FINAL:
-				getCache().getCache(ToolboxConstants.CacheId.TABLE_ERRORS_FINAL)
+				getCacheService()
+						.getCache(modelSession.getPlanProSchnittstelle(),
+								ToolboxConstants.CacheId.TABLE_ERRORS_FINAL)
 						.set(cacheKey, errors);
 				break;
 			default:
 				return;
 		}
-		combineTableErrors(cacheKey);
+		combineTableErrors(modelSession, cacheKey);
 	}
 
 	private Object loadTransform(final String elementId,
@@ -334,6 +347,7 @@ public final class TableServiceImpl implements TableService {
 				|| transformedTable == null) {
 			return MissingSupplier.MISSING_VALUE;
 		}
+
 		// sorting
 		ECollections.sort(transformedTable.getTablecontent().getRowgroups(),
 				modelService.getRowGroupComparator());
@@ -377,9 +391,11 @@ public final class TableServiceImpl implements TableService {
 	 * @param table
 	 * @return table as csv string
 	 */
-
 	@SuppressWarnings("static-method")
 	private String transformToCsv(final Table table) {
+		if (table == null) {
+			return ""; //$NON-NLS-1$
+		}
 		final List<TableRow> rows = TableExtensions.getTableRows(table);
 		final List<ColumnDescriptor> colNames = table.getColumndescriptors()
 				.stream() //
@@ -387,25 +403,25 @@ public final class TableServiceImpl implements TableService {
 						.isNullOrEmpty(descriptor.getLabel())) //
 				.toList();
 		final String delimeter = ";"; //$NON-NLS-1$
-		String result = ""; //$NON-NLS-1$
+		final StringBuilder builder = new StringBuilder();
 		for (final ColumnDescriptor colName : colNames) {
-			result += colName.getLabel() + delimeter;
+			builder.append(colName.getLabel() + delimeter);
 		}
-		result += "\n"; //$NON-NLS-1$
+		builder.append("\n"); //$NON-NLS-1$
 
 		for (final TableRow row : rows) {
 			for (final ColumnDescriptor colName : colNames) {
 				try {
-					result += TableCellExtensions.getPlainStringValue(
+					builder.append(TableCellExtensions.getPlainStringValue(
 							TableRowExtensions.getCell(row, colName))
-							+ delimeter;
+							+ delimeter);
 				} catch (final Exception e) {
-					result += e.toString();
+					builder.append(e.toString());
 				}
 			}
-			result += "\n"; //$NON-NLS-1$
+			builder.append("\n"); //$NON-NLS-1$
 		}
-		return result;
+		return builder.toString();
 	}
 
 	private List<Pair<String, String>> getCacheKeys(final String shortCut,
@@ -433,7 +449,8 @@ public final class TableServiceImpl implements TableService {
 			final Set<String> controlAreaIds) {
 		final String shortCut = extractShortcut(elementId);
 		final String containerId = getContainerCacheId(modelSession, tableType);
-		final Cache cache = getCache().getCache(
+		final Cache cache = getCacheService().getCache(
+				modelSession.getPlanProSchnittstelle(),
 				ToolboxConstants.SHORTCUT_TO_TABLE_CACHE_ID, containerId);
 
 		Table resultTable = null;
@@ -448,8 +465,8 @@ public final class TableServiceImpl implements TableService {
 			if (table == null) {
 				table = (Table) loadTransform(shortCut, tableType, modelSession,
 						areaId);
-				saveTableToCache(table, containerId, shortCut, tableType,
-						areaCacheKey);
+				saveTableToCache(table, modelSession, containerId, shortCut,
+						tableType, areaCacheKey);
 			}
 			if (resultTable == null) {
 				resultTable = EcoreUtil.copy(table);
@@ -460,6 +477,7 @@ public final class TableServiceImpl implements TableService {
 				}
 			}
 		}
+
 		// sorting
 		if (resultTable != null && resultTable.getTablecontent() != null) {
 			ECollections.sort(resultTable.getTablecontent().getRowgroups(),
@@ -469,7 +487,8 @@ public final class TableServiceImpl implements TableService {
 		return resultTable;
 	}
 
-	private void saveTableToCache(final Table table, final String containerId,
+	private void saveTableToCache(final Table table,
+			final IModelSession modelSession, final String containerId,
 			final String shortCut, final TableType tableType,
 			final String areaCacheKey) {
 		final String threadName = String.format("%s/saveCache/%s", shortCut, //$NON-NLS-1$
@@ -481,13 +500,15 @@ public final class TableServiceImpl implements TableService {
 		final Collection<TableError> errors = modelService.getTableErrors();
 		final Thread storageCacheThread = new Thread(() -> {
 			final Runnable storageFunc = () -> {
-				final Cache cache = getCache().getCache(
+				final Cache cache = getCacheService().getCache(
+						modelSession.getPlanProSchnittstelle(),
 						ToolboxConstants.SHORTCUT_TO_TABLE_CACHE_ID,
 						containerId);
 				if (table != null) {
 					cache.set(areaCacheKey, table);
 				}
-				saveTableError(shortCut, tableType, errors, areaCacheKey);
+				saveTableError(shortCut, modelSession, tableType, errors,
+						areaCacheKey);
 			};
 
 			if (TableService.isTransformComplete(shortCut,
@@ -574,7 +595,7 @@ public final class TableServiceImpl implements TableService {
 	private IRunnableWithProgress createProgressMonitor() {
 		// runnable for the transformation
 		return monitor -> {
-			// start a single task with unknown timeframe
+			// start a single task with unknown time frame
 			monitor.beginTask(
 					messages.Abstracttableview_transformation_progress,
 					transformTableThreads.size() > 1
@@ -602,20 +623,6 @@ public final class TableServiceImpl implements TableService {
 			logger.info("ProgressMonitorDialog done."); //$NON-NLS-1$
 
 		};
-	}
-
-	/**
-	 * Activation after injection.
-	 */
-	public void activate() {
-		wireCacheSupplier();
-	}
-
-	private void wireCacheSupplier() {
-		AbstractDirectedEdgePath.setEdgeToPointsCacheSupplier(
-				() -> new EdgeToPointsCacheProxy(getCache()));
-		Digraphs.setEdgeToSubPathCacheSupplier(() -> getCache()
-				.getCache(ToolboxConstants.CacheId.DIRECTED_EDGE_TO_SUBPATH));
 	}
 
 	@Override
@@ -647,5 +654,27 @@ public final class TableServiceImpl implements TableService {
 		}
 		monitor.done();
 		return result;
+	}
+
+	@Override
+	public Table createCompareProjectTable(final String elementId,
+			final TableType tableType, final Set<String> controlAreaIds) {
+		final Table mainSessionTable = transformToTable(elementId, tableType,
+				sessionService.getLoadedSession(ToolboxFileRole.SESSION),
+				controlAreaIds);
+		final IModelSession compareSession = sessionService
+				.getLoadedSession(ToolboxFileRole.COMPARE_PLANNING);
+		if (compareSession == null) {
+			return mainSessionTable;
+		}
+
+		final Table compareSessionTable = transformToTable(elementId, tableType,
+				compareSession, controlAreaIds);
+		final Table compareTable = diffService
+				.createCompareTable(mainSessionTable, compareSessionTable);
+		ECollections.sort(compareTable.getTablecontent().getRowgroups(),
+				getModelService(extractShortcut(elementId))
+						.getRowGroupComparator());
+		return compareTable;
 	}
 }

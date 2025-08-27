@@ -18,9 +18,11 @@ import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stellelement
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Unterbringung
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
+import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_Strecke_AttributeGroup
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Zug_Rangier
 import org.eclipse.set.model.planpro.Flankenschutz.Fla_Schutz
+import org.eclipse.set.model.planpro.Geodaten.Strecke
 import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
 import org.eclipse.set.model.planpro.Gleis.Gleis_Bezeichnung
 import org.eclipse.set.model.planpro.Ortung.FMA_Komponente
@@ -57,6 +59,8 @@ import static extension org.eclipse.set.ppmodel.extensions.StellelementExtension
 import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.CollectionExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.Debug.*
+import static extension org.eclipse.set.ppmodel.extensions.geometry.GEOKanteGeometryExtensions.*
+import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
 
 /**
  * This class extends {@link Signal}.
@@ -452,15 +456,14 @@ class SignalExtensions extends PunktObjektExtensions {
 		].toList.unique
 	}
 
-	static final double tolerantDistance = 1000
+	// Tolerant distance in meter
+	static final double tolerantDistance = 1
 
 	def static boolean isBelongToControlArea(Signal signal,
 		Stell_Bereich controlArea) {
 		val stellElement = signal.stellelement
-		if (stellElement?.IDEnergie?.value ===
-			controlArea.IDAussenelementansteuerung.value ||
-			stellElement?.IDInformation?.value ===
-				controlArea.IDAussenelementansteuerung.value) {
+		if (stellElement?.IDEnergie?.value.isBelongToControlArea(controlArea) ||
+			stellElement?.IDInformation?.value.isBelongToControlArea(controlArea)) {
 			return true
 		}
 		val existsFiktivesSignalFAPStart = signal.signalFiktiv !== null &&
@@ -509,5 +512,75 @@ class SignalExtensions extends PunktObjektExtensions {
 		return signal.container.FMAKomponente.filter [ fmaKomponent |
 			fmaAnlages.exists[fmaKomponent.belongsTo(it)]
 		].toList
+	}
+
+	def static List<Pair<String, List<String>>> getStreckeAndKm(Signal signal) {
+		if (signal.punktObjektStrecke.nullOrEmpty) {
+			return #[]
+		}
+
+		val getStreckeFunc = [ Punkt_Objekt_Strecke_AttributeGroup pos |
+			pos.IDStrecke?.value?.bezeichnung?.bezeichnungStrecke?.wert ?: ""
+		]
+		if (signal.punktObjektStrecke.size === 1) {
+			return #[getStreckeFunc.apply(signal.punktObjektStrecke.first) ->
+				#[signal.punktObjektStrecke.first.streckeKm.wert]]
+		}
+
+		val kmMassgebends = signal.punktObjektStrecke.filter [
+			kmMassgebend?.wert === true
+		]
+		if (!kmMassgebends.nullOrEmpty) {
+			return kmMassgebends.map [
+				getStreckeFunc.apply(it) -> #[streckeKm.wert]
+			].toList
+		}
+
+		val routeThroughBereichObjekt = signal.singlePoint.
+			streckenThroughBereichObjekt
+
+		if (!isFindGeometryComplete) {
+			return routeThroughBereichObjekt.map [
+				bezeichnung?.bezeichnungStrecke?.wert ?: "" -> #[]
+			]
+		}
+		return routeThroughBereichObjekt.map [ route |
+			route.bezeichnung?.bezeichnungStrecke?.wert ?: "" ->
+				signal.getStreckeKm(#[route])
+		].toList
+
+	}
+
+	def static List<String> getStreckeKm(Signal signal,
+		List<Strecke> routeThroughBereichObjekt) {
+		if (!isFindGeometryComplete) {
+			return null
+		}
+		val kmMassgebend = signal.punktObjektStrecke.filter [
+			kmMassgebend?.wert === true
+		]
+		if (!kmMassgebend.nullOrEmpty) {
+			return kmMassgebend.map[streckeKm.wert].toList
+		}
+
+		val result = routeThroughBereichObjekt.map [ route |
+			try {
+				return signal.singlePoint.getStreckeKmThroughProjection(route).
+					toTableDecimal
+			} catch (Exception e) {
+				logger.error(
+					"Can't find the Signal route km through projection point on route",
+					e)
+				return signal.punktObjektStrecke.findFirst [ pos |
+					pos.IDStrecke.value == route
+				]?.streckeKm?.wert
+			}
+		].filterNull.toList
+
+		if (result.isNullOrEmpty) {
+			return signal.punktObjektStrecke.map[streckeKm.wert].toList
+		}
+
+		return result
 	}
 }

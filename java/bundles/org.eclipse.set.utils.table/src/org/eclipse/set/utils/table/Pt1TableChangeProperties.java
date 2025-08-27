@@ -13,8 +13,11 @@ package org.eclipse.set.utils.table;
 import java.util.List;
 
 import org.eclipse.set.basis.constants.ContainerType;
+import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.TableRow;
+import org.eclipse.set.ppmodel.extensions.MultiContainer_AttributeGroupExtensions;
+import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 
 /**
  * Helper class for change table data at runtime
@@ -24,12 +27,12 @@ public class Pt1TableChangeProperties {
 	private final List<String> newValues;
 	private final TableRow row;
 
-	private final ContainerType containerType;
+	private final MultiContainer_AttributeGroup container;
 	private final String seperator;
 
 	/**
-	 * @param containerType
-	 *            container type of the row
+	 * @param container
+	 *            the container of the row
 	 * @param row
 	 *            the row
 	 * @param changeDataColumn
@@ -39,10 +42,11 @@ public class Pt1TableChangeProperties {
 	 * @param seperator
 	 *            the seperator character
 	 */
-	public Pt1TableChangeProperties(final ContainerType containerType,
-			final TableRow row, final ColumnDescriptor changeDataColumn,
+	public Pt1TableChangeProperties(
+			final MultiContainer_AttributeGroup container, final TableRow row,
+			final ColumnDescriptor changeDataColumn,
 			final List<String> newValues, final String seperator) {
-		this.containerType = containerType;
+		this.container = container;
 		this.row = row;
 		this.changeDataColumn = changeDataColumn;
 		this.newValues = newValues;
@@ -53,7 +57,8 @@ public class Pt1TableChangeProperties {
 	 * @return Container type of the row
 	 */
 	public ContainerType getContainerType() {
-		return containerType;
+		return MultiContainer_AttributeGroupExtensions
+				.getContainerType(container);
 	}
 
 	/**
@@ -61,6 +66,14 @@ public class Pt1TableChangeProperties {
 	 */
 	public ColumnDescriptor getChangeDataColumn() {
 		return changeDataColumn;
+	}
+
+	/**
+	 * @return the {@link PlanPro_Schnittstelle}
+	 */
+	public PlanPro_Schnittstelle getPlanProSchnittstelle() {
+		return MultiContainer_AttributeGroupExtensions
+				.getPlanProSchnittstelle(container);
 	}
 
 	/**

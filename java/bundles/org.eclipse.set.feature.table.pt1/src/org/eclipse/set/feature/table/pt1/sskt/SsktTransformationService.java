@@ -19,16 +19,17 @@ import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.messages.Messages;
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Technik_Standort;
+import org.eclipse.set.model.planpro.Bedienung.Bedien_Standort;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.model.tablemodel.RowMergeMode;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
-import org.eclipse.set.model.planpro.Ansteuerung_Element.Technik_Standort;
-import org.eclipse.set.model.planpro.Bedienung.Bedien_Standort;
 import org.eclipse.set.utils.table.ColumnDescriptorModelBuilder;
 import org.eclipse.set.utils.table.sorting.TableRowGroupComparator;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.event.EventAdmin;
 
 /**
  * Service for creating the sskt table model.
@@ -47,10 +48,12 @@ public class SsktTransformationService
 	private Messages messages;
 	@Reference
 	private EnumTranslationService enumTranslationService;
+	@Reference
+	private EventAdmin eventAdmin;
 
 	@Override
 	public AbstractPlanPro2TableModelTransformator createTransformator() {
-		return new SsktTransformator(cols, enumTranslationService);
+		return new SsktTransformator(cols, enumTranslationService, eventAdmin);
 	}
 
 	@Override
@@ -89,5 +92,10 @@ public class SsktTransformationService
 				}));
 
 		return cd;
+	}
+
+	@Override
+	protected String getShortcut() {
+		return messages.ToolboxTableNameSsktShort.toLowerCase();
 	}
 }

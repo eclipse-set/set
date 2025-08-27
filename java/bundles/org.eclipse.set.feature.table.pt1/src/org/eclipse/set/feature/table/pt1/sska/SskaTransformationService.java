@@ -18,13 +18,14 @@ import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.messages.Messages;
-import org.eclipse.set.model.tablemodel.RowGroup;
-import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Aussenelementansteuerung;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.ESTW_Zentraleinheit;
+import org.eclipse.set.model.tablemodel.RowGroup;
+import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
 import org.eclipse.set.utils.table.sorting.TableRowGroupComparator;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.event.EventAdmin;
 
 /**
  * Service for creating the ssld table model. org.eclipse.set.feature.table
@@ -43,6 +44,8 @@ public final class SskaTransformationService
 	private Messages messages;
 	@Reference
 	private EnumTranslationService enumTranslationService;
+	@Reference
+	private EventAdmin eventAdmin;
 
 	/**
 	 * constructor.
@@ -53,7 +56,7 @@ public final class SskaTransformationService
 
 	@Override
 	public AbstractPlanPro2TableModelTransformator createTransformator() {
-		return new SskaTransformator(cols, enumTranslationService);
+		return new SskaTransformator(cols, enumTranslationService, eventAdmin);
 	}
 
 	@Override
@@ -74,6 +77,11 @@ public final class SskaTransformationService
 	@Override
 	protected String getTableHeading() {
 		return messages.SskaTableView_Heading;
+	}
+
+	@Override
+	protected String getShortcut() {
+		return messages.ToolboxTableNameSskaShort.toLowerCase();
 	}
 
 }

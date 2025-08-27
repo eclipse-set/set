@@ -178,4 +178,18 @@ public interface TableService {
 						|| supplementCondition.test(t))
 				.noneMatch(name -> name.startsWith(shortcut.toLowerCase()));
 	}
+
+	/**
+	 * Compare table between two project
+	 * 
+	 * @param elementId
+	 *            the element id
+	 * @param tableType
+	 *            the table type
+	 * @param controlAreaIds
+	 *            the list of {@link Stell_Bereich} and the belonging container
+	 * @return the compare table
+	 */
+	Table createCompareProjectTable(String elementId, TableType tableType,
+			Set<String> controlAreaIds);
 }
