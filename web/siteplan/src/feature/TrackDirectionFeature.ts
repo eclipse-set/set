@@ -1,5 +1,4 @@
 import { Coord } from '@/enhanced_model/Coordinate'
-import { TrackSectionC } from '@/enhanced_model/TrackSection'
 import LageplanFeature from '@/feature/LageplanFeature'
 import { SiteplanState } from '@/model/SiteplanModel'
 import { ISvgElement } from '@/model/SvgElement'
@@ -32,9 +31,8 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
   static readonly MIN_TRACK_LENGTH_TO_DISPLAY_FEATURE = 0.0001
 
   getFeatures (model: SiteplanState): Feature<Geometry>[] {
-    const res = this.getObjectsModel(model).map(element => this.createTrackDirectionArrowFeatures(element))
+    return this.getObjectsModel(model).map(element => this.createTrackDirectionArrowFeatures(element))
       .flat()
-    return res
   }
 
   protected getObjectsModel (model: SiteplanState): Track[] {
@@ -84,11 +82,12 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
   private createTrackDirectionArrowFeatures (track: Track): Feature<Geometry>[] {
     const markers: Feature<Geometry>[] = []
 
-    for (const sectionI of track.sections) {
-      // This seems to be incorrect:
-      // const section = sectionI as TrackSectionC
-      // instead do it this way:
-      const section = TrackSectionC.fromTrackSection(sectionI)!
+    for (const sec of track.sections) {
+      // const section: TrackSection = sectionA as TrackSection
+
+      /* this is ugly! */
+      const section: TrackSection = new TrackSection(sec.guid,sec.shape,sec.segments,sec.color,sec.startCoordinate)
+      section.testCallable()
 
       // startCoordinate might be undefined. In that case, don't draw the segment
       // (as we don't know where it starts!)
