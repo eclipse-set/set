@@ -137,7 +137,7 @@ export default class FeatureService extends Vue {
     // Download the current model
     const modelType = store.state.planproModelType
     axios
-      .get<SiteplanModel>('/phausen_lageplan_export_fix_geo_orientation2.json')
+      .get<SiteplanModel>('/${modelType}')
       .then(response => {
         this.modelLoaded(response.data)
         store.commit('setLoading', false)
