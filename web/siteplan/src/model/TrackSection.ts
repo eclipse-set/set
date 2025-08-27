@@ -70,9 +70,7 @@ export function isInstanceOfTrackSection (x: any): boolean {
    *    This is undesired and should be changed. Unfortunately, the java project
    *    Transformer code produces a JSON which requires a tolerance.
    */
-
 // TODO unittest this!
-
 export function orderedSegmentsOfTrackSection (section: TrackSection): [TrackSegment, FlippedFlag][] | undefined {
   return orderedSegmentsOfTrackSectionWithTolerance(section,0.001)
   // TODO remove tolerance and move body of ... withtolerance to here!
@@ -91,7 +89,7 @@ export function orderedSegmentsOfTrackSection (section: TrackSection): [TrackSeg
 // look orderedSegments() for documentation!
 // TODO unittest this!
 // TODO remove this (with tolerance). And fix the underlying problem:
-// TODO         startCoordinate is not exactly any position of segments.positions!
+// TODO startCoordinate is not exactly any position of segments.positions!
 function orderedSegmentsOfTrackSectionWithTolerance (section: TrackSection, tolerance = 0.0):
   [TrackSegment, FlippedFlag][] | undefined {
   // if undefined (like in invalid .planpro-files),
