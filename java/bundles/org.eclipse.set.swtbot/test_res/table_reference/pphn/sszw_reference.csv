@@ -1,8 +1,11 @@
 Row;A;B;C;D;E;F;G;H;I;J;K;L;M;N;O
-;Weiche/Kreuzung;Weiche/Kreuzung;Weiche/Kreuzung;Weiche/Kreuzung;Weiche/Kreuzung;Weiche/Kreuzung;Weiche/Kreuzung;Zulässige Geschwindigkeit​​​​​​​;Zulässige Geschwindigkeit​​​​​​​;Zulässige Geschwindigkeit​​​​​​​;Zulässige Geschwindigkeit​​​​​​​;Ansteuerung​​​​​​​​​​​;Ansteuerung​​​​​​​​​​​;"keine Übertrag.
+;Weiche/Kreuzung;Weiche/Kreuzung;Weiche/Kreuzung;Weiche/Kreuzung;Weiche/Kreuzung;Weiche/Kreuzung;Weiche/Kreuzung;Zulässige Geschwindigkeit​​​​​​​;Zulässige Geschwindigkeit​​​​​​​;Zulässige Geschwindigkeit​​​​​​​;Zulässige Geschwindigkeit​​​​​​​;Ansteuerung​​​​​​​​​​​;Ansteuerung​​​​​​​​​​​;"keine
+Übertrag.
 an RBC​​​​​​​​​​​​​";Bemerkung​​​​​​​​​​​​​​
-;Bezeichnung;Grundform​;Grundform​;Standort​​​;Standort​​​;Länge​​​​​;Länge​​​​​;Weiche​​​​​​​;Weiche​​​​​​​;Kreuzung​​​​​​​​​;Kreuzung​​​​​​​​​;Ansteuerung​​​​​​​​​​​;Ansteuerung​​​​​​​​​​​;"keine Übertrag.
+;Bezeichnung;Grundform​;Grundform​;Standort​​​;Standort​​​;Länge​​​​​;Länge​​​​​;Weiche​​​​​​​;Weiche​​​​​​​;Kreuzung​​​​​​​​​;Kreuzung​​​​​​​​​;Ansteuerung​​​​​​​​​​​;Ansteuerung​​​​​​​​​​​;"keine
+Übertrag.
 an RBC​​​​​​​​​​​​​";Bemerkung​​​​​​​​​​​​​​
-;Bezeichnung;Art​;Bauform​​;Strecke​​​;km​​​​;Links​​​​​;Rechts​​​​​​;Links​​​​​​​;Rechts​​​​​​​​;Links​​​​​​​​​;Rechts​​​​​​​​​​;ESTW-Zentraleinheit​​​​​​​​​​​;Stellbereich​​​​​​​​​​​​;"keine Übertrag.
+;Bezeichnung;Art​;Form​​;Strecke​​​;km​​​​;Links​​​​​;Rechts​​​​​​;Links​​​​​​​;Rechts​​​​​​​​;Links​​​​​​​​​;Rechts​​​​​​​​​​;ESTW-Zentraleinheit​​​​​​​​​​​;Stellbereich​​​​​​​​​​​​;"keine
+Übertrag.
 an RBC​​​​​​​​​​​​​";Bemerkung​​​​​​​​​​​​​​
-;;;;;;;;km/h;km/h;km/h;km/h;;;;
+;;;;;;m;m;km/h;km/h;km/h;km/h;;;;
