@@ -18,8 +18,6 @@ export default class OthersSVGCatalog extends AbstractSVGCatalog{
       case 'Hoehenpunkt':
       case 'Sonstiger_Punkt':
         return this.getSVGFromCatalog(obj.objectType)
-      case 'Gleisausrichtungsmarkierung':
-        return this.trackDirectionMarker()
       default:
         return null
     }
