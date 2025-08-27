@@ -55,7 +55,7 @@ export default class TrackSection {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public static isInstanceOfTrackSection (x: any): boolean {
-    return checkInstance(x, TrackSection.defaultTrackSectionObj())
+    return checkInstance(x, defaultTrackSectionObj())
   }
 
   public static defaultTrackSectionObj (): TrackSection {
@@ -148,7 +148,7 @@ export default class TrackSection {
 
 // to maintain exposed API; remove once viable
 export function defaultTrackSectionObj (): TrackSection {
-  return TrackSection.defaultTrackSectionObj()
+  return defaultTrackSectionObj()
 }
 
 /**
