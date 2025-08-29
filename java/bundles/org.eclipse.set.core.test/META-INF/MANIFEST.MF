@@ -7,7 +7,8 @@ Fragment-Host: org.eclipse.set.core;bundle-version="0.1.0"
 Automatic-Module-Name: org.eclipse.set.core.test
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Bundle-Vendor: Eclipse Signalling Engineering Toolbox
-Import-Package: org.eclipse.set.feature.validation.session,
+Import-Package: org.eclipse.set.core.services.version,
+ org.eclipse.set.feature.validation.session,
  org.eclipse.set.model.planpro.PlanPro,
  org.eclipse.set.model.planpro.Signalbegriffe_Ril_301,
  org.eclipse.set.sessionservice,
@@ -15,5 +16,9 @@ Import-Package: org.eclipse.set.feature.validation.session,
  org.eclipse.set.unittest.utils.session,
  org.eclipse.set.unittest.utils.toolboxfile,
  org.junit,
+ org.junit.function,
  org.junit.jupiter.api
-Require-Bundle: org.hamcrest.core
+Require-Bundle: org.hamcrest.core,
+ org.mockito.mockito-core,
+ net.bytebuddy.byte-buddy,
+ net.bytebuddy.byte-buddy-agent
