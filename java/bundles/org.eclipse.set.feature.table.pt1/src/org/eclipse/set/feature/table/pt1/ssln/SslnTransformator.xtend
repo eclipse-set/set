@@ -352,7 +352,7 @@ class SslnTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	private static def String flaSchutzElemente(NB_Zone_Grenze grenze) {
 		val elemente = grenze.flaSchutz.map [
-			weicheGleissperreElement.bezeichnung?.bezeichnungTabelle?.wert ?: ""
+			weicheGleissperreElement?.bezeichnung?.bezeichnungTabelle?.wert ?: ""
 		]
 		return if (elemente.empty) {
 			"-"
