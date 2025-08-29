@@ -1,4 +1,5 @@
 import { checkInstance } from '@/util/ObjectExtension'
+import OlPoint from 'ol/geom/Point'
 
 /**
  * Copyright (c) 2022 DB Netz AG and others.
@@ -17,6 +18,58 @@ export enum DBRef {
 export interface Coordinate {
     x: number
     y: number
+}
+
+export class Coord implements Coordinate {
+  x: number
+  y: number
+
+  static EPSILON_DISTANCE_ZERO = 0.000001
+
+  constructor (x:number,y:number) {
+    this.x = x
+    this.y = y
+  }
+
+  public static fromCoordinate (c: Coordinate): Coord {
+    return new Coord(c.x,c.y)
+  }
+
+  public static distance (a: Coordinate, b:Coordinate): number {
+    return Math.sqrt((a.x - b.x) ** 2 + (a.y - b.y) ** 2)
+  }
+
+  public distanceTo (other:Coordinate) : number {
+    return Coord.distance(this,other)
+  }
+
+  public static normalizedDirection (a:Coord,b:Coord): Coord | undefined {
+    const len = Coord.distance(a,b)
+    if (len < Coord.EPSILON_DISTANCE_ZERO ) {
+      return undefined
+    }
+
+    return new Coord((b.x - a.x) / len,(b.y - a.y) / len)
+  }
+
+  public exact_eq (other:Coordinate): boolean {
+    return this.x === other.x && this.y === other.y
+  }
+
+  public scaledBy (scalar: number): Coord{
+    return new Coord(this.x * scalar, this.y * scalar)
+  }
+
+  public plus (other: Coord): Coord{
+    return new Coord(this.x + other.x, this.y + other.y)
+  }
+
+  public toOlPoint () {
+    return new OlPoint([
+      this.x,
+      this.y
+    ])
+  }
 }
 
 export function defaultCoordinateObj () : Coordinate {

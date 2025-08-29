@@ -114,3 +114,4 @@ export function toDeg (rad:number) {
 export function toRad (deg:number) {
   return deg / 180 * Math.PI
 }
+

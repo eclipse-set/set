@@ -22,6 +22,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
+import org.eclipse.set.model.siteplan.Coordinate;
 import org.eclipse.set.model.siteplan.SiteplanPackage;
 import org.eclipse.set.model.siteplan.TrackSection;
 import org.eclipse.set.model.siteplan.TrackSegment;
@@ -40,6 +41,8 @@ import org.eclipse.set.model.siteplan.TrackShape;
  * <em>Segments</em>}</li>
  * <li>{@link org.eclipse.set.model.siteplan.impl.TrackSectionImpl#getColor
  * <em>Color</em>}</li>
+ * <li>{@link org.eclipse.set.model.siteplan.impl.TrackSectionImpl#getStartCoordinate
+ * <em>Start Coordinate</em>}</li>
  * </ul>
  *
  * @generated
@@ -95,6 +98,17 @@ public class TrackSectionImpl extends SiteplanObjectImpl
 	 * @ordered
 	 */
 	protected String color = COLOR_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getStartCoordinate() <em>Start
+	 * Coordinate</em>}' containment reference. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
+	 * @see #getStartCoordinate()
+	 * @generated
+	 * @ordered
+	 */
+	protected Coordinate startCoordinate;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -184,12 +198,74 @@ public class TrackSectionImpl extends SiteplanObjectImpl
 	 * @generated
 	 */
 	@Override
+	public Coordinate getStartCoordinate() {
+		return startCoordinate;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	public NotificationChain basicSetStartCoordinate(
+			Coordinate newStartCoordinate, NotificationChain msgs) {
+		Coordinate oldStartCoordinate = startCoordinate;
+		startCoordinate = newStartCoordinate;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET,
+					SiteplanPackage.TRACK_SECTION__START_COORDINATE,
+					oldStartCoordinate, newStartCoordinate);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
+	public void setStartCoordinate(Coordinate newStartCoordinate) {
+		if (newStartCoordinate != startCoordinate) {
+			NotificationChain msgs = null;
+			if (startCoordinate != null)
+				msgs = ((InternalEObject) startCoordinate).eInverseRemove(this,
+						EOPPOSITE_FEATURE_BASE
+								- SiteplanPackage.TRACK_SECTION__START_COORDINATE,
+						null, msgs);
+			if (newStartCoordinate != null)
+				msgs = ((InternalEObject) newStartCoordinate).eInverseAdd(this,
+						EOPPOSITE_FEATURE_BASE
+								- SiteplanPackage.TRACK_SECTION__START_COORDINATE,
+						null, msgs);
+			msgs = basicSetStartCoordinate(newStartCoordinate, msgs);
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					SiteplanPackage.TRACK_SECTION__START_COORDINATE,
+					newStartCoordinate, newStartCoordinate));
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd,
 			int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case SiteplanPackage.TRACK_SECTION__SEGMENTS:
 				return ((InternalEList<?>) getSegments()).basicRemove(otherEnd,
 						msgs);
+			case SiteplanPackage.TRACK_SECTION__START_COORDINATE:
+				return basicSetStartCoordinate(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -208,6 +284,8 @@ public class TrackSectionImpl extends SiteplanObjectImpl
 				return getSegments();
 			case SiteplanPackage.TRACK_SECTION__COLOR:
 				return getColor();
+			case SiteplanPackage.TRACK_SECTION__START_COORDINATE:
+				return getStartCoordinate();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -232,6 +310,9 @@ public class TrackSectionImpl extends SiteplanObjectImpl
 			case SiteplanPackage.TRACK_SECTION__COLOR:
 				setColor((String) newValue);
 				return;
+			case SiteplanPackage.TRACK_SECTION__START_COORDINATE:
+				setStartCoordinate((Coordinate) newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -253,6 +334,9 @@ public class TrackSectionImpl extends SiteplanObjectImpl
 			case SiteplanPackage.TRACK_SECTION__COLOR:
 				setColor(COLOR_EDEFAULT);
 				return;
+			case SiteplanPackage.TRACK_SECTION__START_COORDINATE:
+				setStartCoordinate((Coordinate) null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -272,6 +356,8 @@ public class TrackSectionImpl extends SiteplanObjectImpl
 			case SiteplanPackage.TRACK_SECTION__COLOR:
 				return COLOR_EDEFAULT == null ? color != null
 						: !COLOR_EDEFAULT.equals(color);
+			case SiteplanPackage.TRACK_SECTION__START_COORDINATE:
+				return startCoordinate != null;
 		}
 		return super.eIsSet(featureID);
 	}
