@@ -41,7 +41,7 @@ class FlaSchutzExtensions extends BasisObjektExtensions {
 	 */
 	def static W_Kr_Gsp_Element getWeicheGleissperreElement(
 		Fla_Schutz flaSchutz) {
-		return flaSchutz.flaSchutzWGsp.IDFlaWGspElement?.value
+		return flaSchutz?.flaSchutzWGsp?.IDFlaWGspElement?.value
 	}
 
 	/**
@@ -50,8 +50,8 @@ class FlaSchutzExtensions extends BasisObjektExtensions {
 	 * @return whether the Weiche or Gleissperre providing the Flankenschutz is a Zwieschutz
 	 */
 	def static boolean hasZwieschutz(Fla_Schutz flaSchutz) {
-		return flaSchutz.container.flaZwieschutz.map[zwieschutzweiche].contains(
-			flaSchutz.weicheGleissperreElement)
+		return flaSchutz?.container.flaZwieschutz?.map[zwieschutzweiche].contains(
+			flaSchutz?.weicheGleissperreElement)
 	}
 
 	/**
@@ -69,7 +69,7 @@ class FlaSchutzExtensions extends BasisObjektExtensions {
 	 * @return the Signal providing Flankenschutz
 	 */
 	def static Signal getSignal(Fla_Schutz flaSchutz) {
-		return flaSchutz.flaSchutzSignal.IDFlaSignal?.value
+		return flaSchutz?.flaSchutzSignal?.IDFlaSignal?.value
 	}
 
 	/**
