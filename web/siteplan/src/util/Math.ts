@@ -7,6 +7,8 @@
  * http://www.eclipse.org/legal/epl-v20.html
  */
 
+import { Coordinate } from '@/model/Position'
+
 /**
  * Clamps an angle to fit within [0, 360]
  * @param value the angle to clamp
@@ -115,3 +117,6 @@ export function toRad (deg:number) {
   return deg / 180 * Math.PI
 }
 
+export function coordinatesEqual (a:Coordinate, b:Coordinate): boolean {
+  return a.x === b.x && a.y === b.y
+}
