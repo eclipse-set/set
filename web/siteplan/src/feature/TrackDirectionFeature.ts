@@ -3,7 +3,7 @@ import { Coordinate } from '@/model/Position'
 import { SiteplanState } from '@/model/SiteplanModel'
 import { ISvgElement } from '@/model/SvgElement'
 import Track from '@/model/Track'
-import TrackSection, { orderedSegmentsOfTrackSection } from '@/model/TrackSection'
+import TrackSection, { orderedSegmentsOfTrackSectionWithTolerance } from '@/model/TrackSection'
 import { distance } from '@/util/Math'
 import SvgDraw from '@/util/SVG/Draw/SvgDraw'
 import { Feature } from 'ol'
@@ -85,7 +85,7 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
       // TODO move these tolerances somewhere else!
       this.assertStartPosOccursInPositions(section.startCoordinate, section,true, 0.001)
 
-      const orderedSegments = orderedSegmentsOfTrackSection(section)
+      const orderedSegments = orderedSegmentsOfTrackSectionWithTolerance(section,0.001)
       if (!orderedSegments)
         continue
 
@@ -94,34 +94,25 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
 
       for (const [segment,isFlipped] of orderedSegments!) {
         console.assert(segment != null, 'all segments must be not null') // TODO check this in unittest for section.orderedSegments()
-        const segmentFirst = segment.positions[0]
-        const segmentLast = segment.positions[segment.positions.length - 1]
-        if (!isFlipped) {
-          console.assert(lastPos === null || coordinatesEqual(segmentFirst,lastPos))
-          // push positions in correct order.
-          // First element is only pushed in very first segment!
-          if (!lastPos) {
-            positionList.push(segmentFirst)
-          }
 
-          for (let i = 1; i < segment.positions.length; i++) {
-            positionList.push(segment.positions[i])
-          }
+        const segmentPositions = [...segment.positions]
+        if (isFlipped) segmentPositions.reverse()
 
-          lastPos = segmentLast
-        } else {
-          console.assert(lastPos === null || coordinatesEqual(segmentLast,lastPos))
-          // push positions in inverse order.
-          // First element is only pushed in very first segment!
-          if (!lastPos) {
-            positionList.push(segmentLast)
-          }
+        const segmentFirst = segmentPositions[0]
+        const segmentLast = segmentPositions[segmentPositions.length - 1]
 
-          for (let i = segment.positions.length - 2; i >= 0 ; i--) {
-            positionList.push(segment.positions[i])
-          }
-          lastPos = segmentFirst
+        console.assert(lastPos === null || coordinatesEqual(segmentFirst,lastPos))
+        // push positions in inverse order.
+        // First element is only pushed in very first segment!
+        if (!lastPos) {
+          positionList.push(segmentFirst)
         }
+
+        for (let i = 1; i < segmentPositions.length; i++) {
+          positionList.push(segmentPositions[i])
+        }
+
+        lastPos = segmentLast
       }
 
       for (let i = 1; i < positionList.length; i++) {

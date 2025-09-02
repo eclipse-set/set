@@ -8,7 +8,6 @@
  */
 import { distance } from '@/util/Math'
 import { checkInstance } from '@/util/ObjectExtension'
-import { FlippedFlag } from '@/util/TrivialTypes'
 import { Coordinate, defaultCoordinateObj } from './Position'
 import TrackSegment, { defaultTrackSegmentObj } from './TrackSegment'
 
@@ -35,6 +34,8 @@ export default interface TrackSection
     startCoordinate: Coordinate
 }
 
+export type FlippedFlag = boolean
+
 /**
    * orderedSegments returns a list of segments,
    * where every end of one segment is equal to the start of the next.
@@ -53,26 +54,9 @@ export default interface TrackSection
    *    Transformer code produces a JSON which requires a tolerance.
    */
 // TODO unittest this!
-export function orderedSegmentsOfTrackSection (section: TrackSection): [TrackSegment, FlippedFlag][] | undefined {
-  return orderedSegmentsOfTrackSectionWithTolerance(section,0.001)
-  // TODO remove tolerance and move body of ... withtolerance to here!
-  // the code that needs to be swapped is this one:
-  /*
-    const segmentsWithPosNotFlipped = this.segments.filter(
-      seg => seg.positions[0].x === lastPos.x && seg.positions[0].y === lastPos.y
-    )
-    const segmentsWithPosFlipped = this.segments.filter(
-      seg => seg.positions[seg.positions.length - 1].x === lastPos.x
-          && seg.positions[seg.positions.length - 1].y === lastPos.y
-    )
-    */
-}
-
-// look orderedSegments() for documentation!
-// TODO unittest this!
 // TODO remove this (with tolerance). And fix the underlying problem:
 // TODO startCoordinate is not exactly any position of segments.positions!
-function orderedSegmentsOfTrackSectionWithTolerance (section: TrackSection, tolerance = 0.0):
+export function orderedSegmentsOfTrackSectionWithTolerance (section: TrackSection, tolerance = 0.0):
   [TrackSegment, FlippedFlag][] | undefined {
   // if undefined (like in invalid .planpro-files),
   // it's not possible to determine the correct ordering!
