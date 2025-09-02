@@ -7,7 +7,7 @@ Bundle-Version: 2.5.0.qualifier
 Bundle-ClassPath: .
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Export-Package: org.eclipse.set.model.siteplan,
  org.eclipse.set.model.siteplan.impl,
  org.eclipse.set.model.siteplan.util
