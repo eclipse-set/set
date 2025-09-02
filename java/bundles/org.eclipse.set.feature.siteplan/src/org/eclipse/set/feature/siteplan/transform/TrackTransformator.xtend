@@ -36,11 +36,11 @@ import org.eclipse.set.model.siteplan.TrackSegment
 import org.eclipse.set.model.siteplan.TrackShape
 import org.eclipse.set.model.siteplan.TrackType
 import org.locationtech.jts.geom.Coordinate
+// there are two Coordinate-classes. use this one "inline", if needed. 
+// import org.eclipse.set.model.siteplan.Coordinate
 import org.osgi.service.component.annotations.Component
 import org.osgi.service.component.annotations.Reference
-
 import static org.eclipse.set.model.planpro.Geodaten.ENUMTOPAnschluss.*
-
 import static extension org.eclipse.set.feature.siteplan.transform.TransformUtils.*
 import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
@@ -53,6 +53,8 @@ import static extension org.eclipse.set.ppmodel.extensions.WKrAnlageExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspElementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspKomponenteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.google.common.collect.Range
 
 /**
@@ -70,6 +72,10 @@ class TrackTransformator extends BaseTransformator<TOP_Kante> {
 	static val ERROR_NO_GLEIS_ART = "Keine Gleisart für Segment der GEO_Kante '%s' gefunden."
 	static val ERROR_MULTIPLE_GLEIS_ART = "Mehrere Gleisarten für Segment der GEO_Kante '%s' gefunden."
 	var sectionColor = ''
+	
+	static final Logger logger = LoggerFactory
+			.getLogger(TrackTransformator);
+	
 
 	/**
 	 * Transforms a PlanPro TOP_Kante to a Siteplan track
@@ -105,12 +111,51 @@ class TrackTransformator extends BaseTransformator<TOP_Kante> {
 
 		track.addSiteplanElement(SiteplanPackage.eINSTANCE.siteplanState_Tracks)
 	}
+	
+	// Coordinate from basis.geometry
+	// if not a valid .planpro file, 'getCoordinate' might throw:  Can't found Geo_Kante by TOP_Knoten: 5C03...8F9C of TOP_Kante: 6A89...E1 
+	// in that case: return null.
+	private def org.eclipse.set.model.siteplan.Coordinate startCoordinate(GEOKanteMetadata md) {
+		// geoKnotenA is in many cases not equal to any Coordinate found in any p from: 
+		// ∀sec:section ∀seg: sec.segments ∀ p: sec.postions
+		// this is because a segment with is e.g. an arch, usually has a different calculated length then the sum of all linear segments.
+		
+		// get actual start coord from model
+		val geoKnotenA = md.geoKante.geoKnotenA
+		val knotenACoordinateModel = positionService.transformCoordinate(geoKnotenA.coordinate, geoKnotenA.CRS) 
+		
+		// calculate start coord by walking along geo kante. gives slightly different pos, but it occurs in position-list: section.segment.positions 
+		var GEOKanteCoordinate coordAlongGeoKante;
+		try { 
+			 coordAlongGeoKante = geometryService.getCoordinate(md, md.start, BigDecimal.ZERO, ENUMWirkrichtung.ENUM_WIRKRICHTUNG_IN)
+		} catch (Exception e) {
+			return null
+		}
+ 		
+ 		// is this needed or can you just use coordAlongGeoKante.coordinate? 
+ 		// answer: coordAlongGeoKante.coordinate is very wrong!
+ 		val knotenACoordinate = positionService.transformPosition(coordAlongGeoKante)
+		val result = SiteplanFactory.eINSTANCE.createCoordinate;
+		result.x = knotenACoordinate.x // copy because of error: Type mismatch: cannot convert from Coordinate to Coordinate
+		result.y = knotenACoordinate.y // copy because of error: Type mismatch: cannot convert from Coordinate to Coordinate
+		return result
+		
+		// LEARNING:
+		// don't use:
+		//  val geoKnotenA = md.geoKante.geoKnotenA
+		// positionService.transformPosition(geoKnotenA, geoKnotenA.CRS) 
+		// It gives slightly different results to the ones in the sections.segments.positions!
+	}
+	
 
 	def TrackSection transformTrackSection(GEOKanteMetadata md) {
 		val section = SiteplanFactory.eINSTANCE.createTrackSection
 		section.guid = md.geoKante.identitaet.wert
 		section.shape = transformGeoForm(md.geoKante.GEOKanteAllg.GEOForm)
 		section.color = sectionColor
+		section.startCoordinate =  startCoordinate(md) 
+		//startCoordinate might be null. In that case no field "startCoordinate" will appear in TrackSection (in ts)
+		
 		transform(md).filter[segment|!segment.positions.empty].forEach [
 			section.segments.add(it)
 		]
