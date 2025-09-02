@@ -131,17 +131,6 @@ class TrackTransformator extends BaseTransformator<TOP_Kante> {
 		} catch (Exception e) {
 			return null
 		}
-		
-		// if tolerance is too big, produce an error?
-		val difference = geoKnotenA.coordinate.distance(coordAlongGeoKante.coordinate)
-		val tolerance = 0.001 //TODO move somewhere else. assign a proper value!
-		if (difference > tolerance) {
-			logger.error(
-					"startCoordinate of section diverges a lot ({}) from the coordinate in positions. TOP_Kante: {}", //$NON-NLS-1$
-					difference,
-					"unknown"); //TODO give me GUID! md.topKante.
-			return null;
-		}
  		
  		// is this needed or can you just use coordAlongGeoKante.coordinate? 
  		// answer: coordAlongGeoKante.coordinate is very wrong!
