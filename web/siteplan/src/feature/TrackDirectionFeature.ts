@@ -136,31 +136,31 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
       }
 
       for (let i = 1; i < positionList.length; i++) {
-        const segmentparts_length = []
-        const cumulative_length = [0.0]
+        const segmentpartsLength = []
+        const cumulativeLength = [0.0]
 
         const p1 = positionList[i - 1]
         const p2 = positionList[i]
 
-        const length_this_part = distance([p1.x,p1.y],[p2.x,p2.y])
-        segmentparts_length.push(length_this_part)
-        cumulative_length.push(cumulative_length.at(-1)! + length_this_part)
+        const lengthThisPart = distance([p1.x,p1.y],[p2.x,p2.y])
+        segmentpartsLength.push(lengthThisPart)
+        cumulativeLength.push(cumulativeLength.at(-1)! + lengthThisPart)
 
-        if (cumulative_length.at(-1) == undefined ||
-            cumulative_length.at(-1)! < TrackDirectionFeature.MIN_TRACK_LENGTH_TO_DISPLAY_FEATURE) {
+        if (cumulativeLength.at(-1) == undefined ||
+            cumulativeLength.at(-1)! < TrackDirectionFeature.MIN_TRACK_LENGTH_TO_DISPLAY_FEATURE) {
           // part too short to display!
           continue
         }
 
-        const half_length = cumulative_length.at(-1)! / 2
+        const halfLength = cumulativeLength.at(-1)! / 2
         // len zero => last index = -1. In that case, 0 should be returned
-        const last_pos_before_midle: number = cumulative_length
-          .findLastIndex(value => value < half_length)!
+        const lastPosBeforeMidle: number = cumulativeLength
+          .findLastIndex(value => value < halfLength)!
         // is defined, cumlen[0] = 0, cumlen[-1] > length > 0
 
         const dir = normalizedDirection(
-          positionList[last_pos_before_midle],
-          positionList[last_pos_before_midle + 1]
+          positionList[lastPosBeforeMidle],
+          positionList[lastPosBeforeMidle + 1]
         )
 
         if (dir == undefined) {
@@ -169,11 +169,11 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
           continue
         }
 
-        const remaining_length = half_length - cumulative_length[last_pos_before_midle]
-        const lastBeforeMiddle = positionList[last_pos_before_midle]
+        const remainingLength = halfLength - cumulativeLength[lastPosBeforeMidle]
+        const lastBeforeMiddle = positionList[lastPosBeforeMidle]
         const middle : Coordinate = {
-          x: lastBeforeMiddle.x + dir.x * remaining_length,
-          y: lastBeforeMiddle.y + dir.y * remaining_length
+          x: lastBeforeMiddle.x + dir.x * remainingLength,
+          y: lastBeforeMiddle.y + dir.y * remainingLength
         }
 
         const geometry = new OlPoint([middle.x,middle.y])
@@ -231,4 +231,8 @@ function normalizedDirection (from:Coordinate, to:Coordinate): Coordinate | unde
   }
 
   return { x:(to.x - from.x) / len,y:(to.y - from.y) / len }
+}
+
+function coordinatesEqual (a:Coordinate, b:Coordinate): boolean {
+  return a.x === b.x && a.y === b.y
 }
