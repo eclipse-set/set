@@ -4,7 +4,7 @@ import { SiteplanState } from '@/model/SiteplanModel'
 import { ISvgElement } from '@/model/SvgElement'
 import Track from '@/model/Track'
 import TrackSection, { orderedSegmentsOfTrackSection } from '@/model/TrackSection'
-import { coordinatesEqual, distance } from '@/util/Math'
+import { distance } from '@/util/Math'
 import SvgDraw from '@/util/SVG/Draw/SvgDraw'
 import { Feature } from 'ol'
 import Geometry from 'ol/geom/Geometry'
@@ -57,19 +57,8 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
     }
 
     // this is only used in the error text of the assertion below!
-    const segmentPosDistances = []
-    for (const segment of section.segments) {
-      for (const pos of segment.positions) {
-        segmentPosDistances.push(distance([startPos.x,startPos.y],[pos.x,pos.y]))
-      }
-    }
-    // TODO why does this not do the same thing?
-    // const segmentDistances =
-    // const segmentPosDistances = section.segments.map(
-    //   seg => seg.positions.map(
-    //     pos => Math.sqrt((pos.x - startCoord.x) ** 2 + (pos.y, startCoord.y) ** 2)
-    //   )
-    // ).flat()
+    const segmentPosDistances = section.segments.flatMap(segment =>
+      segment.positions.map((pos => distance([startPos.x,startPos.y],[pos.x,pos.y]))))
 
     const anyBelowDistTolerance = segmentPosDistances.filter(dist => dist <= tolerance).length > 0
 
