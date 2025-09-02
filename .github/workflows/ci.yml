@@ -23,7 +23,7 @@ jobs:
   docs:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Install Asciidoctor & Hugo
         uses: eclipse-set/build/.github/actions/setup-asciidoctor@main
@@ -42,7 +42,7 @@ jobs:
   developerhelp:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Install Asciidoctor & Hugo
         uses: eclipse-set/build/.github/actions/setup-asciidoctor@main
@@ -61,7 +61,7 @@ jobs:
   textviewer:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Build
         run: |
           npm ci
@@ -77,7 +77,7 @@ jobs:
   pdfviewer:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Build
         run: |
           wget --no-verbose -O pdfjs.zip https://github.com/mozilla/pdf.js/releases/download/v$(node getVersion.js)/pdfjs-$(node getVersion.js)-dist.zip
@@ -94,7 +94,7 @@ jobs:
   siteplan:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Build
         run: |
           npm ci
@@ -110,7 +110,7 @@ jobs:
   news:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Setup Java
         uses: eclipse-set/build/.github/actions/setup-java@main
 
@@ -145,7 +145,7 @@ jobs:
       actions: read
       security-events: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v3
@@ -257,7 +257,7 @@ jobs:
       pull-requests: write
       actions: read
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       
       - name: Setup Java
         uses: eclipse-set/build/.github/actions/setup-java@main
