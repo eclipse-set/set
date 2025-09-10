@@ -171,7 +171,7 @@ class PlanProToTitleboxTransformation {
 		if (compareSchnittstelle !== null) {
 			// Fille compare plan information
 			val comparePlanungAllgemein = compareSchnittstelle?.planungAllgemein
-			val compareLastPlanungEErstellung = planungEinzel?.
+			val compareLastPlanungEErstellung = compareSchnittstelle?.planungEinzel?.
 				planungEHandlung?.planungEErstellung?.lastOrNull
 			it.set(48, comparePlanungAllgemein?.buildLastEditionNumber)
 			it.set(62,
