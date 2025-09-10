@@ -9,6 +9,8 @@
 package org.eclipse.set.feature.siteplan.transform.utils;
 
 import java.lang.reflect.Method;
+import java.net.URISyntaxException;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +22,7 @@ import org.eclipse.set.application.geometry.GeoKanteGeometrySessionData;
 import org.eclipse.set.application.geometry.PointObjectPositionServiceImpl;
 import org.eclipse.set.basis.constants.ContainerType;
 import org.eclipse.set.core.services.geometry.GeoKanteGeometryService;
+import org.eclipse.set.feature.siteplan.TrackSwitchMetadataProvider;
 import org.eclipse.set.feature.siteplan.positionservice.PositionServiceImpl;
 import org.eclipse.set.feature.siteplan.transform.CantTransform;
 import org.eclipse.set.feature.siteplan.transform.ExternalElementControlTransform;
@@ -61,20 +64,47 @@ public class SiteplanTest extends AbstractToolboxTest {
 	protected static final String POSITION_SERVICE_FIELD_NAME = "positionService";
 
 	GeoKanteGeometryService geometryService;
+	private TrackSwitchMetadataProvider trackSwitchMetadataProvider;
+	private TrackSwitchTransformator trackSwitchTransformator;
 
 	// IMPROVE: OSGI-based test for dependency injection
 	protected void setupTransformators(
-			final SiteplanTransformatorImpl transformator) {
+			final SiteplanTransformatorImpl transformator) throws Exception {
 		setupTransformator(transformator);
-		transformator.transformators.addAll(List.of(
-				new FMAComponentTransformator(), new PZBTransformator(),
-				new RouteTransformator(), new SignalTransformator(),
-				new StationTransformator(), new TrackLockTransformator(),
-				new TrackSwitchTransformator(), new TrackTransformator(),
-				new TrackCloseTransformator(),
-				new ExternalElementControlTransform(), new CantTransform(),
-				new LockKeyTransformator()));
+		givenTrackSwitchMetadata();
+		givenTrackSwitchTransformator();
+		transformator.transformators
+				.addAll(List.of(new FMAComponentTransformator(),
+						new PZBTransformator(), new RouteTransformator(),
+						new SignalTransformator(), new StationTransformator(),
+						new TrackLockTransformator(), trackSwitchTransformator,
+						new TrackTransformator(), new TrackCloseTransformator(),
+						new ExternalElementControlTransform(),
+						new CantTransform(), new LockKeyTransformator()));
 		transformator.transformators.forEach(this::setupTransformator);
+	}
+
+	private void givenTrackSwitchTransformator() throws Exception {
+		trackSwitchTransformator = new TrackSwitchTransformator();
+		FieldUtils.writeField(trackSwitchTransformator,
+				"trackSwitchMetadataProvider", trackSwitchMetadataProvider,
+				true);
+	}
+
+	protected void givenTrackSwitchMetadata() throws Exception {
+		trackSwitchMetadataProvider = new TrackSwitchMetadataProvider() {
+			@Override
+			public Path getFormelPath() {
+				try {
+					return Path.of(SiteplanTest.class.getClassLoader()
+							.getResource("Weichenbauformen.csv")
+							.toURI());
+				} catch (final URISyntaxException e) {
+					return null;
+				}
+			}
+		};
+		trackSwitchMetadataProvider.initialize();
 	}
 
 	private <T> void setupTransformator(final T transformator) {
@@ -106,8 +136,12 @@ public class SiteplanTest extends AbstractToolboxTest {
 				}
 
 				case POINT_OBJECT_POSITION_SERVICE_FIELD_NAME: {
+					final PointObjectPositionServiceImpl positionService = new PointObjectPositionServiceImpl();
+					FieldUtils.writeField(positionService,
+							GEOMETRY_SERVICE_FIELD_NAME, geometryService, true);
 					FieldUtils.writeField(transformator, serviceName,
-							new PointObjectPositionServiceImpl(), true);
+							positionService, true);
+
 					break;
 				}
 
@@ -150,5 +184,4 @@ public class SiteplanTest extends AbstractToolboxTest {
 						planProSchnittstelle, ContainerType.FINAL));
 		FieldUtils.writeField(geometryService, "isProcessComplete", true, true);
 	}
-
 }

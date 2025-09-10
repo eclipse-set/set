@@ -10,7 +10,7 @@ package org.eclipse.set.feature.siteplan;
 
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
@@ -38,7 +38,7 @@ public class TrackSwitchMetadataProvider {
 	 *             if the file could not be read
 	 */
 	public void initialize() throws IOException {
-		try (final Stream<String> stream = Files.lines(Paths.get(CSV_PATH))) {
+		try (final Stream<String> stream = Files.lines(getFormelPath())) {
 			stream.skip(8).forEach(line -> {
 				final TrackSwitchMetadata entry = TrackSwitchMetadata
 						.fromCSVLine(line);
@@ -108,4 +108,7 @@ public class TrackSwitchMetadataProvider {
 		return null;
 	}
 
+	public Path getFormelPath() {
+		return Path.of(CSV_PATH);
+	}
 }
