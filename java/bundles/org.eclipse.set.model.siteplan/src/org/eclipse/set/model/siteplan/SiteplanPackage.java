@@ -954,13 +954,22 @@ public interface SiteplanPackage extends EPackage {
 	int TRACK_SWITCH__CONTINUOUS_SEGMENTS = SITEPLAN_OBJECT_FEATURE_COUNT + 2;
 
 	/**
+	 * The feature id for the '<em><b>Switch Type</b></em>' attribute. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 * @ordered
+	 */
+	int TRACK_SWITCH__SWITCH_TYPE = SITEPLAN_OBJECT_FEATURE_COUNT + 3;
+
+	/**
 	 * The number of structural features of the '<em>Track Switch</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @generated
 	 * @ordered
 	 */
-	int TRACK_SWITCH_FEATURE_COUNT = SITEPLAN_OBJECT_FEATURE_COUNT + 3;
+	int TRACK_SWITCH_FEATURE_COUNT = SITEPLAN_OBJECT_FEATURE_COUNT + 4;
 
 	/**
 	 * The number of operations of the '<em>Track Switch</em>' class. <!--
@@ -2966,6 +2975,17 @@ public interface SiteplanPackage extends EPackage {
 	int LOCK_KEY_TYPE = 58;
 
 	/**
+	 * The meta object id for the
+	 * '{@link org.eclipse.set.model.siteplan.SwitchType <em>Switch Type</em>}'
+	 * enum. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @see org.eclipse.set.model.siteplan.SwitchType
+	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getSwitchType()
+	 * @generated
+	 */
+	int SWITCH_TYPE = 59;
+
+	/**
 	 * Returns the meta object for class
 	 * '{@link org.eclipse.set.model.siteplan.Siteplan <em>Siteplan</em>}'. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
@@ -3738,6 +3758,18 @@ public interface SiteplanPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getTrackSwitch_ContinuousSegments();
+
+	/**
+	 * Returns the meta object for the attribute
+	 * '{@link org.eclipse.set.model.siteplan.TrackSwitch#getSwitchType
+	 * <em>Switch Type</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @return the meta object for the attribute '<em>Switch Type</em>'.
+	 * @see org.eclipse.set.model.siteplan.TrackSwitch#getSwitchType()
+	 * @see #getTrackSwitch()
+	 * @generated
+	 */
+	EAttribute getTrackSwitch_SwitchType();
 
 	/**
 	 * Returns the meta object for class
@@ -5186,6 +5218,17 @@ public interface SiteplanPackage extends EPackage {
 	EEnum getLockKeyType();
 
 	/**
+	 * Returns the meta object for enum
+	 * '{@link org.eclipse.set.model.siteplan.SwitchType <em>Switch Type</em>}'.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @return the meta object for enum '<em>Switch Type</em>'.
+	 * @see org.eclipse.set.model.siteplan.SwitchType
+	 * @generated
+	 */
+	EEnum getSwitchType();
+
+	/**
 	 * Returns the factory that creates the instances of the model. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
@@ -5802,6 +5845,15 @@ public interface SiteplanPackage extends EPackage {
 		 */
 		EReference TRACK_SWITCH__CONTINUOUS_SEGMENTS = eINSTANCE
 				.getTrackSwitch_ContinuousSegments();
+
+		/**
+		 * The meta object literal for the '<em><b>Switch Type</b></em>'
+		 * attribute feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * 
+		 * @generated
+		 */
+		EAttribute TRACK_SWITCH__SWITCH_TYPE = eINSTANCE
+				.getTrackSwitch_SwitchType();
 
 		/**
 		 * The meta object literal for the
@@ -6986,6 +7038,17 @@ public interface SiteplanPackage extends EPackage {
 		 * @generated
 		 */
 		EEnum LOCK_KEY_TYPE = eINSTANCE.getLockKeyType();
+
+		/**
+		 * The meta object literal for the
+		 * '{@link org.eclipse.set.model.siteplan.SwitchType <em>Switch
+		 * Type</em>}' enum. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * 
+		 * @see org.eclipse.set.model.siteplan.SwitchType
+		 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getSwitchType()
+		 * @generated
+		 */
+		EEnum SWITCH_TYPE = eINSTANCE.getSwitchType();
 
 	}
 
