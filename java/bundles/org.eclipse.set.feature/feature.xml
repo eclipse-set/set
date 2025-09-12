@@ -47,7 +47,6 @@ http://www.eclipse.org/legal/epl-v20.html
       <import plugin="org.eclipse.jface" version="3.10.2" match="greaterOrEqual"/>
       <import plugin="org.eclipse.jface.databinding" version="1.3.0" match="compatible"/>
       <import plugin="org.eclipse.nebula.widgets.nattable.core" version="1.3.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.osgi.services"/>
       <import plugin="org.eclipse.osgi"/>
       <import plugin="org.eclipse.swt" version="3.103.2" match="greaterOrEqual"/>
       <import plugin="org.eclipse.ui" version="3.106.0" match="greaterOrEqual"/>
@@ -848,10 +847,6 @@ http://www.eclipse.org/legal/epl-v20.html
          version="0.0.0"/>
 
    <plugin
-         id="org.eclipse.osgi.services"
-         version="0.0.0"/>
-
-   <plugin
          id="org.eclipse.swt"
          version="0.0.0"/>
 
@@ -1148,10 +1143,6 @@ http://www.eclipse.org/legal/epl-v20.html
          version="0.0.0"/>
 
    <plugin
-         id="jakarta.xml.bind"
-         version="0.0.0"/>
-
-   <plugin
          id="maven.org.apache.xmlgraphics.artifact.fop"
          version="0.0.0"/>
 
@@ -1180,10 +1171,6 @@ http://www.eclipse.org/legal/epl-v20.html
          version="0.0.0"/>
 
    <plugin
-         id="bcpg"
-         version="0.0.0"/>
-
-   <plugin
          id="bcprov"
          version="0.0.0"/>
 
@@ -1192,19 +1179,11 @@ http://www.eclipse.org/legal/epl-v20.html
          version="0.0.0"/>
 
    <plugin
-         id="javax.xml"
-         version="0.0.0"/>
-
-   <plugin
          id="org.eclipse.set.feature.table.pt1"
          version="0.0.0"/>
 
    <plugin
          id="slf4j.api"
-         version="0.0.0"/>
-
-   <plugin
-         id="org.apache.commons.logging"
          version="0.0.0"/>
 
    <plugin
@@ -1352,10 +1331,6 @@ http://www.eclipse.org/legal/epl-v20.html
          version="0.0.0"/>
 
    <plugin
-         id="org.apache.commons.jxpath"
-         version="0.0.0"/>
-
-   <plugin
          id="javax.inject"
          version="0.0.0"/>
 
@@ -1393,10 +1368,6 @@ http://www.eclipse.org/legal/epl-v20.html
 
    <plugin
          id="org.objectweb.asm.tree.analysis"
-         version="0.0.0"/>
-
-   <plugin
-         id="org.apache.commons.collections4"
          version="0.0.0"/>
 
    <plugin
@@ -1453,6 +1424,38 @@ http://www.eclipse.org/legal/epl-v20.html
 
    <plugin
          id="maven.net.sf.offo.artifact.fop-hyph"
+         version="0.0.0"/>
+
+   <plugin
+         id="org.apache.commons.commons-collections4"
+         version="0.0.0"/>
+
+   <plugin
+         id="org.apache.xmlgraphics"
+         version="0.0.0"/>
+
+   <plugin
+         id="org.osgi.service.coordinator"
+         version="0.0.0"/>
+
+   <plugin
+         id="com.github.weisj.jsvg"
+         version="0.0.0"/>
+
+   <plugin
+         id="org.osgi.service.component"
+         version="0.0.0"/>
+
+   <plugin
+         id="org.osgi.service.component.annotations"
+         version="0.0.0"/>
+
+   <plugin
+         id="bcpg"
+         version="0.0.0"/>
+
+   <plugin
+         id="bcutil"
          version="0.0.0"/>
 
 </feature>
