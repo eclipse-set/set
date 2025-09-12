@@ -12,11 +12,21 @@ import { defaultCoordinateObj } from './Position'
 import SiteplanObject, { defaultObjectColorObj } from './SiteplanObject'
 import TrackSwitchComponent, { defaultTrackSwitchComponentObj } from './TrackSwitchComponent'
 
+export enum SwitchType {
+  Simple = 'Simple',
+  CrossSwitch = 'CrossSwitch',
+  DoppleCrossSwitch = 'DoppleCrossSwitch',
+  SimpleCross = 'SimpleCross',
+  FlatCross = 'FlatCross',
+  Other = 'Other'
+}
+
 export default interface TrackSwitch extends SiteplanObject
 {
     components: TrackSwitchComponent[]
     design: string
     continuousSegments: ContinuousTrackSegment[]
+    switchType: SwitchType
 }
 
 export function defaultTrackSwitchObj (): TrackSwitch {
@@ -30,7 +40,8 @@ export function defaultTrackSwitchObj (): TrackSwitch {
       }
     ],
     guid: 'abc',
-    objectColors: [defaultObjectColorObj()]
+    objectColors: [defaultObjectColorObj()],
+    switchType: SwitchType.Simple
   }
 }
 

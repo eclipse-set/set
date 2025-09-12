@@ -25,6 +25,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
 
 import org.eclipse.set.model.siteplan.ContinuousTrackSegment;
 import org.eclipse.set.model.siteplan.SiteplanPackage;
+import org.eclipse.set.model.siteplan.SwitchType;
 import org.eclipse.set.model.siteplan.TrackSwitch;
 import org.eclipse.set.model.siteplan.TrackSwitchComponent;
 
@@ -41,6 +42,8 @@ import org.eclipse.set.model.siteplan.TrackSwitchComponent;
  * <em>Components</em>}</li>
  * <li>{@link org.eclipse.set.model.siteplan.impl.TrackSwitchImpl#getContinuousSegments
  * <em>Continuous Segments</em>}</li>
+ * <li>{@link org.eclipse.set.model.siteplan.impl.TrackSwitchImpl#getSwitchType
+ * <em>Switch Type</em>}</li>
  * </ul>
  *
  * @generated
@@ -86,6 +89,26 @@ public class TrackSwitchImpl extends SiteplanObjectImpl implements TrackSwitch {
 	 * @ordered
 	 */
 	protected EList<ContinuousTrackSegment> continuousSegments;
+
+	/**
+	 * The default value of the '{@link #getSwitchType() <em>Switch Type</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @see #getSwitchType()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final SwitchType SWITCH_TYPE_EDEFAULT = SwitchType.SIMPLE;
+
+	/**
+	 * The cached value of the '{@link #getSwitchType() <em>Switch Type</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @see #getSwitchType()
+	 * @generated
+	 * @ordered
+	 */
+	protected SwitchType switchType = SWITCH_TYPE_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -166,6 +189,32 @@ public class TrackSwitchImpl extends SiteplanObjectImpl implements TrackSwitch {
 	 * @generated
 	 */
 	@Override
+	public SwitchType getSwitchType() {
+		return switchType;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
+	public void setSwitchType(SwitchType newSwitchType) {
+		SwitchType oldSwitchType = switchType;
+		switchType = newSwitchType == null ? SWITCH_TYPE_EDEFAULT
+				: newSwitchType;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					SiteplanPackage.TRACK_SWITCH__SWITCH_TYPE, oldSwitchType,
+					switchType));
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd,
 			int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -193,6 +242,8 @@ public class TrackSwitchImpl extends SiteplanObjectImpl implements TrackSwitch {
 				return getComponents();
 			case SiteplanPackage.TRACK_SWITCH__CONTINUOUS_SEGMENTS:
 				return getContinuousSegments();
+			case SiteplanPackage.TRACK_SWITCH__SWITCH_TYPE:
+				return getSwitchType();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -219,6 +270,9 @@ public class TrackSwitchImpl extends SiteplanObjectImpl implements TrackSwitch {
 				getContinuousSegments().addAll(
 						(Collection<? extends ContinuousTrackSegment>) newValue);
 				return;
+			case SiteplanPackage.TRACK_SWITCH__SWITCH_TYPE:
+				setSwitchType((SwitchType) newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -240,6 +294,9 @@ public class TrackSwitchImpl extends SiteplanObjectImpl implements TrackSwitch {
 			case SiteplanPackage.TRACK_SWITCH__CONTINUOUS_SEGMENTS:
 				getContinuousSegments().clear();
 				return;
+			case SiteplanPackage.TRACK_SWITCH__SWITCH_TYPE:
+				setSwitchType(SWITCH_TYPE_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -260,6 +317,8 @@ public class TrackSwitchImpl extends SiteplanObjectImpl implements TrackSwitch {
 			case SiteplanPackage.TRACK_SWITCH__CONTINUOUS_SEGMENTS:
 				return continuousSegments != null
 						&& !continuousSegments.isEmpty();
+			case SiteplanPackage.TRACK_SWITCH__SWITCH_TYPE:
+				return switchType != SWITCH_TYPE_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -277,6 +336,8 @@ public class TrackSwitchImpl extends SiteplanObjectImpl implements TrackSwitch {
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (design: ");
 		result.append(design);
+		result.append(", switchType: ");
+		result.append(switchType);
 		result.append(')');
 		return result.toString();
 	}

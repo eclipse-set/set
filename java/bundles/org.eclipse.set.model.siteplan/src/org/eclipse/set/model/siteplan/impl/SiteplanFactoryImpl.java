@@ -60,6 +60,7 @@ import org.eclipse.set.model.siteplan.SiteplanObject;
 import org.eclipse.set.model.siteplan.SiteplanPackage;
 import org.eclipse.set.model.siteplan.SiteplanState;
 import org.eclipse.set.model.siteplan.Station;
+import org.eclipse.set.model.siteplan.SwitchType;
 import org.eclipse.set.model.siteplan.Track;
 import org.eclipse.set.model.siteplan.TrackClose;
 import org.eclipse.set.model.siteplan.TrackCloseType;
@@ -260,6 +261,8 @@ public class SiteplanFactoryImpl extends EFactoryImpl
 						initialValue);
 			case SiteplanPackage.LOCK_KEY_TYPE:
 				return createLockKeyTypeFromString(eDataType, initialValue);
+			case SiteplanPackage.SWITCH_TYPE:
+				return createSwitchTypeFromString(eDataType, initialValue);
 			default:
 				throw new IllegalArgumentException("The datatype '"
 						+ eDataType.getName() + "' is not a valid classifier");
@@ -315,6 +318,8 @@ public class SiteplanFactoryImpl extends EFactoryImpl
 						instanceValue);
 			case SiteplanPackage.LOCK_KEY_TYPE:
 				return convertLockKeyTypeToString(eDataType, instanceValue);
+			case SiteplanPackage.SWITCH_TYPE:
+				return convertSwitchTypeToString(eDataType, instanceValue);
 			default:
 				throw new IllegalArgumentException("The datatype '"
 						+ eDataType.getName() + "' is not a valid classifier");
@@ -1219,6 +1224,31 @@ public class SiteplanFactoryImpl extends EFactoryImpl
 	 * @generated
 	 */
 	public String convertLockKeyTypeToString(EDataType eDataType,
+			Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	public SwitchType createSwitchTypeFromString(EDataType eDataType,
+			String initialValue) {
+		SwitchType result = SwitchType.get(initialValue);
+		if (result == null)
+			throw new IllegalArgumentException("The value '" + initialValue
+					+ "' is not a valid enumerator of '" + eDataType.getName()
+					+ "'");
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	public String convertSwitchTypeToString(EDataType eDataType,
 			Object instanceValue) {
 		return instanceValue == null ? null : instanceValue.toString();
 	}

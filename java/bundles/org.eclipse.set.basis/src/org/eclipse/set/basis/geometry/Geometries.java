@@ -42,8 +42,10 @@ public class Geometries {
 		}
 
 		public boolean contains(final BigDecimal distance) {
-			return startDistance.compareTo(distance) <= 0
-					&& endDistance().compareTo(distance) >= 0;
+			return startDistance.subtract(BigDecimal.valueOf(ACCURACY))
+					.compareTo(distance) <= 0
+					&& endDistance().add(BigDecimal.valueOf(ACCURACY))
+							.compareTo(distance) >= 0;
 		}
 	}
 
@@ -234,7 +236,9 @@ public class Geometries {
 		int right = segments.size();
 		while (left <= right) {
 			final int mid = left + (right - left) / 2;
-			final SegmentWithDistance midSegment = segments.get(mid);
+			final SegmentWithDistance midSegment = mid == segments.size()
+					? segments.getLast()
+					: segments.get(mid);
 
 			if (midSegment.contains(distance)) {
 				return new SegmentPosition(midSegment.segment,
