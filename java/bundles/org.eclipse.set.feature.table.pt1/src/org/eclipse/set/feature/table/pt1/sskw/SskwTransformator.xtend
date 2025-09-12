@@ -277,7 +277,8 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 					transformMultiColorContent(
 						elementKomponenten,
 						[zungenpaar?.elektrischerAntriebAnzahl?.wert],
-						[zungenpaar?.elektrischerAntriebLage]
+						[zungenpaar?.elektrischerAntriebLage],
+						[true]
 					)
 				],
 				"+"
@@ -680,7 +681,8 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 					transformMultiColorContent(
 						WKrGspKomponenten,
 						actuatorCount,
-						actuatorPosition
+						actuatorPosition,
+						[kreuzung !== null]
 					)
 				],
 				"+"
@@ -794,10 +796,10 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 	private def List<MultiColorContent> transformMultiColorContent(
 		Iterable<W_Kr_Gsp_Komponente> components,
 		(W_Kr_Gsp_Komponente)=>BigInteger actuatorNumberSelector,
-		(W_Kr_Gsp_Komponente)=>Elektrischer_Antrieb_Lage_TypeClass actuatorPositionSelector
+		(W_Kr_Gsp_Komponente)=>Elektrischer_Antrieb_Lage_TypeClass actuatorPositionSelector,
+		(W_Kr_Gsp_Komponente)=>Boolean fillPositionSupplementCondition
 	) {
 		return components.map [
-
 			val multiColorContent = TablemodelFactory.eINSTANCE.
 				createMultiColorContent
 			// Only rendered multicolor by DIFF state
@@ -805,7 +807,8 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 			val actuator = actuatorNumberSelector.apply(it)
 			val noOfActuators = actuator !== null ? actuator.intValue : 0
 			val position = it.getPosition(actuator, actuatorPositionSelector)
-			val fillPositionCondition = noOfActuators > 0 && position !== null && kreuzung !== null
+			val fillPositionCondition = noOfActuators > 0 &&
+				position !== null && fillPositionSupplementCondition.apply(it)
 			if (austauschAntriebe?.wert === true &&
 				container.containerType == ContainerType.FINAL) {
 				multiColorContent.multiColorValue = noOfActuators.toString
