@@ -42,14 +42,16 @@ public class PlanProSchemaDir {
 		private final String baseURI;
 		private final String publicId;
 		private final String systemId;
+		private final String version;
 		private final Bundle bundle = FrameworkUtil
 				.getBundle(PlanPro_Schnittstelle.class);
 
 		LSInputImpl(final String publicId, final String systemId,
-				final String baseURI) {
+				final String baseURI, final String version) {
 			this.publicId = publicId;
 			this.systemId = systemId;
 			this.baseURI = baseURI;
+			this.version = version;
 		}
 
 		@Override
@@ -133,8 +135,12 @@ public class PlanProSchemaDir {
 			throw new UnsupportedOperationException();
 		}
 
+		private String getSchemaDir() {
+			return String.format("%s/%s", SCHEMA_DIR, version); //$NON-NLS-1$
+		}
+
 		private String getSchemaPath() {
-			final Enumeration<URL> entries = bundle.findEntries(SCHEMA_DIR,
+			final Enumeration<URL> entries = bundle.findEntries(getSchemaDir(),
 					getSystemId(), true);
 			final URL element = entries.nextElement();
 			Assert.isTrue(!entries.hasMoreElements());
@@ -153,7 +159,9 @@ public class PlanProSchemaDir {
 		public LSInput resolveResource(final String type,
 				final String namespaceURI, final String publicId,
 				final String systemId, final String baseURI) {
-			return new LSInputImpl(publicId, systemId, baseURI);
+			final String version = namespaceURI
+					.substring(namespaceURI.lastIndexOf("/") + 1); //$NON-NLS-1$
+			return new LSInputImpl(publicId, systemId, baseURI, version);
 		}
 	}
 
