@@ -110,6 +110,8 @@ Import-Package: jakarta.annotation,
  org.osgi.service.event,
  org.slf4j;version="1.7.2"
 Bundle-ActivationPolicy: lazy
+Bundle-ClassPath: hyph/,
+ .
 Service-Component: OSGI-INF/org.eclipse.set.feature.export.descriptions.SiteplanModelExportDescriptionService.xml,
  OSGI-INF/org.eclipse.set.feature.export.descriptions.TitleBoxPdfDescriptionService.xml,
  OSGI-INF/org.eclipse.set.feature.export.exportservice.ExportServiceImpl.xml,
