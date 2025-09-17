@@ -86,34 +86,38 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
       const middleOnEdge = TrackDirectionFeature.middlePositionOfPolyline(sectionPolyLine)
       if (!middleOnEdge) continue // invalid section: either len 0 or too short!
 
-      // define feature data
-      const data : TrackDirectionArrowData = {
-        guid: track.guid,
-        rotation: middleOnEdge.rotation
-      }
-
-      // define feature
-      const geometry = new OlPoint([middleOnEdge.x,middleOnEdge.y])
-      const feature = createFeature(
-        FeatureType.TrackDirectionArrow,
-        data,
-        geometry,
-        undefined // no label
-      )
-
-      // define style
-      feature.setStyle((_, resolution) => {
-        const baseResolution = this.map.getView().getResolutionForZoom(this.svgService.getBaseZoomLevel())
-        const scale = baseResolution / resolution
-
-        const arrowStyle = TrackDirectionFeature.drawArrow(geometry,middleOnEdge.rotation)
-        arrowStyle.getImage()?.setScale(scale)
-        return arrowStyle
-      })
-      markers.push(feature)
+      markers.push(this.createFeature(middleOnEdge, track.guid))
     }
 
     return markers
+  }
+
+  private createFeature (position: Position, trackGuid: string): Feature<Geometry> {
+    // define feature data
+    const data : TrackDirectionArrowData = {
+      guid: trackGuid,
+      rotation: position.rotation
+    }
+
+    // define feature
+    const geometry = new OlPoint([position.x,position.y])
+    const feature = createFeature(
+      FeatureType.TrackDirectionArrow,
+      data,
+      geometry,
+      undefined // no label
+    )
+
+    // define style
+    feature.setStyle((_, resolution) => {
+      const baseResolution = this.map.getView().getResolutionForZoom(this.svgService.getBaseZoomLevel())
+      const scale = baseResolution / resolution
+
+      const arrowStyle = TrackDirectionFeature.drawArrow(geometry,position.rotation)
+      arrowStyle.getImage()?.setScale(scale)
+      return arrowStyle
+    })
+    return feature
   }
 
   private static polylineLength (points: Coordinate[]): number {
@@ -200,7 +204,7 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
    *    - orderedSegmentsOfTrackSectionWithTolerance() returns undefined
    *    (see docs for explanation when that happens)
    */
-  static sectionPolyLine (section: TrackSection): Coordinate[] | undefined {
+  private static sectionPolyLine (section: TrackSection): Coordinate[] | undefined {
     const matchingDistance = TRACK_SEGMENT_ORDERING_COORDINATE_MATCHING_DISTANCE
 
     // startCoordinate might be undefined. In that case, don't draw the segment
