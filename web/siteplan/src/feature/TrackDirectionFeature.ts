@@ -4,6 +4,7 @@ import { SiteplanState } from '@/model/SiteplanModel'
 import { ISvgElement } from '@/model/SvgElement'
 import Track from '@/model/Track'
 import TrackSection, { orderedSegmentsOfTrackSectionWithTolerance } from '@/model/TrackSection'
+import Configuration from '@/util/Configuration'
 import { distance } from '@/util/Math'
 import SvgDraw from '@/util/SVG/Draw/SvgDraw'
 import { Feature } from 'ol'
@@ -82,8 +83,11 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
       if (!section.startCoordinate)
         continue
 
-      // TODO move these tolerances somewhere else!
-      this.assertStartPosOccursInPositions(section.startCoordinate, section,true, 0.001)
+      // only run assertions in dev mode
+      if (Configuration.developmentMode()) {
+        // TODO move these tolerances somewhere else!
+        this.assertStartPosOccursInPositions(section.startCoordinate, section,true, 0.001)
+      }
 
       const orderedSegments = orderedSegmentsOfTrackSectionWithTolerance(section,0.001)
       if (!orderedSegments)
