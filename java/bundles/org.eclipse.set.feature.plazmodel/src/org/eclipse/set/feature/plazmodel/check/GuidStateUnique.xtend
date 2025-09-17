@@ -27,10 +27,12 @@ class GuidStateUnique implements PlazCheck {
 		val planungGruppe = PlanProSchnittstelleExtensions.getLSTPlanungGruppe(
 			modelSession.planProSchnittstelle)
 		if (planungGruppe.present) {
+			// Grouped the LST states by GUID
 			val sameGUIDStates = planungGruppe.get.flatMap [
 				#[LSTPlanungEinzel?.LSTZustandStart,
 					LSTPlanungEinzel?.LSTZustandZiel]
 			].groupBy[identitaet?.wert]
+			// Filter the same guid states, which states empty or the states in same subwork 
 			return sameGUIDStates.filter [ guid, states |
 				!states.nullOrEmpty && (states.size > 2 || states.map [
 					eContainer
