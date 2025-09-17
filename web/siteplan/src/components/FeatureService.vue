@@ -42,6 +42,7 @@ import SignalRouteMarkerFeature from '@/feature/SignalRouteMarkerFeature'
 import StationFeature from '@/feature/StationFeature'
 import TrackCloseFeature from '@/feature/TrackCloseFeature'
 import TrackDesignationMarkerFeature from '@/feature/TrackDesignationMarkerFeature'
+import TrackDirectionFeature from '@/feature/TrackDirectionFeature'
 import TrackFeature from '@/feature/TrackFeature'
 import TrackLockFeature from '@/feature/TrackLockFeature'
 import TrackSectionMarkerFeature from '@/feature/TrackSectionMarkerFeature'
@@ -68,7 +69,6 @@ import Configuration from '../util/Configuration'
 import CenterMainRouteControl from '../util/Controls/CenterMainRouteControl'
 import ExtentControl from '../util/Controls/ExtentControl'
 import NamedFeatureLayer from '../util/NamedFeatureLayer'
-import TrackDirectionFeature from '@/feature/TrackDirectionFeature'
 
 /**
  * Feature service to create open layers features for the siteplan model

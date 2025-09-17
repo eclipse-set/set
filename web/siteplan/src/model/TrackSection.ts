@@ -37,6 +37,12 @@ export default interface TrackSection
 export type FlippedFlag = boolean
 
 /**
+ * The distance, at which two coordinates of track segments are considered the same point.
+ * This value is to be used as the tolerance in orderedSegmentsOfTrackSectionWithTolerance
+ */
+export const TRACK_SEGMENT_ORDERING_COORDINATE_MATCHING_DISTANCE = 0.001
+
+/**
    * orderedSegments returns a list of segments,
    * where every end of one segment is equal to the start of the next.
    *
@@ -48,14 +54,16 @@ export type FlippedFlag = boolean
    * If a is flipped and b is not, then:    a.positions[0] = b.positions[0]
    * If a and b are flipped,       then:    a.positions[0] = b.positions[last]
    *
-   * Important:
-   *    this implementation has a tolerance, for now.
-   *    This is undesired and should be changed. Unfortunately, the java project
-   *    Transformer code produces a JSON which requires a tolerance.
+   * @param [tolerance=0.0] is the max distance between any two coordinates, at wich
+   *                        they will be considered to be referencing the same point.
+   *                        In that case, the segments will be ordered and flipped,
+   *                        s.t. they will follow each other in the result
+   *
+   *                        Ideally, this parameter is not required in the future.
+   *                        Unfortunately, the model-transformator code produces
+   *                        a JSON with slightly varying positions.
+   * @returns undefined, when section.startCoordinate is not defined
    */
-// TODO unittest this!
-// TODO remove this (with tolerance). And fix the underlying problem:
-// TODO startCoordinate is not exactly any position of segments.positions!
 export function orderedSegmentsOfTrackSectionWithTolerance (section: TrackSection, tolerance = 0.0):
   [TrackSegment, FlippedFlag][] | undefined {
   // if undefined (like in invalid .planpro-files),

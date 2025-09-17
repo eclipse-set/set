@@ -53,8 +53,6 @@ import static extension org.eclipse.set.ppmodel.extensions.WKrAnlageExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspElementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspKomponenteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import com.google.common.collect.Range
 
 /**
@@ -72,9 +70,6 @@ class TrackTransformator extends BaseTransformator<TOP_Kante> {
 	static val ERROR_NO_GLEIS_ART = "Keine Gleisart für Segment der GEO_Kante '%s' gefunden."
 	static val ERROR_MULTIPLE_GLEIS_ART = "Mehrere Gleisarten für Segment der GEO_Kante '%s' gefunden."
 	var sectionColor = ''
-	
-	static final Logger logger = LoggerFactory
-			.getLogger(TrackTransformator);
 	
 
 	/**
@@ -132,12 +127,14 @@ class TrackTransformator extends BaseTransformator<TOP_Kante> {
 			return null
 		}
  		
- 		// is this needed or can you just use coordAlongGeoKante.coordinate? 
- 		// answer: coordAlongGeoKante.coordinate is very wrong!
+ 		// transform coordAlongGeoKante and return as a Coordinate:
  		val knotenACoordinate = positionService.transformPosition(coordAlongGeoKante)
+ 		// is this needed or can you just use coordAlongGeoKante.coordinate? 
+ 		// answer: coordAlongGeoKante.coordinate produces wrong values!
+ 		
 		val result = SiteplanFactory.eINSTANCE.createCoordinate;
-		result.x = knotenACoordinate.x // copy because of error: Type mismatch: cannot convert from Coordinate to Coordinate
-		result.y = knotenACoordinate.y // copy because of error: Type mismatch: cannot convert from Coordinate to Coordinate
+		result.x = knotenACoordinate.x
+		result.y = knotenACoordinate.y
 		return result
 		
 		// LEARNING:

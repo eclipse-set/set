@@ -1,7 +1,6 @@
 import LageplanFeature from '@/feature/LageplanFeature'
 import { Coordinate } from '@/model/Position'
 import { SiteplanState } from '@/model/SiteplanModel'
-import { ISvgElement } from '@/model/SvgElement'
 import Track from '@/model/Track'
 import TrackSection, { orderedSegmentsOfTrackSectionWithTolerance } from '@/model/TrackSection'
 import Configuration from '@/util/Configuration'
@@ -40,11 +39,7 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
     return model.tracks
   }
 
-  protected getObjectSvg (track: Track): ISvgElement {
-    return this.svgService.getFeatureSvg(track, FeatureType.TrackDirectionArrow) // no data needed!
-  }
-
-  private assertStartPosOccursInPositions (
+  private static assertStartPosOccursInPositions (
     startPos: Coordinate,
     section: TrackSection,
     withDist = true,
@@ -86,7 +81,7 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
       // only run assertions in dev mode
       if (Configuration.developmentMode()) {
         // TODO move these tolerances somewhere else!
-        this.assertStartPosOccursInPositions(section.startCoordinate, section,true, 0.001)
+        TrackDirectionFeature.assertStartPosOccursInPositions(section.startCoordinate, section,true, 0.001)
       }
 
       const orderedSegments = orderedSegmentsOfTrackSectionWithTolerance(section,0.001)
@@ -98,6 +93,7 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
 
       for (const [segment,isFlipped] of orderedSegments!) {
         console.assert(segment != null, 'all segments must be not null') // TODO check this in unittest for section.orderedSegments()
+        if (segment === null) continue
 
         const segmentPositions = [...segment.positions]
         if (isFlipped) segmentPositions.reverse()
@@ -106,15 +102,14 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
         const segmentLast = segmentPositions[segmentPositions.length - 1]
 
         console.assert(lastPos === null || coordinatesEqual(segmentFirst,lastPos))
+
         // push positions in inverse order.
         // First element is only pushed in very first segment!
         if (!lastPos) {
           positionList.push(segmentFirst)
         }
 
-        for (let i = 1; i < segmentPositions.length; i++) {
-          positionList.push(segmentPositions[i])
-        }
+        positionList.push(...segmentPositions.slice(1))
 
         lastPos = segmentLast
       }
