@@ -1,8 +1,8 @@
 import LageplanFeature from '@/feature/LageplanFeature'
-import { Coordinate } from '@/model/Position'
+import { Coordinate, Position } from '@/model/Position'
 import { SiteplanState } from '@/model/SiteplanModel'
 import Track from '@/model/Track'
-import TrackSection, { orderedSegmentsOfTrackSectionWithTolerance } from '@/model/TrackSection'
+import TrackSection, { orderedSegmentsOfTrackSectionWithTolerance, TRACK_SEGMENT_ORDERING_COORDINATE_MATCHING_DISTANCE } from '@/model/TrackSection'
 import Configuration from '@/util/Configuration'
 import { distance } from '@/util/Math'
 import SvgDraw from '@/util/SVG/Draw/SvgDraw'
@@ -73,119 +73,181 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
     const markers: Feature<Geometry>[] = []
 
     for (const section of track.sections) {
-      // startCoordinate might be undefined. In that case, don't draw the segment
-      // (as we don't know where it starts!)
-      if (!section.startCoordinate)
+      const sectionPolyLine = TrackDirectionFeature.sectionPolyLine(section)
+      if (!sectionPolyLine) continue // can't draw that section -> skip
+
+      // don't draw section's arrow head, when it is too short
+      console.assert(TrackDirectionFeature.MIN_TRACK_LENGTH_TO_DISPLAY_FEATURE > 0.0)
+      if (TrackDirectionFeature.polylineLength(sectionPolyLine) <
+      TrackDirectionFeature.MIN_TRACK_LENGTH_TO_DISPLAY_FEATURE)
         continue
 
-      // only run assertions in dev mode
-      if (Configuration.developmentMode()) {
-        // TODO move these tolerances somewhere else!
-        TrackDirectionFeature.assertStartPosOccursInPositions(section.startCoordinate, section,true, 0.001)
+      // determine position and rotation of arrow head
+      const middleOnEdge = TrackDirectionFeature.middlePositionOfPolyline(sectionPolyLine)
+      if (!middleOnEdge) continue // invalid section: either len 0 or too short!
+
+      // define feature data
+      const data : TrackDirectionArrowData = {
+        guid: track.guid,
+        rotation: middleOnEdge.rotation
       }
 
-      const orderedSegments = orderedSegmentsOfTrackSectionWithTolerance(section,0.001)
-      if (!orderedSegments)
-        continue
+      // define feature
+      const geometry = new OlPoint([middleOnEdge.x,middleOnEdge.y])
+      const feature = createFeature(
+        FeatureType.TrackDirectionArrow,
+        data,
+        geometry,
+        undefined // no label
+      )
 
-      const positionList : Coordinate[] = []
-      let lastPos: Coordinate | null = null
+      // define style
+      feature.setStyle((_, resolution) => {
+        const baseResolution = this.map.getView().getResolutionForZoom(this.svgService.getBaseZoomLevel())
+        const scale = baseResolution / resolution
 
-      for (const [segment,isFlipped] of orderedSegments!) {
-        console.assert(segment != null, 'all segments must be not null') // TODO check this in unittest for section.orderedSegments()
-        if (segment === null) continue
-
-        const segmentPositions = [...segment.positions]
-        if (isFlipped) segmentPositions.reverse()
-
-        const segmentFirst = segmentPositions[0]
-        const segmentLast = segmentPositions[segmentPositions.length - 1]
-
-        console.assert(lastPos === null || coordinatesEqual(segmentFirst,lastPos))
-
-        // push positions in inverse order.
-        // First element is only pushed in very first segment!
-        if (!lastPos) {
-          positionList.push(segmentFirst)
-        }
-
-        positionList.push(...segmentPositions.slice(1))
-
-        lastPos = segmentLast
-      }
-
-      for (let i = 1; i < positionList.length; i++) {
-        const segmentpartsLength = []
-        const cumulativeLength = [0.0]
-
-        const p1 = positionList[i - 1]
-        const p2 = positionList[i]
-
-        const lengthThisPart = distance([p1.x,p1.y],[p2.x,p2.y])
-        segmentpartsLength.push(lengthThisPart)
-        cumulativeLength.push(cumulativeLength.at(-1)! + lengthThisPart)
-
-        if (cumulativeLength.at(-1) == undefined ||
-            cumulativeLength.at(-1)! < TrackDirectionFeature.MIN_TRACK_LENGTH_TO_DISPLAY_FEATURE) {
-          // part too short to display!
-          continue
-        }
-
-        const halfLength = cumulativeLength.at(-1)! / 2
-        // len zero => last index = -1. In that case, 0 should be returned
-        const lastPosBeforeMidle: number = cumulativeLength
-          .findLastIndex(value => value < halfLength)!
-        // is defined, cumlen[0] = 0, cumlen[-1] > length > 0
-
-        const dir = normalizedDirection(
-          positionList[lastPosBeforeMidle],
-          positionList[lastPosBeforeMidle + 1]
-        )
-
-        if (dir == undefined) {
-          // dir_vec = undefined <=> len of that part is zero.
-          // In that case: no top-dir can sensibly be shown!
-          continue
-        }
-
-        const remainingLength = halfLength - cumulativeLength[lastPosBeforeMidle]
-        const lastBeforeMiddle = positionList[lastPosBeforeMidle]
-        const middle : Coordinate = {
-          x: lastBeforeMiddle.x + dir.x * remainingLength,
-          y: lastBeforeMiddle.y + dir.y * remainingLength
-        }
-
-        const geometry = new OlPoint([middle.x,middle.y])
-
-        const angleRad = - Math.atan2(dir.y, dir.x)  // y, x
-
-        const data : TrackDirectionArrowData = {
-          guid: track.guid,
-          rotation: angleRad
-        }
-
-        const arrowStyle = this.drawArrow(geometry,angleRad)
-
-        const feature = createFeature(
-          FeatureType.TrackDirectionArrow,
-          data,
-          geometry,
-          undefined // no label
-        )
-        feature.setStyle((_, resolution) => {
-          const baseResolution = this.map.getView().getResolutionForZoom(this.svgService.getBaseZoomLevel())
-          const scale = baseResolution / resolution
-
-          arrowStyle.getImage()?.setScale(scale)
-          return arrowStyle
-        })
-        markers.push(feature)
-      }
+        const arrowStyle = TrackDirectionFeature.drawArrow(geometry,middleOnEdge.rotation)
+        arrowStyle.getImage()?.setScale(scale)
+        return arrowStyle
+      })
+      markers.push(feature)
     }
+
     return markers
   }
 
-  private drawArrow (position: OlPoint , rotation: number) :Style { // add rotation
+  private static polylineLength (points: Coordinate[]): number {
+    if (points.length < 2) return 0.0
+
+    let length = 0.0
+
+    for (let i = 1; i < points.length; i++) {
+      const p1 = points[i - 1]
+      const p2 = points[i]
+      length += distance([p1.x,p1.y],[p2.x,p2.y])
+    }
+
+    return length
+  }
+
+  /**
+   * @returns middle coordinate and orientation(at that position) of @param polyLine.
+   *  returns undefined, when: direction can't be determined (length of polyline is zero)
+   *
+   */
+  private static middlePositionOfPolyline (polyLine: Coordinate[]): Position | undefined {
+    if (polyLine.length < 2) return undefined
+
+    const segmentpartsLength = []
+    const cumulativeLength = [0.0]
+    for (let i = 1; i < polyLine.length; i++) {
+      const p1 = polyLine[i - 1]
+      const p2 = polyLine[i]
+
+      const lengthThisPart = distance([p1.x,p1.y],[p2.x,p2.y])
+      segmentpartsLength.push(lengthThisPart)
+      cumulativeLength.push(cumulativeLength.at(-1)! + lengthThisPart)
+    }
+
+    // length is zero => return undefined
+    if (cumulativeLength.at(-1) == undefined ||
+            cumulativeLength.at(-1)! === 0.0) {
+      return undefined
+    }
+
+    const halfLength = cumulativeLength.at(-1)! / 2
+    // len zero => last index = -1. In that case, 0 should be returned
+    const lastPosBeforeMidle: number = cumulativeLength
+      .findLastIndex(value => value < halfLength)!
+    // is defined, cumlen[0] = 0, cumlen[-1] > length > 0
+
+    const firstPosAfterMidle: number = cumulativeLength
+      .findIndex(value => value >= halfLength)!
+
+    console.assert(lastPosBeforeMidle < firstPosAfterMidle)
+
+    const dir = normalizedDirection(
+      polyLine[lastPosBeforeMidle],
+      polyLine[firstPosAfterMidle]
+    )
+
+    // should be covered by (length != 0.0) - check
+    console.assert(dir !== undefined)
+
+    const remainingLength = halfLength - cumulativeLength[lastPosBeforeMidle]
+    const lastBeforeMiddle = polyLine[lastPosBeforeMidle]
+    const middle : Coordinate = {
+      x: lastBeforeMiddle.x + dir!.x * remainingLength,
+      y: lastBeforeMiddle.y + dir!.y * remainingLength
+    }
+
+    const angleRad = - Math.atan2(dir!.y, dir!.x)  // notice: y, x
+
+    return {
+      x: middle.x,
+      y: middle.y,
+      rotation: angleRad
+    }
+  }
+
+  /**
+   * from a given @param section TrackSection, produce a list of coordinates from section.startCoordinate to end.
+   * For this, segments are flipped and ordered in a way where adjacent segments have the same coordinates
+   * (with tolerance = TRACK_SEGMENT_ORDERING_COORDINATE_MATCHING_DISTANCE) at the "toching side".
+   *
+   * @returns undefined when:
+   *    - section.startCoordinate is null/undefined or
+   *    - orderedSegmentsOfTrackSectionWithTolerance() returns undefined
+   *    (see docs for explanation when that happens)
+   */
+  static sectionPolyLine (section: TrackSection): Coordinate[] | undefined {
+    const matchingDistance = TRACK_SEGMENT_ORDERING_COORDINATE_MATCHING_DISTANCE
+
+    // startCoordinate might be undefined. In that case, don't draw the segment
+    // (as we don't know where it starts!)
+    if (!section.startCoordinate)
+      return undefined
+
+    // only run assertions in dev mode TODO remove
+    if (Configuration.developmentMode()) {
+      // TODO move these tolerances somewhere else!
+      TrackDirectionFeature.assertStartPosOccursInPositions(section.startCoordinate, section,true, matchingDistance)
+    }
+
+    const orderedSegments = orderedSegmentsOfTrackSectionWithTolerance(section,matchingDistance)
+    if (!orderedSegments)
+      return undefined
+
+    const positionList : Coordinate[] = []
+    let lastPos: Coordinate | null = null
+
+    for (const [segment,isFlipped] of orderedSegments!) {
+      console.assert(segment != null, 'all segments must be not null') // TODO check this in unittest for section.orderedSegments()
+      if (segment === null) continue
+
+      const segmentPositions = [...segment.positions]
+      if (isFlipped) segmentPositions.reverse()
+
+      const segmentFirst = segmentPositions[0]
+      const segmentLast = segmentPositions[segmentPositions.length - 1]
+
+      console.assert(lastPos === null || coordinatesEqual(segmentFirst,lastPos))
+
+      // push positions in inverse order.
+      // First element is only pushed in very first segment!
+      if (!lastPos) {
+        positionList.push(segmentFirst)
+      }
+
+      positionList.push(...segmentPositions.slice(1))
+
+      lastPos = segmentLast
+    }
+
+    return positionList
+  }
+
+  private static drawArrow (position: OlPoint , rotation: number) :Style { // add rotation
     const arrowSVG = SvgDraw.drawArrow(16, 32, 'black').content
     arrowSVG.setAttribute('stroke-width', '2')
 
