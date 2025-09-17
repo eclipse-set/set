@@ -20,6 +20,7 @@ import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung
 import org.eclipse.set.model.planpro.Geodaten.ENUMTOPAnschluss
 import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
 import org.eclipse.set.model.planpro.Geodaten.TOP_Knoten
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.ENUMWKrArt
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Komponente
 import org.eclipse.set.model.siteplan.Coordinate
 import org.eclipse.set.model.siteplan.Position
@@ -27,6 +28,7 @@ import org.eclipse.set.model.siteplan.Position
 import static org.eclipse.set.model.planpro.Geodaten.ENUMTOPAnschluss.*
 
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKnotenExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrAnlageExtensions.*
@@ -152,8 +154,9 @@ class TrackSwitchLeg {
 		if (components.length == 1) {
 			val component = components.head
 			leg.topKnoten = component.topKnoten
-			if (leg.topKnoten === null ||
-				leg.topKnoten.getTrackSwitchLegs.length - 1 < legIndex) {
+			if ((leg.topKnoten === null ||
+				leg.topKnoten.getTrackSwitchLegs.length - 1 < legIndex) &&
+				!isCrossType(component)) {
 				return null;
 			}
 			leg.determineLegLength(component, metadata, legIndex)
@@ -174,8 +177,11 @@ class TrackSwitchLeg {
 		val trackSwitch = component.WKrGspElement.WKrAnlage
 		val switchType = trackSwitch.WKrAnlageAllg.WKrArt.wert
 		switch (switchType) {
-			case ENUMW_KR_ART_DKW,
-			case ENUMW_KR_ART_KR: {
+			case ENUMW_KR_ART_KR,
+			case ENUMW_KR_ART_FLACHKREUZUNG: {
+				determineCrossSwitchLegLength(component, metadata, legIndex)
+			}
+			case ENUMW_KR_ART_DKW: {
 				topKante = component.crossingLeg
 				if (metadata !== null) {
 					length = BigDecimal.valueOf(
@@ -210,9 +216,7 @@ class TrackSwitchLeg {
 					topKnoten = anotherGspComponent.topKnoten
 					length = anotherGspComponent.getEKWLegLength(metadata)
 					topKante = anotherGspComponent.crossingLeg
-
 				}
-
 			}
 			default: {
 				topKante = topKnoten.getTrackSwitchLegs.get(legIndex)
@@ -231,6 +235,35 @@ class TrackSwitchLeg {
 
 		if (length === null || length === BigDecimal.ZERO) {
 			length = DEFAULT_TRACKSWITCH_LEG_LENGTH
+		}
+	}
+
+	private static def boolean isCrossType(W_Kr_Gsp_Komponente component) {
+		val anlage = component?.WKrGspElement?.WKrAnlage
+		val type = anlage?.WKrAnlageAllg?.WKrArt?.wert
+		return type === ENUMWKrArt.ENUMW_KR_ART_KR ||
+			type === ENUMWKrArt.ENUMW_KR_ART_FLACHKREUZUNG
+	}
+
+	private def determineCrossSwitchLegLength(W_Kr_Gsp_Komponente component,
+		TrackSwitchMetadata metadata, int index) {
+		val singlePoint = component.singlePoints.get(index)
+		if (singlePoint.wirkrichtung.wert === ENUMWirkrichtung.ENUM_WIRKRICHTUNG_GEGEN) {
+			topKnoten = singlePoint.topKante.TOPKnotenB
+			start = singlePoint.topKante.laenge - singlePoint.abstand.wert
+		} else {
+			start = singlePoint?.abstand?.wert
+			topKnoten = singlePoint?.topKante.TOPKnotenA
+		}
+		
+		topKante = singlePoint?.IDTOPKante?.value
+		if (metadata !== null) {
+			val crossingSide = singlePoint.wirkrichtung.wert ==
+					ENUMWirkrichtung.ENUM_WIRKRICHTUNG_GEGEN ? metadata.
+					rightCrossing : metadata.leftCrossing
+			if (crossingSide !== null) {
+				length = BigDecimal.valueOf(crossingSide.crossing.mainLeg)
+			}
 		}
 	}
 

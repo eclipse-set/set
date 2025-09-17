@@ -24,6 +24,8 @@ import org.eclipse.emf.common.util.EList;
  * <em>Components</em>}</li>
  * <li>{@link org.eclipse.set.model.siteplan.TrackSwitch#getContinuousSegments
  * <em>Continuous Segments</em>}</li>
+ * <li>{@link org.eclipse.set.model.siteplan.TrackSwitch#getSwitchType
+ * <em>Switch Type</em>}</li>
  * </ul>
  *
  * @see org.eclipse.set.model.siteplan.SiteplanPackage#getTrackSwitch()
@@ -83,5 +85,34 @@ public interface TrackSwitch extends SiteplanObject {
 	 * @generated
 	 */
 	EList<ContinuousTrackSegment> getContinuousSegments();
+
+	/**
+	 * Returns the value of the '<em><b>Switch Type</b></em>' attribute. The
+	 * literals are from the enumeration
+	 * {@link org.eclipse.set.model.siteplan.SwitchType}. <!-- begin-user-doc
+	 * --> <!-- end-user-doc -->
+	 * 
+	 * @return the value of the '<em>Switch Type</em>' attribute.
+	 * @see org.eclipse.set.model.siteplan.SwitchType
+	 * @see #setSwitchType(SwitchType)
+	 * @see org.eclipse.set.model.siteplan.SiteplanPackage#getTrackSwitch_SwitchType()
+	 * @model
+	 * @generated
+	 */
+	SwitchType getSwitchType();
+
+	/**
+	 * Sets the value of the
+	 * '{@link org.eclipse.set.model.siteplan.TrackSwitch#getSwitchType
+	 * <em>Switch Type</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
+	 * @param value
+	 *            the new value of the '<em>Switch Type</em>' attribute.
+	 * @see org.eclipse.set.model.siteplan.SwitchType
+	 * @see #getSwitchType()
+	 * @generated
+	 */
+	void setSwitchType(SwitchType value);
 
 } // TrackSwitch

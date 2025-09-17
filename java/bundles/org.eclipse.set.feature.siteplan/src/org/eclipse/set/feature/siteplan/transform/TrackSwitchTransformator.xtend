@@ -44,6 +44,8 @@ import static extension org.eclipse.set.ppmodel.extensions.WKrAnlageExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspElementExtensions.*
 import org.eclipse.set.basis.constants.ToolboxConstants
 import java.math.RoundingMode
+import org.eclipse.set.model.siteplan.SwitchType
+import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung
 
 /**
  * Transforms a track switch from the PlanPro model to a siteplan TrackSwitch
@@ -75,13 +77,14 @@ class TrackSwitchTransformator extends BaseTransformator<W_Kr_Anlage> {
 		val result = SiteplanFactory.eINSTANCE.createTrackSwitch
 		result.guid = trackswitch.identitaet.wert
 		result.design = '''«trackswitch.WKrAnlageAllg.WKrArt.wert» «trackswitch.WKrAnlageAllg.WKrGrundform.wert»'''
+		val switchType = trackswitch.WKrAnlageAllg.WKrArt.wert
 		val metadata = trackSwitchMetadataProvider.getTrackSwitchMetadata(
-			trackswitch.WKrAnlageAllg.WKrArt.wert,
+			switchType,
 			trackswitch.WKrAnlageAllg.WKrGrundform.wert
 		)
 
+		result.switchType = switchType.transform
 		val elements = trackswitch.WKrGspElemente
-		
 		// Find the legs of the first element		
 		val firstElement = elements.head
 		val components = firstElement.WKrGspKomponenten
@@ -104,7 +107,9 @@ class TrackSwitchTransformator extends BaseTransformator<W_Kr_Anlage> {
 			val secondComponents = secondElement.WKrGspKomponenten
 			var legC = getLeg(secondComponents, metadata, 0)
 			var legD = getLeg(secondComponents, metadata, 1)
-			if (legC.TOPKante === legA.TOPKante) {
+			if (legC.TOPKante === legA.TOPKante &&
+				switchType !== ENUMWKrArt.ENUMW_KR_ART_KR &&
+				switchType !== ENUMWKrArt.ENUMW_KR_ART_FLACHKREUZUNG) {
 				val temp = legC
 				legC = legD
 				legD = temp
@@ -118,16 +123,14 @@ class TrackSwitchTransformator extends BaseTransformator<W_Kr_Anlage> {
 			result.components.add(
 				transformElement(trackswitch, secondElement, legC, legD))
 
-			// Add continuous segments:
-			if (trackswitch.WKrAnlageAllg.WKrArt.wert ==
-				ENUMWKrArt.ENUMW_KR_ART_DKW) {
+			// Add continuous segments
+			if (switchType == ENUMWKrArt.ENUMW_KR_ART_DKW) {
 				// DKW:
 				// - start of legA <-> start of legC
 				// - start of legB <-> start of legD
 				result.continuousSegments.add(getContinousSegment(legA, legC))
 				result.continuousSegments.add(getContinousSegment(legB, legD))
-			} else if (trackswitch.WKrAnlageAllg.WKrArt.wert ==
-				ENUMWKrArt.ENUMW_KR_ART_EKW) {
+			} else if (switchType == ENUMWKrArt.ENUMW_KR_ART_EKW) {
 				// EKW: (legA and legB  / legC and legD start at the same point)
 				// - start of legA <-> start of legC
 				result.continuousSegments.add(getContinousSegment(legA, legC))
@@ -139,11 +142,11 @@ class TrackSwitchTransformator extends BaseTransformator<W_Kr_Anlage> {
 			// Position the error somewhere on the first leg. 
 			recordError(trackswitch.identitaet?.wert,
 				String.format(ERROR_NO_TRACK_SWITCH_METADATA,
-					trackswitch.WKrAnlageAllg?.WKrArt?.wert?.toString() ?:
-						"Keine W_Kr_Art",
+					switchType?.toString() ?: "Keine W_Kr_Art",
 					trackswitch.WKrAnlageAllg?.WKrGrundform?.wert ?:
 						"Keine W_Kr_Grundform"),
-				legA.getCoordinate(BigDecimal.ZERO, BigDecimal.TWO, geometryService, positionService))
+				legA.getCoordinate(BigDecimal.ZERO, BigDecimal.TWO,
+					geometryService, positionService))
 		}
 
 		result.addSiteplanElement(
@@ -178,7 +181,6 @@ class TrackSwitchTransformator extends BaseTransformator<W_Kr_Anlage> {
 			sideLeg.length.divide(BigDecimal.TWO,
 				ToolboxConstants.ROUNDING_TO_PLACE, RoundingMode.HALF_UP),
 			BigDecimal.ZERO, geometryService, positionService)
-
 		val pointDetector = components.get(0)?.zungenpaar?.
 			zungenpruefkontaktAnzahl?.wert
 		if (pointDetector !== null)
@@ -187,8 +189,9 @@ class TrackSwitchTransformator extends BaseTransformator<W_Kr_Anlage> {
 		result.operatingMode = transform(
 			element.WKrGspElementAllg?.WKrGspStellart?.wert)
 		result.preferredLocation = element.weicheElement?.weicheVorzugslage?.
-			wert === ENUMLinksRechts.ENUM_LINKS_RECHTS_LINKS ? LeftRight.
-			LEFT : LeftRight.RIGHT
+			wert === ENUMLinksRechts.ENUM_LINKS_RECHTS_LINKS
+			? LeftRight.LEFT
+			: LeftRight.RIGHT
 
 		return result
 	}
@@ -306,6 +309,21 @@ class TrackSwitchTransformator extends BaseTransformator<W_Kr_Anlage> {
 				return TurnoutOperatingMode.DEAD_RIGHT
 			default:
 				return TurnoutOperatingMode.UNDEFINED
+		}
+	}
+
+	private def SwitchType transform(ENUMWKrArt type) {
+		return switch (type) {
+			case ENUMW_KR_ART_ABW,
+			case ENUMW_KR_ART_EW,
+			case ENUMW_KR_ART_IBW,
+			case ENUMW_KR_ART_KLOTHOIDENWEICHE,
+			case ENUMW_KR_ART_DW: SwitchType.SIMPLE
+			case ENUMW_KR_ART_DKW: SwitchType.DOPPLE_CROSS_SWITCH
+			case ENUMW_KR_ART_EKW: SwitchType.CROSS_SWITCH
+			case ENUMW_KR_ART_KR: SwitchType.SIMPLE_CROSS
+			case ENUMW_KR_ART_FLACHKREUZUNG: SwitchType.FLAT_CROSS
+			default: SwitchType.OTHER
 		}
 	}
 }

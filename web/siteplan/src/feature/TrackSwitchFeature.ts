@@ -12,7 +12,7 @@ import ContinuousTrackSegment from '@/model/ContinuousTrackSegment'
 import { Coordinate, Position } from '@/model/Position'
 import { SiteplanColorValue, SiteplanState } from '@/model/SiteplanModel'
 import { getColor, getLabelColor } from '@/model/SiteplanObject'
-import TrackSwitch, { TrackSwitchPart } from '@/model/TrackSwitch'
+import TrackSwitch, { SwitchType, TrackSwitchPart } from '@/model/TrackSwitch'
 import TrackSwitchComponent, { TurnoutOperatingMode } from '@/model/TrackSwitchComponent'
 import { angle, clampAngle, distance, pointInDistance, toDeg } from '@/util/Math'
 import { updateLabelColor, updateLabelOrientation } from '@/util/ModelExtensions'
@@ -140,20 +140,23 @@ export default class TrackSwitchFeature extends LageplanFeature<TrackSwitch> {
       result.push(...switchStyle)
       updateLabelOrientation(component.label, component.labelPosition.rotation, this.map)
       updateLabelColor(component.label, getLabelColor(tswitch))
-      const startStyle = this.svgService.getFeatureStyle(
-        {
-          featureData: data,
-          drawPart: TrackSwitchPart.StartMarker
-        },
-        FeatureType.TrackSwitch
-      )
-      // Rescale the feature according to the current zoom level
-      // to keep a constant size
-      startStyle.getImage()?.setScale(scale)
-      startStyle.setGeometry(startGeometry)
-      // Rotate the feature
-      startStyle.getImage()?.setRotation((component.start.rotation * Math.PI) / 180)
-      result.push(startStyle)
+      if (tswitch.switchType !== SwitchType.SimpleCross &&
+        tswitch.switchType !== SwitchType.FlatCross) {
+        const startStyle = this.svgService.getFeatureStyle(
+          {
+            featureData: data,
+            drawPart: TrackSwitchPart.StartMarker
+          },
+          FeatureType.TrackSwitch
+        )
+        // Rescale the feature according to the current zoom level
+        // to keep a constant size
+        startStyle.getImage()?.setScale(scale)
+        startStyle.setGeometry(startGeometry)
+        // Rotate the feature
+        startStyle.getImage()?.setRotation((component.start.rotation * Math.PI) / 180)
+        result.push(startStyle)
+      }
 
       // Add the label
       if (component.label) {
@@ -272,6 +275,12 @@ export default class TrackSwitchFeature extends LageplanFeature<TrackSwitch> {
       clampAngle(position.rotation - 90),
       TrackSwitchFeature.LABEL_DISTANCE
     )
+
+    if (outlineGeometry.containsXY(positivePoint[0], positivePoint[1])) {
+      return negativePoint
+    } else if (outlineGeometry.containsXY(negativePoint[0], negativePoint[1])) {
+      return positivePoint
+    }
 
     const positiveDistance = distance(outlineGeometry.getClosestPoint(positivePoint), positivePoint)
     const negativeDistance = distance(outlineGeometry.getClosestPoint(negativePoint), negativePoint)
