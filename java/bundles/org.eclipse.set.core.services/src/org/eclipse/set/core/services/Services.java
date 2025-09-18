@@ -16,6 +16,7 @@ import org.eclipse.set.core.services.geometry.PointObjectPositionService;
 import org.eclipse.set.core.services.graph.TopologicalGraphService;
 import org.eclipse.set.core.services.planningaccess.PlanningAccessService;
 import org.eclipse.set.core.services.siteplan.SiteplanService;
+import org.eclipse.set.core.services.version.PlanProVersionService;
 import org.eclipse.set.core.services.viewmodel.ToolboxViewModelService;
 
 /**
@@ -33,6 +34,7 @@ public class Services {
 	private static UserConfigurationService userConfigurationService;
 	private static TopologicalGraphService topGraphService;
 	private static PointObjectPositionService pointObjectPositionService;
+	private static PlanProVersionService planProVersionService;
 
 	/**
 	 * @return the siteplan service
@@ -182,5 +184,21 @@ public class Services {
 	public static void setPointObjectPositionService(
 			final PointObjectPositionService pointObjectPositionService) {
 		Services.pointObjectPositionService = pointObjectPositionService;
+	}
+
+	/**
+	 * @param planProVersionService
+	 *            the {@link PlanProVersionService}
+	 */
+	public static void setPlanProVersionService(
+			final PlanProVersionService planProVersionService) {
+		Services.planProVersionService = planProVersionService;
+	}
+
+	/**
+	 * @return the {@link PlanProVersionService}
+	 */
+	public static PlanProVersionService getPlanProVersionService() {
+		return planProVersionService;
 	}
 }
