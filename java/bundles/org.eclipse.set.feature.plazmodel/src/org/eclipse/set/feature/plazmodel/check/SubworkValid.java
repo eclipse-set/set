@@ -50,11 +50,11 @@ public class SubworkValid implements PlazCheck {
 		final List<PlazError> errors = new ArrayList<>();
 		final Map<Ausgabe_Fachdaten, ENUMUntergewerkArt> subworkFromPlanGroup = getSubworkFromPlanGroup(
 				modelSession);
-		final List<Ausgabe_Fachdaten> subworksList = Streams
+		final List<Ausgabe_Fachdaten> subworksList = new ArrayList<>(Streams
 				.stream(modelSession.getPlanProSchnittstelle().eAllContents())
 				.filter(Ausgabe_Fachdaten.class::isInstance)
 				.map(Ausgabe_Fachdaten.class::cast)
-				.toList();
+				.toList());
 		final Set<ENUMUntergewerkArt> knowType = new HashSet<>();
 		if (!subworkFromPlanGroup.isEmpty()) {
 			subworkFromPlanGroup.forEach((subwork, type) -> errors.addAll(
@@ -144,7 +144,7 @@ public class SubworkValid implements PlazCheck {
 
 	@Override
 	public String getDescription() {
-		return "Die Ausgabefach_Daten haben plausible Untergewerk";
+		return "Die Ausgabefach_Daten haben eindeutig Untergewerk";
 	}
 
 	@Override
