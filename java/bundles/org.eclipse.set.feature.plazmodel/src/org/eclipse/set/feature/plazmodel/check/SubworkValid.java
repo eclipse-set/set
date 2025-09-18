@@ -35,9 +35,9 @@ import org.osgi.service.component.annotations.Component;
 import com.google.common.collect.Streams;
 
 /**
- * Validate {@link Ausgabe_Fachdaten#getUntergewerkArt()} 
- * 	- Compare with {@link Untergewerk_Art_TypeClass} from belong {@link Planung_Gruppe}
- *  - The {@link ENUMUntergewerkArt} should be unique
+ * Validate {@link Ausgabe_Fachdaten#getUntergewerkArt()} - Compare with
+ * {@link Untergewerk_Art_TypeClass} from belong {@link Planung_Gruppe} - The
+ * {@link ENUMUntergewerkArt} should be unique
  * 
  * @author truong
  */
@@ -58,16 +58,16 @@ public class SubworkValid implements PlazCheck {
 		final Set<ENUMUntergewerkArt> knowType = new HashSet<>();
 		if (!subworkFromPlanGroup.isEmpty()) {
 			subworkFromPlanGroup.forEach((subwork, type) -> errors.addAll(
-					checkSubwork(subwork, Optional.of(type), knowType)));
+					validateSubwork(subwork, Optional.of(type), knowType)));
 			subworkFromPlanGroup.keySet().forEach(subworksList::remove);
 		}
 
 		subworksList.forEach(subwork -> errors
-				.addAll(checkSubwork(subwork, Optional.empty(), knowType)));
+				.addAll(validateSubwork(subwork, Optional.empty(), knowType)));
 		return errors;
 	}
 
-	private List<PlazError> checkSubwork(final Ausgabe_Fachdaten subwork,
+	private List<PlazError> validateSubwork(final Ausgabe_Fachdaten subwork,
 			final Optional<ENUMUntergewerkArt> planGroupSubWorkType,
 			final Set<ENUMUntergewerkArt> knowedType) {
 		final List<PlazError> result = new ArrayList<>();
@@ -84,7 +84,7 @@ public class SubworkValid implements PlazCheck {
 		if (planGroupSubWorkType.isPresent()
 				&& subworkType.get() != planGroupSubWorkType.get()) {
 			result.add(createPlazError(subwork,
-					"Die Ausgabe_Fachedaten: {GUID} und die gehörigen Planung_Gruppe haben unterschieden Untergewerk",
+					"Die Ausgabe_Fachdaten: {GUID} und die gehörigen Planung_Gruppe haben unterschieden Untergewerk",
 					subworkGuidMap));
 		}
 
