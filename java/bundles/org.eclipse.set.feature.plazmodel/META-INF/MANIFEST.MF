@@ -96,6 +96,7 @@ Service-Component: OSGI-INF/org.eclipse.set.feature.plazmodel.PlazModelDescripti
  OSGI-INF/org.eclipse.set.feature.plazmodel.check.PunktObjektTOPKante.xml,
  OSGI-INF/org.eclipse.set.feature.plazmodel.check.SignalBefestigungReferencenValid.xml,
  OSGI-INF/org.eclipse.set.feature.plazmodel.check.SonstigeRequiresBearbeitungsvermerk.xml,
+ OSGI-INF/org.eclipse.set.feature.plazmodel.check.SubworkValid.xml,
  OSGI-INF/org.eclipse.set.feature.plazmodel.check.TOPKanteLength.xml,
  OSGI-INF/org.eclipse.set.feature.plazmodel.check.TeilbereichOverlapCheck.xml,
  OSGI-INF/org.eclipse.set.feature.plazmodel.check.TeilbereichTOPKante.xml,
