@@ -24,6 +24,7 @@
 
    <windowImages/>
 
+
    <launcher name="set">
       <win useIco="true">
          <bmp/>
@@ -52,7 +53,6 @@
 
    <configurations>
       <plugin id="ch.qos.logback.classic" autoStart="true" startLevel="2" />
-      <plugin id="maven.net.sf.offo.artifact.fop-hyph" autoStart="true" startLevel="4" />
       <plugin id="org.apache.aries.spifly.dynamic.bundle" autoStart="true" startLevel="2" />
       <plugin id="org.apache.felix.scr" autoStart="true" startLevel="2" />
       <plugin id="org.eclipse.core.runtime" autoStart="true" startLevel="1" />
