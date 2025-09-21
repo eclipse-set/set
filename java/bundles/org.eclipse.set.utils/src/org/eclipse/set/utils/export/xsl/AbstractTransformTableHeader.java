@@ -312,12 +312,12 @@ public abstract class AbstractTransformTableHeader {
 	private Element createTableCell(final Optional<Cell> excelCell) {
 		final Element cell = doc.createElement(FO_TABLE_CELL);
 		transformCellStyle(cell, excelCell);
-		final Optional<String> cellContent = getCellStringValue(excelCell);
 		final Element block = doc.createElement(FO_BLOCK);
 		block.setAttribute(START_INDENT, "0mm"); //$NON-NLS-1$
-		if (cellContent.isPresent()) {
-			block.setTextContent(cellContent.get());
+		if (excelCell.isPresent()) {
+			TransformStyle.setCellContent(block, excelCell.get());
 		}
+
 		cell.appendChild(block);
 		return cell;
 	}

@@ -2114,19 +2114,19 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBefestigung_Art_Bahnsteig_Alternative;
 
 	/**
-	 * Dach
+	 * Dach/Decke
 	 */
-	public String ENUMBefestigung_Art_Dach_Presentation;
+	public String ENUMBefestigung_Art_Dach_Decke_Presentation;
 
 	/**
 	 * null
 	 */
-	public String ENUMBefestigung_Art_Dach_Sorting;
+	public String ENUMBefestigung_Art_Dach_Decke_Sorting;
 
 	/**
-	 * Dach
+	 * Dach/Decke
 	 */
-	public String ENUMBefestigung_Art_Dach_Alternative;
+	public String ENUMBefestigung_Art_Dach_Decke_Alternative;
 
 	/**
 	 * Fundament

@@ -32,6 +32,10 @@ export interface TrackWidth {
  * @author Stuecker
  */
 export default abstract class Configuration {
+  // Maxium export PPM. It is equivalent to scale 1:100
+  public static readonly MAX_EXPORT_PPM = 35
+  // Minimum export PPM. It is equivalent to scale 1:1000
+  public static readonly MIN_EXPORT_PPM = 4
   public static isMapSourceEnabled (mapSourceName: string): boolean {
     // If executing within PPT, use the configuration parameter
     if (PlanProToolbox.inPPT()) {

@@ -49,7 +49,6 @@ import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKnotenExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.CollectionExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.SetExtensions.*
 
 /**
@@ -121,6 +120,18 @@ class TopKanteExtensions extends BasisObjektExtensions {
 			throw new IllegalArgumentException('''The TOP_Knoten: «topKnoten.identitaet.wert» on TOP_Kante: «topKante.identitaet.wert» reference to more than one GEO_Kante''')
 		}
 		return geoKanten.get(0)
+	}
+
+	def static GEO_Kante getGeoKanteAt(TOP_Kante topKante,
+		BigDecimal distance) {
+		val startNode = topKante.TOPKnotenA?.GEOKnoten
+		val geoKantenWithDistances = startNode.
+			getGeoKantenWithDistance(topKante)
+		return geoKantenWithDistances.findFirst [
+			val geoKanteLength = key?.GEOKanteAllg?.GEOLaenge?.wert
+			return geoKanteLength !== null && value < distance &&
+				value + geoKanteLength > distance
+		]?.key
 	}
 
 	/**
@@ -538,30 +549,7 @@ class TopKanteExtensions extends BasisObjektExtensions {
 		if (topKante.TOPKnotenB.IDGEOKnoten.value === geoKnoten) {
 			return topKante.laenge
 		}
-
-		val distance = topKante.geoKanten.getAbstand(
-			topKante.TOPKnotenA.IDGEOKnoten.value, geoKnoten, BigDecimal.ZERO)
-		return distance
-	}
-
-	private def static BigDecimal getAbstand(List<GEO_Kante> geoKanten,
-		GEO_Knoten startKnoten, GEO_Knoten targetKnoten, BigDecimal distance) {
-		if (startKnoten === targetKnoten || startKnoten === null ||
-			targetKnoten === null) {
-			return distance
-		}
-
-		val geoKante = startKnoten.geoKanten.filter[geoKanten.contains(it)].
-			firstOrNull
-		if (geoKante === null) {
-			throw new IllegalArgumentException
-		}
-		val nextKnoten = geoKante.IDGEOKnotenA.value === startKnoten ? geoKante.
-				IDGEOKnotenB.value : geoKante.IDGEOKnotenA.value
-		val remainingGeoKanten = geoKanten.filter[it !== geoKante].toList
-		return getAbstand(remainingGeoKanten, nextKnoten, targetKnoten,
-			distance +
-				(geoKante.GEOKanteAllg?.GEOLaenge?.wert ?: BigDecimal.ZERO))
+		return topKante.geoKnotenWithDistance.findFirst[key === geoKnoten].value
 	}
 
 	/**
@@ -830,5 +818,27 @@ class TopKanteExtensions extends BasisObjektExtensions {
 		val topKnotenA = topKante.TOPKnotenA
 		val start = topKnotenA.GEOKnoten
 		return start.getGeoKantenWithDistance(topKante)
+	}
+
+	def static Iterable<Pair<GEO_Knoten, BigDecimal>> getGeoKnotenWithDistance(
+		TOP_Kante topKante) {
+		val result = #[]
+		var geoKanten = topKante.geoKantenWithDistance.sortBy[value]
+
+		var current = topKante.TOPKnotenA.IDGEOKnoten.value
+		while (!geoKanten.nullOrEmpty) {
+			var geoKante = geoKanten.head.key
+			var distance = geoKanten.head.value
+			result.add(current -> distance)
+			current = geoKante.getOpposite(current)
+			geoKanten.remove(0)
+			if (geoKanten.nullOrEmpty) {
+				result.add(current ->
+					distance +
+						(geoKante.GEOKanteAllg?.GEOLaenge?.wert ?:
+							BigDecimal.ZERO))
+			}
+		}
+		return result
 	}
 }

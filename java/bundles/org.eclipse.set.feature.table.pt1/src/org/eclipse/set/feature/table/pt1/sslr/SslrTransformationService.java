@@ -23,6 +23,7 @@ import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
 import org.eclipse.set.utils.table.sorting.TableRowGroupComparator;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.event.EventAdmin;
 
 /**
  * Service for creating the sslr table model.
@@ -40,10 +41,12 @@ public class SslrTransformationService
 	private Messages messages;
 	@Reference
 	private EnumTranslationService enumTranslationService;
+	@Reference
+	private EventAdmin eventAdmin;
 
 	@Override
 	public AbstractPlanPro2TableModelTransformator createTransformator() {
-		return new SslrTransformator(cols, enumTranslationService);
+		return new SslrTransformator(cols, enumTranslationService, eventAdmin);
 	}
 
 	@Override
@@ -65,5 +68,10 @@ public class SslrTransformationService
 	@Override
 	protected String getTableHeading() {
 		return messages.Sslr_Heading;
+	}
+
+	@Override
+	protected String getShortcut() {
+		return messages.ToolboxTableNameSslrShort.toLowerCase();
 	}
 }

@@ -9,6 +9,10 @@
  */
 package org.eclipse.set.core.fileservice;
 
+import java.util.Optional;
+
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
@@ -25,6 +29,7 @@ import org.eclipse.set.model.planpro.Verweise.VerweisePackage;
  */
 public class ToolboxIDResolver {
 	private final GuidCache guidCache = new GuidCache();
+	private static final String PLANPRO_ID_REFERENCE_ANNOTATION_SOURCE = "planpro/id_reference"; //$NON-NLS-1$
 
 	private ToolboxIDResolver(final PlanPro_Schnittstelle model) {
 		guidCache.prepare(model);
@@ -123,13 +128,27 @@ public class ToolboxIDResolver {
 	}
 
 	private static void setIDReference(final EObject ref, final EObject value) {
+		boolean isValid = false;
+		final Optional<EAnnotation> idReferenceAnnotation = ref.eClass()
+				.getEAnnotations()
+				.stream()
+				.filter(annotation -> annotation.getSource()
+						.equals(PLANPRO_ID_REFERENCE_ANNOTATION_SOURCE))
+				.findFirst();
+		if (idReferenceAnnotation.isPresent()) {
+			final EList<EObject> references = idReferenceAnnotation.get()
+					.getReferences();
 
-		final EClass referenceType = getValueFeature(ref).getEReferenceType();
+			isValid = references.stream()
+					.filter(EClass.class::isInstance)
+					.anyMatch(reference -> isValidReference((EClass) reference,
+							value));
+		} else {
+			final EReference valueFeature = getValueFeature(ref);
+			isValid = isValidReference(valueFeature.getEReferenceType(), value);
+		}
 
-		// If we have a value, check whether it is applicable
-		final Class<?> valueClass = value.getClass();
-		final Class<?> referenceClass = referenceType.getInstanceClass();
-		if (!referenceClass.isAssignableFrom(valueClass)) {
+		if (!isValid) {
 			// object found, but has wrong type -> mark invalid
 			ref.eSet(getValidFeature(ref), Boolean.TRUE);
 			ref.eSet(getValueFeature(ref), null);
@@ -137,6 +156,14 @@ public class ToolboxIDResolver {
 		}
 
 		ref.eSet(getValueFeature(ref), value);
+	}
+
+	private static boolean isValidReference(final EClass refClass,
+			final EObject value) {
+		// If we have a value, check whether it is applicable
+		final Class<?> valueClass = value.getClass();
+		final Class<?> referenceClass = refClass.getInstanceClass();
+		return referenceClass.isAssignableFrom(valueClass);
 	}
 
 }

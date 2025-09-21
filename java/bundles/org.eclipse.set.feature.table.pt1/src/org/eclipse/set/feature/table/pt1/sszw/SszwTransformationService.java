@@ -19,6 +19,7 @@ import org.eclipse.set.feature.table.pt1.messages.Messages;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.event.EventAdmin;
 
 /**
  * Service for creating the sszw table model. org.eclipse.set.feature.table
@@ -39,6 +40,8 @@ public final class SszwTransformationService
 	private EnumTranslationService enumTranslationService;
 	@Reference
 	private TopologicalGraphService topGraphService;
+	@Reference
+	private EventAdmin eventAdmin;
 
 	/**
 	 * constructor.
@@ -49,7 +52,8 @@ public final class SszwTransformationService
 
 	@Override
 	public AbstractPlanPro2TableModelTransformator createTransformator() {
-		return new SszwTransformator(cols, enumTranslationService);
+		return new SszwTransformator(cols, enumTranslationService, eventAdmin,
+				getShortcut());
 	}
 
 	@Override
@@ -62,6 +66,11 @@ public final class SszwTransformationService
 	@Override
 	protected String getTableHeading() {
 		return messages.SszwTableView_Heading;
+	}
+
+	@Override
+	protected String getShortcut() {
+		return messages.ToolboxTableNameSszwShort.toLowerCase();
 	}
 
 }

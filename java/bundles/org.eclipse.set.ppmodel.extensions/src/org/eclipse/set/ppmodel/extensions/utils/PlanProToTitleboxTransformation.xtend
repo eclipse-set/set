@@ -30,6 +30,8 @@ import static extension org.eclipse.set.model.titlebox.extensions.TitleboxExtens
 import static extension org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PlanungProjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.XMLGregorianCalendarExtensions.*
+import org.eclipse.set.core.services.session.SessionService
+import org.eclipse.set.basis.files.ToolboxFileRole
 
 /**
  * Transformation from PlanPro Schnittstelle to Titlebox.
@@ -51,31 +53,30 @@ class PlanProToTitleboxTransformation {
 	static final String EMPTY_PLANNING_NUMBER = "<Plannummer DB AG>"
 	static final int SMALL_FELD_MAX_LENGTH = 7
 	static final String ZERO_WIDTH_SPACE = "\u200b"
+	PlanPro_Schnittstelle mainSchnittstelle
+	PlanPro_Schnittstelle compareSchnittstelle
 
-	private new() {
-	}
-
-	/**
-	 * Creates a new transformation.
-	 */
-	def static PlanProToTitleboxTransformation create() {
-		return new PlanProToTitleboxTransformation
+	new(SessionService sessionService) {
+		mainSchnittstelle = sessionService.getLoadedSession(
+			ToolboxFileRole.SESSION)?.planProSchnittstelle
+		compareSchnittstelle = sessionService.getLoadedSession(
+			ToolboxFileRole.COMPARE_PLANNING)?.planProSchnittstelle
 	}
 
 	/**
 	 * Transforms a PlanPro Schnittstelle to a Titlebox.
 	 */
 	def Titlebox create TitleboxFactory.eINSTANCE.createTitlebox transform(
-		PlanPro_Schnittstelle schnittstelle, TableNameInfo tableName,
+		TableNameInfo tableName,
 		Function<String, Path> attachmentPathProvider) {
 		resetFields
 		addFieldsFrom(
-			schnittstelle?.LSTPlanungProjekt?.planungGruppe?.
+			mainSchnittstelle?.LSTPlanungProjekt?.planungGruppe?.
 				planungGSchriftfeld,
 			tableName,
 			attachmentPathProvider
 		)
-		val planungEinzel = schnittstelle?.planungEinzel
+		val planungEinzel = mainSchnittstelle?.planungEinzel
 
 		val lastPlanungEErstellung = planungEinzel?.planungEHandlung?.
 			planungEErstellung?.lastOrNull
@@ -105,11 +106,11 @@ class PlanProToTitleboxTransformation {
 		val lastPlanungUebernahme = planungEinzel?.planungEHandlung?.
 			planungEUebernahme?.lastOrNull
 
-		val planungAllgemein = schnittstelle?.planungAllgemein;
-		val idPlanungBasis = schnittstelle?.referenzPlanungBasis;
+		val planungAllgemein = mainSchnittstelle?.planungAllgemein;
+		val idPlanungBasis = mainSchnittstelle?.referenzPlanungBasis;
 
 		if (idPlanungBasis !== null) {
-			it.set(34, schnittstelle.referenzPlanungBasis)
+			it.set(34, mainSchnittstelle.referenzPlanungBasis)
 			it.set(35, planungEinzel?.bauzustandPlanungEinzel)
 			it.set(36,
 				lastPlanungEErstellung?.handelnder?.akteurAllg?.
@@ -140,7 +141,7 @@ class PlanProToTitleboxTransformation {
 		val version = ToolboxConfiguration.toolboxVersion
 
 		it.set(
-			23, '''Geplant mit «schnittstelle?.planProSchnittstelleAllg?.werkzeugName?.wert ?: ""» «schnittstelle?.planProSchnittstelleAllg?.werkzeugVersion?.wert ?: ""»
+			23, '''Geplant mit «mainSchnittstelle?.planProSchnittstelleAllg?.werkzeugName?.wert ?: ""» «mainSchnittstelle?.planProSchnittstelleAllg?.werkzeugVersion?.wert ?: ""»
 		Visualisiert mit «ToolboxConfiguration.shortName» «version.shortVersion»''')
 		it.set(56, planungAllgemein?.indexAusgabe?.wert)
 		it.set(57, planungAllgemein?.bauzustandPlanungAllgemein)
@@ -163,15 +164,31 @@ class PlanProToTitleboxTransformation {
 		it.set(73, lastPlanungUebernahme?.datum?.wert?.toString(DATE_FORMAT) ?:
 			"")
 
-		it.set(48, planungAllgemein.buildLastEditionNumber)
-
 		it.set(
-			74, '''«schnittstelle.oertlichkeit»«tableName?.planningNumber ?: EMPTY_PLANNING_NUMBER»''')
+			74, '''«mainSchnittstelle.oertlichkeit»«tableName?.planningNumber ?: EMPTY_PLANNING_NUMBER»''')
 
 		it.set(99, planungAllgemein.buildLastEditionNumber)
+		if (compareSchnittstelle !== null) {
+			// Fille compare plan information
+			val comparePlanungAllgemein = compareSchnittstelle?.planungAllgemein
+			val compareLastPlanungEErstellung = compareSchnittstelle?.planungEinzel?.
+				planungEHandlung?.planungEErstellung?.lastOrNull
+			it.set(48, comparePlanungAllgemein?.buildLastEditionNumber)
+			it.set(62,
+				compareLastPlanungEErstellung?.datum.wert?.toString(
+					DATE_FORMAT) ?: "")
 
-		it.set(62, lastPlanungEErstellung?.datum?.wert?.toString(DATE_FORMAT) ?:
-			"")
+			// Fill main plan information
+			it.set(49, planungAllgemein.buildLastEditionNumber)
+			it.set(63,
+				lastPlanungEErstellung?.datum?.wert?.toString(DATE_FORMAT) ?:
+					"")
+		} else {
+			it.set(48, planungAllgemein.buildLastEditionNumber)
+			it.set(62,
+				lastPlanungEErstellung?.datum?.wert?.toString(DATE_FORMAT) ?:
+					"")
+		}
 
 		if (ToolboxConfiguration.pdfExportTestFilling) {
 			fillEmptyFieldsWithAddresses

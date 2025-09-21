@@ -46,6 +46,7 @@ import org.eclipse.nebula.widgets.nattable.layer.DataLayer;
 import org.eclipse.nebula.widgets.nattable.layer.ILayer;
 import org.eclipse.nebula.widgets.nattable.layer.LabelStack;
 import org.eclipse.nebula.widgets.nattable.layer.SpanningDataLayer;
+import org.eclipse.nebula.widgets.nattable.layer.cell.DataCell;
 import org.eclipse.nebula.widgets.nattable.layer.cell.IConfigLabelAccumulator;
 import org.eclipse.nebula.widgets.nattable.layer.cell.ILayerCell;
 import org.eclipse.nebula.widgets.nattable.resize.command.RowHeightResetCommand;
@@ -220,10 +221,9 @@ public final class ToolboxTableView extends BasePart {
 	}
 
 	private Titlebox getTitlebox(final String shortcut) {
-		final PlanProToTitleboxTransformation planProToTitlebox = PlanProToTitleboxTransformation
-				.create();
+		final PlanProToTitleboxTransformation planProToTitlebox = new PlanProToTitleboxTransformation(
+				getSessionService());
 		return planProToTitlebox.transform(
-				getModelSession().getPlanProSchnittstelle(),
 				tableService.getTableNameInfo(shortcut),
 				this::getAttachmentPath);
 	}
@@ -370,7 +370,6 @@ public final class ToolboxTableView extends BasePart {
 		final List<String> lines = new ArrayList<>();
 		final List<StyleRange> styles = new ArrayList<>();
 		int startOffset = 0;
-
 		for (final FootnoteInfo footnote : TableExtensions
 				.getAllFootnotes(table)) {
 			final String text = footnote.toReferenceText();
@@ -453,9 +452,6 @@ public final class ToolboxTableView extends BasePart {
 
 		final SelectionLayer selectionLayer = bodyLayerStack
 				.getSelectionLayer();
-		// selectionLayer.addConfiguration(
-		// new RowSelectionListener(getToolboxPart().getElementId(),
-		// selectionLayer, tableInstances, getBroker()));
 
 		// column header stack
 		final IDataProvider columnHeaderDataProvider = new DefaultColumnHeaderDataProvider(
@@ -499,6 +495,15 @@ public final class ToolboxTableView extends BasePart {
 				.applyTo(natTable);
 
 		addMenuItems();
+		bodyLayerStack.addSearchConfiguration(natTable.getConfigRegistry(),
+				cell -> {
+					final DataCell cellByPosition = bodyDataProvider
+							.getCellByPosition(cell.getColumnPosition(),
+									cell.getRowPosition());
+					return TableRowExtensions.getPlainStringValue(
+							tableInstances.get(cellByPosition.getRowPosition()),
+							cellByPosition.getColumnPosition());
+				});
 		natTable.addConfiguration(tableMenuService
 				.createMenuConfiguration(natTable, selectionLayer));
 		natTable.configure();
@@ -508,6 +513,12 @@ public final class ToolboxTableView extends BasePart {
 				rootColumnDescriptor, bodyLayerStack, bodyDataProvider,
 				getDialogService()));
 		bodyLayerStack.setConfigLabelAccumulator(compareTableCellLabelConfig());
+		selectionLayer.setConfigLabelAccumulator((final LabelStack configLabels,
+				final int columnPosition, final int rowPosition) -> {
+			configLabels
+					.addLabel(ToolboxConstants.SEARCH_CELL_DISPLAY_CONVERTER);
+		});
+
 		bodyLayerStack.getSelectionLayer().clear();
 
 		// display footnotes

@@ -17,6 +17,7 @@ import org.eclipse.set.feature.table.pt1.messages.Messages;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.event.EventAdmin;
 
 /**
  * Service for creating the ssbb table model
@@ -33,6 +34,8 @@ public class SsbbTransformationService
 	private Messages messages;
 	@Reference
 	private EnumTranslationService enumTranslationService;
+	@Reference
+	private EventAdmin eventAdmin;
 
 	/**
 	 * constructor
@@ -55,7 +58,12 @@ public class SsbbTransformationService
 
 	@Override
 	public AbstractPlanPro2TableModelTransformator createTransformator() {
-		return new SsbbTransformator(cols, enumTranslationService);
+		return new SsbbTransformator(cols, enumTranslationService, eventAdmin);
+	}
+
+	@Override
+	protected String getShortcut() {
+		return messages.ToolboxTableNameSsbbShort.toLowerCase();
 	}
 
 }

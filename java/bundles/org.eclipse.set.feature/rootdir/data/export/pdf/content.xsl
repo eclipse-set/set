@@ -37,7 +37,7 @@ http://www.eclipse.org/legal/epl-v20.html
 	</xsl:template>
 
 	<xsl:template match="DiffContent">
-		<fo:block>
+		<fo:block keep-together.within-page="always">
 			<xsl:apply-templates />
 		</fo:block>
 	</xsl:template>
@@ -159,6 +159,12 @@ http://www.eclipse.org/legal/epl-v20.html
 	<xsl:template match="MultiColorValue[starts-with(.,'Error:') or starts-with(.,'&#9203;')]">
 		<fo:block hyphenate="true" language="de">
 			<fo:external-graphic xsl:use-attribute-sets="external-graphic-style" src="data/pictures/warning_black.svg" fox:alt-text="Error"/>
+		</fo:block>
+	</xsl:template>
+
+	<xsl:template match="CompareProjectContent">
+		 <fo:block>
+			<xsl:apply-templates />
 		</fo:block>
 	</xsl:template>
 </xsl:stylesheet>

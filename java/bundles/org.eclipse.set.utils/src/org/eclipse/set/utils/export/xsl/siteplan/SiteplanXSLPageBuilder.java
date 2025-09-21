@@ -38,6 +38,7 @@ public class SiteplanXSLPageBuilder {
 
 	public SiteplanXSLPageBuilder(final PageDIN pageDIN) {
 		this.pageDIN = pageDIN;
+		setFoldingMarks();
 	}
 
 	public SiteplanXSLPageBuilder setFoldingMarks(
@@ -55,9 +56,18 @@ public class SiteplanXSLPageBuilder {
 		return this;
 	}
 
-	public SiteplanXSLPageBuilder setFoldingMarks(final RegionPosition position,
-			final double... distances) {
-		return setFoldingMarks(new FoldingMark(position, distances));
+	private void setFoldingMarks() {
+		for (final RegionPosition region : RegionPosition.values()) {
+			if (region == RegionPosition.BEFORE
+					|| region == RegionPosition.AFTER) {
+				setFoldingMarks(new FoldingMark(region,
+						pageDIN.getFoldingMarkTopBottomWidth()));
+			} else if (region == RegionPosition.START
+					|| region == RegionPosition.END) {
+				setFoldingMarks(
+						new FoldingMark(region, pageDIN.getFoldingMarkSide()));
+			}
+		}
 	}
 
 	public SiteplanXSLPageBuilder setFoldingMarks(

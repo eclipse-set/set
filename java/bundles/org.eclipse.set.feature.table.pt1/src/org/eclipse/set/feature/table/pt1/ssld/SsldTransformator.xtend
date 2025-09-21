@@ -25,6 +25,7 @@ import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGrou
 import org.eclipse.set.ppmodel.extensions.utils.Case
 import org.eclipse.set.ppmodel.extensions.utils.TopGraph
 import org.eclipse.set.utils.table.TMFactory
+import org.osgi.service.event.EventAdmin
 
 import static org.eclipse.set.feature.table.pt1.ssld.SsldColumns.*
 import static org.eclipse.set.model.planpro.Signale.ENUMSignalFunktion.*
@@ -51,8 +52,8 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	new(Set<ColumnDescriptor> cols,
 		EnumTranslationService enumTranslationService,
-		TopologicalGraphService topGraphService) {
-		super(cols, enumTranslationService)
+		TopologicalGraphService topGraphService, EventAdmin eventAdmin) {
+		super(cols, enumTranslationService, eventAdmin)
 		this.topGraphService = topGraphService
 	}
 

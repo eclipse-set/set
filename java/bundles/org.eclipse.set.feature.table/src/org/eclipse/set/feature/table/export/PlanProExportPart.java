@@ -257,10 +257,9 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 							.stream()
 							.map(Pair::getSecond)
 							.collect(Collectors.toSet()));
-			final PlanProToTitleboxTransformation planProToTitlebox = PlanProToTitleboxTransformation
-					.create();
+			final PlanProToTitleboxTransformation planProToTitlebox = new PlanProToTitleboxTransformation(
+					getSessionService());
 			final Titlebox titlebox = planProToTitlebox.transform(
-					modelSession.getPlanProSchnittstelle(),
 					tableService.getTableNameInfo(id), this::getAttachmentPath);
 			updateTitlebox(titlebox);
 			final PlanProToFreeFieldTransformation planProToFreeField = PlanProToFreeFieldTransformation

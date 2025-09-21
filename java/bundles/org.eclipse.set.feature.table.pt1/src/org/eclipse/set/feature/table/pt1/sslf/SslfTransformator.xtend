@@ -20,6 +20,7 @@ import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element
 import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.utils.table.TMFactory
+import org.osgi.service.event.EventAdmin
 
 import static org.eclipse.set.feature.table.pt1.sslf.SslfColumns.*
 import static org.eclipse.set.model.planpro.Flankenschutz.ENUMFahrtUeber.*
@@ -37,8 +38,8 @@ import static extension org.eclipse.set.ppmodel.extensions.WKrAnlageExtensions.*
 class SslfTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	new(Set<ColumnDescriptor> cols,
-		EnumTranslationService enumTranslationService) {
-		super(cols, enumTranslationService)
+		EnumTranslationService enumTranslationService, EventAdmin eventAdmin) {
+		super(cols, enumTranslationService, eventAdmin)
 	}
 
 	override transformTableContent(

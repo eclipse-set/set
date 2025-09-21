@@ -14,6 +14,7 @@ import java.math.BigDecimal;
 
 import org.eclipse.set.basis.Pair;
 import org.eclipse.set.basis.geometry.GEOKanteCoordinate;
+import org.eclipse.set.basis.geometry.GEOKanteMetadata;
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt;
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup;
 import org.eclipse.set.model.planpro.Geodaten.Strecke;
@@ -58,4 +59,15 @@ public interface PointObjectPositionService {
 	 */
 	Pair<GEOKanteCoordinate, BigDecimal> getProjectionOnStreck(
 			Punkt_Objekt punktObjekt, Strecke strecke);
+
+	/**
+	 * @param singlePoint
+	 *            the punkt objekt
+	 * @param geoKante
+	 *            the {@link GEOKanteMetadata}
+	 * @return the lateral distance
+	 */
+	BigDecimal getLateralDistance(
+			Punkt_Objekt_TOP_Kante_AttributeGroup singlePoint,
+			GEOKanteMetadata geoKante);
 }

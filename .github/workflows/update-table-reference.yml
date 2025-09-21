@@ -27,22 +27,25 @@ jobs:
           echo "Branch name: $branch_name"
           echo "TARGET_BRANCH=${branch_name}" >> $GITHUB_ENV
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           ref: ${{ env.TARGET_BRANCH }}
           path: ${{ env.REPO_LOCAL_PATH }}
           token: ${{ env.GITHUB_TOKEN }}
 
       - name: Add comment reaction
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             const payload = await github.rest.repos.getCollaboratorPermissionLevel({
               ...context.repo, username: context.actor
             });
+            const { date: user} = await github.rest.users.getByUsername({
+              username: context.actor
+            });
             const userPermission = payload?.data?.permission;
             let reaction = 'rocket'
-            if (!(userPermission == 'write' || userPermission == 'admin')) { // not a committer
+            if (!(userPermission == 'write' || userPermission == 'admin' || user.id == '135595510')) { // not a committer
               // Not a committer -> abort workflow
               core.setFailed("Only committers are permitted to update table reference and " + context.actor + " isn't one.")
               reaction = '-1'

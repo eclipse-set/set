@@ -23,12 +23,14 @@ import org.eclipse.set.model.planpro.Nahbedienung.NB_Zone_Grenze
 import org.eclipse.set.model.planpro.Ortung.FMA_Komponente
 import org.eclipse.set.model.planpro.Schluesselabhaengigkeiten.Schluesselsperre
 import org.eclipse.set.model.planpro.Signale.Signal
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Komponente
 import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.model.tablemodel.Table
 import org.eclipse.set.model.tablemodel.TableRow
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.utils.table.TMFactory
+import org.osgi.service.event.EventAdmin
 
 import static org.eclipse.set.feature.table.pt1.ssln.SslnColumns.*
 
@@ -42,7 +44,6 @@ import static extension org.eclipse.set.ppmodel.extensions.NbZoneExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.NbZoneGrenzeExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspKomponenteExtensions.*
-import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element
 
 /**
  * Table transformation for a Nahbedienungstabelle (Ssln).
@@ -54,8 +55,8 @@ class SslnTransformator extends AbstractPlanPro2TableModelTransformator {
 	var TMFactory factory
 
 	new(Set<ColumnDescriptor> cols,
-		EnumTranslationService enumTranslationService) {
-		super(cols, enumTranslationService)
+		EnumTranslationService enumTranslationService, EventAdmin eventAdmin) {
+		super(cols, enumTranslationService, eventAdmin)
 	}
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
@@ -351,7 +352,7 @@ class SslnTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	private static def String flaSchutzElemente(NB_Zone_Grenze grenze) {
 		val elemente = grenze.flaSchutz.map [
-			weicheGleissperreElement.bezeichnung?.bezeichnungTabelle?.wert ?: ""
+			weicheGleissperreElement?.bezeichnung?.bezeichnungTabelle?.wert ?: ""
 		]
 		return if (elemente.empty) {
 			"-"

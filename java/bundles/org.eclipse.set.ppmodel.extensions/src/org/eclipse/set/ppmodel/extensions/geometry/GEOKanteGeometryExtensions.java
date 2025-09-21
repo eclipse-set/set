@@ -25,6 +25,8 @@ import java.util.stream.Stream;
 
 import org.eclipse.set.basis.geometry.Chord;
 import org.eclipse.set.basis.geometry.Geometries;
+import org.eclipse.set.basis.geometry.GeometryCalculationOptions;
+import org.eclipse.set.basis.geometry.GeometryOptionsBuilder.GeometryOptions;
 import org.eclipse.set.basis.graph.DirectedEdge;
 import org.eclipse.set.basis.graph.DirectedElement;
 import org.eclipse.set.core.services.Services;
@@ -46,15 +48,6 @@ import org.slf4j.LoggerFactory;
 public class GEOKanteGeometryExtensions {
 	static final Logger logger = LoggerFactory
 			.getLogger(GEOKanteGeometryExtensions.class);
-	// Configuration options for Bloss curves
-	private static final int BLOSS_SEGMENTS_MIN = 10;
-	private static final double BLOSS_SEGMENTS_PER_LENGTH = 0.5;
-	private static final int BLOSS_PRECISION = 20;
-
-	// Configuration options for Clothoids
-	private static final int CLOTHOID_SEGMENTS_MIN = 10;
-	private static final double CLOTHOID_SEGMENTS_PER_LENGTH = 0.5;
-	private static final int CLOTHOID_PRECISION = 5;
 
 	private static GeometryFactory geomeryFactory;
 
@@ -73,6 +66,21 @@ public class GEOKanteGeometryExtensions {
 	 * @return line string geometry
 	 */
 	public static LineString defineEdgeGeometry(final GEO_Kante edge) {
+		return defineEdgeGeometry(edge,
+				GeometryCalculationOptions.getDefaultOptions());
+	}
+
+	/**
+	 * findout geometry of the {@link GEO_Kante}
+	 * 
+	 * @param edge
+	 *            the {@link GEO_Kante}
+	 * @param options
+	 *            the {@link GeometryCalculationOptions}
+	 * @return line string geometry
+	 */
+	public static LineString defineEdgeGeometry(final GEO_Kante edge,
+			final GeometryCalculationOptions options) {
 		final Coordinate[] coordinates = getCoordinates(edge);
 		// When the start and end node of this edge have same coordinates
 		if (coordinates[0].x == coordinates[1].x
@@ -85,10 +93,11 @@ public class GEOKanteGeometryExtensions {
 		return switch (geoForm) {
 			case ENUMGEO_FORM_GERADE, ENUMGEO_FORM_SONSTIGE, ENUMGEO_FORM_RICHTGERADE_KNICK_AM_ENDE_200_GON, ENUMGEO_FORM_KM_SPRUNG -> getGeometryFactory()
 					.createLineString(coordinates);
-			case ENUMGEO_FORM_BOGEN -> arc(edge);
-			case ENUMGEO_FORM_KLOTHOIDE -> clothoid(edge);
+			case ENUMGEO_FORM_BOGEN -> arc(edge, options.getChordOptions());
+			case ENUMGEO_FORM_KLOTHOIDE -> clothoid(edge,
+					options.getClothoidOptions());
 			case ENUMGEO_FORM_BLOSSKURVE, ENUMGEO_FORM_BLOSS_EINFACH_GESCHWUNGEN -> blosscurve(
-					edge);
+					edge, options.getBlossOptions());
 			default -> {
 				logger.warn("Form {} not supported.", geoForm.getName()); //$NON-NLS-1$
 				yield getGeometryFactory().createLineString(coordinates);
@@ -96,7 +105,8 @@ public class GEOKanteGeometryExtensions {
 		};
 	}
 
-	private static LineString arc(final GEO_Kante edge) {
+	private static LineString arc(final GEO_Kante edge,
+			final GeometryOptions geometryOptions) {
 		final Coordinate[] coordinates = getCoordinates(edge);
 		final double radius = edge.getGEOKanteAllg()
 				.getGEORadiusA()
@@ -105,10 +115,12 @@ public class GEOKanteGeometryExtensions {
 		return Geometries.createArc(getGeometryFactory(),
 				new Chord(coordinates[0], coordinates[1], Math.abs(radius),
 						radius < 0 ? Chord.Orientation.ARC_RIGHT
-								: Chord.Orientation.ARC_LEFT));
+								: Chord.Orientation.ARC_LEFT,
+						geometryOptions.stepSize()));
 	}
 
-	private static LineString clothoid(final GEO_Kante edge) {
+	private static LineString clothoid(final GEO_Kante edge,
+			final GeometryOptions geometryOptions) {
 		final double radiusA = Optional
 				.ofNullable(edge.getGEOKanteAllg().getGEORadiusA().getWert())
 				.orElse(BigDecimal.ZERO)
@@ -134,7 +146,7 @@ public class GEOKanteGeometryExtensions {
 			// length
 			// Determine the center point
 			final Clothoid clothoid = new Clothoid(Math.abs(radiusB), length,
-					CLOTHOID_PRECISION);
+					geometryOptions.precision());
 			final double angleRad = Math.PI / 200 * (100 - angle);
 			final double[] point = clothoid.getPoint(length / 2);
 			Coordinate centerCoordinate = new Coordinate(point[0], point[1]);
@@ -148,9 +160,9 @@ public class GEOKanteGeometryExtensions {
 
 			// Draw the segments
 			final Coordinate[] segmentA = clothoid(coordinateA, center, radiusB,
-					length / 2).getCoordinates();
+					length / 2, geometryOptions).getCoordinates();
 			final Coordinate[] segmentB = clothoid(center, coordinateB, radiusA,
-					length / 2).getCoordinates();
+					length / 2, geometryOptions).getCoordinates();
 			final List<Coordinate> segment = new ArrayList<>();
 			segment.addAll(Arrays.asList(segmentA));
 			segment.addAll(Arrays.asList(segmentB));
@@ -159,22 +171,24 @@ public class GEOKanteGeometryExtensions {
 
 		} else if (radiusA == 0) {
 			// Curve from node A to node B
-			return clothoid(coordinateA, coordinateB, radiusB, length);
+			return clothoid(coordinateA, coordinateB, radiusB, length,
+					geometryOptions);
 		}
 		// Curve from node B to node A
 		// Invert the radius, as left-right is also inverted due to the
 		// drawing direction
-		return clothoid(coordinateB, coordinateA, -radiusA, length);
+		return clothoid(coordinateB, coordinateA, -radiusA, length,
+				geometryOptions);
 	}
 
 	private static LineString clothoid(final Coordinate fromCoordinate,
 			final Coordinate toCoordinate, final double radius,
-			final double length) {
+			final double length, final GeometryOptions options) {
 		// Calculate the base clothoid
-		final int segmentCount = (int) Math.max(
-				length * CLOTHOID_SEGMENTS_PER_LENGTH, CLOTHOID_SEGMENTS_MIN);
+		final int segmentCount = (int) Math.max(length * options.stepSize(),
+				options.minSegmentCount());
 		final Clothoid clothoid = new Clothoid(Math.abs(radius), length,
-				CLOTHOID_PRECISION);
+				options.precision());
 		final List<double[]> clothoidCoordinates = clothoid
 				.getPoints(segmentCount);
 		final List<Coordinate> coords = clothoidCoordinates.stream()
@@ -204,7 +218,8 @@ public class GEOKanteGeometryExtensions {
 				.toArray(new Coordinate[0]));
 	}
 
-	private static LineString blosscurve(final GEO_Kante edge) {
+	private static LineString blosscurve(final GEO_Kante edge,
+			final GeometryOptions geometryOptions) {
 		final double radiusA = Optional
 				.ofNullable(edge.getGEOKanteAllg().getGEORadiusA().getWert())
 				.orElse(BigDecimal.ZERO)
@@ -226,22 +241,25 @@ public class GEOKanteGeometryExtensions {
 			return getGeometryFactory().createLineString(getCoordinates(edge));
 		} else if (radiusA == 0) {
 			// Curve from node B to node A
-			return blosscurve(coordinateB, coordinateA, radiusB, length);
+			return blosscurve(coordinateB, coordinateA, radiusB, length,
+					geometryOptions);
 		}
 		// Curve from node A to node B
 		// Invert the radius, as left-right is also inverted due to the
 		// drawing direction
-		return blosscurve(coordinateA, coordinateB, -radiusA, length);
+		return blosscurve(coordinateA, coordinateB, -radiusA, length,
+				geometryOptions);
 
 	}
 
 	private static LineString blosscurve(final Coordinate fromCoordinate,
 			final Coordinate toCoordinate, final double radius,
-			final double length) {
+			final double length, final GeometryOptions geometryOptions) {
 		final Bloss bloss = new Bloss(Math.abs(radius), length,
-				BLOSS_PRECISION);
-		final int segmentCount = (int) Math
-				.max(length * BLOSS_SEGMENTS_PER_LENGTH, BLOSS_SEGMENTS_MIN);
+				geometryOptions.precision());
+		final int segmentCount = (int) Math.max(
+				length * geometryOptions.stepSize(),
+				geometryOptions.minSegmentCount());
 		final List<Coordinate> coords = bloss.calculate(segmentCount)
 				.stream()
 				.map(coor -> {

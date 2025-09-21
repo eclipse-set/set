@@ -19,6 +19,7 @@ import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.ppmodel.extensions.utils.Case
 import org.eclipse.set.utils.table.TMFactory
+import org.osgi.service.event.EventAdmin
 
 import static org.eclipse.set.feature.table.pt1.ssko.SskoColumns.*
 
@@ -29,8 +30,8 @@ import static extension org.eclipse.set.ppmodel.extensions.FstrAbhaengigkeitExte
 import static extension org.eclipse.set.ppmodel.extensions.FstrZugRangierExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SchlossExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SchlosskombinationExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.SchluesselsperreExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SchluesselExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.SchluesselsperreExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.StellBereichExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.UnterbringungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
@@ -43,8 +44,8 @@ import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 class SskoTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	new(Set<ColumnDescriptor> cols,
-		EnumTranslationService enumTranslationService) {
-		super(cols, enumTranslationService)
+		EnumTranslationService enumTranslationService, EventAdmin eventAdmin) {
+		super(cols, enumTranslationService, eventAdmin)
 	}
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
@@ -405,8 +406,8 @@ class SskoTransformator extends AbstractPlanPro2TableModelTransformator {
 		val result = newHashSet
 		// 1. Condition
 		// IMPROVE: Not completely, because the requirements for this case aren't clear
-		val stellelements = controlArea.aussenElementAnsteuerung?.
-			informationSekundaer?.filterNull?.flatMap[stellelements] ?: #[]
+		val stellelements = container.stellelement.map[IDInformation?.value].
+			filterNull.filter[isBelongToControlArea(controlArea)]
 		val ssp = container.schluesselsperre.filter [ ssp |
 			stellelements.exists[it === ssp.IDStellelement.value]
 		]

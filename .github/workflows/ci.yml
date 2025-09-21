@@ -23,7 +23,7 @@ jobs:
   docs:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Install Asciidoctor & Hugo
         uses: eclipse-set/build/.github/actions/setup-asciidoctor@main
@@ -42,7 +42,7 @@ jobs:
   developerhelp:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Install Asciidoctor & Hugo
         uses: eclipse-set/build/.github/actions/setup-asciidoctor@main
@@ -61,7 +61,7 @@ jobs:
   textviewer:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Build
         run: |
           npm ci
@@ -77,7 +77,7 @@ jobs:
   pdfviewer:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Build
         run: |
           wget --no-verbose -O pdfjs.zip https://github.com/mozilla/pdf.js/releases/download/v$(node getVersion.js)/pdfjs-$(node getVersion.js)-dist.zip
@@ -94,7 +94,7 @@ jobs:
   siteplan:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Build
         run: |
           npm ci
@@ -110,7 +110,7 @@ jobs:
   news:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Setup Java
         uses: eclipse-set/build/.github/actions/setup-java@main
 
@@ -145,7 +145,7 @@ jobs:
       actions: read
       security-events: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v3
@@ -163,37 +163,37 @@ jobs:
         uses: eclipse-set/build/.github/actions/setup-java@main
       
       - name: Fetch pdf viewer
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: pdfviewer-artifact
           path: web/pdf/dist
       
       - name: Fetch text viewer
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: textviewer-artifact
           path: web/textviewer/dist
       
       - name: Fetch about
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: about-artifact
           path: web/about/dist   
 
       - name: Fetch siteplan
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: siteplan-artifact
           path: web/siteplan/dist
 
       - name: Fetch developerhelp
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: developerhelp-artifact
           path: web/developerhelp/dist
 
       - name: Fetch news
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: news-artifact
           path: web/news/public
@@ -232,7 +232,7 @@ jobs:
 
       - name: Upload release asset
         if: startsWith(github.ref, 'refs/tags/')
-        uses: softprops/action-gh-release@72f2c25fcb47643c292f7107632f7a47c1df5cd8 # v2.3.2
+        uses: softprops/action-gh-release@6cbd405e2c4e67a21c47fa9e383d020e4e28b836 # v2.3.3
         with: 
           files: java/bundles/org.eclipse.set.releng.set.product/target/products/unsigned-Eclipse-SET-*.zip
           
@@ -257,19 +257,19 @@ jobs:
       pull-requests: write
       actions: read
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       
       - name: Setup Java
         uses: eclipse-set/build/.github/actions/setup-java@main
         
       - name: Fetch SET
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: eclipse-set-snapshot-${{github.run_number}}
           path: ${{ env.TEST_APPLICATION_DIR }}
 
       - name: Fetch m2 Deploy
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: set-m2deploy-${{github.run_number}}
           path: ${{ env.DEPLOY_DIR }}
@@ -322,7 +322,7 @@ jobs:
 
       - name: Fetch table csv
         if: needs.swtbot.result == 'failure'
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: table-csv-${{github.run_number}}
           path: ${{ env.DIFF_DIR }}

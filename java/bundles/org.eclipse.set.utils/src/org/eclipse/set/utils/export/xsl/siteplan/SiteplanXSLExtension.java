@@ -10,9 +10,13 @@
  */
 package org.eclipse.set.utils.export.xsl.siteplan;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Contains helper class for define siteplan xsl
@@ -20,6 +24,18 @@ import java.util.List;
  * @author Truong
  */
 public class SiteplanXSLExtension {
+	/**
+	 * Default margin top/bottom value (mm)
+	 */
+	public static final double DEFAULT_MARGIN_TOP_BOTTOM = 10;
+	/**
+	 * Default margin left value (mm)
+	 */
+	public static final double DEFAULT_MARGIN_LEFT = 20;
+	/**
+	 * Default margin right value (mm)
+	 */
+	public static final double DEFAULT_MARGIN_RIGHT = 10;
 
 	/**
 	 * Region position of FOP
@@ -114,6 +130,34 @@ public class SiteplanXSLExtension {
 		}
 
 		/**
+		 * @return page folding mark position at top/bottom
+		 */
+		@SuppressWarnings({ "boxing", "nls" })
+		public List<Double> getFoldingMarkTopBottomWidth() {
+			return switch (pageDIN) {
+				case "A3" -> List.of(125d, 105d, 190d);
+				case "A2" -> List.of(210d, 192d, 192d);
+				case "A1" -> List.of(210d, 190d, 125.5, 125.5, 190d);
+				case "A0" -> List.of(210d, 190d, 190d, 190d, 109.5, 109.5,
+						190d);
+				default -> Collections.emptyList();
+			};
+		}
+
+		/**
+		 * @return page folding mark position by side
+		 */
+		@SuppressWarnings({ "boxing", "nls" })
+		public List<Double> getFoldingMarkSide() {
+			return switch (pageDIN) {
+				case "A2" -> List.of(113d, 287d);
+				case "A1" -> List.of(287d, 287d);
+				case "A0" -> List.of(237d, 297d, 287d);
+				default -> Collections.emptyList();
+			};
+		}
+
+		/**
 		 * @return the page DIN
 		 */
 		@Override
@@ -140,6 +184,20 @@ public class SiteplanXSLExtension {
 		public static final double DEFAULT_EXTENT_TOP_BOTTOM_RIGHT = 10;
 		public static final double DEFAULT_EXTENT_LEFT = 20;
 		public static final double DEFAULT_MARK_WIDTH = 5;
+
+		/**
+		 * @param position
+		 *            the region of the folding mark
+		 * @param distances
+		 *            the distance between folding mark
+		 */
+		public FoldingMark(final RegionPosition position,
+				final List<Double> distances) {
+			this(position, distances, switch (position) {
+				case START -> DEFAULT_EXTENT_LEFT;
+				default -> DEFAULT_EXTENT_TOP_BOTTOM_RIGHT;
+			}, DEFAULT_MARK_WIDTH);
+		}
 
 		/**
 		 * @param position
@@ -212,5 +270,94 @@ public class SiteplanXSLExtension {
 		public SignificantInformation(final double width) {
 			this(width, DEFAULT_HEIGHT);
 		}
+	}
+
+	private static double FIRST_FOLD_PAGE_WIDTH_GREATER_THAN_A3 = 210;
+	private static double LAST_FOLD_WIDTH = 190;
+	private static double MAX_BETWEEN_FOLD_WIDTH = 190;
+	private static double MIN_BETWEEN_FOLD_WIDTH = 80;
+
+	/**
+	 * Determine custom folding top/bottom for custom page width
+	 * 
+	 * @param pageWidth
+	 *            the page width
+	 * @return the foldings width
+	 */
+	@SuppressWarnings("boxing")
+	public static List<Double> calculateCustomFoldingTopBottom(
+			final double pageWidth) {
+		final List<Double> dinFolding = getDINFolding(pageWidth);
+		if (dinFolding != null) {
+			return dinFolding;
+		}
+
+		if (pageWidth <= PageDIN.A3.getPageWidth()) {
+			return calculateCustomFoldingSmallThanA3(pageWidth);
+		}
+		final double firstFold = FIRST_FOLD_PAGE_WIDTH_GREATER_THAN_A3;
+		final double lastFold = LAST_FOLD_WIDTH;
+		final double remainingWidth = pageWidth - firstFold - lastFold;
+		for (int foldCount = 1; foldCount < 99; foldCount++) {
+			final int totalFoldCount = foldCount + 2;
+			// The fold count should be odd
+			if (totalFoldCount % 2 == 0) {
+				continue;
+			}
+			final List<Double> result = new LinkedList<>();
+			double remaining = remainingWidth;
+			for (int i = 0; i < foldCount; i++) {
+				final int remainingFoldCount = foldCount - i;
+				// when the remaining width greater than the max fold width and
+				// the next fold width should be greater than the min width
+				if (remaining >= MAX_BETWEEN_FOLD_WIDTH && remaining
+						- MAX_BETWEEN_FOLD_WIDTH > MIN_BETWEEN_FOLD_WIDTH) {
+					result.add(MAX_BETWEEN_FOLD_WIDTH);
+					remaining -= MAX_BETWEEN_FOLD_WIDTH;
+					continue;
+				}
+				BigDecimal currentFoldWidth = BigDecimal
+						.valueOf(Math.min(MAX_BETWEEN_FOLD_WIDTH,
+								remaining / remainingFoldCount));
+				currentFoldWidth = currentFoldWidth.setScale(2,
+						RoundingMode.HALF_UP);
+				result.add(currentFoldWidth.doubleValue());
+				remaining -= currentFoldWidth.doubleValue();
+			}
+			if (Math.abs(remaining) < 0.5) {
+				result.addFirst(firstFold);
+				result.addLast(lastFold);
+				return result;
+			}
+		}
+		return Collections.emptyList();
+	}
+
+	private static List<Double> getDINFolding(final double width) {
+		final Optional<PageDIN> relevantDIN = Arrays.stream(PageDIN.values())
+				.filter(din -> din.getPageWidth() == width)
+				.findFirst();
+		if (relevantDIN.isEmpty()) {
+			return null;
+		}
+		return relevantDIN.get().getFoldingMarkTopBottomWidth();
+	}
+
+	@SuppressWarnings("boxing")
+	/**
+	 * Determine up/down folding for the page with the width smaller than DIN
+	 * A3.
+	 * 
+	 * @param totalWidth
+	 * @return the list of folding width
+	 */
+	private static List<Double> calculateCustomFoldingSmallThanA3(
+			final double totalWidth) {
+		final double lastFold = 190;
+		final double remainingWidth = totalWidth - lastFold;
+		BigDecimal firstFold = BigDecimal.valueOf((remainingWidth + 20) / 2);
+		firstFold = firstFold.setScale(2, RoundingMode.HALF_UP);
+		return List.of(firstFold.doubleValue(),
+				remainingWidth - firstFold.doubleValue(), lastFold);
 	}
 }

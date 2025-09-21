@@ -12,6 +12,7 @@ import java.math.BigInteger
 import java.util.LinkedList
 import java.util.List
 import java.util.Set
+import org.eclipse.set.basis.constants.ContainerType
 import org.eclipse.set.basis.constants.ToolboxConstants
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
@@ -35,6 +36,7 @@ import org.eclipse.set.model.tablemodel.TablemodelFactory
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.ppmodel.extensions.utils.Case
 import org.eclipse.set.utils.table.TMFactory
+import org.osgi.service.event.EventAdmin
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -48,14 +50,13 @@ import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensio
 import static extension org.eclipse.set.ppmodel.extensions.FmaAnlageExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FstrZugRangierExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.GleisAbschnittExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.MultiContainer_AttributeGroupExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalbegriffExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspElementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspKomponenteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.MultiContainer_AttributeGroupExtensions.*
-import org.eclipse.set.basis.constants.ContainerType
 
 /**
  * Table transformation for a Weichentabelle (SSKW).
@@ -68,8 +69,8 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 		typeof(SskwTransformator))
 
 	new(Set<ColumnDescriptor> cols,
-		EnumTranslationService enumTranslationService) {
-		super(cols, enumTranslationService)
+		EnumTranslationService enumTranslationService, EventAdmin eventAdmin) {
+		super(cols, enumTranslationService, eventAdmin)
 	}
 
 	private static def String angrenzendesElementL(W_Kr_Gsp_Element element,
@@ -804,13 +805,14 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 			val actuator = actuatorNumberSelector.apply(it)
 			val noOfActuators = actuator !== null ? actuator.intValue : 0
 			val position = it.getPosition(actuator, actuatorPositionSelector)
+			val fillPositionCondition = noOfActuators > 0 && position !== null && kreuzung !== null
 			if (austauschAntriebe?.wert === true &&
 				container.containerType == ContainerType.FINAL) {
 				multiColorContent.multiColorValue = noOfActuators.toString
-				multiColorContent.stringFormat = '''%s«IF noOfActuators > 0 && position !== null» («position»)«ENDIF»'''
+				multiColorContent.stringFormat = '''%s«IF fillPositionCondition» («position»)«ENDIF»'''
 			} else {
 				multiColorContent.multiColorValue = null
-				multiColorContent.stringFormat = '''«noOfActuators»«IF noOfActuators > 0 && position !== null» («position»)«ENDIF»'''
+				multiColorContent.stringFormat = '''«noOfActuators»«IF fillPositionCondition» («position»)«ENDIF»'''
 			}
 
 			return multiColorContent

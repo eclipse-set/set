@@ -17,6 +17,7 @@ import static org.eclipse.set.ppmodel.extensions.ESTW_ZentraleinheitExtensions.g
 import static org.eclipse.set.ppmodel.extensions.UrObjectExtensions.filterObjectsInControlArea;
 
 import java.math.BigDecimal;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.StreamSupport;
@@ -154,8 +155,22 @@ public class StellBereichExtensions {
 			final Stell_Bereich area) {
 		final Aussenelementansteuerung aussenElementAnsteuerung = getAussenElementAnsteuerung(
 				area);
+		if (aussenElementAnsteuerung == null) {
+			return Collections.emptyList();
+		}
 		final List<ESTW_Zentraleinheit> estwZentraleinheits = getESTWZentraleinheits(
 				aussenElementAnsteuerung);
+
+		estwZentraleinheits
+				.addAll(aussenElementAnsteuerung.getIDInformationPrimaer()
+						.stream()
+						.map(id -> getNullableObject(id, e -> e.getValue())
+								.orElse(null))
+						.filter(Objects::nonNull)
+						.filter(Aussenelementansteuerung.class::isInstance)
+						.map(Aussenelementansteuerung.class::cast)
+						.flatMap(e -> getESTWZentraleinheits(e).stream())
+						.toList());
 		return estwZentraleinheits.stream()
 				.flatMap(estw -> getTechnikStandort(estw).stream())
 				.filter(Objects::nonNull)
@@ -202,11 +217,8 @@ public class StellBereichExtensions {
 					.isBelongToControlArea(estwZentral, area);
 			case final Bedien_Einrichtung_Oertlich oertlich -> BedienEinrichtungOertlichExtensions
 					.isBelongToControlArea(oertlich, area);
-			case final FMA_Anlage fmaAnlage -> isOverlappingControlArea(area,
-					getNullableObject(fmaAnlage,
-							anlage -> anlage.getIDGleisAbschnitt().getValue())
-									.orElse(null),
-					50);
+			case final FMA_Anlage fmaAnlage -> FmaAnlageExtensions
+					.isBelongToControlArea(fmaAnlage, area);
 			case final FMA_Komponente fmaKomponente -> FmaKomponenteExtensions
 					.isBelongToControlArea(fmaKomponente, area);
 			case final Zugeinwirkung zugeinwirkung -> ZugEinwirkungExtensions

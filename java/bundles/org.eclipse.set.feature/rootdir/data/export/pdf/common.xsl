@@ -14,8 +14,8 @@ http://www.eclipse.org/legal/epl-v20.html
 	<xsl:variable name="small-border-width" select="0.125" />
 	<xsl:variable name="wide-border-width" select="0.3" />
 
-	<xsl:variable name="small-border-style" select="concat($small-border-width, 'mm solid black')" />
-	<xsl:variable name="wide-border-style" select="concat($wide-border-width, 'mm solid black')" />
+	<xsl:variable name="small-border-style" select="concat($small-border-width, 'mm solid')"/>
+	<xsl:variable name="wide-border-style" select="concat($wide-border-width, 'mm solid')"/>
 	<!-- SB = small border / 2, WB = wide border / 2 -->
 	<xsl:variable name="SB" select="$small-border-width div 2" />
 	<xsl:variable name="WB" select="$wide-border-width div 2" />

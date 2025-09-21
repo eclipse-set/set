@@ -53,8 +53,7 @@ public final class SszsTransformationService
 	@Override
 	public AbstractPlanPro2TableModelTransformator createTransformator() {
 		return new SszsTransformator(cols, enumTranslationService,
-				topGraphService, eventAdmin,
-				messages.ToolboxTableNameSszsShort);
+				topGraphService, eventAdmin);
 	}
 
 	@Override
@@ -67,5 +66,10 @@ public final class SszsTransformationService
 	@Override
 	protected String getTableHeading() {
 		return messages.SszsTableView_Heading;
+	}
+
+	@Override
+	protected String getShortcut() {
+		return messages.ToolboxTableNameSszsShort.toLowerCase();
 	}
 }

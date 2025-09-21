@@ -18,7 +18,6 @@ import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
 import org.eclipse.set.services.export.TableCompileService;
-import org.eclipse.set.services.table.TableDiffService;
 import org.eclipse.set.services.table.TableService;
 
 import jakarta.inject.Inject;
@@ -43,13 +42,14 @@ public class TableCompileServiceImpl implements TableCompileService {
 			Arrays.stream(TableType.values())
 					.filter(type -> type != TableType.SINGLE)
 					.forEach(type -> {
-						final Table table = tableService.transformToTable(
-								shortcut, type, modelSession, controlAreaIds);
+						final Table table = tableService
+								.createCompareProjectTable(shortcut, type,
+										controlAreaIds);
 						result.put(type, table);
 					});
 		} else {
-			final Table single = tableService.transformToTable(shortcut,
-					TableType.SINGLE, modelSession, controlAreaIds);
+			final Table single = tableService.createCompareProjectTable(
+					shortcut, TableType.SINGLE, controlAreaIds);
 			result.put(TableType.SINGLE, single);
 		}
 

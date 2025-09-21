@@ -97,6 +97,16 @@
               </option>
             </select>
           </li>
+          <li>
+            Export PPM (Pixel pro meter) ({{ minPpm }} ~ {{ maxPpm }}): <br>
+            <input
+              v-model="ppm"
+              type="number"
+              max:="maxPpm"
+              min:="minPpm"
+              step="0.5"
+            >
+          </li>
         </ul>
       </div>
       <button
@@ -114,12 +124,12 @@
  * Temporary widget for experimentation with different track widths
  * @author Stuecker
  */
-import { Vue, Options } from 'vue-class-component'
-import { SubscribeOptions } from 'vuex'
-import { store, TableType } from '@/store'
 import SideInfoControl from '@/components/SideInfoControl.vue'
-import Configuration from '@/util/Configuration'
 import { DBRef } from '@/model/Position'
+import { store, TableType } from '@/store'
+import Configuration from '@/util/Configuration'
+import { Options, Vue } from 'vue-class-component'
+import { SubscribeOptions } from 'vuex'
 
 @Options({
   components: {
@@ -136,6 +146,10 @@ import { DBRef } from '@/model/Position'
 
       if (m.type === 'setSheetCutCRS') {
         this.sheetCutCRS = s.sheetCutCRS
+      }
+
+      if (m.type === 'setCustomPpm') {
+        this.ppm = s.customPpm
       }
     })
   },
@@ -168,6 +182,16 @@ import { DBRef } from '@/model/Position'
     },
     sheetCutCRS (value: DBRef) {
       store.commit('setSheetCutCRS', value)
+    },
+    ppm (value: number) {
+      if (value > Configuration.MAX_EXPORT_PPM) {
+        value = Configuration.MAX_EXPORT_PPM
+      } else if (value < Configuration.MIN_EXPORT_PPM) {
+        value = Configuration.MIN_EXPORT_PPM
+      }
+
+      this.ppm = value
+      store.commit('setCustomPpm', value)
     }
   }
 })
@@ -180,8 +204,11 @@ export default class ModelSummaryControl extends Vue {
   viewState = store.state.sessionState
   collisionEnabled = store.state.collisionEnabled
   sheetCutCRS = store.state.sheetCutCRS
+  ppm = store.state.customPpm
   trackWidth = Configuration.getTrackWidth()
   unsubscribe: SubscribeOptions | undefined
+  maxPpm = Configuration.MAX_EXPORT_PPM
+  minPpm = Configuration.MIN_EXPORT_PPM
 
   reset (): void {
     store.commit('defaultTrackWidth', this.trackWidth)

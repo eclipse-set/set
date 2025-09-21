@@ -23,6 +23,8 @@ import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.TablemodelFactory;
+import org.eclipse.set.model.tablemodel.extensions.TableExtensions;
+import org.eclipse.set.model.tablemodel.extensions.TableRowExtensions;
 import org.eclipse.set.model.tablemodel.format.TextAlignment;
 import org.eclipse.set.utils.table.sorting.TableRowGroupComparator;
 
@@ -38,7 +40,7 @@ public abstract class AbstractTableTransformationService<T>
 
 	protected static final float LINE_HEIGHT = 0.6f;
 
-	private TableModelTransformator<T> transformator;
+	protected TableModelTransformator<T> transformator;
 
 	/**
 	 * constructor.
@@ -97,6 +99,14 @@ public abstract class AbstractTableTransformationService<T>
 		transformator = createTransformator();
 		transformator.transformTableContent(model, new TMFactory(table),
 				controlArea);
+		// Fill blank value to cell
+		TableExtensions.getTableRows(table).forEach(row -> {
+			for (int i = 0; i < row.getCells().size(); i++) {
+				if (row.getCells().get(i).getContent() == null) {
+					TableRowExtensions.set(row, i, ""); //$NON-NLS-1$
+				}
+			}
+		});
 		setColumnTextAlignment(table);
 		return table;
 	}

@@ -35,6 +35,7 @@ import static extension org.eclipse.set.ppmodel.extensions.PunktObjektStreckeExt
 import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspKomponenteExtensions.*
 import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
+import org.osgi.service.event.EventAdmin
 
 /**
  * Table transformation for a Bedieneinrichtungstabelle ESTW (Ssit).
@@ -46,8 +47,8 @@ class SsitTransformator extends AbstractPlanPro2TableModelTransformator {
 	var TMFactory factory
 
 	new(Set<ColumnDescriptor> cols,
-		EnumTranslationService enumTranslationService) {
-		super(cols, enumTranslationService)
+		EnumTranslationService enumTranslationService, EventAdmin eventAdmin) {
+		super(cols, enumTranslationService, eventAdmin)
 	}
 
 	override transformTableContent(MultiContainer_AttributeGroup container,

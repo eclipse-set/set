@@ -7,7 +7,11 @@
  * http://www.eclipse.org/legal/epl-v20.html
  */
 
+import { Map } from 'ol'
+import { getTopLeft, getTopRight } from 'ol/extent'
 import 'ol/ol.css'
+import { transform } from 'ol/proj'
+import { getDistance } from 'ol/sphere'
 import View from 'ol/View'
 
 /**
@@ -92,4 +96,45 @@ export function getResolutionForScale (view: View, scale: number): number {
   }
 
   return (scale / (mpu * inchesPerMeter * dpi)) / resolutionScaleFactor
+}
+
+export async function getPixelProMeterAtScale (map: Map, view: View, scale: number) : Promise<number | undefined>{
+  const currentResolution = view.getResolution() ?? 1
+  setMapScale(view, scale)
+  return await new Promise(resolve => {
+    map.once('rendercomplete', () => {
+      const viewportSize = map.getSize()
+      if (!viewportSize) {
+        view.setResolution(currentResolution)
+        resolve(undefined)
+        return
+      }
+
+      const viewportExtent = view.calculateExtent(viewportSize)
+      const topLeftSphereCoord = transform(getTopLeft(viewportExtent), 'EPSG:3857', 'EPSG:4326')
+      const topRightSphereCoord = transform(getTopRight(viewportExtent), 'EPSG:3857', 'EPSG:4326')
+      const distanceInMeter = getDistance(topLeftSphereCoord, topRightSphereCoord)
+      view.setResolution(currentResolution)
+      const currentPpm = viewportSize[0] / distanceInMeter
+      resolve(currentPpm)
+    })
+  })
+}
+
+export function getScaleForPpm (view: View, ppm: number): number {
+  const center = view.getCenter()
+  const mpu = view.getProjection().getMetersPerUnit()
+  if (!center || !mpu) {
+    throw Error('No view center')
+  }
+
+  const resolutionScaleFactor = view.getProjection().getPointResolutionFunc()(1, center)
+  if (!resolutionScaleFactor) {
+    throw Error('No resolutionScaleFactor')
+  }
+
+  const resolution = (1 / ppm) / resolutionScaleFactor
+  const dpi = 25.4 / 0.28
+  const inchesPerMeter = 1000 / 25.4
+  return resolution * mpu * inchesPerMeter * dpi * resolutionScaleFactor
 }

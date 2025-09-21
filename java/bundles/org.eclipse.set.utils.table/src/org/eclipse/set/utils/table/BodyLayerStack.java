@@ -11,19 +11,31 @@ package org.eclipse.set.utils.table;
 
 import java.util.Collections;
 import java.util.Set;
+import java.util.function.Function;
 
+import org.eclipse.nebula.widgets.nattable.config.CellConfigAttributes;
+import org.eclipse.nebula.widgets.nattable.config.IConfigRegistry;
 import org.eclipse.nebula.widgets.nattable.data.IDataProvider;
+import org.eclipse.nebula.widgets.nattable.data.convert.ContextualDisplayConverter;
+import org.eclipse.nebula.widgets.nattable.data.convert.DefaultDisplayConverter;
 import org.eclipse.nebula.widgets.nattable.freeze.CompositeFreezeLayer;
 import org.eclipse.nebula.widgets.nattable.freeze.FreezeHelper;
 import org.eclipse.nebula.widgets.nattable.freeze.FreezeLayer;
 import org.eclipse.nebula.widgets.nattable.freeze.command.FreezeColumnStrategy;
 import org.eclipse.nebula.widgets.nattable.layer.AbstractLayerTransform;
 import org.eclipse.nebula.widgets.nattable.layer.DataLayer;
+import org.eclipse.nebula.widgets.nattable.layer.IUniqueIndexLayer;
+import org.eclipse.nebula.widgets.nattable.layer.cell.ILayerCell;
+import org.eclipse.nebula.widgets.nattable.search.config.DefaultSearchBindings;
 import org.eclipse.nebula.widgets.nattable.selection.SelectionLayer;
 import org.eclipse.nebula.widgets.nattable.selection.config.DefaultMoveSelectionConfiguration;
-import org.eclipse.nebula.widgets.nattable.selection.config.DefaultRowSelectionLayerConfiguration;
+import org.eclipse.nebula.widgets.nattable.selection.config.DefaultSelectionLayerConfiguration;
+import org.eclipse.nebula.widgets.nattable.selection.config.RowOnlySelectionBindings;
+import org.eclipse.nebula.widgets.nattable.selection.config.RowOnlySelectionConfiguration;
+import org.eclipse.nebula.widgets.nattable.style.DisplayMode;
 import org.eclipse.nebula.widgets.nattable.tree.TreeLayer;
 import org.eclipse.nebula.widgets.nattable.viewport.ViewportLayer;
+import org.eclipse.set.basis.constants.ToolboxConstants;
 
 /**
  * Always encapsulate the body layer stack in an AbstractLayerTransform to
@@ -47,9 +59,7 @@ public class BodyLayerStack extends AbstractLayerTransform {
 	 *            the data layer
 	 */
 	public BodyLayerStack(final DataLayer bodyDataLayer) {
-		this.bodyDataLayer = bodyDataLayer;
-		this.selectionLayer = new SelectionLayer(bodyDataLayer);
-		init();
+		this(bodyDataLayer, createSelectionLayer(bodyDataLayer));
 	}
 
 	/**
@@ -60,18 +70,40 @@ public class BodyLayerStack extends AbstractLayerTransform {
 	 */
 	public BodyLayerStack(final DataLayer bodyDataLayer,
 			final TreeLayer treeLayer) {
+		this(bodyDataLayer, createSelectionLayer(treeLayer));
+	}
+
+	/**
+	 * @param bodyDataLayer
+	 *            the data layer
+	 * @param selectionLayer
+	 *            the selection layer
+	 */
+	public BodyLayerStack(final DataLayer bodyDataLayer,
+			final SelectionLayer selectionLayer) {
 		this.bodyDataLayer = bodyDataLayer;
-		this.selectionLayer = new SelectionLayer(treeLayer);
+		this.selectionLayer = selectionLayer;
 		init();
+	}
+
+	private static SelectionLayer createSelectionLayer(
+			final IUniqueIndexLayer indexLayer) {
+		final SelectionLayer result = new SelectionLayer(indexLayer, false);
+		result.addConfiguration(new RowOnlySelectionBindings());
+		result.addConfiguration(new RowOnlySelectionConfiguration());
+		result.addConfiguration(new DefaultMoveSelectionConfiguration());
+		result.addConfiguration(new DefaultSelectionLayerConfiguration() {
+			// By default disable search feature by table
+			@Override
+			protected void addSearchUIBindings() {
+				// do nothing
+			}
+		});
+		return result;
 	}
 
 	protected void init() {
 		this.stackBodyDataProvider = bodyDataLayer.getDataProvider();
-		this.selectionLayer
-				.addConfiguration(new DefaultRowSelectionLayerConfiguration());
-		this.selectionLayer
-				.addConfiguration(new DefaultMoveSelectionConfiguration());
-
 		this.viewportLayer = new ViewportLayer(this.selectionLayer);
 		freezeLayer = new FreezeLayer(this.selectionLayer);
 		final CompositeFreezeLayer compositeFreezeLayer = new CompositeFreezeLayer(
@@ -142,5 +174,50 @@ public class BodyLayerStack extends AbstractLayerTransform {
 		FreezeHelper.freeze(freezeLayer, viewportLayer,
 				firstColumntoFreeze.getTopLeftPosition(),
 				lastColumntoFreeze.getBottomRightPosition());
+	}
+
+	/**
+	 * Add search configuration to selection layer
+	 * 
+	 * @param registry
+	 *            the {@link IConfigRegistry}
+	 * @param getCellValue
+	 *            the get cell value function
+	 */
+	public void addSearchConfiguration(final IConfigRegistry registry,
+			final Function<ILayerCell, String> getCellValue) {
+		this.selectionLayer.addConfiguration(new DefaultSearchBindings());
+		// Give text cell plain string value back instead of rich text value
+		final ContextualDisplayConverter displayConverter = new ContextualDisplayConverter() {
+			@Override
+			public Object displayToCanonicalValue(final ILayerCell cell,
+					final IConfigRegistry configRegistry,
+					final Object displayValue) {
+				// Only apply this converted for the selectionlayer
+				if (cell.getLayer() != selectionLayer) {
+					return new DefaultDisplayConverter()
+							.displayToCanonicalValue(cell, configRegistry,
+									displayValue);
+				}
+				return getCellValue.apply(cell);
+			}
+
+			@Override
+			public Object canonicalToDisplayValue(final ILayerCell cell,
+					final IConfigRegistry configRegistry,
+					final Object canonicalValue) {
+				// Only apply this converted for the selectionlayer
+				if (cell.getLayer() != selectionLayer) {
+					return new DefaultDisplayConverter()
+							.canonicalToDisplayValue(cell, configRegistry,
+									canonicalValue);
+				}
+				return displayToCanonicalValue(cell, configRegistry,
+						canonicalValue);
+			}
+		};
+		registry.registerConfigAttribute(CellConfigAttributes.DISPLAY_CONVERTER,
+				displayConverter, DisplayMode.NORMAL,
+				ToolboxConstants.SEARCH_CELL_DISPLAY_CONVERTER);
 	}
 }

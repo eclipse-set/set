@@ -16,12 +16,17 @@ import static org.eclipse.set.utils.export.xsl.TransformTable.toStreamSource;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.nio.file.FileVisitOption;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
@@ -30,6 +35,8 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
+import org.apache.pdfbox.io.MemoryUsageSetting;
+import org.apache.pdfbox.multipdf.PDFMergerUtility;
 import org.apache.poi.UnsupportedFileFormatException;
 import org.eclipse.set.basis.FreeFieldInfo;
 import org.eclipse.set.basis.OverwriteHandling;
@@ -63,6 +70,7 @@ import org.xml.sax.SAXException;
 public class SiteplanPdfExportBuilder extends FopPdfExportBuilder {
 
 	private static final String SITEPLAN_EXPORT_NAME = "SI"; //$NON-NLS-1$
+	private static final String SITEPLAN_TMP_DIR = "siteplanTmp"; //$NON-NLS-1$
 
 	/**
 	 * @param enumTranslationService
@@ -85,13 +93,13 @@ public class SiteplanPdfExportBuilder extends FopPdfExportBuilder {
 		this.fopService = fopService;
 	}
 
-	private static String createImageDocumentText(
-			final List<BufferedImage> imagesData, final Titlebox titleBox,
-			final FreeFieldInfo freeFieldInfo, final double ppm)
+	private static String createImageDocumentText(final BufferedImage imageData,
+			final Titlebox titleBox, final FreeFieldInfo freeFieldInfo,
+			final double ppm)
 			throws ParserConfigurationException, TransformerException {
 		final TableToTableDocument tableToXmlFo = TableToTableDocument
 				.createTransformation();
-		final Document document = tableToXmlFo.transformToDocument(imagesData,
+		final Document document = tableToXmlFo.transformToDocument(imageData,
 				titleBox, freeFieldInfo, ppm);
 		final Transformer documentToString = newTransformerFactory()
 				.newTransformer();
@@ -132,45 +140,87 @@ public class SiteplanPdfExportBuilder extends FopPdfExportBuilder {
 			final double ppm, final String outputDir,
 			final ToolboxPaths toolboxPaths, final TableType tableType,
 			final OverwriteHandling overwriteHandling) {
-
-		try {
-			final String imageDocumentText = createImageDocumentText(imagesData,
-					titleBox, freeFieldInfo, ppm);
-
-			if (ToolboxConfiguration.isDebugMode()) {
-				exportTableDocument(
-						Paths.get(outputDir,
-								getFilename(SITEPLAN_EXPORT_NAME, "xml")), //$NON-NLS-1$
-						imageDocumentText);
+		final Path exportTmpDir = Path.of(outputDir, SITEPLAN_TMP_DIR);
+		if (!exportTmpDir.toFile().exists()) {
+			exportTmpDir.toFile().mkdirs();
+		} else if (exportTmpDir.toFile().isDirectory()) {
+			final File[] listFiles = exportTmpDir.toFile().listFiles();
+			if (listFiles != null) {
+				for (final File file : listFiles) {
+					file.delete();
+				}
 			}
-			final ByteArrayInputStream tableDocumentStream = new ByteArrayInputStream(
-					imageDocumentText.getBytes(UTF_8));
-			final StreamSource imageDocumentSource = new StreamSource(
-					tableDocumentStream);
-			final Pair<String, StreamSource> xslStreamSource = getSiteplanXSLTemplate(
-					imagesData, ppm, tableType, outputDir);
-			final Path outputPath = toolboxPaths.getTableExportPath(
-					SITEPLAN_EXPORT_NAME + "_" + xslStreamSource.getFirst(), //$NON-NLS-1$
-					Paths.get(outputDir), ExportType.PLANNING_RECORDS,
-					TABLE_PDF_EXPORT_EXTENSION);
-			fopService.fop(OutputFormat.PDF, xslStreamSource.getSecond(),
-					imageDocumentSource, outputPath, PdfAMode.PDF_A_3a,
-					overwriteHandling, null);
-
+		}
+		final PDFMergerUtility pdfMergerUtility = new PDFMergerUtility();
+		pdfMergerUtility.setDestinationFileName(toolboxPaths
+				.getTableExportPath(SITEPLAN_EXPORT_NAME, Paths.get(outputDir),
+						ExportType.PLANNING_RECORDS, TABLE_PDF_EXPORT_EXTENSION)
+				.toString());
+		try {
+			for (int i = 0; i < imagesData.size(); i++) {
+				final String imageDocumentText = createImageDocumentText(
+						imagesData.get(i), titleBox, freeFieldInfo, ppm);
+				final String siteplanExportName = SITEPLAN_EXPORT_NAME + "_" //$NON-NLS-1$
+						+ i;
+				if (ToolboxConfiguration.isDebugMode()) {
+					exportTableDocument(
+							Paths.get(exportTmpDir.toString(),
+									getFilename(siteplanExportName, "xml")), //$NON-NLS-1$
+							imageDocumentText);
+				}
+				final ByteArrayInputStream tableDocumentStream = new ByteArrayInputStream(
+						imageDocumentText.getBytes(UTF_8));
+				final StreamSource imageDocumentSource = new StreamSource(
+						tableDocumentStream);
+				final String exportFileName = getFilename(siteplanExportName,
+						"xsl"); //$NON-NLS-1$
+				final String pagePostFix = i == imagesData.size() - 1 ? "-" //$NON-NLS-1$
+						: "+"; //$NON-NLS-1$
+				final Pair<String, StreamSource> xslStreamSource = getSiteplanXSLTemplate(
+						imagesData.get(i), ppm, tableType,
+						exportTmpDir.toString(), exportFileName, i + 1,
+						pagePostFix);
+				final Path outputPath = toolboxPaths.getTableExportPath(
+						String.format("%s_%s_%d", SITEPLAN_EXPORT_NAME, //$NON-NLS-1$
+								xslStreamSource.getFirst(), Integer.valueOf(i)),
+						exportTmpDir, ExportType.PLANNING_RECORDS,
+						TABLE_PDF_EXPORT_EXTENSION);
+				fopService.fop(OutputFormat.PDF, xslStreamSource.getSecond(),
+						imageDocumentSource, outputPath, PdfAMode.PDF_A_3a,
+						overwriteHandling, null);
+				pdfMergerUtility.addSource(outputPath.toFile());
+			}
+			pdfMergerUtility
+					.mergeDocuments(MemoryUsageSetting.setupMainMemoryOnly());
 		} catch (final Exception e) {
 			throw new FileExportException(
 					Path.of(outputDir, SITEPLAN_EXPORT_NAME), e);
 		}
+
+		if (!ToolboxConfiguration.isDevelopmentMode()
+				&& exportTmpDir.toFile().exists()) {
+			try (Stream<Path> paths = Files.walk(exportTmpDir,
+					FileVisitOption.values())) {
+				paths.sorted(Comparator.reverseOrder())
+						.map(Path::toFile)
+						.forEach(File::delete);
+			} catch (final IOException e) {
+				throw new FileExportException(
+						Path.of(outputDir, SITEPLAN_EXPORT_NAME), e);
+			}
+		}
+
 	}
 
 	private Pair<String, StreamSource> getSiteplanXSLTemplate(
-			final List<BufferedImage> imagesData, final double ppm,
-			final TableType tableType, final String outputDir)
-			throws ParserConfigurationException, SAXException, IOException,
-			NullPointerException, TransformerException,
-			UnsupportedFileFormatException {
-		final SiteplanXSL siteplanXSL = new SiteplanXSL(imagesData, ppm,
-				translationTableType(tableType));
+			final BufferedImage imageData, final double ppm,
+			final TableType tableType, final String outputDir,
+			final String exportFileName, final int pagePosition,
+			final String pagePostfix) throws ParserConfigurationException,
+			SAXException, IOException, NullPointerException,
+			TransformerException, UnsupportedFileFormatException {
+		final SiteplanXSL siteplanXSL = new SiteplanXSL(imageData, ppm,
+				translationTableType(tableType), pagePosition, pagePostfix);
 		final Document xslDoc = siteplanXSL.getXSLDocument();
 		final String pageDIN = siteplanXSL.getPageStyle()
 				.getPageDIN()
@@ -182,13 +232,9 @@ public class SiteplanPdfExportBuilder extends FopPdfExportBuilder {
 			final StringWriter writer = new StringWriter();
 			final StreamResult result = new StreamResult(writer);
 			documentToString.transform(source, result);
-			exportTableDocument(
-					Path.of(outputDir,
-							getFilename(SITEPLAN_EXPORT_NAME + "_" + pageDIN, //$NON-NLS-1$
-									"xsl")), //$NON-NLS-1$
+			exportTableDocument(Path.of(outputDir, exportFileName),
 					writer.toString());
 		}
 		return new Pair<>(pageDIN, toStreamSource(xslDoc));
 	}
-
 }

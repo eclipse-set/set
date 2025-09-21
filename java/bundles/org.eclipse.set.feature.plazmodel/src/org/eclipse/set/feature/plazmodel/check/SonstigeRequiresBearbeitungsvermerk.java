@@ -17,11 +17,16 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.Enumerator;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.model.planpro.BasisTypen.BasisAttribut_AttributeGroup;
 import org.eclipse.set.model.planpro.BasisTypen.ID_Bearbeitungsvermerk_TypeClass;
+import org.eclipse.set.model.planpro.Basisobjekte.Anhang;
+import org.eclipse.set.model.planpro.Basisobjekte.Anhang_Allg_AttributeGroup;
+import org.eclipse.set.model.planpro.Basisobjekte.Anhang_Art_TypeClass;
 import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
+import org.eclipse.set.model.planpro.PlanPro.PlanProPackage;
 import org.eclipse.set.model.plazmodel.PlazError;
 import org.eclipse.set.model.plazmodel.PlazFactory;
 import org.eclipse.set.model.validationreport.ValidationSeverity;
@@ -70,10 +75,25 @@ public class SonstigeRequiresBearbeitungsvermerk implements PlazCheck {
 					.getEStructuralFeature(ENUM_WERT_FEATURE_NAME);
 			final Object value = attribute.eGet(feature);
 			return value instanceof final Enumerator enumValue
-					&& enumValue.getLiteral().equals(SONSTIGE_ENUM_WERT);
+					&& enumValue.getLiteral().equals(SONSTIGE_ENUM_WERT)
+					&& !isPlanungBueroAnhangArt(attribute);
 		} catch (final Exception e) {
 			return false;
 		}
+	}
+
+	private static boolean isPlanungBueroAnhangArt(
+			final BasisAttribut_AttributeGroup attribute) {
+		if (attribute instanceof final Anhang_Art_TypeClass anhangArt
+				&& anhangArt
+						.eContainer() instanceof final Anhang_Allg_AttributeGroup allgGroup
+				&& allgGroup.eContainer() instanceof final Anhang anhang) {
+			final EReference planungbueroLogoRef = PlanProPackage.eINSTANCE
+					.getPlanung_G_Schriftfeld_AttributeGroup_PlanungsbueroLogo();
+			return anhang.eContainingFeature().equals(planungbueroLogoRef);
+		}
+
+		return false;
 	}
 
 	private boolean hasNoBearbeitungsVermerk(final EObject obj) {

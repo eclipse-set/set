@@ -14,20 +14,23 @@ import java.util.HashSet
 import java.util.List
 import java.util.Map
 import java.util.Set
+import org.eclipse.set.basis.graph.TopPoint
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.core.services.graph.TopologicalGraphService
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
-import org.eclipse.set.model.tablemodel.ColumnDescriptor
-import org.eclipse.set.model.tablemodel.Table
-import org.eclipse.set.model.tablemodel.TableRow
-import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
-import org.eclipse.set.ppmodel.extensions.utils.Case
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
 import org.eclipse.set.model.planpro.Fahrstrasse.ENUMRangierGegenfahrtausschluss
 import org.eclipse.set.model.planpro.Gleis.Gleis_Bezeichnung
 import org.eclipse.set.model.planpro.Signale.ENUMSignalArt
 import org.eclipse.set.model.planpro.Signale.Signal
+import org.eclipse.set.model.tablemodel.ColumnDescriptor
+import org.eclipse.set.model.tablemodel.Table
+import org.eclipse.set.model.tablemodel.TableRow
+import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
+import org.eclipse.set.ppmodel.extensions.utils.Case
 import org.eclipse.set.utils.table.TMFactory
+import org.osgi.service.event.EventAdmin
 
 import static org.eclipse.set.feature.table.pt1.ssli.SsliColumns.*
 import static org.eclipse.set.model.planpro.Fahrstrasse.ENUMRangierGegenfahrtausschluss.*
@@ -35,8 +38,7 @@ import static org.eclipse.set.model.planpro.Fahrstrasse.ENUMRangierGegenfahrtaus
 import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
-import org.eclipse.set.basis.graph.TopPoint
-import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
+import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 
 /**
  * Table transformation for a Inselgleistabelle (Ssli).
@@ -51,8 +53,8 @@ class SsliTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	new(Set<ColumnDescriptor> cols,
 		EnumTranslationService enumTranslationService,
-		TopologicalGraphService topGraphService) {
-		super(cols, enumTranslationService)
+		TopologicalGraphService topGraphService, EventAdmin eventAdmin) {
+		super(cols, enumTranslationService, eventAdmin)
 		this.topGraphService = topGraphService
 	}
 

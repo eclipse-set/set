@@ -8,6 +8,7 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
+import java.util.List
 import java.util.Optional
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.EStructuralFeature
@@ -129,7 +130,21 @@ class EObjectExtensions {
 		try {
 			return Optional.ofNullable(func.apply(t))
 		} catch(NullPointerException e) {
+			logger.debug(e.message)
 			return Optional.empty
 		}
+	}
+	
+	static def <T> Optional<T> getIndexOutBoundableObject(List<T> t, int index) {
+		try {
+			if (t.isNullOrEmpty) {
+				return Optional.empty
+			}
+			return Optional.ofNullable(t.get(index))
+		} catch (IndexOutOfBoundsException e) {
+			logger.debug(e.message)
+			return Optional.empty
+		}
+		
 	}
 }

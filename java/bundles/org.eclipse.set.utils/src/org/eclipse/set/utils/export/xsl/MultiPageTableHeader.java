@@ -21,6 +21,7 @@ import static org.eclipse.set.utils.export.xsl.XSLConstant.XSLTag.XSL_STYLESHEET
 import static org.eclipse.xtext.xbase.lib.IterableExtensions.lastOrNull;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
@@ -35,6 +36,7 @@ import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.eclipse.set.utils.excel.ExcelWorkbookExtension;
 import org.eclipse.set.utils.export.xsl.XSLConstant.TableAttribute.BorderDirection;
+import org.eclipse.set.utils.math.BigDecimalExtensions;
 import org.eclipse.xtext.xbase.lib.Pair;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -77,8 +79,10 @@ public class MultiPageTableHeader extends AbstractTransformTableHeader {
 				multipageTemplate, FO_BLOCK, ATTR_ID, START_INDENT);
 		if (newPageBlock.isPresent()) {
 			newPageBlock.get()
-					.setAttribute(START_INDENT, String.format("-%fcm", //$NON-NLS-1$
-							Float.valueOf(maxPaperWidth)));
+					.setAttribute(START_INDENT,
+							BigDecimalExtensions.toTableDecimal(
+									BigDecimal.valueOf(maxPaperWidth).negate(),
+									2) + "cm"); //$NON-NLS-1$
 		}
 
 		final Node clone = tableTemplate

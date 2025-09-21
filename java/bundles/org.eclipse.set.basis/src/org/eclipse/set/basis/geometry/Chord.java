@@ -8,7 +8,6 @@
  */
 package org.eclipse.set.basis.geometry;
 
-import static java.lang.Math.PI;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 
@@ -23,11 +22,6 @@ import org.locationtech.jts.geom.LineSegment;
  * @author Schaefer
  */
 public class Chord {
-	/**
-	 * Step size for linearization
-	 */
-	private static final double STEP_SIZE = PI / 100;
-
 	/**
 	 * Describes the orientation of the chord.
 	 */
@@ -48,6 +42,7 @@ public class Chord {
 	private final LineSegment lineSegment;
 	private final Orientation orientation;
 	private final double radius;
+	private final double stepSize;
 
 	/**
 	 * @param start
@@ -58,10 +53,13 @@ public class Chord {
 	 *            the radius of the circle
 	 * @param orientation
 	 *            the orientation of the chord
+	 * @param stepSize
+	 *            the step size for linearization
 	 */
 	public Chord(final Coordinate start, final Coordinate end,
-			final double radius, final Orientation orientation) {
-		this(new LineSegment(start, end), radius, orientation);
+			final double radius, final Orientation orientation,
+			final double stepSize) {
+		this(new LineSegment(start, end), radius, orientation, stepSize);
 	}
 
 	/**
@@ -71,11 +69,13 @@ public class Chord {
 	 *            the radius of the circle
 	 * @param orientation
 	 *            the orientation of the chord
+	 * @param stepSize
+	 *            the step size for linearization
 	 */
 	public Chord(final LineSegment lineSegment, final double radius,
-			final Orientation orientation) {
+			final Orientation orientation, final double stepSize) {
 		Assert.isTrue(radius > 0);
-
+		this.stepSize = stepSize;
 		this.lineSegment = lineSegment;
 		this.radius = radius;
 		this.orientation = orientation;
@@ -202,8 +202,8 @@ public class Chord {
 		}
 
 		// Find length of output array (+2 for start/end)
-		double angle = (Math.floor(startAngle / STEP_SIZE) + 1) * STEP_SIZE;
-		final int count = 2 + (int) Math.ceil((end - angle) / STEP_SIZE);
+		double angle = (Math.floor(startAngle / stepSize) + 1) * stepSize;
+		final int count = 2 + (int) Math.ceil((end - angle) / stepSize);
 
 		final CoordinateArray array = new CoordinateArray(count);
 		// Move across the arc recording points
@@ -212,7 +212,7 @@ public class Chord {
 			final double x = radius * cos(angle);
 			final double y = radius * sin(angle);
 			array.add(x, y);
-			angle += STEP_SIZE;
+			angle += stepSize;
 		}
 		array.add(endX, endY);
 		return array;

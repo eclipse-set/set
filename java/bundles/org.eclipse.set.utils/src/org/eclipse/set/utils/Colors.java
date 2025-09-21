@@ -139,4 +139,22 @@ public class Colors {
 		return String.format(DESCRIPTION_FORMAT, Integer.valueOf(rgb.red),
 				Integer.valueOf(rgb.green), Integer.valueOf(rgb.blue));
 	}
+
+	/**
+	 * Parse RGB color from hex color
+	 * 
+	 * @param value
+	 *            the hex color
+	 * @return the RGB color
+	 */
+	public static RGB parseHexCode(final String value) {
+		if (!value.startsWith("#") || value.substring(1).length() != 6) { //$NON-NLS-1$
+			throw new IllegalArgumentException("Invalid hex color code"); //$NON-NLS-1$
+		}
+		final String hex = value.substring(1);
+		final int r = Integer.parseInt(hex.substring(0, 2), 16);
+		final int g = Integer.parseInt(hex.substring(2, 4), 16);
+		final int b = Integer.parseInt(hex.substring(4, 6), 16);
+		return new RGB(r, g, b);
+	}
 }

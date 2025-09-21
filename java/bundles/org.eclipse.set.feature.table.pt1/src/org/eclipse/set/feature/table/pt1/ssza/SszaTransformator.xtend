@@ -30,7 +30,6 @@ import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
 import org.eclipse.set.model.planpro.Fahrstrasse.Markanter_Punkt
 import org.eclipse.set.model.planpro.Geodaten.Strecke
-import org.eclipse.set.model.planpro.Gleis.Gleis_Bezeichnung
 import org.eclipse.set.model.planpro.Ortung.FMA_Anlage
 import org.eclipse.set.model.planpro.Ortung.FMA_Komponente
 import org.eclipse.set.model.planpro.Ortung.Zugeinwirkung
@@ -42,6 +41,7 @@ import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGrou
 import org.eclipse.set.ppmodel.extensions.utils.Case
 import org.eclipse.set.utils.table.RowFactory
 import org.eclipse.set.utils.table.TMFactory
+import org.osgi.service.event.EventAdmin
 
 import static org.eclipse.set.feature.table.pt1.sskp.SskpTransformator.*
 import static org.eclipse.set.feature.table.pt1.ssza.SszaColumns.*
@@ -52,7 +52,6 @@ import static extension org.eclipse.set.ppmodel.extensions.DatenpunktExtensions.
 import static extension org.eclipse.set.ppmodel.extensions.FmaAnlageExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.StellBereichExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
@@ -67,8 +66,8 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	new(Set<ColumnDescriptor> cols,
 		EnumTranslationService enumTranslationService,
-		TopologicalGraphService topGraphService) {
-		super(cols, enumTranslationService)
+		TopologicalGraphService topGraphService, EventAdmin eventAdmin) {
+		super(cols, enumTranslationService, eventAdmin)
 	}
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
@@ -149,90 +148,92 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 				return counts.max.toString
 			]
 		)
-
-		// F: Ssza.Bezugspunkt.Bezeichnung
-		fillSwitch(
-			cols.getColumn(Bezugspunkt_Bezeichnung),
-			dpBezug,
-			bezugspunktCase(
-				BUE_Anlage,
-				[bezeichnung?.bezeichnungTabelle?.wert]
-			),
-			bezugspunktCaseIterable(
-				BUE_Einschaltung,
-				[
-					schaltmittelZuordnung.map [
-						'''«schaltmittelFunktion?.translate» «getSwitchName(IDSchalter?.value)»'''
+		if (dpBezug !== null) {
+			// F: Ssza.Bezugspunkt.Bezeichnung
+			fillSwitch(
+				cols.getColumn(Bezugspunkt_Bezeichnung),
+				dpBezug,
+				bezugspunktCase(
+					BUE_Anlage,
+					[bezeichnung?.bezeichnungTabelle?.wert]
+				),
+				bezugspunktCaseIterable(
+					BUE_Einschaltung,
+					[
+						schaltmittelZuordnung.map [
+							'''«schaltmittelFunktion?.translate» «getSwitchName(IDSchalter?.value)»'''
+						]
 					]
-				]
-			),
-			bezugspunktCase(
-				BUE_Kante,
-				[
-					val bos = container.bereichObjekt
-					val relevantBereichs = bos.filter[bo|bo.contains(it)].
-						filter(Gleis_Bezeichnung).toList
-					val tracksDesignation = relevantBereichs.filterNull.map [
-						bezeichnung?.bezGleisBezeichnung?.wert
+				),
+				bezugspunktCase(
+					BUE_Kante,
+					[
+						val relevantBereichs = container.gleisBezeichnung.filter [ bo |
+							bo.contains(it)
+						].toList
+						val tracksDesignation = relevantBereichs.filterNull.map [
+							bezeichnung?.bezGleisBezeichnung?.wert
+						]
+						'''BÜ-K «IDBUEAnlage?.value?.bezeichnung?.bezeichnungTabelle?.wert»«
+					»«IF !tracksDesignation.nullOrEmpty», Gl. «tracksDesignation.join(", ")»«ENDIF»'''
 					]
-					'''BÜ-K «IDBUEAnlage?.value?.bezeichnung?.bezeichnungTabelle?.wert», Gl. «tracksDesignation.join(", ")»'''
-				]
-			),
-			bezugspunktCase(
-				PZB_Element,
-				[
-					'''GM «PZBArt?.translate» «IDPZBElementZuordnung?.value?.PZBElementZuordnungBP?.map[fillBezugsElement(IDPZBElementBezugspunkt?.value)].join»'''
-				]
-			),
-			bezugspunktCase(
-				ZUB_Streckeneigenschaft,
-				[bezeichnung?.bezeichnungZUBSE?.wert]
-			),
-			bezugspunktCase(
-				Markanter_Punkt,
-				[bezeichnung?.bezeichnungMarkanterPunkt?.wert]
+				),
+				bezugspunktCase(
+					PZB_Element,
+					[
+						'''GM «PZBArt?.translate» «IDPZBElementZuordnung?.value?.PZBElementZuordnungBP?.map[fillBezugsElement(IDPZBElementBezugspunkt?.value)].join»'''
+					]
+				),
+				bezugspunktCase(
+					ZUB_Streckeneigenschaft,
+					[bezeichnung?.bezeichnungZUBSE?.wert]
+				),
+				bezugspunktCase(
+					Markanter_Punkt,
+					[bezeichnung?.bezeichnungMarkanterPunkt?.wert]
+				)
 			)
-		)
-		var List<Pair<Strecke, String>> dpBezugStreckeAndKm = newLinkedList
-		try {
-			dpBezugStreckeAndKm.addAll(datenpunkt.getStreckeAndKm(dpBezug))
-		} catch (Exception e) {
-			handleFillingException(e, it,
-				cols.getColumn(Bezugspunkt_Standort_Strecke))
-			handleFillingException(e, it,
-				cols.getColumn(Bezugspunkt_Standort_km))
-			handleFillingException(e, it, cols.getColumn(Bemerkung))
-		}
-		if (!dpBezugStreckeAndKm.nullOrEmpty) {
-			// G: Ssza.Bezugspunkt.Standort.Strecke
-			fillIterable(
-				cols.getColumn(Bezugspunkt_Standort_Strecke),
-				dpBezugStreckeAndKm,
-				[map[key?.bezeichnung?.bezeichnungStrecke?.wert].filterNull],
-				MIXED_STRING_COMPARATOR
-			)
+			var List<Pair<Strecke, String>> dpBezugStreckeAndKm = newLinkedList
+			try {
+				dpBezugStreckeAndKm.addAll(datenpunkt.getStreckeAndKm(dpBezug))
+			} catch (Exception e) {
+				handleFillingException(e, it,
+					cols.getColumn(Bezugspunkt_Standort_Strecke))
+				handleFillingException(e, it,
+					cols.getColumn(Bezugspunkt_Standort_km))
+				handleFillingException(e, it, cols.getColumn(Bemerkung))
+			}
+			if (!dpBezugStreckeAndKm.nullOrEmpty) {
+				// G: Ssza.Bezugspunkt.Standort.Strecke
+				fillIterable(
+					cols.getColumn(Bezugspunkt_Standort_Strecke),
+					dpBezugStreckeAndKm,
+					[map[key?.bezeichnung?.bezeichnungStrecke?.wert].filterNull],
+					MIXED_STRING_COMPARATOR
+				)
 
-			// H: Ssza.Bezugspunkt.Standort.km
-			fillIterable(
-				cols.getColumn(Bezugspunkt_Standort_km),
-				dpBezugStreckeAndKm,
-				[map[value]],
-				MIXED_STRING_COMPARATOR
-			)
+				// H: Ssza.Bezugspunkt.Standort.km
+				fillIterable(
+					cols.getColumn(Bezugspunkt_Standort_km),
+					dpBezugStreckeAndKm,
+					[map[value]],
+					MIXED_STRING_COMPARATOR
+				)
 
-			val firstStreckekm = dpBezugStreckeAndKm.firstOrNull?.value
-			// O: Ssza.Bemerkung
-			fillConditional(
-				cols.getColumn(Bemerkung),
-				datenpunkt,
-				[
-					ZUB_Streckeneigenschaft.isInstance(it) &&
-						(it as ZUB_Streckeneigenschaft).metallteil !== null
-				],
-				[
-					firstStreckekm ?: ""
-				]
-			)
+				val firstStreckekm = dpBezugStreckeAndKm.firstOrNull?.value
+				// O: Ssza.Bemerkung
+				fillConditional(
+					cols.getColumn(Bemerkung),
+					datenpunkt,
+					[
+						ZUB_Streckeneigenschaft.isInstance(it) &&
+							(it as ZUB_Streckeneigenschaft).metallteil !== null
+					],
+					[
+						firstStreckekm ?: ""
+					]
+				)
+			}
 		}
 
 		// J: Ssza.DP-Standort.Stellbereich
@@ -424,7 +425,11 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 		]
 
 		return new Case<Basis_Objekt>(
-			[clazz.exists[isInstance(it)]],
+			[
+				clazz.exists [ c |
+					c.isInstance(it)
+				]
+			],
 			action.andThen(filling),
 			ITERABLE_FILLING_SEPARATOR,
 			null
@@ -438,9 +443,9 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 				result.add(b.relevantAreaControl)
 			ZUB_Streckeneigenschaft:
 				result.add(b.mostOverlapControlArea)
-			default:
+			Punkt_Objekt:
 				result.addAll(b.container.stellBereich.filter [
-					isInControlArea(b)
+					contains(b)
 				])
 		}
 		return result.map[stellbereichBezeichnung].filterNull
