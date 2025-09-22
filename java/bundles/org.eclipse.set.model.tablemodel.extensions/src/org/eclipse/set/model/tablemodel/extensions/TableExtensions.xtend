@@ -483,7 +483,7 @@ class TableExtensions {
 					filterNull
 
 				return remarks.isEmpty ||
-					remarks.map[toText].join(", ").length < maxCharInCell
+					remarks.map[toText].join(FOOTNOTE_SEPARATOR).length < maxCharInCell
 			}
 
 			if (fc instanceof CompareFootnoteContainer) {

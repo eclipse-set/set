@@ -62,7 +62,7 @@ class TableToTableDocument {
 	var String tablename
 	var int groupNumber
 	var TableSpanUtils spanUtils
-	var remarkTextInlnie = true
+	var remarkTextInline = true
 
 	private new() throws ParserConfigurationException {
 		val docFactory = DocumentBuilderFactory.newInstance
@@ -115,9 +115,9 @@ class TableToTableDocument {
 
 	private def Element create doc.createElement("Table") transform(Table table,
 		Titlebox titlebox, FreeFieldInfo freeFieldInfo) {
-		remarkTextInlnie = table.isInlineFootnote
+		remarkTextInline = table.isInlineFootnote
 		appendChild(table.tablecontent.transform)
-		if (!remarkTextInlnie) {
+		if (!remarkTextInline) {
 			appendChild(transformToFootnotes(table))	
 		}
 		appendChild(titlebox.transform)
@@ -392,7 +392,7 @@ class TableToTableDocument {
 		SimpleFootnoteContainer fc, int columnNumber, boolean isRemarkColumn) {
 		val footNotesInfo = fc.footnotes.map[getFootnoteInfo(fc, it)].filterNull
 		val footnotes = footNotesInfo.map [
-			remarkTextInlnie ? toText : toShorthand
+			remarkTextInline ? toText : toShorthand
 		].iterableToString(FOOTNOTE_SEPARATOR)
 		element.addFootnoteChild(footnotes, WARNING_MARK_BLACK, columnNumber,
 			isRemarkColumn)
@@ -401,14 +401,14 @@ class TableToTableDocument {
 	private dispatch def void addFootnoteContent(Element element,
 		CompareFootnoteContainer fc, int columnNumber, boolean isRemarkColumn) {
 		val oldFootnotes = fc.oldFootnotes.map[getFootnoteInfo(fc, it)].map [
-			remarkTextInlnie ? toText : toShorthand
+			remarkTextInline ? toText : toShorthand
 		].iterableToString(FOOTNOTE_SEPARATOR)
 		val newFootnotes = fc.newFootnotes.map[getFootnoteInfo(fc, it)].map [
-			remarkTextInlnie ? toText : toShorthand
+			remarkTextInline ? toText : toShorthand
 		].iterableToString(FOOTNOTE_SEPARATOR)
 		val unchangedFootnotes = fc.unchangedFootnotes.map [
 			getFootnoteInfo(fc, it)
-		].map[remarkTextInlnie ? toText : toShorthand].iterableToString(
+		].map[remarkTextInline ? toText : toShorthand].iterableToString(
 			FOOTNOTE_SEPARATOR)
 
 		element.addFootnoteChild(oldFootnotes, WARNING_MARK_YELLOW,
