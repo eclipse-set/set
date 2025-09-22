@@ -5,6 +5,9 @@
   <eClassifiers xsi:type="ecore:EClass" name="CellFormat" eSuperTypes="tablemodel.ecore#//CellAnnotation">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="textAlignment" lowerBound="1"
         eType="#//TextAlignment"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="topologicalCalculation"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
+        defaultValueLiteral="false"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="TextAlignment">
     <eLiterals name="CENTER" literal="center"/>

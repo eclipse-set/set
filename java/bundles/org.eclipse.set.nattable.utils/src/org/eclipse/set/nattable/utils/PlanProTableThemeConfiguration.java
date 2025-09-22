@@ -31,10 +31,7 @@ import org.eclipse.nebula.widgets.nattable.painter.cell.BackgroundPainter;
 import org.eclipse.nebula.widgets.nattable.painter.cell.ICellPainter;
 import org.eclipse.nebula.widgets.nattable.painter.cell.ImagePainter;
 import org.eclipse.nebula.widgets.nattable.painter.cell.TextPainter;
-import org.eclipse.nebula.widgets.nattable.painter.cell.decorator.LineBorderDecorator;
 import org.eclipse.nebula.widgets.nattable.painter.cell.decorator.PaddingDecorator;
-import org.eclipse.nebula.widgets.nattable.style.BorderStyle;
-import org.eclipse.nebula.widgets.nattable.style.BorderStyle.LineStyleEnum;
 import org.eclipse.nebula.widgets.nattable.style.CellStyleAttributes;
 import org.eclipse.nebula.widgets.nattable.style.DisplayMode;
 import org.eclipse.nebula.widgets.nattable.style.HorizontalAlignmentEnum;
@@ -45,7 +42,6 @@ import org.eclipse.nebula.widgets.nattable.style.theme.ModernNatTableThemeConfig
 import org.eclipse.nebula.widgets.nattable.ui.util.CellEdgeEnum;
 import org.eclipse.nebula.widgets.nattable.util.GUIHelper;
 import org.eclipse.set.basis.ToolboxProperties;
-import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.extensions.CellContentExtensions;
 import org.eclipse.set.model.tablemodel.extensions.ColumnDescriptorExtensions;
@@ -247,8 +243,6 @@ public class PlanProTableThemeConfiguration
 		registerExceptionStyle(configRegistry);
 		registerAlignLeftStyle(configRegistry);
 		registerHeaderStyle(configRegistry);
-		registerCompareTableCellStyle(configRegistry);
-
 	}
 
 	private void addExceptionLabel() {
@@ -276,7 +270,6 @@ public class PlanProTableThemeConfiguration
 				dataLayer);
 		headerLayerAccumulator.add(headerGreyed);
 		dataLayerAccumulator.add(dataGreyed);
-
 		final int[] greyedColumns = ColumnDescriptorExtensions
 				.getGreyedColumnIndices(heading);
 		for (final int greyedColumn : greyedColumns) {
@@ -324,20 +317,6 @@ public class PlanProTableThemeConfiguration
 				fatHeaderStyle, DisplayMode.NORMAL, GridRegion.COLUMN_HEADER);
 		configRegistry.registerConfigAttribute(CellConfigAttributes.CELL_STYLE,
 				fatHeaderStyle, DisplayMode.SELECT, GridRegion.COLUMN_HEADER);
-	}
-
-	private void registerCompareTableCellStyle(
-			final IConfigRegistry configRegistry) {
-		final ICellPainter lineBorderDecorator = new LineBorderDecorator(
-				defaultCellPainter,
-				new BorderStyle(1, new Color(Colors.parseHexCode(
-						ToolboxConstants.TABLE_COMPARE_TABLE_CELL_BORDER_COLOR)),
-						LineStyleEnum.SOLID));
-
-		configRegistry.registerConfigAttribute(
-				CellConfigAttributes.CELL_PAINTER, lineBorderDecorator,
-				DisplayMode.NORMAL,
-				ToolboxConstants.TABLE_COMPARE_TABLE_CELL_LABEL);
 	}
 
 	private void registerWarningPainter(final IConfigRegistry configRegistry) {

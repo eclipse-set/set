@@ -29,6 +29,8 @@ import org.eclipse.set.model.tablemodel.impl.CellAnnotationImpl;
  * <ul>
  * <li>{@link org.eclipse.set.model.tablemodel.format.impl.CellFormatImpl#getTextAlignment
  * <em>Text Alignment</em>}</li>
+ * <li>{@link org.eclipse.set.model.tablemodel.format.impl.CellFormatImpl#isTopologicalCalculation
+ * <em>Topological Calculation</em>}</li>
  * </ul>
  *
  * @generated
@@ -53,6 +55,28 @@ public class CellFormatImpl extends CellAnnotationImpl implements CellFormat {
 	 * @ordered
 	 */
 	protected TextAlignment textAlignment = TEXT_ALIGNMENT_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #isTopologicalCalculation()
+	 * <em>Topological Calculation</em>}' attribute. <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * 
+	 * @see #isTopologicalCalculation()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean TOPOLOGICAL_CALCULATION_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isTopologicalCalculation()
+	 * <em>Topological Calculation</em>}' attribute. <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * 
+	 * @see #isTopologicalCalculation()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean topologicalCalculation = TOPOLOGICAL_CALCULATION_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -105,10 +129,37 @@ public class CellFormatImpl extends CellAnnotationImpl implements CellFormat {
 	 * @generated
 	 */
 	@Override
+	public boolean isTopologicalCalculation() {
+		return topologicalCalculation;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
+	public void setTopologicalCalculation(boolean newTopologicalCalculation) {
+		boolean oldTopologicalCalculation = topologicalCalculation;
+		topologicalCalculation = newTopologicalCalculation;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					TableformatPackage.CELL_FORMAT__TOPOLOGICAL_CALCULATION,
+					oldTopologicalCalculation, topologicalCalculation));
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case TableformatPackage.CELL_FORMAT__TEXT_ALIGNMENT:
 				return getTextAlignment();
+			case TableformatPackage.CELL_FORMAT__TOPOLOGICAL_CALCULATION:
+				return isTopologicalCalculation();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -123,6 +174,9 @@ public class CellFormatImpl extends CellAnnotationImpl implements CellFormat {
 		switch (featureID) {
 			case TableformatPackage.CELL_FORMAT__TEXT_ALIGNMENT:
 				setTextAlignment((TextAlignment) newValue);
+				return;
+			case TableformatPackage.CELL_FORMAT__TOPOLOGICAL_CALCULATION:
+				setTopologicalCalculation((Boolean) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -139,6 +193,9 @@ public class CellFormatImpl extends CellAnnotationImpl implements CellFormat {
 			case TableformatPackage.CELL_FORMAT__TEXT_ALIGNMENT:
 				setTextAlignment(TEXT_ALIGNMENT_EDEFAULT);
 				return;
+			case TableformatPackage.CELL_FORMAT__TOPOLOGICAL_CALCULATION:
+				setTopologicalCalculation(TOPOLOGICAL_CALCULATION_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -153,6 +210,8 @@ public class CellFormatImpl extends CellAnnotationImpl implements CellFormat {
 		switch (featureID) {
 			case TableformatPackage.CELL_FORMAT__TEXT_ALIGNMENT:
 				return textAlignment != TEXT_ALIGNMENT_EDEFAULT;
+			case TableformatPackage.CELL_FORMAT__TOPOLOGICAL_CALCULATION:
+				return topologicalCalculation != TOPOLOGICAL_CALCULATION_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -170,6 +229,8 @@ public class CellFormatImpl extends CellAnnotationImpl implements CellFormat {
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (textAlignment: ");
 		result.append(textAlignment);
+		result.append(", topologicalCalculation: ");
+		result.append(topologicalCalculation);
 		result.append(')');
 		return result.toString();
 	}

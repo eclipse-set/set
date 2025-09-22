@@ -256,6 +256,10 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 						final String trackDistance = sideDistance.getSecond()
 								.longValue() > 0 ? String.format("(%d)", //$NON-NLS-1$
 										sideDistance.getSecond()) : ""; //$NON-NLS-1$
+						if (!trackDistance.isEmpty()) {
+							addTopologicalCell(row, getColumn(cols,
+									SskzColumns.Abstand_FEAx_Gleismitte));
+						}
 						return String.format("%s%s", //$NON-NLS-1$
 								Math.abs(sideDistance.getFirst()),
 								trackDistance.isEmpty() ? "" //$NON-NLS-1$

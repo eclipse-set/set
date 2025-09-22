@@ -9,6 +9,7 @@
 package org.eclipse.set.feature.table.pt1.sskp;
 
 import static org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum.ASC;
+import static org.eclipse.set.feature.table.pt1.sskp.SskpColumns.*;
 import static org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.getFirstOrNull;
 import static org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparatorType.LEXICOGRAPHICAL;
 
@@ -145,5 +146,14 @@ public final class SskpTransformationService
 	@Override
 	protected String getShortcut() {
 		return messages.ToolboxTableNameSskpShort.toLowerCase();
+	}
+
+	@Override
+	protected List<String> getTopologicalColumnPosition() {
+		return List.of(PZB_Schutzstrecke_Ist, Abstand_Signal_Weiche,
+				Abstand_GM_2000, Gef_Stelle_Abstand,
+				Abstand_GM_2000_Bahnsteig_Anfang,
+				Abstand_GM_2000_Bahnsteig_Ende, H_Tafel_Abstand,
+				Abstand_vorsignalWdh_GM_2000);
 	}
 }

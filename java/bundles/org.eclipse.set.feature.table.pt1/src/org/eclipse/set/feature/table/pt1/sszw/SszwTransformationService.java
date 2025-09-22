@@ -10,6 +10,8 @@
  */
 package org.eclipse.set.feature.table.pt1.sszw;
 
+import java.util.List;
+
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.core.services.graph.TopologicalGraphService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
@@ -71,6 +73,11 @@ public final class SszwTransformationService
 	@Override
 	protected String getShortcut() {
 		return messages.ToolboxTableNameSszwShort.toLowerCase();
+	}
+
+	@Override
+	protected List<String> getTopologicalColumnPosition() {
+		return List.of(SszwColumns.Laenge_links, SszwColumns.Laaenge_rechts);
 	}
 
 }
