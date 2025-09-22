@@ -9,16 +9,29 @@
 package org.eclipse.set.feature.table.abstracttableview;
 
 import org.eclipse.nebula.widgets.nattable.NatTable;
+import org.eclipse.nebula.widgets.nattable.config.CellConfigAttributes;
+import org.eclipse.nebula.widgets.nattable.config.IConfigRegistry;
 import org.eclipse.nebula.widgets.nattable.data.IDataProvider;
 import org.eclipse.nebula.widgets.nattable.grid.layer.GridLayer;
 import org.eclipse.nebula.widgets.nattable.layer.AbstractLayer;
 import org.eclipse.nebula.widgets.nattable.layer.DataLayer;
+import org.eclipse.nebula.widgets.nattable.painter.cell.ICellPainter;
+import org.eclipse.nebula.widgets.nattable.painter.cell.decorator.LineBorderDecorator;
+import org.eclipse.nebula.widgets.nattable.style.BorderStyle;
+import org.eclipse.nebula.widgets.nattable.style.BorderStyle.LineStyleEnum;
+import org.eclipse.nebula.widgets.nattable.style.CellStyleAttributes;
+import org.eclipse.nebula.widgets.nattable.style.DisplayMode;
+import org.eclipse.nebula.widgets.nattable.style.Style;
 import org.eclipse.nebula.widgets.nattable.ui.matcher.KeyEventMatcher;
+import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.core.services.dialog.DialogService;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.nattable.utils.PlanProTableThemeConfiguration;
+import org.eclipse.set.utils.Colors;
 import org.eclipse.set.utils.ToolboxConfiguration;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.RGB;
 
 /**
  * Toolbox theme configuration.
@@ -27,6 +40,7 @@ import org.eclipse.swt.SWT;
  */
 public class ToolboxTableModelThemeConfiguration
 		extends PlanProTableThemeConfiguration {
+	private static final RGB TOPOLOGICAL_CELL_BG_COLOR = new RGB(232, 232, 232);
 	private static final float SCALE_CM_TO_PIXEL = ToolboxConfiguration
 			.getTablesScaleFactor();
 
@@ -39,6 +53,8 @@ public class ToolboxTableModelThemeConfiguration
 	public static int toPixel(final float length) {
 		return Math.round(length * SCALE_CM_TO_PIXEL);
 	}
+
+	private final Style topologicalCellStyle;
 
 	/**
 	 * @param natTable
@@ -70,5 +86,39 @@ public class ToolboxTableModelThemeConfiguration
 		natTable.getUiBindingRegistry()
 				.registerKeyBinding(new KeyEventMatcher(SWT.MOD1, 'r'),
 						new CsvExportAction(dialogService));
+
+		topologicalCellStyle = new Style();
+		topologicalCellStyle.setAttributeValue(
+				CellStyleAttributes.BACKGROUND_COLOR,
+				new Color(TOPOLOGICAL_CELL_BG_COLOR));
 	}
+
+	@Override
+	public void configureRegistry(final IConfigRegistry configRegistry) {
+		super.configureRegistry(configRegistry);
+		registerCompareTableCellStyle(configRegistry);
+		registerTopologicalTableCellStyle(configRegistry);
+	}
+
+	private void registerCompareTableCellStyle(
+			final IConfigRegistry configRegistry) {
+		final ICellPainter lineBorderDecorator = new LineBorderDecorator(
+				defaultCellPainter,
+				new BorderStyle(1, new Color(Colors.parseHexCode(
+						ToolboxConstants.TABLE_COMPARE_TABLE_CELL_BORDER_COLOR)),
+						LineStyleEnum.SOLID));
+
+		configRegistry.registerConfigAttribute(
+				CellConfigAttributes.CELL_PAINTER, lineBorderDecorator,
+				DisplayMode.NORMAL,
+				ToolboxConstants.TABLE_COMPARE_TABLE_CELL_LABEL);
+	}
+
+	private void registerTopologicalTableCellStyle(
+			final IConfigRegistry configRegistry) {
+		configRegistry.registerConfigAttribute(CellConfigAttributes.CELL_STYLE,
+				topologicalCellStyle, DisplayMode.NORMAL,
+				ToolboxConstants.TABLE_TOPOLOGICAL_CELL);
+	}
+
 }

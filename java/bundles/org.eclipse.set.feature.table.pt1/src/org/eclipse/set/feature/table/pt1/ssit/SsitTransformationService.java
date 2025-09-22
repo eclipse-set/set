@@ -11,7 +11,9 @@ package org.eclipse.set.feature.table.pt1.ssit;
 import static org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum.ASC;
 import static org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparatorType.LEXICOGRAPHICAL;
 
+import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
@@ -70,6 +72,11 @@ public class SsitTransformationService
 	@Override
 	protected String getShortcut() {
 		return messages.ToolboxTableNameSsitShort.toLowerCase();
+	}
+
+	@Override
+	protected List<String> getTopologicalColumnPosition() {
+		return Collections.emptyList();
 	}
 
 }

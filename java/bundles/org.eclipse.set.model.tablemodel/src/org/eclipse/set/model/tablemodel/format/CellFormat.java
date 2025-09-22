@@ -20,6 +20,8 @@ import org.eclipse.set.model.tablemodel.CellAnnotation;
  * <ul>
  * <li>{@link org.eclipse.set.model.tablemodel.format.CellFormat#getTextAlignment
  * <em>Text Alignment</em>}</li>
+ * <li>{@link org.eclipse.set.model.tablemodel.format.CellFormat#isTopologicalCalculation
+ * <em>Topological Calculation</em>}</li>
  * </ul>
  *
  * @see org.eclipse.set.model.tablemodel.format.TableformatPackage#getCellFormat()
@@ -55,5 +57,33 @@ public interface CellFormat extends CellAnnotation {
 	 * @generated
 	 */
 	void setTextAlignment(TextAlignment value);
+
+	/**
+	 * Returns the value of the '<em><b>Topological Calculation</b></em>'
+	 * attribute. The default value is <code>"false"</code>. <!-- begin-user-doc
+	 * --> <!-- end-user-doc -->
+	 * 
+	 * @return the value of the '<em>Topological Calculation</em>' attribute.
+	 * @see #setTopologicalCalculation(boolean)
+	 * @see org.eclipse.set.model.tablemodel.format.TableformatPackage#getCellFormat_TopologicalCalculation()
+	 * @model default="false" dataType="org.eclipse.emf.ecore.xml.type.Boolean"
+	 *        required="true"
+	 * @generated
+	 */
+	boolean isTopologicalCalculation();
+
+	/**
+	 * Sets the value of the
+	 * '{@link org.eclipse.set.model.tablemodel.format.CellFormat#isTopologicalCalculation
+	 * <em>Topological Calculation</em>}' attribute. <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * 
+	 * @param value
+	 *            the new value of the '<em>Topological Calculation</em>'
+	 *            attribute.
+	 * @see #isTopologicalCalculation()
+	 * @generated
+	 */
+	void setTopologicalCalculation(boolean value);
 
 } // CellFormat

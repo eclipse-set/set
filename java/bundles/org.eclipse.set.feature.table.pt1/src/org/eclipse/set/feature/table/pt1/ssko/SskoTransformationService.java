@@ -8,6 +8,9 @@
  */
 package org.eclipse.set.feature.table.pt1.ssko;
 
+import java.util.Collections;
+import java.util.List;
+
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator;
@@ -65,5 +68,10 @@ public final class SskoTransformationService
 	@Override
 	protected String getShortcut() {
 		return messages.ToolboxTableNameSskoShort.toLowerCase();
+	}
+
+	@Override
+	protected List<String> getTopologicalColumnPosition() {
+		return Collections.emptyList();
 	}
 }

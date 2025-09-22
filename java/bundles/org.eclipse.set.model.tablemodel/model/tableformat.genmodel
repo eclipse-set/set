@@ -16,6 +16,7 @@
     </genEnums>
     <genClasses ecoreClass="tableformat.ecore#//CellFormat">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tableformat.ecore#//CellFormat/textAlignment"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tableformat.ecore#//CellFormat/topologicalCalculation"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

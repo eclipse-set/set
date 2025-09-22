@@ -13,6 +13,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
+import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 import org.eclipse.set.model.planpro.ATO.ATOPackage;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Ansteuerung_ElementPackage;
 import org.eclipse.set.model.planpro.Bahnsteig.BahnsteigPackage;
@@ -119,6 +120,7 @@ public class TableformatPackageImpl extends EPackageImpl
 		ZuglenkungPackage.eINSTANCE.eClass();
 		ZugnummernmeldeanlagePackage.eINSTANCE.eClass();
 		Signalbegriffe_StrukturPackage.eINSTANCE.eClass();
+		XMLTypePackage.eINSTANCE.eClass();
 
 		// Create package meta-data objects
 		theTableformatPackage.createPackageContents();
@@ -197,6 +199,8 @@ public class TableformatPackageImpl extends EPackageImpl
 		// Create classes and their features
 		cellFormatEClass = createEClass(CELL_FORMAT);
 		createEAttribute(cellFormatEClass, CELL_FORMAT__TEXT_ALIGNMENT);
+		createEAttribute(cellFormatEClass,
+				CELL_FORMAT__TOPOLOGICAL_CALCULATION);
 
 		// Create enums
 		textAlignmentEEnum = createEEnum(TEXT_ALIGNMENT);
@@ -220,6 +224,16 @@ public class TableformatPackageImpl extends EPackageImpl
 	@Override
 	public EAttribute getCellFormat_TextAlignment() {
 		return (EAttribute) cellFormatEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
+	public EAttribute getCellFormat_TopologicalCalculation() {
+		return (EAttribute) cellFormatEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -262,6 +276,8 @@ public class TableformatPackageImpl extends EPackageImpl
 		// Obtain other dependent packages
 		TablemodelPackage theTablemodelPackage = (TablemodelPackage) EPackage.Registry.INSTANCE
 				.getEPackage(TablemodelPackage.eNS_URI);
+		XMLTypePackage theXMLTypePackage = (XMLTypePackage) EPackage.Registry.INSTANCE
+				.getEPackage(XMLTypePackage.eNS_URI);
 
 		// Create type parameters
 
@@ -278,6 +294,11 @@ public class TableformatPackageImpl extends EPackageImpl
 				"textAlignment", null, 1, 1, CellFormat.class, !IS_TRANSIENT,
 				!IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
 				!IS_DERIVED, IS_ORDERED);
+		initEAttribute(getCellFormat_TopologicalCalculation(),
+				theXMLTypePackage.getBoolean(), "topologicalCalculation",
+				"false", 1, 1, CellFormat.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED,
+				IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(textAlignmentEEnum, TextAlignment.class, "TextAlignment");

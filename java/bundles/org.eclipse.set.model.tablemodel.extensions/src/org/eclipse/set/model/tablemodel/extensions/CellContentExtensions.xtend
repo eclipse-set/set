@@ -27,6 +27,7 @@ import org.eclipse.set.utils.ToolboxConfiguration
 import static org.eclipse.set.model.tablemodel.extensions.Utils.*
 
 import static extension org.eclipse.set.model.tablemodel.extensions.TableCellExtensions.*
+import static extension org.eclipse.set.model.tablemodel.extensions.ColumnDescriptorExtensions.*
 import static extension org.eclipse.set.utils.StringExtensions.*
 import org.eclipse.set.model.tablemodel.CompareTableCellContent
 
@@ -43,6 +44,9 @@ class CellContentExtensions {
 	public static val String HOURGLASS_ICON = "⏳"
 	static val String FOOTNOTE_SEPARATOR = ", "
 	static val String ERROR_PREFIX = "Error:"
+	static val String YELLOW_COLOR_RGB = "rgb(255,255, 0)"
+	static val String RED_COLOR_RGB = "rgb(255, 0, 0)"
+	static val String GREY_COLOR_RGB = "rgb(232,232,232)"
 
 	/**
 	 * Returns a formatted string representation intended for rendering as
@@ -62,7 +66,8 @@ class CellContentExtensions {
 	}
 
 	static def dispatch String getRichTextValue(StringCellContent content) {
-		return '''<p style="text-align:«content.textAlign»">«content.valueFormat»</p>'''
+		return '''<p style="text-align:«content.textAlign»">«
+		»«content.valueFormat»</p>'''
 	}
 
 	static def dispatch String getRichTextValue(CompareCellContent content) {
@@ -236,6 +241,11 @@ class CellContentExtensions {
 		return content.tableCell.format.textAlignment.literal
 	}
 
+	private static def boolean isTopologicalCell(CellContent content) {
+		return content.tableCell.columndescriptor.columnGreyed ||
+			content.tableCell.format.topologicalCalculation
+	}
+
 	private static def dispatch String getValueFormat(
 		StringCellContent content) {
 		return '''<span>«content.valueHtmlString»</span>'''
@@ -305,8 +315,8 @@ class CellContentExtensions {
 				formatCompareContent(content.oldValue, content.newValue,
 					oldFormatter, commonFormatter, newFormatter, postFormatter)
 			CompareTableCellContent:
-				formatCompareContent(content.mainPlanCellContent,
-					oldFormatter, commonFormatter, newFormatter, postFormatter)
+				formatCompareContent(content.mainPlanCellContent, oldFormatter,
+					commonFormatter, newFormatter, postFormatter)
 		}
 	}
 
@@ -346,10 +356,10 @@ class CellContentExtensions {
 				return '''<span>«value.htmlString»</span>'''
 			}
 			case WARNING_MARK_YELLOW: {
-				return '''<span style="background-color:rgb(255,255, 0)"><s>«value.htmlString»</s></span>'''
+				return '''<span style="background-color:«YELLOW_COLOR_RGB»"><s>«value.htmlString»</s></span>'''
 			}
 			case WARNING_MARK_RED: {
-				return '''<span style="color:rgb(255, 0, 0)">«value.htmlString»</span>'''
+				return '''<span style="color:«RED_COLOR_RGB»">«value.htmlString»</span>'''
 			}
 		}
 	}
@@ -374,8 +384,8 @@ class CellContentExtensions {
 			return '''<span>«String.format(content.stringFormat, content.multiColorValue)»</span>'''
 		}
 
-		val value = '''<span style="background-color:rgb(255,255, 0)">«content
-			.getMultiColorValueHtmlString(WARNING_MARK_YELLOW)»</span><span style="color:rgb(255, 0, 0)">«content
+		val value = '''<span style="background-color:«YELLOW_COLOR_RGB»">«content
+			.getMultiColorValueHtmlString(WARNING_MARK_YELLOW)»</span><span style="color:«RED_COLOR_RGB»">«content
 			.getMultiColorValueHtmlString(WARNING_MARK_RED)»</span>'''
 		return '''<span>«String.format(content.stringFormat, value)»</span>'''
 	}

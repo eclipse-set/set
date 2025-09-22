@@ -9,6 +9,9 @@
 
 package org.eclipse.set.feature.table.pt1.ssbb;
 
+import java.util.Collections;
+import java.util.List;
+
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator;
@@ -64,6 +67,11 @@ public class SsbbTransformationService
 	@Override
 	protected String getShortcut() {
 		return messages.ToolboxTableNameSsbbShort.toLowerCase();
+	}
+
+	@Override
+	protected List<String> getTopologicalColumnPosition() {
+		return Collections.emptyList();
 	}
 
 }
