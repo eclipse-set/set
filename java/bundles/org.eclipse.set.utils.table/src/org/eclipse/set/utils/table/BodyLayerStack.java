@@ -13,6 +13,8 @@ import java.util.Collections;
 import java.util.Set;
 import java.util.function.Function;
 
+import org.eclipse.nebula.widgets.nattable.command.ILayerCommand;
+import org.eclipse.nebula.widgets.nattable.command.ILayerCommandHandler;
 import org.eclipse.nebula.widgets.nattable.config.CellConfigAttributes;
 import org.eclipse.nebula.widgets.nattable.config.IConfigRegistry;
 import org.eclipse.nebula.widgets.nattable.data.IDataProvider;
@@ -22,6 +24,8 @@ import org.eclipse.nebula.widgets.nattable.freeze.CompositeFreezeLayer;
 import org.eclipse.nebula.widgets.nattable.freeze.FreezeHelper;
 import org.eclipse.nebula.widgets.nattable.freeze.FreezeLayer;
 import org.eclipse.nebula.widgets.nattable.freeze.command.FreezeColumnStrategy;
+import org.eclipse.nebula.widgets.nattable.group.command.ViewportSelectColumnGroupCommand;
+import org.eclipse.nebula.widgets.nattable.group.command.ViewportSelectColumnGroupCommandHandler;
 import org.eclipse.nebula.widgets.nattable.layer.AbstractLayerTransform;
 import org.eclipse.nebula.widgets.nattable.layer.DataLayer;
 import org.eclipse.nebula.widgets.nattable.layer.IUniqueIndexLayer;
@@ -104,7 +108,7 @@ public class BodyLayerStack extends AbstractLayerTransform {
 
 	protected void init() {
 		this.stackBodyDataProvider = bodyDataLayer.getDataProvider();
-		this.viewportLayer = new ViewportLayer(this.selectionLayer);
+		this.viewportLayer = createViewportLayer();
 		freezeLayer = new FreezeLayer(this.selectionLayer);
 		final CompositeFreezeLayer compositeFreezeLayer = new CompositeFreezeLayer(
 				freezeLayer, viewportLayer, this.selectionLayer);
@@ -219,5 +223,26 @@ public class BodyLayerStack extends AbstractLayerTransform {
 		registry.registerConfigAttribute(CellConfigAttributes.DISPLAY_CONVERTER,
 				displayConverter, DisplayMode.NORMAL,
 				ToolboxConstants.SEARCH_CELL_DISPLAY_CONVERTER);
+	}
+
+	protected ViewportLayer createViewportLayer() {
+		return new ViewportLayer(selectionLayer) {
+			private final ILayerCommandHandler<ViewportSelectColumnGroupCommand> commandHandler = new ViewportSelectColumnGroupCommandHandler(
+					this);
+
+			/**
+			 * Do the {@link ViewportSelectColumnGroupCommand} on SelectionLayer
+			 * instead of ViewportLayer, because by Group mixed between Fixed
+			 * and normal column, the Viewport
+			 */
+			@Override
+			public boolean doCommand(final ILayerCommand command) {
+				if (command instanceof final ViewportSelectColumnGroupCommand selectGroupCommand) {
+					return commandHandler.doCommand(selectionLayer,
+							selectGroupCommand);
+				}
+				return super.doCommand(command);
+			}
+		};
 	}
 }
