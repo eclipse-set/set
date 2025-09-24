@@ -231,9 +231,19 @@ public class BodyLayerStack extends AbstractLayerTransform {
 					this);
 
 			/**
-			 * Do the {@link ViewportSelectColumnGroupCommand} on SelectionLayer
-			 * instead of ViewportLayer, because by Group mixed between Fixed
-			 * and normal column, the Viewport
+			 * Use {@link ViewportSelectColumnGroupCommand} on the
+			 * {@link SelectionLayer} instead of {@link ViewportLayer}
+			 * 
+			 * Reason: The {@link ViewportLayer} computes and interprets
+			 * "relative" positions. When a column group mixed fixed (fixed
+			 * columns are handled by the {@link FreezeLayer} and scrollable
+			 * columns, the {@link ViewportLayer} can't reliably determine the
+			 * group's origin (absolute) column position from a
+			 * viewport-relative click on a scrollable column. The mapping
+			 * beween viewport positions and absolute column position is
+			 * disrupted by the presence of the fixed layer . The
+			 * {@link SelectionLayer} works with absolute columns positions and
+			 * can there fore select the whole group correctly.
 			 */
 			@Override
 			public boolean doCommand(final ILayerCommand command) {
