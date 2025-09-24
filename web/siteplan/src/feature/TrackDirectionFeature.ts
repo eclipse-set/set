@@ -195,9 +195,10 @@ export default class TrackDirectionFeature extends LageplanFeature<Track> {
   }
 
   /**
-   * from a given @param section TrackSection, produce a list of coordinates from section.startCoordinate to end.
-   * For this, segments are flipped and ordered in a way where adjacent segments have the same coordinates
-   * (with tolerance = TRACK_SEGMENT_ORDERING_COORDINATE_MATCHING_DISTANCE) at the "toching side".
+   * from a given @param section TrackSection, produce a list of coordinates from section.
+   * startCoordinate to end. For this, segments are flipped and ordered in a way where
+   * adjacent segments have the same coordinates (with tolerance =
+   * TRACK_SEGMENT_ORDERING_COORDINATE_MATCHING_DISTANCE) at the "toching side".
    *
    * @returns undefined when:
    *    - section.startCoordinate is null/undefined or
