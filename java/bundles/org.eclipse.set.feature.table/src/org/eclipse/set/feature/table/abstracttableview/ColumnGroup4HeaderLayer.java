@@ -65,7 +65,7 @@ public class ColumnGroup4HeaderLayer extends AbstractLayerTransform {
 		this.model = columnGroupGroupGroupModel;
 
 		addConfiguration(new DefaultColumnGroupHeaderLayerConfiguration(
-				columnGroupGroupGroupModel));
+				columnGroupGroupGroupModel, true));
 	}
 
 	/**
