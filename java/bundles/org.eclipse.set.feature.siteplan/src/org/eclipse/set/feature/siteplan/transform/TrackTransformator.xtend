@@ -151,7 +151,6 @@ class TrackTransformator extends BaseTransformator<TOP_Kante> {
 		section.shape = transformGeoForm(md.geoKante.GEOKanteAllg.GEOForm)
 		section.color = sectionColor
 		section.startCoordinate =  startCoordinate(md) 
-		//startCoordinate might be null. In that case no field "startCoordinate" will appear in TrackSection (in ts)
 		
 		transform(md).filter[segment|!segment.positions.empty].forEach [
 			section.segments.add(it)
