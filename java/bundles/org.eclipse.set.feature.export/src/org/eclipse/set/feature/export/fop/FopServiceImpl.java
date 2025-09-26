@@ -14,6 +14,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.util.Map;
 
@@ -27,6 +28,7 @@ import org.apache.fop.apps.FOUserAgent;
 import org.apache.fop.apps.Fop;
 import org.apache.fop.apps.FopFactory;
 import org.apache.fop.apps.FopFactoryBuilder;
+import org.apache.fop.apps.io.ResourceResolverFactory;
 import org.apache.fop.configuration.ConfigurationException;
 import org.apache.xmlgraphics.io.Resource;
 import org.apache.xmlgraphics.io.ResourceResolver;
@@ -99,12 +101,18 @@ public class FopServiceImpl implements FopService {
 	 *             a configuration exception occurred
 	 * @throws SAXException
 	 *             a SAX exception occurred
+	 * @throws URISyntaxException
 	 */
 	@Activate
-	public void activate()
-			throws IOException, SAXException, ConfigurationException {
+	public void activate() throws IOException, SAXException,
+			ConfigurationException, URISyntaxException {
 		final FopFactoryBuilder fopFactoryBuilder = new FopFactoryBuilder(
 				new File(".").toURI(), proxyResourceResolver); //$NON-NLS-1$
+		fopFactoryBuilder.setHyphenBaseResourceResolver(
+				ResourceResolverFactory.createDefaultInternalResourceResolver(
+						FopServiceImpl.class.getClassLoader()
+								.getResource("hyph") //$NON-NLS-1$
+								.toURI()));
 		fopFactory = fopFactoryBuilder.build();
 		fopFactory.getRendererFactory()
 				.addDocumentHandlerMaker(
