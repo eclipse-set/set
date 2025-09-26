@@ -147,6 +147,7 @@
         eType="#//TrackSwitchComponent" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="continuousSegments" upperBound="2"
         eType="#//ContinuousTrackSegment" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="switchType" eType="#//SwitchType"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TrackSwitchComponent" eSuperTypes="#//RouteObject">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="preferredLocation" eType="#//LeftRight"/>
@@ -421,5 +422,13 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="UnknownPositionedObject" eSuperTypes="#//PositionedObject">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="objectType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="SwitchType">
+    <eLiterals name="Simple" literal="Simple"/>
+    <eLiterals name="CrossSwitch" value="1" literal="CrossSwitch"/>
+    <eLiterals name="DoppleCrossSwitch" value="2" literal="DoppleCrossSwitch"/>
+    <eLiterals name="SimpleCross" value="3" literal="SimpleCross"/>
+    <eLiterals name="FlatCross" value="4" literal="FlatCross"/>
+    <eLiterals name="Other" value="5" literal="Other"/>
   </eClassifiers>
 </ecore:EPackage>

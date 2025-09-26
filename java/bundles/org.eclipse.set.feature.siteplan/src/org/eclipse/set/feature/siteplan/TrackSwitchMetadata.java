@@ -58,8 +58,7 @@ public class TrackSwitchMetadata {
 			}
 
 			switch (entry.type) {
-				case ENUMW_KR_ART_DKW:
-				case ENUMW_KR_ART_EKW:
+				case ENUMW_KR_ART_DKW, ENUMW_KR_ART_EKW:
 					// Crossing lengths are required
 					entry.rightCrossing = new CrossingSide(
 							Double.parseDouble(
@@ -100,6 +99,14 @@ public class TrackSwitchMetadata {
 					entry.trackSwitchLength = new LegLength(
 							Double.parseDouble(columns[COLUMN_LENGTH_MAIN]),
 							Double.parseDouble(columns[COLUMN_LENGTH_SIDE]));
+					break;
+				case ENUMW_KR_ART_KR:
+					entry.leftCrossing = new CrossingSide(
+							columns[COLUMN_CROSSING_LEFT_MAIN],
+							columns[COLUMN_CROSSING_LEFT_SIDE]);
+					entry.rightCrossing = new CrossingSide(
+							columns[COLUMN_CROSSING_RIGHT_MAIN],
+							columns[COLUMN_CROSSING_RIGHT_SIDE]);
 					break;
 				default:
 					// Other types are not handled
@@ -142,6 +149,10 @@ public class TrackSwitchMetadata {
 	public static class CrossingSide {
 		private CrossingSide(final double mainLeg, final double sideLeg) {
 			crossing = new LegLength(mainLeg, sideLeg);
+		}
+
+		private CrossingSide(final String mainLeg, final String sideLeg) {
+			this(Double.parseDouble(mainLeg), Double.parseDouble(sideLeg));
 		}
 
 		/**
