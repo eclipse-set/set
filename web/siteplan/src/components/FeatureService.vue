@@ -42,6 +42,7 @@ import SignalRouteMarkerFeature from '@/feature/SignalRouteMarkerFeature'
 import StationFeature from '@/feature/StationFeature'
 import TrackCloseFeature from '@/feature/TrackCloseFeature'
 import TrackDesignationMarkerFeature from '@/feature/TrackDesignationMarkerFeature'
+import TrackDirectionFeature from '@/feature/TrackDirectionFeature'
 import TrackFeature from '@/feature/TrackFeature'
 import TrackLockFeature from '@/feature/TrackLockFeature'
 import TrackSectionMarkerFeature from '@/feature/TrackSectionMarkerFeature'
@@ -330,6 +331,7 @@ export default class FeatureService extends Vue {
     this.listFeature.push(new CantFeature(this.map))
     this.listFeature.push(new CantLineFeature(this.map))
     this.listFeature.push(new UnknownObjectFeature(this.map))
+    this.listFeature.push(new TrackDirectionFeature(this.map))
   }
 
   private modelLoaded (model: SiteplanModel) {
