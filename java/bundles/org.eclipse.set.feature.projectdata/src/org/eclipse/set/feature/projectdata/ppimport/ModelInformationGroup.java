@@ -58,10 +58,11 @@ public class ModelInformationGroup {
 
 	/**
 	 * Create information swt group
-	 * 
+	 *
 	 * @param parent
 	 *            the parent swt
 	 */
+	// IMPROVE: the object count information should be determine all subwork
 	public void createInfoGroup(final Composite parent) {
 		final Group group = new Group(parent, SWT.SHADOW_ETCHED_IN);
 		group.setText(messages.PlanProImportPart_infoGroup);
@@ -71,7 +72,7 @@ public class ModelInformationGroup {
 		final PlanPro_Schnittstelle planProSchnittstelle = session
 				.getPlanProSchnittstelle();
 		final Planung_Einzel singlePlanningState = PlanungProjektExtensions
-				.getPlanungGruppe(PlanProSchnittstelleExtensions
+				.getLeadingPlanungGruppe(PlanProSchnittstelleExtensions
 						.LSTPlanungProjekt(planProSchnittstelle))
 				.getLSTPlanungEinzel();
 
@@ -110,7 +111,7 @@ public class ModelInformationGroup {
 		final PlanPro_Schnittstelle planProSchnittstelle = session
 				.getPlanProSchnittstelle();
 		final Planung_Einzel singlePlanningState = PlanungProjektExtensions
-				.getPlanungGruppe(PlanProSchnittstelleExtensions
+				.getLeadingPlanungGruppe(PlanProSchnittstelleExtensions
 						.LSTPlanungProjekt(planProSchnittstelle))
 				.getLSTPlanungEinzel();
 

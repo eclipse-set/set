@@ -9,18 +9,21 @@
 
 package org.eclipse.set.core.modelservice;
 
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.set.core.services.planningaccess.PlanningAccessService;
-import org.eclipse.set.ppmodel.extensions.PlanungEinzelExtensions;
 import org.eclipse.set.model.planpro.PlanPro.ENUMUntergewerkArt;
 import org.eclipse.set.model.planpro.PlanPro.PlanProFactory;
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.set.model.planpro.PlanPro.Planung_Gruppe;
 import org.eclipse.set.model.planpro.PlanPro.Planung_Projekt;
 import org.eclipse.set.model.planpro.PlanPro.Untergewerk_Art_TypeClass;
+import org.eclipse.set.ppmodel.extensions.PlanungEinzelExtensions;
 import org.osgi.service.component.annotations.Component;
 
 /**
@@ -30,6 +33,14 @@ import org.osgi.service.component.annotations.Component;
  */
 @Component
 public class PlanningAccessServiceImpl implements PlanningAccessService {
+	private static LinkedList<ENUMUntergewerkArt> subworkByPriority = new LinkedList<>() {
+		{
+			add(ENUMUntergewerkArt.ENUM_UNTERGEWERK_ART_ATO);
+			add(ENUMUntergewerkArt.ENUM_UNTERGEWERK_ART_ETCS);
+			add(ENUMUntergewerkArt.ENUM_UNTERGEWERK_ART_ESTW);
+			add(ENUMUntergewerkArt.ENUM_UNTERGEWERK_ART_GEO);
+		}
+	};
 
 	private static void createPrerequisiteElements(
 			final PlanPro_Schnittstelle planProIterface) {
@@ -106,34 +117,23 @@ public class PlanningAccessServiceImpl implements PlanningAccessService {
 	}
 
 	@Override
-	public Planung_Gruppe getPlanungGruppe(final Planung_Projekt project) {
-		final List<Planung_Gruppe> groups = project.getLSTPlanungGruppe();
-		final Optional<Planung_Gruppe> firstESTWGroup = groups.stream()
-				.filter(x -> getUntergewerkArt(
-						x) == ENUMUntergewerkArt.ENUM_UNTERGEWERK_ART_ESTW)
-				.findFirst();
-		final Optional<Planung_Gruppe> firstGeoGroup = groups.stream()
-				.filter(x -> getUntergewerkArt(
-						x) == ENUMUntergewerkArt.ENUM_UNTERGEWERK_ART_GEO)
-				.findFirst();
-
-		// return the first ESTW group (if present)
-		if (firstESTWGroup.isPresent()) {
-			return firstESTWGroup.orElseThrow();
+	public Planung_Gruppe getLeadingPlanungGruppe(
+			final Planung_Projekt project) {
+		final List<Planung_Gruppe> planingGroups = project
+				.getLSTPlanungGruppe();
+		if (planingGroups.isEmpty()) {
+			return null;
 		}
-
-		// return the first Geo group (if present)
-		if (firstGeoGroup.isPresent()) {
-			return firstGeoGroup.orElseThrow();
+		final Map<ENUMUntergewerkArt, List<Planung_Gruppe>> groupsBySubWork = planingGroups
+				.stream()
+				.collect(Collectors
+						.groupingBy(group -> getUntergewerkArt(group)));
+		for (final ENUMUntergewerkArt subWork : subworkByPriority) {
+			if (groupsBySubWork.containsKey(subWork)) {
+				return groupsBySubWork.get(subWork).getFirst();
+			}
 		}
-
-		// return the first group, if no ESTW or Geo group is present
-		if (!groups.isEmpty()) {
-			return groups.get(0);
-		}
-
-		// return null, if no group is present
-		return null;
+		return planingGroups.getFirst();
 	}
 
 	@Override
@@ -168,7 +168,8 @@ public class PlanningAccessServiceImpl implements PlanningAccessService {
 	@Override
 	public void setPlanungGruppe(final Planung_Projekt project,
 			final Planung_Gruppe group) {
-		final Planung_Gruppe groupToBeReplaced = getPlanungGruppe(project);
+		final Planung_Gruppe groupToBeReplaced = getLeadingPlanungGruppe(
+				project);
 		final List<Planung_Gruppe> groups = project.getLSTPlanungGruppe();
 		final int index = groups.indexOf(groupToBeReplaced);
 		if (index < 0) {

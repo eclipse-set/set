@@ -97,7 +97,7 @@ class SiteplanTransformatorImpl extends AbstractSiteplanTransformator {
 		MultiContainer_AttributeGroup container) {
 		// Add main track information
 		val mainRouteInfo = planproSchnittstelle?.LSTPlanungProjekt?.
-			planungGruppe?.planungGFuehrendeStrecke
+			leadingPlanungGruppe?.planungGFuehrendeStrecke
 
 		if (mainRouteInfo === null) {
 			return null
