@@ -87,12 +87,12 @@ class PlanProToTitleboxTransformation {
 			lastPlanungEErstellung?.handelnder?.akteurAllg?.nameAkteur?.wert ?:
 				"")
 
-		val lastPlanungPruefung = planungEinzel?.planungEHandlung?.
+		val lastQualitaetPruefung = planungEinzel?.planungEHandlung?.
 			planungEQualitaetspruefung?.lastOrNull
 		it.set(88,
-			lastPlanungPruefung?.datum?.wert?.toString(DATE_FORMAT_LONG) ?: "")
+			lastQualitaetPruefung?.datum?.wert?.toString(DATE_FORMAT_LONG) ?: "")
 		it.set(89,
-			lastPlanungPruefung?.handelnder?.akteurAllg?.nameAkteur?.wert ?: "")
+			lastQualitaetPruefung?.handelnder?.akteurAllg?.nameAkteur?.wert ?: "")
 
 		val lastPlanungFreigabe = planungEinzel?.planungEHandlung?.
 			planungEFreigabe?.lastOrNull
@@ -119,10 +119,10 @@ class PlanProToTitleboxTransformation {
 				lastPlanungEErstellung?.datum?.wert?.toString(
 					DATE_FORMAT_SHORT) ?: "")
 			it.set(37,
-				lastPlanungPruefung?.handelnder?.akteurAllg?.
+				lastQualitaetPruefung?.handelnder?.akteurAllg?.
 					nameAkteur5?.wert ?: "")
 			it.set(44,
-				lastPlanungPruefung?.datum?.wert?.toString(DATE_FORMAT_SHORT) ?:
+				lastQualitaetPruefung?.datum?.wert?.toString(DATE_FORMAT_SHORT) ?:
 					"")
 			it.set(38,
 				lastPlanungAbnahme?.handelnder?.akteurAllg?.nameAkteur5?.wert ?:
@@ -150,11 +150,12 @@ class PlanProToTitleboxTransformation {
 				"")
 		it.set(70, lastPlanungEErstellung?.datum?.wert?.toString(DATE_FORMAT) ?:
 			"")
+		val lastPlanPruefung = planungEinzel?.planungEHandlung?.planungEPruefung.lastOrNull
 		it.set(59,
-			lastPlanungPruefung?.handelnder?.akteurAllg?.nameAkteur5?.wert ?:
+			lastPlanPruefung?.handelnder?.akteurAllg?.nameAkteur5?.wert ?:
 				"")
 		it.set(71,
-			lastPlanungPruefung?.datum?.wert?.toString(DATE_FORMAT) ?: "")
+			lastPlanPruefung?.datum?.wert?.toString(DATE_FORMAT) ?: "")
 		it.set(60,
 			lastPlanungAbnahme?.handelnder?.akteurAllg?.nameAkteur5?.wert ?: "")
 		it.set(72, lastPlanungAbnahme?.datum?.wert?.toString(DATE_FORMAT) ?: "")
