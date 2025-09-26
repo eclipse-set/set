@@ -23,6 +23,7 @@ import org.eclipse.set.basis.files.PlanProFileResource;
 import org.eclipse.set.basis.files.ToolboxFile;
 import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.eclipse.set.basis.guid.Guid;
+import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.session.SessionService;
 import org.eclipse.set.model.planpro.PlanPro.DocumentRoot;
 import org.eclipse.set.model.planpro.PlanPro.util.PlanProResourceImpl;
@@ -152,7 +153,8 @@ public class PlainToolboxFile extends AbstractToolboxFile {
 	public void openModel() throws IOException {
 		if (isLoadable()) {
 			generateMD5CheckSum();
-			loadResource(getModelPath(), editingDomain);
+			loadResource(getModelPath(), editingDomain,
+					Services.getPlanProVersionService());
 			final DocumentRoot doc = (org.eclipse.set.model.planpro.PlanPro.DocumentRoot) getPlanProResource()
 					.getContents()
 					.getFirst();
