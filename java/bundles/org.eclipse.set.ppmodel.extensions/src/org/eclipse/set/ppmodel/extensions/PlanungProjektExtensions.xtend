@@ -22,12 +22,12 @@ class PlanungProjektExtensions {
 	/**
 	 * @param project the Planung Projekt
 	 * 
-	 * @return a defined Planung Gruppe of the Planung Projekt or
+	 * @return the leading Planung Gruppe of the Planung Projekt, which defined by UntegerwekArt or
 	 * {@code null}, if there are no Planung Gruppe for the Planung Projekt
 	 */
-	static def Planung_Gruppe getPlanungGruppe(Planung_Projekt project) {
+	static def Planung_Gruppe getLeadingPlanungGruppe(Planung_Projekt project) {
 		// "1.9 update" toolbox currently supports only a single group
-		return Services.planningAccessService.getPlanungGruppe(project)
+		return Services.planningAccessService.getLeadingPlanungGruppe(project)
 	}
 	
 	/**
