@@ -11,6 +11,7 @@ package org.eclipse.set.feature.table.pt1.sskt;
 import static org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum.ASC;
 import static org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparatorType.MIXED_STRING;
 
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -97,5 +98,10 @@ public class SsktTransformationService
 	@Override
 	protected String getShortcut() {
 		return messages.ToolboxTableNameSsktShort.toLowerCase();
+	}
+
+	@Override
+	protected List<String> getTopologicalColumnPosition() {
+		return Collections.emptyList();
 	}
 }

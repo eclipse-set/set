@@ -12,6 +12,7 @@ import static org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum.ASC;
 import static org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparatorType.LEXICOGRAPHICAL;
 
 import java.util.Comparator;
+import java.util.List;
 
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.core.services.graph.TopologicalGraphService;
@@ -83,5 +84,10 @@ public final class SskgTransformationService
 	@Override
 	protected String getShortcut() {
 		return messages.ToolboxTableNameSskgShort.toLowerCase();
+	}
+
+	@Override
+	protected List<String> getTopologicalColumnPosition() {
+		return List.of(SskgColumns.Bezugspunkt_Abstand);
 	}
 }

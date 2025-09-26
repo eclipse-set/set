@@ -195,7 +195,7 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 			)
 			var List<Pair<Strecke, String>> dpBezugStreckeAndKm = newLinkedList
 			try {
-				dpBezugStreckeAndKm.addAll(datenpunkt.getStreckeAndKm(dpBezug))
+				dpBezugStreckeAndKm.addAll(getStreckeAndKm(datenpunkt, dpBezug))
 			} catch (Exception e) {
 				handleFillingException(e, it,
 					cols.getColumn(Bezugspunkt_Standort_Strecke))
@@ -362,6 +362,16 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 			datenpunkt,
 			[datenpunktAllg?.datenpunktLaenge?.wert?.toString]
 		)
+		
+		// M: Ssza.Bemerkung
+		fillConditional(
+			cols.getColumn(Bemerkung),
+			dpBezug,
+			[dpBezug instanceof ZUB_Streckeneigenschaft && (dpBezug as ZUB_Streckeneigenschaft).metallteil !== null],
+			[
+				
+			]
+		)
 
 		fillFootnotes(datenpunkt)
 
@@ -472,35 +482,35 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	private def dispatch List<Pair<Strecke, String>> getStreckeAndKm(
-		Datenpunkt dp, Basis_Objekt object) {
+		TableRow row, Datenpunkt dp, Basis_Objekt object) {
 		return #[]
 	}
 
 	private def dispatch List<Pair<Strecke, String>> getStreckeAndKm(
-		Datenpunkt dp, Markanter_Punkt markantePunkt) {
+		TableRow row, Datenpunkt dp, Markanter_Punkt markantePunkt) {
 		val ms = markantePunkt.IDMarkanteStelle?.value
 		if (ms instanceof Punkt_Objekt) {
-			return getStreckeAndKm(dp, ms)
+			return row.getStreckeAndKm(dp, ms)
 		}
 		return #[]
 	}
 
 	private def dispatch List<Pair<Strecke, String>> getStreckeAndKm(
-		Datenpunkt dp, Punkt_Objekt po) {
+		TableRow row, Datenpunkt dp, Punkt_Objekt po) {
 		return po.punktObjektStrecke.map [
 			IDStrecke?.value -> streckeKm?.wert
 		].toList
 	}
 
 	private def dispatch List<Pair<Strecke, String>> getStreckeAndKm(
-		Datenpunkt dp, BUE_Einschaltung bueEinschaltung) {
+		TableRow row, Datenpunkt dp, BUE_Einschaltung bueEinschaltung) {
 		val sue = bueEinschaltung.schaltmittelZuordnung.map[IDSchalter?.value]?.
 			filterNull.toList
 		return sue.flatMap [
 			switch (it) {
 				Zugeinwirkung,
 				FMA_Komponente:
-					return getStreckeAndKm(dp, it)
+					return row.getStreckeAndKm(dp, it)
 				FMA_Anlage: {
 					val dpTopPoint = new TopPoint(dp)
 					val topGraphService = Services.topGraphService
@@ -510,8 +520,13 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 								new TopPoint(fma))
 					].filter[value.present]
 					if (!distancesToDP.nullOrEmpty) {
-						return dp.getStreckeAndKm(
-							distancesToDP.minBy[value.get].key)
+						row.addTopologicalCell(
+							cols.getColumn(Bezugspunkt_Standort_Strecke))
+						row.addTopologicalCell(
+							cols.getColumn(Bezugspunkt_Standort_km))
+						return row.getStreckeAndKm(dp, distancesToDP.minBy [
+							value.get
+						].key)
 					}
 					return #[]
 				}
@@ -520,7 +535,7 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	private def dispatch List<Pair<Strecke, String>> getStreckeAndKm(
-		Datenpunkt dp, ZUB_Streckeneigenschaft zub) {
+		TableRow row, Datenpunkt dp, ZUB_Streckeneigenschaft zub) {
 		val topGraphService = Services.topGraphService
 		val dpPoint = new TopPoint(dp)
 		// Find nearest area limit of ZUB_Streckeigenschaft
@@ -533,6 +548,8 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 		if (distancesToDp.isNullOrEmpty) {
 			return null
 		}
+		row.addTopologicalCell(cols.getColumn(Bezugspunkt_Standort_Strecke))
+		row.addTopologicalCell(cols.getColumn(Bezugspunkt_Standort_km))
 		val nearestPoint = distancesToDp.minBy[value].key
 		// Find relevant route, which contain a area with same limit like nearest point 
 		val relevantStrecke = dp.container.strecke.findFirst [

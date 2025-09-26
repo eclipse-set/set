@@ -234,6 +234,13 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 						)
 
 						val streckAndKm = getStreckeAndKm(signal)
+						if (signal.punktObjektStrecke.size > 1 &&
+							!signal.punktObjektStrecke.exists [
+								kmMassgebend?.wert !== null
+							]) {
+							row.addTopologicalCell(cols.getColumn(Km))
+							row.addTopologicalCell(cols.getColumn(Strecke))
+						}
 
 						// E: Ssks.Standortmerkmale.Standort.Strecke
 						fillIterableWithConditional(
@@ -322,44 +329,48 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 								tableShortCut
 							)
 						}
-						// J: Ssks.Standortmerkmale.Abstand_Mastmitte.links
-						fillIterableMultiCellWhenAllow(
-							row,
-							cols.getColumn(Mastmitte_Links),
-							signal,
-							[isFindGeometryComplete],
-							[
-								val signalSideDistances = sideDistancesSignal.
-									computeIfAbsent(it, [ s |
-										new SignalSideDistance(s)
-									])
-								return signalSideDistances.sideDistancesLeft.map [
-									toString
-								].toList
-							],
-							null,
-							ITERABLE_FILLING_SEPARATOR
-						)
 
+						// J: Ssks.Standortmerkmale.Abstand_Mastmitte.links
 						// K: Ssks.Standortmerkmale.Abstand_Mastmitte.rechts
-						fillIterableMultiCellWhenAllow(
-							row,
-							cols.getColumn(Mastmitte_Rechts),
-							signal,
-							[isFindGeometryComplete],
-							[
-								val signalSideDistances = sideDistancesSignal.
-									computeIfAbsent(it, [ s |
-										new SignalSideDistance(s)
-									])
-								return signalSideDistances.
-									sideDistancesRight.map [
-										toString
-									].toList
-							],
-							null,
-							ITERABLE_FILLING_SEPARATOR
-						)
+						#[Mastmitte_Links, Mastmitte_Rechts].forEach [ position |
+							val col = switch (position) {
+								case Mastmitte_Links:
+									cols.getColumn(Mastmitte_Links)
+								case Mastmitte_Rechts:
+									cols.getColumn(Mastmitte_Rechts)
+							}
+
+							fillIterableMultiCellWhenAllow(
+								row,
+								col,
+								signal,
+								[isFindGeometryComplete],
+								[
+									val signalSideDistances = sideDistancesSignal.
+										computeIfAbsent(it, [ s |
+											new SignalSideDistance(s)
+										])
+									val distances = switch (position) {
+										case Mastmitte_Links:
+											signalSideDistances.
+												sideDistancesLeft
+										case Mastmitte_Rechts:
+											signalSideDistances.
+												sideDistancesRight
+									}
+									if (distances.exists [
+										distanceToNeighborTrack > 0
+									]) {
+										row.addTopologicalCell(col)
+									}
+
+									return distances.map[toString].toList
+								],
+								null,
+								ITERABLE_FILLING_SEPARATOR
+							)
+
+						]
 
 						// L: Ssks.Standortmerkmale.Sichtbarkeit.Soll
 						fillConditional(

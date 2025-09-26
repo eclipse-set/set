@@ -35,6 +35,7 @@ import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensi
 import static extension org.eclipse.set.model.tablemodel.extensions.TableRowExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.CacheUtils.*
+import java.util.Map
 
 abstract class AbstractPlanPro2TableModelTransformator extends AbstractTableModelTransformator<MultiContainer_AttributeGroup> {
 	protected val FootnoteTransformation footnoteTransformation = new FootnoteTransformation()
@@ -43,7 +44,7 @@ abstract class AbstractPlanPro2TableModelTransformator extends AbstractTableMode
 	protected val EventAdmin eventAdmin
 	protected static val String FILL_DELAY_CELL_THREAD = "fillDelayCell"
 	protected val List<WaitFillingCell<Ur_Objekt>> delayFillingCells
-
+	protected val Map<TableRow, Set<ColumnDescriptor>> topologicalCells;
 	/**
 	 * Compares mixed strings groupwise.
 	 */
@@ -57,6 +58,7 @@ abstract class AbstractPlanPro2TableModelTransformator extends AbstractTableMode
 		this.cols.addAll(cols)
 		delayFillingCells = Collections.synchronizedList(
 			new ArrayList<WaitFillingCell<Ur_Objekt>>)
+		this.topologicalCells = newHashMap
 		this.eventAdmin = eventAdmin
 	}
 
@@ -300,6 +302,18 @@ abstract class AbstractPlanPro2TableModelTransformator extends AbstractTableMode
 		tableErrors.add(new TableError(guid, leadingObject, "", errorMsg, row))
 		return new Pt1TableChangeProperties(container, row, column,
 			#['''«ERROR_PREFIX»«errorMsg»'''], ITERABLE_FILLING_SEPARATOR)
+	}
+
+	def Map<TableRow, Set<ColumnDescriptor>> getTopologicalCell() {
+		return topologicalCells
+	}
+
+	protected def void addTopologicalCell(TableRow row, ColumnDescriptor col) {
+		if (topologicalCells.containsKey(row)) {
+			topologicalCells.get(row).add(col)
+		} else {
+			topologicalCells.put(row, newHashSet(col))
+		}
 	}
 
 }

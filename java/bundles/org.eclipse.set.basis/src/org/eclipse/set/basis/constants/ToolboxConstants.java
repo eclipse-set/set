@@ -312,6 +312,11 @@ public final class ToolboxConstants {
 	 */
 	public static final String XSL_PROJECT_COMPARE_CELL = "CompareProjectContent";
 
+	/**
+	 * Label for Topological Cell
+	 */
+	public static final String TABLE_TOPOLOGICAL_CELL = "topologicalCell";
+
 	static {
 		DEFAULT_HOME_DIR = "./";
 		TMP_BASE_DIR = System.getProperty(ToolboxProperties.TMP_BASE_DIR,

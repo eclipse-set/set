@@ -43,6 +43,7 @@ import org.w3c.dom.Element
 import static extension org.eclipse.set.model.tablemodel.extensions.CellContentExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.TableContentExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensions.*
+import static extension org.eclipse.set.model.tablemodel.extensions.TableCellExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.TableRowExtensions.*
 import static extension org.eclipse.set.utils.StringExtensions.*
 import static extension org.eclipse.set.utils.export.xsl.siteplan.SiteplanXSL.pxToMilimeter
@@ -76,8 +77,9 @@ class TableToTableDocument {
 	static def TableToTableDocument createTransformation() throws ParserConfigurationException {
 		return new TableToTableDocument
 	}
-	
-	def Document transformToDocument(BufferedImage imageData, Titlebox titleBox, FreeFieldInfo freeFieldInfo, double ppm) {
+
+	def Document transformToDocument(BufferedImage imageData, Titlebox titleBox,
+		FreeFieldInfo freeFieldInfo, double ppm) {
 		tablename = "siteplan export"
 		logger.debug("transform siteplan to document")
 		val rootNode = doc.createElement("Siteplan")
@@ -118,7 +120,7 @@ class TableToTableDocument {
 		remarkTextInlnie = table.isInlineFootnote
 		appendChild(table.tablecontent.transform)
 		if (!remarkTextInlnie) {
-			appendChild(transformToFootnotes(table))	
+			appendChild(transformToFootnotes(table))
 		}
 		appendChild(titlebox.transform)
 		appendChild(freeFieldInfo.transform)
@@ -215,9 +217,15 @@ class TableToTableDocument {
 			}
 
 			if (rowSpan > 0) {
+				val cellElement = value.createCell(row.footnotes, key + 1,
+					rowSpan, isRemarkColumn)
+				if (value.tableCell.format.topologicalCalculation) {
+					cellElement.setAttribute("cellType",
+						ToolboxConstants.TABLE_TOPOLOGICAL_CELL)
+				}
 				rowElement.appendChild(
-					value.createCell(row.footnotes, key + 1, rowSpan,
-						isRemarkColumn))
+					cellElement
+				)
 			}
 		]
 		return
@@ -336,8 +344,7 @@ class TableToTableDocument {
 			[doc.createElement("UnchangedValue")],
 			[doc.createElement("NewValue")],
 			[ text, child |
-				text.
-					addContentToElement(child, columnNumber, isRemarkColumn)
+				text.addContentToElement(child, columnNumber, isRemarkColumn)
 			]
 		).forEach[element.appendChild(it)]
 
@@ -369,9 +376,10 @@ class TableToTableDocument {
 
 	private def dispatch Element createContent(CompareTableCellContent content,
 		FootnoteContainer fc, int columnNumber, boolean isRemarkColumn) {
-		val element = doc.createElement(ToolboxConstants.XSL_PROJECT_COMPARE_CELL);
-		val mainContentElement = content.mainPlanCellContent.createContent(fc, columnNumber,
-				isRemarkColumn)
+		val element = doc.createElement(
+			ToolboxConstants.XSL_PROJECT_COMPARE_CELL);
+		val mainContentElement = content.mainPlanCellContent.createContent(fc,
+			columnNumber, isRemarkColumn)
 		element.appendChild(mainContentElement)
 		return element
 	}
@@ -461,9 +469,8 @@ class TableToTableDocument {
 	private def Element addContentToElement(String content, Element element,
 		int columnNumber, boolean isRemarkColumn) {
 		val checkOutput = content.checkForTestOutput(columnNumber)
-		element.textContent = isRemarkColumn
-			? checkOutput
-			: checkOutput.intersperseWithZeroSpacesSC
+		element.textContent = isRemarkColumn ? checkOutput : checkOutput.
+			intersperseWithZeroSpacesSC
 		return element
 	}
 
