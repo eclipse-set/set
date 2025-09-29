@@ -44,6 +44,22 @@ public interface PlanProVersionService {
 		public String getFullVersion() {
 			return String.format("%s.%s.%s", major, patch, minor); //$NON-NLS-1$
 		}
+
+		public int compare(final PlanProVersionFormat another) {
+			if (!major.equals(another.major)) {
+				return major.compareToIgnoreCase(another.major);
+			}
+
+			if (!patch.equals(another.patch)) {
+				return patch.compareToIgnoreCase(another.patch);
+			}
+
+			if (!minor.equals(another.minor)) {
+				return minor.compareToIgnoreCase(another.minor);
+			}
+			return 0;
+
+		}
 	}
 
 	/**

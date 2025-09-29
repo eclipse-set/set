@@ -161,7 +161,12 @@ public class PlanProSchemaDir {
 				final String systemId, final String baseURI) {
 			final String version = namespaceURI
 					.substring(namespaceURI.lastIndexOf("/") + 1); //$NON-NLS-1$
-			return new LSInputImpl(publicId, systemId, baseURI, version);
+			String schemaId = systemId;
+			// Take only schema name, fall the schema not in same directory
+			if (schemaId.contains("/")) { //$NON-NLS-1$
+				schemaId = systemId.substring(systemId.lastIndexOf("/") + 1); //$NON-NLS-1$
+			}
+			return new LSInputImpl(publicId, schemaId, baseURI, version);
 		}
 	}
 

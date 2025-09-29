@@ -16,12 +16,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import org.eclipse.set.basis.PlanProSchemaDir;
 import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.version.PlanProVersionService;
+import org.eclipse.set.model.planpro.PlanPro.PlanProPackage;
+import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Signalbegriffe_Ril_301Package;
 import org.eclipse.set.model.validationreport.ValidationreportFactory;
 import org.eclipse.set.model.validationreport.VersionInfo;
 import org.eclipse.set.ppmodel.extensions.PlanProPackageExtensions;
-import org.eclipse.set.ppmodel.extensions.SignalbegriffeRil301PackageExtensions;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 
@@ -40,6 +42,8 @@ public class PlanProVersionServiceImpl implements PlanProVersionService {
 	private static final int VALUE_GROUP = 1;
 
 	private static final String VERSION_FORMAT = "(?<major>[1-9]+\\.[0-9]+)\\.(?<patch>[0-9]+)(\\.(?<minor>[0-9]))*"; //$NON-NLS-1$
+
+	private static final String VERSION_SEPARATOR = ", "; //$NON-NLS-1$
 
 	@Activate
 	private void active() {
@@ -90,15 +94,35 @@ public class PlanProVersionServiceImpl implements PlanProVersionService {
 	public VersionInfo createSupportedVersion() {
 		final VersionInfo versionInfo = ValidationreportFactory.eINSTANCE
 				.createVersionInfo();
-		final PlanProVersionFormat modelVersionFormat = parseVersionFormat(
-				PlanProPackageExtensions.getModelVersion());
-		versionInfo
-				.setPlanPro(modelVersionFormat.getMajorPatchVersion() + ".*"); //$NON-NLS-1$
-		final PlanProVersionFormat signalVersionFormat = parseVersionFormat(
-				SignalbegriffeRil301PackageExtensions.getModelVersion());
-		versionInfo
-				.setSignals(signalVersionFormat.getMajorPatchVersion() + ".*"); //$NON-NLS-1$
+		final String modelVersionsSupported = getSupportedVersions(
+				PlanProPackage.eNAME);
+
+		versionInfo.setPlanPro(modelVersionsSupported);
+		final String signalbegriffSupportedVersion = getSupportedVersions(
+				Signalbegriffe_Ril_301Package.eNAME);
+		versionInfo.setSignals(signalbegriffSupportedVersion);
 		return versionInfo;
+	}
+
+	private static String getSupportedVersions(final String packageName) {
+		return PlanProSchemaDir.getSchemaPaths()
+				.stream()
+				.filter(p -> p.getFileName()
+						.toString()
+						.equals(packageName + ".xsd")) //$NON-NLS-1$
+				.map(Path::getParent)
+				.map(Path::getFileName)
+				.map(Path::toString)
+				.collect(Collectors.toSet())
+				.stream()
+				.sorted((first, second) -> {
+					final PlanProVersionFormat firstVersion = parseVersionFormat(
+							first);
+					final PlanProVersionFormat secondVersion = parseVersionFormat(
+							second);
+					return firstVersion.compare(secondVersion);
+				})
+				.collect(Collectors.joining(VERSION_SEPARATOR));
 	}
 
 	@Override
