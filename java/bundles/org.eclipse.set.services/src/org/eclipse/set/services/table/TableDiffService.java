@@ -16,6 +16,30 @@ import org.eclipse.set.model.tablemodel.Table;
  * @author Schaefer
  */
 public interface TableDiffService {
+	/**
+	 * 
+	 */
+	enum TableCompareType {
+		/**
+		 * 
+		 */
+		STATE("state"), //$NON-NLS-1$
+		/**
+		 * 
+		 */
+		PROJECT("project"); //$NON-NLS-1$
+
+		String value;
+
+		public String getValue() {
+			return value;
+		}
+
+		private TableCompareType(final String value) {
+			this.value = value;
+		}
+
+	}
 
 	/**
 	 * @param oldTable
