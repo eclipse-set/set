@@ -34,6 +34,7 @@ import org.eclipse.set.basis.files.PlanProFileResource;
 import org.eclipse.set.basis.files.ToolboxFile;
 import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.eclipse.set.basis.guid.Guid;
+import org.eclipse.set.core.services.Services;
 import org.eclipse.set.model.planpro.PlanPro.DocumentRoot;
 import org.eclipse.set.model.planpro.PlanPro.PlanProPackage;
 import org.eclipse.set.model.zipmanifest.Manifest;
@@ -312,7 +313,8 @@ public class ZippedPlanProToolboxFile extends AbstractToolboxFile {
 		if (isLoadable()) {
 			generateMD5CheckSum();
 			unzip();
-			loadResource(getModelPath(), editingDomain);
+			loadResource(getModelPath(), editingDomain,
+					Services.getPlanProVersionService());
 			final DocumentRoot doc = (org.eclipse.set.model.planpro.PlanPro.DocumentRoot) getPlanProResource()
 					.getContents()
 					.getFirst();
@@ -326,7 +328,8 @@ public class ZippedPlanProToolboxFile extends AbstractToolboxFile {
 	@Override
 	public void openLayout() throws IOException {
 		if (Files.exists(getLayoutPath())) {
-			loadResource(getLayoutPath(), editingDomain);
+			loadResource(getLayoutPath(), editingDomain,
+					Services.getPlanProVersionService());
 			final org.eclipse.set.model.planpro.Layoutinformationen.DocumentRoot doc = (org.eclipse.set.model.planpro.Layoutinformationen.DocumentRoot) getLayoutResource()
 					.getContents()
 					.getFirst();
