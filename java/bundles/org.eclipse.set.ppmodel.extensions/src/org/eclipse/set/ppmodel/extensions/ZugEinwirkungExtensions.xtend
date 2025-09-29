@@ -12,18 +12,19 @@ import java.util.List
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.Block.Block_Element
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Fahrweg
-import org.eclipse.set.model.planpro.Fahrstrasse.Markanter_Punkt
 import org.eclipse.set.model.planpro.Ortung.Schaltmittel_Zuordnung
 import org.eclipse.set.model.planpro.Ortung.Zugeinwirkung
 
 import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.FmaKomponenteExtensions.*
+import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
 
 /**
  * This class extends {@link Zugeinwirkung}.
  */
 class ZugEinwirkungExtensions extends BasisObjektExtensions {
-	def static Markanter_Punkt getMarkanterPunkt(Zugeinwirkung einwirkung) {
-		return einwirkung.IDBezugspunkt?.value
+	def static Punkt_Objekt getBezugspunkt(Zugeinwirkung einwirkung) {
+		return einwirkung.IDBezugspunkt?.value?.bezugsPunkt
 	}
 
 	def static List<Schaltmittel_Zuordnung> getSchaltMittelZuordnung(

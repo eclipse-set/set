@@ -615,18 +615,20 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							new Case<Signal>(
 								[
 									hasSignalbegriffID(Sh1) &&
-										signalReal?.geltungsbereich?.wert ==
-											ENUMGeltungsbereich.
+										signalReal?.geltungsbereich.exists [
+											wert === ENUMGeltungsbereich.
 												ENUM_GELTUNGSBEREICH_DV
+										]
 								],
 								["Ra 12"]
 							),
 							new Case<Signal>(
 								[
 									hasSignalbegriffID(Sh1) &&
-										signalReal?.geltungsbereich?.wert ==
-											ENUMGeltungsbereich.
+										signalReal?.geltungsbereich.exists [
+											wert == ENUMGeltungsbereich.
 												ENUM_GELTUNGSBEREICH_DS
+										]
 								],
 								["Sh 1"]
 							),
@@ -1374,7 +1376,7 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 
 	private static def String fillSonstigesDurchfahrtErlaubt(Signal signal) {
 		val durchfahrt = signal.signalFstr?.durchfahrt?.wert
-		val geltungsbereich = signal.signalReal?.geltungsbereich?.wert
+		val geltungsbereich = signal.signalReal?.geltungsbereich
 
 		switch (durchfahrt) {
 			case ENUM_DURCHFAHRT_VERBOTEN:
@@ -1382,10 +1384,14 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 			case ENUM_DURCHFAHRT_ERLAUBT:
 				return "x"
 			case durchfahrt == ENUM_DURCHFAHRT_NUR_MIT_SH1 &&
-				geltungsbereich == ENUM_GELTUNGSBEREICH_DV:
+				geltungsbereich !== null && geltungsbereich.exists [
+					wert == ENUM_GELTUNGSBEREICH_DV
+				]:
 				return "Ra 12"
 			case durchfahrt == ENUM_DURCHFAHRT_NUR_MIT_SH1 &&
-				geltungsbereich == ENUM_GELTUNGSBEREICH_DS:
+				geltungsbereich !== null && geltungsbereich.exists [
+					wert == ENUM_GELTUNGSBEREICH_DS
+				]:
 				return "Sh 1"
 			default:
 				return null

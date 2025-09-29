@@ -16,11 +16,15 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import org.eclipse.set.basis.PlanProSchemaDir;
+import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.version.PlanProVersionService;
+import org.eclipse.set.model.planpro.PlanPro.PlanProPackage;
+import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Signalbegriffe_Ril_301Package;
 import org.eclipse.set.model.validationreport.ValidationreportFactory;
 import org.eclipse.set.model.validationreport.VersionInfo;
 import org.eclipse.set.ppmodel.extensions.PlanProPackageExtensions;
-import org.eclipse.set.ppmodel.extensions.SignalbegriffeRil301PackageExtensions;
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 
 /**
@@ -36,6 +40,15 @@ public class PlanProVersionServiceImpl implements PlanProVersionService {
 	private static final String PLAN_PRO_KEY = "http://www.plan-pro.org/modell/PlanPro/"; //$NON-NLS-1$
 	private static final String SIGNALS_KEY = "http://www.plan-pro.org/modell/Signalbegriffe_Ril_301/"; //$NON-NLS-1$
 	private static final int VALUE_GROUP = 1;
+
+	private static final String VERSION_FORMAT = "(?<major>[1-9]+\\.[0-9]+)\\.(?<patch>[0-9]+)(\\.(?<minor>[0-9]))*"; //$NON-NLS-1$
+
+	private static final String VERSION_SEPARATOR = ", "; //$NON-NLS-1$
+
+	@Activate
+	private void active() {
+		Services.setPlanProVersionService(this);
+	}
 
 	private static String getText(final Path location) {
 		List<String> lines;
@@ -64,14 +77,52 @@ public class PlanProVersionServiceImpl implements PlanProVersionService {
 		return null;
 	}
 
+	private static PlanProVersionFormat parseVersionFormat(
+			final String version) {
+		final Pattern compile = Pattern.compile(VERSION_FORMAT);
+		final Matcher matcher = compile.matcher(version);
+		if (!matcher.matches()) {
+			throw new IllegalArgumentException("Illegal Version Foramt"); //$NON-NLS-1$
+		}
+
+		return new PlanProVersionFormat(matcher.group("major"), //$NON-NLS-1$
+				matcher.group("patch"), matcher.group("minor")); //$NON-NLS-1$ //$NON-NLS-2$
+
+	}
+
 	@Override
 	public VersionInfo createSupportedVersion() {
 		final VersionInfo versionInfo = ValidationreportFactory.eINSTANCE
 				.createVersionInfo();
-		versionInfo.setPlanPro(PlanProPackageExtensions.getModelVersion());
-		versionInfo.setSignals(
-				SignalbegriffeRil301PackageExtensions.getModelVersion());
+		final String modelVersionsSupported = getSupportedVersions(
+				PlanProPackage.eNAME);
+
+		versionInfo.setPlanPro(modelVersionsSupported);
+		final String signalbegriffSupportedVersion = getSupportedVersions(
+				Signalbegriffe_Ril_301Package.eNAME);
+		versionInfo.setSignals(signalbegriffSupportedVersion);
 		return versionInfo;
+	}
+
+	private static String getSupportedVersions(final String packageName) {
+		return PlanProSchemaDir.getSchemaPaths()
+				.stream()
+				.filter(p -> p.getFileName()
+						.toString()
+						.equals(packageName + ".xsd")) //$NON-NLS-1$
+				.map(Path::getParent)
+				.map(Path::getFileName)
+				.map(Path::toString)
+				.collect(Collectors.toSet())
+				.stream()
+				.sorted((first, second) -> {
+					final PlanProVersionFormat firstVersion = parseVersionFormat(
+							first);
+					final PlanProVersionFormat secondVersion = parseVersionFormat(
+							second);
+					return firstVersion.compare(secondVersion);
+				})
+				.collect(Collectors.joining(VERSION_SEPARATOR));
 	}
 
 	@Override
@@ -87,5 +138,15 @@ public class PlanProVersionServiceImpl implements PlanProVersionService {
 		versionInfo.setSignals(parseVersion(text, SIGNALS_KEY));
 
 		return versionInfo;
+	}
+
+	@Override
+	public PlanProVersionFormat getSupportedVersionFormat() {
+		return parseVersionFormat(PlanProPackageExtensions.getModelVersion());
+	}
+
+	@Override
+	public String getCurrentVersion() {
+		return PlanProPackageExtensions.getModelVersion();
 	}
 }

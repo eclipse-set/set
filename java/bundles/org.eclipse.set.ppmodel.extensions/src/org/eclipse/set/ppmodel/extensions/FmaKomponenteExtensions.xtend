@@ -9,13 +9,18 @@
 package org.eclipse.set.ppmodel.extensions
 
 import java.util.List
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
+import org.eclipse.set.model.planpro.Bahnuebergang.BUE_Anlage
+import org.eclipse.set.model.planpro.Bahnuebergang.BUE_Kante
+import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
+import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
 import org.eclipse.set.model.planpro.Fahrstrasse.Markanter_Punkt
 import org.eclipse.set.model.planpro.Ortung.FMA_Anlage
 import org.eclipse.set.model.planpro.Ortung.FMA_Komponente
 import org.eclipse.set.model.planpro.Ortung.Schaltmittel_Zuordnung
-import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 
 import static extension org.eclipse.set.ppmodel.extensions.AussenelementansteuerungExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.MarkanterPunktExtensions.*
 
 /**
  * This class extends {@link FMA_Komponente}.
@@ -46,11 +51,26 @@ class FmaKomponenteExtensions extends BasisObjektExtensions {
 	) {
 		return komp.IDFMAgrenze.map[value].filterNull.toList
 	}
-
-	def static Markanter_Punkt getMarkanterPunkt(FMA_Komponente komp) {
-		return komp.IDBezugspunkt?.value
+	
+	def static dispatch Punkt_Objekt getBezugsPunkt(FMA_Komponente fma) {
+		return fma?.IDBezugspunkt?.value?.bezugsPunkt
 	}
-
+	
+	def static dispatch Punkt_Objekt getBezugsPunkt(Basis_Objekt object) {
+		return null
+	}
+	def static dispatch Punkt_Objekt getBezugsPunkt(BUE_Anlage bueAnlage) {
+		return bueAnlage.bezugsPunkt
+	}
+	
+	def static dispatch Punkt_Objekt getBezugsPunkt(BUE_Kante bueKante) {
+		return bueKante.bezugsPunkt
+	}
+	
+	def static dispatch Punkt_Objekt getBezugsPunkt(Markanter_Punkt markanter) {
+		return markanter.markanteStelle
+	}
+	
 	def static Schaltmittel_Zuordnung getSchaltmittelZuordnung(
 		FMA_Komponente komp) {
 		for (Schaltmittel_Zuordnung zuord : komp.container.

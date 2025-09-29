@@ -13,6 +13,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.xmi.XMLHelper;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.XMLSave;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
@@ -21,7 +22,24 @@ import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
  * Adapted resource implementation for the EMF-XML Resources
  */
 public class PlanProFileResource extends XMLResourceImpl {
+
 	private String standalone;
+	private XMLHelper xmlHelper;
+
+	/**
+	 * Creates an instance of the resource. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
+	 * @param uri
+	 *            the URI of the new resource.
+	 * @param xmlHelper
+	 *            the {@link XMLHelper}
+	 * @generated
+	 */
+	public PlanProFileResource(final URI uri, final XMLHelper xmlHelper) {
+		this(uri);
+		this.xmlHelper = xmlHelper;
+	}
 
 	/**
 	 * Creates an instance of the resource. <!-- begin-user-doc --> <!--
@@ -33,7 +51,7 @@ public class PlanProFileResource extends XMLResourceImpl {
 	 */
 	public PlanProFileResource(final URI uri) {
 		super(uri);
-
+		this.xmlHelper = null;
 		getDefaultSaveOptions().put(XMLResource.OPTION_EXTENDED_META_DATA,
 				Boolean.TRUE);
 		getDefaultLoadOptions().put(XMLResource.OPTION_EXTENDED_META_DATA,
@@ -49,6 +67,9 @@ public class PlanProFileResource extends XMLResourceImpl {
 				XMLResource.OPTION_USE_ENCODED_ATTRIBUTE_STYLE, Boolean.TRUE);
 		getDefaultLoadOptions().put(XMLResource.OPTION_USE_LEXICAL_HANDLER,
 				Boolean.TRUE);
+		getDefaultLoadOptions().put(
+				XMLResource.OPTION_USE_PACKAGE_NS_URI_AS_LOCATION,
+				Boolean.FALSE);
 	}
 
 	static final String STANDALONE = "standalone"; //$NON-NLS-1$
@@ -69,5 +90,13 @@ public class PlanProFileResource extends XMLResourceImpl {
 	 */
 	public void setStandalone(final String value) {
 		standalone = value;
+	}
+
+	@Override
+	protected XMLHelper createXMLHelper() {
+		if (xmlHelper != null) {
+			return xmlHelper;
+		}
+		return super.createXMLHelper();
 	}
 }
