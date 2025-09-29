@@ -19,6 +19,4 @@ Import-Package: org.eclipse.set.core.services.version,
  org.junit.function,
  org.junit.jupiter.api
 Require-Bundle: org.hamcrest.core,
- org.mockito.mockito-core,
- net.bytebuddy.byte-buddy,
- net.bytebuddy.byte-buddy-agent
+ org.mockito.mockito-core
