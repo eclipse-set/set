@@ -144,7 +144,7 @@ public class SubworkValid implements PlazCheck {
 
 	@Override
 	public String getDescription() {
-		return "Die Ausgabefach_Daten haben eindeutig Untergewerk";
+		return "Jedes Untergewerk hat maximal eine Ausgabe_Fachdaten";
 	}
 
 	@Override
