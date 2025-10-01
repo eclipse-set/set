@@ -126,6 +126,7 @@ public class PlanningAccessServiceImpl implements PlanningAccessService {
 		}
 		final Map<ENUMUntergewerkArt, List<Planung_Gruppe>> groupsBySubWork = planingGroups
 				.stream()
+				.filter(group -> getUntergewerkArt(group) != null)
 				.collect(Collectors
 						.groupingBy(group -> getUntergewerkArt(group)));
 		for (final ENUMUntergewerkArt subWork : subworkByPriority) {
