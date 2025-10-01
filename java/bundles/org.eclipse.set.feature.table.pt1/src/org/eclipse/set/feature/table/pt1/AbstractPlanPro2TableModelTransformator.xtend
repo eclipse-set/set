@@ -304,7 +304,7 @@ abstract class AbstractPlanPro2TableModelTransformator extends AbstractTableMode
 			#['''«ERROR_PREFIX»«errorMsg»'''], ITERABLE_FILLING_SEPARATOR)
 	}
 
-	def Map<TableRow, Set<ColumnDescriptor>> getTopologicalCell() {
+	def Map<TableRow, Set<ColumnDescriptor>> getTopologicalCells() {
 		return topologicalCells
 	}
 
