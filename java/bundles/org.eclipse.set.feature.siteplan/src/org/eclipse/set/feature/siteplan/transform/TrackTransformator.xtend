@@ -120,22 +120,22 @@ class TrackTransformator extends BaseTransformator<TOP_Kante> {
 		val knotenACoordinateModel = positionService.transformCoordinate(geoKnotenA.coordinate, geoKnotenA.CRS) 
 		
 		// calculate start coord by walking along geo kante. gives slightly different pos, but it occurs in position-list: section.segment.positions 
-		var GEOKanteCoordinate coordAlongGeoKante;
 		try { 
-			 coordAlongGeoKante = geometryService.getCoordinate(md, md.start, BigDecimal.ZERO, ENUMWirkrichtung.ENUM_WIRKRICHTUNG_IN)
+			 val GEOKanteCoordinate coordAlongGeoKante = geometryService.getCoordinate(md, md.start, BigDecimal.ZERO, ENUMWirkrichtung.ENUM_WIRKRICHTUNG_IN)
+			 // transform coordAlongGeoKante and return as a Coordinate:
+     		val knotenACoordinate = positionService.transformPosition(coordAlongGeoKante)
+     		// is this needed or can you just use coordAlongGeoKante.coordinate? 
+     		// answer: coordAlongGeoKante.coordinate produces wrong values!
+     		
+    		val result = SiteplanFactory.eINSTANCE.createCoordinate;
+    		result.x = knotenACoordinate.x
+    		result.y = knotenACoordinate.y
+    		return result
 		} catch (Exception e) {
 			return null
 		}
  		
- 		// transform coordAlongGeoKante and return as a Coordinate:
- 		val knotenACoordinate = positionService.transformPosition(coordAlongGeoKante)
- 		// is this needed or can you just use coordAlongGeoKante.coordinate? 
- 		// answer: coordAlongGeoKante.coordinate produces wrong values!
- 		
-		val result = SiteplanFactory.eINSTANCE.createCoordinate;
-		result.x = knotenACoordinate.x
-		result.y = knotenACoordinate.y
-		return result
+
 		
 		// LEARNING:
 		// don't use:
