@@ -71,7 +71,7 @@ class PlanProToTitleboxTransformation {
 		Function<String, Path> attachmentPathProvider) {
 		resetFields
 		addFieldsFrom(
-			mainSchnittstelle?.LSTPlanungProjekt?.planungGruppe?.
+			mainSchnittstelle?.LSTPlanungProjekt?.leadingPlanungGruppe?.
 				planungGSchriftfeld,
 			tableName,
 			attachmentPathProvider
@@ -200,7 +200,7 @@ class PlanProToTitleboxTransformation {
 
 	private def String getOertlichkeit(PlanPro_Schnittstelle schnittstelle) {
 		var fuehrendeOertlichkeit = schnittstelle?.LSTPlanungProjekt?.
-			planungGruppe?.fuehrendeOertlichkeit?.wert
+			leadingPlanungGruppe?.fuehrendeOertlichkeit?.wert
 		if (fuehrendeOertlichkeit === null) {
 			return ""
 		}
@@ -257,11 +257,11 @@ class PlanProToTitleboxTransformation {
 	}
 
 	def Planung_Gruppe getPlanungGruppe(PlanPro_Schnittstelle schnittstelle) {
-		return schnittstelle?.LSTPlanungProjekt?.planungGruppe
+		return schnittstelle?.LSTPlanungProjekt?.leadingPlanungGruppe
 	}
 
 	def Planung_Einzel getPlanungEinzel(PlanPro_Schnittstelle schnittstelle) {
-		return schnittstelle?.LSTPlanungProjekt?.planungGruppe?.LSTPlanungEinzel
+		return schnittstelle?.LSTPlanungProjekt?.leadingPlanungGruppe?.LSTPlanungEinzel
 	}
 
 	private def void addFieldsFrom(Titlebox titlebox,

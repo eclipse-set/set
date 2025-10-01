@@ -44,40 +44,40 @@ class DefaultValueServiceImpl implements DefaultValueService {
 				createPlanung_Gruppe
 		}
 
-		if (planProSchnittstelle.LSTPlanungProjekt.planungGruppe.
+		if (planProSchnittstelle.LSTPlanungProjekt.leadingPlanungGruppe.
 			LSTPlanungEinzel === null) {
 			planProSchnittstelle.LSTPlanungProjekt.
-				planungGruppe.LSTPlanungEinzel = PlanProFactory.eINSTANCE.
+				leadingPlanungGruppe.LSTPlanungEinzel = PlanProFactory.eINSTANCE.
 				createPlanung_Einzel
 		}
 
-		if (planProSchnittstelle.LSTPlanungProjekt.planungGruppe.
+		if (planProSchnittstelle.LSTPlanungProjekt.leadingPlanungGruppe.
 			LSTPlanungEinzel.planungEAllg === null) {
-			planProSchnittstelle.LSTPlanungProjekt.planungGruppe.
+			planProSchnittstelle.LSTPlanungProjekt.leadingPlanungGruppe.
 				LSTPlanungEinzel.planungEAllg = PlanProFactory.eINSTANCE.
 				createPlanung_E_Allg_AttributeGroup
 		}
 
-		if (planProSchnittstelle.LSTPlanungProjekt.planungGruppe.
+		if (planProSchnittstelle.LSTPlanungProjekt.leadingPlanungGruppe.
 			LSTPlanungEinzel.planungEAllg.informativ === null) {
-			planProSchnittstelle.LSTPlanungProjekt.planungGruppe.
+			planProSchnittstelle.LSTPlanungProjekt.leadingPlanungGruppe.
 				LSTPlanungEinzel.planungEAllg.informativ = PlanProFactory.
 				eINSTANCE.createInformativ_TypeClass
 		}
 
-		if (planProSchnittstelle.LSTPlanungProjekt.planungGruppe.
+		if (planProSchnittstelle.LSTPlanungProjekt.leadingPlanungGruppe.
 			LSTPlanungEinzel.planungEAllg.informativ.wert === null) {
-			planProSchnittstelle.LSTPlanungProjekt.planungGruppe.
+			planProSchnittstelle.LSTPlanungProjekt.leadingPlanungGruppe.
 				LSTPlanungEinzel.planungEAllg.informativ.wert = false
 		}
 
-		if (planProSchnittstelle.LSTPlanungProjekt.planungGruppe.
+		if (planProSchnittstelle.LSTPlanungProjekt.leadingPlanungGruppe.
 			planungGAllg === null) {
 			planProSchnittstelle.LSTPlanungProjekt.
-				planungGruppe.planungGAllg = PlanProFactory.eINSTANCE.
+				leadingPlanungGruppe.planungGAllg = PlanProFactory.eINSTANCE.
 				createPlanung_G_Allg_AttributeGroup
 		}
-		val planungGAllg = planProSchnittstelle.LSTPlanungProjekt.planungGruppe.
+		val planungGAllg = planProSchnittstelle.LSTPlanungProjekt.leadingPlanungGruppe.
 			planungGAllg
 		if (planungGAllg.verantwortlicheStelleDB === null) {
 			planungGAllg.verantwortlicheStelleDB = PlanProFactory.eINSTANCE.
@@ -109,7 +109,7 @@ class DefaultValueServiceImpl implements DefaultValueService {
 		}
 
 		val ausgabeFachdaten = planProSchnittstelle.LSTPlanungProjekt.
-			planungGruppe.LSTPlanungEinzel.ausgabeFachdaten
+			leadingPlanungGruppe.LSTPlanungEinzel.ausgabeFachdaten
 
 		if (ausgabeFachdaten?.untergewerkArt === null) {
 			ausgabeFachdaten.untergewerkArt = PlanProFactory.eINSTANCE.

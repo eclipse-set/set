@@ -9,6 +9,7 @@
 
 package org.eclipse.set.core.services.planningaccess;
 
+import org.eclipse.set.model.planpro.PlanPro.ENUMUntergewerkArt;
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.set.model.planpro.PlanPro.Planung_Gruppe;
 import org.eclipse.set.model.planpro.PlanPro.Planung_Projekt;
@@ -33,12 +34,15 @@ public interface PlanningAccessService {
 			PlanPro_Schnittstelle planProIterface);
 
 	/**
+	 * The leading Planung Gruppe defined by {@link ENUMUntergewerkArt}.
+	 * Priority of the Subwork (from right): Geo -> ESTW -> ETCS -> ATO
+	 * 
 	 * @param project
 	 *            the Planung Projekt
 	 * 
-	 * @return a defined Planung Gruppe
+	 * @return the leadinng Planung Gruppe
 	 */
-	public Planung_Gruppe getPlanungGruppe(Planung_Projekt project);
+	public Planung_Gruppe getLeadingPlanungGruppe(Planung_Projekt project);
 
 	/**
 	 * Set the Planung Projekt at a defined place.

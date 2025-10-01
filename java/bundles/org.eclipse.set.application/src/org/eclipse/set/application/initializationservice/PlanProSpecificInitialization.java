@@ -64,7 +64,7 @@ public class PlanProSpecificInitialization implements InitializationStep {
 		fuehrendeOertlichkeit
 				.setWert(projectInitializationData.getFuehrendeOertlichkeit());
 		PlanungProjektExtensions
-				.getPlanungGruppe(PlanProSchnittstelleExtensions
+				.getLeadingPlanungGruppe(PlanProSchnittstelleExtensions
 						.LSTPlanungProjekt(planProSchnittstelle))
 				.setFuehrendeOertlichkeit(fuehrendeOertlichkeit);
 	}
