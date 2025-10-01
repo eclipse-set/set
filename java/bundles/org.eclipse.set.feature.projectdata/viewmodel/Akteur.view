@@ -6,62 +6,62 @@
   xmlns:org.eclipse.emf.ecp.view.label.model="http://org/eclipse/emf/ecp/view/label/model"
   xmlns:org.eclipse.emf.ecp.view.model="http://org/eclipse/emf/ecp/view/model/1180"
   xmlns:org.eclipse.emfforms.view.annotation.model="http://org/eclipse/emf/emfforms/view/annotation/model" xmi:id="_QZjUoJZdEeieb-yRuNO3BQ" name="Akteur">
-  <rootEClass href="http://www.plan-pro.org/modell/PlanPro/1.10.0.1#//Akteur"/>
+  <rootEClass href="http://www.plan-pro.org/modell/PlanPro/1.10.0.3#//Akteur"/>
   <children xsi:type="org.eclipse.emf.ecp.view.model:Control" xmi:id="_Sx5sEJZdEeieb-yRuNO3BQ" name="Name">
     <domainModelReference xsi:type="org.eclipse.emf.ecp.view.model:FeaturePathDomainModelReference" xmi:id="_XfxJYJZdEeieb-yRuNO3BQ">
-      <domainModelEFeature xsi:type="ecore:EReference" href="http://www.plan-pro.org/modell/PlanPro/1.10.0.1#//Akteur_Allg_AttributeGroup/nameAkteur"/>
-      <domainModelEReferencePath href="http://www.plan-pro.org/modell/PlanPro/1.10.0.1#//Akteur/akteurAllg"/>
+      <domainModelEFeature xsi:type="ecore:EReference" href="http://www.plan-pro.org/modell/PlanPro/1.10.0.3#//Akteur_Allg_AttributeGroup/nameAkteur"/>
+      <domainModelEReferencePath href="http://www.plan-pro.org/modell/PlanPro/1.10.0.3#//Akteur/akteurAllg"/>
     </domainModelReference>
   </children>
   <children xsi:type="org.eclipse.emf.ecp.view.model:Control" xmi:id="_a0qooJZdEeieb-yRuNO3BQ" name="Name10">
     <attachments xsi:type="org.eclipse.emfforms.view.annotation.model:Annotation" xmi:id="_k_7Q4HY3Eem_k8lE6LoA1g" key="buttonActionKey" value="copyName"/>
     <domainModelReference xsi:type="org.eclipse.emf.ecp.view.model:FeaturePathDomainModelReference" xmi:id="_fcRs8JZdEeieb-yRuNO3BQ">
-      <domainModelEFeature xsi:type="ecore:EReference" href="http://www.plan-pro.org/modell/PlanPro/1.10.0.1#//Akteur_Allg_AttributeGroup/nameAkteur10"/>
-      <domainModelEReferencePath href="http://www.plan-pro.org/modell/PlanPro/1.10.0.1#//Akteur/akteurAllg"/>
+      <domainModelEFeature xsi:type="ecore:EReference" href="http://www.plan-pro.org/modell/PlanPro/1.10.0.3#//Akteur_Allg_AttributeGroup/nameAkteur10"/>
+      <domainModelEReferencePath href="http://www.plan-pro.org/modell/PlanPro/1.10.0.3#//Akteur/akteurAllg"/>
     </domainModelReference>
   </children>
   <children xsi:type="org.eclipse.emf.ecp.view.model:Control" xmi:id="_cXvk8JZdEeieb-yRuNO3BQ" name="Name5">
     <attachments xsi:type="org.eclipse.emfforms.view.annotation.model:Annotation" xmi:id="_uQhSgHY3Eem_k8lE6LoA1g" key="buttonActionKey" value="copyName"/>
     <domainModelReference xsi:type="org.eclipse.emf.ecp.view.model:FeaturePathDomainModelReference" xmi:id="_hxM88JZdEeieb-yRuNO3BQ">
-      <domainModelEFeature xsi:type="ecore:EReference" href="http://www.plan-pro.org/modell/PlanPro/1.10.0.1#//Akteur_Allg_AttributeGroup/nameAkteur5"/>
-      <domainModelEReferencePath href="http://www.plan-pro.org/modell/PlanPro/1.10.0.1#//Akteur/akteurAllg"/>
+      <domainModelEFeature xsi:type="ecore:EReference" href="http://www.plan-pro.org/modell/PlanPro/1.10.0.3#//Akteur_Allg_AttributeGroup/nameAkteur5"/>
+      <domainModelEReferencePath href="http://www.plan-pro.org/modell/PlanPro/1.10.0.3#//Akteur/akteurAllg"/>
     </domainModelReference>
   </children>
   <children xsi:type="org.eclipse.emf.ecp.view.label.model:Label" xmi:id="_d28hAKRjEemE8eYtB-lqjg" name="%Kontaktdaten" style="H4"/>
   <children xsi:type="org.eclipse.emf.ecp.view.model:Control" xmi:id="_hhmN0KRjEemE8eYtB-lqjg" name="Adresse LK PLZ Ort">
     <domainModelReference xsi:type="org.eclipse.emf.ecp.view.model:FeaturePathDomainModelReference" xmi:id="_xZi98KRjEemE8eYtB-lqjg">
-      <domainModelEFeature xsi:type="ecore:EReference" href="http://www.plan-pro.org/modell/PlanPro/1.10.0.1#//Organisation/adressePLZOrt"/>
-      <domainModelEReferencePath href="http://www.plan-pro.org/modell/PlanPro/1.10.0.1#//Akteur/kontaktdaten"/>
+      <domainModelEFeature xsi:type="ecore:EReference" href="http://www.plan-pro.org/modell/PlanPro/1.10.0.3#//Organisation/adressePLZOrt"/>
+      <domainModelEReferencePath href="http://www.plan-pro.org/modell/PlanPro/1.10.0.3#//Akteur/kontaktdaten"/>
     </domainModelReference>
   </children>
   <children xsi:type="org.eclipse.emf.ecp.view.model:Control" xmi:id="_h0Ed4KRjEemE8eYtB-lqjg" name="Adresse Strasse Nr">
     <domainModelReference xsi:type="org.eclipse.emf.ecp.view.model:FeaturePathDomainModelReference" xmi:id="_yf3s0KRjEemE8eYtB-lqjg">
-      <domainModelEFeature xsi:type="ecore:EReference" href="http://www.plan-pro.org/modell/PlanPro/1.10.0.1#//Organisation/adresseStrasseNr"/>
-      <domainModelEReferencePath href="http://www.plan-pro.org/modell/PlanPro/1.10.0.1#//Akteur/kontaktdaten"/>
+      <domainModelEFeature xsi:type="ecore:EReference" href="http://www.plan-pro.org/modell/PlanPro/1.10.0.3#//Organisation/adresseStrasseNr"/>
+      <domainModelEReferencePath href="http://www.plan-pro.org/modell/PlanPro/1.10.0.3#//Akteur/kontaktdaten"/>
     </domainModelReference>
   </children>
   <children xsi:type="org.eclipse.emf.ecp.view.model:Control" xmi:id="_h-MqQKRjEemE8eYtB-lqjg" name="eMail Adresse">
     <domainModelReference xsi:type="org.eclipse.emf.ecp.view.model:FeaturePathDomainModelReference" xmi:id="_zqDoAKRjEemE8eYtB-lqjg">
-      <domainModelEFeature xsi:type="ecore:EReference" href="http://www.plan-pro.org/modell/PlanPro/1.10.0.1#//Organisation/eMailAdresse"/>
-      <domainModelEReferencePath href="http://www.plan-pro.org/modell/PlanPro/1.10.0.1#//Akteur/kontaktdaten"/>
+      <domainModelEFeature xsi:type="ecore:EReference" href="http://www.plan-pro.org/modell/PlanPro/1.10.0.3#//Organisation/eMailAdresse"/>
+      <domainModelEReferencePath href="http://www.plan-pro.org/modell/PlanPro/1.10.0.3#//Akteur/kontaktdaten"/>
     </domainModelReference>
   </children>
   <children xsi:type="org.eclipse.emf.ecp.view.model:Control" xmi:id="_iMzG8KRjEemE8eYtB-lqjg" name="Name Organisation">
     <domainModelReference xsi:type="org.eclipse.emf.ecp.view.model:FeaturePathDomainModelReference" xmi:id="_0z9PUKRjEemE8eYtB-lqjg">
-      <domainModelEFeature xsi:type="ecore:EReference" href="http://www.plan-pro.org/modell/PlanPro/1.10.0.1#//Organisation/nameOrganisation"/>
-      <domainModelEReferencePath href="http://www.plan-pro.org/modell/PlanPro/1.10.0.1#//Akteur/kontaktdaten"/>
+      <domainModelEFeature xsi:type="ecore:EReference" href="http://www.plan-pro.org/modell/PlanPro/1.10.0.3#//Organisation/nameOrganisation"/>
+      <domainModelEReferencePath href="http://www.plan-pro.org/modell/PlanPro/1.10.0.3#//Akteur/kontaktdaten"/>
     </domainModelReference>
   </children>
   <children xsi:type="org.eclipse.emf.ecp.view.model:Control" xmi:id="_iYHmIKRjEemE8eYtB-lqjg" name="Organisationseinheit">
     <domainModelReference xsi:type="org.eclipse.emf.ecp.view.model:FeaturePathDomainModelReference" xmi:id="_1kNSoKb3EemjmqlNRDwM1w">
-      <domainModelEFeature xsi:type="ecore:EReference" href="http://www.plan-pro.org/modell/PlanPro/1.10.0.1#//Organisation/organisationseinheit"/>
-      <domainModelEReferencePath href="http://www.plan-pro.org/modell/PlanPro/1.10.0.1#//Akteur/kontaktdaten"/>
+      <domainModelEFeature xsi:type="ecore:EReference" href="http://www.plan-pro.org/modell/PlanPro/1.10.0.3#//Organisation/organisationseinheit"/>
+      <domainModelEReferencePath href="http://www.plan-pro.org/modell/PlanPro/1.10.0.3#//Akteur/kontaktdaten"/>
     </domainModelReference>
   </children>
   <children xsi:type="org.eclipse.emf.ecp.view.model:Control" xmi:id="_iisecKRjEemE8eYtB-lqjg" name="Telefonnummer">
     <domainModelReference xsi:type="org.eclipse.emf.ecp.view.model:FeaturePathDomainModelReference" xmi:id="_SC7UAKSdEemCPqJkECHWRQ">
-      <domainModelEFeature xsi:type="ecore:EReference" href="http://www.plan-pro.org/modell/PlanPro/1.10.0.1#//Organisation/telefonnummer"/>
-      <domainModelEReferencePath href="http://www.plan-pro.org/modell/PlanPro/1.10.0.1#//Akteur/kontaktdaten"/>
+      <domainModelEFeature xsi:type="ecore:EReference" href="http://www.plan-pro.org/modell/PlanPro/1.10.0.3#//Organisation/telefonnummer"/>
+      <domainModelEReferencePath href="http://www.plan-pro.org/modell/PlanPro/1.10.0.3#//Akteur/kontaktdaten"/>
     </domainModelReference>
   </children>
   <ecorePaths>/org.eclipse.set.model.planpro/model/PlanPro.ecore</ecorePaths>

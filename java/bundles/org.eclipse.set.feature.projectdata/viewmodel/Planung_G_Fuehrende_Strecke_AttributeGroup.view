@@ -4,20 +4,20 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
   xmlns:org.eclipse.emf.ecp.view.model="http://org/eclipse/emf/ecp/view/model/1180" xmi:id="_6bXJkJZdEeieb-yRuNO3BQ" name="Planung_G_Fuehrende_Strecke_AttributeGroup">
-  <rootEClass href="http://www.plan-pro.org/modell/PlanPro/1.10.0.1#//Planung_G_Fuehrende_Strecke_AttributeGroup"/>
+  <rootEClass href="http://www.plan-pro.org/modell/PlanPro/1.10.0.3#//Planung_G_Fuehrende_Strecke_AttributeGroup"/>
   <children xsi:type="org.eclipse.emf.ecp.view.model:Control" xmi:id="_6bXJlZZdEeieb-yRuNO3BQ" name="Control streckeNummer">
     <domainModelReference xsi:type="org.eclipse.emf.ecp.view.model:FeaturePathDomainModelReference" xmi:id="_6bXJlpZdEeieb-yRuNO3BQ">
-      <domainModelEFeature xsi:type="ecore:EReference" href="http://www.plan-pro.org/modell/PlanPro/1.10.0.1#//Planung_G_Fuehrende_Strecke_AttributeGroup/streckeNummer"/>
+      <domainModelEFeature xsi:type="ecore:EReference" href="http://www.plan-pro.org/modell/PlanPro/1.10.0.3#//Planung_G_Fuehrende_Strecke_AttributeGroup/streckeNummer"/>
     </domainModelReference>
   </children>
   <children xsi:type="org.eclipse.emf.ecp.view.model:Control" xmi:id="_6bXJkZZdEeieb-yRuNO3BQ" name="Control streckeAbschnitt">
     <domainModelReference xsi:type="org.eclipse.emf.ecp.view.model:FeaturePathDomainModelReference" xmi:id="_6bXJkpZdEeieb-yRuNO3BQ">
-      <domainModelEFeature xsi:type="ecore:EReference" href="http://www.plan-pro.org/modell/PlanPro/1.10.0.1#//Planung_G_Fuehrende_Strecke_AttributeGroup/streckeAbschnitt"/>
+      <domainModelEFeature xsi:type="ecore:EReference" href="http://www.plan-pro.org/modell/PlanPro/1.10.0.3#//Planung_G_Fuehrende_Strecke_AttributeGroup/streckeAbschnitt"/>
     </domainModelReference>
   </children>
   <children xsi:type="org.eclipse.emf.ecp.view.model:Control" xmi:id="_6bXJk5ZdEeieb-yRuNO3BQ" name="Control streckeKm">
     <domainModelReference xsi:type="org.eclipse.emf.ecp.view.model:FeaturePathDomainModelReference" xmi:id="_6bXJlJZdEeieb-yRuNO3BQ">
-      <domainModelEFeature xsi:type="ecore:EReference" href="http://www.plan-pro.org/modell/PlanPro/1.10.0.1#//Planung_G_Fuehrende_Strecke_AttributeGroup/streckeKm"/>
+      <domainModelEFeature xsi:type="ecore:EReference" href="http://www.plan-pro.org/modell/PlanPro/1.10.0.3#//Planung_G_Fuehrende_Strecke_AttributeGroup/streckeKm"/>
     </domainModelReference>
   </children>
   <ecorePaths>/org.eclipse.set.model.planpro/model/PlanPro.ecore</ecorePaths>

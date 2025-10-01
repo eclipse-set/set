@@ -4,35 +4,35 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
   xmlns:org.eclipse.emf.ecp.view.model="http://org/eclipse/emf/ecp/view/model/1180" xmi:id="_3POLkKPZEem0hPCy2IMSpg" name="Organisation">
-  <rootEClass href="http://www.plan-pro.org/modell/PlanPro/1.10.0.1#//Organisation"/>
+  <rootEClass href="http://www.plan-pro.org/modell/PlanPro/1.10.0.3#//Organisation"/>
   <children xsi:type="org.eclipse.emf.ecp.view.model:Control" xmi:id="_3POLk6PZEem0hPCy2IMSpg" name="Control adressePLZOrt">
     <domainModelReference xsi:type="org.eclipse.emf.ecp.view.model:FeaturePathDomainModelReference" xmi:id="_3POLlKPZEem0hPCy2IMSpg">
-      <domainModelEFeature xsi:type="ecore:EReference" href="http://www.plan-pro.org/modell/PlanPro/1.10.0.1#//Organisation/adressePLZOrt"/>
+      <domainModelEFeature xsi:type="ecore:EReference" href="http://www.plan-pro.org/modell/PlanPro/1.10.0.3#//Organisation/adressePLZOrt"/>
     </domainModelReference>
   </children>
   <children xsi:type="org.eclipse.emf.ecp.view.model:Control" xmi:id="_3POLlaPZEem0hPCy2IMSpg" name="Control adresseStrasseNr">
     <domainModelReference xsi:type="org.eclipse.emf.ecp.view.model:FeaturePathDomainModelReference" xmi:id="_3POLlqPZEem0hPCy2IMSpg">
-      <domainModelEFeature xsi:type="ecore:EReference" href="http://www.plan-pro.org/modell/PlanPro/1.10.0.1#//Organisation/adresseStrasseNr"/>
+      <domainModelEFeature xsi:type="ecore:EReference" href="http://www.plan-pro.org/modell/PlanPro/1.10.0.3#//Organisation/adresseStrasseNr"/>
     </domainModelReference>
   </children>
   <children xsi:type="org.eclipse.emf.ecp.view.model:Control" xmi:id="_3POLl6PZEem0hPCy2IMSpg" name="Control eMailAdresse">
     <domainModelReference xsi:type="org.eclipse.emf.ecp.view.model:FeaturePathDomainModelReference" xmi:id="_3POLmKPZEem0hPCy2IMSpg">
-      <domainModelEFeature xsi:type="ecore:EReference" href="http://www.plan-pro.org/modell/PlanPro/1.10.0.1#//Organisation/eMailAdresse"/>
+      <domainModelEFeature xsi:type="ecore:EReference" href="http://www.plan-pro.org/modell/PlanPro/1.10.0.3#//Organisation/eMailAdresse"/>
     </domainModelReference>
   </children>
   <children xsi:type="org.eclipse.emf.ecp.view.model:Control" xmi:id="_3POLmaPZEem0hPCy2IMSpg" name="Control nameOrganisation">
     <domainModelReference xsi:type="org.eclipse.emf.ecp.view.model:FeaturePathDomainModelReference" xmi:id="_3POLmqPZEem0hPCy2IMSpg">
-      <domainModelEFeature xsi:type="ecore:EReference" href="http://www.plan-pro.org/modell/PlanPro/1.10.0.1#//Organisation/nameOrganisation"/>
+      <domainModelEFeature xsi:type="ecore:EReference" href="http://www.plan-pro.org/modell/PlanPro/1.10.0.3#//Organisation/nameOrganisation"/>
     </domainModelReference>
   </children>
   <children xsi:type="org.eclipse.emf.ecp.view.model:Control" xmi:id="_3POLm6PZEem0hPCy2IMSpg" name="Control organisationseinheit">
     <domainModelReference xsi:type="org.eclipse.emf.ecp.view.model:FeaturePathDomainModelReference" xmi:id="_3POLnKPZEem0hPCy2IMSpg">
-      <domainModelEFeature xsi:type="ecore:EReference" href="http://www.plan-pro.org/modell/PlanPro/1.10.0.1#//Organisation/organisationseinheit"/>
+      <domainModelEFeature xsi:type="ecore:EReference" href="http://www.plan-pro.org/modell/PlanPro/1.10.0.3#//Organisation/organisationseinheit"/>
     </domainModelReference>
   </children>
   <children xsi:type="org.eclipse.emf.ecp.view.model:Control" xmi:id="_3POLnaPZEem0hPCy2IMSpg" name="Control telefonnummer">
     <domainModelReference xsi:type="org.eclipse.emf.ecp.view.model:FeaturePathDomainModelReference" xmi:id="_3POLnqPZEem0hPCy2IMSpg">
-      <domainModelEFeature xsi:type="ecore:EReference" href="http://www.plan-pro.org/modell/PlanPro/1.10.0.1#//Organisation/telefonnummer"/>
+      <domainModelEFeature xsi:type="ecore:EReference" href="http://www.plan-pro.org/modell/PlanPro/1.10.0.3#//Organisation/telefonnummer"/>
     </domainModelReference>
   </children>
   <ecorePaths>/org.eclipse.set.model.planpro/model/PlanPro.ecore</ecorePaths>

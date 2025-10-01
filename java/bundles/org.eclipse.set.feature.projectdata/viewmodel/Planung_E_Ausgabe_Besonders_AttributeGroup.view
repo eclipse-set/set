@@ -4,20 +4,20 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
   xmlns:org.eclipse.emf.ecp.view.model="http://org/eclipse/emf/ecp/view/model/1180" xmi:id="_-NBxkNpJEeu0zOwMRlVJgQ" name="%Allgemein">
-  <rootEClass href="http://www.plan-pro.org/modell/PlanPro/1.10.0.1#//Planung_E_Ausgabe_Besonders_AttributeGroup"/>
+  <rootEClass href="http://www.plan-pro.org/modell/PlanPro/1.10.0.3#//Planung_E_Ausgabe_Besonders_AttributeGroup"/>
   <children xsi:type="org.eclipse.emf.ecp.view.model:Control" xmi:id="_0RxXcNpLEeu0zOwMRlVJgQ" name="Referenz Vergleich Besonders">
     <domainModelReference xsi:type="org.eclipse.emf.ecp.view.model:FeaturePathDomainModelReference" xmi:id="_1lN8UNpLEeu0zOwMRlVJgQ">
-      <domainModelEFeature xsi:type="ecore:EReference" href="http://www.plan-pro.org/modell/PlanPro/1.10.0.1#//Planung_E_Ausgabe_Besonders_AttributeGroup/referenzVergleichBesonders"/>
+      <domainModelEFeature xsi:type="ecore:EReference" href="http://www.plan-pro.org/modell/PlanPro/1.10.0.3#//Planung_E_Ausgabe_Besonders_AttributeGroup/referenzVergleichBesonders"/>
     </domainModelReference>
   </children>
   <children xsi:type="org.eclipse.emf.ecp.view.model:Control" xmi:id="_FKUzgNpNEeu0zOwMRlVJgQ" name="Vergleich Ausgabestand Basis">
     <domainModelReference xsi:type="org.eclipse.emf.ecp.view.model:FeaturePathDomainModelReference" xmi:id="_HHkjUNpNEeu0zOwMRlVJgQ">
-      <domainModelEFeature xsi:type="ecore:EReference" href="http://www.plan-pro.org/modell/PlanPro/1.10.0.1#//Planung_E_Ausgabe_Besonders_AttributeGroup/vergleichAusgabestandBasis"/>
+      <domainModelEFeature xsi:type="ecore:EReference" href="http://www.plan-pro.org/modell/PlanPro/1.10.0.3#//Planung_E_Ausgabe_Besonders_AttributeGroup/vergleichAusgabestandBasis"/>
     </domainModelReference>
   </children>
   <children xsi:type="org.eclipse.emf.ecp.view.model:Control" xmi:id="_H1-hcNpNEeu0zOwMRlVJgQ" name="Vergleichstyp Besonders">
     <domainModelReference xsi:type="org.eclipse.emf.ecp.view.model:FeaturePathDomainModelReference" xmi:id="_KQT14NpNEeu0zOwMRlVJgQ">
-      <domainModelEFeature xsi:type="ecore:EReference" href="http://www.plan-pro.org/modell/PlanPro/1.10.0.1#//Planung_E_Ausgabe_Besonders_AttributeGroup/vergleichstypBesonders"/>
+      <domainModelEFeature xsi:type="ecore:EReference" href="http://www.plan-pro.org/modell/PlanPro/1.10.0.3#//Planung_E_Ausgabe_Besonders_AttributeGroup/vergleichstypBesonders"/>
     </domainModelReference>
   </children>
   <ecorePaths>/org.eclipse.set.model.planpro/model/PlanPro.ecore</ecorePaths>

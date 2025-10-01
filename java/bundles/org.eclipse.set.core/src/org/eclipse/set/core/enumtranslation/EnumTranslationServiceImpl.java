@@ -23,6 +23,8 @@ import org.eclipse.set.model.planpro.BasisTypen.BasisAttribut_AttributeGroup;
 import org.eclipse.set.utils.enums.EnumTranslationUtils;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Implements an enumerator translation service.
@@ -31,6 +33,7 @@ import org.osgi.service.component.annotations.Reference;
  */
 @Component
 public class EnumTranslationServiceImpl implements EnumTranslationService {
+	Logger logger = LoggerFactory.getLogger(EnumTranslationServiceImpl.class);
 	@Reference
 	Enumerators enumerators;
 
@@ -149,7 +152,9 @@ public class EnumTranslationServiceImpl implements EnumTranslationService {
 					return ((String) field.get(messages)).trim();
 				}
 			}
-			throw new NoEnumTranslationFound(key);
+			// Return ENUM value, when no translate found
+			logger.error("Missing translation for ENUM {}", key); //$NON-NLS-1$
+			return key;
 		} catch (IllegalArgumentException | IllegalAccessException e) {
 			throw new RuntimeException(e);
 		}

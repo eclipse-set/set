@@ -4,15 +4,15 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
   xmlns:org.eclipse.emf.ecp.view.model="http://org/eclipse/emf/ecp/view/model/1180" xmi:id="_z0UbUJblEeicd46lsKefNw" name="Polygone_Betrachtungsbereich_AttributeGroup">
-  <rootEClass href="http://www.plan-pro.org/modell/PlanPro/1.10.0.1#//Polygone_Betrachtungsbereich_AttributeGroup"/>
+  <rootEClass href="http://www.plan-pro.org/modell/PlanPro/1.10.0.3#//Polygone_Betrachtungsbereich_AttributeGroup"/>
   <children xsi:type="org.eclipse.emf.ecp.view.model:Control" xmi:id="_z3cn0pblEeicd46lsKefNw" name="Control polygonzugBetrachtungsbereich">
     <domainModelReference xsi:type="org.eclipse.emf.ecp.view.model:FeaturePathDomainModelReference" xmi:id="_z3cn05blEeicd46lsKefNw">
-      <domainModelEFeature xsi:type="ecore:EReference" href="http://www.plan-pro.org/modell/PlanPro/1.10.0.1#//Polygone_Betrachtungsbereich_AttributeGroup/polygonzugBetrachtungsbereich"/>
+      <domainModelEFeature xsi:type="ecore:EReference" href="http://www.plan-pro.org/modell/PlanPro/1.10.0.3#//Polygone_Betrachtungsbereich_AttributeGroup/polygonzugBetrachtungsbereich"/>
     </domainModelReference>
   </children>
   <children xsi:type="org.eclipse.emf.ecp.view.model:Control" xmi:id="_z3cn0JblEeicd46lsKefNw" name="Control koordinatensystemBB">
     <domainModelReference xsi:type="org.eclipse.emf.ecp.view.model:FeaturePathDomainModelReference" xmi:id="_z3cn0ZblEeicd46lsKefNw">
-      <domainModelEFeature xsi:type="ecore:EReference" href="http://www.plan-pro.org/modell/PlanPro/1.10.0.1#//Polygone_Betrachtungsbereich_AttributeGroup/koordinatensystemBB"/>
+      <domainModelEFeature xsi:type="ecore:EReference" href="http://www.plan-pro.org/modell/PlanPro/1.10.0.3#//Polygone_Betrachtungsbereich_AttributeGroup/koordinatensystemBB"/>
     </domainModelReference>
   </children>
   <ecorePaths>/org.eclipse.set.model.planpro/model/PlanPro.ecore</ecorePaths>
