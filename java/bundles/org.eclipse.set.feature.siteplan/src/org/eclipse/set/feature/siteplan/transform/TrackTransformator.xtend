@@ -117,6 +117,11 @@ class TrackTransformator extends BaseTransformator<TOP_Kante> {
 		
 		// get actual start coord from model
 		val geoKnotenA = md.geoKante.geoKnotenA
+        // LEARNING:
+		// don't use:
+		//  val geoKnotenA = md.geoKante.geoKnotenA
+		// positionService.transformPosition(geoKnotenA, geoKnotenA.CRS) 
+		// It gives slightly different results to the ones in the sections.segments.positions!
 		val knotenACoordinateModel = positionService.transformCoordinate(geoKnotenA.coordinate, geoKnotenA.CRS) 
 		
 		// calculate start coord by walking along geo kante. gives slightly different pos, but it occurs in position-list: section.segment.positions 
@@ -135,14 +140,6 @@ class TrackTransformator extends BaseTransformator<TOP_Kante> {
 		} catch (Exception e) {
 			return null
 		}
- 		
-
-		
-		// LEARNING:
-		// don't use:
-		//  val geoKnotenA = md.geoKante.geoKnotenA
-		// positionService.transformPosition(geoKnotenA, geoKnotenA.CRS) 
-		// It gives slightly different results to the ones in the sections.segments.positions!
 	}
 	
 
