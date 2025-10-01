@@ -57,6 +57,7 @@ import org.eclipse.set.model.siteplan.SiteplanObject;
 import org.eclipse.set.model.siteplan.SiteplanPackage;
 import org.eclipse.set.model.siteplan.SiteplanState;
 import org.eclipse.set.model.siteplan.Station;
+import org.eclipse.set.model.siteplan.SwitchType;
 import org.eclipse.set.model.siteplan.Track;
 import org.eclipse.set.model.siteplan.TrackClose;
 import org.eclipse.set.model.siteplan.TrackCloseType;
@@ -495,6 +496,13 @@ public class SiteplanPackageImpl extends EPackageImpl
 	 * @generated
 	 */
 	private EEnum lockKeyTypeEEnum = null;
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	private EEnum switchTypeEEnum = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -1192,6 +1200,16 @@ public class SiteplanPackageImpl extends EPackageImpl
 	@Override
 	public EReference getTrackSwitch_ContinuousSegments() {
 		return (EReference) trackSwitchEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
+	public EAttribute getTrackSwitch_SwitchType() {
+		return (EAttribute) trackSwitchEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -2442,6 +2460,16 @@ public class SiteplanPackageImpl extends EPackageImpl
 	 * @generated
 	 */
 	@Override
+	public EEnum getSwitchType() {
+		return switchTypeEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
 	public SiteplanFactory getSiteplanFactory() {
 		return (SiteplanFactory) getEFactoryInstance();
 	}
@@ -2542,6 +2570,7 @@ public class SiteplanPackageImpl extends EPackageImpl
 		createEAttribute(trackSwitchEClass, TRACK_SWITCH__DESIGN);
 		createEReference(trackSwitchEClass, TRACK_SWITCH__COMPONENTS);
 		createEReference(trackSwitchEClass, TRACK_SWITCH__CONTINUOUS_SEGMENTS);
+		createEAttribute(trackSwitchEClass, TRACK_SWITCH__SWITCH_TYPE);
 
 		trackSwitchComponentEClass = createEClass(TRACK_SWITCH_COMPONENT);
 		createEAttribute(trackSwitchComponentEClass,
@@ -2715,6 +2744,7 @@ public class SiteplanPackageImpl extends EPackageImpl
 				EXTERNAL_ELEMENT_CONTROL_ART);
 		controlStationTypeEEnum = createEEnum(CONTROL_STATION_TYPE);
 		lockKeyTypeEEnum = createEEnum(LOCK_KEY_TYPE);
+		switchTypeEEnum = createEEnum(SWITCH_TYPE);
 	}
 
 	/**
@@ -3029,6 +3059,10 @@ public class SiteplanPackageImpl extends EPackageImpl
 				null, 0, 2, TrackSwitch.class, !IS_TRANSIENT, !IS_VOLATILE,
 				IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
 				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getTrackSwitch_SwitchType(), this.getSwitchType(),
+				"switchType", null, 0, 1, TrackSwitch.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
+				!IS_DERIVED, IS_ORDERED);
 
 		initEClass(trackSwitchComponentEClass, TrackSwitchComponent.class,
 				"TrackSwitchComponent", !IS_ABSTRACT, !IS_INTERFACE,
@@ -3625,6 +3659,14 @@ public class SiteplanPackageImpl extends EPackageImpl
 		initEEnum(lockKeyTypeEEnum, LockKeyType.class, "LockKeyType");
 		addEEnumLiteral(lockKeyTypeEEnum, LockKeyType.INSIDE);
 		addEEnumLiteral(lockKeyTypeEEnum, LockKeyType.OUTSIDE);
+
+		initEEnum(switchTypeEEnum, SwitchType.class, "SwitchType");
+		addEEnumLiteral(switchTypeEEnum, SwitchType.SIMPLE);
+		addEEnumLiteral(switchTypeEEnum, SwitchType.CROSS_SWITCH);
+		addEEnumLiteral(switchTypeEEnum, SwitchType.DOPPLE_CROSS_SWITCH);
+		addEEnumLiteral(switchTypeEEnum, SwitchType.SIMPLE_CROSS);
+		addEEnumLiteral(switchTypeEEnum, SwitchType.FLAT_CROSS);
+		addEEnumLiteral(switchTypeEEnum, SwitchType.OTHER);
 
 		// Create resource
 		createResource(eNS_URI);

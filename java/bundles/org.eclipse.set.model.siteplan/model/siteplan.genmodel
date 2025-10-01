@@ -5,7 +5,7 @@
     modelDirectory="/org.eclipse.set.model.siteplan/src" creationIcons="false" editDirectory=""
     editorDirectory="" modelPluginID="org.eclipse.set.model.siteplan" modelName="Siteplan"
     rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container" codeFormatting="true"
-    commentFormatting="true" importerID="org.eclipse.emf.importer.ecore" complianceLevel="17.0"
+    commentFormatting="true" importerID="org.eclipse.emf.importer.ecore" complianceLevel="21.0"
     copyrightFields="false" editPluginID="org.eclipse.set.model.siteplan.edit" operationReflection="true"
     importOrganizing="true">
   <foreignModel>siteplan.ecore</foreignModel>
@@ -152,6 +152,14 @@
       <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//LockKeyType/inside"/>
       <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//LockKeyType/outside"/>
     </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="siteplan.ecore#//SwitchType">
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//SwitchType/Simple"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//SwitchType/CrossSwitch"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//SwitchType/DoppleCrossSwitch"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//SwitchType/SimpleCross"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//SwitchType/FlatCross"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//SwitchType/Other"/>
+    </genEnums>
     <genClasses ecoreClass="siteplan.ecore#//Siteplan">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//Siteplan/initialState"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//Siteplan/changedInitialState"/>
@@ -226,6 +234,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//TrackSwitch/design"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//TrackSwitch/components"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//TrackSwitch/continuousSegments"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//TrackSwitch/switchType"/>
     </genClasses>
     <genClasses ecoreClass="siteplan.ecore#//TrackSwitchComponent">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//TrackSwitchComponent/preferredLocation"/>

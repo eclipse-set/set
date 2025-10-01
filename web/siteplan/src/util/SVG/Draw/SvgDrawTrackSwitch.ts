@@ -13,7 +13,7 @@ import { Label } from '@/model/Label'
 import { Coordinate } from '@/model/Position'
 import { LeftRight } from '@/model/SiteplanModel'
 import { ISvgElement, SvgElement } from '@/model/SvgElement'
-import { TrackSwitchPart } from '@/model/TrackSwitch'
+import TrackSwitch, { SwitchType, TrackSwitchPart } from '@/model/TrackSwitch'
 import TrackSwitchComponent, { TurnoutOperatingMode } from '@/model/TrackSwitchComponent'
 import '@/util/ElementExtensions'
 import AbstractDrawSVG from '@/util/SVG/Draw/AbstractDrawSVG'
@@ -49,7 +49,11 @@ export default class SvgDrawTrackSwitch extends AbstractDrawSVG {
     const drawData = data as {featureData: TrackSwitchFeatureData, drawPart: TrackSwitchPart,}
     switch (drawData.drawPart) {
       case TrackSwitchPart.Main:
-        return this.drawTrackSwitch(drawData.featureData.component, drawData.featureData.outlineCoor)
+        return this.drawTrackSwitch(
+          drawData.featureData.trackSwitch,
+          drawData.featureData.component,
+          drawData.featureData.outlineCoor
+        )
       case TrackSwitchPart.StartMarker:
         return this.drawStart(drawData.featureData.component ?? undefined)
       default:
@@ -63,7 +67,11 @@ export default class SvgDrawTrackSwitch extends AbstractDrawSVG {
    * @param outlineCoors outline coordinates of the track switch
    * @returns a {@link ISvgElement} containing the final SVG for rendering
    */
-  drawTrackSwitch (switchComponent: TrackSwitchComponent | null, outlineCoors: number[][]): ISvgElement {
+  drawTrackSwitch (
+    tswitch: TrackSwitch,
+    switchComponent: TrackSwitchComponent | null,
+    outlineCoors: number[][]
+  ): ISvgElement {
     const svg = SvgDraw.createSvgWithHead(this.SVG_DRAWAREA_SWITCH, this.SVG_DRAWAREA_SWITCH)
     if (!switchComponent) {
       return new SvgElement('Empty', svg, [], null ,[])
@@ -88,7 +96,7 @@ export default class SvgDrawTrackSwitch extends AbstractDrawSVG {
     outline.setAttribute('d', pathLine)
     g.appendChild(outline)
 
-    this.drawTrackSwitchStyle(g, switchComponent).forEach(ele => (
+    this.drawTrackSwitchStyle(g, tswitch, switchComponent).forEach(ele => (
       svg.appendChild(ele)
     ))
 
@@ -108,10 +116,20 @@ export default class SvgDrawTrackSwitch extends AbstractDrawSVG {
    * @param component track switch component
    * @returns list of HTML Element
    */
-  private drawTrackSwitchStyle (outlineSVGGroup: HTMLElement, component: TrackSwitchComponent): Element[] {
+  private drawTrackSwitchStyle (
+    outlineSVGGroup: HTMLElement,
+    tswitch: TrackSwitch,
+    component: TrackSwitchComponent
+  ): Element[] {
+    if (tswitch.switchType === SwitchType.SimpleCross) {
+      outlineSVGGroup.setAttribute('fill', `url(%23${SvgDraw.DIAGONAL_LINE_ID})`)
+      return [SvgDraw.diagonalPattern(component.start.rotation), outlineSVGGroup]
+    }
+
     const rotate = component.mainLeg.connection === LeftRight.RIGHT
       ? component.start.rotation - 45
       : component.start.rotation + 45
+
     switch (component.operatingMode) {
       case TurnoutOperatingMode.ElectricRemote:
       case TurnoutOperatingMode.MechanicalRemote:
@@ -172,7 +190,7 @@ export default class SvgDrawTrackSwitch extends AbstractDrawSVG {
      * @returns a {@link ISvgElement} containing the final SVG for rendering
      */
   drawLabel (tswitch: TrackSwitchComponent | null): ISvgElement {
-    if (!tswitch) {
+    if (!tswitch || !tswitch.label) {
       return new SvgElement('Empty', document.createElement('svg'), [], null, [])
     }
 
