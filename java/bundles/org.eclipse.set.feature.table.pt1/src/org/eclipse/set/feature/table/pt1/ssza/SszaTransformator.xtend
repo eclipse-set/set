@@ -363,16 +363,6 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 			[datenpunktAllg?.datenpunktLaenge?.wert?.toString]
 		)
 		
-		// M: Ssza.Bemerkung
-		fillConditional(
-			cols.getColumn(Bemerkung),
-			dpBezug,
-			[dpBezug instanceof ZUB_Streckeneigenschaft && (dpBezug as ZUB_Streckeneigenschaft).metallteil !== null],
-			[
-				
-			]
-		)
-
 		fillFootnotes(datenpunkt)
 
 		return

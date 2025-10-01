@@ -152,7 +152,7 @@ public abstract class AbstractPlanPro2TableTransformationService
 		final Table table = super.transform(model, controlArea);
 		if (transformator instanceof final AbstractPlanPro2TableModelTransformator pt1TableTransformator) {
 			pt1TableTransformator.updateWaitingFillCell(getShortcut());
-			pt1TableTransformator.getTopologicalCell()
+			pt1TableTransformator.getTopologicalCells()
 					.forEach(TableRowExtensions::setTopologicalCell);
 			setTopologicalColumnHightlight(table);
 		}

@@ -513,8 +513,7 @@ public final class ToolboxTableView extends BasePart {
 				columnHeaderDataLayer, bodyDataLayer, gridLayer,
 				rootColumnDescriptor, bodyLayerStack, bodyDataProvider,
 				getDialogService()));
-		bodyLayerStack
-				.setConfigLabelAccumulator(addTableCellLabelConfig());
+		bodyLayerStack.setConfigLabelAccumulator(addTableCellLabelConfig());
 		selectionLayer.setConfigLabelAccumulator((final LabelStack configLabels,
 				final int columnPosition,
 				final int rowPosition) -> configLabels.addLabel(
