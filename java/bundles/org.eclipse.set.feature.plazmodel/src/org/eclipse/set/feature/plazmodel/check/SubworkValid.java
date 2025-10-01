@@ -114,9 +114,9 @@ public class SubworkValid implements PlazCheck {
 									s -> s.getIdentitaet().getWert())
 											.orElse(""));
 			if (type.isEmpty()) {
-				subworks.forEach(ele -> createPlazError(ele,
+				subworks.forEach(ele -> errors.add(createPlazError(ele,
 						"Die Ausgabe_Fachdaten {GUID} hat kein Untergerwerk",
-						getSubworkGuidMap.apply(ele)));
+						getSubworkGuidMap.apply(ele))));
 				return;
 			}
 			if (subworks.size() > 1 && type
@@ -124,9 +124,9 @@ public class SubworkValid implements PlazCheck {
 				final String subworkTypeStr = enumTranslationService
 						.translate(untergewerkArt)
 						.getAlternative();
-				subworks.forEach(ele -> createPlazError(ele,
+				subworks.forEach(ele -> errors.add(createPlazError(ele,
 						"Die Ausgabe_Fachdaten des UntergewerkArt {Type} ist nicht eindeutig.",
-						Map.of("Type", subworkTypeStr)));
+						Map.of("Type", subworkTypeStr))));
 			}
 		});
 		return errors;
