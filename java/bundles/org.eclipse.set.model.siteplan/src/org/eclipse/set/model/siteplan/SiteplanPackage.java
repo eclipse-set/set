@@ -1255,13 +1255,22 @@ public interface SiteplanPackage extends EPackage {
 	int TRACK_SECTION__COLOR = SITEPLAN_OBJECT_FEATURE_COUNT + 2;
 
 	/**
+	 * The feature id for the '<em><b>Start Coordinate</b></em>' containment
+	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 * @ordered
+	 */
+	int TRACK_SECTION__START_COORDINATE = SITEPLAN_OBJECT_FEATURE_COUNT + 3;
+
+	/**
 	 * The number of structural features of the '<em>Track Section</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @generated
 	 * @ordered
 	 */
-	int TRACK_SECTION_FEATURE_COUNT = SITEPLAN_OBJECT_FEATURE_COUNT + 3;
+	int TRACK_SECTION_FEATURE_COUNT = SITEPLAN_OBJECT_FEATURE_COUNT + 4;
 
 	/**
 	 * The number of operations of the '<em>Track Section</em>' class. <!--
@@ -4006,6 +4015,20 @@ public interface SiteplanPackage extends EPackage {
 	EAttribute getTrackSection_Color();
 
 	/**
+	 * Returns the meta object for the containment reference
+	 * '{@link org.eclipse.set.model.siteplan.TrackSection#getStartCoordinate
+	 * <em>Start Coordinate</em>}'. <!-- begin-user-doc --> <!-- end-user-doc
+	 * -->
+	 * 
+	 * @return the meta object for the containment reference '<em>Start
+	 *         Coordinate</em>'.
+	 * @see org.eclipse.set.model.siteplan.TrackSection#getStartCoordinate()
+	 * @see #getTrackSection()
+	 * @generated
+	 */
+	EReference getTrackSection_StartCoordinate();
+
+	/**
 	 * Returns the meta object for class
 	 * '{@link org.eclipse.set.model.siteplan.TrackSegment <em>Track
 	 * Segment</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -6039,6 +6062,16 @@ public interface SiteplanPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute TRACK_SECTION__COLOR = eINSTANCE.getTrackSection_Color();
+
+		/**
+		 * The meta object literal for the '<em><b>Start Coordinate</b></em>'
+		 * containment reference feature. <!-- begin-user-doc --> <!--
+		 * end-user-doc -->
+		 * 
+		 * @generated
+		 */
+		EReference TRACK_SECTION__START_COORDINATE = eINSTANCE
+				.getTrackSection_StartCoordinate();
 
 		/**
 		 * The meta object literal for the

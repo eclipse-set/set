@@ -7,14 +7,14 @@
  * http://www.eclipse.org/legal/epl-v20.html
  */
 
-import { ISvgElement, ISvgPoint, SvgElement, SvgPoint, ZusatzSignal } from '@/model/SvgElement'
-import { AnchorPoint } from '../SvgEnum'
-import '@/util/ElementExtensions'
 import { Label } from '@/model/Label'
-import SvgDraw from './SvgDraw'
+import { SignalPart } from '@/model/Signal'
+import { ISvgElement, ISvgPoint, SvgElement, SvgPoint, ZusatzSignal } from '@/model/SvgElement'
+import '@/util/ElementExtensions'
 import { translateExtent } from '@/util/ExtentExtension'
 import { Extent, isEmpty } from 'ol/extent'
-import { SignalPart } from '@/model/Signal'
+import { AnchorPoint } from '../SvgEnum'
+import SvgDraw from './SvgDraw'
 
 /**
  * Draw Signal SVG

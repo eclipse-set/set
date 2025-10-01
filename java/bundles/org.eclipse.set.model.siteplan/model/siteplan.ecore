@@ -194,6 +194,8 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="segments" upperBound="-1"
         eType="#//TrackSegment" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="color" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="startCoordinate" eType="#//Coordinate"
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TrackSegment" eSuperTypes="#//SiteplanObject">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" upperBound="-1" eType="#//TrackType"/>

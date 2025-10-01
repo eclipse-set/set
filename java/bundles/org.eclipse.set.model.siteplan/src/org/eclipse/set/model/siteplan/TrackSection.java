@@ -24,6 +24,8 @@ import org.eclipse.emf.common.util.EList;
  * <em>Segments</em>}</li>
  * <li>{@link org.eclipse.set.model.siteplan.TrackSection#getColor
  * <em>Color</em>}</li>
+ * <li>{@link org.eclipse.set.model.siteplan.TrackSection#getStartCoordinate
+ * <em>Start Coordinate</em>}</li>
  * </ul>
  *
  * @see org.eclipse.set.model.siteplan.SiteplanPackage#getTrackSection()
@@ -95,5 +97,32 @@ public interface TrackSection extends SiteplanObject {
 	 * @generated
 	 */
 	void setColor(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Start Coordinate</b></em>' containment
+	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @return the value of the '<em>Start Coordinate</em>' containment
+	 *         reference.
+	 * @see #setStartCoordinate(Coordinate)
+	 * @see org.eclipse.set.model.siteplan.SiteplanPackage#getTrackSection_StartCoordinate()
+	 * @model containment="true"
+	 * @generated
+	 */
+	Coordinate getStartCoordinate();
+
+	/**
+	 * Sets the value of the
+	 * '{@link org.eclipse.set.model.siteplan.TrackSection#getStartCoordinate
+	 * <em>Start Coordinate</em>}' containment reference. <!-- begin-user-doc
+	 * --> <!-- end-user-doc -->
+	 * 
+	 * @param value
+	 *            the new value of the '<em>Start Coordinate</em>' containment
+	 *            reference.
+	 * @see #getStartCoordinate()
+	 * @generated
+	 */
+	void setStartCoordinate(Coordinate value);
 
 } // TrackSection
