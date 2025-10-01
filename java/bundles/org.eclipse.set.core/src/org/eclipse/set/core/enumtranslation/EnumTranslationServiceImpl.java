@@ -149,7 +149,8 @@ public class EnumTranslationServiceImpl implements EnumTranslationService {
 					return ((String) field.get(messages)).trim();
 				}
 			}
-			throw new NoEnumTranslationFound(key);
+			// Return ENUM value, when no translate found
+			return key;
 		} catch (IllegalArgumentException | IllegalAccessException e) {
 			throw new RuntimeException(e);
 		}
