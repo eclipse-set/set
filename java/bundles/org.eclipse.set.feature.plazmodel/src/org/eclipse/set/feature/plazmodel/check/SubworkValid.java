@@ -14,23 +14,25 @@ import static org.eclipse.set.ppmodel.extensions.EObjectExtensions.getNullableOb
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.apache.commons.text.StringSubstitutor;
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.Pair;
+import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.model.planpro.PlanPro.Ausgabe_Fachdaten;
 import org.eclipse.set.model.planpro.PlanPro.ENUMUntergewerkArt;
+import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.set.model.planpro.PlanPro.Planung_Gruppe;
 import org.eclipse.set.model.planpro.PlanPro.Untergewerk_Art_TypeClass;
 import org.eclipse.set.model.plazmodel.PlazError;
 import org.eclipse.set.model.plazmodel.PlazFactory;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 import com.google.common.collect.Streams;
 
@@ -45,55 +47,89 @@ import com.google.common.collect.Streams;
 @SuppressWarnings("nls")
 public class SubworkValid implements PlazCheck {
 
+	@Reference
+	EnumTranslationService enumTranslationService;
+
 	@Override
 	public List<PlazError> run(final IModelSession modelSession) {
 		final List<PlazError> errors = new ArrayList<>();
 		final Map<Ausgabe_Fachdaten, ENUMUntergewerkArt> subworkFromPlanGroup = getSubworkFromPlanGroup(
 				modelSession);
-		final List<Ausgabe_Fachdaten> subworksList = new ArrayList<>(Streams
-				.stream(modelSession.getPlanProSchnittstelle().eAllContents())
-				.filter(Ausgabe_Fachdaten.class::isInstance)
-				.map(Ausgabe_Fachdaten.class::cast)
-				.toList());
-		final Set<ENUMUntergewerkArt> knowType = new HashSet<>();
+		// Validate the subwork type of Planung_Gruppe and of the reference
+		// Ausgabe_Fachdaten
 		if (!subworkFromPlanGroup.isEmpty()) {
-			subworkFromPlanGroup.forEach((subwork, type) -> errors.addAll(
-					validateSubwork(subwork, Optional.of(type), knowType)));
-			subworkFromPlanGroup.keySet().forEach(subworksList::remove);
+			subworkFromPlanGroup.forEach((subwork, type) -> {
+				final PlazError error = validatePlanGroupSubwork(subwork,
+						Optional.of(type));
+				if (error != null) {
+					errors.add(error);
+				}
+			});
 		}
 
-		subworksList.forEach(subwork -> errors
-				.addAll(validateSubwork(subwork, Optional.empty(), knowType)));
+		errors.addAll(validateSubworkTypeUnique(
+				modelSession.getPlanProSchnittstelle()));
 		return errors;
 	}
 
-	private List<PlazError> validateSubwork(final Ausgabe_Fachdaten subwork,
-			final Optional<ENUMUntergewerkArt> planGroupSubWorkType,
-			final Set<ENUMUntergewerkArt> knowedType) {
-		final List<PlazError> result = new ArrayList<>();
+	/**
+	 * The Subwork type of {@link Planung_Gruppe} and of the relevant
+	 * {@link Ausgabe_Fachdaten} should be equals
+	 * 
+	 * @param subwork
+	 *            the {@link Ausgabe_Fachdaten}
+	 * @param planGroupSubWorkType
+	 *            the subwork type of {@link Planung_Gruppe}
+	 * @return errors
+	 */
+	private PlazError validatePlanGroupSubwork(final Ausgabe_Fachdaten subwork,
+			final Optional<ENUMUntergewerkArt> planGroupSubWorkType) {
 		final Optional<ENUMUntergewerkArt> subworkType = getNullableObject(
 				subwork, s -> s.getUntergewerkArt().getWert());
 		final Map<String, String> subworkGuidMap = Map.of("GUID",
 				subwork.getIdentitaet().getWert());
-		if (subworkType.isEmpty()) {
-			return List.of(createPlazError(subwork,
-					"Die Ausgabe_Fachdaten {GUID} hat kein Untergerwerk",
-					subworkGuidMap));
-		}
-
-		if (planGroupSubWorkType.isPresent()
+		if (subworkType.isPresent() && planGroupSubWorkType.isPresent()
 				&& subworkType.get() != planGroupSubWorkType.get()) {
-			result.add(createPlazError(subwork,
+			return createPlazError(subwork,
 					"Die Ausgabe_Fachdaten: {GUID} und die gehörigen Planung_Gruppe haben unterschieden Untergewerk",
-					subworkGuidMap));
+					subworkGuidMap);
 		}
+		return null;
+	}
 
-		if (knowedType.contains(subworkType.get())) {
-			result.add(createPlazError(subwork, getGeneralErrMsg(),
-					subworkGuidMap));
-		}
-		knowedType.add(subworkType.get());
-		return result;
+	private List<PlazError> validateSubworkTypeUnique(
+			final PlanPro_Schnittstelle schnittstelle) {
+		final List<PlazError> errors = new ArrayList<>();
+		final Map<Optional<Object>, List<Ausgabe_Fachdaten>> groupBySubworkType = Streams
+				.stream(schnittstelle.eAllContents())
+				.filter(Ausgabe_Fachdaten.class::isInstance)
+				.map(Ausgabe_Fachdaten.class::cast)
+				.collect(Collectors
+						.groupingBy(subwork -> getNullableObject(subwork,
+								s -> s.getUntergewerkArt().getWert())));
+		groupBySubworkType.forEach((type, subworks) -> {
+			final Function<Ausgabe_Fachdaten, Map<String, String>> getSubworkGuidMap = subwork -> Map
+					.of("GUID",
+							getNullableObject(subwork,
+									s -> s.getIdentitaet().getWert())
+											.orElse(""));
+			if (type.isEmpty()) {
+				subworks.forEach(ele -> createPlazError(ele,
+						"Die Ausgabe_Fachdaten {GUID} hat kein Untergerwerk",
+						getSubworkGuidMap.apply(ele)));
+				return;
+			}
+			if (subworks.size() > 1 && type
+					.get() instanceof final ENUMUntergewerkArt untergewerkArt) {
+				final String subworkTypeStr = enumTranslationService
+						.translate(untergewerkArt)
+						.getAlternative();
+				subworks.forEach(ele -> createPlazError(ele,
+						"Die Ausgabe_Fachdaten des UntergewerkArt {Type} ist nicht eindeutig.",
+						Map.of("Type", subworkTypeStr)));
+			}
+		});
+		return errors;
 	}
 
 	/**
@@ -149,7 +185,7 @@ public class SubworkValid implements PlazCheck {
 
 	@Override
 	public String getGeneralErrMsg() {
-		return "Die Untergewerk der Ausgabe_Fachdaten: {GUID} ist nicht eindeutig";
+		return "Die Ausgabe_Fachdaten je Untergewerk sind nicht eindeutig";
 	}
 
 }
