@@ -8,30 +8,30 @@
   xmlns:org.eclipse.emf.ecp.view.model="http://org/eclipse/emf/ecp/view/model/1180"
   xmlns:org.eclipse.emf.ecp.view.vertical.model="http://org/eclipse/emf/ecp/view/vertical/model"
   xmlns:org.eclipse.emfforms.view.annotation.model="http://org/eclipse/emf/emfforms/view/annotation/model" xmi:id="_UFESkGzNEe6_2eoRImGW6w" name="Projekt">
-  <rootEClass href="http://www.plan-pro.org/modell/PlanPro/1.10.0.1#//Planung_P_Allg_AttributeGroup"/>
+  <rootEClass href="http://www.plan-pro.org/modell/PlanPro/1.10.0.3#//Planung_P_Allg_AttributeGroup"/>
   <children xsi:type="org.eclipse.emf.ecp.view.vertical.model:VerticalLayout" xmi:id="_Wg6C4GzNEe6_2eoRImGW6w">
     <children xsi:type="org.eclipse.emf.ecp.view.group.model:Group" xmi:id="_V7TbcGzNEe6_2eoRImGW6w">
       <children xsi:type="org.eclipse.emf.ecp.view.vertical.model:VerticalLayout" xmi:id="_W_qbcGzNEe6_2eoRImGW6w">
         <children xsi:type="org.eclipse.emf.ecp.view.label.model:Label" xmi:id="_ZiF78GzNEe6_2eoRImGW6w" name="%AllgemeineMerkmale" style="H4"/>
         <children xsi:type="org.eclipse.emf.ecp.view.model:Control" xmi:id="_UFGHwGzNEe6_2eoRImGW6w" name="Bezeichnung">
           <domainModelReference xsi:type="org.eclipse.emf.ecp.view.model:FeaturePathDomainModelReference" xmi:id="_UFGHwWzNEe6_2eoRImGW6w">
-            <domainModelEFeature xsi:type="ecore:EReference" href="http://www.plan-pro.org/modell/PlanPro/1.10.0.1#//Planung_P_Allg_AttributeGroup/bezeichnungPlanungProjekt"/>
+            <domainModelEFeature xsi:type="ecore:EReference" href="http://www.plan-pro.org/modell/PlanPro/1.10.0.3#//Planung_P_Allg_AttributeGroup/bezeichnungPlanungProjekt"/>
           </domainModelReference>
         </children>
         <children xsi:type="org.eclipse.emf.ecp.view.model:Control" xmi:id="_UFGHxGzNEe6_2eoRImGW6w" name="Nummer">
           <domainModelReference xsi:type="org.eclipse.emf.ecp.view.model:FeaturePathDomainModelReference" xmi:id="_UFGHxWzNEe6_2eoRImGW6w">
-            <domainModelEFeature xsi:type="ecore:EReference" href="http://www.plan-pro.org/modell/PlanPro/1.10.0.1#//Planung_P_Allg_AttributeGroup/projektNummer"/>
+            <domainModelEFeature xsi:type="ecore:EReference" href="http://www.plan-pro.org/modell/PlanPro/1.10.0.3#//Planung_P_Allg_AttributeGroup/projektNummer"/>
           </domainModelReference>
         </children>
         <children xsi:type="org.eclipse.emf.ecp.view.model:Control" xmi:id="_UFGHwmzNEe6_2eoRImGW6w" name="Abschluss">
           <attachments xsi:type="org.eclipse.emfforms.view.annotation.model:Annotation" xmi:id="_iM-ocGzNEe6_2eoRImGW6w" key="textConsumer" value="copyDateTrigger"/>
           <domainModelReference xsi:type="org.eclipse.emf.ecp.view.model:FeaturePathDomainModelReference" xmi:id="_UFGHw2zNEe6_2eoRImGW6w">
-            <domainModelEFeature xsi:type="ecore:EReference" href="http://www.plan-pro.org/modell/PlanPro/1.10.0.1#//Planung_P_Allg_AttributeGroup/datumAbschlussProjekt"/>
+            <domainModelEFeature xsi:type="ecore:EReference" href="http://www.plan-pro.org/modell/PlanPro/1.10.0.3#//Planung_P_Allg_AttributeGroup/datumAbschlussProjekt"/>
           </domainModelReference>
         </children>
         <children xsi:type="org.eclipse.emf.ecp.view.model:Control" xmi:id="_UFGHxmzNEe6_2eoRImGW6w" name="Projektleiter">
           <domainModelReference xsi:type="org.eclipse.emf.ecp.view.model:FeaturePathDomainModelReference" xmi:id="_UFGHx2zNEe6_2eoRImGW6w">
-            <domainModelEFeature xsi:type="ecore:EReference" href="http://www.plan-pro.org/modell/PlanPro/1.10.0.1#//Planung_P_Allg_AttributeGroup/projektleiter"/>
+            <domainModelEFeature xsi:type="ecore:EReference" href="http://www.plan-pro.org/modell/PlanPro/1.10.0.3#//Planung_P_Allg_AttributeGroup/projektleiter"/>
           </domainModelReference>
         </children>
       </children>

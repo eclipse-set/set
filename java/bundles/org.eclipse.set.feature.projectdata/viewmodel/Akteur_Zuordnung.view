@@ -4,25 +4,25 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
   xmlns:org.eclipse.emf.ecp.view.model="http://org/eclipse/emf/ecp/view/model/1180" xmi:id="_GPXOAJZcEeieb-yRuNO3BQ" name="Akteur_Zuordnung">
-  <rootEClass href="http://www.plan-pro.org/modell/PlanPro/1.10.0.1#//Akteur_Zuordnung"/>
+  <rootEClass href="http://www.plan-pro.org/modell/PlanPro/1.10.0.3#//Akteur_Zuordnung"/>
   <children xsi:type="org.eclipse.emf.ecp.view.model:Control" xmi:id="_GPgX9pZcEeieb-yRuNO3BQ" name="Control identRolle">
     <domainModelReference xsi:type="org.eclipse.emf.ecp.view.model:FeaturePathDomainModelReference" xmi:id="_GPgX95ZcEeieb-yRuNO3BQ">
-      <domainModelEFeature xsi:type="ecore:EReference" href="http://www.plan-pro.org/modell/PlanPro/1.10.0.1#//Akteur_Zuordnung/identRolle"/>
+      <domainModelEFeature xsi:type="ecore:EReference" href="http://www.plan-pro.org/modell/PlanPro/1.10.0.3#//Akteur_Zuordnung/identRolle"/>
     </domainModelReference>
   </children>
   <children xsi:type="org.eclipse.emf.ecp.view.model:Control" xmi:id="_iHSp8KRlEemE8eYtB-lqjg" name="Control Handelnder" labelAlignment="Top">
     <domainModelReference xsi:type="org.eclipse.emf.ecp.view.model:FeaturePathDomainModelReference" xmi:id="_kbPCgKRlEemE8eYtB-lqjg">
-      <domainModelEFeature xsi:type="ecore:EReference" href="http://www.plan-pro.org/modell/PlanPro/1.10.0.1#//Akteur_Zuordnung/handelnder"/>
+      <domainModelEFeature xsi:type="ecore:EReference" href="http://www.plan-pro.org/modell/PlanPro/1.10.0.3#//Akteur_Zuordnung/handelnder"/>
     </domainModelReference>
   </children>
   <children xsi:type="org.eclipse.emf.ecp.view.model:Control" xmi:id="_GPgX8pZcEeieb-yRuNO3BQ" name="Control datum">
     <domainModelReference xsi:type="org.eclipse.emf.ecp.view.model:FeaturePathDomainModelReference" xmi:id="_GPgX85ZcEeieb-yRuNO3BQ">
-      <domainModelEFeature xsi:type="ecore:EReference" href="http://www.plan-pro.org/modell/PlanPro/1.10.0.1#//Akteur_Zuordnung/datum"/>
+      <domainModelEFeature xsi:type="ecore:EReference" href="http://www.plan-pro.org/modell/PlanPro/1.10.0.3#//Akteur_Zuordnung/datum"/>
     </domainModelReference>
   </children>
   <children xsi:type="org.eclipse.emf.ecp.view.model:Control" xmi:id="_GPgX8JZcEeieb-yRuNO3BQ" name="Control anhangDokumentation">
     <domainModelReference xsi:type="org.eclipse.emf.ecp.view.model:FeaturePathDomainModelReference" xmi:id="_GPgX8ZZcEeieb-yRuNO3BQ">
-      <domainModelEFeature xsi:type="ecore:EReference" href="http://www.plan-pro.org/modell/PlanPro/1.10.0.1#//Akteur_Zuordnung/anhangDokumentation"/>
+      <domainModelEFeature xsi:type="ecore:EReference" href="http://www.plan-pro.org/modell/PlanPro/1.10.0.3#//Akteur_Zuordnung/anhangDokumentation"/>
     </domainModelReference>
   </children>
   <ecorePaths>/org.eclipse.set.model.planpro/model/PlanPro.ecore</ecorePaths>

@@ -5,31 +5,31 @@
   xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
   xmlns:org.eclipse.emf.ecp.view.label.model="http://org/eclipse/emf/ecp/view/label/model"
   xmlns:org.eclipse.emf.ecp.view.model="http://org/eclipse/emf/ecp/view/model/1180" xmi:id="_P5684JZeEeieb-yRuNO3BQ" name="Planung_G_Schriftfeld_AttributeGroup">
-  <rootEClass href="http://www.plan-pro.org/modell/PlanPro/1.10.0.1#//Planung_G_Schriftfeld_AttributeGroup"/>
+  <rootEClass href="http://www.plan-pro.org/modell/PlanPro/1.10.0.3#//Planung_G_Schriftfeld_AttributeGroup"/>
   <children xsi:type="org.eclipse.emf.ecp.view.model:Control" xmi:id="_P6Et5JZeEeieb-yRuNO3BQ" name="Control bezeichnungPlanungGruppe">
     <domainModelReference xsi:type="org.eclipse.emf.ecp.view.model:FeaturePathDomainModelReference" xmi:id="_P6Et5ZZeEeieb-yRuNO3BQ">
-      <domainModelEFeature xsi:type="ecore:EReference" href="http://www.plan-pro.org/modell/PlanPro/1.10.0.1#//Planung_G_Schriftfeld_AttributeGroup/bezeichnungPlanungGruppe"/>
+      <domainModelEFeature xsi:type="ecore:EReference" href="http://www.plan-pro.org/modell/PlanPro/1.10.0.3#//Planung_G_Schriftfeld_AttributeGroup/bezeichnungPlanungGruppe"/>
     </domainModelReference>
   </children>
   <children xsi:type="org.eclipse.emf.ecp.view.model:Control" xmi:id="_P6Et4pZeEeieb-yRuNO3BQ" name="Control bezeichnungAnlage">
     <domainModelReference xsi:type="org.eclipse.emf.ecp.view.model:FeaturePathDomainModelReference" xmi:id="_P6Et45ZeEeieb-yRuNO3BQ">
-      <domainModelEFeature xsi:type="ecore:EReference" href="http://www.plan-pro.org/modell/PlanPro/1.10.0.1#//Planung_G_Schriftfeld_AttributeGroup/bezeichnungAnlage"/>
+      <domainModelEFeature xsi:type="ecore:EReference" href="http://www.plan-pro.org/modell/PlanPro/1.10.0.3#//Planung_G_Schriftfeld_AttributeGroup/bezeichnungAnlage"/>
     </domainModelReference>
   </children>
   <children xsi:type="org.eclipse.emf.ecp.view.model:Control" xmi:id="_P6Et5pZeEeieb-yRuNO3BQ" name="Control bezeichnungUnteranlage">
     <domainModelReference xsi:type="org.eclipse.emf.ecp.view.model:FeaturePathDomainModelReference" xmi:id="_P6Et55ZeEeieb-yRuNO3BQ">
-      <domainModelEFeature xsi:type="ecore:EReference" href="http://www.plan-pro.org/modell/PlanPro/1.10.0.1#//Planung_G_Schriftfeld_AttributeGroup/bezeichnungUnteranlage"/>
+      <domainModelEFeature xsi:type="ecore:EReference" href="http://www.plan-pro.org/modell/PlanPro/1.10.0.3#//Planung_G_Schriftfeld_AttributeGroup/bezeichnungUnteranlage"/>
     </domainModelReference>
   </children>
   <children xsi:type="org.eclipse.emf.ecp.view.model:Control" xmi:id="_P6Et4JZeEeieb-yRuNO3BQ" name="Control bauabschnitt">
     <domainModelReference xsi:type="org.eclipse.emf.ecp.view.model:FeaturePathDomainModelReference" xmi:id="_P6Et4ZZeEeieb-yRuNO3BQ">
-      <domainModelEFeature xsi:type="ecore:EReference" href="http://www.plan-pro.org/modell/PlanPro/1.10.0.1#//Planung_G_Schriftfeld_AttributeGroup/bauabschnitt"/>
+      <domainModelEFeature xsi:type="ecore:EReference" href="http://www.plan-pro.org/modell/PlanPro/1.10.0.3#//Planung_G_Schriftfeld_AttributeGroup/bauabschnitt"/>
     </domainModelReference>
   </children>
   <children xsi:type="org.eclipse.emf.ecp.view.label.model:Label" xmi:id="_XG1PgJZeEeieb-yRuNO3BQ" name="%LSTFachplaner" style="H4"/>
   <children xsi:type="org.eclipse.emf.ecp.view.model:Control" xmi:id="_b27hcJZeEeieb-yRuNO3BQ" name="Control Name Organisation">
     <domainModelReference xsi:type="org.eclipse.emf.ecp.view.model:FeaturePathDomainModelReference" xmi:id="_jkcYIKPbEem0hPCy2IMSpg">
-      <domainModelEFeature xsi:type="ecore:EReference" href="http://www.plan-pro.org/modell/PlanPro/1.10.0.1#//Planung_G_Schriftfeld_AttributeGroup/planungsbuero"/>
+      <domainModelEFeature xsi:type="ecore:EReference" href="http://www.plan-pro.org/modell/PlanPro/1.10.0.3#//Planung_G_Schriftfeld_AttributeGroup/planungsbuero"/>
     </domainModelReference>
   </children>
   <ecorePaths>/org.eclipse.set.model.planpro/model/PlanPro.ecore</ecorePaths>
