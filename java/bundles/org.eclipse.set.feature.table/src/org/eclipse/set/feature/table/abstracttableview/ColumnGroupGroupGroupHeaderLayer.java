@@ -60,7 +60,7 @@ public class ColumnGroupGroupGroupHeaderLayer extends AbstractLayerTransform {
 		this.model = columnGroupGroupGroupModel;
 
 		addConfiguration(new DefaultColumnGroupHeaderLayerConfiguration(
-				columnGroupGroupGroupModel));
+				columnGroupGroupGroupModel, true));
 	}
 
 	/**
