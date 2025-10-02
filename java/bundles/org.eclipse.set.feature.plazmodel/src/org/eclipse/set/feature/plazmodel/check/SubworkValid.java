@@ -91,7 +91,7 @@ public class SubworkValid implements PlazCheck {
 		if (subworkType.isPresent() && planGroupSubWorkType.isPresent()
 				&& subworkType.get() != planGroupSubWorkType.get()) {
 			return createPlazError(subwork,
-					"Die Ausgabe_Fachdaten: {GUID} und die gehörigen Planung_Gruppe haben unterschieden Untergewerk",
+					"Die Ausgabe_Fachdaten {GUID} und die dazu gehörige Planung_Gruppe haben verschiedene Untergewerk_Art",
 					subworkGuidMap);
 		}
 		return null;
