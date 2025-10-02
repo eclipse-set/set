@@ -124,6 +124,8 @@
         <setEntry value="maven.org.apache.xmlbeans.artifact.xmlbeans@default:default"/>
         <setEntry value="maven.org.apache.xmlgraphics.artifact.fop@default:default"/>
         <setEntry value="maven.org.apfloat.artifact.apfloat@default:default"/>
+        <setEntry value="net.bytebuddy.byte-buddy-agent@default:default"/>
+        <setEntry value="net.bytebuddy.byte-buddy@default:default"/>
         <setEntry value="org.apache.ant@default:default"/>
         <setEntry value="org.apache.aries.spifly.dynamic.bundle@default:default"/>
         <setEntry value="org.apache.batik.anim@default:default"/>
@@ -412,6 +414,7 @@
         <setEntry value="org.eclipse.jdt.annotation@default:default"/>
         <setEntry value="org.eclipse.jdt.junit.runtime.nl_de@default:false"/>
         <setEntry value="org.eclipse.jdt.junit.runtime@default:default"/>
+        <setEntry value="org.eclipse.jdt.junit5.runtime.nl_de@default:default"/>
         <setEntry value="org.eclipse.jdt.junit5.runtime@default:default"/>
         <setEntry value="org.eclipse.jface.databinding.nl_de@default:false"/>
         <setEntry value="org.eclipse.jface.databinding@default:default"/>
@@ -440,6 +443,8 @@
         <setEntry value="org.eclipse.set.browser.cef.win32@default:default"/>
         <setEntry value="org.eclipse.set.browser.lib@default:default"/>
         <setEntry value="org.eclipse.set.browser@default:default"/>
+        <setEntry value="org.eclipse.set.model.planpro.edit@default:default"/>
+        <setEntry value="org.eclipse.set.model.planpro@default:default"/>
         <setEntry value="org.eclipse.swt.nl_de@default:false"/>
         <setEntry value="org.eclipse.swt.svg@default:false"/>
         <setEntry value="org.eclipse.swt.win32.win32.x86_64@default:false"/>
@@ -491,11 +496,13 @@
         <setEntry value="org.junit@default:default"/>
         <setEntry value="org.locationtech.jts.jts-core@default:default"/>
         <setEntry value="org.locationtech.proj4j@default:default"/>
+        <setEntry value="org.mockito.mockito-core@default:default"/>
         <setEntry value="org.objectweb.asm.commons@default:default"/>
         <setEntry value="org.objectweb.asm.tree.analysis@default:default"/>
         <setEntry value="org.objectweb.asm.tree@default:default"/>
         <setEntry value="org.objectweb.asm.util@default:default"/>
         <setEntry value="org.objectweb.asm@default:default"/>
+        <setEntry value="org.objenesis@default:default"/>
         <setEntry value="org.opentest4j@default:default"/>
         <setEntry value="org.osgi.service.cm@default:default"/>
         <setEntry value="org.osgi.service.component.annotations@default:default"/>
@@ -542,9 +549,6 @@
         <setEntry value="org.eclipse.set.i18n.ecp.table.nl_de@default:false"/>
         <setEntry value="org.eclipse.set.i18n.model.nl_de@default:false"/>
         <setEntry value="org.eclipse.set.i18n.validationreport.nl_de@default:false"/>
-        <setEntry value="org.eclipse.set.model.planpro.edit@default:default"/>
-        <setEntry value="org.eclipse.set.model.planpro.editor@default:default"/>
-        <setEntry value="org.eclipse.set.model.planpro@default:default"/>
         <setEntry value="org.eclipse.set.model.plazmodel.edit@default:default"/>
         <setEntry value="org.eclipse.set.model.plazmodel@default:default"/>
         <setEntry value="org.eclipse.set.model.siteplan@default:default"/>
