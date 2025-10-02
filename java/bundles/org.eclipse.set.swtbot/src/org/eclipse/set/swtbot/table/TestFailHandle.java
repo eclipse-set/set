@@ -78,7 +78,8 @@ public class TestFailHandle implements TestWatcher {
 				.waitForNattable(AbstractSWTBotTest.bot, 30000);
 		// Select a table cell to select Nattable. Don't take (0,1) because, it
 		// can resort the table
-		nattableBot.click(2, 2);
+		nattableBot.setFocus();
+		// nattableBot.click(2, 2);
 		nattableBot.pressShortcut(SWT.MOD1, 'r');
 		AbstractSWTBotTest.bot.waitUntil(new DefaultCondition() {
 
