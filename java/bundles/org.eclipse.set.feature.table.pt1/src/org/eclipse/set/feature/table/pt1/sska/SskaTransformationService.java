@@ -11,7 +11,9 @@ package org.eclipse.set.feature.table.pt1.sska;
 import static org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum.ASC;
 import static org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparatorType.LEXICOGRAPHICAL;
 
+import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
@@ -82,6 +84,11 @@ public final class SskaTransformationService
 	@Override
 	protected String getShortcut() {
 		return messages.ToolboxTableNameSskaShort.toLowerCase();
+	}
+
+	@Override
+	protected List<String> getTopologicalColumnPosition() {
+		return Collections.emptyList();
 	}
 
 }

@@ -19,6 +19,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -31,6 +32,8 @@ import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.extensions.ColumnDescriptorExtensions;
+import org.eclipse.set.model.tablemodel.extensions.TableExtensions;
+import org.eclipse.set.model.tablemodel.extensions.TableRowExtensions;
 import org.eclipse.set.model.tablemodel.format.TextAlignment;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.eclipse.set.utils.table.ColumnDescriptorModelBuilder;
@@ -149,9 +152,28 @@ public abstract class AbstractPlanPro2TableTransformationService
 		final Table table = super.transform(model, controlArea);
 		if (transformator instanceof final AbstractPlanPro2TableModelTransformator pt1TableTransformator) {
 			pt1TableTransformator.updateWaitingFillCell(getShortcut());
+			pt1TableTransformator.getTopologicalCells()
+					.forEach(TableRowExtensions::setTopologicalCell);
+			setTopologicalColumnHightlight(table);
 		}
 		return table;
 	}
 
 	protected abstract String getShortcut();
+
+	protected abstract List<String> getTopologicalColumnPosition();
+
+	protected void setTopologicalColumnHightlight(final Table table) {
+		final Set<ColumnDescriptor> topologicalCols = getTopologicalColumnPosition()
+				.stream()
+				.flatMap(position -> cols.stream()
+						.filter(col -> col.getColumnPosition() != null
+								&& col.getColumnPosition().equals(position)
+								// Only take the column at last level
+								&& col.getChildren().isEmpty()))
+				.collect(Collectors.toSet());
+		TableExtensions.getTableRows(table)
+				.forEach(row -> TableRowExtensions.setTopologicalCell(row,
+						topologicalCols));
+	}
 }

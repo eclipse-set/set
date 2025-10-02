@@ -79,6 +79,7 @@ import org.eclipse.set.model.tablemodel.TableCell;
 import org.eclipse.set.model.tablemodel.TableRow;
 import org.eclipse.set.model.tablemodel.extensions.ColumnDescriptorExtensions;
 import org.eclipse.set.model.tablemodel.extensions.Headings;
+import org.eclipse.set.model.tablemodel.extensions.TableCellExtensions;
 import org.eclipse.set.model.tablemodel.extensions.TableExtensions;
 import org.eclipse.set.model.tablemodel.extensions.TableExtensions.FootnoteInfo;
 import org.eclipse.set.model.tablemodel.extensions.TableRowExtensions;
@@ -512,12 +513,11 @@ public final class ToolboxTableView extends BasePart {
 				columnHeaderDataLayer, bodyDataLayer, gridLayer,
 				rootColumnDescriptor, bodyLayerStack, bodyDataProvider,
 				getDialogService()));
-		bodyLayerStack.setConfigLabelAccumulator(compareTableCellLabelConfig());
+		bodyLayerStack.setConfigLabelAccumulator(addTableCellLabelConfig());
 		selectionLayer.setConfigLabelAccumulator((final LabelStack configLabels,
-				final int columnPosition, final int rowPosition) -> {
-			configLabels
-					.addLabel(ToolboxConstants.SEARCH_CELL_DISPLAY_CONVERTER);
-		});
+				final int columnPosition,
+				final int rowPosition) -> configLabels.addLabel(
+						ToolboxConstants.SEARCH_CELL_DISPLAY_CONVERTER));
 
 		bodyLayerStack.getSelectionLayer().clear();
 
@@ -567,7 +567,7 @@ public final class ToolboxTableView extends BasePart {
 		updateButtons();
 	}
 
-	private IConfigLabelAccumulator compareTableCellLabelConfig() {
+	private IConfigLabelAccumulator addTableCellLabelConfig() {
 		return (final LabelStack configLabels, final int columnPosition,
 				final int rowPosition) -> {
 			final int rowIndexByPosition = bodyLayerStack
@@ -580,6 +580,11 @@ public final class ToolboxTableView extends BasePart {
 			if (tableCell.getContent() instanceof CompareTableCellContent) {
 				configLabels.addLabel(
 						ToolboxConstants.TABLE_COMPARE_TABLE_CELL_LABEL);
+			}
+
+			if (TableCellExtensions.getFormat(tableCell)
+					.isTopologicalCalculation()) {
+				configLabels.addLabel(ToolboxConstants.TABLE_TOPOLOGICAL_CELL);
 			}
 		};
 	}

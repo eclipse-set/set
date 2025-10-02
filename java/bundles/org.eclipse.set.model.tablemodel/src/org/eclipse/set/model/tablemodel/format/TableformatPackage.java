@@ -85,6 +85,16 @@ public interface TableformatPackage extends EPackage {
 			+ 0;
 
 	/**
+	 * The feature id for the '<em><b>Topological Calculation</b></em>'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 * @ordered
+	 */
+	int CELL_FORMAT__TOPOLOGICAL_CALCULATION = TablemodelPackage.CELL_ANNOTATION_FEATURE_COUNT
+			+ 1;
+
+	/**
 	 * The number of structural features of the '<em>Cell Format</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
@@ -92,7 +102,7 @@ public interface TableformatPackage extends EPackage {
 	 * @ordered
 	 */
 	int CELL_FORMAT_FEATURE_COUNT = TablemodelPackage.CELL_ANNOTATION_FEATURE_COUNT
-			+ 1;
+			+ 2;
 
 	/**
 	 * The number of operations of the '<em>Cell Format</em>' class. <!--
@@ -137,6 +147,20 @@ public interface TableformatPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getCellFormat_TextAlignment();
+
+	/**
+	 * Returns the meta object for the attribute
+	 * '{@link org.eclipse.set.model.tablemodel.format.CellFormat#isTopologicalCalculation
+	 * <em>Topological Calculation</em>}'. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
+	 * @return the meta object for the attribute '<em>Topological
+	 *         Calculation</em>'.
+	 * @see org.eclipse.set.model.tablemodel.format.CellFormat#isTopologicalCalculation()
+	 * @see #getCellFormat()
+	 * @generated
+	 */
+	EAttribute getCellFormat_TopologicalCalculation();
 
 	/**
 	 * Returns the meta object for enum
@@ -193,6 +217,16 @@ public interface TableformatPackage extends EPackage {
 		 */
 		EAttribute CELL_FORMAT__TEXT_ALIGNMENT = eINSTANCE
 				.getCellFormat_TextAlignment();
+
+		/**
+		 * The meta object literal for the '<em><b>Topological
+		 * Calculation</b></em>' attribute feature. <!-- begin-user-doc --> <!--
+		 * end-user-doc -->
+		 * 
+		 * @generated
+		 */
+		EAttribute CELL_FORMAT__TOPOLOGICAL_CALCULATION = eINSTANCE
+				.getCellFormat_TopologicalCalculation();
 
 		/**
 		 * The meta object literal for the

@@ -100,4 +100,9 @@ public final class SszaTransformationService
 		return messages.ToolboxTableNameSszaShort.toLowerCase();
 	}
 
+	@Override
+	protected List<String> getTopologicalColumnPosition() {
+		return List.of(SszaColumns.DP_Standort_rel_Lage_zu_BP);
+	}
+
 }

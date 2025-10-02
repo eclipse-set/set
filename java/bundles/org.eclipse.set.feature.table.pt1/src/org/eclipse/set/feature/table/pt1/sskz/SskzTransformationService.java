@@ -10,6 +10,9 @@
  */
 package org.eclipse.set.feature.table.pt1.sskz;
 
+import java.util.Collections;
+import java.util.List;
+
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
@@ -95,5 +98,10 @@ public class SskzTransformationService extends
 	@Override
 	protected String getShortcut() {
 		return messages.ToolboxTableNameSskzShort.toLowerCase();
+	}
+
+	@Override
+	protected List<String> getTopologicalColumnPosition() {
+		return Collections.emptyList();
 	}
 }

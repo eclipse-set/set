@@ -11,6 +11,8 @@ package org.eclipse.set.model.tablemodel.extensions
 import java.util.HashMap
 import java.util.List
 import java.util.Map
+import java.util.Set
+import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt
 import org.eclipse.set.model.tablemodel.CellContent
 import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.model.tablemodel.MultiColorContent
@@ -19,6 +21,7 @@ import org.eclipse.set.model.tablemodel.Table
 import org.eclipse.set.model.tablemodel.TableCell
 import org.eclipse.set.model.tablemodel.TableRow
 import org.eclipse.set.model.tablemodel.TablemodelFactory
+import org.eclipse.set.model.tablemodel.format.TableformatFactory
 
 import static extension org.eclipse.set.model.tablemodel.extensions.ColumnDescriptorExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.RowGroupExtensions.*
@@ -26,7 +29,6 @@ import static extension org.eclipse.set.model.tablemodel.extensions.TableCellExt
 import static extension org.eclipse.set.model.tablemodel.extensions.TableContentExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensions.*
 import static extension org.eclipse.set.utils.StringExtensions.*
-import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt
 
 /**
  * Extensions for {@link TableRow}.
@@ -221,8 +223,7 @@ class TableRowExtensions {
 	def static Table getTable(TableRow row) {
 		return row.group.table
 	}
-	
-		
+
 	/**
 	 * @param table the table
 	 * @param row the row to get the row index for
@@ -275,7 +276,7 @@ class TableRowExtensions {
 	static def String getLeadingObjectGuid(TableRow tableRow) {
 		return tableRow.group.leadingObject?.identitaet?.wert
 	}
-	
+
 	static def Ur_Objekt getLeadingObject(TableRow tableRow) {
 		return tableRow.group.leadingObject
 	}
@@ -296,5 +297,22 @@ class TableRowExtensions {
 			result.put(columndescriptor, content)
 		]
 		return result
+	}
+
+	def static void setTopologicalCell(TableRow row,
+		Set<ColumnDescriptor> cols) {
+		cols.forEach [ column |
+			val cell = row.getCell(column)
+			if (cell.plainStringValue.nullOrEmpty) {
+				return
+			}
+			
+			if (cell.cellannotation.nullOrEmpty) {
+				cell.cellannotation.add(
+					TableformatFactory.eINSTANCE.createCellFormat)
+			}
+			cell.format.topologicalCalculation = true
+		]
+
 	}
 }
