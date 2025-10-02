@@ -11,18 +11,12 @@
 package org.eclipse.set.feature.export.tablediff;
 
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.set.basis.constants.TableType;
-import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.eclipse.set.core.services.session.SessionService;
 import org.eclipse.set.model.planpro.Basisobjekte.Bearbeitungsvermerk;
 import org.eclipse.set.model.tablemodel.CellContent;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
-import org.eclipse.set.model.tablemodel.CompareCellContent;
-import org.eclipse.set.model.tablemodel.MultiColorCellContent;
 import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.model.tablemodel.SimpleFootnoteContainer;
 import org.eclipse.set.model.tablemodel.StringCellContent;
@@ -30,155 +24,106 @@ import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.TableCell;
 import org.eclipse.set.model.tablemodel.TableRow;
 import org.eclipse.set.model.tablemodel.TablemodelFactory;
-import org.eclipse.set.model.tablemodel.extensions.CellContentExtensions;
+import org.eclipse.set.model.tablemodel.extensions.TableExtensions;
+import org.eclipse.set.ppmodel.extensions.EObjectExtensions;
 import org.eclipse.set.services.table.TableDiffService;
-
-import com.google.common.collect.Streams;
 
 /**
  * 
  */
 public abstract class AbstractTableDiff implements TableDiffService {
 
+	@Override
+	public Table createDiffTable(final Table oldTable, final Table newTable) {
+		// expand old table by new lines
+		final Table expanded = expandNewRowGroups(oldTable, newTable);
+		TableExtensions.getTableRows(expanded)
+				.forEach(row -> compareRow(row, newTable));
+		return expanded;
+	}
+
 	/**
-	 * @param first
-	 *            the first cell
-	 * @param second
-	 *            the second cell
-	 * @return true, if the table cell haven same value
+	 * Merges two tables by combining their rows and ensuring that all unique
+	 * rows from both tables are present in the result.
+	 * 
+	 * @param oldTable
+	 *            the first
+	 * @param newTable
+	 *            the second
+	 * @return the table containing rows of both table
 	 */
-	protected boolean isSameValue(final CellContent first,
-			final CellContent second) {
-		if (first == null || second == null) {
-			return first == second;
+	protected Table expandNewRowGroups(final Table oldTable,
+			final Table newTable) {
+		final Table mergedTable = EcoreUtil.copy(oldTable);
+		final List<RowGroup> newRowGroups = newTable.getTablecontent()
+				.getRowgroups();
+		newRowGroups.forEach(group -> addMissingRowGroup(group, mergedTable));
+		return mergedTable;
+	}
+
+	protected void addMissingRowGroup(final RowGroup newTableRowGroup,
+			final Table mergedTable) {
+		final String groupGuid = EObjectExtensions
+				.getNullableObject(newTableRowGroup,
+						g -> g.getLeadingObject().getIdentitaet().getWert())
+				.orElse(null);
+		final int groupId = newTableRowGroup.getLeadingObjectIndex();
+		final RowGroup match = TableExtensions.getGroupById(mergedTable,
+				groupGuid, groupId);
+		// we add a new matching group to the table
+		if (match == null) {
+			final RowGroup newRowGroup = TablemodelFactory.eINSTANCE
+					.createRowGroup();
+			newRowGroup.setLeadingObject(newTableRowGroup.getLeadingObject());
+			newRowGroup.setLeadingObjectIndex(
+					newTableRowGroup.getLeadingObjectIndex());
+			for (final TableRow element : newTableRowGroup.getRows()) {
+				newRowGroup.getRows()
+						.add(createMissingRow(
+								TableExtensions.getColumns(mergedTable)));
+			}
+
+			if (mergedTable.getTablecontent() == null) {
+				mergedTable.setTablecontent(
+						TablemodelFactory.eINSTANCE.createTableContent());
+			}
+			mergedTable.getTablecontent().getRowgroups().add(newRowGroup);
 		}
-		return switch (first) {
-			case final StringCellContent stringContent -> isSameValue(
-					stringContent, second);
-			case final CompareCellContent compareContent -> isSameValue(
-					compareContent, second);
-			case final MultiColorCellContent multiColorContent -> isSameValue(
-					multiColorContent, second);
-			default -> true;
-		};
 	}
 
-	/**
-	 * @param firstCellContent
-	 *            the {@link CompareCellContent}
-	 * @param secondCellContent
-	 *            the {@link CellContent}
-	 * @return true, if the table cell haven same value
-	 */
-	protected boolean isSameValue(final CompareCellContent firstCellContent,
-			final CellContent secondCellContent) {
-		// Compare between CompareCellContent with another cell content is only
-		// in compare table between two Project available.
-		// That mean by table DIFF state will compare FINAL state
-		final TableType tableType = getSessionService()
-				.getLoadedSession(ToolboxFileRole.SESSION)
-				.getTableType();
-		final StringCellContent compareCellStringContent = TablemodelFactory.eINSTANCE
-				.createStringCellContent();
-		if (tableType == TableType.INITIAL) {
-			compareCellStringContent.getValue()
-					.addAll(firstCellContent.getOldValue());
-		} else {
-			compareCellStringContent.getValue()
-					.addAll(firstCellContent.getNewValue());
+	protected TableRow createMissingRow(final List<ColumnDescriptor> columns) {
+		final TableRow missingRow = TablemodelFactory.eINSTANCE
+				.createTableRow();
+		columns.forEach(col -> addEmptyValue(missingRow, col));
+		return missingRow;
+	}
+
+	protected void compareRow(final TableRow targetRow, final Table table) {
+		final TableRow matchingRow = TableExtensions.getMatchingRow(table,
+				targetRow);
+		for (int i = 0; i < targetRow.getCells().size(); i++) {
+			compareCell(i, targetRow, matchingRow);
 		}
-		return isSameValue(compareCellStringContent, secondCellContent);
 	}
 
-	/**
-	 * @param firstCellContent
-	 *            the {@link MultiColorCellContent}
-	 * @param secondCellContent
-	 *            the {@link CellContent}
-	 * @return true, if the table cell haven same value
-	 */
-	protected boolean isSameValue(final MultiColorCellContent firstCellContent,
-			final CellContent secondCellContent) {
-		return firstCellContent.getValue().stream().allMatch(value -> {
-			final StringCellContent stringCellContent = TablemodelFactory.eINSTANCE
-					.createStringCellContent();
-			if (value.getMultiColorValue() == null
-					|| value.getMultiColorValue().isEmpty()) {
-				stringCellContent.getValue().add(value.getStringFormat());
-
-			} else {
-				stringCellContent.getValue()
-						.add(String.format(value.getStringFormat(),
-								value.getMultiColorValue()));
-			}
-
-			return isSameValue(stringCellContent, secondCellContent);
-		});
-	}
-
-	/**
-	 * @param firstCellContent
-	 *            the {@link StringCellContent}
-	 * @param secondCellContent
-	 *            the {@link CellContent}
-	 * @return true, if the table cell haven same value
-	 */
-	protected boolean isSameValue(final StringCellContent firstCellContent,
-			final CellContent secondCellContent) {
-		final Set<String> firstValues = Streams
-				.stream(CellContentExtensions
-						.getStringValueIterable(firstCellContent))
-				.filter(value -> value != null && !value.trim().isEmpty())
-				.collect(Collectors.toSet());
-		if (firstValues.contains(CellContentExtensions.HOURGLASS_ICON)) {
-			return false;
+	protected void compareCell(final int cellIndex, final TableRow first,
+			final TableRow second) {
+		final TableCell oldCell = first.getCells().get(cellIndex);
+		TableCell newCell = TablemodelFactory.eINSTANCE.createTableCell();
+		newCell.setContent(
+				TablemodelFactory.eINSTANCE.createStringCellContent());
+		if (second != null) {
+			newCell = second.getCells().get(cellIndex);
 		}
-		return switch (secondCellContent) {
-			case final StringCellContent stringContent -> {
-				final Set<String> secondValues = Streams
-						.stream(CellContentExtensions
-								.getStringValueIterable(stringContent))
-						.filter(value -> value != null
-								&& !value.trim().isEmpty())
-						.collect(Collectors.toSet());
-				yield firstValues.equals(secondValues);
-			}
-			case final CompareCellContent compareContent -> {
-				final TableType tableType = getSessionService()
-						.getLoadedSession(ToolboxFileRole.SESSION)
-						.getTableType();
-				final Set<String> values = switch (tableType) {
-					case TableType.INITIAL -> compareContent.getOldValue()
-							.stream()
-							.filter(value -> value != null
-									&& !value.trim().isEmpty())
-							.collect(Collectors.toSet());
-					default -> compareContent.getNewValue()
-							.stream()
-							.filter(value -> value != null
-									&& !value.trim().isEmpty())
-							.collect(Collectors.toSet());
 
-				};
-				yield firstValues.equals(values);
-			}
-			case final MultiColorCellContent multiColorContent -> {
-				final Set<String> values = multiColorContent.getValue()
-						.stream()
-						.map(content -> {
-							if (content.getMultiColorValue() == null
-									|| content.getMultiColorValue().isEmpty()) {
-								return content.getStringFormat();
-							}
-							return String.format(content.getStringFormat(),
-									content.getMultiColorValue());
-						})
-						.collect(Collectors.toSet());
-				yield firstValues.equals(values);
-			}
-			default -> false;
-		};
+		final CellContent diffContent = createDiffContent(oldCell, newCell);
+		if (diffContent == null) {
+			return;
+		}
+		oldCell.setContent(diffContent);
 	}
+
+	abstract CellContent createDiffContent(TableCell first, TableCell second);
 
 	protected static List<Bearbeitungsvermerk> getFootnotes(
 			final TableRow row) {
@@ -188,24 +133,6 @@ public abstract class AbstractTableDiff implements TableDiffService {
 			return List.of();
 		}
 		return ((SimpleFootnoteContainer) row.getFootnotes()).getFootnotes();
-	}
-
-	/**
-	 * Merges two tables by combining their rows and ensuring that all unique
-	 * rows from both tables are present in the result.
-	 * 
-	 * @param first
-	 *            the first
-	 * @param second
-	 *            the second
-	 * @return the table containing rows of both table
-	 */
-	protected Table expandNewRowGroups(final Table first, final Table second) {
-		final Table result = EcoreUtil.copy(first);
-		final List<RowGroup> newRowGroups = second.getTablecontent()
-				.getRowgroups();
-		newRowGroups.forEach(group -> addMissingRowGroup(group, result));
-		return result;
 	}
 
 	/**
@@ -226,8 +153,6 @@ public abstract class AbstractTableDiff implements TableDiffService {
 		cell.setContent(content);
 		row.getCells().add(cell);
 	}
-
-	abstract void addMissingRowGroup(RowGroup group, Table result);
 
 	abstract SessionService getSessionService();
 }
