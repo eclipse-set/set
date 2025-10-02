@@ -115,7 +115,7 @@ public class SubworkValid implements PlazCheck {
 											.orElse(""));
 			if (type.isEmpty()) {
 				subworks.forEach(ele -> errors.add(createPlazError(ele,
-						"Die Ausgabe_Fachdaten {GUID} hat kein Untergerwerk",
+						"Die Ausgabe_Fachdaten {GUID} hat keine Untergewerk_Art",
 						getSubworkGuidMap.apply(ele))));
 				return;
 			}
