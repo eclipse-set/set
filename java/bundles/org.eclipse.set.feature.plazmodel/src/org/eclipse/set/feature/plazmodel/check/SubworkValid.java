@@ -125,7 +125,7 @@ public class SubworkValid implements PlazCheck {
 						.translate(untergewerkArt)
 						.getAlternative();
 				subworks.forEach(ele -> errors.add(createPlazError(ele,
-						"Die Ausgabe_Fachdaten des UntergewerkArt {Type} ist nicht eindeutig.",
+						"Die Ausgabe_Fachdaten zu Untergewerk_Art {Type} ist nicht eindeutig.",
 						Map.of("Type", subworkTypeStr))));
 			}
 		});
