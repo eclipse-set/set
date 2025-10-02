@@ -10,15 +10,19 @@
  */
 package org.eclipse.set.feature.export.tablediff;
 
-import java.util.List;
+import static org.eclipse.set.model.tablemodel.extensions.TableCellExtensions.getIterableStringValue;
 
+import java.util.Collections;
+import java.util.Set;
+
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.set.core.services.session.SessionService;
-import org.eclipse.set.model.tablemodel.ColumnDescriptor;
-import org.eclipse.set.model.tablemodel.RowGroup;
+import org.eclipse.set.model.tablemodel.CellContent;
+import org.eclipse.set.model.tablemodel.CompareCellContent;
+import org.eclipse.set.model.tablemodel.MultiColorCellContent;
 import org.eclipse.set.model.tablemodel.Table;
-import org.eclipse.set.model.tablemodel.TableRow;
+import org.eclipse.set.model.tablemodel.TableCell;
 import org.eclipse.set.model.tablemodel.TablemodelFactory;
-import org.eclipse.set.model.tablemodel.extensions.TableExtensions;
 import org.eclipse.set.ppmodel.extensions.EObjectExtensions;
 import org.eclipse.set.services.table.TableDiffService;
 import org.osgi.service.component.annotations.Component;
@@ -34,53 +38,91 @@ public class TableStateDiffService extends AbstractTableDiff {
 	SessionService sessionService;
 
 	@Override
-	public Table createDiffTable(final Table oldTable, final Table newTable) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public Table createCompareTable(final Table firstPlanTable,
 			final Table secondPlanDiffTable) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
-	void addMissingRowGroup(final RowGroup group, final Table table) {
-		final String groupGuid = EObjectExtensions
-				.getNullableObject(group,
-						g -> g.getLeadingObject().getIdentitaet().getWert())
-				.orElse(null);
-		final int groupId = group.getLeadingObjectIndex();
-		final RowGroup match = TableExtensions.getGroupById(table, groupGuid,
-				groupId);
-		// we add a new matching group to the table
-		if (match == null) {
-			final RowGroup newRowGroup = TablemodelFactory.eINSTANCE
-					.createRowGroup();
-			newRowGroup.setLeadingObject(group.getLeadingObject());
-			newRowGroup.setLeadingObjectIndex(group.getLeadingObjectIndex());
-			for (final TableRow element : group.getRows()) {
-				final TableRow newRow = TablemodelFactory.eINSTANCE
-						.createTableRow();
-				newRowGroup.getRows().add(newRow);
-				final List<ColumnDescriptor> columns = TableExtensions
-						.getColumns(table);
-				columns.forEach(column -> addEmptyValue(newRow, column));
-			}
-
-			if (table.getTablecontent() == null) {
-				table.setTablecontent(
-						TablemodelFactory.eINSTANCE.createTableContent());
-			}
-			table.getTablecontent().getRowgroups().add(newRowGroup);
-		}
-	}
+	// @SuppressWarnings("unused")
+	// @Override
+	// protected void addMissingRowGroup(final RowGroup group, final Table
+	// table) {
+	// final String groupGuid = EObjectExtensions
+	// .getNullableObject(group,
+	// g -> g.getLeadingObject().getIdentitaet().getWert())
+	// .orElse(null);
+	// final int groupId = group.getLeadingObjectIndex();
+	// final RowGroup match = TableExtensions.getGroupById(table, groupGuid,
+	// groupId);
+	// // we add a new matching group to the table
+	// if (match == null) {
+	// final RowGroup newRowGroup = TablemodelFactory.eINSTANCE
+	// .createRowGroup();
+	// newRowGroup.setLeadingObject(group.getLeadingObject());
+	// newRowGroup.setLeadingObjectIndex(group.getLeadingObjectIndex());
+	// for (final TableRow element : group.getRows()) {
+	// final TableRow newRow = TablemodelFactory.eINSTANCE
+	// .createTableRow();
+	// newRowGroup.getRows().add(newRow);
+	// final List<ColumnDescriptor> columns = TableExtensions
+	// .getColumns(table);
+	// columns.forEach(column -> addEmptyValue(newRow, column));
+	// }
+	//
+	// if (table.getTablecontent() == null) {
+	// table.setTablecontent(
+	// TablemodelFactory.eINSTANCE.createTableContent());
+	// }
+	// table.getTablecontent().getRowgroups().add(newRowGroup);
+	// }
+	// }
 
 	@Override
 	SessionService getSessionService() {
 		return sessionService;
 	}
 
+	@Override
+	CellContent createDiffContent(final TableCell oldCell,
+			final TableCell newCell) {
+		if (oldCell.getContent() instanceof MultiColorCellContent) {
+			createMultiColorDiffCotent(oldCell, newCell);
+			return oldCell.getContent();
+		}
+
+		final Set<String> oldValues = getIterableStringValue(oldCell);
+		final Set<String> newValues = newCell == null ? Collections.emptySet()
+				: getIterableStringValue(newCell);
+		if (oldValues.equals(newValues)) {
+			return null;
+		}
+		final CompareCellContent compareContent = TablemodelFactory.eINSTANCE
+				.createCompareCellContent();
+		compareContent.getOldValue().addAll(oldValues);
+		compareContent.getNewValue().addAll(newValues);
+		compareContent.setSeparator(EObjectExtensions
+				.getNullableObject(oldCell, c -> c.getContent().getSeparator())
+				.orElse(null));
+
+		return null;
+	}
+
+	// IMPROVE: currently missing the compare between two MultiColorCellContent.
+	// This function do only color in cell active
+	private static void createMultiColorDiffCotent(final TableCell oldCell,
+			final TableCell newCell) {
+		if (oldCell
+				.getContent() instanceof final MultiColorCellContent oldMultiColorCellContent) {
+			if (newCell != null && newCell
+					.getContent() instanceof final MultiColorCellContent newCellContent) {
+				final MultiColorCellContent clone = EcoreUtil
+						.copy(newCellContent);
+
+				oldCell.setContent(clone);
+			}
+			oldMultiColorCellContent.getValue()
+					.forEach(e -> e.setDisableMultiColor(false));
+		}
+	}
 }
