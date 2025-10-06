@@ -22,12 +22,17 @@ import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.CompareCellContent;
 import org.eclipse.set.model.tablemodel.CompareTableCellContent;
 import org.eclipse.set.model.tablemodel.MultiColorCellContent;
+import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.model.tablemodel.StringCellContent;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.TableCell;
 import org.eclipse.set.model.tablemodel.TableRow;
 import org.eclipse.set.model.tablemodel.TablemodelFactory;
 import org.eclipse.set.model.tablemodel.extensions.CellContentExtensions;
+import org.eclipse.set.model.tablemodel.extensions.RowGroupExtensions;
+import org.eclipse.set.model.tablemodel.extensions.TableExtensions;
+import org.eclipse.set.model.tablemodel.extensions.TableRowExtensions;
+import org.eclipse.set.ppmodel.extensions.EObjectExtensions;
 import org.eclipse.set.services.table.TableDiffService;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -50,6 +55,83 @@ public class TableProjectDiffService extends AbstractTableDiff {
 	}
 
 	@Override
+	protected void addMissingRowGroup(final RowGroup compareTableRowGroup,
+			final Table mergedTable) {
+		final String groupGuid = EObjectExtensions
+				.getNullableObject(compareTableRowGroup,
+						g -> g.getLeadingObject().getIdentitaet().getWert())
+				.orElse(null);
+		final int groupId = compareTableRowGroup.getLeadingObjectIndex();
+		final RowGroup match = TableExtensions.getGroupById(mergedTable,
+				groupGuid, groupId);
+		if (match == null) {
+			final RowGroup changeGuidGroup = findMatchRow(compareTableRowGroup,
+					mergedTable);
+		}
+	}
+
+	private RowGroup findMatchRow(final RowGroup compareTableRowGroup,
+			final Table mergedTable) {
+		final String groupGuid = EObjectExtensions
+				.getNullableObject(compareTableRowGroup,
+						g -> g.getLeadingObject().getIdentitaet().getWert())
+				.orElse(null);
+		final int groupId = compareTableRowGroup.getLeadingObjectIndex();
+		final RowGroup match = TableExtensions.getGroupById(mergedTable,
+				groupGuid, groupId);
+		if (match != null) {
+			return match;
+		}
+		final RowGroup changeGUIDGroup = mergedTable.getTablecontent()
+				.getRowgroups()
+				.stream()
+				.filter(group -> RowGroupExtensions
+						.isEqual(compareTableRowGroup, group))
+				.findFirst()
+				.orElse(null);
+		if (changeGUIDGroup != null) {
+			return createChangeGuidRowGroup(compareTableRowGroup,
+					TableExtensions.getColumns(mergedTable));
+		}
+		return null;
+	}
+
+	/**
+	 * 
+	 * @param mainTableRowGroup
+	 * @param columns
+	 * @return
+	 */
+	private static RowGroup createChangeGuidRowGroup(
+			final RowGroup mainTableRowGroup,
+			final List<ColumnDescriptor> columns) {
+		final RowGroup result = TablemodelFactory.eINSTANCE.createRowGroup();
+		result.setLeadingObject(mainTableRowGroup.getLeadingObject());
+		result.setLeadingObjectIndex(mainTableRowGroup.getLeadingObjectIndex());
+		for (final TableRow row : mainTableRowGroup.getRows()) {
+			final TableRow changeGuidRow = TablemodelFactory.eINSTANCE
+					.createTableRow();
+			columns.forEach(col -> {
+				final TableCell tableCell = TablemodelFactory.eINSTANCE
+						.createTableCell();
+				tableCell.setColumndescriptor(col);
+				final CompareTableCellContent tableCompareCell = TablemodelFactory.eINSTANCE
+						.createCompareTableCellContent();
+				final CellContent content = TableRowExtensions.getCell(row, col)
+						.getContent();
+				tableCompareCell.setComparePlanCellContent(content);
+				tableCompareCell.setMainPlanCellContent(content);
+				tableCompareCell.setSeparator(content.getSeparator());
+				tableCell.getCellannotation()
+						.addAll(TableRowExtensions.getCell(row, col)
+								.getCellannotation());
+				changeGuidRow.getCells().add(tableCell);
+			});
+		}
+		return result;
+	}
+
+	@Override
 	protected TableRow createMissingRow(final List<ColumnDescriptor> columns) {
 		final TableRow missingRow = TablemodelFactory.eINSTANCE
 				.createTableRow();
@@ -61,7 +143,7 @@ public class TableProjectDiffService extends AbstractTableDiff {
 					.createCompareTableCellContent();
 			final StringCellContent strContent = TablemodelFactory.eINSTANCE
 					.createStringCellContent();
-			strContent.getValue().add("");
+			strContent.getValue().add(""); //$NON-NLS-1$
 			compareContent.setComparePlanCellContent(strContent);
 			cell.setContent(compareContent);
 			missingRow.getCells().add(cell);
