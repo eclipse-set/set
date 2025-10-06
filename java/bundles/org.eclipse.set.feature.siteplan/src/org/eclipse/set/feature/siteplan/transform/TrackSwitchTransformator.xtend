@@ -10,6 +10,8 @@ package org.eclipse.set.feature.siteplan.transform
 
 import java.io.IOException
 import java.math.BigDecimal
+import java.math.RoundingMode
+import org.eclipse.set.basis.constants.ToolboxConstants
 import org.eclipse.set.basis.geometry.GeometryException
 import org.eclipse.set.core.services.geometry.GeoKanteGeometryService
 import org.eclipse.set.feature.siteplan.TrackSwitchMetadataProvider
@@ -27,6 +29,7 @@ import org.eclipse.set.model.siteplan.Label
 import org.eclipse.set.model.siteplan.LeftRight
 import org.eclipse.set.model.siteplan.SiteplanFactory
 import org.eclipse.set.model.siteplan.SiteplanPackage
+import org.eclipse.set.model.siteplan.SwitchType
 import org.eclipse.set.model.siteplan.TrackSwitchComponent
 import org.eclipse.set.model.siteplan.TurnoutOperatingMode
 import org.osgi.service.component.annotations.Component
@@ -42,10 +45,6 @@ import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKnotenExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrAnlageExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspElementExtensions.*
-import org.eclipse.set.basis.constants.ToolboxConstants
-import java.math.RoundingMode
-import org.eclipse.set.model.siteplan.SwitchType
-import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung
 
 /**
  * Transforms a track switch from the PlanPro model to a siteplan TrackSwitch
