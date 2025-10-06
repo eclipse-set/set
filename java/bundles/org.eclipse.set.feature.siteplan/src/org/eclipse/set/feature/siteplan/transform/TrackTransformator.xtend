@@ -12,7 +12,6 @@ import com.google.common.collect.Range
 import java.math.BigDecimal
 import java.math.RoundingMode
 import java.util.List
-import java.util.Optional
 import java.util.Set
 import org.eclipse.e4.core.services.events.IEventBroker
 import org.eclipse.set.basis.IModelSession
@@ -79,11 +78,11 @@ class TrackTransformator extends BaseTransformator<TOP_Kante> implements EventHa
 	@Reference
 	PositionService positionService
 
-	Optional<Boolean> existsTrackType
+	boolean existsTrackType = true
 
 	override handleEvent(Event event) {
 		if (event.topic == Events.CLOSE_SESSION) {
-			existsTrackType = Optional.empty
+			existsTrackType = true
 		}
 
 		if (event.topic == Events.MODEL_CHANGED) {
@@ -91,10 +90,10 @@ class TrackTransformator extends BaseTransformator<TOP_Kante> implements EventHa
 				IEventBroker.DATA) as IModelSession
 			val schnittstelle = modelSession.planProSchnittstelle
 			val trackTypes = #[ContainerType.INITIAL, ContainerType.FINAL,
-				ContainerType.SINGLE].filterNull.map [
+				ContainerType.SINGLE].map [
 				schnittstelle.getContainer(it)
-			].flatMap[gleisArt]
-			existsTrackType = Optional.of(Boolean.valueOf(trackTypes.size > 0))
+			].filterNull.flatMap[gleisArt].toList
+			existsTrackType = trackTypes.size > 0
 		}
 	}
 
@@ -272,11 +271,11 @@ class TrackTransformator extends BaseTransformator<TOP_Kante> implements EventHa
 				ToolboxConstants.ROUNDING_TO_PLACE, RoundingMode.HALF_UP),
 			BigDecimal.ZERO, ENUMWirkrichtung.ENUM_WIRKRICHTUNG_IN)
 		val guid = geoKante.identitaet.wert
-		if (result.type.length > 1 && existsTrackType.get) {
+		if (result.type.length > 1 && existsTrackType) {
 			recordError(guid, String.format(ERROR_MULTIPLE_GLEIS_ART, guid),
 				positionService.transformCoordinate(center.getCoordinate,
 					geoKnotenA.CRS))
-		} else if (result.type.length == 0 && existsTrackType.get) {
+		} else if (result.type.length == 0 && existsTrackType) {
 			recordError(guid, String.format(ERROR_NO_GLEIS_ART, guid),
 				positionService.transformCoordinate(center.getCoordinate,
 					geoKnotenA.CRS))
