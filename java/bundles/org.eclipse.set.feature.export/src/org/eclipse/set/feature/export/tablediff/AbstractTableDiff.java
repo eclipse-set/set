@@ -91,6 +91,7 @@ public abstract class AbstractTableDiff implements TableDiffService {
 		}
 	}
 
+	@SuppressWarnings("static-method")
 	protected TableRow createMissingRow(final List<ColumnDescriptor> columns) {
 		final TableRow missingRow = TablemodelFactory.eINSTANCE
 				.createTableRow();
