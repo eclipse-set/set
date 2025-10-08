@@ -185,7 +185,7 @@ public class SubworkValid implements PlazCheck {
 
 	@Override
 	public String getGeneralErrMsg() {
-		return "Die Ausgabe_Fachdaten je Untergewerk sind nicht eindeutig";
+		return "Die Untergewerke sind entweder nicht eindeutig oder passen nicht zu der zugehörigen Planung_Gruppe";
 	}
 
 }
