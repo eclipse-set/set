@@ -180,7 +180,7 @@ public class SubworkValid implements PlazCheck {
 
 	@Override
 	public String getDescription() {
-		return "Jedes Untergewerk hat maximal eine Ausgabe_Fachdaten";
+		return "Jedes Untergewerk ist eindeutig und passt zu der zugehörigen Planung_Gruppe";
 	}
 
 	@Override
