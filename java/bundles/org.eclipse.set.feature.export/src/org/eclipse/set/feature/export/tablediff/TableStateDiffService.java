@@ -20,7 +20,6 @@ import org.eclipse.set.core.services.session.SessionService;
 import org.eclipse.set.model.tablemodel.CellContent;
 import org.eclipse.set.model.tablemodel.CompareCellContent;
 import org.eclipse.set.model.tablemodel.MultiColorCellContent;
-import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.TableCell;
 import org.eclipse.set.model.tablemodel.TablemodelFactory;
 import org.eclipse.set.ppmodel.extensions.EObjectExtensions;
@@ -31,18 +30,11 @@ import org.osgi.service.component.annotations.Reference;
 /**
  * 
  */
-@Component(immediate = true, service = TableDiffService.class, property = "compareType=state")
+@Component(immediate = true, service = TableDiffService.class)
 public class TableStateDiffService extends AbstractTableDiff {
 
 	@Reference
 	SessionService sessionService;
-
-	@Override
-	public Table createCompareTable(final Table firstPlanTable,
-			final Table secondPlanDiffTable) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	// @SuppressWarnings("unused")
 	// @Override
@@ -105,7 +97,7 @@ public class TableStateDiffService extends AbstractTableDiff {
 				.getNullableObject(oldCell, c -> c.getContent().getSeparator())
 				.orElse(null));
 
-		return null;
+		return compareContent;
 	}
 
 	// IMPROVE: currently missing the compare between two MultiColorCellContent.
@@ -124,5 +116,10 @@ public class TableStateDiffService extends AbstractTableDiff {
 			oldMultiColorCellContent.getValue()
 					.forEach(e -> e.setDisableMultiColor(false));
 		}
+	}
+
+	@Override
+	public TableCompareType getCompareType() {
+		return TableCompareType.STATE;
 	}
 }

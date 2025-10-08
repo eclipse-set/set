@@ -11,12 +11,14 @@
 package org.eclipse.set.feature.export.tablediff;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.set.core.services.session.SessionService;
 import org.eclipse.set.model.planpro.Basisobjekte.Bearbeitungsvermerk;
 import org.eclipse.set.model.tablemodel.CellContent;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
+import org.eclipse.set.model.tablemodel.CompareFootnoteContainer;
 import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.model.tablemodel.SimpleFootnoteContainer;
 import org.eclipse.set.model.tablemodel.StringCellContent;
@@ -32,7 +34,6 @@ import org.eclipse.set.services.table.TableDiffService;
  * 
  */
 public abstract class AbstractTableDiff implements TableDiffService {
-
 	@Override
 	public Table createDiffTable(final Table oldTable, final Table newTable) {
 		// expand old table by new lines
@@ -105,6 +106,10 @@ public abstract class AbstractTableDiff implements TableDiffService {
 		for (int i = 0; i < targetRow.getCells().size(); i++) {
 			compareCell(i, targetRow, matchingRow);
 		}
+
+		if (getCompareType().equals(TableCompareType.STATE)) {
+			compareFootnotes(targetRow, matchingRow);
+		}
 	}
 
 	protected void compareCell(final int cellIndex, final TableRow first,
@@ -125,6 +130,40 @@ public abstract class AbstractTableDiff implements TableDiffService {
 	}
 
 	abstract CellContent createDiffContent(TableCell first, TableCell second);
+
+	protected static void compareFootnotes(final TableRow mergedRow,
+			final TableRow newRow) {
+		final List<Bearbeitungsvermerk> firstFootnotes = getFootnotes(
+				mergedRow);
+		final List<Bearbeitungsvermerk> secondFootnotes = getFootnotes(newRow);
+
+		final CompareFootnoteContainer diffFootnotes = TablemodelFactory.eINSTANCE
+				.createCompareFootnoteContainer();
+
+		firstFootnotes.forEach(f -> compareFootnotes(f, secondFootnotes,
+				unchanged -> diffFootnotes.getUnchangedFootnotes()
+						.add(unchanged),
+				changed -> diffFootnotes.getOldFootnotes().add(changed)));
+		secondFootnotes
+				.forEach(f -> compareFootnotes(f, firstFootnotes, unchange -> {
+					// do nothing (already added by for loop above)
+				}, changed -> diffFootnotes.getNewFootnotes().add(changed)));
+		mergedRow.setFootnotes(diffFootnotes);
+	}
+
+	protected static void compareFootnotes(final Bearbeitungsvermerk footnote,
+			final List<Bearbeitungsvermerk> anotherFootnotes,
+			final Consumer<Bearbeitungsvermerk> addUnchangedConsumer,
+			final Consumer<Bearbeitungsvermerk> addChangedConsumer) {
+		if (anotherFootnotes.stream()
+				.anyMatch(f -> f.getIdentitaet()
+						.getWert()
+						.equals(footnote.getIdentitaet().getWert()))) {
+			addUnchangedConsumer.accept(footnote);
+		} else {
+			addChangedConsumer.accept(footnote);
+		}
+	}
 
 	protected static List<Bearbeitungsvermerk> getFootnotes(
 			final TableRow row) {

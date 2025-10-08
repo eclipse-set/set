@@ -190,6 +190,6 @@ public interface TableService {
 	 *            the list of {@link Stell_Bereich} and the belonging container
 	 * @return the compare table
 	 */
-	Table createCompareProjectTable(String elementId, TableType tableType,
+	Table createDiffTable(String elementId, TableType tableType,
 			Set<String> controlAreaIds);
 }

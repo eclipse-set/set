@@ -78,6 +78,7 @@ import org.eclipse.set.model.tablemodel.CompareTableCellContent;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.TableCell;
 import org.eclipse.set.model.tablemodel.TableRow;
+import org.eclipse.set.model.tablemodel.extensions.CellContentExtensions;
 import org.eclipse.set.model.tablemodel.extensions.ColumnDescriptorExtensions;
 import org.eclipse.set.model.tablemodel.extensions.Headings;
 import org.eclipse.set.model.tablemodel.extensions.TableCellExtensions;
@@ -352,7 +353,7 @@ public final class ToolboxTableView extends BasePart {
 	 * @return the table view model
 	 */
 	private Table transformToTableModel(final String elementId) {
-		return tableService.createCompareProjectTable(elementId, tableType,
+		return tableService.createDiffTable(elementId, tableType,
 				controlAreaIds);
 	}
 
@@ -578,7 +579,24 @@ public final class ToolboxTableView extends BasePart {
 			final TableRow tableRow = tableInstances.get(rowIndexByPosition);
 			final TableCell tableCell = tableRow.getCells()
 					.get(columnIndexByPosition);
-			if (tableCell.getContent() instanceof CompareTableCellContent) {
+			if (tableCell
+					.getContent() instanceof final CompareTableCellContent cellContent) {
+
+				final String plainStringValue = CellContentExtensions
+						.getPlainStringValue(
+								cellContent.getComparePlanCellContent());
+				final String plainStringValue2 = CellContentExtensions
+						.getPlainStringValue(
+								cellContent.getMainPlanCellContent());
+				// Only when the object of the tablerow changed guid, then the
+				// contents are same
+				if (cellContent.getComparePlanCellContent() != null
+						&& cellContent.getMainPlanCellContent() != null
+						&& plainStringValue.equals(plainStringValue2)) {
+					configLabels.addLabel(
+							ToolboxConstants.TABLE_COMPARE_CHANGED_GUID_CELL_LABEL);
+					return;
+				}
 				configLabels.addLabel(
 						ToolboxConstants.TABLE_COMPARE_TABLE_CELL_LABEL);
 			}

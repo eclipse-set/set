@@ -40,7 +40,6 @@ import org.eclipse.set.model.tablemodel.extensions.CellContentExtensions;
 import org.eclipse.set.model.tablemodel.extensions.TableExtensions;
 import org.eclipse.set.ppmodel.extensions.EObjectExtensions;
 import org.eclipse.set.services.table.TableDiffService;
-import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 import com.google.common.collect.Streams;
@@ -52,7 +51,6 @@ import com.google.common.collect.Streams;
  * 
  * @usage production
  */
-@Component(immediate = true)
 public class CustomTableDiffService implements TableDiffService {
 	@Reference
 	SessionService sessionService;
@@ -404,21 +402,27 @@ public class CustomTableDiffService implements TableDiffService {
 	}
 
 	@Override
-	public Table createCompareTable(final Table mainPlanTable,
-			final Table comparePlanTable) {
-		final Table copy = EcoreUtil.copy(mainPlanTable);
-		final Table expandedTable = expandNewRowGroups(comparePlanTable, copy);
-		final List<TableRow> rows = TableExtensions.getTableRows(copy);
-		rows.forEach(row -> {
-			final TableRow match = TableExtensions.getMatchingRow(expandedTable,
-					row);
-			// Create diff content
-			for (int i = 0; i < row.getCells().size(); i++) {
-				createDiffContent(i, row, match,
-						this::createTableCompareCellContent);
-			}
-		});
-
-		return copy;
+	public TableCompareType getCompareType() {
+		// TODO Auto-generated method stub
+		return null;
 	}
+
+	// @Override
+	// public Table createCompareTable(final Table mainPlanTable,
+	// final Table comparePlanTable) {
+	// final Table copy = EcoreUtil.copy(mainPlanTable);
+	// final Table expandedTable = expandNewRowGroups(comparePlanTable, copy);
+	// final List<TableRow> rows = TableExtensions.getTableRows(copy);
+	// rows.forEach(row -> {
+	// final TableRow match = TableExtensions.getMatchingRow(expandedTable,
+	// row);
+	// // Create diff content
+	// for (int i = 0; i < row.getCells().size(); i++) {
+	// createDiffContent(i, row, match,
+	// this::createTableCompareCellContent);
+	// }
+	// });
+	//
+	// return copy;
+	// }
 }

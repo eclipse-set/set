@@ -118,7 +118,6 @@ Service-Component: OSGI-INF/org.eclipse.set.feature.export.descriptions.Siteplan
  OSGI-INF/org.eclipse.set.feature.export.fop.FopServiceImpl.xml,
  OSGI-INF/org.eclipse.set.feature.export.pdf.FopPdfExportBuilder.xml,
  OSGI-INF/org.eclipse.set.feature.export.pdf.SiteplanPdfExportBuilder.xml,
- OSGI-INF/org.eclipse.set.feature.export.tablediff.CustomTableDiffService.xml,
  OSGI-INF/org.eclipse.set.feature.export.tablediff.TableProjectDiffService.xml,
  OSGI-INF/org.eclipse.set.feature.export.tablediff.TableStateDiffService.xml,
  OSGI-INF/org.eclipse.set.feature.export.tm.TableModelExport.xml,

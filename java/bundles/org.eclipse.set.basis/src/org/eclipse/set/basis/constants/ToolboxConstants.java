@@ -313,6 +313,11 @@ public final class ToolboxConstants {
 	public static final String XSL_PROJECT_COMPARE_CELL = "CompareProjectContent";
 
 	/**
+	 * Label for CompareTableCellContent cell, which belong to changed guid row
+	 */
+	public static final String TABLE_COMPARE_CHANGED_GUID_CELL_LABEL = "tableCompareCellChangedGuid";
+
+	/**
 	 * Label for Topological Cell
 	 */
 	public static final String TABLE_TOPOLOGICAL_CELL = "topologicalCell";

@@ -10,10 +10,13 @@
  */
 package org.eclipse.set.feature.export.tablediff;
 
+import static org.eclipse.set.ppmodel.extensions.EObjectExtensions.getNullableObject;
+
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.eclipse.set.core.services.session.SessionService;
@@ -31,7 +34,6 @@ import org.eclipse.set.model.tablemodel.TablemodelFactory;
 import org.eclipse.set.model.tablemodel.extensions.CellContentExtensions;
 import org.eclipse.set.model.tablemodel.extensions.RowGroupExtensions;
 import org.eclipse.set.model.tablemodel.extensions.TableExtensions;
-import org.eclipse.set.model.tablemodel.extensions.TableRowExtensions;
 import org.eclipse.set.ppmodel.extensions.EObjectExtensions;
 import org.eclipse.set.services.table.TableDiffService;
 import org.osgi.service.component.annotations.Component;
@@ -42,35 +44,39 @@ import com.google.common.collect.Streams;
 /**
  * 
  */
-@Component(immediate = true, service = TableDiffService.class, property = "compareType=project")
+@Component(immediate = true, service = TableDiffService.class)
 public class TableProjectDiffService extends AbstractTableDiff {
 	@Reference
 	SessionService sessionService;
 
 	@Override
-	public Table createCompareTable(final Table firstPlanTable,
-			final Table secondPlanDiffTable) {
-		// TODO Auto-generated method stub
-		return null;
+	protected void compareRow(final TableRow mergedTableRow,
+			final Table compareTable) {
+		// The missing row is the row of compare table, which the main table
+		// doesn't contains. Or the leading guid was changed
+		// The missing row can be skip, because it was already with
+		// CompareTableCellContent defined
+		final boolean isMissingRow = mergedTableRow.getCells()
+				.stream()
+				.map(TableCell::getContent)
+				.anyMatch(CompareTableCellContent.class::isInstance);
+		if (isMissingRow) {
+			return;
+		}
+
+		super.compareRow(mergedTableRow, compareTable);
 	}
 
 	@Override
 	protected void addMissingRowGroup(final RowGroup compareTableRowGroup,
 			final Table mergedTable) {
-		final String groupGuid = EObjectExtensions
-				.getNullableObject(compareTableRowGroup,
-						g -> g.getLeadingObject().getIdentitaet().getWert())
-				.orElse(null);
-		final int groupId = compareTableRowGroup.getLeadingObjectIndex();
-		final RowGroup match = TableExtensions.getGroupById(mergedTable,
-				groupGuid, groupId);
+		final RowGroup match = findMatchRow(compareTableRowGroup, mergedTable);
 		if (match == null) {
-			final RowGroup changeGuidGroup = findMatchRow(compareTableRowGroup,
-					mergedTable);
+			super.addMissingRowGroup(compareTableRowGroup, mergedTable);
 		}
 	}
 
-	private RowGroup findMatchRow(final RowGroup compareTableRowGroup,
+	private static RowGroup findMatchRow(final RowGroup compareTableRowGroup,
 			final Table mergedTable) {
 		final String groupGuid = EObjectExtensions
 				.getNullableObject(compareTableRowGroup,
@@ -82,6 +88,8 @@ public class TableProjectDiffService extends AbstractTableDiff {
 		if (match != null) {
 			return match;
 		}
+		// Determine the row group, which the leading guid was changed, but the
+		// content aren't
 		final RowGroup changeGUIDGroup = mergedTable.getTablecontent()
 				.getRowgroups()
 				.stream()
@@ -90,45 +98,49 @@ public class TableProjectDiffService extends AbstractTableDiff {
 				.findFirst()
 				.orElse(null);
 		if (changeGUIDGroup != null) {
-			return createChangeGuidRowGroup(compareTableRowGroup,
+			createChangeGuidRowGroup(changeGUIDGroup,
 					TableExtensions.getColumns(mergedTable));
+			return changeGUIDGroup;
 		}
 		return null;
 	}
 
 	/**
+	 * Create row group, which the content is same, but the leading guid was
+	 * changed
 	 * 
 	 * @param mainTableRowGroup
 	 * @param columns
-	 * @return
+	 *            the table {@link ColumnDescriptor}
+	 * @return the row group, which the leading GUID was changed
 	 */
-	private static RowGroup createChangeGuidRowGroup(
+	private static void createChangeGuidRowGroup(
 			final RowGroup mainTableRowGroup,
 			final List<ColumnDescriptor> columns) {
-		final RowGroup result = TablemodelFactory.eINSTANCE.createRowGroup();
-		result.setLeadingObject(mainTableRowGroup.getLeadingObject());
-		result.setLeadingObjectIndex(mainTableRowGroup.getLeadingObjectIndex());
 		for (final TableRow row : mainTableRowGroup.getRows()) {
-			final TableRow changeGuidRow = TablemodelFactory.eINSTANCE
-					.createTableRow();
-			columns.forEach(col -> {
-				final TableCell tableCell = TablemodelFactory.eINSTANCE
-						.createTableCell();
-				tableCell.setColumndescriptor(col);
+			row.getCells().forEach(cell -> {
 				final CompareTableCellContent tableCompareCell = TablemodelFactory.eINSTANCE
 						.createCompareTableCellContent();
-				final CellContent content = TableRowExtensions.getCell(row, col)
-						.getContent();
-				tableCompareCell.setComparePlanCellContent(content);
-				tableCompareCell.setMainPlanCellContent(content);
+				final CellContent content = cell.getContent();
+				tableCompareCell
+						.setComparePlanCellContent(EcoreUtil.copy(content));
+				tableCompareCell
+						.setMainPlanCellContent(EcoreUtil.copy(content));
 				tableCompareCell.setSeparator(content.getSeparator());
-				tableCell.getCellannotation()
-						.addAll(TableRowExtensions.getCell(row, col)
-								.getCellannotation());
-				changeGuidRow.getCells().add(tableCell);
+				cell.setContent(tableCompareCell);
+
 			});
+			// columns.forEach(col -> {
+			// final CompareTableCellContent tableCompareCell =
+			// TablemodelFactory.eINSTANCE
+			// .createCompareTableCellContent();
+			// final CellContent content = TableRowExtensions.getCell(row, col)
+			// .getContent();
+			// tableCompareCell.setComparePlanCellContent(content);
+			// tableCompareCell.setMainPlanCellContent(content);
+			// tableCompareCell.setSeparator(content.getSeparator());
+			// });
 		}
-		return result;
 	}
 
 	@Override
@@ -152,9 +164,24 @@ public class TableProjectDiffService extends AbstractTableDiff {
 	}
 
 	@Override
-	CellContent createDiffContent(final TableCell first,
-			final TableCell second) {
-		return null;
+	CellContent createDiffContent(final TableCell mainTableCell,
+			final TableCell compareTableCell) {
+		final CellContent mainTableCellContent = getNullableObject(
+				mainTableCell, TableCell::getContent).orElse(null);
+		final CellContent compareTableCellContent = getNullableObject(
+				compareTableCell, TableCell::getContent).orElse(null);
+		if (isSameValue(mainTableCellContent, compareTableCellContent)) {
+			return null;
+		}
+
+		final CompareTableCellContent cellContent = TablemodelFactory.eINSTANCE
+				.createCompareTableCellContent();
+		cellContent.setMainPlanCellContent(mainTableCellContent);
+		cellContent.setComparePlanCellContent(
+				compareTableCellContent == null ? null
+						: compareTableCellContent);
+
+		return cellContent;
 	}
 
 	@Override
@@ -300,6 +327,11 @@ public class TableProjectDiffService extends AbstractTableDiff {
 			}
 			default -> false;
 		};
+	}
+
+	@Override
+	public TableCompareType getCompareType() {
+		return TableCompareType.PROJECT;
 	}
 
 }
