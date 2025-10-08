@@ -805,7 +805,12 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 			// Only rendered multicolor by DIFF state
 			multiColorContent.disableMultiColor = true
 			val actuator = actuatorNumberSelector.apply(it)
-			val noOfActuators = actuator !== null ? actuator.intValue : 0
+			if (actuator === null) {
+				multiColorContent.multiColorValue = ""
+				multiColorContent.stringFormat = ""
+				return multiColorContent
+			}
+			val noOfActuators = actuator.intValue
 			val position = it.getPosition(actuator, actuatorPositionSelector)
 			val fillPositionCondition = noOfActuators > 0 &&
 				position !== null && fillPositionSupplementCondition.apply(it)
