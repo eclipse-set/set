@@ -1,7 +1,7 @@
-PlaZ Modell-Prüfung
-Datei: plaz_model_current.csv
-Prüfungszeit: 2025-07-17 15:13:31
-Werkzeugkofferversion: ${application-version}
+﻿PlaZ Modell-Prüfung
+Datei: plaz_model_reference.csv
+Prüfungszeit: 2025-10-08 11:12:49
+Werkzeugkofferversion: -
 
 
 "Lfd. Nr.";"Schweregrad";"Problemart";"Zeilennummer";"Objektart";"Attribut/-gruppe";"Bereich";"Zustand";"Meldung"
@@ -223,5 +223,6 @@ Werkzeugkofferversion: ${application-version}
 "210";"Erfolg";"Signalbefestigungsketten";"";"";"";"Fachdaten";"";"Die Verweisketten der Signalbefestigungen sind pausibel"
 "211";"Erfolg";"TOP_Kante";"";"";"";"Fachdaten";"";"TOP_Kanten haben eindeutige Endknoten."
 "212";"Erfolg";"TOP_Kante";"";"";"";"Fachdaten";"";"TOP_Kanten und GEO_Kanten haben übereinstimmende Längen."
-"213";"Erfolg";"Verortungsvergleich";"";"";"";"Fachdaten";"";"Die topologische Verortung der berechneten Geo-Koordinaten sind plausibilisiert"
-"214";"Erfolg";"Überlappende Teilbereiche";"";"";"";"Fachdaten";"";"Teilbereichsgrenzen der LST-Objekte sind plausibel"
+"213";"Erfolg";"Untergewerk Art";"";"";"";"Fachdaten";"";"Jedes Untergewerk ist eindeutig und passt zu der zugehörigen Planung_Gruppe"
+"214";"Erfolg";"Verortungsvergleich";"";"";"";"Fachdaten";"";"Die topologische Verortung der berechneten Geo-Koordinaten sind plausibilisiert"
+"215";"Erfolg";"Überlappende Teilbereiche";"";"";"";"Fachdaten";"";"Teilbereichsgrenzen der LST-Objekte sind plausibel"
