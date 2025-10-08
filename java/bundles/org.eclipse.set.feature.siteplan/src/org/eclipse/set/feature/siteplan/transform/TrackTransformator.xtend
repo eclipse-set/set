@@ -8,10 +8,15 @@
  */
 package org.eclipse.set.feature.siteplan.transform
 
+import com.google.common.collect.Range
 import java.math.BigDecimal
 import java.math.RoundingMode
 import java.util.List
 import java.util.Set
+import org.eclipse.e4.core.services.events.IEventBroker
+import org.eclipse.set.basis.IModelSession
+import org.eclipse.set.basis.constants.ContainerType
+import org.eclipse.set.basis.constants.Events
 import org.eclipse.set.basis.constants.ToolboxConstants
 import org.eclipse.set.basis.geometry.GEOKanteCoordinate
 import org.eclipse.set.basis.geometry.GEOKanteMetadata
@@ -36,16 +41,20 @@ import org.eclipse.set.model.siteplan.TrackSegment
 import org.eclipse.set.model.siteplan.TrackShape
 import org.eclipse.set.model.siteplan.TrackType
 import org.locationtech.jts.geom.Coordinate
-// there are two Coordinate-classes. use this one "inline", if needed. 
-// import org.eclipse.set.model.siteplan.Coordinate
 import org.osgi.service.component.annotations.Component
 import org.osgi.service.component.annotations.Reference
+import org.osgi.service.event.Event
+import org.osgi.service.event.EventConstants
+import org.osgi.service.event.EventHandler
+
 import static org.eclipse.set.model.planpro.Geodaten.ENUMTOPAnschluss.*
+
 import static extension org.eclipse.set.feature.siteplan.transform.TransformUtils.*
 import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.GeoKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.GeoKnotenExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKnotenExtensions.*
@@ -53,24 +62,44 @@ import static extension org.eclipse.set.ppmodel.extensions.WKrAnlageExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspElementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspKomponenteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
-import com.google.common.collect.Range
 
 /**
  * Transforms a track from the PlanPro model to a siteplan track
  * @author Peters
  */
-@Component(service=Transformator)
-class TrackTransformator extends BaseTransformator<TOP_Kante> {
+@Component(immediate=true, service=#[Transformator, EventHandler], property=#[
+	EventConstants.EVENT_TOPIC + "=" + Events.MODEL_CHANGED,
+	EventConstants.EVENT_TOPIC + "=" + Events.CLOSE_SESSION
+])
+class TrackTransformator extends BaseTransformator<TOP_Kante> implements EventHandler {
 	@Reference
 	GeoKanteGeometryService geometryService
 
 	@Reference
 	PositionService positionService
 
+	boolean existsTrackType = true
+
+	override handleEvent(Event event) {
+		if (event.topic == Events.CLOSE_SESSION) {
+			existsTrackType = true
+		}
+
+		if (event.topic == Events.MODEL_CHANGED) {
+			val IModelSession modelSession = event.getProperty(
+				IEventBroker.DATA) as IModelSession
+			val schnittstelle = modelSession.planProSchnittstelle
+			val trackTypes = #[ContainerType.INITIAL, ContainerType.FINAL,
+				ContainerType.SINGLE].map [
+				schnittstelle.getContainer(it)
+			].filterNull.flatMap[gleisArt].toList
+			existsTrackType = trackTypes.size > 0
+		}
+	}
+
 	static val ERROR_NO_GLEIS_ART = "Keine Gleisart für Segment der GEO_Kante '%s' gefunden."
 	static val ERROR_MULTIPLE_GLEIS_ART = "Mehrere Gleisarten für Segment der GEO_Kante '%s' gefunden."
 	var sectionColor = ''
-	
 
 	/**
 	 * Transforms a PlanPro TOP_Kante to a Siteplan track
@@ -106,33 +135,34 @@ class TrackTransformator extends BaseTransformator<TOP_Kante> {
 
 		track.addSiteplanElement(SiteplanPackage.eINSTANCE.siteplanState_Tracks)
 	}
-	
+
 	// Coordinate from basis.geometry
 	// if not a valid .planpro file, 'getCoordinate' might throw:  Can't found Geo_Kante by TOP_Knoten: 5C03...8F9C of TOP_Kante: 6A89...E1 
 	// in that case: return null.
-	private def org.eclipse.set.model.siteplan.Coordinate startCoordinate(GEOKanteMetadata md) {
+	private def org.eclipse.set.model.siteplan.Coordinate startCoordinate(
+		GEOKanteMetadata md) {
 		// geoKnotenA is in many cases not equal to any Coordinate found in any p from: 
 		// ∀sec:section ∀seg: sec.segments ∀ p: sec.postions
 		// this is because a segment with is e.g. an arch, usually has a different calculated length then the sum of all linear segments.
-		
 		// get actual start coord from model
-		val geoKnotenA = md.geoKante.geoKnotenA
-        // LEARNING:
+		// LEARNING:
 		// don't use:
-		//  val geoKnotenA = md.geoKante.geoKnotenA
+		// val geoKnotenA = md.geoKante.geoKnotenA
 		// positionService.transformPosition(geoKnotenA, geoKnotenA.CRS) 
 		// It gives slightly different results to the ones in the sections.segments.positions!
-		val knotenACoordinateModel = positionService.transformCoordinate(geoKnotenA.coordinate, geoKnotenA.CRS) 
-		
+		// val knotenACoordinateModel = positionService.transformCoordinate(
+		// geoKnotenA.coordinate, geoKnotenA.CRS)
 		// calculate start coord by walking along geo kante. gives slightly different pos, but it occurs in position-list: section.segment.positions 
-		try { 
-			val GEOKanteCoordinate coordAlongGeoKante = geometryService.getCoordinate(md, md.start, BigDecimal.ZERO, ENUMWirkrichtung.ENUM_WIRKRICHTUNG_IN)
-			
+		try {
+			val GEOKanteCoordinate coordAlongGeoKante = geometryService.
+				getCoordinate(md, md.start, BigDecimal.ZERO,
+					ENUMWirkrichtung.ENUM_WIRKRICHTUNG_IN)
+
 			// transform coordAlongGeoKante and return as a Coordinate:
-			val knotenACoordinate = positionService.transformPosition(coordAlongGeoKante)
+			val knotenACoordinate = positionService.transformPosition(
+				coordAlongGeoKante)
 			// is this needed or can you just use coordAlongGeoKante.coordinate? 
 			// answer: coordAlongGeoKante.coordinate produces wrong values!
-			
 			val result = SiteplanFactory.eINSTANCE.createCoordinate;
 			result.x = knotenACoordinate.x
 			result.y = knotenACoordinate.y
@@ -141,15 +171,14 @@ class TrackTransformator extends BaseTransformator<TOP_Kante> {
 			return null
 		}
 	}
-	
 
 	def TrackSection transformTrackSection(GEOKanteMetadata md) {
 		val section = SiteplanFactory.eINSTANCE.createTrackSection
 		section.guid = md.geoKante.identitaet.wert
 		section.shape = transformGeoForm(md.geoKante.GEOKanteAllg.GEOForm)
 		section.color = sectionColor
-		section.startCoordinate =  startCoordinate(md) 
-		
+		section.startCoordinate = startCoordinate(md)
+
 		transform(md).filter[segment|!segment.positions.empty].forEach [
 			section.segments.add(it)
 		]
@@ -242,11 +271,11 @@ class TrackTransformator extends BaseTransformator<TOP_Kante> {
 				ToolboxConstants.ROUNDING_TO_PLACE, RoundingMode.HALF_UP),
 			BigDecimal.ZERO, ENUMWirkrichtung.ENUM_WIRKRICHTUNG_IN)
 		val guid = geoKante.identitaet.wert
-		if (result.type.length > 1) {
+		if (result.type.length > 1 && existsTrackType) {
 			recordError(guid, String.format(ERROR_MULTIPLE_GLEIS_ART, guid),
 				positionService.transformCoordinate(center.getCoordinate,
 					geoKnotenA.CRS))
-		} else if (result.type.length == 0) {
+		} else if (result.type.length == 0 && existsTrackType) {
 			recordError(guid, String.format(ERROR_NO_GLEIS_ART, guid),
 				positionService.transformCoordinate(center.getCoordinate,
 					geoKnotenA.CRS))
@@ -262,7 +291,9 @@ class TrackTransformator extends BaseTransformator<TOP_Kante> {
 		val trackTypeAreas = segment.bereichObjekte.filter(Gleis_Art).filter [ ga |
 			ga.bereichObjektTeilbereich.exists [ botb |
 				botb.IDTOPKante.value == md.geoKante.IDGEOArt.value &&
-					segmentRange.isConnected(Range.closed(botb.begrenzungA.wert, botb.begrenzungB.wert))
+					segmentRange.isConnected(
+						Range.closed(botb.begrenzungA.wert,
+							botb.begrenzungB.wert))
 			]
 		].distinctBy [
 			it.gleisart.wert
@@ -394,5 +425,4 @@ class TrackTransformator extends BaseTransformator<TOP_Kante> {
 
 		return result;
 	}
-
 }
