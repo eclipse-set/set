@@ -7,7 +7,7 @@ which accompanies this distribution, and is available at
 http://www.eclipse.org/legal/epl-v20.html
 -->
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                xmlns:fo="http://www.w3.org/1999/XSL/Format"
+  xmlns:fo="http://www.w3.org/1999/XSL/Format"
   xmlns:fox="http://xmlgraphics.apache.org/fop/extensions" exclude-result-prefixes="fo" version="2.0">
 
   <xsl:include href="data/export/pdf/common.xsl"/>
@@ -16,19 +16,19 @@ http://www.eclipse.org/legal/epl-v20.html
 
 
   <!-- The Variables will be set value by Java-->
-  <xsl:variable name="siteplan-freefeld-height"/>
-  <xsl:variable name="significant-width"/>
-  <xsl:variable name="significant-height"/>
-  <xsl:variable name="siteplan-folding-mark-right-width"/>
-  <xsl:variable name="region-body-height"/>
-  <xsl:variable name="region-body-width"/>
-  <xsl:variable name="pagePosition"/>
-  <xsl:variable name="pagePostFix"/>
+  <xsl:variable name="siteplan-freefeld-height" />
+  <xsl:variable name="significant-width" />
+  <xsl:variable name="significant-height" />
+  <xsl:variable name="siteplan-folding-mark-right-width" />
+  <xsl:variable name="region-body-height" />
+  <xsl:variable name="region-body-width" />
+  <xsl:variable name="pagePosition" />
+  <xsl:variable name="pagePostFix" />
 
   <xsl:attribute-set name="page-master-style">
     <!-- Page layout -->
-    <xsl:attribute name="page-height"/>
-    <xsl:attribute name="page-width"/>
+    <xsl:attribute name="page-height" />
+    <xsl:attribute name="page-width" />
   </xsl:attribute-set>
 
   <xsl:attribute-set name="siteplan-folding-mark-region-attribute">
@@ -98,10 +98,10 @@ http://www.eclipse.org/legal/epl-v20.html
             <fo:block-container display-align="center" height="{$region-body-height}" text-align="center" width="{$region-body-width}" overflow="hidden">
               <fo:block>
                 <xsl:variable name="image-width">
-                  <xsl:value-of select="current()/Width"/>
+                  <xsl:value-of select="current()/Width" />
                 </xsl:variable>
                 <xsl:variable name="image-height">
-                  <xsl:value-of select="current()/Height"/>
+                  <xsl:value-of select="current()/Height" />
                 </xsl:variable>
                 <fo:external-graphic content-width="{$image-width}" content-height="{$image-height}">
                   <xsl:attribute name="src">
@@ -175,13 +175,13 @@ http://www.eclipse.org/legal/epl-v20.html
     <!-- Generate by Siteplan Export Process -->
     <fo:block color="white">.</fo:block>
   </xsl:template>
-  
-	<xsl:template name="CutMark">
+
+  <xsl:template name="CutMark">
     <fo:block-container top="0mm" height="5mm" width="10mm" background-color="black" absolute-position="absolute" z-index="99">
-			<fo:block color="black">.</fo:block>
-		</fo:block-container>
+      <fo:block color="black">.</fo:block>
+    </fo:block-container>
     <fo:block-container top="5mm" height="5mm" width="5mm" background-color="black" absolute-position="absolute" z-index="99">
-			<fo:block color="black">.</fo:block>
-		</fo:block-container>
-	</xsl:template>
+      <fo:block color="black">.</fo:block>
+    </fo:block-container>
+  </xsl:template>
 </xsl:stylesheet>
