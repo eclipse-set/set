@@ -112,7 +112,6 @@ public class TableProjectDiffService extends AbstractTableDiff {
 	 * @param mainTableRowGroup
 	 * @param columns
 	 *            the table {@link ColumnDescriptor}
-	 * @return the row group, which the leading GUID was changed
 	 */
 	private static void createChangeGuidRowGroup(
 			final RowGroup mainTableRowGroup,
@@ -130,16 +129,6 @@ public class TableProjectDiffService extends AbstractTableDiff {
 				cell.setContent(tableCompareCell);
 
 			});
-			// columns.forEach(col -> {
-			// final CompareTableCellContent tableCompareCell =
-			// TablemodelFactory.eINSTANCE
-			// .createCompareTableCellContent();
-			// final CellContent content = TableRowExtensions.getCell(row, col)
-			// .getContent();
-			// tableCompareCell.setComparePlanCellContent(content);
-			// tableCompareCell.setMainPlanCellContent(content);
-			// tableCompareCell.setSeparator(content.getSeparator());
-			// });
 		}
 	}
 
