@@ -65,6 +65,7 @@ import org.eclipse.set.ppmodel.extensions.ContainerExtensions;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
 import org.eclipse.set.services.table.TableDiffService;
+import org.eclipse.set.services.table.TableDiffService.TableCompareType;
 import org.eclipse.set.services.table.TableService;
 import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.ToolboxConfiguration;
@@ -104,9 +105,6 @@ public final class TableServiceImpl implements TableService {
 			.getLogger(TableServiceImpl.class);
 
 	@Inject
-	TableDiffService diffService;
-
-	@Inject
 	IEventBroker broker;
 
 	@Inject
@@ -126,6 +124,8 @@ public final class TableServiceImpl implements TableService {
 	SessionService sessionService;
 
 	private final Map<TableInfo, PlanPro2TableTransformationService> modelServiceMap = new ConcurrentHashMap<>();
+
+	private final Map<TableCompareType, TableDiffService> diffServiceMap = new ConcurrentHashMap<>();
 	private static final Queue<Pair<BasePart, Runnable>> transformTableThreads = new LinkedList<>();
 
 	private static final String EMPTY = "empty"; //$NON-NLS-1$
@@ -160,6 +160,21 @@ public final class TableServiceImpl implements TableService {
 		modelServiceMap.put(tableInfo, service);
 	}
 
+	void addDiffService(final TableDiffService diffService) {
+		diffServiceMap.put(diffService.getCompareType(), diffService);
+	}
+
+	void addDiffSerivce(final TableCompareType compareType,
+			final TableDiffService diffService) {
+		diffServiceMap.put(compareType, diffService);
+	}
+
+	void removeDiffService(final TableCompareType compareType) {
+		if (diffServiceMap.containsKey(compareType)) {
+			diffServiceMap.remove(compareType);
+		}
+	}
+
 	private Table createDiffTable(final String elementId,
 			final IModelSession modelSession, final String controlAreaId) {
 
@@ -173,7 +188,8 @@ public final class TableServiceImpl implements TableService {
 			return null;
 		}
 
-		return diffService.createDiffTable(startTable, zielTable);
+		return diffServiceMap.get(TableCompareType.STATE)
+				.createDiffTable(startTable, zielTable);
 	}
 
 	@Override
@@ -657,7 +673,7 @@ public final class TableServiceImpl implements TableService {
 	}
 
 	@Override
-	public Table createCompareProjectTable(final String elementId,
+	public Table createDiffTable(final String elementId,
 			final TableType tableType, final Set<String> controlAreaIds) {
 		final Table mainSessionTable = transformToTable(elementId, tableType,
 				sessionService.getLoadedSession(ToolboxFileRole.SESSION),
@@ -670,8 +686,8 @@ public final class TableServiceImpl implements TableService {
 
 		final Table compareSessionTable = transformToTable(elementId, tableType,
 				compareSession, controlAreaIds);
-		final Table compareTable = diffService
-				.createCompareTable(mainSessionTable, compareSessionTable);
+		final Table compareTable = diffServiceMap.get(TableCompareType.PROJECT)
+				.createDiffTable(mainSessionTable, compareSessionTable);
 		ECollections.sort(compareTable.getTablecontent().getRowgroups(),
 				getModelService(extractShortcut(elementId))
 						.getRowGroupComparator());

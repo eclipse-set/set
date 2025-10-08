@@ -26,6 +26,8 @@ import org.eclipse.set.basis.graph.Digraphs;
 import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.session.SessionService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
+import org.eclipse.set.services.table.TableDiffService;
+import org.eclipse.set.services.table.TableDiffService.TableCompareType;
 import org.eclipse.set.services.table.TableService;
 import org.eclipse.set.utils.table.TableInfo;
 import org.osgi.service.component.annotations.Component;
@@ -76,9 +78,10 @@ public class TableServiceContextFunction extends ContextFunction
 				"table.shortcut or table.category missing in properties"); //$NON-NLS-1$
 	}
 
+	private TableServiceImpl tableService;
 	private final Map<TableInfo, PlanPro2TableTransformationService> modelServiceMap = new ConcurrentHashMap<>();
 
-	private TableServiceImpl tableService;
+	private final Map<TableCompareType, TableDiffService> diffServiceMap = new ConcurrentHashMap<>();
 
 	/**
 	 * Adds a model service. For a model service to be properly added it has to
@@ -104,20 +107,6 @@ public class TableServiceContextFunction extends ContextFunction
 		}
 	}
 
-	@Override
-	public Object compute(final IEclipseContext context,
-			final String contextKey) {
-		tableService = ContextInjectionFactory.make(TableServiceImpl.class,
-				context);
-		modelServiceMap.keySet()
-				.forEach(tableInfo -> tableService.addModelServiceByInfo(
-						tableInfo, modelServiceMap.get(tableInfo)));
-		final MApplication application = context.get(MApplication.class);
-		final IEclipseContext applicationContext = application.getContext();
-		applicationContext.set(TableService.class, tableService);
-		return tableService;
-	}
-
 	/**
 	 * removes a model service.
 	 * 
@@ -138,6 +127,53 @@ public class TableServiceContextFunction extends ContextFunction
 		} else {
 			modelServiceMap.remove(tableInfo);
 		}
+	}
+
+	/**
+	 * @param diffService
+	 *            the {@link TableDiffService}
+	 * @param properties
+	 *            the osgi properties
+	 */
+	@Reference(cardinality = ReferenceCardinality.MULTIPLE, policy = ReferencePolicy.DYNAMIC)
+	public void addTableDiffService(final TableDiffService diffService,
+			final Map<String, String> properties) {
+		if (tableService != null) {
+			tableService.addDiffService(diffService);
+		} else {
+			diffServiceMap.put(diffService.getCompareType(), diffService);
+		}
+	}
+
+	/**
+	 * @param diffService
+	 *            the {@link TableDiffService}
+	 * @param properties
+	 *            the osgi properites
+	 */
+	public void removeTableDiffService(final TableDiffService diffService,
+			final Map<String, String> properties) {
+		if (tableService != null) {
+			tableService.removeDiffService(diffService.getCompareType());
+		} else {
+			diffServiceMap.remove(diffService.getCompareType());
+		}
+	}
+
+	@Override
+	public Object compute(final IEclipseContext context,
+			final String contextKey) {
+		tableService = ContextInjectionFactory.make(TableServiceImpl.class,
+				context);
+		modelServiceMap.keySet()
+				.forEach(tableInfo -> tableService.addModelServiceByInfo(
+						tableInfo, modelServiceMap.get(tableInfo)));
+		diffServiceMap.forEach((compareType, service) -> tableService
+				.addDiffSerivce(compareType, service));
+		final MApplication application = context.get(MApplication.class);
+		final IEclipseContext applicationContext = application.getContext();
+		applicationContext.set(TableService.class, tableService);
+		return tableService;
 	}
 
 	@Override

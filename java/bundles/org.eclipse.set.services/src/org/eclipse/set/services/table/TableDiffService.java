@@ -16,21 +16,39 @@ import org.eclipse.set.model.tablemodel.Table;
  * @author Schaefer
  */
 public interface TableDiffService {
+
+	/**
+	 * The osgi property name for table compare type
+	 */
+	public static final String COMPARE_TYPE_OSGi_PROPERTY = "compareType"; //$NON-NLS-1$
+
+	/**
+	 * The compare type state
+	 */
+	public static final String COMPARE_TYPE_STATE = "state"; //$NON-NLS-1$
+	/**
+	 * The compare type project
+	 */
+	public static final String COMPARE_TYPE_PROJECT = "project"; //$NON-NLS-1$
+
 	/**
 	 * 
 	 */
-	enum TableCompareType {
+	public enum TableCompareType {
 		/**
 		 * 
 		 */
-		STATE("state"), //$NON-NLS-1$
+		STATE(COMPARE_TYPE_STATE),
 		/**
 		 * 
 		 */
-		PROJECT("project"); //$NON-NLS-1$
+		PROJECT(COMPARE_TYPE_PROJECT);
 
 		String value;
 
+		/**
+		 * @return string value
+		 */
 		public String getValue() {
 			return value;
 		}
@@ -38,7 +56,6 @@ public interface TableDiffService {
 		private TableCompareType(final String value) {
 			this.value = value;
 		}
-
 	}
 
 	/**
@@ -52,11 +69,7 @@ public interface TableDiffService {
 	Table createDiffTable(Table oldTable, Table newTable);
 
 	/**
-	 * @param firstPlanTable
-	 *            the initial or final table of first plan
-	 * @param secondPlanDiffTable
-	 *            the diff table of second plan
-	 * @return the compare table
+	 * @return {@link TableCompareType}
 	 */
-	Table createCompareTable(Table firstPlanTable, Table secondPlanDiffTable);
+	TableCompareType getCompareType();
 }
