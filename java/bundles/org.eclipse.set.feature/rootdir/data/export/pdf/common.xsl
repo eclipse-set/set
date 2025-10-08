@@ -8,7 +8,7 @@ which accompanies this distribution, and is available at
 http://www.eclipse.org/legal/epl-v20.html
 -->
 <xsl:stylesheet version="2.0"
-	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+								xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	xmlns:fo="http://www.w3.org/1999/XSL/Format" exclude-result-prefixes="fo">
 
 	<xsl:variable name="small-border-width" select="0.125" />
@@ -26,13 +26,13 @@ http://www.eclipse.org/legal/epl-v20.html
 	<xsl:attribute-set name="folding-mark-region-style">
 		<!-- Width of the region with the folding marks box -->
 		<xsl:attribute name="extent">
-			<xsl:value-of select="$folding-mark-region-extend" />
+			<xsl:value-of select="$folding-mark-region-extend"/>
 		</xsl:attribute>
 	</xsl:attribute-set>
 	<xsl:attribute-set name="title-box-region-style">
 		<!-- Width of the region with the title box -->
 		<xsl:attribute name="extent">
-			<xsl:value-of select="$title-box-region-extend" />
+			<xsl:value-of select="$title-box-region-extend"/>
 		</xsl:attribute>
 	</xsl:attribute-set>
 	<xsl:attribute-set name="default-font">
@@ -58,33 +58,33 @@ http://www.eclipse.org/legal/epl-v20.html
 	</xsl:attribute-set>
 	<xsl:attribute-set name="body-row-style">
 		<xsl:attribute name="border-right">
-			<xsl:value-of select="$wide-border-style" />
+			<xsl:value-of select="$wide-border-style"/>
 		</xsl:attribute>
 	</xsl:attribute-set>
 	<xsl:attribute-set name="body-row-cell-style">
 		<xsl:attribute name="border">
-			<xsl:value-of select="$small-border-style" />
+			<xsl:value-of select="$small-border-style"/>
 		</xsl:attribute>
 		<xsl:attribute name="border-right">
-			<xsl:value-of select="$wide-border-style" />
+			<xsl:value-of select="$wide-border-style"/>
 		</xsl:attribute>
 		<xsl:attribute name="border-bottom">
-			<xsl:value-of select="$small-border-style" />
+			<xsl:value-of select="$small-border-style"/>
 		</xsl:attribute>
 		<xsl:attribute name="text-align">center</xsl:attribute>
 	</xsl:attribute-set>
 	<xsl:attribute-set name="body-last-row-first-cell-style">
 		<xsl:attribute name="border">
-			<xsl:value-of select="$small-border-style" />
+			<xsl:value-of select="$small-border-style"/>
 		</xsl:attribute>
 		<xsl:attribute name="border-right">
-			<xsl:value-of select="$wide-border-style" />
+			<xsl:value-of select="$wide-border-style"/>
 		</xsl:attribute>
 		<xsl:attribute name="text-align">center</xsl:attribute>
 	</xsl:attribute-set>
 	<xsl:attribute-set name="default-cell-style">
 		<xsl:attribute name="border">
-			<xsl:value-of select="$small-border-style" />
+			<xsl:value-of select="$small-border-style"/>
 		</xsl:attribute>
 		<xsl:attribute name="text-align">center</xsl:attribute>
 		<xsl:attribute name="padding-left">1pt</xsl:attribute>
@@ -93,10 +93,10 @@ http://www.eclipse.org/legal/epl-v20.html
 	</xsl:attribute-set>
 	<xsl:attribute-set name="first-column-cell-style">
 		<xsl:attribute name="border">
-			<xsl:value-of select="$small-border-style" />
+			<xsl:value-of select="$small-border-style"/>
 		</xsl:attribute>
 		<xsl:attribute name="border-left">
-			<xsl:value-of select="$wide-border-style" />
+			<xsl:value-of select="$wide-border-style"/>
 		</xsl:attribute>
 		<xsl:attribute name="text-align">left</xsl:attribute>
 		<xsl:attribute name="padding-left">1pt</xsl:attribute>
@@ -105,13 +105,13 @@ http://www.eclipse.org/legal/epl-v20.html
 	</xsl:attribute-set>
 	<xsl:attribute-set name="first-column-last-row-cell-style">
 		<xsl:attribute name="border">
-			<xsl:value-of select="$small-border-style" />
+			<xsl:value-of select="$small-border-style"/>
 		</xsl:attribute>
 		<xsl:attribute name="border-left">
-			<xsl:value-of select="$wide-border-style" />
+			<xsl:value-of select="$wide-border-style"/>
 		</xsl:attribute>
 		<xsl:attribute name="border-bottom">
-			<xsl:value-of select="$wide-border-style" />
+			<xsl:value-of select="$wide-border-style"/>
 		</xsl:attribute>
 		<xsl:attribute name="text-align">left</xsl:attribute>
 		<xsl:attribute name="padding-left">1pt</xsl:attribute>
@@ -120,10 +120,10 @@ http://www.eclipse.org/legal/epl-v20.html
 	</xsl:attribute-set>
 	<xsl:attribute-set name="last-row-cell-style">
 		<xsl:attribute name="border">
-			<xsl:value-of select="$small-border-style" />
+			<xsl:value-of select="$small-border-style"/>
 		</xsl:attribute>
 		<xsl:attribute name="border-bottom">
-			<xsl:value-of select="$wide-border-style" />
+			<xsl:value-of select="$wide-border-style"/>
 		</xsl:attribute>
 		<xsl:attribute name="text-align">center</xsl:attribute>
 		<xsl:attribute name="padding-left">1pt</xsl:attribute>
@@ -132,10 +132,10 @@ http://www.eclipse.org/legal/epl-v20.html
 	</xsl:attribute-set>
 	<xsl:attribute-set name="region-body-style">
 		<xsl:attribute name="margin-top">
-			<xsl:value-of select="$folding-mark-region-extend" />
+			<xsl:value-of select="$folding-mark-region-extend"/>
 		</xsl:attribute>
 		<xsl:attribute name="margin-bottom">
-			<xsl:value-of select="$title-box-region-extend" />
+			<xsl:value-of select="$title-box-region-extend"/>
 		</xsl:attribute>
 		<xsl:attribute name="overflow">hidden</xsl:attribute>
 	</xsl:attribute-set>
@@ -158,50 +158,50 @@ http://www.eclipse.org/legal/epl-v20.html
 		<fo:table-row xsl:use-attribute-sets="body-row-style" keep-together.within-page="always">
 			<fo:table-cell xsl:use-attribute-sets="body-row-cell-style">
 				<fo:block>
-					<xsl:value-of select="@group-number" />
+					<xsl:value-of select="@group-number"/>
 				</fo:block>
 			</fo:table-cell>
-			<xsl:apply-templates />
+			<xsl:apply-templates/>
 		</fo:table-row>
 	</xsl:template>
 	<xsl:template match="Row[position()=last()]">
 		<fo:table-row xsl:use-attribute-sets="body-row-style" keep-together.within-page="always">
 			<fo:table-cell xsl:use-attribute-sets="body-last-row-first-cell-style">
 				<fo:block>
-					<xsl:value-of select="@group-number" />
+					<xsl:value-of select="@group-number"/>
 				</fo:block>
 			</fo:table-cell>
-			<xsl:apply-templates />
+			<xsl:apply-templates/>
 		</fo:table-row>
 	</xsl:template>
 
 	<xsl:template match="Row[not(Cell[@column-number = '1'])]">
 		<fo:table-row xsl:use-attribute-sets="body-row-style"
-			keep-with-previous.within-page="always">
+									keep-with-previous.within-page="always">
 			<fo:table-cell xsl:use-attribute-sets="body-row-cell-style">
 				<fo:block>
-					<xsl:value-of select="@group-number" />
+					<xsl:value-of select="@group-number"/>
 				</fo:block>
 			</fo:table-cell>
-			<xsl:apply-templates />
+			<xsl:apply-templates/>
 		</fo:table-row>
 	</xsl:template>
 
 	<xsl:template name="TitleboxRegion">
 		<xsl:param name="pagePostfix" select="''" />
 		<fo:table table-layout="fixed" width="100%">
-			<fo:table-column column-width="proportional-column-width(1)" />
+			<fo:table-column column-width="proportional-column-width(1)"/>
 			<!-- IMPROVE: Schriftfeld ist etwas breiter als erwartet -->
-			<fo:table-column column-width="{180 + $WB + $WB + $WB + $WB}mm" />
+			<fo:table-column column-width="{180 + $WB + $WB + $WB + $WB}mm"/>
 			<fo:table-body start-indent="{$WB + $WB + $WB + $WB}mm"
-				end-indent="{- $WB - $WB - $WB - $WB}mm">
+										 end-indent="{- $WB - $WB - $WB - $WB}mm">
 				<fo:table-row>
 					<fo:table-cell min-height="70mm">
 						<fo:block></fo:block>
 					</fo:table-cell>
 					<fo:table-cell column-number="2" padding-top="5mm" number-rows-spanned="2">
 						<fo:table table-layout="fixed" width="100%">
-							<fo:table-column column-width="100%" />
+							<fo:table-column column-width="100%"/>
 							<fo:table-body>
 								<fo:table-row max-height="75mm">
 									<fo:table-cell>
@@ -235,7 +235,7 @@ http://www.eclipse.org/legal/epl-v20.html
 
 	<xsl:template match="SignificantInformation">
 		<fo:block xsl:use-attribute-sets="significant-information-style">
-			<xsl:value-of select="." />
+			<xsl:value-of select="."/>
 		</fo:block>
 	</xsl:template>
 
@@ -243,28 +243,28 @@ http://www.eclipse.org/legal/epl-v20.html
 		<fo:block page-break-before="always" xsl:use-attribute-sets="title-footnotes-style">
 			<xsl:text>Bemerkungen</xsl:text>
 		</fo:block>
-		<xsl:apply-templates select="Footnote" />
+		<xsl:apply-templates select="Footnote"/>
 	</xsl:template>
 
 	<xsl:template match="Footnote">
-		<xsl:apply-templates />
+		<xsl:apply-templates/>
 	</xsl:template>
 
 	<xsl:template match="COMMON_FOOTNOTE">
 		<fo:block text-align="left">
 			<xsl:text>*</xsl:text>
-			<xsl:value-of select="@footnote-number" />
+			<xsl:value-of select="@footnote-number"/>
 			<xsl:text>: </xsl:text>
-			<xsl:value-of select="." />
+			<xsl:value-of select="."/>
 		</fo:block>
 	</xsl:template>
 	<xsl:template match="NEW_FOOTNOTE">
 		<fo:block text-align="left">
 			<fo:inline color="#cd0000">
 				<xsl:text>*</xsl:text>
-				<xsl:value-of select="@footnote-number" />
+				<xsl:value-of select="@footnote-number"/>
 				<xsl:text>: </xsl:text>
-				<xsl:value-of select="." />
+				<xsl:value-of select="."/>
 			</fo:inline>
 		</fo:block>
 	</xsl:template>
@@ -273,9 +273,9 @@ http://www.eclipse.org/legal/epl-v20.html
 		<fo:block text-align="left">
 			<fo:inline background-color="yellow" text-decoration="line-through">
 				<xsl:text>*</xsl:text>
-				<xsl:value-of select="@footnote-number" />
+				<xsl:value-of select="@footnote-number"/>
 				<xsl:text>: </xsl:text>
-				<xsl:value-of select="." />
+				<xsl:value-of select="."/>
 			</fo:inline>
 		</fo:block>
 	</xsl:template>
