@@ -456,9 +456,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							cols.getColumn(Obere_Lichtpunkthoehe),
 							signalRahmen,
 							[
-								filter[
-									rahmenArt.wert == ENUM_RAHMEN_ART_SCHIRM
-								].map [
+								map [
 									signalBefestigung?.signalBefestigungAllg?.
 										obereLichtpunkthoehe?.wert
 								].toSet.map [ b |
