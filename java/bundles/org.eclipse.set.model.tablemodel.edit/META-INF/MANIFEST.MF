@@ -5,7 +5,7 @@ Bundle-SymbolicName: org.eclipse.set.model.tablemodel.edit;singleton:=true
 Automatic-Module-Name: org.eclipse.set.model.tablemodel.edit
 Bundle-Version: 1.0.0.qualifier
 Bundle-ClassPath: .
-Bundle-Activator: org.eclipse.set.model.tablemodel.format.provider.TableformatEditPlugin$Implementation
+Bundle-Activator: org.eclipse.set.model.tablemodel.provider.TablemodelEditPlugin$Implementation
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-21

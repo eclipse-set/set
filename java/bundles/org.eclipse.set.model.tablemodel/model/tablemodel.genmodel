@@ -84,5 +84,9 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tablemodel.ecore#//CompareTableCellContent/mainPlanCellContent"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tablemodel.ecore#//CompareTableCellContent/comparePlanCellContent"/>
     </genClasses>
+    <genClasses ecoreClass="tablemodel.ecore#//CompareTableFootnoteContainer">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tablemodel.ecore#//CompareTableFootnoteContainer/mainPlanFootnoteContainer"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tablemodel.ecore#//CompareTableFootnoteContainer/comparePlanFootnoteContainer"/>
+    </genClasses>
   </genPackages>
 </genmodel:GenModel>

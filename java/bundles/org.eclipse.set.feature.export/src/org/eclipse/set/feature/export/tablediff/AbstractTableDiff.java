@@ -10,7 +10,11 @@
  */
 package org.eclipse.set.feature.export.tablediff;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -20,13 +24,15 @@ import org.eclipse.set.model.tablemodel.CellContent;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.CompareFootnoteContainer;
 import org.eclipse.set.model.tablemodel.RowGroup;
-import org.eclipse.set.model.tablemodel.SimpleFootnoteContainer;
 import org.eclipse.set.model.tablemodel.StringCellContent;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.TableCell;
 import org.eclipse.set.model.tablemodel.TableRow;
 import org.eclipse.set.model.tablemodel.TablemodelFactory;
+import org.eclipse.set.model.tablemodel.extensions.FootnoteContainerExtensions;
+import org.eclipse.set.model.tablemodel.extensions.RowGroupExtensions;
 import org.eclipse.set.model.tablemodel.extensions.TableExtensions;
+import org.eclipse.set.model.tablemodel.extensions.TableRowExtensions;
 import org.eclipse.set.ppmodel.extensions.EObjectExtensions;
 import org.eclipse.set.services.table.TableDiffService;
 
@@ -34,6 +40,9 @@ import org.eclipse.set.services.table.TableDiffService;
  * 
  */
 public abstract class AbstractTableDiff implements TableDiffService {
+
+	protected static final Map<Table, List<TableRow>> differentRows = new HashMap<>();
+
 	@Override
 	public Table createDiffTable(final Table oldTable, final Table newTable) {
 		// expand old table by new lines
@@ -107,6 +116,7 @@ public abstract class AbstractTableDiff implements TableDiffService {
 			compareCell(i, targetRow, matchingRow);
 		}
 
+		// Currently not compare footnotes between two project
 		if (getCompareType().equals(TableCompareType.STATE)) {
 			compareFootnotes(targetRow, matchingRow);
 		}
@@ -115,12 +125,9 @@ public abstract class AbstractTableDiff implements TableDiffService {
 	protected void compareCell(final int cellIndex, final TableRow first,
 			final TableRow second) {
 		final TableCell oldCell = first.getCells().get(cellIndex);
-		TableCell newCell = TablemodelFactory.eINSTANCE.createTableCell();
-		newCell.setContent(
-				TablemodelFactory.eINSTANCE.createStringCellContent());
-		if (second != null) {
-			newCell = second.getCells().get(cellIndex);
-		}
+		final TableCell newCell = EObjectExtensions
+				.getNullableObject(second, s -> s.getCells().get(cellIndex))
+				.orElse(null);
 
 		final CellContent diffContent = createDiffContent(oldCell, newCell);
 		if (diffContent == null) {
@@ -131,11 +138,17 @@ public abstract class AbstractTableDiff implements TableDiffService {
 
 	abstract CellContent createDiffContent(TableCell first, TableCell second);
 
-	protected static void compareFootnotes(final TableRow mergedRow,
+	protected void compareFootnotes(final TableRow mergedRow,
 			final TableRow newRow) {
-		final List<Bearbeitungsvermerk> firstFootnotes = getFootnotes(
-				mergedRow);
-		final List<Bearbeitungsvermerk> secondFootnotes = getFootnotes(newRow);
+		if (mergedRow == null) {
+			return;
+		}
+		final List<Bearbeitungsvermerk> firstFootnotes = FootnoteContainerExtensions
+				.getFootnotes(mergedRow.getFootnotes());
+		final List<Bearbeitungsvermerk> secondFootnotes = newRow == null
+				? Collections.emptyList()
+				: FootnoteContainerExtensions
+						.getFootnotes(newRow.getFootnotes());
 
 		final CompareFootnoteContainer diffFootnotes = TablemodelFactory.eINSTANCE
 				.createCompareFootnoteContainer();
@@ -151,7 +164,8 @@ public abstract class AbstractTableDiff implements TableDiffService {
 		mergedRow.setFootnotes(diffFootnotes);
 	}
 
-	protected static void compareFootnotes(final Bearbeitungsvermerk footnote,
+	@SuppressWarnings("static-method")
+	protected void compareFootnotes(final Bearbeitungsvermerk footnote,
 			final List<Bearbeitungsvermerk> anotherFootnotes,
 			final Consumer<Bearbeitungsvermerk> addUnchangedConsumer,
 			final Consumer<Bearbeitungsvermerk> addChangedConsumer) {
@@ -163,16 +177,6 @@ public abstract class AbstractTableDiff implements TableDiffService {
 		} else {
 			addChangedConsumer.accept(footnote);
 		}
-	}
-
-	protected static List<Bearbeitungsvermerk> getFootnotes(
-			final TableRow row) {
-		if (row == null || row.getFootnotes() == null
-				|| ((SimpleFootnoteContainer) row.getFootnotes())
-						.getFootnotes() == null) {
-			return List.of();
-		}
-		return ((SimpleFootnoteContainer) row.getFootnotes()).getFootnotes();
 	}
 
 	/**
@@ -195,4 +199,22 @@ public abstract class AbstractTableDiff implements TableDiffService {
 	}
 
 	abstract SessionService getSessionService();
+
+	@Override
+	public boolean isTableRowDifferent(final TableRow row) {
+		final RowGroup group = TableRowExtensions.getGroup(row);
+		final Table table = RowGroupExtensions.getTable(group);
+		if (differentRows.containsKey(table)) {
+			return differentRows.get(table).stream().anyMatch(row::equals);
+		}
+		return false;
+	}
+
+	protected void addDifferentRow(final Table table, final TableRow row) {
+		differentRows.computeIfAbsent(table, t -> new ArrayList<TableRow>());
+		differentRows.computeIfPresent(table, (t, rowList) -> {
+			rowList.add(row);
+			return rowList;
+		});
+	}
 }

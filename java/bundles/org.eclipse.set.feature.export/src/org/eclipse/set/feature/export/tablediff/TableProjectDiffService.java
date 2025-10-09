@@ -24,6 +24,8 @@ import org.eclipse.set.model.tablemodel.CellContent;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.CompareCellContent;
 import org.eclipse.set.model.tablemodel.CompareTableCellContent;
+import org.eclipse.set.model.tablemodel.CompareTableFootnoteContainer;
+import org.eclipse.set.model.tablemodel.FootnoteContainer;
 import org.eclipse.set.model.tablemodel.MultiColorCellContent;
 import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.model.tablemodel.StringCellContent;
@@ -32,8 +34,12 @@ import org.eclipse.set.model.tablemodel.TableCell;
 import org.eclipse.set.model.tablemodel.TableRow;
 import org.eclipse.set.model.tablemodel.TablemodelFactory;
 import org.eclipse.set.model.tablemodel.extensions.CellContentExtensions;
+import org.eclipse.set.model.tablemodel.extensions.ColumnDescriptorExtensions;
+import org.eclipse.set.model.tablemodel.extensions.FootnoteContainerExtensions;
 import org.eclipse.set.model.tablemodel.extensions.RowGroupExtensions;
+import org.eclipse.set.model.tablemodel.extensions.TableCellExtensions;
 import org.eclipse.set.model.tablemodel.extensions.TableExtensions;
+import org.eclipse.set.model.tablemodel.extensions.TableRowExtensions;
 import org.eclipse.set.ppmodel.extensions.EObjectExtensions;
 import org.eclipse.set.services.table.TableDiffService;
 import org.osgi.service.component.annotations.Component;
@@ -44,7 +50,7 @@ import com.google.common.collect.Streams;
 /**
  * 
  */
-@Component(immediate = true, service = TableDiffService.class)
+@Component(immediate = true, service = { TableDiffService.class })
 public class TableProjectDiffService extends AbstractTableDiff {
 	@Reference
 	SessionService sessionService;
@@ -56,15 +62,27 @@ public class TableProjectDiffService extends AbstractTableDiff {
 		// doesn't contains. Or the leading guid was changed
 		// The missing row can be skip, because it was already with
 		// CompareTableCellContent defined
-		final boolean isMissingRow = mergedTableRow.getCells()
-				.stream()
-				.map(TableCell::getContent)
-				.anyMatch(CompareTableCellContent.class::isInstance);
-		if (isMissingRow) {
+		if (isDifferentRow(mergedTableRow)) {
+			addDifferentRow(TableRowExtensions.getTable(mergedTableRow),
+					mergedTableRow);
 			return;
 		}
 
 		super.compareRow(mergedTableRow, compareTable);
+
+		// When the row after compare contain only CompareTableCellContent, then
+		// this row isn't exist in CompareTable, also complete new row
+		if (isDifferentRow(mergedTableRow)) {
+			addDifferentRow(TableRowExtensions.getTable(mergedTableRow),
+					mergedTableRow);
+		}
+	}
+
+	private static boolean isDifferentRow(final TableRow row) {
+		return row.getCells()
+				.stream()
+				.map(TableCell::getContent)
+				.allMatch(CompareTableCellContent.class::isInstance);
 	}
 
 	@Override
@@ -88,6 +106,7 @@ public class TableProjectDiffService extends AbstractTableDiff {
 		if (match != null) {
 			return match;
 		}
+
 		// Determine the row group, which the leading guid was changed, but the
 		// content aren't
 		final RowGroup changeGUIDGroup = mergedTable.getTablecontent()
@@ -98,8 +117,7 @@ public class TableProjectDiffService extends AbstractTableDiff {
 				.findFirst()
 				.orElse(null);
 		if (changeGUIDGroup != null) {
-			createChangeGuidRowGroup(changeGUIDGroup,
-					TableExtensions.getColumns(mergedTable));
+			createChangeGuidRowGroup(changeGUIDGroup);
 			return changeGUIDGroup;
 		}
 		return null;
@@ -114,8 +132,7 @@ public class TableProjectDiffService extends AbstractTableDiff {
 	 *            the table {@link ColumnDescriptor}
 	 */
 	private static void createChangeGuidRowGroup(
-			final RowGroup mainTableRowGroup,
-			final List<ColumnDescriptor> columns) {
+			final RowGroup mainTableRowGroup) {
 		for (final TableRow row : mainTableRowGroup.getRows()) {
 			row.getCells().forEach(cell -> {
 				final CompareTableCellContent tableCompareCell = TablemodelFactory.eINSTANCE
@@ -159,10 +176,29 @@ public class TableProjectDiffService extends AbstractTableDiff {
 				mainTableCell, TableCell::getContent).orElse(null);
 		final CellContent compareTableCellContent = getNullableObject(
 				compareTableCell, TableCell::getContent).orElse(null);
+
 		if (isSameValue(mainTableCellContent, compareTableCellContent)) {
 			return null;
 		}
 
+		// Replace FootnoteContainer in main table row
+		if (isFootnoteCellContent(mainTableCellContent)) {
+			final TableRow mainRow = TableCellExtensions
+					.getTableRow(mainTableCell);
+			final FootnoteContainer mainFootnoteContainer = mainRow
+					.getFootnotes();
+			final TableRow compareRow = EObjectExtensions
+					.getNullableObject(compareTableCell,
+							TableCellExtensions::getTableRow)
+					.orElse(null);
+			final FootnoteContainer compareFootnoteContainer = compareRow == null
+					? TablemodelFactory.eINSTANCE
+							.createSimpleFootnoteContainer()
+					: compareRow.getFootnotes();
+			mainRow.setFootnotes(createCompareTableFootnoteContainer(
+					mainFootnoteContainer, compareFootnoteContainer));
+
+		}
 		final CompareTableCellContent cellContent = TablemodelFactory.eINSTANCE
 				.createCompareTableCellContent();
 		cellContent.setMainPlanCellContent(mainTableCellContent);
@@ -190,6 +226,11 @@ public class TableProjectDiffService extends AbstractTableDiff {
 		if (first == null || second == null) {
 			return first == second;
 		}
+
+		if (isFootnoteCellContent(first) && isFootnoteCellContent(second)) {
+			return isSameFootnoteContent(first, second);
+		}
+
 		return switch (first) {
 			case final StringCellContent stringContent -> isSameValue(
 					stringContent, second);
@@ -199,6 +240,32 @@ public class TableProjectDiffService extends AbstractTableDiff {
 					multiColorContent, second);
 			default -> true;
 		};
+	}
+
+	protected static boolean isSameFootnoteContent(final CellContent first,
+			final CellContent second) {
+		final TableCell mainTableCell = CellContentExtensions
+				.getTableCell(first);
+		final TableCell compareTableCell = CellContentExtensions
+				.getTableCell(second);
+		final TableRow mainRow = TableCellExtensions.getTableRow(mainTableCell);
+		final TableRow compareRow = TableCellExtensions
+				.getTableRow(compareTableCell);
+		// The mainRow & comapreRow can't be null here, was changed before
+		return FootnoteContainerExtensions.isSameFootnotesComment(
+				mainRow.getFootnotes(), compareRow.getFootnotes());
+	}
+
+	private static CompareTableFootnoteContainer createCompareTableFootnoteContainer(
+			final FootnoteContainer mainTableFootnotes,
+			final FootnoteContainer compareTableFootnotes) {
+		final CompareTableFootnoteContainer compareTableFootnoteContainer = TablemodelFactory.eINSTANCE
+				.createCompareTableFootnoteContainer();
+		compareTableFootnoteContainer
+				.setComparePlanFootnoteContainer(compareTableFootnotes);
+		compareTableFootnoteContainer
+				.setMainPlanFootnoteContainer(mainTableFootnotes);
+		return compareTableFootnoteContainer;
 	}
 
 	/**
@@ -318,9 +385,16 @@ public class TableProjectDiffService extends AbstractTableDiff {
 		};
 	}
 
+	private static boolean isFootnoteCellContent(
+			final CellContent cellContent) {
+		return cellContent != null
+				&& ColumnDescriptorExtensions.isFootnoteReferenceColumn(
+						CellContentExtensions.getTableCell(cellContent)
+								.getColumndescriptor());
+	}
+
 	@Override
 	public TableCompareType getCompareType() {
 		return TableCompareType.PROJECT;
 	}
-
 }

@@ -202,12 +202,12 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 			)
 
 			// I: Ssld.Eigenschaften.Laenge.Freigemeldet
-			fill(
-				instance,
-				cols.getColumn(Freigemeldet),
-				dweg,
-				[getFreigemeldetLaenge(topGraph, fstrFahrWegLength)]
-			)
+//			fill(
+//				instance,
+//				cols.getColumn(Freigemeldet),
+//				dweg,
+//				[getFreigemeldetLaenge(topGraph, fstrFahrWegLength)]
+//			)
 
 			// J: Ssld.Eigenschaften.massgebende_Neigung
 			fill(

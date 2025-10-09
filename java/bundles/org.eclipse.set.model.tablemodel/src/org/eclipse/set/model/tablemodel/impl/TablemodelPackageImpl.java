@@ -25,6 +25,7 @@ import org.eclipse.set.model.tablemodel.ColumnWidthMode;
 import org.eclipse.set.model.tablemodel.CompareCellContent;
 import org.eclipse.set.model.tablemodel.CompareFootnoteContainer;
 import org.eclipse.set.model.tablemodel.CompareTableCellContent;
+import org.eclipse.set.model.tablemodel.CompareTableFootnoteContainer;
 import org.eclipse.set.model.tablemodel.FootnoteContainer;
 import org.eclipse.set.model.tablemodel.MultiColorCellContent;
 import org.eclipse.set.model.tablemodel.MultiColorContent;
@@ -184,6 +185,13 @@ public class TablemodelPackageImpl extends EPackageImpl
 	 * @generated
 	 */
 	private EClass compareTableCellContentEClass = null;
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	private EClass compareTableFootnoteContainerEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -854,6 +862,40 @@ public class TablemodelPackageImpl extends EPackageImpl
 	 * @generated
 	 */
 	@Override
+	public EClass getCompareTableFootnoteContainer() {
+		return compareTableFootnoteContainerEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
+	public EReference getCompareTableFootnoteContainer_MainPlanFootnoteContainer() {
+		return (EReference) compareTableFootnoteContainerEClass
+				.getEStructuralFeatures()
+				.get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
+	public EReference getCompareTableFootnoteContainer_ComparePlanFootnoteContainer() {
+		return (EReference) compareTableFootnoteContainerEClass
+				.getEStructuralFeatures()
+				.get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
 	public EEnum getColumnWidthMode() {
 		return columnWidthModeEEnum;
 	}
@@ -982,6 +1024,13 @@ public class TablemodelPackageImpl extends EPackageImpl
 		createEReference(compareTableCellContentEClass,
 				COMPARE_TABLE_CELL_CONTENT__COMPARE_PLAN_CELL_CONTENT);
 
+		compareTableFootnoteContainerEClass = createEClass(
+				COMPARE_TABLE_FOOTNOTE_CONTAINER);
+		createEReference(compareTableFootnoteContainerEClass,
+				COMPARE_TABLE_FOOTNOTE_CONTAINER__MAIN_PLAN_FOOTNOTE_CONTAINER);
+		createEReference(compareTableFootnoteContainerEClass,
+				COMPARE_TABLE_FOOTNOTE_CONTAINER__COMPARE_PLAN_FOOTNOTE_CONTAINER);
+
 		// Create enums
 		columnWidthModeEEnum = createEEnum(COLUMN_WIDTH_MODE);
 		rowMergeModeEEnum = createEEnum(ROW_MERGE_MODE);
@@ -1031,6 +1080,8 @@ public class TablemodelPackageImpl extends EPackageImpl
 				.add(this.getFootnoteContainer());
 		compareTableCellContentEClass.getESuperTypes()
 				.add(this.getCellContent());
+		compareTableFootnoteContainerEClass.getESuperTypes()
+				.add(this.getFootnoteContainer());
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(tableEClass, Table.class, "Table", !IS_ABSTRACT,
@@ -1258,6 +1309,24 @@ public class TablemodelPackageImpl extends EPackageImpl
 				this.getCellContent(), null, "comparePlanCellContent", null, 0,
 				1, CompareTableCellContent.class, !IS_TRANSIENT, !IS_VOLATILE,
 				IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(compareTableFootnoteContainerEClass,
+				CompareTableFootnoteContainer.class,
+				"CompareTableFootnoteContainer", !IS_ABSTRACT, !IS_INTERFACE,
+				IS_GENERATED_INSTANCE_CLASS);
+		initEReference(
+				getCompareTableFootnoteContainer_MainPlanFootnoteContainer(),
+				this.getFootnoteContainer(), null, "mainPlanFootnoteContainer",
+				null, 0, 1, CompareTableFootnoteContainer.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(
+				getCompareTableFootnoteContainer_ComparePlanFootnoteContainer(),
+				this.getFootnoteContainer(), null,
+				"comparePlanFootnoteContainer", null, 0, 1,
+				CompareTableFootnoteContainer.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES,
 				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals

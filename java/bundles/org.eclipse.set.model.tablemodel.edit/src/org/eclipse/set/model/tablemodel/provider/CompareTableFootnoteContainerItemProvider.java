@@ -14,42 +14,33 @@ import java.util.List;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 
-import org.eclipse.emf.common.util.ResourceLocator;
-
 import org.eclipse.emf.ecore.EStructuralFeature;
 
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
-import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
-import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
-import org.eclipse.emf.edit.provider.IItemPropertySource;
-import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
-import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
-import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
-import org.eclipse.set.model.tablemodel.TableRow;
+import org.eclipse.set.model.tablemodel.CompareTableFootnoteContainer;
 import org.eclipse.set.model.tablemodel.TablemodelFactory;
 import org.eclipse.set.model.tablemodel.TablemodelPackage;
 
 /**
  * This is the item provider adapter for a
- * {@link org.eclipse.set.model.tablemodel.TableRow} object. <!-- begin-user-doc
- * --> <!-- end-user-doc -->
+ * {@link org.eclipse.set.model.tablemodel.CompareTableFootnoteContainer}
+ * object. <!-- begin-user-doc --> <!-- end-user-doc -->
  * 
  * @generated
  */
-public class TableRowItemProvider extends ItemProviderAdapter
-		implements IEditingDomainItemProvider, IStructuredItemContentProvider,
-		ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource {
+public class CompareTableFootnoteContainerItemProvider
+		extends FootnoteContainerItemProvider {
 	/**
 	 * This constructs an instance from a factory and a notifier. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @generated
 	 */
-	public TableRowItemProvider(AdapterFactory adapterFactory) {
+	public CompareTableFootnoteContainerItemProvider(
+			AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 
@@ -64,28 +55,30 @@ public class TableRowItemProvider extends ItemProviderAdapter
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addRowIndexPropertyDescriptor(object);
+			addComparePlanFootnoteContainerPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
 
 	/**
-	 * This adds a property descriptor for the Row Index feature. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
+	 * This adds a property descriptor for the Compare Plan Footnote Container
+	 * feature. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @generated
 	 */
-	protected void addRowIndexPropertyDescriptor(Object object) {
+	protected void addComparePlanFootnoteContainerPropertyDescriptor(
+			Object object) {
 		itemPropertyDescriptors.add(createItemPropertyDescriptor(
 				((ComposeableAdapterFactory) adapterFactory)
 						.getRootAdapterFactory(),
 				getResourceLocator(),
-				getString("_UI_TableRow_rowIndex_feature"),
+				getString(
+						"_UI_CompareTableFootnoteContainer_comparePlanFootnoteContainer_feature"),
 				getString("_UI_PropertyDescriptor_description",
-						"_UI_TableRow_rowIndex_feature", "_UI_TableRow_type"),
-				TablemodelPackage.Literals.TABLE_ROW__ROW_INDEX, true, false,
-				false, ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE, null,
-				null));
+						"_UI_CompareTableFootnoteContainer_comparePlanFootnoteContainer_feature",
+						"_UI_CompareTableFootnoteContainer_type"),
+				TablemodelPackage.Literals.COMPARE_TABLE_FOOTNOTE_CONTAINER__COMPARE_PLAN_FOOTNOTE_CONTAINER,
+				true, false, true, null, null, null));
 	}
 
 	/**
@@ -103,9 +96,8 @@ public class TableRowItemProvider extends ItemProviderAdapter
 			Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.add(TablemodelPackage.Literals.TABLE_ROW__CELLS);
-			childrenFeatures
-					.add(TablemodelPackage.Literals.TABLE_ROW__FOOTNOTES);
+			childrenFeatures.add(
+					TablemodelPackage.Literals.COMPARE_TABLE_FOOTNOTE_CONTAINER__MAIN_PLAN_FOOTNOTE_CONTAINER);
 		}
 		return childrenFeatures;
 	}
@@ -125,14 +117,15 @@ public class TableRowItemProvider extends ItemProviderAdapter
 	}
 
 	/**
-	 * This returns TableRow.gif. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * This returns CompareTableFootnoteContainer.gif. <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * 
 	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object,
-				getResourceLocator().getImage("full/obj16/TableRow"));
+		return overlayImage(object, getResourceLocator()
+				.getImage("full/obj16/CompareTableFootnoteContainer"));
 	}
 
 	/**
@@ -143,8 +136,7 @@ public class TableRowItemProvider extends ItemProviderAdapter
 	 */
 	@Override
 	public String getText(Object object) {
-		TableRow tableRow = (TableRow) object;
-		return getString("_UI_TableRow_type") + " " + tableRow.getRowIndex();
+		return getString("_UI_CompareTableFootnoteContainer_type");
 	}
 
 	/**
@@ -159,13 +151,9 @@ public class TableRowItemProvider extends ItemProviderAdapter
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
 
-		switch (notification.getFeatureID(TableRow.class)) {
-			case TablemodelPackage.TABLE_ROW__ROW_INDEX:
-				fireNotifyChanged(new ViewerNotification(notification,
-						notification.getNotifier(), false, true));
-				return;
-			case TablemodelPackage.TABLE_ROW__CELLS:
-			case TablemodelPackage.TABLE_ROW__FOOTNOTES:
+		switch (notification
+				.getFeatureID(CompareTableFootnoteContainer.class)) {
+			case TablemodelPackage.COMPARE_TABLE_FOOTNOTE_CONTAINER__MAIN_PLAN_FOOTNOTE_CONTAINER:
 				fireNotifyChanged(new ViewerNotification(notification,
 						notification.getNotifier(), true, false));
 				return;
@@ -186,32 +174,17 @@ public class TableRowItemProvider extends ItemProviderAdapter
 		super.collectNewChildDescriptors(newChildDescriptors, object);
 
 		newChildDescriptors.add(createChildParameter(
-				TablemodelPackage.Literals.TABLE_ROW__CELLS,
-				TablemodelFactory.eINSTANCE.createTableCell()));
-
-		newChildDescriptors.add(createChildParameter(
-				TablemodelPackage.Literals.TABLE_ROW__FOOTNOTES,
+				TablemodelPackage.Literals.COMPARE_TABLE_FOOTNOTE_CONTAINER__MAIN_PLAN_FOOTNOTE_CONTAINER,
 				TablemodelFactory.eINSTANCE.createCompareFootnoteContainer()));
 
 		newChildDescriptors.add(createChildParameter(
-				TablemodelPackage.Literals.TABLE_ROW__FOOTNOTES,
+				TablemodelPackage.Literals.COMPARE_TABLE_FOOTNOTE_CONTAINER__MAIN_PLAN_FOOTNOTE_CONTAINER,
 				TablemodelFactory.eINSTANCE.createSimpleFootnoteContainer()));
 
 		newChildDescriptors.add(createChildParameter(
-				TablemodelPackage.Literals.TABLE_ROW__FOOTNOTES,
+				TablemodelPackage.Literals.COMPARE_TABLE_FOOTNOTE_CONTAINER__MAIN_PLAN_FOOTNOTE_CONTAINER,
 				TablemodelFactory.eINSTANCE
 						.createCompareTableFootnoteContainer()));
-	}
-
-	/**
-	 * Return the resource locator for this item provider's resources. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated
-	 */
-	@Override
-	public ResourceLocator getResourceLocator() {
-		return TablemodelEditPlugin.INSTANCE;
 	}
 
 }

@@ -8,15 +8,15 @@
  */
 package org.eclipse.set.model.tablemodel.extensions
 
-import org.eclipse.set.model.tablemodel.TableRow
-
-import static extension org.eclipse.set.model.tablemodel.extensions.ColumnDescriptorExtensions.*
+import java.util.Set
 import org.eclipse.set.model.tablemodel.TableCell
-import static extension org.eclipse.set.model.tablemodel.extensions.CellContentExtensions.*
-import org.eclipse.set.model.tablemodel.format.TextAlignment
+import org.eclipse.set.model.tablemodel.TableRow
 import org.eclipse.set.model.tablemodel.format.CellFormat
 import org.eclipse.set.model.tablemodel.format.TableformatFactory
-import java.util.Set
+import org.eclipse.set.model.tablemodel.format.TextAlignment
+
+import static extension org.eclipse.set.model.tablemodel.extensions.CellContentExtensions.*
+import static extension org.eclipse.set.model.tablemodel.extensions.ColumnDescriptorExtensions.*
 
 /**
  * Extensions for {@link TableCell}.
@@ -35,13 +35,13 @@ class TableCellExtensions {
 	 * @return a formatted string representation of the cell content
 	 */
 	static def String getRichTextValue(TableCell cell) {
-		if(cell.columndescriptor.isFootnoteReferenceColumn)
-		{
-			return cell.content.getRichTextValueWithFootnotes((cell.eContainer as TableRow).footnotes)
+		if (cell.columndescriptor.isFootnoteReferenceColumn) {
+			return cell.content.getRichTextValueWithFootnotes(
+				(cell.eContainer as TableRow).footnotes)
 		}
 		return cell.content.richTextValue
 	}
- 
+
 	/**
 	 * @param cell this cell
 	 * 
@@ -89,15 +89,16 @@ class TableCellExtensions {
 	def static int getColumnNumber(TableCell cell) {
 		return cell.tableRow.cells.indexOf(cell) + 1
 	}
-	
+
 	/**
 	 * @param cell this cell
 	 * @param textAlignment the text alignment
 	 */
-	def static void setTextAlignment(TableCell cell, TextAlignment textAlignment) {
+	def static void setTextAlignment(TableCell cell,
+		TextAlignment textAlignment) {
 		cell.format.textAlignment = textAlignment
 	}
-	
+
 	def static CellFormat getFormat(TableCell cell) {
 		val results = cell.cellannotation.filter(CellFormat).toList
 		if (results.size == 0) {

@@ -433,6 +433,12 @@ public class CustomTableDiffService implements TableDiffService {
 		return null;
 	}
 
+	@Override
+	public boolean isTableRowDifferent(final TableRow row) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 	// @Override
 	// public Table createCompareTable(final Table mainPlanTable,
 	// final Table comparePlanTable) {
