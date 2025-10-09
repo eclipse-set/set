@@ -135,60 +135,34 @@ public class CustomTableDiffService implements TableDiffService {
 	// IMPROVE: this function isn't completely.
 	private static void createMultiColorDiffCotent(final TableCell oldCell,
 			final TableCell newCell) {
-		if (oldCell.getContent() instanceof MultiColorCellContent) {
-			if (newCell != null && newCell
-					.getContent() instanceof final MultiColorCellContent newCellContent) {
-				final MultiColorCellContent clone = EcoreUtil
-						.copy(newCellContent);
-
-				oldCell.setContent(clone);
+		if (oldCell
+				.getContent() instanceof final MultiColorCellContent oldCellContent
+				&& newCell != null && newCell
+						.getContent() instanceof final MultiColorCellContent newCellContent) {
+			if (CellContentExtensions.getPlainStringValue(oldCellContent)
+					.equals(CellContentExtensions
+							.getPlainStringValue(newCellContent))) {
+				oldCellContent.getValue()
+						.forEach(e -> e.setDisableMultiColor(false));
+				return;
 			}
-			final MultiColorCellContent oldCellContent = (MultiColorCellContent) oldCell
-					.getContent();
-			oldCellContent.getValue()
-					.forEach(e -> e.setDisableMultiColor(false));
+
+			final CompareCellContent compareCellContent = TablemodelFactory.eINSTANCE
+					.createCompareCellContent();
+			oldCellContent.getValue().forEach(colorContent -> {
+				compareCellContent.getOldValue()
+						.add(String.format(colorContent.getStringFormat(),
+								colorContent.getMultiColorValue()));
+			});
+
+			newCellContent.getValue().forEach(colorContent -> {
+				compareCellContent.getNewValue()
+						.add(String.format(colorContent.getStringFormat(),
+								colorContent.getMultiColorValue()));
+			});
+			oldCell.setContent(compareCellContent);
 		}
 	}
-
-	// if (oldCell
-	// .getContent() instanceof final MultiColorCellContent oldCellContent
-	// && newCell
-	// .getContent() instanceof final MultiColorCellContent newCellContent)
-	// {
-	// final BiFunction<MultiColorCellContent, Function<MultiColorContent,
-	// String>, Set<String>> getIterableStr = (
-	// cellContent, getValueFunc) -> cellContent.getValue()
-	// .stream()
-	// .map(getValueFunc::apply)
-	// .collect(Collectors.toSet());
-	//
-	// final Set<String> oldMultiColorValueStr = getIterableStr.apply(
-	// oldCellContent, MultiColorContent::getMultiColorValue);
-	// final Set<String> newMultiColorValueStr = getIterableStr.apply(
-	// newCellContent, MultiColorContent::getMultiColorValue);
-	// final Set<String> oldStringformatValueStr = getIterableStr
-	// .apply(oldCellContent, MultiColorContent::getStringFormat);
-	// final Set<String> newStringformatValueStr = getIterableStr
-	// .apply(newCellContent, MultiColorContent::getStringFormat);
-	// // Fall multicolor value of both is empty, but stringformat is
-	// // difference, then replace OldContent with CompareCellContent
-	// if (oldMultiColorValueStr.isEmpty()
-	// && newMultiColorValueStr.isEmpty()
-	// && !oldStringformatValueStr
-	// .equals(newStringformatValueStr)) {
-	// oldCell.setContent(createCompareCellContent(
-	// oldStringformatValueStr, newStringformatValueStr,
-	// oldCellContent.getSeparator()));
-	// // Fall multicolor
-	// } else if (!oldMultiColorValueStr.isEmpty()
-	// && !newMultiColorValueStr.isEmpty()
-	// && !oldMultiColorValueStr.equals(newMultiColorValueStr)) {
-	// final MultiColorCellContent clone = EcoreUtil
-	// .copy(newCellContent);
-	// clone.getValue().forEach(e -> e.setDisableMultiColor(false));
-	// oldCell.setContent(clone);
-	// }
-	// }
 
 	private static CompareCellContent createCompareCellContent(
 			final TableCell oldCell, final TableCell newCell) {

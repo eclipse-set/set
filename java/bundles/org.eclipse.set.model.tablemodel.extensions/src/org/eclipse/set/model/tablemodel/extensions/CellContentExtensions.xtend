@@ -16,6 +16,7 @@ import org.eclipse.set.model.planpro.Basisobjekte.Bearbeitungsvermerk
 import org.eclipse.set.model.tablemodel.CellContent
 import org.eclipse.set.model.tablemodel.CompareCellContent
 import org.eclipse.set.model.tablemodel.CompareFootnoteContainer
+import org.eclipse.set.model.tablemodel.CompareTableCellContent
 import org.eclipse.set.model.tablemodel.FootnoteContainer
 import org.eclipse.set.model.tablemodel.MultiColorCellContent
 import org.eclipse.set.model.tablemodel.MultiColorContent
@@ -27,9 +28,7 @@ import org.eclipse.set.utils.ToolboxConfiguration
 import static org.eclipse.set.model.tablemodel.extensions.Utils.*
 
 import static extension org.eclipse.set.model.tablemodel.extensions.TableCellExtensions.*
-import static extension org.eclipse.set.model.tablemodel.extensions.ColumnDescriptorExtensions.*
 import static extension org.eclipse.set.utils.StringExtensions.*
-import org.eclipse.set.model.tablemodel.CompareTableCellContent
 
 /**
  * Extensions for {@link CellContent}.
@@ -46,7 +45,6 @@ class CellContentExtensions {
 	static val String ERROR_PREFIX = "Error:"
 	static val String YELLOW_COLOR_RGB = "rgb(255,255, 0)"
 	static val String RED_COLOR_RGB = "rgb(255, 0, 0)"
-	static val String GREY_COLOR_RGB = "rgb(232,232,232)"
 
 	/**
 	 * Returns a formatted string representation intended for rendering as
@@ -78,7 +76,7 @@ class CellContentExtensions {
 			[WARNING_MARK_BLACK],
 			[WARNING_MARK_RED],
 			[text, mark|getCompareValueFormat(mark, text)]
-		)
+		).filter[!nullOrEmpty]
 
 		return '''<p style="text-align:«content.textAlign»">«
 		»«result.iterableToString(content.separator === null || content.separator.equals("\r\n")
@@ -239,11 +237,6 @@ class CellContentExtensions {
 
 	private static def String getTextAlign(CellContent content) {
 		return content.tableCell.format.textAlignment.literal
-	}
-
-	private static def boolean isTopologicalCell(CellContent content) {
-		return content.tableCell.columndescriptor.columnGreyed ||
-			content.tableCell.format.topologicalCalculation
 	}
 
 	private static def dispatch String getValueFormat(
