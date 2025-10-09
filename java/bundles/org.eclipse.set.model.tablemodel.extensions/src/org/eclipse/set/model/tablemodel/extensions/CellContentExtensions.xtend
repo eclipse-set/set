@@ -10,6 +10,7 @@ package org.eclipse.set.model.tablemodel.extensions
 
 import com.google.common.base.Strings
 import com.google.common.html.HtmlEscapers
+import java.util.List
 import java.util.function.BiFunction
 import java.util.function.Function
 import org.eclipse.set.model.planpro.Basisobjekte.Bearbeitungsvermerk
@@ -27,6 +28,7 @@ import org.eclipse.set.utils.ToolboxConfiguration
 
 import static org.eclipse.set.model.tablemodel.extensions.Utils.*
 
+import static extension org.eclipse.set.model.tablemodel.extensions.ColumnDescriptorExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.TableCellExtensions.*
 import static extension org.eclipse.set.utils.StringExtensions.*
 
@@ -91,6 +93,10 @@ class CellContentExtensions {
 
 	static def dispatch String getRichTextValue(
 		CompareTableCellContent content) {
+		if (content.mainPlanCellContent.plainStringValue ==
+			content.comparePlanCellContent.plainStringValue) {
+			return '''<s>«content.mainPlanCellContent.richTextValue»</s>'''
+		}
 		return content.mainPlanCellContent.richTextValue
 	}
 
@@ -158,6 +164,19 @@ class CellContentExtensions {
 			? "<br></br>" 
 			: content.separator
 		)»</p>'''
+	}
+
+	static def dispatch String getRichTextValueWithFootnotes(
+		CompareTableCellContent content, CompareTableFootnoteContainer fc) {
+
+		val mainTableFootnotes = fc.mainPlanFootnoteContainer
+		val compareTableFootnotes = fc.comparePlanFootnoteContainer
+		val result = content.mainPlanCellContent.
+			getRichTextValueWithFootnotes(fc.mainPlanFootnoteContainer)
+		if (mainTableFootnotes.isSameFootnotesComment(compareTableFootnotes)) {
+			return '''<s>«result»</s>'''
+		}
+		return result
 	}
 
 	/**
@@ -368,9 +387,8 @@ class CellContentExtensions {
 
 	private static def String getMultiColorFormat(MultiColorContent content) {
 		if (Strings.isNullOrEmpty(content.multiColorValue)) {
-			return Strings.isNullOrEmpty(content.stringFormat)
-				? ""
-				: content.stringFormat.htmlString
+			return Strings.isNullOrEmpty(content.stringFormat) ? "" : content.
+				stringFormat.htmlString
 		}
 
 		if (content.isDisableMultiColor) {

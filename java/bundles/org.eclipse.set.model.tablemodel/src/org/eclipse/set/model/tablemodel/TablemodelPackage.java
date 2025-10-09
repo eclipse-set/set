@@ -909,6 +909,58 @@ public interface TablemodelPackage extends EPackage {
 
 	/**
 	 * The meta object id for the
+	 * '{@link org.eclipse.set.model.tablemodel.impl.CompareTableFootnoteContainerImpl
+	 * <em>Compare Table Footnote Container</em>}' class. <!-- begin-user-doc
+	 * --> <!-- end-user-doc -->
+	 * 
+	 * @see org.eclipse.set.model.tablemodel.impl.CompareTableFootnoteContainerImpl
+	 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getCompareTableFootnoteContainer()
+	 * @generated
+	 */
+	int COMPARE_TABLE_FOOTNOTE_CONTAINER = 16;
+
+	/**
+	 * The feature id for the '<em><b>Main Plan Footnote Container</b></em>'
+	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 * @ordered
+	 */
+	int COMPARE_TABLE_FOOTNOTE_CONTAINER__MAIN_PLAN_FOOTNOTE_CONTAINER = FOOTNOTE_CONTAINER_FEATURE_COUNT
+			+ 0;
+
+	/**
+	 * The feature id for the '<em><b>Compare Plan Footnote Container</b></em>'
+	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 * @ordered
+	 */
+	int COMPARE_TABLE_FOOTNOTE_CONTAINER__COMPARE_PLAN_FOOTNOTE_CONTAINER = FOOTNOTE_CONTAINER_FEATURE_COUNT
+			+ 1;
+
+	/**
+	 * The number of structural features of the '<em>Compare Table Footnote
+	 * Container</em>' class. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 * @ordered
+	 */
+	int COMPARE_TABLE_FOOTNOTE_CONTAINER_FEATURE_COUNT = FOOTNOTE_CONTAINER_FEATURE_COUNT
+			+ 2;
+
+	/**
+	 * The number of operations of the '<em>Compare Table Footnote
+	 * Container</em>' class. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 * @ordered
+	 */
+	int COMPARE_TABLE_FOOTNOTE_CONTAINER_OPERATION_COUNT = FOOTNOTE_CONTAINER_OPERATION_COUNT
+			+ 0;
+
+	/**
+	 * The meta object id for the
 	 * '{@link org.eclipse.set.model.tablemodel.ColumnWidthMode <em>Column Width
 	 * Mode</em>}' enum. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
@@ -916,7 +968,7 @@ public interface TablemodelPackage extends EPackage {
 	 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getColumnWidthMode()
 	 * @generated
 	 */
-	int COLUMN_WIDTH_MODE = 16;
+	int COLUMN_WIDTH_MODE = 17;
 
 	/**
 	 * The meta object id for the
@@ -927,7 +979,7 @@ public interface TablemodelPackage extends EPackage {
 	 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getRowMergeMode()
 	 * @generated
 	 */
-	int ROW_MERGE_MODE = 17;
+	int ROW_MERGE_MODE = 18;
 
 	/**
 	 * Returns the meta object for class
@@ -1562,6 +1614,47 @@ public interface TablemodelPackage extends EPackage {
 	EReference getCompareTableCellContent_ComparePlanCellContent();
 
 	/**
+	 * Returns the meta object for class
+	 * '{@link org.eclipse.set.model.tablemodel.CompareTableFootnoteContainer
+	 * <em>Compare Table Footnote Container</em>}'. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
+	 * @return the meta object for class '<em>Compare Table Footnote
+	 *         Container</em>'.
+	 * @see org.eclipse.set.model.tablemodel.CompareTableFootnoteContainer
+	 * @generated
+	 */
+	EClass getCompareTableFootnoteContainer();
+
+	/**
+	 * Returns the meta object for the containment reference
+	 * '{@link org.eclipse.set.model.tablemodel.CompareTableFootnoteContainer#getMainPlanFootnoteContainer
+	 * <em>Main Plan Footnote Container</em>}'. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
+	 * @return the meta object for the containment reference '<em>Main Plan
+	 *         Footnote Container</em>'.
+	 * @see org.eclipse.set.model.tablemodel.CompareTableFootnoteContainer#getMainPlanFootnoteContainer()
+	 * @see #getCompareTableFootnoteContainer()
+	 * @generated
+	 */
+	EReference getCompareTableFootnoteContainer_MainPlanFootnoteContainer();
+
+	/**
+	 * Returns the meta object for the reference
+	 * '{@link org.eclipse.set.model.tablemodel.CompareTableFootnoteContainer#getComparePlanFootnoteContainer
+	 * <em>Compare Plan Footnote Container</em>}'. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
+	 * @return the meta object for the reference '<em>Compare Plan Footnote
+	 *         Container</em>'.
+	 * @see org.eclipse.set.model.tablemodel.CompareTableFootnoteContainer#getComparePlanFootnoteContainer()
+	 * @see #getCompareTableFootnoteContainer()
+	 * @generated
+	 */
+	EReference getCompareTableFootnoteContainer_ComparePlanFootnoteContainer();
+
+	/**
 	 * Returns the meta object for enum
 	 * '{@link org.eclipse.set.model.tablemodel.ColumnWidthMode <em>Column Width
 	 * Mode</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -2123,6 +2216,39 @@ public interface TablemodelPackage extends EPackage {
 		 */
 		EReference COMPARE_TABLE_CELL_CONTENT__COMPARE_PLAN_CELL_CONTENT = eINSTANCE
 				.getCompareTableCellContent_ComparePlanCellContent();
+
+		/**
+		 * The meta object literal for the
+		 * '{@link org.eclipse.set.model.tablemodel.impl.CompareTableFootnoteContainerImpl
+		 * <em>Compare Table Footnote Container</em>}' class. <!--
+		 * begin-user-doc --> <!-- end-user-doc -->
+		 * 
+		 * @see org.eclipse.set.model.tablemodel.impl.CompareTableFootnoteContainerImpl
+		 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getCompareTableFootnoteContainer()
+		 * @generated
+		 */
+		EClass COMPARE_TABLE_FOOTNOTE_CONTAINER = eINSTANCE
+				.getCompareTableFootnoteContainer();
+
+		/**
+		 * The meta object literal for the '<em><b>Main Plan Footnote
+		 * Container</b></em>' containment reference feature. <!--
+		 * begin-user-doc --> <!-- end-user-doc -->
+		 * 
+		 * @generated
+		 */
+		EReference COMPARE_TABLE_FOOTNOTE_CONTAINER__MAIN_PLAN_FOOTNOTE_CONTAINER = eINSTANCE
+				.getCompareTableFootnoteContainer_MainPlanFootnoteContainer();
+
+		/**
+		 * The meta object literal for the '<em><b>Compare Plan Footnote
+		 * Container</b></em>' reference feature. <!-- begin-user-doc --> <!--
+		 * end-user-doc -->
+		 * 
+		 * @generated
+		 */
+		EReference COMPARE_TABLE_FOOTNOTE_CONTAINER__COMPARE_PLAN_FOOTNOTE_CONTAINER = eINSTANCE
+				.getCompareTableFootnoteContainer_ComparePlanFootnoteContainer();
 
 		/**
 		 * The meta object literal for the

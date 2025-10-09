@@ -50,6 +50,7 @@ import org.eclipse.nebula.widgets.nattable.layer.SpanningDataLayer;
 import org.eclipse.nebula.widgets.nattable.layer.cell.DataCell;
 import org.eclipse.nebula.widgets.nattable.layer.cell.IConfigLabelAccumulator;
 import org.eclipse.nebula.widgets.nattable.layer.cell.ILayerCell;
+import org.eclipse.nebula.widgets.nattable.painter.cell.decorator.CustomLineBorderDecorator;
 import org.eclipse.nebula.widgets.nattable.resize.command.RowHeightResetCommand;
 import org.eclipse.nebula.widgets.nattable.selection.SelectionLayer;
 import org.eclipse.nebula.widgets.nattable.viewport.command.ShowRowInViewportCommand;
@@ -75,6 +76,7 @@ import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
 import org.eclipse.set.model.planpro.PlanPro.Container_AttributeGroup;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.CompareTableCellContent;
+import org.eclipse.set.model.tablemodel.CompareTableFootnoteContainer;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.TableCell;
 import org.eclipse.set.model.tablemodel.TableRow;
@@ -90,6 +92,7 @@ import org.eclipse.set.ppmodel.extensions.utils.PlanProToFreeFieldTransformation
 import org.eclipse.set.ppmodel.extensions.utils.PlanProToTitleboxTransformation;
 import org.eclipse.set.services.export.ExportService;
 import org.eclipse.set.services.export.TableCompileService;
+import org.eclipse.set.services.table.TableDiffService;
 import org.eclipse.set.services.table.TableService;
 import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.RefreshAction;
@@ -179,6 +182,9 @@ public final class ToolboxTableView extends BasePart {
 
 	@Inject
 	UserConfigurationService userConfigService;
+
+	@Inject
+	TableDiffService diffService;
 
 	TableType tableType;
 
@@ -577,25 +583,48 @@ public final class ToolboxTableView extends BasePart {
 			final int columnIndexByPosition = bodyLayerStack
 					.getColumnIndexByPosition(columnPosition);
 			final TableRow tableRow = tableInstances.get(rowIndexByPosition);
+
 			final TableCell tableCell = tableRow.getCells()
 					.get(columnIndexByPosition);
 			if (tableCell
 					.getContent() instanceof final CompareTableCellContent cellContent) {
-
-				final String plainStringValue = CellContentExtensions
-						.getPlainStringValue(
-								cellContent.getComparePlanCellContent());
-				final String plainStringValue2 = CellContentExtensions
-						.getPlainStringValue(
-								cellContent.getMainPlanCellContent());
 				// Only when the object of the tablerow changed guid, then the
 				// contents are same
-				if (cellContent.getComparePlanCellContent() != null
-						&& cellContent.getMainPlanCellContent() != null
-						&& plainStringValue.equals(plainStringValue2)) {
+				if (!(tableRow.getFootnotes() == null || tableRow
+						.getFootnotes() instanceof CompareTableFootnoteContainer)
+						&& CellContentExtensions.isEqual(
+								cellContent.getMainPlanCellContent(),
+								cellContent.getComparePlanCellContent())) {
 					configLabels.addLabel(
-							ToolboxConstants.TABLE_COMPARE_CHANGED_GUID_CELL_LABEL);
+							ToolboxConstants.TABLE_COMPARE_CHANGED_GUID_ROW_CELL_LABEL);
 					return;
+				}
+
+				if (diffService.isTableRowDifferent(tableRow)) {
+					if (columnIndexByPosition == 0) {
+						configLabels.addLabel(
+								ToolboxConstants.TABLE_COMPARE_TABLE_ROW_FIRST_CELL_LABEL);
+						configLabels.addAll(List.of(
+								CustomLineBorderDecorator.BOTTOM_LINE_BORDER_LABEL,
+								CustomLineBorderDecorator.LEFT_LINE_BORDER_LABEL,
+								CustomLineBorderDecorator.TOP_LINE_BORDER_LABEL));
+					} else if (columnIndexByPosition == tableRow.getCells()
+							.size() - 1) {
+						configLabels.addLabel(
+								ToolboxConstants.TABLE_COMPARE_TABLE_ROW_LAST_CELL_LABEL);
+						configLabels.addAll(List.of(
+								CustomLineBorderDecorator.BOTTOM_LINE_BORDER_LABEL,
+								CustomLineBorderDecorator.RIGHT_LINE_BORDER_LABEL,
+								CustomLineBorderDecorator.TOP_LINE_BORDER_LABEL));
+					} else {
+						configLabels.addLabel(
+								ToolboxConstants.TABLE_COMPARE_TABLE_ROW_CELL_LABEL);
+						configLabels.addAll(List.of(
+								CustomLineBorderDecorator.BOTTOM_LINE_BORDER_LABEL,
+								CustomLineBorderDecorator.TOP_LINE_BORDER_LABEL));
+					}
+					return;
+
 				}
 				configLabels.addLabel(
 						ToolboxConstants.TABLE_COMPARE_TABLE_CELL_LABEL);

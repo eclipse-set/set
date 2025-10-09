@@ -313,9 +313,24 @@ public final class ToolboxConstants {
 	public static final String XSL_PROJECT_COMPARE_CELL = "CompareProjectContent";
 
 	/**
-	 * Label for CompareTableCellContent cell, which belong to changed guid row
+	 * Label for cells of table row, which completely changed.
 	 */
-	public static final String TABLE_COMPARE_CHANGED_GUID_CELL_LABEL = "tableCompareCellChangedGuid";
+	public static final String TABLE_COMPARE_CHANGED_GUID_ROW_CELL_LABEL = "tableCompareTableRowCell";
+
+	/**
+	 * Label for first cell of table row, which completely changed.
+	 */
+	public static final String TABLE_COMPARE_TABLE_ROW_FIRST_CELL_LABEL = "tableCompareTableRowFirstCell";
+
+	/**
+	 * Label for last cell of table row, which completely changed.
+	 */
+	public static final String TABLE_COMPARE_TABLE_ROW_LAST_CELL_LABEL = "tableCompareTableRowLastCell";
+
+	/**
+	 * Label for cell of the table row, which completely changed.
+	 */
+	public static final String TABLE_COMPARE_TABLE_ROW_CELL_LABEL = "tableCompareTableRowCell";
 
 	/**
 	 * Label for Topological Cell

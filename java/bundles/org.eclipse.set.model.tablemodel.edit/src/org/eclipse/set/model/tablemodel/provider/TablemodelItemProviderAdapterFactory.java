@@ -441,6 +441,32 @@ public class TablemodelItemProviderAdapterFactory
 	}
 
 	/**
+	 * This keeps track of the one adapter used for all
+	 * {@link org.eclipse.set.model.tablemodel.CompareTableFootnoteContainer}
+	 * instances. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	protected CompareTableFootnoteContainerItemProvider compareTableFootnoteContainerItemProvider;
+
+	/**
+	 * This creates an adapter for a
+	 * {@link org.eclipse.set.model.tablemodel.CompareTableFootnoteContainer}.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
+	public Adapter createCompareTableFootnoteContainerAdapter() {
+		if (compareTableFootnoteContainerItemProvider == null) {
+			compareTableFootnoteContainerItemProvider = new CompareTableFootnoteContainerItemProvider(
+					this);
+		}
+
+		return compareTableFootnoteContainerItemProvider;
+	}
+
+	/**
 	 * This returns the root adapter factory that contains this factory. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
@@ -575,6 +601,8 @@ public class TablemodelItemProviderAdapterFactory
 			simpleFootnoteContainerItemProvider.dispose();
 		if (compareTableCellContentItemProvider != null)
 			compareTableCellContentItemProvider.dispose();
+		if (compareTableFootnoteContainerItemProvider != null)
+			compareTableFootnoteContainerItemProvider.dispose();
 	}
 
 }
