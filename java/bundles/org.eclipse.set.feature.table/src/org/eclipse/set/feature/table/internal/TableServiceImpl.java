@@ -686,6 +686,17 @@ public final class TableServiceImpl implements TableService {
 
 		final Table compareSessionTable = transformToTable(elementId, tableType,
 				compareSession, controlAreaIds);
+
+		// Waiting table compare transform, then create compare table between to
+		// plan
+		while (!TableService.isTransformComplete(extractShortcut(elementId),
+				null)) {
+			try {
+				Thread.sleep(2000);
+			} catch (final InterruptedException e) {
+				Thread.interrupted();
+			}
+		}
 		final Table compareTable = diffServiceMap.get(TableCompareType.PROJECT)
 				.createDiffTable(mainSessionTable, compareSessionTable);
 		ECollections.sort(compareTable.getTablecontent().getRowgroups(),

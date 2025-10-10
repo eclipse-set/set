@@ -162,6 +162,11 @@ public class TablemodelAdapterFactory extends AdapterFactoryImpl {
 		}
 
 		@Override
+		public Adapter casePlanCompareRow(PlanCompareRow object) {
+			return createPlanCompareRowAdapter();
+		}
+
+		@Override
 		public Adapter defaultCase(EObject object) {
 			return createEObjectAdapter();
 		}
@@ -446,6 +451,21 @@ public class TablemodelAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createCompareTableFootnoteContainerAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class
+	 * '{@link org.eclipse.set.model.tablemodel.PlanCompareRow <em>Plan Compare
+	 * Row</em>}'. <!-- begin-user-doc --> This default implementation returns
+	 * null so that we can easily ignore cases; it's useful to ignore a case
+	 * when inheritance will catch all the cases anyway. <!-- end-user-doc -->
+	 * 
+	 * @return the new adapter.
+	 * @see org.eclipse.set.model.tablemodel.PlanCompareRow
+	 * @generated
+	 */
+	public Adapter createPlanCompareRowAdapter() {
 		return null;
 	}
 

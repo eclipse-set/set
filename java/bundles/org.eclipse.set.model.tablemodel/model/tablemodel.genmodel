@@ -18,6 +18,11 @@
       <genEnumLiterals ecoreEnumLiteral="tablemodel.ecore#//RowMergeMode/ENABLED"/>
       <genEnumLiterals ecoreEnumLiteral="tablemodel.ecore#//RowMergeMode/DISABLED"/>
     </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="tablemodel.ecore#//PlanCompareRowType">
+      <genEnumLiterals ecoreEnumLiteral="tablemodel.ecore#//PlanCompareRowType/NEW_ROW"/>
+      <genEnumLiterals ecoreEnumLiteral="tablemodel.ecore#//PlanCompareRowType/REMOVED_ROW"/>
+      <genEnumLiterals ecoreEnumLiteral="tablemodel.ecore#//PlanCompareRowType/CHANGED_GUID_ROW"/>
+    </genEnums>
     <genClasses ecoreClass="tablemodel.ecore#//Table">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tablemodel.ecore#//Table/columndescriptors"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tablemodel.ecore#//Table/tablecontent"/>
@@ -87,6 +92,9 @@
     <genClasses ecoreClass="tablemodel.ecore#//CompareTableFootnoteContainer">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tablemodel.ecore#//CompareTableFootnoteContainer/mainPlanFootnoteContainer"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tablemodel.ecore#//CompareTableFootnoteContainer/comparePlanFootnoteContainer"/>
+    </genClasses>
+    <genClasses ecoreClass="tablemodel.ecore#//PlanCompareRow">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tablemodel.ecore#//PlanCompareRow/rowType"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

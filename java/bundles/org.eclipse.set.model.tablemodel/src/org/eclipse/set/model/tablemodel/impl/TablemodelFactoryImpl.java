@@ -94,6 +94,8 @@ public class TablemodelFactoryImpl extends EFactoryImpl
 				return createCompareTableCellContent();
 			case TablemodelPackage.COMPARE_TABLE_FOOTNOTE_CONTAINER:
 				return createCompareTableFootnoteContainer();
+			case TablemodelPackage.PLAN_COMPARE_ROW:
+				return createPlanCompareRow();
 			default:
 				throw new IllegalArgumentException("The class '"
 						+ eClass.getName() + "' is not a valid classifier");
@@ -112,6 +114,9 @@ public class TablemodelFactoryImpl extends EFactoryImpl
 				return createColumnWidthModeFromString(eDataType, initialValue);
 			case TablemodelPackage.ROW_MERGE_MODE:
 				return createRowMergeModeFromString(eDataType, initialValue);
+			case TablemodelPackage.PLAN_COMPARE_ROW_TYPE:
+				return createPlanCompareRowTypeFromString(eDataType,
+						initialValue);
 			default:
 				throw new IllegalArgumentException("The datatype '"
 						+ eDataType.getName() + "' is not a valid classifier");
@@ -130,6 +135,9 @@ public class TablemodelFactoryImpl extends EFactoryImpl
 				return convertColumnWidthModeToString(eDataType, instanceValue);
 			case TablemodelPackage.ROW_MERGE_MODE:
 				return convertRowMergeModeToString(eDataType, instanceValue);
+			case TablemodelPackage.PLAN_COMPARE_ROW_TYPE:
+				return convertPlanCompareRowTypeToString(eDataType,
+						instanceValue);
 			default:
 				throw new IllegalArgumentException("The datatype '"
 						+ eDataType.getName() + "' is not a valid classifier");
@@ -306,6 +314,17 @@ public class TablemodelFactoryImpl extends EFactoryImpl
 	 * 
 	 * @generated
 	 */
+	@Override
+	public PlanCompareRow createPlanCompareRow() {
+		PlanCompareRowImpl planCompareRow = new PlanCompareRowImpl();
+		return planCompareRow;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
 	public ColumnWidthMode createColumnWidthModeFromString(EDataType eDataType,
 			String initialValue) {
 		ColumnWidthMode result = ColumnWidthMode.get(initialValue);
@@ -347,6 +366,31 @@ public class TablemodelFactoryImpl extends EFactoryImpl
 	 * @generated
 	 */
 	public String convertRowMergeModeToString(EDataType eDataType,
+			Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	public PlanCompareRowType createPlanCompareRowTypeFromString(
+			EDataType eDataType, String initialValue) {
+		PlanCompareRowType result = PlanCompareRowType.get(initialValue);
+		if (result == null)
+			throw new IllegalArgumentException("The value '" + initialValue
+					+ "' is not a valid enumerator of '" + eDataType.getName()
+					+ "'");
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	public String convertPlanCompareRowTypeToString(EDataType eDataType,
 			Object instanceValue) {
 		return instanceValue == null ? null : instanceValue.toString();
 	}

@@ -12,6 +12,7 @@ package org.eclipse.set.feature.export.tablediff;
 
 import static org.eclipse.set.ppmodel.extensions.EObjectExtensions.getNullableObject;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -27,6 +28,8 @@ import org.eclipse.set.model.tablemodel.CompareTableCellContent;
 import org.eclipse.set.model.tablemodel.CompareTableFootnoteContainer;
 import org.eclipse.set.model.tablemodel.FootnoteContainer;
 import org.eclipse.set.model.tablemodel.MultiColorCellContent;
+import org.eclipse.set.model.tablemodel.PlanCompareRow;
+import org.eclipse.set.model.tablemodel.PlanCompareRowType;
 import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.model.tablemodel.StringCellContent;
 import org.eclipse.set.model.tablemodel.Table;
@@ -62,9 +65,7 @@ public class TableProjectDiffService extends AbstractTableDiff {
 		// doesn't contains. Or the leading guid was changed
 		// The missing row can be skip, because it was already with
 		// CompareTableCellContent defined
-		if (isDifferentRow(mergedTableRow)) {
-			addDifferentRow(TableRowExtensions.getTable(mergedTableRow),
-					mergedTableRow);
+		if (mergedTableRow instanceof PlanCompareRow) {
 			return;
 		}
 
@@ -72,17 +73,31 @@ public class TableProjectDiffService extends AbstractTableDiff {
 
 		// When the row after compare contain only CompareTableCellContent, then
 		// this row isn't exist in CompareTable, also complete new row
-		if (isDifferentRow(mergedTableRow)) {
-			addDifferentRow(TableRowExtensions.getTable(mergedTableRow),
-					mergedTableRow);
+		if (isNewRow(mergedTableRow)) {
+			final PlanCompareRow planCompareRow = TablemodelFactory.eINSTANCE
+					.createPlanCompareRow();
+			planCompareRow.setRowType(PlanCompareRowType.NEW_ROW);
+			planCompareRow.getCells().addAll(mergedTableRow.getCells());
+			final RowGroup group = TableRowExtensions.getGroup(mergedTableRow);
+			final int indexOf = group.getRows().indexOf(mergedTableRow);
+			group.getRows().remove(mergedTableRow);
+			group.getRows().add(indexOf, planCompareRow);
+
 		}
 	}
 
-	private static boolean isDifferentRow(final TableRow row) {
+	// The row, which give only in current plan, also main plan
+	private static boolean isNewRow(final TableRow row) {
 		return row.getCells()
 				.stream()
 				.map(TableCell::getContent)
-				.allMatch(CompareTableCellContent.class::isInstance);
+				.allMatch(content -> {
+					if (content instanceof final CompareTableCellContent compareCellContent) {
+						return compareCellContent
+								.getComparePlanCellContent() == null;
+					}
+					return false;
+				});
 	}
 
 	@Override
@@ -133,8 +148,13 @@ public class TableProjectDiffService extends AbstractTableDiff {
 	 */
 	private static void createChangeGuidRowGroup(
 			final RowGroup mainTableRowGroup) {
+		final List<PlanCompareRow> compareRows = new ArrayList<>();
 		for (final TableRow row : mainTableRowGroup.getRows()) {
-			row.getCells().forEach(cell -> {
+			final PlanCompareRow planCompareRow = TablemodelFactory.eINSTANCE
+					.createPlanCompareRow();
+			planCompareRow.setRowType(PlanCompareRowType.CHANGED_GUID_ROW);
+			planCompareRow.getCells().addAll(row.getCells());
+			planCompareRow.getCells().forEach(cell -> {
 				final CompareTableCellContent tableCompareCell = TablemodelFactory.eINSTANCE
 						.createCompareTableCellContent();
 				final CellContent content = cell.getContent();
@@ -144,15 +164,19 @@ public class TableProjectDiffService extends AbstractTableDiff {
 						.setMainPlanCellContent(EcoreUtil.copy(content));
 				tableCompareCell.setSeparator(content.getSeparator());
 				cell.setContent(tableCompareCell);
-
+				compareRows.add(planCompareRow);
 			});
 		}
+
+		// Replace to compare row
+		mainTableRowGroup.getRows().clear();
+		mainTableRowGroup.getRows().addAll(compareRows);
 	}
 
 	@Override
 	protected TableRow createMissingRow(final List<ColumnDescriptor> columns) {
-		final TableRow missingRow = TablemodelFactory.eINSTANCE
-				.createTableRow();
+		final PlanCompareRow missingRow = TablemodelFactory.eINSTANCE
+				.createPlanCompareRow();
 		columns.forEach(col -> {
 			final TableCell cell = TablemodelFactory.eINSTANCE
 					.createTableCell();
@@ -166,6 +190,7 @@ public class TableProjectDiffService extends AbstractTableDiff {
 			cell.setContent(compareContent);
 			missingRow.getCells().add(cell);
 		});
+		missingRow.setRowType(PlanCompareRowType.REMOVED_ROW);
 		return missingRow;
 	}
 

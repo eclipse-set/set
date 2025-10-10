@@ -10,11 +10,8 @@
  */
 package org.eclipse.set.feature.export.tablediff;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.function.Consumer;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -30,18 +27,14 @@ import org.eclipse.set.model.tablemodel.TableCell;
 import org.eclipse.set.model.tablemodel.TableRow;
 import org.eclipse.set.model.tablemodel.TablemodelFactory;
 import org.eclipse.set.model.tablemodel.extensions.FootnoteContainerExtensions;
-import org.eclipse.set.model.tablemodel.extensions.RowGroupExtensions;
 import org.eclipse.set.model.tablemodel.extensions.TableExtensions;
-import org.eclipse.set.model.tablemodel.extensions.TableRowExtensions;
 import org.eclipse.set.ppmodel.extensions.EObjectExtensions;
 import org.eclipse.set.services.table.TableDiffService;
 
 /**
- * 
+ * Abstract class for create diff table
  */
 public abstract class AbstractTableDiff implements TableDiffService {
-
-	protected static final Map<Table, List<TableRow>> differentRows = new HashMap<>();
 
 	@Override
 	public Table createDiffTable(final Table oldTable, final Table newTable) {
@@ -71,6 +64,7 @@ public abstract class AbstractTableDiff implements TableDiffService {
 		return mergedTable;
 	}
 
+	@SuppressWarnings("unused")
 	protected void addMissingRowGroup(final RowGroup newTableRowGroup,
 			final Table mergedTable) {
 		final String groupGuid = EObjectExtensions
@@ -199,22 +193,4 @@ public abstract class AbstractTableDiff implements TableDiffService {
 	}
 
 	abstract SessionService getSessionService();
-
-	@Override
-	public boolean isTableRowDifferent(final TableRow row) {
-		final RowGroup group = TableRowExtensions.getGroup(row);
-		final Table table = RowGroupExtensions.getTable(group);
-		if (differentRows.containsKey(table)) {
-			return differentRows.get(table).stream().anyMatch(row::equals);
-		}
-		return false;
-	}
-
-	protected void addDifferentRow(final Table table, final TableRow row) {
-		differentRows.computeIfAbsent(table, t -> new ArrayList<TableRow>());
-		differentRows.computeIfPresent(table, (t, rowList) -> {
-			rowList.add(row);
-			return rowList;
-		});
-	}
 }

@@ -10,7 +10,6 @@ package org.eclipse.set.model.tablemodel.extensions
 
 import com.google.common.base.Strings
 import com.google.common.html.HtmlEscapers
-import java.util.List
 import java.util.function.BiFunction
 import java.util.function.Function
 import org.eclipse.set.model.planpro.Basisobjekte.Bearbeitungsvermerk
@@ -18,6 +17,7 @@ import org.eclipse.set.model.tablemodel.CellContent
 import org.eclipse.set.model.tablemodel.CompareCellContent
 import org.eclipse.set.model.tablemodel.CompareFootnoteContainer
 import org.eclipse.set.model.tablemodel.CompareTableCellContent
+import org.eclipse.set.model.tablemodel.CompareTableFootnoteContainer
 import org.eclipse.set.model.tablemodel.FootnoteContainer
 import org.eclipse.set.model.tablemodel.MultiColorCellContent
 import org.eclipse.set.model.tablemodel.MultiColorContent
@@ -29,6 +29,7 @@ import org.eclipse.set.utils.ToolboxConfiguration
 import static org.eclipse.set.model.tablemodel.extensions.Utils.*
 
 import static extension org.eclipse.set.model.tablemodel.extensions.ColumnDescriptorExtensions.*
+import static extension org.eclipse.set.model.tablemodel.extensions.FootnoteContainerExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.TableCellExtensions.*
 import static extension org.eclipse.set.utils.StringExtensions.*
 

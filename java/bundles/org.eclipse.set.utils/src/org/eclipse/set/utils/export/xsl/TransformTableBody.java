@@ -10,7 +10,9 @@
  */
 package org.eclipse.set.utils.export.xsl;
 
-import static org.eclipse.set.utils.excel.ExcelWorkbookExtension.*;
+import static org.eclipse.set.utils.excel.ExcelWorkbookExtension.getCellAt;
+import static org.eclipse.set.utils.excel.ExcelWorkbookExtension.getHeaderLastColumnIndex;
+import static org.eclipse.set.utils.excel.ExcelWorkbookExtension.getHeaderLastRowIndex;
 import static org.eclipse.set.utils.export.xsl.TransformStyle.setExcelCellBorderStyle;
 import static org.eclipse.set.utils.export.xsl.TransformStyle.transformBorderStyle;
 import static org.eclipse.set.utils.export.xsl.XMLDocumentExtensions.createXMLElementWithAttr;
@@ -20,7 +22,14 @@ import static org.eclipse.set.utils.export.xsl.XSLConstant.XSLFoAttributeName.AT
 import static org.eclipse.set.utils.export.xsl.XSLConstant.XSLFoAttributeName.ATTR_SELECT;
 import static org.eclipse.set.utils.export.xsl.XSLConstant.XSLStyleSets.DEFAULT_CELL_STYLE;
 import static org.eclipse.set.utils.export.xsl.XSLConstant.XSLStyleSets.LAST_ROW_CELL_STYLE;
-import static org.eclipse.set.utils.export.xsl.XSLConstant.XSLTag.*;
+import static org.eclipse.set.utils.export.xsl.XSLConstant.XSLTag.FO_TABLE_CELL;
+import static org.eclipse.set.utils.export.xsl.XSLConstant.XSLTag.XSL_APPLY_TEMPLATE;
+import static org.eclipse.set.utils.export.xsl.XSLConstant.XSLTag.XSL_ATTRIBUTE;
+import static org.eclipse.set.utils.export.xsl.XSLConstant.XSLTag.XSL_CHOOSE;
+import static org.eclipse.set.utils.export.xsl.XSLConstant.XSLTag.XSL_OTHERWISE;
+import static org.eclipse.set.utils.export.xsl.XSLConstant.XSLTag.XSL_TEMPLATE;
+import static org.eclipse.set.utils.export.xsl.XSLConstant.XSLTag.XSL_VALUE_OF;
+import static org.eclipse.set.utils.export.xsl.XSLConstant.XSLTag.XSL_WHEN;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -303,8 +312,10 @@ public class TransformTableBody {
 				XSL_ATTRIBUTE, new XMLAttribute(ATTR_NAME, "border-color")); //$NON-NLS-1$
 		borderColorAttribute.setTextContent("black"); //$NON-NLS-1$
 
-		final Element chooseElement = createChooseElement(
+		final String compareCellExpression = String.format("%s and not(../@%s)", //$NON-NLS-1$
 				ToolboxConstants.XSL_PROJECT_COMPARE_CELL,
+				ToolboxConstants.XSL_COMPARE_ROW_TYPE_ATTRIBUTE);
+		final Element chooseElement = createChooseElement(compareCellExpression,
 				compareCellBorderAttribute, borderColorAttribute);
 		tableCell.appendChild(chooseElement);
 	}
