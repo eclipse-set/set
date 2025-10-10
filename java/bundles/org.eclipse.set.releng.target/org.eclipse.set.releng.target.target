@@ -1,240 +1,239 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <target name="org.eclipse.set.releng.target" sequenceNumber="1660124027">
-	<locations>
-		<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="slicer" includeSource="true" type="InstallableUnit">
-			<unit id="bcpg" version="1.80.0"/>
-			<unit id="bcprov" version="1.80.0"/>
-			<unit id="bcutil" version="1.80.0"/>
-			<unit id="com.google.guava.failureaccess" version="1.0.3"/>
-			<unit id="com.google.inject" version="7.0.0"/>
-			<unit id="com.google.inject.assistedinject" version="7.0.0"/>
-			<unit id="com.ibm.icu" version="77.1.0"/>
-			<unit id="com.sun.jna" version="5.17.0.v20250316-1700"/>
-			<unit id="com.sun.jna.platform" version="5.17.0"/>
-			<unit id="ch.qos.logback.classic" version="1.5.18"/>
-			<unit id="ch.qos.logback.core" version="1.5.18"/>
-			<unit id="org.apache.aries.spifly.dynamic.bundle" version="1.3.7"/>
-			<unit id="org.apache.batik.anim" version="1.18.0.v20241009-1200"/>
-			<unit id="org.apache.batik.awt.util" version="1.18.0.v20241009-1200"/>
-			<unit id="org.apache.batik.bridge" version="1.18.0.v20241009-1200"/>
-			<unit id="org.apache.batik.dom" version="1.18.0.v20241009-1200"/>
-			<unit id="org.apache.batik.dom.svg" version="1.18.0.v20241009-1200"/>
-			<unit id="org.apache.batik.ext" version="1.18.0.v20241009-1200"/>
-			<unit id="org.apache.batik.gvt" version="1.18.0.v20241009-1200"/>
-			<unit id="org.apache.batik.parser" version="1.18.0.v20241009-1200"/>
-			<unit id="org.apache.batik.script" version="1.18.0.v20241009-1200"/>
-			<unit id="org.apache.batik.transcoder" version="1.18.0.v20241009-1200"/>
-			<unit id="org.apache.batik.xml" version="1.18.0.v20241009-1200"/>
-			<unit id="org.apache.batik.svggen" version="1.18.0.v20241009-1200"/>
-			<unit id="org.apache.batik.constants" version="1.18.0.v20241009-1200"/>
-			<unit id="org.apache.batik.util" version="1.18.0.v20241009-1200"/>
-			<unit id="org.apache.batik.css" version="1.18.0.v20241009-1200"/>
-			<unit id="org.apache.batik.i18n" version="1.18.0.v20241009-1200"/>
-			<unit id="org.apache.commons.codec" version="1.14.0.v20221112-0806"/>
-			<unit id="org.apache.commons.commons-collections4" version="4.5.0"/>
-			<unit id="org.apache.commons.commons-io" version="2.19.0"/>
-			<unit id="org.apache.commons.commons-compress" version="1.27.1"/>
-			<unit id="org.apache.commons.lang3" version="3.17.0"/>
-			<unit id="org.apache.xalan" version="2.7.2.v20230928-1302"/>
-			<unit id="org.apache.xerces" version="2.12.2.v20230928-1306"/>
-			<unit id="org.apache.xml.resolver" version="1.2.0.v20230928-1222"/>
-			<unit id="org.apache.xml.serializer" version="2.7.1.v201005080400"/>
-			<unit id="org.eclipse.emf.sdk.feature.group" version="2.42.0.v20250415-0852"/>
-			<unit id="org.eclipse.fx.osgi" version="3.9.0.202210162353"/>
-			<unit id="org.eclipse.net4j.util.feature.group" version="4.27.0.v20250603-1655"/>
-			<unit id="org.eclipse.orbit.xml-apis-ext" version="1.0.0.v20240917-0534"/>
-			<unit id="org.hamcrest" version="3.0.0"/>
-			<unit id="org.hamcrest.core" version="2.2.0.v20230809-1000"/>
-			<unit id="org.objectweb.asm" version="9.8.0"/>
-			<unit id="org.objectweb.asm.commons" version="9.8.0"/>
-			<unit id="org.objectweb.asm.tree" version="9.8.0"/>
-			<unit id="org.objectweb.asm.tree.analysis" version="9.8.0"/>
-			<unit id="org.objectweb.asm.util" version="9.8.0"/>
-			<unit id="org.osgi.service.prefs" version="1.1.2.202109301733"/>
-			<unit id="org.osgi.service.coordinator" version="1.0.2.201505202024"/>
-			<unit id="org.osgi.service.component" version="1.5.1.202212101352"/>
-			<unit id="org.osgi.service.component.annotations" version="1.5.1.202212101352"/>
-			<unit id="jakarta.annotation-api" version="2.1.1"/>
-			<unit id="jakarta.inject.jakarta.inject-api" version="2.0.1"/>
-			<unit id="jakarta.transaction-api" version="1.3.3"/>
-			<unit id="jakarta.servlet-api" version="6.1.0"/>
-			<unit id="javax.activation" version="1.2.2.v20221203-1659"/>
-			<unit id="slf4j.api" version="2.0.17"/>
-			<repository location="https://download.eclipse.org/releases/2025-06/"/>
-		</location>
-		
-		<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="slicer" includeSource="true" type="InstallableUnit">
-			<unit id="javax.inject" version="0.0.0"/>
-			<repository location="https://download.eclipse.org/releases/2023-09/"/>
-		</location>
-		<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="slicer" includeSource="true" type="InstallableUnit">
-			<unit id="com.github.weisj.jsvg" version="1.7.2"/>
-			<unit id="junit-jupiter-api" version="5.12.2"/>
-			<unit id="junit-jupiter-engine" version="5.12.2"/>
-			<unit id="junit-jupiter-migrationsupport" version="5.12.2"/>
-			<unit id="junit-jupiter-params" version="5.12.2"/>
-			<unit id="junit-platform-commons" version="1.12.2"/>
-			<unit id="junit-platform-engine" version="1.12.2"/>
-			<unit id="junit-platform-launcher" version="1.12.2"/>
-			<unit id="junit-platform-runner" version="1.12.2"/>
-			<unit id="junit-platform-suite-api" version="1.12.2"/>
-			<unit id="junit-platform-suite-commons" version="1.12.2"/>
-			<unit id="junit-platform-suite-engine" version="1.12.2"/>
-			<unit id="junit-vintage-engine" version="5.12.2"/>
-			<unit id="org.apiguardian.api" version="1.1.2"/>
-			<unit id="org.junit" version="4.13.2.v20240929-1000"/>
-			<unit id="org.opentest4j" version="1.3.0"/>
-			<unit id="org.apache.xmlgraphics" version="2.11.0.v20250506-1400"/>
-			<unit id="org.eclipse.sdk.feature.group" version="4.36.0.v20250528-2229"/>
-			<unit id="org.eclipse.e4.rcp.feature.group" version="4.36.0.v20250528-1759"/>
-			<unit id="org.eclipse.e4.tools" version="4.11.0.v20250110-2205"/>
-			<unit id="org.eclipse.e4.tools.emf.ui" version="4.8.700.v20250415-1756"/>
-			<unit id="org.eclipse.e4.tools.services" version="4.10.600.v20240801-2123"/>
-			<unit id="org.eclipse.emf.ecore.feature.group" version="2.40.0.v20250414-1351"/>
-			<unit id="org.eclipse.equinox.sdk.feature.group" version="3.23.1700.v20250526-2018"/>
-			<unit id="org.eclipse.jdt.feature.group" version="3.20.200.v20250528-1830"/>
-			<unit id="org.eclipse.pde.build" version="3.12.800.v20250515-0456"/>
-			<unit id="org.eclipse.pde.core" version="3.20.200.v20250506-0418"/>
-			<unit id="org.eclipse.pde.launching" version="3.13.400.v20250513-0835"/>
-			<unit id="org.eclipse.pde.ui" version="3.16.100.v20250527-1209"/>
-			<unit id="org.eclipse.ui.editors" version="3.20.0.v20250514-1719"/>
-			<unit id="org.eclipse.ui.trace" version="1.3.500.v20250320-0611"/>
-			<unit id="org.eclipse.ui.views.log" version="1.4.800.v20250426-1716"/>
-			<unit id="org.mockito.mockito-core" version="5.18.0"/>
-			<unit id="org.objenesis" version="3.4.0"/>
-			<unit id="org.tukaani.xz" version="1.10.0"/>
-			<repository location="https://download.eclipse.org/eclipse/updates/4.36/"/>
-		</location>
-		<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="slicer" includeSource="true" type="InstallableUnit">
-			<unit id="org.eclipse.babel.nls_eclipse_de.feature.group" version="0.0.0"/>
-			<unit id="org.eclipse.babel.nls_modeling.emf_de.feature.group" version="0.0.0"/>
-			<repository location="https://download.eclipse.org/technology/babel/update-site/R0.20.0/2022-12/"/>
-		</location>
-		<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="slicer" includeSource="true" type="InstallableUnit">
-			<unit id="org.eclipse.xtend.lib" version="2.39.0.v20250527-0725"/>
-			<unit id="org.eclipse.xtend.lib.macro" version="2.39.0.v20250527-0725"/>
-			<unit id="org.eclipse.xtend.lib.macro.source" version="2.39.0.v20250527-0725"/>
-			<unit id="org.eclipse.xtend.lib.source" version="2.39.0.v20250527-0725"/>
-			<unit id="org.eclipse.xtend.sdk.feature.group" version="2.39.0.v20250527-0725"/>
-			<unit id="org.eclipse.xtext.xbase.lib" version="2.39.0.v20250527-0725"/>
-			<unit id="org.eclipse.xtext.xbase.lib.source" version="2.39.0.v20250527-0725"/>
-			<unit id="com.google.guava" version="33.4.8.jre"/>
-			<repository location="https://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.39.0/"/>
-		</location>
-		<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="slicer" includeSource="true" type="InstallableUnit">
-			<unit id="org.eclipse.nebula.widgets.nattable.core.feature.feature.group" version="2.2.0.202306301103"/>
-			<unit id="org.eclipse.nebula.widgets.nattable.core.source.feature.feature.group" version="2.2.0.202306301103"/>
-			<unit id="org.eclipse.nebula.widgets.nattable.extension.e4.feature.feature.group" version="2.2.0.202306301103"/>
-			<unit id="org.eclipse.nebula.widgets.nattable.extension.e4.source.feature.feature.group" version="2.2.0.202306301103"/>
-			<unit id="org.eclipse.nebula.widgets.nattable.extension.glazedlists.feature.feature.group" version="2.2.0.202306301103"/>
-			<unit id="org.eclipse.nebula.widgets.nattable.extension.glazedlists.source.feature.feature.group" version="2.2.0.202306301103"/>
-			<unit id="org.eclipse.nebula.widgets.nattable.extension.nebula.feature.feature.group" version="2.2.0.202306301103"/>
-			<unit id="org.eclipse.nebula.widgets.nattable.extension.nebula.source.feature.feature.group" version="2.2.0.202306301103"/>
-			<repository location="https://download.eclipse.org/nattable/releases/2.2.0/repository/"/>
-		</location>
-		<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="slicer" includeSource="true" type="InstallableUnit">
-			<unit id="org.eclipse.nebula.widgets.richtext.feature.feature.group" version="1.5.1.202402011804"/>
-			<unit id="org.eclipse.nebula.widgets.tablecombo" version="0.0.0"/>
-			<repository location="https://download.eclipse.org/nebula/releases/3.1.1"/>
-		</location>
-		<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="slicer" includeSource="true" type="InstallableUnit">
-			<unit id="org.eclipse.emf.ecp.core" version="1.27.0.20221202-1633"/>
-			<unit id="org.eclipse.emf.ecp.ui" version="1.27.0.20221202-1633"/>
-			<unit id="org.eclipse.emf.ecp.ui.rcp" version="1.27.0.20221202-1633"/>
-			<unit id="org.eclipse.emf.ecp.workspace.core" version="1.27.0.20221202-1633"/>
-			<unit id="org.eclipse.emf.ecp.emfforms.sdk.feature.feature.group" version="1.27.0.20221202-1633"/>
-			<unit id="org.eclipse.emf.ecp.view.custom.feature.source.feature.group" version="1.27.0.20221202-1633"/>
-			<unit id="org.eclipse.emf.ecp.view.group.swt.collapsable" version="1.27.0.20221202-1633"/>
-			<unit id="org.eclipse.emf.ecp.view.group.swt.collapsable.source" version="1.27.0.20221202-1633"/>
-			<unit id="org.eclipse.emf.ecp.view.table.feature.source.feature.group" version="1.27.0.20221202-1633"/>
-			<unit id="org.eclipse.emf.ecp.view.treemasterdetail.feature.source.feature.group" version="1.27.0.20221202-1633"/>
-			<unit id="org.eclipse.emf.ecp.view.validation.initial.feature.source.feature.group" version="1.27.0.20221202-1633"/>
-			<unit id="org.eclipse.emfforms.core.bazaar.feature.feature.group" version="1.27.0.20221202-1633"/>
-			<unit id="org.eclipse.emfforms.core.bazaar.feature.source.feature.group" version="1.27.0.20221202-1633"/>
-			<unit id="org.eclipse.emfforms.swt.control.text.autocomplete.feature.source.feature.group" version="1.27.0.20221202-1633"/>
-			<unit id="org.eclipse.emfforms.swt.controlgrid.feature.feature.group" version="1.27.0.20221202-1633"/>
-			<unit id="org.eclipse.emfforms.swt.controlgrid.feature.source.feature.group" version="1.27.0.20221202-1633"/>
-			<unit id="org.eclipse.emfforms.view.annotation.feature.source.feature.group" version="1.27.0.20221202-1633"/>
-			<unit id="org.eclipse.emfforms.view.controlgrid.model.edit.source" version="1.27.0.20221202-1633"/>
-			<unit id="org.eclipse.emfforms.view.controlgrid.model.source" version="1.27.0.20221202-1633"/>
-			<repository location="https://download.eclipse.org/ecp/releases/releases_127/"/>
-		</location>
-		<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="slicer" includeSource="true" type="InstallableUnit">
-			<repository location="https://download.eclipse.org/emfcloud/emfjson-jackson/p2/releases/2.2.0/"/>
-			<unit id="com.fasterxml.jackson.core.jackson-annotations" version="0.0.0"/>
-			<unit id="com.fasterxml.jackson.core.jackson-core" version="0.0.0"/>
-			<unit id="com.fasterxml.jackson.core.jackson-databind" version="0.0.0"/>
-			<unit id="org.eclipse.emfcloud.emfjson-jackson" version="0.0.0"/>
-		</location>
-		<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="slicer" includeSource="true" type="InstallableUnit">
-			<repository location="https://download.eclipse.org/justj/jres/21/updates/release/latest"/>
-			<unit id="org.eclipse.justj.openjdk.hotspot.jre.full.stripped.feature.group" version="0.0.0"/>
-		</location>
-		<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="slicer" includeSource="true" type="InstallableUnit">
-			<repository location="https://download.eclipse.org/technology/swtbot/releases/4.1.0/"/>
-			<unit id="org.eclipse.swtbot.feature.group" version="4.1.0.202306071420"/>
-			<unit id="org.eclipse.swtbot.junit5.feature.group" version="4.1.0.202306071420"/>
-			<unit id="org.eclipse.swtbot.nebula.nattable.feature.group" version="4.1.0.202306071420"/>
-			<unit id="org.eclipse.swtbot.nebula.nattable.source.feature.group" version="4.1.0.202306071420"/>
-			<unit id="org.eclipse.swtbot.source.feature.group" version="4.1.0.202306071420"/>
-			<unit id="org.hamcrest.core" version="1.3.0.v20180420-1519"/>
-			<unit id="org.hamcrest.core.source" version="1.3.0.v20180420-1519"/>
-			<unit id="org.hamcrest.library" version="1.3.0.v20180524-2246"/>
-			<unit id="org.hamcrest.library.source" version="1.3.0.v20180524-2246"/>
-			<unit id="org.eclipse.swtbot.eclipse.feature.group" version="4.1.0.202306071420"/>
-			<unit id="org.eclipse.swtbot.eclipse.gef.source.feature.group" version="4.1.0.202306071420"/>
-			<unit id="org.eclipse.swtbot.eclipse.source.feature.group" version="4.1.0.202306071420"/>
-			<unit id="org.eclipse.swtbot.eclipse.test.junit.feature.group" version="4.1.0.202306071420"/>
-			<unit id="org.eclipse.swtbot.forms.feature.group" version="4.1.0.202306071420"/>
-			<unit id="org.eclipse.swtbot.forms.source.feature.group" version="4.1.0.202306071420"/>
-			<unit id="org.eclipse.swtbot.generator.feature.feature.group" version="4.1.0.202306071420"/>
-			<unit id="org.eclipse.swtbot.generator.feature.source.feature.group" version="4.1.0.202306071420"/>
-			<unit id="org.eclipse.swtbot.ide.feature.group" version="4.1.0.202306071420"/>
-			<unit id="org.eclipse.swtbot.ide.source.feature.group" version="4.1.0.202306071420"/>
-			<unit id="org.eclipse.swtbot.nebula.checkboxgroup.source.feature.group" version="4.1.0.202306071420"/>
-			<unit id="org.eclipse.swtbot.nebula.gallery.source.feature.group" version="4.1.0.202306071420"/>
-			<unit id="org.eclipse.swtbot.nebula.rangeslider.source.feature.group" version="4.1.0.202306071420"/>
-			<unit id="org.eclipse.swtbot.nebula.stepbar.source.feature.group" version="4.1.0.202306071420"/>
-		</location>
-		<location includeDependencyDepth="none" includeDependencyScopes="compile" includeSource="true" label="SET Browser" missingManifest="generate" type="Maven">
-			<dependencies>
-				<dependency>
-					<groupId>org.eclipse.set</groupId>
-					<artifactId>org.eclipse.set.browser.cef.win32</artifactId>
-					<version>2.5.0-SNAPSHOT</version>
-					<type>jar</type>
-				</dependency>
-				<dependency>
-					<groupId>org.eclipse.set</groupId>
-					<artifactId>org.eclipse.set.browser.lib</artifactId>
-					<version>2.5.0-SNAPSHOT</version>
-					<type>jar</type>
-				</dependency>
-				<dependency>
-					<groupId>org.eclipse.set</groupId>
-					<artifactId>org.eclipse.set.browser</artifactId>
-					<version>2.5.0-SNAPSHOT</version>
-					<type>jar</type>
-				</dependency>
-			</dependencies>
-			<repositories>
-				<repository>
-					<id>set-github-browser</id>
-					<url>https://maven.pkg.github.com/eclipse-set/browser</url>
-				</repository>
-			</repositories>
-		</location>
-		<location includeDependencyDepth="none" includeDependencyScopes="compile" includeSource="true" label="Apache FOP" missingManifest="generate" type="Maven">
-			<dependencies>
-				<dependency>
-					<groupId>org.apache.xmlgraphics</groupId>
-					<artifactId>fop</artifactId>
-					<version>2.6</version>
-					<type>jar</type>
-				</dependency>
-			</dependencies>
-			<instructions><![CDATA[
+  <locations>
+    <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="slicer" includeSource="true" type="InstallableUnit">
+      <unit id="bcpg" version="1.80.0"/>
+      <unit id="bcprov" version="1.80.0"/>
+      <unit id="bcutil" version="1.80.0"/>
+      <unit id="com.google.guava.failureaccess" version="1.0.3"/>
+      <unit id="com.google.inject" version="7.0.0"/>
+      <unit id="com.google.inject.assistedinject" version="7.0.0"/>
+      <unit id="com.ibm.icu" version="77.1.0"/>
+      <unit id="com.sun.jna" version="5.17.0.v20250316-1700"/>
+      <unit id="com.sun.jna.platform" version="5.17.0"/>
+      <unit id="ch.qos.logback.classic" version="1.5.18"/>
+      <unit id="ch.qos.logback.core" version="1.5.18"/>
+      <unit id="org.apache.aries.spifly.dynamic.bundle" version="1.3.7"/>
+      <unit id="org.apache.batik.anim" version="1.18.0.v20241009-1200"/>
+      <unit id="org.apache.batik.awt.util" version="1.18.0.v20241009-1200"/>
+      <unit id="org.apache.batik.bridge" version="1.18.0.v20241009-1200"/>
+      <unit id="org.apache.batik.dom" version="1.18.0.v20241009-1200"/>
+      <unit id="org.apache.batik.dom.svg" version="1.18.0.v20241009-1200"/>
+      <unit id="org.apache.batik.ext" version="1.18.0.v20241009-1200"/>
+      <unit id="org.apache.batik.gvt" version="1.18.0.v20241009-1200"/>
+      <unit id="org.apache.batik.parser" version="1.18.0.v20241009-1200"/>
+      <unit id="org.apache.batik.script" version="1.18.0.v20241009-1200"/>
+      <unit id="org.apache.batik.transcoder" version="1.18.0.v20241009-1200"/>
+      <unit id="org.apache.batik.xml" version="1.18.0.v20241009-1200"/>
+      <unit id="org.apache.batik.svggen" version="1.18.0.v20241009-1200"/>
+      <unit id="org.apache.batik.constants" version="1.18.0.v20241009-1200"/>
+      <unit id="org.apache.batik.util" version="1.18.0.v20241009-1200"/>
+      <unit id="org.apache.batik.css" version="1.18.0.v20241009-1200"/>
+      <unit id="org.apache.batik.i18n" version="1.18.0.v20241009-1200"/>
+      <unit id="org.apache.commons.codec" version="1.14.0.v20221112-0806"/>
+      <unit id="org.apache.commons.commons-collections4" version="4.5.0"/>
+      <unit id="org.apache.commons.commons-io" version="2.19.0"/>
+      <unit id="org.apache.commons.commons-compress" version="1.27.1"/>
+      <unit id="org.apache.commons.lang3" version="3.17.0"/>
+      <unit id="org.apache.xalan" version="2.7.2.v20230928-1302"/>
+      <unit id="org.apache.xerces" version="2.12.2.v20230928-1306"/>
+      <unit id="org.apache.xml.resolver" version="1.2.0.v20230928-1222"/>
+      <unit id="org.apache.xml.serializer" version="2.7.1.v201005080400"/>
+      <unit id="org.eclipse.emf.sdk.feature.group" version="2.42.0.v20250415-0852"/>
+      <unit id="org.eclipse.fx.osgi" version="3.9.0.202210162353"/>
+      <unit id="org.eclipse.net4j.util.feature.group" version="4.27.0.v20250603-1655"/>
+      <unit id="org.eclipse.orbit.xml-apis-ext" version="1.0.0.v20240917-0534"/>
+      <unit id="org.hamcrest" version="3.0.0"/>
+      <unit id="org.hamcrest.core" version="2.2.0.v20230809-1000"/>
+      <unit id="org.objectweb.asm" version="9.8.0"/>
+      <unit id="org.objectweb.asm.commons" version="9.8.0"/>
+      <unit id="org.objectweb.asm.tree" version="9.8.0"/>
+      <unit id="org.objectweb.asm.tree.analysis" version="9.8.0"/>
+      <unit id="org.objectweb.asm.util" version="9.8.0"/>
+      <unit id="org.osgi.service.prefs" version="1.1.2.202109301733"/>
+      <unit id="org.osgi.service.coordinator" version="1.0.2.201505202024"/>
+      <unit id="org.osgi.service.component" version="1.5.1.202212101352"/>
+      <unit id="org.osgi.service.component.annotations" version="1.5.1.202212101352"/>
+      <unit id="jakarta.annotation-api" version="2.1.1"/>
+      <unit id="jakarta.inject.jakarta.inject-api" version="2.0.1"/>
+      <unit id="jakarta.transaction-api" version="1.3.3"/>
+      <unit id="jakarta.servlet-api" version="6.1.0"/>
+      <unit id="javax.activation" version="1.2.2.v20221203-1659"/>
+      <unit id="slf4j.api" version="2.0.17"/>
+      <repository location="https://download.eclipse.org/releases/2025-06/"/>
+    </location>
+    <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="slicer" includeSource="true" type="InstallableUnit">
+      <unit id="javax.inject" version="0.0.0"/>
+      <repository location="https://download.eclipse.org/releases/2023-09/"/>
+    </location>
+    <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="slicer" includeSource="true" type="InstallableUnit">
+      <unit id="com.github.weisj.jsvg" version="1.7.2"/>
+      <unit id="junit-jupiter-api" version="5.12.2"/>
+      <unit id="junit-jupiter-engine" version="5.12.2"/>
+      <unit id="junit-jupiter-migrationsupport" version="5.12.2"/>
+      <unit id="junit-jupiter-params" version="5.12.2"/>
+      <unit id="junit-platform-commons" version="1.12.2"/>
+      <unit id="junit-platform-engine" version="1.12.2"/>
+      <unit id="junit-platform-launcher" version="1.12.2"/>
+      <unit id="junit-platform-runner" version="1.12.2"/>
+      <unit id="junit-platform-suite-api" version="1.12.2"/>
+      <unit id="junit-platform-suite-commons" version="1.12.2"/>
+      <unit id="junit-platform-suite-engine" version="1.12.2"/>
+      <unit id="junit-vintage-engine" version="5.12.2"/>
+      <unit id="org.apiguardian.api" version="1.1.2"/>
+      <unit id="org.junit" version="4.13.2.v20240929-1000"/>
+      <unit id="org.opentest4j" version="1.3.0"/>
+      <unit id="org.apache.xmlgraphics" version="2.11.0.v20250506-1400"/>
+      <unit id="org.eclipse.sdk.feature.group" version="4.36.0.v20250528-2229"/>
+      <unit id="org.eclipse.e4.rcp.feature.group" version="4.36.0.v20250528-1759"/>
+      <unit id="org.eclipse.e4.tools" version="4.11.0.v20250110-2205"/>
+      <unit id="org.eclipse.e4.tools.emf.ui" version="4.8.700.v20250415-1756"/>
+      <unit id="org.eclipse.e4.tools.services" version="4.10.600.v20240801-2123"/>
+      <unit id="org.eclipse.emf.ecore.feature.group" version="2.40.0.v20250414-1351"/>
+      <unit id="org.eclipse.equinox.sdk.feature.group" version="3.23.1700.v20250526-2018"/>
+      <unit id="org.eclipse.jdt.feature.group" version="3.20.200.v20250528-1830"/>
+      <unit id="org.eclipse.pde.build" version="3.12.800.v20250515-0456"/>
+      <unit id="org.eclipse.pde.core" version="3.20.200.v20250506-0418"/>
+      <unit id="org.eclipse.pde.launching" version="3.13.400.v20250513-0835"/>
+      <unit id="org.eclipse.pde.ui" version="3.16.100.v20250527-1209"/>
+      <unit id="org.eclipse.ui.editors" version="3.20.0.v20250514-1719"/>
+      <unit id="org.eclipse.ui.trace" version="1.3.500.v20250320-0611"/>
+      <unit id="org.eclipse.ui.views.log" version="1.4.800.v20250426-1716"/>
+      <unit id="org.mockito.mockito-core" version="5.18.0"/>
+      <unit id="org.objenesis" version="3.4.0"/>
+      <unit id="org.tukaani.xz" version="1.10.0"/>
+      <repository location="https://download.eclipse.org/eclipse/updates/4.36/"/>
+    </location>
+    <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="slicer" includeSource="true" type="InstallableUnit">
+      <unit id="org.eclipse.babel.nls_eclipse_de.feature.group" version="0.0.0"/>
+      <unit id="org.eclipse.babel.nls_modeling.emf_de.feature.group" version="0.0.0"/>
+      <repository location="https://download.eclipse.org/technology/babel/update-site/R0.20.0/2022-12/"/>
+    </location>
+    <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="slicer" includeSource="true" type="InstallableUnit">
+      <unit id="org.eclipse.xtend.lib" version="2.39.0.v20250527-0725"/>
+      <unit id="org.eclipse.xtend.lib.macro" version="2.39.0.v20250527-0725"/>
+      <unit id="org.eclipse.xtend.lib.macro.source" version="2.39.0.v20250527-0725"/>
+      <unit id="org.eclipse.xtend.lib.source" version="2.39.0.v20250527-0725"/>
+      <unit id="org.eclipse.xtend.sdk.feature.group" version="2.39.0.v20250527-0725"/>
+      <unit id="org.eclipse.xtext.xbase.lib" version="2.39.0.v20250527-0725"/>
+      <unit id="org.eclipse.xtext.xbase.lib.source" version="2.39.0.v20250527-0725"/>
+      <unit id="com.google.guava" version="33.4.8.jre"/>
+      <repository location="https://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.39.0/"/>
+    </location>
+    <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="slicer" includeSource="true" type="InstallableUnit">
+      <unit id="org.eclipse.nebula.widgets.nattable.core.feature.feature.group" version="2.2.0.202306301103"/>
+      <unit id="org.eclipse.nebula.widgets.nattable.core.source.feature.feature.group" version="2.2.0.202306301103"/>
+      <unit id="org.eclipse.nebula.widgets.nattable.extension.e4.feature.feature.group" version="2.2.0.202306301103"/>
+      <unit id="org.eclipse.nebula.widgets.nattable.extension.e4.source.feature.feature.group" version="2.2.0.202306301103"/>
+      <unit id="org.eclipse.nebula.widgets.nattable.extension.glazedlists.feature.feature.group" version="2.2.0.202306301103"/>
+      <unit id="org.eclipse.nebula.widgets.nattable.extension.glazedlists.source.feature.feature.group" version="2.2.0.202306301103"/>
+      <unit id="org.eclipse.nebula.widgets.nattable.extension.nebula.feature.feature.group" version="2.2.0.202306301103"/>
+      <unit id="org.eclipse.nebula.widgets.nattable.extension.nebula.source.feature.feature.group" version="2.2.0.202306301103"/>
+      <repository location="https://download.eclipse.org/nattable/releases/2.2.0/repository/"/>
+    </location>
+    <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="slicer" includeSource="true" type="InstallableUnit">
+      <unit id="org.eclipse.nebula.widgets.richtext.feature.feature.group" version="1.5.1.202402011804"/>
+      <unit id="org.eclipse.nebula.widgets.tablecombo" version="0.0.0"/>
+      <repository location="https://download.eclipse.org/nebula/releases/3.1.1"/>
+    </location>
+    <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="slicer" includeSource="true" type="InstallableUnit">
+      <unit id="org.eclipse.emf.ecp.core" version="1.27.0.20221202-1633"/>
+      <unit id="org.eclipse.emf.ecp.ui" version="1.27.0.20221202-1633"/>
+      <unit id="org.eclipse.emf.ecp.ui.rcp" version="1.27.0.20221202-1633"/>
+      <unit id="org.eclipse.emf.ecp.workspace.core" version="1.27.0.20221202-1633"/>
+      <unit id="org.eclipse.emf.ecp.emfforms.sdk.feature.feature.group" version="1.27.0.20221202-1633"/>
+      <unit id="org.eclipse.emf.ecp.view.custom.feature.source.feature.group" version="1.27.0.20221202-1633"/>
+      <unit id="org.eclipse.emf.ecp.view.group.swt.collapsable" version="1.27.0.20221202-1633"/>
+      <unit id="org.eclipse.emf.ecp.view.group.swt.collapsable.source" version="1.27.0.20221202-1633"/>
+      <unit id="org.eclipse.emf.ecp.view.table.feature.source.feature.group" version="1.27.0.20221202-1633"/>
+      <unit id="org.eclipse.emf.ecp.view.treemasterdetail.feature.source.feature.group" version="1.27.0.20221202-1633"/>
+      <unit id="org.eclipse.emf.ecp.view.validation.initial.feature.source.feature.group" version="1.27.0.20221202-1633"/>
+      <unit id="org.eclipse.emfforms.core.bazaar.feature.feature.group" version="1.27.0.20221202-1633"/>
+      <unit id="org.eclipse.emfforms.core.bazaar.feature.source.feature.group" version="1.27.0.20221202-1633"/>
+      <unit id="org.eclipse.emfforms.swt.control.text.autocomplete.feature.source.feature.group" version="1.27.0.20221202-1633"/>
+      <unit id="org.eclipse.emfforms.swt.controlgrid.feature.feature.group" version="1.27.0.20221202-1633"/>
+      <unit id="org.eclipse.emfforms.swt.controlgrid.feature.source.feature.group" version="1.27.0.20221202-1633"/>
+      <unit id="org.eclipse.emfforms.view.annotation.feature.source.feature.group" version="1.27.0.20221202-1633"/>
+      <unit id="org.eclipse.emfforms.view.controlgrid.model.edit.source" version="1.27.0.20221202-1633"/>
+      <unit id="org.eclipse.emfforms.view.controlgrid.model.source" version="1.27.0.20221202-1633"/>
+      <repository location="https://download.eclipse.org/ecp/releases/releases_127/"/>
+    </location>
+    <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="slicer" includeSource="true" type="InstallableUnit">
+      <repository location="https://download.eclipse.org/emfcloud/emfjson-jackson/p2/releases/2.2.0/"/>
+      <unit id="com.fasterxml.jackson.core.jackson-annotations" version="0.0.0"/>
+      <unit id="com.fasterxml.jackson.core.jackson-core" version="0.0.0"/>
+      <unit id="com.fasterxml.jackson.core.jackson-databind" version="0.0.0"/>
+      <unit id="org.eclipse.emfcloud.emfjson-jackson" version="0.0.0"/>
+    </location>
+    <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="slicer" includeSource="true" type="InstallableUnit">
+      <repository location="https://download.eclipse.org/justj/jres/21/updates/release/latest"/>
+      <unit id="org.eclipse.justj.openjdk.hotspot.jre.full.stripped.feature.group" version="0.0.0"/>
+    </location>
+    <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="slicer" includeSource="true" type="InstallableUnit">
+      <repository location="https://download.eclipse.org/technology/swtbot/releases/4.1.0/"/>
+      <unit id="org.eclipse.swtbot.feature.group" version="4.1.0.202306071420"/>
+      <unit id="org.eclipse.swtbot.junit5.feature.group" version="4.1.0.202306071420"/>
+      <unit id="org.eclipse.swtbot.nebula.nattable.feature.group" version="4.1.0.202306071420"/>
+      <unit id="org.eclipse.swtbot.nebula.nattable.source.feature.group" version="4.1.0.202306071420"/>
+      <unit id="org.eclipse.swtbot.source.feature.group" version="4.1.0.202306071420"/>
+      <unit id="org.hamcrest.core" version="1.3.0.v20180420-1519"/>
+      <unit id="org.hamcrest.core.source" version="1.3.0.v20180420-1519"/>
+      <unit id="org.hamcrest.library" version="1.3.0.v20180524-2246"/>
+      <unit id="org.hamcrest.library.source" version="1.3.0.v20180524-2246"/>
+      <unit id="org.eclipse.swtbot.eclipse.feature.group" version="4.1.0.202306071420"/>
+      <unit id="org.eclipse.swtbot.eclipse.gef.source.feature.group" version="4.1.0.202306071420"/>
+      <unit id="org.eclipse.swtbot.eclipse.source.feature.group" version="4.1.0.202306071420"/>
+      <unit id="org.eclipse.swtbot.eclipse.test.junit.feature.group" version="4.1.0.202306071420"/>
+      <unit id="org.eclipse.swtbot.forms.feature.group" version="4.1.0.202306071420"/>
+      <unit id="org.eclipse.swtbot.forms.source.feature.group" version="4.1.0.202306071420"/>
+      <unit id="org.eclipse.swtbot.generator.feature.feature.group" version="4.1.0.202306071420"/>
+      <unit id="org.eclipse.swtbot.generator.feature.source.feature.group" version="4.1.0.202306071420"/>
+      <unit id="org.eclipse.swtbot.ide.feature.group" version="4.1.0.202306071420"/>
+      <unit id="org.eclipse.swtbot.ide.source.feature.group" version="4.1.0.202306071420"/>
+      <unit id="org.eclipse.swtbot.nebula.checkboxgroup.source.feature.group" version="4.1.0.202306071420"/>
+      <unit id="org.eclipse.swtbot.nebula.gallery.source.feature.group" version="4.1.0.202306071420"/>
+      <unit id="org.eclipse.swtbot.nebula.rangeslider.source.feature.group" version="4.1.0.202306071420"/>
+      <unit id="org.eclipse.swtbot.nebula.stepbar.source.feature.group" version="4.1.0.202306071420"/>
+    </location>
+    <location includeDependencyDepth="none" includeDependencyScopes="compile" includeSource="true" label="SET Browser" missingManifest="generate" type="Maven">
+      <dependencies>
+        <dependency>
+          <groupId>org.eclipse.set</groupId>
+          <artifactId>org.eclipse.set.browser.cef.win32</artifactId>
+          <version>2.5.0-SNAPSHOT</version>
+          <type>jar</type>
+        </dependency>
+        <dependency>
+          <groupId>org.eclipse.set</groupId>
+          <artifactId>org.eclipse.set.browser.lib</artifactId>
+          <version>2.5.0-SNAPSHOT</version>
+          <type>jar</type>
+        </dependency>
+        <dependency>
+          <groupId>org.eclipse.set</groupId>
+          <artifactId>org.eclipse.set.browser</artifactId>
+          <version>2.5.0-SNAPSHOT</version>
+          <type>jar</type>
+        </dependency>
+      </dependencies>
+      <repositories>
+        <repository>
+          <id>set-github-browser</id>
+          <url>https://maven.pkg.github.com/eclipse-set/browser</url>
+        </repository>
+      </repositories>
+    </location>
+    <location includeDependencyDepth="none" includeDependencyScopes="compile" includeSource="true" label="Apache FOP" missingManifest="generate" type="Maven">
+      <dependencies>
+        <dependency>
+          <groupId>org.apache.xmlgraphics</groupId>
+          <artifactId>fop</artifactId>
+          <version>2.6</version>
+          <type>jar</type>
+        </dependency>
+      </dependencies>
+      <instructions><![CDATA[
 Bundle-Name:           Bundle derived from maven artifact ${mvnGroupId}:${mvnArtifactId}:${mvnVersion}
 version:               ${version_cleanup;${mvnVersion}}
 Bundle-SymbolicName:   maven.${mvnGroupId}.artifact.${mvnArtifactId}
@@ -245,49 +244,49 @@ Require-Bundle:        org.apache.batik.util
 Eclipse-BuddyPolicy:   registered, ext
 DynamicImport-Package: *
 ]]></instructions>
-		</location>
-		<location includeDependencyDepth="none" includeDependencyScopes="compile" includeSource="true" label="JTS" missingManifest="generate" type="Maven">
-			<dependencies>
-				<dependency>
-					<groupId>org.locationtech.jts</groupId>
-					<artifactId>jts-core</artifactId>
-					<version>1.19.0</version>
-					<type>jar</type>
-				</dependency>
-			</dependencies>
-		</location>
-		<location includeDependencyDepth="none" includeDependencyScopes="compile" includeSource="true" label="JAXP XML" missingManifest="generate" type="Maven">
-			<dependencies>
-				<dependency>
-					<groupId>javax.measure</groupId>
-					<artifactId>unit-api</artifactId>
-					<version>2.1.3</version>
-					<type>jar</type>
-				</dependency>
-			</dependencies>
-		</location>
-		<location includeDependencyDepth="none" includeDependencyScopes="compile" includeSource="true" label="Apache Commons" missingManifest="generate" type="Maven">
-			<dependencies>
-				<dependency>
-					<groupId>org.apache.commons</groupId>
-					<artifactId>commons-csv</artifactId>
-					<version>1.9.0</version>
-					<type>jar</type>
-				</dependency>
-				<dependency>
-					<groupId>org.apache.commons</groupId>
-					<artifactId>commons-math3</artifactId>
-					<version>3.6.1</version>
-					<type>jar</type>
-				</dependency>
-				<dependency>
-					<groupId>org.apache.commons</groupId>
-					<artifactId>commons-text</artifactId>
-					<version>1.10.0</version>
-					<type>jar</type>
-				</dependency>
-			</dependencies>
-			<instructions><![CDATA[
+    </location>
+    <location includeDependencyDepth="none" includeDependencyScopes="compile" includeSource="true" label="JTS" missingManifest="generate" type="Maven">
+      <dependencies>
+        <dependency>
+          <groupId>org.locationtech.jts</groupId>
+          <artifactId>jts-core</artifactId>
+          <version>1.19.0</version>
+          <type>jar</type>
+        </dependency>
+      </dependencies>
+    </location>
+    <location includeDependencyDepth="none" includeDependencyScopes="compile" includeSource="true" label="JAXP XML" missingManifest="generate" type="Maven">
+      <dependencies>
+        <dependency>
+          <groupId>javax.measure</groupId>
+          <artifactId>unit-api</artifactId>
+          <version>2.1.3</version>
+          <type>jar</type>
+        </dependency>
+      </dependencies>
+    </location>
+    <location includeDependencyDepth="none" includeDependencyScopes="compile" includeSource="true" label="Apache Commons" missingManifest="generate" type="Maven">
+      <dependencies>
+        <dependency>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-csv</artifactId>
+          <version>1.9.0</version>
+          <type>jar</type>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-math3</artifactId>
+          <version>3.6.1</version>
+          <type>jar</type>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-text</artifactId>
+          <version>1.10.0</version>
+          <type>jar</type>
+        </dependency>
+      </dependencies>
+      <instructions><![CDATA[
 Bundle-Name:           Bundle derived from maven artifact ${mvnGroupId}:${mvnArtifactId}:${mvnVersion}
 version:               ${version_cleanup;${mvnVersion}}
 Bundle-SymbolicName:   maven.${mvnGroupId}.artifact.${mvnArtifactId}
@@ -296,41 +295,41 @@ Import-Package:        *;resolution:=optional
 Export-Package:        *;version="${version}";-noimport:=true
 DynamicImport-Package: *
 ]]></instructions>
-		</location>
-		<location includeDependencyDepth="none" includeDependencyScopes="compile" includeSource="true" label="Apache POI" missingManifest="generate" type="Maven">
-			<dependencies>
-				<dependency>
-					<groupId>org.apache.logging.log4j</groupId>
-					<artifactId>log4j-api</artifactId>
-					<version>2.18.0</version>
-					<type>jar</type>
-				</dependency>
-				<dependency>
-					<groupId>org.apache.poi</groupId>
-					<artifactId>poi-ooxml-lite</artifactId>
-					<version>5.0.0</version>
-					<type>jar</type>
-				</dependency>
-				<dependency>
-					<groupId>org.apache.poi</groupId>
-					<artifactId>poi-ooxml</artifactId>
-					<version>5.0.0</version>
-					<type>jar</type>
-				</dependency>
-				<dependency>
-					<groupId>org.apache.poi</groupId>
-					<artifactId>poi</artifactId>
-					<version>5.0.0</version>
-					<type>jar</type>
-				</dependency>
-				<dependency>
-					<groupId>org.apache.xmlbeans</groupId>
-					<artifactId>xmlbeans</artifactId>
-					<version>5.1.1</version>
-					<type>jar</type>
-				</dependency>
-			</dependencies>
-			<instructions><![CDATA[
+    </location>
+    <location includeDependencyDepth="none" includeDependencyScopes="compile" includeSource="true" label="Apache POI" missingManifest="generate" type="Maven">
+      <dependencies>
+        <dependency>
+          <groupId>org.apache.logging.log4j</groupId>
+          <artifactId>log4j-api</artifactId>
+          <version>2.18.0</version>
+          <type>jar</type>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.poi</groupId>
+          <artifactId>poi-ooxml-lite</artifactId>
+          <version>5.0.0</version>
+          <type>jar</type>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.poi</groupId>
+          <artifactId>poi-ooxml</artifactId>
+          <version>5.0.0</version>
+          <type>jar</type>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.poi</groupId>
+          <artifactId>poi</artifactId>
+          <version>5.0.0</version>
+          <type>jar</type>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.xmlbeans</groupId>
+          <artifactId>xmlbeans</artifactId>
+          <version>5.1.1</version>
+          <type>jar</type>
+        </dependency>
+      </dependencies>
+      <instructions><![CDATA[
 Bundle-Name:           Bundle derived from maven artifact ${mvnGroupId}:${mvnArtifactId}:${mvnVersion}
 version:               ${version_cleanup;${mvnVersion}}
 Bundle-SymbolicName:   maven.${mvnGroupId}.artifact.${mvnArtifactId}
@@ -339,17 +338,17 @@ Import-Package:        *;resolution:=optional
 Export-Package:        *;version="${version}";-noimport:=true
 DynamicImport-Package: *
 ]]></instructions>
-		</location>
-		<location includeDependencyDepth="none" includeDependencyScopes="compile" includeSource="true" label="Dom4j" missingManifest="generate" type="Maven">
-			<dependencies>
-				<dependency>
-					<groupId>org.dom4j</groupId>
-					<artifactId>dom4j</artifactId>
-					<version>2.1.3</version>
-					<type>jar</type>
-				</dependency>
-			</dependencies>
-			<instructions><![CDATA[
+    </location>
+    <location includeDependencyDepth="none" includeDependencyScopes="compile" includeSource="true" label="Dom4j" missingManifest="generate" type="Maven">
+      <dependencies>
+        <dependency>
+          <groupId>org.dom4j</groupId>
+          <artifactId>dom4j</artifactId>
+          <version>2.1.3</version>
+          <type>jar</type>
+        </dependency>
+      </dependencies>
+      <instructions><![CDATA[
 Bundle-Name:           Bundle derived from maven artifact ${mvnGroupId}:${mvnArtifactId}:${mvnVersion}
 version:               ${version_cleanup;${mvnVersion}}
 Bundle-SymbolicName:   maven.${mvnGroupId}.artifact.${mvnArtifactId}
@@ -358,87 +357,87 @@ Import-Package:        *;resolution:=optional
 Export-Package:        *;version="${version}";-noimport:=true
 DynamicImport-Package: *
 ]]></instructions>
-		</location>
-		<location includeDependencyDepth="none" includeDependencyScopes="compile" includeSource="true" label="Javax Mail" missingManifest="generate" type="Maven">
-			<dependencies>
-				<dependency>
-					<groupId>com.sun.mail</groupId>
-					<artifactId>javax.mail</artifactId>
-					<version>1.6.2</version>
-					<type>jar</type>
-				</dependency>
-			</dependencies>
-		</location>
-		<location includeDependencyDepth="none" includeDependencyScopes="compile" includeSource="true" label="Apache Tika" missingManifest="generate" type="Maven">
-			<dependencies>
-				<dependency>
-					<groupId>org.apache.tika</groupId>
-					<artifactId>tika-core</artifactId>
-					<version>2.4.1</version>
-					<type>jar</type>
-				</dependency>
-			</dependencies>
-		</location>
-		<location includeDependencyDepth="none" includeDependencyScopes="compile" includeSource="true" label="SET Model" missingManifest="generate" type="Maven">
-			<dependencies>
-				<dependency>
-					<groupId>org.eclipse.set</groupId>
-					<artifactId>org.eclipse.set.model.planpro.edit</artifactId>
-					<version>2.5.0-SNAPSHOT</version>
-					<type>jar</type>
-				</dependency>
-				<dependency>
-					<groupId>org.eclipse.set</groupId>
-					<artifactId>org.eclipse.set.model.planpro.editor</artifactId>
-					<version>2.5.0-SNAPSHOT</version>
-					<type>jar</type>
-				</dependency>
-				<dependency>
-					<groupId>org.eclipse.set</groupId>
-					<artifactId>org.eclipse.set.model.planpro</artifactId>
-					<version>2.5.0-SNAPSHOT</version>
-					<type>jar</type>
-				</dependency>
-			</dependencies>
-			<repositories>
-				<repository>
-					<id>set-github-model</id>
-					<url>https://maven.pkg.github.com/eclipse-set/model</url>
-				</repository>
-			</repositories>
-		</location>
-		<location includeDependencyDepth="none" includeDependencyScopes="compile" includeSource="true" label="Locationtech" missingManifest="generate" type="Maven">
-			<dependencies>
-				<dependency>
-					<groupId>org.locationtech.proj4j</groupId>
-					<artifactId>proj4j</artifactId>
-					<version>1.3.0</version>
-					<type>jar</type>
-				</dependency>
-			</dependencies>
-		</location>
-		<location includeDependencyDepth="none" includeDependencyScopes="compile" includeSource="true" label="JGraphT" missingManifest="generate" type="Maven">
-			<dependencies>
-				<dependency>
-					<groupId>org.apfloat</groupId>
-					<artifactId>apfloat</artifactId>
-					<version>1.12.0</version>
-					<type>jar</type>
-				</dependency>
-				<dependency>
-					<groupId>org.jgrapht</groupId>
-					<artifactId>jgrapht-core</artifactId>
-					<version>1.5.2</version>
-					<type>jar</type>
-				</dependency>
-				<dependency>
-					<groupId>org.jheaps</groupId>
-					<artifactId>jheaps</artifactId>
-					<version>0.14</version>
-					<type>jar</type>
-				</dependency>
-			</dependencies>
-			<instructions><![CDATA[
+    </location>
+    <location includeDependencyDepth="none" includeDependencyScopes="compile" includeSource="true" label="Javax Mail" missingManifest="generate" type="Maven">
+      <dependencies>
+        <dependency>
+          <groupId>com.sun.mail</groupId>
+          <artifactId>javax.mail</artifactId>
+          <version>1.6.2</version>
+          <type>jar</type>
+        </dependency>
+      </dependencies>
+    </location>
+    <location includeDependencyDepth="none" includeDependencyScopes="compile" includeSource="true" label="Apache Tika" missingManifest="generate" type="Maven">
+      <dependencies>
+        <dependency>
+          <groupId>org.apache.tika</groupId>
+          <artifactId>tika-core</artifactId>
+          <version>2.4.1</version>
+          <type>jar</type>
+        </dependency>
+      </dependencies>
+    </location>
+    <location includeDependencyDepth="none" includeDependencyScopes="compile" includeSource="true" label="SET Model" missingManifest="generate" type="Maven">
+      <dependencies>
+        <dependency>
+          <groupId>org.eclipse.set</groupId>
+          <artifactId>org.eclipse.set.model.planpro.edit</artifactId>
+          <version>2.5.0-SNAPSHOT</version>
+          <type>jar</type>
+        </dependency>
+        <dependency>
+          <groupId>org.eclipse.set</groupId>
+          <artifactId>org.eclipse.set.model.planpro.editor</artifactId>
+          <version>2.5.0-SNAPSHOT</version>
+          <type>jar</type>
+        </dependency>
+        <dependency>
+          <groupId>org.eclipse.set</groupId>
+          <artifactId>org.eclipse.set.model.planpro</artifactId>
+          <version>2.5.0-SNAPSHOT</version>
+          <type>jar</type>
+        </dependency>
+      </dependencies>
+      <repositories>
+        <repository>
+          <id>set-github-model</id>
+          <url>https://maven.pkg.github.com/eclipse-set/model</url>
+        </repository>
+      </repositories>
+    </location>
+    <location includeDependencyDepth="none" includeDependencyScopes="compile" includeSource="true" label="Locationtech" missingManifest="generate" type="Maven">
+      <dependencies>
+        <dependency>
+          <groupId>org.locationtech.proj4j</groupId>
+          <artifactId>proj4j</artifactId>
+          <version>1.3.0</version>
+          <type>jar</type>
+        </dependency>
+      </dependencies>
+    </location>
+    <location includeDependencyDepth="none" includeDependencyScopes="compile" includeSource="true" label="JGraphT" missingManifest="generate" type="Maven">
+      <dependencies>
+        <dependency>
+          <groupId>org.apfloat</groupId>
+          <artifactId>apfloat</artifactId>
+          <version>1.12.0</version>
+          <type>jar</type>
+        </dependency>
+        <dependency>
+          <groupId>org.jgrapht</groupId>
+          <artifactId>jgrapht-core</artifactId>
+          <version>1.5.2</version>
+          <type>jar</type>
+        </dependency>
+        <dependency>
+          <groupId>org.jheaps</groupId>
+          <artifactId>jheaps</artifactId>
+          <version>0.14</version>
+          <type>jar</type>
+        </dependency>
+      </dependencies>
+      <instructions><![CDATA[
 Bundle-Name:           Bundle derived from maven artifact ${mvnGroupId}:${mvnArtifactId}:${mvnVersion}
 version:               ${version_cleanup;${mvnVersion}}
 Bundle-SymbolicName:   maven.${mvnGroupId}.artifact.${mvnArtifactId}
@@ -447,44 +446,44 @@ Import-Package:        *;resolution:=optional
 Export-Package:        *;version="${version}";-noimport:=true
 DynamicImport-Package: *
 ]]></instructions>
-		</location>
-		<location includeDependencyDepth="none" includeDependencyScopes="compile" includeSource="true" label="Apache PdfBox" missingManifest="generate" type="Maven">
-			<dependencies>
-				<dependency>
-					<groupId>commons-logging</groupId>
-					<artifactId>commons-logging</artifactId>
-					<version>1.3.5</version>
-					<type>jar</type>
-				</dependency>
-				<dependency>
-					<groupId>org.apache.pdfbox</groupId>
-					<artifactId>fontbox</artifactId>
-					<version>2.0.33</version>
-					<type>jar</type>
-				</dependency>
-				<dependency>
-					<groupId>org.apache.pdfbox</groupId>
-					<artifactId>pdfbox</artifactId>
-					<version>2.0.33</version>
-					<type>jar</type>
-				</dependency>
-			</dependencies>
-		</location>
-		<location includeDependencyDepth="none" includeSource="true" label="bytebuddy" missingManifest="generate" type="Maven">
-			<dependencies>
-				<dependency>
-					<groupId>net.bytebuddy</groupId>
-					<artifactId>byte-buddy-agent</artifactId>
-					<version>1.17.7</version>
-					<type>jar</type>
-				</dependency>
-				<dependency>
-					<groupId>net.bytebuddy</groupId>
-					<artifactId>byte-buddy</artifactId>
-					<version>1.17.7</version>
-					<type>jar</type>
-				</dependency>
-			</dependencies>
-		</location>
-	</locations>
+    </location>
+    <location includeDependencyDepth="none" includeDependencyScopes="compile" includeSource="true" label="Apache PdfBox" missingManifest="generate" type="Maven">
+      <dependencies>
+        <dependency>
+          <groupId>commons-logging</groupId>
+          <artifactId>commons-logging</artifactId>
+          <version>1.3.5</version>
+          <type>jar</type>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.pdfbox</groupId>
+          <artifactId>fontbox</artifactId>
+          <version>2.0.33</version>
+          <type>jar</type>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.pdfbox</groupId>
+          <artifactId>pdfbox</artifactId>
+          <version>2.0.33</version>
+          <type>jar</type>
+        </dependency>
+      </dependencies>
+    </location>
+    <location includeDependencyDepth="none" includeSource="true" label="bytebuddy" missingManifest="generate" type="Maven">
+      <dependencies>
+        <dependency>
+          <groupId>net.bytebuddy</groupId>
+          <artifactId>byte-buddy-agent</artifactId>
+          <version>1.17.7</version>
+          <type>jar</type>
+        </dependency>
+        <dependency>
+          <groupId>net.bytebuddy</groupId>
+          <artifactId>byte-buddy</artifactId>
+          <version>1.17.7</version>
+          <type>jar</type>
+        </dependency>
+      </dependencies>
+    </location>
+  </locations>
 </target>
