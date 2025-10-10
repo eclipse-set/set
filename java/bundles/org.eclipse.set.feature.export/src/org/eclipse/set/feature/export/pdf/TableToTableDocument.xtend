@@ -48,6 +48,8 @@ import static extension org.eclipse.set.model.tablemodel.extensions.TableRowExte
 import static extension org.eclipse.set.utils.StringExtensions.*
 import static extension org.eclipse.set.utils.export.xsl.siteplan.SiteplanXSL.pxToMilimeter
 import org.eclipse.set.basis.constants.ToolboxConstants
+import org.eclipse.set.model.tablemodel.PlanCompareRow
+import org.eclipse.set.model.tablemodel.CompareTableFootnoteContainer
 
 /**
  * Transformation from {@link Table} to TableDocument {@link Document}.
@@ -188,7 +190,9 @@ class TableToTableDocument {
 
 		// row number
 		attributeNode = row.transformToGroupNumber(rows)
-
+		if (row instanceof PlanCompareRow) {
+			setAttribute(ToolboxConstants.XSL_COMPARE_ROW_TYPE_ATTRIBUTE, row.rowType.literal)
+		}
 		// cells
 		val rowElement = it
 		val rowIndex = rows.indexOf(row)
@@ -427,6 +431,13 @@ class TableToTableDocument {
 			isRemarkColumn)
 	}
 
+	private dispatch def void addFootnoteContent(Element element,
+		CompareTableFootnoteContainer fc, int columnNumber,
+		boolean isRemarkColumn) {
+		element.addFootnoteContent(fc.mainPlanFootnoteContainer, columnNumber,
+			isRemarkColumn)
+	}
+
 	private def Element createMultiColorElement(MultiColorContent content,
 		int columnNumber, boolean isRemarkColumn) {
 		if (content.multiColorValue === null || content.disableMultiColor) {
@@ -469,8 +480,9 @@ class TableToTableDocument {
 	private def Element addContentToElement(String content, Element element,
 		int columnNumber, boolean isRemarkColumn) {
 		val checkOutput = content.checkForTestOutput(columnNumber)
-		element.textContent = isRemarkColumn ? checkOutput : checkOutput.
-			intersperseWithZeroSpacesSC
+		element.textContent = isRemarkColumn
+			? checkOutput
+			: checkOutput.intersperseWithZeroSpacesSC
 		return element
 	}
 

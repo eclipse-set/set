@@ -207,6 +207,10 @@ public class RowGroupItemProvider extends ItemProviderAdapter
 		newChildDescriptors.add(
 				createChildParameter(TablemodelPackage.Literals.ROW_GROUP__ROWS,
 						TablemodelFactory.eINSTANCE.createTableRow()));
+
+		newChildDescriptors.add(
+				createChildParameter(TablemodelPackage.Literals.ROW_GROUP__ROWS,
+						TablemodelFactory.eINSTANCE.createPlanCompareRow()));
 	}
 
 	/**

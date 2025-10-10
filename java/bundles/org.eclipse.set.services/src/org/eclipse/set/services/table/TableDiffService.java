@@ -9,7 +9,6 @@
 package org.eclipse.set.services.table;
 
 import org.eclipse.set.model.tablemodel.Table;
-import org.eclipse.set.model.tablemodel.TableRow;
 
 /**
  * Interface for table difference presentation.
@@ -73,6 +72,4 @@ public interface TableDiffService {
 	 * @return {@link TableCompareType}
 	 */
 	TableCompareType getCompareType();
-
-	boolean isTableRowDifferent(TableRow row);
 }

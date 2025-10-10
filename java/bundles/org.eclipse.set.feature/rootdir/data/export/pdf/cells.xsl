@@ -15,11 +15,8 @@ http://www.eclipse.org/legal/epl-v20.html
 	<xsl:template match="Cell">
 		<fo:table-cell xsl:use-attribute-sets="default-cell-style"
 			number-rows-spanned="{@number-rows-spanned}">
-			<xsl:if test="@cellType ='topologicalCell'">
-				<xsl:attribute name="background-color">#E8E8E8</xsl:attribute>
-			</xsl:if>
 			<xsl:choose>
-				<xsl:when test="CompareProjectContent">
+				<xsl:when test="CompareProjectContent and not(../@compareType)">
 					<xsl:attribute name="border">0.3mm solid #0066FF</xsl:attribute>
 				</xsl:when>
 				<xsl:otherwise>
@@ -34,11 +31,8 @@ http://www.eclipse.org/legal/epl-v20.html
 	<xsl:template match="Cell[@column-number = '1' and ../@group-number != count(/Table/Rows/Row)]">
 		<fo:table-cell xsl:use-attribute-sets="first-column-cell-style" empty-cells="show"
 			number-rows-spanned="{@number-rows-spanned}">
-			<xsl:if test="@cellType ='topologicalCell'">
-				<xsl:attribute name="background-color">#E8E8E8</xsl:attribute>
-			</xsl:if>
 			<xsl:choose>
-				<xsl:when test="CompareProjectContent">
+				<xsl:when test="CompareProjectContent and not(../@compareType)">
 					<xsl:attribute name="border">0.3mm solid #0066FF</xsl:attribute>
 				</xsl:when>
 				<xsl:otherwise>
@@ -53,11 +47,8 @@ http://www.eclipse.org/legal/epl-v20.html
 	<xsl:template match="Cell[@column-number = '1' and ../@group-number = count(/Table/Rows/Row)]">
 		<fo:table-cell xsl:use-attribute-sets="first-column-last-row-cell-style" empty-cells="show"
 			number-rows-spanned="{@number-rows-spanned}">
-			<xsl:if test="@cellType ='topologicalCell'">
-				<xsl:attribute name="background-color">#E8E8E8</xsl:attribute>
-			</xsl:if>
 			<xsl:choose>
-				<xsl:when test="CompareProjectContent">
+				<xsl:when test="CompareProjectContent and not(../@compareType)">
 					<xsl:attribute name="border">0.3mm solid #0066FF</xsl:attribute>
 				</xsl:when>
 				<xsl:otherwise>
@@ -72,11 +63,8 @@ http://www.eclipse.org/legal/epl-v20.html
 	<xsl:template match="Cell[@column-number != '1' and ../@group-number = count(/Table/Rows/Row)]">
 		<fo:table-cell xsl:use-attribute-sets="last-row-cell-style" empty-cells="show"
 			number-rows-spanned="{@number-rows-spanned}">
-			<xsl:if test="@cellType ='topologicalCell'">
-				<xsl:attribute name="background-color">#E8E8E8</xsl:attribute>
-			</xsl:if>
 			<xsl:choose>
-				<xsl:when test="CompareProjectContent">
+				<xsl:when test="CompareProjectContent and not(../@compareType)">
 					<xsl:attribute name="border">0.3mm solid #0066FF</xsl:attribute>
 				</xsl:when>
 				<xsl:otherwise>

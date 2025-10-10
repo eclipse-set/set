@@ -15,13 +15,13 @@ import static org.eclipse.set.model.tablemodel.extensions.TableCellExtensions.ge
 import java.util.Collections;
 import java.util.Set;
 
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.set.core.services.session.SessionService;
 import org.eclipse.set.model.tablemodel.CellContent;
 import org.eclipse.set.model.tablemodel.CompareCellContent;
 import org.eclipse.set.model.tablemodel.MultiColorCellContent;
 import org.eclipse.set.model.tablemodel.TableCell;
 import org.eclipse.set.model.tablemodel.TablemodelFactory;
+import org.eclipse.set.model.tablemodel.extensions.CellContentExtensions;
 import org.eclipse.set.ppmodel.extensions.EObjectExtensions;
 import org.eclipse.set.services.table.TableDiffService;
 import org.osgi.service.component.annotations.Component;
@@ -35,40 +35,6 @@ public class TableStateDiffService extends AbstractTableDiff {
 
 	@Reference
 	SessionService sessionService;
-
-	// @SuppressWarnings("unused")
-	// @Override
-	// protected void addMissingRowGroup(final RowGroup group, final Table
-	// table) {
-	// final String groupGuid = EObjectExtensions
-	// .getNullableObject(group,
-	// g -> g.getLeadingObject().getIdentitaet().getWert())
-	// .orElse(null);
-	// final int groupId = group.getLeadingObjectIndex();
-	// final RowGroup match = TableExtensions.getGroupById(table, groupGuid,
-	// groupId);
-	// // we add a new matching group to the table
-	// if (match == null) {
-	// final RowGroup newRowGroup = TablemodelFactory.eINSTANCE
-	// .createRowGroup();
-	// newRowGroup.setLeadingObject(group.getLeadingObject());
-	// newRowGroup.setLeadingObjectIndex(group.getLeadingObjectIndex());
-	// for (final TableRow element : group.getRows()) {
-	// final TableRow newRow = TablemodelFactory.eINSTANCE
-	// .createTableRow();
-	// newRowGroup.getRows().add(newRow);
-	// final List<ColumnDescriptor> columns = TableExtensions
-	// .getColumns(table);
-	// columns.forEach(column -> addEmptyValue(newRow, column));
-	// }
-	//
-	// if (table.getTablecontent() == null) {
-	// table.setTablecontent(
-	// TablemodelFactory.eINSTANCE.createTableContent());
-	// }
-	// table.getTablecontent().getRowgroups().add(newRowGroup);
-	// }
-	// }
 
 	@Override
 	SessionService getSessionService() {
@@ -105,16 +71,34 @@ public class TableStateDiffService extends AbstractTableDiff {
 	private static void createMultiColorDiffCotent(final TableCell oldCell,
 			final TableCell newCell) {
 		if (oldCell
-				.getContent() instanceof final MultiColorCellContent oldMultiColorCellContent) {
-			if (newCell != null && newCell
-					.getContent() instanceof final MultiColorCellContent newCellContent) {
-				final MultiColorCellContent clone = EcoreUtil
-						.copy(newCellContent);
-
-				oldCell.setContent(clone);
+				.getContent() instanceof final MultiColorCellContent oldCellContent
+				&& newCell != null && newCell
+						.getContent() instanceof final MultiColorCellContent newCellContent) {
+			if (CellContentExtensions.getPlainStringValue(oldCellContent)
+					.equals(CellContentExtensions
+							.getPlainStringValue(newCellContent))) {
+				oldCellContent.getValue()
+						.forEach(e -> e.setDisableMultiColor(false));
+				return;
 			}
-			oldMultiColorCellContent.getValue()
-					.forEach(e -> e.setDisableMultiColor(false));
+
+			// Convert to CompareCellContent, when give different between
+			// initial
+			// and final state
+			final CompareCellContent compareCellContent = TablemodelFactory.eINSTANCE
+					.createCompareCellContent();
+			oldCellContent.getValue().forEach(colorContent -> {
+				compareCellContent.getOldValue()
+						.add(String.format(colorContent.getStringFormat(),
+								colorContent.getMultiColorValue()));
+			});
+
+			newCellContent.getValue().forEach(colorContent -> {
+				compareCellContent.getNewValue()
+						.add(String.format(colorContent.getStringFormat(),
+								colorContent.getMultiColorValue()));
+			});
+			oldCell.setContent(compareCellContent);
 		}
 	}
 

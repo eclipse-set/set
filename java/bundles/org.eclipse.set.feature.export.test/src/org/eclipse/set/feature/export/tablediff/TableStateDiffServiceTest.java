@@ -18,17 +18,16 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.extensions.TableExtensions;
-import org.eclipse.set.services.table.TableDiffService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
- * Test for {@link CustomTableDiffService}.
+ * Test for {@link TableStateDiffService}.
  * 
  * @author Schaefer
  */
 @SuppressWarnings("nls")
-public class CustomTableDiffServiceTest {
+public class TableStateDiffServiceTest {
 	// To simplify tests, all tests use a common leading object, but different
 	// leading object indices
 	private static Ur_Objekt LEADING_OBJECT = null;
@@ -46,20 +45,20 @@ public class CustomTableDiffServiceTest {
 	private static final Path SSKW_ERKNER_ZIEL = Paths.get("tm",
 			"sskw_erkner_ziel.tm");
 
-	private TableDiffService service;
+	private TableStateDiffService service;
 
 	/**
 	 * Initialize test.
 	 */
 	@BeforeEach
 	public void setUp() {
-		final CustomTableDiffService myService = new CustomTableDiffService();
+		final TableStateDiffService myService = new TableStateDiffService();
 		service = myService;
 	}
 
 	/**
 	 * Test method for
-	 * {@link CustomTableDiffService#createDiffTable(Table, Table)} . We analyze
+	 * {@link TableStateDiffService#createDiffTable(Table, Table)} . We analyze
 	 * PLANPRO-2735.
 	 */
 	@Test
@@ -76,7 +75,7 @@ public class CustomTableDiffServiceTest {
 
 	/**
 	 * Test method for
-	 * {@link CustomTableDiffService#createDiffTable(Table, Table)} . We add
+	 * {@link TableStateDiffService#createDiffTable(Table, Table)} . We add
 	 * delete some existing rows.
 	 */
 	@Test
@@ -115,7 +114,7 @@ public class CustomTableDiffServiceTest {
 
 	/**
 	 * Test method for
-	 * {@link CustomTableDiffService#createDiffTable(Table, Table)} . We move
+	 * {@link TableStateDiffService#createDiffTable(Table, Table)} . We move
 	 * some existing rows.
 	 */
 	@Test
@@ -148,7 +147,7 @@ public class CustomTableDiffServiceTest {
 
 	/**
 	 * Test method for
-	 * {@link CustomTableDiffService#createDiffTable(Table, Table)} . We move a
+	 * {@link TableStateDiffService#createDiffTable(Table, Table)} . We move a
 	 * single row.
 	 */
 	@Test
@@ -181,7 +180,7 @@ public class CustomTableDiffServiceTest {
 
 	/**
 	 * Test method for
-	 * {@link CustomTableDiffService#createDiffTable(Table, Table)} . We add
+	 * {@link TableStateDiffService#createDiffTable(Table, Table)} . We add
 	 * delete some existing rows.
 	 */
 	@Test
@@ -223,7 +222,7 @@ public class CustomTableDiffServiceTest {
 
 	/**
 	 * Test method for
-	 * {@link CustomTableDiffService#createDiffTable(Table, Table)} . We analyze
+	 * {@link TableStateDiffService#createDiffTable(Table, Table)} . We analyze
 	 * PLANPRO-2690.
 	 */
 	@Test
@@ -244,7 +243,7 @@ public class CustomTableDiffServiceTest {
 
 	/**
 	 * Test method for
-	 * {@link CustomTableDiffService#createDiffTable(Table, Table)} . We analyze
+	 * {@link TableStateDiffService#createDiffTable(Table, Table)} . We analyze
 	 * PLANPRO-2702.
 	 */
 	@Test
@@ -263,8 +262,8 @@ public class CustomTableDiffServiceTest {
 
 	/**
 	 * Test method for
-	 * {@link CustomTableDiffService#createDiffTable(Table, Table)} . We add
-	 * some new rows.
+	 * {@link TableStateDiffService#createDiffTable(Table, Table)} . We add some
+	 * new rows.
 	 */
 	@Test
 	public void testNewRow1() {
@@ -298,8 +297,8 @@ public class CustomTableDiffServiceTest {
 
 	/**
 	 * Test method for
-	 * {@link CustomTableDiffService#createDiffTable(Table, Table)} . We add
-	 * some new rows in between.
+	 * {@link TableStateDiffService#createDiffTable(Table, Table)} . We add some
+	 * new rows in between.
 	 */
 	@Test
 	public void testNewRow2() {
@@ -337,7 +336,7 @@ public class CustomTableDiffServiceTest {
 
 	/**
 	 * Test method for
-	 * {@link CustomTableDiffService#createDiffTable(Table, Table)} . We change
+	 * {@link TableStateDiffService#createDiffTable(Table, Table)} . We change
 	 * the value of two table cells.
 	 */
 	@Test

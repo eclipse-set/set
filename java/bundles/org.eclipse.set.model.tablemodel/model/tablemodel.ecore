@@ -211,4 +211,13 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="comparePlanFootnoteContainer"
         eType="#//FootnoteContainer"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PlanCompareRow" eSuperTypes="#//TableRow">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="rowType" lowerBound="1"
+        eType="#//PlanCompareRowType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="PlanCompareRowType">
+    <eLiterals name="NEW_ROW"/>
+    <eLiterals name="REMOVED_ROW" value="1"/>
+    <eLiterals name="CHANGED_GUID_ROW" value="2"/>
+  </eClassifiers>
 </ecore:EPackage>

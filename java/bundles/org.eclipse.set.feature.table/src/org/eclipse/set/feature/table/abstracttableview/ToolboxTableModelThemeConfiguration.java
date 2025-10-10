@@ -29,7 +29,6 @@ import org.eclipse.nebula.widgets.nattable.ui.matcher.KeyEventMatcher;
 import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.core.services.dialog.DialogService;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
-import org.eclipse.set.nattable.utils.CustomLinePainter;
 import org.eclipse.set.nattable.utils.PlanProTableThemeConfiguration;
 import org.eclipse.set.utils.Colors;
 import org.eclipse.set.utils.ToolboxConfiguration;
@@ -120,30 +119,11 @@ public class ToolboxTableModelThemeConfiguration
 
 	private void registerCompareTableRowStyle(
 			final IConfigRegistry configRegistry) {
-		final CustomLinePainter customLinePainter = new CustomLinePainter(
-				defaultCellPainter, bounds -> {
-					final Integer[] pos = new Integer[2];
-					pos[0] = Integer.valueOf(bounds.x);
-					pos[1] = Integer.valueOf(bounds.y + bounds.height / 2);
-					return pos;
-				}, bounds -> {
-					final Integer[] pos = new Integer[2];
-					pos[0] = Integer.valueOf(bounds.x + bounds.width);
-					pos[1] = Integer.valueOf(bounds.y + bounds.height / 2);
-					return pos;
-				},
-				new Color(Colors.parseHexCode(
-						ToolboxConstants.TABLE_COMPARE_TABLE_CELL_BORDER_COLOR)),
-				1);
-
-		configRegistry.registerConfigAttribute(
-				CellConfigAttributes.CELL_PAINTER, customLinePainter,
-				DisplayMode.NORMAL,
-				ToolboxConstants.TABLE_COMPARE_CHANGED_GUID_ROW_CELL_LABEL);
-
+		// The new, removed, changed guid row haven't innen cell border
 		List.of(ToolboxConstants.TABLE_COMPARE_TABLE_ROW_CELL_LABEL,
 				ToolboxConstants.TABLE_COMPARE_TABLE_ROW_FIRST_CELL_LABEL,
-				ToolboxConstants.TABLE_COMPARE_TABLE_ROW_LAST_CELL_LABEL)
+				ToolboxConstants.TABLE_COMPARE_TABLE_ROW_LAST_CELL_LABEL,
+				ToolboxConstants.TABLE_COMPARE_CHANGED_GUID_ROW_CELL_LABEL)
 				.forEach(label -> configRegistry.registerConfigAttribute(
 						CellConfigAttributes.CELL_PAINTER,
 						new CustomLineBorderDecorator(defaultCellPainter,
@@ -153,30 +133,6 @@ public class ToolboxTableModelThemeConfiguration
 										LineStyleEnum.SOLID)),
 						DisplayMode.NORMAL, label));
 	}
-
-	// private static Set<BorderDirection>
-	// getCompareTableRowCellBorderDirections(
-	// final String label) {
-	// return switch (label) {
-	// case ToolboxConstants.TABLE_COMPARE_TABLE_ROW_FIRST_CELL_LABEL -> Set
-	// .of(BorderDirection.LEFT, BorderDirection.TOP,
-	// BorderDirection.BOTTOM);
-	// case ToolboxConstants.TABLE_COMPARE_TABLE_ROW_CELL_LABEL -> Set
-	// .of(BorderDirection.TOP, BorderDirection.BOTTOM);
-	// case ToolboxConstants.TABLE_COMPARE_TABLE_ROW_LAST_CELL_LABEL -> Set
-	// .of(BorderDirection.RIGHT, BorderDirection.TOP,
-	// BorderDirection.BOTTOM);
-	// default -> Collections.emptySet();
-	// };
-	// }
-	//
-	// private CustomBorderPainter createCustomBorderPainter(
-	// final Set<BorderDirection> borderDirections) {
-	// return new CustomBorderPainter(defaultCellPainter,
-	// new Color(Colors.parseHexCode(
-	// ToolboxConstants.TABLE_COMPARE_TABLE_CELL_BORDER_COLOR)),
-	// 1, borderDirections);
-	// }
 
 	private void registerTopologicalTableCellStyle(
 			final IConfigRegistry configRegistry) {

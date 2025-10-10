@@ -961,6 +961,71 @@ public interface TablemodelPackage extends EPackage {
 
 	/**
 	 * The meta object id for the
+	 * '{@link org.eclipse.set.model.tablemodel.impl.PlanCompareRowImpl <em>Plan
+	 * Compare Row</em>}' class. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @see org.eclipse.set.model.tablemodel.impl.PlanCompareRowImpl
+	 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getPlanCompareRow()
+	 * @generated
+	 */
+	int PLAN_COMPARE_ROW = 17;
+
+	/**
+	 * The feature id for the '<em><b>Cells</b></em>' containment reference
+	 * list. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 * @ordered
+	 */
+	int PLAN_COMPARE_ROW__CELLS = TABLE_ROW__CELLS;
+
+	/**
+	 * The feature id for the '<em><b>Row Index</b></em>' attribute. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 * @ordered
+	 */
+	int PLAN_COMPARE_ROW__ROW_INDEX = TABLE_ROW__ROW_INDEX;
+
+	/**
+	 * The feature id for the '<em><b>Footnotes</b></em>' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 * @ordered
+	 */
+	int PLAN_COMPARE_ROW__FOOTNOTES = TABLE_ROW__FOOTNOTES;
+
+	/**
+	 * The feature id for the '<em><b>Row Type</b></em>' attribute. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 * @ordered
+	 */
+	int PLAN_COMPARE_ROW__ROW_TYPE = TABLE_ROW_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Plan Compare Row</em>'
+	 * class. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 * @ordered
+	 */
+	int PLAN_COMPARE_ROW_FEATURE_COUNT = TABLE_ROW_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of operations of the '<em>Plan Compare Row</em>' class. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 * @ordered
+	 */
+	int PLAN_COMPARE_ROW_OPERATION_COUNT = TABLE_ROW_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the
 	 * '{@link org.eclipse.set.model.tablemodel.ColumnWidthMode <em>Column Width
 	 * Mode</em>}' enum. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
@@ -968,7 +1033,7 @@ public interface TablemodelPackage extends EPackage {
 	 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getColumnWidthMode()
 	 * @generated
 	 */
-	int COLUMN_WIDTH_MODE = 17;
+	int COLUMN_WIDTH_MODE = 18;
 
 	/**
 	 * The meta object id for the
@@ -979,7 +1044,19 @@ public interface TablemodelPackage extends EPackage {
 	 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getRowMergeMode()
 	 * @generated
 	 */
-	int ROW_MERGE_MODE = 18;
+	int ROW_MERGE_MODE = 19;
+
+	/**
+	 * The meta object id for the
+	 * '{@link org.eclipse.set.model.tablemodel.PlanCompareRowType <em>Plan
+	 * Compare Row Type</em>}' enum. <!-- begin-user-doc --> <!-- end-user-doc
+	 * -->
+	 * 
+	 * @see org.eclipse.set.model.tablemodel.PlanCompareRowType
+	 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getPlanCompareRowType()
+	 * @generated
+	 */
+	int PLAN_COMPARE_ROW_TYPE = 20;
 
 	/**
 	 * Returns the meta object for class
@@ -1655,6 +1732,29 @@ public interface TablemodelPackage extends EPackage {
 	EReference getCompareTableFootnoteContainer_ComparePlanFootnoteContainer();
 
 	/**
+	 * Returns the meta object for class
+	 * '{@link org.eclipse.set.model.tablemodel.PlanCompareRow <em>Plan Compare
+	 * Row</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @return the meta object for class '<em>Plan Compare Row</em>'.
+	 * @see org.eclipse.set.model.tablemodel.PlanCompareRow
+	 * @generated
+	 */
+	EClass getPlanCompareRow();
+
+	/**
+	 * Returns the meta object for the attribute
+	 * '{@link org.eclipse.set.model.tablemodel.PlanCompareRow#getRowType
+	 * <em>Row Type</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @return the meta object for the attribute '<em>Row Type</em>'.
+	 * @see org.eclipse.set.model.tablemodel.PlanCompareRow#getRowType()
+	 * @see #getPlanCompareRow()
+	 * @generated
+	 */
+	EAttribute getPlanCompareRow_RowType();
+
+	/**
 	 * Returns the meta object for enum
 	 * '{@link org.eclipse.set.model.tablemodel.ColumnWidthMode <em>Column Width
 	 * Mode</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -1675,6 +1775,17 @@ public interface TablemodelPackage extends EPackage {
 	 * @generated
 	 */
 	EEnum getRowMergeMode();
+
+	/**
+	 * Returns the meta object for enum
+	 * '{@link org.eclipse.set.model.tablemodel.PlanCompareRowType <em>Plan
+	 * Compare Row Type</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @return the meta object for enum '<em>Plan Compare Row Type</em>'.
+	 * @see org.eclipse.set.model.tablemodel.PlanCompareRowType
+	 * @generated
+	 */
+	EEnum getPlanCompareRowType();
 
 	/**
 	 * Returns the factory that creates the instances of the model. <!--
@@ -2252,6 +2363,27 @@ public interface TablemodelPackage extends EPackage {
 
 		/**
 		 * The meta object literal for the
+		 * '{@link org.eclipse.set.model.tablemodel.impl.PlanCompareRowImpl
+		 * <em>Plan Compare Row</em>}' class. <!-- begin-user-doc --> <!--
+		 * end-user-doc -->
+		 * 
+		 * @see org.eclipse.set.model.tablemodel.impl.PlanCompareRowImpl
+		 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getPlanCompareRow()
+		 * @generated
+		 */
+		EClass PLAN_COMPARE_ROW = eINSTANCE.getPlanCompareRow();
+
+		/**
+		 * The meta object literal for the '<em><b>Row Type</b></em>' attribute
+		 * feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * 
+		 * @generated
+		 */
+		EAttribute PLAN_COMPARE_ROW__ROW_TYPE = eINSTANCE
+				.getPlanCompareRow_RowType();
+
+		/**
+		 * The meta object literal for the
 		 * '{@link org.eclipse.set.model.tablemodel.ColumnWidthMode <em>Column
 		 * Width Mode</em>}' enum. <!-- begin-user-doc --> <!-- end-user-doc -->
 		 * 
@@ -2271,6 +2403,18 @@ public interface TablemodelPackage extends EPackage {
 		 * @generated
 		 */
 		EEnum ROW_MERGE_MODE = eINSTANCE.getRowMergeMode();
+
+		/**
+		 * The meta object literal for the
+		 * '{@link org.eclipse.set.model.tablemodel.PlanCompareRowType <em>Plan
+		 * Compare Row Type</em>}' enum. <!-- begin-user-doc --> <!--
+		 * end-user-doc -->
+		 * 
+		 * @see org.eclipse.set.model.tablemodel.PlanCompareRowType
+		 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getPlanCompareRowType()
+		 * @generated
+		 */
+		EEnum PLAN_COMPARE_ROW_TYPE = eINSTANCE.getPlanCompareRowType();
 
 	}
 

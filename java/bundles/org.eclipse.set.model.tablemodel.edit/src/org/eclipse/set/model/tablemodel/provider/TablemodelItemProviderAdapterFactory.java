@@ -467,6 +467,31 @@ public class TablemodelItemProviderAdapterFactory
 	}
 
 	/**
+	 * This keeps track of the one adapter used for all
+	 * {@link org.eclipse.set.model.tablemodel.PlanCompareRow} instances. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	protected PlanCompareRowItemProvider planCompareRowItemProvider;
+
+	/**
+	 * This creates an adapter for a
+	 * {@link org.eclipse.set.model.tablemodel.PlanCompareRow}. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
+	public Adapter createPlanCompareRowAdapter() {
+		if (planCompareRowItemProvider == null) {
+			planCompareRowItemProvider = new PlanCompareRowItemProvider(this);
+		}
+
+		return planCompareRowItemProvider;
+	}
+
+	/**
 	 * This returns the root adapter factory that contains this factory. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
@@ -603,6 +628,8 @@ public class TablemodelItemProviderAdapterFactory
 			compareTableCellContentItemProvider.dispose();
 		if (compareTableFootnoteContainerItemProvider != null)
 			compareTableFootnoteContainerItemProvider.dispose();
+		if (planCompareRowItemProvider != null)
+			planCompareRowItemProvider.dispose();
 	}
 
 }

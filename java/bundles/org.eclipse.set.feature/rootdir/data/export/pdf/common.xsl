@@ -156,6 +156,9 @@ http://www.eclipse.org/legal/epl-v20.html
 	<!-- Fill body rows -->
 	<xsl:template match="Row">
 		<fo:table-row xsl:use-attribute-sets="body-row-style" keep-together.within-page="always">
+			<xsl:if test="@compareType">
+				<xsl:attribute name="border">0.4mm solid #0066FF</xsl:attribute>
+			</xsl:if>
 			<fo:table-cell xsl:use-attribute-sets="body-row-cell-style">
 				<fo:block>
 					<xsl:value-of select="@group-number" />
@@ -164,8 +167,12 @@ http://www.eclipse.org/legal/epl-v20.html
 			<xsl:apply-templates />
 		</fo:table-row>
 	</xsl:template>
+
 	<xsl:template match="Row[position()=last()]">
 		<fo:table-row xsl:use-attribute-sets="body-row-style" keep-together.within-page="always">
+			<xsl:if test="@compareType">
+				<xsl:attribute name="border">0.3mm solid #0066FF</xsl:attribute>
+			</xsl:if>
 			<fo:table-cell xsl:use-attribute-sets="body-last-row-first-cell-style">
 				<fo:block>
 					<xsl:value-of select="@group-number" />
@@ -178,6 +185,9 @@ http://www.eclipse.org/legal/epl-v20.html
 	<xsl:template match="Row[not(Cell[@column-number = '1'])]">
 		<fo:table-row xsl:use-attribute-sets="body-row-style"
 			keep-with-previous.within-page="always">
+			<xsl:if test="@compareType">
+				<xsl:attribute name="border">0.3mm solid #0066FF</xsl:attribute>
+			</xsl:if>
 			<fo:table-cell xsl:use-attribute-sets="body-row-cell-style">
 				<fo:block>
 					<xsl:value-of select="@group-number" />
