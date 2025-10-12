@@ -42,6 +42,7 @@ import org.eclipse.nebula.widgets.nattable.grid.layer.RowHeaderLayer;
 import org.eclipse.nebula.widgets.nattable.group.ColumnGroupGroupHeaderLayer;
 import org.eclipse.nebula.widgets.nattable.group.ColumnGroupHeaderLayer;
 import org.eclipse.nebula.widgets.nattable.group.ColumnGroupModel;
+import org.eclipse.nebula.widgets.nattable.group.config.DefaultColumnGroupHeaderLayerConfiguration;
 import org.eclipse.nebula.widgets.nattable.layer.DataLayer;
 import org.eclipse.nebula.widgets.nattable.layer.ILayer;
 import org.eclipse.nebula.widgets.nattable.layer.LabelStack;
@@ -653,6 +654,9 @@ public final class ToolboxTableView extends BasePart {
 				columnGroupModel);
 		NatTableColumnGroupHelper.addGroups(rootColumnDescriptor,
 				columnGroupHeaderLayer);
+		columnGroupHeaderLayer.addConfiguration(
+				new DefaultColumnGroupHeaderLayerConfiguration(columnGroupModel,
+						true));
 		columnGroupHeaderLayer
 				.setRowHeight(toPixel((float) ColumnDescriptorExtensions
 						.getGroupRowHeight(rootColumnDescriptor)));
@@ -663,6 +667,9 @@ public final class ToolboxTableView extends BasePart {
 				columnGroupHeaderLayer, columnGroupGroupModel);
 		NatTableColumnGroupHelper.addGroupGroups(rootColumnDescriptor,
 				columnGroupGroupHeaderLayer);
+		columnGroupGroupHeaderLayer.addConfiguration(
+				new DefaultColumnGroupHeaderLayerConfiguration(
+						columnGroupGroupModel, true));
 		columnGroupGroupHeaderLayer
 				.setRowHeight(toPixel((float) ColumnDescriptorExtensions
 						.getGroupGroupRowHeight(rootColumnDescriptor)));
