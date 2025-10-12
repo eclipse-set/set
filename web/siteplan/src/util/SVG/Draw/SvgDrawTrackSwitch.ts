@@ -13,7 +13,7 @@ import { Label } from '@/model/Label'
 import { Coordinate } from '@/model/Position'
 import { LeftRight } from '@/model/SiteplanModel'
 import { ISvgElement, SvgElement } from '@/model/SvgElement'
-import TrackSwitch, { SwitchType, TrackSwitchPart } from '@/model/TrackSwitch'
+import { TrackSwitchPart } from '@/model/TrackSwitch'
 import TrackSwitchComponent, { TurnoutOperatingMode } from '@/model/TrackSwitchComponent'
 import '@/util/ElementExtensions'
 import AbstractDrawSVG from '@/util/SVG/Draw/AbstractDrawSVG'
@@ -50,7 +50,6 @@ export default class SvgDrawTrackSwitch extends AbstractDrawSVG {
     switch (drawData.drawPart) {
       case TrackSwitchPart.Main:
         return this.drawTrackSwitch(
-          drawData.featureData.trackSwitch,
           drawData.featureData.component,
           drawData.featureData.outlineCoor
         )
@@ -68,7 +67,6 @@ export default class SvgDrawTrackSwitch extends AbstractDrawSVG {
    * @returns a {@link ISvgElement} containing the final SVG for rendering
    */
   drawTrackSwitch (
-    tswitch: TrackSwitch,
     switchComponent: TrackSwitchComponent | null,
     outlineCoors: number[][]
   ): ISvgElement {
@@ -96,7 +94,7 @@ export default class SvgDrawTrackSwitch extends AbstractDrawSVG {
     outline.setAttribute('d', pathLine)
     g.appendChild(outline)
 
-    this.drawTrackSwitchStyle(g, tswitch, switchComponent).forEach(ele => (
+    this.drawTrackSwitchStyle(g, switchComponent).forEach(ele => (
       svg.appendChild(ele)
     ))
 
@@ -118,14 +116,8 @@ export default class SvgDrawTrackSwitch extends AbstractDrawSVG {
    */
   private drawTrackSwitchStyle (
     outlineSVGGroup: HTMLElement,
-    tswitch: TrackSwitch,
     component: TrackSwitchComponent
   ): Element[] {
-    if (tswitch.switchType === SwitchType.SimpleCross) {
-      outlineSVGGroup.setAttribute('fill', `url(%23${SvgDraw.DIAGONAL_LINE_ID})`)
-      return [SvgDraw.diagonalPattern(component.start.rotation), outlineSVGGroup]
-    }
-
     const rotate = component.mainLeg.connection === LeftRight.RIGHT
       ? component.start.rotation - 45
       : component.start.rotation + 45
