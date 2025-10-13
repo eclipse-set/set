@@ -78,6 +78,7 @@ public class SslrTransformationService
 
 	@Override
 	protected List<String> getTopologicalColumnPosition() {
-		return List.of(SslrColumns.Fahrweg_Entscheidungsweiche);
+		return List.of(SslrColumns.Fahrweg_Entscheidungsweiche,
+				SslrColumns.Abhaengiger_BUe);
 	}
 }

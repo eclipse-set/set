@@ -9,7 +9,7 @@
 package org.eclipse.set.feature.table.pt1.ssks;
 
 import static org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum.ASC;
-import static org.eclipse.set.feature.table.pt1.ssks.SsksColumns.Schaltkasten_Entfernung;
+import static org.eclipse.set.feature.table.pt1.ssks.SsksColumns.*;
 import static org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparatorType.EMPTY_LAST;
 import static org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparatorType.LEXICOGRAPHICAL;
 
@@ -119,6 +119,7 @@ public final class SsksTransformationService extends
 
 	@Override
 	protected List<String> getTopologicalColumnPosition() {
-		return List.of(Schaltkasten_Entfernung);
+		return List.of(Schaltkasten_Entfernung, Lichtraumprofil, Ueberhoehung,
+				Fundament_Hoehe);
 	}
 }
