@@ -28,7 +28,9 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 /**
+ * Craete diff table between states Initial and Final
  * 
+ * @author Schaefer
  */
 @Component(immediate = true, service = TableDiffService.class)
 public class TableStateDiffService extends AbstractTableDiff {

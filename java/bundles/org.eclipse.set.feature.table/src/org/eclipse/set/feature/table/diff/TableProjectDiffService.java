@@ -51,7 +51,9 @@ import org.osgi.service.component.annotations.Reference;
 import com.google.common.collect.Streams;
 
 /**
+ * Create diff table between two loaded project
  * 
+ * @author truong
  */
 @Component(immediate = true, service = { TableDiffService.class })
 public class TableProjectDiffService extends AbstractTableDiff {
