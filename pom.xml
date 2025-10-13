@@ -53,7 +53,8 @@
 		<module>java/bundles/org.eclipse.set.feature.table.pt1</module>
 		<module>java/bundles/org.eclipse.set.feature.table.test</module>
 		<module>java/bundles/org.eclipse.set.feature.export</module>
-		<module>java/bundles/org.eclipse.set.feature.export.test</module>
+		<!-- Currently given't test in this package -->
+		<!-- <module>java/bundles/org.eclipse.set.feature.export.test</module> -->
 		<module>java/bundles/org.eclipse.set.feature.validation</module>
 		<module>java/bundles/org.eclipse.set.feature.plazmodel</module>
 		<module>java/bundles/org.eclipse.set.feature.enumtransformation</module>
