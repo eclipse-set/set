@@ -42,14 +42,13 @@ public class TableCompileServiceImpl implements TableCompileService {
 			Arrays.stream(TableType.values())
 					.filter(type -> type != TableType.SINGLE)
 					.forEach(type -> {
-						final Table table = tableService
-								.createDiffTable(shortcut, type,
-										controlAreaIds);
+						final Table table = tableService.createDiffTable(
+								shortcut, type, controlAreaIds);
 						result.put(type, table);
 					});
 		} else {
-			final Table single = tableService.createDiffTable(
-					shortcut, TableType.SINGLE, controlAreaIds);
+			final Table single = tableService.createDiffTable(shortcut,
+					TableType.SINGLE, controlAreaIds);
 			result.put(TableType.SINGLE, single);
 		}
 
