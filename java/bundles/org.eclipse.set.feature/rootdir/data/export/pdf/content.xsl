@@ -14,25 +14,13 @@ http://www.eclipse.org/legal/epl-v20.html
 
 	<xsl:template match="StringContent">
 		<fo:block hyphenate="true" language="de">
-			<fo:inline>
-				<xsl-if test="../../@compareType='CHANGED_GUID_ROW'">
-					<xsl:attribute name="text-decoration">line-through</xsl:attribute>
-				</xsl:if>
-				<xsl:value-of select="." />
-			</fo:inline>
+			<xsl:value-of select="." />
 		</fo:block>
 	</xsl:template>
 
 	<xsl:template match="StringContent[starts-with(.,'&#x25a1;')]">
 		<fo:block hyphenate="true" language="de" font-family="Arial">
-			<xsl-if test="../../@compareType='CHANGED_GUID_ROW'">
-				<fo:inline text-decoration="line-through">
-					<xsl:value-of select="." />
-				</fo:inline>
-			</xsl:if>
-			<xsl:otherwise>
-				<xsl:value-of select="." />
-			</xsl:otherwise>
+			<xsl:value-of select="." />
 		</fo:block>
 	</xsl:template>
 
@@ -56,12 +44,7 @@ http://www.eclipse.org/legal/epl-v20.html
 
 	<xsl:template match="UnchangedValue">
 		<fo:block hyphenate="true" language="de">
-			<fo:inline>
-				<xsl-if test="../../@compareType='CHANGED_GUID_ROW'">
-					<xsl:attribute name="text-decoration">line-through</xsl:attribute>
-				</xsl:if>
-				<xsl:value-of select="." />
-			</fo:inline>
+			<xsl:value-of select="." />
 		</fo:block>
 	</xsl:template>
 
@@ -108,9 +91,6 @@ http://www.eclipse.org/legal/epl-v20.html
 	<xsl:template match="NewValue">
 		<fo:block hyphenate="true" language="de">
 			<fo:inline color="#cd0000">
-				<xsl-if test="../../@compareType='CHANGED_GUID_ROW'">
-					<xsl:attribute name="text-decoration">line-through</xsl:attribute>
-				</xsl:if>
 				<xsl:value-of select="." />
 			</fo:inline>
 		</fo:block>
@@ -119,9 +99,6 @@ http://www.eclipse.org/legal/epl-v20.html
 	<xsl:template match="NewValue[starts-with(.,'&#x25a1;')]">
 		<fo:block hyphenate="true" language="de">
 			<fo:inline font-family="Arial" color="#cd0000">
-				<xsl-if test="../../@compareType='CHANGED_GUID_ROW'">
-					<xsl:attribute name="text-decoration">line-through</xsl:attribute>
-				</xsl:if>
 				<xsl:value-of select="." />
 			</fo:inline>
 		</fo:block>
@@ -150,12 +127,7 @@ http://www.eclipse.org/legal/epl-v20.html
 	</xsl:template>
 
 	<xsl:template match="SimpleValue">
-		<fo:inline>
-			<xsl-if test="../../@compareType='CHANGED_GUID_ROW'">
-					<xsl:attribute name="text-decoration">line-through</xsl:attribute>
-			</xsl:if>
-			<xsl:value-of select="."/>
-		</fo:inline>
+		<xsl:value-of select="."/>
 	</xsl:template>
 
 	<xsl:template match="SimpleValue[starts-with(.,'Error:') or starts-with(.,'&#9203;')]">
@@ -169,7 +141,6 @@ http://www.eclipse.org/legal/epl-v20.html
 		<xsl:variable name="value" select="@multicolorValue" />
 		<!--IMPROVE: The order of multi color content shouldn't static-->
 		<fo:block hyphenate="true" language="de">
-
 			<fo:inline background-color="yellow">
 				<xsl:value-of select="@multicolorValue" />
 			</fo:inline>
@@ -188,7 +159,12 @@ http://www.eclipse.org/legal/epl-v20.html
 
 	<xsl:template match="CompareProjectContent">
 		<fo:block>
-			<xsl:apply-templates />
+			<fo:inline>
+				<xsl:if test="../../@compareType='CHANGED_GUID_ROW'">
+					<xsl:attribute name="text-decoration">line-through</xsl:attribute>
+				</xsl:if>
+				<xsl:apply-templates />
+			</fo:inline>
 		</fo:block>
 	</xsl:template>
 </xsl:stylesheet>

@@ -32,6 +32,8 @@ import static extension org.eclipse.set.model.tablemodel.extensions.ColumnDescri
 import static extension org.eclipse.set.model.tablemodel.extensions.FootnoteContainerExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.TableCellExtensions.*
 import static extension org.eclipse.set.utils.StringExtensions.*
+import org.eclipse.set.model.tablemodel.PlanCompareRow
+import org.eclipse.set.model.tablemodel.PlanCompareRowType
 
 /**
  * Extensions for {@link CellContent}.
@@ -94,8 +96,10 @@ class CellContentExtensions {
 
 	static def dispatch String getRichTextValue(
 		CompareTableCellContent content) {
-		if (content.mainPlanCellContent.plainStringValue ==
-			content.comparePlanCellContent.plainStringValue) {
+		val tableRow = content.tableCell.tableRow
+		if (tableRow instanceof PlanCompareRow &&
+			(tableRow as PlanCompareRow).rowType ==
+				PlanCompareRowType.CHANGED_GUID_ROW) {
 			return '''<s>«content.mainPlanCellContent.richTextValue»</s>'''
 		}
 		return content.mainPlanCellContent.richTextValue
@@ -169,12 +173,12 @@ class CellContentExtensions {
 
 	static def dispatch String getRichTextValueWithFootnotes(
 		CompareTableCellContent content, CompareTableFootnoteContainer fc) {
-
-		val mainTableFootnotes = fc.mainPlanFootnoteContainer
-		val compareTableFootnotes = fc.comparePlanFootnoteContainer
+		val tableRow = fc.eContainer
 		val result = content.mainPlanCellContent.
 			getRichTextValueWithFootnotes(fc.mainPlanFootnoteContainer)
-		if (mainTableFootnotes.isSameFootnotesComment(compareTableFootnotes)) {
+		if (tableRow instanceof PlanCompareRow &&
+			(tableRow as PlanCompareRow).rowType ===
+				PlanCompareRowType.CHANGED_GUID_ROW) {
 			return '''<s>«result»</s>'''
 		}
 		return result

@@ -156,9 +156,6 @@ http://www.eclipse.org/legal/epl-v20.html
 	<!-- Fill body rows -->
 	<xsl:template match="Row">
 		<fo:table-row xsl:use-attribute-sets="body-row-style" keep-together.within-page="always">
-			<xsl:if test="@compareType">
-				<xsl:attribute name="border">0.4mm solid #0066FF</xsl:attribute>
-			</xsl:if>
 			<fo:table-cell xsl:use-attribute-sets="body-row-cell-style">
 				<fo:block>
 					<xsl:value-of select="@group-number" />
@@ -170,9 +167,6 @@ http://www.eclipse.org/legal/epl-v20.html
 
 	<xsl:template match="Row[position()=last()]">
 		<fo:table-row xsl:use-attribute-sets="body-row-style" keep-together.within-page="always">
-			<xsl:if test="@compareType">
-				<xsl:attribute name="border">0.3mm solid #0066FF</xsl:attribute>
-			</xsl:if>
 			<fo:table-cell xsl:use-attribute-sets="body-last-row-first-cell-style">
 				<fo:block>
 					<xsl:value-of select="@group-number" />
@@ -185,9 +179,6 @@ http://www.eclipse.org/legal/epl-v20.html
 	<xsl:template match="Row[not(Cell[@column-number = '1'])]">
 		<fo:table-row xsl:use-attribute-sets="body-row-style"
 			keep-with-previous.within-page="always">
-			<xsl:if test="@compareType">
-				<xsl:attribute name="border">0.3mm solid #0066FF</xsl:attribute>
-			</xsl:if>
 			<fo:table-cell xsl:use-attribute-sets="body-row-cell-style">
 				<fo:block>
 					<xsl:value-of select="@group-number" />
@@ -288,5 +279,30 @@ http://www.eclipse.org/legal/epl-v20.html
 				<xsl:value-of select="." />
 			</fo:inline>
 		</fo:block>
+	</xsl:template>
+
+	<xsl:variable name="compare-content-border-style" select="'0.3mm solid #0066FF'" />
+	<xsl:template name="CompareCellContentStyle">
+		<xsl:choose>
+				<xsl:when test="CompareProjectContent">
+					<xsl:attribute name="border-top" >
+						<xsl:value-of select="$compare-content-border-style" />
+					</xsl:attribute>
+					<xsl:attribute name="border-bottom">
+						<xsl:value-of select="$compare-content-border-style" />
+					</xsl:attribute>
+					<xsl:if test="not(../@compareType)">
+						<xsl:attribute name="border-right">
+							<xsl:value-of select="$compare-content-border-style" />
+						</xsl:attribute>
+						<xsl:attribute name="border-left">
+							<xsl:value-of select="$compare-content-border-style" />
+						</xsl:attribute>
+					</xsl:if>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:attribute name="border-color">black</xsl:attribute>
+				</xsl:otherwise>
+			</xsl:choose>
 	</xsl:template>
 </xsl:stylesheet>

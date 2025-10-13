@@ -10,9 +10,7 @@
  */
 package org.eclipse.set.utils.export.xsl;
 
-import static org.eclipse.set.utils.excel.ExcelWorkbookExtension.getCellAt;
-import static org.eclipse.set.utils.excel.ExcelWorkbookExtension.getHeaderLastColumnIndex;
-import static org.eclipse.set.utils.excel.ExcelWorkbookExtension.getHeaderLastRowIndex;
+import static org.eclipse.set.utils.excel.ExcelWorkbookExtension.*;
 import static org.eclipse.set.utils.export.xsl.TransformStyle.setExcelCellBorderStyle;
 import static org.eclipse.set.utils.export.xsl.TransformStyle.transformBorderStyle;
 import static org.eclipse.set.utils.export.xsl.XMLDocumentExtensions.createXMLElementWithAttr;
@@ -20,16 +18,8 @@ import static org.eclipse.set.utils.export.xsl.XSLConstant.TableAttribute.NUMBER
 import static org.eclipse.set.utils.export.xsl.XSLConstant.TableAttribute.XSL_USE_ATTRIBUTE_SETS;
 import static org.eclipse.set.utils.export.xsl.XSLConstant.XSLFoAttributeName.ATTR_NAME;
 import static org.eclipse.set.utils.export.xsl.XSLConstant.XSLFoAttributeName.ATTR_SELECT;
-import static org.eclipse.set.utils.export.xsl.XSLConstant.XSLStyleSets.DEFAULT_CELL_STYLE;
-import static org.eclipse.set.utils.export.xsl.XSLConstant.XSLStyleSets.LAST_ROW_CELL_STYLE;
-import static org.eclipse.set.utils.export.xsl.XSLConstant.XSLTag.FO_TABLE_CELL;
-import static org.eclipse.set.utils.export.xsl.XSLConstant.XSLTag.XSL_APPLY_TEMPLATE;
-import static org.eclipse.set.utils.export.xsl.XSLConstant.XSLTag.XSL_ATTRIBUTE;
-import static org.eclipse.set.utils.export.xsl.XSLConstant.XSLTag.XSL_CHOOSE;
-import static org.eclipse.set.utils.export.xsl.XSLConstant.XSLTag.XSL_OTHERWISE;
-import static org.eclipse.set.utils.export.xsl.XSLConstant.XSLTag.XSL_TEMPLATE;
-import static org.eclipse.set.utils.export.xsl.XSLConstant.XSLTag.XSL_VALUE_OF;
-import static org.eclipse.set.utils.export.xsl.XSLConstant.XSLTag.XSL_WHEN;
+import static org.eclipse.set.utils.export.xsl.XSLConstant.XSLStyleSets.*;
+import static org.eclipse.set.utils.export.xsl.XSLConstant.XSLTag.*;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -47,7 +37,6 @@ import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
-import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.utils.export.xsl.XMLDocumentExtensions.XMLAttribute;
 import org.eclipse.set.utils.export.xsl.XSLConstant.TableAttribute.BorderDirection;
 import org.eclipse.set.utils.export.xsl.XSLConstant.XSLStyleSets;
@@ -297,41 +286,9 @@ public class TransformTableBody {
 				new XMLAttribute(NUMBER_ROWS_SPANNED,
 						String.format("{@%s}", NUMBER_ROWS_SPANNED))); //$NON-NLS-1$
 		TransformStyle.transformCellStyle(tableCell, Optional.of(cell));
-		addChooseForCompareProjectCell(tableCell);
+		tableCell.appendChild(createXMLElementWithAttr(doc, XSL_CALL_TEMPLATE,
+				ATTR_NAME, PLAN_COMPARE_CONTENT_TEMPLATE));
 		tableCell.appendChild(doc.createElement(XSL_APPLY_TEMPLATE));
 		return tableCell;
-	}
-
-	private void addChooseForCompareProjectCell(final Element tableCell) {
-		final Element compareCellBorderAttribute = createXMLElementWithAttr(doc,
-				XSL_ATTRIBUTE, new XMLAttribute(ATTR_NAME, "border")); //$NON-NLS-1$
-		compareCellBorderAttribute.setTextContent("0.3mm solid " //$NON-NLS-1$
-				+ ToolboxConstants.TABLE_COMPARE_TABLE_CELL_BORDER_COLOR);
-
-		final Element borderColorAttribute = createXMLElementWithAttr(doc,
-				XSL_ATTRIBUTE, new XMLAttribute(ATTR_NAME, "border-color")); //$NON-NLS-1$
-		borderColorAttribute.setTextContent("black"); //$NON-NLS-1$
-
-		final String compareCellExpression = String.format("%s and not(../@%s)", //$NON-NLS-1$
-				ToolboxConstants.XSL_PROJECT_COMPARE_CELL,
-				ToolboxConstants.XSL_COMPARE_ROW_TYPE_ATTRIBUTE);
-		final Element chooseElement = createChooseElement(compareCellExpression,
-				compareCellBorderAttribute, borderColorAttribute);
-		tableCell.appendChild(chooseElement);
-	}
-
-	private Element createChooseElement(final String expression,
-			final Element ifTrue, final Element whenFalse) {
-		final Element choose = doc.createElement(XSL_CHOOSE);
-		final Element when = createXMLElementWithAttr(doc, XSL_WHEN,
-				new XMLAttribute("test", expression)); //$NON-NLS-1$
-
-		choose.appendChild(when);
-		when.appendChild(ifTrue);
-
-		final Element otherwise = doc.createElement(XSL_OTHERWISE);
-		otherwise.appendChild(whenFalse);
-		choose.appendChild(otherwise);
-		return choose;
 	}
 }
