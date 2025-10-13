@@ -8,7 +8,7 @@
  * SPDX-License-Identifier: EPL-2.0
  * 
  */
-package org.eclipse.set.feature.export.tablediff;
+package org.eclipse.set.feature.table.diff;
 
 import static org.eclipse.set.ppmodel.extensions.EObjectExtensions.getNullableObject;
 

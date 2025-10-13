@@ -21,6 +21,8 @@ import org.eclipse.set.model.tablemodel.CompareTableFootnoteContainer
 import org.eclipse.set.model.tablemodel.FootnoteContainer
 import org.eclipse.set.model.tablemodel.MultiColorCellContent
 import org.eclipse.set.model.tablemodel.MultiColorContent
+import org.eclipse.set.model.tablemodel.PlanCompareRow
+import org.eclipse.set.model.tablemodel.PlanCompareRowType
 import org.eclipse.set.model.tablemodel.SimpleFootnoteContainer
 import org.eclipse.set.model.tablemodel.StringCellContent
 import org.eclipse.set.model.tablemodel.TableCell
@@ -28,12 +30,8 @@ import org.eclipse.set.utils.ToolboxConfiguration
 
 import static org.eclipse.set.model.tablemodel.extensions.Utils.*
 
-import static extension org.eclipse.set.model.tablemodel.extensions.ColumnDescriptorExtensions.*
-import static extension org.eclipse.set.model.tablemodel.extensions.FootnoteContainerExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.TableCellExtensions.*
 import static extension org.eclipse.set.utils.StringExtensions.*
-import org.eclipse.set.model.tablemodel.PlanCompareRow
-import org.eclipse.set.model.tablemodel.PlanCompareRowType
 
 /**
  * Extensions for {@link CellContent}.

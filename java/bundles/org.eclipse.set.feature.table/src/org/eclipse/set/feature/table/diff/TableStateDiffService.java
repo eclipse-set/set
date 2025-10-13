@@ -8,7 +8,7 @@
  * SPDX-License-Identifier: EPL-2.0
  * 
  */
-package org.eclipse.set.feature.export.tablediff;
+package org.eclipse.set.feature.table.diff;
 
 import static org.eclipse.set.model.tablemodel.extensions.TableCellExtensions.getIterableStringValue;
 
@@ -66,8 +66,6 @@ public class TableStateDiffService extends AbstractTableDiff {
 		return compareContent;
 	}
 
-	// IMPROVE: currently missing the compare between two MultiColorCellContent.
-	// This function do only color in cell active
 	private static void createMultiColorDiffCotent(final TableCell oldCell,
 			final TableCell newCell) {
 		if (oldCell

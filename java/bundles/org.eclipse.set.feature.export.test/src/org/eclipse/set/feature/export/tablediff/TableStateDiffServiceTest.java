@@ -15,6 +15,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.set.feature.table.diff.TableStateDiffService;
 import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.extensions.TableExtensions;

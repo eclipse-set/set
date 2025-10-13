@@ -95,6 +95,8 @@ Import-Package: com.google.common.base,
  org.slf4j;version="1.7.2"
 Bundle-ActivationPolicy: lazy
 Service-Component: OSGI-INF/org.eclipse.set.feature.table.compile.TableCompileServiceContextFunction.xml,
+ OSGI-INF/org.eclipse.set.feature.table.diff.TableProjectDiffService.xml,
+ OSGI-INF/org.eclipse.set.feature.table.diff.TableStateDiffService.xml,
  OSGI-INF/org.eclipse.set.feature.table.export.ExportInventoryDescriptionService.xml,
  OSGI-INF/org.eclipse.set.feature.table.export.ExportPlanningRecordsDescriptionService.xml,
  OSGI-INF/org.eclipse.set.feature.table.internal.TableServiceContextFunction.xml,
