@@ -360,6 +360,10 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 					[
 						val isPMaxL = element.
 							isGeschwindigkeitPMax(element.topKanteL)
+						if (isPMaxL) {
+							instance.addTopologicalCell(
+								cols.getColumn(Weiche_v_zul_W_Links))
+						}
 						wKrGspKomponenten.map[zungenpaar].
 							printGeschwindingkeitL(isPMaxL)
 					]
@@ -369,6 +373,10 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 					[
 						val isPMaxL = element.
 							isGeschwindigkeitPMax(element.topKanteL)
+						if (isPMaxL) {
+							instance.addTopologicalCell(
+								cols.getColumn(Weiche_v_zul_W_Links))
+						}
 						wKrGspKomponenten.filter [
 							zungenpaar?.kreuzungsgleis?.wert ==
 								ENUM_LINKS_RECHTS_RECHTS
@@ -395,6 +403,10 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 					[
 						val isPMaxR = element.
 							isGeschwindigkeitPMax(element.topKanteR)
+						if (isPMaxR) {
+							instance.addTopologicalCell(
+								cols.getColumn(Weiche_v_zul_W_Rechts))
+						}
 						wKrGspKomponenten.map [
 							zungenpaar
 						].printGeschwindingkeitR(isPMaxR)
@@ -405,6 +417,10 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 					[
 						val isPMaxR = element.
 							isGeschwindigkeitPMax(element.topKanteR)
+						if (isPMaxR) {
+							instance.addTopologicalCell(
+								cols.getColumn(Weiche_v_zul_W_Rechts))
+						}
 						wKrGspKomponenten.filter [
 							zungenpaar?.kreuzungsgleis?.wert ==
 								ENUM_LINKS_RECHTS_LINKS
@@ -437,6 +453,8 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 				fillingIterableCase(
 					[art_ekw],
 					[
+						instance.addTopologicalCell(
+							cols.getColumn(Kreuzung_v_zul_K_Links))
 						val isPMaxL = element.
 							isGeschwindigkeitPMax(element.topKanteL)
 						getKreuzungEKWGroup(wKrGspKomponenten,
@@ -447,6 +465,8 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 				fillingIterableCase(
 					[art_dkw && exKrLinksKomponenten],
 					[
+						instance.addTopologicalCell(
+							cols.getColumn(Kreuzung_v_zul_K_Links))
 						val isPMaxL = element.
 							isGeschwindigkeitPMax(element.topKanteL)
 						krLinksKomponenten.map [
@@ -459,6 +479,10 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 					[
 						val isPMaxL = element.
 							isGeschwindigkeitPMax(element.topKanteL)
+						if (isPMaxL) {
+							instance.addTopologicalCell(
+								cols.getColumn(Kreuzung_v_zul_K_Links))
+						}
 						wKrGspKomponenten.map[kreuzung].
 							printGeschwindingkeitL(isPMaxL)
 					]
@@ -485,6 +509,8 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 				fillingIterableCase(
 					[art_ekw],
 					[
+						instance.addTopologicalCell(
+							cols.getColumn(Kreuzung_v_zul_K_Rechts))
 						val isPMaxR = element.
 							isGeschwindigkeitPMax(element.topKanteR)
 						getKreuzungEKWGroup(wKrGspKomponenten,
@@ -495,6 +521,8 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 				fillingIterableCase(
 					[art_dkw && exKrRechtsKomponenten],
 					[
+						instance.addTopologicalCell(
+							cols.getColumn(Kreuzung_v_zul_K_Rechts))
 						val isPMaxR = element.
 							isGeschwindigkeitPMax(element.topKanteR)
 						krRechtsKomponenten.map [
@@ -507,6 +535,10 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 					[
 						val isPMaxR = element.
 							isGeschwindigkeitPMax(element.topKanteR)
+						if (isPMaxR) {
+							instance.addTopologicalCell(
+								cols.getColumn(Kreuzung_v_zul_K_Rechts))
+						}
 						wKrGspKomponenten.map[kreuzung].
 							printGeschwindingkeitR(isPMaxR)
 					]
