@@ -4,7 +4,7 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
  * 
  */
@@ -362,7 +362,7 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 			datenpunkt,
 			[datenpunktAllg?.datenpunktLaenge?.wert?.toString]
 		)
-		
+
 		fillFootnotes(datenpunkt)
 
 		return
@@ -403,8 +403,8 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 		(T)=>Iterable<String> filling
 	) {
 		val action = [ Basis_Objekt it |
-			if (it instanceof Markanter_Punkt)
-				return it.IDMarkanteStelle?.value as T
+			if (!clazz.isInstance(it) && it instanceof Markanter_Punkt)
+				return (it as Markanter_Punkt).IDMarkanteStelle?.value as T
 			return it as T
 		]
 
