@@ -74,6 +74,8 @@ import org.osgi.service.event.Event;
 import org.osgi.service.event.EventAdmin;
 import org.osgi.service.event.EventConstants;
 import org.osgi.service.event.EventHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Streams;
 
@@ -89,6 +91,8 @@ import com.google.common.collect.Streams;
 @SuppressWarnings("nls")
 public class GeoCoordinateValid extends AbstractPlazContainerCheck
 		implements PlazCheck, EventHandler {
+	static final Logger logger = LoggerFactory
+			.getLogger(GeoCoordinateValid.class);
 
 	private static record GeoKnotenRange(Pair<GEO_Knoten, BigDecimal> start,
 			Pair<GEO_Knoten, BigDecimal> end) {
@@ -106,7 +110,7 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 		}
 
 		public GEO_Knoten endNode() {
-			return start.getKey();
+			return end.getKey();
 		}
 
 		public GEO_Kante getGeoKante() {
@@ -161,34 +165,47 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 								Map.of("GUID", po.getIdentitaet().getWert())));
 						return;
 					}
-					final GEOKanteCoordinate geoKanteCoordinate = calculateCoordinate(
+
+					final GEOKanteCoordinate topCoordinate = calculateCoordinate(
 							po, potk);
-					if (geoKanteCoordinate == null
-							|| getNullableObject(geoKanteCoordinate,
+					if (topCoordinate == null
+							|| getNullableObject(topCoordinate,
 									e -> e.getCoordinate()).isEmpty()) {
+						result.add(createGeoCoordinateError(po,
+								"Es gibt fehler bei der Berechnung topologische Coordinate",
+								Map.of()));
 						return;
 					}
 
-					final GEO_Punkt relevantGeoPunkt = getSameCRSGEOPunkt(potk,
-							geoKanteCoordinate.getCRS());
-					if (relevantGeoPunkt == null) {
-						return;
-					}
-					final Coordinate coordinate = geoKanteCoordinate
-							.getCoordinate();
-					final Coordinate gpCoordinate = GeoPunktExtensions
-							.getCoordinate(relevantGeoPunkt);
-					if (gpCoordinate == null) {
-						result.add(creatErrorReport(relevantGeoPunkt));
-					}
-
-					final double diff = coordinate.distance(gpCoordinate);
-					if (diff > TOLERANT) {
-						result.add(createErrorReport(po, potk, relevantGeoPunkt,
-								diff));
+					final PlazError error = validGeoCoordinate(po, potk,
+							topCoordinate);
+					if (error != null) {
+						result.add(error);
 					}
 				}));
 		return result;
+	}
+
+	private PlazError validGeoCoordinate(final Punkt_Objekt po,
+			final Punkt_Objekt_TOP_Kante_AttributeGroup potk,
+			final GEOKanteCoordinate topCoordinate) {
+		final GEO_Punkt relevantGeoPunkt = getSameCRSGEOPunkt(potk,
+				topCoordinate.getCRS());
+		if (relevantGeoPunkt == null) {
+			return null;
+		}
+		final Coordinate coordinate = topCoordinate.getCoordinate();
+		final Coordinate geoCoordinate = GeoPunktExtensions
+				.getCoordinate(relevantGeoPunkt);
+		if (geoCoordinate == null) {
+			return creatErrorReport(relevantGeoPunkt);
+		}
+
+		final double diff = coordinate.distance(geoCoordinate);
+		if (diff > TOLERANT) {
+			return createErrorReport(po, potk, relevantGeoPunkt, diff);
+		}
+		return null;
 	}
 
 	private static List<Punkt_Objekt> getRelevantPOs(
@@ -250,6 +267,7 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 			}
 			return calculateCoordinate(geoKanteMetaData, potk);
 		} catch (final Exception e) {
+			logger.error(e.getMessage());
 			return null;
 		}
 
@@ -289,13 +307,15 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 				.getGEOKanteAllg()
 				.getGEOLaenge()
 				.getWert();
+
 		final BigDecimal localDistance = potk.getAbstand()
 				.getWert()
 				.subtract(md.getStart());
 		final BigDecimal scaleDistance = localDistance.doubleValue() != 0
-				? localDistance.multiply(geoLength.divide(geoKanteLength,
-						ToolboxConstants.ROUNDING_TO_PLACE,
-						RoundingMode.HALF_UP))
+				? localDistance.multiply(geoLength)
+						.divide(geoKanteLength,
+								ToolboxConstants.ROUNDING_TO_PLACE,
+								RoundingMode.HALF_UP)
 				: BigDecimal.ZERO;
 		final SegmentPosition position = getSegmentPosition(md.getGeometry(),
 				getCoordinate(md.getGeoKnoten()), scaleDistance);

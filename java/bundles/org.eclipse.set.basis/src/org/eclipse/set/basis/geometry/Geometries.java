@@ -12,6 +12,7 @@ import java.math.BigDecimal;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.eclipse.set.basis.graph.DirectedElement;
 import org.eclipse.set.basis.graph.DirectedElementImpl;
 import org.locationtech.jts.algorithm.Angle;
 import org.locationtech.jts.geom.Coordinate;
@@ -48,6 +49,8 @@ public class Geometries {
 	}
 
 	private static final double ACCURACY = 0.1;
+	private static final BigDecimal SEGMENT_DISTANCE_TOLERANCE = BigDecimal
+			.valueOf(0.00001);
 
 	/**
 	 * @param original
@@ -230,8 +233,23 @@ public class Geometries {
 	private static SegmentPosition getSegmentPosition(
 			final List<SegmentWithDistance> segments,
 			final BigDecimal distance) {
+		// Avoid two worst case: distance == 0 and distance == LineString length
+		if (distance.equals(BigDecimal.ZERO)) {
+			return new SegmentPosition(segments.getFirst().segment,
+					segments.getFirst().startDistance);
+		}
+
+		if (segments.getLast()
+				.endDistance()
+				.subtract(distance)
+				.abs()
+				.compareTo(SEGMENT_DISTANCE_TOLERANCE) <= 0) {
+			return new SegmentPosition(segments.getLast().segment,
+					segments.getLast().startDistance);
+		}
+
 		int left = 0;
-		int right = segments.size();
+		int right = segments.size() - 1;
 		while (left <= right) {
 			final int mid = left + (right - left) / 2;
 			final SegmentWithDistance midSegment = segments.get(mid);
