@@ -820,9 +820,9 @@ class TopKanteExtensions extends BasisObjektExtensions {
 		return start.getGeoKantenWithDistance(topKante)
 	}
 
-	def static Iterable<Pair<GEO_Knoten, BigDecimal>> getGeoKnotenWithDistance(
+	def static LinkedList<Pair<GEO_Knoten, BigDecimal>> getGeoKnotenWithDistance(
 		TOP_Kante topKante) {
-		val result = newArrayList
+		val result = newLinkedList
 		var geoKanten = topKante.geoKantenWithDistance.sortBy[value]
 
 		var current = topKante.TOPKnotenA.IDGEOKnoten.value

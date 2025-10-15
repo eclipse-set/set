@@ -21,8 +21,9 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.HashMap;
-import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -41,6 +42,7 @@ import org.eclipse.set.core.services.geometry.GeoKanteGeometryService;
 import org.eclipse.set.core.services.geometry.PointObjectPositionService;
 import org.eclipse.set.model.planpro.BasisTypen.ENUMLinksRechts;
 import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung;
+import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt;
 import org.eclipse.set.model.planpro.Basisobjekte.Bereich_Objekt;
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt;
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup;
@@ -49,6 +51,7 @@ import org.eclipse.set.model.planpro.Geodaten.GEO_Kante;
 import org.eclipse.set.model.planpro.Geodaten.GEO_Knoten;
 import org.eclipse.set.model.planpro.Geodaten.GEO_Punkt;
 import org.eclipse.set.model.planpro.Geodaten.TOP_Kante;
+import org.eclipse.set.model.planpro.Geodaten.TOP_Knoten;
 import org.eclipse.set.model.planpro.Ortung.FMA_Komponente;
 import org.eclipse.set.model.planpro.PZB.PZB_Element;
 import org.eclipse.set.model.planpro.Verweise.ID_GEO_Punkt_ohne_Proxy_TypeClass;
@@ -58,9 +61,11 @@ import org.eclipse.set.model.validationreport.ValidationSeverity;
 import org.eclipse.set.ppmodel.extensions.BasisAttributExtensions;
 import org.eclipse.set.ppmodel.extensions.BasisObjektExtensions;
 import org.eclipse.set.ppmodel.extensions.EObjectExtensions;
+import org.eclipse.set.ppmodel.extensions.GeoKanteExtensions;
 import org.eclipse.set.ppmodel.extensions.GeoKnotenExtensions;
 import org.eclipse.set.ppmodel.extensions.GeoPunktExtensions;
 import org.eclipse.set.ppmodel.extensions.TopKanteExtensions;
+import org.eclipse.set.ppmodel.extensions.TopKnotenExtensions;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.eclipse.set.ppmodel.extensions.geometry.GEOKanteGeometryExtensions;
 import org.eclipse.set.ppmodel.extensions.utils.IterableExtensions;
@@ -219,6 +224,10 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 										.isPresent())
 						|| po instanceof FMA_Komponente
 						|| po instanceof PZB_Element)
+				.filter(po -> po.getPunktObjektTOPKante()
+						.stream()
+						.anyMatch(potk -> !potk.getIDGEOPunktBerechnet()
+								.isEmpty()))
 				.toList();
 	}
 
@@ -228,15 +237,7 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 			BigDecimal lateralDistance = null;
 			GEOKanteMetadata geoKanteMetaData = alreadyFoundMetaData
 					.parallelStream()
-					.filter(md -> md.getGeoKante()
-							.getIDGEOArt()
-							.getValue()
-							.equals(potk.getIDTOPKante().getValue())
-							&& md.getStart()
-									.compareTo(potk.getAbstand().getWert()) <= 0
-							&& md.getEnd()
-									.compareTo(
-											potk.getAbstand().getWert()) >= 0)
+					.filter(md -> isBelongToThisMetadata(md, potk))
 					.findFirst()
 					.orElse(null);
 			if (geoKanteMetaData == null) {
@@ -270,7 +271,38 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 			logger.error(e.getMessage());
 			return null;
 		}
+	}
 
+	private static boolean isBelongToThisMetadata(final GEOKanteMetadata md,
+			final Punkt_Objekt_TOP_Kante_AttributeGroup potk) {
+		final Basis_Objekt geoArt = md.getGeoKante().getIDGEOArt().getValue();
+		if (!geoArt.equals(potk.getIDTOPKante().getValue())) {
+			return false;
+		}
+
+		final BigDecimal distance = potk.getAbstand().getWert();
+		final BigDecimal start = md.getStart();
+		if (distance.compareTo(start) < 0) {
+			return false;
+		}
+
+		final BigDecimal end = md.getEnd();
+		if (distance.compareTo(end) <= 0) {
+			return true;
+		}
+
+		// Fall the GEOKanteMetadata is the last Geo_Kante of the Top_Kante and
+		// the length of this Top_Kante greater than the sum Geo_Kanten length
+		final GEO_Knoten endGeoKnoten = GeoKanteExtensions
+				.getOpposite(md.getGeoKante(), md.getGeoKnoten());
+		final TOP_Knoten topKnotenB = TopKanteExtensions
+				.getTOPKnotenB(potk.getIDTOPKante().getValue());
+		if (TopKnotenExtensions.getGEOKnoten(topKnotenB).equals(endGeoKnoten)) {
+			final BigDecimal diff = distance.subtract(end);
+			return diff.compareTo(BigDecimal
+					.valueOf(ToolboxConstants.TOP_GEO_LENGTH_TOLERANCE)) <= 0;
+		}
+		return false;
 	}
 
 	private GEOKanteCoordinate calculateCoordinate(
@@ -303,20 +335,36 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 			final ENUMWirkrichtung wirkrichtung) {
 		final BigDecimal geoLength = BigDecimal
 				.valueOf(md.getGeometry().getLength());
-		final BigDecimal geoKanteLength = md.getGeoKante()
-				.getGEOKanteAllg()
-				.getGEOLaenge()
-				.getWert();
+		final BigDecimal geoKanteLength = md.getLength();
 
-		final BigDecimal localDistance = potk.getAbstand()
+		BigDecimal localDistance = potk.getAbstand()
 				.getWert()
 				.subtract(md.getStart());
+
+		// In the case, that the TOP_Kante length is greater than the sum of
+		// GEO_Kante length and the different value is in acceptable range, then
+		// take end distance of GeoKanteMetadata
+		if (potk.getAbstand()
+				.getWert()
+				.compareTo(TopKanteExtensions
+						.getLaenge(potk.getIDTOPKante().getValue())) == 0
+				&& potk.getAbstand().getWert().compareTo(md.getEnd()) > 0) {
+			final BigDecimal diff = potk.getAbstand()
+					.getWert()
+					.subtract(md.getEnd());
+			if (diff.compareTo(BigDecimal
+					.valueOf(ToolboxConstants.TOP_GEO_LENGTH_TOLERANCE)) <= 0) {
+				localDistance = md.getLength();
+			}
+		}
+
 		final BigDecimal scaleDistance = localDistance.doubleValue() != 0
 				? localDistance.multiply(geoLength)
 						.divide(geoKanteLength,
 								ToolboxConstants.ROUNDING_TO_PLACE,
 								RoundingMode.HALF_UP)
 				: BigDecimal.ZERO;
+
 		final SegmentPosition position = getSegmentPosition(md.getGeometry(),
 				getCoordinate(md.getGeoKnoten()), scaleDistance);
 		final LineSegment tangent = getTangent(md.getGeoKante(), position);
@@ -332,10 +380,10 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 			final TOP_Kante topkante = potk.getIDTOPKante().getValue();
 			final GeoKnotenRange relevantGeoKnotenRange = getRelevantGeoKnotenRange(
 					potk);
+
 			final GEO_Kante geoKante = relevantGeoKnotenRange.getGeoKante();
 			final BigDecimal geoArtScalingFactor = BasisObjektExtensions
 					.getGeoArtScalingFactor(topkante);
-
 			final BigDecimal geoKanteLength = geoKante.getGEOKanteAllg()
 					.getGEOLaenge()
 					.getWert()
@@ -367,16 +415,29 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 			final Punkt_Objekt_TOP_Kante_AttributeGroup potk) {
 		final TOP_Kante topKante = potk.getIDTOPKante().getValue();
 		final BigDecimal distance = potk.getAbstand().getWert();
-		final Iterator<Pair<GEO_Knoten, BigDecimal>> geoKnotenWithDistance = Streams
-				.stream(TopKanteExtensions.getGeoKnotenWithDistance(topKante))
-				.iterator();
-		final List<GeoKnotenRange> ranges = new ArrayList<>();
-		Pair<GEO_Knoten, BigDecimal> current = geoKnotenWithDistance.next();
-		while (geoKnotenWithDistance.hasNext()) {
-			final Pair<GEO_Knoten, BigDecimal> next = geoKnotenWithDistance
-					.next();
-			ranges.add(new GeoKnotenRange(current, next));
-			current = next;
+		final Deque<Pair<GEO_Knoten, BigDecimal>> geoKnotenDeque = TopKanteExtensions
+				.getGeoKnotenWithDistance(topKante);
+		if (distance.equals(BigDecimal.ZERO)) {
+			// Get two first element of the deque
+			return new GeoKnotenRange(geoKnotenDeque.poll(),
+					geoKnotenDeque.poll());
+		}
+
+		if (distance
+				.equals(topKante.getTOPKanteAllg().getTOPLaenge().getWert())) {
+			final Pair<GEO_Knoten, BigDecimal> lastNode = geoKnotenDeque
+					.pollLast();
+			final Pair<GEO_Knoten, BigDecimal> previousLastNode = geoKnotenDeque
+					.pollLast();
+			return new GeoKnotenRange(previousLastNode, lastNode);
+		}
+
+		final List<GeoKnotenRange> ranges = new LinkedList<>();
+		for (Pair<GEO_Knoten, BigDecimal> currentNode; (currentNode = geoKnotenDeque
+				.poll()) != null && !geoKnotenDeque.isEmpty();) {
+			final Pair<GEO_Knoten, BigDecimal> nextNode = geoKnotenDeque
+					.element();
+			ranges.add(new GeoKnotenRange(currentNode, nextNode));
 		}
 
 		return ranges.stream()
