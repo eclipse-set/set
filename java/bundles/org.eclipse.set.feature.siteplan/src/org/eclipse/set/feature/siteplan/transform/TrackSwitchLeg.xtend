@@ -265,6 +265,9 @@ class TrackSwitchLeg {
 				length = BigDecimal.valueOf(crossingSide.crossing.mainLeg)
 			}
 		}
+		connection = index === 0
+			? ENUMTOP_ANSCHLUSS_LINKS
+			: ENUMTOP_ANSCHLUSS_RECHTS
 	}
 
 	// The leg of a EKW switch is only to cross point between to switch 
