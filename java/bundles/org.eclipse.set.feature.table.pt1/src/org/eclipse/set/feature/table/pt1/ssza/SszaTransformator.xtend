@@ -362,7 +362,7 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 			datenpunkt,
 			[datenpunktAllg?.datenpunktLaenge?.wert?.toString]
 		)
-		
+
 		fillFootnotes(datenpunkt)
 
 		return
@@ -403,8 +403,8 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 		(T)=>Iterable<String> filling
 	) {
 		val action = [ Basis_Objekt it |
-			if (it instanceof Markanter_Punkt)
-				return it.IDMarkanteStelle?.value as T
+			if (!clazz.isInstance(it) && it instanceof Markanter_Punkt)
+				return (it as Markanter_Punkt).IDMarkanteStelle?.value as T
 			return it as T
 		]
 
