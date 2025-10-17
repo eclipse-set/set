@@ -132,14 +132,14 @@ public class SetSessionService implements SessionService {
 	@Override
 	public boolean close(final IModelSession modelSession,
 			final ToolboxFileRole role) {
+		serviceProvider.broker.send(Events.CLOSE_SESSION, role);
 		if (role == ToolboxFileRole.COMPARE_PLANNING) {
-			serviceProvider.broker.send(Events.CLOSE_SESSION, role);
+			loadedModels.get(role).cleanUp();
 			loadedModels.remove(role);
 			return true;
 		}
 
 		if (modelSession == null) {
-			serviceProvider.broker.send(Events.CLOSE_SESSION, role);
 			loadedModels.clear();
 			return true;
 		}
@@ -156,7 +156,6 @@ public class SetSessionService implements SessionService {
 			// remove the session from the application context
 			getApplication().getContext().set(IModelSession.class, null);
 			loadedModels.clear();
-			serviceProvider.broker.send(Events.CLOSE_SESSION, role);
 			return true;
 		}
 

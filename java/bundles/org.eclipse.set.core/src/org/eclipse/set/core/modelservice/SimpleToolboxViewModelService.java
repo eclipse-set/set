@@ -13,14 +13,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import jakarta.annotation.PostConstruct;
-import jakarta.inject.Inject;
-
 import org.eclipse.e4.core.commands.ECommandService;
 import org.eclipse.e4.core.commands.EHandlerService;
+import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.e4.core.services.nls.Translation;
 import org.eclipse.e4.ui.workbench.modeling.ESelectionService;
 import org.eclipse.set.basis.IModelSession;
+import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.basis.files.AttachmentContentService;
 import org.eclipse.set.core.services.dialog.DialogService;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
@@ -28,6 +27,9 @@ import org.eclipse.set.core.services.helpmessage.HelpMessageService;
 import org.eclipse.set.core.services.part.ToolboxPartService;
 import org.eclipse.set.core.services.viewmodel.ToolboxViewModelService;
 import org.eclipse.set.utils.Messages;
+
+import jakarta.annotation.PostConstruct;
+import jakarta.inject.Inject;
 
 /**
  * A simple implementation for the toolbox view model service.
@@ -53,6 +55,9 @@ public class SimpleToolboxViewModelService implements ToolboxViewModelService {
 	@Inject
 	@org.eclipse.e4.core.di.annotations.Optional
 	ECommandService commandService;
+
+	@Inject
+	IEventBroker broker;
 
 	@Inject
 	AttachmentContentService contentService;
@@ -124,5 +129,8 @@ public class SimpleToolboxViewModelService implements ToolboxViewModelService {
 		put(HelpMessageService.class, helpMessageService);
 		put(AttachmentContentService.class, contentService);
 		put(ESelectionService.class, selectionService);
+		broker.subscribe(Events.CLOSE_SESSION, event -> {
+			namedObjects.clear();
+		});
 	}
 }

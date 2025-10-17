@@ -55,7 +55,6 @@ import org.eclipse.set.basis.files.ToolboxFile.Format;
 import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.eclipse.set.basis.guid.Guid;
 import org.eclipse.set.core.services.branding.BrandingService;
-import org.eclipse.set.core.services.cache.CacheService;
 import org.eclipse.set.core.services.defaultvalue.DefaultValueService;
 import org.eclipse.set.core.services.dialog.DialogService;
 import org.eclipse.set.core.services.files.ToolboxFileService;
@@ -115,8 +114,8 @@ public class ModelSession implements IModelSession {
 		@Inject
 		public IEventBroker broker;
 
-		@Inject
-		public CacheService cacheService;
+		// @Inject
+		// public CacheService cacheService;
 
 		@Inject
 		public DefaultValueService defaultValueService;
@@ -297,8 +296,9 @@ public class ModelSession implements IModelSession {
 	@Override
 	public void cleanUp() {
 		try {
+			getToolboxFile().close();
 			// clean sessions subdirectory
-			cleanSessionDirectory(Paths.get(getSessionsSubDir()));
+			cleanSessionDirectory(Paths.get(getSessionsSubDir()), getGuid());
 
 			// remove content adapter
 			removeContentAdapter(getPlanProSchnittstelle());
@@ -312,8 +312,8 @@ public class ModelSession implements IModelSession {
 		}
 	}
 
-	private static void cleanSessionDirectory(final Path unzipDirectory)
-			throws IOException {
+	private static void cleanSessionDirectory(final Path unzipDirectory,
+			final String guid) throws IOException {
 		if (!Files.exists(unzipDirectory)) {
 			return;
 		}
@@ -338,7 +338,9 @@ public class ModelSession implements IModelSession {
 					// this acceptable, as over time all directories will be
 					// cleaned up
 					final long pid = Long.parseLong(Files.readString(pidPath));
-					return ProcessHandle.of(pid).isEmpty();
+					return ProcessHandle.of(pid).isEmpty()
+							|| ProcessHandle.current().pid() == pid
+									&& p.getFileName().toString().equals(guid);
 				} catch (NumberFormatException | IOException e) {
 					return true;
 				}
@@ -758,7 +760,6 @@ public class ModelSession implements IModelSession {
 
 	private void createTempDir() {
 		try {
-			cleanUp();
 			// create session tmp dir
 			FileUtils.forceMkdir(getTempDir().toFile());
 		} catch (final IOException e) {

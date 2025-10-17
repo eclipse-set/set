@@ -387,4 +387,8 @@ class SessionToValidationReportTransformation {
 		}
 		return enumService.translate(enumerator).alternative
 	}
+	
+	def void cleanup() {
+		//xmlNodeFinder?.cleanNode
+	}
 }

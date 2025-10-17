@@ -14,6 +14,7 @@ import java.nio.file.Path;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.eclipse.set.basis.files.ToolboxFile;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
@@ -166,4 +167,40 @@ public class XMLNodeFinder {
 		return null;
 	}
 
+	public void cleanNode() {
+		cleanupNode(rootNode);
+	}
+
+	private void cleanupNode(final Node node) {
+		if (node == null) {
+			return;
+		}
+		System.out.println("Clean Node: " + node.getNodeName());
+		// Alle Kinder rekursiv löschen
+		final NodeList children = node.getChildNodes();
+		while (children.getLength() > 0) {
+			cleanupNode(children.item(0));
+		}
+		// if (children.getLength() > 0) {
+		// for (int i = 0; i < children.getLength(); i++) {
+		// cleanupNode(children.item(i));
+		// }
+		// // Node aus seinem Parent entfernen
+		//
+		// }
+
+		// Entfernt alle Attribute (um Referenzen zu lösen)
+		if (node.hasAttributes()) {
+			final NamedNodeMap attrs = node.getAttributes();
+			for (int i = 0; i < attrs.getLength(); i++) {
+				attrs.removeNamedItem(attrs.item(i).getNodeName());
+			}
+		}
+
+		final Node parent = node.getParentNode();
+		if (parent != null) {
+			parent.removeChild(node);
+		}
+
+	}
 }

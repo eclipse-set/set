@@ -25,7 +25,6 @@ import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.InitializationData;
 import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.basis.exceptions.UserAbortion;
-import org.eclipse.set.core.services.cache.CacheService;
 import org.eclipse.set.core.services.dialog.DialogService;
 import org.eclipse.set.core.services.part.ToolboxPartService;
 import org.eclipse.set.core.services.session.SessionService;
@@ -60,9 +59,6 @@ public abstract class AbstractNewHandler<T extends InitializationData>
 
 	@Inject
 	protected SessionService sessionService;
-
-	@Inject
-	CacheService cacheService;
 
 	@Inject
 	DialogService dialogService;
