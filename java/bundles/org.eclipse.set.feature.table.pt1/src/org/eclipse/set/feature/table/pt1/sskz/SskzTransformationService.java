@@ -10,7 +10,6 @@
  */
 package org.eclipse.set.feature.table.pt1.sskz;
 
-import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.e4.core.services.events.IEventBroker;
@@ -102,6 +101,6 @@ public class SskzTransformationService extends
 
 	@Override
 	protected List<String> getTopologicalColumnPosition() {
-		return Collections.emptyList();
+		return List.of(SskzColumns.Ueberhoehung);
 	}
 }

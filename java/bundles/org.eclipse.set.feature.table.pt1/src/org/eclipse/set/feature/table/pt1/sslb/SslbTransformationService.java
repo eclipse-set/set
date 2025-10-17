@@ -89,7 +89,9 @@ public final class SslbTransformationService
 
 	@Override
 	protected List<String> getTopologicalColumnPosition() {
-		return List.of(SslbColumns.Streckenfreimeldung);
+		return List.of(SslbColumns.Streckenfreimeldung,
+				SslbColumns.Anrueckabschnitt_Bezeichnung,
+				SslbColumns.Anrueckabschnitt_Anordnung);
 	}
 
 }
