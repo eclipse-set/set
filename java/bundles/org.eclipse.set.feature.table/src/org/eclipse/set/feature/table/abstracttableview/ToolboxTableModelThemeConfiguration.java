@@ -58,6 +58,8 @@ public class ToolboxTableModelThemeConfiguration
 	}
 
 	private final Style topologicalCellStyle;
+	private static final RGB COMPARE_CELL_BORDER_COLOR = Colors.parseHexCode(
+			ToolboxConstants.TABLE_COMPARE_TABLE_CELL_BORDER_COLOR);;
 
 	/**
 	 * @param natTable
@@ -102,14 +104,14 @@ public class ToolboxTableModelThemeConfiguration
 		registerCompareTableCellStyle(configRegistry);
 		registerTopologicalTableCellStyle(configRegistry);
 		registerCompareTableRowStyle(configRegistry);
+		registerGuidChangedRowStyle(configRegistry);
 	}
 
 	private void registerCompareTableCellStyle(
 			final IConfigRegistry configRegistry) {
 		final ICellPainter lineBorderDecorator = new LineBorderDecorator(
 				defaultCellPainter,
-				new BorderStyle(1, new Color(Colors.parseHexCode(
-						ToolboxConstants.TABLE_COMPARE_TABLE_CELL_BORDER_COLOR)),
+				new BorderStyle(1, new Color(COMPARE_CELL_BORDER_COLOR),
 						LineStyleEnum.SOLID));
 		configRegistry.registerConfigAttribute(
 				CellConfigAttributes.CELL_PAINTER, lineBorderDecorator,
@@ -119,19 +121,32 @@ public class ToolboxTableModelThemeConfiguration
 
 	private void registerCompareTableRowStyle(
 			final IConfigRegistry configRegistry) {
-		// The new, removed, changed guid row haven't innen cell border
 		List.of(ToolboxConstants.TABLE_COMPARE_TABLE_ROW_CELL_LABEL,
 				ToolboxConstants.TABLE_COMPARE_TABLE_ROW_FIRST_CELL_LABEL,
-				ToolboxConstants.TABLE_COMPARE_TABLE_ROW_LAST_CELL_LABEL,
-				ToolboxConstants.TABLE_COMPARE_CHANGED_GUID_ROW_CELL_LABEL)
-				.forEach(label -> configRegistry.registerConfigAttribute(
-						CellConfigAttributes.CELL_PAINTER,
-						new CustomLineBorderDecorator(defaultCellPainter,
-								new BorderStyle(1,
-										new Color(Colors.parseHexCode(
-												ToolboxConstants.TABLE_COMPARE_TABLE_CELL_BORDER_COLOR)),
-										LineStyleEnum.SOLID)),
-						DisplayMode.NORMAL, label));
+				ToolboxConstants.TABLE_COMPARE_TABLE_ROW_LAST_CELL_LABEL)
+				.forEach(label -> {
+					configRegistry.registerConfigAttribute(
+							CellConfigAttributes.CELL_PAINTER,
+							new CustomLineBorderDecorator(defaultCellPainter,
+									new BorderStyle(1,
+											new Color(
+													COMPARE_CELL_BORDER_COLOR),
+											LineStyleEnum.SOLID)),
+							DisplayMode.NORMAL, label);
+				});
+	}
+
+	private void registerGuidChangedRowStyle(
+			final IConfigRegistry configRegistry) {
+		final CustomLineBorderDecorator customLineBorderDecorator = new CustomLineBorderDecorator(
+				defaultCellPainter,
+				new BorderStyle(1, new Color(COMPARE_CELL_BORDER_COLOR),
+						LineStyleEnum.DASHED));
+		configRegistry.registerConfigAttribute(
+				CellConfigAttributes.CELL_PAINTER, customLineBorderDecorator,
+				DisplayMode.NORMAL,
+				ToolboxConstants.TABLE_COMPARE_CHANGED_GUID_ROW_CELL_LABEL);
+
 	}
 
 	private void registerTopologicalTableCellStyle(

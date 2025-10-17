@@ -77,6 +77,7 @@ import org.eclipse.set.model.planpro.PlanPro.Container_AttributeGroup;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.CompareTableCellContent;
 import org.eclipse.set.model.tablemodel.PlanCompareRow;
+import org.eclipse.set.model.tablemodel.PlanCompareRowType;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.TableCell;
 import org.eclipse.set.model.tablemodel.TableRow;
@@ -583,7 +584,12 @@ public final class ToolboxTableView extends BasePart {
 					.get(columnIndexByPosition);
 
 			// The border of compare row should be only outside
-			if (tableRow instanceof PlanCompareRow) {
+			if (tableRow instanceof final PlanCompareRow compareRow) {
+				if (compareRow
+						.getRowType() == PlanCompareRowType.CHANGED_GUID_ROW) {
+					configLabels.addLabel(
+							ToolboxConstants.TABLE_COMPARE_CHANGED_GUID_ROW_CELL_LABEL);
+				}
 				if (columnIndexByPosition == 0) {
 					configLabels.addLabel(
 							ToolboxConstants.TABLE_COMPARE_TABLE_ROW_FIRST_CELL_LABEL);
