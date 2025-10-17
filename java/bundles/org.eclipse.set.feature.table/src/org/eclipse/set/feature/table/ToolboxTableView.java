@@ -50,6 +50,7 @@ import org.eclipse.nebula.widgets.nattable.layer.SpanningDataLayer;
 import org.eclipse.nebula.widgets.nattable.layer.cell.DataCell;
 import org.eclipse.nebula.widgets.nattable.layer.cell.IConfigLabelAccumulator;
 import org.eclipse.nebula.widgets.nattable.layer.cell.ILayerCell;
+import org.eclipse.nebula.widgets.nattable.painter.cell.decorator.CustomLineBorderDecorator;
 import org.eclipse.nebula.widgets.nattable.resize.command.RowHeightResetCommand;
 import org.eclipse.nebula.widgets.nattable.selection.SelectionLayer;
 import org.eclipse.nebula.widgets.nattable.viewport.command.ShowRowInViewportCommand;
@@ -75,6 +76,8 @@ import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
 import org.eclipse.set.model.planpro.PlanPro.Container_AttributeGroup;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.CompareTableCellContent;
+import org.eclipse.set.model.tablemodel.PlanCompareRow;
+import org.eclipse.set.model.tablemodel.PlanCompareRowType;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.TableCell;
 import org.eclipse.set.model.tablemodel.TableRow;
@@ -352,7 +355,7 @@ public final class ToolboxTableView extends BasePart {
 	 * @return the table view model
 	 */
 	private Table transformToTableModel(final String elementId) {
-		return tableService.createCompareProjectTable(elementId, tableType,
+		return tableService.createDiffTable(elementId, tableType,
 				controlAreaIds);
 	}
 
@@ -576,9 +579,41 @@ public final class ToolboxTableView extends BasePart {
 			final int columnIndexByPosition = bodyLayerStack
 					.getColumnIndexByPosition(columnPosition);
 			final TableRow tableRow = tableInstances.get(rowIndexByPosition);
+
 			final TableCell tableCell = tableRow.getCells()
 					.get(columnIndexByPosition);
-			if (tableCell.getContent() instanceof CompareTableCellContent) {
+
+			// The border of compare row should be only outside
+			if (tableRow instanceof final PlanCompareRow compareRow) {
+				if (compareRow
+						.getRowType() == PlanCompareRowType.CHANGED_GUID_ROW) {
+					configLabels.addLabel(
+							ToolboxConstants.TABLE_COMPARE_CHANGED_GUID_ROW_CELL_LABEL);
+				}
+				if (columnIndexByPosition == 0) {
+					configLabels.addLabel(
+							ToolboxConstants.TABLE_COMPARE_TABLE_ROW_FIRST_CELL_LABEL);
+					configLabels.addAll(List.of(
+							CustomLineBorderDecorator.BOTTOM_LINE_BORDER_LABEL,
+							CustomLineBorderDecorator.LEFT_LINE_BORDER_LABEL,
+							CustomLineBorderDecorator.TOP_LINE_BORDER_LABEL));
+				} else if (columnIndexByPosition == tableRow.getCells().size()
+						- 1) {
+					configLabels.addLabel(
+							ToolboxConstants.TABLE_COMPARE_TABLE_ROW_LAST_CELL_LABEL);
+					configLabels.addAll(List.of(
+							CustomLineBorderDecorator.BOTTOM_LINE_BORDER_LABEL,
+							CustomLineBorderDecorator.RIGHT_LINE_BORDER_LABEL,
+							CustomLineBorderDecorator.TOP_LINE_BORDER_LABEL));
+				} else {
+					configLabels.addLabel(
+							ToolboxConstants.TABLE_COMPARE_TABLE_ROW_CELL_LABEL);
+					configLabels.addAll(List.of(
+							CustomLineBorderDecorator.BOTTOM_LINE_BORDER_LABEL,
+							CustomLineBorderDecorator.TOP_LINE_BORDER_LABEL));
+				}
+			} else if (tableCell
+					.getContent() instanceof CompareTableCellContent) {
 				configLabels.addLabel(
 						ToolboxConstants.TABLE_COMPARE_TABLE_CELL_LABEL);
 			}

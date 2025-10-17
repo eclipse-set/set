@@ -9,6 +9,8 @@
 
 package org.eclipse.set.utils.export.xsl;
 
+import org.eclipse.set.model.tablemodel.CompareTableCellContent;
+
 /**
  * XSL tag, attribute
  * 
@@ -203,6 +205,11 @@ public class XSLConstant {
 		 * xsl:otherwise
 		 */
 		public static final String XSL_OTHERWISE = "xsl:otherwise";
+
+		/**
+		 * xsl:call-template
+		 */
+		public static final String XSL_CALL_TEMPLATE = "xsl:call-template";
 	}
 
 	/**
@@ -378,6 +385,11 @@ public class XSLConstant {
 		 * table-header-style
 		 */
 		public static final String TABLE_HEADER_STYLE = "table-header-style";
+
+		/**
+		 * Style template name for {@link CompareTableCellContent}
+		 */
+		public static final String PLAN_COMPARE_CONTENT_TEMPLATE = "CompareCellContentStyle";
 	}
 
 	/**

@@ -197,6 +197,26 @@ public class TablemodelSwitch<T> extends Switch<T> {
 					result = defaultCase(theEObject);
 				return result;
 			}
+			case TablemodelPackage.COMPARE_TABLE_FOOTNOTE_CONTAINER: {
+				CompareTableFootnoteContainer compareTableFootnoteContainer = (CompareTableFootnoteContainer) theEObject;
+				T result = caseCompareTableFootnoteContainer(
+						compareTableFootnoteContainer);
+				if (result == null)
+					result = caseFootnoteContainer(
+							compareTableFootnoteContainer);
+				if (result == null)
+					result = defaultCase(theEObject);
+				return result;
+			}
+			case TablemodelPackage.PLAN_COMPARE_ROW: {
+				PlanCompareRow planCompareRow = (PlanCompareRow) theEObject;
+				T result = casePlanCompareRow(planCompareRow);
+				if (result == null)
+					result = caseTableRow(planCompareRow);
+				if (result == null)
+					result = defaultCase(theEObject);
+				return result;
+			}
 			default:
 				return defaultCase(theEObject);
 		}
@@ -471,6 +491,41 @@ public class TablemodelSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseCompareTableCellContent(CompareTableCellContent object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of
+	 * '<em>Compare Table Footnote Container</em>'. <!-- begin-user-doc --> This
+	 * implementation returns null; returning a non-null result will terminate
+	 * the switch. <!-- end-user-doc -->
+	 * 
+	 * @param object
+	 *            the target of the switch.
+	 * @return the result of interpreting the object as an instance of
+	 *         '<em>Compare Table Footnote Container</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseCompareTableFootnoteContainer(
+			CompareTableFootnoteContainer object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Plan
+	 * Compare Row</em>'. <!-- begin-user-doc --> This implementation returns
+	 * null; returning a non-null result will terminate the switch. <!--
+	 * end-user-doc -->
+	 * 
+	 * @param object
+	 *            the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Plan
+	 *         Compare Row</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T casePlanCompareRow(PlanCompareRow object) {
 		return null;
 	}
 
