@@ -362,9 +362,9 @@ public class GeoKanteGeometryServiceImpl
 				.valueOf(md.getGeometry().getLength());
 		final BigDecimal localDistance = distance.subtract(md.getStart());
 		final BigDecimal scaledDistance = localDistance.doubleValue() != 0
-				? localDistance.multiply(geoLength.divide(edgeLength,
-						ToolboxConstants.ROUNDING_TO_PLACE,
-						RoundingMode.HALF_UP))
+				? localDistance.multiply(geoLength)
+						.divide(edgeLength, ToolboxConstants.ROUNDING_TO_PLACE,
+								RoundingMode.HALF_UP)
 				: BigDecimal.ZERO;
 		final SegmentPosition position = Geometries.getSegmentPosition(
 				md.getGeometry(),

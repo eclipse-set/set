@@ -9,9 +9,11 @@
 package org.eclipse.set.basis.geometry;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.basis.graph.DirectedElementImpl;
 import org.locationtech.jts.algorithm.Angle;
 import org.locationtech.jts.geom.Coordinate;
@@ -230,8 +232,29 @@ public class Geometries {
 	private static SegmentPosition getSegmentPosition(
 			final List<SegmentWithDistance> segments,
 			final BigDecimal distance) {
+		// Avoid worst case distance == 0
+		if (distance.equals(BigDecimal.ZERO)) {
+			return new SegmentPosition(segments.getFirst().segment,
+					segments.getFirst().startDistance);
+		}
+
+		// Avoid worst case distance == segment length
+		// Return the last segment when the distance is greater than end
+		// position with the acceptable value
+		if (distance.compareTo(segments.getLast().endDistance()) >= 0) {
+			final BigDecimal diff = distance
+					.subtract(segments.getLast().endDistance())
+					.setScale(ToolboxConstants.ROUNDING_TO_PLACE,
+							RoundingMode.HALF_UP);
+			if (diff.compareTo(BigDecimal.ZERO) == 0) {
+				return new SegmentPosition(segments.getLast().segment,
+						segments.getLast().startDistance);
+			}
+			return null;
+		}
+
 		int left = 0;
-		int right = segments.size();
+		int right = segments.size() - 1;
 		while (left <= right) {
 			final int mid = left + (right - left) / 2;
 			final SegmentWithDistance midSegment = segments.get(mid);
@@ -240,12 +263,14 @@ public class Geometries {
 				return new SegmentPosition(midSegment.segment,
 						distance.subtract(midSegment.startDistance));
 			}
-			if (midSegment.startDistance().compareTo(distance) >= 0) {
+
+			if (midSegment.startDistance.compareTo(distance) >= 0) {
 				right = mid - 1;
 			} else {
 				left = mid + 1;
 			}
 		}
+
 		return null;
 	}
 
