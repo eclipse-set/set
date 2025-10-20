@@ -483,9 +483,6 @@ class TableExtensions {
 
 	private static def boolean isInlineFootnote(Table table,
 		FootnoteContainer fc, int maxCharInCell) {
-		if (fc instanceof SimpleFootnoteContainer) {
-			
-		}
 		return switch (fc) {
 			SimpleFootnoteContainer: {
 				val footnotesText = fc.footnotes.map [
@@ -510,7 +507,7 @@ class TableExtensions {
 					unchangedFootnotes].filter[!isEmpty].flatten
 
 				// WHen more than two note, then not inline render
-				return allFootnotes.size < 2 &&
+				return allFootnotes.size < 3 &&
 					allFootnotes.map[toText].filterNull.forall [
 						length < maxCharInCell
 					]
