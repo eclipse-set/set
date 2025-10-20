@@ -177,7 +177,7 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 							|| getNullableObject(topCoordinate,
 									e -> e.getCoordinate()).isEmpty()) {
 						result.add(createGeoCoordinateError(po,
-								"Es gibt fehler bei der Berechnung topologische Coordinate",
+								"Es gibt Fehler bei der Berechnung der topologischen Koordinate",
 								Map.of()));
 						return;
 					}
