@@ -37,7 +37,8 @@ import org.eclipse.set.services.table.TableDiffService;
 public abstract class AbstractTableDiff implements TableDiffService {
 
 	@Override
-	public Table createDiffTable(final Table firstTable, final Table secondTable) {
+	public Table createDiffTable(final Table firstTable,
+			final Table secondTable) {
 		// expand old table by new lines
 		final Table expanded = expandNewRowGroups(firstTable, secondTable);
 		TableExtensions.getTableRows(expanded)
