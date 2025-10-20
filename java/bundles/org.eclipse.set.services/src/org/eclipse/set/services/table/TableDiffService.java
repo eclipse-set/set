@@ -59,14 +59,16 @@ public interface TableDiffService {
 	}
 
 	/**
-	 * @param oldTable
-	 *            the old table
-	 * @param newTable
-	 *            the new table
+	 * @param firstTable
+	 *            the first table, it can be the Initial-State Table or the
+	 *            session table
+	 * @param secondTable
+	 *            the second table, it can be the Final-State Table or the
+	 *            compare table
 	 * 
 	 * @return the difference table
 	 */
-	Table createDiffTable(Table oldTable, Table newTable);
+	Table createDiffTable(Table firstTable, Table secondTable);
 
 	/**
 	 * @return {@link TableCompareType}

@@ -37,11 +37,11 @@ import org.eclipse.set.services.table.TableDiffService;
 public abstract class AbstractTableDiff implements TableDiffService {
 
 	@Override
-	public Table createDiffTable(final Table oldTable, final Table newTable) {
+	public Table createDiffTable(final Table firstTable, final Table secondTable) {
 		// expand old table by new lines
-		final Table expanded = expandNewRowGroups(oldTable, newTable);
+		final Table expanded = expandNewRowGroups(firstTable, secondTable);
 		TableExtensions.getTableRows(expanded)
-				.forEach(row -> compareRow(row, newTable));
+				.forEach(row -> compareRow(row, secondTable));
 		return expanded;
 	}
 
@@ -83,7 +83,7 @@ public abstract class AbstractTableDiff implements TableDiffService {
 					newTableRowGroup.getLeadingObjectIndex());
 			for (final TableRow element : newTableRowGroup.getRows()) {
 				newRowGroup.getRows()
-						.add(createMissingRow(
+						.add(createEmptyRow(
 								TableExtensions.getColumns(mergedTable)));
 			}
 
@@ -95,8 +95,16 @@ public abstract class AbstractTableDiff implements TableDiffService {
 		}
 	}
 
+	/**
+	 * When exist a row only in the second table, then create a empty row in the
+	 * first table
+	 * 
+	 * @param columns
+	 *            the table columns
+	 * @return the empty row
+	 */
 	@SuppressWarnings("static-method")
-	protected TableRow createMissingRow(final List<ColumnDescriptor> columns) {
+	protected TableRow createEmptyRow(final List<ColumnDescriptor> columns) {
 		final TableRow missingRow = TablemodelFactory.eINSTANCE
 				.createTableRow();
 		columns.forEach(col -> addEmptyValue(missingRow, col));

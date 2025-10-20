@@ -41,7 +41,6 @@ import org.eclipse.set.model.tablemodel.extensions.ColumnDescriptorExtensions;
 import org.eclipse.set.model.tablemodel.extensions.FootnoteContainerExtensions;
 import org.eclipse.set.model.tablemodel.extensions.RowGroupExtensions;
 import org.eclipse.set.model.tablemodel.extensions.TableCellExtensions;
-import org.eclipse.set.model.tablemodel.extensions.TableExtensions;
 import org.eclipse.set.model.tablemodel.extensions.TableRowExtensions;
 import org.eclipse.set.ppmodel.extensions.EObjectExtensions;
 import org.eclipse.set.services.table.TableDiffService;
@@ -105,39 +104,45 @@ public class TableProjectDiffService extends AbstractTableDiff {
 	@Override
 	protected void addMissingRowGroup(final RowGroup compareTableRowGroup,
 			final Table mergedTable) {
-		final RowGroup match = findMatchRow(compareTableRowGroup, mergedTable);
-		if (match == null) {
+		final RowGroup changedGuidGroup = existChangedGuidRow(
+				compareTableRowGroup, mergedTable);
+		if (changedGuidGroup == null) {
 			super.addMissingRowGroup(compareTableRowGroup, mergedTable);
+		} else {
+			createChangeGuidRowGroup(changedGuidGroup);
 		}
 	}
 
-	private static RowGroup findMatchRow(final RowGroup compareTableRowGroup,
-			final Table mergedTable) {
-		final String groupGuid = EObjectExtensions
+	// Determine if exist the row group, which the leading guid was changed, but
+	// the
+	// content aren't
+	private static RowGroup existChangedGuidRow(
+			final RowGroup compareTableRowGroup, final Table mergedTable) {
+		final String compareTableRowGroupGuid = EObjectExtensions
 				.getNullableObject(compareTableRowGroup,
 						g -> g.getLeadingObject().getIdentitaet().getWert())
 				.orElse(null);
-		final int groupId = compareTableRowGroup.getLeadingObjectIndex();
-		final RowGroup match = TableExtensions.getGroupById(mergedTable,
-				groupGuid, groupId);
-		if (match != null) {
-			return match;
+		final boolean existRowWithGuid = mergedTable.getTablecontent()
+				.getRowgroups()
+				.stream()
+				.anyMatch(group -> {
+					final String groupGuid = getNullableObject(group,
+							g -> g.getLeadingObject().getIdentitaet().getWert())
+									.orElse(null);
+					return groupGuid != null
+							&& groupGuid.equals(compareTableRowGroupGuid);
+				});
+		if (existRowWithGuid) {
+			return null;
 		}
 
-		// Determine the row group, which the leading guid was changed, but the
-		// content aren't
-		final RowGroup changeGUIDGroup = mergedTable.getTablecontent()
+		return mergedTable.getTablecontent()
 				.getRowgroups()
 				.stream()
 				.filter(group -> RowGroupExtensions
 						.isEqual(compareTableRowGroup, group))
 				.findFirst()
 				.orElse(null);
-		if (changeGUIDGroup != null) {
-			createChangeGuidRowGroup(changeGUIDGroup);
-			return changeGUIDGroup;
-		}
-		return null;
 	}
 
 	/**
@@ -175,8 +180,12 @@ public class TableProjectDiffService extends AbstractTableDiff {
 		mainTableRowGroup.getRows().addAll(compareRows);
 	}
 
+	/**
+	 * Here will be return a row with {@link CompareTableCellContent}, which
+	 * contain only value of the compare table
+	 */
 	@Override
-	protected TableRow createMissingRow(final List<ColumnDescriptor> columns) {
+	protected TableRow createEmptyRow(final List<ColumnDescriptor> columns) {
 		final PlanCompareRow missingRow = TablemodelFactory.eINSTANCE
 				.createPlanCompareRow();
 		columns.forEach(col -> {
