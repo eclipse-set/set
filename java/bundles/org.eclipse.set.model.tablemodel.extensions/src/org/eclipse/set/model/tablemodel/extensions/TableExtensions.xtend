@@ -22,6 +22,8 @@ import org.eclipse.set.model.planpro.Basisobjekte.Bearbeitungsvermerk
 import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt
 import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.model.tablemodel.CompareFootnoteContainer
+import org.eclipse.set.model.tablemodel.CompareTableFootnoteContainer
+import org.eclipse.set.model.tablemodel.FootnoteContainer
 import org.eclipse.set.model.tablemodel.RowGroup
 import org.eclipse.set.model.tablemodel.SimpleFootnoteContainer
 import org.eclipse.set.model.tablemodel.Table
@@ -42,8 +44,6 @@ import static extension org.eclipse.set.utils.StringExtensions.*
  * Extensions for {@link Table}.
  */
 class TableExtensions {
-	public static val String FOOTNOTE_SEPARATOR = "; "
-
 	/**
 	 * @param columnLabels the column labels
 	 * 
@@ -477,16 +477,23 @@ class TableExtensions {
 			if (fc === null) {
 				return true
 			}
+			return isInlineFootnote(table, fc, maxCharInCell)
+		]
+	}
 
-			if (fc instanceof SimpleFootnoteContainer) {
-				val remarks = fc.footnotes.map[getFootnoteInfo(table, it)].
-					filterNull
+	private static def boolean isInlineFootnote(Table table,
+		FootnoteContainer fc, int maxCharInCell) {
+		return switch (fc) {
+			SimpleFootnoteContainer: {
+				val footnotesText = fc.footnotes.map [
+					getFootnoteInfo(table, it)
+				].filterNull.map[toText]
 
-				return remarks.isEmpty ||
-					remarks.map[toText].join(", ").length < maxCharInCell
+				return footnotesText.size < 3 && footnotesText.forall [
+					length < maxCharInCell
+				]
 			}
-
-			if (fc instanceof CompareFootnoteContainer) {
+			CompareFootnoteContainer: {
 				val oldFootnotes = fc.oldFootnotes.map [
 					getFootnoteInfo(table, it)
 				].filterNull
@@ -496,24 +503,23 @@ class TableExtensions {
 				val unchangedFootnotes = fc.unchangedFootnotes.map [
 					getFootnoteInfo(table, it)
 				].filterNull
-				val notEmptyContainer = #[oldFootnotes, newFootnotes,
-					unchangedFootnotes].filter[!isEmpty]
+				val allFootnotes = #[oldFootnotes, newFootnotes,
+					unchangedFootnotes].filter[!isEmpty].flatten
 
-				return switch (notEmptyContainer.size) {
-					case 0:
-						true
-					case 1: {
-						val remarks = notEmptyContainer.firstOrNull.map[toText].
-							filterNull
-						return remarks.isEmpty ||
-							remarks.join(FOOTNOTE_SEPARATOR).length <
-								maxCharInCell
-					}
-					default:
-						false
-				}
+				// WHen more than two note, then not inline render
+				return allFootnotes.size < 3 &&
+					allFootnotes.map[toText].filterNull.forall [
+						length < maxCharInCell
+					]
 			}
-			return true
-		]
+			CompareTableFootnoteContainer: {
+				return isInlineFootnote(table,
+					fc.
+						mainPlanFootnoteContainer, maxCharInCell)
+			}
+			default:
+				false
+		}
+
 	}
 }

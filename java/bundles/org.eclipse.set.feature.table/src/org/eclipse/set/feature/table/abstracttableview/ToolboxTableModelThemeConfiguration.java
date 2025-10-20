@@ -8,6 +8,8 @@
  */
 package org.eclipse.set.feature.table.abstracttableview;
 
+import java.util.List;
+
 import org.eclipse.nebula.widgets.nattable.NatTable;
 import org.eclipse.nebula.widgets.nattable.config.CellConfigAttributes;
 import org.eclipse.nebula.widgets.nattable.config.IConfigRegistry;
@@ -16,6 +18,7 @@ import org.eclipse.nebula.widgets.nattable.grid.layer.GridLayer;
 import org.eclipse.nebula.widgets.nattable.layer.AbstractLayer;
 import org.eclipse.nebula.widgets.nattable.layer.DataLayer;
 import org.eclipse.nebula.widgets.nattable.painter.cell.ICellPainter;
+import org.eclipse.nebula.widgets.nattable.painter.cell.decorator.CustomLineBorderDecorator;
 import org.eclipse.nebula.widgets.nattable.painter.cell.decorator.LineBorderDecorator;
 import org.eclipse.nebula.widgets.nattable.style.BorderStyle;
 import org.eclipse.nebula.widgets.nattable.style.BorderStyle.LineStyleEnum;
@@ -55,6 +58,8 @@ public class ToolboxTableModelThemeConfiguration
 	}
 
 	private final Style topologicalCellStyle;
+	private static final RGB COMPARE_CELL_BORDER_COLOR = Colors.parseHexCode(
+			ToolboxConstants.TABLE_COMPARE_TABLE_CELL_BORDER_COLOR);;
 
 	/**
 	 * @param natTable
@@ -98,20 +103,50 @@ public class ToolboxTableModelThemeConfiguration
 		super.configureRegistry(configRegistry);
 		registerCompareTableCellStyle(configRegistry);
 		registerTopologicalTableCellStyle(configRegistry);
+		registerCompareTableRowStyle(configRegistry);
+		registerGuidChangedRowStyle(configRegistry);
 	}
 
 	private void registerCompareTableCellStyle(
 			final IConfigRegistry configRegistry) {
 		final ICellPainter lineBorderDecorator = new LineBorderDecorator(
 				defaultCellPainter,
-				new BorderStyle(1, new Color(Colors.parseHexCode(
-						ToolboxConstants.TABLE_COMPARE_TABLE_CELL_BORDER_COLOR)),
+				new BorderStyle(1, new Color(COMPARE_CELL_BORDER_COLOR),
 						LineStyleEnum.SOLID));
-
 		configRegistry.registerConfigAttribute(
 				CellConfigAttributes.CELL_PAINTER, lineBorderDecorator,
 				DisplayMode.NORMAL,
 				ToolboxConstants.TABLE_COMPARE_TABLE_CELL_LABEL);
+	}
+
+	private void registerCompareTableRowStyle(
+			final IConfigRegistry configRegistry) {
+		List.of(ToolboxConstants.TABLE_COMPARE_TABLE_ROW_CELL_LABEL,
+				ToolboxConstants.TABLE_COMPARE_TABLE_ROW_FIRST_CELL_LABEL,
+				ToolboxConstants.TABLE_COMPARE_TABLE_ROW_LAST_CELL_LABEL)
+				.forEach(label -> {
+					configRegistry.registerConfigAttribute(
+							CellConfigAttributes.CELL_PAINTER,
+							new CustomLineBorderDecorator(defaultCellPainter,
+									new BorderStyle(1,
+											new Color(
+													COMPARE_CELL_BORDER_COLOR),
+											LineStyleEnum.SOLID)),
+							DisplayMode.NORMAL, label);
+				});
+	}
+
+	private void registerGuidChangedRowStyle(
+			final IConfigRegistry configRegistry) {
+		final CustomLineBorderDecorator customLineBorderDecorator = new CustomLineBorderDecorator(
+				defaultCellPainter,
+				new BorderStyle(1, new Color(COMPARE_CELL_BORDER_COLOR),
+						LineStyleEnum.DASHED));
+		configRegistry.registerConfigAttribute(
+				CellConfigAttributes.CELL_PAINTER, customLineBorderDecorator,
+				DisplayMode.NORMAL,
+				ToolboxConstants.TABLE_COMPARE_CHANGED_GUID_ROW_CELL_LABEL);
+
 	}
 
 	private void registerTopologicalTableCellStyle(

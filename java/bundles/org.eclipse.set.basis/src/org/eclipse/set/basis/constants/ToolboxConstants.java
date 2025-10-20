@@ -313,6 +313,31 @@ public final class ToolboxConstants {
 	public static final String XSL_PROJECT_COMPARE_CELL = "CompareProjectContent";
 
 	/**
+	 * The attribute name for compare row
+	 */
+	public static final String XSL_COMPARE_ROW_TYPE_ATTRIBUTE = "compareType";
+
+	/**
+	 * Label for cells of table row, which completely changed.
+	 */
+	public static final String TABLE_COMPARE_CHANGED_GUID_ROW_CELL_LABEL = "tableGuidChangeRowCell";
+
+	/**
+	 * Label for first cell of table row, which completely changed.
+	 */
+	public static final String TABLE_COMPARE_TABLE_ROW_FIRST_CELL_LABEL = "tableCompareTableRowFirstCell";
+
+	/**
+	 * Label for last cell of table row, which completely changed.
+	 */
+	public static final String TABLE_COMPARE_TABLE_ROW_LAST_CELL_LABEL = "tableCompareTableRowLastCell";
+
+	/**
+	 * Label for cell of the table row, which completely changed.
+	 */
+	public static final String TABLE_COMPARE_TABLE_ROW_CELL_LABEL = "tableCompareTableRowCell";
+
+	/**
 	 * Label for Topological Cell
 	 */
 	public static final String TABLE_TOPOLOGICAL_CELL = "topologicalCell";

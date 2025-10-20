@@ -18,21 +18,60 @@ import org.eclipse.set.model.tablemodel.Table;
 public interface TableDiffService {
 
 	/**
-	 * @param oldTable
-	 *            the old table
-	 * @param newTable
-	 *            the new table
+	 * The osgi property name for table compare type
+	 */
+	public static final String COMPARE_TYPE_OSGi_PROPERTY = "compareType"; //$NON-NLS-1$
+
+	/**
+	 * The compare type state
+	 */
+	public static final String COMPARE_TYPE_STATE = "state"; //$NON-NLS-1$
+	/**
+	 * The compare type project
+	 */
+	public static final String COMPARE_TYPE_PROJECT = "project"; //$NON-NLS-1$
+
+	/**
+	 * 
+	 */
+	public enum TableCompareType {
+		/**
+		 * 
+		 */
+		STATE(COMPARE_TYPE_STATE),
+		/**
+		 * 
+		 */
+		PROJECT(COMPARE_TYPE_PROJECT);
+
+		String value;
+
+		/**
+		 * @return string value
+		 */
+		public String getValue() {
+			return value;
+		}
+
+		private TableCompareType(final String value) {
+			this.value = value;
+		}
+	}
+
+	/**
+	 * @param firstTable
+	 *            the first table, it can be the Initial-State Table or the
+	 *            session table
+	 * @param secondTable
+	 *            the second table, it can be the Final-State Table or the
+	 *            compare table
 	 * 
 	 * @return the difference table
 	 */
-	Table createDiffTable(Table oldTable, Table newTable);
+	Table createDiffTable(Table firstTable, Table secondTable);
 
 	/**
-	 * @param firstPlanTable
-	 *            the initial or final table of first plan
-	 * @param secondPlanDiffTable
-	 *            the diff table of second plan
-	 * @return the compare table
+	 * @return {@link TableCompareType}
 	 */
-	Table createCompareTable(Table firstPlanTable, Table secondPlanDiffTable);
+	TableCompareType getCompareType();
 }

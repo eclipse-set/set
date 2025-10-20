@@ -17,6 +17,7 @@ import org.eclipse.set.model.tablemodel.CellContent
 import org.eclipse.set.model.tablemodel.CompareCellContent
 import org.eclipse.set.model.tablemodel.CompareFootnoteContainer
 import org.eclipse.set.model.tablemodel.CompareTableCellContent
+import org.eclipse.set.model.tablemodel.CompareTableFootnoteContainer
 import org.eclipse.set.model.tablemodel.FootnoteContainer
 import org.eclipse.set.model.tablemodel.MultiColorCellContent
 import org.eclipse.set.model.tablemodel.MultiColorContent
@@ -158,6 +159,12 @@ class CellContentExtensions {
 			? "<br></br>" 
 			: content.separator
 		)»</p>'''
+	}
+
+	static def dispatch String getRichTextValueWithFootnotes(
+		CompareTableCellContent content, CompareTableFootnoteContainer fc) {
+		return content.mainPlanCellContent.
+			getRichTextValueWithFootnotes(fc.mainPlanFootnoteContainer)
 	}
 
 	/**
@@ -368,9 +375,8 @@ class CellContentExtensions {
 
 	private static def String getMultiColorFormat(MultiColorContent content) {
 		if (Strings.isNullOrEmpty(content.multiColorValue)) {
-			return Strings.isNullOrEmpty(content.stringFormat)
-				? ""
-				: content.stringFormat.htmlString
+			return Strings.isNullOrEmpty(content.stringFormat) ? "" : content.
+				stringFormat.htmlString
 		}
 
 		if (content.isDisableMultiColor) {

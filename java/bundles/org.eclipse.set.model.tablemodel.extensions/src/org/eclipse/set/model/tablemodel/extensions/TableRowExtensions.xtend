@@ -24,6 +24,7 @@ import org.eclipse.set.model.tablemodel.TablemodelFactory
 import org.eclipse.set.model.tablemodel.format.TableformatFactory
 
 import static extension org.eclipse.set.model.tablemodel.extensions.ColumnDescriptorExtensions.*
+import static extension org.eclipse.set.model.tablemodel.extensions.FootnoteContainerExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.RowGroupExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.TableCellExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.TableContentExtensions.*
@@ -253,9 +254,10 @@ class TableRowExtensions {
 		if (row.cells.size != other.cells.size) {
 			return false
 		}
-		return row.cells.indexed.forall [
-			value.isEqual(other.cells.get(key))
-		]
+		return row?.footnotes.isSameFootnotesComment(other?.footnotes) &&
+			row.cells.indexed.forall [
+				value.isEqual(other.cells.get(key))
+			]
 	}
 
 	/**
@@ -306,7 +308,7 @@ class TableRowExtensions {
 			if (cell.plainStringValue.nullOrEmpty) {
 				return
 			}
-			
+
 			if (cell.cellannotation.nullOrEmpty) {
 				cell.cellannotation.add(
 					TableformatFactory.eINSTANCE.createCellFormat)

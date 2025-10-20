@@ -25,9 +25,12 @@ import org.eclipse.set.model.tablemodel.ColumnWidthMode;
 import org.eclipse.set.model.tablemodel.CompareCellContent;
 import org.eclipse.set.model.tablemodel.CompareFootnoteContainer;
 import org.eclipse.set.model.tablemodel.CompareTableCellContent;
+import org.eclipse.set.model.tablemodel.CompareTableFootnoteContainer;
 import org.eclipse.set.model.tablemodel.FootnoteContainer;
 import org.eclipse.set.model.tablemodel.MultiColorCellContent;
 import org.eclipse.set.model.tablemodel.MultiColorContent;
+import org.eclipse.set.model.tablemodel.PlanCompareRow;
+import org.eclipse.set.model.tablemodel.PlanCompareRowType;
 import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.model.tablemodel.RowMergeMode;
 import org.eclipse.set.model.tablemodel.SimpleFootnoteContainer;
@@ -190,6 +193,20 @@ public class TablemodelPackageImpl extends EPackageImpl
 	 * 
 	 * @generated
 	 */
+	private EClass compareTableFootnoteContainerEClass = null;
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	private EClass planCompareRowEClass = null;
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
 	private EEnum columnWidthModeEEnum = null;
 
 	/**
@@ -198,6 +215,13 @@ public class TablemodelPackageImpl extends EPackageImpl
 	 * @generated
 	 */
 	private EEnum rowMergeModeEEnum = null;
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	private EEnum planCompareRowTypeEEnum = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -854,6 +878,61 @@ public class TablemodelPackageImpl extends EPackageImpl
 	 * @generated
 	 */
 	@Override
+	public EClass getCompareTableFootnoteContainer() {
+		return compareTableFootnoteContainerEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
+	public EReference getCompareTableFootnoteContainer_MainPlanFootnoteContainer() {
+		return (EReference) compareTableFootnoteContainerEClass
+				.getEStructuralFeatures()
+				.get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
+	public EReference getCompareTableFootnoteContainer_ComparePlanFootnoteContainer() {
+		return (EReference) compareTableFootnoteContainerEClass
+				.getEStructuralFeatures()
+				.get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
+	public EClass getPlanCompareRow() {
+		return planCompareRowEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
+	public EAttribute getPlanCompareRow_RowType() {
+		return (EAttribute) planCompareRowEClass.getEStructuralFeatures()
+				.get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
 	public EEnum getColumnWidthMode() {
 		return columnWidthModeEEnum;
 	}
@@ -866,6 +945,16 @@ public class TablemodelPackageImpl extends EPackageImpl
 	@Override
 	public EEnum getRowMergeMode() {
 		return rowMergeModeEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
+	public EEnum getPlanCompareRowType() {
+		return planCompareRowTypeEEnum;
 	}
 
 	/**
@@ -982,9 +1071,20 @@ public class TablemodelPackageImpl extends EPackageImpl
 		createEReference(compareTableCellContentEClass,
 				COMPARE_TABLE_CELL_CONTENT__COMPARE_PLAN_CELL_CONTENT);
 
+		compareTableFootnoteContainerEClass = createEClass(
+				COMPARE_TABLE_FOOTNOTE_CONTAINER);
+		createEReference(compareTableFootnoteContainerEClass,
+				COMPARE_TABLE_FOOTNOTE_CONTAINER__MAIN_PLAN_FOOTNOTE_CONTAINER);
+		createEReference(compareTableFootnoteContainerEClass,
+				COMPARE_TABLE_FOOTNOTE_CONTAINER__COMPARE_PLAN_FOOTNOTE_CONTAINER);
+
+		planCompareRowEClass = createEClass(PLAN_COMPARE_ROW);
+		createEAttribute(planCompareRowEClass, PLAN_COMPARE_ROW__ROW_TYPE);
+
 		// Create enums
 		columnWidthModeEEnum = createEEnum(COLUMN_WIDTH_MODE);
 		rowMergeModeEEnum = createEEnum(ROW_MERGE_MODE);
+		planCompareRowTypeEEnum = createEEnum(PLAN_COMPARE_ROW_TYPE);
 	}
 
 	/**
@@ -1031,6 +1131,9 @@ public class TablemodelPackageImpl extends EPackageImpl
 				.add(this.getFootnoteContainer());
 		compareTableCellContentEClass.getESuperTypes()
 				.add(this.getCellContent());
+		compareTableFootnoteContainerEClass.getESuperTypes()
+				.add(this.getFootnoteContainer());
+		planCompareRowEClass.getESuperTypes().add(this.getTableRow());
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(tableEClass, Table.class, "Table", !IS_ABSTRACT,
@@ -1260,6 +1363,32 @@ public class TablemodelPackageImpl extends EPackageImpl
 				IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
 				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
+		initEClass(compareTableFootnoteContainerEClass,
+				CompareTableFootnoteContainer.class,
+				"CompareTableFootnoteContainer", !IS_ABSTRACT, !IS_INTERFACE,
+				IS_GENERATED_INSTANCE_CLASS);
+		initEReference(
+				getCompareTableFootnoteContainer_MainPlanFootnoteContainer(),
+				this.getFootnoteContainer(), null, "mainPlanFootnoteContainer",
+				null, 0, 1, CompareTableFootnoteContainer.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(
+				getCompareTableFootnoteContainer_ComparePlanFootnoteContainer(),
+				this.getFootnoteContainer(), null,
+				"comparePlanFootnoteContainer", null, 0, 1,
+				CompareTableFootnoteContainer.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(planCompareRowEClass, PlanCompareRow.class, "PlanCompareRow",
+				!IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getPlanCompareRow_RowType(),
+				this.getPlanCompareRowType(), "rowType", null, 1, 1,
+				PlanCompareRow.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED,
+				IS_ORDERED);
+
 		// Initialize enums and add enum literals
 		initEEnum(columnWidthModeEEnum, ColumnWidthMode.class,
 				"ColumnWidthMode");
@@ -1270,6 +1399,14 @@ public class TablemodelPackageImpl extends EPackageImpl
 		addEEnumLiteral(rowMergeModeEEnum, RowMergeMode.DEFAULT);
 		addEEnumLiteral(rowMergeModeEEnum, RowMergeMode.ENABLED);
 		addEEnumLiteral(rowMergeModeEEnum, RowMergeMode.DISABLED);
+
+		initEEnum(planCompareRowTypeEEnum, PlanCompareRowType.class,
+				"PlanCompareRowType");
+		addEEnumLiteral(planCompareRowTypeEEnum, PlanCompareRowType.NEW_ROW);
+		addEEnumLiteral(planCompareRowTypeEEnum,
+				PlanCompareRowType.REMOVED_ROW);
+		addEEnumLiteral(planCompareRowTypeEEnum,
+				PlanCompareRowType.CHANGED_GUID_ROW);
 
 		// Create resource
 		createResource(eNS_URI);
