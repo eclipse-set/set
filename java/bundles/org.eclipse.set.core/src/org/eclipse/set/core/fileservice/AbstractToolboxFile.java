@@ -154,8 +154,11 @@ public abstract class AbstractToolboxFile implements ToolboxFile {
 
 	@Override
 	public void close() throws IOException {
+		getEditingDomain().getCommandStack().flush();
 		getEditingDomain().getResourceSet().getResources().clear();
 		resources.values().forEach(resource -> resource.getContents().clear());
+		resources.clear();
+		clearXMLDocument();
 	}
 
 	@Override

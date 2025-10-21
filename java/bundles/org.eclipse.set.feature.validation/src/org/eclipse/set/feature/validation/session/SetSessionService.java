@@ -10,6 +10,7 @@
 package org.eclipse.set.feature.validation.session;
 
 import java.nio.file.Path;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,6 +46,8 @@ import org.eclipse.set.feature.validation.session.ModelSession.ServiceProvider;
 import org.eclipse.set.model.planpro.PlanPro.PlanProPackage;
 import org.eclipse.swt.widgets.Shell;
 import org.osgi.service.component.annotations.Component;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -57,7 +60,7 @@ import com.google.common.collect.Sets;
 
 @Component(service = SessionService.class)
 public class SetSessionService implements SessionService {
-
+	Logger logger = LoggerFactory.getLogger(SetSessionService.class);
 	protected static final Map<String, Set<ToolboxFileExtension>> PLAIN_SUPPORT_MAP;
 
 	protected static final Map<String, Set<ToolboxFileExtension>> ZIPPED_SUPPORT_MAP;
@@ -93,7 +96,7 @@ public class SetSessionService implements SessionService {
 		ZIPPED_SUPPORT_MAP.put(ToolboxConstants.EXTENSION_CATEGORY_PPMERGE,
 				ppmerge);
 
-		loadedModels = new HashMap<>();
+		loadedModels = new EnumMap<>(ToolboxFileRole.class);
 	}
 
 	protected static String getDefaultExtensionPlainPlanPro() {
@@ -132,23 +135,16 @@ public class SetSessionService implements SessionService {
 	@Override
 	public boolean close(final IModelSession modelSession,
 			final ToolboxFileRole role) {
-		if (role == ToolboxFileRole.COMPARE_PLANNING) {
-			serviceProvider.broker.send(Events.CLOSE_SESSION, role);
-			loadedModels.remove(role);
-			return true;
-		}
-
 		if (modelSession == null) {
-			serviceProvider.broker.send(Events.CLOSE_SESSION, role);
-			loadedModels.clear();
-			return true;
+			return false;
 		}
 
 		// show the no session part
 		if (getToolboxPartService()
-				.showPart(ToolboxConstants.NO_SESSION_PART_ID)) {
-			// clean up
-			modelSession.cleanUp();
+				.showPart(ToolboxConstants.NO_SESSION_PART_ID)
+				|| role == ToolboxFileRole.SESSION) {
+			loadedModels.keySet().forEach(this::closeLoadedSession);
+
 			actionItems.clear();
 			// clean up the view area
 			getToolboxPartService().clean();
@@ -156,10 +152,27 @@ public class SetSessionService implements SessionService {
 			// remove the session from the application context
 			getApplication().getContext().set(IModelSession.class, null);
 			loadedModels.clear();
-			serviceProvider.broker.send(Events.CLOSE_SESSION, role);
 			return true;
 		}
 
+		return closeLoadedSession(role);
+	}
+
+	private boolean closeLoadedSession(final ToolboxFileRole role) {
+		if (loadedModels.containsKey(role)) {
+			try {
+				final IModelSession session = loadedModels.get(role);
+				if (session != null) {
+					serviceProvider.broker.send(Events.CLOSE_SESSION, role);
+					session.getToolboxFile().close();
+					session.cleanUp();
+				}
+				return true;
+			} catch (final Exception e) {
+				logger.error(e.getMessage());
+				return false;
+			}
+		}
 		return false;
 	}
 
