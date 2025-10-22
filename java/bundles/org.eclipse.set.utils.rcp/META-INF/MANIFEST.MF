@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: RCP Utils
 Bundle-SymbolicName: org.eclipse.set.utils.rcp
-Bundle-Version: 2.5.0.qualifier
+Bundle-Version: 2.6.0.qualifier
 Fragment-Host: org.eclipse.set.utils;bundle-version="0.1.0"
 Automatic-Module-Name: org.eclipse.set.utils.rcp
 Bundle-RequiredExecutionEnvironment: JavaSE-21

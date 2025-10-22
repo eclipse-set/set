@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Toolbox Emfforms
 Bundle-SymbolicName: org.eclipse.set.emfforms;singleton:=true
-Bundle-Version: 2.5.0.qualifier
+Bundle-Version: 2.6.0.qualifier
 Bundle-Vendor: Eclipse Signalling Engineering Toolbox
 Require-Bundle: org.eclipse.e4.ui.workbench,
  org.eclipse.emf.ecp.ui;bundle-version="1.17.1",

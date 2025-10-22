@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Toolbox Basis
 Bundle-SymbolicName: org.eclipse.set.basis
-Bundle-Version: 2.5.0.qualifier
+Bundle-Version: 2.6.0.qualifier
 Automatic-Module-Name: org.eclipse.set.basis
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Bundle-Vendor: Eclipse Signalling Engineering Toolbox
