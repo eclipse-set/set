@@ -342,6 +342,11 @@ public final class ToolboxConstants {
 	 */
 	public static final String TABLE_TOPOLOGICAL_CELL = "topologicalCell";
 
+	/**
+	 * The tolerance value between TOP_Kante length and the sum of GEO_Kanten
+	 * length, which belong to this TOP_Kante (in Meter)
+	 */
+	public static final double TOP_GEO_LENGTH_TOLERANCE = 0.01;
 	static {
 		DEFAULT_HOME_DIR = "./";
 		TMP_BASE_DIR = System.getProperty(ToolboxProperties.TMP_BASE_DIR,

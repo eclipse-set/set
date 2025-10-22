@@ -21,14 +21,13 @@ import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
 import org.osgi.service.component.annotations.Component
 
 import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
+import org.eclipse.set.basis.constants.ToolboxConstants
 
 /**
  * Validates that a TOP_Kante's length matches the associated GEO_Kante lengths
  */
 @Component
 class TopGeoCoverage extends AbstractPlazContainerCheck implements PlazCheck {
-	// Limit in meters for when to throw an error
-	double LENGTH_LIMIT = 0.01;
 
 	override List<PlazError> run(MultiContainer_AttributeGroup container) {
 		return container.TOPKante.filter [
@@ -41,11 +40,11 @@ class TopGeoCoverage extends AbstractPlazContainerCheck implements PlazCheck {
 				return null
 
 			val diff = (topLength - geoLength).doubleValue
-			if (diff < -LENGTH_LIMIT)
+			if (diff < -ToolboxConstants.TOP_GEO_LENGTH_TOLERANCE)
 				return createError(
 					"Die topologische Kante {GUID} (Länge: {TOP_LENGTH}) ist kürzer als die dazu gehörigen geographischen Kanten (Länge: {GEO_LENGTH}).",
 					topLength, geoLength)
-			if (diff > LENGTH_LIMIT)
+			if (diff > ToolboxConstants.TOP_GEO_LENGTH_TOLERANCE)
 				return createError(
 					"Die topologische Kante {GUID} (Länge: {TOP_LENGTH}) ist länger als die dazu gehörigen geographischen Kanten (Länge: {GEO_LENGTH}).",
 					topLength, geoLength)
