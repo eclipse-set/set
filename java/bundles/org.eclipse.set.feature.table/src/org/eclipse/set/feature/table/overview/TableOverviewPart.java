@@ -224,6 +224,10 @@ public class TableOverviewPart extends BasePart {
 			tableService.transformTables(monitor, getModelSession(),
 					new HashSet<>(missingTables), TableType.FINAL,
 					controlAreaIds);
+		} else {
+			tableService.transformTables(monitor, getModelSession(),
+					new HashSet<>(missingTables), tableType,
+					controlAreaIds);
 		}
 
 	}

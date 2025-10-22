@@ -283,20 +283,24 @@ public final class TableServiceImpl implements TableService {
 	@SuppressWarnings("unchecked")
 	private boolean combineTableErrors(final IModelSession modelSession,
 			final String cacheKey) {
-		final Collection<TableError> initialErrors = (Collection<TableError>) getCacheService()
-				.getCache(modelSession.getPlanProSchnittstelle(),
-						ToolboxConstants.CacheId.TABLE_ERRORS_INITIAL)
-				.getIfPresent(cacheKey);
-		final Collection<TableError> finalErrors = (Collection<TableError>) getCacheService()
-				.getCache(modelSession.getPlanProSchnittstelle(),
-						ToolboxConstants.CacheId.TABLE_ERRORS_FINAL)
-				.getIfPresent(cacheKey);
-		if (initialErrors == null || finalErrors == null) {
+		final List<TableError> errors = List
+				.of(ToolboxConstants.CacheId.TABLE_ERRORS_INITIAL,
+						ToolboxConstants.CacheId.TABLE_ERRORS_FINAL,
+						ToolboxConstants.CacheId.TABLE_ERRORS_SINGLE)
+				.stream()
+				.map(cacheId -> getCacheService()
+						.getCache(modelSession.getPlanProSchnittstelle(),
+								cacheId)
+						.getIfPresent(cacheKey))
+				.filter(Objects::nonNull)
+				.map(Collection.class::cast)
+				.flatMap(Collection::stream)
+				.toList();
+		if (errors.isEmpty()) {
 			return false;
 		}
 		final Collection<TableError> combined = new ArrayList<>();
-		combined.addAll(initialErrors);
-		combined.addAll(finalErrors);
+		combined.addAll(errors);
 		getCacheService()
 				.getCache(modelSession.getPlanProSchnittstelle(),
 						ToolboxConstants.CacheId.TABLE_ERRORS)
@@ -324,6 +328,12 @@ public final class TableServiceImpl implements TableService {
 				getCacheService()
 						.getCache(modelSession.getPlanProSchnittstelle(),
 								ToolboxConstants.CacheId.TABLE_ERRORS_FINAL)
+						.set(cacheKey, errors);
+				break;
+			case SINGLE:
+				getCacheService()
+						.getCache(modelSession.getPlanProSchnittstelle(),
+								ToolboxConstants.CacheId.TABLE_ERRORS_SINGLE)
 						.set(cacheKey, errors);
 				break;
 			default:
