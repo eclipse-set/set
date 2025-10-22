@@ -280,6 +280,7 @@ public class TopologicalGraphServiceImpl
 				getTopGraphBase(planProSchnittstelle));
 		final Node startNode = graphView.splitGraphAt(from,
 				Boolean.valueOf(inTopDirection));
+
 		final Node endNode = graphView.splitGraphAt(to);
 		return Optional.ofNullable(AsDirectedTopGraph.getPath(
 				AsDirectedTopGraph.asDirectedTopGraph(graphView), startNode,
@@ -297,8 +298,8 @@ public class TopologicalGraphServiceImpl
 		final BigDecimal toDistance = to.distance();
 		final BigDecimal distance = toDistance.subtract(fromDistance);
 		return inTopDirection == distance.compareTo(BigDecimal.ZERO) > 0
-				? Optional.of(new TopPath(List.of(from.edge()), distance.abs(),
-						distance.abs()))
+				? Optional.of(
+						new TopPath(List.of(from.edge()), distance.abs(), from))
 				: Optional.empty();
 	}
 

@@ -237,7 +237,6 @@ public class DirectedPathSearch {
 					"Path not start from source node"); //$NON-NLS-1$
 		}
 
-		final BigDecimal firstEdgeLength = firstEdge.edge().getWeight();
 		return new TopPath(
 				path.getEdgeList()
 						.stream()
@@ -245,7 +244,7 @@ public class DirectedPathSearch {
 						.distinct()
 						.map(Edge::edge)
 						.toList(),
-				getDirectedPathWeight(path), firstEdgeLength);
+				getDirectedPathWeight(path), startNode.point());
 	}
 
 	private static BigDecimal getDirectedPathWeight(
