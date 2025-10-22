@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Additional org.eclipse.emf.ecp.view.categorization.swt German NLS Support
 Bundle-SymbolicName: org.eclipse.set.i18n.ecp.categorization.nl_de
-Bundle-Version: 2.5.0.qualifier
+Bundle-Version: 2.6.0.qualifier
 Fragment-Host: org.eclipse.emf.ecp.view.categorization.swt;bundle-version="1.17.1"
 Automatic-Module-Name: org.eclipse.set.i18n.ecp.categorization.nl_de
 Bundle-RequiredExecutionEnvironment: JavaSE-21

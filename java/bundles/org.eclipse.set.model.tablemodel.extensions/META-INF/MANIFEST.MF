@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Tablemodel extensions
 Bundle-SymbolicName: org.eclipse.set.model.tablemodel.extensions
-Bundle-Version: 2.5.0.qualifier
+Bundle-Version: 2.6.0.qualifier
 Bundle-Vendor: Eclipse Signalling Engineering Toolbox
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Require-Bundle: com.google.guava,
