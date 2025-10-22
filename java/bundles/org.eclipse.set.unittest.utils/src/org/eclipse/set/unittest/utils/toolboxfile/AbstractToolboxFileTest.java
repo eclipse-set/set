@@ -9,9 +9,7 @@
 
 package org.eclipse.set.unittest.utils.toolboxfile;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -91,14 +89,21 @@ public abstract class AbstractToolboxFileTest extends AbstractToolboxTest {
 						LayoutinformationenPackage.eINSTANCE);
 	}
 
-	protected void thenExpectContentsExists(final boolean exists) {
+	protected void thenExpectContentsExists() {
 		assertNotNull(testee.getPlanProResource());
-		assertTrue(
-				testee.getPlanProResource().getContents().isEmpty() != exists);
+		assertFalse(testee.getPlanProResource().getContents().isEmpty());
+		assertFalse(testee.getEditingDomain()
+				.getResourceSet()
+				.getResources()
+				.isEmpty());
+	}
+
+	protected void thenExpectContentsNotExists() {
+		assertNull(testee.getPlanProResource());
 		assertTrue(testee.getEditingDomain()
 				.getResourceSet()
 				.getResources()
-				.isEmpty() != exists);
+				.isEmpty());
 	}
 
 	protected void thenExpectResourceCallsWithinZipDirectory() {

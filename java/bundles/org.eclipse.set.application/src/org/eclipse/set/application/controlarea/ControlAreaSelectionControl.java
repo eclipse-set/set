@@ -35,6 +35,7 @@ import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.constants.ContainerType;
 import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.basis.constants.TableType;
+import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.eclipse.set.core.services.part.ToolboxPartService;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
@@ -46,6 +47,7 @@ import org.eclipse.set.utils.events.SelectedControlAreaChangedEvent.ControlAreaV
 import org.eclipse.set.utils.events.ToolboxEventHandler;
 import org.eclipse.set.utils.events.ToolboxEvents;
 import org.eclipse.swt.widgets.Composite;
+import org.osgi.service.event.Event;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -105,9 +107,10 @@ public class ControlAreaSelectionControl {
 		broker = serviceProvider.broker;
 		messages = serviceProvider.messages;
 		partService = serviceProvider.partService;
-		// Reset combo value, when close session
-		broker.subscribe(Events.CLOSE_SESSION, event -> initCombo());
 		createCombo(parent);
+		// Reset combo value, when close session
+		broker.subscribe(Events.CLOSE_SESSION, this::closeSession);
+		broker.subscribe(Events.MODEL_CHANGED, this::sessionChanged);
 	}
 
 	private void createCombo(final Composite parent) {
@@ -127,8 +130,6 @@ public class ControlAreaSelectionControl {
 						t.getTableType());
 			}
 		};
-		ToolboxEvents.subscribe(broker, NewTableTypeEvent.class,
-				newTableTypeHandler);
 
 		// register for session changes
 		application.getContext().runAndTrack(new RunAndTrack() {
@@ -379,6 +380,27 @@ public class ControlAreaSelectionControl {
 			} catch (final Exception exc) {
 				throw new RuntimeException(exc);
 			}
+		}
+	}
+
+	private void closeSession(final Event event) {
+		final Object property = event.getProperty(IEventBroker.DATA);
+		if (property instanceof final ToolboxFileRole role
+				&& role.equals(ToolboxFileRole.SESSION)) {
+			ToolboxEvents.unsubscribe(broker, newTableTypeHandler);
+			// Reset combo to default
+			initCombo();
+		}
+	}
+
+	private void sessionChanged(final Event event) {
+		final Object property = event.getProperty(IEventBroker.DATA);
+		if (property instanceof final ToolboxFileRole role
+				&& role.equals(ToolboxFileRole.SESSION)) {
+			ToolboxEvents.subscribe(broker, NewTableTypeEvent.class,
+					newTableTypeHandler);
+			// Reset combo to default
+			initCombo();
 		}
 	}
 }
