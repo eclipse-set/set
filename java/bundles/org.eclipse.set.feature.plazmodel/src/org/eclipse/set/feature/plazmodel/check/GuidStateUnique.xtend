@@ -15,10 +15,10 @@ import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions
 import org.osgi.service.component.annotations.Component
 
 import static extension org.eclipse.set.ppmodel.extensions.PlanungEinzelExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 
 /**
- * Checks if GUIDs of LST states are unique
+ * Checks if GUIDs of LST states are unique.
+ * The LST states in a Subwork can have same GUID
  */
 @Component(immediate=true)
 class GuidStateUnique implements PlazCheck {
@@ -27,14 +27,22 @@ class GuidStateUnique implements PlazCheck {
 		val planungGruppe = PlanProSchnittstelleExtensions.getLSTPlanungGruppe(
 			modelSession.planProSchnittstelle)
 		if (planungGruppe.present) {
-			return planungGruppe.get.flatMap [
+			// Grouped the LST states by GUID
+			val sameGUIDStates = planungGruppe.get.flatMap [
 				#[LSTPlanungEinzel?.LSTZustandStart,
 					LSTPlanungEinzel?.LSTZustandZiel]
-			].notDistinctBy[identitaet?.wert].map [
+			].groupBy[identitaet?.wert]
+			// Filter the same guid states, which states empty or the states in same subwork 
+			return sameGUIDStates.filter [ guid, states |
+				!states.nullOrEmpty && (states.size > 2 || states.map [
+					eContainer
+				].toSet.size > 1)
+			].values.flatten.map [
 				val err = PlazFactory.eINSTANCE.createPlazError
-				err.message = transformErrorMsg(Map.of("GUID", identitaet?.wert))
+				err.message = transformErrorMsg(
+					Map.of("GUID", identitaet?.wert))
 				err.type = checkType
-				err.object = it?.identitaet
+				err.object = identitaet
 				return err
 			].toList
 		}
@@ -44,11 +52,11 @@ class GuidStateUnique implements PlazCheck {
 	override checkType() {
 		return "GUID-Zustände"
 	}
-	
+
 	override getDescription() {
 		return "Die GUIDs aller Zustände sind eindeutig."
 	}
-	
+
 	override getGeneralErrMsg() {
 		return "Die GUID des Zustands {GUID} ist nicht eindeutig!"
 	}
