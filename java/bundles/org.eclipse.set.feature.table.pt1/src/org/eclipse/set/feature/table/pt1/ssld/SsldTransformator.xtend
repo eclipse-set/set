@@ -17,6 +17,7 @@ import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.core.services.graph.TopologicalGraphService
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
+import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_DWeg
 import org.eclipse.set.model.planpro.Signale.Signal
@@ -39,8 +40,6 @@ import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions
 import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
-import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung
-import org.eclipse.set.ppmodel.extensions.utils.TopGraph
 
 /**
  * Table transformation for a Durchrutschwegtabelle (SSLD).
@@ -76,38 +75,35 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 		val isInTopDirection = signalDirection ===
 			ENUMWirkrichtung.ENUM_WIRKRICHTUNG_IN ||
 			signalDirection === ENUMWirkrichtung.ENUM_WIRKRICHTUNG_BEIDE
-		if (startSignal.identitaet.wert ==
-			"B843A0A5-C717-11ED-9412-8932A423E144") {
-
-			val topGraph = new TopGraph(dweg.container.TOPKante)
-			val test = dweg?.fmaAnlageFreimeldung?.map[fmaGrenzen].flatten.toSet
-			val fmas = test.filter [
-				topGraph.isInWirkrichtungOfSignal(startSignal, it)
-			].toList
-			val pathFromSignalToFma = fmas.map [
-				it -> getShortestPath(dweg.fstrFahrweg.start, it)
-			]
-
-			val test1 = test.map [
-				it ->
-					topGraphService.
-						findShortesPathInDirection(startSignalTopPoint,
-							new TopPoint(it), isInTopDirection)
-			].filter[value.isPresent].map[key -> value.get].toList
-			println("TEST")
-		}
-
+//		if (startSignal.identitaet.wert ==
+//			"B843A0A5-C717-11ED-9412-8932A423E144") {
+//
+//			val topGraph = new TopGraph(dweg.container.TOPKante)
 //			val test = dweg?.fmaAnlageFreimeldung?.map[fmaGrenzen].flatten.toSet
-//		val fmas = test.
-//			filter [
-//				topGraphService.findPathInDirection(startSignalTopPoint,
-//					new TopPoint(it), isInTopDirection).present
+//			val fmas = test.filter [
+//				topGraph.isInWirkrichtungOfSignal(startSignal, it)
 //			].toList
-		val pathFromSignalToFMA = dweg?.fmaAnlageFreimeldung?.map[fmaGrenzen].
-			flatten.toSet.filter [
+//			val pathFromSignalToFma = fmas.map [
+//				it -> getShortestPath(dweg.fstrFahrweg.start, it)
+//			]
+//			val relevant = pathFromSignalToFma.filter[dweg.isRelevantFma(key, value)].toList
+//
+//			val test1 = test.map [
+//				it ->
+//					topGraphService.
+//						findShortesPathInDirection(startSignalTopPoint,
+//							new TopPoint(it), isInTopDirection)
+//			].filter[value.isPresent].map[key -> value.get].toList
+//			val releavan = test1.filter[dweg.isRelevantFma(key, value)].toList
+//			println("TEST")
+//		}
+		val fmaGrenzen = dweg?.fmaAnlageFreimeldung?.map[fmaGrenzen].flatten.
+			toSet
+		val pathFromSignalToFMA = fmaGrenzen.map [
+			it ->
 				topGraphService.findShortesPathInDirection(startSignalTopPoint,
-					new TopPoint(it), isInTopDirection).isPresent
-			].map[it -> getShortestPath(startSignal, it)].toList
+					new TopPoint(it), isInTopDirection)
+		].filter[value.isPresent].map[key -> value.get].toList
 		if (pathFromSignalToFMA.isEmpty) {
 			return ""
 		}
@@ -134,8 +130,8 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 
 		val distance = relevantFmas.map[value.length].max
 		return distance > maxLength
-			? '''> «maxLength.toTableIntegerAgateDown»''' : distance.
-			toTableIntegerAgateDown
+			? '''> «maxLength.toTableIntegerAgateDown»'''
+			: distance.toTableIntegerAgateDown
 	}
 
 	override transformTableContent(

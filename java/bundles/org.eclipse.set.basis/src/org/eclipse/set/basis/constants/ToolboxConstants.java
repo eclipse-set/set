@@ -87,6 +87,11 @@ public final class ToolboxConstants {
 		 */
 		public static final String SITEPLAN_CACHE_ID = "toolbox.cache.siteplan";
 
+		/**
+		 * The id of the table error cahce of single state
+		 */
+		public static final String TABLE_ERRORS_SINGLE = "toolbox.cache.table-errors-single";
+
 	}
 
 	/**

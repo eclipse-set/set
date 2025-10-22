@@ -743,7 +743,7 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 			IDSignal?.value
 		].filterNull.filter [ signal |
 			predicates.forall[apply(signal)] &&
-				topGraph.isInWirkrichtungOfSignal(refSignal, signal)
+				topGraphService.isInWirkrichtungOfSignal(refSignal, signal)
 		].filter [
 			sourceSignal.distanceToSignal(it) < MAX_TOP_DISTANCE_IN_METER
 		].toList
@@ -775,7 +775,7 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 			if (distances.compareTo(BigDecimal.ZERO) == 0) {
 				return fma -> 0.0
 			}
-			return topGraph.isInWirkrichtungOfSignal(signal, fma)
+			return topGraphService.isInWirkrichtungOfSignal(signal, fma)
 				? fma -> distances.doubleValue
 				: fma -> -distances.doubleValue
 		].filterNull

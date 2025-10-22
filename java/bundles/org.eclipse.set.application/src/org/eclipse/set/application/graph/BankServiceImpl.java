@@ -282,7 +282,7 @@ public class BankServiceImpl implements BankService, EventHandler {
 						.getTOPLaenge()
 						.getWert();
 				return new BankingInformation(bankingLine, new TopPath(
-						List.of(beginEdge), pathLength, pathLength));
+						List.of(beginEdge), pathLength, new TopPoint(begin)));
 			}
 		}
 

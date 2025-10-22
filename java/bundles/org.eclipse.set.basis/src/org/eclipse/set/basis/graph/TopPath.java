@@ -35,24 +35,6 @@ public class TopPath {
 	 *            the total length of the path. may be less than the total
 	 *            length of the edges if the path does not cover the full extent
 	 *            of the edges
-	 * @param firstEdgeLength
-	 *            the length of the first edge
-	 */
-	public TopPath(final List<TOP_Kante> edges, final BigDecimal length,
-			final BigDecimal firstEdgeLength) {
-		this.edges = edges;
-		this.length = length;
-		this.firstEdgeLength = firstEdgeLength;
-		this.startNode = determineStartNode();
-	}
-
-	/**
-	 * @param edges
-	 *            ordered list of edges for this path
-	 * @param length
-	 *            the total length of the path. may be less than the total
-	 *            length of the edges if the path does not cover the full extent
-	 *            of the edges
 	 * @param startNode
 	 *            the start point of this path
 	 */
@@ -62,39 +44,6 @@ public class TopPath {
 		this.length = length;
 		this.startNode = startNode;
 		this.firstEdgeLength = determintFirstEdgeLength();
-	}
-
-	private TopPoint determineStartNode() {
-		try {
-			final TOP_Kante firstEdge = edges.getFirst();
-			final BigDecimal edgeLength = firstEdge.getTOPKanteAllg()
-					.getTOPLaenge()
-					.getWert();
-			// When the first edge length is ZERO, then should the start node
-			// lie at TOP_Knoten_A or TOP_Knoten_B
-			if (firstEdgeLength.compareTo(BigDecimal.ZERO) == 0) {
-				if (edges.size() == 1) {
-					if (length.compareTo(firstEdgeLength) != 0) {
-						throw new IllegalArgumentException();
-					}
-
-					return new TopPoint(firstEdge,
-							edgeLength.subtract(firstEdgeLength));
-				}
-				final TOP_Knoten connectTopKnoten = getConnectTopKnoten(
-						firstEdge, edges.get(1));
-				final BigDecimal distance = firstEdge.getIDTOPKnotenA()
-						.getValue() == connectTopKnoten ? BigDecimal.ZERO
-								: edgeLength;
-				return new TopPoint(firstEdge, distance);
-			}
-
-			return new TopPoint(firstEdge,
-					edgeLength.subtract(firstEdgeLength));
-		} catch (final Exception e) {
-			throw new IllegalArgumentException(
-					"Can\'t find start node of TopPath"); //$NON-NLS-1$
-		}
 	}
 
 	private BigDecimal determintFirstEdgeLength() {
@@ -108,15 +57,9 @@ public class TopPath {
 			}
 			final TOP_Knoten connectTopKnoten = getConnectTopKnoten(firstEdge,
 					edges.get(1));
-			final BigDecimal connectTopKnotenDistance = connectTopKnoten == firstEdge
-					.getIDTOPKnotenA()
-					.getValue() ? BigDecimal.ZERO : edgeLength;
-			// When the start node lie at TOP_Knoten_A or TOP_Knoten_B, then the
-			// first edge length is ZERO
-			if (startNode.distance().compareTo(connectTopKnotenDistance) == 0) {
-				return BigDecimal.ZERO;
-			}
-			return edgeLength.subtract(startNode.distance());
+			return connectTopKnoten == firstEdge.getIDTOPKnotenA().getValue()
+					? startNode.distance()
+					: edgeLength.subtract(startNode.distance());
 		} catch (final Exception e) {
 			throw new IllegalArgumentException(
 					"Can\'t find first edge length of TopPath"); //$NON-NLS-1$

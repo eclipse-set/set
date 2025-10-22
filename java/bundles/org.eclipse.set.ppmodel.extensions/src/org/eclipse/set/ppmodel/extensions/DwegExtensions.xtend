@@ -88,7 +88,10 @@ class DwegExtensions extends BasisObjektExtensions {
 		val fahrweg = dweg?.fstrFahrweg
 		val endFarhwegPotk = fahrweg?.zielPunktObjekt.punktObjektTOPKante
 		val topEndFahrweg = fahrweg?.zielPunktObjekt?.topKanten
-
+		val test1 = fma.topKanten.exists[topEndFahrweg.contains(it)]
+		val test2 = endFarhwegPotk.exists [
+				pathToFma.getDistance(new TopPoint(it)).isPresent
+			]
 		return fma.topKanten.exists[topEndFahrweg.contains(it)] ||
 			endFarhwegPotk.exists [
 				pathToFma.getDistance(new TopPoint(it)).isPresent
