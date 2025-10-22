@@ -298,11 +298,10 @@ public class ModelSession implements IModelSession {
 	public void cleanUp() {
 		try {
 			// clean sessions subdirectory
-			cleanSessionDirectory(Paths.get(getSessionsSubDir()));
-
+			cleanSessionDirectory(Paths.get(getSessionsSubDir()), getGuid());
 			// remove content adapter
 			removeContentAdapter(getPlanProSchnittstelle());
-
+			removeContentAdapter(getLayoutInformation());
 			// unsubscribe event handler
 			ToolboxEvents.unsubscribe(serviceProvider.broker,
 					selectedControlAreaChangedEventHandler);
@@ -312,8 +311,8 @@ public class ModelSession implements IModelSession {
 		}
 	}
 
-	private static void cleanSessionDirectory(final Path unzipDirectory)
-			throws IOException {
+	private static void cleanSessionDirectory(final Path unzipDirectory,
+			final String guid) throws IOException {
 		if (!Files.exists(unzipDirectory)) {
 			return;
 		}
@@ -338,7 +337,9 @@ public class ModelSession implements IModelSession {
 					// this acceptable, as over time all directories will be
 					// cleaned up
 					final long pid = Long.parseLong(Files.readString(pidPath));
-					return ProcessHandle.of(pid).isEmpty();
+					return ProcessHandle.of(pid).isEmpty()
+							|| ProcessHandle.current().pid() == pid
+									&& p.getFileName().toString().equals(guid);
 				} catch (NumberFormatException | IOException e) {
 					return true;
 				}
@@ -354,8 +355,6 @@ public class ModelSession implements IModelSession {
 
 	@Override
 	public void close() {
-		// flush the command stack
-		getToolboxFile().getEditingDomain().getCommandStack().flush();
 		// reset filename
 		setTitleFilename(null);
 
