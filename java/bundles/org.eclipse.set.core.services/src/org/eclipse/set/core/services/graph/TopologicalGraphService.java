@@ -98,4 +98,17 @@ public interface TopologicalGraphService {
 	 */
 	Optional<TopPoint> findClosestPoint(final TopPoint from,
 			final List<TopPoint> points, final boolean searchInTopDirection);
+
+	/**
+	 * @param from
+	 *            the start point
+	 * @param to
+	 *            the end point
+	 * @param inTopDirection
+	 *            the direction
+	 * @return the shortest in direction path between from and to or empty if no
+	 *         path is found
+	 */
+	Optional<TopPath> findShortesPathInDirection(final TopPoint from,
+			final TopPoint to, final boolean inTopDirection);
 }

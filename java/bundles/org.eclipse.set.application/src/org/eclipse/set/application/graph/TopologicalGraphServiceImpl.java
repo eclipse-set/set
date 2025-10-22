@@ -31,8 +31,10 @@ import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.graph.TopologicalGraphService;
 import org.eclipse.set.core.services.session.SessionService;
 import org.eclipse.set.model.planpro.Geodaten.TOP_Kante;
+import org.eclipse.set.model.planpro.Geodaten.TOP_Knoten;
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
+import org.eclipse.set.ppmodel.extensions.TopKanteExtensions;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.eclipse.set.utils.graph.AsDirectedTopGraph;
 import org.eclipse.set.utils.graph.AsSplitTopGraph;
@@ -261,5 +263,52 @@ public class TopologicalGraphServiceImpl
 		}
 
 		return minPoint;
+	}
+
+	@Override
+	public Optional<TopPath> findShortesPathInDirection(final TopPoint from,
+			final TopPoint to, final boolean inTopDirection) {
+		// When two point lie on same edge
+		if (from.edge().equals(to.edge())) {
+			return whenThePointsAreSameEdge(from, to, inTopDirection);
+		}
+		final MultiContainer_AttributeGroup container = getContainer(
+				from.edge());
+		final PlanPro_Schnittstelle planProSchnittstelle = getPlanProSchnittstelle(
+				container);
+		final AsSplitTopGraph graphView = new AsSplitTopGraph(
+				getTopGraphBase(planProSchnittstelle));
+		final Node startNode = graphView.splitGraphAt(from,
+				Boolean.valueOf(inTopDirection));
+		final Node endNode = graphView.splitGraphAt(to);
+		return Optional.ofNullable(AsDirectedTopGraph.getPath(
+				AsDirectedTopGraph.asDirectedTopGraph(graphView), startNode,
+				endNode,
+				findShortestDistance(from, to).orElse(BigDecimal.ZERO)
+						.intValue() + 1,
+				path -> isInDirectionPath(path, inTopDirection)));
+	}
+
+	private static Optional<TopPath> whenThePointsAreSameEdge(
+			final TopPoint from, final TopPoint to,
+			final boolean inTopDirection) {
+		// When two point lie on same edge
+		final BigDecimal fromDistance = from.distance();
+		final BigDecimal toDistance = to.distance();
+		final BigDecimal distance = toDistance.subtract(fromDistance);
+		return inTopDirection == distance.compareTo(BigDecimal.ZERO) > 0
+				? Optional.of(new TopPath(List.of(from.edge()), distance.abs(),
+						distance.abs()))
+				: Optional.empty();
+	}
+
+	private static boolean isInDirectionPath(final TopPath path,
+			final boolean inTopDirection) {
+		final TOP_Kante firstEdge = path.edges().getFirst();
+		final TOP_Kante secondEdge = path.edges().get(1);
+		final TOP_Knoten connectionNode = TopKanteExtensions
+				.connectionTo(firstEdge, secondEdge);
+		return inTopDirection == connectionNode
+				.equals(TopKanteExtensions.getTOPKnotenB(firstEdge));
 	}
 }
