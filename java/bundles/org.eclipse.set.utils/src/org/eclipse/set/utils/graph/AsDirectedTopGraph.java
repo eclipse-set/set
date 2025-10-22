@@ -19,23 +19,31 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Queue;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 import org.eclipse.set.basis.graph.TopPath;
 import org.eclipse.set.basis.graph.TopPoint;
+import org.eclipse.set.model.planpro.Geodaten.ENUMTOPAnschluss;
+import org.eclipse.set.model.planpro.Geodaten.TOP_Knoten;
 import org.eclipse.set.utils.graph.AsSplitTopGraph.Edge;
 import org.eclipse.set.utils.graph.AsSplitTopGraph.Node;
 import org.eclipse.set.utils.math.BigDecimalExtensions;
 import org.jgrapht.Graph;
 import org.jgrapht.graph.AsWeightedGraph;
 import org.jgrapht.graph.DirectedPseudograph;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Helper class to convert an undirected graph of top edges to a directed graph
  */
 public class AsDirectedTopGraph {
+	private static final Logger logger = LoggerFactory
+			.getLogger(AsDirectedTopGraph.class);
 
 	/**
 	 * Helper record for providing a TOP_Kante with a direction
@@ -220,6 +228,9 @@ public class AsDirectedTopGraph {
 			final Node lastNode = graph.getEdgeTarget(lastEdge);
 			for (final DirectedTOPEdge<Edge> edge : graph
 					.outgoingEdgesOf(lastNode)) {
+				if (!isRelevantNextEdge(lastEdge, edge, lastNode)) {
+					continue;
+				}
 				if (!includeIncompletePath) {
 					final TopPath shortesPath = getShortesPath(incompletePaths,
 							path, edge, relevantEdgesFromTarget,
@@ -333,5 +344,75 @@ public class AsDirectedTopGraph {
 		}
 		assert nodesToProcess.isEmpty();
 		return edgesDistance;
+	}
+
+	/**
+	 * The connect type between to edge must plausible
+	 * 
+	 * @param current
+	 *            the current edge
+	 * @param next
+	 *            the next edge
+	 * @param connectNode
+	 *            the connect node
+	 * @return whether connect relevant
+	 */
+	private static boolean isRelevantNextEdge(
+			final DirectedTOPEdge<Edge> current,
+			final DirectedTOPEdge<Edge> next, final Node connectNode) {
+		if (current.edge() == next.edge()) {
+			return true;
+		}
+		if (connectNode.node() == null) {
+			return false;
+		}
+		final Function<Edge, Optional<ENUMTOPAnschluss>> getTopConnectType = edge -> {
+			try {
+				final TOP_Knoten topNodeA = edge.edge()
+						.getIDTOPKnotenA()
+						.getValue();
+				final TOP_Knoten topNodeB = edge.edge()
+						.getIDTOPKnotenB()
+						.getValue();
+				if (topNodeA == connectNode.node()) {
+					return Optional.ofNullable(edge.edge()
+							.getTOPKanteAllg()
+							.getTOPAnschlussA()
+							.getWert());
+				}
+
+				if (topNodeB == connectNode.node()) {
+					return Optional.ofNullable(edge.edge()
+							.getTOPKanteAllg()
+							.getTOPAnschlussB()
+							.getWert());
+				}
+				throw new IllegalArgumentException();
+			} catch (final Exception e) {
+				logger.error(
+						"Can't find TOP_Anschlus of TOP_Kanten: {} at TOP_Knoten: {}", //$NON-NLS-1$
+						edge.edge().getIdentitaet().getWert(),
+						connectNode.node().getIdentitaet().getWert());
+				return Optional.empty();
+			}
+		};
+		final ENUMTOPAnschluss currentConnectType = getTopConnectType
+				.apply(current.edge())
+				.orElse(null);
+		final ENUMTOPAnschluss nextConnectType = getTopConnectType
+				.apply(next.edge())
+				.orElse(null);
+		if (currentConnectType == null || nextConnectType == null) {
+			return false;
+		}
+
+		return switch (currentConnectType) {
+			case ENUMTOP_ANSCHLUSS_LINKS, ENUMTOP_ANSCHLUSS_RECHTS -> nextConnectType == ENUMTOPAnschluss.ENUMTOP_ANSCHLUSS_SPITZE;
+			case ENUMTOP_ANSCHLUSS_SPITZE -> nextConnectType == ENUMTOPAnschluss.ENUMTOP_ANSCHLUSS_LINKS
+					|| nextConnectType == ENUMTOPAnschluss.ENUMTOP_ANSCHLUSS_RECHTS;
+			case ENUMTOP_ANSCHLUSS_MERIDIANSPRUNG -> nextConnectType == ENUMTOPAnschluss.ENUMTOP_ANSCHLUSS_MERIDIANSPRUNG;
+			case ENUMTOP_ANSCHLUSS_SCHNITT -> nextConnectType == ENUMTOPAnschluss.ENUMTOP_ANSCHLUSS_SCHNITT;
+			default -> false;
+		};
 	}
 }

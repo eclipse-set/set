@@ -256,5 +256,4 @@ public class TopPath {
 		return Optional
 				.of(point.distance().subtract(startNode.distance()).abs());
 	}
-
 }

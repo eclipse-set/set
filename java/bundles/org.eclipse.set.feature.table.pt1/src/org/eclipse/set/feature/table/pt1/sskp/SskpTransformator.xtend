@@ -14,6 +14,7 @@ import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.core.services.graph.TopologicalGraphService
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
+import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung
 import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_DWeg
@@ -29,7 +30,6 @@ import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.model.tablemodel.TableRow
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.ppmodel.extensions.utils.Case
-import org.eclipse.set.ppmodel.extensions.utils.TopGraph
 import org.eclipse.set.utils.math.AgateRounding
 import org.eclipse.set.utils.table.TMFactory
 import org.osgi.service.event.EventAdmin
@@ -64,8 +64,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	new(Set<ColumnDescriptor> cols,
 		EnumTranslationService enumTranslationService,
-		TopologicalGraphService topGraphService,
-		EventAdmin eventAdmin) {
+		TopologicalGraphService topGraphService, EventAdmin eventAdmin) {
 		super(cols, enumTranslationService, eventAdmin)
 		this.topGraphService = topGraphService
 	}
@@ -73,7 +72,6 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 	override transformTableContent(MultiContainer_AttributeGroup container,
 		TMFactory factory, Stell_Bereich controlArea) {
 
-		val topGraph = new TopGraph(container.TOPKante)
 		for (PZB_Element pzb : container.PZBElement.filter[isPlanningObject].
 			filterObjectsInControlArea(controlArea).filter [
 				PZBElementGUE?.IDPZBElementMitnutzung?.value === null
@@ -92,11 +90,11 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 			if (!isPZB2000 || fstrDwegs.nullOrEmpty ||
 				pzb.PZBElementGM === null) {
 				val instance = rg.newTableRow()
-				fillRowGroupContent(instance, pzb, null, topGraph)
+				fillRowGroupContent(instance, pzb, null)
 			} else {
 				pzb?.fstrDWegs?.forEach [
 					val instance = rg.newTableRow()
-					fillRowGroupContent(instance, pzb, it, topGraph)
+					fillRowGroupContent(instance, pzb, it)
 				]
 			}
 		}
@@ -105,7 +103,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	private def fillRowGroupContent(TableRow instance, PZB_Element pzb,
-		Fstr_DWeg dweg, TopGraph topGraph) {
+		Fstr_DWeg dweg) {
 		// A: Sskp.Bezug.BezugsElement
 		fillIterable(
 			instance,
@@ -311,7 +309,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 			pzb,
 			[
 				PZBElementBezugspunkt.filterNull.map [
-					getDistanceSignalTrackSwitch(topGraph, pzb, it)
+					getDistanceSignalTrackSwitch(pzb, it)
 				]
 			],
 			null
@@ -610,26 +608,30 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 	static dispatch def String fillBezugsElement(Signal object) {
 		return object.signalReal.signalFunktion.wert ===
 			ENUMSignalFunktion.ENUM_SIGNAL_FUNKTION_BUE_UEBERWACHUNGSSIGNAL
-			? '''BÜ-K «object?.bezeichnung?.bezeichnungTabelle?.wert»'''
-			: object?.bezeichnung?.bezeichnungTabelle?.wert
+			? '''BÜ-K «object?.bezeichnung?.bezeichnungTabelle?.wert»''' : object?.
+			bezeichnung?.bezeichnungTabelle?.wert
 	}
 
-	private dispatch def String getDistanceSignalTrackSwitch(TopGraph topGraph,
+	private dispatch def String getDistanceSignalTrackSwitch(
 		PZB_Element pzb, Basis_Objekt object) {
 		throw new IllegalArgumentException(object.class.simpleName)
 	}
 
-	private dispatch def String getDistanceSignalTrackSwitch(TopGraph topGraph,
+	private dispatch def String getDistanceSignalTrackSwitch(
 		PZB_Element pzb, Signal signal) {
 		if (signal?.signalReal?.signalFunktion?.wert !==
 			ENUMSignalFunktion.ENUM_SIGNAL_FUNKTION_BUE_UEBERWACHUNGSSIGNAL) {
 			val distance = AgateRounding.roundDown(
 				getPointsDistance(pzb, signal).min)
-			val directionSign = topGraph.
-					isInWirkrichtungOfSignal(signal, pzb) ? "+" : "-"
-			return distance == 0
-				? distance.toString
-				: '''«directionSign»«distance.toString»'''
+			val inDirectionPath = topGraphService.findShortesPathInDirection(
+				new TopPoint(signal), new TopPoint(pzb),
+				signal.singlePoint.wirkrichtung.wert ==
+					ENUMWirkrichtung.ENUM_WIRKRICHTUNG_IN ||
+					signal.singlePoint.wirkrichtung.wert ==
+						ENUMWirkrichtung.ENUM_WIRKRICHTUNG_BEIDE)
+			val directionSign = inDirectionPath.isPresent ? "+" : "-"
+			return distance == 0 ? distance.
+				toString : '''«directionSign»«distance.toString»'''
 		}
 
 		val bueSpezifischesSignal = signal.container.BUESpezifischesSignal.
@@ -654,7 +656,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	}
 
-	private dispatch def String getDistanceSignalTrackSwitch(TopGraph topGraph,
+	private dispatch def String getDistanceSignalTrackSwitch(
 		PZB_Element pzb, W_Kr_Gsp_Element gspElement) {
 		val gspKomponent = gspElement.WKrGspKomponenten.filter [
 			zungenpaar !== null
