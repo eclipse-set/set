@@ -16,6 +16,7 @@ on:
 jobs:
   release-tag:
     uses: eclipse-set/build/.github/workflows/release-tag.yml@main
+    secrets: inherit
     permissions:
       contents: write
     with:
