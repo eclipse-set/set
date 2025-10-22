@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: table ui nl_de for toolbox
 Bundle-SymbolicName: org.eclipse.set.i18n.ecp.table.nl_de
-Bundle-Version: 2.5.0.qualifier
+Bundle-Version: 2.5.0
 Fragment-Host: org.eclipse.emf.ecp.view.table.ui.swt;bundle-version="1.10.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Bundle-Vendor: Eclipse Signalling Engineering Toolbox

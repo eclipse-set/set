@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Table
 Bundle-SymbolicName: org.eclipse.set.utils.table
-Bundle-Version: 2.5.0.qualifier
+Bundle-Version: 2.5.0
 Bundle-Vendor: Eclipse Signalling Engineering Toolbox
 Automatic-Module-Name: org.eclipse.set.utils.table
 Bundle-RequiredExecutionEnvironment: JavaSE-21

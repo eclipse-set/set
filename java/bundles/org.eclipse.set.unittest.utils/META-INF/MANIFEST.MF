@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Unit Test Utils
 Bundle-SymbolicName: org.eclipse.set.unittest.utils;singleton:=true
-Bundle-Version: 2.5.0.qualifier
+Bundle-Version: 2.5.0
 Automatic-Module-Name: org.eclipse.set.unittest.utils
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Bundle-Vendor: Eclipse Signalling Engineering Toolbox

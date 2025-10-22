@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Container
 Bundle-SymbolicName: org.eclipse.set.ppmodel.extensions.container
-Bundle-Version: 2.5.0.qualifier
+Bundle-Version: 2.5.0
 Bundle-Vendor: Eclipse Signalling Engineering Toolbox
 Automatic-Module-Name: org.eclipse.set.ppmodel.extensions.container
 Bundle-RequiredExecutionEnvironment: JavaSE-21

@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Additional org.eclipse.emf.ecore German NLS Support
 Bundle-SymbolicName: org.eclipse.set.i18n.ecore.nl_de
-Bundle-Version: 2.5.0.qualifier
+Bundle-Version: 2.5.0
 Fragment-Host: org.eclipse.emf.ecore;bundle-version="2.14.0"
 Automatic-Module-Name: de.scheidtbachmann.planpro.ecore.nl_de
 Bundle-RequiredExecutionEnvironment: JavaSE-21
