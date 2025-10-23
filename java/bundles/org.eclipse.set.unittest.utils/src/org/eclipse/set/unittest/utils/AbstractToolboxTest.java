@@ -32,9 +32,13 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.FeatureNotFoundException;
 import org.eclipse.emf.ecore.xmi.IllegalValueException;
 import org.eclipse.emf.ecore.xmi.XMLResource;
+import org.eclipse.set.basis.files.PlanProFileResource;
+import org.eclipse.set.core.fileservice.PlanProXMLHelper;
+import org.eclipse.set.core.fileservice.ToolboxIDResolver;
 import org.eclipse.set.core.modelservice.PlanningAccessServiceImpl;
 import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.cache.NoCacheService;
+import org.eclipse.set.core.version.PlanProVersionServiceImpl;
 import org.eclipse.set.model.planpro.PlanPro.DocumentRoot;
 import org.eclipse.set.model.planpro.PlanPro.PlanProPackage;
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
@@ -49,11 +53,17 @@ import org.junit.jupiter.api.BeforeEach;
  *
  */
 public class AbstractToolboxTest {
+
 	/**
 	 * PPHN_1.10.0.1_01-02_Ibn-Z._-_2._AeM_2022-05-17_13-44_tg2.planpro file
 	 */
 	public static String PPHN_1_10_0_1_20220517_PLANPRO = getModel(
 			"PPHN_1.10.0.1_01-02_Ibn-Z._-_2._AeM_2022-05-17_13-44_tg2.planpro"); //$NON-NLS-1$
+	/**
+	 * PPHN_1.10.0.3_01-02_Ibn-Z._-_2._AeM_2022-05-17_13-44_tg3.planpro file
+	 */
+	public static String PPHN_1_10_0_3_20220517_PLANPRO = getModel(
+			"PPHN_1.10.0.3_01-02_Ibn-Z._-_2._AeM_2022-05-17_13-44_tg3.planpro"); //$NON-NLS-1$
 
 	/**
 	 * PPHN_1.10.0.1_01-02_Ibn-Z._-_2._AeM_2022-05-17_13-44_tg2.ppxml file
@@ -122,6 +132,7 @@ public class AbstractToolboxTest {
 			if (!resource.getContents().isEmpty() && resource.getContents()
 					.get(0) instanceof final DocumentRoot docRoot) {
 				planProSchnittstelle = docRoot.getPlanProSchnittstelle();
+				ToolboxIDResolver.resolveIDReferences(planProSchnittstelle);
 			} else {
 				throw new IllegalArgumentException(
 						"Resource contains no PlanPro model with the requested version."); //$NON-NLS-1$
@@ -175,6 +186,7 @@ public class AbstractToolboxTest {
 			final EObject root = resource.getContents().get(0);
 			if (root instanceof final DocumentRoot model) {
 				planProSchnittstelle = model.getPlanProSchnittstelle();
+				ToolboxIDResolver.resolveIDReferences(planProSchnittstelle);
 			} else {
 				throw new IllegalArgumentException(
 						"Resource contains no PlanPro model with the requested version."); //$NON-NLS-1$
@@ -242,15 +254,18 @@ public class AbstractToolboxTest {
 	private XMLResource loadResource(final URI resourceURI) throws IOException {
 		final XMLResource resource = (XMLResource) resourceSet
 				.createResource(resourceURI);
+		final PlanProFileResource planproResource = new PlanProFileResource(
+				resourceURI, new PlanProXMLHelper(resource,
+						new PlanProVersionServiceImpl()));
 		try {
-			resource.load(null);
+			planproResource.load(null);
 		} catch (final Exception e) {
 			if (!(e.getCause() instanceof FeatureNotFoundException
 					|| e.getCause() instanceof IllegalValueException)) {
 				throw e;
 			}
 		}
-		return resource;
+		return planproResource;
 	}
 
 }
