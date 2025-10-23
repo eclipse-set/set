@@ -180,7 +180,11 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 					if (dwegV === 0) {
 						return ""
 					}
-
+					
+					if (dwegV > 40 || (dwegV <= 40 && inclination <= 0)) {
+						addTopologicalCell(instance, cols.getColumn(PZB_Schutzstrecke_Soll))
+					}
+					
 					if (dwegV > 60) {
 						return '''«AgateRounding.roundUp(ADDITION_SCHUTZSTRECKE_SOLL_60 - inclination * multipleValue * 200)»'''
 					} else if (dwegV <= 60 && dwegV > 40) {
