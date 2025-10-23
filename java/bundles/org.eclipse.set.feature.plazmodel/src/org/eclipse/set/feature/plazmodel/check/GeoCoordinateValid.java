@@ -195,6 +195,10 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 							MultiContainer_AttributeGroupExtensions
 									.getContainerType(container),
 							po, potk);
+
+					if (potk.getIDGEOPunktBerechnet().isEmpty()) {
+						return;
+					}
 					if (topCoordinate == null
 							|| getNullableObject(topCoordinate,
 									e -> e.getCoordinate()).isEmpty()) {
@@ -246,10 +250,6 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 										.isPresent())
 						|| po instanceof FMA_Komponente
 						|| po instanceof PZB_Element)
-				.filter(po -> po.getPunktObjektTOPKante()
-						.stream()
-						.anyMatch(potk -> !potk.getIDGEOPunktBerechnet()
-								.isEmpty()))
 				.toList();
 	}
 

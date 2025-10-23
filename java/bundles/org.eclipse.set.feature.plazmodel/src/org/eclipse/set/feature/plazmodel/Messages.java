@@ -88,4 +88,14 @@ public class Messages {
 	 * Lfd.
 	 */
 	public String PlazReportColumns_RowIndex;
+
+	/**
+	 * Exportieren Topologische Coordinate
+	 */
+	public String PlazExport_Topological_Coordinate_Part;
+
+	/**
+	 * Exportieren Topologische Coordinaten...
+	 */
+	public String PlazExport_ExportProcess_Message;
 }
