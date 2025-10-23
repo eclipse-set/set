@@ -80,7 +80,7 @@ public final class ToolboxConstants {
 		/**
 		 * The id of the table error cache of single state.
 		 */
-		public static final Object TABLE_ERRORS_SINGLE = "toolbox.cache.table-errors-single";
+		public static final String TABLE_ERRORS_SINGLE = "toolbox.cache.table-errors-single";
 
 		/**
 		 * The id of the table error cache.
