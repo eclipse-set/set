@@ -104,4 +104,5 @@ Service-Component: OSGI-INF/org.eclipse.set.feature.plazmodel.PlazModelDescripti
  OSGI-INF/org.eclipse.set.feature.plazmodel.check.TeilbereicheUnique.xml,
  OSGI-INF/org.eclipse.set.feature.plazmodel.check.TopGeoCoverage.xml,
  OSGI-INF/org.eclipse.set.feature.plazmodel.check.UniqueTopKanteBereichObject.xml,
+ OSGI-INF/org.eclipse.set.feature.plazmodel.export.ExportTopologischeCoordinateDescriptionService.xml,
  OSGI-INF/org.eclipse.set.feature.plazmodel.service.PlazModelServiceImpl.xml
