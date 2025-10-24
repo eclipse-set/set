@@ -225,4 +225,7 @@ class PunktObjektExtensions extends BasisObjektExtensions {
 		return Range.closed(distances.min, distances.max)
 	}
 
+	def static boolean existLateralDistance(Punkt_Objekt po) {
+		return po.singlePoints.exists[seitlicherAbstand?.wert !== null]
+	}
 }

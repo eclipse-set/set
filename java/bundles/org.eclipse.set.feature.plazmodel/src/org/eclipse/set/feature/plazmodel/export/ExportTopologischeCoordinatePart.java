@@ -16,6 +16,7 @@ import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -23,17 +24,28 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.e4.core.services.nls.Translation;
 import org.eclipse.set.basis.ToolboxPaths.ExportPathExtension;
+import org.eclipse.set.basis.constants.ContainerType;
 import org.eclipse.set.core.services.configurationservice.UserConfigurationService;
 import org.eclipse.set.feature.plazmodel.Messages;
 import org.eclipse.set.feature.plazmodel.check.GeoCoordinateValid;
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt;
+import org.eclipse.set.model.planpro.Ortung.FMA_Komponente;
+import org.eclipse.set.model.planpro.PZB.PZB_Element;
+import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
+import org.eclipse.set.ppmodel.extensions.BasisAttributExtensions;
 import org.eclipse.set.ppmodel.extensions.EObjectExtensions;
+import org.eclipse.set.ppmodel.extensions.MultiContainer_AttributeGroupExtensions;
+import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
+import org.eclipse.set.ppmodel.extensions.PunktObjektExtensions;
+import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.table.export.ExportToCSV;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.locationtech.jts.geom.Coordinate;
+
+import com.google.common.collect.Streams;
 
 import jakarta.inject.Inject;
 
@@ -116,11 +128,7 @@ public class ExportTopologischeCoordinatePart extends BasePart {
 				.confirmOverwrite(getToolboxShell(), path)) {
 			return;
 		}
-		final GeoCoordinateValid geoCoordinateValid = context
-				.get(GeoCoordinateValid.class);
-		geoCoordinateValid.run(getModelSession());
-		final List<TopologischeCoordinate> topologischeCoordinaten = geoCoordinateValid
-				.getTopologischeCoordinaten();
+		final List<TopologicalCoordinate> topologischeCoordinaten = getTopologicalCoordiante();
 		if (topologischeCoordinaten == null) {
 			return;
 		}
@@ -140,8 +148,41 @@ public class ExportTopologischeCoordinatePart extends BasePart {
 		csvExport.exportToCSV(Optional.of(path), csvEntry);
 	}
 
+	private List<TopologicalCoordinate> getTopologicalCoordiante() {
+		final GeoCoordinateValid geoCoordinateValid = context
+				.get(GeoCoordinateValid.class);
+		final List<TopologicalCoordinate> topologischeCoordinaten = geoCoordinateValid
+				.getTopologischeCoordinaten();
+		if (topologischeCoordinaten != null) {
+			return topologischeCoordinaten;
+		}
+
+		final PlanPro_Schnittstelle planProSchnittstelle = getModelSession()
+				.getPlanProSchnittstelle();
+		List.of(ContainerType.FINAL, ContainerType.INITIAL,
+				ContainerType.SINGLE)
+				.stream()
+				.map(type -> PlanProSchnittstelleExtensions
+						.getContainer(planProSchnittstelle, type))
+				.filter(Objects::nonNull)
+				.map(MultiContainer_AttributeGroup::getPunktObjekts)
+				.flatMap(Streams::stream)
+				.filter(po -> PunktObjektExtensions.existLateralDistance(po)
+						|| po instanceof FMA_Komponente
+						|| po instanceof PZB_Element)
+				.forEach(po -> po.getPunktObjektTOPKante().forEach(potk -> {
+					final MultiContainer_AttributeGroup container = BasisAttributExtensions
+							.getContainer(po);
+					final ContainerType containerType = MultiContainer_AttributeGroupExtensions
+							.getContainerType(container);
+					geoCoordinateValid.calculateCoordinate(containerType, po,
+							potk);
+				}));
+		return geoCoordinateValid.getTopologischeCoordinaten();
+	}
+
 	private static String transformToCsv(final int index,
-			final TopologischeCoordinate topCoor) {
+			final TopologicalCoordinate topCoor) {
 		final String state = switch (topCoor.state()) {
 			case FINAL -> "Ziel";
 			case INITIAL -> "Start";

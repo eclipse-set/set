@@ -29,7 +29,7 @@ import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_Attribu
  * @param coordinate
  *            the {@link GEOKanteCoordinate}
  */
-public record TopologischeCoordinate(ContainerType state, Punkt_Objekt po,
+public record TopologicalCoordinate(ContainerType state, Punkt_Objekt po,
 		Punkt_Objekt_TOP_Kante_AttributeGroup potk,
 		GEOKanteCoordinate coordinate) {
 
