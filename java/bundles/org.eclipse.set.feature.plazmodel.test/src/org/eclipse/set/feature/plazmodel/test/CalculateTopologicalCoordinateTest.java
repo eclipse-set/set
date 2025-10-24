@@ -48,6 +48,7 @@ import org.eclipse.set.model.planpro.PZB.PZB_Element;
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.set.ppmodel.extensions.EObjectExtensions;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
+import org.eclipse.set.ppmodel.extensions.PunktObjektExtensions;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.eclipse.set.unittest.utils.AbstractToolboxTest;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -153,20 +154,12 @@ public class CalculateTopologicalCoordinateTest extends AbstractToolboxTest {
 					StreamSupport
 							.stream(container.getPunktObjekts().spliterator(),
 									false)
+							.filter(po -> PunktObjektExtensions.existLateralDistance(po)
+									|| po instanceof FMA_Komponente
+									|| po instanceof PZB_Element)
 							.forEach(po -> po.getPunktObjektTOPKante()
 									.forEach(potk -> {
 										try {
-											if (EObjectExtensions
-													.getNullableObject(potk,
-															p -> p.getSeitlicherAbstand()
-																	.getWert())
-													.orElse(null) == null
-													&& !FMA_Komponente.class
-															.isInstance(po)
-													&& !PZB_Element.class
-															.isInstance(po)) {
-												return;
-											}
 											calculatedMethode.invoke(testee,
 													type, po, potk);
 										} catch (Exception e) {
