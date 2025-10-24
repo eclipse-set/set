@@ -72,7 +72,7 @@ public class CalculateTopologicalCoordinateTest extends AbstractToolboxTest {
 
 	GeoCoordinateValid testee;
 	List<CSVRecord> csvRecords;
-	List<TopologischeCoordinate> topologicalCoordinaten;
+	List<TopologischeCoordinate> topologicalCoordinates;
 	GeoKanteGeometryServiceImpl geometryService;
 
 	@ParameterizedTest
@@ -94,7 +94,7 @@ public class CalculateTopologicalCoordinateTest extends AbstractToolboxTest {
 			String state = switch (coord.state()) {
 				case FINAL -> "Ziel";
 				case INITIAL -> "Start";
-				default -> "Alleinzustehender";
+				default -> "Alleinstehend";
 			};
 			String guid = coord.po().getIdentitaet().getWert();
 			List<CSVRecord> csvEntries = csvRecords.stream()

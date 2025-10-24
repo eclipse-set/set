@@ -147,7 +147,7 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 	PointObjectPositionService pointObjectPositionService;
 	@Reference
 	EventAdmin eventAdmin;
-	private Optional<List<TopologicalCoordinate>> topologischeCoordinaten;
+	private Optional<List<TopologicalCoordinate>> topoligcalCoordinates;
 
 	// Fixed lateral distance for PZB_Element and FMA_Komponent
 	static BigDecimal FMA_LATERAL_DISTANCE = BigDecimal.valueOf(0.85);
@@ -260,7 +260,7 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 	public GEOKanteCoordinate calculateCoordinate(final ContainerType state,
 			final Punkt_Objekt po,
 			final Punkt_Objekt_TOP_Kante_AttributeGroup potk) {
-		List<TopologicalCoordinate> alreadyDetermine = topologischeCoordinaten
+		List<TopologicalCoordinate> alreadyCalulatedCoordinates = topologischeCoordinaten
 				.orElse(null);
 		if (alreadyDetermine == null) {
 			alreadyDetermine = new ArrayList<>();

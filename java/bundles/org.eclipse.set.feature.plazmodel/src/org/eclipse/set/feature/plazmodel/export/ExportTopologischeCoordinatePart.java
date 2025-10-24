@@ -128,7 +128,7 @@ public class ExportTopologischeCoordinatePart extends BasePart {
 				.confirmOverwrite(getToolboxShell(), path)) {
 			return;
 		}
-		final List<TopologicalCoordinate> topologischeCoordinaten = getTopologicalCoordiante();
+		final List<TopologicalCoordinate> topologicalCoordinates = getTopologicalCoordiante();
 		if (topologischeCoordinaten == null) {
 			return;
 		}
@@ -186,7 +186,7 @@ public class ExportTopologischeCoordinatePart extends BasePart {
 		final String state = switch (topCoor.state()) {
 			case FINAL -> "Ziel";
 			case INITIAL -> "Start";
-			default -> "Alleinzustehender";
+			default -> "Alleinstehend";
 		};
 		final String instanceClassName = topCoor.po()
 				.eClass()
