@@ -56,7 +56,7 @@ import jakarta.inject.Inject;
  * @author truong
  */
 @SuppressWarnings("nls")
-public class ExportTopologischeCoordinatePart extends BasePart {
+public class ExportTopologicalCoordinatePart extends BasePart {
 	@Inject
 	IEclipseContext context;
 
@@ -81,7 +81,7 @@ public class ExportTopologischeCoordinatePart extends BasePart {
 	/**
 	 * Default Constructor
 	 */
-	public ExportTopologischeCoordinatePart() {
+	public ExportTopologicalCoordinatePart() {
 		super();
 		csvExport = new ExportToCSV<>(HEADER_PATTERN);
 	}
@@ -129,10 +129,10 @@ public class ExportTopologischeCoordinatePart extends BasePart {
 			return;
 		}
 		final List<TopologicalCoordinate> topologicalCoordinates = getTopologicalCoordiante();
-		if (topologischeCoordinaten == null) {
+		if (topologicalCoordinates == null) {
 			return;
 		}
-		topologischeCoordinaten.sort((first, second) -> {
+		topologicalCoordinates.sort((first, second) -> {
 			final String firstClassName = first.po()
 					.eClass()
 					.getInstanceClassName();
@@ -142,8 +142,8 @@ public class ExportTopologischeCoordinatePart extends BasePart {
 			return firstClassName.compareTo(secondClassName);
 		});
 		final List<String> csvEntry = new LinkedList<>();
-		for (int i = 0; i < topologischeCoordinaten.size(); i++) {
-			csvEntry.add(transformToCsv(i + 1, topologischeCoordinaten.get(i)));
+		for (int i = 0; i < topologicalCoordinates.size(); i++) {
+			csvEntry.add(transformToCsv(i + 1, topologicalCoordinates.get(i)));
 		}
 		csvExport.exportToCSV(Optional.of(path), csvEntry);
 	}
@@ -151,6 +151,13 @@ public class ExportTopologischeCoordinatePart extends BasePart {
 	private List<TopologicalCoordinate> getTopologicalCoordiante() {
 		final GeoCoordinateValid geoCoordinateValid = context
 				.get(GeoCoordinateValid.class);
+		if (geoCoordinateValid == null) {
+			getDialogService().openInformation(getToolboxShell(),
+					messages.PlazExport_Topological_Coordinate_Part,
+					messages.PlazExport_ExportProcess_ErrorDIalog_Message);
+			return null;
+		}
+
 		final List<TopologicalCoordinate> topologischeCoordinaten = geoCoordinateValid
 				.getTopologischeCoordinaten();
 		if (topologischeCoordinaten != null) {

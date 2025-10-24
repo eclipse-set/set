@@ -40,7 +40,7 @@ import org.eclipse.set.basis.Pair;
 import org.eclipse.set.basis.constants.ContainerType;
 import org.eclipse.set.basis.geometry.GEOKanteMetadata;
 import org.eclipse.set.feature.plazmodel.check.GeoCoordinateValid;
-import org.eclipse.set.feature.plazmodel.export.TopologischeCoordinate;
+import org.eclipse.set.feature.plazmodel.export.TopologicalCoordinate;
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt;
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup;
 import org.eclipse.set.model.planpro.Ortung.FMA_Komponente;
@@ -67,12 +67,12 @@ public class CalculateTopologicalCoordinateTest extends AbstractToolboxTest {
 	 */
 	protected static Stream<Arguments> getReferenceFiles() {
 		return Stream.of(Arguments
-				.of(new Pair<>("pphn", PPHN_1_10_0_1_20220517_PLANPRO)));
+				.of(new Pair<>("pphn", PPHN_1_10_0_3_20220517_PLANPRO)));
 	}
 
 	GeoCoordinateValid testee;
 	List<CSVRecord> csvRecords;
-	List<TopologischeCoordinate> topologicalCoordinates;
+	List<TopologicalCoordinate> topologicalCoordinates;
 	GeoKanteGeometryServiceImpl geometryService;
 
 	@ParameterizedTest
@@ -89,8 +89,8 @@ public class CalculateTopologicalCoordinateTest extends AbstractToolboxTest {
 	}
 
 	private void thenExpectAllCoordinateAreEqualReference() {
-		assertEquals(csvRecords.size(), topologicalCoordinaten.size());
-		topologicalCoordinaten.forEach(coord -> {
+		assertEquals(csvRecords.size(), topologicalCoordinates.size());
+		topologicalCoordinates.forEach(coord -> {
 			String state = switch (coord.state()) {
 				case FINAL -> "Ziel";
 				case INITIAL -> "Start";
@@ -98,9 +98,12 @@ public class CalculateTopologicalCoordinateTest extends AbstractToolboxTest {
 			};
 			String guid = coord.po().getIdentitaet().getWert();
 			List<CSVRecord> csvEntries = csvRecords.stream()
-					.filter(entry -> entry.get(3).equals(guid))
+					.filter(entry -> entry.get(3).equals(guid)
+							&& entry.get(1).equals(state))
 					.toList();
 			assertFalse(csvEntries.isEmpty());
+			assertEquals(1, csvEntries.size());
+			CSVRecord csvEntry = csvEntries.getFirst();
 			String[] coordStrArry = getCoordinateString(EObjectExtensions
 					.getNullableObject(coord,
 							c -> coord.coordinate().getCoordinate())
@@ -109,10 +112,11 @@ public class CalculateTopologicalCoordinateTest extends AbstractToolboxTest {
 					.getNullableObject(coord,
 							c -> coord.coordinate().getCRS().getLiteral())
 					.orElse("Fehler bei der Berechnung");
-			Map<Integer, String> valueToCompare = Map.of(1, state, 4, crs, 5,
+			
+			// No need to compare State and GUID here. It is already valid
+			Map<Integer, String> valueToCompare = Map.of( 4, crs, 5,
 					coordStrArry[0], 6, coordStrArry[1]);
-			assertTrue(csvEntries.stream()
-					.anyMatch(entry -> isSame(entry, valueToCompare)));
+			assertTrue(isSame(csvEntry, valueToCompare));
 		});
 	}
 
@@ -171,7 +175,7 @@ public class CalculateTopologicalCoordinateTest extends AbstractToolboxTest {
 
 									}));
 				});
-		topologicalCoordinaten = testee.getTopologischeCoordinaten();
+		topologicalCoordinates = testee.getTopologischeCoordinaten();
 	}
 
 	private void givenTopologicalCoordinaten(String testFile)

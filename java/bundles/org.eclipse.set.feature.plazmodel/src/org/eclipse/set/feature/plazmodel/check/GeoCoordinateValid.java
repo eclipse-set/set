@@ -99,7 +99,8 @@ import com.google.common.collect.Streams;
 
 @Component(service = { PlazCheck.class, EventHandler.class }, property = {
 		EventConstants.EVENT_TOPIC + "=" + Events.FIND_GEOMETRY_PROCESS_DONE,
-		EventConstants.EVENT_TOPIC + "=" + Events.CLOSE_SESSION })
+		EventConstants.EVENT_TOPIC + "=" + Events.CLOSE_SESSION,
+		"type=geoCoordinate" })
 @SuppressWarnings("nls")
 public class GeoCoordinateValid extends AbstractPlazContainerCheck
 		implements PlazCheck, EventHandler {
@@ -147,7 +148,7 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 	PointObjectPositionService pointObjectPositionService;
 	@Reference
 	EventAdmin eventAdmin;
-	private Optional<List<TopologicalCoordinate>> topoligcalCoordinates;
+	private Optional<List<TopologicalCoordinate>> topologicalCoordinates;
 
 	// Fixed lateral distance for PZB_Element and FMA_Komponent
 	static BigDecimal FMA_LATERAL_DISTANCE = BigDecimal.valueOf(0.85);
@@ -157,7 +158,7 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 
 	@Activate
 	void active() {
-		topologischeCoordinaten = Optional.empty();
+		topologicalCoordinates = Optional.empty();
 		alreadyFoundMetaData = new ArrayList<>();
 	}
 
@@ -165,7 +166,7 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 	public void handleEvent(final Event event) {
 		if (event.getTopic().equals(Events.CLOSE_SESSION)) {
 			alreadyFoundMetaData.clear();
-			topologischeCoordinaten = Optional.empty();
+			topologicalCoordinates = Optional.empty();
 		}
 		final Map<String, Class<? extends PlazCheck>> properties = new HashMap<>();
 		properties.put("org.eclipse.e4.data", this.getClass()); // $NON-NLS-1$
@@ -260,13 +261,14 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 	public GEOKanteCoordinate calculateCoordinate(final ContainerType state,
 			final Punkt_Objekt po,
 			final Punkt_Objekt_TOP_Kante_AttributeGroup potk) {
-		List<TopologicalCoordinate> alreadyCalulatedCoordinates = topologischeCoordinaten
+		List<TopologicalCoordinate> alreadyCalulatedCoordinates = topologicalCoordinates
 				.orElse(null);
-		if (alreadyDetermine == null) {
-			alreadyDetermine = new ArrayList<>();
-			topologischeCoordinaten = Optional.of(alreadyDetermine);
+		if (alreadyCalulatedCoordinates == null) {
+			alreadyCalulatedCoordinates = new ArrayList<>();
+			topologicalCoordinates = Optional.of(alreadyCalulatedCoordinates);
 		}
-		final Optional<TopologicalCoordinate> target = alreadyDetermine.stream()
+		final Optional<TopologicalCoordinate> target = alreadyCalulatedCoordinates
+				.stream()
 				.filter(ele -> ele.state() == state && ele.po() == po
 						&& ele.potk() == potk)
 				.findFirst();
@@ -276,8 +278,8 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 
 		final GEOKanteCoordinate calculateCoordinate = calculateCoordinate(po,
 				potk);
-		alreadyDetermine.add(new TopologicalCoordinate(state, po, potk,
-				calculateCoordinate));
+		alreadyCalulatedCoordinates.add(new TopologicalCoordinate(state, po,
+				potk, calculateCoordinate));
 		return calculateCoordinate;
 	}
 
@@ -616,6 +618,6 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 	 * @return calculated topological coordinate of Punkt_Objekt
 	 */
 	public List<TopologicalCoordinate> getTopologischeCoordinaten() {
-		return topologischeCoordinaten.orElse(null);
+		return topologicalCoordinates.orElse(null);
 	}
 }

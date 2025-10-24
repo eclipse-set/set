@@ -10,8 +10,6 @@
  */
 package org.eclipse.set.feature.plazmodel.export;
 
-import java.util.List;
-
 import org.eclipse.e4.core.contexts.ContextInjectionFactory;
 import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.e4.core.services.nls.Translation;
@@ -24,7 +22,6 @@ import org.eclipse.set.feature.plazmodel.check.PlazCheck;
 import org.eclipse.set.utils.viewgroups.SetViewGroups;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
-import org.osgi.service.component.annotations.ReferenceCardinality;
 
 import jakarta.inject.Inject;
 
@@ -32,10 +29,10 @@ import jakarta.inject.Inject;
  * 
  */
 @Component
-public class ExportTopologischeCoordinateDescriptionService
+public class ExportTopologicalCoordinateDescriptionService
 		implements PartDescriptionService {
-	@Reference(cardinality = ReferenceCardinality.MULTIPLE)
-	List<PlazCheck> plazCheck;
+	@Reference(target = "(type=geoCoordinate)")
+	PlazCheck plazCheck;
 
 	private static class InjectionHelper {
 
@@ -50,19 +47,16 @@ public class ExportTopologischeCoordinateDescriptionService
 
 	@Override
 	public PartDescription getDescription(final IEclipseContext context) {
-		context.set(GeoCoordinateValid.class,
-				plazCheck.stream()
-						.filter(GeoCoordinateValid.class::isInstance)
-						.map(GeoCoordinateValid.class::cast)
-						.findFirst()
-						.orElse(null));
+		if (plazCheck instanceof final GeoCoordinateValid geoCoordinateValid) {
+			context.set(GeoCoordinateValid.class, geoCoordinateValid);
+		}
 		final InjectionHelper injectionHelper = ContextInjectionFactory
 				.make(InjectionHelper.class, context);
 		return new PartDescription(
 				// ID
 				this.getClass().getName(),
 				// contributionURI
-				"bundleclass://org.eclipse.set.feature.plazmodel/org.eclipse.set.feature.plazmodel.export.ExportTopologischeCoordinatePart", //$NON-NLS-1$
+				"bundleclass://org.eclipse.set.feature.plazmodel/org.eclipse.set.feature.plazmodel.export.ExportTopologicalCoordinatePart", //$NON-NLS-1$
 				// toolboxViewName
 				injectionHelper.messages.PlazExport_Topological_Coordinate_Part,
 				// toolboxViewToolTip

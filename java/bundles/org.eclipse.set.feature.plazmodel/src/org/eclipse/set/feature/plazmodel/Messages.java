@@ -98,4 +98,9 @@ public class Messages {
 	 * Exportieren Topologische Coordinaten...
 	 */
 	public String PlazExport_ExportProcess_Message;
+
+	/**
+	 * Die Topologische Coordinaten können nicht exportieren
+	 */
+	public String PlazExport_ExportProcess_ErrorDIalog_Message;
 }
