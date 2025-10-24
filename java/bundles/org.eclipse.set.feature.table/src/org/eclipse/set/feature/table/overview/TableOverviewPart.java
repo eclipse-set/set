@@ -8,7 +8,9 @@
  */
 package org.eclipse.set.feature.table.overview;
 
-import static org.eclipse.set.basis.constants.ToolboxConstants.*;
+import static org.eclipse.set.basis.constants.ToolboxConstants.ESTW_SUPPLEMENT_PART_ID_PREFIX;
+import static org.eclipse.set.basis.constants.ToolboxConstants.ESTW_TABLE_PART_ID_PREFIX;
+import static org.eclipse.set.basis.constants.ToolboxConstants.ETCS_TABLE_PART_ID_PREFIX;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -224,6 +226,9 @@ public class TableOverviewPart extends BasePart {
 			tableService.transformTables(monitor, getModelSession(),
 					new HashSet<>(missingTables), TableType.FINAL,
 					controlAreaIds);
+		} else {
+			tableService.transformTables(monitor, getModelSession(),
+					new HashSet<>(missingTables), tableType, controlAreaIds);
 		}
 
 	}

@@ -78,6 +78,11 @@ public final class ToolboxConstants {
 		public static final String TABLE_ERRORS_FINAL = "toolbox.cache.table-errors-final";
 
 		/**
+		 * The id of the table error cache of single state.
+		 */
+		public static final String TABLE_ERRORS_SINGLE = "toolbox.cache.table-errors-single";
+
+		/**
 		 * The id of the table error cache.
 		 */
 		public static final String TABLE_ERRORS = "toolbox.cache.table-errors";
@@ -86,7 +91,6 @@ public final class ToolboxConstants {
 		 * The id of the siteplan
 		 */
 		public static final String SITEPLAN_CACHE_ID = "toolbox.cache.siteplan";
-
 	}
 
 	/**
