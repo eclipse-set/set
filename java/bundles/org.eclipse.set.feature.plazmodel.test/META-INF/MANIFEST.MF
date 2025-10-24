@@ -1,0 +1,27 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: PlaZ Model Test
+Bundle-SymbolicName: org.eclipse.set.feature.plazmodel.test
+Bundle-Vendor: Eclipse Signalling Engineering Toolbox
+Bundle-Version: 2.6.0.qualifier
+Fragment-Host: org.eclipse.set.feature.plazmodel
+Require-Bundle: org.eclipse.swt,
+ org.eclipse.jface,
+ org.eclipse.osgi;bundle-version="3.23.100",
+ org.eclipse.set.model.planpro;bundle-version="2.6.0"
+Automatic-Module-Name: org.eclipse.set.feature.plazmodel.test
+Bundle-ClassPath: resource/,
+ .
+Bundle-RequiredExecutionEnvironment: JavaSE-21
+Import-Package: org.apache.commons.csv;version="[1.9.0,2.0.0)",
+ org.apache.commons.lang3.reflect;version="[3.17.0,4.0.0)",
+ org.eclipse.emf.common.util;version="[2.42.0,3.0.0)",
+ org.eclipse.set.application.geometry,
+ org.eclipse.set.basis.constants,
+ org.eclipse.set.ppmodel.extensions,
+ org.eclipse.set.ppmodel.extensions.container,
+ org.eclipse.set.unittest.utils,
+ org.junit;version="[4.13.0,5.0.0)",
+ org.junit.jupiter.params;version="[5.12.0,6.0.0)",
+ org.junit.jupiter.params.provider;version="[5.12.0,6.0.0)",
+ org.junit.platform.commons.annotation;version="[1.12.0,2.0.0)"

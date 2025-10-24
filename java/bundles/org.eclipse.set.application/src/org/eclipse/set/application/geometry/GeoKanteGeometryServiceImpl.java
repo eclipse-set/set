@@ -100,19 +100,31 @@ import org.slf4j.LoggerFactory;
 				GeoKanteGeometryService.class, EventHandler.class })
 public class GeoKanteGeometryServiceImpl
 		implements GeoKanteGeometryService, EventHandler {
-	private class GeoKanteGeometrySessionData {
+	/**
+	 * Helper class for storage geometry and metadata of Geo_Kante each sessions
+	 */
+	public static class GeoKanteGeometrySessionData {
 		private final Map<GEO_Kante, LineString> edgeGeometry;
 		private final Map<String, List<GEOKanteMetadata>> geoKanteMetadas;
 
-		private GeoKanteGeometrySessionData() {
+		/**
+		 * COnstructor
+		 */
+		public GeoKanteGeometrySessionData() {
 			edgeGeometry = new ConcurrentHashMap<>();
 			geoKanteMetadas = new ConcurrentHashMap<>();
 		}
 
+		/**
+		 * @return the geometry data
+		 */
 		public Map<GEO_Kante, LineString> getEdgeGeometry() {
 			return edgeGeometry;
 		}
 
+		/**
+		 * @return the geokante metada
+		 */
 		public Map<String, List<GEOKanteMetadata>> getGeoKanteMetadas() {
 			return geoKanteMetadas;
 		}
