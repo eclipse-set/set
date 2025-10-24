@@ -90,17 +90,17 @@ public class Messages {
 	public String PlazReportColumns_RowIndex;
 
 	/**
-	 * Exportieren Topologische Coordinate
+	 * Export der topologischen Koordinaten
 	 */
 	public String PlazExport_Topological_Coordinate_Part;
 
 	/**
-	 * Exportieren Topologische Coordinaten...
+	 * Exportiere topologische Koordinaten...
 	 */
 	public String PlazExport_ExportProcess_Message;
 
 	/**
-	 * Die Topologische Coordinaten können nicht exportieren
+	 * Die topologischen Koordinaten können nicht exportieren werden
 	 */
-	public String PlazExport_ExportProcess_ErrorDIalog_Message;
+	public String PlazExport_ExportProcess_ErrorDialog_Message;
 }

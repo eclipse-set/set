@@ -154,7 +154,7 @@ public class ExportTopologicalCoordinatePart extends BasePart {
 		if (geoCoordinateValid == null) {
 			getDialogService().openInformation(getToolboxShell(),
 					messages.PlazExport_Topological_Coordinate_Part,
-					messages.PlazExport_ExportProcess_ErrorDIalog_Message);
+					messages.PlazExport_ExportProcess_ErrorDialog_Message);
 			return null;
 		}
 
