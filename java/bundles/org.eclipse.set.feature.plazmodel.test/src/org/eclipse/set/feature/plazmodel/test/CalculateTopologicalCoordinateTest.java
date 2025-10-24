@@ -154,7 +154,8 @@ public class CalculateTopologicalCoordinateTest extends AbstractToolboxTest {
 					StreamSupport
 							.stream(container.getPunktObjekts().spliterator(),
 									false)
-							.filter(po -> PunktObjektExtensions.existLateralDistance(po)
+							.filter(po -> PunktObjektExtensions
+									.existLateralDistance(po)
 									|| po instanceof FMA_Komponente
 									|| po instanceof PZB_Element)
 							.forEach(po -> po.getPunktObjektTOPKante()
