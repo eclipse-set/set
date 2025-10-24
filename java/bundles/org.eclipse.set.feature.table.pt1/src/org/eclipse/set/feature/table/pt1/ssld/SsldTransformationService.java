@@ -9,6 +9,7 @@
 package org.eclipse.set.feature.table.pt1.ssld;
 
 import static org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum.ASC;
+import static org.eclipse.set.feature.table.pt1.ssld.SsldColumns.*;
 import static org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparatorType.MIXED_STRING;
 
 import java.util.Comparator;
@@ -89,8 +90,8 @@ public final class SsldTransformationService
 
 	@Override
 	protected List<String> getTopologicalColumnPosition() {
-		return List.of(SsldColumns.Freigemeldet,
-				SsldColumns.Aufloeseabschnitt_Laenge);
+		return List.of(Freigemeldet, Aufloeseabschnitt_Laenge, Laenge_Ist,
+				massgebende_Neigung, relevante_FmA, v_Aufwertung_Verzicht);
 	}
 
 }

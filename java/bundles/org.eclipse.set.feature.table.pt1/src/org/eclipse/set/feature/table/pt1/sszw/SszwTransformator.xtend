@@ -461,6 +461,7 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 				val gspKomponent = gspElement.WKrGspKomponenten.firstOrNull
 				return allowSpeed.apply(gspKomponent)?.toString ?: ""
 			}
+			default: ""
 		}
 	}
 
