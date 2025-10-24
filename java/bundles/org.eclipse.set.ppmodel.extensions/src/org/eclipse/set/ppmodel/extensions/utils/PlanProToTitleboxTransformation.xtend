@@ -150,7 +150,7 @@ class PlanProToTitleboxTransformation {
 				"")
 		it.set(70, lastPlanungEErstellung?.datum?.wert?.toString(DATE_FORMAT) ?:
 			"")
-		val lastPlanPruefung = planungEinzel?.planungEHandlung?.planungEPruefung.lastOrNull
+		val lastPlanPruefung = planungEinzel?.planungEHandlung?.planungEPruefung?.lastOrNull
 		it.set(59,
 			lastPlanPruefung?.handelnder?.akteurAllg?.nameAkteur5?.wert ?:
 				"")

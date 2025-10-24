@@ -168,6 +168,8 @@ public class ControlAreaSelectionControl {
 				break;
 			case SINGLE:
 				setSinglePlanControlAreaCombo();
+				seletcionControlArea(comboViewer.getSelection(),
+						TableType.SINGLE);
 				return;
 			case DIFF:
 				values.addAll(getDiffComboValues());
