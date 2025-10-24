@@ -255,9 +255,15 @@ public final class TableServiceImpl implements TableService {
 			final IModelSession modelSession, final Set<String> controlAreaIds,
 			final Pt1TableCategory tableCategory) {
 		final HashMap<String, Collection<TableError>> map = new HashMap<>();
+		final String tableErrorsCacheGroup = switch (modelSession
+				.getTableType()) {
+			case FINAL -> ToolboxConstants.CacheId.TABLE_ERRORS_FINAL;
+			case INITIAL -> ToolboxConstants.CacheId.TABLE_ERRORS_INITIAL;
+			case SINGLE -> ToolboxConstants.CacheId.TABLE_ERRORS_SINGLE;
+			case DIFF -> ToolboxConstants.CacheId.TABLE_ERRORS;
+		};
 		final Cache cache = getCacheService().getCache(
-				modelSession.getPlanProSchnittstelle(),
-				ToolboxConstants.CacheId.TABLE_ERRORS);
+				modelSession.getPlanProSchnittstelle(), tableErrorsCacheGroup);
 		getAvailableTables().forEach(tableInfo -> {
 			if (tableInfo.category().equals(tableCategory)) {
 				final List<Pair<String, String>> cacheKeys = getCacheKeys(
@@ -281,32 +287,27 @@ public final class TableServiceImpl implements TableService {
 	}
 
 	@SuppressWarnings("unchecked")
-	private boolean combineTableErrors(final IModelSession modelSession,
+	private void combineTableErrors(final IModelSession modelSession,
 			final String cacheKey) {
-		final List<TableError> errors = List
-				.of(ToolboxConstants.CacheId.TABLE_ERRORS_INITIAL,
-						ToolboxConstants.CacheId.TABLE_ERRORS_FINAL,
-						ToolboxConstants.CacheId.TABLE_ERRORS_SINGLE)
-				.stream()
-				.map(cacheId -> getCacheService()
-						.getCache(modelSession.getPlanProSchnittstelle(),
-								cacheId)
-						.getIfPresent(cacheKey))
-				.filter(Objects::nonNull)
-				.map(Collection.class::cast)
-				.flatMap(Collection::stream)
-				.toList();
-		if (errors.isEmpty()) {
-			return false;
+		final Collection<TableError> initialErrors = (Collection<TableError>) getCacheService()
+				.getCache(modelSession.getPlanProSchnittstelle(),
+						ToolboxConstants.CacheId.TABLE_ERRORS_INITIAL)
+				.getIfPresent(cacheKey);
+		final Collection<TableError> finalErrors = (Collection<TableError>) getCacheService()
+				.getCache(modelSession.getPlanProSchnittstelle(),
+						ToolboxConstants.CacheId.TABLE_ERRORS_FINAL)
+				.getIfPresent(cacheKey);
+		if (initialErrors == null || finalErrors == null) {
+			return;
 		}
 		final Collection<TableError> combined = new ArrayList<>();
-		combined.addAll(errors);
+		combined.addAll(initialErrors);
+		combined.addAll(finalErrors);
 		getCacheService()
 				.getCache(modelSession.getPlanProSchnittstelle(),
 						ToolboxConstants.CacheId.TABLE_ERRORS)
 				.set(cacheKey, combined);
 		broker.post(Events.TABLEERROR_CHANGED, null);
-		return true;
 	}
 
 	private void saveTableError(final String shortCut,
@@ -335,7 +336,9 @@ public final class TableServiceImpl implements TableService {
 						.getCache(modelSession.getPlanProSchnittstelle(),
 								ToolboxConstants.CacheId.TABLE_ERRORS_SINGLE)
 						.set(cacheKey, errors);
-				break;
+				// The plan with single state don't need combine cache errrors
+				broker.post(Events.TABLEERROR_CHANGED, null);
+				return;
 			default:
 				return;
 		}
