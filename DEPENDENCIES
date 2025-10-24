@@ -1494,6 +1494,8 @@ p2/orbit/p2.eclipse.plugin/org.eclipse.set.feature.export/2.6.0.qualifier, EPL-2
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.feature.overviewplan.source/2.6.0.qualifier, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.feature.overviewplan/2.6.0.qualifier, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.feature.plazmodel.source/2.6.0.qualifier, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.feature.plazmodel.test.source/2.6.0.qualifier, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.feature.plazmodel.test/2.6.0.qualifier, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.feature.plazmodel/2.6.0.qualifier, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.feature.projectdata.source/2.6.0.qualifier, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.feature.projectdata/2.6.0.qualifier, EPL-2.0, approved, technology.set
