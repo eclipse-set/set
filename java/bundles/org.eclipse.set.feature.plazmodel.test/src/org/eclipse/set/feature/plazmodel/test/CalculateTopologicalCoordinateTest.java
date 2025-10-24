@@ -112,9 +112,9 @@ public class CalculateTopologicalCoordinateTest extends AbstractToolboxTest {
 					.getNullableObject(coord,
 							c -> coord.coordinate().getCRS().getLiteral())
 					.orElse("Fehler bei der Berechnung");
-			
+
 			// No need to compare State and GUID here. It is already valid
-			Map<Integer, String> valueToCompare = Map.of( 4, crs, 5,
+			Map<Integer, String> valueToCompare = Map.of(4, crs, 5,
 					coordStrArry[0], 6, coordStrArry[1]);
 			assertTrue(isSame(csvEntry, valueToCompare));
 		});
