@@ -12,9 +12,15 @@ import java.math.BigDecimal
 import java.util.Collection
 import java.util.List
 import java.util.Set
+import org.apache.commons.lang3.Range
 import org.eclipse.core.runtime.Assert
+import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.set.basis.graph.DirectedEdge
 import org.eclipse.set.basis.graph.DirectedEdgePath
+import org.eclipse.set.basis.graph.TopPath
+import org.eclipse.set.basis.graph.TopPoint
+import org.eclipse.set.core.services.graph.TopologicalGraphService
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.Basisobjekte.Bereich_Objekt
 import org.eclipse.set.model.planpro.Basisobjekte.Bereich_Objekt_Teilbereich_AttributeGroup
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
@@ -32,10 +38,6 @@ import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKnotenExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.CollectionExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.Debug.*
-import org.eclipse.emf.ecore.util.EcoreUtil
-import org.apache.commons.lang3.Range
-import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
-import org.eclipse.set.basis.graph.TopPoint
 
 /**
  * Extensions for {@link Bereich_Objekt}.
@@ -147,6 +149,30 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 		}
 
 		return new TopKantePath(bereich, s.unique, e.unique)
+	}
+
+	def static TopPath getPath(Bereich_Objekt bereich, Punkt_Objekt start,
+		Punkt_Objekt end, TopologicalGraphService topGraphService) {
+		val s = bereich.intersection(start)
+		val e = bereich.intersection(end)
+		if (s.empty) {
+			logger.error(
+				'''start: topKante=«start.topKanten.unique.identitaet.wert» abstand=«start.singlePoint.abstand.wert»'''
+			)
+			logger.
+				error('''bereichObjektTeilbereich: «bereich.bereichObjektTeilbereich.debugString»''')
+			throw new IllegalArgumentException('''Startsignal «start.debugString» not in Bereich «bereich.debugName»''')
+		}
+		if (e.empty) {
+			throw new IllegalArgumentException('''Zielelement «end.debugString» not in Bereich «bereich.debugName»''')
+		}
+//		val maxLength = bereich.bereichObjektTeilbereich.map[length].reduce[p1, p2| p1 + p2]
+//		val allPaths = topGraphService.findAllPathsBetween(new TopPoint(start), new TopPoint(end), maxLength.intValue + 10).toList
+//		val test = allPaths.filter[edges.size == bereich.bereichObjektTeilbereich.size
+//		].filter[topPath | 
+//			topPath.edges.forall[edge| bereich.bereichObjektTeilbereich.exists[botb | botb.IDTOPKante.value == edge]]
+//		].toList
+		return topGraphService.findShortestPath(new TopPoint(start), new TopPoint(end)).orElse(null)
 	}
 
 	/**

@@ -8,6 +8,7 @@ Bundle-Vendor: Eclipse Signalling Engineering Toolbox
 Export-Package: org.eclipse.set.application,
  org.eclipse.set.application.controlarea,
  org.eclipse.set.application.geometry,
+ org.eclipse.set.application.graph,
  org.eclipse.set.application.handler,
  org.eclipse.set.application.nameservice
 Require-Bundle: org.eclipse.core.runtime,

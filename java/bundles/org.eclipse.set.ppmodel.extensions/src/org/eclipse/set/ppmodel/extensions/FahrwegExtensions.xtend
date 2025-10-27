@@ -62,6 +62,9 @@ import static extension org.eclipse.set.ppmodel.extensions.utils.CacheUtils.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.CollectionExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.Debug.*
 import static extension org.eclipse.set.utils.graph.DirectedEdgeExtensions.*
+import org.eclipse.set.basis.graph.TopPath
+import org.eclipse.set.core.services.graph.TopologicalGraphService
+import org.eclipse.set.ppmodel.extensions.utils.TopGraph
 
 /**
  * Extensions for {@link Fstr_Fahrweg}.
@@ -325,6 +328,17 @@ class FahrwegExtensions extends BereichObjektExtensions {
 		Fstr_Fahrweg fahrweg) {
 		return fahrweg.getPath(fahrweg.start, fahrweg.zielPunktObjekt)
 	}
+	
+		/**
+	 * @param fahrweg this Fahrweg
+	 * 
+	 * @return the path of this Fahrweg
+	 */
+	def static TopPath getPath(
+		Fstr_Fahrweg fahrweg, TopologicalGraphService topGraphService) {
+		return fahrweg.getPath(fahrweg.start, fahrweg.zielPunktObjekt, topGraphService)
+	}
+	
 
 	/**
 	 * @param fahrweg this Fahrweg
