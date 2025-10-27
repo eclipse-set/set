@@ -243,6 +243,7 @@ public class DirectedPathSearch {
 						.map(e -> e.edge())
 						.distinct()
 						.map(Edge::edge)
+						.distinct()
 						.toList(),
 				getDirectedPathWeight(path), startNode.point());
 	}

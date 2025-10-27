@@ -47,7 +47,7 @@ public interface TopologicalGraphService {
 	 *            the condition
 	 * @return the path, which satisfy the condition
 	 */
-	TopPath findPathBetween(final TopPoint from, final TopPoint to, int limit,
+	TopPath findShortestPathBetween(final TopPoint from, final TopPoint to, int limit,
 			Predicate<TopPath> condition);
 
 	/**
@@ -111,4 +111,7 @@ public interface TopologicalGraphService {
 	 */
 	Optional<TopPath> findShortesPathInDirection(final TopPoint from,
 			final TopPoint to, final boolean inTopDirection);
+
+	List<TopPath> findAllPathsBetween(TopPoint from, TopPoint to, int limit,
+			boolean inCludeIncompletePath);
 }

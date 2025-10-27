@@ -20,10 +20,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.eclipse.set.basis.constants.ContainerType;
+import org.eclipse.set.basis.graph.DirectedEdge;
 import org.eclipse.set.basis.graph.DirectedEdgePath;
 import org.eclipse.set.basis.graph.TopPath;
 import org.eclipse.set.basis.graph.TopPoint;
@@ -79,11 +81,19 @@ public class TopologicalGraphServiceTest extends AbstractToolboxTest {
 			try {
 				if (fstr.getIdentitaet()
 						.getWert()
-						.equals("A14453E4-E4E3-4DD3-B4FE-E74F63A58300")) {
+						.equals("264739AB-EE6C-4144-AE63-C57505E57769")) {
 					System.out.println("TEST");
 				}
 				final DirectedEdgePath<TOP_Kante, TOP_Knoten, Punkt_Objekt_TOP_Kante_AttributeGroup> topGraphPath = FahrwegExtensions
 						.getPath(fstr);
+				final DirectedEdge<TOP_Kante, TOP_Knoten, Punkt_Objekt_TOP_Kante_AttributeGroup> startEdge = topGraphPath
+						.getEdgeList()
+						.getFirst();
+				// final Set<DirectedEdgePath<TOP_Kante, TOP_Knoten,
+				// Punkt_Objekt_TOP_Kante_AttributeGroup>> paths =
+				// org.eclipse.set.utils.graph.DirectedEdgeExtensions
+				// .getPaths(startEdge, new TopRouting(),
+				// topGraphPath.getStart(), topGraphPath.getEnd());
 
 				final TopPath topPath = FahrwegExtensions.getPath(fstr, testee);
 				final List<TOP_Kante> test = topGraphPath.getEdgeList()
@@ -127,7 +137,7 @@ public class TopologicalGraphServiceTest extends AbstractToolboxTest {
 		}
 
 		final BigDecimal length = BereichObjektExtensions.getLength(fstr);
-		final TopPath testPath = testee.findPathBetween(
+		final TopPath testPath = testee.findShortestPathBetween(
 				new TopPoint(startSignal), new TopPoint(zielPunktObjekt),
 				length.intValue() + 100, topPath -> {
 					final int size = fstr.getBereichObjektTeilbereich().size();
@@ -141,9 +151,11 @@ public class TopologicalGraphServiceTest extends AbstractToolboxTest {
 				});
 		final List<TopPath> allPathsBetween = testee.findAllPathsBetween(
 				new TopPoint(signalPotk), new TopPoint(zielPotk),
-				length.intValue() + 100);
+				length.intValue() + 100, false);
 		final List<TopPath> result = allPathsBetween.stream()
 				.filter(path -> path.edges()
+						.stream()
+						.collect(Collectors.toSet())
 						.size() == fstr.getBereichObjektTeilbereich().size())
 				.filter(path -> path.edges()
 						.stream()

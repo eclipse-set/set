@@ -13,38 +13,28 @@ package org.eclipse.set.utils.graph;
 import java.math.BigDecimal;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Queue;
 import java.util.Set;
-import java.util.function.Function;
 import java.util.function.Predicate;
 
 import org.eclipse.set.basis.graph.TopPath;
 import org.eclipse.set.basis.graph.TopPoint;
-import org.eclipse.set.model.planpro.Geodaten.ENUMTOPAnschluss;
-import org.eclipse.set.model.planpro.Geodaten.TOP_Knoten;
 import org.eclipse.set.utils.graph.AsSplitTopGraph.Edge;
 import org.eclipse.set.utils.graph.AsSplitTopGraph.Node;
 import org.eclipse.set.utils.math.BigDecimalExtensions;
 import org.jgrapht.Graph;
 import org.jgrapht.graph.AsWeightedGraph;
 import org.jgrapht.graph.DirectedPseudograph;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Helper class to convert an undirected graph of top edges to a directed graph
  */
 public class AsDirectedTopGraph {
-	private static final Logger logger = LoggerFactory
-			.getLogger(AsDirectedTopGraph.class);
-
 	/**
 	 * Helper record for providing a TOP_Kante with a direction
 	 * 
@@ -104,15 +94,15 @@ public class AsDirectedTopGraph {
 	 *            condition for the relevant path
 	 * @return the path
 	 */
-	public static TopPath getPath(final AsSplitTopGraph graph,
+	public static TopPath getShortestPath(final AsSplitTopGraph graph,
 			final TopPoint from, final TopPoint to, final int maxPathWeight,
 			final Predicate<TopPath> relevantCondition) {
 		final Node startNode = graph.splitGraphAt(from);
 		final Node endNode = graph.splitGraphAt(to);
 		final Graph<Node, DirectedTOPEdge<Edge>> directedTopGraph = AsDirectedTopGraph
 				.asDirectedTopGraph(graph);
-		return getPath(directedTopGraph, startNode, endNode, maxPathWeight,
-				relevantCondition);
+		return getShortestPath(directedTopGraph, startNode, endNode,
+				maxPathWeight, relevantCondition);
 	}
 
 	/**
@@ -131,7 +121,7 @@ public class AsDirectedTopGraph {
 	 *            condition for the relevant path
 	 * @return the path
 	 */
-	public static TopPath getPath(
+	public static TopPath getShortestPath(
 			final Graph<Node, DirectedTOPEdge<Edge>> graph,
 			final Node startNode, final Node endNode, final int maxPathWeight,
 			final Predicate<TopPath> relevantCondition) {
@@ -158,10 +148,10 @@ public class AsDirectedTopGraph {
 			final DirectedPathSearch path = new DirectedPathSearch(graph,
 					startNode, endNode, maxPathWeight);
 			path.addEdge(edge);
-			final List<TopPath> topPaths = getPath(path,
-					relevantEdgesFromTarget, relevantCondition, false);
-			if (!topPaths.isEmpty()) {
-				return topPaths.getFirst();
+			final TopPath topPath = getShortestPath(path,
+					relevantEdgesFromTarget, relevantCondition);
+			if (topPath != null) {
+				return topPath;
 			}
 		}
 		return null;
@@ -184,6 +174,28 @@ public class AsDirectedTopGraph {
 	 */
 	public static List<TopPath> getAllPaths(final AsSplitTopGraph graph,
 			final TopPoint from, final TopPoint to, final int maxPathWeight) {
+		return getAllPaths(graph, from, to, maxPathWeight, true);
+	}
+
+	/**
+	 * Find all paths from two {@link Node}. When the path length greater than
+	 * the max path weight, then break find process
+	 * 
+	 * @param graph
+	 *            the graph
+	 * @param from
+	 *            the start point
+	 * @param to
+	 *            the end point
+	 * @param maxPathWeight
+	 *            max weight of path
+	 * @param includeIncompletePath
+	 *            should include incomplete path or not
+	 * @return the list of path
+	 */
+	public static List<TopPath> getAllPaths(final AsSplitTopGraph graph,
+			final TopPoint from, final TopPoint to, final int maxPathWeight,
+			final boolean includeIncompletePath) {
 		final Node startNode = graph.splitGraphAt(from);
 		final Node endNode = graph.splitGraphAt(to);
 		final Graph<Node, DirectedTOPEdge<Edge>> directedTopGraph = AsDirectedTopGraph
@@ -198,24 +210,30 @@ public class AsDirectedTopGraph {
 				return List.of(topPath);
 			}
 		}
+
+		final List<DirectedTOPEdge<Edge>> relevantEdgesFromTarget = findRelevantEdgesFromTarget(
+				directedTopGraph, endNode, maxPathWeight);
 		final List<TopPath> result = new ArrayList<>();
 		for (final DirectedTOPEdge<Edge> edge : directedTopGraph
 				.outgoingEdgesOf(startNode)) {
 			final DirectedPathSearch path = new DirectedPathSearch(
 					directedTopGraph, startNode, endNode, maxPathWeight);
 			path.addEdge(edge);
-			final List<TopPath> topPath = getPath(path, Collections.emptyList(),
-					null, true);
-			result.addAll(topPath);
+			final List<TopPath> topPath = getPaths(path,
+					relevantEdgesFromTarget, includeIncompletePath);
+			topPath.forEach(newPath -> {
+				if (result.stream().noneMatch(p -> p.isSamePath(newPath))) {
+					result.add(newPath);
+				}
+			});
 		}
 
 		return result;
 	}
 
-	private static List<TopPath> getPath(
+	private static List<TopPath> getPaths(
 			final DirectedPathSearch incompletePath,
 			final List<DirectedTOPEdge<Edge>> relevantEdgesFromTarget,
-			final Predicate<TopPath> relevantCondition,
 			final boolean includeIncompletePath) {
 		final List<TopPath> result = new ArrayList<>();
 		final Deque<DirectedPathSearch> incompletePaths = new LinkedList<>();
@@ -228,23 +246,39 @@ public class AsDirectedTopGraph {
 			final Node lastNode = graph.getEdgeTarget(lastEdge);
 			for (final DirectedTOPEdge<Edge> edge : graph
 					.outgoingEdgesOf(lastNode)) {
-				if (!isRelevantNextEdge(lastEdge, edge, lastNode)) {
-					continue;
-				}
-				if (!includeIncompletePath) {
-					final TopPath shortesPath = getShortesPath(incompletePaths,
-							path, edge, relevantEdgesFromTarget,
-							relevantCondition);
-					if (shortesPath != null) {
-						return List.of(shortesPath);
-					}
-				} else {
-					getAllPaths(result, incompletePaths, path, edge);
+				if (relevantEdgesFromTarget.contains(edge)
+						&& path.isRelevantPathWeight(edge.edge().getWeight())) {
+					getAllPaths(result, incompletePaths, path, edge,
+							includeIncompletePath);
 				}
 
 			}
 		}
 		return result;
+	}
+
+	private static TopPath getShortestPath(
+			final DirectedPathSearch incompletePath,
+			final List<DirectedTOPEdge<Edge>> relevantEdgesFromTarget,
+			final Predicate<TopPath> relevantCondition) {
+		final Deque<DirectedPathSearch> incompletePaths = new LinkedList<>();
+		incompletePaths.add(incompletePath);
+		final Graph<Node, DirectedTOPEdge<Edge>> graph = incompletePath.graph();
+		// Walkthrough graph to find relevant path
+		for (DirectedPathSearch path; (path = incompletePaths
+				.poll()) != null;) {
+			final DirectedTOPEdge<Edge> lastEdge = path.path().getLast();
+			final Node lastNode = graph.getEdgeTarget(lastEdge);
+			for (final DirectedTOPEdge<Edge> edge : graph
+					.outgoingEdgesOf(lastNode)) {
+				final TopPath shortesPath = getShortesPath(incompletePaths,
+						path, edge, relevantEdgesFromTarget, relevantCondition);
+				if (shortesPath != null) {
+					return shortesPath;
+				}
+			}
+		}
+		return null;
 	}
 
 	private static TopPath getShortesPath(
@@ -274,7 +308,8 @@ public class AsDirectedTopGraph {
 
 	private static void getAllPaths(final List<TopPath> result,
 			final Deque<DirectedPathSearch> incompletePaths,
-			final DirectedPathSearch path, final DirectedTOPEdge<Edge> edge) {
+			final DirectedPathSearch path, final DirectedTOPEdge<Edge> edge,
+			final boolean includeIncompletePath) {
 		final DirectedPathSearch newPath = path.clonePath();
 		if (!newPath.addEdge(edge)) {
 			return;
@@ -286,7 +321,7 @@ public class AsDirectedTopGraph {
 		}
 		if (newPath.isRelevantPathLength()) {
 			incompletePaths.addFirst(newPath);
-		} else {
+		} else if (includeIncompletePath) {
 			result.add(newPath.getTopPath(null, true));
 		}
 	}
@@ -336,83 +371,16 @@ public class AsDirectedTopGraph {
 
 				// When another edge exists, which is shorter than found edge,
 				// replace the weight
-				remainingWeigthFromEnd.computeIfPresent(edgeSource,
-						(k, v) -> remainingWeight.compareTo(v) > 0
-								? remainingWeight
-								: v);
+				remainingWeigthFromEnd.computeIfPresent(edgeSource, (k, v) -> {
+					if (remainingWeight.compareTo(v) > 0) {
+						nodesToProcess.add(edgeSource);
+						return remainingWeight;
+					}
+					return v;
+				});
 			}
 		}
 		assert nodesToProcess.isEmpty();
 		return edgesDistance;
-	}
-
-	/**
-	 * The connect type between to edge must plausible
-	 * 
-	 * @param current
-	 *            the current edge
-	 * @param next
-	 *            the next edge
-	 * @param connectNode
-	 *            the connect node
-	 * @return whether connect relevant
-	 */
-	private static boolean isRelevantNextEdge(
-			final DirectedTOPEdge<Edge> current,
-			final DirectedTOPEdge<Edge> next, final Node connectNode) {
-		if (current.edge() == next.edge()) {
-			return true;
-		}
-		if (connectNode.node() == null) {
-			return false;
-		}
-		final Function<Edge, Optional<ENUMTOPAnschluss>> getTopConnectType = edge -> {
-			try {
-				final TOP_Knoten topNodeA = edge.edge()
-						.getIDTOPKnotenA()
-						.getValue();
-				final TOP_Knoten topNodeB = edge.edge()
-						.getIDTOPKnotenB()
-						.getValue();
-				if (topNodeA == connectNode.node()) {
-					return Optional.ofNullable(edge.edge()
-							.getTOPKanteAllg()
-							.getTOPAnschlussA()
-							.getWert());
-				}
-
-				if (topNodeB == connectNode.node()) {
-					return Optional.ofNullable(edge.edge()
-							.getTOPKanteAllg()
-							.getTOPAnschlussB()
-							.getWert());
-				}
-				throw new IllegalArgumentException();
-			} catch (final Exception e) {
-				logger.error(
-						"Can't find TOP_Anschlus of TOP_Kanten: {} at TOP_Knoten: {}", //$NON-NLS-1$
-						edge.edge().getIdentitaet().getWert(),
-						connectNode.node().getIdentitaet().getWert());
-				return Optional.empty();
-			}
-		};
-		final ENUMTOPAnschluss currentConnectType = getTopConnectType
-				.apply(current.edge())
-				.orElse(null);
-		final ENUMTOPAnschluss nextConnectType = getTopConnectType
-				.apply(next.edge())
-				.orElse(null);
-		if (currentConnectType == null || nextConnectType == null) {
-			return false;
-		}
-
-		return switch (currentConnectType) {
-			case ENUMTOP_ANSCHLUSS_LINKS, ENUMTOP_ANSCHLUSS_RECHTS -> nextConnectType == ENUMTOPAnschluss.ENUMTOP_ANSCHLUSS_SPITZE;
-			case ENUMTOP_ANSCHLUSS_SPITZE -> nextConnectType == ENUMTOPAnschluss.ENUMTOP_ANSCHLUSS_LINKS
-					|| nextConnectType == ENUMTOPAnschluss.ENUMTOP_ANSCHLUSS_RECHTS;
-			case ENUMTOP_ANSCHLUSS_MERIDIANSPRUNG -> nextConnectType == ENUMTOPAnschluss.ENUMTOP_ANSCHLUSS_MERIDIANSPRUNG;
-			case ENUMTOP_ANSCHLUSS_SCHNITT -> nextConnectType == ENUMTOPAnschluss.ENUMTOP_ANSCHLUSS_SCHNITT;
-			default -> false;
-		};
 	}
 }

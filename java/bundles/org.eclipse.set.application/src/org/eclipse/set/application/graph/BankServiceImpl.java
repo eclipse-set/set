@@ -299,7 +299,7 @@ public class BankServiceImpl implements BankService, EventHandler {
 			return diff.doubleValue() < ToolboxConfiguration
 					.getBankLineTopOffsetLimit();
 		};
-		final TopPath path = topGraph.findPathBetween(new TopPoint(begin),
+		final TopPath path = topGraph.findShortestPathBetween(new TopPoint(begin),
 				new TopPoint(end), limit, predicate);
 
 		if (path == null) {

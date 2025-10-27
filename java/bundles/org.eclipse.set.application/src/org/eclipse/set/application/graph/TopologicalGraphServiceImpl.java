@@ -15,9 +15,11 @@ import static org.eclipse.set.ppmodel.extensions.MultiContainer_AttributeGroupEx
 
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 import org.eclipse.e4.core.services.events.IEventBroker;
@@ -30,6 +32,7 @@ import org.eclipse.set.basis.graph.TopPoint;
 import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.graph.TopologicalGraphService;
 import org.eclipse.set.core.services.session.SessionService;
+import org.eclipse.set.model.planpro.Geodaten.ENUMTOPAnschluss;
 import org.eclipse.set.model.planpro.Geodaten.TOP_Kante;
 import org.eclipse.set.model.planpro.Geodaten.TOP_Knoten;
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
@@ -49,6 +52,8 @@ import org.osgi.service.event.Event;
 import org.osgi.service.event.EventAdmin;
 import org.osgi.service.event.EventConstants;
 import org.osgi.service.event.EventHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * TopologicalGraph service for finding distances in the topological model
@@ -59,6 +64,8 @@ import org.osgi.service.event.EventHandler;
 				EventHandler.class, TopologicalGraphService.class })
 public class TopologicalGraphServiceImpl
 		implements TopologicalGraphService, EventHandler {
+	private static final Logger logger = LoggerFactory
+			.getLogger(TopologicalGraphServiceImpl.class);
 	private final Map<PlanPro_Schnittstelle, WeightedPseudograph<AsSplitTopGraph.Node, AsSplitTopGraph.Edge>> topGraphBaseMap;
 
 	@Reference
@@ -139,23 +146,31 @@ public class TopologicalGraphServiceImpl
 	@Override
 	public List<TopPath> findAllPathsBetween(final TopPoint from,
 			final TopPoint to, final int limit) {
+		return findAllPathsBetween(from, to, limit, true);
+	}
+
+	@Override
+	public List<TopPath> findAllPathsBetween(final TopPoint from,
+			final TopPoint to, final int limit,
+			final boolean inCludeIncompletePath) {
 		final MultiContainer_AttributeGroup container = getContainer(
 				from.edge());
 		final PlanPro_Schnittstelle planProSchnittstelle = getPlanProSchnittstelle(
 				container);
 		return AsDirectedTopGraph.getAllPaths(
 				new AsSplitTopGraph(getTopGraphBase(planProSchnittstelle)),
-				from, to, limit);
+				from, to, limit, inCludeIncompletePath);
 	}
 
 	@Override
-	public TopPath findPathBetween(final TopPoint from, final TopPoint to,
-			final int limit, final Predicate<TopPath> condition) {
+	public TopPath findShortestPathBetween(final TopPoint from,
+			final TopPoint to, final int limit,
+			final Predicate<TopPath> condition) {
 		final MultiContainer_AttributeGroup container = getContainer(
 				from.edge());
 		final PlanPro_Schnittstelle planProSchnittstelle = getPlanProSchnittstelle(
 				container);
-		return AsDirectedTopGraph.getPath(
+		return AsDirectedTopGraph.getShortestPath(
 				new AsSplitTopGraph(getTopGraphBase(planProSchnittstelle)),
 				from, to, limit, condition);
 	}
@@ -282,12 +297,29 @@ public class TopologicalGraphServiceImpl
 				Boolean.valueOf(inTopDirection));
 
 		final Node endNode = graphView.splitGraphAt(to);
-		return Optional.ofNullable(AsDirectedTopGraph.getPath(
+		return Optional.ofNullable(AsDirectedTopGraph.getShortestPath(
 				AsDirectedTopGraph.asDirectedTopGraph(graphView), startNode,
-				endNode,
-				findShortestDistance(from, to).orElse(BigDecimal.ZERO)
+				endNode, findShortestDistance(from, to).orElse(BigDecimal.ZERO)
 						.intValue() + 1,
-				path -> isInDirectionPath(path, inTopDirection)));
+				path -> {
+					if (!isInDirectionPath(path, inTopDirection)) {
+						return false;
+					}
+					final LinkedList<TOP_Kante> edgeList = new LinkedList<TOP_Kante>(
+							path.edges());
+					for (TOP_Kante current; (current = edgeList
+							.poll()) != null;) {
+						if (edgeList.isEmpty()) {
+							return true;
+						}
+						final TOP_Kante next = edgeList.getFirst();
+						if (!isRelevantNextEdge(current, next)) {
+							return false;
+						}
+					}
+					return true;
+
+				}));
 	}
 
 	private static Optional<TopPath> whenThePointsAreSameEdge(
@@ -311,5 +343,70 @@ public class TopologicalGraphServiceImpl
 				.connectionTo(firstEdge, secondEdge);
 		return inTopDirection == connectionNode
 				.equals(TopKanteExtensions.getTOPKnotenB(firstEdge));
+	}
+
+	/**
+	 * The connect type between to edge must plausible
+	 * 
+	 * @param current
+	 *            the current edge
+	 * @param next
+	 *            the next edge
+	 * @param connectNode
+	 *            the connect node
+	 * @return whether connect relevant
+	 */
+	private static boolean isRelevantNextEdge(final TOP_Kante current,
+			final TOP_Kante next) {
+		if (current == next) {
+			return false;
+		}
+
+		final TOP_Knoten connectionNode = TopKanteExtensions
+				.connectionTo(current, next);
+		if (connectionNode == null) {
+			return false;
+		}
+		final Function<TOP_Kante, Optional<ENUMTOPAnschluss>> getTopConnectType = edge -> {
+			try {
+				final TOP_Knoten topNodeA = edge.getIDTOPKnotenA().getValue();
+				final TOP_Knoten topNodeB = edge.getIDTOPKnotenB().getValue();
+				if (topNodeA == connectionNode) {
+					return Optional.ofNullable(edge.getTOPKanteAllg()
+							.getTOPAnschlussA()
+							.getWert());
+				}
+
+				if (topNodeB == connectionNode) {
+					return Optional.ofNullable(edge.getTOPKanteAllg()
+							.getTOPAnschlussB()
+							.getWert());
+				}
+				throw new IllegalArgumentException();
+			} catch (final Exception e) {
+				logger.error(
+						"Can't find TOP_Anschlus of TOP_Kanten: {} at TOP_Knoten: {}", //$NON-NLS-1$
+						edge.getIdentitaet().getWert(),
+						connectionNode.getIdentitaet().getWert());
+				return Optional.empty();
+			}
+		};
+		final ENUMTOPAnschluss currentConnectType = getTopConnectType
+				.apply(current)
+				.orElse(null);
+		final ENUMTOPAnschluss nextConnectType = getTopConnectType.apply(next)
+				.orElse(null);
+		if (currentConnectType == null || nextConnectType == null) {
+			return false;
+		}
+
+		return switch (currentConnectType) {
+			case ENUMTOP_ANSCHLUSS_LINKS, ENUMTOP_ANSCHLUSS_RECHTS -> nextConnectType == ENUMTOPAnschluss.ENUMTOP_ANSCHLUSS_SPITZE;
+			case ENUMTOP_ANSCHLUSS_SPITZE -> nextConnectType == ENUMTOPAnschluss.ENUMTOP_ANSCHLUSS_LINKS
+					|| nextConnectType == ENUMTOPAnschluss.ENUMTOP_ANSCHLUSS_RECHTS;
+			case ENUMTOP_ANSCHLUSS_MERIDIANSPRUNG -> nextConnectType == ENUMTOPAnschluss.ENUMTOP_ANSCHLUSS_MERIDIANSPRUNG;
+			case ENUMTOP_ANSCHLUSS_SCHNITT -> nextConnectType == ENUMTOPAnschluss.ENUMTOP_ANSCHLUSS_SCHNITT;
+			default -> false;
+		};
 	}
 }

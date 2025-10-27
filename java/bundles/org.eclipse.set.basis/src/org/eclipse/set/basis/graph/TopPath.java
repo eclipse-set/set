@@ -13,6 +13,7 @@ package org.eclipse.set.basis.graph;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.IntStream;
 
 import org.apache.commons.lang3.Range;
 import org.eclipse.set.model.planpro.Geodaten.TOP_Kante;
@@ -107,6 +108,20 @@ public class TopPath {
 	 */
 	public BigDecimal firstEdgeLength() {
 		return firstEdgeLength;
+	}
+
+	/**
+	 * @param another
+	 * @return
+	 */
+	public boolean isSamePath(final TopPath another) {
+		return length.compareTo(another.length) == 0
+				&& firstEdgeLength.compareTo(another.firstEdgeLength) == 0
+				&& startNode == another.startNode
+				&& edges().size() == another.edges().size()
+				&& IntStream.range(0, edges.size())
+						.allMatch(index -> edges.get(index) == another.edges
+								.get(index));
 	}
 
 	/**
