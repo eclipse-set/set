@@ -264,25 +264,18 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 			)
 
 			// K: Sskw.Weiche.Antriebe
+			instance.fillAntrieb(
+				cols.getColumn(Weiche_Antriebe),
+				element,
+				[zungenpaar?.elektrischerAntriebAnzahl?.wert],
+				[zungenpaar?.elektrischerAntriebLage],
+				[true]
+			)
+
 			val elementKomponenten = element.container.WKrGspKomponente.filter [
 				IDWKrGspElement?.value?.identitaet?.wert ==
 					element.identitaet.wert && zungenpaar !== null
 			].toList
-
-			fillMultiColorIterable(
-				instance,
-				cols.getColumn(Weiche_Antriebe),
-				element,
-				[
-					transformMultiColorContent(
-						elementKomponenten,
-						[zungenpaar?.elektrischerAntriebAnzahl?.wert],
-						[zungenpaar?.elektrischerAntriebLage],
-						[true]
-					)
-				],
-				"+"
-			)
 
 			// L: Sskw.Weiche.Weichensignal
 			val weichensignal = elementKomponenten.map [
@@ -672,28 +665,14 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 		val elektrischerAntriebAnzahl = element.WKrGspKomponenten.map [
 			kreuzung?.elektrischerAntriebAnzahl?.wert
 		].filterNull.map[intValue]
-		val fillFunc = [ (W_Kr_Gsp_Komponente)=>BigInteger actuatorCount, (W_Kr_Gsp_Komponente)=>Elektrischer_Antrieb_Lage_TypeClass actuatorPosition |
-			fillMultiColorIterable(
-				row,
-				cols.getColumn(Herzstueck_Antriebe),
-				element,
-				[
-					transformMultiColorContent(
-						WKrGspKomponenten,
-						actuatorCount,
-						actuatorPosition,
-						[kreuzung !== null]
-					)
-				],
-				"+"
-			)
-		]
 		if (herzstueckAntriebe.exists[it > 0]) {
-			fillFunc.apply([zungenpaar?.herzstueckAntriebe?.wert], [null])
+			row.fillAntrieb(cols.getColumn(Herzstueck_Antriebe), element, [
+				zungenpaar?.herzstueckAntriebe?.wert
+			], [null], [kreuzung !== null])
 		} else if (elektrischerAntriebAnzahl.exists[it > 0]) {
-			fillFunc.apply([kreuzung?.elektrischerAntriebAnzahl?.wert], [
-				kreuzung?.elektrischerAntriebLage
-			])
+			row.fillAntrieb(cols.getColumn(Herzstueck_Antriebe), element, [
+				kreuzung?.elektrischerAntriebAnzahl?.wert
+			], [kreuzung?.elektrischerAntriebLage], [kreuzung !== null])
 		} else {
 			fill(
 				row,
@@ -701,6 +680,54 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 				element,
 				[]
 			)
+		}
+	}
+
+	def void fillAntrieb(TableRow row, ColumnDescriptor column,
+		W_Kr_Gsp_Element element,
+		(W_Kr_Gsp_Komponente)=>BigInteger actuatorNumberSelector,
+		(W_Kr_Gsp_Komponente)=>Elektrischer_Antrieb_Lage_TypeClass actuatorPositionSelector,
+		(W_Kr_Gsp_Komponente)=>Boolean fillPositionSupplementCondition) {
+		val components = element.WKrGspKomponenten
+		if (components.map[actuatorNumberSelector.apply(it)].filterNull.
+			nullOrEmpty) {
+			return
+		}
+		if (element.container?.containerType === ContainerType.FINAL &&
+			components.exists [
+				austauschAntriebe?.wert !== null && austauschAntriebe?.wert
+			]) {
+			fillMultiColorIterable(
+				row,
+				column,
+				element,
+				[
+					transformMultiColorContent(
+						WKrGspKomponenten,
+						actuatorNumberSelector,
+						actuatorPositionSelector,
+						[kreuzung !== null]
+					)
+				],
+				"+"
+			)
+		} else {
+			val actuatorCount = components.
+				map[actuatorNumberSelector.apply(it)].filterNull.map[intValue].
+				reduce[p1, p2|p1.intValue + p2.intValue]
+			val position = components.filter [
+				fillPositionSupplementCondition.apply(it)
+			].map [
+				it -> actuatorNumberSelector.apply(it)
+			].map[key.getPosition(value, actuatorPositionSelector)].filter [
+				!nullOrEmpty && !blank
+			].toSet.join(", ")
+			if (actuatorCount === null || actuatorCount === 0) {
+				return
+			}
+			fill(row, column, element, [
+				'''«actuatorCount» «IF !position.nullOrEmpty && !position.blank »(«position»)«ENDIF»'''
+			])
 		}
 	}
 
@@ -814,8 +841,7 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 			val position = it.getPosition(actuator, actuatorPositionSelector)
 			val fillPositionCondition = noOfActuators > 0 &&
 				position !== null && fillPositionSupplementCondition.apply(it)
-			if (austauschAntriebe?.wert === true &&
-				container.containerType == ContainerType.FINAL) {
+			if (austauschAntriebe?.wert !== null && austauschAntriebe?.wert) {
 				multiColorContent.multiColorValue = noOfActuators.toString
 				multiColorContent.stringFormat = '''%s«IF fillPositionCondition» («position»)«ENDIF»'''
 			} else {
@@ -832,12 +858,10 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 		BigInteger actuator,
 		(W_Kr_Gsp_Komponente)=>Elektrischer_Antrieb_Lage_TypeClass actuatorPositionSelector
 	) {
-		if (actuator != BigInteger.ZERO) {
-			return actuatorPositionSelector.apply(component)?.translate ?:
-				"keine Lage"
-		} else {
-			return null
+		if (actuator !== null && actuator != BigInteger.ZERO) {
+			return actuatorPositionSelector.apply(component)?.translate ?: ""
 		}
+		return null
 	}
 
 	private def String getGleissperreAntrieb(W_Kr_Gsp_Element element) {
