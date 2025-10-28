@@ -726,7 +726,8 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 		val existsZl = fstrSignalisierung.map [
 			IDSignalSignalbegriff.value
 		].exists [
-			hasSignalbegriffID(ZlO) || hasSignalbegriffID(ZlU) &&
+			(hasSignalbegriffID(typeof(ZlO)) ||
+				hasSignalbegriffID(typeof(ZlU))) &&
 				signalRahmen.signal === vorsignal
 		]
 		val zielSignal = fstrZugRangier.fstrFahrweg.zielSignal
