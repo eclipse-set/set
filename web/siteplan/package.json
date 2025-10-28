@@ -28,7 +28,7 @@
   "devDependencies": {
     "@stylistic/eslint-plugin": "5.4.0",
     "@types/geojson": "^7946.0.15",
-    "@typescript-eslint/eslint-plugin": "^8.46.1",
+    "@typescript-eslint/eslint-plugin": "^8.46.2",
     "@typescript-eslint/parser": "^8.32.1",
     "@vitejs/plugin-vue": "^6.0.1",
     "dotenv": "^17.2.3",
