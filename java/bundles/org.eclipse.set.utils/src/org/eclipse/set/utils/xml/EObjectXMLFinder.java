@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -39,6 +40,7 @@ import org.xml.sax.SAXException;
 @SuppressWarnings("static-method")
 public class EObjectXMLFinder {
 	Document document = null;
+	private static final String NIL = "xsi:nil";
 
 	/**
 	 * LineNotFoundException
@@ -206,5 +208,41 @@ public class EObjectXMLFinder {
 	 */
 	public ObjectScope getObjectScope(final Node node) {
 		return ObjectMetadataXMLReader.getObjectScope(node);
+	}
+
+	/**
+	 * Check if the object is nil value
+	 * 
+	 * @param object
+	 *            the object
+	 * @return true if it the nil value
+	 */
+	public boolean isNilValue(final EObject object) {
+		final Node node = find(object);
+		if (node == null) {
+			return false;
+		}
+		if (isNilValue(node)) {
+			return true;
+		}
+
+		for (int i = 0; i < node.getChildNodes().getLength(); i++) {
+			final Node childNode = node.getChildNodes().item(i);
+			// Only check the directly Wert node
+			if (childNode.getNodeName().equals(XMLNodeFinder.NODE_WERT)) {
+				return isNilValue(childNode);
+			}
+		}
+
+		return false;
+	}
+
+	private boolean isNilValue(final Node node) {
+		if (node == null) {
+			return false;
+		}
+		final Optional<Node> nilAttirbute = Optional
+				.ofNullable(node.getAttributes().getNamedItem(NIL));
+		return nilAttirbute.isPresent();
 	}
 }

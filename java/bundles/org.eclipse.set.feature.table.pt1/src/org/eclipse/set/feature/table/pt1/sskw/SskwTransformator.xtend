@@ -12,9 +12,11 @@ import java.math.BigInteger
 import java.util.LinkedList
 import java.util.List
 import java.util.Set
+import org.eclipse.set.basis.IModelSession
 import org.eclipse.set.basis.constants.ContainerType
 import org.eclipse.set.basis.constants.ToolboxConstants
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
+import org.eclipse.set.core.services.session.SessionService
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.BasisTypen.ENUMLinksRechts
@@ -57,6 +59,8 @@ import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspElementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspKomponenteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
+import org.eclipse.set.utils.xml.EObjectXMLFinder
+import org.eclipse.set.utils.xml.EObjectXMLFinder.XmlParseException
 
 /**
  * Table transformation for a Weichentabelle (SSKW).
@@ -65,12 +69,17 @@ import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensi
  */
 class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 
+	SessionService sessionService
 	static val Logger logger = LoggerFactory.getLogger(
 		typeof(SskwTransformator))
 
+	EObjectXMLFinder xmlFinder
+
 	new(Set<ColumnDescriptor> cols,
-		EnumTranslationService enumTranslationService, EventAdmin eventAdmin) {
+		EnumTranslationService enumTranslationService, EventAdmin eventAdmin,
+		SessionService sessionService) {
 		super(cols, enumTranslationService, eventAdmin)
+		this.sessionService = sessionService
 	}
 
 	private static def String angrenzendesElementL(W_Kr_Gsp_Element element,
@@ -95,6 +104,7 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
 		TMFactory factory, Stell_Bereich controlArea) {
+		xmlFinder = createEObjetXMLFinder(container)
 		val weichen = container.WKrGspElement.filter[isPlanningObject].
 			filterObjectsInControlArea(controlArea)
 
@@ -647,6 +657,28 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 		return factory.table
 	}
 
+	def EObjectXMLFinder createEObjetXMLFinder(
+		MultiContainer_AttributeGroup container) {
+		try {
+			val loadedSession = sessionService.loadedSessions
+			var IModelSession modelSession = null
+			if (loadedSession.size === 1) {
+				modelSession = loadedSession.values.firstOrNull
+			} else {
+				val planproSchnittstelle = container.planProSchnittstelle
+				modelSession = loadedSession.values.filter [
+					it.planProSchnittstelle == planproSchnittstelle
+				].firstOrNull
+			}
+			return new EObjectXMLFinder(modelSession.toolboxFile,
+				modelSession.toolboxFile.modelPath)
+		} catch (Exception e) {
+			logger.error("Can't create EObjectXMLFinder: {}", e.message)
+			return null
+		}
+
+	}
+
 	/**
 	 * Create filling Iterable case with compartor as ToolboxConstants.NUMERIC_COMPARATOR
 	 * and separator as ","
@@ -858,8 +890,17 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 		BigInteger actuator,
 		(W_Kr_Gsp_Komponente)=>Elektrischer_Antrieb_Lage_TypeClass actuatorPositionSelector
 	) {
+
 		if (actuator !== null && actuator != BigInteger.ZERO) {
-			return actuatorPositionSelector.apply(component)?.translate ?: ""
+			val lage = actuatorPositionSelector.apply(component)
+			val enumTranslateValue = lage?.translate
+			if (enumTranslateValue === null) {
+				if (xmlFinder !== null && xmlFinder.isNilValue(lage)) {
+					return "keine Lage"
+				}
+				return ""
+			}
+			return enumTranslateValue
 		}
 		return null
 	}

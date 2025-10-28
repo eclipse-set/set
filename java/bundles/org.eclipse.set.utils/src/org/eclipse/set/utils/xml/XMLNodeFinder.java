@@ -27,7 +27,10 @@ import org.xml.sax.SAXException;
 public class XMLNodeFinder {
 	Node rootNode;
 	private static final String NODE_IDENTITAET = "Identitaet"; //$NON-NLS-1$
-	private static final String NODE_WERT = "Wert"; //$NON-NLS-1$
+	/**
+	 * Wert
+	 */
+	public static final String NODE_WERT = "Wert"; //$NON-NLS-1$
 
 	/**
 	 * Returns the node for a line number. This attempts to find the most local
