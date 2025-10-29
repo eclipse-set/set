@@ -8,8 +8,8 @@
  */
 package org.eclipse.set.utils.xml;
 
+import org.eclipse.set.basis.PlanProXMLNode;
 import org.eclipse.set.model.validationreport.ObjectState;
-import org.w3c.dom.Node;
 
 /**
  * Determines the scope of an object based on an XML node
@@ -28,14 +28,14 @@ public class NodeObjectStateProvider {
 	 *            The node to find the state for
 	 * @return The object state or null
 	 */
-	public ObjectState getObjectState(final Node node) {
+	public ObjectState getObjectState(final PlanProXMLNode node) {
 		if (node == null) {
 			return null;
 		}
 
 		final String nodeName = node.getNodeName();
 		if (nodeName == null) {
-			return getObjectState(node.getParentNode());
+			return getObjectState(node.getParent());
 		}
 		if (nodeName.equals(NODE_ZUSTAND_START)) {
 			return ObjectState.INITIAL;
@@ -50,6 +50,6 @@ public class NodeObjectStateProvider {
 			return ObjectState.NONE;
 		}
 
-		return getObjectState(node.getParentNode());
+		return getObjectState(node.getParent());
 	}
 }

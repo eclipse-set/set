@@ -181,7 +181,22 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 		}
 
 		final List<PlazError> result = new ArrayList<>();
-		getRelevantPOs(container)
+		final List<Punkt_Objekt> relevantPOs = getRelevantPOs(container);
+		relevantPOs.forEach(po -> po.getPunktObjektTOPKante().forEach(potk -> {
+			GEOKanteMetadata geoKanteMetaData = alreadyFoundMetaData
+					.parallelStream()
+					.filter(md -> isBelongToThisMetadata(md, potk))
+					.findFirst()
+					.orElse(null);
+			if (geoKanteMetaData == null) {
+				geoKanteMetaData = getGeoKanteMetaData(potk);
+				if (geoKanteMetaData == null) {
+					return;
+				}
+				alreadyFoundMetaData.add(geoKanteMetaData);
+			}
+		}));
+		relevantPOs.parallelStream()
 				.forEach(po -> po.getPunktObjektTOPKante().forEach(potk -> {
 					if (isNotDistinctCoordinateSystem(potk)) {
 						result.add(createGeoCoordinateError(po,
@@ -287,17 +302,13 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 			final Punkt_Objekt_TOP_Kante_AttributeGroup potk) {
 		try {
 			BigDecimal lateralDistance = null;
-			GEOKanteMetadata geoKanteMetaData = alreadyFoundMetaData
+			final GEOKanteMetadata geoKanteMetaData = alreadyFoundMetaData
 					.parallelStream()
 					.filter(md -> isBelongToThisMetadata(md, potk))
 					.findFirst()
 					.orElse(null);
 			if (geoKanteMetaData == null) {
-				geoKanteMetaData = getGeoKanteMetaData(potk);
-				if (geoKanteMetaData == null) {
-					return null;
-				}
-				alreadyFoundMetaData.add(geoKanteMetaData);
+				return null;
 			}
 
 			if (po instanceof PZB_Element) {
