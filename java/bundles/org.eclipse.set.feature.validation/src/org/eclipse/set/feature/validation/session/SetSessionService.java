@@ -140,9 +140,8 @@ public class SetSessionService implements SessionService {
 		}
 
 		// show the no session part
-		if (getToolboxPartService()
-				.showPart(ToolboxConstants.NO_SESSION_PART_ID)
-				|| role == ToolboxFileRole.SESSION) {
+		if (role == ToolboxFileRole.SESSION && getToolboxPartService()
+				.showPart(ToolboxConstants.NO_SESSION_PART_ID)) {
 			loadedModels.keySet().forEach(this::closeLoadedSession);
 
 			actionItems.clear();

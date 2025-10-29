@@ -137,7 +137,7 @@ export default class FeatureService extends Vue {
     // Download the current model
     const modelType = store.state.planproModelType
     axios
-      .get<SiteplanModel>(`/${modelType}.json`)
+      .get<SiteplanModel>('/siteplanKR.json')
       .then(response => {
         this.modelLoaded(response.data)
         store.commit('setLoading', false)
