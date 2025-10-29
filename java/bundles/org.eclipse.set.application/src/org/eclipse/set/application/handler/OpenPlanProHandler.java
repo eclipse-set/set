@@ -119,7 +119,9 @@ public class OpenPlanProHandler extends AbstractOpenHandler {
 	@Override
 	protected IModelSession validation(final IModelSession modelSession,
 			final Shell shell, final Path path) {
-		if (modelSession == null) {
+		if (modelSession == null || modelSession.getToolboxFile()
+				.getRole() != ToolboxFileRole.SESSION
+				&& modelSession.getPlanProSchnittstelle() == null) {
 			return null;
 		}
 		switch (modelSession.getFileValidateState()) {
