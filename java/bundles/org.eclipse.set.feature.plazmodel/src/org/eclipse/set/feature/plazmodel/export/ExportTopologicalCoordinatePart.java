@@ -68,7 +68,7 @@ public class ExportTopologicalCoordinatePart extends BasePart {
 	Messages messages;
 
 	private static String HEADER_PATTERN = """
-			PlaZ Modell-Prüfung Topologische Coordinate
+			PlaZ Modell-Prüfung Topologische Koordinaten
 			Datei: %s
 			Prüfungszeit: %s
 
@@ -90,7 +90,7 @@ public class ExportTopologicalCoordinatePart extends BasePart {
 	protected void createView(final Composite parent) {
 		final Button exportButton = new Button(parent, SWT.PUSH);
 		exportButton.setText(
-				"Exportieren Topologische Coordinate von Punkt_Objekt (csv)");
+				"Export topologischer Koordinaten der Punkt_Objekte (csv)");
 		exportButton.addListener(SWT.Selection, event -> exportHandle());
 	}
 
@@ -107,7 +107,7 @@ public class ExportTopologicalCoordinatePart extends BasePart {
 								IProgressMonitor.UNKNOWN);
 						final Path exportPath = getModelSession()
 								.getToolboxPaths()
-								.getTableExportPath("tologische_coordinate",
+								.getTableExportPath("topologische_koordinaten",
 										Path.of(outputDir), null,
 										ExportPathExtension.TABLE_CSV_EXPORT_EXTENSION);
 						exportCoordinateToCSV(exportPath);
