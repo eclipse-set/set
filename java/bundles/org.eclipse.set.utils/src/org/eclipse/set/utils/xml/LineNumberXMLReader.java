@@ -21,6 +21,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import org.eclipse.set.basis.PlanProXMLNode;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -60,10 +61,12 @@ public class LineNumberXMLReader {
 	 *             if a parser cannot be created which satisfies the requested
 	 *             configuration
 	 */
-	public static Document read(final Path location)
+	public static PlanProXMLNode read(final Path location)
 			throws IOException, SAXException, ParserConfigurationException {
 		try (final InputStream inputStream = Files.newInputStream(location)) {
 			return read(inputStream);
+		} catch (final Exception e) {
+			throw new RuntimeException(e);
 		}
 	}
 
@@ -81,7 +84,7 @@ public class LineNumberXMLReader {
 	 *             if a parser cannot be created which satisfies the requested
 	 *             configuration
 	 */
-	public static Document read(final InputStream input)
+	public static PlanProXMLNode read(final InputStream input)
 			throws IOException, SAXException, ParserConfigurationException {
 		final SAXParserFactory factory = SAXParserFactory.newInstance();
 		factory.setFeature(
@@ -151,9 +154,9 @@ public class LineNumberXMLReader {
 				elementStack.push(element);
 			}
 		};
-		parser.parse(input, handler);
-
-		return doc;
+		// parser.parse(input, handler);
+		final PlanProXMLNode test = PlanProXMLNode.read(input);
+		return test;
 	}
 
 	/**
@@ -161,8 +164,8 @@ public class LineNumberXMLReader {
 	 *            a node of a document read with LineNumberXMLReader
 	 * @return the last line number of the node
 	 */
-	public static int getNodeLastLineNumber(final Node node) {
-		final String lineNum = (String) node.getUserData(END_LINE_NUMBER_KEY);
+	public static int getNodeLastLineNumber(final PlanProXMLNode node) {
+		final String lineNum = String.valueOf(node.getEndLineNumber());
 		if (lineNum != null) {
 			return Integer.parseInt(lineNum);
 		}
@@ -175,8 +178,8 @@ public class LineNumberXMLReader {
 	 * 
 	 * @return the line number of the node
 	 */
-	public static int getStartLineNumber(final Node node) {
-		final String lineNum = (String) node.getUserData(START_LINE_NUMBER_KEY);
+	public static int getStartLineNumber(final PlanProXMLNode node) {
+		final String lineNum = String.valueOf(node.getStartLineNumber());
 		if (lineNum != null) {
 			return Integer.parseInt(lineNum);
 		}
