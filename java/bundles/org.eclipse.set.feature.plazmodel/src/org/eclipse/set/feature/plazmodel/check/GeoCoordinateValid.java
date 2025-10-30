@@ -29,7 +29,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.apache.commons.text.StringSubstitutor;
 import org.eclipse.emf.ecore.EObject;
@@ -307,13 +306,13 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 		if (isAlreadyDeterminCoordinate) {
 			final List<TopologicalCoordinate> alreadyCalulatedCoordinates = topologicalCoordinates
 					.get();
-			final List<TopologicalCoordinate> target = alreadyCalulatedCoordinates
+			final Optional<TopologicalCoordinate> target = alreadyCalulatedCoordinates
 					.stream()
 					.filter(ele -> ele.state() == state && ele.po() == po
 							&& ele.potk() == potk)
-					.collect(Collectors.toList());
-			if (!target.isEmpty()) {
-				return target.getFirst().coordinate();
+					.findFirst();
+			if (target.isPresent()) {
+				return target.get().coordinate();
 			}
 			return null;
 		}
