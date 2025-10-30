@@ -183,7 +183,7 @@ public class ExportTopologicalCoordinatePart extends BasePart {
 					final ContainerType containerType = MultiContainer_AttributeGroupExtensions
 							.getContainerType(container);
 					geoCoordinateValid.calculateCoordinate(containerType, po,
-							potk, false);
+							potk);
 				}));
 		return geoCoordinateValid.getTopologischeCoordinaten();
 	}

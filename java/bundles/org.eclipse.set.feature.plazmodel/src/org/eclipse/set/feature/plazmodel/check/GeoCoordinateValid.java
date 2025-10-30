@@ -21,7 +21,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -180,17 +179,9 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 		if (!geometryService.isFindGeometryComplete()) {
 			return List.of(createProcessingWarning());
 		}
-		final List<PlazError> result = new ArrayList<>();
-		final List<Punkt_Objekt> relevantPOs = getRelevantPOs(container);
-		determineGEOKanteMetadata(relevantPOs);
-		final boolean isAlreadyDeterminCoordinate = topologicalCoordinates
-				.isPresent();
-		if (!isAlreadyDeterminCoordinate) {
-			topologicalCoordinates = Optional
-					.of(Collections.synchronizedList(new ArrayList<>()));
-		}
 
-		relevantPOs.parallelStream()
+		final List<PlazError> result = new ArrayList<>();
+		getRelevantPOs(container)
 				.forEach(po -> po.getPunktObjektTOPKante().forEach(potk -> {
 					if (isNotDistinctCoordinateSystem(potk)) {
 						result.add(createGeoCoordinateError(po,
@@ -198,54 +189,27 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 								Map.of("GUID", po.getIdentitaet().getWert())));
 						return;
 					}
-					try {
-						final GEOKanteCoordinate topCoordinate = calculateCoordinate(
-								MultiContainer_AttributeGroupExtensions
-										.getContainerType(container),
-								po, potk, isAlreadyDeterminCoordinate);
+					final GEOKanteCoordinate topCoordinate = calculateCoordinate(
+							MultiContainer_AttributeGroupExtensions
+									.getContainerType(container),
+							po, potk);
 
-						if (topCoordinate == null
-								|| getNullableObject(topCoordinate,
-										e -> e.getCoordinate()).isEmpty()) {
-							result.add(createGeoCoordinateError(po,
-									"Es gibt Fehler bei der Berechnung der topologischen Koordinate",
-									Map.of()));
-							return;
-						}
-
-						final PlazError error = validGeoCoordinate(po, potk,
-								topCoordinate);
-						if (error != null) {
-							result.add(error);
-						}
-					} catch (final Exception e) {
-						logger.error(e.getMessage());
-					}
-
-				}));
-		return result;
-	}
-
-	private void determineGEOKanteMetadata(
-			final List<Punkt_Objekt> relevantPOs) {
-		relevantPOs.forEach(po -> po.getPunktObjektTOPKante().forEach(potk -> {
-			try {
-				GEOKanteMetadata geoKanteMetaData = alreadyFoundMetaData
-						.parallelStream()
-						.filter(md -> isBelongToThisMetadata(md, potk))
-						.findFirst()
-						.orElse(null);
-				if (geoKanteMetaData == null) {
-					geoKanteMetaData = getGeoKanteMetaData(potk);
-					if (geoKanteMetaData == null) {
+					if (topCoordinate == null
+							|| getNullableObject(topCoordinate,
+									e -> e.getCoordinate()).isEmpty()) {
+						result.add(createGeoCoordinateError(po,
+								"Es gibt Fehler bei der Berechnung der topologischen Koordinate",
+								Map.of()));
 						return;
 					}
-					alreadyFoundMetaData.add(geoKanteMetaData);
-				}
-			} catch (final Exception e) {
-				logger.error(e.getMessage());
-			}
-		}));
+
+					final PlazError error = validGeoCoordinate(po, potk,
+							topCoordinate);
+					if (error != null) {
+						result.add(error);
+					}
+				}));
+		return result;
 	}
 
 	private PlazError validGeoCoordinate(final Punkt_Objekt po,
@@ -292,36 +256,30 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 	 * @param potk
 	 *            the {@link Punkt_Objekt_TOP_Kante_AttributeGroup} of this
 	 *            {@link Punkt_Objekt}
-	 * @param isAlreadyDeterminCoordinate
-	 *            when the coordinate already calculate, then find the match
-	 *            coordinate in the cached list
 	 * @return the {@link GEOKanteCoordinate}
 	 */
 	public GEOKanteCoordinate calculateCoordinate(final ContainerType state,
 			final Punkt_Objekt po,
-			final Punkt_Objekt_TOP_Kante_AttributeGroup potk,
-			final boolean isAlreadyDeterminCoordinate) {
-		// To avoid ConcurrentModificationException, when the calculate process
-		// was already run one time, then find the coordinate in the cached list
-		if (isAlreadyDeterminCoordinate) {
-			final List<TopologicalCoordinate> alreadyCalulatedCoordinates = topologicalCoordinates
-					.get();
-			final Optional<TopologicalCoordinate> target = alreadyCalulatedCoordinates
-					.stream()
-					.filter(ele -> ele.state() == state && ele.po() == po
-							&& ele.potk() == potk)
-					.findFirst();
-			if (target.isPresent()) {
-				return target.get().coordinate();
-			}
-			return null;
+			final Punkt_Objekt_TOP_Kante_AttributeGroup potk) {
+		List<TopologicalCoordinate> alreadyCalulatedCoordinates = topologicalCoordinates
+				.orElse(null);
+		if (alreadyCalulatedCoordinates == null) {
+			alreadyCalulatedCoordinates = new ArrayList<>();
+			topologicalCoordinates = Optional.of(alreadyCalulatedCoordinates);
+		}
+		final Optional<TopologicalCoordinate> target = alreadyCalulatedCoordinates
+				.stream()
+				.filter(ele -> ele.state() == state && ele.po() == po
+						&& ele.potk() == potk)
+				.findFirst();
+		if (target.isPresent()) {
+			return target.get().coordinate();
 		}
 
 		final GEOKanteCoordinate calculateCoordinate = calculateCoordinate(po,
 				potk);
-		topologicalCoordinates.get()
-				.add(new TopologicalCoordinate(state, po, potk,
-						calculateCoordinate));
+		alreadyCalulatedCoordinates.add(new TopologicalCoordinate(state, po,
+				potk, calculateCoordinate));
 		return calculateCoordinate;
 	}
 
@@ -329,13 +287,17 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 			final Punkt_Objekt_TOP_Kante_AttributeGroup potk) {
 		try {
 			BigDecimal lateralDistance = null;
-			final GEOKanteMetadata geoKanteMetaData = alreadyFoundMetaData
+			GEOKanteMetadata geoKanteMetaData = alreadyFoundMetaData
 					.parallelStream()
 					.filter(md -> isBelongToThisMetadata(md, potk))
 					.findFirst()
 					.orElse(null);
 			if (geoKanteMetaData == null) {
-				return null;
+				geoKanteMetaData = getGeoKanteMetaData(potk);
+				if (geoKanteMetaData == null) {
+					return null;
+				}
+				alreadyFoundMetaData.add(geoKanteMetaData);
 			}
 
 			if (po instanceof PZB_Element) {
