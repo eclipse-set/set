@@ -8,6 +8,7 @@
  */
 package org.eclipse.set.feature.table.pt1.sskf
 
+import java.math.BigDecimal
 import java.util.List
 import java.util.Set
 import org.eclipse.set.basis.Wrapper
@@ -39,6 +40,9 @@ import static extension org.eclipse.set.ppmodel.extensions.WKrGspKomponenteExten
  * @author Rumpf
  */
 class SskfTransformator extends AbstractPlanPro2TableModelTransformator {
+
+	// 1 Meter
+	static val BigDecimal MIN_GLEIS_SCHALTGRUPPE_OVERLAP_LENGTH = BigDecimal.ONE
 
 	new(Set<ColumnDescriptor> cols,
 		EnumTranslationService enumTranslationService, EventAdmin eventAdmin) {
@@ -257,7 +261,7 @@ class SskfTransformator extends AbstractPlanPro2TableModelTransformator {
 			)
 
 			val List<Gleis_Schaltgruppe> schaltgruppen = fmaAnlage.
-				gleisSchaltgruppen
+				getGleisSchaltgruppen(MIN_GLEIS_SCHALTGRUPPE_OVERLAP_LENGTH)
 
 			// R: Sonstiges.OlA.Schaltgruppe
 			fillIterable(

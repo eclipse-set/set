@@ -21,6 +21,7 @@ import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.Gleis_Abschluss
 import static extension org.eclipse.set.ppmodel.extensions.AussenelementansteuerungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FmaKomponenteExtensions.*
+import java.math.BigDecimal
 
 /**
  * Diese Klasse erweitert {@link FMA_Anlage}.
@@ -107,11 +108,11 @@ class FmaAnlageExtensions extends BasisObjektExtensions {
 	 * 
 	 * @return the Gleisschaltgruppen intersecting the Gleisabschnitt of this FMA Anlage
 	 */
-	def static List<Gleis_Schaltgruppe> getGleisSchaltgruppen(
-		FMA_Anlage anlage) {
+	def static List<Gleis_Schaltgruppe> getGleisSchaltgruppen(FMA_Anlage anlage,
+		BigDecimal minOverlaplength) {
 		val gleisabschnitt = anlage.IDGleisAbschnitt?.value
 		return anlage.container.gleisSchaltgruppe.filter [
-			intersectsStrictly(gleisabschnitt)
+			getOverlappingLength(gleisabschnitt) > minOverlaplength
 		].toList
 	}
 
