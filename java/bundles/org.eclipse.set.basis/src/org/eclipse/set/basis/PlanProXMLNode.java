@@ -262,6 +262,8 @@ public class PlanProXMLNode {
 	}
 
 	/**
+	 * Find nodes through XPath
+	 * 
 	 * @param node
 	 *            the {@link PlanProXMLNode}
 	 * @param expression
@@ -286,7 +288,8 @@ public class PlanProXMLNode {
 			final Set<PlanProXMLNode> clone = new HashSet<>();
 			clone.addAll(result);
 			result.clear();
-			clone.forEach(n -> result.addAll(findNodesWithNames(n, name)));
+			clone.parallelStream()
+					.forEach(n -> result.addAll(findNodesWithNames(n, name)));
 		}
 
 		return result;
@@ -300,6 +303,7 @@ public class PlanProXMLNode {
 		}
 		final Set<PlanProXMLNode> result = new HashSet<>();
 		node.getChildren()
+				.parallelStream()
 				.forEach(child -> result
 						.addAll(findNodesWithNames(child, nodeName)));
 		return result;

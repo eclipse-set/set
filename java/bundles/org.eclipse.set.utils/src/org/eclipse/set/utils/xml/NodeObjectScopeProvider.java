@@ -87,10 +87,6 @@ public class NodeObjectScopeProvider {
 		// inside the ID_LST_Objekt_Planungsbereich
 		if (guidPlanungsbereichCache == null) {
 			guidPlanungsbereichCache = new ArrayList<>();
-
-			// final XPath xPath = XPathFactory.newInstance().newXPath();
-			// final String expression = String.format(XPATH_PLANUNGSBEREICH,
-			// guid);
 			try {
 				final PlanProXMLNode rootNode = node.getRootNode();
 				final Set<PlanProXMLNode> evaluateXPath = PlanProXMLNode
@@ -98,28 +94,6 @@ public class NodeObjectScopeProvider {
 				guidPlanungsbereichCache.addAll(evaluateXPath.stream()
 						.map(PlanProXMLNode::getTextValue)
 						.toList());
-				// final Set<PlanProXMLNode> allNodes = node.getAllNodes();
-				// allNodes.stream()
-				// .filter(n -> n.getNodeName()
-				// .equals("ID_LST_Objekt_Planungsbereich"))
-				// .forEach(n -> {
-				// if (n.getChildrens()
-				// .getFirst()
-				// .getNodeName()
-				// .equals("Wert")) {
-				// guidPlanungsbereichCache.add(n.getChildrens()
-				// .getFirst()
-				// .getTextValue());
-				// }
-				// });
-				// final NodeList nodeList = (NodeList)
-				// xPath.compile(expression)
-				// .evaluate(node.getOwnerDocument(),
-				// XPathConstants.NODESET);
-				// for (int i = 0; i < nodeList.getLength(); ++i) {
-				// final Node entry = nodeList.item(i);
-				// guidPlanungsbereichCache.add(entry.getNodeValue());
-				// }
 			} catch (final Exception e) {
 				throw new RuntimeException(e);
 			}
