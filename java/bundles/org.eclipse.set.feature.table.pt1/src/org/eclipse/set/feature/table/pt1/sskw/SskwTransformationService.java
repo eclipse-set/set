@@ -17,6 +17,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
+import org.eclipse.set.core.services.session.SessionService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableTransformationService;
@@ -48,6 +49,9 @@ public final class SskwTransformationService
 	@Reference
 	private EventAdmin eventAdmin;
 
+	@Reference
+	SessionService sessionService;
+
 	/**
 	 * constructor.
 	 */
@@ -57,7 +61,8 @@ public final class SskwTransformationService
 
 	@Override
 	public AbstractPlanPro2TableModelTransformator createTransformator() {
-		return new SskwTransformator(cols, enumTranslationService, eventAdmin);
+		return new SskwTransformator(cols, enumTranslationService, eventAdmin,
+				sessionService);
 	}
 
 	@Override
