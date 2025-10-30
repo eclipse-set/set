@@ -80,7 +80,7 @@ class NilTest extends AbstractCustomValidator {
 		if (nilAttribute) {
 			it.add(node.transform)
 		}
-		it.addAll(node.childrens.flatMap[validate])
+		it.addAll(node.getChildren.flatMap[validate])
 		return it
 	}
 

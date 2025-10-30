@@ -102,11 +102,16 @@ public class EObjectXMLFinder {
             parentNode = find(parent);
         }
 
-        if (feature.isMany()) {
-            final List<?> list = (List<?>) object.eContainer().eGet(feature);
-            return getNthChildByName(parentNode, name, list.indexOf(object));
-        }
-        return getFirstChildByName(parentNode, name);
+        final List<PlanProXMLNode> children = node.getChildren();
+        final Stream<PlanProXMLNode> childrenStream = IntStream
+                .range(0, children.size())
+                .mapToObj(children::get);
+        return childrenStream
+                .filter(child -> getSanetizedName(child) != null
+                && getSanetizedName(child).equals(name))
+                .skip(n)
+                .findFirst()
+                .orElse(null);
     }
 
     private static PlanProXMLNode getFirstChildByName(final PlanProXMLNode node,

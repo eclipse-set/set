@@ -93,8 +93,8 @@ public class NodeObjectScopeProvider {
 			// guid);
 			try {
 				final PlanProXMLNode rootNode = node.getRootNode();
-				final Set<PlanProXMLNode> evaluateXPath = rootNode
-						.evaluateXPath(XPATH_PLANUNGSBEREICH);
+				final Set<PlanProXMLNode> evaluateXPath = PlanProXMLNode
+						.evaluateXPath(rootNode, XPATH_PLANUNGSBEREICH);
 				guidPlanungsbereichCache.addAll(evaluateXPath.stream()
 						.map(PlanProXMLNode::getTextValue)
 						.toList());
