@@ -165,9 +165,10 @@ class SslrTransformator extends AbstractPlanPro2TableModelTransformator {
 						ENUM_RANGIER_GEGENFAHRTAUSSCHLUSS_INSELGLEIS_FREI
 					}.contains(fstrRangier?.rangierGegenfahrtausschluss?.wert)
 				],
-				[
-					fstrZugRangier.container.gleisBezeichnung.filter [
-						intersects(fstrZugRangier?.fstrFahrweg?.zielSignal)
+				[fstr |
+					it.addTopologicalCell(cols.getColumn(Inselgleis_Bezeichnung))
+					fstr.container.gleisBezeichnung.filter [
+						intersects(fstr?.fstrFahrweg?.zielSignal)
 					].map[bezeichnung?.bezGleisBezeichnung?.wert]
 				],
 				ITERABLE_FILLING_SEPARATOR,

@@ -8,6 +8,8 @@
  */
 package org.eclipse.set.feature.table.pt1.sslz;
 
+import static org.eclipse.set.feature.table.pt1.sslz.SslzColumns.*;
+
 import java.util.List;
 
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
@@ -71,6 +73,8 @@ public final class SslzTransformationService
 
 	@Override
 	protected List<String> getTopologicalColumnPosition() {
-		return List.of(SslzColumns.Entscheidungsweiche);
+		return List.of(Entscheidungsweiche, Abhaengiger_BUe, Fahrweg,
+				Geschwindigkeit_Startsignal_Zs3, Im_Fahrweg_Zs3, Im_Fahrweg_Zs6,
+				Kennlicht, Vorsignalisierung);
 	}
 }
