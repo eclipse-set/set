@@ -11,24 +11,22 @@ package org.eclipse.set.feature.validation.niltest
 import java.io.IOException
 import java.util.List
 import javax.xml.parsers.ParserConfigurationException
+import org.eclipse.set.basis.PlanProXMLNode
 import org.eclipse.set.basis.constants.ValidationResult
 import org.eclipse.set.basis.exceptions.CustomValidationProblem
 import org.eclipse.set.basis.files.ToolboxFile
+import org.eclipse.set.core.services.validation.CustomValidator
 import org.eclipse.set.feature.validation.AbstractCustomValidator
 import org.eclipse.set.feature.validation.CustomValidationProblemImpl
-import org.eclipse.set.utils.xml.ObjectMetadataXMLReader
+import org.eclipse.set.model.planpro.Layoutinformationen.PlanPro_Layoutinfo
+import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle
+import org.eclipse.set.model.validationreport.ObjectScope
 import org.eclipse.set.model.validationreport.ValidationSeverity
+import org.eclipse.set.utils.xml.ObjectMetadataXMLReader
 import org.osgi.service.component.annotations.Component
-import org.w3c.dom.Node
 import org.xml.sax.SAXException
 
-import static extension org.eclipse.set.basis.extensions.NodeListExtensions.*
 import static extension org.eclipse.set.utils.xml.ObjectMetadataXMLReader.*
-import static extension org.eclipse.set.utils.xml.LineNumberXMLReader.*
-import org.eclipse.set.core.services.validation.CustomValidator
-import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle
-import org.eclipse.set.model.planpro.Layoutinformationen.PlanPro_Layoutinfo
-import org.eclipse.set.model.validationreport.ObjectScope
 
 /** 
  * Test for intentionally incomplete data.
@@ -76,13 +74,13 @@ class NilTest extends AbstractCustomValidator {
 		}
 	}
 
-	private def List<CustomValidationProblem> validate(Node node) {
+	private def List<CustomValidationProblem> validate(PlanProXMLNode node) {
 		val it = newLinkedList
-		val nilAttribute = node?.attributes?.getNamedItem(NIL)
-		if (nilAttribute !== null) {
+		val nilAttribute = node?.attributes.exists[attributeName == NIL]
+		if (nilAttribute) {
 			it.add(node.transform)
 		}
-		it.addAll(node.childNodes.iterable.flatMap[validate])
+		it.addAll(node.getChildren.flatMap[validate])
 		return it
 	}
 
@@ -98,9 +96,9 @@ class NilTest extends AbstractCustomValidator {
 		return it
 	}
 
-	private def dispatch CustomValidationProblem transform(Node node) {
+	private def dispatch CustomValidationProblem transform(PlanProXMLNode node) {
 		val it = new CustomValidationProblemImpl
-		lineNumber = node.startLineNumber
+		lineNumber = Integer.parseInt(node.startLineNumber)
 		message = messages.NilTestProblem_Message
 		severity = ValidationSeverity.WARNING
 		type = validationType

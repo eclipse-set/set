@@ -14,8 +14,8 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.set.basis.PlanProXMLNode;
 import org.eclipse.set.basis.guid.Guid;
-import org.w3c.dom.Document;
 
 /**
  * Abstraction from concrete file format.
@@ -198,7 +198,7 @@ public interface ToolboxFile {
 	 *            name of document
 	 * @return DOM document with line number
 	 */
-	Document getXMLDocument(String contentName);
+	PlanProXMLNode getXMLDocument(String contentName);
 
 	/**
 	 * create DOM document
@@ -208,7 +208,7 @@ public interface ToolboxFile {
 	 * @param doc
 	 *            DOM document with line number
 	 */
-	void setXMLDocument(String docName, Document doc);
+	void setXMLDocument(String docName, PlanProXMLNode doc);
 
 	/**
 	 * Remove all storaged XML Document

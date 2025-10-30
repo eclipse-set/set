@@ -13,12 +13,11 @@ import java.nio.file.Path;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.eclipse.set.basis.PlanProXMLNode;
 import org.eclipse.set.basis.extensions.PathExtensions;
 import org.eclipse.set.basis.files.ToolboxFile;
 import org.eclipse.set.model.validationreport.ObjectScope;
 import org.eclipse.set.model.validationreport.ObjectState;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
 /**
@@ -51,14 +50,14 @@ public class ObjectMetadataXMLReader {
 	 * @throws IOException
 	 *             if the underlying LineNumberXMLReader throws
 	 */
-	public static Document read(final ToolboxFile toolboxFile,
+	public static PlanProXMLNode read(final ToolboxFile toolboxFile,
 			final Path docPath)
 			throws IOException, SAXException, ParserConfigurationException {
 		if (docPath == null) {
 			return null;
 		}
 		final String docName = PathExtensions.getBaseFileName(docPath);
-		Document document = toolboxFile.getXMLDocument(docName);
+		PlanProXMLNode document = toolboxFile.getXMLDocument(docName);
 		if (document == null) {
 			final ObjectMetadataXMLReader reader = new ObjectMetadataXMLReader(
 					docPath);
@@ -69,10 +68,10 @@ public class ObjectMetadataXMLReader {
 		return document;
 	}
 
-	private Document read()
+	private PlanProXMLNode read()
 			throws IOException, SAXException, ParserConfigurationException {
-		final Document document = LineNumberXMLReader.read(documentPath);
-		document.setUserData(METADATA_READER_KEY, this, null);
+		final PlanProXMLNode document = LineNumberXMLReader.read(documentPath);
+		document.addAdditionsObject(METADATA_READER_KEY, this);
 		return document;
 	}
 
@@ -91,7 +90,7 @@ public class ObjectMetadataXMLReader {
 	 *            the node
 	 * @return the scope of the object
 	 */
-	public static ObjectScope getObjectScope(final Node node) {
+	public static ObjectScope getObjectScope(final PlanProXMLNode node) {
 		final ObjectMetadataXMLReader metadata = getMetadataReader(node);
 		return metadata.validationObjectScopeProvider.getObjectScope(node);
 	}
@@ -103,7 +102,7 @@ public class ObjectMetadataXMLReader {
 	 *            the node
 	 * @return the scope of the object
 	 */
-	public static String getObjectScopeLiteral(final Node node) {
+	public static String getObjectScopeLiteral(final PlanProXMLNode node) {
 		return getObjectScope(node).getLiteral();
 	}
 
@@ -114,7 +113,7 @@ public class ObjectMetadataXMLReader {
 	 *            the node
 	 * @return the type of the object
 	 */
-	public static String getObjectType(final Node node) {
+	public static String getObjectType(final PlanProXMLNode node) {
 		final ObjectMetadataXMLReader metadata = getMetadataReader(node);
 		return metadata.validationObjectTypeProvider.getObjectType(node);
 	}
@@ -126,7 +125,7 @@ public class ObjectMetadataXMLReader {
 	 *            the node
 	 * @return the state of the object or null
 	 */
-	public static ObjectState getObjectState(final Node node) {
+	public static ObjectState getObjectState(final PlanProXMLNode node) {
 		final ObjectMetadataXMLReader metadata = getMetadataReader(node);
 		return metadata.validationObjectStateProvider.getObjectState(node);
 	}
@@ -138,7 +137,7 @@ public class ObjectMetadataXMLReader {
 	 *            the node
 	 * @return the type of the object
 	 */
-	public static String getAttributeName(final Node node) {
+	public static String getAttributeName(final PlanProXMLNode node) {
 		final ObjectMetadataXMLReader metadata = getMetadataReader(node);
 		return metadata.validationAttributeNameProvider.getAttributeName(node);
 	}
@@ -151,8 +150,9 @@ public class ObjectMetadataXMLReader {
 	 * @return the ObjectMetadataXMLReader or null if the document was not
 	 *         opened using a ObjectMetadataXMLReader
 	 */
-	private static ObjectMetadataXMLReader getMetadataReader(final Node node) {
-		return (ObjectMetadataXMLReader) node.getOwnerDocument()
-				.getUserData(METADATA_READER_KEY);
+	private static ObjectMetadataXMLReader getMetadataReader(
+			final PlanProXMLNode node) {
+		return (ObjectMetadataXMLReader) node
+				.getAdditionsObject(METADATA_READER_KEY);
 	}
 }

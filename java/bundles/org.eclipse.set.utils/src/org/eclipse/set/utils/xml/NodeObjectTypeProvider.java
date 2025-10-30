@@ -9,8 +9,9 @@
 
 package org.eclipse.set.utils.xml;
 
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import java.util.List;
+
+import org.eclipse.set.basis.PlanProXMLNode;
 
 /**
  * Determines the LST object type for a given XML node
@@ -29,19 +30,18 @@ public class NodeObjectTypeProvider {
 	 *            XML node to find the LST object type for
 	 * @return the lst object type
 	 */
-	public String getObjectType(final Node node) {
+	public String getObjectType(final PlanProXMLNode node) {
 		if (node == null) {
 			return null;
 		}
 
-		final NodeList children = node.getChildNodes();
-		for (int i = 0; i < children.getLength(); ++i) {
-			final Node child = children.item(i);
+		final List<PlanProXMLNode> children = node.getChildren();
+		for (final PlanProXMLNode child : children) {
 			if (child.getNodeName().equals(IDENTITY_ATTRIBUTE_NAME)) {
 				return node.getNodeName();
 			}
 		}
-		return getObjectType(node.getParentNode());
+		return getObjectType(node.getParent());
 	}
 
 }

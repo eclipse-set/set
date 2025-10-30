@@ -167,6 +167,7 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 		if (event.getTopic().equals(Events.CLOSE_SESSION)) {
 			alreadyFoundMetaData.clear();
 			topologicalCoordinates = Optional.empty();
+			return;
 		}
 		final Map<String, Class<? extends PlazCheck>> properties = new HashMap<>();
 		properties.put("org.eclipse.e4.data", this.getClass()); // $NON-NLS-1$

@@ -8,8 +8,9 @@
  */
 package org.eclipse.set.utils.xml;
 
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import java.util.List;
+
+import org.eclipse.set.basis.PlanProXMLNode;
 
 /**
  * Determines an attribute/group name for an XML node
@@ -30,17 +31,17 @@ public class NodeAttributeNameProvider {
 	 *            The node to find the attribute name
 	 * @return The closest XML attribute name (or null)
 	 */
-	public String getAttributeName(final Node node) {
+	public String getAttributeName(final PlanProXMLNode node) {
 		// When the parent node is container node or root node, then the node
 		// isn't
 		// attribute/group node
-		if (node == null || node.getParentNode() == null
-				|| node.getParentNode().getNodeName().equals(DOCUMENT_NODE)
-				|| node.getParentNode().getNodeName().equals(CONTAINER_NODE)) {
+		if (node == null || node.getParent() == null
+				|| node.getParent().getNodeName().equals(DOCUMENT_NODE)
+				|| node.getParent().getNodeName().equals(CONTAINER_NODE)) {
 			return null;
 		}
 
-		final Node parentNode = node.getParentNode();
+		final PlanProXMLNode parentNode = node.getParent();
 
 		if (node.getNodeName().equals(TEXT_NODE)) {
 			return getAttributeName(parentNode);
@@ -55,20 +56,20 @@ public class NodeAttributeNameProvider {
 		return parentNode.getNodeName();
 	}
 
-	private static boolean isObjectType(final Node node) {
+	private static boolean isObjectType(final PlanProXMLNode node) {
 		return hasChildOfType(node,
 				NodeAttributeNameProvider.IDENTITY_ATTRIBUTE_NAME);
 	}
 
-	private static boolean isValueType(final Node node) {
+	private static boolean isValueType(final PlanProXMLNode node) {
 		return hasChildOfType(node,
 				NodeAttributeNameProvider.VALUE_ATTRIBUTE_NAME);
 	}
 
-	private static boolean hasChildOfType(final Node node, final String name) {
-		final NodeList children = node.getChildNodes();
-		for (int i = 0; i < children.getLength(); i++) {
-			final Node child = children.item(i);
+	private static boolean hasChildOfType(final PlanProXMLNode node,
+			final String name) {
+		final List<PlanProXMLNode> children = node.getChildren();
+		for (final PlanProXMLNode child : children) {
 			if (child.getNodeName().equals(name)) {
 				return true;
 			}
