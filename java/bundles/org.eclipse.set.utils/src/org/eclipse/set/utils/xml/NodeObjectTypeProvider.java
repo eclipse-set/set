@@ -35,7 +35,7 @@ public class NodeObjectTypeProvider {
 			return null;
 		}
 
-		final List<PlanProXMLNode> children = node.getChildrens();
+		final List<PlanProXMLNode> children = node.getChildren();
 		for (final PlanProXMLNode child : children) {
 			if (child.getNodeName().equals(IDENTITY_ATTRIBUTE_NAME)) {
 				return node.getNodeName();

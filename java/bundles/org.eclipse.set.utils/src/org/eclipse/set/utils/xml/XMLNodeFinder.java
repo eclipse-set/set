@@ -49,7 +49,7 @@ public class XMLNodeFinder {
 		if (currentNode == null || lineNumber < 0) {
 			return null;
 		}
-		final List<PlanProXMLNode> children = currentNode.getChildrens();
+		final List<PlanProXMLNode> children = currentNode.getChildren();
 		for (final PlanProXMLNode node : children) {
 			if (isLineNumberInNode(lineNumber, node)) {
 				return findNodeByLineNumber(node, lineNumber);
@@ -86,7 +86,7 @@ public class XMLNodeFinder {
 			return node;
 		}
 
-		final List<PlanProXMLNode> nodeList = node.getChildrens();
+		final List<PlanProXMLNode> nodeList = node.getChildren();
 		for (final PlanProXMLNode element : nodeList) {
 			final PlanProXMLNode childNode = findFirstNodeByNodeName(element,
 					nodeName);
@@ -157,7 +157,7 @@ public class XMLNodeFinder {
 
 	private static PlanProXMLNode getChildNodeByName(final PlanProXMLNode node,
 			final String name) {
-		final List<PlanProXMLNode> children = node.getChildrens();
+		final List<PlanProXMLNode> children = node.getChildren();
 
 		for (final PlanProXMLNode child : children) {
 			if (child.getNodeName().equals(name)) {

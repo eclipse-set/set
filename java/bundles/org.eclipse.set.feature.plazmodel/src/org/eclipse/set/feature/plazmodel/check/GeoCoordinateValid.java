@@ -21,6 +21,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -28,6 +29,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.apache.commons.text.StringSubstitutor;
 import org.eclipse.emf.ecore.EObject;
@@ -179,23 +181,16 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 		if (!geometryService.isFindGeometryComplete()) {
 			return List.of(createProcessingWarning());
 		}
-
 		final List<PlazError> result = new ArrayList<>();
 		final List<Punkt_Objekt> relevantPOs = getRelevantPOs(container);
-		relevantPOs.forEach(po -> po.getPunktObjektTOPKante().forEach(potk -> {
-			GEOKanteMetadata geoKanteMetaData = alreadyFoundMetaData
-					.parallelStream()
-					.filter(md -> isBelongToThisMetadata(md, potk))
-					.findFirst()
-					.orElse(null);
-			if (geoKanteMetaData == null) {
-				geoKanteMetaData = getGeoKanteMetaData(potk);
-				if (geoKanteMetaData == null) {
-					return;
-				}
-				alreadyFoundMetaData.add(geoKanteMetaData);
-			}
-		}));
+		determineGEOKanteMetadata(relevantPOs);
+		final boolean isAlreadyDeterminCoordinate = topologicalCoordinates
+				.isPresent();
+		if (!isAlreadyDeterminCoordinate) {
+			topologicalCoordinates = Optional
+					.of(Collections.synchronizedList(new ArrayList<>()));
+		}
+
 		relevantPOs.parallelStream()
 				.forEach(po -> po.getPunktObjektTOPKante().forEach(potk -> {
 					if (isNotDistinctCoordinateSystem(potk)) {
@@ -204,27 +199,54 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 								Map.of("GUID", po.getIdentitaet().getWert())));
 						return;
 					}
-					final GEOKanteCoordinate topCoordinate = calculateCoordinate(
-							MultiContainer_AttributeGroupExtensions
-									.getContainerType(container),
-							po, potk);
+					try {
+						final GEOKanteCoordinate topCoordinate = calculateCoordinate(
+								MultiContainer_AttributeGroupExtensions
+										.getContainerType(container),
+								po, potk, isAlreadyDeterminCoordinate);
 
-					if (topCoordinate == null
-							|| getNullableObject(topCoordinate,
-									e -> e.getCoordinate()).isEmpty()) {
-						result.add(createGeoCoordinateError(po,
-								"Es gibt Fehler bei der Berechnung der topologischen Koordinate",
-								Map.of()));
-						return;
+						if (topCoordinate == null
+								|| getNullableObject(topCoordinate,
+										e -> e.getCoordinate()).isEmpty()) {
+							result.add(createGeoCoordinateError(po,
+									"Es gibt Fehler bei der Berechnung der topologischen Koordinate",
+									Map.of()));
+							return;
+						}
+
+						final PlazError error = validGeoCoordinate(po, potk,
+								topCoordinate);
+						if (error != null) {
+							result.add(error);
+						}
+					} catch (final Exception e) {
+						logger.error(e.getMessage());
 					}
 
-					final PlazError error = validGeoCoordinate(po, potk,
-							topCoordinate);
-					if (error != null) {
-						result.add(error);
-					}
 				}));
 		return result;
+	}
+
+	private void determineGEOKanteMetadata(
+			final List<Punkt_Objekt> relevantPOs) {
+		relevantPOs.forEach(po -> po.getPunktObjektTOPKante().forEach(potk -> {
+			try {
+				GEOKanteMetadata geoKanteMetaData = alreadyFoundMetaData
+						.parallelStream()
+						.filter(md -> isBelongToThisMetadata(md, potk))
+						.findFirst()
+						.orElse(null);
+				if (geoKanteMetaData == null) {
+					geoKanteMetaData = getGeoKanteMetaData(potk);
+					if (geoKanteMetaData == null) {
+						return;
+					}
+					alreadyFoundMetaData.add(geoKanteMetaData);
+				}
+			} catch (final Exception e) {
+				logger.error(e.getMessage());
+			}
+		}));
 	}
 
 	private PlazError validGeoCoordinate(final Punkt_Objekt po,
@@ -271,30 +293,36 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 	 * @param potk
 	 *            the {@link Punkt_Objekt_TOP_Kante_AttributeGroup} of this
 	 *            {@link Punkt_Objekt}
+	 * @param isAlreadyDeterminCoordinate
+	 *            when the coordinate already calculate, then find the match
+	 *            coordinate in the cached list
 	 * @return the {@link GEOKanteCoordinate}
 	 */
 	public GEOKanteCoordinate calculateCoordinate(final ContainerType state,
 			final Punkt_Objekt po,
-			final Punkt_Objekt_TOP_Kante_AttributeGroup potk) {
-		List<TopologicalCoordinate> alreadyCalulatedCoordinates = topologicalCoordinates
-				.orElse(null);
-		if (alreadyCalulatedCoordinates == null) {
-			alreadyCalulatedCoordinates = new ArrayList<>();
-			topologicalCoordinates = Optional.of(alreadyCalulatedCoordinates);
-		}
-		final Optional<TopologicalCoordinate> target = alreadyCalulatedCoordinates
-				.stream()
-				.filter(ele -> ele.state() == state && ele.po() == po
-						&& ele.potk() == potk)
-				.findFirst();
-		if (target.isPresent()) {
-			return target.get().coordinate();
+			final Punkt_Objekt_TOP_Kante_AttributeGroup potk,
+			final boolean isAlreadyDeterminCoordinate) {
+		// To avoid ConcurrentModificationException, when the calculate process
+		// was already run one time, then find the coordinate in the cached list
+		if (isAlreadyDeterminCoordinate) {
+			final List<TopologicalCoordinate> alreadyCalulatedCoordinates = topologicalCoordinates
+					.get();
+			final List<TopologicalCoordinate> target = alreadyCalulatedCoordinates
+					.stream()
+					.filter(ele -> ele.state() == state && ele.po() == po
+							&& ele.potk() == potk)
+					.collect(Collectors.toList());
+			if (!target.isEmpty()) {
+				return target.getFirst().coordinate();
+			}
+			return null;
 		}
 
 		final GEOKanteCoordinate calculateCoordinate = calculateCoordinate(po,
 				potk);
-		alreadyCalulatedCoordinates.add(new TopologicalCoordinate(state, po,
-				potk, calculateCoordinate));
+		topologicalCoordinates.get()
+				.add(new TopologicalCoordinate(state, po, potk,
+						calculateCoordinate));
 		return calculateCoordinate;
 	}
 

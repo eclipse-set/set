@@ -68,7 +68,7 @@ public class NodeAttributeNameProvider {
 
 	private static boolean hasChildOfType(final PlanProXMLNode node,
 			final String name) {
-		final List<PlanProXMLNode> children = node.getChildrens();
+		final List<PlanProXMLNode> children = node.getChildren();
 		for (final PlanProXMLNode child : children) {
 			if (child.getNodeName().equals(name)) {
 				return true;

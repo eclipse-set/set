@@ -26,16 +26,44 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import org.w3c.dom.Node;
 import org.xml.sax.Attributes;
 import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 /**
+ * Replacement class for {@link Node} to avoid OutOfMemory, when a big File
+ * loaded
  * 
+ * @author truong
  */
 public class PlanProXMLNode {
 
+	/**
+	 * The replacement for DOM attribute
+	 * 
+	 * @param attributeName
+	 *            the attribute name
+	 * @param value
+	 *            the attribute value
+	 */
+	public static record PlanProXMLNodeAttribute(String attributeName,
+			String value) {
+
+	}
+
+	/**
+	 * @param input
+	 *            the file input stream
+	 * @return the root node
+	 * @throws IOException
+	 *             the {@link IOException}
+	 * @throws SAXException
+	 *             the {@link SAXException}
+	 * @throws ParserConfigurationException
+	 *             the {@link ParserConfigurationException}
+	 */
 	public static PlanProXMLNode read(final InputStream input)
 			throws IOException, SAXException, ParserConfigurationException {
 		final SAXParserFactory factory = SAXParserFactory.newInstance();
@@ -45,7 +73,7 @@ public class PlanProXMLNode {
 				"http://xml.org/sax/features/external-parameter-entities", //$NON-NLS-1$
 				false);
 		final SAXParser parser = factory.newSAXParser();
-		final PlanProXMLNode root = new PlanProXMLNode("document");
+		final PlanProXMLNode root = new PlanProXMLNode("document"); //$NON-NLS-1$
 		final Deque<PlanProXMLNode> elementStack = new ArrayDeque<>();
 		final StringBuilder nodeText = new StringBuilder();
 		final DefaultHandler hanlder = new DefaultHandler() {
@@ -59,8 +87,8 @@ public class PlanProXMLNode {
 			private void addTextIfNeeded() {
 				if (nodeText.length() > 0) {
 					String text = nodeText.toString();
-					text = text.replace("\n", "");
-					text = text.replace("\r", "");
+					text = text.replace("\n", ""); //$NON-NLS-1$ //$NON-NLS-2$
+					text = text.replace("\r", ""); //$NON-NLS-1$ //$NON-NLS-2$
 					text = text.trim();
 					if (!text.isEmpty()) {
 						final PlanProXMLNode el = elementStack.peek();
@@ -97,7 +125,7 @@ public class PlanProXMLNode {
 				addTextIfNeeded();
 				final PlanProXMLNode element = new PlanProXMLNode(qName);
 				for (int i = 0; i < attributes.getLength(); i++) {
-					element.addAttribute(new XMLAttributeToJavaObject(
+					element.addAttribute(new PlanProXMLNodeAttribute(
 							attributes.getQName(i), attributes.getValue(i)));
 				}
 				element.setStartLineNumber(this.locator.getLineNumber());
@@ -109,91 +137,104 @@ public class PlanProXMLNode {
 		return root;
 	}
 
-	protected void setStartLineNumber(final int lineNumber) {
-		startLineNumber = Optional.of(Integer.valueOf(lineNumber));
-
-	}
-
-	protected void addAttribute(
-			final XMLAttributeToJavaObject xmlAttributeToJavaObject) {
-		attributes.add(xmlAttributeToJavaObject);
-
-	}
-
-	protected void setEndLineNumber(final int lineNumber) {
-		endLineNumber = Optional.of(Integer.valueOf(lineNumber));
-	}
-
-	public static record XMLAttributeToJavaObject(String attributeName,
-			String value) {
-
-	}
-
 	String nodeName;
 	String textValue;
-	List<XMLAttributeToJavaObject> attributes;
+	List<PlanProXMLNodeAttribute> attributes;
 	PlanProXMLNode parent;
 	List<PlanProXMLNode> children;
 	Optional<Integer> startLineNumber;
 	Optional<Integer> endLineNumber;
 	private static Map<String, Object> addtionsObject = new HashMap<>();
 
-	private static Set<PlanProXMLNode> allNodes = new HashSet<>();
-
-	public PlanProXMLNode() {
-		this.nodeName = null;
-		this.parent = null;
-		this.children = new ArrayList<>();
-		this.attributes = new ArrayList<>();
-	}
-
-	public PlanProXMLNode(final String nodeName) {
-		this.nodeName = nodeName;
-		this.children = new ArrayList<>();
-		this.attributes = new ArrayList<>();
-	}
-
-	public void addChild(final PlanProXMLNode child) {
-		children.add(child);
-		child.setParent(this);
-	}
-
-	public void setTextValue(final String value) {
-		textValue = value;
-	}
-
-	public void setParent(final PlanProXMLNode parent) {
-		this.parent = parent;
-	}
-
-	public List<PlanProXMLNode> getChildrens() {
-		return children;
-	}
-
-	public PlanProXMLNode getParent() {
-		return parent;
-	}
-
+	/**
+	 * @return the node name
+	 */
 	public String getNodeName() {
 		return nodeName;
 	}
 
+	/**
+	 * @return the node text value
+	 */
+	public String getTextValue() {
+		return textValue;
+	}
+
+	protected void addAttribute(
+			final PlanProXMLNodeAttribute xmlAttributeToJavaObject) {
+		attributes.add(xmlAttributeToJavaObject);
+
+	}
+
+	/**
+	 * @return the node attribute
+	 */
+	public List<PlanProXMLNodeAttribute> getAttributes() {
+		return attributes;
+	}
+
+	protected void setParent(final PlanProXMLNode parent) {
+		this.parent = parent;
+	}
+
+	/**
+	 * @return the node parent
+	 */
+	public PlanProXMLNode getParent() {
+		return parent;
+	}
+
+	protected void addChild(final PlanProXMLNode child) {
+		children.add(child);
+		child.setParent(this);
+	}
+
+	/**
+	 * @return the children node
+	 */
+	public List<PlanProXMLNode> getChildren() {
+		return children;
+	}
+
+	protected void setStartLineNumber(final int lineNumber) {
+		startLineNumber = Optional.of(Integer.valueOf(lineNumber));
+	}
+
+	/**
+	 * @return the start line number of node
+	 */
 	public String getStartLineNumber() {
 		return startLineNumber.isPresent()
 				? Integer.toString(startLineNumber.get().intValue())
 				: null;
 	}
 
+	protected void setEndLineNumber(final int lineNumber) {
+		endLineNumber = Optional.of(Integer.valueOf(lineNumber));
+	}
+
+	/**
+	 * @return the end line number of node
+	 */
 	public String getEndLineNumber() {
 		return endLineNumber.isPresent()
 				? Integer.toString(endLineNumber.get().intValue())
 				: null;
 	}
 
-	public String getTextValue() {
-		return textValue;
+	protected void setTextValue(final String value) {
+		textValue = value;
 	}
 
+	protected PlanProXMLNode(final String nodeName) {
+		this.nodeName = nodeName;
+		this.children = new ArrayList<>();
+		this.attributes = new ArrayList<>();
+	}
+
+	/**
+	 * @return the root node
+	 */
 	public PlanProXMLNode getRootNode() {
 		if (parent == null) {
 			return this;
@@ -201,70 +242,66 @@ public class PlanProXMLNode {
 		return parent.getRootNode();
 	}
 
-	// public Set<PlanProXMLNode> getAllNodes() {
-	// if (!allNodes.isEmpty()) {
-	// return allNodes;
-	// }
-	// final Set<PlanProXMLNode> result = new HashSet<>();
-	// traverserNode(this, result);
-	//
-	// return result;
-	// }
-	//
-	// private void traverserNode(final PlanProXMLNode node,
-	// final Set<PlanProXMLNode> result) {
-	// if (result.add(node)) {
-	// node.getChildrens().forEach(child -> traverserNode(child, result));
-	// }
-	//
-	// if (node.getParent() != null) {
-	// traverserNode(node.getParent(), result);
-	// }
-	// }
-
-	public void addAdditionsObject(final String key, final Object obj) {
+	/**
+	 * @param key
+	 *            the addition key
+	 * @param obj
+	 *            the addition object
+	 */
+	public static void addAdditionsObject(final String key, final Object obj) {
 		addtionsObject.put(key, obj);
 	}
 
-	public Object getAdditionsObject(final String key) {
+	/**
+	 * @param key
+	 *            the addition key
+	 * @return the addition object, or null if the key not exist
+	 */
+	public static Object getAdditionsObject(final String key) {
 		return addtionsObject.get(key);
 	}
 
-	public List<XMLAttributeToJavaObject> getAttributes() {
-		return attributes;
-	}
-
-	public Set<PlanProXMLNode> evaluateXPath(final String expression) {
-		if (parent != null) {
-			return parent.evaluateXPath(expression);
+	/**
+	 * @param node
+	 *            the {@link PlanProXMLNode}
+	 * @param expression
+	 *            the XPath expression
+	 * @return the XPath result
+	 */
+	public static Set<PlanProXMLNode> evaluateXPath(final PlanProXMLNode node,
+			final String expression) {
+		if (node.getParent() != null) {
+			return evaluateXPath(node.getParent(), expression);
 		}
-		final String[] nodePath = expression.split("/");
+		final String[] nodePath = expression.split("/"); //$NON-NLS-1$
 		final Set<PlanProXMLNode> result = new HashSet<>();
 		for (final String name : nodePath) {
 			if (name.trim().isEmpty()) {
 				continue;
 			}
 			if (result.isEmpty()) {
-				result.addAll(findNodesWithNames(name));
+				result.addAll(findNodesWithNames(node, name));
 				continue;
 			}
 			final Set<PlanProXMLNode> clone = new HashSet<>();
 			clone.addAll(result);
 			result.clear();
-			clone.forEach(node -> result.addAll(node.findNodesWithNames(name)));
+			clone.forEach(n -> result.addAll(findNodesWithNames(n, name)));
 		}
 
 		return result;
 
 	}
 
-	private Set<PlanProXMLNode> findNodesWithNames(final String nodeName) {
-		if (this.nodeName.equals(nodeName)) {
-			return Set.of(this);
+	private static Set<PlanProXMLNode> findNodesWithNames(
+			final PlanProXMLNode node, final String nodeName) {
+		if (node.nodeName.equals(nodeName)) {
+			return Set.of(node);
 		}
 		final Set<PlanProXMLNode> result = new HashSet<>();
-		children.forEach(
-				child -> result.addAll(child.findNodesWithNames(nodeName)));
+		node.getChildren()
+				.forEach(child -> result
+						.addAll(findNodesWithNames(child, nodeName)));
 		return result;
 	}
 }
