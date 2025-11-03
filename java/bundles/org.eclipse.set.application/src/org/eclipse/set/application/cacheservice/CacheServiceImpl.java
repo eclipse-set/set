@@ -71,7 +71,10 @@ public class CacheServiceImpl implements CacheService, EventHandler {
 					.flatMap(ele -> ele.values().stream())
 					.forEach(Cache::invalidate);
 		} else {
-			caches.get(role).values().forEach(Cache::invalidate);
+			caches.computeIfPresent(role, (k, v) -> {
+				v.values().forEach(Cache::invalidate);
+				return v;
+			});
 		}
 
 	}

@@ -113,6 +113,10 @@ public class UserConfigurationServiceImpl implements UserConfigurationService {
 						/* */});
 			configuration = (UserConfiguration) objectReader
 					.readValue(configurationFile);
+			configuration.lastOpenFiles.removeIf(p -> !p.toFile().exists());
+			configuration.lastOpenCompareFiles
+					.removeIf(p -> !p.toFile().exists());
+			saveConfiguration();
 		} catch (final IOException e) {
 			// If the configuration isn't valid, create a new one
 			configuration = new UserConfiguration();
@@ -198,6 +202,10 @@ public class UserConfigurationServiceImpl implements UserConfigurationService {
 
 	@Override
 	public Optional<Path> getLastFileOpenPath(final ToolboxFileRole role) {
+		if (configuration.lastFileOpenPath != null
+				&& !configuration.lastFileOpenPath.toFile().exists()) {
+			return Optional.empty();
+		}
 		return Optional.ofNullable(configuration.lastFileOpenPath);
 	}
 
@@ -237,6 +245,5 @@ public class UserConfigurationServiceImpl implements UserConfigurationService {
 			return getPathList(role);
 		}
 		return list;
-
 	}
 }

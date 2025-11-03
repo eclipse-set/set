@@ -55,6 +55,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 
+import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import jakarta.inject.Inject;
 
@@ -109,6 +110,13 @@ public class ValidationPart extends AbstractEmfFormsPart {
 
 	private Listener resizeListener;
 	private Composite resizeListenerObject;
+
+	@PostConstruct
+	void postConstruct() {
+		getBroker().subscribe(Events.CLOSE_SESSION, event -> {
+			modelService.put(INJECT_VIEW_VALIDATION_NATTABLE, null);
+		});
+	}
 
 	/**
 	 * Create the part.

@@ -29,7 +29,7 @@ class PlainToolboxFileTest extends AbstractToolboxFileTest {
 	def void testOpen() throws Throwable{
 		MockPlanProVersionService.mockPlanProVersionService([
 			whenOpen
-			thenExpectContentsExists(true)
+			thenExpectContentsExists()
 		])
 	}
 
@@ -41,7 +41,7 @@ class PlainToolboxFileTest extends AbstractToolboxFileTest {
 		MockPlanProVersionService.mockPlanProVersionService([
 			whenOpen
 			whenClose
-			thenExpectContentsExists(false)
+			thenExpectContentsNotExists()
 		])
 
 	}
@@ -55,7 +55,7 @@ class PlainToolboxFileTest extends AbstractToolboxFileTest {
 			whenOpen
 			whenClose
 			whenClose
-			thenExpectContentsExists(false)
+			thenExpectContentsNotExists()
 		])
 	}
 
@@ -68,11 +68,11 @@ class PlainToolboxFileTest extends AbstractToolboxFileTest {
 	def void testCloseThenOpen() throws Throwable {
 		MockPlanProVersionService.mockPlanProVersionService([
 			whenOpen
-			thenExpectContentsExists(true)
+			thenExpectContentsExists()
 			whenClose
-			thenExpectContentsExists(false)
+			thenExpectContentsNotExists()
 			whenOpen
-			thenExpectContentsExists(true)
+			thenExpectContentsExists()
 		])
 	}
 

@@ -9,19 +9,18 @@
 
 package org.eclipse.set.core.fileservice
 
-import java.lang.Throwable
 import java.nio.file.Files
 import java.nio.file.Paths
 import org.eclipse.set.basis.files.ToolboxFile
 import org.eclipse.set.basis.files.ToolboxFileRole
 import org.eclipse.set.core.services.files.ToolboxFileFormatService
+import org.eclipse.set.feature.validation.session.SetSessionService
 import org.eclipse.set.model.planpro.PlanPro.PlanProPackage
 import org.eclipse.set.unittest.utils.toolboxfile.AbstractToolboxFileTest
 import org.junit.jupiter.api.Test
 
+import static org.junit.Assert.assertFalse
 import static org.junit.Assert.assertNotNull
-import static org.junit.Assert.assertTrue
-import org.eclipse.set.feature.validation.session.SetSessionService
 
 /**
  * Test for {@link ZippedPlanProToolboxFile}
@@ -37,8 +36,8 @@ class ZippedToolboxFileTest extends AbstractToolboxFileTest {
 	def void testOpen() throws Throwable{
 		MockPlanProVersionService.mockPlanProVersionService([
 			whenOpen
-			thenExpectContentsExists(true)
-			thenExpectLayoutContentExists(true)
+			thenExpectContentsExists()
+			thenExpectLayoutContentExists()
 			thenExpectResourceCallsWithinZipDirectory
 		])
 	}
@@ -53,7 +52,7 @@ class ZippedToolboxFileTest extends AbstractToolboxFileTest {
 			whenOpen
 			whenClose
 			thenExpectZippedDirectoryNotExist
-			thenExpectContentsExists(false)
+			thenExpectContentsNotExists()
 		])
 	}
 
@@ -67,8 +66,7 @@ class ZippedToolboxFileTest extends AbstractToolboxFileTest {
 			whenClose
 			whenClose
 			thenExpectZippedDirectoryNotExist
-			thenExpectContentsExists(false)
-			thenExpectLayoutContentExists(false)
+			thenExpectContentsNotExists()
 		])
 	}
 
@@ -79,7 +77,7 @@ class ZippedToolboxFileTest extends AbstractToolboxFileTest {
 	def void testAutoclose() throws Throwable {
 		MockPlanProVersionService.mockPlanProVersionService([
 			PlanProPackage.eINSTANCE.eClass();
-			org.eclipse.set.model.planpro.PlanPro.PlanProPackage.eINSTANCE.
+			PlanProPackage.eINSTANCE.
 				eClass();
 
 			ToolboxFileRole.SESSION.whenOpenAndAutoclose
@@ -97,23 +95,22 @@ class ZippedToolboxFileTest extends AbstractToolboxFileTest {
 	def void testCloseThenOpen() throws Throwable{
 		MockPlanProVersionService.mockPlanProVersionService([
 			whenOpen
-			thenExpectContentsExists(true)
-			thenExpectLayoutContentExists(true)
+			thenExpectContentsExists()
+			thenExpectLayoutContentExists()
 			whenClose
-			thenExpectContentsExists(false)
-			thenExpectLayoutContentExists(false)
+			thenExpectContentsNotExists()
 			whenOpen
-			thenExpectContentsExists(true)
-			thenExpectLayoutContentExists(true)
+			thenExpectContentsExists()
+			thenExpectLayoutContentExists()
 			thenExpectResourceCallsWithinZipDirectory
 
 		])
 	}
 
-	def void thenExpectLayoutContentExists(boolean exists) {
+	def void thenExpectLayoutContentExists() {
 		if (Files.exists(testee.layoutPath)) {
 			assertNotNull(testee.layoutResource);
-			assertTrue(testee.layoutResource.contents.empty != exists)
+			assertFalse(testee.layoutResource.contents.empty)
 		}
 	}
 

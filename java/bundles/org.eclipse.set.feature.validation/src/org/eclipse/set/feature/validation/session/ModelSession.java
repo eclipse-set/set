@@ -21,6 +21,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.apache.commons.io.FileUtils;
@@ -231,12 +232,15 @@ public class ModelSession implements IModelSession {
 		final IModelSession session = this;
 		final EditingDomain editingDomain = toolboxFile.getEditingDomain();
 		editingDomain.getCommandStack().addCommandStackListener(event -> {
-			setTitleFilename(IModelSessionExtensions.getTitleFilename(session,
-					ModelSession.this.serviceProvider.messages.ModelSession_ChangeIndicator));
-			ModelSession.this.serviceProvider.broker.post(
-					UIEvents.REQUEST_ENABLEMENT_UPDATE_TOPIC,
-					UIEvents.ALL_ELEMENT_ID);
 			checkForDirtyEvent();
+			if (isDirty()) {
+				setTitleFilename(IModelSessionExtensions.getTitleFilename(
+						session,
+						ModelSession.this.serviceProvider.messages.ModelSession_ChangeIndicator));
+				ModelSession.this.serviceProvider.broker.post(
+						UIEvents.REQUEST_ENABLEMENT_UPDATE_TOPIC,
+						UIEvents.ALL_ELEMENT_ID);
+			}
 		});
 		guid = Guid.create();
 		this.tempDir = tempDir;
@@ -298,11 +302,10 @@ public class ModelSession implements IModelSession {
 	public void cleanUp() {
 		try {
 			// clean sessions subdirectory
-			cleanSessionDirectory(Paths.get(getSessionsSubDir()));
-
+			cleanSessionDirectory(Paths.get(getSessionsSubDir()), getGuid());
 			// remove content adapter
 			removeContentAdapter(getPlanProSchnittstelle());
-
+			removeContentAdapter(getLayoutInformation());
 			// unsubscribe event handler
 			ToolboxEvents.unsubscribe(serviceProvider.broker,
 					selectedControlAreaChangedEventHandler);
@@ -312,8 +315,8 @@ public class ModelSession implements IModelSession {
 		}
 	}
 
-	private static void cleanSessionDirectory(final Path unzipDirectory)
-			throws IOException {
+	private static void cleanSessionDirectory(final Path unzipDirectory,
+			final String guid) throws IOException {
 		if (!Files.exists(unzipDirectory)) {
 			return;
 		}
@@ -338,7 +341,9 @@ public class ModelSession implements IModelSession {
 					// this acceptable, as over time all directories will be
 					// cleaned up
 					final long pid = Long.parseLong(Files.readString(pidPath));
-					return ProcessHandle.of(pid).isEmpty();
+					return ProcessHandle.of(pid).isEmpty()
+							|| ProcessHandle.current().pid() == pid
+									&& p.getFileName().toString().equals(guid);
 				} catch (NumberFormatException | IOException e) {
 					return true;
 				}
@@ -354,8 +359,6 @@ public class ModelSession implements IModelSession {
 
 	@Override
 	public void close() {
-		// flush the command stack
-		getToolboxFile().getEditingDomain().getCommandStack().flush();
 		// reset filename
 		setTitleFilename(null);
 
@@ -599,6 +602,7 @@ public class ModelSession implements IModelSession {
 			}
 		} catch (final IOException e) {
 			serviceProvider.dialogService.error(mainWindow, e);
+			cleanUp();
 		} finally {
 			if (getPlanProSchnittstelle() != null) {
 				setNature();
@@ -985,6 +989,15 @@ public class ModelSession implements IModelSession {
 		} else {
 			final ModelContents modelContents = serviceProvider.modelLoader
 					.loadModel(toolboxFile, this::setValidationResult);
+			if (toolboxFile.getRole() != ToolboxFileRole.SESSION
+					&& modelContents.schnittStelle() == null) {
+				final String errorMsg = schnittstelleValidationResult
+						.getIoErrors()
+						.stream()
+						.map(Exception::getMessage)
+						.collect(Collectors.joining());
+				throw new IOException(errorMsg);
+			}
 			setPlanProSchnittstelle(modelContents.schnittStelle());
 			setPlanProLayoutinfo(modelContents.layoutInfo());
 		}
@@ -1043,7 +1056,8 @@ public class ModelSession implements IModelSession {
 			final String[] split = title.split(String.format("%s|%s", //$NON-NLS-1$
 					TITLE_SEPARATOR, TITLE_FILE_NAME_SEPARATOR));
 			final String titleProgrammPart = split[0];
-			if (toolboxFile.getRole() == ToolboxFileRole.COMPARE_PLANNING) {
+			if (toolboxFile.getRole() == ToolboxFileRole.COMPARE_PLANNING
+					&& split.length > 1) {
 				final String titleFileName = titleProgrammPart + TITLE_SEPARATOR
 						+ split[1];
 				if (filename == null) {
