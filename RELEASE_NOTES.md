@@ -1,5 +1,9 @@
 # Eclipse Signalling Engineering Toolbox: Release notes 
 The Eclipse Signalling Engineering Toolbox provides means for initialization, managing, testing, validation, visualization, documentation and merging of instances of the object model for the railway interlocking signalling technology.
+## 2.5.1
+- Fix memory leak after close the file
+- Fix table exception by single state plan
+
 ## 2.5
 - Update to PlanPro data model version 1.10.0.3.
 - Implementation of feature to compare Pt1 tables between two projects.
