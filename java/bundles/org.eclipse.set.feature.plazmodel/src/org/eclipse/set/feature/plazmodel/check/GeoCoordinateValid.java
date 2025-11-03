@@ -22,7 +22,6 @@ import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Deque;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -40,7 +39,6 @@ import org.eclipse.set.basis.geometry.GeoPosition;
 import org.eclipse.set.basis.geometry.GeometryCalculationOptions.GeometryCalculationOptionsBuilder;
 import org.eclipse.set.basis.geometry.GeometryOptionsBuilder;
 import org.eclipse.set.basis.geometry.SegmentPosition;
-import org.eclipse.set.core.services.geometry.GeoKanteGeometryService;
 import org.eclipse.set.core.services.geometry.PointObjectPositionService;
 import org.eclipse.set.feature.plazmodel.export.TopologicalCoordinate;
 import org.eclipse.set.model.planpro.BasisTypen.ENUMLinksRechts;
@@ -98,7 +96,6 @@ import com.google.common.collect.Streams;
  */
 
 @Component(service = { PlazCheck.class, EventHandler.class }, property = {
-		EventConstants.EVENT_TOPIC + "=" + Events.FIND_GEOMETRY_PROCESS_DONE,
 		EventConstants.EVENT_TOPIC + "=" + Events.CLOSE_SESSION,
 		"type=geoCoordinate" })
 @SuppressWarnings("nls")
@@ -143,8 +140,6 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 
 	private static final double TOLERANT = 0.1;
 	@Reference
-	GeoKanteGeometryService geometryService;
-	@Reference
 	PointObjectPositionService pointObjectPositionService;
 	@Reference
 	EventAdmin eventAdmin;
@@ -168,18 +163,11 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 			alreadyFoundMetaData.clear();
 			topologicalCoordinates = Optional.empty();
 		}
-		final Map<String, Class<? extends PlazCheck>> properties = new HashMap<>();
-		properties.put("org.eclipse.e4.data", this.getClass()); // $NON-NLS-1$
-		eventAdmin.sendEvent(new Event(Events.DO_PLAZ_CHECK, properties));
 	}
 
 	@Override
 	protected List<PlazError> run(
 			final MultiContainer_AttributeGroup container) {
-		if (!geometryService.isFindGeometryComplete()) {
-			return List.of(createProcessingWarning());
-		}
-
 		final List<PlazError> result = new ArrayList<>();
 		getRelevantPOs(container)
 				.forEach(po -> po.getPunktObjektTOPKante().forEach(potk -> {
@@ -577,15 +565,6 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 	@Override
 	public String getGeneralErrMsg() {
 		return "Die topologische Verortung des Punkt-Objekts stimmt nicht mit den berechneten Geo-Koordinaten überein.";
-	}
-
-	private PlazError createProcessingWarning() {
-		final PlazError plazError = PlazFactory.eINSTANCE.createPlazError();
-		plazError.setType(checkType());
-		plazError.setSeverity(ValidationSeverity.WARNING);
-		plazError.setMessage(
-				"Die Prüfung auf ID_GEO_Punkt_Berechnen is noch nicht beenden");
-		return plazError;
 	}
 
 	/**
