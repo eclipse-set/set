@@ -138,7 +138,8 @@ public abstract class AbstractTableDiff implements TableDiffService {
 			return;
 		}
 		oldCell.setContent(diffContent);
-		if (TableCellExtensions.getFormat(newCell).isTopologicalCalculation()) {
+		if (newCell != null && TableCellExtensions.getFormat(newCell)
+				.isTopologicalCalculation()) {
 			TableCellExtensions.getFormat(oldCell)
 					.setTopologicalCalculation(true);
 		}
