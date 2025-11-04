@@ -21,6 +21,7 @@ import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_DWeg
 import org.eclipse.set.model.planpro.PZB.ENUMPZBArt
 import org.eclipse.set.model.planpro.PZB.ENUMWirksamkeitFstr
 import org.eclipse.set.model.planpro.PZB.PZB_Element
+import org.eclipse.set.model.planpro.PZB.util.PZBValidator
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Ne5
 import org.eclipse.set.model.planpro.Signale.ENUMSignalArt
 import org.eclipse.set.model.planpro.Signale.ENUMSignalFunktion
@@ -51,8 +52,6 @@ import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensi
 import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
 import static extension org.eclipse.set.utils.math.BigIntegerExtensions.*
 import static extension org.eclipse.set.utils.math.DoubleExtensions.*
-import org.eclipse.set.model.planpro.PZB.util.PZBValidator
-import java.math.BigDecimal
 
 /**
  * Table transformation for a PZB-Tabelle (Sskp)

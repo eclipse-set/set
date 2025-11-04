@@ -762,4 +762,35 @@ public class Messages extends AbstractMessageService {
 	 * PZB-Tabelle (Sskp_dm)
 	 */
 	public String SskpDmTableView_Heading;
+
+	/**
+	 * Ssls – Signaltabelle 2
+	 */
+	public String SslsDescriptionService_ViewName;
+
+	/**
+	 * Signaltabelle 2
+	 */
+	public String SslsDescriptionService_ViewTooltip;
+
+	/**
+	 * Signaltabelle 2 – Ssls
+	 */
+	public String SslsTableView_Heading;
+
+	/**
+	 * Ssls
+	 */
+	public String ToolboxTableNameSslsShort;
+
+	/**
+	 * Signaltabelle 2
+	 */
+	public String ToolboxTableNameSslsLong;
+
+	/**
+	 * ??
+	 */
+	public String ToolboxTableNameSslsPlanningNumber;
+
 }
