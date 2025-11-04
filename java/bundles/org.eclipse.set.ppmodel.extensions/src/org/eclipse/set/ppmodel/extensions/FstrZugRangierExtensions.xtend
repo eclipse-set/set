@@ -374,7 +374,7 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 		return fstrZugRangier?.fstrRangier?.fstrRangierArt?.wert?.literal?.
 			substring(0, 1) == "R"
 	}
-
+	
 	private def static dispatch Optional<BigInteger> getVmax(Object object,
 		Fstr_Fahrweg fw) {
 		return Optional.empty
@@ -462,5 +462,13 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 		// TODO: 2. Condition for target signal isn't clearly 
 		return startSignal !== null &&
 			startSignal.isBelongToControlArea(controlArea)
+	}
+	
+	def static Signal getStartSignal(Fstr_Zug_Rangier fstrZug) {
+		return fstrZug?.fstrFahrweg?.start
+	}
+	
+	def static Signal getZielSignal(Fstr_Zug_Rangier fstrZug) {
+		return fstrZug?.fstrFahrweg?.zielSignal
 	}
 }

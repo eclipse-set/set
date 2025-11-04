@@ -175,27 +175,10 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 					])
 
 				// G: Sslz.Grundsatzangaben.Art
-				fillSwitch(
-					instance,
+				fill(instance,
 					cols.getColumn(Art),
 					fstrZugRangier,
-					new Case<Fstr_Zug_Rangier>([zielFstrZugRangier !== null], [
-						'''«fstrZug?.fstrZugArt?.wert?.literal?.substring(1)»B'''
-					]),
-					new Case<Fstr_Zug_Rangier>(
-						[fstrZug?.IDSignalGruppenausfahrt !== null],
-						[
-							'''G«fstrZug?.fstrZugArt?.wert.literal.substring(1)»'''
-						]
-					),
-					new Case<Fstr_Zug_Rangier>(
-						[fstrZug?.fstrZugArt?.wert !== null],
-						[fstrZug?.fstrZugArt?.wert.literal.substring(1)]
-					),
-					new Case<Fstr_Zug_Rangier>(
-						[fstrMittel?.fstrMittelArt?.wert !== null],
-						[fstrMittel?.fstrMittelArt?.wert.literal.substring(1)]
-					)
+					[fstrZugArt]
 				)
 
 				// H: Sslz.Einstellung.Autom_Einstellung
@@ -656,7 +639,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 		return EMPTY_FILLING
 	}
 
-	private def Fstr_Zug_Rangier getZielFstrZugRangier(Fstr_Zug_Rangier it) {
+	private def static Fstr_Zug_Rangier getZielFstrZugRangier(Fstr_Zug_Rangier it) {
 		val zielSignal = IDFstrFahrweg?.value.IDZiel?.value
 		return zielSignal.container.contents.filter(Fstr_Zug_Rangier).findFirst [
 			IDFstrFahrweg?.value?.IDStart?.value == zielSignal &&
@@ -773,5 +756,26 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 		}
 		return '''«signalBegriff.signalbegriffID?.symbol»«
 		»«IF (signalBegriff.hasSignalbegriffID(typeof(Zs3)) || signalBegriff.hasSignalbegriffID(typeof(Zs3v))) && !signalBegriff.signalSignalbegriffAllg?.geschaltet?.wert»F«ENDIF»'''
+	}
+	
+	def static String getFstrZugArt(Fstr_Zug_Rangier fstrZugRangier) {
+		val fstrZug = fstrZugRangier.fstrZug
+		val fstrZugArt = fstrZug?.fstrZugArt?.wert.literal
+		if (fstrZugRangier.zielFstrZugRangier !== null) {
+			return '''«fstrZugArt.substring(1) ?: ""»B'''
+		}
+		
+		if (fstrZug?.IDSignalGruppenausfahrt !== null) {
+			return '''G«fstrZugArt.substring(1) ?: ""»'''
+		}
+		
+		if (fstrZugArt !== null) {
+			return fstrZugArt.substring(1)
+		}
+		
+		if (fstrZugRangier.fstrMittel?.fstrMittelArt?.wert !== null) {
+			return fstrZugRangier.fstrMittel?.fstrMittelArt?.wert.literal.substring(1);
+		}
+		return ""
 	}
 }
