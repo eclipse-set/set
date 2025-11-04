@@ -156,9 +156,7 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 		Fstr_Zug_Rangier fstrZugRangier) {
 		val fw = fstrZugRangier.fstrFahrweg
 		val vmax = fw.path.pointIterator.map[punktObjekt].map[getVmax(fw)].
-			filter [
-				present
-			].toList
+			filter[present].toList
 		vmax.addAll(fw.gleisabschnitte.map[getVmax(fw)].filter[present])
 		if (!vmax.empty) {
 			return Optional.of(vmax.map[get].min [ first, second |
