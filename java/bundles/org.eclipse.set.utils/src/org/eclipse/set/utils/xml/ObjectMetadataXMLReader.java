@@ -70,8 +70,8 @@ public class ObjectMetadataXMLReader {
 
 	private PlanProXMLNode read()
 			throws IOException, SAXException, ParserConfigurationException {
-		final PlanProXMLNode document = LineNumberXMLReader.read(documentPath);
-		document.addAdditionsObject(METADATA_READER_KEY, this);
+		final PlanProXMLNode document = PlanProXMLNode.read(documentPath);
+		PlanProXMLNode.addAdditionsObject(METADATA_READER_KEY, this);
 		return document;
 	}
 
@@ -152,7 +152,7 @@ public class ObjectMetadataXMLReader {
 	 */
 	private static ObjectMetadataXMLReader getMetadataReader(
 			final PlanProXMLNode node) {
-		return (ObjectMetadataXMLReader) node
+		return (ObjectMetadataXMLReader) PlanProXMLNode
 				.getAdditionsObject(METADATA_READER_KEY);
 	}
 }

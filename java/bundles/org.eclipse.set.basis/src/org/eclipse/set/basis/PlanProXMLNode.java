@@ -12,6 +12,8 @@ package org.eclipse.set.basis;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
@@ -51,6 +53,27 @@ public class PlanProXMLNode {
 	public static record PlanProXMLNodeAttribute(String attributeName,
 			String value) {
 
+	}
+
+	/**
+	 * @param location
+	 *            the file location of the document
+	 * 
+	 * @return the {@link PlanProXMLNode}
+	 * 
+	 * @throws IOException
+	 *             if any IO errors occur
+	 * @throws SAXException
+	 *             for SAX errors
+	 * @throws ParserConfigurationException
+	 *             if a parser cannot be created which satisfies the requested
+	 *             configuration
+	 */
+	public static PlanProXMLNode read(final Path location)
+			throws IOException, SAXException, ParserConfigurationException {
+		try (final InputStream inputStream = Files.newInputStream(location)) {
+			return read(inputStream);
+		}
 	}
 
 	/**

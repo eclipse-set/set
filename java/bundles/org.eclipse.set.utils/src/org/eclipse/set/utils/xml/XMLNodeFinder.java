@@ -108,8 +108,8 @@ public class XMLNodeFinder {
 	 */
 	private static boolean isLineNumberInNode(final int lineNumber,
 			final PlanProXMLNode node) {
-		final int start = LineNumberXMLReader.getStartLineNumber(node);
-		final int end = LineNumberXMLReader.getNodeLastLineNumber(node);
+		final int start = Integer.parseInt(node.getStartLineNumber());
+		final int end = Integer.parseInt(node.getEndLineNumber());
 		return lineNumber >= start && lineNumber <= end;
 	}
 
