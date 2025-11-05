@@ -8,10 +8,8 @@
  */
 package org.eclipse.set.feature.table.pt1.sskp;
 
-import static org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum.ASC;
 import static org.eclipse.set.feature.table.pt1.sskp.SskpColumns.*;
 import static org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.getFirstOrNull;
-import static org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparatorType.LEXICOGRAPHICAL;
 
 import java.util.Comparator;
 import java.util.List;
@@ -23,6 +21,7 @@ import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.messages.Messages;
+import org.eclipse.set.model.planpro.PZB.PZB_Element;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.CompareCellContent;
 import org.eclipse.set.model.tablemodel.MultiColorCellContent;
@@ -113,13 +112,19 @@ public final class SskpTransformationService
 				"500"); //$NON-NLS-1$
 
 		return TableRowGroupComparator.builder()
-				.sort("A", LEXICOGRAPHICAL, ASC) //$NON-NLS-1$
-				.sort("B", //$NON-NLS-1$
-						Comparator.comparing(
-								SskpTransformationService::getCellContent,
-								Comparator.nullsLast(
-										Comparator.comparing(gmOrder::indexOf,
-												Integer::compareUnsigned))))
+				.sort(new Comparator<PZB_Element>() {
+
+					@Override
+					public int compare(final PZB_Element o1,
+							final PZB_Element o2) {
+						return 0;
+					}
+
+				})
+				.sort(Wirkfrequenz, Comparator.comparing(
+						SskpTransformationService::getCellContent,
+						Comparator.nullsLast(Comparator.comparing(
+								gmOrder::indexOf, Integer::compareUnsigned))))
 				.build();
 
 	}

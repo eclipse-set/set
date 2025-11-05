@@ -24,18 +24,18 @@ import com.google.common.base.Strings;
  * 
  * @author Schaefer
  */
+@SuppressWarnings("nls")
 public class MixedStringComparator implements Comparator<String> {
 
 	private static final int NAME_GROUP = 1;
 
 	private static final Pattern NAME_PATTERN = Pattern
-			.compile("\\??\\(\\?\\<([^>]+)\\>[^)]*\\)(.*)"); //$NON-NLS-1$
+			.compile("\\??\\(\\?\\<([^>]+)\\>[^)]*\\)(.*)");
 
-	private static final String NUMBER = "number"; //$NON-NLS-1$
+	private static final String NUMBER = "number";
 
 	private static final int REST_GROUP = 2;
 
-	@SuppressWarnings("nls")
 	private static String transform(final String text) {
 		String replaced = text.replace('ä', 'a');
 		replaced = text.replace('Ä', 'A');
@@ -90,35 +90,20 @@ public class MixedStringComparator implements Comparator<String> {
 
 		if (!matcher1.matches()) {
 			throw new IllegalArgumentException(
-					"pattern=" + pattern.toString() + " input=" + o1); //$NON-NLS-1$ //$NON-NLS-2$
+					"pattern=" + pattern.toString() + " input=" + o1);
 		}
 		if (!matcher2.matches()) {
 			throw new IllegalArgumentException(
-					"pattern=" + pattern.toString() + " input=" + o2); //$NON-NLS-1$ //$NON-NLS-2$
+					"pattern=" + pattern.toString() + " input=" + o2);
 		}
-
 		for (final String groupName : groups) {
 			final String groupO1 = matcher1.group(groupName);
 			final String groupO2 = matcher2.group(groupName);
 			if (groupName.startsWith(NUMBER)) {
-				int value1;
-				if (Strings.isNullOrEmpty(groupO1)) {
-					value1 = 0;
-				} else {
-					value1 = Integer.parseInt(groupO1);
-				}
-				int value2;
-				if (Strings.isNullOrEmpty(groupO2)) {
-					value2 = 0;
-				} else {
-					value2 = Integer.parseInt(groupO2);
-				}
-
-				if (value1 < value2) {
-					return -1;
-				}
-				if (value1 > value2) {
-					return 1;
+				final int compareNumber = compareNumber(groupName, groupO1,
+						groupO2);
+				if (compareNumber != 0) {
+					return compareNumber;
 				}
 			} else {
 				final String groupO1NullSafe = groupO1 == null ? "" : groupO1; //$NON-NLS-1$
@@ -130,7 +115,28 @@ public class MixedStringComparator implements Comparator<String> {
 		}
 
 		return 0;
+	}
 
+	private static int compareNumber(final String groupName,
+			final String groupO1, final String groupO2) {
+		if (groupName.endsWith("Prefix")) {
+			final String value1 = groupO1 == null ? "" : groupO1;
+			final String value2 = groupO2 == null ? "" : groupO2;
+			if (value1.equals("-") && !value2.equals("-")) {
+				return -1;
+			}
+
+			if (!value1.equals("-") && value2.equals("-")) {
+				return 1;
+			}
+			return 0;
+		}
+		final int value1 = Strings.isNullOrEmpty(groupO1) ? 0
+				: Integer.parseInt(groupO1);
+		final int value2 = Strings.isNullOrEmpty(groupO2) ? 0
+				: Integer.parseInt(groupO2);
+
+		return Integer.compare(value1, value2);
 	}
 
 	private List<String> findGroupNames(final String signature) {

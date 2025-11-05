@@ -22,6 +22,7 @@ import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableTransformationServ
 import org.eclipse.set.feature.table.pt1.messages.Messages;
 import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
+import org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparatorType;
 import org.eclipse.set.utils.table.sorting.TableRowGroupComparator;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -65,7 +66,9 @@ public final class SskgTransformationService
 	@Override
 	public Comparator<RowGroup> getRowGroupComparator() {
 		return TableRowGroupComparator.builder()
-				.sort("A", LEXICOGRAPHICAL, ASC) //$NON-NLS-1$
+				.sort(SskgColumns.Standort_Strecke, LEXICOGRAPHICAL, ASC)
+				.sort(SskgColumns.Standort_km, CellComparatorType.NUMERIC, ASC)
+				.sort(SskgColumns.Bezeichnung, LEXICOGRAPHICAL, ASC)
 				.build();
 	}
 

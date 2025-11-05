@@ -12,9 +12,11 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.eclipse.set.basis.tables.Tables;
+import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
 import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.model.tablemodel.TableCell;
 import org.eclipse.set.model.tablemodel.TableRow;
+import org.eclipse.set.model.tablemodel.extensions.TableRowExtensions;
 
 import com.google.common.collect.Lists;
 
@@ -94,5 +96,32 @@ public final class TableRowGroupComparator implements Comparator<RowGroup> {
 			}
 		}
 		return 0;
+	}
+
+	/**
+	 * @param <T>
+	 * @param leadingObjectComparator
+	 */
+	@SuppressWarnings("unchecked")
+	public <T extends Ur_Objekt> void addCriterion(
+			final Comparator<T> leadingObjectComparator) {
+		criteria.add((row1, row2) -> {
+			final Ur_Objekt firstLeadingObject = TableRowExtensions
+					.getLeadingObject(row1);
+			final Ur_Objekt secondLeadingObject = TableRowExtensions
+					.getLeadingObject(row2);
+			if (firstLeadingObject == null) {
+				return secondLeadingObject == null ? 0 : -1;
+			}
+
+			if (secondLeadingObject == null) {
+				return 1;
+			}
+
+			final T first = (T) firstLeadingObject;
+			final T second = (T) secondLeadingObject;
+			return leadingObjectComparator.compare(first, second);
+		});
+
 	}
 }

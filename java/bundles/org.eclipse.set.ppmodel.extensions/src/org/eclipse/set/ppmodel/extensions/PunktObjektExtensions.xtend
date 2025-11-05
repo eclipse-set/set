@@ -19,6 +19,7 @@ import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung
 import org.eclipse.set.model.planpro.Basisobjekte.Bereich_Objekt
 import org.eclipse.set.model.planpro.Basisobjekte.Bereich_Objekt_Teilbereich_AttributeGroup
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
+import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_Strecke_AttributeGroup
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
 import org.eclipse.set.model.planpro.Geodaten.Strecke
 import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
@@ -27,12 +28,17 @@ import org.eclipse.set.model.planpro.Ortung.FMA_Komponente
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Ra12
 import org.eclipse.set.model.planpro.Signale.Signal
 import org.locationtech.jts.geom.Coordinate
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+
+import static org.eclipse.set.ppmodel.extensions.geometry.GEOKanteGeometryExtensions.*
 
 import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.ENUMWirkrichtungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.CollectionExtensions.*
+import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
 
 /**
  * This class extends {@link Punkt_Objekt}.
@@ -40,6 +46,8 @@ import static extension org.eclipse.set.ppmodel.extensions.utils.CollectionExten
  * @author Schaefer
  */
 class PunktObjektExtensions extends BasisObjektExtensions {
+	static val Logger logger = LoggerFactory.getLogger(
+		typeof(PunktObjektExtensions))
 
 	/**
 	 * @param punktObjekt this Punkt Objekt
@@ -168,8 +176,75 @@ class PunktObjektExtensions extends BasisObjektExtensions {
 		return point.getCoordinate(direction).getEffectiveRotation
 	}
 
-	def static List<Strecke> getStrecken(Punkt_Objekt po) {
-		return po.punktObjektStrecke.map[IDStrecke?.value].filterNull.toList
+	def static List<Pair<String, List<String>>> getStreckeAndKm(
+		Punkt_Objekt po) {
+		if (po.punktObjektStrecke.nullOrEmpty) {
+			return #[]
+		}
+
+		val getStreckeFunc = [ Punkt_Objekt_Strecke_AttributeGroup pos |
+			pos.IDStrecke?.value?.bezeichnung?.bezeichnungStrecke?.wert ?: ""
+		]
+		if (po.punktObjektStrecke.size === 1) {
+			return #[getStreckeFunc.apply(po.punktObjektStrecke.first) ->
+				#[po.punktObjektStrecke.first.streckeKm.wert]]
+		}
+
+		val kmMassgebends = po.punktObjektStrecke.filter [
+			kmMassgebend?.wert === true
+		]
+		if (!kmMassgebends.nullOrEmpty) {
+			return kmMassgebends.map [
+				getStreckeFunc.apply(it) -> #[streckeKm.wert]
+			].toList
+		}
+
+		val routeThroughBereichObjekt = po.singlePoint.
+			streckenThroughBereichObjekt
+
+		if (!isFindGeometryComplete) {
+			return routeThroughBereichObjekt.map [
+				bezeichnung?.bezeichnungStrecke?.wert ?: "" -> #[]
+			]
+		}
+		return routeThroughBereichObjekt.map [ route |
+			route.bezeichnung?.bezeichnungStrecke?.wert ?: "" ->
+				po.getStreckeKm(#[route])
+		].toList
+
+	}
+
+	def static List<String> getStreckeKm(Punkt_Objekt po,
+		List<Strecke> routeThroughBereichObjekt) {
+		if (!isFindGeometryComplete) {
+			return null
+		}
+		val kmMassgebend = po.punktObjektStrecke.filter [
+			kmMassgebend?.wert === true
+		]
+		if (!kmMassgebend.nullOrEmpty) {
+			return kmMassgebend.map[streckeKm.wert].toList
+		}
+
+		val result = routeThroughBereichObjekt.map [ route |
+			try {
+				return po.singlePoint.getStreckeKmThroughProjection(route).
+					toTableDecimal
+			} catch (Exception e) {
+				logger.error(
+					"Can't find the Signal route km through projection point on route",
+					e)
+				return po.punktObjektStrecke.findFirst [ pos |
+					pos.IDStrecke.value == route
+				]?.streckeKm?.wert
+			}
+		].filterNull.toList
+
+		if (result.isNullOrEmpty) {
+			return po.punktObjektStrecke.map[streckeKm.wert].toList
+		}
+
+		return result
 	}
 
 	def static List<Strecke> getStreckenThroughBereichObjekt(Punkt_Objekt po) {

@@ -9,9 +9,7 @@
 package org.eclipse.set.feature.table.pt1.ssks;
 
 import static org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum.ASC;
-import static org.eclipse.set.feature.table.pt1.ssks.SsksColumns.Lichtraumprofil;
-import static org.eclipse.set.feature.table.pt1.ssks.SsksColumns.Schaltkasten_Entfernung;
-import static org.eclipse.set.feature.table.pt1.ssks.SsksColumns.Ueberhoehung;
+import static org.eclipse.set.feature.table.pt1.ssks.SsksColumns.*;
 import static org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparatorType.EMPTY_LAST;
 import static org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparatorType.LEXICOGRAPHICAL;
 
@@ -28,6 +26,7 @@ import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableTransformationServ
 import org.eclipse.set.feature.table.pt1.messages.Messages;
 import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
+import org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparatorType;
 import org.eclipse.set.utils.table.sorting.TableRowGroupComparator;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -104,13 +103,14 @@ public final class SsksTransformationService extends
 		}
 	}
 
-	@SuppressWarnings("nls")
 	@Override
 	public Comparator<RowGroup> getRowGroupComparator() {
 		return TableRowGroupComparator.builder()
-				.sort("B", EMPTY_LAST, ASC)
-				.sort("D", EMPTY_LAST, ASC)
-				.sort("A", LEXICOGRAPHICAL, ASC)
+				.sort(Reales_Signal, EMPTY_LAST, ASC)
+				.sort(Fiktives_Signal, EMPTY_LAST, ASC)
+				.sort(Strecke, LEXICOGRAPHICAL, ASC)
+				.sort(Km, CellComparatorType.NUMERIC, ASC)
+				.sort(Bezeichnung_Signal, LEXICOGRAPHICAL, ASC)
 				.build();
 	}
 
