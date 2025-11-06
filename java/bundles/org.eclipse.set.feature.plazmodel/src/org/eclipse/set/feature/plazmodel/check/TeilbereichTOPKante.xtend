@@ -17,6 +17,8 @@ import org.eclipse.set.model.planpro.Basisobjekte.Bereich_Objekt_Teilbereich_Att
 import org.osgi.service.component.annotations.Component
 
 import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
+import org.eclipse.set.utils.ToolboxConfiguration
+import org.eclipse.set.basis.constants.ToolboxConstants
 
 /**
  * Validates that Bereich_Objekt_Teilbereich entries
@@ -60,9 +62,10 @@ class TeilbereichTOPKante extends AbstractPlazContainerCheck implements PlazChec
 			return '''«generalErrMsg» BegrenzungA: «limitA».'''
 		if (limitB < 0)
 			return '''«generalErrMsg» BegrenzungB: «limitB».'''
-		if (limitA > topLength)
+		if (limitA > (topLength + ToolboxConstants.TOP_GEO_LENGTH_TOLERANCE))
 			return '''«generalErrMsg» BegrenzungA: «limitA». Länge TOP-Kante: «topLength»'''
-		if (limitB > topLength)
+		if (Math.abs(limitB - topLength) >
+			ToolboxConstants.TOP_GEO_LENGTH_TOLERANCE)
 			return '''«generalErrMsg» BegrenzungB: «limitB». Länge TOP-Kante: «topLength»'''
 		if (limitB < limitA)
 			return '''«generalErrMsg» BegrenzungA: «limitA». BegrenzungB: «limitB».'''
