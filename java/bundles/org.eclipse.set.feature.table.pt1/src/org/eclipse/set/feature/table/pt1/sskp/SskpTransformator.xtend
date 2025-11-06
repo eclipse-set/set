@@ -8,7 +8,6 @@
  */
 package org.eclipse.set.feature.table.pt1.sskp
 
-import java.math.BigDecimal
 import java.util.Set
 import org.eclipse.set.basis.graph.TopPoint
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
@@ -18,7 +17,6 @@ import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_DWeg
-import org.eclipse.set.model.planpro.Geodaten.Strecke
 import org.eclipse.set.model.planpro.PZB.ENUMPZBArt
 import org.eclipse.set.model.planpro.PZB.ENUMWirksamkeitFstr
 import org.eclipse.set.model.planpro.PZB.PZB_Element
@@ -618,18 +616,6 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 			ENUMSignalFunktion.ENUM_SIGNAL_FUNKTION_BUE_UEBERWACHUNGSSIGNAL
 			? '''BÜ-K «object?.bezeichnung?.bezeichnungTabelle?.wert»'''
 			: object?.bezeichnung?.bezeichnungTabelle?.wert
-	}
-	
-	static dispatch def Pair<Strecke, BigDecimal> getBezugsElementStreckeKm(Basis_Objekt obj) {
-		
-	}
-	
-	static dispatch def Pair<Strecke, BigDecimal> getBezugsElementStreckeKm(W_Kr_Gsp_Element obj) {
-		
-	}
-	
-	static dispatch def Pair<Strecke, BigDecimal> getBezugsElementStreckeKm(Signal obj) {
-		
 	}
 
 	private dispatch def String getDistanceSignalTrackSwitch(TopGraph topGraph,
