@@ -17,7 +17,6 @@ import org.eclipse.set.model.planpro.Basisobjekte.Bereich_Objekt_Teilbereich_Att
 import org.osgi.service.component.annotations.Component
 
 import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
-import org.eclipse.set.utils.ToolboxConfiguration
 import org.eclipse.set.basis.constants.ToolboxConstants
 
 /**
@@ -40,7 +39,6 @@ class TeilbereichTOPKante extends AbstractPlazContainerCheck implements PlazChec
 			// Missing entries are handled via schema/nil validation
 			if (limitA === null || limitB === null || topLength === null)
 				return null
-
 			val errmsg = getErrorMessage(limitA.doubleValue, limitB.doubleValue,
 				topLength.doubleValue)
 			if (errmsg !== null) {
@@ -49,7 +47,7 @@ class TeilbereichTOPKante extends AbstractPlazContainerCheck implements PlazChec
 				err.type = checkType
 				err.object = it
 				err.severity = getErrorSeverity(limitA.doubleValue,
-					limitB.doubleValue)
+					limitB.doubleValue, topLength.doubleValue)
 				return err
 			}
 			return null
@@ -62,17 +60,25 @@ class TeilbereichTOPKante extends AbstractPlazContainerCheck implements PlazChec
 			return '''«generalErrMsg» BegrenzungA: «limitA».'''
 		if (limitB < 0)
 			return '''«generalErrMsg» BegrenzungB: «limitB».'''
-		if (limitA > (topLength + ToolboxConstants.TOP_GEO_LENGTH_TOLERANCE))
+		if (limitA > topLength)
 			return '''«generalErrMsg» BegrenzungA: «limitA». Länge TOP-Kante: «topLength»'''
-		if (Math.abs(limitB - topLength) >
-			ToolboxConstants.TOP_GEO_LENGTH_TOLERANCE)
+		if (limitB > topLength)
 			return '''«generalErrMsg» BegrenzungB: «limitB». Länge TOP-Kante: «topLength»'''
 		if (limitB < limitA)
 			return '''«generalErrMsg» BegrenzungA: «limitA». BegrenzungB: «limitB».'''
 		return null
 	}
 
-	private def getErrorSeverity(double limitA, double limitB) {
+	private def getErrorSeverity(double limitA, double limitB,
+		double topLength) {
+		if ((limitA > topLength &&
+			(limitA - topLength) <= ToolboxConstants.TOP_GEO_LENGTH_TOLERANCE) ||
+			(limitB > topLength &&
+				(limitB - topLength) <=
+					ToolboxConstants.TOP_GEO_LENGTH_TOLERANCE)) {
+			return ValidationSeverity.WARNING
+		}
+
 		return ValidationSeverity.ERROR;
 	}
 
