@@ -10,13 +10,15 @@ package org.eclipse.set.utils.table.sorting;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Function;
 
+import org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum;
 import org.eclipse.set.basis.tables.Tables;
+import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt;
 import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
 import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.model.tablemodel.TableCell;
 import org.eclipse.set.model.tablemodel.TableRow;
-import org.eclipse.set.model.tablemodel.extensions.TableRowExtensions;
 
 import com.google.common.collect.Lists;
 
@@ -26,7 +28,6 @@ import com.google.common.collect.Lists;
  * @author Schaefer
  */
 public final class TableRowGroupComparator implements Comparator<RowGroup> {
-
 	/**
 	 * @return create a builder
 	 */
@@ -78,6 +79,8 @@ public final class TableRowGroupComparator implements Comparator<RowGroup> {
 
 	@Override
 	public int compare(final RowGroup group1, final RowGroup group2) {
+		// the sorting shouldn't execute, when it must wait the find geometry
+		// service
 		if (group1.getRows().isEmpty()) {
 			if (group2.getRows().isEmpty()) {
 				return 0;
@@ -87,8 +90,17 @@ public final class TableRowGroupComparator implements Comparator<RowGroup> {
 		if (group2.getRows().isEmpty()) {
 			return 1;
 		}
-		final TableRow row1 = group1.getRows().get(0);
-		final TableRow row2 = group2.getRows().get(0);
+		return compare(group1.getRows().get(0), group2.getRows().get(0));
+	}
+
+	/**
+	 * @param row1
+	 *            the {@link TableRow}
+	 * @param row2
+	 *            the {@link TableRow}
+	 * @return the compare result
+	 */
+	public int compare(final TableRow row1, final TableRow row2) {
 		for (final Comparator<TableRow> criterion : criteria) {
 			final int result = criterion.compare(row1, row2);
 			if (result != 0) {
@@ -99,29 +111,24 @@ public final class TableRowGroupComparator implements Comparator<RowGroup> {
 	}
 
 	/**
-	 * @param <T>
-	 * @param leadingObjectComparator
+	 * @param getPunktObjectFunc
+	 *            the function to get {@link Punkt_Objekt}
+	 * @param direction
+	 *            the sort direction
 	 */
-	@SuppressWarnings("unchecked")
-	public <T extends Ur_Objekt> void addCriterion(
-			final Comparator<T> leadingObjectComparator) {
-		criteria.add((row1, row2) -> {
-			final Ur_Objekt firstLeadingObject = TableRowExtensions
-					.getLeadingObject(row1);
-			final Ur_Objekt secondLeadingObject = TableRowExtensions
-					.getLeadingObject(row2);
-			if (firstLeadingObject == null) {
-				return secondLeadingObject == null ? 0 : -1;
-			}
+	public void addRouteAndKmCriterion(
+			final Function<Ur_Objekt, Punkt_Objekt> getPunktObjectFunc,
+			final SortDirectionEnum direction) {
+		criteria.add(
+				new CompareRouteAndKmCriterion(getPunktObjectFunc, direction));
+	}
 
-			if (secondLeadingObject == null) {
-				return 1;
-			}
-
-			final T first = (T) firstLeadingObject;
-			final T second = (T) secondLeadingObject;
-			return leadingObjectComparator.compare(first, second);
-		});
-
+	/**
+	 * @param getPunktObjectFunc
+	 *            the function to get {@link Punkt_Objekt}
+	 */
+	public void addRouteAndKmCriterion(
+			final Function<Ur_Objekt, Punkt_Objekt> getPunktObjectFunc) {
+		criteria.add(new CompareRouteAndKmCriterion(getPunktObjectFunc));
 	}
 }

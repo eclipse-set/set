@@ -12,6 +12,7 @@ import com.google.common.collect.Range
 import java.math.BigDecimal
 import java.util.List
 import java.util.Optional
+import org.eclipse.set.basis.constants.ToolboxConstants
 import org.eclipse.set.basis.graph.DirectedEdge
 import org.eclipse.set.basis.graph.TopPoint
 import org.eclipse.set.core.services.Services
@@ -178,25 +179,42 @@ class PunktObjektExtensions extends BasisObjektExtensions {
 
 	def static List<Pair<String, List<String>>> getStreckeAndKm(
 		Punkt_Objekt po) {
+		val cache = po.getCache(po.container.cacheString,
+			ToolboxConstants.CacheId.POINT_OBJECT_ROUTE_KM)
+		val poGuid = po.identitaet.wert
+		if (cache.getIfPresent(poGuid) !== null) {
+			return cache.getIfPresent(
+				poGuid) as List<Pair<String, List<String>>>
+		}
+
 		if (po.punktObjektStrecke.nullOrEmpty) {
+			cache.set(poGuid, #[])
 			return #[]
 		}
 
 		val getStreckeFunc = [ Punkt_Objekt_Strecke_AttributeGroup pos |
 			pos.IDStrecke?.value?.bezeichnung?.bezeichnungStrecke?.wert ?: ""
 		]
+		
+		if (!isFindGeometryComplete) {
+			return #[getStreckeFunc.apply(po.punktObjektStrecke.first) -> #[]]
+		}
 		if (po.punktObjektStrecke.size === 1) {
-			return #[getStreckeFunc.apply(po.punktObjektStrecke.first) ->
+			val result = #[getStreckeFunc.apply(po.punktObjektStrecke.first) ->
 				#[po.punktObjektStrecke.first.streckeKm.wert]]
+			cache.set(poGuid, result)
+			return result
 		}
 
 		val kmMassgebends = po.punktObjektStrecke.filter [
 			kmMassgebend?.wert === true
 		]
 		if (!kmMassgebends.nullOrEmpty) {
-			return kmMassgebends.map [
+			val result = kmMassgebends.map [
 				getStreckeFunc.apply(it) -> #[streckeKm.wert]
 			].toList
+			cache.set(poGuid, result)
+			return result
 		}
 
 		val routeThroughBereichObjekt = po.singlePoint.
@@ -207,18 +225,26 @@ class PunktObjektExtensions extends BasisObjektExtensions {
 				bezeichnung?.bezeichnungStrecke?.wert ?: "" -> #[]
 			]
 		}
-		return routeThroughBereichObjekt.map [ route |
+		val result = routeThroughBereichObjekt.map [ route |
 			route.bezeichnung?.bezeichnungStrecke?.wert ?: "" ->
 				po.getStreckeKm(#[route])
 		].toList
+		cache.set(poGuid, result)
+		return result
 
 	}
 
 	def static List<String> getStreckeKm(Punkt_Objekt po,
 		List<Strecke> routeThroughBereichObjekt) {
-		if (!isFindGeometryComplete) {
-			return null
+		val cache = po.getCache(po.container.cacheString,
+			ToolboxConstants.CacheId.POINT_OBJECT_ROUTE_KM)
+		val poGuid = po.identitaet.wert
+		if (cache.getIfPresent(poGuid) !== null) {
+			val cachedValue = cache.getIfPresent(
+				poGuid) as List<Pair<String, List<String>>>
+			return cachedValue.flatMap[value].toList
 		}
+
 		val kmMassgebend = po.punktObjektStrecke.filter [
 			kmMassgebend?.wert === true
 		]
@@ -226,25 +252,34 @@ class PunktObjektExtensions extends BasisObjektExtensions {
 			return kmMassgebend.map[streckeKm.wert].toList
 		}
 
+		if (!isFindGeometryComplete) {
+			return null
+		}
+
 		val result = routeThroughBereichObjekt.map [ route |
 			try {
-				return po.singlePoint.getStreckeKmThroughProjection(route).
-					toTableDecimal
+				return route ->
+					po.singlePoint.getStreckeKmThroughProjection(route).
+						toTableDecimal
 			} catch (Exception e) {
 				logger.error(
 					"Can't find the Signal route km through projection point on route",
 					e)
-				return po.punktObjektStrecke.findFirst [ pos |
+				return route -> po.punktObjektStrecke.findFirst [ pos |
 					pos.IDStrecke.value == route
 				]?.streckeKm?.wert
 			}
 		].filterNull.toList
 
 		if (result.isNullOrEmpty) {
+			cache.set(poGuid, po.punktObjektStrecke.map [
+				IDStrecke.value.bezeichnung.bezeichnungStrecke ->
+					#[streckeKm.wert].toList
+			].toList)
 			return po.punktObjektStrecke.map[streckeKm.wert].toList
 		}
-
-		return result
+		cache.set(poGuid, result.map[key -> #[value].toList].toList)
+		return result.map[value].toList
 	}
 
 	def static List<Strecke> getStreckenThroughBereichObjekt(Punkt_Objekt po) {

@@ -15,6 +15,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -378,8 +379,7 @@ public final class TableServiceImpl implements TableService {
 		}
 
 		// sorting
-		ECollections.sort(transformedTable.getTablecontent().getRowgroups(),
-				modelService.getRowGroupComparator());
+		sortTable(transformedTable, shortCut);
 		return transformedTable;
 	}
 
@@ -509,8 +509,7 @@ public final class TableServiceImpl implements TableService {
 
 		// sorting
 		if (resultTable != null && resultTable.getTablecontent() != null) {
-			ECollections.sort(resultTable.getTablecontent().getRowgroups(),
-					getModelService(shortCut).getRowGroupComparator());
+			sortTable(resultTable, shortCut);
 		}
 
 		return resultTable;
@@ -712,9 +711,14 @@ public final class TableServiceImpl implements TableService {
 		}
 		final Table compareTable = diffServiceMap.get(TableCompareType.PROJECT)
 				.createDiffTable(mainSessionTable, compareSessionTable);
-		ECollections.sort(compareTable.getTablecontent().getRowgroups(),
-				getModelService(extractShortcut(elementId))
-						.getRowGroupComparator());
+		sortTable(compareTable, elementId);
 		return compareTable;
+	}
+
+	@Override
+	public void sortTable(final Table table, final String shortcut) {
+		final Comparator<RowGroup> comparator = getModelService(shortcut)
+				.getRowGroupComparator();
+		ECollections.sort(table.getTablecontent().getRowgroups(), comparator);
 	}
 }

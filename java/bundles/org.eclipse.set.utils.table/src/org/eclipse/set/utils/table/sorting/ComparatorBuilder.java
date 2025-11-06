@@ -134,18 +134,28 @@ public class ComparatorBuilder {
 	}
 
 	/**
-	 * @param <T>
-	 * @param leadingObjectComparator
-	 * @return
+	 * @param getPunktObjectFunc
+	 *            the get {@link Punkt_Objekt} function
+	 * @return this builder
 	 */
-	public <T extends Ur_Objekt> ComparatorBuilder sort(
-			final Comparator<T> leadingObjectComparator) {
-		tableRowGroupComparator.addCriterion(leadingObjectComparator);
+	public ComparatorBuilder sortByRouteAndKm(
+			final Function<Ur_Objekt, Punkt_Objekt> getPunktObjectFunc) {
+		tableRowGroupComparator.addRouteAndKmCriterion(getPunktObjectFunc);
 		return this;
 	}
 
+	/**
+	 * @param getPunktObjectFunc
+	 *            the function to get {@link Punkt_Objekt}
+	 * @param direction
+	 *            the direction
+	 * @return this builder
+	 */
 	public ComparatorBuilder sortByRouteAndKm(
-			final Function<Ur_Objekt, Punkt_Objekt> getPunktObjectFunc) {
+			final Function<Ur_Objekt, Punkt_Objekt> getPunktObjectFunc,
+			final SortDirectionEnum direction) {
+		tableRowGroupComparator.addRouteAndKmCriterion(getPunktObjectFunc,
+				direction);
 		return this;
 	}
 }

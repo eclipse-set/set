@@ -9,8 +9,8 @@
 package org.eclipse.set.basis;
 
 import java.util.Comparator;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -27,14 +27,7 @@ import com.google.common.base.Strings;
 @SuppressWarnings("nls")
 public class MixedStringComparator implements Comparator<String> {
 
-	private static final int NAME_GROUP = 1;
-
-	private static final Pattern NAME_PATTERN = Pattern
-			.compile("\\??\\(\\?\\<([^>]+)\\>[^)]*\\)(.*)");
-
 	private static final String NUMBER = "number";
-
-	private static final int REST_GROUP = 2;
 
 	private static String transform(final String text) {
 		String replaced = text.replace('ä', 'a');
@@ -61,7 +54,12 @@ public class MixedStringComparator implements Comparator<String> {
 	 */
 	public MixedStringComparator(final String signature) {
 		pattern = Pattern.compile(signature);
-		groups = findGroupNames(signature);
+		final List<Entry<String, Integer>> sortedGroups = pattern.namedGroups()
+				.entrySet()
+				.stream()
+				.sorted((a, b) -> a.getValue().compareTo(b.getValue()))
+				.toList();
+		groups = sortedGroups.stream().map(Entry::getKey).toList();
 	}
 
 	/**
@@ -137,19 +135,5 @@ public class MixedStringComparator implements Comparator<String> {
 				: Integer.parseInt(groupO2);
 
 		return Integer.compare(value1, value2);
-	}
-
-	private List<String> findGroupNames(final String signature) {
-		final LinkedList<String> result = new LinkedList<>();
-
-		final Matcher matcher = NAME_PATTERN.matcher(signature);
-		if (matcher.matches()) {
-			final String name = matcher.group(NAME_GROUP);
-			final String rest = matcher.group(REST_GROUP);
-			result.add(name);
-			result.addAll(findGroupNames(rest));
-		}
-
-		return result;
 	}
 }

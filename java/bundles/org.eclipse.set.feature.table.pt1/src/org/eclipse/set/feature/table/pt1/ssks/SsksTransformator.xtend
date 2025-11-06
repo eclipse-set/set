@@ -254,7 +254,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							MIXED_STRING_COMPARATOR,
 							ITERABLE_FILLING_SEPARATOR
 						)
-
+						
 						// F: Ssks.Standortmerkmale.Standort.km
 						fillIterableSingleCellWhenAllowed(
 							row,

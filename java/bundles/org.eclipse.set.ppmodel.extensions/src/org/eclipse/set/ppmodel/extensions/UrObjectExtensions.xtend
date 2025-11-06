@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2015 DB Netz AG and others.
+ * Ser * Copyright (c) 2015 DB Netz AG and others.
  * 
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
@@ -18,6 +18,7 @@ import org.eclipse.set.model.planpro.PlanPro.LST_Zustand
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle
 
 import static extension org.eclipse.set.ppmodel.extensions.StellBereichExtensions.*
+import org.eclipse.set.utils.ToolboxConfiguration
 
 /**
  * Diese Klasse erweitert {@link Ur_Objekt}.
@@ -35,14 +36,17 @@ class UrObjectExtensions extends BasisAttributExtensions {
 	}
 
 	def static Cache getCache(Ur_Objekt object, String cacheKey) {
-		return Services.cacheService.getCache(object.planProSchnittstelle,
-			cacheKey)
+		val service = ToolboxConfiguration.isDevelopmentMode ? Services.
+				noCacheService : Services.cacheService
+		return service.getCache(object.planProSchnittstelle, cacheKey)
 	}
 
 	def static Cache getCache(Ur_Objekt object, String containerIdCacheId,
 		String cacheKey) {
-		return Services.cacheService.getCache(object.planProSchnittstelle,
-			cacheKey, containerIdCacheId)
+		val service = ToolboxConfiguration.isDevelopmentMode ? Services.
+				noCacheService : Services.cacheService
+		return service.getCache(object.planProSchnittstelle, cacheKey,
+			containerIdCacheId)
 	}
 
 	/**

@@ -26,7 +26,9 @@ import org.eclipse.set.ppmodel.extensions.PunktObjektExtensions;
 import org.eclipse.xtext.xbase.lib.Pair;
 
 /**
+ * Compare the route and the km of TableRow leadings object
  * 
+ * @author truong
  */
 public class CompareRouteAndKmCriterion implements Comparator<TableRow> {
 
@@ -34,11 +36,21 @@ public class CompareRouteAndKmCriterion implements Comparator<TableRow> {
 	private final Function<Ur_Objekt, Punkt_Objekt> getPunktObjectFunc;
 	private final NumericCellComparator numericComparator;
 
+	/**
+	 * @param getPunktObjectFunc
+	 *            get {@link Punkt_Objekt} function
+	 */
 	public CompareRouteAndKmCriterion(
 			final Function<Ur_Objekt, Punkt_Objekt> getPunktObjectFunc) {
 		this(getPunktObjectFunc, SortDirectionEnum.ASC);
 	}
 
+	/**
+	 * @param getPunktObjectFunc
+	 *            get {@link Punkt_Objekt} function
+	 * @param direction
+	 *            the sort direction
+	 */
 	public CompareRouteAndKmCriterion(
 			final Function<Ur_Objekt, Punkt_Objekt> getPunktObjectFunc,
 			final SortDirectionEnum direction) {
@@ -65,6 +77,11 @@ public class CompareRouteAndKmCriterion implements Comparator<TableRow> {
 		return compareRouteAndKm(firstPO, secondPO);
 	}
 
+	// IMPROVE: the determine route and km can be depended on the
+	// GeoKanteGeometryService, when the Punkt_Objekt more than one
+	// Punkt_Objekt_Streck have. In this case should the compare do again after
+	// the finding geometry process complete. Because this case is rarely occur
+	// it will be for the first time ignore
 	private int compareRouteAndKm(final Punkt_Objekt first,
 			final Punkt_Objekt second) {
 		final Optional<Integer> compareObj = compareObj(first, second);
@@ -87,23 +104,32 @@ public class CompareRouteAndKmCriterion implements Comparator<TableRow> {
 		if (compareRouten != 0) {
 			return compareRouten;
 		}
-		return 0;
+
+		final Set<String> firstKms = firstStreckeAndKm.stream()
+				.flatMap(pair -> pair.getValue().stream())
+				.collect(Collectors.toSet());
+		final Set<String> secondKms = secondStreckeAndKm.stream()
+				.flatMap(pair -> pair.getValue().stream())
+				.collect(Collectors.toSet());
+		return numericComparator.compareCell(firstKms, secondKms);
 	}
 
-	private static <T> Optional<Integer> compareObj(final T first,
-			final T second) {
+	private <T> Optional<Integer> compareObj(final T first, final T second) {
 		if (first == second && first == null) {
 			return Optional.of(Integer.valueOf(0));
 		}
 
 		if (first == null) {
-			return Optional.of(Integer.valueOf(-1));
+			return Optional
+					.of(direction == SortDirectionEnum.ASC ? Integer.valueOf(-1)
+							: Integer.valueOf(1));
 		}
 
 		if (second == null) {
-			return Optional.of(Integer.valueOf(1));
+			return Optional
+					.of(direction == SortDirectionEnum.ASC ? Integer.valueOf(1)
+							: Integer.valueOf(-1));
 		}
 		return Optional.empty();
 	}
-
 }

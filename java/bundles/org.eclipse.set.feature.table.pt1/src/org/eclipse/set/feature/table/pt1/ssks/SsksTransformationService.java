@@ -24,9 +24,9 @@ import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.messages.Messages;
+import org.eclipse.set.model.planpro.Signale.Signal;
 import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
-import org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparatorType;
 import org.eclipse.set.utils.table.sorting.TableRowGroupComparator;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -108,8 +108,14 @@ public final class SsksTransformationService extends
 		return TableRowGroupComparator.builder()
 				.sort(Reales_Signal, EMPTY_LAST, ASC)
 				.sort(Fiktives_Signal, EMPTY_LAST, ASC)
-				.sort(Strecke, LEXICOGRAPHICAL, ASC)
-				.sort(Km, CellComparatorType.NUMERIC, ASC)
+				// It can be directly compare by Column E/F but for consistent
+				// with another table the CompareRouteAndKm will be used.
+				.sortByRouteAndKm(obj -> {
+					if (obj instanceof final Signal signal) {
+						return signal;
+					}
+					return null;
+				})
 				.sort(Bezeichnung_Signal, LEXICOGRAPHICAL, ASC)
 				.build();
 	}
