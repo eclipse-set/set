@@ -90,6 +90,7 @@ public final class SslzTransformationService
 		})
 				.sort(Start, LEXICOGRAPHICAL, ASC)
 				.sort(Ziel, LEXICOGRAPHICAL, ASC)
+				.sort(Durchrutschweg_Bezeichnung, LEXICOGRAPHICAL, ASC)
 				.build();
 	}
 
