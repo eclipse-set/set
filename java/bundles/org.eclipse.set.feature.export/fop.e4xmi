@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="ASCII"?>
-<fragment:ModelFragments xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:application="http://www.eclipse.org/ui/2010/UIModel/application" xmlns:fragment="http://www.eclipse.org/ui/2010/UIModel/fragment" xmi:id="_9ksCIEEdEeuKW9yz0DVY0A">
-  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_Gi56UEEeEeuKW9yz0DVY0A" featurename="addons" parentElementId="org.eclipse.e4.ide.application">
-    <elements xsi:type="application:Addon" xmi:id="_Rb8gcEEeEeuKW9yz0DVY0A" elementId="org.eclipse.set.feature.export.addon.fop" contributionURI="bundleclass://org.eclipse.set.feature.export/org.eclipse.set.feature.export.addons.FopAddon"/>
-  </fragments>
-</fragment:ModelFragments>
