@@ -117,9 +117,8 @@ public final class SskpTransformationService
 				"500"); //$NON-NLS-1$
 		return TableRowGroupComparator.builder().sortByRouteAndKm(obj -> {
 			if (obj instanceof final PZB_Element pzb) {
-						.getPZBElementBezugspunkt(pzb)
-						.getFirst();
-				if (bezugPunkt instanceof final Punkt_Objekt po) {
+				final List<Basis_Objekt> bezugPunkts = PZBElementExtensions
+						.getPZBElementBezugspunkt(pzb);
 
 				if (!bezugPunkts.isEmpty() && bezugPunkts
 						.getFirst() instanceof final Punkt_Objekt po) {
