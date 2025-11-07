@@ -195,9 +195,11 @@ class PunktObjektExtensions extends BasisObjektExtensions {
 		val getStreckeFunc = [ Punkt_Objekt_Strecke_AttributeGroup pos |
 			pos.IDStrecke?.value?.bezeichnung?.bezeichnungStrecke?.wert ?: ""
 		]
-		
+
 		if (!isFindGeometryComplete) {
-			return #[getStreckeFunc.apply(po.punktObjektStrecke.first) -> #[]]
+			return po.punktObjektStrecke.map [ pos |
+				getStreckeFunc.apply(pos) -> #[]
+			].toList
 		}
 		if (po.punktObjektStrecke.size === 1) {
 			val result = #[getStreckeFunc.apply(po.punktObjektStrecke.first) ->
@@ -220,11 +222,6 @@ class PunktObjektExtensions extends BasisObjektExtensions {
 		val routeThroughBereichObjekt = po.singlePoint.
 			streckenThroughBereichObjekt
 
-		if (!isFindGeometryComplete) {
-			return routeThroughBereichObjekt.map [
-				bezeichnung?.bezeichnungStrecke?.wert ?: "" -> #[]
-			]
-		}
 		val result = routeThroughBereichObjekt.map [ route |
 			route.bezeichnung?.bezeichnungStrecke?.wert ?: "" ->
 				po.getStreckeKm(#[route])
