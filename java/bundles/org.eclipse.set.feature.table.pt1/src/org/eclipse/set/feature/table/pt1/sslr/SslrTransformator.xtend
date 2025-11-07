@@ -159,7 +159,7 @@ class SslrTransformator extends AbstractPlanPro2TableModelTransformator {
 					null) {
 						val bezeichnung = fstr.container.gleisBezeichnung.filter [
 						intersects(fstr?.fstrFahrweg?.zielSignal)
-					].map[bezeichnung?.bezGleisBezeichnung?.wert]
+					].map[bezeichnung?.bezGleisBezeichnung?.wert].filterNull
 					if (!bezeichnung.empty && result.addAll(bezeichnung)) {
 						addTopologicalCell(cols.getColumn(Inselgleis_Bezeichnung))	
 					}
