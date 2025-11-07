@@ -30,6 +30,8 @@ import org.apache.fop.apps.FopFactory;
 import org.apache.fop.apps.FopFactoryBuilder;
 import org.apache.fop.apps.io.ResourceResolverFactory;
 import org.apache.fop.configuration.ConfigurationException;
+import org.apache.fop.image.loader.batik.ImageLoaderFactorySVG;
+import org.apache.fop.image.loader.batik.PreloaderSVG;
 import org.apache.xmlgraphics.io.Resource;
 import org.apache.xmlgraphics.io.ResourceResolver;
 import org.eclipse.set.basis.OverwriteHandling;
@@ -102,6 +104,7 @@ public class FopServiceImpl implements FopService {
 	 * @throws SAXException
 	 *             a SAX exception occurred
 	 * @throws URISyntaxException
+	 *             the {@link URISyntaxException}
 	 */
 	@Activate
 	public void activate() throws IOException, SAXException,
@@ -113,6 +116,12 @@ public class FopServiceImpl implements FopService {
 						FopServiceImpl.class.getClassLoader()
 								.getResource("hyph") //$NON-NLS-1$
 								.toURI()));
+		fopFactoryBuilder.getImageManager()
+				.getRegistry()
+				.registerPreloader(new PreloaderSVG());
+		fopFactoryBuilder.getImageManager()
+				.getRegistry()
+				.registerLoaderFactory(new ImageLoaderFactorySVG());
 		fopFactory = fopFactoryBuilder.build();
 		fopFactory.getRendererFactory()
 				.addDocumentHandlerMaker(

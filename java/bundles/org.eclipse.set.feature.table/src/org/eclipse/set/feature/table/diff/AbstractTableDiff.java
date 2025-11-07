@@ -27,6 +27,7 @@ import org.eclipse.set.model.tablemodel.TableCell;
 import org.eclipse.set.model.tablemodel.TableRow;
 import org.eclipse.set.model.tablemodel.TablemodelFactory;
 import org.eclipse.set.model.tablemodel.extensions.FootnoteContainerExtensions;
+import org.eclipse.set.model.tablemodel.extensions.TableCellExtensions;
 import org.eclipse.set.model.tablemodel.extensions.TableExtensions;
 import org.eclipse.set.ppmodel.extensions.EObjectExtensions;
 import org.eclipse.set.services.table.TableDiffService;
@@ -137,6 +138,11 @@ public abstract class AbstractTableDiff implements TableDiffService {
 			return;
 		}
 		oldCell.setContent(diffContent);
+		if (newCell != null && TableCellExtensions.getFormat(newCell)
+				.isTopologicalCalculation()) {
+			TableCellExtensions.getFormat(oldCell)
+					.setTopologicalCalculation(true);
+		}
 	}
 
 	abstract CellContent createDiffContent(TableCell first, TableCell second);

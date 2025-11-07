@@ -510,7 +510,6 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 									return fundament.toSet
 								}
 								
-								row.addTopologicalCell(cols.getColumn(Fundament_Art_Regelzeichnung))
 								val regelzeichnung = map[getFundament].filterNull.
 									flatMap[IDRegelzeichnung].map [
 										value?.fillRegelzeichnung

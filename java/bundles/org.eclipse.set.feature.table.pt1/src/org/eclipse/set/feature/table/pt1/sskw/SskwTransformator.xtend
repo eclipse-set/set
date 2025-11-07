@@ -38,6 +38,7 @@ import org.eclipse.set.model.tablemodel.TablemodelFactory
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.ppmodel.extensions.utils.Case
 import org.eclipse.set.utils.table.TMFactory
+import org.eclipse.set.utils.xml.EObjectXMLFinder
 import org.osgi.service.event.EventAdmin
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -59,8 +60,6 @@ import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspElementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspKomponenteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
-import org.eclipse.set.utils.xml.EObjectXMLFinder
-import org.eclipse.set.utils.xml.EObjectXMLFinder.XmlParseException
 
 /**
  * Table transformation for a Weichentabelle (SSKW).
@@ -756,6 +755,9 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 		if (components.map[actuatorNumberSelector.apply(it)].filterNull.
 			nullOrEmpty) {
 			return
+		}
+		if (components.size > 1 && column === cols.getColumn(Weiche_Antriebe)) {
+			row.addTopologicalCell(column)
 		}
 		if (element.container?.containerType === ContainerType.FINAL &&
 			components.exists [

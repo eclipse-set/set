@@ -46,7 +46,7 @@ class TrackSwitchLeg {
 	val TRACK_SWITCH_POINTS = 10
 
 	// Default length of a track switch if it could not be identified
-	val DEFAULT_TRACKSWITCH_LEG_LENGTH = BigDecimal.valueOf(20)
+	val DEFAULT_TRACKSWITCH_LEG_LENGTH = BigDecimal.valueOf(30)
 
 	TOP_Kante topKante;
 	TOP_Knoten topKnoten;
@@ -221,7 +221,7 @@ class TrackSwitchLeg {
 			default: {
 				topKante = topKnoten.getTrackSwitchLegs.get(legIndex)
 				connection = getTOPAnschluss(topKante, topKnoten)
-				if (metadata.trackSwitchLength !== null) {
+				if (metadata?.trackSwitchLength !== null) {
 					if (legIndex == 0)
 						length = BigDecimal.valueOf(
 							metadata.trackSwitchLength.mainLeg)
