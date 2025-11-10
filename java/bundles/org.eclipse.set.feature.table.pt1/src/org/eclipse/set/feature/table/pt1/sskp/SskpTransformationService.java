@@ -8,21 +8,23 @@
  */
 package org.eclipse.set.feature.table.pt1.sskp;
 
-import static org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum.ASC;
 import static org.eclipse.set.feature.table.pt1.sskp.SskpColumns.*;
 import static org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.getFirstOrNull;
-import static org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparatorType.LEXICOGRAPHICAL;
 
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
+import org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.core.services.graph.TopologicalGraphService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.messages.Messages;
+import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt;
+import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt;
+import org.eclipse.set.model.planpro.PZB.PZB_Element;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.CompareCellContent;
 import org.eclipse.set.model.tablemodel.MultiColorCellContent;
@@ -31,8 +33,10 @@ import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.model.tablemodel.RowMergeMode;
 import org.eclipse.set.model.tablemodel.StringCellContent;
 import org.eclipse.set.model.tablemodel.TableCell;
+import org.eclipse.set.ppmodel.extensions.PZBElementExtensions;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
 import org.eclipse.set.utils.table.ColumnDescriptorModelBuilder;
+import org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparatorType;
 import org.eclipse.set.utils.table.sorting.TableRowGroupComparator;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -111,15 +115,24 @@ public final class SskpTransformationService
 	public Comparator<RowGroup> getRowGroupComparator() {
 		final List<String> gmOrder = List.of("2000", "1000/2000", "1000", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				"500"); //$NON-NLS-1$
+		return TableRowGroupComparator.builder().sortByRouteAndKm(obj -> {
+			if (obj instanceof final PZB_Element pzb) {
+				final List<Basis_Objekt> bezugPunkts = PZBElementExtensions
+						.getPZBElementBezugspunkt(pzb);
 
-		return TableRowGroupComparator.builder()
-				.sort("A", LEXICOGRAPHICAL, ASC) //$NON-NLS-1$
-				.sort("B", //$NON-NLS-1$
-						Comparator.comparing(
-								SskpTransformationService::getCellContent,
-								Comparator.nullsLast(
-										Comparator.comparing(gmOrder::indexOf,
-												Integer::compareUnsigned))))
+				if (!bezugPunkts.isEmpty() && bezugPunkts
+						.getFirst() instanceof final Punkt_Objekt po) {
+					return po;
+				}
+			}
+			return null;
+		})
+				.sort(Wirkfrequenz, Comparator.comparing(
+						SskpTransformationService::getCellContent,
+						Comparator.nullsLast(Comparator.comparing(
+								gmOrder::indexOf, Integer::compareUnsigned))))
+				.sort(Bezugselement, CellComparatorType.LEXICOGRAPHICAL,
+						SortDirectionEnum.ASC)
 				.build();
 
 	}

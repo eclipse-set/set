@@ -8,8 +8,11 @@
  */
 package org.eclipse.set.feature.table.pt1.sslz;
 
+import static org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum.ASC;
 import static org.eclipse.set.feature.table.pt1.sslz.SslzColumns.*;
+import static org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparatorType.LEXICOGRAPHICAL;
 
+import java.util.Comparator;
 import java.util.List;
 
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
@@ -17,7 +20,12 @@ import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.messages.Messages;
+import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Zug_Rangier;
+import org.eclipse.set.model.tablemodel.RowGroup;
+import org.eclipse.set.ppmodel.extensions.FahrwegExtensions;
+import org.eclipse.set.ppmodel.extensions.FstrZugRangierExtensions;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
+import org.eclipse.set.utils.table.sorting.TableRowGroupComparator;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.event.EventAdmin;
@@ -69,6 +77,21 @@ public final class SslzTransformationService
 	@Override
 	protected String getShortcut() {
 		return messages.ToolboxTableNameSslzShort.toLowerCase();
+	}
+
+	@Override
+	public Comparator<RowGroup> getRowGroupComparator() {
+		return TableRowGroupComparator.builder().sortByRouteAndKm(obj -> {
+			if (obj instanceof final Fstr_Zug_Rangier fstr) {
+				return FahrwegExtensions.getStart(
+						FstrZugRangierExtensions.getFstrFahrweg(fstr));
+			}
+			return null;
+		})
+				.sort(Start, LEXICOGRAPHICAL, ASC)
+				.sort(Ziel, LEXICOGRAPHICAL, ASC)
+				.sort(Durchrutschweg_Bezeichnung, LEXICOGRAPHICAL, ASC)
+				.build();
 	}
 
 	@Override

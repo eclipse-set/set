@@ -10,8 +10,12 @@ package org.eclipse.set.utils.table.sorting;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Function;
 
+import org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum;
 import org.eclipse.set.basis.tables.Tables;
+import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt;
+import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
 import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.model.tablemodel.TableCell;
 import org.eclipse.set.model.tablemodel.TableRow;
@@ -24,7 +28,6 @@ import com.google.common.collect.Lists;
  * @author Schaefer
  */
 public final class TableRowGroupComparator implements Comparator<RowGroup> {
-
 	/**
 	 * @return create a builder
 	 */
@@ -76,6 +79,8 @@ public final class TableRowGroupComparator implements Comparator<RowGroup> {
 
 	@Override
 	public int compare(final RowGroup group1, final RowGroup group2) {
+		// the sorting shouldn't execute, when it must wait the find geometry
+		// service
 		if (group1.getRows().isEmpty()) {
 			if (group2.getRows().isEmpty()) {
 				return 0;
@@ -85,8 +90,17 @@ public final class TableRowGroupComparator implements Comparator<RowGroup> {
 		if (group2.getRows().isEmpty()) {
 			return 1;
 		}
-		final TableRow row1 = group1.getRows().get(0);
-		final TableRow row2 = group2.getRows().get(0);
+		return compare(group1.getRows().get(0), group2.getRows().get(0));
+	}
+
+	/**
+	 * @param row1
+	 *            the {@link TableRow}
+	 * @param row2
+	 *            the {@link TableRow}
+	 * @return the compare result
+	 */
+	public int compare(final TableRow row1, final TableRow row2) {
 		for (final Comparator<TableRow> criterion : criteria) {
 			final int result = criterion.compare(row1, row2);
 			if (result != 0) {
@@ -94,5 +108,27 @@ public final class TableRowGroupComparator implements Comparator<RowGroup> {
 			}
 		}
 		return 0;
+	}
+
+	/**
+	 * @param getPunktObjectFunc
+	 *            the function to get {@link Punkt_Objekt}
+	 * @param direction
+	 *            the sort direction
+	 */
+	public void addRouteAndKmCriterion(
+			final Function<Ur_Objekt, Punkt_Objekt> getPunktObjectFunc,
+			final SortDirectionEnum direction) {
+		criteria.add(
+				new CompareRouteAndKmCriterion(getPunktObjectFunc, direction));
+	}
+
+	/**
+	 * @param getPunktObjectFunc
+	 *            the function to get {@link Punkt_Objekt}
+	 */
+	public void addRouteAndKmCriterion(
+			final Function<Ur_Objekt, Punkt_Objekt> getPunktObjectFunc) {
+		criteria.add(new CompareRouteAndKmCriterion(getPunktObjectFunc));
 	}
 }
