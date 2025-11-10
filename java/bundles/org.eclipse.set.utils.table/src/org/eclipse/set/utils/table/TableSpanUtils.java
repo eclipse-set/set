@@ -10,9 +10,13 @@ package org.eclipse.set.utils.table;
 
 import java.util.List;
 
+import org.eclipse.set.model.tablemodel.CellContent;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
+import org.eclipse.set.model.tablemodel.CompareCellContent;
 import org.eclipse.set.model.tablemodel.RowMergeMode;
+import org.eclipse.set.model.tablemodel.StringCellContent;
 import org.eclipse.set.model.tablemodel.TableRow;
+import org.eclipse.set.model.tablemodel.extensions.CellContentExtensions;
 import org.eclipse.set.model.tablemodel.extensions.TableRowExtensions;
 
 /**
@@ -80,17 +84,69 @@ public class TableSpanUtils {
 				.getGroup(rowB)) {
 			return false;
 		}
-
-		// And contain the same value
-		final String valueA = TableRowExtensions.getPlainStringValue(rowA,
-				column);
-		final String valueB = TableRowExtensions.getPlainStringValue(rowB,
-				column);
-
-		if (valueA == null) {
-			return valueB == null;
+		final CellContent cellContentA = TableRowExtensions.getContent(rowA)
+				.get(column);
+		final CellContent cellContentB = TableRowExtensions.getContent(rowB)
+				.get(column);
+		if (cellContentA == null) {
+			return cellContentB == null;
 		}
-		return valueA.equals(valueB);
+
+		return isEqual(cellContentA, cellContentB);
+	}
+
+	private static boolean isEqual(final CellContent cellContentA,
+			final CellContent cellContentB) {
+		return switch (cellContentA) {
+			case final StringCellContent stringCellContentA -> isEqual(
+					stringCellContentA, cellContentB);
+			case final CompareCellContent compareCellContentA -> isEqual(
+					compareCellContentA, cellContentB);
+			default -> CellContentExtensions.isEqual(cellContentA,
+					cellContentB);
+		};
+	}
+
+	private static boolean isEqual(final StringCellContent stringCellContentA,
+			final CellContent cellContentB) {
+		return switch (cellContentB) {
+			// In the case, that a cell content is StringCellContent and the
+			// another is CompareCellContent, then compare old/new values of the
+			// compare cell content with the another cell. Because when the row
+			// in Final was removed/added will be COmpareCellContent and by
+			// normal compare the row can't be merged
+			case final CompareCellContent compareCellContentB -> {
+				final List<String> oldValuesB = compareCellContentB
+						.getOldValue()
+						.stream()
+						.map(String::trim)
+						.filter(v -> !v.isEmpty() && !v.isBlank())
+						.toList();
+				final List<String> newValuesB = compareCellContentB
+						.getNewValue()
+						.stream()
+						.map(String::trim)
+						.filter(v -> !v.isEmpty() && !v.isBlank())
+						.toList();
+				if (oldValuesB.isEmpty() == newValuesB.isEmpty()) {
+					yield false;
+				}
+				yield stringCellContentA.getValue()
+						.equals(oldValuesB.isEmpty() ? newValuesB : oldValuesB);
+			}
+			default -> CellContentExtensions.isEqual(stringCellContentA,
+					cellContentB);
+		};
+	}
+
+	private static boolean isEqual(final CompareCellContent compareCellContentA,
+			final CellContent cellContentB) {
+		return switch (cellContentB) {
+			case final StringCellContent stringCellContentB -> isEqual(
+					stringCellContentB, compareCellContentA);
+			default -> CellContentExtensions.isEqual(compareCellContentA,
+					cellContentB);
+		};
 	}
 
 	/**

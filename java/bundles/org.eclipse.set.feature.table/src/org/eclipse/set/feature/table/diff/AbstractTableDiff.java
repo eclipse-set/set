@@ -13,6 +13,7 @@ package org.eclipse.set.feature.table.diff;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.stream.IntStream;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.set.core.services.session.SessionService;
@@ -94,6 +95,20 @@ public abstract class AbstractTableDiff implements TableDiffService {
 						TablemodelFactory.eINSTANCE.createTableContent());
 			}
 			mergedTable.getTablecontent().getRowgroups().add(newRowGroup);
+		} else if (match.getRows().size() != newTableRowGroup.getRows()
+				.size()) {
+			final int diff = Math.abs(
+					match.getRows().size() - newTableRowGroup.getRows().size());
+			final RowGroup missingRowInGroup = match.getRows()
+					.size() > newTableRowGroup.getRows().size()
+							? newTableRowGroup
+							: match;
+			IntStream.range(0, diff).forEach(index -> {
+				missingRowInGroup.getRows()
+						.add(createEmptyRow(
+								TableExtensions.getColumns(mergedTable)));
+
+			});
 		}
 	}
 
