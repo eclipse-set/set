@@ -403,7 +403,7 @@ p2/orbit/p2.eclipse.feature/org.eclipse.swtbot.source/4.1.0.202306071420, EPL-2.
 p2/orbit/p2.eclipse.feature/org.eclipse.swtbot/4.1.0.202306071420, EPL-2.0, approved, technology.swtbot
 p2/orbit/p2.eclipse.feature/org.eclipse.xtend.lib/2.39.0.v20250527-0725, EPL-1.0, approved, modeling.m2t.xpand
 p2/orbit/p2.eclipse.feature/org.eclipse.xtend.sdk/2.39.0.v20250527-0725, EPL-1.0, approved, modeling.m2t.xpand
-p2/orbit/p2.eclipse.feature/org.eclipse.xtext.xbase.lib/2.39.0.v20250527-0725, EPL-2.0, approved, modeling.tmf.xtext
+p2/orbit/p2.eclipse.feature/org.eclipse.xtext.xbase.lib/2.39.0.v20250527-0725, , approved, modeling.tmf.xtext
 p2/orbit/p2.eclipse.plugin/ca.odell.glazedlists.source/1.11.0.v20190926-1838, MPL-2.0 AND Apache-2.0, approved, CQ20816
 p2/orbit/p2.eclipse.plugin/ca.odell.glazedlists/1.11.0.v20190926-1838, MPL-2.0 AND Apache-2.0, approved, CQ20816
 p2/orbit/p2.eclipse.plugin/com.fasterxml.jackson.core.jackson-annotations/2.12.6, Apache-2.0, approved, #15332
@@ -1785,16 +1785,16 @@ p2/orbit/p2.eclipse.plugin/org.eclipse.xtend.m2e.source/2.39.0.v20250527-0725, E
 p2/orbit/p2.eclipse.plugin/org.eclipse.xtend.m2e/2.39.0.v20250527-0725, EPL-1.0, approved, modeling.m2t.xpand
 p2/orbit/p2.eclipse.plugin/org.eclipse.xtend.standalone.source/2.39.0.v20250527-0725, EPL-1.0, approved, modeling.m2t.xpand
 p2/orbit/p2.eclipse.plugin/org.eclipse.xtend.standalone/2.39.0.v20250527-0725, EPL-1.0, approved, modeling.m2t.xpand
-p2/orbit/p2.eclipse.plugin/org.eclipse.xtext.testing.source/2.39.0.v20250527-0725, EPL-2.0, approved, modeling.tmf.xtext
-p2/orbit/p2.eclipse.plugin/org.eclipse.xtext.testing/2.39.0.v20250527-0725, EPL-2.0, approved, modeling.tmf.xtext
-p2/orbit/p2.eclipse.plugin/org.eclipse.xtext.ui.testing.source/2.39.0.v20250527-0725, EPL-2.0, approved, modeling.tmf.xtext
-p2/orbit/p2.eclipse.plugin/org.eclipse.xtext.ui.testing/2.39.0.v20250527-0725, EPL-2.0, approved, modeling.tmf.xtext
-p2/orbit/p2.eclipse.plugin/org.eclipse.xtext.xbase.lib.source/2.39.0.v20250527-0725, EPL-2.0, approved, modeling.tmf.xtext
-p2/orbit/p2.eclipse.plugin/org.eclipse.xtext.xbase.lib/2.39.0.v20250527-0725, EPL-2.0, approved, modeling.tmf.xtext
-p2/orbit/p2.eclipse.plugin/org.eclipse.xtext.xbase.testing.source/2.39.0.v20250527-0725, EPL-2.0, approved, modeling.tmf.xtext
-p2/orbit/p2.eclipse.plugin/org.eclipse.xtext.xbase.testing/2.39.0.v20250527-0725, EPL-2.0, approved, modeling.tmf.xtext
-p2/orbit/p2.eclipse.plugin/org.eclipse.xtext.xbase.ui.testing.source/2.39.0.v20250527-0725, EPL-2.0, approved, modeling.tmf.xtext
-p2/orbit/p2.eclipse.plugin/org.eclipse.xtext.xbase.ui.testing/2.39.0.v20250527-0725, EPL-2.0, approved, modeling.tmf.xtext
+p2/orbit/p2.eclipse.plugin/org.eclipse.xtext.testing.source/2.39.0.v20250527-0725, , approved, modeling.tmf.xtext
+p2/orbit/p2.eclipse.plugin/org.eclipse.xtext.testing/2.39.0.v20250527-0725, , approved, modeling.tmf.xtext
+p2/orbit/p2.eclipse.plugin/org.eclipse.xtext.ui.testing.source/2.39.0.v20250527-0725, , approved, modeling.tmf.xtext
+p2/orbit/p2.eclipse.plugin/org.eclipse.xtext.ui.testing/2.39.0.v20250527-0725, , approved, modeling.tmf.xtext
+p2/orbit/p2.eclipse.plugin/org.eclipse.xtext.xbase.lib.source/2.39.0.v20250527-0725, , approved, modeling.tmf.xtext
+p2/orbit/p2.eclipse.plugin/org.eclipse.xtext.xbase.lib/2.39.0.v20250527-0725, , approved, modeling.tmf.xtext
+p2/orbit/p2.eclipse.plugin/org.eclipse.xtext.xbase.testing.source/2.39.0.v20250527-0725, , approved, modeling.tmf.xtext
+p2/orbit/p2.eclipse.plugin/org.eclipse.xtext.xbase.testing/2.39.0.v20250527-0725, , approved, modeling.tmf.xtext
+p2/orbit/p2.eclipse.plugin/org.eclipse.xtext.xbase.ui.testing.source/2.39.0.v20250527-0725, , approved, modeling.tmf.xtext
+p2/orbit/p2.eclipse.plugin/org.eclipse.xtext.xbase.ui.testing/2.39.0.v20250527-0725, , approved, modeling.tmf.xtext
 p2/orbit/p2.eclipse.plugin/org.hamcrest.core.source/1.3.0.v20180420-1519, BSD-2-Clause, approved, CQ7063
 p2/orbit/p2.eclipse.plugin/org.hamcrest.core/1.3.0.v20180420-1519, BSD-2-Clause, approved, CQ7063
 p2/orbit/p2.eclipse.plugin/org.hamcrest.core/2.2.0.v20230809-1000, BSD-3-Clause, approved, #9982
