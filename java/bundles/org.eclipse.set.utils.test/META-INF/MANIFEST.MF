@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Utils Tests
 Bundle-SymbolicName: org.eclipse.set.utils.test
-Bundle-Version: 2.5.0.qualifier
+Bundle-Version: 2.5.1
 Fragment-Host: org.eclipse.set.utils;bundle-version="0.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Bundle-Vendor: Eclipse Signalling Engineering Toolbox

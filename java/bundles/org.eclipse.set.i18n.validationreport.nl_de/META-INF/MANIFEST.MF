@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Validationreport Edit Support nl_de
 Bundle-SymbolicName: org.eclipse.set.i18n.validationreport.nl_de
-Bundle-Version: 2.5.0.qualifier
+Bundle-Version: 2.5.1
 Fragment-Host: org.eclipse.set.model.validationreport.edit;bundle-version="0.1.0"
 Automatic-Module-Name: org.eclipse.set.i18n.validationreport.edit
 Bundle-RequiredExecutionEnvironment: JavaSE-21

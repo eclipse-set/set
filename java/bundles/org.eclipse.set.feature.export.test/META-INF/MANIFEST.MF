@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Toolbox Export Tests
 Bundle-SymbolicName: org.eclipse.set.feature.export.test
-Bundle-Version: 2.5.0.qualifier
+Bundle-Version: 2.5.1
 Fragment-Host: org.eclipse.set.feature.export;bundle-version="0.1.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Bundle-Vendor: Eclipse Signalling Engineering Toolbox

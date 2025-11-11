@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.set.model.titlebox;singleton:=true
 Automatic-Module-Name: org.eclipse.set.model.titlebox
-Bundle-Version: 2.5.0.qualifier
+Bundle-Version: 2.5.1
 Bundle-ClassPath: .
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin

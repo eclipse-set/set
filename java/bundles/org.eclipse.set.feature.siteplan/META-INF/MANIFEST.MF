@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Siteplan
 Bundle-SymbolicName: org.eclipse.set.feature.siteplan;singleton:=true
-Bundle-Version: 2.5.0.qualifier
+Bundle-Version: 2.5.1
 Export-Package: org.eclipse.set.feature.siteplan,
  org.eclipse.set.feature.siteplan.browserfunctions,
  org.eclipse.set.feature.siteplan.json,

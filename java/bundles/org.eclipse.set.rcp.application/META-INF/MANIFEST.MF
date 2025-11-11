@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: RCP Application
 Bundle-SymbolicName: org.eclipse.set.rcp.application;singleton:=true
-Bundle-Version: 2.5.0.qualifier
+Bundle-Version: 2.5.1
 Bundle-Vendor: Eclipse Signalling Engineering Toolbox
 Require-Bundle: org.eclipse.e4.core.di;bundle-version="1.7.0",
  org.eclipse.e4.ui.di;bundle-version="1.2.200",

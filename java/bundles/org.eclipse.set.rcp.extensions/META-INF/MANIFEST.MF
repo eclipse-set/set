@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: RCP Extensions
 Bundle-SymbolicName: org.eclipse.set.rcp.extensions
-Bundle-Version: 2.5.0.qualifier
+Bundle-Version: 2.5.1
 Bundle-Vendor: Eclipse Signalling Engineering Toolbox
 Automatic-Module-Name: org.eclipse.set.custom.extensions
 Bundle-RequiredExecutionEnvironment: JavaSE-21

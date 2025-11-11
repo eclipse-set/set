@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Sessionservice
 Bundle-SymbolicName: org.eclipse.set.sessionservice;singleton:=true
-Bundle-Version: 2.5.0.qualifier
+Bundle-Version: 2.5.1
 Automatic-Module-Name: org.eclipse.set.sessionservice
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Bundle-Vendor: Eclipse Signalling Engineering Toolbox

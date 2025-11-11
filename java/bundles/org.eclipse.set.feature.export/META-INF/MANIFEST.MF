@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Toolbox Export
 Bundle-SymbolicName: org.eclipse.set.feature.export;singleton:=true
-Bundle-Version: 2.5.0.qualifier
+Bundle-Version: 2.5.1
 Bundle-Vendor: Eclipse Signalling Engineering Toolbox
 Export-Package: org.eclipse.set.feature.export.checkboxmodel,
  org.eclipse.set.feature.export.parts,
