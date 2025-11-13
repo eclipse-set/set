@@ -198,8 +198,10 @@ public interface TableService {
 	 * 
 	 * @param table
 	 *            the table
+	 * @param tableType
+	 *            the {@link TableType}
 	 * @param shortcut
 	 *            the table shortcut
 	 */
-	void sortTable(Table table, String shortcut);
+	void sortTable(Table table, TableType tableType, String shortcut);
 }
