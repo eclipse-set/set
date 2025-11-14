@@ -13,6 +13,10 @@ on:
     paths-ignore:
       - DEPENDENCIES
 
+concurrency: 
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 env:
   GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
   DEPLOY_DIR: ${{ github.workspace }}/java-test/m2deploy
@@ -202,14 +206,9 @@ jobs:
         uses: actions/cache@v4
         with:
           enableCrossOsArchive: true
-          path: |
-            ~/.m2/repository/org/eclipse/set/org.eclipse.set.browser.cef.win32
-            ~/.m2/repository/org/eclipse/set/org.eclipse.set.browser
-            ~/.m2/repository/org/eclipse/set/org.eclipse.set.browser.lib
-          key: ${{ runner.os }}-m2repo--browser-${{ hashFiles('**/java/bundles/org.eclipse.set.releng.target/org.eclipse.set.releng.target.target') }}
-          restore-keys: |
-            ${{ runner.os }}-m2repo-browser-
-
+          path: ~/.m2/repository/
+          key: m2repo-${{ hashFiles('**/java/bundles/org.eclipse.set.releng.target/org.eclipse.set.releng.target.target') }}
+          restore-keys: m2repo
       - name: Build
         run: |
           if ([ "${{ github.event_name }}" == "pull_request" ]); then
@@ -303,13 +302,9 @@ jobs:
         uses: actions/cache@v4
         with:
           enableCrossOsArchive: true
-          path: |
-            ~/.m2/repository/org/eclipse/set/org.eclipse.set.browser.cef.win32
-            ~/.m2/repository/org/eclipse/set/org.eclipse.set.browser
-            ~/.m2/repository/org/eclipse/set/org.eclipse.set.browser.lib
-          key: ${{ runner.os }}-m2repo--browser-${{ hashFiles('**/java/bundles/org.eclipse.set.releng.target/org.eclipse.set.releng.target.target') }}
-          restore-keys: |
-            ${{ runner.os }}-m2repo-browser-
+          path: ~/.m2/repository
+          key: m2repo-${{ hashFiles('**/java/bundles/org.eclipse.set.releng.target/org.eclipse.set.releng.target.target') }}
+          restore-keys: m2repo
 
       - name: Run Test
         id: test-steps

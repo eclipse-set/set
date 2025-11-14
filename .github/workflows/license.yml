@@ -2,10 +2,18 @@ name: Check Licenses
 
 on:
   pull_request:
+    paths:
+      - '**/pom.xml'
+      - '**/package.json'
+      - '**/org.eclipse.set.releng.target.target'
     branches: 
      - 'main'
   issue_comment:
     types: [created]
+  
+concurrency: 
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   license:
