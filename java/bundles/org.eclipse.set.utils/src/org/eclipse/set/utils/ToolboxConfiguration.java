@@ -22,6 +22,7 @@ import org.eclipse.swt.widgets.Composite;
  * 
  * @author Schaefer
  */
+@SuppressWarnings("nls")
 public class ToolboxConfiguration {
 
 	private static Path defaultDirectory;
@@ -46,7 +47,7 @@ public class ToolboxConfiguration {
 		// read default dir from system properties
 		final String dir = System.getProperty(
 				ToolboxProperties.TOOLBOX_DEFAULT_DIRECTORY,
-				"$USERPROFILE$\\planpro"); //$NON-NLS-1$
+				"$USERPROFILE$\\planpro");
 		defaultDirectory = Paths
 				.get(StringExtensions.expandFromEnvironment(dir));
 
@@ -55,8 +56,8 @@ public class ToolboxConfiguration {
 		if (file.exists() || file.mkdirs()) {
 			return defaultDirectory;
 		}
-		throw new RuntimeException("Creation of default directory " //$NON-NLS-1$
-				+ defaultDirectory + " failed."); //$NON-NLS-1$
+		throw new RuntimeException("Creation of default directory "
+				+ defaultDirectory + " failed.");
 	}
 
 	/**
@@ -156,22 +157,25 @@ public class ToolboxConfiguration {
 				.indexOf("jdwp") > -1; //$NON-NLS-1$
 	}
 
-	private static final String MAP_SOURCES_DEFAULT = "BKG_TOPPLUS|BKG_SENT"; //$NON-NLS-1$
-	private static final String HERE_API_KEY_DEFAULT = ""; //$NON-NLS-1$
-	private static final String HERE_CLIENT_ID_DEFAULT = ""; //$NON-NLS-1$
-	private static final String MAPBOX_API_KEY_DEFAULT = ""; //$NON-NLS-1$
-	private static final String DOP20_API_KEY_DEFAULT = ""; //$NON-NLS-1$
-	private static final String DOP20_INTERN_URL_DEFAULT = "https://sg.geodatenzentrum.de/wms_dop"; //$NON-NLS-1$
-	private static final String LOD_SCALE_DEFAULT = "10000"; //$NON-NLS-1$
-	private static final String EXPORT_DPI_DEFAULT = "300"; //$NON-NLS-1$
-	private static final String TRACK_WIDTH = "3|1.5|0.75|1"; //$NON-NLS-1$
-	private static final String TRACK_WIDTH_INTERVALL = "1,10|0.5,8|0.25,3|0.5,3"; //$NON-NLS-1$
-	private static final String BASE_ZOOM_LEVEL = "20"; //$NON-NLS-1$
-	private static final String DEFAULT_COLLISIONS_ENABLED = "true"; //$NON-NLS-1$
-	private static final String DEFAULT_SHEETCUT_CRS = "DR0"; //$NON-NLS-1$
-	private static final String BANK_LINE_TOP_PATH_OFFSET_LIMIT = "0.2"; //$NON-NLS-1$
-	private static final String EXPORT_SITEPLAN_SCALE_DEFAULT = "1000"; //$NON-NLS-1$
-	private static final String PATH_FINDING_TOLERANCE = "0.001"; //$NON-NLS-1$
+	private static final String MAP_SOURCES_DEFAULT = "BKG_TOPPLUS|BKG_SENT";
+	private static final String HERE_API_KEY_DEFAULT = "";
+	private static final String HERE_CLIENT_ID_DEFAULT = "";
+	private static final String MAPBOX_API_KEY_DEFAULT = "";
+	private static final String DOP20_API_KEY_DEFAULT = "";
+	private static final String DOP20_INTERN_URL_DEFAULT = "https://sg.geodatenzentrum.de/wms_dop";
+	private static final String LOD_SCALE_DEFAULT = "10000";
+	private static final String EXPORT_DPI_DEFAULT = "300";
+	private static final String TRACK_WIDTH = "3|1.5|0.75|1";
+	private static final String TRACK_WIDTH_INTERVALL = "1,10|0.5,8|0.25,3|0.5,3";
+	private static final String BASE_ZOOM_LEVEL = "20";
+	private static final String DEFAULT_COLLISIONS_ENABLED = "true";
+	private static final String DEFAULT_SHEETCUT_CRS = "DR0";
+	private static final String BANK_LINE_TOP_PATH_OFFSET_LIMIT = "0.2";
+	private static final String EXPORT_SITEPLAN_SCALE_DEFAULT = "1000";
+	private static final String PATH_FINDING_TOLERANCE = "0.001";
+	private static final String GEOMETRY_ARC_STEP_LENGTH = "0.001"; // meter
+	private static final String GEOMETRY_Clothoid_STEP_LENGTH = "0.5";
+	private static final String GEOMETRY_BLOSS_STEP_LENGTH = "0.5";
 
 	/**
 	 * @return a string describing the map sources
@@ -304,5 +308,32 @@ public class ToolboxConfiguration {
 		return Double.parseDouble(
 				System.getProperty(ToolboxProperties.PATH_FINDING_TOLERANCE,
 						PATH_FINDING_TOLERANCE));
+	}
+
+	/**
+	 * @return the step length of the arc geometry
+	 */
+	public static double getGeometryArcStepLength() {
+		return Double.parseDouble(
+				System.getProperty(ToolboxProperties.GEOMETRY_ARC_STEP_LENGTH,
+						GEOMETRY_ARC_STEP_LENGTH));
+	}
+
+	/**
+	 * @return the step length of the clothoid geometry
+	 */
+	public static double getGeometryClothoidStepLength() {
+		return Double.parseDouble(System.getProperty(
+				ToolboxProperties.GEOMETRY_CLOTHOID_STEP_LENGTH,
+				GEOMETRY_Clothoid_STEP_LENGTH));
+	}
+
+	/**
+	 * @return the step length of the bloss geometry
+	 */
+	public static double getGeometryBlossStepLength() {
+		return Double.parseDouble(
+				System.getProperty(ToolboxProperties.GEOMETRY_BLOSS_STEP_LENGTH,
+						GEOMETRY_BLOSS_STEP_LENGTH));
 	}
 }

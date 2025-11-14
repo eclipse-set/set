@@ -24,7 +24,6 @@
 
    <windowImages/>
 
-
    <launcher name="set">
       <win useIco="true">
          <bmp/>
@@ -97,6 +96,9 @@
       <property name="toolbox.siteplan.export_dpi" value="300" />
       <property name="toolbox.siteplan.export.scale" value="1000" />
       <property name="toolbox.path_finding_tolerance" value="0.001" />
+      <property name="toolbox.geometry_calculation.arc_step_length_in_meter" value="0.001" />
+      <property name="toolbox.geometry_calculation.clothoid_step_length_in_meter" value="0.5" />
+      <property name="toolbox.geometry_calculation.bloss_step_length_in_meter" value="0.5" />
    </configurations>
 
    <preferencesInfo>
