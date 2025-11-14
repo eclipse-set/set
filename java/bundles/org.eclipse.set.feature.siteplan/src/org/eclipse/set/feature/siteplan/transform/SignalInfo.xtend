@@ -12,7 +12,6 @@ import java.util.Set
 import org.eclipse.set.model.planpro.Signale.Signal
 import org.eclipse.set.model.planpro.Signale.Signal_Befestigung
 
-import static extension org.eclipse.set.ppmodel.extensions.SignalBefestigungExtensions.*
 
 /**
  * Represents the full information for a given visualized siteplan signal
@@ -26,8 +25,17 @@ class SignalInfo {
 	public Set<Signal> signals
 	public Set<Signal_Befestigung> mounts;
 	
+	/**
+	 * the first mount with no parent, coming from the mount with a frame
+	 * "Schirm" attached to it. 
+	 * If there are multiple Schirme, behaviour is unspecified (See SignalTransformator)
+	 * 
+	 * rootMount is not updated, when signals or mounts are changed
+	 */
+	protected Signal_Befestigung rootMount;
+	
 	def String getSignalGuid() {
-		val base = baseMount
+		val base = rootMount
 		if(base !== null)
 			return base.identitaet?.wert
 		return firstSignal?.identitaet?.wert
@@ -37,13 +45,4 @@ class SignalInfo {
 	{
 		return signals.sortBy[identitaet.wert].head
 	}
-	
-	/**
-	 * Returns the base mount. 
-	 * The base mount is a mount which is not attached to any other mounts 
-	 */
-	def Signal_Befestigung getBaseMount() {
-		return mounts.filter[signalBefestigung === null].head
-	}
-	
 }

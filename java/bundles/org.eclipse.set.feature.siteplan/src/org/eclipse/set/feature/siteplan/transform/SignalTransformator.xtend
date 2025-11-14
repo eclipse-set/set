@@ -28,6 +28,8 @@ import org.eclipse.set.model.siteplan.SiteplanFactory
 import org.eclipse.set.model.siteplan.SiteplanPackage
 import org.osgi.service.component.annotations.Component
 import org.osgi.service.component.annotations.Reference
+import org.eclipse.set.model.planpro.Signale.ENUMRahmenArt
+import java.util.Set
 
 import static extension org.eclipse.set.feature.siteplan.transform.TransformUtils.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalBefestigungExtensions.*
@@ -65,8 +67,27 @@ class SignalTransformator extends BaseTransformator<Signal> {
 		val si = new SignalInfo
 		si.signals = #[signal].toSet
 		si.mounts = signal.signalRahmen?.map[signalBefestigung]?.toSet ?:
-			newHashSet
+			newHashSet			
+		si.rootMount = SignalTransformator.getRootMount(signal,si.mounts)
+		
 		signalinfo.add(si)
+	}
+	
+	
+	
+	static ENUMRahmenArt SCHIRM_RAHMENART = ENUMRahmenArt.getByName("Schirm");
+	
+	private static def Signal_Befestigung getRootMount(Signal signal, Set<Signal_Befestigung> mounts) {
+		
+		// find mount with shirm attached to it. If there are multiple ones, take any
+		var mount = signal.signalRahmen?.filter[rahmenArt.getWert() === SCHIRM_RAHMENART].map[signalBefestigung]?.iterator().next()
+		
+		// walk up to root mount.
+		while (mount.signalBefestigung !== null) {
+			mount = mount.signalBefestigung
+		}
+		
+		return mount
 	}
 
 	override finalizeTransform() {
@@ -127,11 +148,11 @@ class SignalTransformator extends BaseTransformator<Signal> {
 		var GEOKanteCoordinate point = pointObjectPositionService.getCoordinate(
 			signalInfo.firstSignal)
 		val effectiveRotation = point.effectiveRotation
-		if (signalInfo.baseMount !== null) {
+		if (signalInfo.rootMount !== null) {
 			// As a Signal_Befestigung does not specify a direction, 
 			// use the direction of the first signal
 			point = pointObjectPositionService.getCoordinate(
-				signalInfo.baseMount)
+				signalInfo.rootMount)
 		}
 
 		val signalMount = SiteplanFactory.eINSTANCE.createSignalMount()
