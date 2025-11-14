@@ -2,6 +2,10 @@ name: Quality
 
 on:
   pull_request:
+    paths:
+      - '**/java/**'
+      - 'web/siteplan/**'
+      - 'web/textviewer/**'
   push:
     tags:
       - 'v**'
