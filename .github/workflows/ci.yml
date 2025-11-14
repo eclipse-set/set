@@ -201,7 +201,7 @@ jobs:
       - name: Build
         run: |
           if ([ "${{ github.event_name }}" == "pull_request" ]); then
-            // The local deployment repository is only needed for PR builds to resolve dependencies
+            # The local deployment repository is only needed for PR builds to resolve dependencies
             mvn -T 1.5C -U -B clean deploy checkstyle:checkstyle --settings .github/settings.xml -DaltDeploymentRepository=local::file://${{ github.workspace }}/set-m2deploy
           else
             mvn -T 1.5C -U -B clean verify checkstyle:checkstyle --settings .github/settings.xml
