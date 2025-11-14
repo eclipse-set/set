@@ -82,13 +82,24 @@ class SignalTransformator extends BaseTransformator<Signal> {
 	static ENUMRahmenArt SCHIRM_RAHMENART = ENUMRahmenArt.getByName("Schirm");
 	
 	private static def Signal_Befestigung getRootMount(Signal signal, Set<Signal_Befestigung> mounts) {
+
+		//original definition: (with 0 or 1 mount with no parent)
+		val mounts_with_no_parents = mounts.filter[signalBefestigung === null]
+		if (mounts_with_no_parents.size() == 0) {
+			return null
+		}
+		if (mounts_with_no_parents.size() == 1) {
+			return mounts_with_no_parents.head
+		}
+
+		// if more then one mount like that exists, return the one with a schirm.
 		
 		// find mount with schirm attached to it. If there are multiple ones, take any
 		var mounts_with_schirm = signal.signalRahmen?.filter[rahmenArt.getWert() === SCHIRM_RAHMENART].map[signalBefestigung]?.iterator()
 		
 		// return any mount with no parent, if no mount with schirm exist.
 		if (!mounts_with_schirm.hasNext()) {
-			return null
+			return mounts_with_no_parents.head // same result as in previous implementation
 		}
 		var mount = mounts_with_schirm.next();
 		
