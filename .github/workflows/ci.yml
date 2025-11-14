@@ -202,13 +202,13 @@ jobs:
           name: news-artifact
           path: web/news/public
       
-      - name: Cache Browser m2
+      - name: Cache m2repo
         uses: actions/cache@v4
         with:
           enableCrossOsArchive: true
           path: ~/.m2/repository/
           key: m2repo-${{ hashFiles('**/java/bundles/org.eclipse.set.releng.target/org.eclipse.set.releng.target.target') }}
-          restore-keys: m2repo
+          restore-keys: m2repo-
       - name: Build
         run: |
           if ([ "${{ github.event_name }}" == "pull_request" ]); then
@@ -298,13 +298,13 @@ jobs:
           repo: ${{ github.repository }}
         continue-on-error: true
 
-      - name: Cache Browser m2
+      - name: Cache m2repo
         uses: actions/cache@v4
         with:
           enableCrossOsArchive: true
           path: ~/.m2/repository
           key: m2repo-${{ hashFiles('**/java/bundles/org.eclipse.set.releng.target/org.eclipse.set.releng.target.target') }}
-          restore-keys: m2repo
+          restore-keys: m2repo-
 
       - name: Run Test
         id: test-steps
