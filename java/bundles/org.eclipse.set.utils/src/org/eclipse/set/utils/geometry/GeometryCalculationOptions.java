@@ -20,13 +20,13 @@ import org.eclipse.set.utils.geometry.GeometryOptionsBuilder.GeometryOptions;
 public class GeometryCalculationOptions {
 	// Configuration options for Bloss curves
 	private static final int DEFAULT_BLOSS_SEGMENTS_MIN = 10;
-	private static final double DEFAULT_BLOSS_SEGMENTS_PER_LENGTH = 0.05;
+	private static final double DEFAULT_BLOSS_SEGMENTS_PER_LENGTH = 0.5;
 	private static final int DEFAULT_BLOSS_PRECISION = 20;
 
 	// Configuration options for Clothoids
 	private static final int DEFAULT_CLOTHOID_SEGMENTS_MIN = 10;
-	private static final double DEFAULT_CLOTHOID_SEGMENTS_PER_LENGTH = 0.05;
-	private static final int DEFAULT_CLOTHOID_PRECISION = 10;
+	private static final double DEFAULT_CLOTHOID_SEGMENTS_PER_LENGTH = 0.5;
+	private static final int DEFAULT_CLOTHOID_PRECISION = 5;
 
 	private final GeometryOptions chordOptions;
 	private final GeometryOptions blossOptions;
