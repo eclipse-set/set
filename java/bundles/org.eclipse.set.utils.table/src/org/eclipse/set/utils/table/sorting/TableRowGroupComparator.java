@@ -14,6 +14,7 @@ import java.util.function.Function;
 
 import org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum;
 import org.eclipse.set.basis.tables.Tables;
+import org.eclipse.set.core.services.geometry.GeoKanteGeometryService;
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt;
 import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
 import org.eclipse.set.model.tablemodel.RowGroup;
@@ -113,22 +114,36 @@ public final class TableRowGroupComparator implements Comparator<RowGroup> {
 	/**
 	 * @param getPunktObjectFunc
 	 *            the function to get {@link Punkt_Objekt}
+	 * @param geometryService
+	 *            the {@link GeoKanteGeometryService}
 	 * @param direction
 	 *            the sort direction
 	 */
 	public void addRouteAndKmCriterion(
 			final Function<Ur_Objekt, Punkt_Objekt> getPunktObjectFunc,
+			final GeoKanteGeometryService geometryService,
 			final SortDirectionEnum direction) {
-		criteria.add(
-				new CompareRouteAndKmCriterion(getPunktObjectFunc, direction));
+		criteria.add(new CompareRouteAndKmCriterion(getPunktObjectFunc,
+				direction, geometryService));
 	}
 
 	/**
 	 * @param getPunktObjectFunc
 	 *            the function to get {@link Punkt_Objekt}
+	 * @param geometryService
+	 *            the {@link GeoKanteGeometryService}
 	 */
 	public void addRouteAndKmCriterion(
-			final Function<Ur_Objekt, Punkt_Objekt> getPunktObjectFunc) {
-		criteria.add(new CompareRouteAndKmCriterion(getPunktObjectFunc));
+			final Function<Ur_Objekt, Punkt_Objekt> getPunktObjectFunc,
+			final GeoKanteGeometryService geometryService) {
+		criteria.add(new CompareRouteAndKmCriterion(getPunktObjectFunc,
+				geometryService));
+	}
+
+	/**
+	 * @return the list of criteria
+	 */
+	public List<Comparator<TableRow>> getCriteria() {
+		return criteria;
 	}
 }

@@ -25,6 +25,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.ThreadUtils;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.e4.core.services.nls.Translation;
 import org.eclipse.e4.ui.di.UISynchronize;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
@@ -101,6 +102,7 @@ import org.eclipse.set.utils.events.DefaultToolboxEventHandler;
 import org.eclipse.set.utils.events.JumpToSiteplanEvent;
 import org.eclipse.set.utils.events.JumpToSourceLineEvent;
 import org.eclipse.set.utils.events.JumpToTableEvent;
+import org.eclipse.set.utils.events.ResortTableEvent;
 import org.eclipse.set.utils.events.SelectedControlAreaChangedEvent;
 import org.eclipse.set.utils.events.TableDataChangeEvent;
 import org.eclipse.set.utils.events.ToolboxEventHandler;
@@ -157,9 +159,8 @@ public final class ToolboxTableView extends BasePart {
 
 	private ToolboxEventHandler<JumpToTableEvent> tableSelectRowHandler;
 	private ToolboxEventHandler<TableDataChangeEvent> tableDataChangeHandler;
-
 	private ToolboxEventHandler<SelectedControlAreaChangedEvent> selectionControlAreaHandler;
-
+	private EventHandler resortTable;
 	private int scrollToPositionRequested = -1;
 
 	private StyledText tableFooting;
@@ -314,6 +315,22 @@ public final class ToolboxTableView extends BasePart {
 		};
 		getBroker().subscribe(Events.COMPARE_MODEL_LOADED,
 				secondaryPlanningLoadedHanlder);
+
+		resortTable = event -> {
+			if (event.getTopic()
+					.equals(ResortTableEvent.getTopic(getTableShortcut()))) {
+				final Object property = event.getProperty(IEventBroker.DATA);
+				if (property instanceof final ResortTableEvent resortEvent
+						&& resortEvent.getTableType() == tableType) {
+					tableInstances.clear();
+					tableService.sortTable(table, resortEvent.getTableType(),
+							getTableShortcut());
+					tableInstances.addAll(TableExtensions.getTableRows(table));
+				}
+			}
+		};
+		getBroker().subscribe(ResortTableEvent.getTopic(getTableShortcut()),
+				resortTable);
 	}
 
 	@PreDestroy
@@ -323,6 +340,7 @@ public final class ToolboxTableView extends BasePart {
 		ToolboxEvents.unsubscribe(getBroker(), tableDataChangeHandler);
 		ToolboxEvents.unsubscribe(getBroker(), selectionControlAreaHandler);
 		getBroker().unsubscribe(secondaryPlanningLoadedHanlder);
+		getBroker().unsubscribe(resortTable);
 		getBroker().send(Events.CLOSE_PART, getTableShortcut().toLowerCase());
 	}
 

@@ -10,7 +10,7 @@
  */
 package org.eclipse.set.utils.table.sorting;
 
-import java.util.Comparator;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -18,6 +18,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum;
+import org.eclipse.set.core.services.geometry.GeoKanteGeometryService;
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt;
 import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
 import org.eclipse.set.model.tablemodel.TableRow;
@@ -30,19 +31,26 @@ import org.eclipse.xtext.xbase.lib.Pair;
  * 
  * @author truong
  */
-public class CompareRouteAndKmCriterion implements Comparator<TableRow> {
+public class CompareRouteAndKmCriterion
+		extends AbstractCompareWithDependencyOnServiceCriterion<TableRow> {
 
 	private final SortDirectionEnum direction;
 	private final Function<Ur_Objekt, Punkt_Objekt> getPunktObjectFunc;
 	private final NumericCellComparator numericComparator;
+	private final GeoKanteGeometryService geoKanteGeometryService;
+	private boolean isWaitingOnService = false;
 
 	/**
 	 * @param getPunktObjectFunc
 	 *            get {@link Punkt_Objekt} function
+	 * @param geoKanteGeometryService
+	 *            the {@link GeoKanteGeometryService}
 	 */
 	public CompareRouteAndKmCriterion(
-			final Function<Ur_Objekt, Punkt_Objekt> getPunktObjectFunc) {
-		this(getPunktObjectFunc, SortDirectionEnum.ASC);
+			final Function<Ur_Objekt, Punkt_Objekt> getPunktObjectFunc,
+			final GeoKanteGeometryService geoKanteGeometryService) {
+		this(getPunktObjectFunc, SortDirectionEnum.ASC,
+				geoKanteGeometryService);
 	}
 
 	/**
@@ -50,13 +58,17 @@ public class CompareRouteAndKmCriterion implements Comparator<TableRow> {
 	 *            get {@link Punkt_Objekt} function
 	 * @param direction
 	 *            the sort direction
+	 * @param geoKanteGeometryService
+	 *            the {@link GeoKanteGeometryService}
 	 */
 	public CompareRouteAndKmCriterion(
 			final Function<Ur_Objekt, Punkt_Objekt> getPunktObjectFunc,
-			final SortDirectionEnum direction) {
+			final SortDirectionEnum direction,
+			final GeoKanteGeometryService geoKanteGeometryService) {
 		this.getPunktObjectFunc = getPunktObjectFunc;
 		this.direction = direction;
 		this.numericComparator = new NumericCellComparator(direction);
+		this.geoKanteGeometryService = geoKanteGeometryService;
 	}
 
 	@Override
@@ -111,6 +123,14 @@ public class CompareRouteAndKmCriterion implements Comparator<TableRow> {
 		final Set<String> secondKms = secondStreckeAndKm.stream()
 				.flatMap(pair -> pair.getValue().stream())
 				.collect(Collectors.toSet());
+		final Optional<Integer> compareCollection = compareCollection(firstKms,
+				secondKms);
+		if (firstKms.isEmpty() || secondKms.isEmpty()) {
+			isWaitingOnService = true;
+		}
+		if (compareCollection.isPresent()) {
+			return compareCollection.get().intValue();
+		}
 		return numericComparator.compareCell(firstKms, secondKms);
 	}
 
@@ -132,4 +152,34 @@ public class CompareRouteAndKmCriterion implements Comparator<TableRow> {
 		}
 		return Optional.empty();
 	}
+
+	private <T> Optional<Integer> compareCollection(final Collection<T> first,
+			final Collection<T> second) {
+		if (first.isEmpty() == second.isEmpty() && first.isEmpty()) {
+			return Optional.of(Integer.valueOf(0));
+		}
+		if (first.isEmpty()) {
+			return Optional
+					.of(direction == SortDirectionEnum.ASC ? Integer.valueOf(-1)
+							: Integer.valueOf(1));
+		}
+
+		if (second.isEmpty()) {
+			return Optional
+					.of(direction == SortDirectionEnum.ASC ? Integer.valueOf(1)
+							: Integer.valueOf(-1));
+		}
+		return Optional.empty();
+	}
+
+	@Override
+	public boolean isCompareDependencyOnService() {
+		return isWaitingOnService;
+	}
+
+	@Override
+	public boolean shouldTriggerComparePredicates() {
+		return geoKanteGeometryService.isFindGeometryComplete();
+	}
+
 }

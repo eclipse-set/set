@@ -15,6 +15,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
+import org.eclipse.set.core.services.geometry.GeoKanteGeometryService;
 import org.eclipse.set.core.services.graph.TopologicalGraphService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator;
@@ -50,6 +51,9 @@ public final class SskgTransformationService
 	@Reference
 	private EventAdmin eventAdmin;
 
+	@Reference
+	private GeoKanteGeometryService geometryService;
+
 	/**
 	 * constructor.
 	 */
@@ -72,7 +76,9 @@ public final class SskgTransformationService
 				return po;
 			}
 			return null;
-		}).sort(SskgColumns.Bezeichnung, LEXICOGRAPHICAL, ASC).build();
+		}, geometryService)
+				.sort(SskgColumns.Bezeichnung, LEXICOGRAPHICAL, ASC)
+				.build();
 	}
 
 	@Override
