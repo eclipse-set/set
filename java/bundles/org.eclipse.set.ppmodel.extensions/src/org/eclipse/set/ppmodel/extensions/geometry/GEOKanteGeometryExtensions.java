@@ -25,8 +25,6 @@ import java.util.stream.Stream;
 
 import org.eclipse.set.basis.geometry.Chord;
 import org.eclipse.set.basis.geometry.Geometries;
-import org.eclipse.set.basis.geometry.GeometryCalculationOptions;
-import org.eclipse.set.basis.geometry.GeometryOptionsBuilder.GeometryOptions;
 import org.eclipse.set.basis.graph.DirectedEdge;
 import org.eclipse.set.basis.graph.DirectedElement;
 import org.eclipse.set.core.services.Services;
@@ -34,6 +32,8 @@ import org.eclipse.set.core.services.geometry.GeoKanteGeometryService;
 import org.eclipse.set.model.planpro.Geodaten.ENUMGEOForm;
 import org.eclipse.set.model.planpro.Geodaten.GEO_Kante;
 import org.eclipse.set.model.planpro.Geodaten.GEO_Knoten;
+import org.eclipse.set.utils.geometry.GeometryCalculationOptions;
+import org.eclipse.set.utils.geometry.GeometryOptionsBuilder.GeometryOptions;
 import org.eclipse.set.utils.math.Bloss;
 import org.eclipse.set.utils.math.Clothoid;
 import org.locationtech.jts.geom.Coordinate;
@@ -185,7 +185,7 @@ public class GEOKanteGeometryExtensions {
 			final Coordinate toCoordinate, final double radius,
 			final double length, final GeometryOptions options) {
 		// Calculate the base clothoid
-		final int segmentCount = (int) Math.max(length * options.stepSize(),
+		final int segmentCount = (int) Math.max(length / options.stepSize(),
 				options.minSegmentCount());
 		final Clothoid clothoid = new Clothoid(Math.abs(radius), length,
 				options.precision());
@@ -258,7 +258,7 @@ public class GEOKanteGeometryExtensions {
 		final Bloss bloss = new Bloss(Math.abs(radius), length,
 				geometryOptions.precision());
 		final int segmentCount = (int) Math.max(
-				length * geometryOptions.stepSize(),
+				length / geometryOptions.stepSize(),
 				geometryOptions.minSegmentCount());
 		final List<Coordinate> coords = bloss.calculate(segmentCount)
 				.stream()
