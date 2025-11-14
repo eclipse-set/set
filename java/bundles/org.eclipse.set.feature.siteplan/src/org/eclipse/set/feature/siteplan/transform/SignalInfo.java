@@ -27,6 +27,18 @@ class SignalInfo {
 	public Set<Signal> signals;
 	public Set<Signal_Befestigung> mounts;
 
+	/**
+	 * Returns the base mount. The base mount is a mount which is not attached
+	 * to any other mounts
+	 */
+	protected Signal_Befestigung getBaseMount() {
+		return mounts.stream()
+				.filter(sb -> sb.getIDSignalBefestigung() == null)
+				.map(sb -> sb.getIDSignalBefestigung().getValue())
+				.findFirst()
+				.orElse(null);
+	}
+
 	protected String getSignalGuid() {
 		final Signal_Befestigung base = this.getBaseMount();
 		if (base != null) {
@@ -36,22 +48,11 @@ class SignalInfo {
 	}
 
 	// This order defines, what "First Signal" is
-	private static Comparator<Signal> signalComparator = Comparator
-			.comparing((final Signal s) -> s.getIdentitaet().getWert());
+	private static final Comparator<Signal> signalComparator = Comparator
+			.comparing((final Signal sig) -> sig.getIdentitaet().getWert());
 
 	protected Signal getFirstSignal() {
 		return signals.stream().min(signalComparator).orElse(null);
-	}
-
-	/**
-	 * Returns the base mount. The base mount is a mount which is not attached
-	 * to any other mounts
-	 */
-	protected Signal_Befestigung getBaseMount() {
-		return mounts.stream()
-				.filter(sb -> sb.getIDSignalBefestigung() == null)
-				.findFirst()
-				.orElse(null);
 	}
 
 }
