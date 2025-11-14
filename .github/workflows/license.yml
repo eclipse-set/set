@@ -2,6 +2,7 @@ name: Check Licenses
 
 on:
   pull_request:
+    # Trigger only if certain files are changed
     paths:
       - '**/pom.xml'
       - '**/package.json'
@@ -11,6 +12,7 @@ on:
   issue_comment:
     types: [created]
   
+# Enable concurrency to avoid multiple builds at the same time
 concurrency: 
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true

@@ -13,6 +13,7 @@ on:
     paths-ignore:
       - DEPENDENCIES
 
+# Enable concurrency to avoid multiple builds at the same time
 concurrency: 
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
