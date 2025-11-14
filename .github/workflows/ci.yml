@@ -216,7 +216,7 @@ jobs:
             ~/.m2/repository/org/eclipse/set/org.eclipse.set.browser.cef.win32
             ~/.m2/repository/org/eclipse/set/org.eclipse.set.browser
             ~/.m2/repository/org/eclipse/set/org.eclipse.set.browser.lib
-          key: ${{ runner.os }}-m2repo-${{ hashFiles('**/java/bundles/org.eclipse.set.releng.set.target/org.eclipse.set.releng.set.target.target') }}
+          key: ${{ runner.os }}-m2repo-${{ hashFiles('**/java/bundles/org.eclipse.set.releng.target/org.eclipse.set.releng.target.target') }}
           restore-keys: |
             ${{ runner.os }}-m2repo-
       
