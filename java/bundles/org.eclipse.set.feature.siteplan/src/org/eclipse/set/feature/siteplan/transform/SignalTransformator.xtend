@@ -79,8 +79,14 @@ class SignalTransformator extends BaseTransformator<Signal> {
 	
 	private static def Signal_Befestigung getRootMount(Signal signal, Set<Signal_Befestigung> mounts) {
 		
-		// find mount with shirm attached to it. If there are multiple ones, take any
-		var mount = signal.signalRahmen?.filter[rahmenArt.getWert() === SCHIRM_RAHMENART].map[signalBefestigung]?.iterator().next()
+		// find mount with schirm attached to it. If there are multiple ones, take any
+		var mounts_with_schirm = signal.signalRahmen?.filter[rahmenArt.getWert() === SCHIRM_RAHMENART].map[signalBefestigung]?.iterator()
+		
+		// return any mount with no parent, if no mount with schirm exist.
+		if (!mounts_with_schirm.hasNext()) {
+			return null
+		}
+		var mount = mounts_with_schirm.next();
 		
 		// walk up to root mount.
 		while (mount.signalBefestigung !== null) {
