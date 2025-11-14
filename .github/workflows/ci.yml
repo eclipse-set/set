@@ -199,10 +199,27 @@ jobs:
           path: web/news/public
 
       - name: Build
-        run: mvn -T 1.5C -U -B clean deploy checkstyle:checkstyle --settings .github/settings.xml -DaltDeploymentRepository=local::file://${{ github.workspace }}/set-m2deploy
+        run: |
+          if ([ "${{ github.event_name }}" == "pull_request" ]); then
+            // The local deployment repository is only needed for PR builds to resolve dependencies
+            mvn -T 1.5C -U -B clean deploy checkstyle:checkstyle --settings .github/settings.xml -DaltDeploymentRepository=local::file://${{ github.workspace }}/set-m2deploy
+          else
+            mvn -T 1.5C -U -B clean verify checkstyle:checkstyle --settings .github/settings.xml
+          fi
         env:
           GITHUB_TOKEN: ${{ github.token }}
-
+      
+      - name: Cache Browser m2
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.m2/repository/org/eclipse/set/org.eclipse.set.browser.cef.win32
+            ~/.m2/repository/org/eclipse/set/org.eclipse.set.browser
+            ~/.m2/repository/org/eclipse/set/org.eclipse.set.browser.lib
+          key: ${{ runner.os }}-m2repo-${{ hashFiles('**/java/bundles/org.eclipse.set.releng.set.target/org.eclipse.set.releng.set.target.target') }}
+          restore-keys: |
+            ${{ runner.os }}-m2repo-
+      
       - name: Upload artifact
         uses: actions/upload-artifact@v5
         with:
