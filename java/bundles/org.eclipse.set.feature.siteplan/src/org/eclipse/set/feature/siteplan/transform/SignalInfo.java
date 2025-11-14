@@ -49,7 +49,7 @@ class SignalInfo {
 	 */
 	protected Signal_Befestigung getBaseMount() {
 		return mounts.stream()
-				.filter(sb -> sb == null)
+				.filter(sb -> sb.getIDSignalBefestigung() == null)
 				.findFirst()
 				.orElse(null);
 	}
