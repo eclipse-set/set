@@ -242,7 +242,7 @@ jobs:
         uses: actions/upload-artifact@v5
         with:
           name: set-m2deploy-${{github.run_number}}
-          path: ${{ github.workspace}}/set-m2deploy
+          path: ${{ env.DEPLOY_DIR }}
           retention-days: 1
       
       - name: Publish
