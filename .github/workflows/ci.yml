@@ -105,7 +105,7 @@ jobs:
         uses: actions/cache@v4
         with:
           enableCrossOsArchive: true
-          path: ~/web/siteplan/node_modules
+          path: ~/web/siteplan/node_modules/
           key: ${{ runner.os }}-node_modules-${{ hashFiles('web/siteplan/package-lock.json') }}
           restore-keys: ${{ runner.os }}-node_modules-
 
