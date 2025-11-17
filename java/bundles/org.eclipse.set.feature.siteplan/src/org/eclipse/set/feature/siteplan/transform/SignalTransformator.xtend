@@ -92,6 +92,7 @@ class SignalTransformator extends BaseTransformator<Signal> {
 					mergeWith.mounts += si.mounts
 				}
 			} catch (Exception exc) {
+				System.out.println("Failed transformation: "+exc);
 				recordError(si.signals.head?.identitaet?.wert,
 					ERROR_FAILED_TRANSFORM)
 			}
@@ -191,13 +192,18 @@ class SignalTransformator extends BaseTransformator<Signal> {
 	}
 
 	/**
+	 * Original Definition:
+	 * - if there are only Sonderkonstruktionen as mounts, return SONDERKONSTRUKTION
 	 * - if there is one mount != Sonderkonstruktion, return that mounts BefestigungsArt.
 	 * - if there is more then one mount != Sonderkonstruktion, take the mount with the lowest GUID:
  	 *		- then: if mount is mast and there are more then 1 signals attached to this assembly, return MehrereMasten
-	 * - if there are only Sonderkonstruktionen as mounts, return SONDERKONSTRUKTION
 	 * - if there are no mounts:
 	 * 		- take the signal with the lowest guid, and take the befestigungsArt from the signalReal
 	 * 		- if signal/signalReal/signalReal.signalBefestigungsart null: return null
+	 * 
+	 * New Definition:
+	 *  (ASSUMPTION: no Arbeitsbuehne without a Bridge / Ausleger (see changes in mapToSiteplanMountType))
+	 * - if any specific mount is an SignalAuslegerLinks, return SignalAuslegerLinks.
 	 */
 	def SignalMountType getMountType(SignalInfo info) {
 		var mounts = info.mounts.sortBy[identitaet.wert].map [
@@ -210,7 +216,27 @@ class SignalTransformator extends BaseTransformator<Signal> {
 				it != SignalMountType.SONDERKONSTRUKTION
 			]
 
-			if (specificMounts.length != 0) {
+			if (specificMounts.length == 1) {
+				return specificMounts.head;
+			}
+
+			if (specificMounts.length > 1) {
+				// there might be many different combinations, obviously.
+				// I attempt to keep behaviour as before (even if not correct) and only change behaviour for SignalAusleger
+				
+				// SignalAusleger -> ... anything  		=> should be SignalAusleger
+				// Fundament -> SignalAusleger 			=> should be SignalAusleger
+				// Fundament -> Mast
+				
+				// new logic for any assembly containing a SignalAusleger. Same for all other cases
+				if (!specificMounts.filter[it === SignalMountType.SIGNALAUSLEGER_LINKS].isEmpty) {
+					return SignalMountType.SIGNALAUSLEGER_LINKS;
+				}
+				if (!specificMounts.filter[it === SignalMountType.SIGNALBRUECKE].isEmpty) {
+					return SignalMountType.SIGNALBRUECKE;
+				}
+				
+				
 				var mount = specificMounts.head
 				// If multiple signals are attached to a MAST, convert into MEHRERE_MASTEN  
 				if (mount === SignalMountType.MAST && info.signals.length > 1) {
@@ -235,6 +261,7 @@ class SignalTransformator extends BaseTransformator<Signal> {
 			case ENUM_BEFESTIGUNG_ART_ANDERE_SONDERKONSTRUKTION,
 			case ENUM_BEFESTIGUNG_ART_BAHNSTEIG,
 			case ENUM_BEFESTIGUNG_ART_FUNDAMENT,
+			case ENUM_BEFESTIGUNG_ART_ARBEITSBUEHNE,
 			case ENUM_BEFESTIGUNG_ART_KONSTRUKTIONSTEIL:
 				return SignalMountType.SONDERKONSTRUKTION
 			case ENUM_BEFESTIGUNG_ART_PRELLBOCK:
@@ -249,7 +276,6 @@ class SignalTransformator extends BaseTransformator<Signal> {
 			case ENUM_BEFESTIGUNG_ART_PFOSTEN_NIEDRIG:
 				return SignalMountType.PFOSTEN
 			case ENUM_BEFESTIGUNG_ART_SONSTIGE,
-			case ENUM_BEFESTIGUNG_ART_ARBEITSBUEHNE,
 			case ENUM_BEFESTIGUNG_ART_PFAHL,
 			case ENUM_BEFESTIGUNG_ART_OL_KETTENWERK,
 			case ENUM_BEFESTIGUNG_ART_OL_MAST,
