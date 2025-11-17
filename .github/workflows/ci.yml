@@ -13,6 +13,11 @@ on:
     paths-ignore:
       - DEPENDENCIES
 
+# Enable concurrency to avoid multiple builds at the same time
+concurrency: 
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 env:
   GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
   DEPLOY_DIR: ${{ github.workspace }}/java-test/m2deploy
@@ -197,12 +202,25 @@ jobs:
         with:
           name: news-artifact
           path: web/news/public
-
+      
+      - name: Cache m2repo
+        uses: actions/cache@v4
+        with:
+          enableCrossOsArchive: true
+          path: ~/.m2/repository/
+          key: ${{ runner.os }}-m2repo-${{ hashFiles('**/java/bundles/org.eclipse.set.releng.target/org.eclipse.set.releng.target.target', 'pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2repo-
       - name: Build
-        run: mvn -T 1.5C -U -B clean deploy checkstyle:checkstyle --settings .github/settings.xml -DaltDeploymentRepository=local::file://${{ github.workspace }}/set-m2deploy
+        run: |
+          if ([ "${{ github.event_name }}" == "pull_request" ]); then
+            # The local deployment repository is only needed for PR builds to resolve dependencies
+            mvn -T 1.5C -U -B clean deploy checkstyle:checkstyle --settings .github/settings.xml -DaltDeploymentRepository=local::file://${{ github.workspace }}/set-m2deploy
+          else
+            mvn -T 1.5C -U -B clean verify checkstyle:checkstyle --settings .github/settings.xml
+          fi
         env:
           GITHUB_TOKEN: ${{ github.token }}
-
+      
       - name: Upload artifact
         uses: actions/upload-artifact@v5
         with:
@@ -280,6 +298,14 @@ jobs:
         with:
           repo: ${{ github.repository }}
         continue-on-error: true
+
+      - name: Cache m2repo
+        uses: actions/cache@v4
+        with:
+          enableCrossOsArchive: true
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-m2repo-${{ hashFiles('**/java/bundles/org.eclipse.set.releng.target/org.eclipse.set.releng.target.target', 'pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2repo-
 
       - name: Run Test
         id: test-steps
