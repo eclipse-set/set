@@ -224,7 +224,7 @@ jobs:
         run: |
           if [[ "${{ github.event_name }}" == "pull_request" || "${{github.ref}}" == refs/heads/release/* ]]; then
             # The local deployment repository is only needed for PR builds or the build in release branch to resolve dependencies
-            mvn -T 1.5C -U -B clean deploy checkstyle:checkstyle --settings .github/settings.xml -DaltDeploymentRepository=local::file://${{ github.workspace }}/set-m2deploy
+            mvn -T 1.5C -U -B clean deploy checkstyle:checkstyle --settings .github/settings.xml -DaltDeploymentRepository="local::file://${{ env.DEPLOY_DIR }}"
           else
             mvn -T 1.5C -U -B clean verify checkstyle:checkstyle --settings .github/settings.xml
           fi
