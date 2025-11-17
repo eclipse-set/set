@@ -324,7 +324,7 @@ jobs:
         shell: bash
         run: |
           m2RepoPath="https://maven.pkg.github.com/eclipse-set/set"
-          if ([ "${{ github.event_name }}" == "pull_request" || "${{github.ref}}" == refs/heads/release/*]); then
+          if [[ "${{ github.event_name }}" == "pull_request" || "${{github.ref}}" == refs/heads/release/*]]; then
             m2RepoPath="file://${{ env.DEPLOY_DIR }}"
           fi
           mvn -T 1.5C -U -B -f java-test/pom.xml clean verify  \
