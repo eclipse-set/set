@@ -14,7 +14,6 @@ import java.util.List
 import org.eclipse.set.basis.geometry.GEOKanteCoordinate
 import org.eclipse.set.core.services.geometry.PointObjectPositionService
 import org.eclipse.set.feature.siteplan.positionservice.PositionService
-import org.eclpise.set.feature.siteplan.transform.SignalInfo
 import org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt
 import org.eclipse.set.model.planpro.Signale.ENUMSignalBefestigungsart
 import org.eclipse.set.model.planpro.Signale.Signal
