@@ -190,6 +190,15 @@ class SignalTransformator extends BaseTransformator<Signal> {
 		}
 	}
 
+	/**
+	 * - if there is one mount != Sonderkonstruktion, return that mounts BefestigungsArt.
+	 * - if there is more then one mount != Sonderkonstruktion, take the mount with the lowest GUID:
+ 	 *		- then: if mount is mast and there are more then 1 signals attached to this assembly, return MehrereMasten
+	 * - if there are only Sonderkonstruktionen as mounts, return SONDERKONSTRUKTION
+	 * - if there are no mounts:
+	 * 		- take the signal with the lowest guid, and take the befestigungsArt from the signalReal
+	 * 		- if signal/signalReal/signalReal.signalBefestigungsart null: return null
+	 */
 	def SignalMountType getMountType(SignalInfo info) {
 		var mounts = info.mounts.sortBy[identitaet.wert].map [
 			signalBefestigungAllg.befestigungArt.wert
