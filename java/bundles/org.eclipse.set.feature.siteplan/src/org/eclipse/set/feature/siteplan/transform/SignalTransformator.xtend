@@ -68,7 +68,7 @@ class SignalTransformator extends BaseTransformator<Signal> {
 		si.signals = #[signal].toSet
 		si.mounts = signal.signalRahmen?.map[signalBefestigung]?.toSet ?:
 			newHashSet			
-		si.rootMount = SignalTransformator.getRootMount(signal,si.mounts)
+		si.baseMount = SignalTransformator.getBaseMount(signal,si.mounts)
 		
 		signalinfo.add(si)
 	}
@@ -82,7 +82,7 @@ class SignalTransformator extends BaseTransformator<Signal> {
 	 * If so, return (an arbitrary) one of these, where the Schirm of that signal is attached to.
 	 * the rootMount of a signal is used in the Lageplan to determine the geo-position where that signal should be drawn.
 	 */
-	private static def Signal_Befestigung getRootMount(Signal signal, Set<Signal_Befestigung> mounts) {
+	private static def Signal_Befestigung getBaseMount(Signal signal, Set<Signal_Befestigung> mounts) {
 		val mounts_with_no_parents = mounts.filter[signalBefestigung === null]		
 		val mounts_with_schirm = signal.signalRahmen?.filter[rahmenArt.getWert() === ENUMRahmenArt.ENUM_RAHMEN_ART_SCHIRM].map[signalBefestigung]
 		
@@ -166,11 +166,11 @@ class SignalTransformator extends BaseTransformator<Signal> {
 		var GEOKanteCoordinate point = pointObjectPositionService.getCoordinate(
 			signalInfo.firstSignal)
 		val effectiveRotation = point.effectiveRotation
-		if (signalInfo.rootMount !== null) {
+		if (signalInfo.baseMount !== null) {
 			// As a Signal_Befestigung does not specify a direction, 
 			// use the direction of the first signal
 			point = pointObjectPositionService.getCoordinate(
-				signalInfo.rootMount)
+				signalInfo.baseMount)
 		}
 
 		val signalMount = SiteplanFactory.eINSTANCE.createSignalMount()

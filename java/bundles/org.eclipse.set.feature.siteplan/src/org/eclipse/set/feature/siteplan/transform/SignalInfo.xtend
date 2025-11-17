@@ -32,10 +32,10 @@ class SignalInfo {
 	 * 
 	 * rootMount is not updated, when signals or mounts are changed
 	 */
-	public Signal_Befestigung rootMount;
+	public Signal_Befestigung baseMount;
 	
 	def String getSignalGuid() {
-		val base = rootMount
+		val base = baseMount
 		if(base !== null)
 			return base.identitaet?.wert
 		return firstSignal?.identitaet?.wert
