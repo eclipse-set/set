@@ -32,7 +32,7 @@ class SignalInfo {
 	 * 
 	 * rootMount is not updated, when signals or mounts are changed
 	 */
-	protected Signal_Befestigung rootMount;
+	public Signal_Befestigung rootMount;
 	
 	def String getSignalGuid() {
 		val base = rootMount
