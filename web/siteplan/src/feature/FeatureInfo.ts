@@ -106,6 +106,8 @@ export function getFeatureLayerByType (type: FeatureType): FeatureLayerType {
       return FeatureLayerType.Unknown
     case FeatureType.TrackDirectionArrow:
       return FeatureLayerType.TrackDirection
+    case FeatureType.Flash:
+      return FeatureLayerType.Flash
     default: throw new Error('Missing layer for type: ' + type)
   }
 }
@@ -194,6 +196,8 @@ export function getFeatureName (type: FeatureType): string {
       return 'Unbekannt'
     case FeatureType.TrackDirectionArrow:
       return 'GleisausrichtungsPfeil'
+    case FeatureType.Flash:
+      return 'Flash' // TODO
     default:
       console.error('Missing name for type: ' + type)
       return 'Unbenanntes Objekt'
