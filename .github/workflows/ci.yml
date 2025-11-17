@@ -212,7 +212,7 @@ jobs:
           restore-keys: ${{ runner.os }}-m2repo-
       - name: Build
         run: |
-          if ([ "${{ github.event_name }}" == "pull_request" || "${{github.ref}}" == refs/heads/release/*]); then
+          if ([ "${{ github.event_name }}" == "pull_request" || "${{github.ref}}" == refs/heads/release/* ]); then
             # The local deployment repository is only needed for PR builds or the build in release branch to resolve dependencies
             mvn -T 1.5C -U -B clean deploy checkstyle:checkstyle --settings .github/settings.xml -DaltDeploymentRepository=local::file://${{ github.workspace }}/set-m2deploy
           else
@@ -316,6 +316,7 @@ jobs:
           m2RepoPath="https://maven.pkg.github.com/eclipse-set/set"
           if ([ "${{ github.event_name }}" == "pull_request" || "${{github.ref}}" == refs/heads/release/*]); then
             m2RepoPath="file://${{ env.DEPLOY_DIR }}"
+          fi
           mvn -T 1.5C -U -B -f java-test/pom.xml clean verify  \
             --settings ./.github/settings.xml \
             -Dskip-test=false \
