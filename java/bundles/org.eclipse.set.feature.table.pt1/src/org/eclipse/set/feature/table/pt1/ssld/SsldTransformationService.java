@@ -16,7 +16,6 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
-import org.eclipse.set.core.services.geometry.GeoKanteGeometryService;
 import org.eclipse.set.core.services.graph.TopologicalGraphService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator;
@@ -53,8 +52,6 @@ public final class SsldTransformationService
 	private TopologicalGraphService topGraphService;
 	@Reference
 	private EventAdmin eventAdmin;
-	@Reference
-	private GeoKanteGeometryService geometryService;
 
 	/**
 	 * constructor.
@@ -77,7 +74,7 @@ public final class SsldTransformationService
 						.getStart(DwegExtensions.getFstrFahrweg(fstr));
 			}
 			return null;
-		}, geometryService).sort(Bezeichnung, MIXED_STRING, ASC).build();
+		}).sort(Bezeichnung, MIXED_STRING, ASC).build();
 	}
 
 	@Override

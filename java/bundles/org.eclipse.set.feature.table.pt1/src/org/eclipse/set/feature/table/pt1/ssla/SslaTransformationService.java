@@ -17,7 +17,6 @@ import java.util.List;
 
 import org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
-import org.eclipse.set.core.services.geometry.GeoKanteGeometryService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableTransformationService;
@@ -50,8 +49,6 @@ public final class SslaTransformationService
 	private EnumTranslationService enumTranslationService;
 	@Reference
 	private EventAdmin eventAdmin;
-	@Reference
-	private GeoKanteGeometryService geometryService;
 
 	/**
 	 * constructor.
@@ -75,7 +72,7 @@ public final class SslaTransformationService
 						return FstrAneinanderExtensions.getStartSignal(fstr);
 					}
 					return null;
-				}, geometryService)
+				})
 				.sort(Bezeichnung, LEXICOGRAPHICAL, ASC)
 				.build();
 	}

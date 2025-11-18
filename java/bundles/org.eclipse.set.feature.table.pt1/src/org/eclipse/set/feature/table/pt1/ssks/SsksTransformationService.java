@@ -19,7 +19,6 @@ import java.util.List;
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
-import org.eclipse.set.core.services.geometry.GeoKanteGeometryService;
 import org.eclipse.set.core.services.graph.BankService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator;
@@ -60,8 +59,6 @@ public final class SsksTransformationService extends
 
 	@Reference
 	private EventAdmin eventAdmin;
-	@Reference
-	private GeoKanteGeometryService geometryService;
 
 	/**
 	 * constructor.
@@ -118,7 +115,7 @@ public final class SsksTransformationService extends
 						return signal;
 					}
 					return null;
-				}, geometryService)
+				})
 				.sort(Bezeichnung_Signal, LEXICOGRAPHICAL, ASC)
 				.build();
 	}

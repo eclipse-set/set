@@ -16,7 +16,6 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
-import org.eclipse.set.core.services.geometry.GeoKanteGeometryService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableTransformationService;
@@ -49,8 +48,6 @@ public class SslrTransformationService
 	private EnumTranslationService enumTranslationService;
 	@Reference
 	private EventAdmin eventAdmin;
-	@Reference
-	private GeoKanteGeometryService geometryService;
 
 	@Override
 	public AbstractPlanPro2TableModelTransformator createTransformator() {
@@ -65,7 +62,7 @@ public class SslrTransformationService
 						FstrZugRangierExtensions.getFstrFahrweg(fstr));
 			}
 			return null;
-		}, geometryService)
+		})
 				.sort(Fahrweg_Start, MIXED_STRING, ASC)
 				.sort(Fahrweg_Ziel, MIXED_STRING, ASC)
 				.build();
