@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Test
+Bundle-SymbolicName: org.eclipse.set.utils.table.test
+Bundle-Vendor: Eclipse Signalling Engineering Toolbox
+Bundle-Version: 2.6.0.qualifier
+Fragment-Host: org.eclipse.set.utils.table;bundle-version="0.0.0"
+Import-Package: org.junit.jupiter.api;version="5.12.2"
+Require-Bundle: org.eclipse.swt,
+ org.eclipse.jface
+Automatic-Module-Name: org.eclipse.set.utils.table.test
+Bundle-RequiredExecutionEnvironment: JavaSE-21

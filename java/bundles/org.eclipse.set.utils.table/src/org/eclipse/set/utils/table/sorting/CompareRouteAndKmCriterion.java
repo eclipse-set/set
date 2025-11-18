@@ -10,34 +10,43 @@
  */
 package org.eclipse.set.utils.table.sorting;
 
-import java.util.Collection;
+import static org.eclipse.set.basis.MixedStringComparator.compareNullableValue;
+
+import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum;
-import org.eclipse.set.basis.constants.Events;
+import org.eclipse.set.basis.extensions.MatcherExtensions;
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt;
 import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
 import org.eclipse.set.model.tablemodel.TableRow;
 import org.eclipse.set.model.tablemodel.extensions.TableRowExtensions;
 import org.eclipse.set.ppmodel.extensions.PunktObjektExtensions;
 import org.eclipse.xtext.xbase.lib.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Compare the route and the km of TableRow leadings object
  * 
  * @author truong
  */
-public class CompareRouteAndKmCriterion
-		extends AbstractCompareWithDependencyOnServiceCriterion<TableRow> {
-
+public class CompareRouteAndKmCriterion implements Comparator<TableRow> {
+	private final Logger logger = LoggerFactory
+			.getLogger(CompareRouteAndKmCriterion.class);
 	private final SortDirectionEnum direction;
 	private final Function<Ur_Objekt, Punkt_Objekt> getPunktObjectFunc;
 	private final NumericCellComparator numericComparator;
-	private boolean isWaitingOnService = false;
+	private static final String KILOMETRIERUNG_PATTERN = "(?<numberPrefix>-)?(?<numberN>[1-9]\\d{0,2}|0),((?<numberD1>\\d{3})|(?<numberD2>\\d)(?<numberN2Prefix>[\\+\\-])(?<numberN2>[1-9]\\d{0,4}))"; //$NON-NLS-1$
+	private static final String EXTRA_LENGTH_GROUP_NAME = "numberN2"; //$NON-NLS-1$
+	private final Pattern kmPattern;
 
 	/**
 	 * @param getPunktObjectFunc
@@ -60,6 +69,7 @@ public class CompareRouteAndKmCriterion
 		this.getPunktObjectFunc = getPunktObjectFunc;
 		this.direction = direction;
 		this.numericComparator = new NumericCellComparator(direction);
+		this.kmPattern = getKilometrierungPattern();
 	}
 
 	@Override
@@ -68,9 +78,8 @@ public class CompareRouteAndKmCriterion
 				.getLeadingObject(o1);
 		final Ur_Objekt secondLeadingObj = TableRowExtensions
 				.getLeadingObject(o2);
-
-		final Optional<Integer> compareObj = compareObj(firstLeadingObj,
-				secondLeadingObj);
+		final Optional<Integer> compareObj = compareNullableValue(
+				firstLeadingObj, secondLeadingObj, Objects::isNull);
 		if (compareObj.isPresent()) {
 			return compareObj.get().intValue();
 		}
@@ -87,7 +96,8 @@ public class CompareRouteAndKmCriterion
 	// it will be for the first time ignore
 	private int compareRouteAndKm(final Punkt_Objekt first,
 			final Punkt_Objekt second) {
-		final Optional<Integer> compareObj = compareObj(first, second);
+		final Optional<Integer> compareObj = compareNullableValue(first, second,
+				Objects::isNull);
 		if (compareObj.isPresent()) {
 			return compareObj.get().intValue();
 		}
@@ -125,23 +135,70 @@ public class CompareRouteAndKmCriterion
 		return numericComparator.compareCell(firstKms, secondKms);
 	}
 
-	private <T> Optional<Integer> compareObj(final T first, final T second) {
-		if (first == second && first == null) {
-			return Optional.of(Integer.valueOf(0));
+	/**
+	 * @param firstKms
+	 *            the first kilometer value
+	 * @param secondKms
+	 *            the second kilometer value
+	 * @return compare value
+	 */
+	public int compareKm(final Set<String> firstKms,
+			final Set<String> secondKms) {
+		final Optional<Integer> compareCollection = compareNullableValue(
+				firstKms, secondKms, Set::isEmpty);
+		if (compareCollection.isPresent()) {
+			return compareCollection.get().intValue();
 		}
 
-		if (first == null) {
-			return Optional
-					.of(direction == SortDirectionEnum.ASC ? Integer.valueOf(-1)
-							: Integer.valueOf(1));
-		}
+		for (final String firstKm : firstKms) {
+			for (final String secondKm : secondKms) {
+				final Optional<Integer> compareMatchPattern = compareNullableValue(
+						firstKm, secondKm, km -> {
+							final Matcher matcher = kmPattern.matcher(km);
+							if (!matcher.matches()) {
+								logger.error("Wrong Kilometer format: {}", km); //$NON-NLS-1$
+								return true;
+							}
+							return false;
+						});
+				if (compareMatchPattern.isPresent()) {
+					return compareMatchPattern.get().intValue();
+				}
 
-		if (second == null) {
-			return Optional
-					.of(direction == SortDirectionEnum.ASC ? Integer.valueOf(1)
-							: Integer.valueOf(-1));
+				final double firstDoubleValue = convertToDoubleValue(firstKm);
+				final double secondDoubleValue = convertToDoubleValue(secondKm);
+				final int compare = direction == SortDirectionEnum.ASC
+						? Double.compare(firstDoubleValue, secondDoubleValue)
+						: Double.compare(secondDoubleValue, firstDoubleValue);
+				if (compare != 0) {
+					return compare;
+				}
+			}
 		}
-		return Optional.empty();
+		return 0;
+	}
+
+	private double convertToDoubleValue(final String km) {
+		final Matcher matcher = kmPattern.matcher(km);
+		final Optional<String> extraLength = MatcherExtensions.getGroup(matcher,
+				EXTRA_LENGTH_GROUP_NAME);
+		if (extraLength.isPresent()) {
+			String originalKm = km.replace(extraLength.get(), ""); //$NON-NLS-1$
+			originalKm = originalKm.substring(0, originalKm.length() - 1);
+			final double doubleValue = Double
+					.parseDouble(originalKm.replace(",", ".")); //$NON-NLS-1$ //$NON-NLS-2$
+			final double doubleValueExtraLength = Double
+					.parseDouble(extraLength.get());
+			return doubleValue + doubleValueExtraLength / 1000;
+		}
+		return Double.parseDouble(km.replace(",", ".")); //$NON-NLS-1$ //$NON-NLS-2$
+	}
+
+	/**
+	 * @return the kilometer pattern
+	 */
+	public static Pattern getKilometrierungPattern() {
+		return Pattern.compile(KILOMETRIERUNG_PATTERN);
 	}
 
 	private <T> Optional<Integer> compareCollection(final Collection<T> first,

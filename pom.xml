@@ -96,6 +96,7 @@
 		<module>java/bundles/org.eclipse.set.rcp.extensions</module>
 		<module>java/bundles/org.eclipse.set.utils.rcp</module>
 		<module>java/bundles/org.eclipse.set.utils.table</module>
+		<module>java/bundles/org.eclipse.set.utils.table.test</module>
 		<module>java/bundles/org.eclipse.set.utils.test</module>
 		<module>java-test</module>
 	</modules>
