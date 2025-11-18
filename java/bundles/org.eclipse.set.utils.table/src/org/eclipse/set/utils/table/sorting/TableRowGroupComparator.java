@@ -123,8 +123,8 @@ public final class TableRowGroupComparator implements Comparator<RowGroup> {
 			final Function<Ur_Objekt, Punkt_Objekt> getPunktObjectFunc,
 			final GeoKanteGeometryService geometryService,
 			final SortDirectionEnum direction) {
-		criteria.add(new CompareRouteAndKmCriterion(getPunktObjectFunc,
-				direction, geometryService));
+		criteria.add(
+				new CompareRouteAndKmCriterion(getPunktObjectFunc, direction));
 	}
 
 	/**
@@ -136,8 +136,7 @@ public final class TableRowGroupComparator implements Comparator<RowGroup> {
 	public void addRouteAndKmCriterion(
 			final Function<Ur_Objekt, Punkt_Objekt> getPunktObjectFunc,
 			final GeoKanteGeometryService geometryService) {
-		criteria.add(new CompareRouteAndKmCriterion(getPunktObjectFunc,
-				geometryService));
+		criteria.add(new CompareRouteAndKmCriterion(getPunktObjectFunc));
 	}
 
 	/**

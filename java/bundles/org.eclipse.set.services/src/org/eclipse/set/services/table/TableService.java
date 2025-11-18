@@ -9,6 +9,7 @@
 package org.eclipse.set.services.table;
 
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -19,6 +20,7 @@ import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.basis.part.PartDescription;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
+import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
 import org.eclipse.set.utils.BasePart;
@@ -204,4 +206,11 @@ public interface TableService {
 	 *            the table shortcut
 	 */
 	void sortTable(Table table, TableType tableType, String shortcut);
+
+	/**
+	 * @param shortcut
+	 *            the table short cut
+	 * @return the row group comparator
+	 */
+	Comparator<RowGroup> getRowGroupComparator(String shortcut);
 }

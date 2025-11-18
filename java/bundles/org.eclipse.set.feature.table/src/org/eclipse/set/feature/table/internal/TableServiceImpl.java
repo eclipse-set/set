@@ -70,12 +70,10 @@ import org.eclipse.set.services.table.TableDiffService.TableCompareType;
 import org.eclipse.set.services.table.TableService;
 import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.ToolboxConfiguration;
-import org.eclipse.set.utils.events.ResortTableEvent;
 import org.eclipse.set.utils.table.TableError;
 import org.eclipse.set.utils.table.TableInfo;
 import org.eclipse.set.utils.table.TableInfo.Pt1TableCategory;
 import org.eclipse.set.utils.table.TableTransformationService;
-import org.eclipse.set.utils.table.sorting.AbstractCompareWithDependencyOnServiceCriterion;
 import org.eclipse.set.utils.table.sorting.TableRowGroupComparator;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.xtext.xbase.lib.Pair;
@@ -724,37 +722,16 @@ public final class TableServiceImpl implements TableService {
 		final Comparator<RowGroup> comparator = getModelService(shortcut)
 				.getRowGroupComparator();
 		ECollections.sort(table.getTablecontent().getRowgroups(), comparator);
-		if (comparator instanceof final TableRowGroupComparator rowGroupComparator) {
-			final List<AbstractCompareWithDependencyOnServiceCriterion<TableRow>> dependencyOnServiceCriterion = rowGroupComparator
-					.getCriteria()
-					.stream()
-					.filter(AbstractCompareWithDependencyOnServiceCriterion.class::isInstance)
-					.map(criterion -> (AbstractCompareWithDependencyOnServiceCriterion<TableRow>) criterion)
-					.filter(AbstractCompareWithDependencyOnServiceCriterion::isCompareDependencyOnService)
-					.toList();
-			if (dependencyOnServiceCriterion.isEmpty()) {
-				return;
-			}
-			dependencyOnServiceCriterion.forEach(criterion -> {
-				final ResortTableEvent resortTableEvent = new ResortTableEvent(
-						shortcut, tableType);
-				Thread.ofVirtual()
-						.name(resortTableEvent.getTopic() + "/" //$NON-NLS-1$
-								+ criterion.hashCode())
-						.start(() -> {
-							while (!criterion
-									.shouldTriggerComparePredicates()) {
-								try {
-									Thread.sleep(2000);
-								} catch (final InterruptedException e) {
-									Thread.currentThread().interrupt();
-								}
-							}
-							broker.send(resortTableEvent.getTopic(),
-									resortTableEvent);
-						});
-			});
+	}
 
+	@Override
+	public TableRowGroupComparator getRowGroupComparator(
+			final String shortcut) {
+		final Comparator<RowGroup> comparator = getModelService(shortcut)
+				.getRowGroupComparator();
+		if (comparator instanceof final TableRowGroupComparator rowGroupComparator) {
+			return rowGroupComparator;
 		}
+		return null;
 	}
 }

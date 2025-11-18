@@ -18,7 +18,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum;
-import org.eclipse.set.core.services.geometry.GeoKanteGeometryService;
+import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt;
 import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
 import org.eclipse.set.model.tablemodel.TableRow;
@@ -37,20 +37,15 @@ public class CompareRouteAndKmCriterion
 	private final SortDirectionEnum direction;
 	private final Function<Ur_Objekt, Punkt_Objekt> getPunktObjectFunc;
 	private final NumericCellComparator numericComparator;
-	private final GeoKanteGeometryService geoKanteGeometryService;
 	private boolean isWaitingOnService = false;
 
 	/**
 	 * @param getPunktObjectFunc
 	 *            get {@link Punkt_Objekt} function
-	 * @param geoKanteGeometryService
-	 *            the {@link GeoKanteGeometryService}
 	 */
 	public CompareRouteAndKmCriterion(
-			final Function<Ur_Objekt, Punkt_Objekt> getPunktObjectFunc,
-			final GeoKanteGeometryService geoKanteGeometryService) {
-		this(getPunktObjectFunc, SortDirectionEnum.ASC,
-				geoKanteGeometryService);
+			final Function<Ur_Objekt, Punkt_Objekt> getPunktObjectFunc) {
+		this(getPunktObjectFunc, SortDirectionEnum.ASC);
 	}
 
 	/**
@@ -58,17 +53,13 @@ public class CompareRouteAndKmCriterion
 	 *            get {@link Punkt_Objekt} function
 	 * @param direction
 	 *            the sort direction
-	 * @param geoKanteGeometryService
-	 *            the {@link GeoKanteGeometryService}
 	 */
 	public CompareRouteAndKmCriterion(
 			final Function<Ur_Objekt, Punkt_Objekt> getPunktObjectFunc,
-			final SortDirectionEnum direction,
-			final GeoKanteGeometryService geoKanteGeometryService) {
+			final SortDirectionEnum direction) {
 		this.getPunktObjectFunc = getPunktObjectFunc;
 		this.direction = direction;
 		this.numericComparator = new NumericCellComparator(direction);
-		this.geoKanteGeometryService = geoKanteGeometryService;
 	}
 
 	@Override
@@ -173,13 +164,7 @@ public class CompareRouteAndKmCriterion
 	}
 
 	@Override
-	public boolean isCompareDependencyOnService() {
-		return isWaitingOnService;
+	public String getTriggerComparisonEventTopic() {
+		return isWaitingOnService ? Events.FIND_GEOMETRY_PROCESS_DONE : ""; //$NON-NLS-1$
 	}
-
-	@Override
-	public boolean shouldTriggerComparePredicates() {
-		return geoKanteGeometryService.isFindGeometryComplete();
-	}
-
 }

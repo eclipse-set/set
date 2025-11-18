@@ -17,17 +17,13 @@ import java.util.Comparator;
  * 
  * @param <T>
  *            the comparable type
- * @param <U>
- *            the dependency service
  * 
  */
 public abstract class AbstractCompareWithDependencyOnServiceCriterion<T>
 		implements Comparator<T> {
 
 	/**
-	 * @return the dependency service and the predicate to trigger resort table
+	 * @return the event topic, which trigger comparison
 	 */
-	public abstract boolean shouldTriggerComparePredicates();
-
-	public abstract boolean isCompareDependencyOnService();
+	public abstract String getTriggerComparisonEventTopic();
 }
