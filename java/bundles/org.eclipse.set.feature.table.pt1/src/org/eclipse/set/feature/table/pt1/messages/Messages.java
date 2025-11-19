@@ -209,7 +209,7 @@ public class Messages extends AbstractMessageService {
 	public String SskoTableView_Heading;
 
 	/**
-	 * Sskp (PZB-Tabelle)
+	 * Sskp – PZB-Tabelle
 	 */
 	public String SskpDescriptionService_ViewName;
 
@@ -747,4 +747,19 @@ public class Messages extends AbstractMessageService {
 	 * Zuordnungstabelle FEAK/FEAS – Sskz
 	 */
 	public String SskzTableView_Heading;
+
+	/**
+	 * Sskp_dm – PZB-Tabelle
+	 */
+	public String SskpDmDescriptionService_ViewName;
+
+	/**
+	 * Sskp_dm
+	 */
+	public String ToolboxTableNameSskpDmShort;
+
+	/**
+	 * PZB-Tabelle (Sskp_dm)
+	 */
+	public String SskpDmTableView_Heading;
 }

@@ -27,7 +27,7 @@ public abstract class AbstractTableDescription
 		return new PartDescription(
 				// ID
 				getOptionalTableId().orElse(String.format("%s.%s", //$NON-NLS-1$
-						getTableIdPrefix(), getTableId())),
+						getTableIdPrefix(), getTableShortcut().toLowerCase())),
 				// contributionURI
 				"bundleclass://org.eclipse.set.feature.table/org.eclipse.set.feature.table.ToolboxTableView", //$NON-NLS-1$
 				// toolboxViewName
@@ -58,10 +58,6 @@ public abstract class AbstractTableDescription
 				false);
 	}
 
-	private String getTableId() {
-		return getToolboxViewName().toLowerCase().substring(0, 4);
-	}
-
 	@SuppressWarnings("static-method")
 	protected Optional<String> getOptionalTableId() {
 		return Optional.empty();
@@ -72,4 +68,6 @@ public abstract class AbstractTableDescription
 	protected abstract String getToolboxViewTooltip();
 
 	protected abstract String getTableIdPrefix();
+
+	protected abstract String getTableShortcut();
 }
