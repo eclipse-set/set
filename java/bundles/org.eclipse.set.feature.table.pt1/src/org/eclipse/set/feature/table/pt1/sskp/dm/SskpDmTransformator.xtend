@@ -50,6 +50,7 @@ import static extension org.eclipse.set.utils.math.BigIntegerExtensions.*
 import static extension org.eclipse.set.utils.math.DoubleExtensions.*
 import org.eclipse.set.feature.table.pt1.sskp.SskpBahnsteigUtils
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
+import org.eclipse.set.utils.math.AgateRounding
 
 /**
  * Table transformation for a PZB-Tabelle (Sskp)
@@ -179,18 +180,17 @@ class SskpDmTransformator extends AbstractPlanPro2TableModelTransformator {
 					if (dwegV === 0) {
 						return ""
 					}
-
+					
 					if (dwegV > 40 || (dwegV <= 40 && inclination <= 0)) {
-						addTopologicalCell(instance,
-							cols.getColumn(PZB_Schutzstrecke_Soll))
+						addTopologicalCell(instance, cols.getColumn(PZB_Schutzstrecke_Soll))
 					}
-
+					
 					if (dwegV > 60) {
-						return '''«ADDITION_SCHUTZSTRECKE_SOLL_60 - inclination * multipleValue * 200»'''
+						return '''«AgateRounding.roundUp(ADDITION_SCHUTZSTRECKE_SOLL_60 - inclination * multipleValue * 200)»'''
 					} else if (dwegV <= 60 && dwegV > 40) {
-						return '''«ADDITION_SCHUTZSTRECKE_SOLL_40_60 - inclination * multipleValue * 100»'''
+						return '''«AgateRounding.roundUp(ADDITION_SCHUTZSTRECKE_SOLL_40_60 - inclination * multipleValue * 100)»'''
 					} else if (dwegV <= 40) {
-						return '''«inclination > 0 ? 210 : ADDITION_SCHUTZSTRECKE_SOLL_40 - inclination * multipleValue * 50»'''
+						return '''«inclination > 0 ? 210 : AgateRounding.roundUp(ADDITION_SCHUTZSTRECKE_SOLL_40 - inclination * multipleValue * 50)»'''
 					}
 					return ""
 				]
@@ -206,9 +206,9 @@ class SskpDmTransformator extends AbstractPlanPro2TableModelTransformator {
 					val markanteStelle = dweg?.IDPZBGefahrpunkt?.value?.
 						IDMarkanteStelle?.value
 					if (markanteStelle instanceof Punkt_Objekt)
-						return 
+						return AgateRounding.roundDown(
 							getPointsDistance(markanteStelle,
-								dweg.IDFstrFahrweg?.value?.IDStart?.value).min.
+								dweg.IDFstrFahrweg?.value?.IDStart?.value).min).
 							toString
 					else
 						return ""
@@ -353,7 +353,7 @@ class SskpDmTransformator extends AbstractPlanPro2TableModelTransformator {
 				].filterNull.map [ pzbEle |
 					pzbEle -> getPointsDistance(it, pzbEle).min
 				].filter[value.doubleValue !== 0].map [ pair |
-					val distance = pair.value.toString
+					var distance = AgateRounding.roundDown(pair.value, 1).toTableDecimal
 					if (PZBArt?.wert === ENUMPZBArt.ENUMPZB_ART_500_HZ) {
 						return distance
 					}
@@ -451,7 +451,7 @@ class SskpDmTransformator extends AbstractPlanPro2TableModelTransformator {
 					PZBZuordnungSignal?.map[IDSignal?.value].map [ signal |
 						getPointsDistance(pzb, signal).min
 					].filter[it.doubleValue !== 0.0].map [
-						toString
+						AgateRounding.roundDown(it).toString
 					]
 				],
 				NUMERIC_COMPARATOR,
@@ -476,7 +476,8 @@ class SskpDmTransformator extends AbstractPlanPro2TableModelTransformator {
 					vorSignalWiederholer.map [ signal |
 						signal -> getPointsDistance(pzb, signal).min
 					].filter[value.doubleValue !== 0.0].map [
-						'''«value.toString» «
+
+						'''«AgateRounding.roundDown(value).toString» «
 						»(«key.bezeichnung?.bezeichnungTabelle?.wert»)'''
 					]
 				],
@@ -613,8 +614,8 @@ class SskpDmTransformator extends AbstractPlanPro2TableModelTransformator {
 	static dispatch def String fillBezugsElement(Signal object) {
 		return object.signalReal.signalFunktion.wert ===
 			ENUMSignalFunktion.ENUM_SIGNAL_FUNKTION_BUE_UEBERWACHUNGSSIGNAL
-			? '''BÜ-K «object?.bezeichnung?.bezeichnungTabelle?.wert»''' : object?.
-			bezeichnung?.bezeichnungTabelle?.wert
+			? '''BÜ-K «object?.bezeichnung?.bezeichnungTabelle?.wert»'''
+			: object?.bezeichnung?.bezeichnungTabelle?.wert
 	}
 
 	private dispatch def String getDistanceSignalTrackSwitch(TopGraph topGraph,
@@ -626,11 +627,13 @@ class SskpDmTransformator extends AbstractPlanPro2TableModelTransformator {
 		PZB_Element pzb, Signal signal) {
 		if (signal?.signalReal?.signalFunktion?.wert !==
 			ENUMSignalFunktion.ENUM_SIGNAL_FUNKTION_BUE_UEBERWACHUNGSSIGNAL) {
-			val distance = getPointsDistance(pzb, signal).min
+			val distance = AgateRounding.roundDown(
+				getPointsDistance(pzb, signal).min, 1)
 			val directionSign = topGraph.
 					isInWirkrichtungOfSignal(signal, pzb) ? "+" : "-"
-			return distance == 0 ? distance.
-				toString : '''«directionSign»«distance.toString»'''
+			return distance == 0.0
+				? distance.toTableDecimal
+				: '''«directionSign»«distance.toTableDecimal»'''
 		}
 
 		val bueSpezifischesSignal = signal.container.BUESpezifischesSignal.
@@ -677,7 +680,8 @@ class SskpDmTransformator extends AbstractPlanPro2TableModelTransformator {
 		if (distance.doubleValue === 0) {
 			return ""
 		}
-		return distance.toString
+		// Round to decimeter
+		return AgateRounding.roundDown(distance, 1).toTableDecimal
 	}
 
 	private def Iterable<Double> getPointsDistance(Punkt_Objekt p1,
@@ -691,5 +695,4 @@ class SskpDmTransformator extends AbstractPlanPro2TableModelTransformator {
 			]
 		].filter[present].map[get.doubleValue].toList
 	}
-
 }
