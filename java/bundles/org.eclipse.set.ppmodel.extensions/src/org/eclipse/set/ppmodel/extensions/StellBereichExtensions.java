@@ -239,7 +239,7 @@ public class StellBereichExtensions {
 									.orElse(null));
 			case final Fstr_Aneinander fstr -> FstrAneinanderExtensions
 					.isBelongToControlArea(fstr, area);
-			case final Fstr_DWeg fstr -> FstrDWegWKrExtensions
+			case final Fstr_DWeg fstr -> DwegExtensions
 					.isBelongToControlArea(fstr, area);
 			case final Fstr_Zug_Rangier fstr -> FstrZugRangierExtensions
 					.isBelongToControlArea(fstr, area);
