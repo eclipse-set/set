@@ -13,13 +13,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.List;
 
 import org.eclipse.set.utils.math.Clothoid;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for {@link Clothoid}.
+ * Tests for {@link Clothoid}. IMPROVE: actualy given't reliable test data (also
+ * Clothoid coordinate). Therefore this test should be for the first disable
  * 
  * @author Stuecker
  */
+@Disabled
 public class ClothoidTest {
 	List<double[]> result;
 
