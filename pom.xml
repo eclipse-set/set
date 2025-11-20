@@ -9,7 +9,7 @@
 	<packaging>pom</packaging>
 
 	<properties>
-		<tycho-version>4.0.13</tycho-version>
+		<tycho-version>5.0.0</tycho-version>
 		<deploy-plugin-version>3.1.4</deploy-plugin-version>
 		<assembly.version>2.4</assembly.version>
 		<replacer.version>1.4.1</replacer.version>
@@ -57,6 +57,7 @@
 		<!-- <module>java/bundles/org.eclipse.set.feature.export.test</module> -->
 		<module>java/bundles/org.eclipse.set.feature.validation</module>
 		<module>java/bundles/org.eclipse.set.feature.plazmodel</module>
+		<module>java/bundles/org.eclipse.set.feature.plazmodel.test</module>
 		<module>java/bundles/org.eclipse.set.feature.enumtransformation</module>
 		<module>java/bundles/org.eclipse.set.feature.siteplan</module>
 		<module>java/bundles/org.eclipse.set.feature.siteplan.test</module>
@@ -259,7 +260,7 @@
 							<dependency>
 								<groupId>com.puppycrawl.tools</groupId>
 								<artifactId>checkstyle</artifactId>
-								<version>11.1.0</version>
+								<version>12.1.2</version>
 							</dependency>
 						</dependencies>
 						<configuration>

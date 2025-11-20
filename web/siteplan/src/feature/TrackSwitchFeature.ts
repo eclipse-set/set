@@ -10,7 +10,7 @@
 import LageplanFeature from '@/feature/LageplanFeature'
 import ContinuousTrackSegment from '@/model/ContinuousTrackSegment'
 import { Coordinate, Position } from '@/model/Position'
-import { SiteplanColorValue, SiteplanState } from '@/model/SiteplanModel'
+import { LeftRight, SiteplanColorValue, SiteplanState } from '@/model/SiteplanModel'
 import { getColor, getLabelColor } from '@/model/SiteplanObject'
 import TrackSwitch, { SwitchType, TrackSwitchPart } from '@/model/TrackSwitch'
 import TrackSwitchComponent, { TurnoutOperatingMode } from '@/model/TrackSwitchComponent'
@@ -202,16 +202,16 @@ export default class TrackSwitchFeature extends LageplanFeature<TrackSwitch> {
 
         return SvgDrawTrackSwitch.getTrailableArrow(arrowCoors,color, scale)
       case TurnoutOperatingMode.DeadLeft:
-        return this.getTrackSwitchLockCross(component, 'links', scale)
+        return this.getTrackSwitchLockCross(component, LeftRight.LEFT, scale)
       case TurnoutOperatingMode.DeadRight:
-        return this.getTrackSwitchLockCross(component, 'rechts', scale)
+        return this.getTrackSwitchLockCross(component, LeftRight.RIGHT, scale)
       default:
         return []
     }
   }
 
   private getTrackSwitchLockCross (component: TrackSwitchComponent, lockSide: string, scale: number) {
-    if (component.mainLeg.connection.toLowerCase() === lockSide) {
+    if (component.mainLeg.connection.toLowerCase() === lockSide.toLowerCase()) {
       const sideLegCoorsLength = component.sideLeg.coordinates.length
       const lastPos = component.sideLeg.coordinates[sideLegCoorsLength - 1]
       const preLastPos = component.sideLeg.coordinates[sideLegCoorsLength - 2]

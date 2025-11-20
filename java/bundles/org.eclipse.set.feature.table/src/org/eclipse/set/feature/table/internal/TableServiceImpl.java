@@ -15,6 +15,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -255,9 +256,15 @@ public final class TableServiceImpl implements TableService {
 			final IModelSession modelSession, final Set<String> controlAreaIds,
 			final Pt1TableCategory tableCategory) {
 		final HashMap<String, Collection<TableError>> map = new HashMap<>();
+		final String tableErrorsCacheGroup = switch (modelSession
+				.getTableType()) {
+			case FINAL -> ToolboxConstants.CacheId.TABLE_ERRORS_FINAL;
+			case INITIAL -> ToolboxConstants.CacheId.TABLE_ERRORS_INITIAL;
+			case SINGLE -> ToolboxConstants.CacheId.TABLE_ERRORS_SINGLE;
+			case DIFF -> ToolboxConstants.CacheId.TABLE_ERRORS;
+		};
 		final Cache cache = getCacheService().getCache(
-				modelSession.getPlanProSchnittstelle(),
-				ToolboxConstants.CacheId.TABLE_ERRORS);
+				modelSession.getPlanProSchnittstelle(), tableErrorsCacheGroup);
 		getAvailableTables().forEach(tableInfo -> {
 			if (tableInfo.category().equals(tableCategory)) {
 				final List<Pair<String, String>> cacheKeys = getCacheKeys(
@@ -281,7 +288,7 @@ public final class TableServiceImpl implements TableService {
 	}
 
 	@SuppressWarnings("unchecked")
-	private boolean combineTableErrors(final IModelSession modelSession,
+	private void combineTableErrors(final IModelSession modelSession,
 			final String cacheKey) {
 		final Collection<TableError> initialErrors = (Collection<TableError>) getCacheService()
 				.getCache(modelSession.getPlanProSchnittstelle(),
@@ -292,7 +299,7 @@ public final class TableServiceImpl implements TableService {
 						ToolboxConstants.CacheId.TABLE_ERRORS_FINAL)
 				.getIfPresent(cacheKey);
 		if (initialErrors == null || finalErrors == null) {
-			return false;
+			return;
 		}
 		final Collection<TableError> combined = new ArrayList<>();
 		combined.addAll(initialErrors);
@@ -302,7 +309,6 @@ public final class TableServiceImpl implements TableService {
 						ToolboxConstants.CacheId.TABLE_ERRORS)
 				.set(cacheKey, combined);
 		broker.post(Events.TABLEERROR_CHANGED, null);
-		return true;
 	}
 
 	private void saveTableError(final String shortCut,
@@ -326,6 +332,14 @@ public final class TableServiceImpl implements TableService {
 								ToolboxConstants.CacheId.TABLE_ERRORS_FINAL)
 						.set(cacheKey, errors);
 				break;
+			case SINGLE:
+				getCacheService()
+						.getCache(modelSession.getPlanProSchnittstelle(),
+								ToolboxConstants.CacheId.TABLE_ERRORS_SINGLE)
+						.set(cacheKey, errors);
+				// The plan with single state don't need combine cache errrors
+				broker.post(Events.TABLEERROR_CHANGED, null);
+				return;
 			default:
 				return;
 		}
@@ -365,8 +379,7 @@ public final class TableServiceImpl implements TableService {
 		}
 
 		// sorting
-		ECollections.sort(transformedTable.getTablecontent().getRowgroups(),
-				modelService.getRowGroupComparator());
+		sortTable(transformedTable, shortCut);
 		return transformedTable;
 	}
 
@@ -496,8 +509,7 @@ public final class TableServiceImpl implements TableService {
 
 		// sorting
 		if (resultTable != null && resultTable.getTablecontent() != null) {
-			ECollections.sort(resultTable.getTablecontent().getRowgroups(),
-					getModelService(shortCut).getRowGroupComparator());
+			sortTable(resultTable, shortCut);
 		}
 
 		return resultTable;
@@ -699,9 +711,14 @@ public final class TableServiceImpl implements TableService {
 		}
 		final Table compareTable = diffServiceMap.get(TableCompareType.PROJECT)
 				.createDiffTable(mainSessionTable, compareSessionTable);
-		ECollections.sort(compareTable.getTablecontent().getRowgroups(),
-				getModelService(extractShortcut(elementId))
-						.getRowGroupComparator());
+		sortTable(compareTable, elementId);
 		return compareTable;
+	}
+
+	@Override
+	public void sortTable(final Table table, final String shortcut) {
+		final Comparator<RowGroup> comparator = getModelService(shortcut)
+				.getRowGroupComparator();
+		ECollections.sort(table.getTablecontent().getRowgroups(), comparator);
 	}
 }

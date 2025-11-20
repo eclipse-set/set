@@ -27,7 +27,7 @@ import static org.junit.Assert.assertNotNull
  * 
  */
 class ZippedToolboxFileTest extends AbstractToolboxFileTest {
-	static val TESTPATH = PPHN_1_10_0_1_20220517_PLANPRO
+	static val TESTPATH = PPHN_1_10_0_3_20220517_PLANPRO
 
 	/**
 	 * Test method for {@link ZippedPlanProToolboxFile#open()}

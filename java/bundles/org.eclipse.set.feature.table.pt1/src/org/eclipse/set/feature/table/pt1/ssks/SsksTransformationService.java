@@ -9,7 +9,7 @@
 package org.eclipse.set.feature.table.pt1.ssks;
 
 import static org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum.ASC;
-import static org.eclipse.set.feature.table.pt1.ssks.SsksColumns.Schaltkasten_Entfernung;
+import static org.eclipse.set.feature.table.pt1.ssks.SsksColumns.*;
 import static org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparatorType.EMPTY_LAST;
 import static org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparatorType.LEXICOGRAPHICAL;
 
@@ -24,6 +24,7 @@ import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.messages.Messages;
+import org.eclipse.set.model.planpro.Signale.Signal;
 import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
 import org.eclipse.set.utils.table.sorting.TableRowGroupComparator;
@@ -102,13 +103,20 @@ public final class SsksTransformationService extends
 		}
 	}
 
-	@SuppressWarnings("nls")
 	@Override
 	public Comparator<RowGroup> getRowGroupComparator() {
 		return TableRowGroupComparator.builder()
-				.sort("B", EMPTY_LAST, ASC)
-				.sort("D", EMPTY_LAST, ASC)
-				.sort("A", LEXICOGRAPHICAL, ASC)
+				.sort(Reales_Signal, EMPTY_LAST, ASC)
+				.sort(Fiktives_Signal, EMPTY_LAST, ASC)
+				// It can be directly compare by Column E/F but for consistent
+				// with another table the CompareRouteAndKm will be used.
+				.sortByRouteAndKm(obj -> {
+					if (obj instanceof final Signal signal) {
+						return signal;
+					}
+					return null;
+				})
+				.sort(Bezeichnung_Signal, LEXICOGRAPHICAL, ASC)
 				.build();
 	}
 
@@ -119,6 +127,6 @@ public final class SsksTransformationService extends
 
 	@Override
 	protected List<String> getTopologicalColumnPosition() {
-		return List.of(Schaltkasten_Entfernung);
+		return List.of(Schaltkasten_Entfernung, Lichtraumprofil, Ueberhoehung);
 	}
 }

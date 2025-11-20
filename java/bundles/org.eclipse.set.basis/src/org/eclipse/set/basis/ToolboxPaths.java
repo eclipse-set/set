@@ -33,7 +33,12 @@ public interface ToolboxPaths {
 		/**
 		 * The xlsx extension
 		 */
-		TABLE_XLSX_EXPORT_EXTENSION(".xlsx"); //$NON-NLS-1$
+		TABLE_XLSX_EXPORT_EXTENSION(".xlsx"), //$NON-NLS-1$
+
+		/**
+		 * The csv extension
+		 */
+		TABLE_CSV_EXPORT_EXTENSION(".csv"); //$NON-NLS-1$
 
 		/**
 		 * extension value

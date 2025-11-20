@@ -11,6 +11,7 @@ package org.eclipse.set.ppmodel.extensions
 import java.math.BigInteger
 import java.util.LinkedList
 import java.util.List
+import java.util.Optional
 import java.util.Set
 import org.eclipse.set.basis.graph.DirectedEdgePoint
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
@@ -149,24 +150,20 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 	/**
 	 * @param fstrZugRangier this Fstr_Zug_Rangier
 	 * 
-	 * @return Fahrweggeschwindigkeit at Startsignal in km/h (Integer.MAX_VALUE means "MAX")
+	 * @return Fahrweggeschwindigkeit at Startsignal in km/h
 	 */
-	def static int geschwindigkeit(Fstr_Zug_Rangier fstrZugRangier) {
-		var int vmin = -1
+	def static Optional<BigInteger> geschwindigkeit(
+		Fstr_Zug_Rangier fstrZugRangier) {
 		val fw = fstrZugRangier.fstrFahrweg
 		val vmax = fw.path.pointIterator.map[punktObjekt].map[getVmax(fw)].
-			filter [
-				it >= 0
-			].toList
-		vmax.addAll(fw.gleisabschnitte.map[getVmax(fw)].filter[it >= 0])
+			filter[present].toList
+		vmax.addAll(fw.gleisabschnitte.map[getVmax(fw)].filter[present])
 		if (!vmax.empty) {
-			vmin = vmax.min
+			return Optional.of(vmax.map[get].min [ first, second |
+				first.compareTo(second)
+			])
 		}
-		if (vmin < 0) {
-			return Integer.MAX_VALUE
-		} else {
-			return vmin;
-		}
+		return Optional.empty
 	}
 
 	/**
@@ -377,12 +374,13 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 			substring(0, 1) == "R"
 	}
 
-	private def static dispatch int getVmax(Object object, Fstr_Fahrweg fw) {
-		return -1
+	private def static dispatch Optional<BigInteger> getVmax(Object object,
+		Fstr_Fahrweg fw) {
+		return Optional.empty
 	}
 
-	private def static dispatch int getVmax(W_Kr_Gsp_Komponente object,
-		Fstr_Fahrweg fw) {
+	private def static dispatch Optional<BigInteger> getVmax(
+		W_Kr_Gsp_Komponente object, Fstr_Fahrweg fw) {
 		val kreuzung = object.kreuzung
 		val zungenpaar = object.zungenpaar
 
@@ -396,39 +394,34 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 
 		// Max.V für bewegliche Brücke?
 		// -> object.besonderesFahrwegelement
-		return Integer.MAX_VALUE
+		return Optional.empty
 	}
 
-	private def static dispatch int getVmax(Gleis_Abschnitt object,
-		Fstr_Fahrweg fw) {
-		val geschwindigkeit = object.geschwindigkeit?.wert
-		if (geschwindigkeit !== null) {
-			return geschwindigkeit.intValue
-		} else {
-			return -1
-		}
+	private def static dispatch Optional<BigInteger> getVmax(
+		Gleis_Abschnitt object, Fstr_Fahrweg fw) {
+		return Optional.ofNullable(object?.geschwindigkeit?.wert)
 	}
 
-	private def static int getVmaxKreuzung(
+	private def static Optional<BigInteger> getVmaxKreuzung(
 		Kreuzung_AttributeGroup object,
 		Fstr_Fahrweg fw
 	) {
 		val crossingRoute = fw.getCrossingRoute(object)
 		if (crossingRoute == CrossingRoute.LEFT) {
-			return object.geschwindigkeitL.wert.intValue
+			return Optional.ofNullable(object?.geschwindigkeitL?.wert)
 		}
 		if (crossingRoute == CrossingRoute.RIGHT) {
-			return object.geschwindigkeitR.wert.intValue
+			return Optional.ofNullable(object?.geschwindigkeitR?.wert)
 		}
 		throw new IllegalArgumentException(crossingRoute.toString)
 	}
 
-	private def static int getVmaxWeiche(Zungenpaar_AttributeGroup object,
-		WeichenSchenkel schenkel) {
+	private def static Optional<BigInteger> getVmaxWeiche(
+		Zungenpaar_AttributeGroup object, WeichenSchenkel schenkel) {
 		if (schenkel.lage === WeichenSchenkel.Lage.L) {
-			return (object?.geschwindigkeitL?.wert ?: BigInteger.ZERO).intValue
+			return Optional.ofNullable(object?.geschwindigkeitL?.wert)
 		}
-		return (object?.geschwindigkeitR?.wert ?: BigInteger.ZERO).intValue
+		return Optional.ofNullable(object?.geschwindigkeitR?.wert)
 	}
 
 	def static boolean isBelongToControlArea(Fstr_Zug_Rangier fstrZugRangier,

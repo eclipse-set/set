@@ -192,4 +192,14 @@ public interface TableService {
 	 */
 	Table createDiffTable(String elementId, TableType tableType,
 			Set<String> controlAreaIds);
+
+	/**
+	 * Sort the table after transformation.
+	 * 
+	 * @param table
+	 *            the table
+	 * @param shortcut
+	 *            the table shortcut
+	 */
+	void sortTable(Table table, String shortcut);
 }

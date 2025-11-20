@@ -110,7 +110,6 @@ public class ControlAreaSelectionControl {
 		createCombo(parent);
 		// Reset combo value, when close session
 		broker.subscribe(Events.CLOSE_SESSION, this::closeSession);
-		broker.subscribe(Events.MODEL_CHANGED, this::sessionChanged);
 	}
 
 	private void createCombo(final Composite parent) {
@@ -130,6 +129,9 @@ public class ControlAreaSelectionControl {
 						t.getTableType());
 			}
 		};
+
+		ToolboxEvents.subscribe(broker, NewTableTypeEvent.class,
+				newTableTypeHandler);
 
 		// register for session changes
 		application.getContext().runAndTrack(new RunAndTrack() {
@@ -168,6 +170,8 @@ public class ControlAreaSelectionControl {
 				break;
 			case SINGLE:
 				setSinglePlanControlAreaCombo();
+				seletcionControlArea(comboViewer.getSelection(),
+						TableType.SINGLE);
 				return;
 			case DIFF:
 				values.addAll(getDiffComboValues());
@@ -387,18 +391,6 @@ public class ControlAreaSelectionControl {
 		final Object property = event.getProperty(IEventBroker.DATA);
 		if (property instanceof final ToolboxFileRole role
 				&& role.equals(ToolboxFileRole.SESSION)) {
-			ToolboxEvents.unsubscribe(broker, newTableTypeHandler);
-			// Reset combo to default
-			initCombo();
-		}
-	}
-
-	private void sessionChanged(final Event event) {
-		final Object property = event.getProperty(IEventBroker.DATA);
-		if (property instanceof final ToolboxFileRole role
-				&& role.equals(ToolboxFileRole.SESSION)) {
-			ToolboxEvents.subscribe(broker, NewTableTypeEvent.class,
-					newTableTypeHandler);
 			// Reset combo to default
 			initCombo();
 		}

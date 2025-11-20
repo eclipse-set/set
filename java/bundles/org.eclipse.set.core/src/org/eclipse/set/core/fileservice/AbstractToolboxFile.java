@@ -24,13 +24,13 @@ import org.eclipse.emf.ecore.xmi.FeatureNotFoundException;
 import org.eclipse.emf.ecore.xmi.IllegalValueException;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.set.basis.PlanProXMLNode;
 import org.eclipse.set.basis.extensions.PathExtensions;
 import org.eclipse.set.basis.files.ExtendedPlanProValidator;
 import org.eclipse.set.basis.files.PlanProFileResource;
 import org.eclipse.set.basis.files.ToolboxFile;
 import org.eclipse.set.core.services.version.PlanProVersionService;
 import org.eclipse.set.model.planpro.PlanPro.DocumentRoot;
-import org.w3c.dom.Document;
 
 /**
  * Common functionality for toolbox files.
@@ -42,19 +42,19 @@ public abstract class AbstractToolboxFile implements ToolboxFile {
 
 	protected static final String ENCODING = StandardCharsets.UTF_8.name();
 
-	private HashMap<String, Document> domDocument = new HashMap<>();
+	private HashMap<String, PlanProXMLNode> domDocument = new HashMap<>();
 
 	private String md5checksum = null;
 
 	protected final HashMap<String, PlanProFileResource> resources = new HashMap<>();
 
 	@Override
-	public void setXMLDocument(final String docName, final Document doc) {
+	public void setXMLDocument(final String docName, final PlanProXMLNode doc) {
 		domDocument.put(docName, doc);
 	}
 
 	@Override
-	public Document getXMLDocument(final String docName) {
+	public PlanProXMLNode getXMLDocument(final String docName) {
 		return domDocument.get(docName);
 	}
 

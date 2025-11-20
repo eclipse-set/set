@@ -10,12 +10,12 @@ package org.eclipse.set.utils.xml;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.eclipse.set.basis.PlanProXMLNode;
 import org.eclipse.set.basis.files.ToolboxFile;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 /**
@@ -25,9 +25,12 @@ import org.xml.sax.SAXException;
  *
  */
 public class XMLNodeFinder {
-	Node rootNode;
+	PlanProXMLNode rootNode;
 	private static final String NODE_IDENTITAET = "Identitaet"; //$NON-NLS-1$
-	private static final String NODE_WERT = "Wert"; //$NON-NLS-1$
+	/**
+	 * Wert
+	 */
+	public static final String NODE_WERT = "Wert"; //$NON-NLS-1$
 
 	/**
 	 * Returns the node for a line number. This attempts to find the most local
@@ -37,18 +40,17 @@ public class XMLNodeFinder {
 	 *            the line number to look at
 	 * @return the found node or null
 	 */
-	public Node findNodeByLineNumber(final int lineNumber) {
+	public PlanProXMLNode findNodeByLineNumber(final int lineNumber) {
 		return findNodeByLineNumber(rootNode, lineNumber);
 	}
 
-	private Node findNodeByLineNumber(final Node currentNode,
-			final int lineNumber) {
+	private PlanProXMLNode findNodeByLineNumber(
+			final PlanProXMLNode currentNode, final int lineNumber) {
 		if (currentNode == null || lineNumber < 0) {
 			return null;
 		}
-		final NodeList children = currentNode.getChildNodes();
-		for (int i = 0; i < children.getLength(); ++i) {
-			final Node node = children.item(i);
+		final List<PlanProXMLNode> children = currentNode.getChildren();
+		for (final PlanProXMLNode node : children) {
 			if (isLineNumberInNode(lineNumber, node)) {
 				return findNodeByLineNumber(node, lineNumber);
 			}
@@ -64,7 +66,7 @@ public class XMLNodeFinder {
 	 *            the name of node
 	 * @return the found node or null
 	 */
-	public Node findFirstNodeByNodeName(final String nodeName) {
+	public PlanProXMLNode findFirstNodeByNodeName(final String nodeName) {
 		return findFirstNodeByNodeName(rootNode, nodeName);
 	}
 
@@ -75,7 +77,7 @@ public class XMLNodeFinder {
 	 *            the node of node
 	 * @return the foudn node or null
 	 */
-	public Node findFirstNodeByNodeName(final Node node,
+	public PlanProXMLNode findFirstNodeByNodeName(final PlanProXMLNode node,
 			final String nodeName) {
 		if (node == null) {
 			return null;
@@ -84,9 +86,9 @@ public class XMLNodeFinder {
 			return node;
 		}
 
-		final NodeList nodeList = node.getChildNodes();
-		for (int i = 0; i < nodeList.getLength(); i++) {
-			final Node childNode = findFirstNodeByNodeName(nodeList.item(i),
+		final List<PlanProXMLNode> nodeList = node.getChildren();
+		for (final PlanProXMLNode element : nodeList) {
+			final PlanProXMLNode childNode = findFirstNodeByNodeName(element,
 					nodeName);
 			if (childNode != null) {
 				return childNode;
@@ -105,9 +107,9 @@ public class XMLNodeFinder {
 	 * @return whether the line number is within the XML node
 	 */
 	private static boolean isLineNumberInNode(final int lineNumber,
-			final Node node) {
-		final int start = LineNumberXMLReader.getStartLineNumber(node);
-		final int end = LineNumberXMLReader.getNodeLastLineNumber(node);
+			final PlanProXMLNode node) {
+		final int start = Integer.parseInt(node.getStartLineNumber());
+		final int end = Integer.parseInt(node.getEndLineNumber());
 		return lineNumber >= start && lineNumber <= end;
 	}
 
@@ -132,33 +134,32 @@ public class XMLNodeFinder {
 	 *            the node
 	 * @return guid of the object contain this node
 	 */
-	public static String findNearestNodeGUID(final Node node) {
+	public static String findNearestNodeGUID(final PlanProXMLNode node) {
 		if (node == null) {
 			return null;
 		}
 		// Try to find <Identitaet><Wert>[GUID]</Identitaet></Wert>
 		// as a child node of the current node
-		final Node identitaet = getChildNodeByName(node, NODE_IDENTITAET);
+		final PlanProXMLNode identitaet = getChildNodeByName(node,
+				NODE_IDENTITAET);
 		if (identitaet != null) {
 			// Read <Wert>[GUID]</Wert> from the <Identitaet> node
-			final Node valueNode = getChildNodeByName(identitaet, NODE_WERT);
+			final PlanProXMLNode valueNode = getChildNodeByName(identitaet,
+					NODE_WERT);
 			if (valueNode != null) {
-				final Node firstChild = valueNode.getFirstChild();
-				if (firstChild != null) {
-					return firstChild.getNodeValue();
-				}
+				return valueNode.getTextValue();
 			}
 		}
 
 		// Walk up the XML tree
-		return findNearestNodeGUID(node.getParentNode());
+		return findNearestNodeGUID(node.getParent());
 	}
 
-	private static Node getChildNodeByName(final Node node, final String name) {
-		final NodeList children = node.getChildNodes();
+	private static PlanProXMLNode getChildNodeByName(final PlanProXMLNode node,
+			final String name) {
+		final List<PlanProXMLNode> children = node.getChildren();
 
-		for (int i = 0; i < children.getLength(); ++i) {
-			final Node child = children.item(i);
+		for (final PlanProXMLNode child : children) {
 			if (child.getNodeName().equals(name)) {
 				return child;
 			}

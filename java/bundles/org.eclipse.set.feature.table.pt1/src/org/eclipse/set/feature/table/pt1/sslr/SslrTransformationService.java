@@ -9,6 +9,7 @@
 package org.eclipse.set.feature.table.pt1.sslr;
 
 import static org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum.ASC;
+import static org.eclipse.set.feature.table.pt1.sslr.SslrColumns.*;
 import static org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparatorType.MIXED_STRING;
 
 import java.util.Comparator;
@@ -19,7 +20,10 @@ import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.messages.Messages;
+import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Zug_Rangier;
 import org.eclipse.set.model.tablemodel.RowGroup;
+import org.eclipse.set.ppmodel.extensions.FahrwegExtensions;
+import org.eclipse.set.ppmodel.extensions.FstrZugRangierExtensions;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
 import org.eclipse.set.utils.table.sorting.TableRowGroupComparator;
 import org.osgi.service.component.annotations.Component;
@@ -52,10 +56,15 @@ public class SslrTransformationService
 
 	@Override
 	public Comparator<RowGroup> getRowGroupComparator() {
-		return TableRowGroupComparator.builder()
-				.sort("B", MIXED_STRING, ASC) //$NON-NLS-1$
-				.sort("C", MIXED_STRING, ASC) //$NON-NLS-1$
-				.sort("D", MIXED_STRING, ASC) //$NON-NLS-1$
+		return TableRowGroupComparator.builder().sortByRouteAndKm(obj -> {
+			if (obj instanceof final Fstr_Zug_Rangier fstr) {
+				return FahrwegExtensions.getStart(
+						FstrZugRangierExtensions.getFstrFahrweg(fstr));
+			}
+			return null;
+		})
+				.sort(Fahrweg_Start, MIXED_STRING, ASC)
+				.sort(Fahrweg_Ziel, MIXED_STRING, ASC)
 				.build();
 	}
 
@@ -78,6 +87,6 @@ public class SslrTransformationService
 
 	@Override
 	protected List<String> getTopologicalColumnPosition() {
-		return List.of(SslrColumns.Fahrweg_Entscheidungsweiche);
+		return List.of(Fahrweg_Entscheidungsweiche, Abhaengiger_BUe);
 	}
 }

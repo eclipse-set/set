@@ -339,10 +339,13 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 				])
 
 				// Q: Sslz.Signalisierung.Geschwindigkeit_Startsignal.Fahrweg
-				fillConditional(instance, cols.getColumn(Fahrweg),
-					fstrZugRangier, [
-						fstrZugRangier.geschwindigkeit == Integer.MAX_VALUE
-					], [""], [Integer.toString(fstrZugRangier.geschwindigkeit)])
+				val fstrV = fstrZugRangier.geschwindigkeit
+				fillConditional(
+					instance,
+					cols.getColumn(Fahrweg),
+					fstrZugRangier,
+					[fstrV.isPresent],
+					[fstrV.get.toString])
 
 				// R: Sslz.Signalisierung.Geschwindigkeit_Startsignal.DWeg
 				fill(instance, cols.getColumn(DWeg), fstrZugRangier, [
@@ -726,7 +729,8 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 		val existsZl = fstrSignalisierung.map [
 			IDSignalSignalbegriff.value
 		].exists [
-			hasSignalbegriffID(ZlO) || hasSignalbegriffID(ZlU) &&
+			(hasSignalbegriffID(typeof(ZlO)) ||
+				hasSignalbegriffID(typeof(ZlU))) &&
 				signalRahmen.signal === vorsignal
 		]
 		val zielSignal = fstrZugRangier.fstrFahrweg.zielSignal

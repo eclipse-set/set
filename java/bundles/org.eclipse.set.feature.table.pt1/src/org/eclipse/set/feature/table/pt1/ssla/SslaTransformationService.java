@@ -9,18 +9,21 @@
 package org.eclipse.set.feature.table.pt1.ssla;
 
 import static org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum.ASC;
+import static org.eclipse.set.feature.table.pt1.ssla.SslaColumns.*;
 import static org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparatorType.LEXICOGRAPHICAL;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.messages.Messages;
+import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Aneinander;
 import org.eclipse.set.model.tablemodel.RowGroup;
+import org.eclipse.set.ppmodel.extensions.FstrAneinanderExtensions;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
 import org.eclipse.set.utils.table.sorting.TableRowGroupComparator;
 import org.osgi.service.component.annotations.Component;
@@ -62,7 +65,15 @@ public final class SslaTransformationService
 	@Override
 	public Comparator<RowGroup> getRowGroupComparator() {
 		return TableRowGroupComparator.builder()
-				.sort("A", LEXICOGRAPHICAL, ASC) //$NON-NLS-1$
+				// Zugstraße - Z first, then Rangierstraßen - R
+				.sort(Art, LEXICOGRAPHICAL, SortDirectionEnum.DESC)
+				.sortByRouteAndKm(obj -> {
+					if (obj instanceof final Fstr_Aneinander fstr) {
+						return FstrAneinanderExtensions.getStartSignal(fstr);
+					}
+					return null;
+				})
+				.sort(Bezeichnung, LEXICOGRAPHICAL, ASC)
 				.build();
 	}
 
@@ -85,7 +96,8 @@ public final class SslaTransformationService
 
 	@Override
 	protected List<String> getTopologicalColumnPosition() {
-		return Collections.emptyList();
+		return List.of(Bezeichnung, Fahrweg_Start, Fahrweg_Ziel,
+				Durchrutschweg_Ziel, Unterwegssignal);
 	}
 
 }

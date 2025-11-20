@@ -13,6 +13,7 @@ package org.eclipse.set.feature.table.diff;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.stream.IntStream;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.set.core.services.session.SessionService;
@@ -27,6 +28,7 @@ import org.eclipse.set.model.tablemodel.TableCell;
 import org.eclipse.set.model.tablemodel.TableRow;
 import org.eclipse.set.model.tablemodel.TablemodelFactory;
 import org.eclipse.set.model.tablemodel.extensions.FootnoteContainerExtensions;
+import org.eclipse.set.model.tablemodel.extensions.TableCellExtensions;
 import org.eclipse.set.model.tablemodel.extensions.TableExtensions;
 import org.eclipse.set.ppmodel.extensions.EObjectExtensions;
 import org.eclipse.set.services.table.TableDiffService;
@@ -93,6 +95,20 @@ public abstract class AbstractTableDiff implements TableDiffService {
 						TablemodelFactory.eINSTANCE.createTableContent());
 			}
 			mergedTable.getTablecontent().getRowgroups().add(newRowGroup);
+		} else if (match.getRows().size() != newTableRowGroup.getRows()
+				.size()) {
+			final int diff = Math.abs(
+					match.getRows().size() - newTableRowGroup.getRows().size());
+			final RowGroup missingRowInGroup = match.getRows()
+					.size() > newTableRowGroup.getRows().size()
+							? newTableRowGroup
+							: match;
+			IntStream.range(0, diff).forEach(index -> {
+				missingRowInGroup.getRows()
+						.add(createEmptyRow(
+								TableExtensions.getColumns(mergedTable)));
+
+			});
 		}
 	}
 
@@ -137,6 +153,11 @@ public abstract class AbstractTableDiff implements TableDiffService {
 			return;
 		}
 		oldCell.setContent(diffContent);
+		if (newCell != null && TableCellExtensions.getFormat(newCell)
+				.isTopologicalCalculation()) {
+			TableCellExtensions.getFormat(oldCell)
+					.setTopologicalCalculation(true);
+		}
 	}
 
 	abstract CellContent createDiffContent(TableCell first, TableCell second);
