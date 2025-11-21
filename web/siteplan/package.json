@@ -10,11 +10,11 @@
     "lint": "eslint src"
   },
   "dependencies": {
-    "@turf/boolean-disjoint": "^7.2.0",
-    "@turf/boolean-within": "^7.2.0",
-    "@turf/difference": "^7.2.0",
+    "@turf/boolean-disjoint": "^7.3.0",
+    "@turf/boolean-within": "^7.3.0",
+    "@turf/difference": "^7.3.0",
     "@turf/helpers": "^7.2.0",
-    "@turf/intersect": "^7.2.0",
+    "@turf/intersect": "^7.3.0",
     "axios": "^1.12.2",
     "geojson": "^0.5.0",
     "material-design-icons": "^3.0.1",
