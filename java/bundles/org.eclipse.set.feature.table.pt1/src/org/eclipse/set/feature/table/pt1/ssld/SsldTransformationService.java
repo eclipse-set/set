@@ -97,7 +97,7 @@ public final class SsldTransformationService
 	@Override
 	protected List<String> getTopologicalColumnPosition() {
 		return List.of(Freigemeldet, Aufloeseabschnitt_Laenge, Laenge_Ist,
-				massgebende_Neigung, relevante_FmA, v_Aufwertung_Verzicht);
+				massgebende_Neigung, v_Aufwertung_Verzicht);
 	}
 
 }
