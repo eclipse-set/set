@@ -17,7 +17,8 @@ import java.util.List;
 import com.google.common.math.BigIntegerMath;
 
 /**
- * Calculates a clothoid transition curve
+ * Calculates a clothoid transition curve. The formulation see:
+ * https://de.wikipedia.org/wiki/Klothoide#Moderne_Berechnungsverfahren
  * 
  * @author Stuecker
  *
@@ -53,12 +54,13 @@ public class Clothoid {
 
 	private final int clothoidIter;
 
-	private final double radius;
 	private final double totalLength;
+
+	private final double clothoidParameter;
 
 	/**
 	 * @param radius
-	 *            radius of the curve
+	 *            the radius of the curve
 	 * @param totalLength
 	 *            total length of the curve
 	 * @param iterations
@@ -68,8 +70,8 @@ public class Clothoid {
 	public Clothoid(final double radius, final double totalLength,
 			final int iterations) {
 		this.clothoidIter = iterations;
-		this.radius = radius;
 		this.totalLength = totalLength;
+		clothoidParameter = radius * totalLength;
 	}
 
 	/**
@@ -97,7 +99,7 @@ public class Clothoid {
 	 * @return a xy-position on the clothoid
 	 */
 	public double[] getPoint(final double length) {
-		return clothoidSegment(length, this.radius * length);
+		return clothoidSegment(length, clothoidParameter);
 	}
 
 	/**
@@ -148,5 +150,4 @@ public class Clothoid {
 		}
 		return L * result;
 	}
-
 }
