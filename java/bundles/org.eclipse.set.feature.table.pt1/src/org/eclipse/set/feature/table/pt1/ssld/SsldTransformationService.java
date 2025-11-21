@@ -74,7 +74,10 @@ public final class SsldTransformationService
 						.getStart(DwegExtensions.getFstrFahrweg(fstr));
 			}
 			return null;
-		}).sort(Bezeichnung, MIXED_STRING, ASC).build();
+		})
+				.sort(von, MIXED_STRING, ASC)
+				.sort(Bezeichnung, MIXED_STRING, ASC)
+				.build();
 	}
 
 	@Override

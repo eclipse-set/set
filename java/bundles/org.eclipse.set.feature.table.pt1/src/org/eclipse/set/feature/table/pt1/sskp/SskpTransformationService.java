@@ -127,12 +127,12 @@ public final class SskpTransformationService
 			}
 			return null;
 		})
+				.sort(Bezugselement, CellComparatorType.LEXICOGRAPHICAL,
+						SortDirectionEnum.ASC)
 				.sort(Wirkfrequenz, Comparator.comparing(
 						SskpTransformationService::getCellContent,
 						Comparator.nullsLast(Comparator.comparing(
 								gmOrder::indexOf, Integer::compareUnsigned))))
-				.sort(Bezugselement, CellComparatorType.LEXICOGRAPHICAL,
-						SortDirectionEnum.ASC)
 				.build();
 
 	}

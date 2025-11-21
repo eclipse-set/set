@@ -65,6 +65,7 @@ public class SslrTransformationService
 		})
 				.sort(Fahrweg_Start, MIXED_STRING, ASC)
 				.sort(Fahrweg_Ziel, MIXED_STRING, ASC)
+				.sort(Fahrweg_Nummer, MIXED_STRING, ASC)
 				.build();
 	}
 
