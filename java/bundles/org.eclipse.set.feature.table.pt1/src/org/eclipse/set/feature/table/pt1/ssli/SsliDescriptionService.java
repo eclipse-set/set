@@ -34,4 +34,9 @@ public class SsliDescriptionService extends AbstractESTWTableDescription {
 	protected String getToolboxViewTooltip() {
 		return messages.SsliDescriptionService_ViewTooltip;
 	}
+
+	@Override
+	protected String getTableShortcut() {
+		return messages.ToolboxTableNameSsliShort;
+	}
 }

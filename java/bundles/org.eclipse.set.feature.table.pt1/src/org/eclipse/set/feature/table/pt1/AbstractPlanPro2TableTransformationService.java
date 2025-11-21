@@ -79,10 +79,14 @@ public abstract class AbstractPlanPro2TableTransformationService
 	public ColumnDescriptor fillHeaderDescriptions(
 			final ColumnDescriptorModelBuilder builder) {
 		final GroupBuilder root = builder.createRootColumn(getTableHeading());
+		String tableShortcut = getTableNameInfo().getShortName().toLowerCase();
+		// IMPROVE: this is only a temporary situation for the table
+		// Sskp_dm
+		if (tableShortcut.equals("sskp_dm")) { //$NON-NLS-1$
+			tableShortcut = "sskp"; //$NON-NLS-1$
+		}
 		final Path templatePath = Paths
-				.get(TEMPLATE_DIR,
-						getTableNameInfo().getShortName().toLowerCase()
-								+ "_vorlage.xlsx") //$NON-NLS-1$
+				.get(TEMPLATE_DIR, tableShortcut + "_vorlage.xlsx") //$NON-NLS-1$
 				.toAbsolutePath();
 		try (final FileInputStream inputStream = new FileInputStream(
 				templatePath.toFile());

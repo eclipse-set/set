@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2020 DB Netz AG and others.
+ * Copyright (c) 2023 DB Netz AG and others.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
@@ -7,36 +7,37 @@
  * http://www.eclipse.org/legal/epl-v20.html
  */
 
-package org.eclipse.set.feature.table.pt1.sszs;
+package org.eclipse.set.feature.table.pt1.sskp.dm;
 
 import org.eclipse.set.core.services.part.PartDescriptionService;
-import org.eclipse.set.feature.table.AbstractETCSTableDescription;
+import org.eclipse.set.feature.table.AbstractESTWSupplementTableDesciption;
 import org.eclipse.set.feature.table.pt1.messages.Messages;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 /**
- * Part description for Ssks table view.
+ * Part description for Sskp_dm table view.
  * 
- * @author Schaefer
+ * @author Truong
  */
 @Component(service = PartDescriptionService.class)
-public class SszsDescriptionService extends AbstractETCSTableDescription {
+public class SskpDmDescriptionService
+		extends AbstractESTWSupplementTableDesciption {
 	@Reference
 	Messages messages;
 
 	@Override
 	protected String getToolboxViewName() {
-		return messages.SszsDescriptionService_ViewName;
+		return messages.SskpDmDescriptionService_ViewName;
 	}
 
 	@Override
 	protected String getToolboxViewTooltip() {
-		return messages.SszsDescriptionService_ViewTooltip;
+		return messages.SskpDescriptionService_ViewTooltip;
 	}
 
 	@Override
 	protected String getTableShortcut() {
-		return messages.ToolboxTableNameSszsShort;
+		return messages.ToolboxTableNameSskpDmShort;
 	}
 }
