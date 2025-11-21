@@ -74,6 +74,7 @@ import org.eclipse.set.utils.table.TableError;
 import org.eclipse.set.utils.table.TableInfo;
 import org.eclipse.set.utils.table.TableInfo.Pt1TableCategory;
 import org.eclipse.set.utils.table.TableTransformationService;
+import org.eclipse.set.utils.table.sorting.TableRowGroupComparator;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.xtext.xbase.lib.Pair;
 import org.slf4j.Logger;
@@ -379,7 +380,7 @@ public final class TableServiceImpl implements TableService {
 		}
 
 		// sorting
-		sortTable(transformedTable, shortCut);
+		sortTable(transformedTable, tableType, shortCut);
 		return transformedTable;
 	}
 
@@ -509,7 +510,7 @@ public final class TableServiceImpl implements TableService {
 
 		// sorting
 		if (resultTable != null && resultTable.getTablecontent() != null) {
-			sortTable(resultTable, shortCut);
+			sortTable(resultTable, tableType, shortCut);
 		}
 
 		return resultTable;
@@ -711,14 +712,26 @@ public final class TableServiceImpl implements TableService {
 		}
 		final Table compareTable = diffServiceMap.get(TableCompareType.PROJECT)
 				.createDiffTable(mainSessionTable, compareSessionTable);
-		sortTable(compareTable, elementId);
+		sortTable(compareTable, TableType.DIFF, elementId);
 		return compareTable;
 	}
 
 	@Override
-	public void sortTable(final Table table, final String shortcut) {
+	public void sortTable(final Table table, final TableType tableType,
+			final String shortcut) {
 		final Comparator<RowGroup> comparator = getModelService(shortcut)
 				.getRowGroupComparator();
 		ECollections.sort(table.getTablecontent().getRowgroups(), comparator);
+	}
+
+	@Override
+	public TableRowGroupComparator getRowGroupComparator(
+			final String shortcut) {
+		final Comparator<RowGroup> comparator = getModelService(shortcut)
+				.getRowGroupComparator();
+		if (comparator instanceof final TableRowGroupComparator rowGroupComparator) {
+			return rowGroupComparator;
+		}
+		return null;
 	}
 }
