@@ -66,6 +66,12 @@ class SignalTransformator extends BaseTransformator<Signal> {
 		si.signals = #[signal].toSet
 		si.mounts = signal.signalRahmen?.map[signalBefestigung]?.toSet ?:
 			newHashSet
+
+		// add all parents (recursively) to si.mounts.
+		val mountsWithParents = si.mounts.map [ mount |
+					mount?.signalBefestigungen].flatten
+		si.mounts = newHashSet(mountsWithParents);
+		
 		signalinfo.add(si)
 	}
 
@@ -76,21 +82,21 @@ class SignalTransformator extends BaseTransformator<Signal> {
 		val mergedSignalInfo = new ArrayList<SignalInfo>
 		signalinfo.forEach [ si |
 			try {
-				val signalMounts = si.mounts.map [ mount |
-					mount?.signalBefestigungen
-				].flatten
-				val merged = mergedSignalInfo.findFirst [ msi |
-					msi.mounts.contains(signalMounts.lastOrNull)
+				val signalMountChain = si.mounts.map [ mount |
+					mount?.signalBefestigungen].flatten
+					
+				val mergeWith = mergedSignalInfo.findFirst [ msi |
+					msi.mounts.contains(signalMountChain.lastOrNull)
 				]
-				if (merged === null) {
+				if (mergeWith === null) {
 					val mounts = new HashSet<Signal_Befestigung>()
 					mounts += si.mounts
-					mounts += signalMounts
+					mounts += signalMountChain
 					si.mounts = mounts
 					mergedSignalInfo.add(si)
 				} else {
-					merged.signals += si.signals
-					merged.mounts += signalMounts
+					mergeWith.signals += si.signals
+					mergeWith.mounts += signalMountChain
 				}
 			} catch (Exception exc) {
 				recordError(si.signals.head?.identitaet?.wert,
