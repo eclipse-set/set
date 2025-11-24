@@ -20,8 +20,6 @@ import static org.eclipse.set.ppmodel.extensions.geometry.CoordinateExtensions.r
 import static org.eclipse.xtext.xbase.lib.IterableExtensions.lastOrNull;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -40,11 +38,8 @@ import org.eclipse.set.utils.geometry.GeometryOptionsBuilder.GeometryOptions;
 import org.eclipse.set.utils.math.Bloss;
 import org.eclipse.set.utils.math.Clothoid;
 import org.locationtech.jts.geom.Coordinate;
-import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.LineString;
-import org.locationtech.jts.geom.Point;
-import org.locationtech.jts.linearref.LengthIndexedLine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -143,70 +138,80 @@ public class GEOKanteGeometryExtensions {
 				.getWert()
 				.doubleValue();
 
-		// Curve from node A to node B
-		final LineString clothoidA = clothoid(coordinateA, coordinateB, radiusB,
-				length, geometryOptions);
-		// Curve from node B to node A
-		// Invert the radius, as left-right is also inverted due to the
-		// drawing direction
-		final LineString clothoidB = clothoid(coordinateB, coordinateA,
-				-radiusA, length, geometryOptions);
+		// // Curve from node A to node B
+		// final LineString clothoidA = clothoid(coordinateA, coordinateB,
+		// radiusB,
+		// length, geometryOptions);
+		// // Curve from node B to node A
+		// // Invert the radius, as left-right is also inverted due to the
+		// // drawing direction
+		// final LineString clothoidB = clothoid(coordinateB, coordinateA,
+		// -radiusA, length, geometryOptions);
 		if (radiusA != 0 && radiusB != 0) {
+			final Clothoid clothoid = new Clothoid(Math.abs(radiusA),
+					Math.abs(radiusB), length, geometryOptions.precision());
+			return clothoid(clothoid, coordinateA, coordinateB, radiusA, length,
+					geometryOptions);
 			// Clothoid connecting two curved tracks
 			// by calculating intersection point between both curves and combine
 			// them
 
 			// Draw the segments
-			final Coordinate[] segmentA = clothoidA.getCoordinates();
-			final Coordinate[] segmentB = clothoidB.getCoordinates();
-			final LineString lineStringA = getGeometryFactory()
-					.createLineString(segmentA);
-			final LineString lineStringB = getGeometryFactory()
-					.createLineString(segmentB);
-			final Geometry intersection = lineStringA.intersection(lineStringB);
-			if (intersection instanceof final Point intersectionPoint) {
-				final LengthIndexedLine indexedLineA = new LengthIndexedLine(
-						lineStringA);
-				final double intersectionIndexA = indexedLineA
-						.project(intersectionPoint.getCoordinate());
-				final Coordinate[] subLineA = indexedLineA
-						.extractLine(0, intersectionIndexA)
-						.getCoordinates();
-
-				final LengthIndexedLine indexedLineB = new LengthIndexedLine(
-						lineStringB);
-				final double intersectionIndexB = indexedLineB
-						.project(intersectionPoint.getCoordinate());
-				final Coordinate[] subLineB = indexedLineB
-						.extractLine(0, intersectionIndexB)
-						.getCoordinates();
-
-				final List<Coordinate> segment = new ArrayList<>();
-				segment.addAll(Arrays.asList(subLineA));
-				segment.addAll(Arrays.asList(subLineB).reversed());
-				return getGeometryFactory()
-						.createLineString(segment.toArray(new Coordinate[0]));
-			}
-
-			return getGeometryFactory().createLineString(new Coordinate[] {});
+			// final Coordinate[] segmentA = clothoidA.getCoordinates();
+			// final Coordinate[] segmentB = clothoidB.getCoordinates();
+			// final LineString lineStringA = getGeometryFactory()
+			// .createLineString(segmentA);
+			// final LineString lineStringB = getGeometryFactory()
+			// .createLineString(segmentB);
+			// final Geometry intersection =
+			// lineStringA.intersection(lineStringB);
+			// if (intersection instanceof final Point intersectionPoint) {
+			// final LengthIndexedLine indexedLineA = new LengthIndexedLine(
+			// lineStringA);
+			// final double intersectionIndexA = indexedLineA
+			// .project(intersectionPoint.getCoordinate());
+			// final Coordinate[] subLineA = indexedLineA
+			// .extractLine(0, intersectionIndexA)
+			// .getCoordinates();
+			//
+			// final LengthIndexedLine indexedLineB = new LengthIndexedLine(
+			// lineStringB);
+			// final double intersectionIndexB = indexedLineB
+			// .project(intersectionPoint.getCoordinate());
+			// final Coordinate[] subLineB = indexedLineB
+			// .extractLine(0, intersectionIndexB)
+			// .getCoordinates();
+			//
+			// final List<Coordinate> segment = new ArrayList<>();
+			// segment.addAll(Arrays.asList(subLineA));
+			// segment.addAll(Arrays.asList(subLineB).reversed());
+			// return getGeometryFactory()
+			// .createLineString(segment.toArray(new Coordinate[0]));
+			// }
+			//
+			// return getGeometryFactory().createLineString(new Coordinate[]
+			// {});
 
 		} else if (radiusA == 0) {
-			return clothoidA;
+			final Clothoid clothoid = new Clothoid(Math.abs(radiusB), length,
+					geometryOptions.precision());
+			return clothoid(clothoid, coordinateA, coordinateB, radiusB, length,
+					geometryOptions);
 		}
-		return clothoidB;
+		final Clothoid clothoid = new Clothoid(Math.abs(radiusA), length,
+				geometryOptions.precision());
+		return clothoid(clothoid, coordinateB, coordinateA, -radiusA, length,
+				geometryOptions);
 	}
 
-	private static LineString clothoid(final Coordinate fromCoordinate,
-			final Coordinate toCoordinate, final double radius,
-			final double length, final GeometryOptions options) {
-		if (radius == 0) {
-			return null;
-		}
+	private static LineString clothoid(final Clothoid clothoid,
+			final Coordinate fromCoordinate, final Coordinate toCoordinate,
+			final double radius, final double length,
+			final GeometryOptions options) {
 		// Calculate the base clothoid
 		final int segmentCount = (int) Math.max(length / options.stepSize(),
 				options.minSegmentCount());
-		final Clothoid clothoid = new Clothoid(Math.abs(radius), length,
-				options.precision());
+
 		final List<double[]> clothoidCoordinates = clothoid
 				.getPoints(segmentCount);
 		final List<Coordinate> coords = clothoidCoordinates.stream()

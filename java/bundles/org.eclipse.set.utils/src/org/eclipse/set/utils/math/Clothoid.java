@@ -71,7 +71,23 @@ public class Clothoid {
 			final int iterations) {
 		this.clothoidIter = iterations;
 		this.totalLength = totalLength;
-		clothoidParameter = radius * totalLength;
+		clothoidParameter = 1 / (radius * totalLength);
+	}
+
+	/**
+	 * @param radius
+	 *            the radius of the curve
+	 * @param totalLength
+	 *            total length of the curve
+	 * @param iterations
+	 *            the number of series iterations to use for calculating
+	 *            xy-positions
+	 */
+	public Clothoid(final double radiusA, final double radiusB,
+			final double totalLength, final int iterations) {
+		this.clothoidIter = iterations;
+		this.totalLength = totalLength;
+		clothoidParameter = (1 / radiusB - 1 / radiusA) / totalLength;
 	}
 
 	/**
@@ -99,7 +115,7 @@ public class Clothoid {
 	 * @return a xy-position on the clothoid
 	 */
 	public double[] getPoint(final double length) {
-		return clothoidSegment(length, clothoidParameter);
+		return clothoidSegment(length);
 	}
 
 	/**
@@ -108,12 +124,10 @@ public class Clothoid {
 	 * 
 	 * @param L
 	 *            The length of the clothoid segment (L)
-	 * @param Asq
-	 *            The size of the clothoid squared (A^2)
 	 * @return the xy-position of the point at the end of the segment
 	 */
-	private double[] clothoidSegment(final double L, final double Asq) {
-		final double T = L * L / (2 * Asq);
+	private double[] clothoidSegment(final double L) {
+		final double T = clothoidParameter * L * L / 2;
 		return new double[] { clothoidX(L, T), clothoidY(L, T) };
 	}
 
