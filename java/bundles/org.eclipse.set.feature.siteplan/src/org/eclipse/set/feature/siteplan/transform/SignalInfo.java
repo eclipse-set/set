@@ -14,8 +14,6 @@ import java.util.Set;
 import org.eclipse.set.model.planpro.Signale.Signal;
 import org.eclipse.set.model.planpro.Signale.Signal_Befestigung;
 
-//TODO import static extension org.eclipse.set.ppmodel.extensions.SignalBefestigungExtensions.*
-
 /**
  * Represents the full information for a given visualized siteplan signal
  * 
@@ -24,7 +22,15 @@ import org.eclipse.set.model.planpro.Signale.Signal_Befestigung;
  * signal
  */
 class SignalInfo {
+	/**
+	 * all signals which are represented by the drawn signal on the Lageplan.
+	 */
 	public Set<Signal> signals;
+
+	/**
+	 * contains all mounts from connected, directly or indirectly, to any of the
+	 * signals.
+	 */
 	public Set<Signal_Befestigung> mounts;
 
 	/**
@@ -48,7 +54,7 @@ class SignalInfo {
 
 	// This order defines, what "First Signal" is
 	private static final Comparator<Signal> signalComparator = Comparator
-			.comparing((final Signal sig) -> sig.getIdentitaet().getWert());
+			.comparing(sig -> sig.getIdentitaet().getWert());
 
 	protected Signal getFirstSignal() {
 		return signals.stream().min(signalComparator).orElse(null);
