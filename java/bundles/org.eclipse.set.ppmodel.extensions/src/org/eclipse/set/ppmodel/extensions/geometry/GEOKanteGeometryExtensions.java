@@ -138,68 +138,26 @@ public class GEOKanteGeometryExtensions {
 				.getWert()
 				.doubleValue();
 
-		// // Curve from node A to node B
-		// final LineString clothoidA = clothoid(coordinateA, coordinateB,
-		// radiusB,
-		// length, geometryOptions);
-		// // Curve from node B to node A
-		// // Invert the radius, as left-right is also inverted due to the
-		// // drawing direction
-		// final LineString clothoidB = clothoid(coordinateB, coordinateA,
-		// -radiusA, length, geometryOptions);
 		if (radiusA != 0 && radiusB != 0) {
+			// Curve from node A to node B with non zero starting radius
 			final Clothoid clothoid = new Clothoid(Math.abs(radiusA),
 					Math.abs(radiusB), length, geometryOptions.precision());
 			return clothoid(clothoid, coordinateA, coordinateB, radiusA, length,
 					geometryOptions);
-			// Clothoid connecting two curved tracks
-			// by calculating intersection point between both curves and combine
-			// them
-
-			// Draw the segments
-			// final Coordinate[] segmentA = clothoidA.getCoordinates();
-			// final Coordinate[] segmentB = clothoidB.getCoordinates();
-			// final LineString lineStringA = getGeometryFactory()
-			// .createLineString(segmentA);
-			// final LineString lineStringB = getGeometryFactory()
-			// .createLineString(segmentB);
-			// final Geometry intersection =
-			// lineStringA.intersection(lineStringB);
-			// if (intersection instanceof final Point intersectionPoint) {
-			// final LengthIndexedLine indexedLineA = new LengthIndexedLine(
-			// lineStringA);
-			// final double intersectionIndexA = indexedLineA
-			// .project(intersectionPoint.getCoordinate());
-			// final Coordinate[] subLineA = indexedLineA
-			// .extractLine(0, intersectionIndexA)
-			// .getCoordinates();
-			//
-			// final LengthIndexedLine indexedLineB = new LengthIndexedLine(
-			// lineStringB);
-			// final double intersectionIndexB = indexedLineB
-			// .project(intersectionPoint.getCoordinate());
-			// final Coordinate[] subLineB = indexedLineB
-			// .extractLine(0, intersectionIndexB)
-			// .getCoordinates();
-			//
-			// final List<Coordinate> segment = new ArrayList<>();
-			// segment.addAll(Arrays.asList(subLineA));
-			// segment.addAll(Arrays.asList(subLineB).reversed());
-			// return getGeometryFactory()
-			// .createLineString(segment.toArray(new Coordinate[0]));
-			// }
-			//
-			// return getGeometryFactory().createLineString(new Coordinate[]
-			// {});
 
 		} else if (radiusA == 0) {
+			// Curve from node A to node B
 			final Clothoid clothoid = new Clothoid(Math.abs(radiusB), length,
 					geometryOptions.precision());
 			return clothoid(clothoid, coordinateA, coordinateB, radiusB, length,
 					geometryOptions);
+
 		}
+		// Curve from node B to node A
 		final Clothoid clothoid = new Clothoid(Math.abs(radiusA), length,
 				geometryOptions.precision());
+		// Invert the radius, as left-right is also inverted due to the
+		// drawing direction
 		return clothoid(clothoid, coordinateB, coordinateA, -radiusA, length,
 				geometryOptions);
 	}
