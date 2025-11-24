@@ -82,21 +82,16 @@ class SignalTransformator extends BaseTransformator<Signal> {
 		val mergedSignalInfo = new ArrayList<SignalInfo>
 		signalinfo.forEach [ si |
 			try {
-				val signalMountChain = si.mounts.map [ mount |
-					mount?.signalBefestigungen].flatten
-					
+				val baseMount = si.getBaseMount()
+				
 				val mergeWith = mergedSignalInfo.findFirst [ msi |
-					msi.mounts.contains(signalMountChain.lastOrNull)
+					msi.mounts.contains(baseMount)
 				]
 				if (mergeWith === null) {
-					val mounts = new HashSet<Signal_Befestigung>()
-					mounts += si.mounts
-					mounts += signalMountChain
-					si.mounts = mounts
 					mergedSignalInfo.add(si)
 				} else {
 					mergeWith.signals += si.signals
-					mergeWith.mounts += signalMountChain
+					mergeWith.mounts += si.mounts
 				}
 			} catch (Exception exc) {
 				recordError(si.signals.head?.identitaet?.wert,
