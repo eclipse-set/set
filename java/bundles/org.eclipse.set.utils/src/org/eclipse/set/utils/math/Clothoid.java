@@ -24,6 +24,9 @@ import com.google.common.math.BigIntegerMath;
  *
  */
 public class Clothoid {
+
+	final static int DECIMAL_SCALE = 6;
+
 	/**
 	 * Calculates the index'th term for the clothoid formula
 	 * 
@@ -48,7 +51,7 @@ public class Clothoid {
 		// Power: T^index
 		final BigDecimal power = BigDecimal.valueOf(T).pow(index);
 		return factor.multiply(power)
-				.divide(divisor, RoundingMode.HALF_UP)
+				.divide(divisor, DECIMAL_SCALE, RoundingMode.HALF_UP)
 				.doubleValue();
 	}
 
@@ -56,11 +59,15 @@ public class Clothoid {
 
 	private final double totalLength;
 
-	private final double clothoidParameter;
+	private final double a;
+
+	private final double s1;
+
+	private final double s2;
 
 	/**
 	 * @param radius
-	 *            the radius of the curve
+	 *            the radius at the end of the curve
 	 * @param totalLength
 	 *            total length of the curve
 	 * @param iterations
@@ -71,12 +78,16 @@ public class Clothoid {
 			final int iterations) {
 		this.clothoidIter = iterations;
 		this.totalLength = totalLength;
-		clothoidParameter = 1 / (radius * totalLength);
+		this.a = 1 / (radius * totalLength);
+		this.s1 = 0;
+		this.s2 = 1 / radius / this.a;
 	}
 
 	/**
-	 * @param radius
-	 *            the radius of the curve
+	 * @param radiusA
+	 *            the radius at the start of the curve
+	 * @param radiusB
+	 *            the radius at the end of the curve
 	 * @param totalLength
 	 *            total length of the curve
 	 * @param iterations
@@ -87,7 +98,9 @@ public class Clothoid {
 			final double totalLength, final int iterations) {
 		this.clothoidIter = iterations;
 		this.totalLength = totalLength;
-		clothoidParameter = (1 / radiusB - 1 / radiusA) / totalLength;
+		this.a = (1 / radiusB - 1 / radiusA) / totalLength;
+		this.s1 = 1 / radiusA / this.a;
+		this.s2 = 1 / radiusB / this.a;
 	}
 
 	/**
@@ -101,8 +114,12 @@ public class Clothoid {
 	public List<double[]> getPoints(final int segmentCount) {
 		final double segmentLength = this.totalLength / (segmentCount - 1);
 		final List<double[]> positions = new ArrayList<>();
+		final double[] pointS1 = getPoint(this.s1);
 		for (var i = 0; i < segmentCount; i++) {
-			positions.add(getPoint(segmentLength * i));
+			final double[] pointS = getPoint(this.s1 + segmentLength * i);
+			final double[] point = new double[] { pointS[0] - pointS1[0],
+					pointS[1] - pointS1[1] };
+			positions.add(point);
 		}
 		return positions;
 	}
@@ -127,7 +144,7 @@ public class Clothoid {
 	 * @return the xy-position of the point at the end of the segment
 	 */
 	private double[] clothoidSegment(final double L) {
-		final double T = clothoidParameter * L * L / 2;
+		final double T = this.a * L * L / 2;
 		return new double[] { clothoidX(L, T), clothoidY(L, T) };
 	}
 
