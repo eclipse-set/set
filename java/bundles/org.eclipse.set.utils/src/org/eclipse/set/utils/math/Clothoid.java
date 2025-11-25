@@ -18,7 +18,11 @@ import com.google.common.math.BigIntegerMath;
 
 /**
  * Calculates a clothoid transition curve. The formulation see:
- * https://de.wikipedia.org/wiki/Klothoide#Moderne_Berechnungsverfahren
+ * https://de.wikipedia.org/wiki/Klothoide#Moderne_Berechnungsverfahren.
+ * 
+ * The calculation has been generalized to also support egg clothoids when
+ * already starting with a certain radius. See:
+ * https://de.wikipedia.org/wiki/Eiklothoide
  * 
  * @author Stuecker
  *
@@ -76,11 +80,7 @@ public class Clothoid {
 	 */
 	public Clothoid(final double radius, final double totalLength,
 			final int iterations) {
-		this.clothoidIter = iterations;
-		this.totalLength = totalLength;
-		this.a = 1 / (radius * totalLength);
-		this.s1 = 0;
-		this.s2 = 1 / radius / this.a;
+		this(0, radius, totalLength, iterations);
 	}
 
 	/**
@@ -98,9 +98,11 @@ public class Clothoid {
 			final double totalLength, final int iterations) {
 		this.clothoidIter = iterations;
 		this.totalLength = totalLength;
-		this.a = (1 / radiusB - 1 / radiusA) / totalLength;
-		this.s1 = 1 / radiusA / this.a;
-		this.s2 = 1 / radiusB / this.a;
+		final double k1 = radiusA == 0 ? 0 : 1 / radiusA;
+		final double k2 = radiusB == 0 ? 0 : 1 / radiusB;
+		this.a = (k2 - k1) / totalLength;
+		this.s1 = k1 / this.a;
+		this.s2 = k2 / this.a;
 	}
 
 	/**
@@ -114,12 +116,18 @@ public class Clothoid {
 	public List<double[]> getPoints(final int segmentCount) {
 		final double segmentLength = this.totalLength / (segmentCount - 1);
 		final List<double[]> positions = new ArrayList<>();
-		final double[] pointS1 = getPoint(this.s1);
+
+		// get starting point of curve segment
+		final double[] startingPoint = getPoint(this.s1);
 		for (var i = 0; i < segmentCount; i++) {
-			final double[] pointS = getPoint(this.s1 + segmentLength * i);
-			final double[] point = new double[] { pointS[0] - pointS1[0],
-					pointS[1] - pointS1[1] };
-			positions.add(point);
+			// calculate segment point after starting point
+			final double[] segmentPoint = getPoint(this.s1 + segmentLength * i);
+			// get segment point in relative position to starting point
+			final double[] relativeSegmentPoint = new double[] {
+					segmentPoint[0] - startingPoint[0],
+					segmentPoint[1] - startingPoint[1] };
+			// collect point
+			positions.add(relativeSegmentPoint);
 		}
 		return positions;
 	}
