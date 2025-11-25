@@ -33,14 +33,6 @@
             <ul>
               <li v-if="isSiteplan()">
                 <input
-                  id="checkbox-track"
-                  v-model="trackEndMarkerVisible"
-                  type="checkbox"
-                >
-                <label for="checkbox-track">Enden anzeigen</label>
-              </li>
-              <li v-if="isSiteplan()">
-                <input
                   id="checkbox-trackoutline"
                   v-model="trackOutlineVisible"
                   type="checkbox"
@@ -53,7 +45,15 @@
                   v-model="trackSectionColorVisbile"
                   type="checkbox"
                 >
-                <label for="checkbox-track">Gleisabschnitt anzeigen</label>
+                <label for="checkbox-track">TOP_Kanten anzeigen</label>
+              </li>
+              <li v-if="isSiteplan()">
+                <input
+                  id="checkbox-track"
+                  v-model="trackEndMarkerVisible"
+                  type="checkbox"
+                >
+                <label for="checkbox-track">GEO_Kanten anzeigen</label>
               </li>
             </ul>
           </li>
@@ -71,11 +71,11 @@
  * Overview of model data
  * @author Truong
  */
-import { Vue, Options } from 'vue-class-component'
-import { SubscribeOptions } from 'vuex'
-import { PlanProModelType, store } from '@/store'
-import SiteplanModel, { SiteplanState } from '@/model/SiteplanModel'
 import SideInfoControl from '@/components/SideInfoControl.vue'
+import SiteplanModel, { SiteplanState } from '@/model/SiteplanModel'
+import { PlanProModelType, store } from '@/store'
+import { Options, Vue } from 'vue-class-component'
+import { SubscribeOptions } from 'vuex'
 
 @Options({
   components: {
