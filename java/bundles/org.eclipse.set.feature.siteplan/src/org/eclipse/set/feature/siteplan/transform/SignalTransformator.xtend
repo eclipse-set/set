@@ -28,6 +28,8 @@ import org.eclipse.set.model.siteplan.SiteplanFactory
 import org.eclipse.set.model.siteplan.SiteplanPackage
 import org.osgi.service.component.annotations.Component
 import org.osgi.service.component.annotations.Reference
+import org.eclipse.set.model.planpro.Signale.ENUMRahmenArt
+import java.util.Set
 
 import static extension org.eclipse.set.feature.siteplan.transform.TransformUtils.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalBefestigungExtensions.*
@@ -65,8 +67,45 @@ class SignalTransformator extends BaseTransformator<Signal> {
 		val si = new SignalInfo
 		si.signals = #[signal].toSet
 		si.mounts = signal.signalRahmen?.map[signalBefestigung]?.toSet ?:
-			newHashSet
+			newHashSet			
+		si.baseMount = SignalTransformator.getBaseMount(signal,si.mounts)
+		
 		signalinfo.add(si)
+	}
+	
+	
+	/**
+	 * for a given signal, together with all mounts associated to that signal, returns the root mount if the signal.
+	 * The root mount has no parents (so it is not attached to anything). 
+	 * Think of it as the foundation in most signal assemblies
+	 * A signal may have multiple of these mounts. 
+	 * If so, return (an arbitrary) one of these, where the Schirm of that signal is attached to.
+	 * the rootMount of a signal is used in the Lageplan to determine the geo-position where that signal should be drawn.
+	 */
+	private static def Signal_Befestigung getBaseMount(Signal signal, Set<Signal_Befestigung> mounts) {
+		val mounts_with_no_parents = mounts.filter[signalBefestigung === null]		
+		val mounts_with_schirm = signal.signalRahmen?.filter[rahmenArt.getWert() === ENUMRahmenArt.ENUM_RAHMEN_ART_SCHIRM].map[signalBefestigung]
+		
+		//original definition: (0 mounts with no parent)
+		if (mounts_with_no_parents.isEmpty) {
+			return null
+		}
+		// original definition: (1 mount with no parent)
+		// return any mount with no parent, if no mount with schirm exist. (same result as in previous implementation)
+		if (mounts_with_no_parents.size() == 1 || !mounts_with_schirm.isEmpty) {
+			return mounts_with_no_parents.head
+		}
+		
+		// If more then one mount like that exists, return the one with a schirm.	
+		// If there are multiple ones, take any	
+		var mount = mounts_with_schirm.head; 
+		
+		// walk up to root mount.
+		while (mount.signalBefestigung !== null) {
+			mount = mount.signalBefestigung
+		}
+		
+		return mount
 	}
 
 	override finalizeTransform() {
