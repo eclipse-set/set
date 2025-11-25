@@ -117,6 +117,7 @@ import static extension org.eclipse.set.ppmodel.extensions.StellelementExtension
 import static extension org.eclipse.set.ppmodel.extensions.UnterbringungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.SignalBefestigungExtensions.*
 import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
 
 /**
@@ -254,7 +255,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							MIXED_STRING_COMPARATOR,
 							ITERABLE_FILLING_SEPARATOR
 						)
-						
+
 						// F: Ssks.Standortmerkmale.Standort.km
 						fillIterableSingleCellWhenAllowed(
 							row,
@@ -509,12 +510,12 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 								if (!fundament.nullOrEmpty) {
 									return fundament.toSet
 								}
-								
-								val regelzeichnung = map[getFundament].filterNull.
-									flatMap[IDRegelzeichnung].map [
+
+								val regelzeichnung = map[getFundament].
+									filterNull.flatMap[IDRegelzeichnung].map [
 										value?.fillRegelzeichnung
 									].filterNull
-								
+
 								return (regelzeichnung + fundament).toSet
 							],
 							null,
@@ -767,8 +768,8 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 						fillIterable(
 							row,
 							cols.getColumn(Weitere_Regelzeichnung_Nr),
-							signalRahmen,
-							[fillSignalisierungWeitere],
+							signal,
+							[fillSignalisierungWeitere(signalRahmen)],
 							MIXED_STRING_COMPARATOR,
 							[it]
 						)
@@ -1303,16 +1304,27 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 		return begriffe.fold(false, [result, id|result || type.isInstance(id)])
 	}
 
-	private static def List<String> fillSignalisierungWeitere(
+	private static def List<String> fillSignalisierungWeitere(Signal signal,
 		List<Signal_Rahmen> signalRahmen) {
+		// 1.Case: the directly Signal_Rahmen contains Ne2 or Ne14
 		val rahmen = signalRahmen.filter [
 			!signalbegriffe.filter [
 				signalbegriffID instanceof Ne2 ||
 					signalbegriffID instanceof Ne14
 			].empty
 		].toList
-		return rahmen.map[IDRegelzeichnung?.value].filterNull.map [
-			fillRegelzeichnung
+		if (!rahmen.nullOrEmpty) {
+			return rahmen.map[IDRegelzeichnung?.value].filterNull.map [
+				fillRegelzeichnung
+			].toList
+		}
+		
+		val sameMastSignal = signalRahmen.map[IDSignalBefestigung.value].flatMap[attachmentSignal].filter[it !== signal].toList
+		if (sameMastSignal.nullOrEmpty) {
+			return #[]
+		}
+		return signalRahmen.map[IDRegelzeichnung?.value].filterNull.map[
+			'''«fillRegelzeichnung»'''
 		].toList
 	}
 
