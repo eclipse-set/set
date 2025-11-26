@@ -66,86 +66,76 @@
   </SideInfoControl>
 </template>
 
-<script lang="ts">
-/**
- * Overview of model data
- * @author Truong
- */
+<script setup lang="ts">
 import SideInfoControl from '@/components/SideInfoControl.vue'
 import SiteplanModel, { SiteplanState } from '@/model/SiteplanModel'
 import { PlanProModelType, store } from '@/store'
-import { Options, Vue } from 'vue-class-component'
-import { SubscribeOptions } from 'vuex'
+import { onBeforeMount, onBeforeUnmount, ref, watch } from 'vue'
 
-@Options({
-  components: {
-    SideInfoControl
-  },
-  created () {
-    this.unsubscribe = store.subscribe((s, m) => {
-      if (s.type === 'setModel') {
-        this.model = m.model
-      }
-    })
-  },
-  watch: {
-    routeVisible (value: boolean) {
-      this.routeVisible = value
-      store.commit('setRouteVisible', value)
-    },
-    trackColorVisible (value: boolean) {
-      if (value && this.trackSectionColorVisbile) {
-        this.trackSectionColorVisible = false
-        store.commit('setTrackSectionColorVisible', false)
-      }
+const routeVisible = ref(store.state.routeVisible)
+const trackSectionColorVisible = ref(store.state.trackSectionColorVisible)
+const trackOutlineVisible = ref(store.state.trackOutlineVisible)
+const trackColorVisible = ref(store.state.trackColorVisible)
+let model: SiteplanModel | null = store.state.model
+let unsubscribe: VoidFunction | undefined
 
-      this.trackColorVisible = value
-      store.commit('setTrackColorVisible', value)
-    },
-    trackOutlineVisible (value: boolean) {
-      this.trackOutlineVisible = value
-      store.commit('setTrackOutlineVisible', value)
-    },
-    trackSectionColorVisible (value: boolean) {
-      if (value && this.trackColorVisible) {
-        this.trackColorVisible = false
-        store.commit('setTrackColorVisible', false)
-      }
-
-      this.trackSectionColorVisible = value
-      store.commit('setTrackSectionColorVisible', value)
+onBeforeMount(() => {
+  console.log('TEST')
+  unsubscribe = store.subscribe((s, m) => {
+    if (s.type === 'setModel') {
+      model = m.model
     }
-  },
-  beforeUnmount () {
-    this.unsubscribe()
+  })
+})
+
+onBeforeUnmount(() => {
+  if (unsubscribe) {
+    unsubscribe()
   }
 })
 
-export default class ModelSummaryControl extends Vue {
-  routeVisible = store.state.routeVisible
-  trackSectionColorVisible = store.state.trackSectionColorVisible
-  trackOutlineVisible = store.state.trackOutlineVisible
-  trackColorVisible = store.state.trackColorVisible
-  model: SiteplanModel | null = store.state.model
-  unsubscribe: SubscribeOptions | undefined
+watch(routeVisible, (value:boolean) => {
+  store.commit('setRouteVisible', value)
+})
 
-  getCounts (fn: (model: SiteplanState) => unknown[]): number[] {
-    if (!this.model) {
-      return []
-    }
-
-    return [
-      fn(this.model.initialState).length,
-      fn(this.model.commonState).length,
-      fn(this.model.initialState).length,
-      fn(this.model.changedInitialState).length
-      // changedFinalState is not shown as the size is the same as of
-      // changedInitialState
-    ]
+watch(trackSectionColorVisible, (value: boolean) => {
+  if (value && trackColorVisible.value.valueOf()) {
+    trackColorVisible.value = false
+    store.commit('setTrackColorVisible', false)
   }
 
-  isSiteplan () {
-    return store.state.planproModelType === PlanProModelType.SITEPLAN
+  store.commit('setTrackSectionColorVisible', value)
+})
+
+watch(trackColorVisible, (value: boolean) => {
+  if (value && trackSectionColorVisible.value.valueOf()) {
+    trackSectionColorVisible.value = false
+    store.commit('setTrackSectionColorVisible', false)
   }
+
+  store.commit('setTrackColorVisible', value)
+})
+
+watch(trackOutlineVisible, (value: boolean) => {
+  store.commit('setTrackOutlineVisible', value)
+})
+
+function getCounts (fn: (model: SiteplanState) => unknown[]): number[] {
+  if (!model) {
+    return []
+  }
+
+  return [
+    fn(model.initialState).length,
+    fn(model.commonState).length,
+    fn(model.initialState).length,
+    fn(model.changedInitialState).length
+    // changedFinalState is not shown as the size is the same as of
+    // changedInitialState
+  ]
+}
+
+function isSiteplan () {
+  return store.state.planproModelType === PlanProModelType.SITEPLAN
 }
 </script>
