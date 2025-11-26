@@ -10,6 +10,7 @@
  */
 package org.eclipse.set.utils.table.sorting;
 
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -111,6 +112,11 @@ public class CompareRouteAndKmCriterion implements Comparator<TableRow> {
 		final Set<String> secondKms = secondStreckeAndKm.stream()
 				.flatMap(pair -> pair.getValue().stream())
 				.collect(Collectors.toSet());
+		final Optional<Integer> compareCollection = compareCollection(firstKms,
+				secondKms);
+		if (compareCollection.isPresent()) {
+			return compareCollection.get().intValue();
+		}
 		return numericComparator.compareCell(firstKms, secondKms);
 	}
 
@@ -126,6 +132,25 @@ public class CompareRouteAndKmCriterion implements Comparator<TableRow> {
 		}
 
 		if (second == null) {
+			return Optional
+					.of(direction == SortDirectionEnum.ASC ? Integer.valueOf(1)
+							: Integer.valueOf(-1));
+		}
+		return Optional.empty();
+	}
+
+	private <T> Optional<Integer> compareCollection(final Collection<T> first,
+			final Collection<T> second) {
+		if (first.isEmpty() == second.isEmpty() && first.isEmpty()) {
+			return Optional.of(Integer.valueOf(0));
+		}
+		if (first.isEmpty()) {
+			return Optional
+					.of(direction == SortDirectionEnum.ASC ? Integer.valueOf(-1)
+							: Integer.valueOf(1));
+		}
+
+		if (second.isEmpty()) {
 			return Optional
 					.of(direction == SortDirectionEnum.ASC ? Integer.valueOf(1)
 							: Integer.valueOf(-1));

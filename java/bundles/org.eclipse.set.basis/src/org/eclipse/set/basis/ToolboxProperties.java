@@ -181,4 +181,19 @@ public interface ToolboxProperties {
 	 * topological path
 	 */
 	public static final String PATH_FINDING_TOLERANCE = "toolbox.path_finding_tolerance";
+
+	/**
+	 * Property key for the arc step by geometry calculation
+	 */
+	public static final String GEOMETRY_ARC_STEP_LENGTH = "toolbox.geometry_calculation.arc_step_length_in_meter";
+
+	/**
+	 * Property key for the clothoid step by geometry calculation
+	 */
+	public static final String GEOMETRY_CLOTHOID_STEP_LENGTH = "toolbox.geometry_calculation.clothoid_step_length_in_meter";
+
+	/**
+	 * Property key for the bloss step by geometry calculation
+	 */
+	public static final String GEOMETRY_BLOSS_STEP_LENGTH = "toolbox.geometry_calculation.bloss_step_length_in_meter";
 }
