@@ -47,7 +47,7 @@ export default class TrackSectionMarkerFeature extends LageplanFeature<Track> {
     )
 
     feature.setStyle((_, resolution) => {
-      if (!store.state.trackSectionMarkerVisible) {
+      if (!store.state.trackSectionColorVisible) {
         return new Style()
       }
 

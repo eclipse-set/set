@@ -43,6 +43,7 @@ export interface TrackSectionFeatureData {
 export default class TrackFeature extends LageplanFeature<Track> {
   // In LOD-mode, use a fixed scale equivalent to 1:1000
   static LOD_VIEW_SCALE = 0.337
+  static trackSectionColor = new Map<string, string>
 
   protected getObjectsModel (model: SiteplanState): Track[] {
     return model.tracks
@@ -226,8 +227,16 @@ export default class TrackFeature extends LageplanFeature<Track> {
     section: TrackSection,
     sectionType: TrackShape
   ): string | number[] {
-    if (store.state.trackSectionColorVisible && section.color !== null) {
+    if (store.state.trackColorVisible && section.color !== null) {
       return section.color
+    } else if (store.state.trackSectionColorVisible) {
+      let color = TrackFeature.trackSectionColor.get(section.guid)
+      if (!color) {
+        color = `hsl(${(TrackFeature.trackSectionColor.size + 1) * 137.5}, 100%, 65%)`
+        TrackFeature.trackSectionColor.set(section.guid, color)
+      }
+
+      return color
     }
 
     switch (sectionType) {

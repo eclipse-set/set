@@ -42,7 +42,7 @@
               <li>
                 <input
                   id="checkbox-trackoutline"
-                  v-model="trackSectionColorVisbile"
+                  v-model="trackColorVisible"
                   type="checkbox"
                 >
                 <label for="checkbox-track">TOP_Kanten anzeigen</label>
@@ -50,7 +50,7 @@
               <li v-if="isSiteplan()">
                 <input
                   id="checkbox-track"
-                  v-model="trackEndMarkerVisible"
+                  v-model="trackSectionColorVisible"
                   type="checkbox"
                 >
                 <label for="checkbox-track">GEO_Kanten anzeigen</label>
@@ -93,16 +93,26 @@ import { SubscribeOptions } from 'vuex'
       this.routeVisible = value
       store.commit('setRouteVisible', value)
     },
-    trackEndMarkerVisible (value: boolean) {
-      this.trackEndMarkerVisible = value
-      store.commit('setTrackSectionMarkerVisible', value)
+    trackColorVisible (value: boolean) {
+      if (value && this.trackSectionColorVisbile) {
+        this.trackSectionColorVisible = false
+        store.commit('setTrackSectionColorVisible', false)
+      }
+
+      this.trackColorVisible = value
+      store.commit('setTrackColorVisible', value)
     },
     trackOutlineVisible (value: boolean) {
       this.trackOutlineVisible = value
       store.commit('setTrackOutlineVisible', value)
     },
-    trackSectionColorVisbile (value: boolean) {
-      this.trackSectionColorVisbile = value
+    trackSectionColorVisible (value: boolean) {
+      if (value && this.trackColorVisible) {
+        this.trackColorVisible = false
+        store.commit('setTrackColorVisible', false)
+      }
+
+      this.trackSectionColorVisible = value
       store.commit('setTrackSectionColorVisible', value)
     }
   },
@@ -110,11 +120,12 @@ import { SubscribeOptions } from 'vuex'
     this.unsubscribe()
   }
 })
+
 export default class ModelSummaryControl extends Vue {
   routeVisible = store.state.routeVisible
-  trackEndMarkerVisible = store.state.trackSectionMarkerVisible
+  trackSectionColorVisible = store.state.trackSectionColorVisible
   trackOutlineVisible = store.state.trackOutlineVisible
-  trackSectionColorVisbile = store.state.trackSectionColorVisible
+  trackColorVisible = store.state.trackColorVisible
   model: SiteplanModel | null = store.state.model
   unsubscribe: SubscribeOptions | undefined
 
