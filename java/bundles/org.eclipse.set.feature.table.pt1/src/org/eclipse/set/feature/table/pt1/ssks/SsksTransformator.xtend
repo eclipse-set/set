@@ -1322,15 +1322,17 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 		val sameMastSignal = signalRahmen.map[IDSignalBefestigung.value].flatMap [
 			attachmentSignal
 		].filter [
-			it !== signal &&
-				(hasSignalbegriffID(typeof(Ne2)) || hasSignalbegriffID(typeof(Ne14)))
+			it !== signal && (hasSignalbegriffID(typeof(Ne2)) ||
+				hasSignalbegriffID(typeof(Ne14)))
 		].toList
 		if (sameMastSignal.nullOrEmpty) {
 			return #[]
 		}
-		return signalRahmen.map[IDRegelzeichnung?.value].filterNull.map [
-			'''«fillRegelzeichnung» ()'''
-		].toList
+		return sameMastSignal.filter[!signalRahmen.nullOrEmpty].flatMap [ s |
+			s.signalRahmen.map[IDRegelzeichnung?.value].filterNull.map [
+				'''«fillRegelzeichnung» («s.bezeichnung?.bezeichnungTabelle?.wert ?: ""»)'''
+			]
+		].filterNull.toList
 	}
 
 	private static def String fillSonstigesAutomatischeFahrtstellung(
