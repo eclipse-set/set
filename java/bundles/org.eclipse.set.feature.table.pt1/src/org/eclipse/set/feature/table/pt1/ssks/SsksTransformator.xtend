@@ -1318,13 +1318,18 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 				fillRegelzeichnung
 			].toList
 		}
-		
-		val sameMastSignal = signalRahmen.map[IDSignalBefestigung.value].flatMap[attachmentSignal].filter[it !== signal].toList
+
+		val sameMastSignal = signalRahmen.map[IDSignalBefestigung.value].flatMap [
+			attachmentSignal
+		].filter [
+			it !== signal &&
+				(hasSignalbegriffID(typeof(Ne2)) || hasSignalbegriffID(typeof(Ne14)))
+		].toList
 		if (sameMastSignal.nullOrEmpty) {
 			return #[]
 		}
-		return signalRahmen.map[IDRegelzeichnung?.value].filterNull.map[
-			'''«fillRegelzeichnung»'''
+		return signalRahmen.map[IDRegelzeichnung?.value].filterNull.map [
+			'''«fillRegelzeichnung» ()'''
 		].toList
 	}
 
