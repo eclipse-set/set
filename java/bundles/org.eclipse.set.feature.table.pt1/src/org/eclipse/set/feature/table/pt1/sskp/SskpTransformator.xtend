@@ -322,8 +322,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 			pzb,
 			[
 				PZBElementBezugspunkt.filterNull.map [
-					getDistanceSignalTrackSwitch(topGraph, pzb, it,
-						getRoundPlace(pzb))
+					getDistanceSignalTrackSwitch(topGraph, pzb, it)
 				]
 			],
 			null
@@ -362,7 +361,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 					pzbEle -> getPointsDistance(it, pzbEle).min
 				].filter[value.doubleValue !== 0].map [ pair |
 					val distance = AgateRounding.roundDown(pair.value,
-						roundPlace).toTableDecimal(roundPlace)
+						distanceScale).toTableDecimal(distanceScale)
 					if (PZBArt?.wert === ENUMPZBArt.ENUMPZB_ART_500_HZ) {
 						return distance
 					}
@@ -629,21 +628,22 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	private dispatch def String getDistanceSignalTrackSwitch(TopGraph topGraph,
-		PZB_Element pzb, Basis_Objekt object, int roundToPlace) {
+		PZB_Element pzb, Basis_Objekt object) {
 		throw new IllegalArgumentException(object.class.simpleName)
 	}
 
 	private dispatch def String getDistanceSignalTrackSwitch(TopGraph topGraph,
-		PZB_Element pzb, Signal signal, int roundToPlace) {
+		PZB_Element pzb, Signal signal) {
+		val scaleValue = pzb.distanceScale
 		if (signal?.signalReal?.signalFunktion?.wert !==
 			ENUMSignalFunktion.ENUM_SIGNAL_FUNKTION_BUE_UEBERWACHUNGSSIGNAL) {
 			val distance = AgateRounding.roundDown(
-				getPointsDistance(pzb, signal).min, roundToPlace)
+				getPointsDistance(pzb, signal).min, scaleValue)
 			val directionSign = topGraph.
 					isInWirkrichtungOfSignal(signal, pzb) ? "+" : "-"
 			return distance == 0.0 ? distance.
 				toTableDecimal(
-					roundToPlace) : '''«directionSign»«distance.toTableDecimal(roundToPlace)»'''
+					scaleValue) : '''«directionSign»«distance.toTableDecimal(scaleValue)»'''
 		}
 
 		val bueSpezifischesSignal = signal.container.BUESpezifischesSignal.
@@ -665,12 +665,12 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 			return ""
 		}
 		return AgateRounding.roundDown(getDistanceOfPoints(bueKantens, pzb),
-			roundToPlace).toTableDecimal(roundToPlace)
+			scaleValue).toTableDecimal(scaleValue)
 
 	}
 
 	private dispatch def String getDistanceSignalTrackSwitch(TopGraph topGraph,
-		PZB_Element pzb, W_Kr_Gsp_Element gspElement, int roundToPlace) {
+		PZB_Element pzb, W_Kr_Gsp_Element gspElement) {
 		val gspKomponent = gspElement.WKrGspKomponenten.filter [
 			zungenpaar !== null
 		]
@@ -704,7 +704,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 		].filter[present].map[get.doubleValue].toList
 	}
 
-	protected def int getRoundPlace(PZB_Element pzb) {
+	protected def int getDistanceScale(PZB_Element pzb) {
 		return 0;
 	}
 }

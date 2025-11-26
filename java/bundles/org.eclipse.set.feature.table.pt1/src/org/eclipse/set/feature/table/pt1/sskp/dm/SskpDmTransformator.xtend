@@ -31,7 +31,7 @@ class SskpDmTransformator extends SskpTransformator {
 		super(cols, enumTranslationService, topGraphService, eventAdmin)
 	}
 
-	override int getRoundPlace(PZB_Element pzb) {
+	override int getDistanceScale(PZB_Element pzb) {
 		return pzb.PZBElementZuordnung.PZBElementZuordnungBP.exists [
 			PZBElementZuordnungINA !== null
 		] ? 1 : 0;
