@@ -52,5 +52,4 @@ public class SiteplanConstants {
 	 * Color of TOP_Kante
 	 */
 	public static final Map<String, String> TOP_KANTEN_COLOR = new HashMap<>();
-
 }
