@@ -14,22 +14,22 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.set.basis.constants.ToolboxConstants;
+
 import com.google.common.math.BigIntegerMath;
 
 /**
  * Calculates a clothoid transition curve. The formulation see:
  * https://de.wikipedia.org/wiki/Klothoide#Moderne_Berechnungsverfahren.
  * 
- * The calculation has been generalized to also support egg clothoids when
- * already starting with a certain radius. See:
+ * The calculation has been generalized to also support egg clothoids which is
+ * clothoid that is already starting with a certain radius. See:
  * https://de.wikipedia.org/wiki/Eiklothoide
  * 
  * @author Stuecker
  *
  */
 public class Clothoid {
-
-	final static int DECIMAL_SCALE = 6;
 
 	/**
 	 * Calculates the index'th term for the clothoid formula
@@ -55,7 +55,8 @@ public class Clothoid {
 		// Power: T^index
 		final BigDecimal power = BigDecimal.valueOf(T).pow(index);
 		return factor.multiply(power)
-				.divide(divisor, DECIMAL_SCALE, RoundingMode.HALF_UP)
+				.divide(divisor, ToolboxConstants.ROUNDING_TO_PLACE,
+						RoundingMode.HALF_UP)
 				.doubleValue();
 	}
 
