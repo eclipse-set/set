@@ -9,7 +9,6 @@
 package org.eclipse.set.feature.siteplan.transform
 
 import java.util.ArrayList
-import java.util.HashSet
 import java.util.List
 import org.eclipse.set.basis.geometry.GEOKanteCoordinate
 import org.eclipse.set.core.services.geometry.PointObjectPositionService
@@ -17,7 +16,6 @@ import org.eclipse.set.feature.siteplan.positionservice.PositionService
 import org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt
 import org.eclipse.set.model.planpro.Signale.ENUMSignalBefestigungsart
 import org.eclipse.set.model.planpro.Signale.Signal
-import org.eclipse.set.model.planpro.Signale.Signal_Befestigung
 import org.eclipse.set.model.siteplan.Direction
 import org.eclipse.set.model.siteplan.SignalMount
 import org.eclipse.set.model.siteplan.SignalMountType
@@ -66,6 +64,12 @@ class SignalTransformator extends BaseTransformator<Signal> {
 		si.signals = #[signal].toSet
 		si.mounts = signal.signalRahmen?.map[signalBefestigung]?.toSet ?:
 			newHashSet
+
+		// add all parents (recursively) to si.mounts.
+		val mountsWithParents = si.mounts.map [ mount |
+					mount?.signalBefestigungen].flatten
+		si.mounts = newHashSet(mountsWithParents);
+		
 		signalinfo.add(si)
 	}
 
@@ -76,21 +80,16 @@ class SignalTransformator extends BaseTransformator<Signal> {
 		val mergedSignalInfo = new ArrayList<SignalInfo>
 		signalinfo.forEach [ si |
 			try {
-				val signalMounts = si.mounts.map [ mount |
-					mount?.signalBefestigungen
-				].flatten
-				val merged = mergedSignalInfo.findFirst [ msi |
-					msi.mounts.contains(signalMounts.lastOrNull)
+				val baseMount = si.getBaseMount()
+				
+				val mergeWith = mergedSignalInfo.findFirst [ msi |
+					msi.mounts.contains(baseMount)
 				]
-				if (merged === null) {
-					val mounts = new HashSet<Signal_Befestigung>()
-					mounts += si.mounts
-					mounts += signalMounts
-					si.mounts = mounts
+				if (mergeWith === null) {
 					mergedSignalInfo.add(si)
 				} else {
-					merged.signals += si.signals
-					merged.mounts += signalMounts
+					mergeWith.signals += si.signals
+					mergeWith.mounts += si.mounts
 				}
 			} catch (Exception exc) {
 				recordError(si.signals.head?.identitaet?.wert,
