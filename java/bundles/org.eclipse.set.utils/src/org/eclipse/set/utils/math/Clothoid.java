@@ -63,11 +63,22 @@ public class Clothoid {
 
 	private final double totalLength;
 
-	private final double a;
+	/**
+	 * factor on how much the radius increases per distance on the clothoid.
+	 * Comparable with the factor "m" of a normal linear function f(x) = m*x + n
+	 */
+	private final double curvatureIncrease;
 
-	private final double s1;
+	/**
+	 * the distance to the requested starting point on the clothoid. This is
+	 * supposed to be 0 when we want to start from a straight but when we plan
+	 * to start from another curve we typically have starting radius and this
+	 * distance is the length until we are at that point on the clothoid where
+	 * the starting radius is active.
+	 */
+	private final double distanceToStartingPoint;
 
-	private final double s2;
+	private final double[] startingPoint;
 
 	/**
 	 * @param radius
@@ -98,11 +109,11 @@ public class Clothoid {
 			final double totalLength, final int iterations) {
 		this.clothoidIter = iterations;
 		this.totalLength = totalLength;
-		final double k1 = radiusA == 0 ? 0 : 1 / radiusA;
-		final double k2 = radiusB == 0 ? 0 : 1 / radiusB;
-		this.a = (k2 - k1) / totalLength;
-		this.s1 = k1 / this.a;
-		this.s2 = k2 / this.a;
+		final double startCurvature = radiusA == 0 ? 0 : 1 / radiusA;
+		final double endCurvature = radiusB == 0 ? 0 : 1 / radiusB;
+		this.curvatureIncrease = (endCurvature - startCurvature) / totalLength;
+		this.distanceToStartingPoint = startCurvature / this.curvatureIncrease;
+		this.startingPoint = clothoidSegment(this.distanceToStartingPoint);
 	}
 
 	/**
@@ -117,17 +128,8 @@ public class Clothoid {
 		final double segmentLength = this.totalLength / (segmentCount - 1);
 		final List<double[]> positions = new ArrayList<>();
 
-		// get starting point of curve segment
-		final double[] startingPoint = getPoint(this.s1);
 		for (var i = 0; i < segmentCount; i++) {
-			// calculate segment point after starting point
-			final double[] segmentPoint = getPoint(this.s1 + segmentLength * i);
-			// get segment point in relative position to starting point
-			final double[] relativeSegmentPoint = new double[] {
-					segmentPoint[0] - startingPoint[0],
-					segmentPoint[1] - startingPoint[1] };
-			// collect point
-			positions.add(relativeSegmentPoint);
+			positions.add(getPoint(segmentLength * i));
 		}
 		return positions;
 	}
@@ -140,7 +142,13 @@ public class Clothoid {
 	 * @return a xy-position on the clothoid
 	 */
 	public double[] getPoint(final double length) {
-		return clothoidSegment(length);
+		// for the case of an egg clothoid we need to add the distance to the
+		// starting point and remove that again to get the correct coordinate on
+		// the clothoid
+		final double[] point = clothoidSegment(
+				this.distanceToStartingPoint + length);
+		return new double[] { point[0] - startingPoint[0],
+				point[1] - startingPoint[1] };
 	}
 
 	/**
@@ -152,7 +160,7 @@ public class Clothoid {
 	 * @return the xy-position of the point at the end of the segment
 	 */
 	private double[] clothoidSegment(final double L) {
-		final double T = this.a * L * L / 2;
+		final double T = this.curvatureIncrease * L * L / 2;
 		return new double[] { clothoidX(L, T), clothoidY(L, T) };
 	}
 
