@@ -487,7 +487,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 							]
 						zs3NichtStart.map [
 							'''«signalSignalbegriff?.signalRahmen?.signal?.bezeichnung?.bezeichnungTabelle?.wert»«
-						»(«signalSignalbegriff?.signalBegriffSymbol»'''
+						»(«signalSignalbegriff?.signalBegriffSymbol»)'''
 						]
 					],
 					null,
