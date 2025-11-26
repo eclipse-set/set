@@ -55,6 +55,7 @@ import static extension org.eclipse.set.ppmodel.extensions.StellBereichExtension
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspKomponenteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 import static extension org.eclipse.set.utils.math.BigIntegerExtensions.*
+import java.util.Collections
 
 /**
  * This class extends {@link Fstr_Zug_Rangier}.
@@ -180,15 +181,16 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 
 	def static Set<BUE_Anlage> getBUesImGefahrraum(
 		Fstr_Zug_Rangier fstrZugRangier) {
+		val bueEinschaltungen = fstrZugRangier?.fstrZug?.IDBUEEinschaltung?.map [
+			value
+		] ?: #[]
 		return fstrZugRangier.container.BUEAnlage.filter [
 			gleisbezogeneGefahrraeume.map [
 				einschaltungZuordnungen
 			].flatten.toSet.map[einschaltung].exists [
-				fstrZugRangier.fstrZug.IDBUEEinschaltung.map [
-					value.identitaet.wert
-				].contains(
-					identitaet.wert
-				)
+				bueEinschaltungen.exists [ bue |
+					bue.identitaet.wert == identitaet.wert
+				]
 			]
 		].toSet
 	}

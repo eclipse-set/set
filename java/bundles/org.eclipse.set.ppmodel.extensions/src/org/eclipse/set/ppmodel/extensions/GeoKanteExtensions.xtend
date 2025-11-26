@@ -36,8 +36,8 @@ import static extension org.eclipse.set.ppmodel.extensions.geometry.GEOKanteGeom
 import static extension org.eclipse.set.ppmodel.extensions.utils.LineStringExtensions.*
 import org.eclipse.set.basis.constants.ToolboxConstants
 import java.math.RoundingMode
-import org.eclipse.set.basis.geometry.GeometryOptionsBuilder.GeometryOptions
-import org.eclipse.set.basis.geometry.GeometryCalculationOptions
+import org.eclipse.set.utils.geometry.GeometryOptionsBuilder.GeometryOptions
+import org.eclipse.set.utils.geometry.GeometryCalculationOptions
 
 /**
  * This class extends {@link GEO_Kante}.

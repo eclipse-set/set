@@ -86,13 +86,18 @@ class DwegExtensions extends BasisObjektExtensions {
 	def static boolean isRelevantFma(Fstr_DWeg dweg, Punkt_Objekt fma,
 		TopPath pathToFma) {
 		val fahrweg = dweg?.fstrFahrweg
+		val freimeldeAbschnitt = dweg.fmaAnlageFreimeldung.map [
+			IDGleisAbschnitt?.value
+		].filterNull
 		val endFarhwegPotk = fahrweg?.zielPunktObjekt.punktObjektTOPKante
 		val topEndFahrweg = fahrweg?.zielPunktObjekt?.topKanten
 
-		return fma.topKanten.exists[topEndFahrweg.contains(it)] ||
-			endFarhwegPotk.exists [
-				pathToFma.getDistance(new TopPoint(it)).isPresent
-			]
+		return freimeldeAbschnitt.
+			exists[contains(fma) && intersects(fahrweg)] || fma.topKanten.exists [
+			topEndFahrweg.contains(it)
+		] || endFarhwegPotk.exists [
+			pathToFma.getDistance(new TopPoint(it)).isPresent
+		]
 	}
 
 }
