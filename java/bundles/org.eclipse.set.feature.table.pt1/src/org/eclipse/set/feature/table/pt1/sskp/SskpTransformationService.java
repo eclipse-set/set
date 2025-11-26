@@ -50,7 +50,7 @@ import org.osgi.service.event.EventAdmin;
 @Component(service = {
 		PlanPro2TableTransformationService.class }, immediate = true, property = {
 				"table.category=estw", "table.shortcut=sskp" })
-public final class SskpTransformationService
+public class SskpTransformationService
 		extends AbstractPlanPro2TableTransformationService {
 
 	@Reference

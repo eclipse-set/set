@@ -322,7 +322,8 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 			pzb,
 			[
 				PZBElementBezugspunkt.filterNull.map [
-					getDistanceSignalTrackSwitch(topGraph, pzb, it)
+					getDistanceSignalTrackSwitch(topGraph, pzb, it,
+						getRoundPlace(pzb))
 				]
 			],
 			null
@@ -360,7 +361,8 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				].filterNull.map [ pzbEle |
 					pzbEle -> getPointsDistance(it, pzbEle).min
 				].filter[value.doubleValue !== 0].map [ pair |
-					val distance = AgateRounding.roundDown(pair.value).toString
+					val distance = AgateRounding.roundDown(pair.value,
+						roundPlace).toTableDecimal(roundPlace)
 					if (PZBArt?.wert === ENUMPZBArt.ENUMPZB_ART_500_HZ) {
 						return distance
 					}
@@ -409,7 +411,8 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 					val markanteStelle = inaGefahrstelles.map [
 						IDMarkanterPunkt?.value?.IDMarkanteStelle?.value
 					].filter(Punkt_Objekt)
-					return getDistanceOfPoints(markanteStelle, it)
+					return AgateRounding.roundDown(
+						getDistanceOfPoints(markanteStelle, it)).toString
 				]
 			)
 
@@ -626,21 +629,21 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	private dispatch def String getDistanceSignalTrackSwitch(TopGraph topGraph,
-		PZB_Element pzb, Basis_Objekt object) {
+		PZB_Element pzb, Basis_Objekt object, int roundToPlace) {
 		throw new IllegalArgumentException(object.class.simpleName)
 	}
 
 	private dispatch def String getDistanceSignalTrackSwitch(TopGraph topGraph,
-		PZB_Element pzb, Signal signal) {
+		PZB_Element pzb, Signal signal, int roundToPlace) {
 		if (signal?.signalReal?.signalFunktion?.wert !==
 			ENUMSignalFunktion.ENUM_SIGNAL_FUNKTION_BUE_UEBERWACHUNGSSIGNAL) {
 			val distance = AgateRounding.roundDown(
-				getPointsDistance(pzb, signal).min)
+				getPointsDistance(pzb, signal).min, roundToPlace)
 			val directionSign = topGraph.
 					isInWirkrichtungOfSignal(signal, pzb) ? "+" : "-"
-			return distance == 0
-				? distance.toString
-				: '''«directionSign»«distance.toString»'''
+			return distance == 0.0 ? distance.
+				toTableDecimal(
+					roundToPlace) : '''«directionSign»«distance.toTableDecimal(roundToPlace)»'''
 		}
 
 		val bueSpezifischesSignal = signal.container.BUESpezifischesSignal.
@@ -661,22 +664,24 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 		if (bueKantens.empty) {
 			return ""
 		}
-		return getDistanceOfPoints(bueKantens, pzb)
+		return AgateRounding.roundDown(getDistanceOfPoints(bueKantens, pzb),
+			roundToPlace).toTableDecimal(roundToPlace)
 
 	}
 
 	private dispatch def String getDistanceSignalTrackSwitch(TopGraph topGraph,
-		PZB_Element pzb, W_Kr_Gsp_Element gspElement) {
+		PZB_Element pzb, W_Kr_Gsp_Element gspElement, int roundToPlace) {
 		val gspKomponent = gspElement.WKrGspKomponenten.filter [
 			zungenpaar !== null
 		]
 		if (gspKomponent.empty) {
 			throw new IllegalArgumentException('''«gspElement?.bezeichnung.bezeichnungTabelle?.wert» hast no Zungenpaar''')
 		}
-		return getDistanceOfPoints(gspKomponent, pzb)
+		return AgateRounding.roundDown(getDistanceOfPoints(gspKomponent, pzb)).
+			toString
 	}
 
-	private def String getDistanceOfPoints(Iterable<? extends Punkt_Objekt> p1s,
+	private def double getDistanceOfPoints(Iterable<? extends Punkt_Objekt> p1s,
 		Punkt_Objekt p2) {
 		val distance = p1s?.fold(
 			Double.MAX_VALUE,
@@ -684,10 +689,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				Math.min(current, getPointsDistance(p1, p2).min)
 			]
 		)
-		if (distance.doubleValue === 0) {
-			return ""
-		}
-		return AgateRounding.roundDown(distance).toString
+		return distance.doubleValue
 	}
 
 	private def Iterable<Double> getPointsDistance(Punkt_Objekt p1,
@@ -702,4 +704,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 		].filter[present].map[get.doubleValue].toList
 	}
 
+	protected def int getRoundPlace(PZB_Element pzb) {
+		return 0;
+	}
 }
