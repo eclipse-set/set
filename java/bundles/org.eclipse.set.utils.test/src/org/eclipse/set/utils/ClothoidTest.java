@@ -40,18 +40,7 @@ public class ClothoidTest {
 	public void testReferenceCalculation() {
 		givenUnitClothoid();
 		givenGeometryOptions(11);
-		givenExpectedResult(0.0, 0.0, // l=0.0
-				0.100000, 0.000167, // l=0.1
-				0.199992, 0.001333, // l=0.2
-				0.299939, 0.004499, // l=0.3
-				0.399744, 0.010662, // l=0.4
-				0.499219, 0.020810, // l=0.5
-				0.598059, 0.035917, // l=0.6
-				0.695810, 0.056922, // l=0.7
-				0.791847, 0.084711, // l=0.8
-				0.885349, 0.120084, // l=0.9
-				0.975288, 0.163714 // l=1.0
-		);
+		givenUnitClothoidCoordinates();
 		whenCalculatingUnitClothoid();
 		thenResultMatchesReference();
 	}
@@ -63,20 +52,9 @@ public class ClothoidTest {
 	 */
 	@Test
 	public void testReferenceEggCalculation() {
-		givenEggClothoid();
+		givenEggClothoidEquivalentToUnitClothoid();
 		givenGeometryOptions(11);
-		givenExpectedResult(0.0, 0.0, // l=0.0
-				0.100000, 0.000167, // l=0.1
-				0.199992, 0.001333, // l=0.2
-				0.299939, 0.004499, // l=0.3
-				0.399744, 0.010662, // l=0.4
-				0.499219, 0.020810, // l=0.5
-				0.598059, 0.035917, // l=0.6
-				0.695810, 0.056922, // l=0.7
-				0.791847, 0.084711, // l=0.8
-				0.885349, 0.120084, // l=0.9
-				0.975288, 0.163714 // l=1.0
-		);
+		givenUnitClothoidCoordinates();
 		whenCalculatingUnitClothoid();
 		thenResultMatchesReference();
 	}
@@ -93,12 +71,32 @@ public class ClothoidTest {
 		testee = new Clothoid(1, 1, 10);
 	}
 
-	private void givenEggClothoid() {
-		testee = new Clothoid(99999999999999999999999999999999999999f, 1, 1, 5);
+	private void givenEggClothoidEquivalentToUnitClothoid() {
+		testee = new Clothoid(99999999999999999999999999999999999999f, 1, 1,
+				10);
 	}
 
 	private void givenGeometryOptions(final int segmentCount) {
 		this.segmentCount = segmentCount;
+	}
+
+	private void givenUnitClothoidCoordinates() {
+		givenExpectedResult(
+				// units have been calculated manually in a step size of 0.1
+				// by using the formulas from
+				// https://de.wikipedia.org/wiki/Klothoide#Moderne_Berechnungsverfahren
+				0.0, 0.0, // L=0.0
+				0.100000, 0.000167, // L=0.1
+				0.199992, 0.001333, // L=0.2
+				0.299939, 0.004499, // L=0.3
+				0.399744, 0.010662, // L=0.4
+				0.499219, 0.020810, // L=0.5
+				0.598059, 0.035917, // L=0.6
+				0.695810, 0.056922, // L=0.7
+				0.791847, 0.084711, // L=0.8
+				0.885349, 0.120084, // L=0.9
+				0.975288, 0.163714 // L=1.0
+		);
 	}
 
 	private void givenExpectedResult(final double... expected) {
