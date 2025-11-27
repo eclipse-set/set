@@ -64,8 +64,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	new(Set<ColumnDescriptor> cols,
 		EnumTranslationService enumTranslationService,
-		TopologicalGraphService topGraphService,
-		EventAdmin eventAdmin) {
+		TopologicalGraphService topGraphService, EventAdmin eventAdmin) {
 		super(cols, enumTranslationService, eventAdmin)
 		this.topGraphService = topGraphService
 	}
@@ -176,19 +175,27 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 					val dwegV = fstrDWegSpezifisch.DWegV?.wert.toInteger
 					val inclination = fstrDWegAllg?.massgebendeNeigung?.wert.
 						toDouble
-					val multipleValue = inclination > 0 ? 0.05 : 0.1
+					val multipleValue = inclination >= 0 ? 0.05 : 0.1
+
 					if (dwegV === 0) {
 						return ""
 					}
-					
+
 					if (dwegV > 40 || (dwegV <= 40 && inclination <= 0)) {
-						addTopologicalCell(instance, cols.getColumn(PZB_Schutzstrecke_Soll))
+						addTopologicalCell(instance,
+							cols.getColumn(PZB_Schutzstrecke_Soll))
 					}
-					
+					val fillFunc = [ long value |
+						if (inclination >= 0) {
+							return value < 210 ? 210 : value
+						}
+						return value > 550 ? 550 : value
+					]
+
 					if (dwegV > 60) {
-						return '''«AgateRounding.roundUp(ADDITION_SCHUTZSTRECKE_SOLL_60 - inclination * multipleValue * 200)»'''
+						return '''«fillFunc.apply(AgateRounding.roundUp(ADDITION_SCHUTZSTRECKE_SOLL_60 - inclination * multipleValue * 200))»'''
 					} else if (dwegV <= 60 && dwegV > 40) {
-						return '''«AgateRounding.roundUp(ADDITION_SCHUTZSTRECKE_SOLL_40_60 - inclination * multipleValue * 100)»'''
+						return '''«fillFunc.apply(AgateRounding.roundUp(ADDITION_SCHUTZSTRECKE_SOLL_40_60 - inclination * multipleValue * 100))»'''
 					} else if (dwegV <= 40) {
 						return '''«inclination > 0 ? 210 : AgateRounding.roundUp(ADDITION_SCHUTZSTRECKE_SOLL_40 - inclination * multipleValue * 50)»'''
 					}

@@ -131,4 +131,11 @@ public final class TableRowGroupComparator implements Comparator<RowGroup> {
 			final Function<Ur_Objekt, Punkt_Objekt> getPunktObjectFunc) {
 		criteria.add(new CompareRouteAndKmCriterion(getPunktObjectFunc));
 	}
+
+	/**
+	 * @return the list of criteria
+	 */
+	public List<Comparator<TableRow>> getCriteria() {
+		return criteria;
+	}
 }
