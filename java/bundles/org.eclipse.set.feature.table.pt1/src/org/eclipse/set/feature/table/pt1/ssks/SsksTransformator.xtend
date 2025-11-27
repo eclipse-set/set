@@ -254,7 +254,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							MIXED_STRING_COMPARATOR,
 							ITERABLE_FILLING_SEPARATOR
 						)
-						
+
 						// F: Ssks.Standortmerkmale.Standort.km
 						fillIterableSingleCellWhenAllowed(
 							row,
@@ -506,15 +506,15 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 									fundament?.signalBefestigungAllg?.
 										fundamentArt
 								].filterNull.map[translate].filterNull
-								if (!fundament.nullOrEmpty) {
-									return fundament.toSet
-								}
-								
-								val regelzeichnung = map[getFundament].filterNull.
-									flatMap[IDRegelzeichnung].map [
+								val regelzeichnung = map[getFundament].
+									filterNull.flatMap[IDRegelzeichnung].map [
 										value?.fillRegelzeichnung
 									].filterNull
-								
+								if (!regelzeichnung.isNullOrEmpty) {
+									row.addTopologicalCell(
+										cols.getColumn(
+											Fundament_Art_Regelzeichnung))
+								}
 								return (regelzeichnung + fundament).toSet
 							],
 							null,
