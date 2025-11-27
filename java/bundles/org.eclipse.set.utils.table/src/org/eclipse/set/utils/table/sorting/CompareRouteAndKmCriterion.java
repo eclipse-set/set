@@ -11,7 +11,6 @@
 package org.eclipse.set.utils.table.sorting;
 
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -19,6 +18,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum;
+import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt;
 import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
 import org.eclipse.set.model.tablemodel.TableRow;
@@ -31,11 +31,13 @@ import org.eclipse.xtext.xbase.lib.Pair;
  * 
  * @author truong
  */
-public class CompareRouteAndKmCriterion implements Comparator<TableRow> {
+public class CompareRouteAndKmCriterion
+		extends AbstractCompareWithDependencyOnServiceCriterion<TableRow> {
 
 	private final SortDirectionEnum direction;
 	private final Function<Ur_Objekt, Punkt_Objekt> getPunktObjectFunc;
 	private final NumericCellComparator numericComparator;
+	private boolean isWaitingOnService = false;
 
 	/**
 	 * @param getPunktObjectFunc
@@ -114,6 +116,9 @@ public class CompareRouteAndKmCriterion implements Comparator<TableRow> {
 				.collect(Collectors.toSet());
 		final Optional<Integer> compareCollection = compareCollection(firstKms,
 				secondKms);
+		if (firstKms.isEmpty() || secondKms.isEmpty()) {
+			isWaitingOnService = true;
+		}
 		if (compareCollection.isPresent()) {
 			return compareCollection.get().intValue();
 		}
@@ -156,5 +161,10 @@ public class CompareRouteAndKmCriterion implements Comparator<TableRow> {
 							: Integer.valueOf(-1));
 		}
 		return Optional.empty();
+	}
+
+	@Override
+	public String getTriggerComparisonEventTopic() {
+		return isWaitingOnService ? Events.FIND_GEOMETRY_PROCESS_DONE : ""; //$NON-NLS-1$
 	}
 }
