@@ -15,6 +15,7 @@ import java.nio.file.Paths;
 
 import org.eclipse.set.basis.ToolboxProperties;
 import org.eclipse.set.basis.constants.TextType;
+import org.eclipse.set.basis.constants.ToolboxOS;
 import org.eclipse.swt.widgets.Composite;
 
 /**
@@ -45,9 +46,9 @@ public class ToolboxConfiguration {
 		}
 
 		// read default dir from system properties
-		final String dir = System.getProperty(
-				ToolboxProperties.TOOLBOX_DEFAULT_DIRECTORY,
-				"$USERPROFILE$\\planpro");
+
+		final String dir = System.getProperty(getDefaultDirProperty(),
+				"$USERPROFILE$\\planpro"); //$NON-NLS-1$
 		defaultDirectory = Paths
 				.get(StringExtensions.expandFromEnvironment(dir));
 
@@ -58,6 +59,13 @@ public class ToolboxConfiguration {
 		}
 		throw new RuntimeException("Creation of default directory "
 				+ defaultDirectory + " failed.");
+	}
+
+	private static String getDefaultDirProperty() {
+		if (getCurrentOS() == ToolboxOS.LINUX) {
+			return ToolboxProperties.TOOLBOX_DEFAULT_DIRECTORY_LINUX;
+		}
+		return ToolboxProperties.TOOLBOX_DEFAULT_DIRECTORY_WIN;
 	}
 
 	/**
@@ -335,5 +343,18 @@ public class ToolboxConfiguration {
 		return Double.parseDouble(
 				System.getProperty(ToolboxProperties.GEOMETRY_BLOSS_STEP_LENGTH,
 						GEOMETRY_BLOSS_STEP_LENGTH));
+	}
+
+	/**
+	 * Get currently os
+	 * 
+	 * @return the {@link ToolboxOS}
+	 */
+	public static ToolboxOS getCurrentOS() {
+		final String os = System.getProperty("os.name", "").toLowerCase(); //$NON-NLS-1$ //$NON-NLS-2$
+		if (os.contains("nix") || os.contains("nux") || os.contains("aix")) { //$NON-NLS-1$ //$NON-NLS-2$//$NON-NLS-3$
+			return ToolboxOS.LINUX;
+		}
+		return ToolboxOS.WIN;
 	}
 }

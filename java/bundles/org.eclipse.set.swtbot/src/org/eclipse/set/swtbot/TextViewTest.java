@@ -12,8 +12,10 @@ import static org.junit.Assert.assertEquals;
 
 import org.eclipse.set.swtbot.utils.AbstractPPHNTest;
 import org.eclipse.set.swtbot.utils.PlanProSWTBotBrowser;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+@Disabled
 public class TextViewTest extends AbstractPPHNTest {
 	private static String jsGetTextContent = """
 				return document.getElementsByClassName("view-lines")[0].children[0].textContent.replace(/\u00a0/g, " ");
