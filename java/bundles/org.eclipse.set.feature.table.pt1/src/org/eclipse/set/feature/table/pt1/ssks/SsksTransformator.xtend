@@ -1306,7 +1306,7 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 
 	private static def List<String> fillSignalisierungWeitere(Signal signal,
 		List<Signal_Rahmen> signalRahmen) {
-		// 1.Case: the directly Signal_Rahmen contains Ne2 or Ne14
+		// 1.Case: Signal_Rahmen contains Ne2 or Ne14
 		val rahmen = signalRahmen.filter [
 			!signalbegriffe.filter [
 				signalbegriffID instanceof Ne2 ||
@@ -1319,6 +1319,7 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 			].toList
 		}
 
+		// 2.Case: It give another Signal Ne2/Ne14, which have same Mast with current Signal
 		val sameMastSignal = signalRahmen.map[IDSignalBefestigung?.value].
 			filterNull.flatMap [
 				attachmentSignal
