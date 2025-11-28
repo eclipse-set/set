@@ -237,13 +237,6 @@ jobs:
           name: eclipse-set-snapshot-${{github.run_number}}
           path: java/bundles/org.eclipse.set.releng.set.product/target/products/SET/win32/win32/x86_64/
           retention-days: 7
-          
-      - name: Upload Linux artifact
-        uses: actions/upload-artifact@v5
-        with:
-          name: eclipse-set-linux-snapshot-${{github.run_number}}
-          path: java/bundles/org.eclipse.set.releng.set.product/target/products/SET/linux/gtk/x86_64/
-          retention-days: 1
 
       - name: Upload m2repo artifact
         uses: actions/upload-artifact@v5
@@ -283,7 +276,7 @@ jobs:
         if: github.ref == 'refs/heads/main'
 
   swtbot:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     needs:
       - java
     permissions:
@@ -300,7 +293,7 @@ jobs:
       - name: Fetch SET
         uses: actions/download-artifact@v6
         with:
-          name: eclipse-set-linux-snapshot-${{github.run_number}}
+          name: eclipse-set-snapshot-${{github.run_number}}
           path: ${{ env.TEST_APPLICATION_DIR }}
 
       - name: Fetch m2 Deploy
@@ -325,6 +318,13 @@ jobs:
           path: ~/.m2/repository
           key: ${{ runner.os }}-m2repo-${{ hashFiles('**/java/bundles/org.eclipse.set.releng.target/org.eclipse.set.releng.target.target', 'pom.xml') }}
           restore-keys: ${{ runner.os }}-m2repo-
+      
+      - name: Install xvfb + GTK
+        run: |
+            sudo apt-get update
+            sudo apt-get install -y xvfb libgtk-3-0 libgtk2.0-0
+            export DISPLAY=:99
+            Xvfb :99 -screen 0 1920x1080x24 &
 
       - name: Run Test
         id: test-steps
@@ -332,8 +332,9 @@ jobs:
         run: |
           m2RepoPath="https://maven.pkg.github.com/eclipse-set/set"
           if [[ "${{ github.event_name }}" == "pull_request" || "${{github.ref}}" == refs/heads/release/* ]]; then
-            m2RepoPath="${{ env.DEPLOY_DIR }}"
+            m2RepoPath="file://${{ env.DEPLOY_DIR }}"
           fi
+          export DISPLAY=:99
           mvn -T 1.5C -U -B -f java-test/pom.xml clean verify  \
             --settings ./.github/settings.xml \
             -Dskip-test=false \
