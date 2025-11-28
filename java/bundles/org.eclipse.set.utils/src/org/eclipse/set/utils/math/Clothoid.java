@@ -14,15 +14,23 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.set.basis.constants.ToolboxConstants;
+
 import com.google.common.math.BigIntegerMath;
 
 /**
- * Calculates a clothoid transition curve
+ * Calculates a clothoid transition curve. The formulation see:
+ * https://de.wikipedia.org/wiki/Klothoide#Moderne_Berechnungsverfahren.
+ * 
+ * The calculation has been generalized to also support egg clothoids which is
+ * clothoid that is already starting with a certain radius. See:
+ * https://de.wikipedia.org/wiki/Eiklothoide
  * 
  * @author Stuecker
  *
  */
 public class Clothoid {
+
 	/**
 	 * Calculates the index'th term for the clothoid formula
 	 * 
@@ -47,18 +55,35 @@ public class Clothoid {
 		// Power: T^index
 		final BigDecimal power = BigDecimal.valueOf(T).pow(index);
 		return factor.multiply(power)
-				.divide(divisor, RoundingMode.HALF_UP)
+				.divide(divisor, ToolboxConstants.ROUNDING_TO_PLACE,
+						RoundingMode.HALF_UP)
 				.doubleValue();
 	}
 
 	private final int clothoidIter;
 
-	private final double radius;
 	private final double totalLength;
 
 	/**
+	 * factor on how much the radius increases per distance on the clothoid.
+	 * Comparable with the factor "m" of a normal linear function f(x) = m*x + n
+	 */
+	private final double curvatureIncrease;
+
+	/**
+	 * the distance to the requested starting point on the clothoid. This is
+	 * supposed to be 0 when we want to start from a straight but when we plan
+	 * to start from another curve we typically have starting radius and this
+	 * distance is the length until we are at that point on the clothoid where
+	 * the starting radius is active.
+	 */
+	private final double distanceToStartingPoint;
+
+	private final double[] startingPoint;
+
+	/**
 	 * @param radius
-	 *            radius of the curve
+	 *            the radius at the end of the curve
 	 * @param totalLength
 	 *            total length of the curve
 	 * @param iterations
@@ -67,9 +92,29 @@ public class Clothoid {
 	 */
 	public Clothoid(final double radius, final double totalLength,
 			final int iterations) {
+		this(0, radius, totalLength, iterations);
+	}
+
+	/**
+	 * @param radiusA
+	 *            the radius at the start of the curve
+	 * @param radiusB
+	 *            the radius at the end of the curve
+	 * @param totalLength
+	 *            total length of the curve
+	 * @param iterations
+	 *            the number of series iterations to use for calculating
+	 *            xy-positions
+	 */
+	public Clothoid(final double radiusA, final double radiusB,
+			final double totalLength, final int iterations) {
 		this.clothoidIter = iterations;
-		this.radius = radius;
 		this.totalLength = totalLength;
+		final double startCurvature = radiusA == 0 ? 0 : 1 / radiusA;
+		final double endCurvature = radiusB == 0 ? 0 : 1 / radiusB;
+		this.curvatureIncrease = (endCurvature - startCurvature) / totalLength;
+		this.distanceToStartingPoint = startCurvature / this.curvatureIncrease;
+		this.startingPoint = clothoidSegment(this.distanceToStartingPoint);
 	}
 
 	/**
@@ -83,6 +128,7 @@ public class Clothoid {
 	public List<double[]> getPoints(final int segmentCount) {
 		final double segmentLength = this.totalLength / (segmentCount - 1);
 		final List<double[]> positions = new ArrayList<>();
+
 		for (var i = 0; i < segmentCount; i++) {
 			positions.add(getPoint(segmentLength * i));
 		}
@@ -97,7 +143,13 @@ public class Clothoid {
 	 * @return a xy-position on the clothoid
 	 */
 	public double[] getPoint(final double length) {
-		return clothoidSegment(length, this.radius * length);
+		// for the case of an egg clothoid we need to add the distance to the
+		// starting point and remove that again to get the correct coordinate on
+		// the clothoid
+		final double[] point = clothoidSegment(
+				this.distanceToStartingPoint + length);
+		return new double[] { point[0] - startingPoint[0],
+				point[1] - startingPoint[1] };
 	}
 
 	/**
@@ -106,12 +158,10 @@ public class Clothoid {
 	 * 
 	 * @param L
 	 *            The length of the clothoid segment (L)
-	 * @param Asq
-	 *            The size of the clothoid squared (A^2)
 	 * @return the xy-position of the point at the end of the segment
 	 */
-	private double[] clothoidSegment(final double L, final double Asq) {
-		final double T = L * L / (2 * Asq);
+	private double[] clothoidSegment(final double L) {
+		final double T = this.curvatureIncrease * L * L / 2;
 		return new double[] { clothoidX(L, T), clothoidY(L, T) };
 	}
 
@@ -148,5 +198,4 @@ public class Clothoid {
 		}
 		return L * result;
 	}
-
 }

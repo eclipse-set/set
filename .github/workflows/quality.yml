@@ -18,7 +18,7 @@ jobs:
   java-formatting:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - name: Setup Java
         uses: eclipse-set/build/.github/actions/setup-java@main
@@ -44,7 +44,7 @@ jobs:
   lint-siteplan:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - uses: actions/setup-node@v6
         with:
@@ -59,7 +59,7 @@ jobs:
   lint-textviewer:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - uses: actions/setup-node@v6
         with:

@@ -28,7 +28,7 @@ jobs:
   docs:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - name: Install Asciidoctor & Hugo
         uses: eclipse-set/build/.github/actions/setup-asciidoctor@main
@@ -47,7 +47,7 @@ jobs:
   developerhelp:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - name: Install Asciidoctor & Hugo
         uses: eclipse-set/build/.github/actions/setup-asciidoctor@main
@@ -66,7 +66,7 @@ jobs:
   textviewer:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Build
         run: |
           npm ci
@@ -82,7 +82,7 @@ jobs:
   pdfviewer:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Build
         run: |
           wget --no-verbose -O pdfjs.zip https://github.com/mozilla/pdf.js/releases/download/v$(node getVersion.js)/pdfjs-$(node getVersion.js)-dist.zip
@@ -99,7 +99,7 @@ jobs:
   siteplan:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       
       - name: Cache node_modules
         uses: actions/cache@v4
@@ -125,7 +125,7 @@ jobs:
   news:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Setup Java
         uses: eclipse-set/build/.github/actions/setup-java@main
 
@@ -160,7 +160,7 @@ jobs:
       actions: read
       security-events: write
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v4
@@ -260,7 +260,7 @@ jobs:
 
       - name: Upload release asset
         if: startsWith(github.ref, 'refs/tags/')
-        uses: softprops/action-gh-release@6da8fa9354ddfdc4aeace5fc48d7f679b5214090 # v2.4.1
+        uses: softprops/action-gh-release@5be0e66d93ac7ed76da52eca8bb058f665c3a5fe # v2.4.2
         with: 
           files: java/bundles/org.eclipse.set.releng.set.product/target/products/unsigned-Eclipse-SET-*.zip
           
@@ -285,7 +285,7 @@ jobs:
       pull-requests: write
       actions: read
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       
       - name: Setup Java
         uses: eclipse-set/build/.github/actions/setup-java@main

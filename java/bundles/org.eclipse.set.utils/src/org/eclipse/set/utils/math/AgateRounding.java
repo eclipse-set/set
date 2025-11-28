@@ -29,6 +29,21 @@ public class AgateRounding {
 	/**
 	 * @param a
 	 *            the double
+	 * @param place
+	 *            the place after comma
+	 * 
+	 * @return the closest long to the argument - 0.4, with ties rounding to
+	 *         positive infinity
+	 */
+	public static double roundDown(final double a, final int place) {
+		final double pow = Math.pow(10, place);
+		final long roundDown = roundDown(a * pow);
+		return roundDown / pow;
+	}
+
+	/**
+	 * @param a
+	 *            the double
 	 * 
 	 * @return the closest long to the argument + 0.4, with ties rounding to
 	 *         positive infinity
@@ -41,5 +56,20 @@ public class AgateRounding {
 			return roundedUp;
 		}
 		return roundedDown;
+	}
+
+	/**
+	 * @param a
+	 *            the double
+	 * @param place
+	 *            the place after comma
+	 * 
+	 * @return the closest long to the argument + 0.4, with ties rounding to
+	 *         positive infinity
+	 */
+	public static double roundUp(final double a, final int place) {
+		final double pow = Math.pow(10, place);
+		final long roundUp = roundUp(a * pow);
+		return roundUp / pow;
 	}
 }

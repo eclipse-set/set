@@ -74,7 +74,10 @@ public final class SsldTransformationService
 						.getStart(DwegExtensions.getFstrFahrweg(fstr));
 			}
 			return null;
-		}).sort(Bezeichnung, MIXED_STRING, ASC).build();
+		})
+				.sort(von, MIXED_STRING, ASC)
+				.sort(Bezeichnung, MIXED_STRING, ASC)
+				.build();
 	}
 
 	@Override
@@ -97,7 +100,7 @@ public final class SsldTransformationService
 	@Override
 	protected List<String> getTopologicalColumnPosition() {
 		return List.of(Freigemeldet, Aufloeseabschnitt_Laenge, Laenge_Ist,
-				massgebende_Neigung, relevante_FmA, v_Aufwertung_Verzicht);
+				massgebende_Neigung, v_Aufwertung_Verzicht);
 	}
 
 }

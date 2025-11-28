@@ -50,7 +50,7 @@ import org.osgi.service.event.EventAdmin;
 @Component(service = {
 		PlanPro2TableTransformationService.class }, immediate = true, property = {
 				"table.category=estw", "table.shortcut=sskp" })
-public final class SskpTransformationService
+public class SskpTransformationService
 		extends AbstractPlanPro2TableTransformationService {
 
 	@Reference
@@ -127,12 +127,12 @@ public final class SskpTransformationService
 			}
 			return null;
 		})
+				.sort(Bezugselement, CellComparatorType.LEXICOGRAPHICAL,
+						SortDirectionEnum.ASC)
 				.sort(Wirkfrequenz, Comparator.comparing(
 						SskpTransformationService::getCellContent,
 						Comparator.nullsLast(Comparator.comparing(
 								gmOrder::indexOf, Integer::compareUnsigned))))
-				.sort(Bezugselement, CellComparatorType.LEXICOGRAPHICAL,
-						SortDirectionEnum.ASC)
 				.build();
 
 	}

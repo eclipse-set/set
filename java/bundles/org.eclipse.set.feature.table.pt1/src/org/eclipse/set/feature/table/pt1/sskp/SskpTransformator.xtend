@@ -178,7 +178,8 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 					val dwegV = fstrDWegSpezifisch.DWegV?.wert.toInteger
 					val inclination = fstrDWegAllg?.massgebendeNeigung?.wert.
 						toDouble
-					val multipleValue = inclination > 0 ? 0.05 : 0.1
+					val multipleValue = inclination >= 0 ? 0.05 : 0.1
+
 					if (dwegV === 0) {
 						return ""
 					}
@@ -187,11 +188,17 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 						addTopologicalCell(instance,
 							cols.getColumn(PZB_Schutzstrecke_Soll))
 					}
+					val fillFunc = [ long value |
+						if (inclination >= 0) {
+							return value < 210 ? 210 : value
+						}
+						return value > 550 ? 550 : value
+					]
 
 					if (dwegV > 60) {
-						return '''«AgateRounding.roundUp(ADDITION_SCHUTZSTRECKE_SOLL_60 - inclination * multipleValue * 200)»'''
+						return '''«fillFunc.apply(AgateRounding.roundUp(ADDITION_SCHUTZSTRECKE_SOLL_60 - inclination * multipleValue * 200))»'''
 					} else if (dwegV <= 60 && dwegV > 40) {
-						return '''«AgateRounding.roundUp(ADDITION_SCHUTZSTRECKE_SOLL_40_60 - inclination * multipleValue * 100)»'''
+						return '''«fillFunc.apply(AgateRounding.roundUp(ADDITION_SCHUTZSTRECKE_SOLL_40_60 - inclination * multipleValue * 100))»'''
 					} else if (dwegV <= 40) {
 						return '''«inclination > 0 ? 210 : AgateRounding.roundUp(ADDITION_SCHUTZSTRECKE_SOLL_40 - inclination * multipleValue * 50)»'''
 					}
@@ -356,7 +363,8 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				].filterNull.map [ pzbEle |
 					pzbEle -> getPointsDistance(it, pzbEle).min
 				].filter[value.doubleValue !== 0].map [ pair |
-					val distance = AgateRounding.roundDown(pair.value).toString
+					val distance = AgateRounding.roundDown(pair.value,
+						distanceScale).toTableDecimal(distanceScale)
 					if (PZBArt?.wert === ENUMPZBArt.ENUMPZB_ART_500_HZ) {
 						return distance
 					}
@@ -405,7 +413,8 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 					val markanteStelle = inaGefahrstelles.map [
 						IDMarkanterPunkt?.value?.IDMarkanteStelle?.value
 					].filter(Punkt_Objekt)
-					return getDistanceOfPoints(markanteStelle, it)
+					return AgateRounding.roundDown(
+						getDistanceOfPoints(markanteStelle, it)).toString
 				]
 			)
 
@@ -546,16 +555,19 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				[pzbGUEs],
 				null,
 				[
-					val value = GUEMessstrecke?.wert?.setScale(2, RoundingMode.FLOOR)
+					val value = GUEMessstrecke?.wert?.setScale(2,
+						RoundingMode.FLOOR)
 					if (value === null) {
 						return ""
 					}
-					
-					if (!PZBValidator.INSTANCE.validateGUE_Messstrecke_Type(value, null, null)) {
-						val GUEMessstreckePattern = PZBValidator.GUE_MESSSTRECKE_TYPE__PATTERN__VALUES.flatMap[pattern|
-							pattern.map[t| t.toString]
-						].firstOrNull
-						
+
+					if (!PZBValidator.INSTANCE.
+						validateGUE_Messstrecke_Type(value, null, null)) {
+						val GUEMessstreckePattern = PZBValidator.
+							GUE_MESSSTRECKE_TYPE__PATTERN__VALUES.flatMap [ pattern |
+								pattern.map[t|t.toString]
+							].firstOrNull
+
 						throw new IllegalArgumentException('''The value: «value.toString»  isn't match the pattern: «GUEMessstreckePattern»''')
 					}
 					return value.toString
@@ -631,8 +643,8 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 	static dispatch def String fillBezugsElement(Signal object) {
 		return object.signalReal.signalFunktion.wert ===
 			ENUMSignalFunktion.ENUM_SIGNAL_FUNKTION_BUE_UEBERWACHUNGSSIGNAL
-			? '''BÜ-K «object?.bezeichnung?.bezeichnungTabelle?.wert»''' : object?.
-			bezeichnung?.bezeichnungTabelle?.wert
+			? '''BÜ-K «object?.bezeichnung?.bezeichnungTabelle?.wert»'''
+			: object?.bezeichnung?.bezeichnungTabelle?.wert
 	}
 
 	private dispatch def String getDistanceSignalTrackSwitch(TopGraph topGraph,
@@ -642,14 +654,16 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	private dispatch def String getDistanceSignalTrackSwitch(TopGraph topGraph,
 		PZB_Element pzb, Signal signal) {
+		val scaleValue = pzb.distanceScale
 		if (signal?.signalReal?.signalFunktion?.wert !==
 			ENUMSignalFunktion.ENUM_SIGNAL_FUNKTION_BUE_UEBERWACHUNGSSIGNAL) {
 			val distance = AgateRounding.roundDown(
-				getPointsDistance(pzb, signal).min)
+				getPointsDistance(pzb, signal).min, scaleValue)
 			val directionSign = topGraph.
 					isInWirkrichtungOfSignal(signal, pzb) ? "+" : "-"
-			return distance == 0 ? distance.
-				toString : '''«directionSign»«distance.toString»'''
+			return distance == 0.0
+				? distance.toTableDecimal(scaleValue)
+				: '''«directionSign»«distance.toTableDecimal(scaleValue)»'''
 		}
 
 		val bueSpezifischesSignal = signal.container.BUESpezifischesSignal.
@@ -670,7 +684,8 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 		if (bueKantens.empty) {
 			return ""
 		}
-		return getDistanceOfPoints(bueKantens, pzb)
+		return AgateRounding.roundDown(getDistanceOfPoints(bueKantens, pzb),
+			scaleValue).toTableDecimal(scaleValue)
 
 	}
 
@@ -682,10 +697,11 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 		if (gspKomponent.empty) {
 			throw new IllegalArgumentException('''«gspElement?.bezeichnung.bezeichnungTabelle?.wert» hast no Zungenpaar''')
 		}
-		return getDistanceOfPoints(gspKomponent, pzb)
+		return AgateRounding.roundDown(getDistanceOfPoints(gspKomponent, pzb)).
+			toString
 	}
 
-	private def String getDistanceOfPoints(Iterable<? extends Punkt_Objekt> p1s,
+	private def double getDistanceOfPoints(Iterable<? extends Punkt_Objekt> p1s,
 		Punkt_Objekt p2) {
 		val distance = p1s?.fold(
 			Double.MAX_VALUE,
@@ -693,10 +709,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				Math.min(current, getPointsDistance(p1, p2).min)
 			]
 		)
-		if (distance.doubleValue === 0) {
-			return ""
-		}
-		return AgateRounding.roundDown(distance).toString
+		return distance.doubleValue
 	}
 
 	private def Iterable<Double> getPointsDistance(Punkt_Objekt p1,
@@ -711,4 +724,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 		].filter[present].map[get.doubleValue].toList
 	}
 
+	protected def int getDistanceScale(PZB_Element pzb) {
+		return 0;
+	}
 }
