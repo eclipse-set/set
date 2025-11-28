@@ -8,6 +8,7 @@
  */
 package org.eclipse.set.feature.table.pt1.sskp
 
+import java.math.RoundingMode
 import java.util.Set
 import org.eclipse.set.basis.graph.TopPoint
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
@@ -50,6 +51,8 @@ import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensi
 import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
 import static extension org.eclipse.set.utils.math.BigIntegerExtensions.*
 import static extension org.eclipse.set.utils.math.DoubleExtensions.*
+import org.eclipse.set.model.planpro.PZB.util.PZBValidator
+import java.math.BigDecimal
 
 /**
  * Table transformation for a PZB-Tabelle (Sskp)
@@ -551,7 +554,24 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				pzb,
 				[pzbGUEs],
 				null,
-				[GUEMessstrecke?.wert.intValue.toString]
+				[
+					val value = GUEMessstrecke?.wert?.setScale(2,
+						RoundingMode.FLOOR)
+					if (value === null) {
+						return ""
+					}
+
+					if (!PZBValidator.INSTANCE.
+						validateGUE_Messstrecke_Type(value, null, null)) {
+						val GUEMessstreckePattern = PZBValidator.
+							GUE_MESSSTRECKE_TYPE__PATTERN__VALUES.flatMap [ pattern |
+								pattern.map[t|t.toString]
+							].firstOrNull
+
+						throw new IllegalArgumentException('''The value: «value.toString»  isn't match the pattern: «GUEMessstreckePattern»''')
+					}
+					return value.toString
+				]
 			)
 
 			// V: Sskp.Gue.GUE_Anordnung
@@ -641,9 +661,9 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				getPointsDistance(pzb, signal).min, scaleValue)
 			val directionSign = topGraph.
 					isInWirkrichtungOfSignal(signal, pzb) ? "+" : "-"
-			return distance == 0.0 ? distance.
-				toTableDecimal(
-					scaleValue) : '''«directionSign»«distance.toTableDecimal(scaleValue)»'''
+			return distance == 0.0
+				? distance.toTableDecimal(scaleValue)
+				: '''«directionSign»«distance.toTableDecimal(scaleValue)»'''
 		}
 
 		val bueSpezifischesSignal = signal.container.BUESpezifischesSignal.
