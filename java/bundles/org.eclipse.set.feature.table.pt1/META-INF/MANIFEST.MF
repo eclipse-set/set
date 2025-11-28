@@ -122,6 +122,8 @@ Service-Component: OSGI-INF/org.eclipse.set.feature.table.pt1.messages.Messages.
  OSGI-INF/org.eclipse.set.feature.table.pt1.ssko.SskoTransformationService.xml,
  OSGI-INF/org.eclipse.set.feature.table.pt1.sskp.SskpDescriptionService.xml,
  OSGI-INF/org.eclipse.set.feature.table.pt1.sskp.SskpTransformationService.xml,
+ OSGI-INF/org.eclipse.set.feature.table.pt1.sskp.dm.SskpDmDescriptionService.xml,
+ OSGI-INF/org.eclipse.set.feature.table.pt1.sskp.dm.SskpDmTransformationService.xml,
  OSGI-INF/org.eclipse.set.feature.table.pt1.ssks.SsksDescriptionService.xml,
  OSGI-INF/org.eclipse.set.feature.table.pt1.ssks.SsksTablePdfExportBuilder.xml,
  OSGI-INF/org.eclipse.set.feature.table.pt1.ssks.SsksTransformationService.xml,

@@ -68,7 +68,14 @@ public class SskpBahnsteigUtils {
 		}
 	}
 
-	static BahnsteigDistance getBahnsteigDistances(
+	/**
+	 * @param bahnsteigs
+	 *            the list of {@link Bahnsteig_Kante}
+	 * @param pzb
+	 *            the {@link PZB_Element}
+	 * @return the {@link BahnsteigDistance}
+	 */
+	public static BahnsteigDistance getBahnsteigDistances(
 			final List<Bahnsteig_Kante> bahnsteigs, final PZB_Element pzb) {
 
 		final Punkt_Objekt_TOP_Kante_AttributeGroup point = pzb
