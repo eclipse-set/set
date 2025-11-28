@@ -12,7 +12,7 @@ package org.eclipse.set.utils.table.sorting;
 
 import static org.eclipse.set.basis.MixedStringComparator.compareNullableValue;
 
-import java.util.Comparator;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -23,6 +23,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum;
+import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.basis.extensions.MatcherExtensions;
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt;
 import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
@@ -38,7 +39,8 @@ import org.slf4j.LoggerFactory;
  * 
  * @author truong
  */
-public class CompareRouteAndKmCriterion implements Comparator<TableRow> {
+public class CompareRouteAndKmCriterion
+		extends AbstractCompareWithDependencyOnServiceCriterion<TableRow> {
 	private final Logger logger = LoggerFactory
 			.getLogger(CompareRouteAndKmCriterion.class);
 	private final SortDirectionEnum direction;
@@ -47,6 +49,7 @@ public class CompareRouteAndKmCriterion implements Comparator<TableRow> {
 	private static final String KILOMETRIERUNG_PATTERN = "(?<numberPrefix>-)?(?<numberN>[1-9]\\d{0,2}|0),((?<numberD1>\\d{3})|(?<numberD2>\\d)(?<numberN2Prefix>[\\+\\-])(?<numberN2>[1-9]\\d{0,4}))"; //$NON-NLS-1$
 	private static final String EXTRA_LENGTH_GROUP_NAME = "numberN2"; //$NON-NLS-1$
 	private final Pattern kmPattern;
+	private boolean isWaitingOnService;
 
 	/**
 	 * @param getPunktObjectFunc
@@ -136,7 +139,7 @@ public class CompareRouteAndKmCriterion implements Comparator<TableRow> {
 		if (compareCollection.isPresent()) {
 			return compareCollection.get().intValue();
 		}
-		return numericComparator.compareCell(firstKms, secondKms);
+		return compareKm(firstKms, secondKms);
 	}
 
 	/**
