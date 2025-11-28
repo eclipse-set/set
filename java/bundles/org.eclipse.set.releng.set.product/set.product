@@ -3,6 +3,7 @@
 
 <product name="org.eclipse.set.application" uid="SET" id="org.eclipse.set.application.set.product_set" application="org.eclipse.e4.ui.workbench.swt.E4Application" version="2.6.0.qualifier" type="features" includeLaunchers="true" autoIncludeRequirements="false">
 
+
    <configIni use="default">
    </configIni>
 
@@ -24,15 +25,19 @@
 
    <windowImages/>
 
+
    <launcher name="set">
       <win useIco="true">
          <bmp/>
       </win>
    </launcher>
 
+
    <vm>
+      <linux include="false">org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-21</linux>
       <windows include="false">org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-21</windows>
    </vm>
+
 
    <plugins>
    </plugins>
@@ -83,7 +88,6 @@
       <property name="toolbox.logfile" value="" />
       <property name="toolbox.export.pdf.test.filling" value="false" />
       <property name="toolbox.development.mode" value="false" />
-      <property name="toolbox.defaultdir" value="$USERPROFILE$\planpro" />
       <property name="toolbox.greyedoutstyle.background" value="242,242,242" />
       <property name="toolbox.tables.scale" value="50.0" />
       <property name="toolbox.buildNumber" value="${buildNumber}" />
@@ -96,9 +100,8 @@
       <property name="toolbox.siteplan.export_dpi" value="300" />
       <property name="toolbox.siteplan.export.scale" value="1000" />
       <property name="toolbox.path_finding_tolerance" value="0.001" />
-      <property name="toolbox.geometry_calculation.arc_step_length_in_meter" value="0.001" />
-      <property name="toolbox.geometry_calculation.clothoid_step_length_in_meter" value="0.5" />
-      <property name="toolbox.geometry_calculation.bloss_step_length_in_meter" value="0.5" />
+      <property name="toolbox.defaultdir.win" value="$USERPROFILE$\planpro" os="win32" />
+      <property name="toolbox.defaultdir.linux" value="./planpro" os="linux" />
    </configurations>
 
    <preferencesInfo>

@@ -37,6 +37,7 @@ import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.ProjectInitializationData;
 import org.eclipse.set.basis.Wrapper;
 import org.eclipse.set.basis.constants.ToolboxConstants;
+import org.eclipse.set.basis.constants.ToolboxOS;
 import org.eclipse.set.basis.exceptions.ErrorStatus;
 import org.eclipse.set.basis.extensions.PathExtensions;
 import org.eclipse.set.basis.files.ToolboxFileFilter;
@@ -46,6 +47,7 @@ import org.eclipse.set.core.Messages;
 import org.eclipse.set.core.services.dialog.DialogService;
 import org.eclipse.set.core.services.files.ToolboxFileService;
 import org.eclipse.set.custom.extensions.FileDialogExtensions;
+import org.eclipse.set.utils.ToolboxConfiguration;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
@@ -581,8 +583,12 @@ public class DialogServiceImpl implements DialogService {
 				messages.DialogService_OpenDirectoryAfterExport_ShowDir);
 		if (result == 1) {
 			try {
+				final String openExplorerCmd = ToolboxConfiguration
+						.getCurrentOS() == ToolboxOS.LINUX ? "nautilus" //$NON-NLS-1$
+								: "explorer"; //$NON-NLS-1$
 				Runtime.getRuntime()
-						.exec(new String[] { "explorer", path.toString() }); //$NON-NLS-1$
+						.exec(new String[] { openExplorerCmd,
+								path.toString() });
 			} catch (final IOException e) {
 				throw new RuntimeException(e);
 			}

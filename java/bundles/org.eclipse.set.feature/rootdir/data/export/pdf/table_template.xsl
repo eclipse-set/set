@@ -53,7 +53,7 @@ http://www.eclipse.org/legal/epl-v20.html
     <!-- Main page layout -->
     <xsl:template name="MainPage" match="/">
         <fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format"
-            xmlns:fox="http://xmlgraphics.apache.org/fop/extensions" language="de" linefeed-treatment="preserve" xsl:use-attribute-sets="default-font">
+            xmlns:fox="http://xmlgraphics.apache.org/fop/extensions" language="de" linefeed-treatment="preserve" xsl:use-attribute-sets="default">
             <fo:layout-master-set>
                 <fo:simple-page-master xsl:use-attribute-sets="table-master-style" master-name="table-master">
                     <fo:region-body xsl:use-attribute-sets="region-body-style"/>
@@ -72,6 +72,7 @@ http://www.eclipse.org/legal/epl-v20.html
                     </fo:repeatable-page-master-alternatives>
                 </fo:page-sequence-master>
             </fo:layout-master-set>
+            <fo:declarations xsl:use-attribute-sets="default" />
             <fo:page-sequence master-reference="page-sequence-master">
                 <fo:static-content flow-name="folding-mark-region">
                     <xsl:call-template name="FoldingMarksTop"/>

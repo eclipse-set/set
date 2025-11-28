@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:template match="/">
     <fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format"
-        xmlns:fox="http://xmlgraphics.apache.org/fop/extensions" language="de" linefeed-treatment="preserve" xsl:use-attribute-sets="default-font">
+        xmlns:fox="http://xmlgraphics.apache.org/fop/extensions" language="de" linefeed-treatment="preserve" xsl:use-attribute-sets="default">
         <fo:layout-master-set>
             <fo:simple-page-master xsl:use-attribute-sets="table-master-style" master-name="table-master-a">
                 <fo:region-body xsl:use-attribute-sets="region-body-style"/>
@@ -25,6 +25,7 @@
                 </fo:repeatable-page-master-alternatives>
             </fo:page-sequence-master>
         </fo:layout-master-set>
+        <fo:declarations xsl:use-attribute-sets="default" />
         <fo:page-sequence force-page-count="no-force" master-reference="table-master-a">
             <fo:static-content flow-name="folding-mark-region">
                 <xsl:call-template name="FoldingMarksTop"/>

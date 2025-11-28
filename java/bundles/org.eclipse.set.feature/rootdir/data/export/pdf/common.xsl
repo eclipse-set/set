@@ -35,7 +35,7 @@ http://www.eclipse.org/legal/epl-v20.html
 			<xsl:value-of select="$title-box-region-extend" />
 		</xsl:attribute>
 	</xsl:attribute-set>
-	<xsl:attribute-set name="default-font">
+	<xsl:attribute-set name="default">
 		<xsl:attribute name="font-family">Open Sans Condensed</xsl:attribute>
 		<xsl:attribute name="font-size">8</xsl:attribute>
 		<xsl:attribute name="font-style">normal</xsl:attribute>
@@ -282,31 +282,27 @@ http://www.eclipse.org/legal/epl-v20.html
 	<xsl:template name="CompareCellContentStyle">
 		<xsl:choose>
 			<xsl:when test="CompareProjectContent">
-				<xsl:attribute name="border-top">
-					<xsl:value-of select="$compare-content-border-style" />
-				</xsl:attribute>
-				<xsl:attribute name="border-bottom">
+				<xsl:attribute name="border">
 					<xsl:value-of select="$compare-content-border-style" />
 				</xsl:attribute>
 
-				<xsl:if test="not(../@compareType) or number(@column-number) = 1">
-					<xsl:attribute name="border-left">
-						<xsl:value-of select="$compare-content-border-style" />
-					</xsl:attribute>
-				</xsl:if>
-				<xsl:if test="not(../@compareType) or position() = last()">
-					<xsl:attribute name="border-right">
-						<xsl:value-of select="$compare-content-border-style" />
-					</xsl:attribute>
-				</xsl:if>
+				<xsl:if test="../@compareType">
+					<xsl:if test="../@compareType = 'CHANGED_GUID_ROW'">
+						<xsl:attribute name="border-style">
+							<xsl:value-of select="'dashed'" />
+						</xsl:attribute>
+					</xsl:if>
+					<xsl:if test="@column-number != '1'">
+						<xsl:attribute name="border-left-style">
+							<xsl:value-of select="'none'" />
+						</xsl:attribute>
+					</xsl:if>
+					<xsl:if test="position() != last()">
+						<xsl:attribute name="border-right-style">
+							<xsl:value-of select="'none'" />
+						</xsl:attribute>
+					</xsl:if>
 
-				<xsl:if test="../@compareType = 'CHANGED_GUID_ROW'">
-					<xsl:attribute name="border-top-style">
-						<xsl:value-of select="'dashed'" />
-					</xsl:attribute>
-					<xsl:attribute name="border-bottom-style">
-						<xsl:value-of select="'dashed'" />
-					</xsl:attribute>
 				</xsl:if>
 			</xsl:when>
 			<xsl:otherwise>

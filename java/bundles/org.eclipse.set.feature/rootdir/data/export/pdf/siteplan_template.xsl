@@ -47,7 +47,7 @@ http://www.eclipse.org/legal/epl-v20.html
 
   <!-- Main page layout -->
   <xsl:template match="/" name="MainPage">
-    <fo:root language="de" linefeed-treatment="preserve" xsl:use-attribute-sets="default-font">
+    <fo:root language="de" linefeed-treatment="preserve" xsl:use-attribute-sets="default">
       <fo:layout-master-set>
         <fo:simple-page-master master-name="table-master" xsl:use-attribute-sets="page-master-style">
           <fo:region-body xsl:use-attribute-sets="siteplan-region-style"/>
@@ -63,7 +63,7 @@ http://www.eclipse.org/legal/epl-v20.html
           </fo:repeatable-page-master-alternatives>
         </fo:page-sequence-master>
       </fo:layout-master-set>
-
+      <fo:declarations xsl:use-attribute-sets="default" />
       <fo:page-sequence master-reference="page-sequence-master" initial-page-number="{$pagePosition}">
         <fo:static-content flow-name="folding-mark-region-top">
           <xsl:call-template name="CutMark"/>
