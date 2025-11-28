@@ -49,7 +49,7 @@ public class CompareRouteAndKmCriterion
 	private static final String KILOMETRIERUNG_PATTERN = "(?<numberPrefix>-)?(?<numberN>[1-9]\\d{0,2}|0),((?<numberD1>\\d{3})|(?<numberD2>\\d)(?<numberN2Prefix>[\\+\\-])(?<numberN2>[1-9]\\d{0,4}))"; //$NON-NLS-1$
 	private static final String EXTRA_LENGTH_GROUP_NAME = "numberN2"; //$NON-NLS-1$
 	private final Pattern kmPattern;
-	private boolean isWaitingOnService;
+	private boolean isWaitingOnService = false;
 
 	/**
 	 * @param getPunktObjectFunc
