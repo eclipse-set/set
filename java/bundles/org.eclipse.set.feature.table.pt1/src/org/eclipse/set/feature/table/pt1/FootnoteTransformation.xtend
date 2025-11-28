@@ -12,16 +12,17 @@ import org.eclipse.set.model.planpro.BasisTypen.ID_Bearbeitungsvermerk_TypeClass
 import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
 import org.eclipse.set.model.planpro.Basisobjekte.Bearbeitungsvermerk
 import org.eclipse.set.model.planpro.Signale.Signal
+import org.eclipse.set.model.planpro.Signale.Signal_Befestigung
+import org.eclipse.set.model.planpro.Signale.Signal_Rahmen
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element
 import org.eclipse.set.model.tablemodel.SimpleFootnoteContainer
 import org.eclipse.set.model.tablemodel.TableRow
 import org.eclipse.set.model.tablemodel.TablemodelFactory
 
+import static extension org.eclipse.set.ppmodel.extensions.SignalBefestigungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalRahmenExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.SignalBefestigungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspElementExtensions.*
-import org.eclipse.set.model.planpro.Signale.Signal_Befestigung
 
 /**
  * Transform basis objects to footnotes.
@@ -49,13 +50,14 @@ class FootnoteTransformation {
 		Signal signal) {
 		val signalFootNotes = signal?.IDBearbeitungsvermerk
 		val signalRahmenFootNotes = signal?.signalRahmen?.flatMap [
-			IDBearbeitungsvermerk
+			objectFootnotes
 		]
 		val signalBefestigungFootNotes = signal?.signalRahmen?.map [
 			signalBefestigung
 		].filterNull.flatMap [
 			objectFootnotes
 		]
+
 		return #[signalFootNotes, signalRahmenFootNotes,
 			signalBefestigungFootNotes].filterNull.flatten
 	}
@@ -79,6 +81,15 @@ class FootnoteTransformation {
 		val gspAnlageFootNotes = gspElement?.WKrAnlage?.IDBearbeitungsvermerk
 		return #[gspElementFootNotes, gspKomponentFootNotes,
 			gspAnlageFootNotes].filterNull.flatten
+	}
+
+	private def dispatch Iterable<ID_Bearbeitungsvermerk_TypeClass> getObjectFootnotes(
+		Signal_Rahmen signalRahmen) {
+		val rahmenFootnotes = signalRahmen.IDBearbeitungsvermerk.filterNull
+		val signalBegriffFootntoes = signalRahmen.signalbegriffe.flatMap [
+			IDBearbeitungsvermerk
+		].filterNull
+		return #[rahmenFootnotes, signalBegriffFootntoes].flatten
 	}
 
 	private def void addFootnote(Bearbeitungsvermerk comment) {

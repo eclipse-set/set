@@ -41,7 +41,7 @@ if [ ! -z "$askForInstall" ]; then
   if [[ "$OSTYPE" == "linux-gnu" ]]; then
     echo "Downloading eclipse for Linux..."
     mkdir ./tmp-eclipse-download
-    curl -o ./tmp-eclipse-download/eclipse.tar.gz https://mirrors.dotsrc.org/eclipse/technology/epp/downloads/release/2025-03/R/eclipse-java-2025-03-R-linux-gtk-x86_64.tar.gz
+    curl -o ./tmp-eclipse-download/eclipse.tar.gz https://archive.eclipse.org/technology/epp/downloads/release/2025-03/R/eclipse-java-2025-03-R-linux-gtk-x86_64.tar.gz
     tar -xzf ./tmp-eclipse-download/eclipse.tar.gz --directory ./tmp-eclipse-download --warning=no-unknown-keyword
     sleep 5s
     mkdir -p $ECLIPSE_HOME
@@ -52,7 +52,7 @@ if [ ! -z "$askForInstall" ]; then
   # Check for macOS (darwin is the OS type identifier used by macOS)
   if [[ "$OSTYPE" == "darwin"* ]]; then
     echo "Downloading eclipse for macOS..."
-    curl -o ./eclipse.dmg https://mirror.dkm.cz/eclipse/technology/epp/downloads/release/2025-03/R/eclipse-java-2025-03-R-macosx-cocoa-x86_64.dmg
+    curl -o ./eclipse.dmg https://archive.eclipse.org/technology/epp/downloads/release/2025-03/R/eclipse-java-2025-03-R-macosx-cocoa-x86_64.dmg
     echo "TODO: How to install eclipse under macos... Please install or unpack the downloaded eclipse.dmg by yourself to $ECLIPSE_HOME and restart the script."
     finish 1
   fi
@@ -61,7 +61,7 @@ if [ ! -z "$askForInstall" ]; then
   if [[ "$OSTYPE" == "msys" || "$OSTYPE" == "cygwin" || "$OSTYPE" == "win32" ]]; then
     echo "Downloading eclipse for Windows..."
     mkdir ./tmp-eclipse-download
-    curl -o ./tmp-eclipse-download/eclipse.zip https://ftp.snt.utwente.nl/pub/software/eclipse/technology/epp/downloads/release/2025-03/R/eclipse-java-2025-03-R-win32-x86_64.zip
+    curl -o ./tmp-eclipse-download/eclipse.zip https://archive.eclipse.org/technology/epp/downloads/release/2025-03/R/eclipse-java-2025-03-R-win32-x86_64.zip
     unzip -q ./tmp-eclipse-download/eclipse.zip -d ./tmp-eclipse-download
     mkdir -p $ECLIPSE_HOME
     mv ./tmp-eclipse-download/eclipse/* $ECLIPSE_HOME

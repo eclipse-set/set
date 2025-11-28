@@ -27,10 +27,11 @@ class SignalBefestigungExtensions extends BasisObjektExtensions {
 	}
 
 	/**
-	 * @param mount the Signal_Befestigung
+	 * @param mount the starting Signal_Befestigung
 	 * 
 	 * @returns A list containing mount and all Signal_Befestigung mount is attached to (either directly or indirectly)
 	 * 			in order from 'mount' to the last element in the Signal_Befestigung tree 
+	 * 			includes the starting-mount
 	 */
 	def static List<Signal_Befestigung> getSignalBefestigungen(
 		Signal_Befestigung mount) {

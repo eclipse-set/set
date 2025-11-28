@@ -191,16 +191,11 @@ class PunktObjektExtensions extends BasisObjektExtensions {
 			cache.set(poGuid, #[])
 			return #[]
 		}
-
+		
 		val getStreckeFunc = [ Punkt_Objekt_Strecke_AttributeGroup pos |
 			pos.IDStrecke?.value?.bezeichnung?.bezeichnungStrecke?.wert ?: ""
 		]
 
-		if (!isFindGeometryComplete) {
-			return po.punktObjektStrecke.map [ pos |
-				getStreckeFunc.apply(pos) -> #[]
-			].toList
-		}
 		if (po.punktObjektStrecke.size === 1) {
 			val result = #[getStreckeFunc.apply(po.punktObjektStrecke.first) ->
 				#[po.punktObjektStrecke.first.streckeKm.wert]]
@@ -218,7 +213,13 @@ class PunktObjektExtensions extends BasisObjektExtensions {
 			cache.set(poGuid, result)
 			return result
 		}
-
+		
+		if (!isFindGeometryComplete) {
+			return po.punktObjektStrecke.map [ pos |
+				getStreckeFunc.apply(pos) -> #[]
+			].toList
+		}
+		
 		val routeThroughBereichObjekt = po.singlePoint.
 			streckenThroughBereichObjekt
 
@@ -257,7 +258,7 @@ class PunktObjektExtensions extends BasisObjektExtensions {
 			try {
 				return route ->
 					po.singlePoint.getStreckeKmThroughProjection(route).
-						toTableDecimal
+						toTableDecimal(3)
 			} catch (Exception e) {
 				logger.error(
 					"Can't find the Signal route km through projection point on route",

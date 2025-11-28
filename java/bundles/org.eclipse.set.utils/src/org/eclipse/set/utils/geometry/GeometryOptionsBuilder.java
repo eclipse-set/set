@@ -8,7 +8,9 @@
  * SPDX-License-Identifier: EPL-2.0
  * 
  */
-package org.eclipse.set.basis.geometry;
+package org.eclipse.set.utils.geometry;
+
+import org.eclipse.set.utils.ToolboxConfiguration;
 
 /**
  * 
@@ -50,9 +52,8 @@ public class GeometryOptionsBuilder {
 	}
 
 	private static final int DEFAULT_MIN_COUNT = 20;
-	private static final double DEFAULT_STEP_SIZE = Math.PI / 100;
 
-	private double stepSize = DEFAULT_STEP_SIZE;
+	private double stepSize = ToolboxConfiguration.getGeometryArcStepLength();
 	private int count = DEFAULT_MIN_COUNT;
 	private int percision = 0;
 

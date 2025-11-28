@@ -8,9 +8,10 @@
  * SPDX-License-Identifier: EPL-2.0
  * 
  */
-package org.eclipse.set.basis.geometry;
+package org.eclipse.set.utils.geometry;
 
-import org.eclipse.set.basis.geometry.GeometryOptionsBuilder.GeometryOptions;
+import org.eclipse.set.utils.ToolboxConfiguration;
+import org.eclipse.set.utils.geometry.GeometryOptionsBuilder.GeometryOptions;
 
 /**
  * Options for calculation geometry
@@ -20,12 +21,10 @@ import org.eclipse.set.basis.geometry.GeometryOptionsBuilder.GeometryOptions;
 public class GeometryCalculationOptions {
 	// Configuration options for Bloss curves
 	private static final int DEFAULT_BLOSS_SEGMENTS_MIN = 10;
-	private static final double DEFAULT_BLOSS_SEGMENTS_PER_LENGTH = 0.5;
 	private static final int DEFAULT_BLOSS_PRECISION = 20;
 
 	// Configuration options for Clothoids
 	private static final int DEFAULT_CLOTHOID_SEGMENTS_MIN = 10;
-	private static final double DEFAULT_CLOTHOID_SEGMENTS_PER_LENGTH = 0.5;
 	private static final int DEFAULT_CLOTHOID_PRECISION = 5;
 
 	private final GeometryOptions chordOptions;
@@ -90,14 +89,16 @@ public class GeometryCalculationOptions {
 		public GeometryCalculationOptionsBuilder() {
 			chordOptionsBuilder = new GeometryOptionsBuilder().build();
 			blossOptionsBuilder = new GeometryOptionsBuilder()
-					.setStepSize(DEFAULT_BLOSS_SEGMENTS_PER_LENGTH)
+					.setStepSize(
+							ToolboxConfiguration.getGeometryBlossStepLength())
 					.setAccuracy(DEFAULT_BLOSS_PRECISION)
 					.setSegmentCount(DEFAULT_BLOSS_SEGMENTS_MIN)
 					.build();
 			clothoidOptionsBuilder = new GeometryOptionsBuilder()
 					.setSegmentCount(DEFAULT_CLOTHOID_SEGMENTS_MIN)
 					.setAccuracy(DEFAULT_CLOTHOID_PRECISION)
-					.setStepSize(DEFAULT_CLOTHOID_SEGMENTS_PER_LENGTH)
+					.setStepSize(ToolboxConfiguration
+							.getGeometryClothoidStepLength())
 					.build();
 		}
 

@@ -13,6 +13,11 @@ on:
     paths-ignore:
       - DEPENDENCIES
 
+# Enable concurrency to avoid multiple builds at the same time
+concurrency: 
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 env:
   GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
   DEPLOY_DIR: ${{ github.workspace }}/java-test/m2deploy
@@ -23,7 +28,7 @@ jobs:
   docs:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - name: Install Asciidoctor & Hugo
         uses: eclipse-set/build/.github/actions/setup-asciidoctor@main
@@ -42,7 +47,7 @@ jobs:
   developerhelp:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - name: Install Asciidoctor & Hugo
         uses: eclipse-set/build/.github/actions/setup-asciidoctor@main
@@ -61,7 +66,7 @@ jobs:
   textviewer:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Build
         run: |
           npm ci
@@ -77,7 +82,7 @@ jobs:
   pdfviewer:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Build
         run: |
           wget --no-verbose -O pdfjs.zip https://github.com/mozilla/pdf.js/releases/download/v$(node getVersion.js)/pdfjs-$(node getVersion.js)-dist.zip
@@ -94,12 +99,22 @@ jobs:
   siteplan:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
+      
+      - name: Cache node_modules
+        uses: actions/cache@v4
+        with:
+          enableCrossOsArchive: true
+          path: ${{ github.workspace }}/web/siteplan/node_modules/
+          key: ${{ runner.os }}-node_modules-${{ hashFiles('web/siteplan/package-lock.json') }}
+          restore-keys: ${{ runner.os }}-node_modules-
+
       - name: Build
         run: |
           npm ci
           npm run build-prod
         working-directory: web/siteplan
+      
       - name: Store artifact
         uses: actions/upload-artifact@v5
         with:
@@ -110,7 +125,7 @@ jobs:
   news:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Setup Java
         uses: eclipse-set/build/.github/actions/setup-java@main
 
@@ -145,7 +160,7 @@ jobs:
       actions: read
       security-events: write
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v4
@@ -197,12 +212,25 @@ jobs:
         with:
           name: news-artifact
           path: web/news/public
-
+      
+      - name: Cache m2repo
+        uses: actions/cache@v4
+        with:
+          enableCrossOsArchive: true
+          path: ~/.m2/repository/
+          key: ${{ runner.os }}-m2repo-${{ hashFiles('**/java/bundles/org.eclipse.set.releng.target/org.eclipse.set.releng.target.target', 'pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2repo-
       - name: Build
-        run: mvn -T 1.5C -U -B clean deploy checkstyle:checkstyle --settings .github/settings.xml -DaltDeploymentRepository=local::file://${{ github.workspace }}/set-m2deploy
+        run: |
+          if [[ "${{ github.event_name }}" == "pull_request" || "${{github.ref}}" == refs/heads/release/* ]]; then
+            # The local deployment repository is only needed for PR builds or the build in release branch to resolve dependencies
+            mvn -T 1.5C -U -B clean deploy checkstyle:checkstyle --settings .github/settings.xml -DaltDeploymentRepository="local::file://${{ env.DEPLOY_DIR }}"
+          else
+            mvn -T 1.5C -U -B clean verify checkstyle:checkstyle --settings .github/settings.xml
+          fi
         env:
           GITHUB_TOKEN: ${{ github.token }}
-
+      
       - name: Upload artifact
         uses: actions/upload-artifact@v5
         with:
@@ -214,7 +242,7 @@ jobs:
         uses: actions/upload-artifact@v5
         with:
           name: set-m2deploy-${{github.run_number}}
-          path: ${{ github.workspace}}/set-m2deploy
+          path: ${{ env.DEPLOY_DIR }}
           retention-days: 1
       
       - name: Publish
@@ -232,7 +260,7 @@ jobs:
 
       - name: Upload release asset
         if: startsWith(github.ref, 'refs/tags/')
-        uses: softprops/action-gh-release@6da8fa9354ddfdc4aeace5fc48d7f679b5214090 # v2.4.1
+        uses: softprops/action-gh-release@5be0e66d93ac7ed76da52eca8bb058f665c3a5fe # v2.4.2
         with: 
           files: java/bundles/org.eclipse.set.releng.set.product/target/products/unsigned-Eclipse-SET-*.zip
           
@@ -257,7 +285,7 @@ jobs:
       pull-requests: write
       actions: read
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       
       - name: Setup Java
         uses: eclipse-set/build/.github/actions/setup-java@main
@@ -269,6 +297,8 @@ jobs:
           path: ${{ env.TEST_APPLICATION_DIR }}
 
       - name: Fetch m2 Deploy
+        # For main or tag build, the m2 packages can be taken directly from github m2package
+        if: github.ref != 'refs/heads/main' && !startsWith(github.ref, 'refs/tags/')
         uses: actions/download-artifact@v6
         with:
           name: set-m2deploy-${{github.run_number}}
@@ -281,14 +311,26 @@ jobs:
           repo: ${{ github.repository }}
         continue-on-error: true
 
+      - name: Cache m2repo
+        uses: actions/cache@v4
+        with:
+          enableCrossOsArchive: true
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-m2repo-${{ hashFiles('**/java/bundles/org.eclipse.set.releng.target/org.eclipse.set.releng.target.target', 'pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2repo-
+
       - name: Run Test
         id: test-steps
         shell: bash
         run: |
+          m2RepoPath="https://maven.pkg.github.com/eclipse-set/set"
+          if [[ "${{ github.event_name }}" == "pull_request" || "${{github.ref}}" == refs/heads/release/* ]]; then
+            m2RepoPath="file://${{ env.DEPLOY_DIR }}"
+          fi
           mvn -T 1.5C -U -B -f java-test/pom.xml clean verify  \
             --settings ./.github/settings.xml \
             -Dskip-test=false \
-            -Dm2-repo-path="file://${{ env.DEPLOY_DIR }}" \
+            -Dm2-repo-path="$m2RepoPath" \
             -Dapplication-under-test="${{ env.TEST_APPLICATION_DIR }}" \
       
       - name: Upload csv files

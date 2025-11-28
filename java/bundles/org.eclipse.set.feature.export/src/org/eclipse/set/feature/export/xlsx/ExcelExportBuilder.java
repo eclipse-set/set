@@ -104,9 +104,12 @@ public class ExcelExportBuilder implements TableExport {
 			final OverwriteHandling overwriteHandling)
 			throws FileExportException {
 		final Table table = getTableToBeExported(tables);
-
+		// IMPROVE: this is only a temporary situation for the table
+		// Sskp_dm
+		final String tableShortcut = shortcut.equals("sskp_dm") ? "sskp" //$NON-NLS-1$//$NON-NLS-2$
+				: shortcut;
 		final Path templatePath = Paths.get(TEMPLATE_DIR,
-				shortcut + "_vorlage.xlsx"); //$NON-NLS-1$
+				tableShortcut + "_vorlage.xlsx"); //$NON-NLS-1$
 		final Path outputPath = toolboxPaths.getTableExportPath(shortcut,
 				Paths.get(outputDir), exportType,
 				ExportPathExtension.TABLE_XLSX_EXPORT_EXTENSION);
