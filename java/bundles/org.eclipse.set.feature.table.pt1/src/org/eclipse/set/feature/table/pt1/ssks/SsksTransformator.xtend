@@ -110,6 +110,7 @@ import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensio
 import static extension org.eclipse.set.ppmodel.extensions.GeoPunktExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.SignalBefestigungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalRahmenExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalbegriffExtensions.*
@@ -117,7 +118,6 @@ import static extension org.eclipse.set.ppmodel.extensions.StellelementExtension
 import static extension org.eclipse.set.ppmodel.extensions.UnterbringungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.SignalBefestigungExtensions.*
 import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
 
 /**
@@ -1319,12 +1319,13 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 			].toList
 		}
 
-		val sameMastSignal = signalRahmen.map[IDSignalBefestigung.value].flatMap [
-			attachmentSignal
-		].filter [
-			it !== signal && (hasSignalbegriffID(typeof(Ne2)) ||
-				hasSignalbegriffID(typeof(Ne14)))
-		].toList
+		val sameMastSignal = signalRahmen.map[IDSignalBefestigung?.value].
+			filterNull.flatMap [
+				attachmentSignal
+			].filter [
+				it !== signal && (hasSignalbegriffID(typeof(Ne2)) ||
+					hasSignalbegriffID(typeof(Ne14)))
+			].toList
 		if (sameMastSignal.nullOrEmpty) {
 			return #[]
 		}

@@ -48,7 +48,9 @@ class SignalBefestigungExtensions extends BasisObjektExtensions {
 
 	def static List<Signal> getAttachmentSignal(Signal_Befestigung mount) {
 		return mount.container.signal.filter [ s |
-			s.signalRahmen.map[IDSignalBefestigung.value].exists[it === mount]
+			s.signalRahmen.map[IDSignalBefestigung?.value].filterNull.exists [
+				it === mount
+			]
 		].toList
 	}
 }
