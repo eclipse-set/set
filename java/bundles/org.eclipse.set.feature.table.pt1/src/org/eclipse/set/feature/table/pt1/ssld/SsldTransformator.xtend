@@ -19,6 +19,7 @@ import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_DWeg
+import org.eclipse.set.model.planpro.Geodaten.ENUMTOPAnschluss
 import org.eclipse.set.model.planpro.Signale.Signal
 import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
@@ -38,7 +39,10 @@ import static extension org.eclipse.set.ppmodel.extensions.FstrDWegSpezifischExt
 import static extension org.eclipse.set.ppmodel.extensions.FstrDWegWKrExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.TopKnotenExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.WKrGspElementExtensions.*
 import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
 
 /**
@@ -225,12 +229,7 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 				instance,
 				cols.getColumn(Weichen_Kreuzungen_mit_Verschluss),
 				dweg,
-				[
-					zuordnungen.filter[elementVerschluss?.wert == Boolean.TRUE].
-						map [
-							WKrGspElement.bezeichnung.bezeichnungTabelle.wert
-						]
-				],
+				[fillWeichenKreuzungen(Boolean.TRUE)],
 				MIXED_STRING_COMPARATOR
 			)
 
@@ -239,12 +238,7 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 				instance,
 				cols.getColumn(Weichen_Kreuzungen_ohne_Verschluss),
 				dweg,
-				[
-					zuordnungen.
-						filter[elementVerschluss?.wert == Boolean.FALSE].map [
-							WKrGspElement.bezeichnung.bezeichnungTabelle.wert
-						]
-				],
+				[fillWeichenKreuzungen(Boolean.FALSE)],
 				MIXED_STRING_COMPARATOR
 			)
 
@@ -375,5 +369,38 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 		// of all the relevant paths between fmaGrenzen and startSignal we take the longest path
 		val maxDistance = relevantPaths.map[it -> length].maxBy[value]
 		return maxDistance.value.toTableIntegerAgateDown
+	}
+
+	private def Iterable<String> fillWeichenKreuzungen(Fstr_DWeg dweg,
+		Boolean closure) {
+		val dwegTopKante = dweg.fstrFahrweg.topKanten
+		return dweg.zuordnungen.filter[elementVerschluss?.wert == closure].map [
+			val gspElement = WKrGspElement
+			val weichenKnoten = gspElement.WKrGspKomponenten.map[topKnoten].
+				filterNull
+			val relevantKnoten = weichenKnoten.filter [ knoten |
+				return knoten.topKanten.exists [ knotenKante |
+					dwegTopKante.exists[knotenKante === it]
+				]
+			]
+			val anschluss = relevantKnoten.flatMap [ knoten |
+				knoten.topKanten.filter[dwegTopKante.contains(it)].map [
+					getTOPAnschluss(knoten)
+				].filter[it !== ENUMTOPAnschluss.ENUMTOP_ANSCHLUSS_SPITZE]
+			]
+			return gspElement -> anschluss
+		].map [ pair |
+			val lage = pair.value.map [
+				switch (it) {
+					case ENUMTOP_ANSCHLUSS_LINKS:
+						"L"
+					case ENUMTOP_ANSCHLUSS_RECHTS:
+						"R"
+					default:
+						throw new IllegalArgumentException('''Ambiguous connection at Gsp_Element: «pair.key.identitaet.wert»''')
+				}
+			]
+			return '''«pair.key.bezeichnung?.bezeichnungTabelle?.wert»«IF !lage.nullOrEmpty» («lage.join(", ")»)«ENDIF»'''
+		]
 	}
 }

@@ -12,6 +12,7 @@ import java.util.List
 import java.util.Set
 import org.eclipse.set.basis.graph.TopPath
 import org.eclipse.set.basis.graph.TopPoint
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_DWeg
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_DWeg_W_Kr
@@ -21,6 +22,7 @@ import org.eclipse.set.model.planpro.Ortung.FMA_Anlage
 
 import static extension org.eclipse.set.ppmodel.extensions.FahrwegExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.StellBereichExtensions.*
 
 /**
  * Extensions for {@link Fstr_DWeg}.
@@ -98,6 +100,12 @@ class DwegExtensions extends BasisObjektExtensions {
 		] || endFarhwegPotk.exists [
 			pathToFma.getDistance(new TopPoint(it)).isPresent
 		]
+	}
+	
+	def static boolean isBelongToControlArea(Fstr_DWeg fstrDWeg,
+		Stell_Bereich controlArea) {
+		return controlArea.
+			isInControlArea(fstrDWeg.IDFstrFahrweg?.value?.IDStart?.value)
 	}
 
 }
