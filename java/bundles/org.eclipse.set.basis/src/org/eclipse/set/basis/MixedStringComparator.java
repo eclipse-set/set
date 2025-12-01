@@ -133,24 +133,17 @@ public class MixedStringComparator implements Comparator<String> {
 
 	private static int compareNumber(final String groupName,
 			final String groupO1, final String groupO2) {
-		if (groupName.endsWith("Prefix")) {
-			final String value1 = groupO1 == null ? "" : groupO1;
-			final String value2 = groupO2 == null ? "" : groupO2;
-			if (value1.equals("-") && !value2.equals("-")) {
-				return -1;
-			}
-
-			if (!value1.equals("-") && value2.equals("-")) {
-				return 1;
-			}
-			return 0;
+		if (groupName.startsWith("numberD")) {
+			final String value1 = groupO1 == null ? "0.0" : "0." + groupO1;
+			final String value2 = groupO2 == null ? "0.0" : "0." + groupO2;
+			return Double.valueOf(value1).compareTo(Double.valueOf(value2));
 		}
-		final int value1 = Strings.isNullOrEmpty(groupO1) ? 0
-				: Integer.parseInt(groupO1);
-		final int value2 = Strings.isNullOrEmpty(groupO2) ? 0
-				: Integer.parseInt(groupO2);
+		final double value1 = Strings.isNullOrEmpty(groupO1) ? 0
+				: Double.parseDouble(groupO1);
+		final double value2 = Strings.isNullOrEmpty(groupO2) ? 0
+				: Double.parseDouble(groupO2);
 
-		return Integer.compare(value1, value2);
+		return Double.compare(value1, value2);
 	}
 
 	/**

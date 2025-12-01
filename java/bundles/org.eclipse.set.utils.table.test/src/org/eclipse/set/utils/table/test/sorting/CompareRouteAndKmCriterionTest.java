@@ -21,6 +21,7 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.eclipse.emf.ecore.EValidator.PatternMatcher;
+import org.eclipse.set.basis.Pair;
 import org.eclipse.set.model.planpro.BasisTypen.util.BasisTypenValidator;
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt;
 import org.eclipse.set.utils.table.sorting.CompareRouteAndKmCriterion;
@@ -31,7 +32,7 @@ import org.junit.jupiter.api.Test;
  */
 public class CompareRouteAndKmCriterionTest {
 
-	private static Double addExtraLength(final String km) {
+	private static Pair<Double, Double> analyseKmValue(final String km) {
 		if (isContainsExtraKm(km)) {
 			final String extraLength = km.contains("+")
 					? "+" + km.substring(km.indexOf("+") + 1)
@@ -39,13 +40,22 @@ public class CompareRouteAndKmCriterionTest {
 			final String kilometer = km.replace(extraLength, "");
 			final double doubleValue = Double
 					.parseDouble(kilometer.replace(",", "."));
-			final double doubleValueExtraLength = Double
-					.parseDouble(extraLength);
-			final double addExtraLengthKm = doubleValue
-					+ doubleValueExtraLength / 1000;
-			return Double.valueOf(addExtraLengthKm);
+			final double extraLengthDouble = Double.parseDouble(extraLength);
+			return new Pair<>(Double.valueOf(doubleValue),
+					Double.valueOf(extraLengthDouble));
 		}
-		return Double.valueOf(km.replace(",", "."));
+		return new Pair<>(Double.valueOf(km.replace(",", ".")),
+				Double.valueOf(0.0));
+	}
+
+	private static int compareKm(final Pair<Double, Double> first,
+			final Pair<Double, Double> second) {
+		final int mainValueCompare = first.getFirst()
+				.compareTo(second.getFirst());
+		if (mainValueCompare != 0) {
+			return mainValueCompare;
+		}
+		return first.getSecond().compareTo(second.getSecond());
 	}
 
 	private static boolean isContainsExtraKm(final String km) {
@@ -55,7 +65,9 @@ public class CompareRouteAndKmCriterionTest {
 	}
 
 	List<String> kilometrierungPatternInSchema;
+
 	List<String> kmList;
+
 	List<String> sortedKmList;
 
 	CompareRouteAndKmCriterion testee;
@@ -108,13 +120,14 @@ public class CompareRouteAndKmCriterionTest {
 	private void thenExpectEqualsSortedList() {
 		final List<String> clone = new LinkedList<>(unsortKmList);
 		clone.sort((first, second) -> {
-			final Double firstKm = addExtraLength(first);
-			final Double secondKm = addExtraLength(second);
-
-			return firstKm.compareTo(secondKm);
+			final Pair<Double, Double> firstKm = analyseKmValue(first);
+			final Pair<Double, Double> secondKm = analyseKmValue(second);
+			return compareKm(firstKm, secondKm);
 		});
 		for (int i = 0; i < clone.size(); i++) {
-			assertEquals(clone.get(i), sortedKmList.get(i));
+			assertEquals(clone.get(i), sortedKmList.get(i), () -> {
+				return "TEST";
+			});
 		}
 	}
 
@@ -146,6 +159,17 @@ public class CompareRouteAndKmCriterionTest {
 			}
 			return null;
 		});
+	}
+
+	@Test
+	void testCompareKm() {
+		givenCompareRouteAndKmCriterion();
+		assertEquals(-1,
+				testee.compareKm(Set.of("123,100"), Set.of("123,1+100")));
+		assertEquals(1,
+				testee.compareKm(Set.of("123,100"), Set.of("123,1-100")));
+		assertEquals(1,
+				testee.compareKm(Set.of("123,200"), Set.of("123,1+100")));
 	}
 
 	/**

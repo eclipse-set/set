@@ -46,9 +46,8 @@ public class CompareRouteAndKmCriterion
 	private final SortDirectionEnum direction;
 	private final Function<Ur_Objekt, Punkt_Objekt> getPunktObjectFunc;
 	private final NumericCellComparator numericComparator;
-	private static final String KILOMETRIERUNG_PATTERN = "(?<numberPrefix>-)?(?<numberN>[1-9]\\d{0,2}|0),((?<numberD1>\\d{3})|(?<numberD2>\\d)(?<numberN2>[\\+\\-][1-9]\\d{0,4}))"; //$NON-NLS-1$
+	private static final String KILOMETRIERUNG_PATTERN = "(?<numberN>-?[1-9]\\d{0,2}|0),((?<numberD1>\\d{3})|(?<numberD2>\\d)(?<numberN2>[\\+\\-][1-9]\\d{0,4}))"; //$NON-NLS-1$
 	private static final String EXTRA_LENGTH_GROUP_NAME = "numberN2"; //$NON-NLS-1$
-	private static final String EXTRA_LENGTH_PREFIX = "numberN2Prefix"; //$NON-NLS-1$
 	private final Pattern kmPattern;
 	private boolean isWaitingOnService = false;
 
@@ -161,23 +160,14 @@ public class CompareRouteAndKmCriterion
 		for (final String firstKm : firstKms) {
 			for (final String secondKm : secondKms) {
 				final Optional<Integer> compareMatchPattern = compareNullableValue(
-						firstKm, secondKm, km -> {
-							final Matcher matcher = kmPattern.matcher(km);
-							if (!matcher.matches()) {
-								logger.error("Wrong Kilometer format: {}", km); //$NON-NLS-1$
-								return true;
-							}
-							return false;
-						});
+						firstKm, secondKm, this::kmPatternCheck);
 				if (compareMatchPattern.isPresent()) {
 					return compareMatchPattern.get().intValue();
 				}
 
-				final double firstDoubleValue = convertToDoubleValue(firstKm);
-				final double secondDoubleValue = convertToDoubleValue(secondKm);
 				final int compare = direction == SortDirectionEnum.ASC
-						? Double.compare(firstDoubleValue, secondDoubleValue)
-						: Double.compare(secondDoubleValue, firstDoubleValue);
+						? compareKm(firstKm, secondKm)
+						: compareKm(secondKm, firstKm);
 				if (compare != 0) {
 					return compare;
 				}
@@ -186,19 +176,38 @@ public class CompareRouteAndKmCriterion
 		return 0;
 	}
 
-	private double convertToDoubleValue(final String km) {
+	private int compareKm(final String first, final String second) {
+		final Pair<Double, Double> firstKm = analyseKmValue(first);
+		final Pair<Double, Double> secondKm = analyseKmValue(second);
+		final int mainValueCompare = firstKm.getKey()
+				.compareTo(secondKm.getKey());
+		if (mainValueCompare != 0) {
+			return mainValueCompare;
+		}
+		return firstKm.getValue().compareTo(secondKm.getValue());
+	}
+
+	@SuppressWarnings("nls")
+	private Pair<Double, Double> analyseKmValue(final String km) {
 		final Matcher matcher = kmPattern.matcher(km);
 		final Optional<String> extraLength = MatcherExtensions.getGroup(matcher,
 				EXTRA_LENGTH_GROUP_NAME);
 		if (extraLength.isPresent()) {
-			final String originalKm = km.replace(extraLength.get(), ""); //$NON-NLS-1$
-			final double doubleValue = Double
-					.parseDouble(originalKm.replace(",", ".")); //$NON-NLS-1$ //$NON-NLS-2$
-			final double doubleValueExtraLength = Double
-					.parseDouble(extraLength.get());
-			return doubleValue + doubleValueExtraLength / 1000;
+			final String mainKm = km.replace(extraLength.get(), "");
+			return new Pair<>(Double.valueOf(mainKm.replace(",", ".")),
+					Double.valueOf(extraLength.get()));
 		}
-		return Double.parseDouble(km.replace(",", ".")); //$NON-NLS-1$ //$NON-NLS-2$
+		return new Pair<>(Double.valueOf(km.replace(",", ".")),
+				Double.valueOf(0));
+	}
+
+	private boolean kmPatternCheck(final String km) {
+		final Matcher matcher = kmPattern.matcher(km);
+		if (!matcher.matches()) {
+			logger.error("Wrong Kilometer format: {}", km); //$NON-NLS-1$
+			return true;
+		}
+		return false;
 	}
 
 	/**
