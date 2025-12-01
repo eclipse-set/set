@@ -1093,6 +1093,7 @@ p2/orbit/p2.eclipse.plugin/org.eclipse.set.sessionservice/2.6.0.qualifier, EPL-2
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.swtbot/2.6.0.qualifier, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.unittest.utils/2.6.0.qualifier, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.utils.rcp/2.6.0.qualifier, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.utils.table.test/2.6.0.qualifier, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.utils.table/2.6.0.qualifier, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.utils.test/2.6.0.qualifier, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.utils/2.6.0.qualifier, EPL-2.0, approved, technology.set
