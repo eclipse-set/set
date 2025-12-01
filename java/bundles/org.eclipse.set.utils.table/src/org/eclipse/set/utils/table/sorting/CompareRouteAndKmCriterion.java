@@ -46,7 +46,7 @@ public class CompareRouteAndKmCriterion
 	private final SortDirectionEnum direction;
 	private final Function<Ur_Objekt, Punkt_Objekt> getPunktObjectFunc;
 	private final NumericCellComparator numericComparator;
-	private static final String KILOMETRIERUNG_PATTERN = "(?<numberN>-?[1-9]\\d{0,2}|0),((?<numberD1>\\d{3})|(?<numberD2>\\d)(?<numberN2>[\\+\\-][1-9]\\d{0,4}))"; //$NON-NLS-1$
+	private static final String KILOMETRIERUNG_PATTERN = "(?<numberN>-?([1-9]\\d{0,2}|0)),((?<numberD1>\\d{3})|(?<numberD2>\\d)(?<numberN2>[\\+\\-][1-9]\\d{0,4}))"; //$NON-NLS-1$
 	private static final String EXTRA_LENGTH_GROUP_NAME = "numberN2"; //$NON-NLS-1$
 	private final Pattern kmPattern;
 	private boolean isWaitingOnService = false;

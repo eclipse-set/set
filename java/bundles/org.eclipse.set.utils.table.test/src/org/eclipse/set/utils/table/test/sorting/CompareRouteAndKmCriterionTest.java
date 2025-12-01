@@ -170,6 +170,7 @@ public class CompareRouteAndKmCriterionTest {
 				testee.compareKm(Set.of("123,100"), Set.of("123,1-100")));
 		assertEquals(1,
 				testee.compareKm(Set.of("123,200"), Set.of("123,1+100")));
+		assertEquals(1, testee.compareKm(Set.of("-0,123"), Set.of("-0,134")));
 	}
 
 	/**
