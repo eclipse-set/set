@@ -124,10 +124,8 @@ class SignalTransformator extends BaseTransformator<Signal> {
 		val mergedSignalInfo = new ArrayList<SignalInfo>
 		signalinfo.forEach [ si |
 			try {
-				val baseMount = si.baseMount
-				
 				val mergeWith = mergedSignalInfo.findFirst [ msi |
-					msi.mounts.contains(baseMount)
+					msi.mounts.contains(si.baseMount)
 				]
 				if (mergeWith === null) {
 					mergedSignalInfo.add(si)
