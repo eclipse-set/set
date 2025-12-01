@@ -90,7 +90,7 @@ class SignalTransformator extends BaseTransformator<Signal> {
 	 */
 	private static def Signal_Befestigung getBaseMount(Signal signal, Set<Signal_Befestigung> mounts) {
 		val mounts_with_no_parents = mounts.filter[signalBefestigung === null]		
-		val mounts_with_schirm = signal.signalRahmen?.filter[rahmenArt.getWert() === ENUMRahmenArt.ENUM_RAHMEN_ART_SCHIRM].map[signalBefestigung]
+		val mounts_with_schirm = signal.signalRahmen?.filter[rahmenArt?.getWert() === ENUMRahmenArt.ENUM_RAHMEN_ART_SCHIRM].map[signalBefestigung].filterNull
 
 		//original definition: (0 mounts with no parent)
 		if (mounts_with_no_parents.isEmpty) {
