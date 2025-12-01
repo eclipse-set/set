@@ -507,15 +507,15 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 									fundament?.signalBefestigungAllg?.
 										fundamentArt
 								].filterNull.map[translate].filterNull
-								if (!fundament.nullOrEmpty) {
-									return fundament.toSet
-								}
-
 								val regelzeichnung = map[getFundament].
 									filterNull.flatMap[IDRegelzeichnung].map [
 										value?.fillRegelzeichnung
 									].filterNull
-
+								if (!regelzeichnung.isNullOrEmpty) {
+									row.addTopologicalCell(
+										cols.getColumn(
+											Fundament_Art_Regelzeichnung))
+								}
 								return (regelzeichnung + fundament).toSet
 							],
 							null,
