@@ -85,6 +85,8 @@ class SignalTransformator extends BaseTransformator<Signal> {
 	 * A signal may have multiple of these mounts. 
 	 * If so, return (an arbitrary) one of these, where the Schirm of that signal is attached to.
 	 * the rootMount of a signal is used in the Lageplan to determine the geo-position where that signal should be drawn.
+	 * 
+	 * If mounts form a loop, return mount farthest away from schirm.
 	 */
 	private static def Signal_Befestigung getBaseMount(Signal signal, Set<Signal_Befestigung> mounts) {
 		val mounts_with_no_parents = mounts.filter[signalBefestigung === null]		
@@ -102,10 +104,12 @@ class SignalTransformator extends BaseTransformator<Signal> {
 		
 		// If more then one mount like that exists, return the one with a schirm.	
 		// If there are multiple ones, take any	
-		var mount = mounts_with_schirm.head; 
+		var mount = mounts_with_schirm.head
+		var visited = newHashSet()
 		
-		// walk up to root mount.
-		while (mount.signalBefestigung !== null) {
+		// walk up to root mount. If mounts form a loop, return mount farthest away from schirm.
+		while (mount.signalBefestigung !== null && !visited.contains(mount.signalBefestigung)) {
+			visited.add(mount)
 			mount = mount.signalBefestigung
 		}
 		
@@ -131,6 +135,8 @@ class SignalTransformator extends BaseTransformator<Signal> {
 					mergeWith.mounts += si.mounts
 				}
 			} catch (Exception exc) {
+				
+				System.out.println("failed finalize transform:" +exc)
 				recordError(si.signals.head?.identitaet?.wert,
 					ERROR_FAILED_TRANSFORM)
 			}
