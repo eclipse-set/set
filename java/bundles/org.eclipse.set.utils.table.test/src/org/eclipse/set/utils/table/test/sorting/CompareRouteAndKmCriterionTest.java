@@ -31,22 +31,21 @@ import org.junit.jupiter.api.Test;
  */
 public class CompareRouteAndKmCriterionTest {
 
-	private static String addExtraLength(final String km) {
+	private static Double addExtraLength(final String km) {
 		if (isContainsExtraKm(km)) {
 			final String extraLength = km.contains("+")
-					? km.substring(km.indexOf("+") + 1)
-					: km.substring(km.lastIndexOf("-") + 1);
-			String kilometer = km.replace(extraLength, "");
-			kilometer = kilometer.substring(0, kilometer.length() - 1);
+					? "+" + km.substring(km.indexOf("+") + 1)
+					: "-" + km.substring(km.lastIndexOf("-") + 1);
+			final String kilometer = km.replace(extraLength, "");
 			final double doubleValue = Double
 					.parseDouble(kilometer.replace(",", "."));
 			final double doubleValueExtraLength = Double
 					.parseDouble(extraLength);
 			final double addExtraLengthKm = doubleValue
 					+ doubleValueExtraLength / 1000;
-			return String.format("%.3f", Double.valueOf(addExtraLengthKm));
+			return Double.valueOf(addExtraLengthKm);
 		}
-		return km;
+		return Double.valueOf(km.replace(",", "."));
 	}
 
 	private static boolean isContainsExtraKm(final String km) {
@@ -109,10 +108,10 @@ public class CompareRouteAndKmCriterionTest {
 	private void thenExpectEqualsSortedList() {
 		final List<String> clone = new LinkedList<>(unsortKmList);
 		clone.sort((first, second) -> {
-			final String firstKm = addExtraLength(first).replace(",", ".");
-			final String secondKm = addExtraLength(second).replace(",", ".");
+			final Double firstKm = addExtraLength(first);
+			final Double secondKm = addExtraLength(second);
 
-			return Double.valueOf(firstKm).compareTo(Double.valueOf(secondKm));
+			return firstKm.compareTo(secondKm);
 		});
 		for (int i = 0; i < clone.size(); i++) {
 			assertEquals(clone.get(i), sortedKmList.get(i));
