@@ -46,7 +46,6 @@ abstract class BaseTransformator<T extends Ur_Objekt> implements Transformator {
 			try {
 				transform(transformObjects.get(i) as T)	
 			} catch (Exception e) {
-				System.out.println("failed transform: " +e.getMessage())
 				recordError((transformObjects.get(i) as T).identitaet?.wert, e.toString)
 			}
 			
