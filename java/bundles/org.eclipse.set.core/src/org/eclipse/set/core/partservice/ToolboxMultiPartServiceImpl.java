@@ -349,8 +349,9 @@ public class ToolboxMultiPartServiceImpl implements ToolboxPartService {
 		final Wrapper<Boolean> result = new Wrapper<>();
 		final List<MWindow> windows = application.getChildren();
 		final MWindow mWindow = windows.get(0);
+
 		Display.getDefault().syncExec(() -> {
-			((org.eclipse.swt.widgets.Shell) mWindow.getWidget()).forceFocus();
+			mWindow.getContext().activate();
 			showPartImpl(id);
 			result.setValue(Boolean.valueOf(true));
 			broker.post(UIEvents.REQUEST_ENABLEMENT_UPDATE_TOPIC,

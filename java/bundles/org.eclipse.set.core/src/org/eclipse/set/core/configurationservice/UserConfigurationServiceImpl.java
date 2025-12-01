@@ -113,9 +113,17 @@ public class UserConfigurationServiceImpl implements UserConfigurationService {
 						/* */});
 			configuration = (UserConfiguration) objectReader
 					.readValue(configurationFile);
-			configuration.lastOpenFiles.removeIf(p -> !p.toFile().exists());
-			configuration.lastOpenCompareFiles
-					.removeIf(p -> !p.toFile().exists());
+ 			if (configuration.lastOpenFiles != null
+					&& !configuration.lastOpenFiles.isEmpty()) {
+				configuration.lastOpenFiles.removeIf(p -> !p.toFile().exists());
+			}
+
+			if (configuration.lastOpenCompareFiles != null
+					&& !configuration.lastOpenCompareFiles.isEmpty()) {
+				configuration.lastOpenCompareFiles
+						.removeIf(p -> !p.toFile().exists());
+			}
+
 			saveConfiguration();
 		} catch (final IOException e) {
 			// If the configuration isn't valid, create a new one
