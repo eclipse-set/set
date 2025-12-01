@@ -33,6 +33,7 @@ import static extension org.eclipse.set.feature.siteplan.transform.TransformUtil
 import static extension org.eclipse.set.ppmodel.extensions.SignalBefestigungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalRahmenExtensions.*
+import org.eclipse.set.model.planpro.Signale.Signal_Befestigung
 
 /**
  * Transforms PlanPro Signals to Siteplan Signals/SignalMounts
@@ -73,7 +74,7 @@ class SignalTransformator extends BaseTransformator<Signal> {
 					mount?.signalBefestigungen].flatten
 		si.mounts = newHashSet(mountsWithParents)
 		
-		si.baseMount = SignalTransformator.getBaseMount(signal,si.mounts)
+		si.baseMount = signal.findBaseMount(si.mounts)
 		signalinfo.add(si)
 	}
 	
@@ -88,7 +89,7 @@ class SignalTransformator extends BaseTransformator<Signal> {
 	 * 
 	 * If mounts form a loop, return mount farthest away from schirm.
 	 */
-	private static def Signal_Befestigung getBaseMount(Signal signal, Set<Signal_Befestigung> mounts) {
+	private static def Signal_Befestigung findBaseMount(Signal signal, Set<Signal_Befestigung> mounts) {
 		val mounts_with_no_parents = mounts.filter[signalBefestigung === null]		
 		val mounts_with_schirm = signal.signalRahmen?.filter[rahmenArt?.getWert() === ENUMRahmenArt.ENUM_RAHMEN_ART_SCHIRM].map[signalBefestigung].filterNull
 
@@ -123,7 +124,7 @@ class SignalTransformator extends BaseTransformator<Signal> {
 		val mergedSignalInfo = new ArrayList<SignalInfo>
 		signalinfo.forEach [ si |
 			try {
-				val baseMount = si.getBaseMount()
+				val baseMount = si.baseMount
 				
 				val mergeWith = mergedSignalInfo.findFirst [ msi |
 					msi.mounts.contains(baseMount)
