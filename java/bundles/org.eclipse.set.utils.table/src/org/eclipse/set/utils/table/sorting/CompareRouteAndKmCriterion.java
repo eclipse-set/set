@@ -113,12 +113,12 @@ public class CompareRouteAndKmCriterion
 		final Set<String> firstRouten = firstStreckeAndKm.stream()
 				.map(Pair::getKey)
 				// Compare only to fourth character
-				.map(value -> value.substring(0, 3))
+				.map(value -> value.substring(0, 4))
 				.collect(Collectors.toSet());
 		final Set<String> secondRouten = secondStreckeAndKm.stream()
 				.map(Pair::getKey)
 				// Compare only to fourth character
-				.map(value -> value.substring(0, 3))
+				.map(value -> value.substring(0, 4))
 				.collect(Collectors.toSet());
 		final int compareRouten = numericComparator.compareCell(firstRouten,
 				secondRouten);
