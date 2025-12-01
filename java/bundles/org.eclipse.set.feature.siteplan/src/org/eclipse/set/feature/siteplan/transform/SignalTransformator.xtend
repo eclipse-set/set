@@ -33,7 +33,6 @@ import static extension org.eclipse.set.feature.siteplan.transform.TransformUtil
 import static extension org.eclipse.set.ppmodel.extensions.SignalBefestigungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalRahmenExtensions.*
-import java.util.HashSet
 
 /**
  * Transforms PlanPro Signals to Siteplan Signals/SignalMounts
@@ -63,21 +62,6 @@ class SignalTransformator extends BaseTransformator<Signal> {
 	}
 
 	override transform(Signal signal) {
-		
-		System.out.println("");
-		if (signal.getBezeichnung() !== null) {
-			if (signal.getBezeichnung().getBezeichnungAussenanlage() !== null) {
-				if (signal.getBezeichnung().getBezeichnungAussenanlage().getWert().equals("78F")) {
-					System.out.println("subject found!")
-				} else {
-					
-					System.out.println("found signal: "+ signal.getBezeichnung().getBezeichnungAussenanlage().getWert())
-				}
-			}
-		}
-		
-		try {
-			
 		val si = new SignalInfo
 		si.signals = #[signal].toSet
 		
@@ -87,16 +71,10 @@ class SignalTransformator extends BaseTransformator<Signal> {
 		// add all parents (recursively) to si.mounts.
 		val mountsWithParents = si.mounts.map [ mount |
 					mount?.signalBefestigungen].flatten
-		//si.mounts.addAll(mountsWithParents);
 		si.mounts = newHashSet(mountsWithParents)
 		
 		si.baseMount = SignalTransformator.getBaseMount(signal,si.mounts)
-		System.out.println("base mount: " + si.baseMount.getIDRegelzeichnung())
 		signalinfo.add(si)
-		
-		} catch (Exception e) {
-				System.out.println("failed transform here: " + e.toString())
-		}
 	}
 	
 	
@@ -113,10 +91,7 @@ class SignalTransformator extends BaseTransformator<Signal> {
 	private static def Signal_Befestigung getBaseMount(Signal signal, Set<Signal_Befestigung> mounts) {
 		val mounts_with_no_parents = mounts.filter[signalBefestigung === null]		
 		val mounts_with_schirm = signal.signalRahmen?.filter[rahmenArt.getWert() === ENUMRahmenArt.ENUM_RAHMEN_ART_SCHIRM].map[signalBefestigung]
-		System.out.println("mounts=" + mounts.toString());
-		System.out.println("mountsNoParents=" + mounts_with_no_parents.toString());
-		System.out.println("mountsWithSchirm=" + mounts_with_schirm.toString());
-		
+
 		//original definition: (0 mounts with no parent)
 		if (mounts_with_no_parents.isEmpty) {
 			return null
@@ -160,8 +135,6 @@ class SignalTransformator extends BaseTransformator<Signal> {
 					mergeWith.mounts += si.mounts
 				}
 			} catch (Exception exc) {
-				
-				System.out.println("failed finalize transform:" +exc)
 				recordError(si.signals.head?.identitaet?.wert,
 					ERROR_FAILED_TRANSFORM)
 			}
