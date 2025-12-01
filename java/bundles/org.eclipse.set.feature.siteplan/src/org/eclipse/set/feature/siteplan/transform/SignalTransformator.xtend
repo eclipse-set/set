@@ -134,7 +134,6 @@ class SignalTransformator extends BaseTransformator<Signal> {
 					mergeWith.mounts += si.mounts
 				}
 			} catch (Exception exc) {
-				System.out.println("Failed transformation: "+exc);
 				recordError(si.signals.head?.identitaet?.wert,
 					ERROR_FAILED_TRANSFORM)
 			}
