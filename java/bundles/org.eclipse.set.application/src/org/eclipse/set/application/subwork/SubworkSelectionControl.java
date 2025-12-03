@@ -25,7 +25,6 @@ import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.core.services.part.ToolboxPartService;
 import org.eclipse.set.core.services.planningaccess.PlanningAccessService;
 import org.eclipse.set.model.planpro.PlanPro.ENUMUntergewerkArt;
-import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
 import org.eclipse.swt.widgets.Composite;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -166,8 +165,8 @@ public class SubworkSelectionControl {
 			final List<String> subworkTypes = getSubworkTypes(session);
 			final List<String> sortedSubworkTypes = sortSubworkTypes(
 					subworkTypes);
+			comboViewer.setInput(sortedSubworkTypes.toArray());
 			comboViewer.getCombo().select(sortedSubworkTypes.size() - 1);
-			comboViewer.getCombo().select(0);
 			comboViewer.getCombo().setEnabled(true);
 		}
 	}
