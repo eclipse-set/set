@@ -33,7 +33,8 @@ public class SignalingRouteSection {
 
 	private final List<Signal> signalsBetween;
 
-	Fstr_DWeg dweg;
+	// The Fstr_DWeg of the last route sections;
+	protected Fstr_DWeg dweg;
 
 	/**
 	 * @param start

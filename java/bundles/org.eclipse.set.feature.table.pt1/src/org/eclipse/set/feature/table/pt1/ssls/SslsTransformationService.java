@@ -31,7 +31,8 @@ import org.osgi.service.event.EventAdmin;
  */
 @Component(service = {
 		PlanPro2TableTransformationService.class }, immediate = true, property = {
-				"table.category=estw", "table.shortcut=ssls" })
+				"table.category=estw", "table.shortcut=ssls",
+				"table.devMode=true" })
 public class SslsTransformationService
 		extends AbstractPlanPro2TableTransformationService {
 

@@ -10,11 +10,9 @@
  */
 package org.eclipse.set.feature.table.pt1.ssls;
 
-import org.eclipse.set.basis.viewgroups.ToolboxViewGroup;
 import org.eclipse.set.core.services.part.PartDescriptionService;
 import org.eclipse.set.feature.table.AbstractESTWTableDescription;
 import org.eclipse.set.feature.table.pt1.messages.Messages;
-import org.eclipse.set.utils.viewgroups.SetViewGroups;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -42,10 +40,4 @@ public class SslsDescriptionService extends AbstractESTWTableDescription {
 	protected String getTableShortcut() {
 		return messages.ToolboxTableNameSslsShort;
 	}
-
-	@Override
-	public ToolboxViewGroup getToolboxViewGroup() {
-		return SetViewGroups.getDevelopment();
-	}
-
 }
