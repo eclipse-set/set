@@ -339,13 +339,15 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 				])
 
 				// Q: Sslz.Signalisierung.Geschwindigkeit_Startsignal.Fahrweg
-				val fstrV = fstrZugRangier.geschwindigkeit
-				fillConditional(
+				fill(
 					instance,
 					cols.getColumn(Fahrweg),
 					fstrZugRangier,
-					[fstrV.isPresent],
-					[fstrV.get.toString])
+					[
+						fstrZugRangier.geschwindigkeit.orElse(null)?.toString ?:
+							""
+					]
+				)
 
 				// R: Sslz.Signalisierung.Geschwindigkeit_Startsignal.DWeg
 				fill(instance, cols.getColumn(DWeg), fstrZugRangier, [
