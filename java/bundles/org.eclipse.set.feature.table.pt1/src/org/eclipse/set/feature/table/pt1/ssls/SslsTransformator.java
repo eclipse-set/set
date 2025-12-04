@@ -10,6 +10,7 @@
  */
 package org.eclipse.set.feature.table.pt1.ssls;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -81,8 +82,8 @@ public class SslsTransformator extends AbstractPlanPro2TableModelTransformator {
 								.getWert()));
 		final SignalingSection signalisierungsabschnitte = new SignalingSection(
 				startSignal);
-		final List<SignalingRouteSection> abschnitte = signalisierungsabschnitte
-				.getSignalingRouteSections();
+		final List<SignalingRouteSection> abschnitte = new ArrayList<>(
+				signalisierungsabschnitte.getSignalingRouteSections());
 		abschnitte.sort(SignalingRouteSection.routeSectionComparator());
 		abschnitte.forEach(abschintt -> {
 			final TableRow row = rg.newTableRow();
