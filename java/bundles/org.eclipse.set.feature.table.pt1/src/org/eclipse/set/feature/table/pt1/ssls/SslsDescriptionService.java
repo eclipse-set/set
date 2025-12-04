@@ -21,7 +21,8 @@ import org.osgi.service.component.annotations.Reference;
  * 
  * @author truong
  */
-@Component(service = PartDescriptionService.class)
+@Component(service = PartDescriptionService.class, property = {
+		"devMode=true" })
 public class SslsDescriptionService extends AbstractESTWTableDescription {
 	@Reference
 	Messages messages;

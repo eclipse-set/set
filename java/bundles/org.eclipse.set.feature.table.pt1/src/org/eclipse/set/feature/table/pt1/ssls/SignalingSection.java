@@ -12,12 +12,13 @@ package org.eclipse.set.feature.table.pt1.ssls;
 
 import static org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.getContainer;
 
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Zug_Rangier;
 import org.eclipse.set.model.planpro.Signale.Signal;
-import org.eclipse.set.ppmodel.extensions.EObjectExtensions;
 import org.eclipse.set.ppmodel.extensions.FstrZugRangierExtensions;
 
 import com.google.common.collect.Streams;
@@ -30,7 +31,7 @@ import com.google.common.collect.Streams;
  */
 public class SignalingSection {
 	Signal startSignal;
-	private final List<SignalingRouteSection> signalingRouteSections;
+	private final Set<SignalingRouteSection> signalingRouteSections;
 	private final List<Fstr_Zug_Rangier> allTrainRoute;
 	private final int MAXIMAL_ROUTE_SECTION = 4;
 
@@ -44,7 +45,7 @@ public class SignalingSection {
 				.stream(getContainer(startSignal).getFstrZugRangier())
 				.filter(FstrZugRangierExtensions::isZ)
 				.toList();
-		signalingRouteSections = new ArrayList<>();
+		signalingRouteSections = new HashSet<>();
 		determineFstrAbschnitte();
 	}
 
@@ -55,16 +56,7 @@ public class SignalingSection {
 						.equals(startSignal))
 				.toList();
 		signalingRouteSections.addAll(fstrZugFromStart.stream().map(fstrZug -> {
-			final SignalingRouteSection abschnitte = new SignalingRouteSection(
-					startSignal);
-			abschnitte.endSignal = FstrZugRangierExtensions
-					.getZielSignal(fstrZug);
-			abschnitte.routeSections.add(fstrZug);
-			abschnitte.dweg = EObjectExtensions
-					.getNullableObject(fstrZug,
-							FstrZugRangierExtensions::getFstrDWeg)
-					.orElse(null);
-			return abschnitte;
+			return new SignalingRouteSection(startSignal, fstrZug);
 		}).toList());
 		fstrZugFromStart.forEach(fstr -> determineFstrAbschnitte(fstr, 1));
 	}
@@ -95,38 +87,26 @@ public class SignalingSection {
 			final Fstr_Zug_Rangier fstrZug) {
 		final List<SignalingRouteSection> foundedAbschnitte = signalingRouteSections
 				.stream()
-				.filter(fstr -> fstr.routeSections.getLast()
-						.equals(preAbschnitte))
+				.filter(fstr -> fstr.getRouteSection().equals(preAbschnitte))
 				.toList();
-		foundedAbschnitte.forEach(abchnitt -> {
+		foundedAbschnitte.forEach(section -> {
+			final List<SignalingRouteSection> preRouteSections = new LinkedList<>(
+					section.getPreRouteSections());
+			preRouteSections.add(section);
 			// The section always start with the start Signal of the signaling
 			// route
 			final SignalingRouteSection next = new SignalingRouteSection(
-					startSignal);
-			next.endSignal = FstrZugRangierExtensions.getZielSignal(fstrZug);
-			next.routeSections.addAll(abchnitt.routeSections);
-			next.routeSections.add(fstrZug);
-			next.dweg = EObjectExtensions
-					.getNullableObject(fstrZug,
-							FstrZugRangierExtensions::getFstrDWeg)
-					.orElse(null);
-			next.getSignalsBetween().addAll(abchnitt.getSignalsBetween());
-			next.getSignalsBetween().add(abchnitt.endSignal);
-			addFstrAbschnitte(next);
+					startSignal, fstrZug, preRouteSections);
+
+			signalingRouteSections.add(next);
 		});
 	}
 
 	private void addFstrAbschnitte(final SignalingRouteSection newAbschnitt) {
-		if (signalingRouteSections.stream().anyMatch(abschnitt -> {
-			return abschnitt.endSignal.equals(newAbschnitt.endSignal)
-					&& abschnitt.getSignalsBetween()
-							.size() == newAbschnitt.getSignalsBetween().size()
-					&& abschnitt.getSignalsBetween()
-							.containsAll(newAbschnitt.getSignalsBetween());
-		})) {
-			return;
+		if (signalingRouteSections.stream()
+				.noneMatch(rc -> rc.equals(newAbschnitt))) {
+			signalingRouteSections.add(newAbschnitt);
 		}
-		signalingRouteSections.add(newAbschnitt);
 	}
 
 	/**
@@ -139,7 +119,7 @@ public class SignalingSection {
 	/**
 	 * @return the signaling route sections
 	 */
-	public List<SignalingRouteSection> getSignalingRouteSections() {
+	public Set<SignalingRouteSection> getSignalingRouteSections() {
 		return signalingRouteSections;
 	}
 }
