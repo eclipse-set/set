@@ -97,16 +97,8 @@ public class SignalingSection {
 			// route
 			final SignalingRouteSection next = new SignalingRouteSection(
 					startSignal, fstrZug, preRouteSections);
-
 			signalingRouteSections.add(next);
 		});
-	}
-
-	private void addFstrAbschnitte(final SignalingRouteSection newAbschnitt) {
-		if (signalingRouteSections.stream()
-				.noneMatch(rc -> rc.equals(newAbschnitt))) {
-			signalingRouteSections.add(newAbschnitt);
-		}
 	}
 
 	/**

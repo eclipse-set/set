@@ -84,6 +84,7 @@ public class SslsTransformator extends AbstractPlanPro2TableModelTransformator {
 				startSignal);
 		final List<SignalingRouteSection> abschnitte = new ArrayList<>(
 				signalisierungsabschnitte.getSignalingRouteSections());
+
 		abschnitte.sort(SignalingRouteSection.routeSectionComparator());
 		abschnitte.forEach(abschintt -> {
 			final TableRow row = rg.newTableRow();
