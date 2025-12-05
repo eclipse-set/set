@@ -55,7 +55,6 @@ import static extension org.eclipse.set.ppmodel.extensions.StellBereichExtension
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspKomponenteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 import static extension org.eclipse.set.utils.math.BigIntegerExtensions.*
-import java.util.Collections
 
 /**
  * This class extends {@link Fstr_Zug_Rangier}.
