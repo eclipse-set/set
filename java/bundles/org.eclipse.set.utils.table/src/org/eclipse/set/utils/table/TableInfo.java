@@ -20,8 +20,11 @@ import org.eclipse.set.utils.viewgroups.SetViewGroups;
  *            the table area (ESTW or ETCS)
  * @param shortcut
  *            the table shortcut
+ * @param isDevMode
+ *            should the table only in development mode available
  */
-public record TableInfo(Pt1TableCategory category, String shortcut) {
+public record TableInfo(Pt1TableCategory category, String shortcut,
+		boolean isDevMode) {
 	/**
 	 * The table category enum
 	 */
@@ -87,8 +90,11 @@ public record TableInfo(Pt1TableCategory category, String shortcut) {
 	 *            the category id
 	 * @param shortcut
 	 *            the table shortcut
+	 * @param isDevMode
+	 *            should the table only in development mode available
 	 */
-	public TableInfo(final String categoryId, final String shortcut) {
-		this(Pt1TableCategory.getCategoryEnum(categoryId), shortcut);
+	public TableInfo(final String categoryId, final String shortcut,
+			final boolean isDevMode) {
+		this(Pt1TableCategory.getCategoryEnum(categoryId), shortcut, isDevMode);
 	}
 }

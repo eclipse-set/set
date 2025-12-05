@@ -29,6 +29,7 @@ import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.services.table.TableDiffService;
 import org.eclipse.set.services.table.TableDiffService.TableCompareType;
 import org.eclipse.set.services.table.TableService;
+import org.eclipse.set.utils.ToolboxConfiguration;
 import org.eclipse.set.utils.table.TableInfo;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -70,9 +71,14 @@ public class TableServiceContextFunction extends ContextFunction
 			throws IllegalAccessException {
 		final Object idObject = properties.get("table.shortcut"); //$NON-NLS-1$
 		final Object categoryObject = properties.get("table.category"); //$NON-NLS-1$
+		// Property for the table, which incomplete implementation. And should
+		// only in development mode available
+		final Object isInDevMode = properties.get("table.devMode"); //$NON-NLS-1$
+
 		if (idObject != null && categoryObject != null) {
-			return new TableInfo(categoryObject.toString(),
-					idObject.toString());
+			return new TableInfo(categoryObject.toString(), idObject.toString(),
+					Boolean.parseBoolean(isInDevMode == null ? "false" //$NON-NLS-1$
+							: isInDevMode.toString()));
 		}
 		throw new IllegalAccessException(
 				"table.shortcut or table.category missing in properties"); //$NON-NLS-1$
@@ -100,6 +106,10 @@ public class TableServiceContextFunction extends ContextFunction
 			final Map<String, Object> properties)
 			throws IllegalAccessException {
 		final TableInfo tableInfo = getTableInfo(properties);
+		if (tableInfo.isDevMode()
+				&& !ToolboxConfiguration.isDevelopmentMode()) {
+			return;
+		}
 		if (tableService != null) {
 			tableService.addModelService(service, properties);
 		} else {
@@ -122,6 +132,10 @@ public class TableServiceContextFunction extends ContextFunction
 			final Map<String, Object> properties)
 			throws IllegalAccessException {
 		final TableInfo tableInfo = getTableInfo(properties);
+		if (tableInfo.isDevMode()
+				&& !ToolboxConfiguration.isDevelopmentMode()) {
+			return;
+		}
 		if (tableService != null) {
 			tableService.removeModelService(properties);
 		} else {

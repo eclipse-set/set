@@ -145,10 +145,13 @@ package abstract class AbstractCellComparator implements Comparator<TableCell> {
 
 	def int compareCell(Iterable<String> iterable1,
 		Iterable<String> iterable2) {
-		// For compare, the separator should be empty
-		val text1 = iterable1.iterableToString("").splitNumericPrefix
-		val text2 = iterable2.iterableToString("").splitNumericPrefix
+		return iterable1.iterableToString("").compareCell(
+			iterable2.iterableToString(""))
+	}
 
+	def int compareCell(String first, String second) {
+		val text1 = first.splitNumericPrefix
+		val text2 = second.splitNumericPrefix
 		// Find minimum integer prefix
 		val minPrefixLength = Math.min(text1.key.length, text2.key.length)
 
