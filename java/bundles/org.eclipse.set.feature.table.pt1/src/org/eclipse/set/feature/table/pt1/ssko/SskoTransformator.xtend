@@ -300,7 +300,7 @@ class SskoTransformator extends AbstractPlanPro2TableModelTransformator {
 				new Case<Schloss>(
 					[schlossSsp !== null],
 					[
-						schluesselsperre?.unterbringung?.strecken.map [
+						schluesselsperre?.unterbringung?.strecken?.map [
 							bezeichnung?.bezeichnungStrecke?.wert
 						]
 					],
@@ -317,7 +317,7 @@ class SskoTransformator extends AbstractPlanPro2TableModelTransformator {
 				new Case<Schloss>(
 					[schlossSk !== null],
 					[
-						schlossKombination?.unterbringung?.punktObjektStrecke.
+						schlossKombination?.unterbringung?.punktObjektStrecke?.
 							map[streckeKm?.wert]
 					],
 					ITERABLE_FILLING_SEPARATOR,
@@ -326,7 +326,7 @@ class SskoTransformator extends AbstractPlanPro2TableModelTransformator {
 				new Case<Schloss>(
 					[schlossSsp !== null],
 					[
-						schluesselsperre?.unterbringung?.punktObjektStrecke.map [
+						schluesselsperre?.unterbringung?.punktObjektStrecke?.map [
 							streckeKm?.wert
 						]
 					],
