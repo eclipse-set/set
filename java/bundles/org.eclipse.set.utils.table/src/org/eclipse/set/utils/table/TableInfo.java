@@ -21,7 +21,7 @@ import org.eclipse.set.utils.viewgroups.SetViewGroups;
  * @param shortcut
  *            the table shortcut
  * @param isDevMode
- *            should the table only in development mode available
+ *            table is available only in development mode
  */
 public record TableInfo(Pt1TableCategory category, String shortcut,
 		boolean isDevMode) {

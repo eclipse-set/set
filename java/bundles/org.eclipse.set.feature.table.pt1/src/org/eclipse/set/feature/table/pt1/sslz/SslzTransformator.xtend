@@ -760,7 +760,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 	
 	def static String getFstrZugArt(Fstr_Zug_Rangier fstrZugRangier) {
 		val fstrZug = fstrZugRangier.fstrZug
-		val fstrZugArt = fstrZug?.fstrZugArt?.wert.literal
+		val fstrZugArt = fstrZug?.fstrZugArt?.wert?.literal
 		if (fstrZugRangier.zielFstrZugRangier !== null) {
 			return '''«fstrZugArt.substring(1) ?: ""»B'''
 		}
