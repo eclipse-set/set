@@ -270,10 +270,10 @@ class SignalTransformator extends BaseTransformator<Signal> {
 				// Fundament -> Mast
 				
 				// new logic for any assembly containing a SignalAusleger. Same for all other cases
-				if (!specificMounts.filter[it === SignalMountType.SIGNALAUSLEGER_LINKS].isEmpty) {
+				if (specificMounts.exists[it === SignalMountType.SIGNALAUSLEGER_LINKS]) {
 					return SignalMountType.SIGNALAUSLEGER_LINKS;
 				}
-				if (!specificMounts.filter[it === SignalMountType.SIGNALBRUECKE].isEmpty) {
+				if (specificMounts.exists[it === SignalMountType.SIGNALBRUECKE]) {
 					return SignalMountType.SIGNALBRUECKE;
 				}
 				
