@@ -340,12 +340,8 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 
 				// Q: Sslz.Signalisierung.Geschwindigkeit_Startsignal.Fahrweg
 				val fstrV = fstrZugRangier.geschwindigkeit
-				fillConditional(
-					instance,
-					cols.getColumn(Fahrweg),
-					fstrZugRangier,
-					[fstrV.isPresent],
-					[fstrV.get.toString])
+				fillConditional(instance, cols.getColumn(Fahrweg),
+					fstrZugRangier, [fstrV.isPresent], [fstrV.get.toString])
 
 				// R: Sslz.Signalisierung.Geschwindigkeit_Startsignal.DWeg
 				fill(instance, cols.getColumn(DWeg), fstrZugRangier, [
@@ -473,19 +469,19 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 					cols.getColumn(Im_Fahrweg_Zs3),
 					fstrZugRangier,
 					[
-						val zs3NichtStart = fstrZugRangier.fstrSignalisierung.
+						val zs3NichtStartZiel = fstrZugRangier.fstrSignalisierung.
 							filter [
 								signalSignalbegriff !== null &&
 									signalSignalbegriff.
 										hasSignalbegriffID(typeof(Zs3)) &&
-									signalSignalbegriff.signalRahmen.signal.
-										identitaet.wert !=
-										fstrZugRangier.fstrFahrweg.start.
-											identitaet.wert
+									signalSignalbegriff.signalRahmen.signal !==
+										fstrZugRangier.fstrFahrweg.start &&
+									signalSignalbegriff.signalRahmen.signal !==
+										fstrZugRangier.fstrFahrweg.zielSignal
 							].sortBy [
 								signalSignalbegriff?.signalbegriffID?.symbol
 							]
-						zs3NichtStart.map [
+						zs3NichtStartZiel.map [
 							'''«signalSignalbegriff?.signalRahmen?.signal?.bezeichnung?.bezeichnungTabelle?.wert»«
 						»(«signalSignalbegriff?.signalBegriffSymbol»)'''
 						]
