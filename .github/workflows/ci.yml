@@ -237,7 +237,7 @@ jobs:
           if [[ "${{ github.event_name }}" == "pull_request" || "${{github.ref}}" == refs/heads/release/* ]]; then
             # The local deployment repository is only needed for PR builds or the build in release branch to resolve dependencies
             mvn -T 1.5C -U -B clean deploy checkstyle:checkstyle --settings .github/settings.xml -DaltDeploymentRepository="local::file://${{ env.DEPLOY_DIR }}"
-          else if [[ ${{github.ref}} == 'refs/heads/main' || startsWith("${{github.ref}}", 'refs/tags/') ]]
+          else if [[ ${{github.ref}} == "refs/heads/main" || "${{github.ref}}" == refs/tags/* ]]; then
             mvn -T 1.5C -U -B clean deploy --settings .github/settings.xml -DaltDeploymentRepository=set-github::https://maven.pkg.github.com/${{ github.repository }}
           fi
         env:
