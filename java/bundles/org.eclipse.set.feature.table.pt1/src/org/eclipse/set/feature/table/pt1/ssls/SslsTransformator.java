@@ -13,6 +13,7 @@ package org.eclipse.set.feature.table.pt1.ssls;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator;
@@ -21,7 +22,7 @@ import org.eclipse.set.model.planpro.Signale.Signal;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.TableRow;
-import org.eclipse.set.ppmodel.extensions.EObjectExtensions;
+import org.eclipse.set.ppmodel.extensions.FstrZugRangierExtensions;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.eclipse.set.utils.table.RowFactory;
 import org.eclipse.set.utils.table.TMFactory;
@@ -33,6 +34,9 @@ import com.google.common.collect.Streams;
  * 
  */
 public class SslsTransformator extends AbstractPlanPro2TableModelTransformator {
+
+	private List<SignalingSection> signalingSections;
+
 	/**
 	 * @param cols
 	 *            the table columns descriptor
@@ -51,28 +55,46 @@ public class SslsTransformator extends AbstractPlanPro2TableModelTransformator {
 	public Table transformTableContent(
 			final MultiContainer_AttributeGroup container,
 			final TMFactory factory, final Stell_Bereich controlArea) {
-		List.of("60A", "60AA", "60B") //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				.forEach(signal -> transform(factory, container, signal));
+		final Set<Signal> startSignals = getFstrZugStartSignal(container);
+		signalingSections = new ArrayList<>();
+		startSignals.forEach(this::determineSignalingSections);
+		signalingSections.forEach(section -> transform(factory, section));
 		return factory.getTable();
 	}
 
-	private void transform(final TMFactory factory,
-			final MultiContainer_AttributeGroup container,
-			final String startSignalBezeichung) {
-		final Signal startSignal = Streams.stream(container.getSignal())
-				.filter(signal -> EObjectExtensions
-						.getNullableObject(signal,
-								s -> s.getBezeichnung()
-										.getBezeichnungTabelle()
-										.getWert())
-						.orElse("") //$NON-NLS-1$
-						.equals(startSignalBezeichung))
-				.findFirst()
-				.orElse(null);
-		if (startSignal == null) {
+	private static Set<Signal> getFstrZugStartSignal(
+			final MultiContainer_AttributeGroup container) {
+		return Streams.stream(container.getFstrZugRangier())
+				.filter(FstrZugRangierExtensions::isZ)
+				.map(FstrZugRangierExtensions::getStartSignal)
+				.collect(Collectors.toSet());
+	}
+
+	private void determineSignalingSections(final Signal startSignal) {
+		// When the signal is already in another signaling section, then break
+		final boolean isSignalBetween = signalingSections.stream()
+				.anyMatch(section -> section.getSignalBetween()
+						.contains(startSignal));
+		if (isSignalBetween) {
 			return;
 		}
 
+		final SignalingSection newSection = new SignalingSection(startSignal);
+		// Remove the founded sections, which the start signal is the signal in
+		// newSecion
+		final List<SignalingSection> containSections = signalingSections
+				.stream()
+				.filter(section -> newSection.getSignalBetween()
+						.contains(section.getStartSignal()))
+				.toList();
+		signalingSections.removeAll(containSections);
+		signalingSections.add(newSection);
+
+	}
+
+	private void transform(final TMFactory factory,
+			final SignalingSection signalingSection) {
+		final Signal startSignal = signalingSection.getStartSignal();
 		final RowFactory rg = factory.newRowGroup(startSignal);
 
 		fill(rg.newTableRow(), getColumn(cols, SslsColumns.Signal_Abschnitt),
@@ -80,10 +102,8 @@ public class SslsTransformator extends AbstractPlanPro2TableModelTransformator {
 						signal.getBezeichnung()
 								.getBezeichnungTabelle()
 								.getWert()));
-		final SignalingSection signalisierungsabschnitte = new SignalingSection(
-				startSignal);
 		final List<SignalingRouteSection> abschnitte = new ArrayList<>(
-				signalisierungsabschnitte.getSignalingRouteSections());
+				signalingSection.getSignalingRouteSections());
 
 		abschnitte.sort(SignalingRouteSection.routeSectionComparator());
 		abschnitte.forEach(abschintt -> {

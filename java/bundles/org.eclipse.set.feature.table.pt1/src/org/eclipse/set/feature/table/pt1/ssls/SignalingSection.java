@@ -16,7 +16,9 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
+import org.eclipse.set.basis.Pair;
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Zug_Rangier;
 import org.eclipse.set.model.planpro.Signale.Signal;
 import org.eclipse.set.ppmodel.extensions.FstrZugRangierExtensions;
@@ -63,11 +65,12 @@ public class SignalingSection {
 
 	private void determineFstrAbschnitte(final Fstr_Zug_Rangier fstrZug,
 			final int sectionCount) {
-		if (sectionCount > MAXIMAL_ROUTE_SECTION) {
+		if (sectionCount >= MAXIMAL_ROUTE_SECTION) {
 			return;
 		}
 		final Signal endSignal = FstrZugRangierExtensions
 				.getZielSignal(fstrZug);
+		// TODO: Point 2.1.a in excel template
 		// Find the next sections from the end signal of last section
 		final List<Fstr_Zug_Rangier> fstrZugsFromEndSignal = allTrainRoute
 				.stream()
@@ -113,5 +116,34 @@ public class SignalingSection {
 	 */
 	public Set<SignalingRouteSection> getSignalingRouteSections() {
 		return signalingRouteSections;
+	}
+
+	/**
+	 * @return the end {@link Signal} of this signaling section
+	 */
+	public Signal getEndSignal() {
+		final Set<Signal> signalBetween = getSignalBetween();
+		final SignalingRouteSection lastSection = signalingRouteSections
+				.stream()
+				.filter(routeSection -> !signalBetween
+						.contains(routeSection.getEndRouteSecionSignal()))
+				.findFirst()
+				.orElse(null);
+		if (lastSection == null) {
+			throw new RuntimeException("Missing last section"); //$NON-NLS-1$
+		}
+		return lastSection.getEndRouteSecionSignal();
+	}
+
+	/**
+	 * @return the signals between start and end {@link Signal} of this
+	 *         Signaling section
+	 */
+	public Set<Signal> getSignalBetween() {
+		return signalingRouteSections.stream()
+				.flatMap(routeSection -> routeSection.getElementBetween()
+						.stream()
+						.map(Pair::getFirst))
+				.collect(Collectors.toSet());
 	}
 }

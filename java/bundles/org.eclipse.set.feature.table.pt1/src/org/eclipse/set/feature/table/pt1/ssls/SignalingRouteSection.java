@@ -56,8 +56,8 @@ public class SignalingRouteSection {
 		return preRouteSections;
 	}
 
-	private final Signal startSignal;
-	private final Signal endSignal;
+	private final Signal startSignalingSectionSignal;
+	private final Signal endRouteSecionSignal;
 
 	/**
 	 * The Fstr_DWeg of the the routeSection
@@ -74,17 +74,10 @@ public class SignalingRouteSection {
 	private final Fstr_Zug_Rangier routeSection;
 
 	/**
-	 * @return the start {@link Signal} of the signaling section
-	 */
-	public Signal getStartSignal() {
-		return startSignal;
-	}
-
-	/**
 	 * @return the end {@link Signal} of this section
 	 */
-	public Signal getEndSignal() {
-		return endSignal;
+	public Signal getEndRouteSecionSignal() {
+		return endRouteSecionSignal;
 	}
 
 	/**
@@ -121,7 +114,7 @@ public class SignalingRouteSection {
 	 */
 	public List<Pair<Signal, List<GestellteWeiche>>> getElementBetween() {
 		return preRouteSections.stream()
-				.map(section -> new Pair<>(section.endSignal,
+				.map(section -> new Pair<>(section.endRouteSecionSignal,
 						section.decisionTrackSwitches))
 				.toList();
 	}
@@ -148,10 +141,11 @@ public class SignalingRouteSection {
 	public SignalingRouteSection(final Signal start,
 			final Fstr_Zug_Rangier routeSection,
 			final List<SignalingRouteSection> preRouteSection) {
-		this.startSignal = start;
+		this.startSignalingSectionSignal = start;
 		this.preRouteSections = preRouteSection;
 		this.routeSection = routeSection;
-		this.endSignal = FstrZugRangierExtensions.getZielSignal(routeSection);
+		this.endRouteSecionSignal = FstrZugRangierExtensions
+				.getZielSignal(routeSection);
 		this.dweg = getNullableObject(routeSection,
 				FstrZugRangierExtensions::getFstrDWeg).orElse(null);
 		this.sectionType = SslzTransformator.getFstrZugArt(routeSection);
@@ -168,10 +162,13 @@ public class SignalingRouteSection {
 		}
 	}
 
+	/**
+	 * Use for comparator of {@link SignalingRouteSection}
+	 */
 	@Override
 	public int hashCode() {
-		return Objects.hash(startSignal, endSignal, dweg, sectionType,
-				getElementBetween());
+		return Objects.hash(startSignalingSectionSignal, endRouteSecionSignal,
+				dweg, sectionType, getElementBetween());
 	}
 
 	@Override
@@ -184,13 +181,14 @@ public class SignalingRouteSection {
 		return preRouteSections.stream().map(preSection -> {
 			final List<String> listStr = new LinkedList<>();
 			listStr.addAll(preSection.decisionSwitchesToStr());
-			listStr.add(getSignalBezeichnung(preSection.getEndSignal()));
+			listStr.add(
+					getSignalBezeichnung(preSection.getEndRouteSecionSignal()));
 			return listStr.stream().collect(Collectors.joining(" - "));
 		}).toList();
 	}
 
 	private List<String> decisionSwitchesToStr() {
-		if (!decisionTrackSwitches.isEmpty()) {
+		if (decisionTrackSwitches != null && !decisionTrackSwitches.isEmpty()) {
 			return decisionTrackSwitches.stream()
 					.map(ele -> String.format("%s[%s]", //$NON-NLS-1$
 							SECTION_WITH_TRACK_DECISION_TYPE,
@@ -205,15 +203,15 @@ public class SignalingRouteSection {
 	@Override
 	public String toString() {
 		final List<String> listStr = new LinkedList<>();
-		listStr.add(getSignalBezeichnung(startSignal));
+		listStr.add(getSignalBezeichnung(startSignalingSectionSignal));
 		listStr.addAll(betweenSignalsToString());
 		listStr.addAll(decisionSwitchesToStr());
 		final String dwegStr = getNullableObject(dweg,
 				d -> DWEG_SEPERATOR
 						+ d.getBezeichnung().getBezeichnungFstrDWeg().getWert())
 								.orElse("");
-		listStr.add(String.format("(%s%s)", getSignalBezeichnung(endSignal),
-				dwegStr));
+		listStr.add(String.format("(%s%s)",
+				getSignalBezeichnung(endRouteSecionSignal), dwegStr));
 		return listStr.stream()
 				.collect(Collectors.joining(SECTION_STR_DELIMITER));
 
@@ -226,12 +224,12 @@ public class SignalingRouteSection {
 		return (first, second) -> {
 			final List<Pair<Signal, List<GestellteWeiche>>> firstList = new ArrayList<>(
 					first.getElementBetween());
-			firstList.add(
-					new Pair<>(first.endSignal, first.decisionTrackSwitches));
+			firstList.add(new Pair<>(first.endRouteSecionSignal,
+					first.decisionTrackSwitches));
 			final List<Pair<Signal, List<GestellteWeiche>>> secondList = new ArrayList<>(
 					second.getElementBetween());
-			secondList.add(
-					new Pair<>(second.endSignal, second.decisionTrackSwitches));
+			secondList.add(new Pair<>(second.endRouteSecionSignal,
+					second.decisionTrackSwitches));
 			final int compareBetweenElement = compareListObj(firstList,
 					secondList, elementComparator());
 			if (compareBetweenElement != 0) {
@@ -256,6 +254,12 @@ public class SignalingRouteSection {
 					.compare(first.getFirst(), second.getFirst());
 			if (compareSignal != 0) {
 				return compareSignal;
+			}
+			final Optional<Integer> compareNullableValue = MixedStringComparator
+					.compareNullableValue(first.getSecond(), second.getSecond(),
+							Objects::isNull);
+			if (compareNullableValue.isPresent()) {
+				return compareNullableValue.get().intValue();
 			}
 			return compareListObj(first.getSecond(), second.getSecond(),
 					decisionTrackSwitchComparator());
