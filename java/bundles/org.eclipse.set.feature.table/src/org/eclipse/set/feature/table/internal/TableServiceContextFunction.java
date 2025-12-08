@@ -71,8 +71,6 @@ public class TableServiceContextFunction extends ContextFunction
 			throws IllegalAccessException {
 		final Object idObject = properties.get("table.shortcut"); //$NON-NLS-1$
 		final Object categoryObject = properties.get("table.category"); //$NON-NLS-1$
-		// Property for the table, which incomplete implementation. And should
-		// only in development mode available
 		final Object isInDevMode = properties.get("table.devMode"); //$NON-NLS-1$
 
 		if (idObject != null && categoryObject != null) {

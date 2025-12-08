@@ -336,7 +336,7 @@ public class Messages extends AbstractMessageService {
 	/**
 	 * Tabelle der aneinandergereihten Fahrstraßen
 	 */
-	public String SslaDescriptionService_ViewTooltip;
+	public String SslsDescriptionService_ViewTooltip;
 
 	/**
 	 * Tabelle der aneinandergereihten Fahrstraßen

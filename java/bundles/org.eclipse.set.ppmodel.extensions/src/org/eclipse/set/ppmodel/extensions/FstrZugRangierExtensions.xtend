@@ -17,6 +17,7 @@ import org.eclipse.set.basis.graph.DirectedEdgePoint
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.Bahnuebergang.BUE_Anlage
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
+import org.eclipse.set.model.planpro.Fahrstrasse.ENUMFstrZugArt
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_DWeg
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Fahrweg
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Nichthaltfall
@@ -374,7 +375,7 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 		return fstrZugRangier?.fstrRangier?.fstrRangierArt?.wert?.literal?.
 			substring(0, 1) == "R"
 	}
-	
+
 	private def static dispatch Optional<BigInteger> getVmax(Object object,
 		Fstr_Fahrweg fw) {
 		return Optional.empty
@@ -463,12 +464,48 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 		return startSignal !== null &&
 			startSignal.isBelongToControlArea(controlArea)
 	}
-	
+
 	def static Signal getStartSignal(Fstr_Zug_Rangier fstrZug) {
 		return fstrZug?.fstrFahrweg?.start
 	}
-	
+
 	def static Signal getZielSignal(Fstr_Zug_Rangier fstrZug) {
 		return fstrZug?.fstrFahrweg?.zielSignal
+	}
+
+	def static Fstr_Zug_Rangier getZielFstrZugRangier(Fstr_Zug_Rangier fstr) {
+		val zielSignal = fstr.IDFstrFahrweg?.value.IDZiel?.value
+		return zielSignal.container.contents.filter(Fstr_Zug_Rangier).findFirst [
+			IDFstrFahrweg?.value?.IDStart?.value == zielSignal &&
+				fstrZug?.fstrZugArt?.wert === ENUMFstrZugArt.ENUM_FSTR_ZUG_ART_B
+		]
+	}
+
+	/**
+	 * Return ENUmFstrZugArt
+	 */
+	def static String getFstrZugArt(Fstr_Zug_Rangier fstrZugRangier) {
+		if (!fstrZugRangier.isZ) {
+			return ""
+		}
+		val fstrZug = fstrZugRangier.fstrZug
+		val fstrZugArt = fstrZug?.fstrZugArt?.wert?.literal
+		if (fstrZugRangier.zielFstrZugRangier !== null) {
+			return '''«fstrZugArt.substring(1) ?: ""»B'''
+		}
+
+		if (fstrZug?.IDSignalGruppenausfahrt !== null) {
+			return '''G«fstrZugArt.substring(1) ?: ""»'''
+		}
+
+		if (fstrZugArt !== null) {
+			return fstrZugArt.substring(1)
+		}
+
+		if (fstrZugRangier.fstrMittel?.fstrMittelArt?.wert !== null) {
+			return fstrZugRangier.fstrMittel?.fstrMittelArt?.wert.literal.
+				substring(1);
+		}
+		return ""
 	}
 }

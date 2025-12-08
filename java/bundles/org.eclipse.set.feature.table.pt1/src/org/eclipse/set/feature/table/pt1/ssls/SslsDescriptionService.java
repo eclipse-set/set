@@ -34,7 +34,7 @@ public class SslsDescriptionService extends AbstractESTWTableDescription {
 
 	@Override
 	protected String getToolboxViewTooltip() {
-		return messages.SslaDescriptionService_ViewTooltip;
+		return messages.SslsDescriptionService_ViewTooltip;
 	}
 
 	@Override

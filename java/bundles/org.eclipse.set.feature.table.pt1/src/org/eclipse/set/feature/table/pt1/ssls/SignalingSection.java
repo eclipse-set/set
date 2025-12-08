@@ -86,11 +86,11 @@ public class SignalingSection {
 		});
 	}
 
-	private void addNextAbschnitte(final Fstr_Zug_Rangier preAbschnitte,
-			final Fstr_Zug_Rangier fstrZug) {
+	private void addNextAbschnitte(final Fstr_Zug_Rangier fstr,
+			final Fstr_Zug_Rangier nextFstr) {
 		final List<SignalingRouteSection> foundedAbschnitte = signalingRouteSections
 				.stream()
-				.filter(fstr -> fstr.getRouteSection().equals(preAbschnitte))
+				.filter(section -> section.getRouteSection().equals(fstr))
 				.toList();
 		foundedAbschnitte.forEach(section -> {
 			final List<SignalingRouteSection> preRouteSections = new LinkedList<>(
@@ -99,7 +99,7 @@ public class SignalingSection {
 			// The section always start with the start Signal of the signaling
 			// route
 			final SignalingRouteSection next = new SignalingRouteSection(
-					startSignal, fstrZug, preRouteSections);
+					startSignal, nextFstr, preRouteSections);
 			signalingRouteSections.add(next);
 		});
 	}

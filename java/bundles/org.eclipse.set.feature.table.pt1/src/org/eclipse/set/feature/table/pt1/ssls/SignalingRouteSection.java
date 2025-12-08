@@ -25,7 +25,6 @@ import org.apache.commons.lang3.math.NumberUtils;
 import org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum;
 import org.eclipse.set.basis.MixedStringComparator;
 import org.eclipse.set.basis.Pair;
-import org.eclipse.set.feature.table.pt1.sslz.SslzTransformator;
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_DWeg;
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Zug_Rangier;
 import org.eclipse.set.model.planpro.Signale.Signal;
@@ -148,11 +147,11 @@ public class SignalingRouteSection {
 				.getZielSignal(routeSection);
 		this.dweg = getNullableObject(routeSection,
 				FstrZugRangierExtensions::getFstrDWeg).orElse(null);
-		this.sectionType = SslzTransformator.getFstrZugArt(routeSection);
-		determinDecisionTrackSwitches(routeSection, sectionType);
+		this.sectionType = FstrZugRangierExtensions.getFstrZugArt(routeSection);
+		determineDecisionTrackSwitches(routeSection, sectionType);
 	}
 
-	private void determinDecisionTrackSwitches(final Fstr_Zug_Rangier section,
+	private void determineDecisionTrackSwitches(final Fstr_Zug_Rangier section,
 			final String type) {
 		if (type.startsWith(SECTION_WITH_TRACK_DECISION_TYPE)) {
 			decisionTrackSwitches = FstrZugRangierExtensions

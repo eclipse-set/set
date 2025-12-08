@@ -639,14 +639,6 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 		return EMPTY_FILLING
 	}
 
-	private def static Fstr_Zug_Rangier getZielFstrZugRangier(Fstr_Zug_Rangier it) {
-		val zielSignal = IDFstrFahrweg?.value.IDZiel?.value
-		return zielSignal.container.contents.filter(Fstr_Zug_Rangier).findFirst [
-			IDFstrFahrweg?.value?.IDStart?.value == zielSignal &&
-				fstrZug?.fstrZugArt?.wert === ENUM_FSTR_ZUG_ART_B
-		]
-	}
-
 	private def List<String> getSignalBegriffZs3ByStartSignal(
 		Fstr_Zug_Rangier fstrZugRangier) {
 		val fstrMittelArt = fstrZugRangier?.fstrMittel?.fstrMittelArt?.wert
@@ -756,26 +748,5 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 		}
 		return '''«signalBegriff.signalbegriffID?.symbol»«
 		»«IF (signalBegriff.hasSignalbegriffID(typeof(Zs3)) || signalBegriff.hasSignalbegriffID(typeof(Zs3v))) && !signalBegriff.signalSignalbegriffAllg?.geschaltet?.wert»F«ENDIF»'''
-	}
-	
-	def static String getFstrZugArt(Fstr_Zug_Rangier fstrZugRangier) {
-		val fstrZug = fstrZugRangier.fstrZug
-		val fstrZugArt = fstrZug?.fstrZugArt?.wert?.literal
-		if (fstrZugRangier.zielFstrZugRangier !== null) {
-			return '''«fstrZugArt.substring(1) ?: ""»B'''
-		}
-		
-		if (fstrZug?.IDSignalGruppenausfahrt !== null) {
-			return '''G«fstrZugArt.substring(1) ?: ""»'''
-		}
-		
-		if (fstrZugArt !== null) {
-			return fstrZugArt.substring(1)
-		}
-		
-		if (fstrZugRangier.fstrMittel?.fstrMittelArt?.wert !== null) {
-			return fstrZugRangier.fstrMittel?.fstrMittelArt?.wert.literal.substring(1);
-		}
-		return ""
 	}
 }
