@@ -36,20 +36,7 @@ export default class TrackSectionMarkerFeature extends LageplanFeature<Track> {
   getFeatures (model: SiteplanState): Feature<Geometry>[] {
     return this.getObjectsModel(model).flatMap(track =>
       track?.sections.flatMap(section =>
-        this.createTrackSectionMarkerFeatures(section)))
-  }
-
-  private createTrackSectionMarkerFeatures (trackSection: TrackSection): Feature<Geometry>[] {
-    const coordinates: OlCoordinate[] = []
-    trackSection.segments.forEach(segment =>
-      coordinates.push([segment.positions[0].x, segment.positions[0].y]))
-    const lastSegment = trackSection.segments[trackSection.segments.length - 1]
-    const lastPosition = lastSegment.positions[lastSegment.positions.length - 1]
-    coordinates.push([lastPosition.x, lastPosition.y])
-
-    const features: Feature<Geometry>[] = []
-    coordinates.forEach(coordinate => features.push(this.createTrackSectionMarkerFeature(coordinate, trackSection)))
-    return features
+        this.createTrackSectionMarkerFeature([section.startCoordinate.x, section.startCoordinate.y], section)))
   }
 
   private createTrackSectionMarkerFeature (position: OlCoordinate, trackSection: TrackSection): Feature<Geometry> {
@@ -60,7 +47,7 @@ export default class TrackSectionMarkerFeature extends LageplanFeature<Track> {
     )
 
     feature.setStyle((_, resolution) => {
-      if (!store.state.trackSectionMarkerVisible) {
+      if (!store.state.trackSectionColorVisible) {
         return new Style()
       }
 
