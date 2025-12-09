@@ -15,11 +15,14 @@ import static org.eclipse.set.ppmodel.extensions.TopKnotenExtensions.getTopKante
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.eclipse.set.model.planpro.Geodaten.TOP_Kante;
 import org.eclipse.set.model.planpro.Geodaten.TOP_Knoten;
 import org.eclipse.set.model.siteplan.Position;
 import org.eclipse.set.model.siteplan.SiteplanFactory;
+
+import com.google.common.collect.Streams;
 
 /**
  * Find out all position of node through edge length. The position of node is
@@ -60,7 +63,8 @@ public class TopKnotenPosition {
 				&& topNodeHorizontalCoor.keySet().containsAll(allTopNodes)) {
 			return topNodeHorizontalCoor;
 		}
-		final List<TOP_Kante> edges = getTopKanten(firstNode);
+		final List<TOP_Kante> edges = Streams.stream(getTopKanten(firstNode))
+				.collect(Collectors.toList());
 		if (edges.isEmpty()) {
 			throw new IllegalArgumentException(
 					String.format("TOP_Knoten: %s haven't TOP_Kante", //$NON-NLS-1$

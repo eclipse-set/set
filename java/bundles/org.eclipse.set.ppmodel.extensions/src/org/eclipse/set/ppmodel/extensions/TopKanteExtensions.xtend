@@ -612,7 +612,7 @@ class TopKanteExtensions extends BasisObjektExtensions {
 	 */
 	def static boolean intersect(TOP_Kante topKante,
 		Punkt_Objekt_TOP_Kante_AttributeGroup singlePoint) {
-		return !topKante.intersection(singlePoint.singlePoints).empty
+		return singlePoint.IDTOPKante.value === topKante
 	}
 
 	/**

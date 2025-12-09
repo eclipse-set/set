@@ -11,13 +11,16 @@ package org.eclipse.set.basis.graph;
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.Deque;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import org.eclipse.set.basis.Pair;
 import org.eclipse.set.basis.cache.Cache;
 import org.eclipse.set.basis.cache.NoCache;
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
@@ -163,7 +166,7 @@ public class Digraphs {
 	private static <E, N, P> Set<DirectedEdgePath<E, N, P>> calculateSubPaths(
 			final DirectedEdge<E, N, P> start, final Routing<E, N, P> routing,
 			final BigDecimal minDistance) {
-		final Set<DirectedEdgePath<E, N, P>> subpaths = getSubPaths(start,
+		final Set<DirectedEdgePath<E, N, P>> subpaths = getSubPathsLoop(start,
 				minDistance, routing, routing.getEmptyPath());
 		for (final DirectedEdgePath<E, N, P> path : subpaths) {
 			path.prepend(start);
@@ -391,42 +394,43 @@ public class Digraphs {
 		return builder.toString();
 	}
 
-	private static <E, N, P> Set<DirectedEdgePath<E, N, P>> getSubPaths(
+	private static <E, N, P> Set<DirectedEdgePath<E, N, P>> getSubPathsLoop(
 			final DirectedEdge<E, N, P> start, final BigDecimal minDistance,
 			final Routing<E, N, P> routing,
 			final DirectedEdgePath<E, N, P> path) {
-		logger.debug("start={} path={}", start, path); //$NON-NLS-1$
 		final Set<DirectedEdgePath<E, N, P>> result = new HashSet<>();
-		final Set<DirectedEdge<E, N, P>> successors = routing
-				.getDirectSuccessors(start);
-		for (final DirectedEdge<E, N, P> successor : successors) {
-			final DirectedEdgePath<E, N, P> successorPath = path.copy();
-
-			// test whether the successor is already in the path (a loop)
-			if (DirectedEdgePathExtension.contains(path, successor)) {
-				result.add(successorPath);
-			} else {
-				successorPath.append(successor);
-
-				// test if the min distance is exceeded and ignore the distance,
-				// if min distance < 0
-				final Comparator<BigDecimal> comparator = routing
-						.getDistanceComparator();
-				if (comparator.compare(successorPath.getLength(),
-						minDistance) < 0
-						|| minDistance.compareTo(BigDecimal.ZERO) < 0) {
-					final Set<DirectedEdgePath<E, N, P>> subPaths = getSubPaths(
-							successor, minDistance, routing, successorPath);
-					if (subPaths.isEmpty()) {
-						result.add(successorPath);
-					} else {
-						result.addAll(subPaths);
-					}
-				} else {
+		final Deque<Pair<DirectedEdge<E, N, P>, DirectedEdgePath<E, N, P>>> directedEdges = new LinkedList<>();
+		directedEdges.add(new Pair<>(start, path.copy()));
+		for (Pair<DirectedEdge<E, N, P>, DirectedEdgePath<E, N, P>> edgeWithPath; (edgeWithPath = directedEdges
+				.poll()) != null;) {
+			final DirectedEdge<E, N, P> edge = edgeWithPath.getFirst();
+			final Set<DirectedEdge<E, N, P>> successors = routing
+					.getDirectSuccessors(edge);
+			logger.debug("start={} path={}", edge, edgeWithPath.getSecond()); //$NON-NLS-1$
+			if (successors.isEmpty()) {
+				result.add(edgeWithPath.getSecond());
+			}
+			for (final DirectedEdge<E, N, P> successor : successors) {
+				final DirectedEdgePath<E, N, P> successorPath = edgeWithPath
+						.getSecond()
+						.copy();
+				if (DirectedEdgePathExtension.contains(path, successor)) {
 					result.add(successorPath);
+				} else {
+					successorPath.append(successor);
+					final Comparator<BigDecimal> comparator = routing
+							.getDistanceComparator();
+					if (comparator.compare(successorPath.getLength(),
+							minDistance) < 0
+							|| minDistance.compareTo(BigDecimal.ZERO) < 0) {
+						directedEdges.add(new Pair<>(successor, successorPath));
+					} else {
+						result.add(successorPath);
+					}
 				}
 			}
 		}
+
 		return result;
 	}
 }
