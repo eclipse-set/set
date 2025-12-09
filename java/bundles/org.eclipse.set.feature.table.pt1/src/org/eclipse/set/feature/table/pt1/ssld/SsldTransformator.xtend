@@ -106,8 +106,8 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 
 		val distance = relevantFmas.map[value.length].max
 		return distance > maxLength
-			? '''> «maxLength.toTableIntegerAgateDown»'''
-			: distance.toTableIntegerAgateDown
+			? '''> «maxLength.toTableIntegerAgateDown»''' : distance.
+			toTableIntegerAgateDown
 	}
 
 	override transformTableContent(
@@ -193,16 +193,16 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 				instance,
 				cols.getColumn(Laenge_Soll),
 				dweg,
-				[fstrDWegAllg.laengeSoll.wert.toString]
+				[fstrDWegAllg?.laengeSoll?.wert?.toString]
 			)
 
 			// H: Ssld.Eigenschaften.Laenge.Ist
-			val fstrFahrWegLength = dweg.fstrFahrweg.length
+			val fstrFahrWegLength = dweg.fstrFahrweg?.length
 			fill(
 				instance,
 				cols.getColumn(Laenge_Ist),
 				dweg,
-				[fstrFahrWegLength.toTableIntegerAgateDown]
+				[fstrFahrWegLength?.toTableIntegerAgateDown]
 			)
 
 			// I: Ssld.Eigenschaften.Laenge.Freigemeldet
@@ -210,7 +210,11 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 				instance,
 				cols.getColumn(Freigemeldet),
 				dweg,
-				[getFreigemeldetLaenge(topGraph, fstrFahrWegLength)]
+				[
+					getFreigemeldetLaenge(topGraph,
+						fstrFahrWegLength ?:
+							BigDecimal.valueOf(Integer.MAX_VALUE))
+				]
 			)
 
 			// J: Ssld.Eigenschaften.massgebende_Neigung
