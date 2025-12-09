@@ -431,7 +431,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				pzb,
 				[bahnsteigDistance.distanceStart.present],
 				[
-					bahnsteigDistance.distanceStart.getAsDouble.toTableInteger
+					AgateRounding.roundDown(bahnsteigDistance.distanceStart.getAsDouble).toString
 				]
 			)
 
@@ -442,7 +442,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				pzb,
 				[bahnsteigDistance.distanceEnd.present],
 				[
-					bahnsteigDistance.distanceEnd.getAsDouble.toTableInteger
+					AgateRounding.roundDown(bahnsteigDistance.distanceEnd.getAsDouble).toString
 				]
 			)
 
