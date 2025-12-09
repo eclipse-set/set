@@ -16,8 +16,6 @@ import org.eclipse.set.model.planpro.PZB.PZB_Element
 import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.osgi.service.event.EventAdmin
 
-import static extension org.eclipse.set.ppmodel.extensions.PZBElementExtensions.*
-
 /**
  * Table transformation for a PZB_dm-Tabelle (Sskp)
  * 
@@ -32,8 +30,8 @@ class SskpDmTransformator extends SskpTransformator {
 	}
 
 	override int getDistanceScale(PZB_Element pzb) {
-		return pzb.PZBElementZuordnung.PZBElementZuordnungBP.exists [
-			PZBElementZuordnungINA !== null
-		] ? 1 : 0;
+		return pzb?.PZBElementGM?.PZBINA !== null ? 1 : 0;
 	}
+	
+	
 }
