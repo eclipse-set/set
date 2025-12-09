@@ -227,6 +227,9 @@ export default class TrackFeature extends LageplanFeature<Track> {
     section: TrackSection,
     sectionType: TrackShape
   ): string | number[] {
+    // The 'track.section' in siteplan means GEO_Kante, but in overviewplan is TOP_Kante.
+    // The TOP_Kante color was defined at Java-Part to avoid changed color of TOP_Kante
+    // by reload Webview
     if (store.state.trackColorVisible && section.color !== null) {
       return section.color
     } else if (store.state.trackSectionColorVisible) {
