@@ -10,6 +10,8 @@ package org.eclipse.set.ppmodel.extensions.utils
 
 import java.math.BigDecimal
 import java.util.Comparator
+import java.util.Map
+import java.util.Set
 import org.eclipse.core.runtime.Assert
 import org.eclipse.set.basis.graph.AbstractRouting
 import org.eclipse.set.basis.graph.Routing
@@ -27,9 +29,12 @@ import static extension org.eclipse.set.ppmodel.extensions.TopKnotenExtensions.*
  * @author Schaefer
  */
 class TopRouting extends AbstractRouting<TOP_Kante, TOP_Knoten, Punkt_Objekt_TOP_Kante_AttributeGroup> {
-
+	val Map<TOP_Knoten, Set<TOP_Kante>> topNodeWithEdges;
+	new() {
+		topNodeWithEdges = newHashMap
+	}
 	override getEdges(TOP_Knoten node) {
-		return node.topKanten.toSet
+		return topNodeWithEdges.computeIfAbsent(node, [topKanten.toSet])
 	}
 
 	override getHeadEdge(TOP_Knoten head, TOP_Kante edge) {
