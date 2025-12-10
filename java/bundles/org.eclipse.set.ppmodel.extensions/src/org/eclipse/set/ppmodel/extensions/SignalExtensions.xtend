@@ -509,4 +509,8 @@ class SignalExtensions extends PunktObjektExtensions {
 			fmaAnlages.exists[fmaKomponent.belongsTo(it)]
 		].toList
 	}
+	
+	def static String getTableBezeichnung(Signal signal) {
+		return signal?.bezeichnung?.bezeichnungTabelle?.wert
+	}
 }

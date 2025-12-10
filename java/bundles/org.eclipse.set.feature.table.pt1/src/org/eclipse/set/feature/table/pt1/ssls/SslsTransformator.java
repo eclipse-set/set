@@ -80,13 +80,14 @@ public class SslsTransformator extends AbstractPlanPro2TableModelTransformator {
 		}
 
 		final SignalingSection newSection = new SignalingSection(startSignal);
-		// Remove the already determined sections that have an overlap with the new section
+		// Remove the already determined sections that have an overlap with the
+		// new section
 		final List<SignalingSection> overlappingSections = signalingSections
 				.stream()
 				.filter(section -> newSection.getSignalBetween()
 						.contains(section.getStartSignal()))
 				.toList();
-		signalingSections.removeAll(overlappingSections );
+		signalingSections.removeAll(overlappingSections);
 		signalingSections.add(newSection);
 
 	}
@@ -104,7 +105,7 @@ public class SslsTransformator extends AbstractPlanPro2TableModelTransformator {
 		final List<SignalingRouteSection> abschnitte = new ArrayList<>(
 				signalingSection.getSignalingRouteSections());
 
-		abschnitte.sort(SignalingRouteSection.routeSectionComparator());
+		abschnitte.sort(new SignalingRouteSectionComparator());
 		abschnitte.forEach(abschintt -> {
 			final TableRow row = rg.newTableRow();
 			fill(row, getColumn(cols, SslsColumns.Signal_Abschnitt), abschintt,
