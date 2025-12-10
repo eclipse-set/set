@@ -35,9 +35,10 @@ module.exports = (env, argv) => ({
     new Copy({
       patterns: [
         './src/index.html',
-        {from: './node_modules/monaco-editor/min/vs/basic-languages/xml', to: 'monaco/vs/basic-languages/xml'},
+        {from: './node_modules/monaco-editor/min/vs/basic-languages', to: 'monaco/vs/basic-languages'},
         {from: './node_modules/monaco-editor/min/vs/editor', to: 'monaco/vs/editor'},
         {from: './node_modules/monaco-editor/min/vs/base', to: 'monaco/vs/base'},
+        {from: './node_modules/monaco-editor/min/vs/assets', to: 'monaco/vs/assets'},
         {from: './node_modules/monaco-editor/min/vs/loader.js', to: 'monaco/vs/loader.js'},
         {
           from: './node_modules/monaco-editor/min/vs/*.js',

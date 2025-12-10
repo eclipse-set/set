@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "serve": "node node_modules/webpack-dev-server/bin/webpack-dev-server.js",
+    "serve": "node node_modules/webpack-dev-server/bin/webpack-dev-server.js --mode development",
     "build": "node node_modules/webpack/bin/webpack.js --progress --mode development",
     "build-prod": "node node_modules/webpack/bin/webpack.js --mode production",
     "lint": "eslint src"
