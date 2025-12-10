@@ -166,7 +166,7 @@ public class Digraphs {
 	private static <E, N, P> Set<DirectedEdgePath<E, N, P>> calculateSubPaths(
 			final DirectedEdge<E, N, P> start, final Routing<E, N, P> routing,
 			final BigDecimal minDistance) {
-		final Set<DirectedEdgePath<E, N, P>> subpaths = getSubPathsLoop(start,
+		final Set<DirectedEdgePath<E, N, P>> subpaths = getSubPaths(start,
 				minDistance, routing, routing.getEmptyPath());
 		for (final DirectedEdgePath<E, N, P> path : subpaths) {
 			path.prepend(start);
@@ -394,7 +394,7 @@ public class Digraphs {
 		return builder.toString();
 	}
 
-	private static <E, N, P> Set<DirectedEdgePath<E, N, P>> getSubPathsLoop(
+	private static <E, N, P> Set<DirectedEdgePath<E, N, P>> getSubPaths(
 			final DirectedEdge<E, N, P> start, final BigDecimal minDistance,
 			final Routing<E, N, P> routing,
 			final DirectedEdgePath<E, N, P> path) {
