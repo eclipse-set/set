@@ -29,7 +29,7 @@ export enum TextFileModel {
  */
 export class Model {
   async fetchFile () {
-    const response = await axios.get('model.xml')
+    const response = await axios.get('model.ppxml')
     return response.data
   }
 
