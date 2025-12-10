@@ -80,14 +80,13 @@ public class SslsTransformator extends AbstractPlanPro2TableModelTransformator {
 		}
 
 		final SignalingSection newSection = new SignalingSection(startSignal);
-		// Remove the founded sections, which the start signal is the signal in
-		// newSecion
-		final List<SignalingSection> containSections = signalingSections
+		// Remove the already determined sections that have an overlap with the new section
+		final List<SignalingSection> overlappingSections = signalingSections
 				.stream()
 				.filter(section -> newSection.getSignalBetween()
 						.contains(section.getStartSignal()))
 				.toList();
-		signalingSections.removeAll(containSections);
+		signalingSections.removeAll(overlappingSections );
 		signalingSections.add(newSection);
 
 	}
