@@ -473,9 +473,10 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 		return fstrZug?.fstrFahrweg?.zielSignal
 	}
 
-	def static Fstr_Zug_Rangier getZielFstrZugRangier(Fstr_Zug_Rangier fstr) {
-		val zielSignal = fstr.IDFstrFahrweg?.value.IDZiel?.value
-		return zielSignal.container.contents.filter(Fstr_Zug_Rangier).findFirst [
+	def static Iterable<Fstr_Zug_Rangier> getNextBlockFstrZugRangier(
+		Fstr_Zug_Rangier it) {
+		val zielSignal = IDFstrFahrweg?.value.IDZiel?.value
+		return zielSignal.container.fstrZugRangier.filter [
 			IDFstrFahrweg?.value?.IDStart?.value == zielSignal &&
 				fstrZug?.fstrZugArt?.wert === ENUMFstrZugArt.ENUM_FSTR_ZUG_ART_B
 		]
@@ -490,7 +491,7 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 		}
 		val fstrZug = fstrZugRangier.fstrZug
 		val fstrZugArt = fstrZug?.fstrZugArt?.wert?.literal
-		if (fstrZugRangier.zielFstrZugRangier !== null) {
+		if (fstrZugRangier.nextBlockFstrZugRangier.nullOrEmpty) {
 			return '''«fstrZugArt.substring(1) ?: ""»B'''
 		}
 
