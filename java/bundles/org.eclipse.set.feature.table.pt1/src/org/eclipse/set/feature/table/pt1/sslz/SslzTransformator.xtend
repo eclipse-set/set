@@ -164,73 +164,16 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 						return bezeichnung
 				])
 
-				// C: Sslz.Grundsatzangaben.Fahrweg.Ziel
-				fillConditional(instance, cols.getColumn(Ziel),
-					fstrZugRangier, [
-						val zielSignal = IDFstrFahrweg?.value.IDZiel?.value
-						return zielSignal.container.contents.filter(
-							Fstr_Zug_Rangier).findFirst [
-							fstrZug?.fstrZugArt?.wert === ENUM_FSTR_ZUG_ART_B &&
-								IDFstrFahrweg?.value?.IDStart?.value ==
-									zielSignal
-						] === null
-					], [fahrwegZiel], [fahrwegZielBlock])
-
-				// D: Sslz.Grundsatzangaben.Fahrweg.Nummer
-				fill(
-					instance,
-					cols.getColumn(Nummer),
-					fstrZugRangier,
-					[fahrwegNummer]
-				)
-
-				// E: Sslz.Grundsatzangaben.Fahrweg.Entscheidungsweiche
-				fillIterable(
-					instance,
-					cols.getColumn(Entscheidungsweiche),
-					fstrZugRangier,
-					[getEntscheidungsweichen(NOT_USABLE).map[bezeichnung]],
-					MIXED_STRING_COMPARATOR,
-					[it]
-				)
-
-				// F: Sslz.Grundsatzangaben.Durchrutschweg.Bezeichnung
-				fill(instance, cols.getColumn(Durchrutschweg_Bezeichnung),
-					fstrZugRangier, [
-						val bezeichnung = fstrZugRangier?.fstrDWeg?.
-							bezeichnung?.bezeichnungFstrDWeg?.wert
-						if (bezeichnung === null)
-							return null
-
-						val vorzug = fstrZugRangier?.fstrZug?.fstrZugDWeg?.
-							DWegVorzug?.wert
-						if (vorzug === null)
-							return '''«bezeichnung» «WARNING_SYMBOL»'''
-						if (vorzug)
-							return '''«bezeichnung»*'''
-						else
-							return bezeichnung
-					])
-
-				// G: Sslz.Grundsatzangaben.Art
-				fill(instance,
-					cols.getColumn(Art),
-					fstrZugRangier,
-					[fstrZugArt]
-				)
-
-				// H: Sslz.Einstellung.Autom_Einstellung
-				fill(instance, cols.getColumn(Autom_Einstellung),
-					fstrZugRangier, [
-						fstrZugRangier?.fstrZug?.automatischeEinstellung?.
-							translate ?: ""
-					])
-
-				// I: Sslz.Einstellung.F_Bedienung
-				fill(
-					instance,
-					cols.getColumn(F_Bedienung),
-					fstrZugRangier,
+			// G: Sslz.Grundsatzangaben.Art
+			fillSwitch(
+				instance,
+				cols.getColumn(Art),
+				fstrZugRangier,
+				new Case<Fstr_Zug_Rangier>([nextBlockFstrZugRangier !== null], [
+					'''«fstrZug?.fstrZugArt?.wert?.literal?.substring(1)»B'''
+				]),
+				new Case<Fstr_Zug_Rangier>(
+					[fstrZug?.IDSignalGruppenausfahrt !== null],
 					[
 						'''G«fstrZug?.fstrZugArt?.wert.literal.substring(1)»'''
 					]
@@ -243,7 +186,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 					[fstrMittel?.fstrMittelArt?.wert !== null],
 					[fstrMittel?.fstrMittelArt?.wert.literal.substring(1)]
 				)
-			
+			)
 
 			// H: Sslz.Einstellung.Autom_Einstellung
 			fill(instance, cols.getColumn(Autom_Einstellung), fstrZugRangier, [
