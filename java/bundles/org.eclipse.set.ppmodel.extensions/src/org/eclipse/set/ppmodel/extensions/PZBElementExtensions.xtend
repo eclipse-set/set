@@ -52,7 +52,7 @@ class PZBElementExtensions extends BasisObjektExtensions {
 	def static List<Basis_Objekt> getPZBElementBezugspunkt(PZB_Element pzb) {
 		return pzb.IDPZBElementZuordnung?.value?.PZBElementZuordnungBP?.map [
 			IDPZBElementBezugspunkt?.value
-		]
+		] ?: emptyList
 	}
 
 	def static Iterable<Fstr_DWeg> getFstrDWegs(PZB_Element pzb) {
