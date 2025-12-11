@@ -8,20 +8,27 @@
  */
 package org.eclipse.set.application.subwork;
 
+import static org.eclipse.set.ppmodel.extensions.EObjectExtensions.getNullableObject;
+
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.e4.core.contexts.RunAndTrack;
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.e4.core.services.nls.Translation;
 import org.eclipse.e4.ui.model.application.MApplication;
+import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.set.application.Messages;
 import org.eclipse.set.application.toolcontrol.ServiceProvider;
 import org.eclipse.set.basis.IModelSession;
+import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.core.services.part.ToolboxPartService;
 import org.eclipse.set.core.services.planningaccess.PlanningAccessService;
 import org.eclipse.set.model.planpro.PlanPro.ENUMUntergewerkArt;
@@ -41,8 +48,6 @@ public class SubworkSelectionControl {
 
 	private final MApplication application;
 
-	private final IEventBroker broker;
-
 	@Translation
 	private final Messages messages;
 
@@ -53,6 +58,8 @@ public class SubworkSelectionControl {
 	private ComboViewer comboViewer;
 
 	PlanningAccessService planningAccessService;
+
+	private final IEventBroker broker;
 
 	/**
 	 * @param parent
@@ -83,6 +90,7 @@ public class SubworkSelectionControl {
 							.get(selectedString);
 					planningAccessService
 							.setCurrentUntergewerkArt(selectedEnum);
+					broker.send(Events.SUBWORK_CHANGED, null);
 				}
 			}
 		});
@@ -112,45 +120,39 @@ public class SubworkSelectionControl {
 		comboViewer.getCombo().setEnabled(false);
 	}
 
-	private List<String> getSubworkTypes(final IModelSession session) {
-		if (session == null) {
-			return java.util.List.of();
+	private static List<String> getSubworkTypes(final IModelSession session) {
+
+		final var projectListOpt = getNullableObject(session,
+				s -> s.getPlanProSchnittstelle()
+						.getLSTPlanung()
+						.getObjektmanagement()
+						.getLSTPlanungProjekt());
+
+		if (projectListOpt.isEmpty()) {
+			return List.of();
 		}
 
-		final var schnitt = session.getPlanProSchnittstelle();
-		if (schnitt == null) {
-			return java.util.List.of();
-		}
+		final var projects = projectListOpt.get();
+		final Set<String> subworkTypes = new HashSet<>();
 
-		final var lst = schnitt.getLSTPlanung();
-		if (lst == null) {
-			return java.util.List.of();
-		}
+		for (final var project : projects) {
 
-		final var fachdatenContainer = lst.getFachdaten();
-		if (fachdatenContainer == null) {
-			return java.util.List.of();
-		}
+			final var projectGroupsOpt = getNullableObject(project,
+					p -> p.getLSTPlanungGruppe()).orElse(new BasicEList<>());
 
-		final var fachdaten = fachdatenContainer.getAusgabeFachdaten();
-		if (fachdaten == null) {
-			return java.util.List.of();
-		}
+			for (final var group : projectGroupsOpt) {
 
-		final java.util.Set<String> subtypes = new java.util.HashSet<>();
+				final var subworkTypeOpt = getNullableObject(group,
+						g -> g.getPlanungGAllg().getUntergewerkArt().getWert())
+								.orElse(null);
 
-		for (final var fd : fachdaten) {
-			final var uga = fd.getUntergewerkArt();
-			if (uga == null) {
-				continue;
+				if (subworkTypeOpt != null) {
+					subworkTypes.add(subworkTypeOpt.getLiteral());
+				}
 			}
-			final String type = String.valueOf(uga.getWert());
-			subtypes.add(type);
 		}
 
-		final java.util.List<String> result = new java.util.ArrayList<>(
-				subtypes);
-		return result;
+		return new ArrayList<>(subworkTypes);
 	}
 
 	private void setCombo(final IModelSession session) {
@@ -166,26 +168,45 @@ public class SubworkSelectionControl {
 			final List<String> sortedSubworkTypes = sortSubworkTypes(
 					subworkTypes);
 			comboViewer.setInput(sortedSubworkTypes.toArray());
-			comboViewer.getCombo().select(sortedSubworkTypes.size() - 1);
+			comboViewer.getCombo().select(0);
 			comboViewer.getCombo().setEnabled(true);
+			planningAccessService.setCurrentUntergewerkArt(
+					ENUMUntergewerkArt.get(sortedSubworkTypes.getFirst()));
 		}
 	}
 
+	private static final List<String> SUBWORK_TYPE_ORDER = Arrays.asList(
+			ENUMUntergewerkArt.ENUM_UNTERGEWERK_ART_ATO.getLiteral(),
+			ENUMUntergewerkArt.ENUM_UNTERGEWERK_ART_ETCS.getLiteral(),
+			ENUMUntergewerkArt.ENUM_UNTERGEWERK_ART_ESTW.getLiteral(),
+			ENUMUntergewerkArt.ENUM_UNTERGEWERK_ART_GEO.getLiteral());
+
 	private static List<String> sortSubworkTypes(
 			final List<String> subworkTypes) {
-		final List<String> sorted = new ArrayList<>();
-		final String[] ORDER = {
-				ENUMUntergewerkArt.ENUM_UNTERGEWERK_ART_ATO.getLiteral(),
-				ENUMUntergewerkArt.ENUM_UNTERGEWERK_ART_ETCS.getLiteral(),
-				ENUMUntergewerkArt.ENUM_UNTERGEWERK_ART_ESTW.getLiteral(),
-				ENUMUntergewerkArt.ENUM_UNTERGEWERK_ART_GEO.getLiteral() };
-
-		for (final String key : ORDER) {
-			if (subworkTypes.contains(key)) {
-				sorted.add(key);
+		final List<String> sortedSubworkTypes = new ArrayList<>(subworkTypes);
+		sortedSubworkTypes.sort((a, b) -> {
+			final int indexOfA = SUBWORK_TYPE_ORDER.indexOf(a);
+			final int indexOfB = SUBWORK_TYPE_ORDER.indexOf(b);
+			if (indexOfA == -1 && indexOfB == -1) {
+				return a.compareTo(b);
 			}
-		}
-		return sorted;
+			if (indexOfA == -1) {
+				return 1;
+			}
+			if (indexOfB == -1) {
+				return -1;
+			}
+
+			final int indexCompare = Integer.compare(indexOfA, indexOfB);
+			if (indexCompare != 0) {
+				return indexCompare;
+			}
+			return a.compareTo(b);
+		});
+
+		return sortedSubworkTypes.isEmpty() ? List.of(
+				ENUMUntergewerkArt.ENUM_UNTERGEWERK_ART_SONSTIGE.getLiteral())
+				: sortedSubworkTypes;
 	}
 
 	private void clearCombo() {

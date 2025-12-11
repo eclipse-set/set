@@ -121,11 +121,21 @@ public class PlanningAccessServiceImpl implements PlanningAccessService {
 		}
 		final Map<ENUMUntergewerkArt, List<Planung_Gruppe>> groupsBySubWork = planingGroups
 				.stream()
-				.filter(group -> getUntergewerkArt(group)
-						.equals(getCurrentUntergewerkArt()))
+				.filter(group -> {
+					final var groupArt = getUntergewerkArt(group);
+					final var currentArt = getCurrentUntergewerkArt();
+					if (groupArt == null && currentArt == null) {
+						return true;
+					}
+
+					if (groupArt == null || currentArt == null) {
+						return false;
+					}
+
+					return groupArt.equals(currentArt);
+				})
 				.collect(Collectors
 						.groupingBy(group -> getUntergewerkArt(group)));
-
 		if (groupsBySubWork.containsKey(getCurrentUntergewerkArt())) {
 			return groupsBySubWork.get(getCurrentUntergewerkArt()).getFirst();
 		}
