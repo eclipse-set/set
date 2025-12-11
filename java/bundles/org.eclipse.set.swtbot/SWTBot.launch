@@ -46,7 +46,7 @@
     <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="org.eclipse.set.swtbot"/>
     <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.pde.ui.workbenchClasspathProvider"/>
     <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Dorg.eclipse.swt.graphics.Resource.reportNonDisposed=true -Xmx4096M -Dorg.eclipse.set.browser.locale=de-DE -Dfile.encoding=UTF8 -Dswing.defaultlaf=com.sun.java.swing.plaf.windows.WindowsLookAndFeel"/>
-    <stringAttribute key="org.eclipse.jdt.launching.WORKING_DIRECTORY" value="C:\eclipse\sbider"/>
+    <stringAttribute key="org.eclipse.jdt.launching.WORKING_DIRECTORY" value="${eclipse_home}"/>
     <stringAttribute key="pde.version" value="3.3"/>
     <stringAttribute key="product" value="org.eclipse.set.application.set.product_set"/>
     <booleanAttribute key="run_in_ui_thread" value="false"/>
@@ -414,7 +414,7 @@
         <setEntry value="org.eclipse.jdt.annotation@default:default"/>
         <setEntry value="org.eclipse.jdt.junit.runtime.nl_de@default:false"/>
         <setEntry value="org.eclipse.jdt.junit.runtime@default:default"/>
-        <setEntry value="org.eclipse.jdt.junit5.runtime.nl_de@default:default"/>
+        <setEntry value="org.eclipse.jdt.junit5.runtime.nl_de@default:false"/>
         <setEntry value="org.eclipse.jdt.junit5.runtime@default:default"/>
         <setEntry value="org.eclipse.jface.databinding.nl_de@default:false"/>
         <setEntry value="org.eclipse.jface.databinding@default:default"/>
@@ -531,10 +531,10 @@
         <setEntry value="org.eclipse.set.core@default:default"/>
         <setEntry value="org.eclipse.set.emfforms@default:default"/>
         <setEntry value="org.eclipse.set.feature.enumtransformation@default:default"/>
-        <setEntry value="org.eclipse.set.feature.export.test@default:false"/>
         <setEntry value="org.eclipse.set.feature.export@default:default"/>
         <setEntry value="org.eclipse.set.feature.overviewplan.test@default:default"/>
         <setEntry value="org.eclipse.set.feature.overviewplan@default:default"/>
+        <setEntry value="org.eclipse.set.feature.plazmodel.test@default:false"/>
         <setEntry value="org.eclipse.set.feature.plazmodel@default:default"/>
         <setEntry value="org.eclipse.set.feature.projectdata@default:default"/>
         <setEntry value="org.eclipse.set.feature.siteplan.test@default:false"/>
@@ -577,6 +577,7 @@
         <setEntry value="org.eclipse.set.swtbot@default:default"/>
         <setEntry value="org.eclipse.set.unittest.utils@default:default"/>
         <setEntry value="org.eclipse.set.utils.rcp@default:false"/>
+        <setEntry value="org.eclipse.set.utils.table.test@default:false"/>
         <setEntry value="org.eclipse.set.utils.table@default:default"/>
         <setEntry value="org.eclipse.set.utils.test@default:false"/>
         <setEntry value="org.eclipse.set.utils@default:default"/>

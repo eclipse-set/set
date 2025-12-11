@@ -195,7 +195,7 @@ import { SubscribeOptions } from 'vuex'
     }
   }
 })
-export default class ModelSummaryControl extends Vue {
+export default class SettingEditor extends Vue {
   mainTrackWidth = store.state.mainTrackWidth
   sideTrackWidth = store.state.sideTrackWidth
   otherTrackWidth = store.state.otherTrackWidth

@@ -15,11 +15,11 @@
       <div class="model-summary-control-content">
         <span style="font-size: 11px">[Hinzugefügt, Unverändert, Entfernt, Geändert]</span>
         <ul>
-          <li>Achszähler: {{ getCounts((model) => model.fmaComponents) }}</li>
-          <li>PZB Elemente: {{ getCounts((model) => model.pzb) }}</li>
-          <li>PZB GÜs: {{ getCounts((model) => model.pzbGU) }}</li>
+          <li>Achszähler: {{ counts.fmaComponents }}</li>
+          <li>PZB Elemente: {{ counts.pzbs }}</li>
+          <li>PZB GÜs: {{ counts.pzbGue }}</li>
           <li>
-            Strecken: {{ getCounts((model) => model.routes) }}
+            Strecken: {{ counts.routes }}
             <input
               id="checkbox-route"
               v-model="routeVisible"
@@ -27,19 +27,11 @@
             >
             <label for="checkbox-route">anzeigen</label>
           </li>
-          <li>Signale: {{ getCounts((model) => model.signals) }}</li>
+          <li>Signale: {{ counts.signals }}</li>
           <li>
-            Gleise: {{ getCounts((model) => model.tracks) }}
+            Gleise: {{ counts.tracks }}
             <ul>
-              <li v-if="isSiteplan()">
-                <input
-                  id="checkbox-track"
-                  v-model="trackEndMarkerVisible"
-                  type="checkbox"
-                >
-                <label for="checkbox-track">Enden anzeigen</label>
-              </li>
-              <li v-if="isSiteplan()">
+              <li v-if="isSiteplan">
                 <input
                   id="checkbox-trackoutline"
                   v-model="trackOutlineVisible"
@@ -49,92 +41,115 @@
               </li>
               <li>
                 <input
-                  id="checkbox-trackoutline"
-                  v-model="trackSectionColorVisbile"
+                  id="checkbox-track"
+                  v-model="trackColorVisible"
                   type="checkbox"
                 >
-                <label for="checkbox-track">Gleisabschnitt anzeigen</label>
+                <label for="checkbox-track">TOP_Kanten anzeigen</label>
+              </li>
+              <li v-if="isSiteplan">
+                <input
+                  id="checkbox-trackSection"
+                  v-model="trackSectionColorVisible"
+                  type="checkbox"
+                >
+                <label for="checkbox-trackSection">GEO_Kanten anzeigen</label>
               </li>
             </ul>
           </li>
-          <li>Weichen: {{ getCounts((model) => model.trackSwitches) }}</li>
-          <li>Gleissperren: {{ getCounts((model) => model.trackLock) }}</li>
-          <li>Bahnsteige: {{ getCounts((model) => model.stations) }}</li>
+          <li>Weichen: {{ counts.trackSwitchs }}</li>
+          <li>Gleissperren: {{ counts.trackLocks }}</li>
+          <li>Bahnsteige: {{ counts.stations }}</li>
         </ul>
       </div>
     </template>
   </SideInfoControl>
 </template>
 
-<script lang="ts">
-/**
- * Overview of model data
- * @author Truong
- */
-import { Vue, Options } from 'vue-class-component'
-import { SubscribeOptions } from 'vuex'
-import { PlanProModelType, store } from '@/store'
-import SiteplanModel, { SiteplanState } from '@/model/SiteplanModel'
+<script setup lang="ts">
 import SideInfoControl from '@/components/SideInfoControl.vue'
+import SiteplanModel, { SiteplanState } from '@/model/SiteplanModel'
+import { PlanProModelType, store } from '@/store'
+import { computed, onBeforeMount, onBeforeUnmount, ref, watch } from 'vue'
 
-@Options({
-  components: {
-    SideInfoControl
-  },
-  created () {
-    this.unsubscribe = store.subscribe((s, m) => {
-      if (s.type === 'setModel') {
-        this.model = m.model
-      }
-    })
-  },
-  watch: {
-    routeVisible (value: boolean) {
-      this.routeVisible = value
-      store.commit('setRouteVisible', value)
-    },
-    trackEndMarkerVisible (value: boolean) {
-      this.trackEndMarkerVisible = value
-      store.commit('setTrackSectionMarkerVisible', value)
-    },
-    trackOutlineVisible (value: boolean) {
-      this.trackOutlineVisible = value
-      store.commit('setTrackOutlineVisible', value)
-    },
-    trackSectionColorVisbile (value: boolean) {
-      this.trackSectionColorVisbile = value
-      store.commit('setTrackSectionColorVisible', value)
+const routeVisible = ref(store.state.routeVisible)
+const trackSectionColorVisible = ref(store.state.trackSectionColorVisible)
+const trackOutlineVisible = ref(store.state.trackOutlineVisible)
+const trackColorVisible = ref(store.state.trackColorVisible)
+let model: SiteplanModel | null = store.state.model
+let unsubscribe: VoidFunction | undefined
+
+onBeforeMount(() => {
+  unsubscribe = store.subscribe((s, m) => {
+    if (s.type === 'setModel') {
+      model = m.model
     }
-  },
-  beforeUnmount () {
-    this.unsubscribe()
+  })
+})
+
+onBeforeUnmount(() => {
+  if (unsubscribe) {
+    unsubscribe()
   }
 })
-export default class ModelSummaryControl extends Vue {
-  routeVisible = store.state.routeVisible
-  trackEndMarkerVisible = store.state.trackSectionMarkerVisible
-  trackOutlineVisible = store.state.trackOutlineVisible
-  trackSectionColorVisbile = store.state.trackSectionColorVisible
-  model: SiteplanModel | null = store.state.model
-  unsubscribe: SubscribeOptions | undefined
 
-  getCounts (fn: (model: SiteplanState) => unknown[]): number[] {
-    if (!this.model) {
-      return []
-    }
+watch(routeVisible, (value:boolean) => {
+  store.commit('setRouteVisible', value)
+})
 
-    return [
-      fn(this.model.initialState).length,
-      fn(this.model.commonState).length,
-      fn(this.model.initialState).length,
-      fn(this.model.changedInitialState).length
-      // changedFinalState is not shown as the size is the same as of
-      // changedInitialState
-    ]
+watch(trackSectionColorVisible, (value: boolean) => {
+  if (value && trackColorVisible.value) {
+    trackColorVisible.value = false
+    store.commit('setTrackColorVisible', false)
   }
 
-  isSiteplan () {
-    return store.state.planproModelType === PlanProModelType.SITEPLAN
+  store.commit('setTrackSectionColorVisible', value)
+})
+
+watch(trackColorVisible, (value: boolean) => {
+  if (value && trackSectionColorVisible.value) {
+    trackSectionColorVisible.value = false
+    store.commit('setTrackSectionColorVisible', false)
   }
+
+  store.commit('setTrackColorVisible', value)
+})
+
+watch(trackOutlineVisible, (value: boolean) => {
+  store.commit('setTrackOutlineVisible', value)
+})
+
+const isSiteplan = computed(() => {
+  return store.state.planproModelType === PlanProModelType.SITEPLAN
+})
+
+const counts = computed(() => {
+  return {
+    fmaComponents: getCounts(state => state.fmaComponents),
+    pzbs: getCounts(state => state.pzb),
+    pzbGue: getCounts(state => state.pzbGU),
+    routes: getCounts(state => state.routes),
+    signals: getCounts(state => state.signals),
+    tracks: getCounts(state => state.tracks),
+    trackSwitchs: getCounts(state => state.trackSwitches),
+    trackLocks: getCounts(state => state.trackLock),
+    stations : getCounts(state => state.stations)
+  }
+})
+
+function getCounts (fn: (model: SiteplanState) => unknown[]): number[] {
+  if (!model) {
+    return []
+  }
+
+  return [
+    fn(model.initialState).length,
+    fn(model.commonState).length,
+    fn(model.initialState).length,
+    fn(model.changedInitialState).length
+    // changedFinalState is not shown as the size is the same as of
+    // changedInitialState
+  ]
 }
+
 </script>
