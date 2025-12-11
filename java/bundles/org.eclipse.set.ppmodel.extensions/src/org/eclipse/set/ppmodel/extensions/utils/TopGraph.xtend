@@ -21,7 +21,6 @@ import org.eclipse.set.model.planpro.Geodaten.TOP_Knoten
 import org.eclipse.set.ppmodel.extensions.TopKanteExtensions
 
 import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.TopKnotenExtensions.*
 
 /**
  * Implementation of {@link Digraph} for PlanPro topology.
@@ -61,7 +60,7 @@ class TopGraph extends AbstractRouting<TOP_Kante, TOP_Knoten, Punkt_Objekt_TOP_K
 	}
 
 	override getEdges(TOP_Knoten node) {
-		return node.topKanten.toSet
+		return edges.filter[head == node || tail == head].map[element].toSet
 	}
 
 	override getHeadEdge(TOP_Knoten head, TOP_Kante edge) {
@@ -90,9 +89,9 @@ class TopGraph extends AbstractRouting<TOP_Kante, TOP_Knoten, Punkt_Objekt_TOP_K
 	override getEmptyPath() {
 		return new TopKantePath
 	}
-	
+
 	override getCacheKey() {
 		return edges.toList.map[getCacheKey].join("/")
 	}
-	
+
 }
