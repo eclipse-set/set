@@ -50,7 +50,6 @@ import org.slf4j.LoggerFactory
 
 import static org.eclipse.set.feature.table.pt1.sslz.SslzColumns.*
 import static org.eclipse.set.model.planpro.Bahnuebergang.ENUMBUESicherungsart.*
-import static org.eclipse.set.model.planpro.Fahrstrasse.ENUMFstrZugArt.*
 import static org.eclipse.set.model.planpro.Gleis.ENUMGleisart.*
 
 import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.*
@@ -610,15 +609,6 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 				toString
 		}
 		return EMPTY_FILLING
-	}
-
-	private def Iterable<Fstr_Zug_Rangier> getNextBlockFstrZugRangier(
-		Fstr_Zug_Rangier it) {
-		val zielSignal = IDFstrFahrweg?.value.IDZiel?.value
-		return zielSignal.container.fstrZugRangier.filter [
-			IDFstrFahrweg?.value?.IDStart?.value == zielSignal &&
-				fstrZug?.fstrZugArt?.wert === ENUM_FSTR_ZUG_ART_B
-		]
 	}
 
 	private def List<String> getSignalBegriffZs3ByStartSignal(

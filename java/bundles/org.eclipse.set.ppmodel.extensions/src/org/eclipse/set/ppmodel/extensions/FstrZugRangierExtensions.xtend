@@ -491,7 +491,7 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 		}
 		val fstrZug = fstrZugRangier.fstrZug
 		val fstrZugArt = fstrZug?.fstrZugArt?.wert?.literal
-		if (fstrZugRangier.nextBlockFstrZugRangier.nullOrEmpty) {
+		if (!fstrZugRangier.nextBlockFstrZugRangier.nullOrEmpty) {
 			return '''«fstrZugArt.substring(1) ?: ""»B'''
 		}
 
