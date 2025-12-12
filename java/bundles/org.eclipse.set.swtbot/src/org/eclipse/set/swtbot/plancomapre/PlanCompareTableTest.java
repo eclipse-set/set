@@ -36,19 +36,18 @@ import org.junit.jupiter.params.provider.MethodSource;
  */
 @TestInstance(Lifecycle.PER_CLASS)
 public class PlanCompareTableTest extends AbstractPlanCompareTest {
-	PtTable tableToTest;
 	SWTBotNatTable nattableBot;
-	
+
 	protected static Stream<Arguments> providesPtTable() {
 		return PtTable.tablesToTest.stream().map(table -> Arguments.of(table));
 	}
-	
+
 	@BeforeEach
 	@Override
 	public void beforeEach() throws Exception {
 		// do nothing
 	}
-	
+
 	// The test file should only open one times by this test
 	@BeforeAll
 	void beforeAll() throws Exception {
@@ -65,9 +64,10 @@ public class PlanCompareTableTest extends AbstractPlanCompareTest {
 			swtBotExpandItem.expand();
 		});
 	}
-	
+
 	/**
 	 * Test Open Table
+	 * 
 	 * @param table
 	 */
 	@ParameterizedTest
@@ -75,9 +75,9 @@ public class PlanCompareTableTest extends AbstractPlanCompareTest {
 	protected void testOpenTable(PtTable table) {
 		givenNattableBot(table.tableName());
 		assertNotNull(nattableBot);
-		
+
 	}
-	
+
 	protected void givenNattableBot(final String tableName) {
 		bot.button(tableName).click();
 		nattableBot = SWTBotUtils.waitForNattable(bot, 30000);
