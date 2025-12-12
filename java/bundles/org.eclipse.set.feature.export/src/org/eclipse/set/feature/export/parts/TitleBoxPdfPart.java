@@ -20,6 +20,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.set.basis.OverwriteHandling;
+import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.basis.extensions.PathExtensions;
 import org.eclipse.set.basis.guid.Guid;
 import org.eclipse.set.core.services.pdf.PdfRendererService;
@@ -37,7 +38,10 @@ import org.eclipse.set.utils.exception.ExceptionHandler;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
+import org.osgi.service.event.EventHandler;
 
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
 import jakarta.inject.Inject;
 
 /**
@@ -60,6 +64,24 @@ public class TitleBoxPdfPart extends BasePart implements SaveListener {
 	@Inject
 	@Translation
 	Messages messages;
+
+	private EventHandler subworkChangedHandler;
+
+	@PostConstruct
+	private void postConstruct() {
+		subworkChangedHandler = event -> {
+			if (!event.getTopic().equalsIgnoreCase(Events.SUBWORK_CHANGED)) {
+				return;
+			}
+			updatePdfView();
+		};
+		getBroker().subscribe(Events.SUBWORK_CHANGED, subworkChangedHandler);
+	}
+
+	@PreDestroy
+	private void preDestroy() {
+		getBroker().unsubscribe(subworkChangedHandler);
+	}
 
 	/**
 	 * Create the part.
