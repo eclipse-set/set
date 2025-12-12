@@ -8,7 +8,7 @@
  */
 package org.eclipse.set.swtbot.utils;
 
-import static org.eclipse.set.swtbot.utils.SWTBotTestFile.PPHN;
+import static org.eclipse.set.swtbot.utils.SWTBotTestFile.PPHN_1_10_0_3;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
@@ -21,7 +21,6 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVFormat.Builder;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
-import org.eclipse.swtbot.swt.finder.waits.DefaultCondition;
 import org.junit.jupiter.api.BeforeEach;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,40 +40,22 @@ public abstract class AbstractPPHNTest extends AbstractSWTBotTest {
 	public void beforeEach() throws Exception {
 		super.beforeEach();
 		LOGGER.info(getFilePath(getTestFile().getFullName()).toString());
-		bot.waitUntil(new DefaultCondition() {
-			@Override
-			public String getFailureMessage() {
-				return "Failed to wait for Application";
-			}
-
-			@Override
-			public boolean test() throws Exception {
-				final var shell = bot.activeShell();
-				final String toolboxName = System.getProperty("toolbox.name",
-						DEFAULT_TOOLBOX_NAME);
-				return shell.getText().startsWith(toolboxName);
-			}
-
-		});
+		bot.waitUntil(SWTBotUtils.botWaitUntil(bot, () -> {
+			final var shell = bot.activeShell();
+			final String toolboxName = System.getProperty("toolbox.name",
+					DEFAULT_TOOLBOX_NAME);
+			return Boolean.valueOf(shell.getText().startsWith(toolboxName));
+		}));
 
 		bot.menu("Datei").menu("Öffnen...").click();
 		bot.shell("Statusinformationen");
-		bot.waitUntil(new DefaultCondition() {
-			@Override
-			public String getFailureMessage() {
-				return "Failed to wait for Application";
-			}
-
-			@Override
-			public boolean test() throws Exception {
-				final var shell = List.of(bot.shells());
-				return shell.stream()
-						.filter(c -> "Statusinformationen".equals(c.getText()))
-						.findAny()
-						.isEmpty();
-			}
-
-		}, 5l * 60 * 1000);
+		bot.waitUntil(SWTBotUtils.botWaitUntil(bot, () -> {
+			final var shell = List.of(bot.shells());
+			return Boolean.valueOf(shell.stream()
+					.filter(c -> "Statusinformationen".equals(c.getText()))
+					.findAny()
+					.isEmpty());
+		}), 5l * 60 * 1000);
 		bot.sleep(500);
 	}
 
@@ -85,7 +66,7 @@ public abstract class AbstractPPHNTest extends AbstractSWTBotTest {
 
 	@Override
 	public TestFile getTestFile() {
-		return PPHN;
+		return PPHN_1_10_0_3;
 	}
 
 	protected List<CSVRecord> loadReferenceFile(final String tableName)
