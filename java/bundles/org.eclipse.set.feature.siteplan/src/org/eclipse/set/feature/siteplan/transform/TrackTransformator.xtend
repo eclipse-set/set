@@ -206,13 +206,13 @@ class TrackTransformator extends BaseTransformator<TOP_Kante> implements EventHa
 		val topKnoten = component.topKnoten
 		val crossingSide = component.zungenpaar?.kreuzungsgleis?.wert
 		if (crossingSide == ENUMLinksRechts.ENUM_LINKS_RECHTS_RECHTS) {
-			return topKnoten?.topKanten?.filter [
+			return topKnoten?.topKanten?.findFirst [
 				getTOPAnschluss(topKnoten) == ENUMTOP_ANSCHLUSS_LINKS
-			]?.head
+			]
 		} else if (crossingSide == ENUMLinksRechts.ENUM_LINKS_RECHTS_LINKS) {
-			return topKnoten?.topKanten?.filter [
+			return topKnoten?.topKanten?.findFirst [
 				getTOPAnschluss(topKnoten) == ENUMTOP_ANSCHLUSS_RECHTS
-			]?.head
+			]
 		}
 	}
 

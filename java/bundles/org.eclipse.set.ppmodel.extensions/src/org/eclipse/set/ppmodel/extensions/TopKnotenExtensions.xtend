@@ -52,10 +52,10 @@ class TopKnotenExtensions extends BasisObjektExtensions {
 	 * 
 	 * @returns list of TOP Kanten with this TOP Knoten
 	 */
-	def static List<TOP_Kante> getTopKanten(TOP_Knoten topKnoten) {
+	def static Iterable<TOP_Kante> getTopKanten(TOP_Knoten topKnoten) {
 		return topKnoten.container.TOPKante.filter [
 			TOPKnotenA == topKnoten || TOPKnotenB == topKnoten
-		].toList
+		]
 	}
 
 	/**
@@ -113,7 +113,7 @@ class TopKnotenExtensions extends BasisObjektExtensions {
 
 	private static dispatch def List<TOP_Kante> topKantenForPunktObjekt(
 		TOP_Knoten topKnoten, Punkt_Objekt punktObjekt) {
-		return topKnoten.topKanten
+		return topKnoten.topKanten.toList
 	}
 
 	private static dispatch def List<TOP_Kante> topKantenForPunktObjekt(
