@@ -14,8 +14,10 @@ package org.eclipse.set.swtbot.utils;
  * The test file enum
  */
 public enum SWTBotTestFile implements TestFile {
-	PPHN("pphn",
-			"PPHN_1.10.0.1_01-02_Ibn-Z._-_2._AeM_2022-05-17_13-44_tg2.planpro");
+	PPHN_1_10_0_1("pphn_1_10_0_1",
+			"PPHN_1.10.0.1_01-02_Ibn-Z._-_2._AeM_2022-05-17_13-44_tg2.planpro"),
+	PPHN_1_10_0_3("pphn_1_10_0_3",
+			"PPHN_1.10.0.3_01-02_Ibn-Z._-_2._AeM_2022-05-17_13-44_tg3.planpro");
 
 	private final String fullName;
 	private final String shortName;

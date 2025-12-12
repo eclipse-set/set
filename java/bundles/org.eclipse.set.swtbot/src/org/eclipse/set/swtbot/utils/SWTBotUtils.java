@@ -1,16 +1,23 @@
 package org.eclipse.set.swtbot.utils;
 
+import static org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory.*;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+import java.util.List;
+import java.util.function.Supplier;
 
 import org.eclipse.nebula.widgets.nattable.NatTable;
 import org.eclipse.nebula.widgets.nattable.freeze.FreezeLayer;
 import org.eclipse.nebula.widgets.nattable.grid.layer.GridLayer;
 import org.eclipse.nebula.widgets.nattable.layer.ILayer;
 import org.eclipse.set.utils.table.BodyLayerStack;
+import org.eclipse.swt.widgets.ExpandItem;
 import org.eclipse.swtbot.nebula.nattable.finder.SWTNatTableBot;
 import org.eclipse.swtbot.nebula.nattable.finder.widgets.SWTBotNatTable;
 import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.waits.DefaultCondition;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotExpandItem;
 
 /**
  * Utilities for working with Nattable in SWTBot
@@ -90,4 +97,40 @@ public class SWTBotUtils {
 				gridLayer.getColumnHeaderLayer());
 	}
 
+	/**
+	 * @param bot the {@link SWTBot}
+	 * @param condition the wait condition
+	 * @return the {@link DefaultCondition}
+	 */
+	public static DefaultCondition botWaitUntil(SWTBot bot,
+			Supplier<Boolean> condition) {
+		return new DefaultCondition() {
+
+			@Override
+			public boolean test() throws Exception {
+				return condition.get().booleanValue();
+			}
+
+			@Override
+			public String getFailureMessage() {
+				return "Failed to wait for Application";
+			}
+		};
+	}
+
+	/**
+	 * @param bot the {@link SWTBot}
+	 */
+	public static void expandTableMenu(SWTBot bot) {
+		@SuppressWarnings("unchecked")
+		final List<? extends ExpandItem> expandItems = bot
+				.widgets(allOf(widgetOfType(ExpandItem.class), withRegex(
+						"^.+ – (Zusatzt|T)abellen( \\(in Entwicklung\\))?$")));
+		expandItems.forEach(item -> {
+			final SWTBotExpandItem swtBotExpandItem = new SWTBotExpandItem(
+					item);
+			assertNotNull(swtBotExpandItem);
+			swtBotExpandItem.expand();
+		});
+	}
 }

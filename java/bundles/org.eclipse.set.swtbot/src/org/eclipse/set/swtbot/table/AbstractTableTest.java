@@ -58,7 +58,6 @@ public abstract class AbstractTableTest extends AbstractPPHNTest {
 			assertNotNull(swtBotExpandItem);
 			swtBotExpandItem.expand();
 		});
-
 	}
 
 	@Override
