@@ -13,6 +13,7 @@ package org.eclipse.set.feature.overviewplan.track;
 import static org.eclipse.set.ppmodel.extensions.TopKnotenExtensions.getTopKanten;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -60,15 +61,15 @@ public class TopKnotenPosition {
 				&& topNodeHorizontalCoor.keySet().containsAll(allTopNodes)) {
 			return topNodeHorizontalCoor;
 		}
-		final List<TOP_Kante> edges = getTopKanten(firstNode);
-		if (edges.isEmpty()) {
+		final Iterator<TOP_Kante> edges = getTopKanten(firstNode).iterator();
+		if (!edges.hasNext()) {
 			throw new IllegalArgumentException(
 					String.format("TOP_Knoten: %s haven't TOP_Kante", //$NON-NLS-1$
 							firstNode.getIdentitaet().getWert()));
 		}
 
 		findTOPNodeHorizontalCoor(
-				trackService.getTOPKanteMetaData(edges.get(0)), firstNode, 0,
+				trackService.getTOPKanteMetaData(edges.next()), firstNode, 0,
 				true);
 		return topNodeHorizontalCoor;
 	}

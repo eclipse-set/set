@@ -59,7 +59,7 @@ public class ToolboxTableModelThemeConfiguration
 
 	private final Style topologicalCellStyle;
 	private static final RGB COMPARE_CELL_BORDER_COLOR = Colors.parseHexCode(
-			ToolboxConstants.TABLE_COMPARE_TABLE_CELL_BORDER_COLOR);;
+			ToolboxConstants.TABLE_COMPARE_TABLE_CELL_BORDER_COLOR);
 
 	/**
 	 * @param natTable
