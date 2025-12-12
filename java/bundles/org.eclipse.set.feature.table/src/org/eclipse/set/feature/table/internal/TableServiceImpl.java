@@ -226,7 +226,7 @@ public final class TableServiceImpl implements TableService {
 				.stream()
 				.filter(modelService -> modelService.getKey()
 						.shortcut()
-						.equals(elementId.toLowerCase()))
+						.equalsIgnoreCase(extractShortcut(elementId)))
 				.findFirst()
 				.orElse(null);
 		if (result == null) {
