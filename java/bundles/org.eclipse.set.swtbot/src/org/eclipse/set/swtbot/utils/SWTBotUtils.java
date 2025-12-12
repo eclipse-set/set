@@ -98,8 +98,10 @@ public class SWTBotUtils {
 	}
 
 	/**
-	 * @param bot the {@link SWTBot}
-	 * @param condition the wait condition
+	 * @param bot
+	 *            the {@link SWTBot}
+	 * @param condition
+	 *            the wait condition
 	 * @return the {@link DefaultCondition}
 	 */
 	public static DefaultCondition botWaitUntil(SWTBot bot,
@@ -119,7 +121,8 @@ public class SWTBotUtils {
 	}
 
 	/**
-	 * @param bot the {@link SWTBot}
+	 * @param bot
+	 *            the {@link SWTBot}
 	 */
 	public static void expandTableMenu(SWTBot bot) {
 		@SuppressWarnings("unchecked")

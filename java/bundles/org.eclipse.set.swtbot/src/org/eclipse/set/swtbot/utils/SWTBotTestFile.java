@@ -14,8 +14,15 @@ package org.eclipse.set.swtbot.utils;
  * The test file enum
  */
 public enum SWTBotTestFile implements TestFile {
+	/**
+	 * PHausen 1.10.0.1
+	 */
 	PPHN_1_10_0_1("pphn_1_10_0_1",
 			"PPHN_1.10.0.1_01-02_Ibn-Z._-_2._AeM_2022-05-17_13-44_tg2.planpro"),
+
+	/**
+	 * PHausen 1.10.0.3
+	 */
 	PPHN_1_10_0_3("pphn_1_10_0_3",
 			"PPHN_1.10.0.3_01-02_Ibn-Z._-_2._AeM_2022-05-17_13-44_tg3.planpro");
 

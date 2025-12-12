@@ -28,8 +28,7 @@ import org.slf4j.LoggerFactory;
 public abstract class AbstractPlanCompareTest extends AbstractPPHNTest {
 	private final Logger LOGGER = LoggerFactory
 			.getLogger(AbstractPlanCompareTest.class);
-	
-	
+
 	protected void openSecondPlan() throws Exception {
 		LOGGER.info(getFilePath(getComparePlan().getFullName()).toString());
 		getDialogService().openFileDialogHandler = filters -> Optional
@@ -53,7 +52,7 @@ public abstract class AbstractPlanCompareTest extends AbstractPPHNTest {
 		}), 5l * 60 * 1000);
 		bot.sleep(500);
 	}
-	
+
 	@Override
 	public String getReferenceDir() {
 		return TEST_RESOURCE_DIR + "table_reference/"

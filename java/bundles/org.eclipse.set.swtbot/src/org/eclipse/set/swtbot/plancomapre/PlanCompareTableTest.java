@@ -80,7 +80,6 @@ public class PlanCompareTableTest extends AbstractPlanCompareTest {
 	
 	protected void givenNattableBot(final String tableName) {
 		bot.button(tableName).click();
-		nattableBot = SWTBotUtils.waitForNattable(bot,
-				30000);
+		nattableBot = SWTBotUtils.waitForNattable(bot, 30000);
 	}
 }

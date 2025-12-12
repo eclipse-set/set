@@ -38,7 +38,6 @@ public class PlanCompareTest extends AbstractPlanCompareTest {
 		assertDoesNotThrow(this::whenCloseComparePlan);
 		expectApplicationTitleAfterCloseComparePlanEquals();
 	}
-	
 
 	void whenCloseComparePlan() {
 		getDialogService().openFileDialogHandler = filter -> Optional.empty();
