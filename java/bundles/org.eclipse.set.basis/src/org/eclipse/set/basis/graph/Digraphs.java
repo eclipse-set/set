@@ -401,8 +401,8 @@ public class Digraphs {
 		final Set<DirectedEdgePath<E, N, P>> result = new HashSet<>();
 		final Deque<Pair<DirectedEdge<E, N, P>, DirectedEdgePath<E, N, P>>> directedEdges = new LinkedList<>();
 		directedEdges.add(new Pair<>(start, path.copy()));
-		for (Pair<DirectedEdge<E, N, P>, DirectedEdgePath<E, N, P>> edgeWithPath; (edgeWithPath = directedEdges
-				.poll()) != null;) {
+        while (!directEdges.isEmpty()) {
+                Pair<DirectedEdge<E, N, P>, DirectedEdgePath<E, N, P>> edgeWithPath = directedEdges.poll();
 			final DirectedEdge<E, N, P> edge = edgeWithPath.getFirst();
 			final Set<DirectedEdge<E, N, P>> successors = routing
 					.getDirectSuccessors(edge);
