@@ -13,16 +13,14 @@ package org.eclipse.set.feature.overviewplan.track;
 import static org.eclipse.set.ppmodel.extensions.TopKnotenExtensions.getTopKanten;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.eclipse.set.model.planpro.Geodaten.TOP_Kante;
 import org.eclipse.set.model.planpro.Geodaten.TOP_Knoten;
 import org.eclipse.set.model.siteplan.Position;
 import org.eclipse.set.model.siteplan.SiteplanFactory;
-
-import com.google.common.collect.Streams;
 
 /**
  * Find out all position of node through edge length. The position of node is
@@ -63,16 +61,15 @@ public class TopKnotenPosition {
 				&& topNodeHorizontalCoor.keySet().containsAll(allTopNodes)) {
 			return topNodeHorizontalCoor;
 		}
-		final List<TOP_Kante> edges = Streams.stream(getTopKanten(firstNode))
-				.collect(Collectors.toList());
-		if (edges.isEmpty()) {
+		final Iterator<TOP_Kante> edges = getTopKanten(firstNode).iterator();
+		if (!edges.hasNext()) {
 			throw new IllegalArgumentException(
 					String.format("TOP_Knoten: %s haven't TOP_Kante", //$NON-NLS-1$
 							firstNode.getIdentitaet().getWert()));
 		}
 
 		findTOPNodeHorizontalCoor(
-				trackService.getTOPKanteMetaData(edges.get(0)), firstNode, 0,
+				trackService.getTOPKanteMetaData(edges.next()), firstNode, 0,
 				true);
 		return topNodeHorizontalCoor;
 	}
