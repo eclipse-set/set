@@ -218,9 +218,15 @@ public final class TableServiceImpl implements TableService {
 						.getContainer(tableType.getContainerForTable()));
 	}
 
-	private TableInfo getTableInfo(final BasePart part) {
+	@Override
+	public TableInfo getTableInfo(final BasePart part) {
 		final String shortcut = extractShortcut(
 				part.getToolboxPart().getElementId());
+		return getTableInfo(shortcut);
+	}
+
+	@Override
+	public TableInfo getTableInfo(final String shortcut) {
 		return getAvailableTables().stream()
 				.filter(table -> table.shortcut().equalsIgnoreCase(shortcut))
 				.findFirst()

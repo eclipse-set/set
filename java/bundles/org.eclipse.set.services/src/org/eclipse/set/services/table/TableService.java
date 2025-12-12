@@ -215,4 +215,18 @@ public interface TableService {
 	 * @return the row group comparator
 	 */
 	Comparator<RowGroup> getRowGroupComparator(TableInfo tableInfo);
+
+	/**
+	 * @param part
+	 *            the toolbox part
+	 * @return the {@link TableInfo} belong to the part
+	 */
+	TableInfo getTableInfo(BasePart part);
+
+	/**
+	 * @param shortcut
+	 *            the table shortcut
+	 * @return the {@link TableInfo}
+	 */
+	TableInfo getTableInfo(String shortcut);
 }
