@@ -12,15 +12,22 @@ package org.eclipse.set.swtbot;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.LinkOption;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.commons.csv.CSVRecord;
 import org.eclipse.nebula.widgets.nattable.layer.ILayer;
 import org.eclipse.set.swtbot.table.AbstractTableTest;
 import org.eclipse.set.swtbot.table.TestFailHandle;
+import org.eclipse.set.swtbot.utils.AbstractSWTBotTest;
 import org.eclipse.set.swtbot.utils.SWTBotUtils;
+import org.eclipse.set.utils.table.export.ExportToCSV;
 import org.eclipse.swtbot.nebula.nattable.finder.widgets.SWTBotNatTable;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotText;
 import org.junit.jupiter.api.BeforeAll;
@@ -29,6 +36,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.extension.ExtensionContext;
 
 /**
  * Test for changes in Validation View
@@ -37,6 +45,50 @@ import org.junit.jupiter.api.extension.ExtendWith;
  */
 @TestInstance(Lifecycle.PER_CLASS)
 public class ValidationViewTest extends AbstractTableTest {
+	private static class ValidationViewFailHandle extends TestFailHandle {
+		String csvHeader = "\"Item Group\";\"Item label\";\"Expect Value\"";
+
+		@Override
+		public void testFailed(final ExtensionContext context,
+				final Throwable cause) {
+			final Optional<Object> testInstance = context.getTestInstance();
+			if (testInstance.isPresent() && testInstance
+					.get() instanceof final ValidationViewTest tableTest) {
+				exportWidgeValue(tableTest);
+				exportReferenceCSV(tableTest.getTestFile(),
+						VALIDATION_INFORMATION_CSV, tableTest.getReferenceDir(),
+						tableTest.getTestResourceClass().getClassLoader(),
+						tableTest.getClass());
+			}
+		}
+
+		private void exportWidgeValue(final ValidationViewTest testInstance) {
+
+			final List<String> currentValues = new ArrayList<>();
+			final List<CSVRecord> referenceFile = testInstance.informationReference;
+			for (int i = 1; i < referenceFile.size(); i++) {
+				final String itemGroup = referenceFile.get(i).get(0);
+				final String itemLabel = referenceFile.get(i).get(1);
+				final SWTBotText currentValue = AbstractSWTBotTest.bot
+						.textWithLabelInGroup(itemLabel, itemGroup);
+				currentValues.add(String.format("%s;%s;%s", itemGroup,
+						itemLabel, currentValue));
+			}
+			final ExportToCSV<String> exportToCSV = new ExportToCSV<>(
+					csvHeader);
+			final File file = getExportFile(testInstance.getTestFile(),
+					VALIDATION_INFORMATION_CSV + "_current.csv",
+					testInstance.getClass());
+			if (!file.getParentFile().exists()) {
+				file.getParentFile().mkdirs();
+			}
+			exportToCSV.exportToCSV(Optional.of(file.toPath()), currentValues);
+			SWTBotUtils.botWaitUntil(AbstractSWTBotTest.bot,
+					() -> Boolean.valueOf(Files.exists(file.toPath(),
+							LinkOption.NOFOLLOW_LINKS)));
+		}
+	}
+
 	protected static final String RICHTEXT_REPLACE_REGEX = "<[^>]+>";
 	protected static final String VALIDATION_INFORMATION_CSV = "validation_information";
 	protected static final String VALIDATION_TABLE_NAME = "validation_view";
@@ -47,7 +99,7 @@ public class ValidationViewTest extends AbstractTableTest {
 		return asList.stream().map(e -> e.replaceAll(" ", "")).toList();
 	}
 
-	private List<CSVRecord> informationReference;
+	protected List<CSVRecord> informationReference;
 
 	@BeforeEach
 	@Override
@@ -116,6 +168,7 @@ public class ValidationViewTest extends AbstractTableTest {
 	}
 
 	@Test
+	@ExtendWith(ValidationViewFailHandle.class)
 	protected void testInformation() throws Exception {
 		whenOpeningValidateView();
 		loadCsvResources();
