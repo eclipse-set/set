@@ -46,7 +46,8 @@ import org.junit.jupiter.api.extension.ExtensionContext;
 @TestInstance(Lifecycle.PER_CLASS)
 public class ValidationViewTest extends AbstractTableTest {
 	private static class ValidationViewFailHandle extends TestFailHandle {
-		String csvHeader = "\"Item Group\";\"Item label\";\"Expect Value\"";
+		String csvHeader = "\"Item Group\";\"Item label\";\"Expect Value\""
+				+ System.lineSeparator();
 
 		@Override
 		public void testFailed(final ExtensionContext context,
@@ -71,8 +72,11 @@ public class ValidationViewTest extends AbstractTableTest {
 				final String itemLabel = referenceFile.get(i).get(1);
 				final SWTBotText currentValue = AbstractSWTBotTest.bot
 						.textWithLabelInGroup(itemLabel, itemGroup);
-				currentValues.add(String.format("%s;%s;%s", itemGroup,
-						itemLabel, currentValue));
+				final String csvEntry = String.format("\"%s\";\"%s\";\"%s\"",
+						itemGroup, itemLabel, currentValue.getText())
+						+ System.lineSeparator();
+
+				currentValues.add(csvEntry);
 			}
 			final ExportToCSV<String> exportToCSV = new ExportToCSV<>(
 					csvHeader);
