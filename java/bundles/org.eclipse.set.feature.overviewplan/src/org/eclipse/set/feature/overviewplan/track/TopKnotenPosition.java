@@ -16,14 +16,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.eclipse.set.model.planpro.Geodaten.TOP_Kante;
 import org.eclipse.set.model.planpro.Geodaten.TOP_Knoten;
 import org.eclipse.set.model.siteplan.Position;
 import org.eclipse.set.model.siteplan.SiteplanFactory;
-
-import com.google.common.collect.Streams;
 
 /**
  * Find out all position of node through edge length. The position of node is

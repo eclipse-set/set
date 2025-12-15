@@ -10,8 +10,6 @@ package org.eclipse.set.ppmodel.extensions.utils
 
 import java.math.BigDecimal
 import java.util.Comparator
-import java.util.Map
-import java.util.Set
 import org.eclipse.core.runtime.Assert
 import org.eclipse.set.basis.graph.AbstractRouting
 import org.eclipse.set.basis.graph.Routing
