@@ -30,8 +30,7 @@ class SskpDmTransformator extends SskpTransformator {
 	}
 
 	override int getDistanceScale(PZB_Element pzb) {
-		return pzb?.PZBElementGM?.PZBINA !== null ? 1 : 0;
+		return pzb?.PZBElementGM?.PZBINA?.wert === Boolean.TRUE ? 1 : 0;
 	}
-	
-	
+
 }

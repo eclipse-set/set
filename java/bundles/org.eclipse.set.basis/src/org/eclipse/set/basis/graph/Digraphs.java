@@ -399,10 +399,11 @@ public class Digraphs {
 			final Routing<E, N, P> routing,
 			final DirectedEdgePath<E, N, P> path) {
 		final Set<DirectedEdgePath<E, N, P>> result = new HashSet<>();
-		final Deque<Pair<DirectedEdge<E, N, P>, DirectedEdgePath<E, N, P>>> directedEdges = new LinkedList<>();
-		directedEdges.add(new Pair<>(start, path.copy()));
-		for (Pair<DirectedEdge<E, N, P>, DirectedEdgePath<E, N, P>> edgeWithPath; (edgeWithPath = directedEdges
-				.poll()) != null;) {
+		final Deque<Pair<DirectedEdge<E, N, P>, DirectedEdgePath<E, N, P>>> subPathsCandidates = new LinkedList<>();
+		subPathsCandidates.add(new Pair<>(start, path.copy()));
+		while (!subPathsCandidates.isEmpty()) {
+			final Pair<DirectedEdge<E, N, P>, DirectedEdgePath<E, N, P>> edgeWithPath = subPathsCandidates
+					.poll();
 			final DirectedEdge<E, N, P> edge = edgeWithPath.getFirst();
 			final Set<DirectedEdge<E, N, P>> successors = routing
 					.getDirectSuccessors(edge);
@@ -423,7 +424,8 @@ public class Digraphs {
 					if (comparator.compare(successorPath.getLength(),
 							minDistance) < 0
 							|| minDistance.compareTo(BigDecimal.ZERO) < 0) {
-						directedEdges.add(new Pair<>(successor, successorPath));
+						subPathsCandidates
+								.add(new Pair<>(successor, successorPath));
 					} else {
 						result.add(successorPath);
 					}

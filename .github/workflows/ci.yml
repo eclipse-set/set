@@ -38,7 +38,7 @@ jobs:
         working-directory: web/about
         
       - name: Store artifact
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: about-artifact
           path: web/about/dist
@@ -57,7 +57,7 @@ jobs:
         working-directory: web/developerhelp
 
       - name: Store artifact
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: developerhelp-artifact
           path: web/developerhelp/dist
@@ -73,7 +73,7 @@ jobs:
           npm run build-prod
         working-directory: web/textviewer
       - name: Store artifact
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: textviewer-artifact
           path: web/textviewer/dist
@@ -90,7 +90,7 @@ jobs:
           npm run build-prod
         working-directory: web/pdf
       - name: Store artifact
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: pdfviewer-artifact
           path: web/pdf/dist
@@ -102,7 +102,7 @@ jobs:
       - uses: actions/checkout@v6
       
       - name: Cache node_modules
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           enableCrossOsArchive: true
           path: ${{ github.workspace }}/web/siteplan/node_modules/
@@ -116,7 +116,7 @@ jobs:
         working-directory: web/siteplan
       
       - name: Store artifact
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: siteplan-artifact
           path: web/siteplan/dist
@@ -137,7 +137,7 @@ jobs:
         working-directory: web/news
 
       - name: Store artifact
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: news-artifact
           path: web/news/public
@@ -178,43 +178,43 @@ jobs:
         uses: eclipse-set/build/.github/actions/setup-java@main
       
       - name: Fetch pdf viewer
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v7
         with:
           name: pdfviewer-artifact
           path: web/pdf/dist
       
       - name: Fetch text viewer
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v7
         with:
           name: textviewer-artifact
           path: web/textviewer/dist
       
       - name: Fetch about
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v7
         with:
           name: about-artifact
           path: web/about/dist   
 
       - name: Fetch siteplan
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v7
         with:
           name: siteplan-artifact
           path: web/siteplan/dist
 
       - name: Fetch developerhelp
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v7
         with:
           name: developerhelp-artifact
           path: web/developerhelp/dist
 
       - name: Fetch news
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v7
         with:
           name: news-artifact
           path: web/news/public
       
       - name: Cache m2repo
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           enableCrossOsArchive: true
           path: ~/.m2/repository/
@@ -232,14 +232,14 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
       
       - name: Upload artifact
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: eclipse-set-snapshot-${{github.run_number}}
           path: java/bundles/org.eclipse.set.releng.set.product/target/products/SET/win32/win32/x86_64/
           retention-days: 7
 
       - name: Upload m2repo artifact
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         if:  github.event_name == 'pull_request' || startsWith(github.ref, 'refs/heads/release')
         with:
           name: set-m2deploy-${{github.run_number}}
@@ -286,7 +286,7 @@ jobs:
         uses: eclipse-set/build/.github/actions/setup-java@main
         
       - name: Fetch SET
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v7
         with:
           name: eclipse-set-snapshot-${{github.run_number}}
           path: ${{ env.TEST_APPLICATION_DIR }}
@@ -294,7 +294,7 @@ jobs:
       - name: Fetch m2 Deploy
         # For main or tag build, the m2 packages can be taken directly from github m2package
         if: github.ref != 'refs/heads/main' && !startsWith(github.ref, 'refs/tags/')
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v7
         with:
           name: set-m2deploy-${{github.run_number}}
           path: ${{ env.DEPLOY_DIR }}
@@ -307,7 +307,7 @@ jobs:
         continue-on-error: true
 
       - name: Cache m2repo
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           enableCrossOsArchive: true
           path: ~/.m2/repository
@@ -330,7 +330,7 @@ jobs:
       
       - name: Upload csv files
         if: failure() && steps.test-steps.outcome == 'failure'
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: table-csv-${{github.run_number}}
           path: ${{ github.workspace}}/java/bundles/org.eclipse.set.swtbot/target/classes/diff/**/*.csv
@@ -359,7 +359,7 @@ jobs:
 
       - name: Fetch table csv
         if: needs.swtbot.result == 'failure'
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v7
         with:
           name: table-csv-${{github.run_number}}
           path: ${{ env.DIFF_DIR }}
@@ -375,7 +375,7 @@ jobs:
       
       - name: Upload Diff-File
         if: needs.swtbot.result == 'failure'
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: table-diff-files-${{github.run_number}}
           path: ${{ env.DIFF_DIR }}/diff-md
