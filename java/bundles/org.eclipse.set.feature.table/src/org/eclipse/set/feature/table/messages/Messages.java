@@ -165,4 +165,9 @@ public class Messages {
 	 */
 	public String TableExportPart_ExportPlanningRecordsDescriptionService_ViewName;
 
+	/**
+	 * Kann nicht darstellen:
+	 */
+	public String TableOverviewPart_CantRendereTable;
+
 }

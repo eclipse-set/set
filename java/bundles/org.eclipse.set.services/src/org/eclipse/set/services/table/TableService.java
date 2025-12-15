@@ -86,6 +86,12 @@ public interface TableService {
 			Pt1TableCategory tableCategory);
 
 	/**
+	 * @param tableCategory
+	 * @return the tables, which throw Exception during transformation
+	 */
+	Set<TableInfo> getCantRendereTables(Pt1TableCategory tableCategory);
+
+	/**
 	 * Transform the selected container to a string with CSV format.
 	 * 
 	 * @param elementId

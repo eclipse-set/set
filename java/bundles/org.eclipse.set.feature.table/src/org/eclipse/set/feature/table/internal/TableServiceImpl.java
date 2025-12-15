@@ -17,6 +17,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +26,7 @@ import java.util.Objects;
 import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -129,6 +131,7 @@ public final class TableServiceImpl implements TableService {
 
 	private final Map<TableCompareType, TableDiffService> diffServiceMap = new ConcurrentHashMap<>();
 	private static final Queue<Pair<BasePart, Runnable>> transformTableThreads = new LinkedList<>();
+	private static final Set<TableInfo> cantTransformationTable = new HashSet<>();
 
 	private static final String EMPTY = "empty"; //$NON-NLS-1$
 	private static final String IGNORED_PLANNING_AREA_CACHE_KEY = "ignoredPlanningArea";//$NON-NLS-1$
@@ -243,7 +246,11 @@ public final class TableServiceImpl implements TableService {
 
 	@Override
 	public Collection<TableInfo> getAvailableTables() {
-		return new ArrayList<>(modelServiceMap.keySet());
+		return modelServiceMap.keySet()
+				.stream()
+				.filter(tableInfo -> !cantTransformationTable
+						.contains(tableInfo))
+				.toList();
 	}
 
 	@Override
@@ -664,22 +671,25 @@ public final class TableServiceImpl implements TableService {
 				tablesToTransfrom.size());
 
 		for (final TableInfo tableInfo : tablesToTransfrom) {
-			final String shortcut = tableInfo.shortcut();
-			final TableNameInfo nameInfo = getTableNameInfo(shortcut);
-			monitor.subTask(nameInfo.getFullDisplayName());
-			final Table table = transformToTable(shortcut, tableType,
-					modelSession, controlAreaIds);
-			while (!TableService.isTransformComplete(
-					nameInfo.getShortName().toLowerCase(), null)) {
-				try {
+			try {
+				final String shortcut = tableInfo.shortcut();
+				final TableNameInfo nameInfo = getTableNameInfo(shortcut);
+				monitor.subTask(nameInfo.getFullDisplayName());
+				final Table table = transformToTable(shortcut, tableType,
+						modelSession, controlAreaIds);
+				while (!TableService.isTransformComplete(
+						nameInfo.getShortName().toLowerCase(), null)) {
 					Thread.sleep(2000);
-				} catch (final InterruptedException e) {
-					Thread.interrupted();
 				}
+				result.put(tableInfo, table);
+				monitor.worked(1);
+			} catch (final Exception e) {
+				logger.error("Transformation Error: {} : {}", //$NON-NLS-1$
+						tableInfo.shortcut(), e.getMessage());
+				cantTransformationTable.add(tableInfo);
+				Thread.interrupted();
 			}
 
-			result.put(tableInfo, table);
-			monitor.worked(1);
 		}
 		monitor.done();
 		return result;
@@ -733,5 +743,13 @@ public final class TableServiceImpl implements TableService {
 			return rowGroupComparator;
 		}
 		return null;
+	}
+
+	@Override
+	public Set<TableInfo> getCantRendereTables(
+			final Pt1TableCategory tableCategory) {
+		return cantTransformationTable.stream()
+				.filter(info -> info.category().equals(tableCategory))
+				.collect(Collectors.toSet());
 	}
 }
