@@ -165,4 +165,9 @@ public class Messages {
 	 */
 	public String TableExportPart_ExportPlanningRecordsDescriptionService_ViewName;
 
+	/**
+	 * Nicht generierbar:
+	 */
+	public String TableOverviewPart_NonTransformableTable;
+
 }
