@@ -393,7 +393,7 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 				etcsSignal,
 				new Case<ETCS_Signal>(
 					[ETCSGefahrpunktabstandAbweichend !== null],
-					[ETCSGefahrpunktabstandAbweichend?.wert?.toTableDecimal ?: ""]
+					[ETCSGefahrpunktabstandAbweichend?.wert?.toTableDecimal]
 				),
 				new Case<ETCS_Signal>(
 					[
