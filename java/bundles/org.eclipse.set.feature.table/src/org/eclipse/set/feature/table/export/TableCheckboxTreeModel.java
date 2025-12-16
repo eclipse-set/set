@@ -11,7 +11,9 @@
 package org.eclipse.set.feature.table.export;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.eclipse.set.basis.export.CheckBoxTreeElement;
@@ -29,6 +31,8 @@ import org.eclipse.set.utils.table.TableInfo.Pt1TableCategory;
 public class TableCheckboxTreeModel extends CheckboxTreeModel {
 	TableService tableService;
 
+	Map<TableInfo, CheckBoxTreeElement> tableInfoTreeElementMap;
+
 	/**
 	 * Constructor
 	 * 
@@ -41,6 +45,7 @@ public class TableCheckboxTreeModel extends CheckboxTreeModel {
 			final TableService tableService) {
 		super(elements);
 		this.tableService = tableService;
+		this.tableInfoTreeElementMap = new HashMap<>();
 	}
 
 	/**
@@ -61,11 +66,11 @@ public class TableCheckboxTreeModel extends CheckboxTreeModel {
 					category.toString());
 			addElement(parent);
 		}
-		final TableNameInfo nameInfo = tableService
-				.getTableNameInfo(info.shortcut());
+		final TableNameInfo nameInfo = tableService.getTableNameInfo(info);
 		final CheckBoxTreeElement newElement = new CheckBoxTreeElement(
 				nameInfo.getShortName().toLowerCase(),
 				nameInfo.getFullDisplayName());
+		tableInfoTreeElementMap.put(info, newElement);
 		addElement(parent, newElement);
 		return newElement;
 	}
@@ -78,9 +83,25 @@ public class TableCheckboxTreeModel extends CheckboxTreeModel {
 	 * @return the optional of the table element
 	 */
 	public Optional<CheckBoxTreeElement> getElement(final TableInfo info) {
-		final TableNameInfo tableNameInfo = tableService
-				.getTableNameInfo(info.shortcut());
-		return getElement(info.category().getId(),
-				tableNameInfo.getShortName().toLowerCase());
+		final Optional<CheckBoxTreeElement> ele = getElement(
+				info.category().getId(), info.shortcut());
+		if (ele.isPresent()) {
+			tableInfoTreeElementMap.putIfAbsent(info, ele.get());
+		}
+		return ele;
+	}
+
+	/**
+	 * @param treeElement
+	 *            the tree element
+	 * @return the {@link TableInfo} of this tree element
+	 */
+	public Optional<TableInfo> getTableInfo(
+			final CheckBoxTreeElement treeElement) {
+		return tableInfoTreeElementMap.entrySet()
+				.stream()
+				.filter(ele -> ele.getValue().equals(treeElement))
+				.map(Map.Entry::getKey)
+				.findFirst();
 	}
 }
