@@ -10,11 +10,14 @@
  ********************************************************************************/
 package org.eclipse.set.application.graph;
 
+import static org.eclipse.set.model.planpro.Geodaten.ENUMTOPAnschluss.*;
 import static org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.getContainer;
 import static org.eclipse.set.ppmodel.extensions.MultiContainer_AttributeGroupExtensions.getPlanProSchnittstelle;
 
 import java.math.BigDecimal;
+import java.util.Deque;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -30,9 +33,12 @@ import org.eclipse.set.basis.graph.TopPoint;
 import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.graph.TopologicalGraphService;
 import org.eclipse.set.core.services.session.SessionService;
+import org.eclipse.set.model.planpro.Geodaten.ENUMTOPAnschluss;
 import org.eclipse.set.model.planpro.Geodaten.TOP_Kante;
+import org.eclipse.set.model.planpro.Geodaten.TOP_Knoten;
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
+import org.eclipse.set.ppmodel.extensions.TopKanteExtensions;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.eclipse.set.utils.graph.AsDirectedTopGraph;
 import org.eclipse.set.utils.graph.AsSplitTopGraph;
@@ -197,6 +203,71 @@ public class TopologicalGraphServiceImpl
 						.map(Edge::edge)
 						.distinct()
 						.toList(), getPathWeight(p), from));
+	}
+
+	@Override
+	public Optional<TopPath> findShortestPathInDirection(final TopPoint from,
+			final TopPoint to, final boolean inTopDirection) {
+		// Fall the both of point lie on same TOP_Kante
+		if (from.edge() == to.edge()) {
+			final BigDecimal distance = from.distance().subtract(to.distance());
+			return distance.doubleValue() < 0 == inTopDirection
+					? Optional.of(new TopPath(List.of(from.edge()),
+							distance.abs(), distance.abs()))
+					: Optional.empty();
+		}
+		final MultiContainer_AttributeGroup container = getContainer(
+				from.edge());
+		final PlanPro_Schnittstelle planProSchnittstelle = getPlanProSchnittstelle(
+				container);
+		final AsSplitTopGraph graphView = new AsSplitTopGraph(
+				getTopGraphBase(planProSchnittstelle));
+
+		final Node fromNode = graphView.splitGraphAt(from,
+				Boolean.valueOf(inTopDirection));
+		final Node toNode = graphView.splitGraphAt(to);
+		final Optional<BigDecimal> shortestDistance = findShortestDistance(from,
+				to);
+		if (shortestDistance.isEmpty()) {
+			return Optional.empty();
+		}
+
+		final TopPath path = AsDirectedTopGraph.getPath(
+				AsDirectedTopGraph.asDirectedTopGraph(graphView), fromNode,
+				toNode, shortestDistance.get().intValue() + 500, topPath -> {
+					final Deque<TOP_Kante> edges = new LinkedList<>(
+							topPath.edges());
+					TOP_Kante current = edges.poll();
+					while (!edges.isEmpty()) {
+						final TOP_Kante next = edges.poll();
+						if (!isRelevantRouting(next, current)) {
+							return false;
+						}
+						current = next;
+					}
+					return true;
+				});
+		return Optional.ofNullable(path);
+	}
+
+	private static boolean isRelevantRouting(final TOP_Kante first,
+			final TOP_Kante second) {
+		final TOP_Knoten connectionNode = TopKanteExtensions.connectionTo(first,
+				second);
+		if (connectionNode == null) {
+			return false;
+		}
+		final ENUMTOPAnschluss firstConnectionType = TopKanteExtensions
+				.getTOPAnschluss(first, connectionNode);
+		final ENUMTOPAnschluss secondConnectionType = TopKanteExtensions
+				.getTOPAnschluss(second, connectionNode);
+		return switch (firstConnectionType) {
+			case ENUMTOP_ANSCHLUSS_SPITZE -> secondConnectionType == ENUMTOP_ANSCHLUSS_LINKS
+					|| secondConnectionType == ENUMTOP_ANSCHLUSS_RECHTS;
+			case ENUMTOP_ANSCHLUSS_LINKS, ENUMTOP_ANSCHLUSS_RECHTS -> secondConnectionType == ENUMTOP_ANSCHLUSS_SPITZE;
+			case ENUMTOP_ANSCHLUSS_MERIDIANSPRUNG -> secondConnectionType == ENUMTOP_ANSCHLUSS_MERIDIANSPRUNG;
+			default -> false;
+		};
 	}
 
 	private static GraphPath<AsSplitTopGraph.Node, AsSplitTopGraph.Edge> findPathBetween(

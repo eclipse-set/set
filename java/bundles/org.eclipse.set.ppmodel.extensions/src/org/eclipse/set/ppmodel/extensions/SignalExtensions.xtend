@@ -186,28 +186,29 @@ class SignalExtensions extends PunktObjektExtensions {
 	def static boolean isInWirkrichtungOfSignal(TopGraph topGraph,
 		Signal signal, List<Punkt_Objekt_TOP_Kante_AttributeGroup> potks) {
 		// Find path from the signal to point object
-		val relevantPaths = topGraph.getPaths(signal.singlePoints, potks).
-			flatMap[edges]
+		val relevantPaths = topGraph.getPaths(signal.singlePoints, potks)
 		if (relevantPaths.isNullOrEmpty) {
 			return false
 		}
 
 		// The path must start the TOP_Kante of the signal and have same direction like the signal		
-		return relevantPaths.filter[signal.topKanten.contains(element)].forall [
-			val wirkrichtung = signal.getWirkrichtung(element)
-			if (wirkrichtung === null) {
-				return isForwards
-			}
-			switch (wirkrichtung) {
-				case ENUM_WIRKRICHTUNG_IN:
-					return isForwards == true
-				case ENUM_WIRKRICHTUNG_BEIDE_VALUE:
-					return true
-				case ENUM_WIRKRICHTUNG_GEGEN:
-					return isForwards == false
-				default:
-					throw new IllegalArgumentException()
-			}
+		return relevantPaths.exists [ path |
+			path.edgeList.filter[signal.topKanten.contains(element)].forall [
+				val wirkrichtung = signal.getWirkrichtung(element)
+				if (wirkrichtung === null) {
+					return isForwards
+				}
+				switch (wirkrichtung) {
+					case ENUM_WIRKRICHTUNG_IN:
+						return isForwards == true
+					case ENUM_WIRKRICHTUNG_BEIDE_VALUE:
+						return true
+					case ENUM_WIRKRICHTUNG_GEGEN:
+						return isForwards == false
+					default:
+						throw new IllegalArgumentException()
+				}
+			]
 		]
 	}
 
@@ -459,7 +460,8 @@ class SignalExtensions extends PunktObjektExtensions {
 		Stell_Bereich controlArea) {
 		val stellElement = signal.stellelement
 		if (stellElement?.IDEnergie?.value.isBelongToControlArea(controlArea) ||
-			stellElement?.IDInformation?.value.isBelongToControlArea(controlArea)) {
+			stellElement?.IDInformation?.value.
+				isBelongToControlArea(controlArea)) {
 			return true
 		}
 		val existsFiktivesSignalFAPStart = signal.signalFiktiv !== null &&
@@ -509,7 +511,7 @@ class SignalExtensions extends PunktObjektExtensions {
 			fmaAnlages.exists[fmaKomponent.belongsTo(it)]
 		].toList
 	}
-	
+
 	def static String getTableBezeichnung(Signal signal) {
 		return signal?.bezeichnung?.bezeichnungTabelle?.wert
 	}
