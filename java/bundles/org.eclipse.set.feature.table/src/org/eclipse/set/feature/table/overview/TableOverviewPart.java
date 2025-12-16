@@ -95,7 +95,7 @@ public class TableOverviewPart extends BasePart {
 
 	private TableSectionControl missingTablesControl;
 	private TableSectionControl containErrorTablesControl;
-	private TableSectionControl cantRendereTablesControl;
+	private TableSectionControl nonTransformableTablesControl;
 	private Label completenessHint;
 
 	private TableErrorTableView tableErrorTableView;
@@ -153,8 +153,8 @@ public class TableOverviewPart extends BasePart {
 					}
 				});
 
-		cantRendereTablesControl = createSectionControl(section,
-				messages.TableOverviewPart_CantRendereTable, null, null);
+		nonTransformableTablesControl = createSectionControl(section,
+				messages.TableOverviewPart_NonTransformableTable, null, null);
 		// Create table problem table view
 		tableErrorTableView = new TableErrorTableView(messages, this,
 				enumTranslationService, tableMenuService);
@@ -227,15 +227,13 @@ public class TableOverviewPart extends BasePart {
 				: TableType.DIFF;
 		if (tableType == TableType.DIFF) {
 			// We don't need create DIFF instance for Errors detecting
-			tableService.transformTables(monitor, getModelSession(),
-					new HashSet<>(missingTables), TableType.INITIAL,
-					controlAreaIds);
-			tableService.transformTables(monitor, getModelSession(),
-					new HashSet<>(missingTables), TableType.FINAL,
-					controlAreaIds);
+			tableService.transformTables(monitor, new HashSet<>(missingTables),
+					TableType.INITIAL, controlAreaIds);
+			tableService.transformTables(monitor, new HashSet<>(missingTables),
+					TableType.FINAL, controlAreaIds);
 		} else {
-			tableService.transformTables(monitor, getModelSession(),
-					new HashSet<>(missingTables), tableType, controlAreaIds);
+			tableService.transformTables(monitor, new HashSet<>(missingTables),
+					tableType, controlAreaIds);
 		}
 
 	}
@@ -294,13 +292,13 @@ public class TableOverviewPart extends BasePart {
 		containErrorTablesControl.button()
 				.setEnabled(!tablesWithErrors.isEmpty());
 
-		final List<String> cantRendereTables = tableService
-				.getCantRendereTables(getTableCategory())
+		final List<String> nonTransformableTables = tableService
+				.getNonTransformableTables(getTableCategory())
 				.stream()
 				.map(TableInfo::shortcut)
 				.toList();
-		cantRendereTablesControl.text()
-				.setText(tableList2DisplayString(cantRendereTables));
+		nonTransformableTablesControl.text()
+				.setText(tableList2DisplayString(nonTransformableTables));
 		final ArrayList<TableError> allErrors = new ArrayList<>();
 		getTableErrors().values().forEach(allErrors::addAll);
 		tableErrorTableView.updateView(allErrors);

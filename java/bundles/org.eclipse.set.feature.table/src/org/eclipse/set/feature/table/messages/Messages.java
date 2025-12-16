@@ -168,6 +168,6 @@ public class Messages {
 	/**
 	 * Nicht generierbar:
 	 */
-	public String TableOverviewPart_CantRendereTable;
+	public String TableOverviewPart_NonTransformableTable;
 
 }

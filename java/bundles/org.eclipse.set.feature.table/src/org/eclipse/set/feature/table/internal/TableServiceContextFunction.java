@@ -50,8 +50,8 @@ import org.osgi.service.event.EventHandler;
 		EventHandler.class }, property = {
 				"service.context.key:String=org.eclipse.set.services.table.TableService",
 				EventConstants.EVENT_TOPIC + "=" + Events.MODEL_CHANGED,
-				EventConstants.EVENT_TOPIC + "="
-						+ Events.COMPARE_MODEL_LOADED })
+				EventConstants.EVENT_TOPIC + "=" + Events.COMPARE_MODEL_LOADED,
+				EventConstants.EVENT_TOPIC + "=" + Events.CLOSE_SESSION })
 public class TableServiceContextFunction extends ContextFunction
 		implements EventHandler {
 
@@ -208,6 +208,7 @@ public class TableServiceContextFunction extends ContextFunction
 					.getLoadedSession(closeSession);
 			EdgeToPointsCacheProxy.clearCacheInstance(
 					loadedSession.getPlanProSchnittstelle());
+			tableService.clearInstance();
 		}
 	}
 }

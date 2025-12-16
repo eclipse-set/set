@@ -89,7 +89,7 @@ public interface TableService {
 	 * @param tableCategory
 	 * @return the tables, which throw Exception during transformation
 	 */
-	Set<TableInfo> getCantRendereTables(Pt1TableCategory tableCategory);
+	Set<TableInfo> getNonTransformableTables(Pt1TableCategory tableCategory);
 
 	/**
 	 * Transform the selected container to a string with CSV format.
@@ -130,8 +130,6 @@ public interface TableService {
 	 * 
 	 * @param monitor
 	 *            the {@link IProgressMonitor}
-	 * @param modelSession
-	 *            the {@link IModelSession}
 	 * @param tablesToTransfrom
 	 *            the list of tables need transform
 	 * @param tableType
@@ -141,8 +139,8 @@ public interface TableService {
 	 * @return the tables
 	 */
 	Map<TableInfo, Table> transformTables(IProgressMonitor monitor,
-			IModelSession modelSession, Set<TableInfo> tablesToTransfrom,
-			TableType tableType, Set<String> controlAreaIds);
+			Set<TableInfo> tablesToTransfrom, TableType tableType,
+			Set<String> controlAreaIds);
 
 	/**
 	 * @param part

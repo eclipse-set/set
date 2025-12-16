@@ -145,8 +145,8 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 			getDialogService().showProgress(getToolboxShell(), monitor -> {
 				logger.debug("Start update tree elements"); //$NON-NLS-1$
 				final Map<TableInfo, Table> pt1Tables = tableService
-						.transformTables(monitor, getModelSession(),
-								avaibleTables, tableType, areaIds);
+						.transformTables(monitor, avaibleTables, tableType,
+								areaIds);
 				Display.getDefault().asyncExec(() -> {
 					pt1Tables.forEach((tableInfo, table) -> {
 						CheckBoxTreeElement element = treeDataModel
