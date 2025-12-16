@@ -13,6 +13,7 @@ import java.math.BigDecimal
 import java.math.RoundingMode
 import java.util.List
 import java.util.Set
+import java.util.function.Supplier
 import org.eclipse.e4.core.services.events.IEventBroker
 import org.eclipse.set.basis.IModelSession
 import org.eclipse.set.basis.constants.ContainerType
@@ -21,6 +22,7 @@ import org.eclipse.set.basis.constants.ToolboxConstants
 import org.eclipse.set.basis.geometry.GEOKanteCoordinate
 import org.eclipse.set.basis.geometry.GEOKanteMetadata
 import org.eclipse.set.basis.geometry.GEOKanteSegment
+import org.eclipse.set.basis.geometry.GeoPosition
 import org.eclipse.set.core.services.geometry.GeoKanteGeometryService
 import org.eclipse.set.feature.siteplan.SiteplanConstants
 import org.eclipse.set.feature.siteplan.positionservice.PositionService
@@ -265,19 +267,23 @@ class TrackTransformator extends BaseTransformator<TOP_Kante> implements EventHa
 		])
 		result.type.addAll(segment.getTrackType(md))
 		val geoKnotenA = geoKante.geoKnotenA
-		// Record an error if there is not exactly one track type defined for the segment 
-		val center = geoKante.getCoordinate(geoKnotenA,
-			geoKante.GEOKanteAllg.GEOLaenge.wert.divide(BigDecimal.valueOf(2),
-				ToolboxConstants.ROUNDING_TO_PLACE, RoundingMode.HALF_UP),
-			BigDecimal.ZERO, ENUMWirkrichtung.ENUM_WIRKRICHTUNG_IN)
+		// Record an error if there is not exactly one track type defined for the segment
+		// Calculate center coordinate only by necessary 
+		val Supplier<GeoPosition> getCenterSupplier = [
+			geoKante.getCoordinate(geoKnotenA,
+				geoKante.GEOKanteAllg?.GEOLaenge?.wert?.divide(
+					BigDecimal.valueOf(2), ToolboxConstants.ROUNDING_TO_PLACE,
+					RoundingMode.HALF_UP) ?: BigDecimal.ZERO, BigDecimal.ZERO,
+				ENUMWirkrichtung.ENUM_WIRKRICHTUNG_IN)
+		]
 		val guid = geoKante.identitaet.wert
 		if (result.type.length > 1 && existsTrackType) {
 			recordError(guid, String.format(ERROR_MULTIPLE_GLEIS_ART, guid),
-				positionService.transformCoordinate(center.getCoordinate,
+				positionService.transformCoordinate(getCenterSupplier.get.getCoordinate,
 					geoKnotenA.CRS))
 		} else if (result.type.length == 0 && existsTrackType) {
 			recordError(guid, String.format(ERROR_NO_GLEIS_ART, guid),
-				positionService.transformCoordinate(center.getCoordinate,
+				positionService.transformCoordinate(getCenterSupplier.get.getCoordinate,
 					geoKnotenA.CRS))
 		}
 
@@ -410,13 +416,9 @@ class TrackTransformator extends BaseTransformator<TOP_Kante> implements EventHa
 				return result;
 			} else {
 				if (result.empty) {
-					result.add(
-						new GEOKanteCoordinate(lastCoordinate, geoKante,
-							geoKante.geoKnoten.CRS))
+					result.add(new GEOKanteCoordinate(lastCoordinate, geoKante))
 				}
-				result.add(
-					new GEOKanteCoordinate(coordinate, geoKante,
-						geoKante.geoKnoten.CRS))
+				result.add(new GEOKanteCoordinate(coordinate, geoKante))
 				distance +=
 					BigDecimal.valueOf(lastCoordinate.distance(coordinate))
 				lastCoordinate = coordinate
