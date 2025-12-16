@@ -409,7 +409,7 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 						val distanceToETCSGefahrpunkt2 = distanceToSignal(
 							IDETCSGefahrpunkt2?.value?.IDMarkanteStelle?.value).
 							toTableDecimal
-						return '''«distanceToETCSGefahrpunkt»(«distanceToETCSGefahrpunkt2»)'''
+						return '''«distanceToETCSGefahrpunkt» («distanceToETCSGefahrpunkt2»)'''
 
 					]
 				),
