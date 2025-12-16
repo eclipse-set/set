@@ -24,7 +24,6 @@ import org.eclipse.set.model.planpro.Signale.Signal
 import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.ppmodel.extensions.utils.Case
-import org.eclipse.set.ppmodel.extensions.utils.TopGraph
 import org.eclipse.set.utils.table.TMFactory
 import org.osgi.service.event.EventAdmin
 
@@ -72,11 +71,11 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 		].filter[present].map[get].minBy[length]
 	}
 
-	def String getFreigemeldetLaenge(Fstr_DWeg dweg, TopGraph topGraph,
-		BigDecimal maxLength) {
+	def String getFreigemeldetLaenge(Fstr_DWeg dweg, BigDecimal maxLength) {
 		val startSignal = dweg?.fstrFahrweg?.start
 		val fmas = dweg?.fmaAnlageFreimeldung?.map[fmaGrenzen]?.flatten.toSet.
-			filter[topGraph.isInWirkrichtungOfSignal(startSignal, it)].toList
+			filter[topGraphService.isInWirkrichtungOfSignal(startSignal, it)].
+			toList
 		val pathFromSignalToFMA = fmas?.map [
 			it -> getShortestPath(dweg?.fstrFahrweg?.start, it)
 		]
@@ -106,8 +105,8 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 
 		val distance = relevantFmas.map[value.length].max
 		return distance > maxLength
-			? '''> «maxLength.toTableIntegerAgateDown»''' : distance.
-			toTableIntegerAgateDown
+			? '''> «maxLength.toTableIntegerAgateDown»'''
+			: distance.toTableIntegerAgateDown
 	}
 
 	override transformTableContent(
@@ -115,7 +114,6 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 		TMFactory factory,
 		Stell_Bereich controlArea
 	) {
-		val topGraph = new TopGraph(container.TOPKante)
 		val fstDwegList = container.fstrDWeg.filter[isPlanningObject].
 			filterObjectsInControlArea(controlArea)
 
@@ -211,9 +209,8 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 				cols.getColumn(Freigemeldet),
 				dweg,
 				[
-					getFreigemeldetLaenge(topGraph,
-						fstrFahrWegLength ?:
-							BigDecimal.valueOf(Integer.MAX_VALUE))
+					getFreigemeldetLaenge(fstrFahrWegLength ?:
+						BigDecimal.valueOf(Integer.MAX_VALUE))
 				]
 			)
 
@@ -322,7 +319,7 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 				dweg,
 				[fstrDWegSpezifisch !== null],
 				[
-					getZielGleisAbschnittLength(topGraph)
+					getZielGleisAbschnittLength
 				]
 			)
 
@@ -345,13 +342,12 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 		return factory.table
 	}
 
-	private def String getZielGleisAbschnittLength(Fstr_DWeg dweg,
-		TopGraph topGraph) {
+	private def String getZielGleisAbschnittLength(Fstr_DWeg dweg) {
 		val startSignal = dweg?.fstrFahrweg?.start
 		val fmaAnlage = dweg.fstrDWegSpezifisch?.IDFMAAnlageZielgleis?.value
 		// The relevant FMA shouldn't lie on direction of start signal
 		val fmaKomponenten = fmaAnlage.fmaGrenzen.filter [
-			!topGraph.isInWirkrichtungOfSignal(startSignal, it)
+			!topGraphService.isInWirkrichtungOfSignal(startSignal, it)
 		].toList
 		val pathsFromSignalToFMA = fmaKomponenten.map [
 			startSignal.getShortestPath(it)

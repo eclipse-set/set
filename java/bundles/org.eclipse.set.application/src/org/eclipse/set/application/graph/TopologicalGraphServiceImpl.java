@@ -10,7 +10,6 @@
  ********************************************************************************/
 package org.eclipse.set.application.graph;
 
-import static org.eclipse.set.model.planpro.Geodaten.ENUMTOPAnschluss.*;
 import static org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.getContainer;
 import static org.eclipse.set.ppmodel.extensions.MultiContainer_AttributeGroupExtensions.getPlanProSchnittstelle;
 
@@ -33,9 +32,7 @@ import org.eclipse.set.basis.graph.TopPoint;
 import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.graph.TopologicalGraphService;
 import org.eclipse.set.core.services.session.SessionService;
-import org.eclipse.set.model.planpro.Geodaten.ENUMTOPAnschluss;
 import org.eclipse.set.model.planpro.Geodaten.TOP_Kante;
-import org.eclipse.set.model.planpro.Geodaten.TOP_Knoten;
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
 import org.eclipse.set.ppmodel.extensions.TopKanteExtensions;
@@ -168,19 +165,8 @@ public class TopologicalGraphServiceImpl
 	public Optional<BigDecimal> findShortestDistanceInDirection(
 			final TopPoint from, final TopPoint to,
 			final boolean searchInTopDirection) {
-		final MultiContainer_AttributeGroup container = getContainer(
-				from.edge());
-		final PlanPro_Schnittstelle planProSchnittstelle = getPlanProSchnittstelle(
-				container);
-		final AsSplitTopGraph graphView = new AsSplitTopGraph(
-				getTopGraphBase(planProSchnittstelle));
-		final Node fromNode = graphView.splitGraphAt(from,
-				Boolean.valueOf(searchInTopDirection));
-		final Node toNode = graphView.splitGraphAt(to);
-
-		return Optional.ofNullable( //
-				findPathBetween(graphView, fromNode, toNode))
-				.map(p -> getPathWeight(p));
+		return findShortestPathInDirection(from, to, searchInTopDirection)
+				.map(TopPath::length);
 	}
 
 	@Override
@@ -228,6 +214,7 @@ public class TopologicalGraphServiceImpl
 		final Node toNode = graphView.splitGraphAt(to);
 		final Optional<BigDecimal> shortestDistance = findShortestDistance(from,
 				to);
+
 		if (shortestDistance.isEmpty()) {
 			return Optional.empty();
 		}
@@ -240,7 +227,8 @@ public class TopologicalGraphServiceImpl
 					TOP_Kante current = edges.poll();
 					while (!edges.isEmpty()) {
 						final TOP_Kante next = edges.poll();
-						if (!isRelevantRouting(next, current)) {
+
+						if (!TopKanteExtensions.isRoute(next, current)) {
 							return false;
 						}
 						current = next;
@@ -250,32 +238,13 @@ public class TopologicalGraphServiceImpl
 		return Optional.ofNullable(path);
 	}
 
-	private static boolean isRelevantRouting(final TOP_Kante first,
-			final TOP_Kante second) {
-		final TOP_Knoten connectionNode = TopKanteExtensions.connectionTo(first,
-				second);
-		if (connectionNode == null) {
-			return false;
-		}
-		final ENUMTOPAnschluss firstConnectionType = TopKanteExtensions
-				.getTOPAnschluss(first, connectionNode);
-		final ENUMTOPAnschluss secondConnectionType = TopKanteExtensions
-				.getTOPAnschluss(second, connectionNode);
-		return switch (firstConnectionType) {
-			case ENUMTOP_ANSCHLUSS_SPITZE -> secondConnectionType == ENUMTOP_ANSCHLUSS_LINKS
-					|| secondConnectionType == ENUMTOP_ANSCHLUSS_RECHTS;
-			case ENUMTOP_ANSCHLUSS_LINKS, ENUMTOP_ANSCHLUSS_RECHTS -> secondConnectionType == ENUMTOP_ANSCHLUSS_SPITZE;
-			case ENUMTOP_ANSCHLUSS_MERIDIANSPRUNG -> secondConnectionType == ENUMTOP_ANSCHLUSS_MERIDIANSPRUNG;
-			default -> false;
-		};
-	}
-
 	private static GraphPath<AsSplitTopGraph.Node, AsSplitTopGraph.Edge> findPathBetween(
 			final AsSplitTopGraph graphView, final Node fromNode,
 			final Node toNode) {
 		try {
 			return DijkstraShortestPath.findPathBetween(graphView, fromNode,
 					toNode);
+
 		} catch (final IllegalArgumentException ex) {
 			if (ex.getMessage().equals("Negative edge weight not allowed")) { //$NON-NLS-1$
 				throw new IllegalArgumentException("Invalid spot location", ex); //$NON-NLS-1$

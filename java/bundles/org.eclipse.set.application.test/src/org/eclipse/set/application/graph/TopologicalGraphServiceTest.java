@@ -10,11 +10,21 @@
  */
 package org.eclipse.set.application.graph;
 
+import static org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.toTopPoints;
+import static org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.getSinglePoint;
+import static org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteExtensions.isBelongToBereichObjekt;
+import static org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteExtensions.isWirkrichtungTopDirection;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+
 import java.lang.reflect.Method;
+import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.OptionalDouble;
 import java.util.stream.Stream;
 
 import org.apache.commons.lang3.reflect.FieldUtils;
@@ -25,17 +35,16 @@ import org.eclipse.set.basis.graph.TopPoint;
 import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.cache.CacheService;
 import org.eclipse.set.core.services.graph.TopologicalGraphService;
-import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung;
-import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt;
-import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Fahrweg;
+import org.eclipse.set.model.planpro.Bahnsteig.Bahnsteig_Kante;
+import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup;
+import org.eclipse.set.model.planpro.PZB.PZB_Element;
+import org.eclipse.set.model.planpro.PZB.PZB_Element_Zuordnung_BP_AttributeGroup;
+import org.eclipse.set.model.planpro.PZB.PZB_Element_Zuordnung_INA_AttributeGroup;
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
-import org.eclipse.set.model.planpro.Signale.Signal;
-import org.eclipse.set.ppmodel.extensions.DwegExtensions;
-import org.eclipse.set.ppmodel.extensions.FahrwegExtensions;
-import org.eclipse.set.ppmodel.extensions.FmaAnlageExtensions;
+import org.eclipse.set.model.planpro.Verweise.ID_Bahnsteig_Kante_TypeClass;
+import org.eclipse.set.ppmodel.extensions.PZBElementExtensions;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
 import org.eclipse.set.ppmodel.extensions.PunktObjektExtensions;
-import org.eclipse.set.ppmodel.extensions.SignalExtensions;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.eclipse.set.ppmodel.extensions.utils.TopGraph;
 import org.eclipse.set.unittest.utils.AbstractToolboxTest;
@@ -48,6 +57,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 
+import com.google.common.collect.Range;
 import com.google.common.collect.Streams;
 
 /**
@@ -110,63 +120,150 @@ public class TopologicalGraphServiceTest extends AbstractToolboxTest {
 	void test(final String file) throws Exception {
 		try (MockedStatic<Services> mockServices = Mockito
 				.mockStatic(Services.class)) {
+			givenCacheService();
 			mockServices.when(Services::getCacheService)
 					.thenReturn(cachService);
 			givenPlanProFile(file);
 			givenTopologicalGraphService();
+			mockServices.when(Services::getTopGraphService).thenReturn(testee);
 			givenFinalContainer();
 			givenTopGraph();
-			topGraphDoFindInRichtungSignal();
+			doTestAction();
 		}
 	}
 
-	void topGraphDoFindInRichtungSignal() {
-		final Map<Signal, Set<Punkt_Objekt>> signalsWithRelevantPOs = new HashMap<>();
-		Streams.stream(container.getFstrDWeg()).forEach(dweg -> {
-			final Fstr_Fahrweg fstrFahrweg = DwegExtensions
-					.getFstrFahrweg(dweg);
-			final Signal start = FahrwegExtensions.getStart(fstrFahrweg);
-			final Set<Punkt_Objekt> collect = DwegExtensions
-					.getFmaAnlageFreimeldung(dweg)
-					.stream()
-					.map(FmaAnlageExtensions::getFmaGrenzen)
-					.flatMap(Set::stream)
-					.collect(Collectors.toSet());
-			signalsWithRelevantPOs.put(start, collect);
+	private void doTestAction() {
+		Streams.stream(container.getPZBElement()).forEach(pzb -> {
+			// PZBElementExtensions.getPZBElementBezugspunkt(pzb)
+			// .stream()
+			// .filter(Objects::nonNull)
+			// .forEach(bezugPunkt -> {
+			// if (bezugPunkt instanceof final Signal signal) {
+			// final Punkt_Objekt_TOP_Kante_AttributeGroup singlePoint =
+			// PunktObjektExtensions
+			// .getSinglePoint(signal);
+			// if (pzb.getIdentitaet()
+			// .getWert()
+			// .equals("60b28fb6-c281-11ed-9412-8932a423e144")) {
+			// System.out.println("TEST");
+			// }
+			// assertDoesNotThrow(() -> testee
+			// .findShortestDistance(new TopPoint(pzb),
+			// new TopPoint(signal)));
+			// }
+			// });
+			if (pzb.getIdentitaet()
+					.getWert()
+					.equals("60b28e13-c281-11ed-9412-8932a423e144")) {
+				System.out.println("TESt");
+				final List<Bahnsteig_Kante> kanten = Streams
+						.stream(PZBElementExtensions
+								.getPZBElementZuordnungBP(pzb))
+						.map(PZB_Element_Zuordnung_BP_AttributeGroup::getPZBElementZuordnungINA)
+						.filter(Objects::nonNull)
+						.map(PZB_Element_Zuordnung_INA_AttributeGroup::getIDBahnsteigKante)
+						.filter(Objects::nonNull)
+						.map(ID_Bahnsteig_Kante_TypeClass::getValue)
+						.filter(Objects::nonNull)
+						.toList();
+
+				assertDoesNotThrow(() -> getBahnsteigDistances(kanten, pzb));
+			}
 		});
+	}
 
-		signalsWithRelevantPOs.keySet()
-				.forEach(signal -> signalsWithRelevantPOs.computeIfPresent(
-						signal, (s, pos) -> pos.stream().filter(po -> {
-							if (signal.getIdentitaet()
-									.getWert()
-									.equals("54CB1633-FCF6-4505-A607-517D645FCD0E")
-									&& po.getIdentitaet()
-											.getWert()
-											.equals("550B7AD6-C281-11ED-9412-8932A423E144")) {
-								System.out.println("TEST");
-							}
-							final boolean topGraphResult = SignalExtensions
-									.isInWirkrichtungOfSignal(topGraph, signal,
-											po);
-							final ENUMWirkrichtung direction = PunktObjektExtensions
-									.getSinglePoint(signal)
-									.getWirkrichtung()
-									.getWert();
-							final boolean topologicalGraphResult = testee
-									.findShortestPathInDirection(
-											new TopPoint(signal),
-											new TopPoint(po),
-											direction != ENUMWirkrichtung.ENUM_WIRKRICHTUNG_GEGEN)
-									.isPresent();
-							if (topGraphResult != topologicalGraphResult) {
-								System.out.println("TEST");
-								final boolean inWirkrichtungOfSignal = SignalExtensions
-										.isInWirkrichtungOfSignal(topGraph,
-												signal, po);
-							}
-							return topGraphResult;
-						}).collect(Collectors.toSet())));
+	public BahnsteigDistance getBahnsteigDistances(
+			final List<Bahnsteig_Kante> bahnsteigs, final PZB_Element pzb) {
 
+		final Punkt_Objekt_TOP_Kante_AttributeGroup point = pzb
+				.getPunktObjektTOPKante()
+				.get(0);
+
+		final boolean isPZBAtBahnsteig = bahnsteigs.stream()
+				.anyMatch(
+						bahnsteig -> isBelongToBereichObjekt(point, bahnsteig));
+
+		if (isPZBAtBahnsteig) {
+			return getBahnsteigDistanceAtMagnet(bahnsteigs, pzb);
+		}
+		return getBahnsteigDistancesNotAtMagnet(bahnsteigs, pzb);
+	}
+
+	private BahnsteigDistance getBahnsteigDistancesNotAtMagnet(
+			final Iterable<Bahnsteig_Kante> bahnsteig, final PZB_Element pzb) {
+		// If the final PZB is not final at a Bahnsteig_Kante, search in final
+		// the opposite of final the
+		// final effective direction
+		final Punkt_Objekt_TOP_Kante_AttributeGroup potk = getSinglePoint(pzb);
+		final boolean searchDirection = !isWirkrichtungTopDirection(potk);
+
+		final Optional<Range<BigDecimal>> reduce = Streams.stream(bahnsteig)
+				.map(bsk -> PunktObjektExtensions.distanceToBereichObjekt(pzb,
+						bsk, searchDirection))
+				.filter(Optional::isPresent)
+				.map(Optional::get)
+				.reduce(Range::span);
+		if (reduce.isEmpty()) {
+			return new BahnsteigDistance(OptionalDouble.empty(),
+					OptionalDouble.empty());
+		}
+		return new BahnsteigDistance(reduce.get().upperEndpoint().doubleValue(),
+				reduce.get().lowerEndpoint().doubleValue());
+	}
+
+	private BahnsteigDistance getBahnsteigDistanceAtMagnet(
+			final Iterable<Bahnsteig_Kante> bahnsteig, final PZB_Element pzb) {
+		final Punkt_Objekt_TOP_Kante_AttributeGroup potk = getSinglePoint(pzb);
+		final boolean isWirkrichtungTopDirection = isWirkrichtungTopDirection(
+				potk);
+		final TopPoint pzbPoint = new TopPoint(pzb);
+		final OptionalDouble start = Streams.stream(bahnsteig)
+				.flatMap(bsk -> toTopPoints(bsk).stream()
+						.flatMap(Collection::stream))
+				.map(point -> testee.findShortestDistanceInDirection(pzbPoint,
+						point, !isWirkrichtungTopDirection))
+				.filter(Optional::isPresent)
+				.mapToDouble(c -> c.get().doubleValue())
+				.max();
+
+		final OptionalDouble end = Streams.stream(bahnsteig)
+				.flatMap(bsk -> toTopPoints(bsk).stream()
+						.flatMap(Collection::stream))
+				.map(point -> testee.findShortestDistanceInDirection(pzbPoint,
+						point, isWirkrichtungTopDirection))
+				.filter(Optional::isPresent)
+				.mapToDouble(c -> c.get().doubleValue())
+				.map(c -> -c)
+				.min();
+		return new BahnsteigDistance(start, end);
+	}
+
+	public static class BahnsteigDistance {
+		private final OptionalDouble distanceEnd;
+		private final OptionalDouble distanceStart;
+
+		public BahnsteigDistance(final OptionalDouble min,
+				final OptionalDouble max) {
+			distanceStart = min;
+			distanceEnd = max;
+		}
+
+		public BahnsteigDistance(final double start, final double end) {
+			distanceStart = OptionalDouble.of(start);
+			distanceEnd = OptionalDouble.of(end);
+		}
+
+		public BahnsteigDistance(final Double start, final Double end) {
+			this(OptionalDouble.of(start.doubleValue()),
+					OptionalDouble.of(end.doubleValue()));
+		}
+
+		public OptionalDouble getDistanceStart() {
+			return distanceStart;
+		}
+
+		public OptionalDouble getDistanceEnd() {
+			return distanceEnd;
+		}
 	}
 }
