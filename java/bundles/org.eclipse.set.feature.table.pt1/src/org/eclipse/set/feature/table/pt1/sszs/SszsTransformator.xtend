@@ -4,7 +4,7 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
  * 
  */
@@ -363,7 +363,7 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 				ITERABLE_FILLING_SEPARATOR
 			)
 
-			// O: Sszs.ETCS_Gefahrpunkt.Bezeichnung:
+			// O: Sszs.ETCS_Gefahrpunkt.Bezeichnung
 			fillConditional(
 				row,
 				cols.getColumn(Gefahrpunkt_Bezeichnung),
@@ -392,7 +392,10 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 					[ETCSGefahrpunktabstandAbweichend?.wert?.toTableDecimal]
 				),
 				new Case<ETCS_Signal>(
-					[IDETCSGefahrpunkt2?.value !== null],
+					[
+						IDETCSGefahrpunkt2?.value !== null &&
+							IDETCSGefahrpunkt?.value !== null
+					],
 					[
 						row.addTopologicalCell(
 							cols.getColumn(Abstand_vom_Signal))
@@ -402,17 +405,22 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 						val distanceToETCSGefahrpunkt2 = distanceToSignal(
 							IDETCSGefahrpunkt2?.value?.IDMarkanteStelle?.value).
 							toTableDecimal
-						return '''«distanceToETCSGefahrpunkt»(«distanceToETCSGefahrpunkt2»)'''
+						return '''«distanceToETCSGefahrpunkt» («distanceToETCSGefahrpunkt2»)'''
+
 					]
 				),
 				new Case<ETCS_Signal>(
-					[IDETCSGefahrpunkt2?.value === null],
+					[
+						IDETCSGefahrpunkt2?.value === null &&
+							IDETCSGefahrpunkt?.value !== null
+					],
 					[
 						row.addTopologicalCell(
 							cols.getColumn(Abstand_vom_Signal))
 						distanceToSignal(
 							IDETCSGefahrpunkt?.value?.IDMarkanteStelle?.value).
 							toTableDecimal
+
 					]
 				)
 			)
@@ -498,9 +506,9 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 						return ""
 					}
 					val distanceValue = distance.get
-					return distanceValue <= 5 ||
-						distanceValue >= -3 ? "0" : AgateRounding.roundUp(
-						distanceValue).toString
+					return distanceValue <= 5 || distanceValue >= -3
+						? "0"
+						: AgateRounding.roundUp(distanceValue).toString
 				]
 			)
 
