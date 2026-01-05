@@ -117,37 +117,6 @@ public class Digraphs {
 	 * @param <P>
 	 *            the point object type
 	 * 
-	 * @param digraph
-	 *            the digraph
-	 * @param startPoint
-	 *            the start point
-	 * @param endPoint
-	 *            the end point
-	 * @param inTopDirection
-	 *            should the path in topological direction
-	 * 
-	 * @return the set of all paths from the start point to the end point
-	 */
-	public static <E, N, P> Set<DirectedEdgePath<E, N, P>> getPaths(
-			final Digraph<E, N, P> digraph, final P startPoint,
-			final P endPoint, final boolean inTopDirection) {
-		return digraph.getEdges()
-				.stream()
-				.filter(edge -> edge.contains(startPoint)
-						&& edge.isForwards() == inTopDirection)
-				.flatMap(startEdge -> getPaths(startEdge, digraph, startPoint,
-						endPoint).stream())
-				.collect(Collectors.toSet());
-	}
-
-	/**
-	 * @param <E>
-	 *            the edge type
-	 * @param <N>
-	 *            the node type
-	 * @param <P>
-	 *            the point object type
-	 * 
 	 * @param start
 	 *            the starting edge
 	 * @param routing

@@ -71,9 +71,6 @@ public class AbstractToolboxTest {
 	public static String PPHN_1_10_0_1_20220517_PPXML = getModel(
 			"PPHN_1.10.0.1_01-02_Ibn-Z._-_2._AeM_2022-05-17_13-44_tg2.ppxml"); //$NON-NLS-1$
 
-	public static String NB_INFO_TEST = getModel(
-			"NB_Test_Info__2025-10-16_16-35.planpro");
-
 	private static final String UNZIP_DIR = "res/toolbox"; //$NON-NLS-1$
 	private static final String CONTENT_MODEL = "content"; //$NON-NLS-1$
 	private static final String LAYOUT_MODEL = "layout"; //$NON-NLS-1$
