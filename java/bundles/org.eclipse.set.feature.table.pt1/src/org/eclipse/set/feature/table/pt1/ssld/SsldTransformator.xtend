@@ -105,7 +105,7 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 		}
 
 		val distance = relevantFmas.map[value.length].max
-		return distance > maxLength
+		return distance > maxLength.add(BigDecimal.ONE)
 			? '''> «maxLength.toTableIntegerAgateDown»''' : distance.
 			toTableIntegerAgateDown
 	}
