@@ -179,6 +179,11 @@ public class AsSplitTopGraph
 	 * @return a node at the point where the graph was split
 	 */
 	public Node splitGraphAt(final TopPoint at, final Boolean inTopDirection) {
+		// When already split at the point
+		final Optional<Node> existedNode = existedSplitNodeAt(at);
+		if (existedNode.isPresent()) {
+			return existedNode.get();
+		}
 		final TOP_Kante edge = at.edge();
 		final List<Edge> pointEdgeList = pointEdgeGraph.edgeSet()
 				.stream()
@@ -209,6 +214,26 @@ public class AsSplitTopGraph
 
 		throw new IllegalArgumentException(
 				"Cannot split graph on a point outside the graph"); //$NON-NLS-1$
+	}
+
+	private Optional<Node> existedSplitNodeAt(final TopPoint at) {
+		if (isTopKnoten(at)) {
+			final TOP_Knoten atKnote = at.distance()
+					.compareTo(BigDecimal.ZERO) == 0
+							? at.edge().getIDTOPKnotenA().getValue()
+							: at.edge().getIDTOPKnotenB().getValue();
+			return pointEdgeGraph.vertexSet()
+					.stream()
+					.filter(n -> n.node != null)
+					.filter(n -> n.node == atKnote)
+					.findFirst();
+		}
+		return pointEdgeGraph.vertexSet()
+				.stream()
+				.filter(n -> n.point != null)
+				.filter(n -> n.point.edge() == at.edge()
+						&& n.point.distance().compareTo(at.distance()) == 0)
+				.findFirst();
 	}
 
 	private static boolean isTopKnoten(final TopPoint point) {
