@@ -14,41 +14,31 @@ import java.util.List;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 
-import org.eclipse.emf.common.util.ResourceLocator;
-
 import org.eclipse.emf.ecore.EStructuralFeature;
 
-import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
-import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
-import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
-import org.eclipse.emf.edit.provider.IItemPropertySource;
-import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
-import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
-import org.eclipse.set.model.tablemodel.TableCell;
+import org.eclipse.set.model.tablemodel.CompareStateCellContent;
 import org.eclipse.set.model.tablemodel.TablemodelFactory;
 import org.eclipse.set.model.tablemodel.TablemodelPackage;
 
 /**
  * This is the item provider adapter for a
- * {@link org.eclipse.set.model.tablemodel.TableCell} object. <!--
+ * {@link org.eclipse.set.model.tablemodel.CompareStateCellContent} object. <!--
  * begin-user-doc --> <!-- end-user-doc -->
  * 
  * @generated
  */
-public class TableCellItemProvider extends ItemProviderAdapter
-		implements IEditingDomainItemProvider, IStructuredItemContentProvider,
-		ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource {
+public class CompareStateCellContentItemProvider
+		extends CellContentItemProvider {
 	/**
 	 * This constructs an instance from a factory and a notifier. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @generated
 	 */
-	public TableCellItemProvider(AdapterFactory adapterFactory) {
+	public CompareStateCellContentItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 
@@ -63,28 +53,8 @@ public class TableCellItemProvider extends ItemProviderAdapter
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addColumndescriptorPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
-	}
-
-	/**
-	 * This adds a property descriptor for the Columndescriptor feature. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated
-	 */
-	protected void addColumndescriptorPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add(createItemPropertyDescriptor(
-				((ComposeableAdapterFactory) adapterFactory)
-						.getRootAdapterFactory(),
-				getResourceLocator(),
-				getString("_UI_TableCell_columndescriptor_feature"),
-				getString("_UI_PropertyDescriptor_description",
-						"_UI_TableCell_columndescriptor_feature",
-						"_UI_TableCell_type"),
-				TablemodelPackage.Literals.TABLE_CELL__COLUMNDESCRIPTOR, true,
-				false, true, null, null, null));
 	}
 
 	/**
@@ -102,10 +72,10 @@ public class TableCellItemProvider extends ItemProviderAdapter
 			Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures
-					.add(TablemodelPackage.Literals.TABLE_CELL__CONTENT);
-			childrenFeatures
-					.add(TablemodelPackage.Literals.TABLE_CELL__CELLANNOTATION);
+			childrenFeatures.add(
+					TablemodelPackage.Literals.COMPARE_STATE_CELL_CONTENT__OLD_VALUE);
+			childrenFeatures.add(
+					TablemodelPackage.Literals.COMPARE_STATE_CELL_CONTENT__NEW_VALUE);
 		}
 		return childrenFeatures;
 	}
@@ -125,14 +95,15 @@ public class TableCellItemProvider extends ItemProviderAdapter
 	}
 
 	/**
-	 * This returns TableCell.gif. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * This returns CompareStateCellContent.gif. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
 	 * 
 	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object,
-				getResourceLocator().getImage("full/obj16/TableCell"));
+		return overlayImage(object, getResourceLocator()
+				.getImage("full/obj16/CompareStateCellContent"));
 	}
 
 	/**
@@ -143,7 +114,10 @@ public class TableCellItemProvider extends ItemProviderAdapter
 	 */
 	@Override
 	public String getText(Object object) {
-		return getString("_UI_TableCell_type");
+		String label = ((CompareStateCellContent) object).getSeparator();
+		return label == null || label.length() == 0
+				? getString("_UI_CompareStateCellContent_type")
+				: getString("_UI_CompareStateCellContent_type") + " " + label;
 	}
 
 	/**
@@ -158,9 +132,9 @@ public class TableCellItemProvider extends ItemProviderAdapter
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
 
-		switch (notification.getFeatureID(TableCell.class)) {
-			case TablemodelPackage.TABLE_CELL__CONTENT:
-			case TablemodelPackage.TABLE_CELL__CELLANNOTATION:
+		switch (notification.getFeatureID(CompareStateCellContent.class)) {
+			case TablemodelPackage.COMPARE_STATE_CELL_CONTENT__OLD_VALUE:
+			case TablemodelPackage.COMPARE_STATE_CELL_CONTENT__NEW_VALUE:
 				fireNotifyChanged(new ViewerNotification(notification,
 						notification.getNotifier(), true, false));
 				return;
@@ -181,35 +155,60 @@ public class TableCellItemProvider extends ItemProviderAdapter
 		super.collectNewChildDescriptors(newChildDescriptors, object);
 
 		newChildDescriptors.add(createChildParameter(
-				TablemodelPackage.Literals.TABLE_CELL__CONTENT,
+				TablemodelPackage.Literals.COMPARE_STATE_CELL_CONTENT__OLD_VALUE,
 				TablemodelFactory.eINSTANCE.createStringCellContent()));
 
 		newChildDescriptors.add(createChildParameter(
-				TablemodelPackage.Literals.TABLE_CELL__CONTENT,
+				TablemodelPackage.Literals.COMPARE_STATE_CELL_CONTENT__OLD_VALUE,
 				TablemodelFactory.eINSTANCE.createCompareStateCellContent()));
 
 		newChildDescriptors.add(createChildParameter(
-				TablemodelPackage.Literals.TABLE_CELL__CONTENT,
+				TablemodelPackage.Literals.COMPARE_STATE_CELL_CONTENT__OLD_VALUE,
 				TablemodelFactory.eINSTANCE.createMultiColorCellContent()));
 
 		newChildDescriptors.add(createChildParameter(
-				TablemodelPackage.Literals.TABLE_CELL__CONTENT,
+				TablemodelPackage.Literals.COMPARE_STATE_CELL_CONTENT__OLD_VALUE,
 				TablemodelFactory.eINSTANCE.createCompareTableCellContent()));
 
 		newChildDescriptors.add(createChildParameter(
-				TablemodelPackage.Literals.TABLE_CELL__CELLANNOTATION,
-				TablemodelFactory.eINSTANCE.createCellAnnotation()));
+				TablemodelPackage.Literals.COMPARE_STATE_CELL_CONTENT__NEW_VALUE,
+				TablemodelFactory.eINSTANCE.createStringCellContent()));
+
+		newChildDescriptors.add(createChildParameter(
+				TablemodelPackage.Literals.COMPARE_STATE_CELL_CONTENT__NEW_VALUE,
+				TablemodelFactory.eINSTANCE.createCompareStateCellContent()));
+
+		newChildDescriptors.add(createChildParameter(
+				TablemodelPackage.Literals.COMPARE_STATE_CELL_CONTENT__NEW_VALUE,
+				TablemodelFactory.eINSTANCE.createMultiColorCellContent()));
+
+		newChildDescriptors.add(createChildParameter(
+				TablemodelPackage.Literals.COMPARE_STATE_CELL_CONTENT__NEW_VALUE,
+				TablemodelFactory.eINSTANCE.createCompareTableCellContent()));
 	}
 
 	/**
-	 * Return the resource locator for this item provider's resources. <!--
+	 * This returns the label text for
+	 * {@link org.eclipse.emf.edit.command.CreateChildCommand}. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @generated
 	 */
 	@Override
-	public ResourceLocator getResourceLocator() {
-		return TablemodelEditPlugin.INSTANCE;
+	public String getCreateChildText(Object owner, Object feature, Object child,
+			Collection<?> selection) {
+		Object childFeature = feature;
+		Object childObject = child;
+
+		boolean qualify = childFeature == TablemodelPackage.Literals.COMPARE_STATE_CELL_CONTENT__OLD_VALUE
+				|| childFeature == TablemodelPackage.Literals.COMPARE_STATE_CELL_CONTENT__NEW_VALUE;
+
+		if (qualify) {
+			return getString("_UI_CreateChild_text2",
+					new Object[] { getTypeText(childObject),
+							getFeatureText(childFeature), getTypeText(owner) });
+		}
+		return super.getCreateChildText(owner, feature, child, selection);
 	}
 
 }
