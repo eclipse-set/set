@@ -12,7 +12,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
 import org.eclipse.set.model.tablemodel.CellContent;
-import org.eclipse.set.model.tablemodel.CompareCellContent;
+import org.eclipse.set.model.tablemodel.CompareStateCellContent;
 import org.eclipse.set.model.tablemodel.StringCellContent;
 import org.eclipse.set.model.tablemodel.TableCell;
 import org.eclipse.set.model.tablemodel.TablemodelFactory;
@@ -26,12 +26,12 @@ import org.junit.jupiter.api.Test;
 @SuppressWarnings("nls")
 public class CellContentExtensionsTest {
 
-	private static CompareCellContent createCompareCellContent(
+	private static CompareStateCellContent createCompareCellContent(
 			final String oldValue, final String newValue) {
-		final CompareCellContent content = TablemodelFactory.eINSTANCE
-				.createCompareCellContent();
-		content.getOldValue().add(oldValue);
-		content.getNewValue().add(newValue);
+		final CompareStateCellContent content = TablemodelFactory.eINSTANCE
+				.createCompareStateCellContent();
+		content.setOldValue(createStringCellContent(oldValue));
+		content.setNewValue(createStringCellContent(newValue));
 		final TableCell tableCell = TablemodelFactory.eINSTANCE
 				.createTableCell();
 		tableCell.setContent(content);
@@ -43,9 +43,6 @@ public class CellContentExtensionsTest {
 		final StringCellContent content = TablemodelFactory.eINSTANCE
 				.createStringCellContent();
 		content.getValue().add(value);
-		final TableCell tableCell = TablemodelFactory.eINSTANCE
-				.createTableCell();
-		tableCell.setContent(content);
 		return content;
 	}
 

@@ -522,15 +522,15 @@ public interface TablemodelPackage extends EPackage {
 
 	/**
 	 * The meta object id for the
-	 * '{@link org.eclipse.set.model.tablemodel.impl.CompareCellContentImpl
-	 * <em>Compare Cell Content</em>}' class. <!-- begin-user-doc --> <!--
+	 * '{@link org.eclipse.set.model.tablemodel.impl.CompareStateCellContentImpl
+	 * <em>Compare State Cell Content</em>}' class. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
 	 * 
-	 * @see org.eclipse.set.model.tablemodel.impl.CompareCellContentImpl
-	 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getCompareCellContent()
+	 * @see org.eclipse.set.model.tablemodel.impl.CompareStateCellContentImpl
+	 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getCompareStateCellContent()
 	 * @generated
 	 */
-	int COMPARE_CELL_CONTENT = 8;
+	int COMPARE_STATE_CELL_CONTENT = 8;
 
 	/**
 	 * The feature id for the '<em><b>Separator</b></em>' attribute. <!--
@@ -539,43 +539,45 @@ public interface TablemodelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COMPARE_CELL_CONTENT__SEPARATOR = CELL_CONTENT__SEPARATOR;
+	int COMPARE_STATE_CELL_CONTENT__SEPARATOR = CELL_CONTENT__SEPARATOR;
 
 	/**
-	 * The feature id for the '<em><b>Old Value</b></em>' attribute list. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated
-	 * @ordered
-	 */
-	int COMPARE_CELL_CONTENT__OLD_VALUE = CELL_CONTENT_FEATURE_COUNT + 0;
-
-	/**
-	 * The feature id for the '<em><b>New Value</b></em>' attribute list. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated
-	 * @ordered
-	 */
-	int COMPARE_CELL_CONTENT__NEW_VALUE = CELL_CONTENT_FEATURE_COUNT + 1;
-
-	/**
-	 * The number of structural features of the '<em>Compare Cell Content</em>'
-	 * class. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated
-	 * @ordered
-	 */
-	int COMPARE_CELL_CONTENT_FEATURE_COUNT = CELL_CONTENT_FEATURE_COUNT + 2;
-
-	/**
-	 * The number of operations of the '<em>Compare Cell Content</em>' class.
+	 * The feature id for the '<em><b>Old Value</b></em>' containment reference.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @generated
 	 * @ordered
 	 */
-	int COMPARE_CELL_CONTENT_OPERATION_COUNT = CELL_CONTENT_OPERATION_COUNT + 0;
+	int COMPARE_STATE_CELL_CONTENT__OLD_VALUE = CELL_CONTENT_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>New Value</b></em>' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 * @ordered
+	 */
+	int COMPARE_STATE_CELL_CONTENT__NEW_VALUE = CELL_CONTENT_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>Compare State Cell
+	 * Content</em>' class. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 * @ordered
+	 */
+	int COMPARE_STATE_CELL_CONTENT_FEATURE_COUNT = CELL_CONTENT_FEATURE_COUNT
+			+ 2;
+
+	/**
+	 * The number of operations of the '<em>Compare State Cell Content</em>'
+	 * class. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 * @ordered
+	 */
+	int COMPARE_STATE_CELL_CONTENT_OPERATION_COUNT = CELL_CONTENT_OPERATION_COUNT
+			+ 0;
 
 	/**
 	 * The meta object id for the
@@ -1448,38 +1450,41 @@ public interface TablemodelPackage extends EPackage {
 
 	/**
 	 * Returns the meta object for class
-	 * '{@link org.eclipse.set.model.tablemodel.CompareCellContent <em>Compare
-	 * Cell Content</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * '{@link org.eclipse.set.model.tablemodel.CompareStateCellContent
+	 * <em>Compare State Cell Content</em>}'. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
 	 * 
-	 * @return the meta object for class '<em>Compare Cell Content</em>'.
-	 * @see org.eclipse.set.model.tablemodel.CompareCellContent
+	 * @return the meta object for class '<em>Compare State Cell Content</em>'.
+	 * @see org.eclipse.set.model.tablemodel.CompareStateCellContent
 	 * @generated
 	 */
-	EClass getCompareCellContent();
+	EClass getCompareStateCellContent();
 
 	/**
-	 * Returns the meta object for the attribute list
-	 * '{@link org.eclipse.set.model.tablemodel.CompareCellContent#getOldValue
+	 * Returns the meta object for the containment reference
+	 * '{@link org.eclipse.set.model.tablemodel.CompareStateCellContent#getOldValue
 	 * <em>Old Value</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @return the meta object for the attribute list '<em>Old Value</em>'.
-	 * @see org.eclipse.set.model.tablemodel.CompareCellContent#getOldValue()
-	 * @see #getCompareCellContent()
+	 * @return the meta object for the containment reference '<em>Old
+	 *         Value</em>'.
+	 * @see org.eclipse.set.model.tablemodel.CompareStateCellContent#getOldValue()
+	 * @see #getCompareStateCellContent()
 	 * @generated
 	 */
-	EAttribute getCompareCellContent_OldValue();
+	EReference getCompareStateCellContent_OldValue();
 
 	/**
-	 * Returns the meta object for the attribute list
-	 * '{@link org.eclipse.set.model.tablemodel.CompareCellContent#getNewValue
+	 * Returns the meta object for the containment reference
+	 * '{@link org.eclipse.set.model.tablemodel.CompareStateCellContent#getNewValue
 	 * <em>New Value</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @return the meta object for the attribute list '<em>New Value</em>'.
-	 * @see org.eclipse.set.model.tablemodel.CompareCellContent#getNewValue()
-	 * @see #getCompareCellContent()
+	 * @return the meta object for the containment reference '<em>New
+	 *         Value</em>'.
+	 * @see org.eclipse.set.model.tablemodel.CompareStateCellContent#getNewValue()
+	 * @see #getCompareStateCellContent()
 	 * @generated
 	 */
-	EAttribute getCompareCellContent_NewValue();
+	EReference getCompareStateCellContent_NewValue();
 
 	/**
 	 * Returns the meta object for class
@@ -2121,33 +2126,36 @@ public interface TablemodelPackage extends EPackage {
 
 		/**
 		 * The meta object literal for the
-		 * '{@link org.eclipse.set.model.tablemodel.impl.CompareCellContentImpl
-		 * <em>Compare Cell Content</em>}' class. <!-- begin-user-doc --> <!--
+		 * '{@link org.eclipse.set.model.tablemodel.impl.CompareStateCellContentImpl
+		 * <em>Compare State Cell Content</em>}' class. <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * 
+		 * @see org.eclipse.set.model.tablemodel.impl.CompareStateCellContentImpl
+		 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getCompareStateCellContent()
+		 * @generated
+		 */
+		EClass COMPARE_STATE_CELL_CONTENT = eINSTANCE
+				.getCompareStateCellContent();
+
+		/**
+		 * The meta object literal for the '<em><b>Old Value</b></em>'
+		 * containment reference feature. <!-- begin-user-doc --> <!--
 		 * end-user-doc -->
 		 * 
-		 * @see org.eclipse.set.model.tablemodel.impl.CompareCellContentImpl
-		 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getCompareCellContent()
 		 * @generated
 		 */
-		EClass COMPARE_CELL_CONTENT = eINSTANCE.getCompareCellContent();
+		EReference COMPARE_STATE_CELL_CONTENT__OLD_VALUE = eINSTANCE
+				.getCompareStateCellContent_OldValue();
 
 		/**
-		 * The meta object literal for the '<em><b>Old Value</b></em>' attribute
-		 * list feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * The meta object literal for the '<em><b>New Value</b></em>'
+		 * containment reference feature. <!-- begin-user-doc --> <!--
+		 * end-user-doc -->
 		 * 
 		 * @generated
 		 */
-		EAttribute COMPARE_CELL_CONTENT__OLD_VALUE = eINSTANCE
-				.getCompareCellContent_OldValue();
-
-		/**
-		 * The meta object literal for the '<em><b>New Value</b></em>' attribute
-		 * list feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
-		 * @generated
-		 */
-		EAttribute COMPARE_CELL_CONTENT__NEW_VALUE = eINSTANCE
-				.getCompareCellContent_NewValue();
+		EReference COMPARE_STATE_CELL_CONTENT__NEW_VALUE = eINSTANCE
+				.getCompareStateCellContent_NewValue();
 
 		/**
 		 * The meta object literal for the

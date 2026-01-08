@@ -10,6 +10,7 @@
  */
 package org.eclipse.set.feature.table.diff;
 
+import static org.eclipse.set.model.tablemodel.extensions.CellContentExtensions.getStringValueList;
 import static org.eclipse.set.ppmodel.extensions.EObjectExtensions.getNullableObject;
 
 import java.util.ArrayList;
@@ -23,7 +24,7 @@ import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.eclipse.set.core.services.session.SessionService;
 import org.eclipse.set.model.tablemodel.CellContent;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
-import org.eclipse.set.model.tablemodel.CompareCellContent;
+import org.eclipse.set.model.tablemodel.CompareStateCellContent;
 import org.eclipse.set.model.tablemodel.CompareTableCellContent;
 import org.eclipse.set.model.tablemodel.CompareTableFootnoteContainer;
 import org.eclipse.set.model.tablemodel.FootnoteContainer;
@@ -270,7 +271,7 @@ public class TableProjectDiffService extends AbstractTableDiff {
 		return switch (first) {
 			case final StringCellContent stringContent -> isSameValue(
 					stringContent, second);
-			case final CompareCellContent compareContent -> isSameValue(
+			case final CompareStateCellContent compareContent -> isSameValue(
 					compareContent, second);
 			case final MultiColorCellContent multiColorContent -> isSameValue(
 					multiColorContent, second);
@@ -311,7 +312,8 @@ public class TableProjectDiffService extends AbstractTableDiff {
 	 *            the {@link CellContent}
 	 * @return true, if the table cell haven same value
 	 */
-	protected boolean isSameValue(final CompareCellContent firstCellContent,
+	protected boolean isSameValue(
+			final CompareStateCellContent firstCellContent,
 			final CellContent secondCellContent) {
 		// Compare between CompareCellContent with another cell content is only
 		// in compare table between two Project available.
@@ -323,10 +325,10 @@ public class TableProjectDiffService extends AbstractTableDiff {
 				.createStringCellContent();
 		if (tableType == TableType.INITIAL) {
 			compareCellStringContent.getValue()
-					.addAll(firstCellContent.getOldValue());
+					.addAll(getStringValueList(firstCellContent.getOldValue()));
 		} else {
 			compareCellStringContent.getValue()
-					.addAll(firstCellContent.getNewValue());
+					.addAll(getStringValueList(firstCellContent.getNewValue()));
 		}
 		return isSameValue(compareCellStringContent, secondCellContent);
 	}
@@ -384,17 +386,18 @@ public class TableProjectDiffService extends AbstractTableDiff {
 						.collect(Collectors.toSet());
 				yield firstValues.equals(secondValues);
 			}
-			case final CompareCellContent compareContent -> {
+			case final CompareStateCellContent compareContent -> {
 				final TableType tableType = getSessionService()
 						.getLoadedSession(ToolboxFileRole.SESSION)
 						.getTableType();
 				final Set<String> values = switch (tableType) {
-					case TableType.INITIAL -> compareContent.getOldValue()
-							.stream()
-							.filter(value -> value != null
-									&& !value.trim().isEmpty())
-							.collect(Collectors.toSet());
-					default -> compareContent.getNewValue()
+					case TableType.INITIAL -> getStringValueList(
+							compareContent.getOldValue())
+									.stream()
+									.filter(value -> value != null
+											&& !value.trim().isEmpty())
+									.collect(Collectors.toSet());
+					default -> getStringValueList(compareContent.getNewValue())
 							.stream()
 							.filter(value -> value != null
 									&& !value.trim().isEmpty())

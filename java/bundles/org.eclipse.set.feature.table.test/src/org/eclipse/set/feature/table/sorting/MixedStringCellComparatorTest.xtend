@@ -14,6 +14,7 @@ import org.eclipse.set.utils.table.sorting.MixedStringCellComparator
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
+import static org.eclipse.set.model.tablemodel.extensions.CellContentExtensions.createStringCellContent
 import static org.hamcrest.MatcherAssert.assertThat
 import static org.hamcrest.core.Is.*
 import static org.junit.jupiter.api.Assertions.*
@@ -35,8 +36,8 @@ class MixedStringCellComparatorTest {
 	@Test
 	def void testMixedCells() {
 		val cell1 = TablemodelFactory.eINSTANCE.createTableCell
-		val content1 = TablemodelFactory.eINSTANCE.createCompareCellContent
-		content1.newValue.add("86W9")
+		val content1 = TablemodelFactory.eINSTANCE.createCompareStateCellContent
+		content1.newValue = createStringCellContent("86W9")
 		cell1.content = content1
 
 		val cell2 = TablemodelFactory.eINSTANCE.createTableCell

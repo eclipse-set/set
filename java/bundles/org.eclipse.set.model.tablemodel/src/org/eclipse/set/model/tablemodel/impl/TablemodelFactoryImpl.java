@@ -78,8 +78,8 @@ public class TablemodelFactoryImpl extends EFactoryImpl
 				return createTableCell();
 			case TablemodelPackage.STRING_CELL_CONTENT:
 				return createStringCellContent();
-			case TablemodelPackage.COMPARE_CELL_CONTENT:
-				return createCompareCellContent();
+			case TablemodelPackage.COMPARE_STATE_CELL_CONTENT:
+				return createCompareStateCellContent();
 			case TablemodelPackage.CELL_ANNOTATION:
 				return createCellAnnotation();
 			case TablemodelPackage.MULTI_COLOR_CELL_CONTENT:
@@ -227,9 +227,9 @@ public class TablemodelFactoryImpl extends EFactoryImpl
 	 * @generated
 	 */
 	@Override
-	public CompareCellContent createCompareCellContent() {
-		CompareCellContentImpl compareCellContent = new CompareCellContentImpl();
-		return compareCellContent;
+	public CompareStateCellContent createCompareStateCellContent() {
+		CompareStateCellContentImpl compareStateCellContent = new CompareStateCellContentImpl();
+		return compareStateCellContent;
 	}
 
 	/**
