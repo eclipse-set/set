@@ -111,6 +111,7 @@ import org.eclipse.set.utils.events.ToolboxEvents;
 import org.eclipse.set.utils.exception.ExceptionHandler;
 import org.eclipse.set.utils.table.BodyLayerStack;
 import org.eclipse.set.utils.table.Pt1TableChangeProperties;
+import org.eclipse.set.utils.table.TableInfo;
 import org.eclipse.set.utils.table.TableInfo.Pt1TableCategory;
 import org.eclipse.set.utils.table.TableModelInstanceBodyDataProvider;
 import org.eclipse.set.utils.table.menu.TableMenuService;
@@ -201,6 +202,8 @@ public final class ToolboxTableView extends BasePart {
 
 	private EventHandler secondaryPlanningLoadedHanlder;
 
+	private TableInfo tableInfo;
+
 	/**
 	 * constructor
 	 */
@@ -228,11 +231,11 @@ public final class ToolboxTableView extends BasePart {
 		}
 	}
 
-	private Titlebox getTitlebox(final String shortcut) {
+	private Titlebox getTitlebox() {
 		final PlanProToTitleboxTransformation planProToTitlebox = new PlanProToTitleboxTransformation(
 				getSessionService());
 		return planProToTitlebox.transform(
-				tableService.getTableNameInfo(shortcut),
+				tableService.getTableNameInfo(tableInfo),
 				this::getAttachmentPath);
 	}
 
@@ -280,7 +283,7 @@ public final class ToolboxTableView extends BasePart {
 		};
 		ToolboxEvents.subscribe(getBroker(), TableDataChangeEvent.class,
 				tableDataChangeHandler,
-				TableDataChangeEvent.getTopic(getTableShortcut())
+				TableDataChangeEvent.getTopic(tableInfo.shortcut())
 						.toLowerCase());
 
 		selectionControlAreaHandler = new DefaultToolboxEventHandler<>() {
@@ -326,11 +329,7 @@ public final class ToolboxTableView extends BasePart {
 		ToolboxEvents.unsubscribe(getBroker(), tableDataChangeHandler);
 		ToolboxEvents.unsubscribe(getBroker(), selectionControlAreaHandler);
 		getBroker().unsubscribe(secondaryPlanningLoadedHanlder);
-		getBroker().send(Events.CLOSE_PART, getTableShortcut().toLowerCase());
-	}
-
-	private String getTableShortcut() {
-		return tableService.extractShortcut(getToolboxPart().getElementId());
+		getBroker().send(Events.CLOSE_PART, tableInfo.shortcut());
 	}
 
 	private void tableSelectRowHandler(final JumpToTableEvent event) {
@@ -357,8 +356,8 @@ public final class ToolboxTableView extends BasePart {
 	 * 
 	 * @return the table view model
 	 */
-	private Table transformToTableModel(final String elementId) {
-		return tableService.createDiffTable(elementId, tableType,
+	private Table transformToTableModel() {
+		return tableService.createDiffTable(tableInfo, tableType,
 				controlAreaIds);
 	}
 
@@ -407,7 +406,7 @@ public final class ToolboxTableView extends BasePart {
 
 	@Override
 	protected void createView(final Composite parent) {
-
+		tableInfo = tableService.getTableInfo(this);
 		// initialize table type
 		tableType = getModelSession().getTableType();
 		controlAreaIds = getModelSession().getSelectedControlAreas()
@@ -455,8 +454,7 @@ public final class ToolboxTableView extends BasePart {
 
 		bodyLayerStack = new BodyLayerStack(bodyDataLayer);
 
-		bodyLayerStack.freezeColumns(
-				tableService.getFixedColumns(getToolboxPart().getElementId()));
+		bodyLayerStack.freezeColumns(tableService.getFixedColumns(tableInfo));
 
 		final SelectionLayer selectionLayer = bodyLayerStack
 				.getSelectionLayer();
@@ -756,18 +754,17 @@ public final class ToolboxTableView extends BasePart {
 	}
 
 	void export() {
-		final String shortcut = getTableShortcut();
 		final List<Thread> transformatorThreads = ThreadUtils.getAllThreads()
 				.stream()
 				.filter(t -> t != null
-						&& t.getName().startsWith(shortcut.toLowerCase())
+						&& t.getName().startsWith(tableInfo.shortcut())
 						&& t.isAlive())
 				.toList();
 		if (!transformatorThreads.isEmpty() && !getDialogService()
 				.confirmExportNotCompleteTable(getToolboxShell())) {
 			return;
 		}
-		final Map<TableType, Table> tables = compileService.compile(shortcut,
+		final Map<TableType, Table> tables = compileService.compile(tableInfo,
 				getModelSession(), controlAreaIds);
 		final Optional<String> optionalOutputDir = getDialogService()
 				.selectDirectory(getToolboxShell(),
@@ -778,10 +775,9 @@ public final class ToolboxTableView extends BasePart {
 						monitor.beginTask(messages.ToolboxTableView_ExportTable,
 								IProgressMonitor.UNKNOWN);
 						exportService.exportPdf(tables,
-								ExportType.PLANNING_RECORDS,
-								getTitlebox(shortcut), getFreeFieldInfo(),
-								shortcut, outputDir,
-								getModelSession().getToolboxPaths(),
+								ExportType.PLANNING_RECORDS, getTitlebox(),
+								getFreeFieldInfo(), tableInfo.shortcut(),
+								outputDir, getModelSession().getToolboxPaths(),
 								getModelSession().getTableType(),
 								OverwriteHandling
 										.forUserConfirmation(path -> Boolean
@@ -811,7 +807,7 @@ public final class ToolboxTableView extends BasePart {
 		// update banderole
 		getBanderole().setTableType(tableType);
 
-		table = transformToTableModel(part.getElementId());
+		table = transformToTableModel();
 		// flag creation
 		MApplicationElementExtensions.setViewState(part,
 				ToolboxViewState.CREATED);
@@ -892,7 +888,7 @@ public final class ToolboxTableView extends BasePart {
 	 */
 	private void subcribeTriggerResortEvent() {
 		final Comparator<RowGroup> comparator = tableService
-				.getRowGroupComparator(getTableShortcut());
+				.getRowGroupComparator(tableInfo);
 		if (comparator instanceof final TableRowGroupComparator rowGroupComparator) {
 			// This is new instance of Comparator, therefore need call sort here
 			// to determine the waiting on another service criterion
@@ -919,8 +915,7 @@ public final class ToolboxTableView extends BasePart {
 								.size()
 								&& triggeredEvents
 										.containsAll(triggerComparisonEvent)) {
-							tableService.sortTable(table, tableType,
-									getTableShortcut());
+							tableService.sortTable(table, tableType, tableInfo);
 							tableInstances.clear();
 							tableInstances.addAll(
 									TableExtensions.getTableRows(table));
