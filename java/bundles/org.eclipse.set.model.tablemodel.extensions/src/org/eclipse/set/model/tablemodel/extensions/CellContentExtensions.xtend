@@ -189,7 +189,7 @@ class CellContentExtensions {
 
 	static def dispatch String getPlainStringValue(
 		CompareStateCellContent content) {
-		return '''«content.oldValue.plainStringValue»/«content.newValue.plainStringValue»'''
+		return '''«content.oldValue.stringValueIterable»/«content.newValue.stringValueIterable»'''
 	}
 
 	static def dispatch String getPlainStringValue(

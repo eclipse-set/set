@@ -54,8 +54,9 @@ public class TableStateDiffService extends AbstractTableDiff {
 		}
 
 		if (!StringCellContent.class.isInstance(oldCell.getContent())
-				|| newCell != null && !StringCellContent.class
-						.isInstance(newCell.getContent())) {
+				|| newCell != null && newCell.getContent() != null
+						&& !StringCellContent.class
+								.isInstance(newCell.getContent())) {
 			throw new IllegalArgumentException(
 					"Can create CompareStateCellContent only from StringCellContent"); //$NON-NLS-1$
 		}
