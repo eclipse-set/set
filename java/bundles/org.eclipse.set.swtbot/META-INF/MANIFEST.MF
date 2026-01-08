@@ -44,6 +44,7 @@ Import-Package: jakarta.inject,
  org.eclipse.set.browser,
  org.eclipse.set.browser.swt,
  org.eclipse.set.utils.table,
+ org.eclipse.set.utils.table.export,
  org.eclipse.ui,
  org.slf4j
 Bundle-ActivationPolicy: lazy
