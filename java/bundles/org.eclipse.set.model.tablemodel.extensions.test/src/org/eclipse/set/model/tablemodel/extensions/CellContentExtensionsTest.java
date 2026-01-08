@@ -43,6 +43,9 @@ public class CellContentExtensionsTest {
 		final StringCellContent content = TablemodelFactory.eINSTANCE
 				.createStringCellContent();
 		content.getValue().add(value);
+		final TableCell tableCell = TablemodelFactory.eINSTANCE
+				.createTableCell();
+		tableCell.setContent(content);
 		return content;
 	}
 
