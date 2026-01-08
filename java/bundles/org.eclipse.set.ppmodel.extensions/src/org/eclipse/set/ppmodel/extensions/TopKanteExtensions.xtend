@@ -682,6 +682,12 @@ class TopKanteExtensions extends BasisObjektExtensions {
 		throw new IllegalArgumentException('''topKnoten=«topKnoten.identitaet.wert»''')
 	}
 
+	def static boolean isRoute(TOP_Kante topKante, TOP_Kante destination) {
+		val connectionNode = topKante.connectionTo(destination)
+		return connectionNode !== null &&
+			topKante.isRoute(destination, connectionNode)
+	}
+
 	/**
 	 * @param topKante this TOP Kante (origin)
 	 * @param destination the destination TOP Kante
@@ -833,10 +839,8 @@ class TopKanteExtensions extends BasisObjektExtensions {
 			current = geoKante.getOpposite(current)
 			geoKanten.remove(0)
 			if (geoKanten.nullOrEmpty) {
-				result.add(current ->
-					distance +
-						(geoKante.GEOKanteAllg?.GEOLaenge?.wert ?:
-							BigDecimal.ZERO))
+				result.add(current -> distance +
+					(geoKante.GEOKanteAllg?.GEOLaenge?.wert ?: BigDecimal.ZERO))
 			}
 		}
 		return result

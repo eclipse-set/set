@@ -100,7 +100,7 @@ public class CacheServiceImpl implements CacheService, EventHandler {
 		return existCache(getSessionRole(schnittstelle), cacheID);
 	}
 
-	private ToolboxFileRole getSessionRole(
+	protected ToolboxFileRole getSessionRole(
 			final PlanPro_Schnittstelle schnittStelle) {
 		final Map<ToolboxFileRole, IModelSession> loadedSessions = sessionService
 				.getLoadedSessions();
