@@ -30,6 +30,7 @@ import org.osgi.service.event.EventAdmin
 
 import static org.eclipse.set.feature.table.pt1.sskg.SskgColumns.*
 
+import static extension org.eclipse.set.ppmodel.extensions.BueKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FmaKomponenteAchszaehlpunktExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FmaKomponenteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
@@ -345,7 +346,7 @@ class SskgTransformator extends AbstractPlanPro2TableModelTransformator {
 	def dispatch String getBezugspunktBezeichnung(FMA_Komponente fma) {
 		return fma.IDBezugspunkt?.value?.bezugspunktBezeichnung
 	}
-	
+
 	def dispatch String getBezugspunktBezeichnung(Zugeinwirkung ein) {
 		return ein.IDBezugspunkt?.value?.bezugspunktBezeichnung
 	}
@@ -359,7 +360,7 @@ class SskgTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	def dispatch String getBezugspunktBezeichnung(BUE_Kante bueKante) {
-		return bueKante?.IDBUEAnlage?.value?.bezugspunktBezeichnung
+		return bueKante?.bezeichnung ?: ""
 	}
 
 	def dispatch String getBezugspunktBezeichnung(Markanter_Punkt markanter) {

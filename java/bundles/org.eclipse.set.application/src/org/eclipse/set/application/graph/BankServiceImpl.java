@@ -12,15 +12,18 @@ package org.eclipse.set.application.graph;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.set.basis.constants.ContainerType;
@@ -32,14 +35,18 @@ import org.eclipse.set.basis.graph.TopPoint;
 import org.eclipse.set.core.services.graph.BankService;
 import org.eclipse.set.core.services.graph.TopologicalGraphService;
 import org.eclipse.set.core.services.session.SessionService;
+import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup;
 import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
 import org.eclipse.set.model.planpro.Geodaten.TOP_Kante;
+import org.eclipse.set.model.planpro.Geodaten.TOP_Knoten;
 import org.eclipse.set.model.planpro.Geodaten.Ueberhoehung;
 import org.eclipse.set.model.planpro.Geodaten.Ueberhoehungslinie;
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.set.ppmodel.extensions.BasisAttributExtensions;
 import org.eclipse.set.ppmodel.extensions.MultiContainer_AttributeGroupExtensions;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
+import org.eclipse.set.ppmodel.extensions.PunktObjektExtensions;
+import org.eclipse.set.ppmodel.extensions.TopKanteExtensions;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.eclipse.set.ppmodel.extensions.graph.TopObjectIterator;
 import org.eclipse.set.utils.ToolboxConfiguration;
@@ -247,6 +254,7 @@ public class BankServiceImpl implements BankService, EventHandler {
 		if (begin == null || end == null) {
 			return null;
 		}
+
 		final BigDecimal bankingLineLength = bankingLine
 				.getUeberhoehungslinieAllg()
 				.getUeberhoehungslinieLaenge()
@@ -286,6 +294,17 @@ public class BankServiceImpl implements BankService, EventHandler {
 			}
 		}
 
+		if (!bankingLine.getIDTOPKantePfad().isEmpty()) {
+			try {
+				return getBankingInformation(bankingLine);
+			} catch (final IllegalArgumentException e) {
+				logger.error(
+						"IDTOPKantePfad der Überhöhungslinien {} ist nicht plausible", //$NON-NLS-1$
+						bankingLine.getIdentitaet().getWert());
+				return null;
+			}
+
+		}
 		// Otherwise find all possible paths and find the path with the smallest
 		// deviation from the banking line length
 		// Add 1 to the limit to account for rounding errors
@@ -306,6 +325,91 @@ public class BankServiceImpl implements BankService, EventHandler {
 			return null;
 		}
 		return new BankingInformation(bankingLine, path);
+	}
+
+	/**
+	 * The Banking path is already defined. This function transform the
+	 * information to {@link BankingInformation}
+	 * 
+	 * @param bankingLine
+	 *            the {@link Ueberhoehungslinie}
+	 * @return the {@link BankingInformation}
+	 * @throws IllegalArgumentException
+	 *             when the path isn't plausible
+	 */
+	private static BankingInformation getBankingInformation(
+			final Ueberhoehungslinie bankingLine)
+			throws IllegalArgumentException {
+		final Set<TOP_Kante> relevantEdges = bankingLine.getIDTOPKantePfad()
+				.stream()
+				.map(ele -> ele.getValue())
+				.collect(Collectors.toSet());
+		final Punkt_Objekt_TOP_Kante_AttributeGroup start = PunktObjektExtensions
+				.getSinglePoint(bankingLine.getIDUeberhoehungA().getValue());
+		final Punkt_Objekt_TOP_Kante_AttributeGroup end = PunktObjektExtensions
+				.getSinglePoint(bankingLine.getIDUeberhoehungB().getValue());
+		// When the defined path not contains start/end point
+		if (relevantEdges.stream()
+				.noneMatch(edge -> edge == start.getIDTOPKante().getValue())
+				|| relevantEdges.stream()
+						.noneMatch(edge -> edge == end.getIDTOPKante()
+								.getValue())) {
+			throw new IllegalArgumentException();
+		}
+		final List<TOP_Kante> sortedEdges = new LinkedList<>();
+		TOP_Kante currentEdge = start.getIDTOPKante().getValue();
+		BigDecimal pathLength = BigDecimal.ZERO;
+
+		while (!relevantEdges.isEmpty()) {
+			sortedEdges.add(currentEdge);
+			relevantEdges.remove(currentEdge);
+			if (currentEdge == end.getIDTOPKante().getValue()) {
+				// when the path isn't end at end point
+				if (!relevantEdges.isEmpty()) {
+					throw new IllegalArgumentException();
+				}
+				// Edge before last edge
+				final TOP_Kante beforeLastEdge = sortedEdges
+						.get(sortedEdges.size() - 2);
+				final TOP_Knoten connectionNode = TopKanteExtensions
+						.connectionTo(currentEdge, beforeLastEdge);
+				final BigDecimal lastEdgeLength = connectionNode == currentEdge
+						.getIDTOPKnotenA()
+						.getValue() ? end.getAbstand().getWert()
+								: TopKanteExtensions.getLaenge(currentEdge)
+										.subtract(end.getAbstand().getWert());
+				pathLength = pathLength.add(lastEdgeLength);
+				break;
+			}
+			final List<TOP_Kante> nextEdges = new ArrayList<>();
+			for (final TOP_Kante edge : relevantEdges) {
+				if (TopKanteExtensions.isConnectedTo(edge, currentEdge)) {
+					nextEdges.add(edge);
+				}
+			}
+
+			// The current edge should only connected to one edge in the path
+			if (nextEdges.size() != 1) {
+				throw new IllegalArgumentException();
+			}
+			if (currentEdge == start.getIDTOPKante().getValue()) {
+				final TOP_Knoten connectionNode = TopKanteExtensions
+						.connectionTo(currentEdge, nextEdges.getFirst());
+				final BigDecimal firstEdgeLength = connectionNode == currentEdge
+						.getIDTOPKnotenB()
+						.getValue()
+								? TopKanteExtensions.getLaenge(currentEdge)
+										.subtract(start.getAbstand().getWert())
+								: start.getAbstand().getWert();
+				pathLength = pathLength.add(firstEdgeLength);
+			} else {
+				pathLength = pathLength
+						.add(TopKanteExtensions.getLaenge(currentEdge));
+			}
+			currentEdge = nextEdges.getFirst();
+		}
+		return new BankingInformation(bankingLine,
+				new TopPath(sortedEdges, pathLength, new TopPoint(start)));
 	}
 
 	@Override

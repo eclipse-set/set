@@ -48,6 +48,7 @@ import static org.eclipse.set.feature.table.pt1.ssza.SszaColumns.*
 
 import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.BueKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.DatenpunktExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FmaAnlageExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
@@ -167,16 +168,7 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 				),
 				bezugspunktCase(
 					BUE_Kante,
-					[
-						val relevantBereichs = container.gleisBezeichnung.filter [ bo |
-							bo.contains(it)
-						].toList
-						val tracksDesignation = relevantBereichs.filterNull.map [
-							bezeichnung?.bezGleisBezeichnung?.wert
-						]
-						'''BÜ-K «IDBUEAnlage?.value?.bezeichnung?.bezeichnungTabelle?.wert»«
-					»«IF !tracksDesignation.nullOrEmpty», Gl. «tracksDesignation.join(", ")»«ENDIF»'''
-					]
+					[bezeichnung]
 				),
 				bezugspunktCase(
 					PZB_Element,
