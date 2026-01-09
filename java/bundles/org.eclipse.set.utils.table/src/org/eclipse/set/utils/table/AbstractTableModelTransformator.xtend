@@ -24,6 +24,8 @@ import org.slf4j.LoggerFactory
 
 import static extension com.google.common.base.Throwables.*
 import static extension org.eclipse.set.model.tablemodel.extensions.TableRowExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.MultiContainer_AttributeGroupExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.Debug.*
 
 /**
@@ -223,10 +225,9 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 				fill(row, column, object, [content.get(0)])
 			} else {
 				fillIterable(row, column, object, [content],
-					switchCase.comparator, [it],
-					switchCase.seperator ===
-						null ? ITERABLE_FILLING_SEPARATOR : switchCase.
-						seperator)
+					switchCase.comparator, [it], switchCase.seperator === null
+						? ITERABLE_FILLING_SEPARATOR
+						: switchCase.seperator)
 			}
 		} catch (Exception e) {
 			handleFillingException(e, row, column)
@@ -473,8 +474,6 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 		}
 	}
 
-
-
 	def static String fillRegelzeichnung(Regelzeichnung regelzeichnung) {
 		val bild = regelzeichnung?.regelzeichnungAllg?.bild
 		var rzNummer = regelzeichnung?.regelzeichnungAllg?.RZNummer?.wert
@@ -548,14 +547,19 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 		TableRow row,
 		ColumnDescriptor column
 	) {
-		var guid = row.group.leadingObject?.identitaet?.wert
-		var leadingObject = getLeadingObjectIdentifier(row, guid)
+		var leadingObject = row.group.leadingObject
+		var errorIdentiefer = getLeadingObjectIdentifier(row,
+			leadingObject?.identitaet?.wert)
 		var errorMsg = e.createErrorMsg(row)
-
-		tableErrors.add(new TableError(guid, leadingObject, "", errorMsg, row))
+		val container = row.group.leadingObject.container
+		val tableType = container.containerType.defaultTableType
+		val error = new TableError(leadingObject, errorIdentiefer, "", errorMsg,
+			row)
+		error.tableType = tableType
+		tableErrors.add(error)
 		row.set(column, '''«ERROR_PREFIX»«errorMsg»''')
 		logger.
-			error('''«e.class.simpleName» in column "«column.debugString»" for leading object "«leadingObject»" («guid»). «e.message»«System.lineSeparator»«e.stackTraceAsString»''')
+			error('''«e.class.simpleName» in column "«column.debugString»" for leading object "«leadingObject»" («leadingObject?.identitaet?.wert»). «e.message»«System.lineSeparator»«e.stackTraceAsString»''')
 	}
 
 	def String createErrorMsg(

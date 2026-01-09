@@ -18,7 +18,6 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 
-import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.model.tablemodel.Table;
@@ -92,24 +91,18 @@ public abstract class AbstractTableTransformationService<T>
 				.build();
 	}
 
-	@Override
-	public Table transform(final T model, final Stell_Bereich controlArea) {
-		final Table table = TablemodelFactory.eINSTANCE.createTable();
-		buildHeading(table);
-		transformator = createTransformator();
-		transformator.transformTableContent(model, new TMFactory(table),
-				controlArea);
-		// Fill blank value to cell
-		TableExtensions.getTableRows(table).forEach(row -> {
-			for (int i = 0; i < row.getCells().size(); i++) {
-				if (row.getCells().get(i).getContent() == null) {
-					TableRowExtensions.set(row, i, ""); //$NON-NLS-1$
-				}
-			}
-		});
-		setColumnTextAlignment(table);
-		return table;
-	}
+	// @Override
+	// public Table transform(final T model, final Stell_Bereich controlArea) {
+	// final Table table = TablemodelFactory.eINSTANCE.createTable();
+	// buildHeading(table);
+	// transformator = createTransformator();
+	// transformator.transformTableContent(model, new TMFactory(table),
+	// controlArea);
+	// // Fill blank value to cell
+	//
+	// setColumnTextAlignment(table);
+	// return table;
+	// }
 
 	@Override
 	public Table transform(final T model) {
@@ -117,6 +110,13 @@ public abstract class AbstractTableTransformationService<T>
 		buildHeading(table);
 		transformator = createTransformator();
 		transformator.transformTableContent(model, new TMFactory(table));
+		TableExtensions.getTableRows(table).forEach(row -> {
+			for (int i = 0; i < row.getCells().size(); i++) {
+				if (row.getCells().get(i).getContent() == null) {
+					TableRowExtensions.set(row, i, ""); //$NON-NLS-1$
+				}
+			}
+		});
 		setColumnTextAlignment(table);
 		return table;
 	}

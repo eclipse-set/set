@@ -16,7 +16,6 @@ import org.eclipse.set.basis.MixedStringComparator
 import org.eclipse.set.basis.Wrapper
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
-import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
 import org.eclipse.set.model.planpro.Fahrstrasse.ENUMFstrMittelArt
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Abhaengigkeit
@@ -65,7 +64,6 @@ import static extension org.eclipse.set.ppmodel.extensions.SchaltmittelZuordnung
 import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalRahmenExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalbegriffExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.Debug.*
 
 /**
@@ -94,10 +92,8 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
-		TMFactory factory, Stell_Bereich controlArea) {
-		val fstrZugRangierList = container.fstrZugRangier.filter [
-			isPlanningObject
-		].filterObjectsInControlArea(controlArea)
+		TMFactory factory) {
+		val fstrZugRangierList = container.fstrZugRangier
 		val fstrZugRangierListSorted = fstrZugRangierList
 		var current = 0
 

@@ -18,7 +18,6 @@ import org.eclipse.set.basis.graph.TopPoint
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.core.services.graph.TopologicalGraphService
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
-import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
 import org.eclipse.set.model.planpro.Fahrstrasse.ENUMRangierGegenfahrtausschluss
 import org.eclipse.set.model.planpro.Gleis.Gleis_Bezeichnung
@@ -59,17 +58,15 @@ class SsliTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
-		TMFactory factory, Stell_Bereich controlArea) {
+		TMFactory factory) {
 		this.factory = factory
 		this.container = container
-		return container.transform(controlArea)
+		return container.transform
 	}
 
 	private def Table create factory.table transform(
-		MultiContainer_AttributeGroup container, Stell_Bereich controlArea) {
-		val gleisBezeichnung = container.gleisBezeichnung.filter [
-			isPlanningObject
-		].filterObjectsInControlArea(controlArea)
+		MultiContainer_AttributeGroup container) {
+		val gleisBezeichnung = container.gleisBezeichnung
 		transformToBegrenzungen(gleisBezeichnung, container.signal.filter [
 			isPlanningObject
 		]).filter[generalbedingung].forEach [ it |

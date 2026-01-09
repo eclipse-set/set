@@ -53,7 +53,6 @@ import static extension org.eclipse.set.ppmodel.extensions.FmaAnlageExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
 
@@ -71,7 +70,7 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
-		TMFactory factory, Stell_Bereich controlArea) {
+		TMFactory factory) {
 		this.factory = factory
 		return container.transform
 	}
@@ -79,7 +78,7 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 	private def Table create factory.table transform(
 		MultiContainer_AttributeGroup container) {
 
-		container.datenpunkt.filter[isPlanningObject].forEach [ it |
+		container.datenpunkt.forEach [ it |
 			if (Thread.currentThread.interrupted) {
 				return
 			}

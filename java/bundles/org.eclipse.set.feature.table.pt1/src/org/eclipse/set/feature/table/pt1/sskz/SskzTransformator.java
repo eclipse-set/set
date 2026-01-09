@@ -37,7 +37,6 @@ import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
 import org.eclipse.set.feature.table.pt1.ssks.SignalSideDistance;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Aussenelementansteuerung;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.ENUMAussenelementansteuerungArt;
-import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stellelement;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Tueranschlag_TypeClass;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Unterbringung_Befestigung_TypeClass;
@@ -56,7 +55,6 @@ import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.TableRow;
 import org.eclipse.set.ppmodel.extensions.PZBElementExtensions;
 import org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteExtensions;
-import org.eclipse.set.ppmodel.extensions.UrObjectExtensions;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.eclipse.set.ppmodel.extensions.utils.Case;
 import org.eclipse.set.utils.math.BigDecimalExtensions;
@@ -132,14 +130,12 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 	@Override
 	public Table transformTableContent(
 			final MultiContainer_AttributeGroup container,
-			final TMFactory factory, final Stell_Bereich controlArea) {
+			final TMFactory factory) {
 		final List<Aussenelementansteuerung> outsideControls = Streams
 				.stream(container.getAussenelementansteuerung())
-				.filter(UrObjectExtensions::isPlanningObject)
 				.toList();
-		final Iterable<Aussenelementansteuerung> relevantControlsInArea = UrObjectExtensions
-				.filterObjectsInControlArea(outsideControls, controlArea);
-		return transform(relevantControlsInArea, factory);
+
+		return transform(outsideControls, factory);
 	}
 
 	private Table transform(final Iterable<Aussenelementansteuerung> controls,

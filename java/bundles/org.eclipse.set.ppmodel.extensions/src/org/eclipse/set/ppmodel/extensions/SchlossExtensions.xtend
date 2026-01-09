@@ -14,6 +14,11 @@ import org.eclipse.set.model.planpro.Schluesselabhaengigkeiten.Schlosskombinatio
 import org.eclipse.set.model.planpro.Schluesselabhaengigkeiten.Schluessel
 import org.eclipse.set.model.planpro.Schluesselabhaengigkeiten.Schluesselsperre
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
+
+import static extension org.eclipse.set.ppmodel.extensions.SchluesselExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.SchlosskombinationExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.StellBereichExtensions.*
 
 /**
  * Extensions for {@link Schloss}.
@@ -81,5 +86,45 @@ class SchlossExtensions extends BasisObjektExtensions {
 	 */
 	def static W_Kr_Gsp_Element getSonderanlage(Schloss schloss) {
 		return schloss?.schlossSonderanlage?.IDSonderanlage?.value
+	}
+	
+	def static Iterable<Schloss> filterObjectsIsBelongToControlArea(Iterable<Schloss> schlosses, Stell_Bereich controlArea) {
+		if (controlArea === null || schlosses.nullOrEmpty) {
+			return schlosses;
+		}
+		
+		val result = newHashSet
+		val container = schlosses?.head?.container
+		// 1. Condition
+		// IMPROVE: Not completely, because the requirements for this case aren't clear
+		val stellelements = container.stellelement.map[IDInformation?.value].
+			filterNull.filter[AussenelementansteuerungExtensions.isBelongToControlArea(it, controlArea)]
+		val ssp = container.schluesselsperre.filter [ ssp |
+			stellelements.exists[it === ssp.IDStellelement.value]
+		]
+		val schluessels = schlosses.filter [ schloss |
+			ssp.exists[it === schloss.schlossSsp.IDSchluesselsperre.value]
+		].map[schluesel].filterNull
+		result.addAll(schluessels.flatMap[schloesser])
+
+		// 2.Condition
+		result.filter[schlossSk?.hauptschloss.wert].flatMap [ schloss |
+			schloss.schlossSk.IDSchlosskombination?.value.schloesser.filter [
+				it.schlossSk !== null && !it.schlossSk.hauptschloss.wert
+			]
+		].filterNull.map[schluesel].flatMap[schloesser].forEach[result.add(it)]
+
+		// 3. Condition
+		schlosses.filter [ schloss |
+			controlArea.wkrGspElement.exists [ gspElement |
+				schloss.schlossW?.IDWKrElement?.value === gspElement ||
+					schloss.schlossGsp?.IDGspElement?.value === gspElement ||
+					schloss.schlossSonderanlage?.IDSonderanlage?.value ==
+						gspElement
+			]
+		].map[schluesel].flatMap[schloesser].toSet.filter [
+			technischBerechtigter?.wert
+		].forEach[result.add(it)]
+		return result
 	}
 }

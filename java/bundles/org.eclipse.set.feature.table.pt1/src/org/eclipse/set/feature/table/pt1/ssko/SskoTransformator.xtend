@@ -34,7 +34,6 @@ import static extension org.eclipse.set.ppmodel.extensions.SchluesselExtensions.
 import static extension org.eclipse.set.ppmodel.extensions.SchluesselsperreExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.StellBereichExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.UnterbringungExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 
 /**
  * Table transformation for a Schlosstabelle Entwurf (Ssko).
@@ -49,11 +48,8 @@ class SskoTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
-		TMFactory factory, Stell_Bereich controlArea) {
-		for (Schloss schloss : container.getObjectInControlArea(controlArea).
-			filter [
-				isPlanningObject
-			]) {
+		TMFactory factory) {
+		for (Schloss schloss : container.schloss) {
 			if (Thread.currentThread.interrupted) {
 				return null
 			}

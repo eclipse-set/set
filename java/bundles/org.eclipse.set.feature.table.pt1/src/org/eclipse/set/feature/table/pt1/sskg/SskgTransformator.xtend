@@ -14,7 +14,6 @@ import org.eclipse.set.basis.graph.TopPoint
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.core.services.graph.TopologicalGraphService
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
-import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.Bahnuebergang.BUE_Anlage
 import org.eclipse.set.model.planpro.Bahnuebergang.BUE_Kante
 import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
@@ -34,7 +33,6 @@ import static extension org.eclipse.set.ppmodel.extensions.FmaKomponenteAchszaeh
 import static extension org.eclipse.set.ppmodel.extensions.FmaKomponenteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektStreckeExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.ZugEinwirkungExtensions.*
 
 /**
@@ -54,12 +52,10 @@ class SskgTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
-		TMFactory factory, Stell_Bereich controlArea) {
+		TMFactory factory) {
 		val instances = new ArrayList<TableRow>
 
-		for (Zugeinwirkung ein : container.zugeinwirkung.filter [
-			isPlanningObject
-		].filterObjectsInControlArea(controlArea)) {
+		for (Zugeinwirkung ein : container.zugeinwirkung) {
 			if (Thread.currentThread.interrupted) {
 				return null
 			}
@@ -186,9 +182,7 @@ class SskgTransformator extends AbstractPlanPro2TableModelTransformator {
 			instances.add(row);
 		}
 
-		for (FMA_Komponente fma : container.FMAKomponente.filter [
-			isPlanningObject
-		].filterObjectsInControlArea(controlArea)) {
+		for (FMA_Komponente fma : container.FMAKomponente) {
 			if (fma.FMAKomponenteAchszaehlpunkt !== null) {
 				val TableRow row = factory.newTableRow(fma);
 				// A: Sskg.Grundsatzangaben.Bezeichnung
