@@ -176,8 +176,8 @@ public class Messages {
 	public String TableTransform_Error;
 
 	/**
-	 * Es gibt Fehler bei der Tabellengenerierung der Vergleichsplanung. 
-	 * Es wird nur die Tabelle der Originalplanung angezeigt.
+	 * Es gibt Fehler bei der Tabellengenerierung der Vergleichsplanung. Es wird
+	 * nur die Tabelle der Originalplanung angezeigt.
 	 */
 	public String TableTransform_ComparePlanError_Msg;
 
