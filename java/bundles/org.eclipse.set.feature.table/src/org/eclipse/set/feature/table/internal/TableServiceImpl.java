@@ -678,8 +678,8 @@ public final class TableServiceImpl implements TableService {
 			try {
 				final TableNameInfo nameInfo = getTableNameInfo(tableInfo);
 				monitor.subTask(nameInfo.getFullDisplayName());
-				final Table table = transformToTable(tableInfo, tableType,
-						modelSession, controlAreaIds);
+				final Table table = createDiffTable(tableInfo, tableType,
+						controlAreaIds);
 				while (!TableService.isTransformComplete(tableInfo, null)) {
 					Thread.sleep(2000);
 				}
@@ -697,53 +697,47 @@ public final class TableServiceImpl implements TableService {
 	@Override
 	public Table createDiffTable(final TableInfo tableInfo,
 			final TableType tableType, final Set<String> controlAreaIds) {
+		Table mainSessionTable = null;
 		try {
-			final Table mainSessionTable = transformToTable(tableInfo,
-					tableType,
+			mainSessionTable = transformToTable(tableInfo, tableType,
 					sessionService.getLoadedSession(ToolboxFileRole.SESSION),
 					controlAreaIds);
-			final IModelSession compareSession = sessionService
-					.getLoadedSession(ToolboxFileRole.COMPARE_PLANNING);
-			if (compareSession == null) {
+			if (sessionService.getLoadedSession(
+					ToolboxFileRole.COMPARE_PLANNING) == null) {
 				return mainSessionTable;
 			}
-
-		final Table compareSessionTable = transformToTable(tableInfo, tableType,
-				compareSession, controlAreaIds);
-
-		// Waiting table compare transform, then create compare table between to
-		// plan
-		while (!TableService.isTransformComplete(tableInfo, null)) {
-			try {
+			// Waiting table compare transform, then create compare table
+			// between to plan
+			while (!TableService.isTransformComplete(tableInfo, null)) {
 				Thread.sleep(2000);
-			} catch (final InterruptedException e) {
-				Thread.interrupted();
 			}
+		} catch (final Exception e) {
+			logger.error("Transformation Error: {} : {}", //$NON-NLS-1$
+					tableInfo.shortcut(), e.getMessage());
+			nonTransformableTables.add(tableInfo);
+			broker.post(Events.TABLEERROR_CHANGED, null);
+			throw new RuntimeException(e);
+		}
+
+		// When it give Exception by transform second plan, then return the
+		// first plan table
+		try {
+			final IModelSession compareSession = sessionService
+					.getLoadedSession(ToolboxFileRole.COMPARE_PLANNING);
+			final Table compareSessionTable = transformToTable(tableInfo,
+					tableType, compareSession, controlAreaIds);
 			final Table compareTable = diffServiceMap
 					.get(TableCompareType.PROJECT)
 					.createDiffTable(mainSessionTable, compareSessionTable);
-			sortTable(compareTable, TableType.DIFF, elementId);
+			sortTable(compareTable, TableType.DIFF, tableInfo);
 			return compareTable;
-
 		} catch (final Exception e) {
-			logger.error("Transformation Error: {} : {}", //$NON-NLS-1$
-					elementId, e.getMessage());
-			final TableInfo tableInfo = modelServiceMap.keySet()
-					.stream()
-					.filter(info -> info.shortcut()
-							.equals(extractShortcut(elementId)))
-					.findFirst()
-					.orElse(null);
-			if (tableInfo != null) {
-				nonTransformableTables.add(tableInfo);
-				broker.post(Events.TABLEERROR_CHANGED, null);
-			}
-			throw new RuntimeException(e);
+			dialogService.error(Display.getCurrent().getActiveShell(),
+					messages.TableTransform_Error,
+					messages.TableTransform_ComparePlanError_Msg, e);
+			return mainSessionTable;
 		}
-		final Table compareTable = diffServiceMap.get(TableCompareType.PROJECT)
-				.createDiffTable(mainSessionTable, compareSessionTable);
-		sortTable(compareTable, TableType.DIFF, tableInfo);
-		return compareTable;
+
 	}
 
 	@Override

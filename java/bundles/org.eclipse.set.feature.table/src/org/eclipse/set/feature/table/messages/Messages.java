@@ -170,4 +170,15 @@ public class Messages {
 	 */
 	public String TableOverviewPart_NonTransformableTable;
 
+	/**
+	 * Table Generierung fehler
+	 */
+	public String TableTransform_Error;
+
+	/**
+	 * Es gibt Fehler bei Generierung Table des Vergleichsplanung. Es wird nur
+	 * die Hauptstabelle anzeigen
+	 */
+	public String TableTransform_ComparePlanError_Msg;
+
 }

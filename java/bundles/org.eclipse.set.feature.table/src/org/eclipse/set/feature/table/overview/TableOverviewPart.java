@@ -290,11 +290,8 @@ public class TableOverviewPart extends BasePart {
 		containErrorTablesControl.button()
 				.setEnabled(!tablesWithErrors.isEmpty());
 
-		final List<String> nonTransformableTables = tableService
-				.getNonTransformableTables(getTableCategory())
-				.stream()
-				.map(TableInfo::shortcut)
-				.toList();
+		final Set<TableInfo> nonTransformableTables = tableService
+				.getNonTransformableTables(getTableCategory());
 		nonTransformableTablesControl.text()
 				.setText(tableList2DisplayString(nonTransformableTables));
 		final ArrayList<TableError> allErrors = new ArrayList<>();
