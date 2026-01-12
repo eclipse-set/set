@@ -919,8 +919,7 @@ public final class ToolboxTableView extends BasePart {
 								.size()
 								&& triggeredEvents
 										.containsAll(triggerComparisonEvent)) {
-							tableService.sortTable(table, tableType,
-									getTableShortcut());
+							tableService.sortTable(table, getTableShortcut());
 							tableInstances.clear();
 							tableInstances.addAll(
 									TableExtensions.getTableRows(table));
