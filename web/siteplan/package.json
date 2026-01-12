@@ -22,13 +22,13 @@
     "ol-mapbox-style": "^13.1.1",
     "vue": "^3.5.25",
     "vue-class-component": "^8.0.0-1",
-    "vue-router": "^4.5.1",
+    "vue-router": "^4.6.4",
     "vuex": "^4.1.0"
   },
   "devDependencies": {
-    "@stylistic/eslint-plugin": "5.6.1",
+    "@stylistic/eslint-plugin": "5.7.0",
     "@types/geojson": "^7946.0.15",
-    "@typescript-eslint/eslint-plugin": "^8.50.1",
+    "@typescript-eslint/eslint-plugin": "^8.52.0",
     "@typescript-eslint/parser": "^8.32.1",
     "@vitejs/plugin-vue": "^6.0.3",
     "dotenv": "^17.2.3",

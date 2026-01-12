@@ -8,6 +8,8 @@
  */
 package org.eclipse.set.feature.validation.session;
 
+import static org.eclipse.set.basis.constants.ToolboxConstants.TITLE_FILE_NAME_SEPARATOR;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -155,7 +157,6 @@ public class ModelSession implements IModelSession {
 	private static final String APPLICATION_NAME = "Werkzeugkoffer"; //$NON-NLS-1$
 	private static final String SESSIONS_SUBDIR = "sessions"; //$NON-NLS-1$
 	protected static final String TITLE_SEPARATOR = " - "; //$NON-NLS-1$
-	protected static final String TITLE_FILE_NAME_SEPARATOR = " ⇔ "; //$NON-NLS-1$
 	static final Logger logger = LoggerFactory.getLogger(ModelSession.class);
 
 	private static String getSessionsSubDir() {

@@ -80,9 +80,9 @@ maven/mavencentral/org.eclipse.set/org.eclipse.set.i18n.ecp.table.nl_de/2.6.0-SN
 maven/mavencentral/org.eclipse.set/org.eclipse.set.i18n.model.nl_de/2.6.0-SNAPSHOT, EPL-2.0, approved, technology.set
 maven/mavencentral/org.eclipse.set/org.eclipse.set.i18n.nl_de.feature/2.6.0-SNAPSHOT, EPL-2.0, approved, technology.set
 maven/mavencentral/org.eclipse.set/org.eclipse.set.i18n.validationreport.nl_de/2.6.0-SNAPSHOT, EPL-2.0, approved, technology.set
-maven/mavencentral/org.eclipse.set/org.eclipse.set.model.planpro.edit/2.6.0-20251030.143447-2, EPL-2.0, approved, technology.set
-maven/mavencentral/org.eclipse.set/org.eclipse.set.model.planpro.editor/2.6.0-20251030.143447-2, EPL-2.0, approved, technology.set
-maven/mavencentral/org.eclipse.set/org.eclipse.set.model.planpro/2.6.0-20251030.143447-2, EPL-2.0, approved, technology.set
+maven/mavencentral/org.eclipse.set/org.eclipse.set.model.planpro.edit/2.6.0-20260112.145149-3, EPL-2.0, approved, technology.set
+maven/mavencentral/org.eclipse.set/org.eclipse.set.model.planpro.editor/2.6.0-20260112.145149-3, EPL-2.0, approved, technology.set
+maven/mavencentral/org.eclipse.set/org.eclipse.set.model.planpro/2.6.0-20260112.145149-3, EPL-2.0, approved, technology.set
 maven/mavencentral/org.eclipse.set/org.eclipse.set.model.plazmodel.edit/2.6.0-SNAPSHOT, EPL-2.0, approved, technology.set
 maven/mavencentral/org.eclipse.set/org.eclipse.set.model.plazmodel/2.6.0-SNAPSHOT, EPL-2.0, approved, technology.set
 maven/mavencentral/org.eclipse.set/org.eclipse.set.model.siteplan/2.6.0-SNAPSHOT, EPL-2.0, approved, technology.set
