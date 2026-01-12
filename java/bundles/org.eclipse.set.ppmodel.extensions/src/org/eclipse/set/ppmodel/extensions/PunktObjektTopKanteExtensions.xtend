@@ -250,7 +250,9 @@ class PunktObjektTopKanteExtensions extends BasisObjektExtensions {
 			getProjectionCoordinateOnStrecke(coordinate, strecke)
 		val nearestRoutePoint = strecke.streckenPunkte.map [
 			it -> streckePunktTopDistance
-		].minBy[(projectionPointAndDistance.second - it.value).abs]
+		]
+		.filter[it.value != null]
+		.minBy[(projectionPointAndDistance.second - it.value).abs]
 
 		val nearestRoutePointMeter = nearestRoutePoint.key.streckeMeter.wert
 		val distance = nearestRoutePoint.value -
