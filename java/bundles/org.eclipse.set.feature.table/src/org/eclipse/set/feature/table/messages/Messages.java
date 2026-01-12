@@ -171,13 +171,13 @@ public class Messages {
 	public String TableOverviewPart_NonTransformableTable;
 
 	/**
-	 * Table Generierung fehler
+	 * Fehler bei Tabellengenerierung
 	 */
 	public String TableTransform_Error;
 
 	/**
-	 * Es gibt Fehler bei Generierung Table des Vergleichsplanung. Es wird nur
-	 * die Hauptstabelle anzeigen
+	 * Es gibt Fehler bei der Tabellengenerierung der Vergleichsplanung. 
+	 * Es wird nur die Tabelle der Originalplanung angezeigt.
 	 */
 	public String TableTransform_ComparePlanError_Msg;
 
