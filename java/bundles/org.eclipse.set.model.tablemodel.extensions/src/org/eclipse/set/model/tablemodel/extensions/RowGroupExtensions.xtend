@@ -53,6 +53,7 @@ class RowGroupExtensions {
 				targetCell.content = content
 				if (!cell.cellannotation.nullOrEmpty) {
 					targetCell.textAlignment = cell.format.textAlignment
+					targetCell.topologicalCalcultation = cell.format.topologicalCalculation
 				}	
 				
 			}
