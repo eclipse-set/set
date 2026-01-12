@@ -48,7 +48,7 @@ public abstract class AbstractSWTBotTest {
 	 */
 	public Class<? extends AbstractSWTBotTest> getTestResourceClass() {
 		// Class for get the default test resource
-		if (getTestFile().equals(SWTBotTestFile.PPHN)) {
+		if (getTestFile().equals(SWTBotTestFile.PPHN_1_10_0_1)) {
 			return AbstractSWTBotTest.class;
 		}
 		return getClass();
