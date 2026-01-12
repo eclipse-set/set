@@ -70,6 +70,10 @@ import jakarta.inject.Inject;
  */
 public class TableOverviewPart extends BasePart {
 
+	private record TableSectionControl(Label label, Text text, Button button) {
+
+	}
+
 	@Inject
 	@Translation
 	protected Messages messages;
@@ -89,11 +93,10 @@ public class TableOverviewPart extends BasePart {
 	@Inject
 	private TableMenuService tableMenuService;
 
+	private TableSectionControl missingTablesControl;
+	private TableSectionControl containErrorTablesControl;
+	private TableSectionControl nonTransformableTablesControl;
 	private Label completenessHint;
-	private Text missingTablesText;
-	private Button calculateMissing;
-	private Text withErrorsText;
-	private Button openAllWithErrors;
 
 	private TableErrorTableView tableErrorTableView;
 
@@ -120,51 +123,38 @@ public class TableOverviewPart extends BasePart {
 		section.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
 		section.setLayout(new GridLayout(3, false));
 
-		final Label missingTablesDesc = new Label(section, SWT.NONE);
-		missingTablesDesc.setText(messages.TableOverviewPart_MissingTablesDesc);
+		missingTablesControl = createSectionControl(section,
+				messages.TableOverviewPart_MissingTablesDesc,
+				messages.TableOverviewPart_CalculateMissing,
+				new SelectionListener() {
+					@Override
+					public void widgetDefaultSelected(final SelectionEvent e) {
+						calculateAllMissingTablesEvent();
+					}
 
-		missingTablesText = new Text(section, SWT.BORDER);
-		missingTablesText
-				.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		missingTablesText.setEnabled(false);
+					@Override
+					public void widgetSelected(final SelectionEvent e) {
+						widgetDefaultSelected(e);
+					}
+				});
 
-		calculateMissing = new Button(section, SWT.NONE);
-		calculateMissing.setText(messages.TableOverviewPart_CalculateMissing);
-		calculateMissing.addSelectionListener(new SelectionListener() {
-			@Override
-			public void widgetDefaultSelected(final SelectionEvent e) {
-				calculateAllMissingTablesEvent();
-			}
+		containErrorTablesControl = createSectionControl(section,
+				messages.TableOverviewPart_WithErrorsDesc,
+				messages.TableOverviewPart_OpenAllWithErrors,
+				new SelectionListener() {
+					@Override
+					public void widgetDefaultSelected(final SelectionEvent e) {
+						openAllTablesWithErrors();
+					}
 
-			@Override
-			public void widgetSelected(final SelectionEvent e) {
-				widgetDefaultSelected(e);
-			}
-		});
+					@Override
+					public void widgetSelected(final SelectionEvent e) {
+						widgetDefaultSelected(e);
+					}
+				});
 
-		final Label withErrorsDesc = new Label(section, SWT.NONE);
-		withErrorsDesc.setText(messages.TableOverviewPart_WithErrorsDesc);
-
-		withErrorsText = new Text(section, SWT.BORDER);
-		withErrorsText
-				.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		withErrorsText.setEnabled(false);
-
-		openAllWithErrors = new Button(section, SWT.NONE);
-		openAllWithErrors.setText(messages.TableOverviewPart_OpenAllWithErrors);
-		openAllWithErrors.setEnabled(false);
-		openAllWithErrors.addSelectionListener(new SelectionListener() {
-			@Override
-			public void widgetDefaultSelected(final SelectionEvent e) {
-				openAllTablesWithErrors();
-			}
-
-			@Override
-			public void widgetSelected(final SelectionEvent e) {
-				openAllTablesWithErrors();
-			}
-		});
-
+		nonTransformableTablesControl = createSectionControl(section,
+				messages.TableOverviewPart_NonTransformableTable, null, null);
 		// Create table problem table view
 		tableErrorTableView = new TableErrorTableView(messages, this,
 				enumTranslationService, tableMenuService);
@@ -189,6 +179,25 @@ public class TableOverviewPart extends BasePart {
 				selectionControlAreaHandler);
 
 		update();
+	}
+
+	private static TableSectionControl createSectionControl(final Group section,
+			final String labelText, final String buttonText,
+			final SelectionListener buttonAction) {
+		final Label label = new Label(section, SWT.NONE);
+		label.setText(labelText);
+
+		final Text text = new Text(section, SWT.BORDER);
+		text.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		text.setEnabled(false);
+		if (buttonText == null && buttonAction == null) {
+			return new TableSectionControl(label, text, null);
+
+		}
+		final Button button = new Button(section, SWT.NONE);
+		button.setText(buttonText);
+		button.addSelectionListener(buttonAction);
+		return new TableSectionControl(label, text, button);
 	}
 
 	private void onTableErrorsChange() {
@@ -218,15 +227,13 @@ public class TableOverviewPart extends BasePart {
 				: TableType.DIFF;
 		if (tableType == TableType.DIFF) {
 			// We don't need create DIFF instance for Errors detecting
-			tableService.transformTables(monitor, getModelSession(),
-					new HashSet<>(missingTables), TableType.INITIAL,
-					controlAreaIds);
-			tableService.transformTables(monitor, getModelSession(),
-					new HashSet<>(missingTables), TableType.FINAL,
-					controlAreaIds);
+			tableService.transformTables(monitor, new HashSet<>(missingTables),
+					TableType.INITIAL, controlAreaIds);
+			tableService.transformTables(monitor, new HashSet<>(missingTables),
+					TableType.FINAL, controlAreaIds);
 		} else {
-			tableService.transformTables(monitor, getModelSession(),
-					new HashSet<>(missingTables), tableType, controlAreaIds);
+			tableService.transformTables(monitor, new HashSet<>(missingTables),
+					tableType, controlAreaIds);
 		}
 
 	}
@@ -267,19 +274,26 @@ public class TableOverviewPart extends BasePart {
 		final Collection<TableInfo> missingTables = getMissingTables();
 
 		if (!ToolboxConfiguration.isDebugMode()) {
-			missingTablesText.setText(tableList2DisplayString(missingTables));
 			completenessHint.setVisible(!missingTables.isEmpty());
-			calculateMissing.setEnabled(!missingTables.isEmpty());
+			missingTablesControl.text()
+					.setText(tableList2DisplayString(missingTables));
+			missingTablesControl.button.setEnabled(!missingTables.isEmpty());
 		} else {
-			missingTablesText.setText(messages.TableOverviewPart_DebugModeHint);
+			missingTablesControl.text()
+					.setText(messages.TableOverviewPart_DebugModeHint);
 			completenessHint.setVisible(false);
 		}
 
 		final Collection<TableInfo> tablesWithErrors = getTablesContainingErrors();
+		containErrorTablesControl.text()
+				.setText(tableList2DisplayString(tablesWithErrors));
+		containErrorTablesControl.button()
+				.setEnabled(!tablesWithErrors.isEmpty());
 
-		withErrorsText.setText(tableList2DisplayString(tablesWithErrors));
-		openAllWithErrors.setEnabled(!tablesWithErrors.isEmpty());
-
+		final Set<TableInfo> nonTransformableTables = tableService
+				.getNonTransformableTables(getTableCategory());
+		nonTransformableTablesControl.text()
+				.setText(tableList2DisplayString(nonTransformableTables));
 		final ArrayList<TableError> allErrors = new ArrayList<>();
 		getTableErrors().values().forEach(allErrors::addAll);
 		tableErrorTableView.updateView(allErrors);

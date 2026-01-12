@@ -17,6 +17,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +25,7 @@ import java.util.Objects;
 import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -128,6 +130,7 @@ public final class TableServiceImpl implements TableService {
 
 	private final Map<TableCompareType, TableDiffService> diffServiceMap = new ConcurrentHashMap<>();
 	private static final Queue<Pair<BasePart, Runnable>> transformTableThreads = new LinkedList<>();
+	private static final Set<TableInfo> nonTransformableTables = new HashSet<>();
 
 	private static final String EMPTY = "empty"; //$NON-NLS-1$
 	private static final String IGNORED_PLANNING_AREA_CACHE_KEY = "ignoredPlanningArea";//$NON-NLS-1$
@@ -251,7 +254,11 @@ public final class TableServiceImpl implements TableService {
 
 	@Override
 	public Collection<TableInfo> getAvailableTables() {
-		return new ArrayList<>(modelServiceMap.keySet());
+		return modelServiceMap.keySet()
+				.stream()
+				.filter(tableInfo -> !nonTransformableTables
+						.contains(tableInfo))
+				.toList();
 	}
 
 	@Override
@@ -661,7 +668,6 @@ public final class TableServiceImpl implements TableService {
 
 	@Override
 	public Map<TableInfo, Table> transformTables(final IProgressMonitor monitor,
-			final IModelSession modelSession,
 			final Set<TableInfo> tablesToTransfrom, final TableType tableType,
 			final Set<String> controlAreaIds) {
 		final Map<TableInfo, Table> result = new HashMap<>();
@@ -669,20 +675,20 @@ public final class TableServiceImpl implements TableService {
 				tablesToTransfrom.size());
 
 		for (final TableInfo tableInfo : tablesToTransfrom) {
-			final TableNameInfo nameInfo = getTableNameInfo(tableInfo);
-			monitor.subTask(nameInfo.getFullDisplayName());
-			final Table table = transformToTable(tableInfo, tableType,
-					modelSession, controlAreaIds);
-			while (!TableService.isTransformComplete(tableInfo, null)) {
-				try {
+			try {
+				final TableNameInfo nameInfo = getTableNameInfo(tableInfo);
+				monitor.subTask(nameInfo.getFullDisplayName());
+				final Table table = createDiffTable(tableInfo, tableType,
+						controlAreaIds);
+				while (!TableService.isTransformComplete(tableInfo, null)) {
 					Thread.sleep(2000);
-				} catch (final InterruptedException e) {
-					Thread.interrupted();
 				}
+				result.put(tableInfo, table);
+				monitor.worked(1);
+			} catch (final Exception e) {
+				Thread.interrupted();
 			}
 
-			result.put(tableInfo, table);
-			monitor.worked(1);
 		}
 		monitor.done();
 		return result;
@@ -691,31 +697,47 @@ public final class TableServiceImpl implements TableService {
 	@Override
 	public Table createDiffTable(final TableInfo tableInfo,
 			final TableType tableType, final Set<String> controlAreaIds) {
-		final Table mainSessionTable = transformToTable(tableInfo, tableType,
-				sessionService.getLoadedSession(ToolboxFileRole.SESSION),
-				controlAreaIds);
-		final IModelSession compareSession = sessionService
-				.getLoadedSession(ToolboxFileRole.COMPARE_PLANNING);
-		if (compareSession == null) {
+		Table mainSessionTable = null;
+		try {
+			mainSessionTable = transformToTable(tableInfo, tableType,
+					sessionService.getLoadedSession(ToolboxFileRole.SESSION),
+					controlAreaIds);
+			if (sessionService.getLoadedSession(
+					ToolboxFileRole.COMPARE_PLANNING) == null) {
+				return mainSessionTable;
+			}
+			// Waiting table compare transform, then create compare table
+			// between to plan
+			while (!TableService.isTransformComplete(tableInfo, null)) {
+				Thread.sleep(2000);
+			}
+		} catch (final Exception e) {
+			logger.error("Transformation Error: {} : {}", //$NON-NLS-1$
+					tableInfo.shortcut(), e.getMessage());
+			nonTransformableTables.add(tableInfo);
+			broker.post(Events.TABLEERROR_CHANGED, null);
+			throw new RuntimeException(e);
+		}
+
+		// When it give Exception by transform second plan, then return the
+		// first plan table
+		try {
+			final IModelSession compareSession = sessionService
+					.getLoadedSession(ToolboxFileRole.COMPARE_PLANNING);
+			final Table compareSessionTable = transformToTable(tableInfo,
+					tableType, compareSession, controlAreaIds);
+			final Table compareTable = diffServiceMap
+					.get(TableCompareType.PROJECT)
+					.createDiffTable(mainSessionTable, compareSessionTable);
+			sortTable(compareTable, TableType.DIFF, tableInfo);
+			return compareTable;
+		} catch (final Exception e) {
+			dialogService.error(Display.getCurrent().getActiveShell(),
+					messages.TableTransform_Error,
+					messages.TableTransform_ComparePlanError_Msg, e);
 			return mainSessionTable;
 		}
 
-		final Table compareSessionTable = transformToTable(tableInfo, tableType,
-				compareSession, controlAreaIds);
-
-		// Waiting table compare transform, then create compare table between to
-		// plan
-		while (!TableService.isTransformComplete(tableInfo, null)) {
-			try {
-				Thread.sleep(2000);
-			} catch (final InterruptedException e) {
-				Thread.interrupted();
-			}
-		}
-		final Table compareTable = diffServiceMap.get(TableCompareType.PROJECT)
-				.createDiffTable(mainSessionTable, compareSessionTable);
-		sortTable(compareTable, TableType.DIFF, tableInfo);
-		return compareTable;
 	}
 
 	@Override
@@ -735,5 +757,19 @@ public final class TableServiceImpl implements TableService {
 			return rowGroupComparator;
 		}
 		return null;
+	}
+
+	@Override
+	public Set<TableInfo> getNonTransformableTables(
+			final Pt1TableCategory tableCategory) {
+		return nonTransformableTables.stream()
+				.filter(info -> info.category().equals(tableCategory))
+				.collect(Collectors.toSet());
+	}
+
+	@SuppressWarnings("static-method")
+	void clearInstance() {
+		transformTableThreads.clear();
+		nonTransformableTables.clear();
 	}
 }

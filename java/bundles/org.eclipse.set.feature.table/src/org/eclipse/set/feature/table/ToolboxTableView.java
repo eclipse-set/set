@@ -889,7 +889,8 @@ public final class ToolboxTableView extends BasePart {
 	private void subcribeTriggerResortEvent() {
 		final Comparator<RowGroup> comparator = tableService
 				.getRowGroupComparator(tableInfo);
-		if (comparator instanceof final TableRowGroupComparator rowGroupComparator) {
+		if (table != null
+				&& comparator instanceof final TableRowGroupComparator rowGroupComparator) {
 			// This is new instance of Comparator, therefore need call sort here
 			// to determine the waiting on another service criterion
 			ECollections.sort(table.getTablecontent().getRowgroups(),
