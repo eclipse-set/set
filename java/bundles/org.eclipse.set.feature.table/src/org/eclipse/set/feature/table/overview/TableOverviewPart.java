@@ -8,9 +8,7 @@
  */
 package org.eclipse.set.feature.table.overview;
 
-import static org.eclipse.set.basis.constants.ToolboxConstants.ESTW_SUPPLEMENT_PART_ID_PREFIX;
-import static org.eclipse.set.basis.constants.ToolboxConstants.ESTW_TABLE_PART_ID_PREFIX;
-import static org.eclipse.set.basis.constants.ToolboxConstants.ETCS_TABLE_PART_ID_PREFIX;
+import static org.eclipse.set.basis.constants.ToolboxConstants.*;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -234,8 +232,8 @@ public class TableOverviewPart extends BasePart {
 	}
 
 	private void openAllTablesWithErrors() {
-		final Collection<String> tablesWithErrors = getTablesContainingErrors();
-		for (final String shortCut : tablesWithErrors) {
+		final Collection<TableInfo> tablesWithErrors = getTablesContainingErrors();
+		for (final TableInfo tableInfo : tablesWithErrors) {
 			final String tablePartIdPrefix = switch (getTableCategory()) {
 				case ESTW -> ESTW_TABLE_PART_ID_PREFIX;
 				case ETCS -> ETCS_TABLE_PART_ID_PREFIX;
@@ -243,12 +241,12 @@ public class TableOverviewPart extends BasePart {
 				default -> throw new IllegalArgumentException(
 						"Unexpected value: " + getTableCategory()); //$NON-NLS-1$
 			};
-			toolboxPartService.showPart(
-					String.format("%s.%s", tablePartIdPrefix, shortCut)); //$NON-NLS-1$
+			toolboxPartService.showPart(String.format("%s.%s", //$NON-NLS-1$
+					tablePartIdPrefix, tableInfo.shortcut()));
 		}
 	}
 
-	private Map<String, Collection<TableError>> getTableErrors() {
+	private Map<TableInfo, Collection<TableError>> getTableErrors() {
 		return tableService.getTableErrors(getModelSession(), controlAreaIds,
 				getTableCategory());
 	}
@@ -266,9 +264,7 @@ public class TableOverviewPart extends BasePart {
 	}
 
 	private void update() {
-		final Collection<String> missingTables = getMissingTables().stream()
-				.map(TableInfo::shortcut)
-				.toList();
+		final Collection<TableInfo> missingTables = getMissingTables();
 
 		if (!ToolboxConfiguration.isDebugMode()) {
 			missingTablesText.setText(tableList2DisplayString(missingTables));
@@ -279,7 +275,7 @@ public class TableOverviewPart extends BasePart {
 			completenessHint.setVisible(false);
 		}
 
-		final Collection<String> tablesWithErrors = getTablesContainingErrors();
+		final Collection<TableInfo> tablesWithErrors = getTablesContainingErrors();
 
 		withErrorsText.setText(tableList2DisplayString(tablesWithErrors));
 		openAllWithErrors.setEnabled(!tablesWithErrors.isEmpty());
@@ -290,7 +286,7 @@ public class TableOverviewPart extends BasePart {
 	}
 
 	private Collection<TableInfo> getMissingTables() {
-		final Map<String, Collection<TableError>> computedErrors = getTableErrors();
+		final Map<TableInfo, Collection<TableError>> computedErrors = getTableErrors();
 		final Collection<TableInfo> allTableInfos = tableService
 				.getAvailableTables()
 				.stream()
@@ -302,17 +298,17 @@ public class TableOverviewPart extends BasePart {
 		if (!ToolboxConfiguration.isDebugMode()) {
 			// in debug mode we want to be able to recompute the errors
 			// that's why we mark all as missing
-			missingTables.removeIf(
-					info -> computedErrors.keySet().contains(info.shortcut()));
+			missingTables
+					.removeIf(info -> computedErrors.keySet().contains(info));
 		}
 		return missingTables;
 	}
 
-	private Collection<String> getTablesContainingErrors() {
-		final Map<String, Collection<TableError>> computedErrors = getTableErrors();
+	private Collection<TableInfo> getTablesContainingErrors() {
+		final Map<TableInfo, Collection<TableError>> computedErrors = getTableErrors();
 
-		final ArrayList<String> tablesWithErrors = new ArrayList<>();
-		for (final Entry<String, Collection<TableError>> entry : computedErrors
+		final ArrayList<TableInfo> tablesWithErrors = new ArrayList<>();
+		for (final Entry<TableInfo, Collection<TableError>> entry : computedErrors
 				.entrySet()) {
 			if (!entry.getValue().isEmpty()) {
 				tablesWithErrors.add(entry.getKey());
@@ -321,12 +317,12 @@ public class TableOverviewPart extends BasePart {
 		return tablesWithErrors;
 	}
 
-	private String tableList2DisplayString(final Collection<String> tables) {
+	private String tableList2DisplayString(final Collection<TableInfo> tables) {
 		if (tables.isEmpty()) {
 			return messages.TableOverviewPart_EmptyListText;
 		}
 		final List<String> shortNames = new ArrayList<>(tables.stream()
-				.map(shortCut -> tableService.getTableNameInfo(shortCut)
+				.map(tableInfo -> tableService.getTableNameInfo(tableInfo)
 						.getShortName())
 				.toList());
 		Collections.sort(shortNames);
