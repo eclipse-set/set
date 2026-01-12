@@ -145,8 +145,8 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 			getDialogService().showProgress(getToolboxShell(), monitor -> {
 				logger.debug("Start update tree elements"); //$NON-NLS-1$
 				final Map<TableInfo, Table> pt1Tables = tableService
-						.transformTables(monitor, getModelSession(),
-								avaibleTables, tableType, areaIds);
+						.transformTables(monitor, avaibleTables, tableType,
+								areaIds);
 				Display.getDefault().asyncExec(() -> {
 					pt1Tables.forEach((tableInfo, table) -> {
 						CheckBoxTreeElement element = treeDataModel
@@ -188,7 +188,7 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 
 		availableTables.forEach(tableInfo -> {
 			final TableNameInfo nameInfo = tableService
-					.getTableNameInfo(tableInfo.shortcut());
+					.getTableNameInfo(tableInfo);
 			CheckBoxTreeElement parentElement = elements.stream()
 					.filter(ele -> ele.getId()
 							.equals(tableInfo.category().getId()))
@@ -250,9 +250,16 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 			additionalExportService.createAdditionalExport(id, modelSession,
 					monitor, getSelectedDirectory(), getExportType(),
 					overwriteHandling);
-		} else {
-			final Map<TableType, Table> tables = compileService.compile(id,
-					modelSession,
+		} else if (element instanceof final CheckBoxTreeElement treeElement
+				&& getTreeDataModel() instanceof TableCheckboxTreeModel) {
+			final TableInfo tableInfo = ((TableCheckboxTreeModel) getTreeDataModel())
+					.getTableInfo(treeElement)
+					.orElse(null);
+			if (tableInfo == null) {
+				return;
+			}
+			final Map<TableType, Table> tables = compileService.compile(
+					tableInfo, modelSession,
 					modelSession.getSelectedControlAreas()
 							.stream()
 							.map(Pair::getSecond)
@@ -260,7 +267,8 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 			final PlanProToTitleboxTransformation planProToTitlebox = new PlanProToTitleboxTransformation(
 					getSessionService());
 			final Titlebox titlebox = planProToTitlebox.transform(
-					tableService.getTableNameInfo(id), this::getAttachmentPath);
+					tableService.getTableNameInfo(tableInfo),
+					this::getAttachmentPath);
 			updateTitlebox(titlebox);
 			final PlanProToFreeFieldTransformation planProToFreeField = PlanProToFreeFieldTransformation
 					.create();
