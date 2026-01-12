@@ -55,12 +55,12 @@ public interface TableService {
 	String extractShortcut(String elementId);
 
 	/**
-	 * @param shortcut
-	 *            the shortcut
+	 * @param tableInfo
+	 *            the {@link TableInfo}
 	 * 
 	 * @return the name info
 	 */
-	TableNameInfo getTableNameInfo(String shortcut);
+	TableNameInfo getTableNameInfo(TableInfo tableInfo);
 
 	/**
 	 * Gets information about all available tables.
@@ -81,7 +81,7 @@ public interface TableService {
 	 * 
 	 * @return collected table errors
 	 */
-	Map<String, Collection<TableError>> getTableErrors(
+	Map<TableInfo, Collection<TableError>> getTableErrors(
 			IModelSession modelSession, Set<String> controlAreaIds,
 			Pt1TableCategory tableCategory);
 
@@ -94,8 +94,8 @@ public interface TableService {
 	/**
 	 * Transform the selected container to a string with CSV format.
 	 * 
-	 * @param elementId
-	 *            the elementId
+	 * @param tableInfo
+	 *            the tableInfo
 	 * @param tableType
 	 *            the table type
 	 * @param modelSession
@@ -105,14 +105,14 @@ public interface TableService {
 	 *            container type
 	 * @return the table
 	 */
-	String transformToCsv(final String elementId, TableType tableType,
+	String transformToCsv(final TableInfo tableInfo, TableType tableType,
 			final IModelSession modelSession, Set<String> controlAreaIds);
 
 	/**
 	 * Transform the selected container and control area to a table model.
 	 * 
-	 * @param elementId
-	 *            the elementId
+	 * @param tableInfo
+	 *            the {@link TableInfo}
 	 * @param tableType
 	 *            the table type
 	 * @param modelSession
@@ -122,7 +122,7 @@ public interface TableService {
 	 * 
 	 * @return the table
 	 */
-	Table transformToTable(final String elementId, TableType tableType,
+	Table transformToTable(final TableInfo tableInfo, TableType tableType,
 			final IModelSession modelSession, Set<String> controlAreaIds);
 
 	/**
@@ -159,22 +159,23 @@ public interface TableService {
 	/**
 	 * Get fixed columns
 	 * 
-	 * @param elementID
+	 * @param tableInfo
+	 *            {@link TableInfo}
 	 * @return position of fixed columns
 	 */
-	Set<Integer> getFixedColumns(final String elementID);
+	Set<Integer> getFixedColumns(final TableInfo tableInfo);
 
 	/**
 	 * Check the running threads, if exists thread name start with table short
 	 * cut
 	 * 
-	 * @param shortcut
-	 *            the table shortcut
+	 * @param tableInfo
+	 *            the {@link TableInfo}
 	 * @param supplementCondition
 	 *            the additional condition for thread name
 	 * @return true if the table completely transform
 	 */
-	public static boolean isTransformComplete(final String shortcut,
+	public static boolean isTransformComplete(final TableInfo tableInfo,
 			final Predicate<String> supplementCondition) {
 		return Thread.getAllStackTraces()
 				.keySet()
@@ -182,21 +183,22 @@ public interface TableService {
 				.map(t -> t.getName().toLowerCase())
 				.filter(t -> supplementCondition == null
 						|| supplementCondition.test(t))
-				.noneMatch(name -> name.startsWith(shortcut.toLowerCase()));
+				.noneMatch(name -> name
+						.startsWith(tableInfo.shortcut().toLowerCase()));
 	}
 
 	/**
 	 * Compare table between two project
 	 * 
-	 * @param elementId
-	 *            the element id
+	 * @param tableInfo
+	 *            the {@link TableInfo}
 	 * @param tableType
 	 *            the table type
 	 * @param controlAreaIds
 	 *            the list of {@link Stell_Bereich} and the belonging container
 	 * @return the compare table
 	 */
-	Table createDiffTable(String elementId, TableType tableType,
+	Table createDiffTable(TableInfo tableInfo, TableType tableType,
 			Set<String> controlAreaIds);
 
 	/**
@@ -206,15 +208,29 @@ public interface TableService {
 	 *            the table
 	 * @param tableType
 	 *            the {@link TableType}
-	 * @param shortcut
-	 *            the table shortcut
+	 * @param tableInfo
+	 *            the {@link TableInfo}
 	 */
-	void sortTable(Table table, TableType tableType, String shortcut);
+	void sortTable(Table table, TableType tableType, TableInfo tableInfo);
+
+	/**
+	 * @param tableInfo
+	 *            the {@link TableInfo}
+	 * @return the row group comparator
+	 */
+	Comparator<RowGroup> getRowGroupComparator(TableInfo tableInfo);
+
+	/**
+	 * @param part
+	 *            the toolbox part
+	 * @return the {@link TableInfo} belong to the part
+	 */
+	TableInfo getTableInfo(BasePart part);
 
 	/**
 	 * @param shortcut
-	 *            the table short cut
-	 * @return the row group comparator
+	 *            the table shortcut
+	 * @return the {@link TableInfo}
 	 */
-	Comparator<RowGroup> getRowGroupComparator(String shortcut);
+	TableInfo getTableInfo(String shortcut);
 }

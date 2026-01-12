@@ -21,7 +21,6 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Queue;
 import java.util.Set;
@@ -180,13 +179,13 @@ public final class TableServiceImpl implements TableService {
 		}
 	}
 
-	private Table createDiffTable(final String elementId,
+	private Table createDiffTable(final TableInfo tableInfo,
 			final IModelSession modelSession, final String controlAreaId) {
 
-		final Table startTable = transformToTable(elementId, TableType.INITIAL,
+		final Table startTable = transformToTable(tableInfo, TableType.INITIAL,
 				modelSession, controlAreaId == null ? Collections.emptySet()
 						: Set.of(controlAreaId));
-		final Table zielTable = transformToTable(elementId, TableType.FINAL,
+		final Table zielTable = transformToTable(tableInfo, TableType.FINAL,
 				modelSession, controlAreaId == null ? Collections.emptySet()
 						: Set.of(controlAreaId));
 		if (zielTable == null || startTable == null) {
@@ -222,26 +221,35 @@ public final class TableServiceImpl implements TableService {
 						.getContainer(tableType.getContainerForTable()));
 	}
 
-	private PlanPro2TableTransformationService getModelService(
-			final String elementId) {
-		final Entry<TableInfo, PlanPro2TableTransformationService> result = modelServiceMap
-				.entrySet()
-				.stream()
-				.filter(modelService -> modelService.getKey()
-						.shortcut()
-						.equalsIgnoreCase(extractShortcut(elementId)))
-				.findFirst()
-				.orElse(null);
-		if (result == null) {
-			throw new IllegalArgumentException(
-					"no model service for " + elementId + " found!"); //$NON-NLS-1$ //$NON-NLS-2$
-		}
-		return result.getValue();
+	@Override
+	public TableInfo getTableInfo(final BasePart part) {
+		final String shortcut = extractShortcut(
+				part.getToolboxPart().getElementId());
+		return getTableInfo(shortcut);
 	}
 
 	@Override
-	public TableNameInfo getTableNameInfo(final String shortcut) {
-		return getModelService(shortcut).getTableNameInfo();
+	public TableInfo getTableInfo(final String shortcut) {
+		return getAvailableTables().stream()
+				.filter(table -> table.shortcut().equalsIgnoreCase(shortcut))
+				.findFirst()
+				.orElse(null);
+	}
+
+	private PlanPro2TableTransformationService getModelService(
+			final TableInfo tableInfo) {
+		final PlanPro2TableTransformationService transformService = modelServiceMap
+				.get(tableInfo);
+		if (transformService == null) {
+			throw new IllegalArgumentException(
+					"no model service for " + tableInfo.shortcut() + " found!"); //$NON-NLS-1$ //$NON-NLS-2$
+		}
+		return transformService;
+	}
+
+	@Override
+	public TableNameInfo getTableNameInfo(final TableInfo tableInfo) {
+		return getModelService(tableInfo).getTableNameInfo();
 	}
 
 	@Override
@@ -254,16 +262,16 @@ public final class TableServiceImpl implements TableService {
 	}
 
 	@Override
-	public Set<Integer> getFixedColumns(final String elementID) {
-		return getModelService(extractShortcut(elementID)).getFixedColumnsPos();
+	public Set<Integer> getFixedColumns(final TableInfo tableInfo) {
+		return getModelService(tableInfo).getFixedColumnsPos();
 	}
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public Map<String, Collection<TableError>> getTableErrors(
+	public Map<TableInfo, Collection<TableError>> getTableErrors(
 			final IModelSession modelSession, final Set<String> controlAreaIds,
 			final Pt1TableCategory tableCategory) {
-		final HashMap<String, Collection<TableError>> map = new HashMap<>();
+		final HashMap<TableInfo, Collection<TableError>> map = new HashMap<>();
 		final String tableErrorsCacheGroup = switch (modelSession
 				.getTableType()) {
 			case FINAL -> ToolboxConstants.CacheId.TABLE_ERRORS_FINAL;
@@ -282,9 +290,9 @@ public final class TableServiceImpl implements TableService {
 								.getIfPresent(cacheKey.getValue()))
 						.filter(Objects::nonNull)
 						.toList();
-				if (!tableErrors.isEmpty() || !TableService
-						.isTransformComplete(tableInfo.shortcut(), null)) {
-					map.put(tableInfo.shortcut(),
+				if (!tableErrors.isEmpty()
+						|| !TableService.isTransformComplete(tableInfo, null)) {
+					map.put(tableInfo,
 							tableErrors.stream()
 									.flatMap(List::stream)
 									.toList());
@@ -319,10 +327,10 @@ public final class TableServiceImpl implements TableService {
 		broker.post(Events.TABLEERROR_CHANGED, null);
 	}
 
-	private void saveTableError(final String shortCut,
+	private void saveTableError(final TableInfo tableInfo,
 			final IModelSession modelSession, final TableType tableType,
 			final Collection<TableError> errors, final String cacheKey) {
-		final String shortName = getTableNameInfo(shortCut).getShortName();
+		final String shortName = getTableNameInfo(tableInfo).getShortName();
 		errors.forEach(error -> {
 			error.setSource(shortName);
 			error.setTableType(tableType);
@@ -354,15 +362,14 @@ public final class TableServiceImpl implements TableService {
 		combineTableErrors(modelSession, cacheKey);
 	}
 
-	private Object loadTransform(final String elementId,
+	private Object loadTransform(final TableInfo tableInfo,
 			final TableType tableType, final IModelSession modelSession,
 			final String controlAreaId) {
-		final String shortCut = extractShortcut(elementId);
 		final PlanPro2TableTransformationService modelService = getModelService(
-				shortCut);
+				tableInfo);
 		Table transformedTable = null;
 		if (tableType == TableType.DIFF) {
-			transformedTable = createDiffTable(elementId, modelSession,
+			transformedTable = createDiffTable(tableInfo, modelSession,
 					controlAreaId);
 			modelService.format(transformedTable);
 		} else {
@@ -387,7 +394,7 @@ public final class TableServiceImpl implements TableService {
 		}
 
 		// sorting
-		sortTable(transformedTable, tableType, shortCut);
+		sortTable(transformedTable, tableType, tableInfo);
 		return transformedTable;
 	}
 
@@ -415,10 +422,10 @@ public final class TableServiceImpl implements TableService {
 	}
 
 	@Override
-	public String transformToCsv(final String elementId,
+	public String transformToCsv(final TableInfo tableInfo,
 			final TableType tableType, final IModelSession modelSession,
 			final Set<String> controlAreas) {
-		final Table table = transformToTable(elementId, tableType, modelSession,
+		final Table table = transformToTable(tableInfo, tableType, modelSession,
 				controlAreas);
 		return transformToCsv(table);
 	}
@@ -481,10 +488,9 @@ public final class TableServiceImpl implements TableService {
 	}
 
 	@Override
-	public Table transformToTable(final String elementId,
+	public Table transformToTable(final TableInfo tableInfo,
 			final TableType tableType, final IModelSession modelSession,
 			final Set<String> controlAreaIds) {
-		final String shortCut = extractShortcut(elementId);
 		final String containerId = getContainerCacheId(modelSession, tableType);
 		final Cache cache = getCacheService().getCache(
 				modelSession.getPlanProSchnittstelle(),
@@ -492,17 +498,17 @@ public final class TableServiceImpl implements TableService {
 
 		Table resultTable = null;
 
-		final List<Pair<String, String>> cacheKeys = getCacheKeys(shortCut,
-				modelSession, controlAreaIds);
+		final List<Pair<String, String>> cacheKeys = getCacheKeys(
+				tableInfo.shortcut(), modelSession, controlAreaIds);
 		for (final Pair<String, String> cacheKey : cacheKeys) {
 			final String areaId = cacheKey.getKey();
 			final String areaCacheKey = cacheKey.getValue();
 			Table table = (Table) cache.getIfPresent(areaCacheKey);
 
 			if (table == null) {
-				table = (Table) loadTransform(shortCut, tableType, modelSession,
-						areaId);
-				saveTableToCache(table, modelSession, containerId, shortCut,
+				table = (Table) loadTransform(tableInfo, tableType,
+						modelSession, areaId);
+				saveTableToCache(table, modelSession, containerId, tableInfo,
 						tableType, areaCacheKey);
 			}
 			if (resultTable == null) {
@@ -517,7 +523,7 @@ public final class TableServiceImpl implements TableService {
 
 		// sorting
 		if (resultTable != null && resultTable.getTablecontent() != null) {
-			sortTable(resultTable, tableType, shortCut);
+			sortTable(resultTable, tableType, tableInfo);
 		}
 
 		return resultTable;
@@ -525,12 +531,12 @@ public final class TableServiceImpl implements TableService {
 
 	private void saveTableToCache(final Table table,
 			final IModelSession modelSession, final String containerId,
-			final String shortCut, final TableType tableType,
+			final TableInfo tableInfo, final TableType tableType,
 			final String areaCacheKey) {
-		final String threadName = String.format("%s/saveCache/%s", shortCut, //$NON-NLS-1$
-				areaCacheKey);
+		final String threadName = String.format("%s/saveCache/%s", //$NON-NLS-1$
+				tableInfo.shortcut(), areaCacheKey);
 		final PlanPro2TableTransformationService modelService = getModelService(
-				shortCut);
+				tableInfo);
 		// It will create a separate transformation for each table state, which
 		// means each table state will have its own list of table errors.
 		final Collection<TableError> errors = modelService.getTableErrors();
@@ -543,16 +549,16 @@ public final class TableServiceImpl implements TableService {
 				if (table != null) {
 					cache.set(areaCacheKey, table);
 				}
-				saveTableError(shortCut, modelSession, tableType, errors,
+				saveTableError(tableInfo, modelSession, tableType, errors,
 						areaCacheKey);
 			};
 
-			if (TableService.isTransformComplete(shortCut,
+			if (TableService.isTransformComplete(tableInfo,
 					s -> !s.equalsIgnoreCase(threadName))) {
 				storageFunc.run();
 				return;
 			}
-			while (!TableService.isTransformComplete(shortCut,
+			while (!TableService.isTransformComplete(tableInfo,
 					s -> !s.equalsIgnoreCase(threadName))) {
 				try {
 					Thread.sleep(2000);
@@ -643,10 +649,9 @@ public final class TableServiceImpl implements TableService {
 			// Wait for table transform
 			for (Pair<BasePart, Runnable> transformThread; (transformThread = transformTableThreads
 					.poll()) != null;) {
-				final String shortcut = extractShortcut(transformThread.getKey()
-						.getToolboxPart()
-						.getElementId());
-				final TableNameInfo tableNameInfo = getTableNameInfo(shortcut);
+				final TableInfo tableInfo = getTableInfo(
+						transformThread.getKey());
+				final TableNameInfo tableNameInfo = getTableNameInfo(tableInfo);
 				monitor.subTask(tableNameInfo.getFullDisplayName());
 				Display.getDefault().syncExec(transformThread.getValue());
 				monitor.worked(1);
@@ -671,13 +676,11 @@ public final class TableServiceImpl implements TableService {
 
 		for (final TableInfo tableInfo : tablesToTransfrom) {
 			try {
-				final String shortcut = tableInfo.shortcut();
-				final TableNameInfo nameInfo = getTableNameInfo(shortcut);
+				final TableNameInfo nameInfo = getTableNameInfo(tableInfo);
 				monitor.subTask(nameInfo.getFullDisplayName());
-				final Table table = createDiffTable(shortcut, tableType,
-						controlAreaIds);
-				while (!TableService.isTransformComplete(
-						nameInfo.getShortName().toLowerCase(), null)) {
+				final Table table = transformToTable(tableInfo, tableType,
+						modelSession, controlAreaIds);
+				while (!TableService.isTransformComplete(tableInfo, null)) {
 					Thread.sleep(2000);
 				}
 				result.put(tableInfo, table);
@@ -692,10 +695,10 @@ public final class TableServiceImpl implements TableService {
 	}
 
 	@Override
-	public Table createDiffTable(final String elementId,
+	public Table createDiffTable(final TableInfo tableInfo,
 			final TableType tableType, final Set<String> controlAreaIds) {
 		try {
-			final Table mainSessionTable = transformToTable(elementId,
+			final Table mainSessionTable = transformToTable(tableInfo,
 					tableType,
 					sessionService.getLoadedSession(ToolboxFileRole.SESSION),
 					controlAreaIds);
@@ -705,19 +708,16 @@ public final class TableServiceImpl implements TableService {
 				return mainSessionTable;
 			}
 
-			final Table compareSessionTable = transformToTable(elementId,
-					tableType, compareSession, controlAreaIds);
+		final Table compareSessionTable = transformToTable(tableInfo, tableType,
+				compareSession, controlAreaIds);
 
-			// Waiting table compare transform, then create compare table
-			// between to
-			// plan
-			while (!TableService.isTransformComplete(extractShortcut(elementId),
-					null)) {
-				try {
-					Thread.sleep(2000);
-				} catch (final InterruptedException e) {
-					Thread.currentThread().interrupt();
-				}
+		// Waiting table compare transform, then create compare table between to
+		// plan
+		while (!TableService.isTransformComplete(tableInfo, null)) {
+			try {
+				Thread.sleep(2000);
+			} catch (final InterruptedException e) {
+				Thread.interrupted();
 			}
 			final Table compareTable = diffServiceMap
 					.get(TableCompareType.PROJECT)
@@ -740,21 +740,24 @@ public final class TableServiceImpl implements TableService {
 			}
 			throw new RuntimeException(e);
 		}
-
+		final Table compareTable = diffServiceMap.get(TableCompareType.PROJECT)
+				.createDiffTable(mainSessionTable, compareSessionTable);
+		sortTable(compareTable, TableType.DIFF, tableInfo);
+		return compareTable;
 	}
 
 	@Override
 	public void sortTable(final Table table, final TableType tableType,
-			final String shortcut) {
-		final Comparator<RowGroup> comparator = getModelService(shortcut)
+			final TableInfo tableInfo) {
+		final Comparator<RowGroup> comparator = getModelService(tableInfo)
 				.getRowGroupComparator();
 		ECollections.sort(table.getTablecontent().getRowgroups(), comparator);
 	}
 
 	@Override
 	public TableRowGroupComparator getRowGroupComparator(
-			final String shortcut) {
-		final Comparator<RowGroup> comparator = getModelService(shortcut)
+			final TableInfo tableInfo) {
+		final Comparator<RowGroup> comparator = getModelService(tableInfo)
 				.getRowGroupComparator();
 		if (comparator instanceof final TableRowGroupComparator rowGroupComparator) {
 			return rowGroupComparator;
