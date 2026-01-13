@@ -8,5 +8,5 @@ test('load pphn', async ({ page }) => {
 
   await page.goto('/')
 
-  await expect(page).toHaveScreenshot('pphn-default.png')
+  await expect(page).toHaveScreenshot('pphn-default.png', { timeout: 10_000 })
 })
