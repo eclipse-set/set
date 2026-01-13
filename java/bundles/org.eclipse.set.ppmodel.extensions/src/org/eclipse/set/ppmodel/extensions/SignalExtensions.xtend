@@ -29,7 +29,6 @@ import org.eclipse.set.model.planpro.Ortung.FMA_Komponente
 import org.eclipse.set.model.planpro.Ortung.Schaltmittel_Zuordnung
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Zs3v
 import org.eclipse.set.model.planpro.Signalbegriffe_Struktur.Signalbegriff_ID_TypeClass
-import org.eclipse.set.model.planpro.Signale.ENUMFiktivesSignalFunktion
 import org.eclipse.set.model.planpro.Signale.Signal
 import org.eclipse.set.model.planpro.Signale.Signal_Befestigung
 import org.eclipse.set.model.planpro.Signale.Signal_Rahmen
@@ -42,6 +41,7 @@ import org.slf4j.LoggerFactory
 
 import static org.eclipse.set.model.planpro.Ansteuerung_Element.ENUMAussenelementansteuerungArt.*
 import static org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung.*
+import static org.eclipse.set.model.planpro.Signale.ENUMFiktivesSignalFunktion.*
 import static org.eclipse.set.model.planpro.Signale.ENUMSignalFunktion.*
 
 import static extension org.eclipse.set.ppmodel.extensions.AussenelementansteuerungExtensions.*
@@ -440,8 +440,8 @@ class SignalExtensions extends PunktObjektExtensions {
 		}
 		val existsFiktivesSignalFAPStart = signal.signalFiktiv !== null &&
 			signal.signalFiktiv.fiktivesSignalFunktion.exists [
-				wert === ENUMFiktivesSignalFunktion.
-					ENUM_FIKTIVES_SIGNAL_FUNKTION_FAP_START
+				wert === ENUM_FIKTIVES_SIGNAL_FUNKTION_FAP_START ||
+					wert === ENUM_FIKTIVES_SIGNAL_FUNKTION_ZENTRALBLOCK_START
 			]
 		if (existsFiktivesSignalFAPStart) {
 			val fstrFahrwegs = signal.container.fstrZugRangier.map [
@@ -454,8 +454,8 @@ class SignalExtensions extends PunktObjektExtensions {
 
 		val existsFiktivesSignalFAPZiel = signal.signalFiktiv !== null &&
 			signal.signalFiktiv.fiktivesSignalFunktion.exists [
-				wert === ENUMFiktivesSignalFunktion.
-					ENUM_FIKTIVES_SIGNAL_FUNKTION_FAP_ZIEL
+				wert === ENUM_FIKTIVES_SIGNAL_FUNKTION_FAP_ZIEL ||
+					wert === ENUM_FIKTIVES_SIGNAL_FUNKTION_ZENTRALBLOCK_ZIEL
 			]
 		if (existsFiktivesSignalFAPZiel) {
 			val fstrFahrwegs = signal.container.fstrZugRangier.map [

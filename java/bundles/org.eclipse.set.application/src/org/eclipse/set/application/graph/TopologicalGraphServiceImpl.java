@@ -172,6 +172,10 @@ public class TopologicalGraphServiceImpl
 	@Override
 	public Optional<TopPath> findShortestPath(final TopPoint from,
 			final TopPoint to) {
+		if (from.equalLocation(to)) {
+			return Optional.of(
+					new TopPath(List.of(from.edge()), BigDecimal.ZERO, from));
+		}
 		final MultiContainer_AttributeGroup container = getContainer(
 				from.edge());
 		final PlanPro_Schnittstelle planProSchnittstelle = getPlanProSchnittstelle(
