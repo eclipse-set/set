@@ -150,6 +150,13 @@ public class AsDirectedTopGraph {
 			final DirectedPathSearch path = new DirectedPathSearch(graph,
 					startNode, endNode, maxPathWeight);
 			path.addEdge(edge);
+
+			// When the start/end node lie on begin/end of a Top_Kante and the
+			// other node lie on the next TOP_Kante
+			final TopPath topPath = path.getTopPath(relevantCondition, false);
+			if (topPath != null) {
+				return topPath;
+			}
 			final List<TopPath> topPaths = getPath(path,
 					relevantEdgesFromTarget, relevantCondition, false);
 			if (!topPaths.isEmpty()) {
