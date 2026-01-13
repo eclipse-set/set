@@ -94,9 +94,7 @@ class PlanungsBereichValid extends AbstractPlazContainerCheck implements PlazChe
 		val isPlanning = isPlanningObject(source)
 
 		val mismatchedObjects = objectWithReferencesMap.filter [ obj, references |
-			obj !== source && references.exists[wert == source.identitaet.wert]
-		].filter [ obj, referneces |
-			isPlanningObject(obj) !== isPlanning
+			obj !== source && isPlanningObject(obj) !== isPlanning&& references.exists[wert == source.identitaet.wert]
 		].keySet.filterNull
 		return mismatchedObjects.map [
 			val err = PlazFactory.eINSTANCE.createPlazError
