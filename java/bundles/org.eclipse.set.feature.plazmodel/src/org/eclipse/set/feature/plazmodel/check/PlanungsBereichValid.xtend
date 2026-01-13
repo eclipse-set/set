@@ -37,7 +37,7 @@ import org.osgi.service.event.EventHandler
 import static extension org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions.*
 
 /**
- * Validates that Object isn't  planning- und consideration- region same time
+ * Validates that Object and the referenced objects are in same region planing/consideration
  * 
  * @author Truong
  */
@@ -93,10 +93,8 @@ class PlanungsBereichValid extends AbstractPlazContainerCheck implements PlazChe
 
 		val isPlanning = isPlanningObject(source)
 
-		val mismatchedObjects = objectWithReferencesMap
-		.filter [ obj, references |
-			obj !== source && 
-			references.exists [wert == source.identitaet.wert]
+		val mismatchedObjects = objectWithReferencesMap.filter [ obj, references |
+			obj !== source && references.exists[wert == source.identitaet.wert]
 		].filter [ obj, referneces |
 			isPlanningObject(obj) !== isPlanning
 		].keySet.filterNull
