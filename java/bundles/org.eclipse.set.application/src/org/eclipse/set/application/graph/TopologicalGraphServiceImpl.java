@@ -61,6 +61,8 @@ import org.osgi.service.event.EventHandler;
 public class TopologicalGraphServiceImpl
 		implements TopologicalGraphService, EventHandler {
 	private final Map<PlanPro_Schnittstelle, WeightedPseudograph<AsSplitTopGraph.Node, AsSplitTopGraph.Edge>> topGraphBaseMap;
+	// Tolerance value by find path with topological direction
+	private final int TOLERANT_DISTANCE_TO_FIND_DIRECTION_PATH = 500;
 
 	@Reference
 	EventAdmin eventAdmin;
@@ -223,22 +225,26 @@ public class TopologicalGraphServiceImpl
 			return Optional.empty();
 		}
 
-		final TopPath path = AsDirectedTopGraph.getPath(
-				AsDirectedTopGraph.asDirectedTopGraph(graphView), fromNode,
-				toNode, shortestDistance.get().intValue() + 500, topPath -> {
-					final Deque<TOP_Kante> edges = new LinkedList<>(
-							topPath.edges());
-					TOP_Kante current = edges.poll();
-					while (!edges.isEmpty()) {
-						final TOP_Kante next = edges.poll();
+		final TopPath path = AsDirectedTopGraph
+				.getPath(AsDirectedTopGraph.asDirectedTopGraph(graphView),
+						fromNode, toNode,
+						shortestDistance.get().intValue()
+								+ TOLERANT_DISTANCE_TO_FIND_DIRECTION_PATH,
+						topPath -> {
+							final Deque<TOP_Kante> edges = new LinkedList<>(
+									topPath.edges());
+							TOP_Kante current = edges.poll();
+							while (!edges.isEmpty()) {
+								final TOP_Kante next = edges.poll();
 
-						if (!TopKanteExtensions.isRoute(next, current)) {
-							return false;
-						}
-						current = next;
-					}
-					return true;
-				});
+								if (!TopKanteExtensions.isRoute(next,
+										current)) {
+									return false;
+								}
+								current = next;
+							}
+							return true;
+						});
 		return Optional.ofNullable(path);
 	}
 
