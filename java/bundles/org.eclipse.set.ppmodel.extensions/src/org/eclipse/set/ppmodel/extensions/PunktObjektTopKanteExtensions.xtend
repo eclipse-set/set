@@ -195,7 +195,9 @@ class PunktObjektTopKanteExtensions extends BasisObjektExtensions {
 
 	def static boolean isBelongToBereichObjekt(
 		Punkt_Objekt_TOP_Kante_AttributeGroup singlePoint, Bereich_Objekt bo) {
-		return bo.bereichObjektTeilbereich.filter[IDTOPKante.value === singlePoint.topKante].exists [ botb |
+		return bo.bereichObjektTeilbereich.filter[botb | 
+			botb.IDTOPKante?.value == singlePoint.IDTOPKante.value
+		].exists [ botb |
 			val limitA = (botb.begrenzungA?.wert ?: 0).doubleValue
 			val limitB = (botb.begrenzungB?.wert ?: 0).doubleValue
 			val position = (singlePoint?.abstand?.wert ?: 0).doubleValue

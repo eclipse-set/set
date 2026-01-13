@@ -14,6 +14,8 @@ import java.util.List
 import java.util.Set
 import org.eclipse.core.runtime.Assert
 import org.eclipse.set.basis.graph.Digraphs
+import org.eclipse.set.basis.graph.TopPoint
+import org.eclipse.set.core.services.graph.TopologicalGraphService
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stellelement
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Unterbringung
@@ -33,7 +35,6 @@ import org.eclipse.set.model.planpro.Signale.Signal_Rahmen
 import org.eclipse.set.model.planpro.Signale.Signal_Signalbegriff
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element
 import org.eclipse.set.ppmodel.extensions.utils.DirectedTopKante
-import org.eclipse.set.ppmodel.extensions.utils.TopGraph
 import org.eclipse.set.ppmodel.extensions.utils.TopRouting
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -43,7 +44,6 @@ import static org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung.*
 import static org.eclipse.set.model.planpro.Signale.ENUMFiktivesSignalFunktion.*
 import static org.eclipse.set.model.planpro.Signale.ENUMSignalFunktion.*
 
-import static extension org.eclipse.set.basis.graph.Digraphs.*
 import static extension org.eclipse.set.ppmodel.extensions.AussenelementansteuerungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FahrwegExtensions.*
@@ -54,7 +54,6 @@ import static extension org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteEx
 import static extension org.eclipse.set.ppmodel.extensions.SignalRahmenExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalbegriffExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.StellelementExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.CollectionExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.Debug.*
 
@@ -158,57 +157,33 @@ class SignalExtensions extends PunktObjektExtensions {
 			signalbegriffe.containsSignalbegriffID(Zs3v)
 	}
 
-	def static boolean isInWirkrichtungOfSignal(TopGraph topGraph,
-		Signal signal, Punkt_Objekt object) {
-		return topGraph.isInWirkrichtungOfSignal(signal, object.singlePoints)
+	def static boolean isInWirkrichtungOfSignal(
+		TopologicalGraphService topGraphService, Signal signal,
+		Punkt_Objekt object) {
+		val startPoint = new TopPoint(signal)
+		val endPoint = new TopPoint(object)
+		val inDirection = signal.singlePoint.isWirkrichtungTopDirection
+		return topGraphService.findShortestPathInDirection(startPoint, endPoint,
+			inDirection).isPresent
 	}
 
-	def static boolean isInWirkrichtungOfSignal(TopGraph topGraph,
-		Signal signal, TOP_Kante topKante) {
+	def static boolean isInWirkrichtungOfSignal(
+		TopologicalGraphService topGraphService, Signal signal,
+		TOP_Kante topKante) {
 		if (signal.topKanten.exists[it === topKante]) {
 			return false
 		}
-		val allPunktOnTopKante = topKante.connected
-		val punktNearstA = allPunktOnTopKante.reduce [ p1, p2 |
-			topKante.getAbstand(topKante.TOPKnotenA, p1) <
-				topKante.getAbstand(topKante.TOPKnotenA, p2) ? p1 : p2
-		]
-
-		val punkNearstB = allPunktOnTopKante.reduce [ p1, p2 |
-			topKante.getAbstand(topKante.TOPKnotenB, p1) <
-				topKante.getAbstand(topKante.TOPKnotenB, p2) ? p1 : p2
-		]
-		return topGraph.isInWirkrichtungOfSignal(signal,
-			List.of(punktNearstA)) &&
-			topGraph.isInWirkrichtungOfSignal(signal, List.of(punkNearstB))
-	}
-
-	def static boolean isInWirkrichtungOfSignal(TopGraph topGraph,
-		Signal signal, List<Punkt_Objekt_TOP_Kante_AttributeGroup> potks) {
-		// Find path from the signal to point object
-		val relevantPaths = topGraph.getPaths(signal.singlePoints, potks).
-			flatMap[edges]
-		if (relevantPaths.isNullOrEmpty) {
-			return false
-		}
-
-		// The path must start the TOP_Kante of the signal and have same direction like the signal		
-		return relevantPaths.filter[signal.topKanten.contains(element)].forall [
-			val wirkrichtung = signal.getWirkrichtung(element)
-			if (wirkrichtung === null) {
-				return isForwards
-			}
-			switch (wirkrichtung) {
-				case ENUM_WIRKRICHTUNG_IN:
-					return isForwards == true
-				case ENUM_WIRKRICHTUNG_BEIDE_VALUE:
-					return true
-				case ENUM_WIRKRICHTUNG_GEGEN:
-					return isForwards == false
-				default:
-					throw new IllegalArgumentException()
-			}
-		]
+		val signalTopPoint = new TopPoint(signal)
+		val topNodeA = new TopPoint(topKante, BigDecimal.ZERO)
+		val topNodeB = new TopPoint(topKante,
+			topKante?.TOPKanteAllg?.TOPLaenge?.wert)
+		val inDirection = signal.singlePoint.isWirkrichtungTopDirection
+		return topGraphService.
+			findShortestPathInDirection(signalTopPoint, topNodeA, inDirection).
+			isPresent &&
+			topGraphService.
+				findShortestPathInDirection(signalTopPoint, topNodeB,
+					inDirection).isPresent
 	}
 
 	/**

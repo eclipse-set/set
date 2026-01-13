@@ -260,30 +260,32 @@ public class AsSplitTopGraph
 	private Node splitGraphAt(final Graph<Node, Edge> sourceGraph,
 			final TopPoint point, final Edge existingEdge,
 			final Boolean inTopDirection) {
-		final Node topDirNode = addPointGraphNode(point);
-		final Node againstTopDirNode = addPointGraphNode(point);
+		final Node splitAtNode = addPointGraphNode(point);
 		final Node sourceVertex = sourceGraph.getEdgeSource(existingEdge);
 		final Node targetVertex = sourceGraph.getEdgeTarget(existingEdge);
 		pointEdgeGraph.addVertex(sourceVertex);
 		pointEdgeGraph.addVertex(targetVertex);
-		final Edge edge = new Edge(point, existingEdge, true);
-		addPointGraphEdge(sourceVertex, topDirNode, edge);
-		addPointGraphEdge(againstTopDirNode, targetVertex,
-				new Edge(point, existingEdge, false));
 
-		// If the graph is connected, add a connection between the two nodes
-		if (inTopDirection == null) {
-			addPointGraphEdge(topDirNode, againstTopDirNode,
-					new Edge(point.edge(), edge.offset.add(edge.length),
-							BigDecimal.ZERO));
-		}
+		final Edge fromSourceVertexEdge = new Edge(point, existingEdge, true);
+		addPointGraphEdge(sourceVertex, splitAtNode, fromSourceVertexEdge);
+
+		final Edge toTargeVertexEdge = new Edge(point, existingEdge, false);
+		addPointGraphEdge(splitAtNode, targetVertex, toTargeVertexEdge);
 
 		sourceGraph.removeEdge(existingEdge);
 
-		if (inTopDirection == null || inTopDirection.equals(Boolean.TRUE)) {
-			return topDirNode;
+		// Remove the indirection edge
+		if (inTopDirection == Boolean.TRUE) {
+			// When in the topological direction, then remove the edge from
+			// source vertex to the split node.
+			pointEdgeGraph.removeEdge(fromSourceVertexEdge);
+		} else if (inTopDirection == Boolean.FALSE) {
+			// When again the topological direction, the remove the edge from
+			// split node to the target vertex
+			pointEdgeGraph.removeEdge(toTargeVertexEdge);
 		}
-		return againstTopDirNode;
+
+		return splitAtNode;
 	}
 
 	// Implement abstract methods by deferring to splitGraph

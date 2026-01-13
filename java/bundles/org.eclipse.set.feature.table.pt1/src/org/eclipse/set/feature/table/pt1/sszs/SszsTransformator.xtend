@@ -43,7 +43,6 @@ import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.model.tablemodel.TableRow
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.ppmodel.extensions.utils.Case
-import org.eclipse.set.ppmodel.extensions.utils.TopGraph
 import org.eclipse.set.utils.math.AgateRounding
 import org.eclipse.set.utils.table.TMFactory
 import org.osgi.service.event.EventAdmin
@@ -82,7 +81,6 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
 		TMFactory factory, Stell_Bereich controlArea) {
-		val topGraph = new TopGraph(container.TOPKante)
 		for (etcsSignal : container.ETCSSignal.filter[isPlanningObject]) {
 			val refSignal = etcsSignal.IDSignal?.value
 			val row = factory.newTableRow(etcsSignal)
@@ -122,7 +120,6 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 										signalArt?.wert)
 							]
 						) || !findSignalInDistance(
-							topGraph,
 							row,
 							cols.getColumn(Art),
 							[signalReal !== null],
@@ -140,7 +137,6 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 				new Case<ETCS_Signal>(
 					[
 						!findSignalInDistance(
-							topGraph,
 							row,
 							cols.getColumn(Art),
 							[signalReal !== null],
@@ -481,7 +477,6 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 						ENUM_AUTO_EINSTELLUNG_ZL ||
 						signalRealActiveAutoConfig ===
 							ENUM_AUTO_EINSTELLUNG_SB || !findSignalInDistance(
-							topGraph,
 							row,
 							cols.getColumn(Autom_Betrieb),
 							[signalReal !== null],
@@ -506,7 +501,7 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 				cols.getColumn(D_End),
 				refSignal,
 				[
-					val distance = getNearstFMAKomponent(topGraph)
+					val distance = getNearstFMAKomponent()
 					if (distance.empty) {
 						return ""
 					}
@@ -561,7 +556,7 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 				ToolboxConstants.NUMERIC_COMPARATOR,
 				[
 					val distance = IDSignal?.value?.
-						getNearstFMAKomponent(topGraph)
+						getNearstFMAKomponent()
 					if (distance.isPresent) {
 						return distance.get.toTableDecimal
 					}
@@ -741,7 +736,7 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 	 * @paran predicates the list of predicate
 	 */
 	private def List<Signal> findSignalInDistance(ETCS_Signal sourceSignal,
-		TopGraph topGraph, TableRow row, ColumnDescriptor col,
+		TableRow row, ColumnDescriptor col,
 		(Signal)=>Boolean... predicates) {
 		val refSignal = sourceSignal.IDSignal?.value
 		if (refSignal === null) {
@@ -751,7 +746,7 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 			IDSignal?.value
 		].filterNull.filter [ signal |
 			predicates.forall[apply(signal)] &&
-				topGraph.isInWirkrichtungOfSignal(refSignal, signal)
+				topGraphService.isInWirkrichtungOfSignal(refSignal, signal)
 		].filter [
 			sourceSignal.distanceToSignal(it) < MAX_TOP_DISTANCE_IN_METER
 		].toList
@@ -767,8 +762,7 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 		].filter[IDFstrFahrweg.value.IDStart?.value === signal].toList
 	}
 
-	private def Optional<Double> getNearstFMAKomponent(Signal signal,
-		TopGraph topGraph) {
+	private def Optional<Double> getNearstFMAKomponent(Signal signal) {
 		if (signal === null) {
 			return Optional.empty
 		}
@@ -783,8 +777,9 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 			if (distances.compareTo(BigDecimal.ZERO) == 0) {
 				return fma -> 0.0
 			}
-			return topGraph.isInWirkrichtungOfSignal(signal, fma) ? fma ->
-				distances.doubleValue : fma -> -distances.doubleValue
+			return topGraphService.isInWirkrichtungOfSignal(signal, fma)
+				? fma -> distances.doubleValue
+				: fma -> -distances.doubleValue
 		].filterNull
 		if (distanceToSignal.empty) {
 			return Optional.empty
