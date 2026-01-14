@@ -18,8 +18,8 @@ export default defineConfig({
     /* Base URL to use in actions like `await page.goto('')`. */
     baseURL: 'http://localhost:8080',
 
-    trace: 'retain-on-failure',
-    video: 'retain-on-failure'
+    trace: process.env.CI ? 'retain-on-failure' : 'on',
+    video: process.env.CI ? 'retain-on-failure' : 'on'
   },
 
   /* Configure projects for major browsers */
