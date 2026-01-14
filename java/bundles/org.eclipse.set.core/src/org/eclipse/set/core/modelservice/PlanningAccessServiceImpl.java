@@ -126,10 +126,7 @@ public class PlanningAccessServiceImpl implements PlanningAccessService {
 				.stream()
 				.filter(group -> {
 					final var groupArt = getUntergewerkArt(group);
-					if (groupArt == null) {
-						return false;
-					}
-					return groupArt.equals(currentArt);
+					return groupArt != null && groupArt.equals(currentArt);
 				})
 				.collect(Collectors.groupingBy(group -> getUntergewerkArt(group)));
 
