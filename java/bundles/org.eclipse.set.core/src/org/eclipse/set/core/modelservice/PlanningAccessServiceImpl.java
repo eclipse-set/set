@@ -108,36 +108,33 @@ public class PlanningAccessServiceImpl implements PlanningAccessService {
 		// return null, if no project is present
 		return null;
 	}
-
 	@Override
-	public Planung_Gruppe getLeadingPlanungGruppe(
-			final Planung_Projekt project) {
+	public Planung_Gruppe getLeadingPlanungGruppe(final Planung_Projekt project) {
 
-		final List<Planung_Gruppe> planingGroups = project
-				.getLSTPlanungGruppe();
+		final List<Planung_Gruppe> planingGroups = project.getLSTPlanungGruppe();
 
 		if (planingGroups.isEmpty()) {
 			return null;
 		}
+
+		final var currentArt = getCurrentUntergewerkArt();
+		if (currentArt == null) {
+			return planingGroups.getFirst();
+		}
+
 		final Map<ENUMUntergewerkArt, List<Planung_Gruppe>> groupsBySubWork = planingGroups
 				.stream()
 				.filter(group -> {
 					final var groupArt = getUntergewerkArt(group);
-					final var currentArt = getCurrentUntergewerkArt();
-					if (groupArt == null && currentArt == null) {
-						return true;
-					}
-
-					if (groupArt == null || currentArt == null) {
+					if (groupArt == null) {
 						return false;
 					}
-
 					return groupArt.equals(currentArt);
 				})
-				.collect(Collectors
-						.groupingBy(group -> getUntergewerkArt(group)));
-		if (groupsBySubWork.containsKey(getCurrentUntergewerkArt())) {
-			return groupsBySubWork.get(getCurrentUntergewerkArt()).getFirst();
+				.collect(Collectors.groupingBy(group -> getUntergewerkArt(group)));
+
+		if (groupsBySubWork.containsKey(currentArt)) {
+			return groupsBySubWork.get(currentArt).getFirst();
 		}
 
 		return planingGroups.getFirst();
