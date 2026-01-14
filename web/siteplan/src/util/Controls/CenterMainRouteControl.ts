@@ -55,6 +55,7 @@ export default class CenterMainRouteControl extends Control {
     this.view = view
     button.addEventListener('click', () => {
       this.centerView()
+      button.blur()
     }, false)
   }
 
