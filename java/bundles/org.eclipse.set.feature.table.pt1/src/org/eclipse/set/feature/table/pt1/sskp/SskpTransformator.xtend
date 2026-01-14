@@ -31,7 +31,6 @@ import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.model.tablemodel.TableRow
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.ppmodel.extensions.utils.Case
-import org.eclipse.set.ppmodel.extensions.utils.TopGraph
 import org.eclipse.set.utils.math.AgateRounding
 import org.eclipse.set.utils.table.TMFactory
 import org.osgi.service.event.EventAdmin
@@ -74,7 +73,6 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 	override transformTableContent(MultiContainer_AttributeGroup container,
 		TMFactory factory, Stell_Bereich controlArea) {
 
-		val topGraph = new TopGraph(container.TOPKante)
 		for (PZB_Element pzb : container.PZBElement.filter[isPlanningObject].
 			filterObjectsInControlArea(controlArea).filter [
 				PZBElementGUE?.IDPZBElementMitnutzung?.value === null
@@ -93,11 +91,11 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 			if (!isPZB2000 || fstrDwegs.nullOrEmpty ||
 				pzb.PZBElementGM === null) {
 				val instance = rg.newTableRow()
-				fillRowGroupContent(instance, pzb, null, topGraph)
+				fillRowGroupContent(instance, pzb, null)
 			} else {
 				pzb?.fstrDWegs?.forEach [
 					val instance = rg.newTableRow()
-					fillRowGroupContent(instance, pzb, it, topGraph)
+					fillRowGroupContent(instance, pzb, it)
 				]
 			}
 		}
@@ -106,7 +104,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	private def fillRowGroupContent(TableRow instance, PZB_Element pzb,
-		Fstr_DWeg dweg, TopGraph topGraph) {
+		Fstr_DWeg dweg) {
 		// A: Sskp.Bezug.BezugsElement
 		fillIterable(
 			instance,
@@ -324,7 +322,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 			pzb,
 			[
 				PZBElementBezugspunkt.filterNull.map [ bezugpunkt |
-					getDistanceSignalTrackSwitch(topGraph, it, bezugpunkt,
+					getDistanceSignalTrackSwitch(it, bezugpunkt,
 						getDistanceScale)
 				]
 			],
@@ -654,18 +652,18 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 			: object?.bezeichnung?.bezeichnungTabelle?.wert
 	}
 
-	private dispatch def String getDistanceSignalTrackSwitch(TopGraph topGraph,
-		PZB_Element pzb, Basis_Objekt object, int scaleValue) {
+	private dispatch def String getDistanceSignalTrackSwitch(PZB_Element pzb,
+		Basis_Objekt object, int scaleValue) {
 		throw new IllegalArgumentException(object.class.simpleName)
 	}
 
-	private dispatch def String getDistanceSignalTrackSwitch(TopGraph topGraph,
-		PZB_Element pzb, Signal signal, int scaleValue) {
+	private dispatch def String getDistanceSignalTrackSwitch(PZB_Element pzb,
+		Signal signal, int scaleValue) {
 		if (signal?.signalReal?.signalFunktion?.wert !==
 			ENUMSignalFunktion.ENUM_SIGNAL_FUNKTION_BUE_UEBERWACHUNGSSIGNAL) {
 			val distance = AgateRounding.roundDown(
 				getPointsDistance(pzb, signal).min, scaleValue)
-			val directionSign = topGraph.
+			val directionSign = topGraphService.
 					isInWirkrichtungOfSignal(signal, pzb) ? "+" : "-"
 			return distance == 0.0
 				? distance.toTableDecimal(scaleValue)
@@ -695,8 +693,8 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	}
 
-	private dispatch def String getDistanceSignalTrackSwitch(TopGraph topGraph,
-		PZB_Element pzb, W_Kr_Gsp_Element gspElement, int scaleValue) {
+	private dispatch def String getDistanceSignalTrackSwitch(PZB_Element pzb,
+		W_Kr_Gsp_Element gspElement, int scaleValue) {
 		val gspKomponent = gspElement.WKrGspKomponenten.filter [
 			zungenpaar !== null
 		]
