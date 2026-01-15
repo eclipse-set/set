@@ -69,7 +69,7 @@ class SignalTransformator extends BaseTransformator<Signal> {
 		val mountsWithParents = si.mounts.map [ mount |
 					mount?.signalBefestigungen].flatten
 		si.mounts = newHashSet(mountsWithParents);
-		
+
 		signalinfo.add(si)
 	}
 
@@ -81,7 +81,7 @@ class SignalTransformator extends BaseTransformator<Signal> {
 		signalinfo.forEach [ si |
 			try {
 				val baseMount = si.getBaseMount()
-				
+
 				val mergeWith = mergedSignalInfo.findFirst [ msi |
 					msi.mounts.contains(baseMount)
 				]
@@ -222,20 +222,20 @@ class SignalTransformator extends BaseTransformator<Signal> {
 			if (specificMounts.length > 1) {
 				// there might be many different combinations, obviously.
 				// I attempt to keep behaviour as before (even if not correct) and only change behaviour for SignalAusleger
-				
 				// SignalAusleger -> ... anything  		=> should be SignalAusleger
 				// Fundament -> SignalAusleger 			=> should be SignalAusleger
 				// Fundament -> Mast
-				
 				// new logic for any assembly containing a SignalAusleger. Same for all other cases
-				if (specificMounts.exists[it === SignalMountType.SIGNALAUSLEGER_LINKS]) {
+				if (specificMounts.exists [
+					it === SignalMountType.SIGNALAUSLEGER_LINKS
+				]) {
 					return SignalMountType.SIGNALAUSLEGER_LINKS;
 				}
-				if (specificMounts.exists[it === SignalMountType.SIGNALBRUECKE]) {
+				if (specificMounts.
+					exists[it === SignalMountType.SIGNALBRUECKE]) {
 					return SignalMountType.SIGNALBRUECKE;
 				}
-				
-				
+
 				var mount = specificMounts.head
 				// If multiple signals are attached to a MAST, convert into MEHRERE_MASTEN  
 				if (mount === SignalMountType.MAST && info.signals.length > 1) {
