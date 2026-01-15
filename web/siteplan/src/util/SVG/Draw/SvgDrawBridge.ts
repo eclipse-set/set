@@ -173,15 +173,17 @@ export default class SvgDrawBridge extends SvgDrawSignal {
   }
 
   private static addSignal (bridge: Element, part: SignalBridgePart) {
-    const signalOffset = part.signal.mountSignedOffset * SvgDraw.SVG_OFFSET_SCALE_METER_TO_PIXEL_FACTOR
     const g = document.createElement('g')
     g.setAttribute('class', SignalPart.Schirm)
     g.setAttribute('id', `${SignalPart.Schirm}_${part.guid}`)
+
     // Draw signal mount
-    const signalMount = this.drawSignalMount(signalOffset, part.signal.mountDirection()) // TODO handle abs signedOffset
+    const signalMount = this.drawSignalMount(part.signal) // TODO handle abs signedOffset
     g.appendChild(signalMount)
+
     // Draw signal screen
-    const signalScreen = this.drawSignalScreen(Math.abs(signalOffset), part.signal)
+    const signalScreen = this.drawSignalScreen(part.signal)
+
     // Add signal label (if present)
     const signalAnchorPointBot = part.signal.anchor.find(ele => ele.id === AnchorPoint.bottom)
     if (part.signal.label != null && signalAnchorPointBot) {
@@ -201,7 +203,10 @@ export default class SvgDrawBridge extends SvgDrawSignal {
     bridge.appendChild(g)
   }
 
-  private static drawSignalMount (signalOffset: number, mountDirection: MountDirection): Element {
+  private static drawSignalMount (signal: SvgBridgeSignal): Element {
+    const mountDirection: MountDirection = signal.mountDirection()
+    const signalOffset = signal.mountSignedOffset * SvgDraw.SVG_OFFSET_SCALE_METER_TO_PIXEL_FACTOR
+
     const mount = document.createElement('path')
     mount.setAttribute('d', 'M0,10 L0,-5')
     if (mountDirection === MountDirection.Down) {
@@ -215,7 +220,9 @@ export default class SvgDrawBridge extends SvgDrawSignal {
     return mount
   }
 
-  private static drawSignalScreen (signalOffset: number, signal: SvgBridgeSignal): Element {
+  private static drawSignalScreen (signal: SvgBridgeSignal): Element {
+    const signalOffset = signal.mountSignedOffset * SvgDraw.SVG_OFFSET_SCALE_METER_TO_PIXEL_FACTOR
+
     const svg = signal.content.cloneNode(true) as Element
     const signalAnchorPointTop = signal.anchor.find(ele => ele.id === AnchorPoint.top)
     const signalAnchorPointBot = signal.anchor.find(ele => ele.id === AnchorPoint.bottom)
