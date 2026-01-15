@@ -80,8 +80,6 @@ export class ZusatzSignal extends SvgElement {
 }
 export const MAX_BRIDGE_DIRECTION_OFFSET = 15.0
 export class SvgBridgeSignal extends SvgElement {
-  mountOffset: number
-  mountDirection: MountDirection
   mountSignedOffset: number
   label: Label | null
 
@@ -90,36 +88,40 @@ export class SvgBridgeSignal extends SvgElement {
     element: Element,
     anchor: ISvgPoint[],
     nullpunkt: ISvgPoint | null,
-    mountOffset: number,
-    mountDirection: MountDirection,
     mountSignedOffset: number,
     signalLabel: Label | null,
     boundingBox: Extent[]
   ) {
     super(id, element, anchor, nullpunkt, boundingBox)
-    this.mountOffset = mountOffset
     this.mountSignedOffset = mountSignedOffset
-    this.mountDirection = mountDirection
     this.label = signalLabel
   }
 
   static fromSvgElement (
     element: ISvgElement,
-    mountOffset: number,
-    mountDirection: MountDirection,
-    signalLabel: Label | null,
-    signedOffset: number
+    signedOffset: number,
+    signalLabel: Label | null
   ): SvgBridgeSignal {
     return new SvgBridgeSignal(
       element.id,
       element.content,
       element.anchor,
       element.nullpunkt,
-      mountOffset,
-      mountDirection,
       signedOffset,
       signalLabel,
       element.boundingBox
     )
+  }
+
+  public mountOffset () {
+    return Math.abs(this.mountSignedOffset)
+  }
+
+  public mountDirection () {
+    if (this.mountSignedOffset < 0) {
+      return MountDirection.Down
+    } else {
+      return MountDirection.Up
+    }
   }
 }
