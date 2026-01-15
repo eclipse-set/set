@@ -52,12 +52,11 @@ import { Options, Vue } from 'vue-class-component'
 export default class SignalBruecke extends Vue {
   svgService!: SvgService
   listMast = [
-    SignalMountType.SignalauslegerLinks,
-    SignalMountType.SignalauslegerMitte,
+    SignalMountType.Signalausleger,
     SignalMountType.Signalbruecke
   ]
 
-  selectedMast = SignalMountType.SignalauslegerLinks
+  selectedMast = SignalMountType.Signalausleger
   private randomSelectSchirm (): ISvgElement[] {
     const result = new Array<ISvgElement>()
     const listschirm = this.svgService.getSvgElementInGroup(

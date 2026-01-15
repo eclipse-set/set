@@ -93,8 +93,7 @@ export default class SvgDrawSignal extends AbstractDrawSVG {
   }
 
   public isMultiSignal (signalMount: SignalMount): boolean {
-    return signalMount.mountType === SignalMountType.SignalauslegerLinks ||
-      signalMount.mountType === SignalMountType.SignalauslegerMitte ||
+    return signalMount.mountType === SignalMountType.Signalausleger ||
       signalMount.mountType === SignalMountType.Signalbruecke
   }
 
