@@ -34,11 +34,12 @@ export default class SvgDrawBridge {
 
   /**
    * Connect Signals to Signal -bruecke, -ausleger
+   * @param guid GUID of the signalpart
    * @param parts the Signal
    * @param art bruecke or ausleger
    * @returns svg
    */
-  public static draw (guid: string, parts: SignalBridgePart[], signalMountType: SignalMountType): ISvgElement {
+  public static drawParts (guid: string, parts: SignalBridgePart[], signalMountType: SignalMountType): ISvgElement {
     // Calculate the final bridge/boom width by finding the screens
     // with the largest absolute offset from the mount
     const signalOffsets = parts.map(ele => ele.signal.mountOffset * SvgDraw.SVG_OFFSET_SCALE_METER_TO_PIXEL_FACTOR)

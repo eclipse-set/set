@@ -122,7 +122,7 @@ export default class SvgDrawSignal extends AbstractDrawSVG {
         }
       }
     })
-    return SvgDrawBridge.draw(signalMount.guid, bridgeParts, signalMount.mountType)
+    return SvgDrawBridge.drawParts(signalMount.guid, bridgeParts, signalMount.mountType)
   }
 
   public isMultiSignal (signalMount: SignalMount): boolean {
