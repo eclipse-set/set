@@ -27,29 +27,29 @@
       />
     </div>
     <div v-if="mode === 'bruecke'">
-      <SignalBruecker :svg-service="svgService" />
+      <SignalBruecke :svg-service="svgService" />
     </div>
   </div>
 </template>
 <script lang="ts">
+import { ISvgElement } from '@/model/SvgElement'
+import SvgService from '@/service/SvgService'
 import {
   AndereSignalGroup,
   HauptVorSignalGroup,
   SVGMast
 } from '@/util/SVG/SvgEnum'
-import SvgKatalog from './SvgKatalog.vue'
-import SvgSingleSignal from './SvgSingleSignal.vue'
-import SvgService from '@/service/SvgService'
-import SignalBruecker from './SignalBruecke.vue'
 import axios from 'axios'
 import { Options, Vue } from 'vue-class-component'
-import { ISvgElement } from '@/model/SvgElement'
+import SignalBruecke from './SignalBruecke.vue'
+import SvgKatalog from './SvgKatalog.vue'
+import SvgSingleSignal from './SvgSingleSignal.vue'
 
 @Options({
   components: {
     SvgKatalog,
     SvgSingleSignal,
-    SignalBruecker
+    SignalBruecke
   },
   created () {
     this.setMode()
