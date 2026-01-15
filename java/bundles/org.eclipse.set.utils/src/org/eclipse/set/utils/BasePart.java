@@ -10,7 +10,6 @@ package org.eclipse.set.utils;
 
 import java.util.List;
 
-import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.e4.core.services.nls.Translation;
 import org.eclipse.e4.ui.model.application.MApplication;
@@ -297,9 +296,6 @@ public abstract class BasePart implements ToolboxPart {
 			};
 			ToolboxEvents.subscribe(broker, SessionDirtyChanged.class,
 					sessionDirtyHandler);
-		} catch (final OperationCanceledException canceledException) {
-			LOGGER.debug(
-					"Rendere part canceled: " + canceledException.getMessage());
 		} catch (final Exception e) {
 			dialogService.error(shell, e);
 		}
@@ -330,8 +326,7 @@ public abstract class BasePart implements ToolboxPart {
 		return createBanderole(parent).getControl();
 	}
 
-	protected abstract void createView(Composite parent)
-			throws OperationCanceledException;
+	protected abstract void createView(Composite parent);
 
 	protected Banderole getBanderole() {
 		return banderole;

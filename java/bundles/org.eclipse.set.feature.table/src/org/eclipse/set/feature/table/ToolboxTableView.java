@@ -26,7 +26,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.ThreadUtils;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.e4.core.services.nls.Translation;
 import org.eclipse.e4.ui.di.UISynchronize;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
@@ -411,8 +410,7 @@ public final class ToolboxTableView extends BasePart {
 	}
 
 	@Override
-	protected void createView(final Composite parent)
-			throws OperationCanceledException {
+	protected void createView(final Composite parent) {
 		tableInfo = tableService.getTableInfo(this);
 		// initialize table type
 		tableType = getModelSession().getTableType();
@@ -428,13 +426,11 @@ public final class ToolboxTableView extends BasePart {
 							}
 							updateModel(getToolboxPart(), transformedTable);
 						}));
-		// tableService.updateTable(this, Collections.emptyList(),
-		// () -> updateModel(getToolboxPart()), tableInstances::clear);
 
 		// if the table was not created (possibly the creation was canceled by
 		// the user), we stop here with creating the view
 		if (table == null) {
-			throw new OperationCanceledException();
+			return;
 		}
 		subcribeTriggerResortEvent();
 		final ColumnDescriptor rootColumnDescriptor = table
