@@ -48,7 +48,12 @@ export default class SvgDrawBridge extends SvgDrawSignal {
 
     if (!this.isMultiSignal(signalMount)) return null
 
-    return this.getMultiSignalScreen(signalMount)
+    const bridgeParts: SignalBridgePart[] =
+      signalMount.attachedSignals
+        .map(signal => this.drawAttachedSignal(signal, signalMount.position))
+        .filter(e => e !== null)
+
+    return SvgDrawBridge.drawParts(signalMount.guid, bridgeParts, signalMount.mountType)
   }
 
   private drawAttachedSignal (signal: Signal, signalMountPosition: Position): SignalBridgePart | null {
