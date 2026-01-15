@@ -77,7 +77,7 @@ export default class SvgDrawBridge extends SvgDrawSignal {
     if (signal.role === SignalRole.None) {
       return {
         guid: signal.guid,
-        signal: SvgBridgeSignal.fromSvgElement(SvgDraw.getErrorSVG(), offset, direction, signal.label ?? null, signedOffset)
+        signal: SvgBridgeSignal.fromSvgElement(SvgDraw.getErrorSVG(), signedOffset, signal.label ?? null)
       }
     }
 
@@ -86,7 +86,7 @@ export default class SvgDrawBridge extends SvgDrawSignal {
       if (screen !== null) {
         return {
           guid: signal.guid,
-          signal: SvgBridgeSignal.fromSvgElement(screen, offset, direction, signal.label ?? null, signedOffset)
+          signal: SvgBridgeSignal.fromSvgElement(screen, signedOffset,  signal.label ?? null )
         }
       }
     }
@@ -103,7 +103,7 @@ export default class SvgDrawBridge extends SvgDrawSignal {
   public static drawParts (guid: string, parts: SignalBridgePart[], signalMountType: SignalMountType): ISvgElement {
     // Calculate the final bridge/boom width by finding the screens
     // with the largest absolute offset from the mount
-    const signalOffsets = parts.map(ele => ele.signal.mountOffset * SvgDraw.SVG_OFFSET_SCALE_METER_TO_PIXEL_FACTOR)
+    const signalOffsets = parts.map(ele => ele.signal.mountOffset() * SvgDraw.SVG_OFFSET_SCALE_METER_TO_PIXEL_FACTOR)
     const maxOffset = Math.max(...signalOffsets, 0)
     const minOffset = Math.min(...signalOffsets, 0)
 
@@ -178,7 +178,7 @@ export default class SvgDrawBridge extends SvgDrawSignal {
     g.setAttribute('class', SignalPart.Schirm)
     g.setAttribute('id', `${SignalPart.Schirm}_${part.guid}`)
     // Draw signal mount
-    const signalMount = this.drawSignalMount(Math.abs(signalOffset), part.signal.mountDirection) // TODO handle abs signedOffset
+    const signalMount = this.drawSignalMount(signalOffset, part.signal.mountDirection()) // TODO handle abs signedOffset
     g.appendChild(signalMount)
     // Draw signal screen
     const signalScreen = this.drawSignalScreen(Math.abs(signalOffset), part.signal)
@@ -223,7 +223,7 @@ export default class SvgDrawBridge extends SvgDrawSignal {
       throw new Error('Invalid signal attached to bridge')
     }
 
-    if (signal.mountDirection === MountDirection.Down) {
+    if (signal.mountDirection() === MountDirection.Down) {
       const x = signalOffset + signalAnchorPointTop.x + SvgDrawBridge.SVG_BRIDGE_EXTRA_START_WIDTH
       const y = signalAnchorPointTop.y - 5
       // Flip the signal over, to preserve drawing orientation
