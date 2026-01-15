@@ -113,15 +113,11 @@ export class SvgBridgeSignal extends SvgElement {
     )
   }
 
-  public mountOffset () {
-    return Math.abs(this.mountSignedOffset)
-  }
-
   public mountDirection () {
     if (this.mountSignedOffset < 0) {
-      return MountDirection.Down
-    } else {
       return MountDirection.Up
+    } else {
+      return MountDirection.Down
     }
   }
 }
