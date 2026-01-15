@@ -7,15 +7,15 @@
  * http://www.eclipse.org/legal/epl-v20.html
  */
 
-import { ISvgElement, SvgBridgeSignal, SvgElement, SvgPoint } from '@/model/SvgElement'
-import { AnchorPoint } from '../SvgEnum'
-import '@/util/ElementExtensions'
 import { MountDirection, SignalPart } from '@/model/Signal'
-import SvgDraw from './SvgDraw'
-import SvgDrawSingleSignal from './SvgDrawSingleSignal'
 import { SignalMountType } from '@/model/SignalMount'
+import { ISvgElement, SvgBridgeSignal, SvgElement, SvgPoint } from '@/model/SvgElement'
+import '@/util/ElementExtensions'
 import { fromCenterPointAndMasure, fromHTMLElement, toHTMLElement } from '@/util/ExtentExtension'
 import { getCenter, getHeight, getWidth, isEmpty } from 'ol/extent'
+import { AnchorPoint } from '../SvgEnum'
+import SvgDraw from './SvgDraw'
+import SvgDrawSingleSignal from './SvgDrawSingleSignal'
 /**
  * Draws a signal bridge or a signal boom
  * @author Stuecker
