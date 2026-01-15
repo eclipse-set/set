@@ -8,7 +8,8 @@
  */
 
 import { Label } from '@/model/Label'
-import { MountDirection, SignalPart, SignalRole } from '@/model/Signal'
+import { Position } from '@/model/Position'
+import { MountDirection, Signal, SignalPart, SignalRole } from '@/model/Signal'
 import { SignalMount, SignalMountType } from '@/model/SignalMount'
 import { ISvgElement, MAX_BRIDGE_DIRECTION_OFFSET, SvgBridgeSignal, SvgElement, SvgPoint } from '@/model/SvgElement'
 import '@/util/ElementExtensions'
@@ -22,7 +23,7 @@ import SvgDrawSingleSignal from './SvgDrawSingleSignal'
 
 /**
  * Draws a signal bridge or a signal boom
- * @author Stuecker
+ * @author Stuecker, Voigt
  */
 
 export interface SignalBridgePart {
@@ -50,38 +51,43 @@ export default class SvgDrawBridge extends SvgDrawSignal {
     return this.getMultiSignalScreen(signalMount)
   }
 
-  private getMultiSignalScreen (signalMount: SignalMount) {
-    const bridgeParts: SignalBridgePart[] = []
-    signalMount.attachedSignals.forEach(signal => {
-      if (signal.label?.text === '7707') {
-        console.log('  ')
+  private drawAttachedSignal (signal: Signal, signalMountPosition: Position): SignalBridgePart | null {
+    const offset = distance(
+      [signalMountPosition.x, signalMountPosition.y],
+      [signal.mountPosition.x, signal.mountPosition.y]
+    )
+
+    const direction = Math.abs(
+      signalMountPosition.rotation - signal.mountPosition.rotation
+    ) < MAX_BRIDGE_DIRECTION_OFFSET
+      ? MountDirection.Up
+      : MountDirection.Down
+
+    if (signal.role === SignalRole.None) {
+      return {
+        guid: signal.guid,
+        signal: SvgBridgeSignal.fromSvgElement(SvgDraw.getErrorSVG(), offset, direction, signal.label ?? null)
       }
+    }
 
-      for (const catalog of this.catalogService.getSignalSVGCatalog()) {
-        const screen = signal.role === SignalRole.None
-          ? SvgDraw.getErrorSVG()
-          : catalog.getSignalScreen(signal)
-        if (screen !== null) {
-          /* if (screen?. === 'Ne14') {
-            console.log('...')
-          } */
-
-          const offset = distance(
-            [signalMount.position.x, signalMount.position.y],
-            [signal.mountPosition.x, signal.mountPosition.y]
-          )
-          const direction = Math.abs(
-            signalMount.position.rotation - signal.mountPosition.rotation
-          ) < MAX_BRIDGE_DIRECTION_OFFSET
-            ? MountDirection.Up
-            : MountDirection.Down
-          bridgeParts.push({
-            guid: signal.guid,
-            signal: SvgBridgeSignal.fromSvgElement(screen, offset, direction, signal.label ?? null)
-          })
+    for (const catalog of this.catalogService.getSignalSVGCatalog()) {
+      const screen = catalog.getSignalScreen(signal)
+      if (screen !== null) {
+        return {
+          guid: signal.guid,
+          signal: SvgBridgeSignal.fromSvgElement(screen, offset, direction, signal.label ?? null)
         }
       }
-    })
+    }
+    return null
+  }
+
+  private getMultiSignalScreen (signalMount: SignalMount): ISvgElement | null {
+    const bridgeParts: SignalBridgePart[] =
+      signalMount.attachedSignals
+        .map(signal => this.drawAttachedSignal(signal, signalMount.position))
+        .filter(e => e !== null)
+
     return SvgDrawBridge.drawParts(signalMount.guid, bridgeParts, signalMount.mountType)
   }
 
