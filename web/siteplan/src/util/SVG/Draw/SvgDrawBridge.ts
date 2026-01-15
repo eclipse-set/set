@@ -68,10 +68,10 @@ export default class SvgDrawBridge extends SvgDrawSignal {
       ? MountDirection.Up
       : MountDirection.Down
 
-    // TODO use dot product
+    // TODO use dot product instead
     const signedOffset =
       direction === MountDirection.Up
-        ? -offset
+        ? - offset
         : offset
 
     if (signedOffset < 0.0)
@@ -229,7 +229,7 @@ export default class SvgDrawBridge extends SvgDrawSignal {
   }
 
   private static drawSignalScreen (signal: SvgBridgeSignal): Element {
-    const signalOffset = Math.abs(signal.mountSignedOffset) * SvgDraw.SVG_OFFSET_SCALE_METER_TO_PIXEL_FACTOR
+    const signalOffset = signal.mountSignedOffset * SvgDraw.SVG_OFFSET_SCALE_METER_TO_PIXEL_FACTOR
 
     const svg = signal.content.cloneNode(true) as Element
     const signalAnchorPointTop = signal.anchor.find(ele => ele.id === AnchorPoint.top)
@@ -242,7 +242,7 @@ export default class SvgDrawBridge extends SvgDrawSignal {
       const x = signalOffset + signalAnchorPointTop.x + SvgDrawBridge.SVG_BRIDGE_EXTRA_START_WIDTH
       const y = signalAnchorPointTop.y - 5
       // Flip the signal over, to preserve drawing orientation
-      svg.setAttribute('transform', `translate(${x}, ${y}) rotate(180)`)
+      svg.setAttribute('transform', `translate(${x}, ${y}) rotate(180)`)// rotate(180)`)
       signal.boundingBox.forEach(bbox => {
         if (!isEmpty(bbox)) {
           const bboxCenter = getCenter(bbox)
