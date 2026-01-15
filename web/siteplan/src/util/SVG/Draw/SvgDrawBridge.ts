@@ -68,10 +68,16 @@ export default class SvgDrawBridge extends SvgDrawSignal {
       ? MountDirection.Up
       : MountDirection.Down
 
+    // TODO use dot product
+    const signedOffset =
+      direction === MountDirection.Up
+        ? offset
+        : -offset
+
     if (signal.role === SignalRole.None) {
       return {
         guid: signal.guid,
-        signal: SvgBridgeSignal.fromSvgElement(SvgDraw.getErrorSVG(), offset, direction, signal.label ?? null)
+        signal: SvgBridgeSignal.fromSvgElement(SvgDraw.getErrorSVG(), offset, direction, signal.label ?? null, signedOffset)
       }
     }
 
@@ -80,7 +86,7 @@ export default class SvgDrawBridge extends SvgDrawSignal {
       if (screen !== null) {
         return {
           guid: signal.guid,
-          signal: SvgBridgeSignal.fromSvgElement(screen, offset, direction, signal.label ?? null)
+          signal: SvgBridgeSignal.fromSvgElement(screen, offset, direction, signal.label ?? null, signedOffset)
         }
       }
     }
@@ -167,15 +173,15 @@ export default class SvgDrawBridge extends SvgDrawSignal {
   }
 
   private static addSignal (bridge: Element, part: SignalBridgePart) {
-    const signalOffset = part.signal.mountOffset * SvgDraw.SVG_OFFSET_SCALE_METER_TO_PIXEL_FACTOR
+    const signalOffset = part.signal.mountSignedOffset * SvgDraw.SVG_OFFSET_SCALE_METER_TO_PIXEL_FACTOR
     const g = document.createElement('g')
     g.setAttribute('class', SignalPart.Schirm)
     g.setAttribute('id', `${SignalPart.Schirm}_${part.guid}`)
     // Draw signal mount
-    const signalMount = this.drawSignalMount(signalOffset, part.signal.mountDirection)
+    const signalMount = this.drawSignalMount(Math.abs(signalOffset), part.signal.mountDirection) // TODO handle abs signedOffset
     g.appendChild(signalMount)
     // Draw signal screen
-    const signalScreen = this.drawSignalScreen(signalOffset, part.signal)
+    const signalScreen = this.drawSignalScreen(Math.abs(signalOffset), part.signal)
     // Add signal label (if present)
     const signalAnchorPointBot = part.signal.anchor.find(ele => ele.id === AnchorPoint.bottom)
     if (part.signal.label != null && signalAnchorPointBot) {
