@@ -25,21 +25,17 @@ export default class SvgDrawSignal extends AbstractDrawSVG {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public drawSVG<T extends object> (data: T, label?: Label | undefined): ISvgElement | null {
     const signalMount = data as SignalMount
-    const isValidate = this.validateSignal(signalMount)
-    if (!isValidate) {
-      return SvgDraw.getErrorSVG()
-    }
 
-    if (this.isMultiSignal(signalMount)) {
-      return null
-    }
+    // return null => draw error, if all other drawers also return null.
+    if (!this.validateSignal(signalMount)) return null
+
+    if (this.isMultiSignal(signalMount)) return null
 
     const signal = signalMount.attachedSignals[0]
-    const mount = this.catalogService.getSignalMountSVGCatalog()
+    const mount : ISvgElement | null = this.catalogService.getSignalMountSVGCatalog()
       .getSignalMountSVG(this.getMountType(signalMount))
-    if (mount === null) {
-      return SvgDraw.getErrorSVG()
-    }
+
+    if (mount === null) return null
 
     const extra = this.getDirectionScreens(signalMount).map(screen => {
       const directionBoard = this.catalogService.getDirectionBoardSVGCatalog()
