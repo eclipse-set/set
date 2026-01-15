@@ -8,7 +8,6 @@
  */
 import { Extent } from 'ol/extent'
 import { Label } from './Label'
-import { MountDirection } from './Signal'
 
 export interface ISvgPoint {
   id: string
@@ -111,13 +110,5 @@ export class SvgBridgeSignal extends SvgElement {
       signalLabel,
       element.boundingBox
     )
-  }
-
-  public mountDirection () {
-    if (this.mountSignedOffset < 0) {
-      return MountDirection.Up
-    } else {
-      return MountDirection.Down
-    }
   }
 }

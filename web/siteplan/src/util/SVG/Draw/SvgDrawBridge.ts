@@ -212,7 +212,13 @@ export default class SvgDrawBridge extends SvgDrawSignal {
   }
 
   private static drawSignalMount (signal: SvgBridgeSignal): Element {
-    const mountDirection: MountDirection = signal.mountDirection()
+    let mountDirection: MountDirection = MountDirection.None
+    if (signal.mountSignedOffset < 0) {
+      mountDirection = MountDirection.Up
+    } else {
+      mountDirection = MountDirection.Down
+    }
+
     const signalOffset = signal.mountSignedOffset * SvgDraw.SVG_OFFSET_SCALE_METER_TO_PIXEL_FACTOR
 
     const mount = document.createElement('path')
@@ -238,7 +244,14 @@ export default class SvgDrawBridge extends SvgDrawSignal {
       throw new Error('Invalid signal attached to bridge')
     }
 
-    if (signal.mountDirection() === MountDirection.Down) {
+    let mountDirection: MountDirection = MountDirection.None
+    if (signal.mountSignedOffset < 0) {
+      mountDirection = MountDirection.Up
+    } else {
+      mountDirection = MountDirection.Down
+    }
+
+    if (mountDirection === MountDirection.Down) {
       const x = signalOffset + signalAnchorPointTop.x + SvgDrawBridge.SVG_BRIDGE_EXTRA_START_WIDTH
       const y = signalAnchorPointTop.y - 5
       // Flip the signal over, to preserve drawing orientation
