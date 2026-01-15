@@ -20,7 +20,7 @@
         </option>
       </select>
     </div>
-    <span>{{ draw() }}</span>
+    <div v-html="draw()" />
   </div>
 </template>
 <script lang="ts">
