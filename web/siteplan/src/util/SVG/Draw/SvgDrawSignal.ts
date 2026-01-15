@@ -9,12 +9,10 @@
 
 import { FeatureType } from '@/feature/FeatureInfo'
 import { Label } from '@/model/Label'
-import { MountDirection, SignalRole } from '@/model/Signal'
+import { SignalRole } from '@/model/Signal'
 import { SignalMount, SignalMountType } from '@/model/SignalMount'
-import { ISvgElement, MAX_BRIDGE_DIRECTION_OFFSET, SvgBridgeSignal, ZusatzSignal } from '@/model/SvgElement'
-import { distance } from '@/util/Math'
+import { ISvgElement, ZusatzSignal } from '@/model/SvgElement'
 import SvgDraw from '@/util/SVG/Draw/SvgDraw'
-import SvgDrawBridge, { SignalBridgePart } from '@/util/SVG/Draw/SvgDrawBridge'
 import SvgDrawSingleSignal from '@/util/SVG/Draw/SvgDrawSingleSignal'
 import AbstractDrawSVG from './AbstractDrawSVG'
 
@@ -25,7 +23,7 @@ import AbstractDrawSVG from './AbstractDrawSVG'
  */
 export default class SvgDrawSignal extends AbstractDrawSVG {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public drawSVG<T extends object> (data: T, label?: Label | undefined): ISvgElement {
+  public drawSVG<T extends object> (data: T, label?: Label | undefined): ISvgElement | null {
     const signalMount = data as SignalMount
     const isValidate = this.validateSignal(signalMount)
     if (!isValidate) {
@@ -33,7 +31,7 @@ export default class SvgDrawSignal extends AbstractDrawSVG {
     }
 
     if (this.isMultiSignal(signalMount)) {
-      return this.getMultiSignalScreen(signalMount)
+      return null
     }
 
     const signal = signalMount.attachedSignals[0]
@@ -96,33 +94,6 @@ export default class SvgDrawSignal extends AbstractDrawSVG {
     }
 
     return true
-  }
-
-  private getMultiSignalScreen (signalMount: SignalMount) {
-    const bridgeParts: SignalBridgePart[] = []
-    signalMount.attachedSignals.forEach(signal => {
-      for (const catalog of this.catalogService.getSignalSVGCatalog()) {
-        const screen = signal.role === SignalRole.None
-          ? SvgDraw.getErrorSVG()
-          : catalog.getSignalScreen(signal)
-        if (screen !== null) {
-          const offset = distance(
-            [signalMount.position.x, signalMount.position.y],
-            [signal.mountPosition.x, signal.mountPosition.y]
-          )
-          const direction = Math.abs(
-            signalMount.position.rotation - signal.mountPosition.rotation
-          ) < MAX_BRIDGE_DIRECTION_OFFSET
-            ? MountDirection.Up
-            : MountDirection.Down
-          bridgeParts.push({
-            guid: signal.guid,
-            signal: SvgBridgeSignal.fromSvgElement(screen, offset, direction, signal.label ?? null)
-          })
-        }
-      }
-    })
-    return SvgDrawBridge.drawParts(signalMount.guid, bridgeParts, signalMount.mountType)
   }
 
   public isMultiSignal (signalMount: SignalMount): boolean {

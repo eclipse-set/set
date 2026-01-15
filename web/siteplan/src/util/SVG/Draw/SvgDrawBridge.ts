@@ -7,15 +7,19 @@
  * http://www.eclipse.org/legal/epl-v20.html
  */
 
-import { MountDirection, SignalPart } from '@/model/Signal'
-import { SignalMountType } from '@/model/SignalMount'
-import { ISvgElement, SvgBridgeSignal, SvgElement, SvgPoint } from '@/model/SvgElement'
+import { Label } from '@/model/Label'
+import { MountDirection, SignalPart, SignalRole } from '@/model/Signal'
+import { SignalMount, SignalMountType } from '@/model/SignalMount'
+import { ISvgElement, MAX_BRIDGE_DIRECTION_OFFSET, SvgBridgeSignal, SvgElement, SvgPoint } from '@/model/SvgElement'
 import '@/util/ElementExtensions'
 import { fromCenterPointAndMasure, fromHTMLElement, toHTMLElement } from '@/util/ExtentExtension'
+import { distance } from '@/util/Math'
 import { getCenter, getHeight, getWidth, isEmpty } from 'ol/extent'
 import { AnchorPoint } from '../SvgEnum'
 import SvgDraw from './SvgDraw'
+import SvgDrawSignal from './SvgDrawSignal'
 import SvgDrawSingleSignal from './SvgDrawSingleSignal'
+
 /**
  * Draws a signal bridge or a signal boom
  * @author Stuecker
@@ -26,11 +30,65 @@ export interface SignalBridgePart {
   signal: SvgBridgeSignal
 }
 
-export default class SvgDrawBridge {
+export default class SvgDrawBridge extends SvgDrawSignal {
   // Extra width for signal bridges/signal booms after the final signal
   static SVG_BRIDGE_EXTRA_END_WIDTH = 10
   // Extra width for signal bridges/signal booms before the mounting point
   static SVG_BRIDGE_EXTRA_START_WIDTH = 5
+
+  /**
+     * Create a Svg for a feature
+     * @param data feature data
+     * @param label {@link Label}
+     */
+  public drawSVG<T extends object> (data: T, label?: Label): ISvgElement | null {
+    const signalMount = data as SignalMount
+    const isValidate = this.validateSignal(signalMount)
+    if (!isValidate) {
+      return SvgDraw.getErrorSVG()
+    }
+
+    if (this.isMultiSignal(signalMount)) {
+      return this.getMultiSignalScreen(signalMount)
+    } else {
+      return null
+    }
+  }
+
+  private getMultiSignalScreen (signalMount: SignalMount) {
+    const bridgeParts: SignalBridgePart[] = []
+    signalMount.attachedSignals.forEach(signal => {
+      if (signal.label?.text === '7707') {
+        console.log('  ')
+      }
+
+      for (const catalog of this.catalogService.getSignalSVGCatalog()) {
+        const screen = signal.role === SignalRole.None
+          ? SvgDraw.getErrorSVG()
+          : catalog.getSignalScreen(signal)
+        if (screen !== null) {
+          /* if (screen?. === 'Ne14') {
+            console.log('...')
+          } */
+
+          const offset = distance(
+            [signalMount.position.x, signalMount.position.y],
+            [signal.mountPosition.x, signal.mountPosition.y]
+          )
+          const direction = Math.abs(
+            signalMount.position.rotation - signal.mountPosition.rotation
+          ) < MAX_BRIDGE_DIRECTION_OFFSET
+            ? MountDirection.Up
+            : MountDirection.Down
+          bridgeParts.push({
+            guid: signal.guid,
+            signal: SvgBridgeSignal.fromSvgElement(screen, offset, direction, signal.label ?? null)
+          })
+        }
+      }
+    })
+    return SvgDrawBridge.drawParts(signalMount.guid, bridgeParts, signalMount.mountType)
+  }
 
   /**
    * Connect Signals to Signal -bruecke, -ausleger
