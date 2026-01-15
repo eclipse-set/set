@@ -26,7 +26,9 @@ export default abstract class AbstractDrawSVG {
   }
 
   /**
-   * Create a Svg for a feature. Return null, if this Drawer cannot draw that feature.
+   * Create a Svg for a feature. Return null, if
+   * this Drawer cannot draw that feature or if it is faulty.
+   * If all DrawSVGs return null, an error is displayed.
    * @param data feature data
    * @param label {@link Label}
    */

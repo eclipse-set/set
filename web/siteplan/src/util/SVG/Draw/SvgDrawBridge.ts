@@ -43,16 +43,11 @@ export default class SvgDrawBridge extends SvgDrawSignal {
      */
   public drawSVG<T extends object> (data: T, label?: Label): ISvgElement | null {
     const signalMount = data as SignalMount
-    const isValidate = this.validateSignal(signalMount)
-    if (!isValidate) {
-      return SvgDraw.getErrorSVG()
-    }
+    if (!this.validateSignal(signalMount)) return null
 
-    if (this.isMultiSignal(signalMount)) {
-      return this.getMultiSignalScreen(signalMount)
-    } else {
-      return null
-    }
+    if (!this.isMultiSignal(signalMount)) return null
+
+    return this.getMultiSignalScreen(signalMount)
   }
 
   private getMultiSignalScreen (signalMount: SignalMount) {
