@@ -3513,9 +3513,9 @@ public class SiteplanPackageImpl extends EPackageImpl
 				SignalMountType.DECKENKONSTRUKTION);
 		addEEnumLiteral(signalMountTypeEEnum, SignalMountType.WANDKONSTRUKTION);
 		addEEnumLiteral(signalMountTypeEEnum,
-				SignalMountType.SIGNALAUSLEGER_LINKS);
+				SignalMountType.SIGNALAUSLEGER);
 		addEEnumLiteral(signalMountTypeEEnum,
-				SignalMountType.SIGNALAUSLEGER_MITTE);
+				SignalMountType.SIGNALAUSLEGER);
 		addEEnumLiteral(signalMountTypeEEnum, SignalMountType.SIGNALBRUECKE);
 		addEEnumLiteral(signalMountTypeEEnum,
 				SignalMountType.SONDERKONSTRUKTION);

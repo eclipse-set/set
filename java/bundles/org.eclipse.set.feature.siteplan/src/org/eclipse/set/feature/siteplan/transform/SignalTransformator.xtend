@@ -269,9 +269,9 @@ class SignalTransformator extends BaseTransformator<Signal> {
 				// Fundament -> Mast
 				// new logic for any assembly containing a SignalAusleger. Same for all other cases
 				if (specificMounts.exists [
-					it === SignalMountType.SIGNALAUSLEGER_LINKS
+					it === SignalMountType.SIGNALAUSLEGER
 				]) {
-					return SignalMountType.SIGNALAUSLEGER_LINKS;
+					return SignalMountType.SIGNALAUSLEGER;
 				}
 				if (specificMounts.
 					exists[it === SignalMountType.SIGNALBRUECKE]) {
@@ -329,7 +329,7 @@ class SignalTransformator extends BaseTransformator<Signal> {
 			case ENUM_BEFESTIGUNG_ART_SONDERANORDNUNG_MAST_NIEDRIG:
 				return SignalMountType.MAST
 			case ENUM_BEFESTIGUNG_ART_SIGNALAUSLEGER:
-				return SignalMountType.SIGNALAUSLEGER_LINKS
+				return SignalMountType.SIGNALAUSLEGER
 			case ENUM_BEFESTIGUNG_ART_SIGNALBRUECKE:
 				return SignalMountType.SIGNALBRUECKE
 		}
@@ -345,7 +345,7 @@ class SignalTransformator extends BaseTransformator<Signal> {
 			case ENUM_SIGNAL_BEFESTIGUNGSART_MAST:
 				return SignalMountType.MAST
 			case ENUM_SIGNAL_BEFESTIGUNGSART_SIGNALAUSLEGER:
-				return SignalMountType.SIGNALAUSLEGER_LINKS
+				return SignalMountType.SIGNALAUSLEGER
 			case ENUM_SIGNAL_BEFESTIGUNGSART_SIGNALBRUECKE:
 				return SignalMountType.SIGNALBRUECKE
 		}
