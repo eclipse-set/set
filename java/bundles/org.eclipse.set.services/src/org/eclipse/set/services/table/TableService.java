@@ -209,7 +209,7 @@ public interface TableService {
 	 * @param tableInfo
 	 *            the {@link TableInfo}
 	 */
-	void sortTable(Table table, TableType tableType, TableInfo tableInfo);
+	void sortTable(Table table, TableInfo tableInfo);
 
 	/**
 	 * @param tableInfo
