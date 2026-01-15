@@ -33,7 +33,7 @@ import {
   HauptVorSignalGroup,
   SignalBrueckeudAusleger
 } from '@/util/SVG/SvgEnum'
-import { Vue, Options } from 'vue-class-component'
+import { Options, Vue } from 'vue-class-component'
 
 @Options({
   props: {
@@ -88,7 +88,7 @@ export default class SignalBruecke extends Vue {
         )
       })
     })
-    const result = SvgDrawBridge.draw(bridgeScreen, this.selectedMast)
+    const result = SvgDrawBridge.drawParts('',bridgeScreen, this.selectedMast)
     return result.content.outerHTML
   }
 }
