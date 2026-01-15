@@ -26,11 +26,11 @@ export default abstract class AbstractDrawSVG {
   }
 
   /**
-   * Create a Svg for a feature
+   * Create a Svg for a feature. Return null, if this Drawer cannot draw that feature.
    * @param data feature data
    * @param label {@link Label}
    */
-  public abstract drawSVG<T extends object>(data: T, label?: Label): ISvgElement
+  public abstract drawSVG<T extends object>(data: T, label?: Label): ISvgElement | null
 
   public getSvgFromCatalog<T extends object> (data: T): ISvgElement | null {
     return this.catalogService.getObjSvg(data, this.getFeatureType())
