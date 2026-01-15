@@ -71,8 +71,11 @@ export default class SvgDrawBridge extends SvgDrawSignal {
     // TODO use dot product
     const signedOffset =
       direction === MountDirection.Up
-        ? offset
-        : -offset
+        ? -offset
+        : offset
+
+    if (signedOffset < 0.0)
+      console.log('negative signed offset')
 
     if (signal.role === SignalRole.None) {
       return {
@@ -103,15 +106,18 @@ export default class SvgDrawBridge extends SvgDrawSignal {
   public static drawParts (guid: string, parts: SignalBridgePart[], signalMountType: SignalMountType): ISvgElement {
     // Calculate the final bridge/boom width by finding the screens
     // with the largest absolute offset from the mount
-    const signalOffsets = parts.map(ele => ele.signal.mountOffset() * SvgDraw.SVG_OFFSET_SCALE_METER_TO_PIXEL_FACTOR)
+    const signalOffsets = parts.map(ele => ele.signal.mountSignedOffset * SvgDraw.SVG_OFFSET_SCALE_METER_TO_PIXEL_FACTOR)
     const maxOffset = Math.max(...signalOffsets, 0)
     const minOffset = Math.min(...signalOffsets, 0)
 
+    const extent_left = minOffset - SvgDrawBridge.SVG_BRIDGE_EXTRA_END_WIDTH // is negative
+    const extent_right = maxOffset + SvgDrawBridge.SVG_BRIDGE_EXTRA_END_WIDTH // is negative
     const width = SvgDrawBridge.SVG_BRIDGE_EXTRA_END_WIDTH + maxOffset - minOffset
+
     const svgWidth = width + SvgDrawSingleSignal.SVG_DRAWAREA
 
     const svg = SvgDraw.createSvgWithHead(svgWidth, SvgDrawSingleSignal.SVG_DRAWAREA)
-    const bridge = this.drawBridge(signalMountType, width)
+    const bridge = this.drawBridge(signalMountType, extent_left, extent_right)
     bridge.setAttribute('class', SignalPart.Mast)
     bridge.setAttribute('id', `${SignalPart.Mast}_${guid}`)
     const g = document.createElement('g')
@@ -133,12 +139,14 @@ export default class SvgDrawBridge extends SvgDrawSignal {
     )
   }
 
-  private static drawBridge (signalMountType: SignalMountType, width: number) {
+  private static drawBridge (signalMountType: SignalMountType, extentLeft:number, extentRight:number) {
+    const width = extentRight - extentLeft
     const kombination = document.createElement('g')
     const rect = document.createElement('rect')
     rect.setAttribute('width', width.toString())
     rect.setAttribute('height', '20')
     rect.setAttribute('y', '10')
+    rect.setAttribute('x', extentLeft.toString())
     rect.setAttribute('fill', 'white')
     kombination.appendChild(rect)
 
@@ -221,7 +229,7 @@ export default class SvgDrawBridge extends SvgDrawSignal {
   }
 
   private static drawSignalScreen (signal: SvgBridgeSignal): Element {
-    const signalOffset = signal.mountSignedOffset * SvgDraw.SVG_OFFSET_SCALE_METER_TO_PIXEL_FACTOR
+    const signalOffset = Math.abs(signal.mountSignedOffset) * SvgDraw.SVG_OFFSET_SCALE_METER_TO_PIXEL_FACTOR
 
     const svg = signal.content.cloneNode(true) as Element
     const signalAnchorPointTop = signal.anchor.find(ele => ele.id === AnchorPoint.top)
