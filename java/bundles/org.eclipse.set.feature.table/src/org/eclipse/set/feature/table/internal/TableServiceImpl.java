@@ -499,8 +499,8 @@ public final class TableServiceImpl implements TableService {
 			return emptyTable;
 		}
 
-		final Table resultTable = filterRequestValue(table, tableType,
-				modelSession, controlAreaIds);
+		final Table resultTable = filterRequestValue(EcoreUtil.copy(table),
+				tableInfo, tableType, modelSession, controlAreaIds);
 		clearEmptyRow(resultTable);
 		sortTable(resultTable, tableInfo);
 		return resultTable;
@@ -508,11 +508,13 @@ public final class TableServiceImpl implements TableService {
 	}
 
 	private static Table filterRequestValue(final Table table,
-			final TableType tableType, final IModelSession modelsession,
+			final TableInfo tableInfo, final TableType tableType,
+			final IModelSession modelsession,
 			final Set<String> controlAreaIds) {
-		final Table result = filterTableByState(EcoreUtil.copy(table),
-				tableType);
-
+		final Table result = filterTableByState(table, tableType);
+		if (tableInfo.category() == Pt1TableCategory.ETCS) {
+			return result;
+		}
 		if (tableType == TableType.DIFF) {
 			filterRowGroupBelongToControlAreaByDiffState(result, modelsession,
 					controlAreaIds);
@@ -541,6 +543,39 @@ public final class TableServiceImpl implements TableService {
 
 		});
 		return result;
+	}
+
+	private static Table filterTableByState(final Table table,
+			final TableType tableType) {
+		if (tableType == TableType.DIFF || tableType == TableType.SINGLE) {
+			return table;
+		}
+
+		final List<TableRow> compareStateRows = TableExtensions
+				.getTableRows(table)
+				.stream()
+				.filter(row -> row.getCells()
+						.stream()
+						.map(TableCell::getContent)
+						.anyMatch(CompareStateCellContent.class::isInstance))
+				.toList();
+		if (compareStateRows.isEmpty()) {
+			return table;
+		}
+		compareStateRows.forEach(row -> row.getCells()
+				.stream()
+				.filter(cell -> cell
+						.getContent() instanceof CompareStateCellContent)
+				.forEach(cell -> {
+					final CompareStateCellContent compareCellContent = (CompareStateCellContent) cell
+							.getContent();
+					if (tableType == TableType.INITIAL) {
+						cell.setContent(compareCellContent.getOldValue());
+					} else if (tableType == TableType.FINAL) {
+						cell.setContent(compareCellContent.getNewValue());
+					}
+				}));
+		return table;
 	}
 
 	private static void filterRowGroupBelongToControlAreaByDiffState(
@@ -645,40 +680,6 @@ public final class TableServiceImpl implements TableService {
 					}
 					cell.setContent(compareContent);
 				});
-	}
-
-	private static Table filterTableByState(final Table table,
-			final TableType tableType) {
-		if (tableType == TableType.DIFF || tableType == TableType.SINGLE) {
-			return table;
-		}
-
-		final Table result = EcoreUtil.copy(table);
-		final List<TableRow> compareStateRows = TableExtensions
-				.getTableRows(result)
-				.stream()
-				.filter(row -> row.getCells()
-						.stream()
-						.map(TableCell::getContent)
-						.anyMatch(CompareStateCellContent.class::isInstance))
-				.toList();
-		if (compareStateRows.isEmpty()) {
-			return table;
-		}
-		compareStateRows.forEach(row -> row.getCells()
-				.stream()
-				.filter(cell -> cell
-						.getContent() instanceof CompareStateCellContent)
-				.forEach(cell -> {
-					final CompareStateCellContent compareCellContent = (CompareStateCellContent) cell
-							.getContent();
-					if (tableType == TableType.INITIAL) {
-						cell.setContent(compareCellContent.getOldValue());
-					} else if (tableType == TableType.FINAL) {
-						cell.setContent(compareCellContent.getNewValue());
-					}
-				}));
-		return result;
 	}
 
 	private static void clearEmptyRow(final Table table) {
