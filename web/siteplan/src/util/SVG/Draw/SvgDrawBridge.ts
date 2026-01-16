@@ -273,11 +273,14 @@ export default class SvgDrawBridge extends SvgDrawSignal {
       throw new Error('Invalid signal attached to bridge')
     }
 
-    const MAGIC_NUMBER = -50 + this.HALF_BRIDGE_THICKNESS + this.ATTACHED_SIGNAL_MOUNT_LENGTH
+    const anchorStart = (signal.mountDirection === MountDirection.Down) ?
+      signalAnchorPointTop : signalAnchorPointBot
+
+    const MAGIC_NUMBER = -50
+    const y = anchorStart.y + MAGIC_NUMBER + this.HALF_BRIDGE_THICKNESS + this.ATTACHED_SIGNAL_MOUNT_LENGTH
 
     if (signal.mountDirection === MountDirection.Down) {
-      const x = signalOffset + signalAnchorPointTop.x
-      const y = signalAnchorPointTop.y + MAGIC_NUMBER
+      const x = signalOffset + anchorStart.x
       // Flip the signal over, to preserve drawing orientation
       svg.setAttribute('transform', `translate(${x}, ${y}) rotate(180)`)// rotate(180)`)
       signal.boundingBox.forEach(bbox => {
@@ -293,8 +296,7 @@ export default class SvgDrawBridge extends SvgDrawSignal {
         }
       })
     } else {
-      const x = signalOffset - signalAnchorPointBot.x
-      const y = signalAnchorPointBot.y + MAGIC_NUMBER
+      const x = signalOffset - anchorStart.x
       svg.setAttribute('transform', `translate(${x}, ${y})`)
       signal.boundingBox.forEach(bbox => {
         if (!isEmpty(bbox)) {
