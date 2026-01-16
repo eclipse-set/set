@@ -8,6 +8,7 @@
  */
 import { Extent } from 'ol/extent'
 import { Label } from './Label'
+import { MountDirection } from './Signal'
 
 export interface ISvgPoint {
   id: string
@@ -80,6 +81,7 @@ export class ZusatzSignal extends SvgElement {
 export const MAX_BRIDGE_DIRECTION_OFFSET = 15.0
 export class SvgBridgeSignal extends SvgElement {
   mountSignedOffset: number
+  mountDirection: MountDirection
   label: Label | null
 
   constructor (
@@ -88,17 +90,20 @@ export class SvgBridgeSignal extends SvgElement {
     anchor: ISvgPoint[],
     nullpunkt: ISvgPoint | null,
     mountSignedOffset: number,
+    mountDirection: MountDirection,
     signalLabel: Label | null,
     boundingBox: Extent[]
   ) {
     super(id, element, anchor, nullpunkt, boundingBox)
     this.mountSignedOffset = mountSignedOffset
     this.label = signalLabel
+    this.mountDirection = mountDirection
   }
 
   static fromSvgElement (
     element: ISvgElement,
     signedOffset: number,
+    mountDirection: MountDirection,
     signalLabel: Label | null
   ): SvgBridgeSignal {
     return new SvgBridgeSignal(
@@ -107,6 +112,7 @@ export class SvgBridgeSignal extends SvgElement {
       element.anchor,
       element.nullpunkt,
       signedOffset,
+      mountDirection,
       signalLabel,
       element.boundingBox
     )
