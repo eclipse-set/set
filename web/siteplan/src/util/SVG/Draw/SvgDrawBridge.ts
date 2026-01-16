@@ -273,10 +273,7 @@ export default class SvgDrawBridge extends SvgDrawSignal {
       throw new Error('Invalid signal attached to bridge')
     }
 
-    const MAGIC_NUMBER = - this.ATTACHED_SIGNAL_MOUNT_LENGTH - this.HALF_BRIDGE_THICKNESS
-    if (MAGIC_NUMBER != -25) {
-      console.log('Error')
-    }
+    const MAGIC_NUMBER = -50 + this.HALF_BRIDGE_THICKNESS + this.ATTACHED_SIGNAL_MOUNT_LENGTH
 
     if (signal.mountDirection === MountDirection.Down) {
       const x = signalOffset + signalAnchorPointTop.x
