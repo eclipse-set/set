@@ -117,11 +117,6 @@ export default class SvgDrawBridge extends SvgDrawSignal {
     const maxOffset = Math.max(...signalOffsets, 0)
     const minOffset = Math.min(...signalOffsets, 0)
 
-    // explanation:
-    // if minOffset < 0 <=> a signal left from mount <=> use END_WIDTH
-    //      (else, use START_Width)
-    // likewise for maxOffset
-
     const width = maxOffset - minOffset
 
     const svgWidth = width + SvgDrawSingleSignal.SVG_DRAWAREA
