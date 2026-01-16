@@ -71,7 +71,6 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 	override transformTableContent(MultiContainer_AttributeGroup container,
 		TMFactory factory) {
 
-		val topGraph = new TopGraph(container.TOPKante)
 		for (PZB_Element pzb : container.PZBElement.filter [
 				PZBElementGUE?.IDPZBElementMitnutzung?.value === null
 			]) {

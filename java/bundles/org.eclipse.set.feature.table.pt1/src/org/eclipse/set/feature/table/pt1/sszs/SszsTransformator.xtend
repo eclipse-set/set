@@ -79,7 +79,6 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
 		TMFactory factory) {
-		val topGraph = new TopGraph(container.TOPKante)
 		for (etcsSignal : container.ETCSSignal) {
 			val refSignal = etcsSignal.IDSignal?.value
 			val row = factory.newTableRow(etcsSignal)

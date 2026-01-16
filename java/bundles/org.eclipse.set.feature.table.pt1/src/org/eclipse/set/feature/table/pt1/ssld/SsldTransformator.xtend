@@ -111,7 +111,6 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 		MultiContainer_AttributeGroup container,
 		TMFactory factory
 	) {
-		val topGraph = new TopGraph(container.TOPKante)
 		val fstDwegList = container.fstrDWeg
 
 		// var footnoteNumber = 1;
