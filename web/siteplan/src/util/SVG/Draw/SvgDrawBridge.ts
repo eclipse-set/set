@@ -117,25 +117,6 @@ export default class SvgDrawBridge extends SvgDrawSignal {
     const maxOffset = Math.max(...signalOffsets, 0)
     const minOffset = Math.min(...signalOffsets, 0)
 
-    let extent_left = minOffset
-    let extent_right = maxOffset
-
-    if (signalMountType === SignalMountType.Signalbruecke) {
-      extent_left -= SvgDrawBridge.SVG_BRIDGE_EXTRA_START_WIDTH
-      extent_right += SvgDrawBridge.SVG_BRIDGE_EXTRA_START_WIDTH
-    } else {
-      if (minOffset < EPS) {
-        extent_left -= SvgDrawBridge.SVG_BRIDGE_EXTRA_END_WIDTH
-      } else {
-        extent_left -= SvgDrawBridge.SVG_BRIDGE_EXTRA_START_WIDTH
-      }
-
-      if (maxOffset > EPS) {
-        extent_right += SvgDrawBridge.SVG_BRIDGE_EXTRA_END_WIDTH
-      } else {
-        extent_right += SvgDrawBridge.SVG_BRIDGE_EXTRA_START_WIDTH
-      }
-    }
     // explanation:
     // if minOffset < 0 <=> a signal left from mount <=> use END_WIDTH
     //      (else, use START_Width)
@@ -146,7 +127,7 @@ export default class SvgDrawBridge extends SvgDrawSignal {
     const svgWidth = width + SvgDrawSingleSignal.SVG_DRAWAREA
 
     const svg = SvgDraw.createSvgWithHead(svgWidth, SvgDrawSingleSignal.SVG_DRAWAREA)
-    const bridge = this.drawBridge(signalMountType, extent_left, extent_right)
+    const bridge = this.drawBridge(signalMountType, minOffset, maxOffset)
     bridge.setAttribute('class', SignalPart.Mast)
     bridge.setAttribute('id', `${SignalPart.Mast}_${guid}`)
     const g = document.createElement('g')
@@ -195,13 +176,33 @@ export default class SvgDrawBridge extends SvgDrawSignal {
    * @returns SVG
    */
   private static drawBridge (signalMountType: SignalMountType, extentLeft:number, extentRight:number) {
-    const width = extentRight - extentLeft
+    let leftOverhang = 0
+    let rightOverhang = 0
+
+    if (signalMountType === SignalMountType.Signalbruecke) {
+      leftOverhang = SvgDrawBridge.SVG_BRIDGE_EXTRA_START_WIDTH
+      rightOverhang = SvgDrawBridge.SVG_BRIDGE_EXTRA_START_WIDTH
+    } else {
+      if (extentLeft < -EPS) { // has signals on the left of the foundation
+        leftOverhang = SvgDrawBridge.SVG_BRIDGE_EXTRA_END_WIDTH
+      } else {
+        leftOverhang = SvgDrawBridge.SVG_BRIDGE_EXTRA_START_WIDTH
+      }
+
+      if (extentRight > EPS) { // has signals on the right of the foundation
+        rightOverhang = SvgDrawBridge.SVG_BRIDGE_EXTRA_END_WIDTH
+      } else {
+        rightOverhang = SvgDrawBridge.SVG_BRIDGE_EXTRA_START_WIDTH
+      }
+    }
+
+    const width = extentRight - extentLeft + rightOverhang + leftOverhang
     const kombination = document.createElement('g')
     const rect = document.createElement('rect')
     rect.setAttribute('width', width.toString())
     rect.setAttribute('height', '20')
     rect.setAttribute('y', '-10')
-    rect.setAttribute('x', (-extentRight).toString())
+    rect.setAttribute('x', (-extentRight - rightOverhang).toString())
     rect.setAttribute('fill', 'white')
     kombination.appendChild(rect)
 
