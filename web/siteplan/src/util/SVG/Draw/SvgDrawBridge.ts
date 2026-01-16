@@ -218,7 +218,7 @@ export default class SvgDrawBridge extends SvgDrawSignal {
       signalScreen.appendChild(
         SvgDraw.drawLabelAt(
           part.signal.label,
-          10,
+          15,
           signalAnchorPointBot.y,
           false,
           false,
