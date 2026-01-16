@@ -36,6 +36,9 @@ export default class SvgDrawBridge extends SvgDrawSignal {
   // Extra width for signal bridges/signal booms before the mounting point
   static SVG_BRIDGE_EXTRA_START_WIDTH = 5
 
+  static ATTACHED_SIGNAL_MOUNT_LENGTH = 15
+  static BRIDGE_THICKNESS = 20
+
   /**
      * Create a Svg for a feature
      * @param data feature data
@@ -132,7 +135,7 @@ export default class SvgDrawBridge extends SvgDrawSignal {
     bridge.setAttribute('id', `${SignalPart.Mast}_${guid}`)
     const g = document.createElement('g')
     g.appendChild(bridge)
-    g.setTranslate(svgWidth / 2 - 5, SvgDrawSingleSignal.SVG_DRAWAREA_CENTER)
+    g.setTranslate(svgWidth / 2, SvgDrawSingleSignal.SVG_DRAWAREA_CENTER)
 
     for (const [, part] of parts.entries()) {
       SvgDrawBridge.addSignal(g, part)
@@ -229,17 +232,16 @@ export default class SvgDrawBridge extends SvgDrawSignal {
   }
 
   private static drawSignalMount (signal: SvgBridgeSignal): Element {
-    const mountDirection = signal.mountDirection
-
     const signalOffset = signal.mountSignedOffset * SvgDraw.SVG_OFFSET_SCALE_METER_TO_PIXEL_FACTOR
+    const x = -signalOffset // TODO why so negative?
+
+    const mountDirectionSign = signal.mountDirection === MountDirection.Up ? 1 : -1
+
+    const y = SvgDrawBridge.BRIDGE_THICKNESS / 2 * mountDirectionSign
+    const y_end = y + SvgDrawBridge.ATTACHED_SIGNAL_MOUNT_LENGTH * mountDirectionSign
 
     const mount = document.createElement('path')
-    mount.setAttribute('d', 'M0,10 L0,-5')
-    if (mountDirection === MountDirection.Down) {
-      mount.setTranslate(-signalOffset, 0)
-    } else {
-      mount.setTranslate(-signalOffset, 35)
-    }
+    mount.setAttribute('d', `M${x},${y} L${x},${y_end}`)
 
     const mountBBox = fromCenterPointAndMasure([1.25, 2.5], 2.5, 15)
     mount.appendChild(toHTMLElement(mountBBox))
@@ -256,11 +258,11 @@ export default class SvgDrawBridge extends SvgDrawSignal {
       throw new Error('Invalid signal attached to bridge')
     }
 
-    const mountDirection = signal.mountDirection
+    const MAGIC_NUMBER = -25
 
-    if (mountDirection === MountDirection.Down) {
+    if (signal.mountDirection === MountDirection.Down) {
       const x = signalOffset + signalAnchorPointTop.x
-      const y = signalAnchorPointTop.y - 5
+      const y = signalAnchorPointTop.y + MAGIC_NUMBER
       // Flip the signal over, to preserve drawing orientation
       svg.setAttribute('transform', `translate(${x}, ${y}) rotate(180)`)// rotate(180)`)
       signal.boundingBox.forEach(bbox => {
@@ -277,7 +279,7 @@ export default class SvgDrawBridge extends SvgDrawSignal {
       })
     } else {
       const x = signalOffset - signalAnchorPointBot.x
-      const y = signalAnchorPointBot.y - 5
+      const y = signalAnchorPointBot.y + MAGIC_NUMBER
       svg.setAttribute('transform', `translate(${x}, ${y})`)
       signal.boundingBox.forEach(bbox => {
         if (!isEmpty(bbox)) {
