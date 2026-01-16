@@ -167,8 +167,8 @@ export default class SvgDrawBridge extends SvgDrawSignal {
   /**
    * draws box for arm / bruecke.
    * @param signalMountType SignalMountType => if bruecke, draw two mounts, otherwise one
-   * @param extentLeft includes START/END-WIDTH
-   * @param extentRight includes START/END-WIDTH
+   * @param extentLeft does not include START/END-WIDTH
+   * @param extentRight does not include START/END-WIDTH
    * @returns SVG
    */
   private static drawBridge (signalMountType: SignalMountType, extentLeft:number, extentRight:number) {
@@ -221,7 +221,7 @@ export default class SvgDrawBridge extends SvgDrawSignal {
     g.setAttribute('id', `${SignalPart.Schirm}_${part.guid}`)
 
     // Draw signal mount
-    const signalMount = this.drawSignalMount(part.signal) // TODO handle abs signedOffset
+    const signalMount = this.drawSignalMount(part.signal)
     g.appendChild(signalMount)
 
     // Draw signal screen
@@ -282,7 +282,7 @@ export default class SvgDrawBridge extends SvgDrawSignal {
     if (signal.mountDirection === MountDirection.Down) {
       const x = signalOffset + anchorStart.x
       // Flip the signal over, to preserve drawing orientation
-      svg.setAttribute('transform', `translate(${x}, ${y}) rotate(180)`)// rotate(180)`)
+      svg.setAttribute('transform', `translate(${x}, ${y}) rotate(180)`)
       signal.boundingBox.forEach(bbox => {
         if (!isEmpty(bbox)) {
           const bboxCenter = getCenter(bbox)
