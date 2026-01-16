@@ -137,6 +137,14 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 		ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_SONSTIGE_NIEDRIG,
 		ENUM_BEFESTIGUNG_ART_SONDERANORDNUNG_MAST_HOCH,
 		ENUM_BEFESTIGUNG_ART_SONDERANORDNUNG_MAST_NIEDRIG]
+	static val inRelevantFiktivFunktion = #[
+		ENUM_FIKTIVES_SIGNAL_FUNKTION_ZUG_START_ZIEL_BK_MIT_ZS_1,
+		ENUM_FIKTIVES_SIGNAL_FUNKTION_ZUG_START_ZIEL_BK_MIT_ZS_7,
+		ENUM_FIKTIVES_SIGNAL_FUNKTION_ZUG_START_ZIEL_NE_14_MIT_ZS_1,
+		ENUM_FIKTIVES_SIGNAL_FUNKTION_ZUG_START_ZIEL_NE_14_MIT_ZS_7,
+		ENUM_FIKTIVES_SIGNAL_FUNKTION_ZUG_START_ZIEL_NE_14_MIT_ZS_8,
+		ENUM_FIKTIVES_SIGNAL_FUNKTION_RANGIER_START_ZIEL_NE_14
+	]
 	val BankService bankingService
 	val String tableShortCut
 
@@ -947,7 +955,10 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 	}
 
 	private static def boolean isSsksSignal(Signal signal) {
-		if (signal?.signalFiktiv !== null) {
+		if (signal?.signalFiktiv !== null &&
+			!signal?.signalFiktiv?.fiktivesSignalFunktion.exists [
+				inRelevantFiktivFunktion.contains(it)
+			]) {
 			return true
 		}
 

@@ -14,7 +14,6 @@ import org.eclipse.set.basis.Pair
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
 import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
-import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
 import org.eclipse.set.model.planpro.Nahbedienung.ENUMNBGrenzeArt
 import org.eclipse.set.model.planpro.Nahbedienung.NB_Zone
 import org.eclipse.set.model.planpro.Nahbedienung.NB_Zone_Element
@@ -310,14 +309,7 @@ class SslnTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	private static dispatch def String toBezeichnungGrenze(
-		Punkt_Objekt markanteStelle,
-		NB_Zone_Grenze grenze
-	) {
-		return null
-	}
-
-	private static dispatch def String toBezeichnungGrenze(
-		Void markanteStelle,
+		Basis_Objekt markanteStelle,
 		NB_Zone_Grenze grenze
 	) {
 		return null
@@ -332,6 +324,13 @@ class SslnTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	private static dispatch def String toBezeichnungGrenze(
 		FMA_Komponente markanteStelle,
+		NB_Zone_Grenze grenze
+	) {
+		return grenze.toBezeichnungGrenze
+	}
+	
+	private static dispatch def String toBezeichnungGrenze(
+		W_Kr_Gsp_Komponente markanteStelle,
 		NB_Zone_Grenze grenze
 	) {
 		return grenze.toBezeichnungGrenze
