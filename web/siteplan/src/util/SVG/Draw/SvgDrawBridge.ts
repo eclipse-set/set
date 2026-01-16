@@ -81,6 +81,7 @@ export default class SvgDrawBridge extends SvgDrawSignal {
         const screen = catalog.getSignalScreen(signal)
         if (screen !== null) {
           svgElement = screen
+          break // return the first screen != null
         }
       }
     }
