@@ -14,7 +14,6 @@ import { SignalMount, SignalMountType } from '@/model/SignalMount'
 import { ISvgElement, MAX_BRIDGE_DIRECTION_OFFSET, SvgBridgeSignal, SvgElement, SvgPoint } from '@/model/SvgElement'
 import '@/util/ElementExtensions'
 import { fromCenterPointAndMasure, fromHTMLElement, toHTMLElement } from '@/util/ExtentExtension'
-import { distance } from '@/util/Math'
 import { getCenter, getHeight, getWidth, isEmpty } from 'ol/extent'
 import { AnchorPoint } from '../SvgEnum'
 import SvgDraw from './SvgDraw'
@@ -57,12 +56,7 @@ export default class SvgDrawBridge extends SvgDrawSignal {
   }
 
   private drawAttachedSignal (signal: Signal, bridgeMountPosition: Position): SignalBridgePart | null {
-    const unsignedLateralOffset = distance(
-      [bridgeMountPosition.x, bridgeMountPosition.y],
-      [signal.mountPosition.x, signal.mountPosition.y]
-    )
-
-    const direction = Math.abs(
+    const signalAttachementDirection = Math.abs(
       bridgeMountPosition.rotation - signal.mountPosition.rotation
     ) % 360 < MAX_BRIDGE_DIRECTION_OFFSET
       ? MountDirection.Up
@@ -81,35 +75,25 @@ export default class SvgDrawBridge extends SvgDrawSignal {
       delta.x * left.x +
       delta.y * left.y
 
-    if (Math.abs(Math.abs(signedLateralOffset) - unsignedLateralOffset) > 0.01) {
-      console.log('Mistake in math:',signedLateralOffset,unsignedLateralOffset)
-    }
-
-    if (signedLateralOffset < 0.0)
-      console.log('negative signed offset')
-
-    if (signal.role === SignalRole.None) {
-      return {
-        guid: signal.guid,
-        signal: SvgBridgeSignal.fromSvgElement(
-          SvgDraw.getErrorSVG(),
-          signedLateralOffset,
-          direction,
-          signal.label ?? null
-        )
-      }
-    }
-
-    for (const catalog of this.catalogService.getSignalSVGCatalog()) {
-      const screen = catalog.getSignalScreen(signal)
-      if (screen !== null) {
-        return {
-          guid: signal.guid,
-          signal: SvgBridgeSignal.fromSvgElement(screen, signedLateralOffset, direction,  signal.label ?? null )
+    let svgElement
+    if (signal.role !== SignalRole.None) {
+      for (const catalog of this.catalogService.getSignalSVGCatalog()) {
+        const screen = catalog.getSignalScreen(signal)
+        if (screen !== null) {
+          svgElement = screen
         }
       }
     }
-    return null
+
+    return {
+      guid: signal.guid,
+      signal: SvgBridgeSignal.fromSvgElement(
+        svgElement ?? SvgDraw.getErrorSVG(),
+        signedLateralOffset,
+        signalAttachementDirection,
+        signal.label ?? null
+      )
+    }
   }
 
   /**
@@ -122,7 +106,8 @@ export default class SvgDrawBridge extends SvgDrawSignal {
   public static drawParts (guid: string, parts: SignalBridgePart[], signalMountType: SignalMountType): ISvgElement {
     // Calculate the final bridge/boom width by finding the screens
     // with the largest absolute offset from the mount
-    const signalOffsets = parts.map(ele => ele.signal.mountSignedOffset * SvgDraw.SVG_OFFSET_SCALE_METER_TO_PIXEL_FACTOR)
+    const signalOffsets = parts.map(ele =>
+      ele.signal.mountSignedOffset * SvgDraw.SVG_OFFSET_SCALE_METER_TO_PIXEL_FACTOR)
     const maxOffset = Math.max(...signalOffsets, 0)
     const minOffset = Math.min(...signalOffsets, 0)
 
