@@ -26,6 +26,7 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiConsumer;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -66,6 +67,7 @@ import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.TableCell;
 import org.eclipse.set.model.tablemodel.TableRow;
 import org.eclipse.set.model.tablemodel.TablemodelFactory;
+import org.eclipse.set.model.tablemodel.extensions.CellContentExtensions;
 import org.eclipse.set.model.tablemodel.extensions.TableCellExtensions;
 import org.eclipse.set.model.tablemodel.extensions.TableExtensions;
 import org.eclipse.set.model.tablemodel.extensions.TableRowExtensions;
@@ -189,7 +191,7 @@ public final class TableServiceImpl implements TableService {
 		}
 	}
 
-	private Table createDiffTable(final TableInfo tableInfo,
+	private Table createDiffStateTable(final TableInfo tableInfo,
 			final IModelSession modelSession) {
 		final PlanPro2TableTransformationService modelService = getModelService(
 				tableInfo);
@@ -372,20 +374,8 @@ public final class TableServiceImpl implements TableService {
 		final PlanPro2TableTransformationService modelService = getModelService(
 				tableInfo);
 		Table transformedTable = null;
-		transformedTable = createDiffTable(tableInfo, modelSession);
+		transformedTable = createDiffStateTable(tableInfo, modelSession);
 		modelService.format(transformedTable);
-		// final MultiContainer_AttributeGroup container = modelSession
-		// .getContainer(tableType.getContainerForTable());
-		// if (controlAreaId == null
-		// || isContainerContainArea(container, controlAreaId)) {
-		// transformedTable = modelService.transform(container);
-		// } else {
-		// // Create empty table
-		// transformedTable = TablemodelFactory.eINSTANCE.createTable();
-		// transformedTable.setTablecontent(
-		// TablemodelFactory.eINSTANCE.createTableContent());
-		// modelService.buildHeading(transformedTable);
-		// }
 		if (Thread.currentThread().isInterrupted()
 				|| transformedTable == null) {
 			return MissingSupplier.MISSING_VALUE;
@@ -495,7 +485,7 @@ public final class TableServiceImpl implements TableService {
 				ToolboxConstants.SHORTCUT_TO_TABLE_CACHE_ID);
 		final Table table = cache.get(tableInfo.shortcut(),
 				() -> (Table) loadTransform(tableInfo, modelSession));
-		if (tableType != TableType.DIFF
+		if (tableType != TableType.DIFF && !controlAreaIds.isEmpty()
 				&& controlAreaIds.stream()
 						.noneMatch(area -> isContainerContainArea(
 								modelSession.getContainer(
@@ -511,35 +501,9 @@ public final class TableServiceImpl implements TableService {
 
 		final Table resultTable = filterRequestValue(table, tableType,
 				modelSession, controlAreaIds);
+		clearEmptyRow(resultTable);
 		sortTable(resultTable, tableInfo);
 		return resultTable;
-		// final List<Pair<String, String>> cacheKeys = getCacheKeys(shortCut,
-		// modelSession, controlAreaIds);
-		// for (final Pair<String, String> cacheKey : cacheKeys) {
-		// final String areaId = cacheKey.getKey();
-		// final String areaCacheKey = cacheKey.getValue();
-		// Table table = (Table) cache.getIfPresent(areaCacheKey);
-		//
-		// if (table == null) {
-		// table = (Table) loadTransform(shortCut, tableType, modelSession,
-		// areaId);
-		// saveTableToCache(table, modelSession, containerId, shortCut,
-		// tableType, areaCacheKey);
-		// }
-		// if (resultTable == null) {
-		// resultTable = EcoreUtil.copy(table);
-		// } else {
-		// for (final RowGroup rowGroup : table.getTablecontent()
-		// .getRowgroups()) {
-		// TableExtensions.addRowGroup(resultTable, rowGroup);
-		// }
-		// }
-		// }
-		//
-		// // sorting
-		// if (resultTable != null && resultTable.getTablecontent() != null) {
-		// sortTable(resultTable, tableType, shortCut);
-		// }
 
 	}
 
@@ -554,51 +518,54 @@ public final class TableServiceImpl implements TableService {
 					controlAreaIds);
 			result.getTablecontent()
 					.getRowgroups()
-					.removeIf(group -> group.getRows().isEmpty());
+					.removeIf(group -> !UrObjectExtensions
+							.isPlanningObject(group.getLeadingObject()));
 			return result;
 		}
 
 		result.getTablecontent().getRowgroups().removeIf(group -> {
-			final Ur_Objekt leadingObj = group.getLeadingObject();
-
+			final Pair<Ur_Objekt, Ur_Objekt> initalFinalObj = getInitalFinalObj(
+					group.getLeadingObject(), modelsession);
+			final Ur_Objekt leadingObj = tableType == TableType.FINAL
+					? initalFinalObj.getValue()
+					: initalFinalObj.getKey();
 			final MultiContainer_AttributeGroup container = modelsession
 					.getContainer(tableType.getContainerForTable());
 			final List<Stell_Bereich> areas = controlAreaIds.stream()
 					.map(areaId -> getStellBereich(container, areaId))
 					.toList();
 			return !UrObjectExtensions.isPlanningObject(leadingObj)
-					|| areas.stream()
+					|| !areas.isEmpty() && areas.stream()
 							.noneMatch(area -> StellBereichExtensions
 									.isInControlArea(area, leadingObj));
 
 		});
-		result.getTablecontent()
-				.getRowgroups()
-				.removeIf(group -> !UrObjectExtensions
-						.isPlanningObject(group.getLeadingObject()));
 		return result;
 	}
 
 	private static void filterRowGroupBelongToControlAreaByDiffState(
 			final Table result, final IModelSession modelsession,
 			final Set<String> controlAreaIds) {
-		final MultiContainer_AttributeGroup initalContainer = modelsession
-				.getContainer(ContainerType.INITIAL);
+		if (controlAreaIds.isEmpty()) {
+			return;
+		}
 		final List<Stell_Bereich> initalControlAreas = controlAreaIds.stream()
 				.map(areaId -> getStellBereich(
 						modelsession.getContainer(ContainerType.INITIAL),
 						areaId))
+				.filter(Objects::nonNull)
 				.toList();
 		final List<Stell_Bereich> finalControlAreas = controlAreaIds.stream()
-				.map(areaId -> getStellBereich(initalContainer, areaId))
+				.map(areaId -> getStellBereich(
+						modelsession.getContainer(ContainerType.FINAL), areaId))
+				.filter(Objects::nonNull)
 				.toList();
 		result.getTablecontent().getRowgroups().forEach(group -> {
-			final Ur_Objekt finalObj = group.getLeadingObject();
-			final Ur_Objekt initalObj = finalObj == null
-					? group.getLeadingObject()
-					: MultiContainer_AttributeGroupExtensions.getObject(
-							initalContainer, finalObj.getClass(),
-							finalObj.getIdentitaet().getWert());
+			final Pair<Ur_Objekt, Ur_Objekt> initalFinalObj = getInitalFinalObj(
+					group.getLeadingObject(), modelsession);
+			final Ur_Objekt initalObj = initalFinalObj.getKey();
+			final Ur_Objekt finalObj = initalFinalObj.getValue();
+
 			final boolean isFinalObjBelongToAreas = finalObj != null
 					&& finalControlAreas.stream()
 							.anyMatch(area -> StellBereichExtensions
@@ -626,21 +593,35 @@ public final class TableServiceImpl implements TableService {
 						.forEach(row -> handleTableRowNotBelongToArea()
 								.accept(row, TableType.FINAL));
 			}
-			group.getRows()
-					.removeIf(row -> row.getCells().isEmpty() || row.getCells()
-							.stream()
-							.allMatch(cell -> cell.getContent() == null));
 		});
+	}
+
+	private static Pair<Ur_Objekt, Ur_Objekt> getInitalFinalObj(
+			final Ur_Objekt leadingObj, final IModelSession modelSession) {
+		final Function<ContainerType, Ur_Objekt> getObjInContainer = containerType -> {
+			final ContainerType currentType = UrObjectExtensions
+					.getContainerType(leadingObj);
+			final MultiContainer_AttributeGroup targetContainer = modelSession
+					.getContainer(containerType);
+			return currentType == containerType ? leadingObj
+					: MultiContainer_AttributeGroupExtensions.getObject(
+							targetContainer, leadingObj.getClass(),
+							leadingObj.getIdentitaet().getWert());
+		};
+		return new Pair<>(getObjInContainer.apply(ContainerType.INITIAL),
+				getObjInContainer.apply(ContainerType.FINAL));
 	}
 
 	private static BiConsumer<TableRow, TableType> handleTableRowNotBelongToArea() {
 		return (final TableRow row, final TableType missingObjTableType) -> row
 				.getCells()
 				.forEach(cell -> {
-					if (cell instanceof final CompareStateCellContent compareCellContent) {
-						cell.setContent(missingObjTableType == TableType.INITIAL
-								? compareCellContent.getNewValue()
-								: compareCellContent.getOldValue());
+					if (cell.getContent() instanceof final CompareStateCellContent compareCellContent) {
+						if (missingObjTableType == TableType.INITIAL) {
+							compareCellContent.setOldValue(null);
+						} else {
+							compareCellContent.setNewValue(null);
+						}
 						return;
 					}
 					final CompareStateCellContent compareContent = TablemodelFactory.eINSTANCE
@@ -656,7 +637,6 @@ public final class TableServiceImpl implements TableService {
 						default:
 							throw new IllegalArgumentException();
 					}
-					compareContent.setNewValue(cell.getContent());
 					final Optional<String> separator = EObjectExtensions
 							.getNullableObject(cell.getContent(),
 									CellContent::getSeparator);
@@ -699,6 +679,23 @@ public final class TableServiceImpl implements TableService {
 					}
 				}));
 		return result;
+	}
+
+	private static void clearEmptyRow(final Table table) {
+		table.getTablecontent()
+				.getRowgroups()
+				.forEach(group -> group.getRows()
+						.removeIf(row -> row.getCells().isEmpty() || row
+								.getCells()
+								.stream()
+								.allMatch(cell -> cell.getContent() == null
+										|| CellContentExtensions
+												.getPlainStringValue(
+														cell.getContent())
+												.isEmpty())));
+		table.getTablecontent()
+				.getRowgroups()
+				.removeIf(group -> group.getRows().isEmpty());
 	}
 
 	private void saveTableToCache(final Table table,
