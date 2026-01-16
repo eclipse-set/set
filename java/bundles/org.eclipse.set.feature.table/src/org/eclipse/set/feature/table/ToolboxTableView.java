@@ -96,6 +96,7 @@ import org.eclipse.set.ppmodel.extensions.utils.PlanProToTitleboxTransformation;
 import org.eclipse.set.services.export.ExportService;
 import org.eclipse.set.services.export.TableCompileService;
 import org.eclipse.set.services.table.TableService;
+import org.eclipse.set.services.table.TableService.TableRendereUtil;
 import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.RefreshAction;
 import org.eclipse.set.utils.SelectableAction;
@@ -315,7 +316,7 @@ public final class ToolboxTableView extends BasePart {
 					.equalsIgnoreCase(Events.COMPARE_MODEL_LOADED)) {
 				return;
 			}
-			updateModel(getToolboxPart());
+			updateModel(getToolboxPart(), transformToTableModel());
 
 		};
 		getBroker().subscribe(Events.COMPARE_MODEL_LOADED,
@@ -362,15 +363,19 @@ public final class ToolboxTableView extends BasePart {
 	}
 
 	private void updateTableView(final List<Pt1TableCategory> tableCategories) {
-		tableService.updateTable(this, tableCategories, () -> {
-			updateModel(getToolboxPart());
-			natTable.doCommand(new RowHeightResetCommand());
-			natTable.refresh();
-			updateButtons();
+		tableService.updateTable(this, tableCategories, new TableRendereUtil(
+				() -> transformToTableModel(), transformedTable -> {
+					if (transformedTable == null) {
+						return;
+					}
+					updateModel(getToolboxPart(), transformedTable);
+					natTable.doCommand(new RowHeightResetCommand());
+					natTable.refresh();
+					updateButtons();
 
-			// Update footnotes
-			updateFootnotes();
-		}, tableInstances::clear);
+					// Update footnotes
+					updateFootnotes();
+				}));
 	}
 
 	private void updateFootnotes() {
@@ -413,16 +418,21 @@ public final class ToolboxTableView extends BasePart {
 				.stream()
 				.map(Pair::getSecond)
 				.collect(Collectors.toSet());
-
 		tableService.updateTable(this, Collections.emptyList(),
-				() -> updateModel(getToolboxPart()), tableInstances::clear);
-		subcribeTriggerResortEvent();
+				new TableRendereUtil(this::transformToTableModel,
+						transformedTable -> {
+							if (transformedTable == null) {
+								return;
+							}
+							updateModel(getToolboxPart(), transformedTable);
+						}));
+
 		// if the table was not created (possibly the creation was canceled by
 		// the user), we stop here with creating the view
 		if (table == null) {
 			return;
 		}
-
+		subcribeTriggerResortEvent();
 		final ColumnDescriptor rootColumnDescriptor = table
 				.getColumndescriptors()
 				.get(0);
@@ -803,18 +813,16 @@ public final class ToolboxTableView extends BasePart {
 		getBanderole().setEnableExport(!getModelSession().isDirty());
 	}
 
-	void updateModel(final MPart part) {
+	void updateModel(final MPart part, final Table transformedTable) {
 		// update banderole
 		getBanderole().setTableType(tableType);
-
-		table = transformToTableModel();
+		table = transformedTable;
 		// flag creation
 		MApplicationElementExtensions.setViewState(part,
 				ToolboxViewState.CREATED);
 
 		tableInstances.clear();
 		tableInstances.addAll(TableExtensions.getTableRows(table));
-
 	}
 
 	private void addMenuItems() {
