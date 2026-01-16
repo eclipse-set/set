@@ -31,7 +31,7 @@ export default class CenterMainRouteControl extends Control {
   constructor (view: View, model: SiteplanModel) {
     // Create button
     const button = document.createElement('button')
-    button.innerHTML = '&#10683;' // HTML Encoding for "⦻"
+    button.innerHTML = '⦻' // HTML Encoding for "⦻"
     button.className = 'center-route-control-button'
     button.title = 'Zentrieren'
 
@@ -55,6 +55,7 @@ export default class CenterMainRouteControl extends Control {
     this.view = view
     button.addEventListener('click', () => {
       this.centerView()
+      button.blur()
     }, false)
   }
 
