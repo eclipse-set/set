@@ -106,6 +106,7 @@ public class GeoKanteGeometryServiceImpl
 	public static class GeoKanteGeometrySessionData {
 		private final Map<GEO_Kante, LineString> edgeGeometry;
 		private final Map<String, List<GEOKanteMetadata>> geoKanteMetadas;
+		private final Map<GEO_Knoten, Coordinate> geoNodeCoordinates;
 
 		/**
 		 * COnstructor
@@ -113,6 +114,7 @@ public class GeoKanteGeometryServiceImpl
 		public GeoKanteGeometrySessionData() {
 			edgeGeometry = new ConcurrentHashMap<>();
 			geoKanteMetadas = new ConcurrentHashMap<>();
+			geoNodeCoordinates = new ConcurrentHashMap<>();
 		}
 
 		/**
@@ -127,6 +129,23 @@ public class GeoKanteGeometryServiceImpl
 		 */
 		public Map<String, List<GEOKanteMetadata>> getGeoKanteMetadas() {
 			return geoKanteMetadas;
+		}
+
+		/**
+		 * @return the geometry coordinate of {@link GEO_Knoten}
+		 */
+		public Map<GEO_Knoten, Coordinate> getGeoNodeCoordinates() {
+			return geoNodeCoordinates;
+		}
+
+		/**
+		 * Clear data
+		 */
+		public void clear() {
+			edgeGeometry.clear();
+			geoKanteMetadas.clear();
+			geoNodeCoordinates.clear();
+
 		}
 	}
 
@@ -166,8 +185,7 @@ public class GeoKanteGeometryServiceImpl
 			// Only clear geometry data when main session change
 			final GeoKanteGeometrySessionData sessionData = getSessionData(
 					schnitstelle);
-			sessionData.getEdgeGeometry().clear();
-			sessionData.getGeoKanteMetadas().clear();
+			sessionData.clear();
 
 			findGeometryThread = new Thread(() -> {
 				try {
@@ -379,14 +397,12 @@ public class GeoKanteGeometryServiceImpl
 								RoundingMode.HALF_UP)
 				: BigDecimal.ZERO;
 		final SegmentPosition position = Geometries.getSegmentPosition(
-				md.getGeometry(),
-				GeoKnotenExtensions.getCoordinate(md.getGeoKnoten()),
+				md.getGeometry(), getGeoNodeCoordinate(md.getGeoKnoten()),
 				scaledDistance);
 		final LineSegment tangent = getTangent(md.getGeoKante(), position);
 		final GeoPosition coordinate = GeoKanteExtensions.getCoordinate(tangent,
 				position, lateralDistance, wirkrichtung);
-		return new GEOKanteCoordinate(coordinate, md,
-				getCRS(md.getGeoKnoten()));
+		return new GEOKanteCoordinate(coordinate, md);
 	}
 
 	@Override
@@ -505,9 +521,7 @@ public class GeoKanteGeometryServiceImpl
 			if (relevantSegments == null) {
 				throw new IllegalArgumentException();
 			}
-			return new Pair<>(
-					new GEOKanteCoordinate(projectionCoor, metadata,
-							getCRS(metadata.getGeoKnoten())),
+			return new Pair<>(new GEOKanteCoordinate(projectionCoor, metadata),
 					projectionDistance);
 		} catch (final IllegalArgumentException | NullPointerException e) {
 			logger.error(
@@ -661,9 +675,9 @@ public class GeoKanteGeometryServiceImpl
 			final GEOKanteMetadata metadata = switch (geoArt) {
 				case final TOP_Kante topKante -> new GEOKanteMetadata(geoKante,
 						distance, geoKanteLength, bereichObjekte, topKante,
-						geoKnoten, geometry);
+						geoKnoten, geometry, getCRS(geoKnoten));
 				case final Strecke streck -> new GEOKanteMetadata(geoKante,
-						distance, geoKnoten, geometry);
+						distance, geoKnoten, geometry, getCRS(geoKnoten));
 				default -> throw new IllegalArgumentException(
 						"Unexpected value: " + geoArt); //$NON-NLS-1$
 			};
@@ -674,5 +688,11 @@ public class GeoKanteGeometryServiceImpl
 			// Get the next GEO_Knoten (on the other end of the GEO_Kante)
 			geoKnoten = getOpposite(geoKante, geoKnoten);
 		}
+	}
+
+	private Coordinate getGeoNodeCoordinate(final GEO_Knoten node) {
+		final GeoKanteGeometrySessionData sessionData = getSessionData(node);
+		return sessionData.getGeoNodeCoordinates()
+				.computeIfAbsent(node, GeoKnotenExtensions::getCoordinate);
 	}
 }

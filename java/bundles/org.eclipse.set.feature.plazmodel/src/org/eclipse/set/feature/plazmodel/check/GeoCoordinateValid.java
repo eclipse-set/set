@@ -70,8 +70,8 @@ import org.eclipse.set.ppmodel.extensions.TopKnotenExtensions;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.eclipse.set.ppmodel.extensions.geometry.GEOKanteGeometryExtensions;
 import org.eclipse.set.ppmodel.extensions.utils.IterableExtensions;
-import org.eclipse.set.utils.geometry.GeometryOptionsBuilder;
 import org.eclipse.set.utils.geometry.GeometryCalculationOptions.GeometryCalculationOptionsBuilder;
+import org.eclipse.set.utils.geometry.GeometryOptionsBuilder;
 import org.eclipse.xtext.xbase.lib.Pair;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.LineSegment;
@@ -411,8 +411,7 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 		final LineSegment tangent = getTangent(md.getGeoKante(), position);
 		final GeoPosition geoPosition = getCoordinate(tangent, position,
 				lateralDistance, wirkrichtung);
-		return new GEOKanteCoordinate(geoPosition, md,
-				getCRS(md.getGeoKnoten()));
+		return new GEOKanteCoordinate(geoPosition, md);
 	}
 
 	private static GEOKanteMetadata getGeoKanteMetaData(
@@ -446,7 +445,8 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 			return new GEOKanteMetadata(geoKante,
 					relevantGeoKnotenRange.startDistance(), geoKanteLength,
 					bereichObjekts, topkante,
-					relevantGeoKnotenRange.startNode(), geometry);
+					relevantGeoKnotenRange.startNode(), geometry,
+					getCRS(relevantGeoKnotenRange.startNode()));
 		} catch (final NullPointerException | IllegalArgumentException e) {
 			return null;
 		}
