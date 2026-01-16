@@ -112,9 +112,17 @@ export default class SvgDrawBridge extends SvgDrawSignal {
     const maxOffset = Math.max(...signalOffsets, 0)
     const minOffset = Math.min(...signalOffsets, 0)
 
-    const extent_left = minOffset - SvgDrawBridge.SVG_BRIDGE_EXTRA_END_WIDTH // is negative
-    const extent_right = maxOffset + SvgDrawBridge.SVG_BRIDGE_EXTRA_END_WIDTH // is negative
-    const width = SvgDrawBridge.SVG_BRIDGE_EXTRA_END_WIDTH + maxOffset - minOffset
+    const EPS = 0.001
+    const extent_left = minOffset
+      - (minOffset < EPS ? SvgDrawBridge.SVG_BRIDGE_EXTRA_END_WIDTH : SvgDrawBridge.SVG_BRIDGE_EXTRA_START_WIDTH)
+    const extent_right = maxOffset
+      + (maxOffset > EPS ? SvgDrawBridge.SVG_BRIDGE_EXTRA_END_WIDTH : SvgDrawBridge.SVG_BRIDGE_EXTRA_START_WIDTH)
+    // explanation:
+    // if minOffset < 0 <=> a signal left from mount <=> use END_WIDTH
+    //      (else, use START_Width)
+    // likewise for maxOffset
+
+    const width = maxOffset - minOffset
 
     const svgWidth = width + SvgDrawSingleSignal.SVG_DRAWAREA
 
@@ -136,31 +144,38 @@ export default class SvgDrawBridge extends SvgDrawSignal {
       'SignalBridge',
       svg,
       [],
-      new SvgPoint('nulpunkt', SvgDrawBridge.SVG_BRIDGE_EXTRA_START_WIDTH, 0),
+      new SvgPoint('nulpunkt', 0, 0),
       bridgeBBox
     )
   }
 
+  /**
+   * draws box for arm / bruecke.
+   * @param signalMountType SignalMountType => if bruecke, draw two mounts, otherwise one
+   * @param extentLeft includes START/END-WIDTH
+   * @param extentRight includes START/END-WIDTH
+   * @returns SVG
+   */
   private static drawBridge (signalMountType: SignalMountType, extentLeft:number, extentRight:number) {
     const width = extentRight - extentLeft
     const kombination = document.createElement('g')
     const rect = document.createElement('rect')
     rect.setAttribute('width', width.toString())
     rect.setAttribute('height', '20')
-    rect.setAttribute('y', '10')
+    rect.setAttribute('y', '-10')
     rect.setAttribute('x', (-extentRight).toString())
     rect.setAttribute('fill', 'white')
     kombination.appendChild(rect)
 
-    const sw = SvgDrawBridge.SVG_BRIDGE_EXTRA_START_WIDTH
+    const sw = 0
     const line1 = document.createElement('path')
     line1.setAttribute('stroke-width', '5')
-    line1.setAttribute('d', `M${sw},10 L${sw},0`)
+    line1.setAttribute('d', 'M0,-10 L0,-20')
     kombination.appendChild(line1)
 
     const line2 = document.createElement('path')
     line2.setAttribute('stroke-width', '5')
-    line2.setAttribute('d', `M${sw},30 L${sw},40`)
+    line2.setAttribute('d', 'M0,10 L0,20')
     kombination.appendChild(line2)
 
     if (signalMountType === SignalMountType.Signalbruecke) {
@@ -221,9 +236,9 @@ export default class SvgDrawBridge extends SvgDrawSignal {
     const mount = document.createElement('path')
     mount.setAttribute('d', 'M0,10 L0,-5')
     if (mountDirection === MountDirection.Down) {
-      mount.setTranslate(-signalOffset + SvgDrawBridge.SVG_BRIDGE_EXTRA_START_WIDTH, 0)
+      mount.setTranslate(-signalOffset, 0)
     } else {
-      mount.setTranslate(-signalOffset + SvgDrawBridge.SVG_BRIDGE_EXTRA_START_WIDTH, 35)
+      mount.setTranslate(-signalOffset, 35)
     }
 
     const mountBBox = fromCenterPointAndMasure([1.25, 2.5], 2.5, 15)
@@ -244,7 +259,7 @@ export default class SvgDrawBridge extends SvgDrawSignal {
     const mountDirection = signal.mountDirection
 
     if (mountDirection === MountDirection.Down) {
-      const x = signalOffset + signalAnchorPointTop.x + SvgDrawBridge.SVG_BRIDGE_EXTRA_START_WIDTH
+      const x = signalOffset + signalAnchorPointTop.x
       const y = signalAnchorPointTop.y - 5
       // Flip the signal over, to preserve drawing orientation
       svg.setAttribute('transform', `translate(${x}, ${y}) rotate(180)`)// rotate(180)`)
@@ -261,7 +276,7 @@ export default class SvgDrawBridge extends SvgDrawSignal {
         }
       })
     } else {
-      const x = signalOffset - signalAnchorPointBot.x + SvgDrawBridge.SVG_BRIDGE_EXTRA_START_WIDTH
+      const x = signalOffset - signalAnchorPointBot.x
       const y = signalAnchorPointBot.y - 5
       svg.setAttribute('transform', `translate(${x}, ${y})`)
       signal.boundingBox.forEach(bbox => {
