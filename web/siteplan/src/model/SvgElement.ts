@@ -80,6 +80,7 @@ export class ZusatzSignal extends SvgElement {
 }
 export const MAX_BRIDGE_DIRECTION_OFFSET = 15.0
 export class SvgBridgeSignal extends SvgElement {
+  /** right = positive, left = negative */
   mountSignedOffset: number
   mountDirection: MountDirection
   label: Label | null
