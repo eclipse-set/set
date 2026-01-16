@@ -62,9 +62,9 @@ export default class SvgDrawBridge extends SvgDrawSignal {
       ? MountDirection.Up
       : MountDirection.Down
 
-    const left = {
-      x: -Math.sin(bridgeMountPosition.rotation),
-      y: -Math.cos(bridgeMountPosition.rotation)
+    const right = {
+      x: Math.sin(bridgeMountPosition.rotation),
+      y: Math.cos(bridgeMountPosition.rotation)
     }
     const delta = {
       x: signal.mountPosition.x - bridgeMountPosition.x,
@@ -72,8 +72,8 @@ export default class SvgDrawBridge extends SvgDrawSignal {
     }
 
     const signedLateralOffset =
-      delta.x * left.x +
-      delta.y * left.y
+      delta.x * right.x +
+      delta.y * right.y
 
     let svgElement
     if (signal.role !== SignalRole.None) {
@@ -148,7 +148,7 @@ export default class SvgDrawBridge extends SvgDrawSignal {
     rect.setAttribute('width', width.toString())
     rect.setAttribute('height', '20')
     rect.setAttribute('y', '10')
-    rect.setAttribute('x', extentLeft.toString())
+    rect.setAttribute('x', (-extentRight).toString())
     rect.setAttribute('fill', 'white')
     kombination.appendChild(rect)
 
@@ -221,9 +221,9 @@ export default class SvgDrawBridge extends SvgDrawSignal {
     const mount = document.createElement('path')
     mount.setAttribute('d', 'M0,10 L0,-5')
     if (mountDirection === MountDirection.Down) {
-      mount.setTranslate(signalOffset + SvgDrawBridge.SVG_BRIDGE_EXTRA_START_WIDTH, 0)
+      mount.setTranslate(-signalOffset + SvgDrawBridge.SVG_BRIDGE_EXTRA_START_WIDTH, 0)
     } else {
-      mount.setTranslate(signalOffset + SvgDrawBridge.SVG_BRIDGE_EXTRA_START_WIDTH, 35)
+      mount.setTranslate(-signalOffset + SvgDrawBridge.SVG_BRIDGE_EXTRA_START_WIDTH, 35)
     }
 
     const mountBBox = fromCenterPointAndMasure([1.25, 2.5], 2.5, 15)
@@ -232,7 +232,7 @@ export default class SvgDrawBridge extends SvgDrawSignal {
   }
 
   private static drawSignalScreen (signal: SvgBridgeSignal): Element {
-    const signalOffset = signal.mountSignedOffset * SvgDraw.SVG_OFFSET_SCALE_METER_TO_PIXEL_FACTOR
+    const signalOffset = -signal.mountSignedOffset * SvgDraw.SVG_OFFSET_SCALE_METER_TO_PIXEL_FACTOR
 
     const svg = signal.content.cloneNode(true) as Element
     const signalAnchorPointTop = signal.anchor.find(ele => ele.id === AnchorPoint.top)
