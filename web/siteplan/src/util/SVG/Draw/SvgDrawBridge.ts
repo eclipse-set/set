@@ -40,6 +40,7 @@ export default class SvgDrawBridge extends SvgDrawSignal {
 
   static ATTACHED_SIGNAL_MOUNT_LENGTH = 15
   static BRIDGE_THICKNESS = 20
+  static HALF_BRIDGE_THICKNESS = SvgDrawBridge.BRIDGE_THICKNESS / 2
 
   /**
      * Create a Svg for a feature
@@ -251,7 +252,7 @@ export default class SvgDrawBridge extends SvgDrawSignal {
 
     const mountDirectionSign = signal.mountDirection === MountDirection.Up ? 1 : -1
 
-    const y = SvgDrawBridge.BRIDGE_THICKNESS / 2 * mountDirectionSign
+    const y = SvgDrawBridge.HALF_BRIDGE_THICKNESS * mountDirectionSign
     const y_end = y + SvgDrawBridge.ATTACHED_SIGNAL_MOUNT_LENGTH * mountDirectionSign
 
     const mount = document.createElement('path')
@@ -272,7 +273,10 @@ export default class SvgDrawBridge extends SvgDrawSignal {
       throw new Error('Invalid signal attached to bridge')
     }
 
-    const MAGIC_NUMBER = -25
+    const MAGIC_NUMBER = - this.ATTACHED_SIGNAL_MOUNT_LENGTH - this.HALF_BRIDGE_THICKNESS
+    if (MAGIC_NUMBER != -25) {
+      console.log('Error')
+    }
 
     if (signal.mountDirection === MountDirection.Down) {
       const x = signalOffset + signalAnchorPointTop.x
