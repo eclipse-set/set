@@ -261,28 +261,28 @@ public class TablemodelItemProviderAdapterFactory
 
 	/**
 	 * This keeps track of the one adapter used for all
-	 * {@link org.eclipse.set.model.tablemodel.CompareCellContent} instances.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * {@link org.eclipse.set.model.tablemodel.CompareStateCellContent}
+	 * instances. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @generated
 	 */
-	protected CompareCellContentItemProvider compareCellContentItemProvider;
+	protected CompareStateCellContentItemProvider compareStateCellContentItemProvider;
 
 	/**
 	 * This creates an adapter for a
-	 * {@link org.eclipse.set.model.tablemodel.CompareCellContent}. <!--
+	 * {@link org.eclipse.set.model.tablemodel.CompareStateCellContent}. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @generated
 	 */
 	@Override
-	public Adapter createCompareCellContentAdapter() {
-		if (compareCellContentItemProvider == null) {
-			compareCellContentItemProvider = new CompareCellContentItemProvider(
+	public Adapter createCompareStateCellContentAdapter() {
+		if (compareStateCellContentItemProvider == null) {
+			compareStateCellContentItemProvider = new CompareStateCellContentItemProvider(
 					this);
 		}
 
-		return compareCellContentItemProvider;
+		return compareStateCellContentItemProvider;
 	}
 
 	/**
@@ -612,8 +612,8 @@ public class TablemodelItemProviderAdapterFactory
 			tableCellItemProvider.dispose();
 		if (stringCellContentItemProvider != null)
 			stringCellContentItemProvider.dispose();
-		if (compareCellContentItemProvider != null)
-			compareCellContentItemProvider.dispose();
+		if (compareStateCellContentItemProvider != null)
+			compareStateCellContentItemProvider.dispose();
 		if (cellAnnotationItemProvider != null)
 			cellAnnotationItemProvider.dispose();
 		if (multiColorCellContentItemProvider != null)

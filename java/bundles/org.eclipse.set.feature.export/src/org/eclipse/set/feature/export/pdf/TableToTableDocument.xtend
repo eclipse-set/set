@@ -17,13 +17,16 @@ import javax.imageio.ImageIO
 import javax.xml.parsers.DocumentBuilderFactory
 import javax.xml.parsers.ParserConfigurationException
 import org.eclipse.set.basis.FreeFieldInfo
+import org.eclipse.set.basis.constants.ToolboxConstants
 import org.eclipse.set.model.tablemodel.CellContent
-import org.eclipse.set.model.tablemodel.CompareCellContent
 import org.eclipse.set.model.tablemodel.CompareFootnoteContainer
+import org.eclipse.set.model.tablemodel.CompareStateCellContent
 import org.eclipse.set.model.tablemodel.CompareTableCellContent
+import org.eclipse.set.model.tablemodel.CompareTableFootnoteContainer
 import org.eclipse.set.model.tablemodel.FootnoteContainer
 import org.eclipse.set.model.tablemodel.MultiColorCellContent
 import org.eclipse.set.model.tablemodel.MultiColorContent
+import org.eclipse.set.model.tablemodel.PlanCompareRow
 import org.eclipse.set.model.tablemodel.SimpleFootnoteContainer
 import org.eclipse.set.model.tablemodel.Table
 import org.eclipse.set.model.tablemodel.TableContent
@@ -41,15 +44,12 @@ import org.w3c.dom.Document
 import org.w3c.dom.Element
 
 import static extension org.eclipse.set.model.tablemodel.extensions.CellContentExtensions.*
+import static extension org.eclipse.set.model.tablemodel.extensions.TableCellExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.TableContentExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensions.*
-import static extension org.eclipse.set.model.tablemodel.extensions.TableCellExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.TableRowExtensions.*
 import static extension org.eclipse.set.utils.StringExtensions.*
 import static extension org.eclipse.set.utils.export.xsl.siteplan.SiteplanXSL.pxToMilimeter
-import org.eclipse.set.basis.constants.ToolboxConstants
-import org.eclipse.set.model.tablemodel.PlanCompareRow
-import org.eclipse.set.model.tablemodel.CompareTableFootnoteContainer
 
 /**
  * Transformation from {@link Table} to TableDocument {@link Document}.
@@ -343,12 +343,12 @@ class TableToTableDocument {
 		}
 	}
 
-	private def dispatch Element createContent(CompareCellContent content,
+	private def dispatch Element createContent(CompareStateCellContent content,
 		FootnoteContainer fc, int columnNumber, boolean isRemarkColumn) {
 		val element = doc.createElement("DiffContent")
 		formatCompareContent(
-			content.oldValue,
-			content.newValue,
+			content.oldValue.stringValueIterable,
+			content.newValue.stringValueIterable,
 			[doc.createElement("OldValue")],
 			[doc.createElement("UnchangedValue")],
 			[doc.createElement("NewValue")],
@@ -487,8 +487,9 @@ class TableToTableDocument {
 	private def Element addContentToElement(String content, Element element,
 		int columnNumber, boolean isRemarkColumn) {
 		val checkOutput = content.checkForTestOutput(columnNumber)
-		element.textContent = isRemarkColumn ? checkOutput : checkOutput.
-			intersperseWithZeroSpacesSC
+		element.textContent = isRemarkColumn
+			? checkOutput
+			: checkOutput.intersperseWithZeroSpacesSC
 		return element
 	}
 
