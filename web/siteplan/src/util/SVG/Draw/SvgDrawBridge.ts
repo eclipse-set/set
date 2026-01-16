@@ -20,6 +20,8 @@ import SvgDraw from './SvgDraw'
 import SvgDrawSignal from './SvgDrawSignal'
 import SvgDrawSingleSignal from './SvgDrawSingleSignal'
 
+const EPS = 0.001
+
 /**
  * Draws a signal bridge or a signal boom
  * @author Stuecker, Voigt
@@ -115,11 +117,25 @@ export default class SvgDrawBridge extends SvgDrawSignal {
     const maxOffset = Math.max(...signalOffsets, 0)
     const minOffset = Math.min(...signalOffsets, 0)
 
-    const EPS = 0.001
-    const extent_left = minOffset
-      - (minOffset < EPS ? SvgDrawBridge.SVG_BRIDGE_EXTRA_END_WIDTH : SvgDrawBridge.SVG_BRIDGE_EXTRA_START_WIDTH)
-    const extent_right = maxOffset
-      + (maxOffset > EPS ? SvgDrawBridge.SVG_BRIDGE_EXTRA_END_WIDTH : SvgDrawBridge.SVG_BRIDGE_EXTRA_START_WIDTH)
+    let extent_left = minOffset
+    let extent_right = maxOffset
+
+    if (signalMountType === SignalMountType.Signalbruecke) {
+      extent_left -= SvgDrawBridge.SVG_BRIDGE_EXTRA_START_WIDTH
+      extent_right += SvgDrawBridge.SVG_BRIDGE_EXTRA_START_WIDTH
+    } else {
+      if (minOffset < EPS) {
+        extent_left -= SvgDrawBridge.SVG_BRIDGE_EXTRA_END_WIDTH
+      } else {
+        extent_left -= SvgDrawBridge.SVG_BRIDGE_EXTRA_START_WIDTH
+      }
+
+      if (maxOffset > EPS) {
+        extent_right += SvgDrawBridge.SVG_BRIDGE_EXTRA_END_WIDTH
+      } else {
+        extent_right += SvgDrawBridge.SVG_BRIDGE_EXTRA_START_WIDTH
+      }
+    }
     // explanation:
     // if minOffset < 0 <=> a signal left from mount <=> use END_WIDTH
     //      (else, use START_Width)
@@ -153,6 +169,25 @@ export default class SvgDrawBridge extends SvgDrawSignal {
   }
 
   /**
+   * draws the line symbolizing the point where the Arm/Bruecke is standing on the ground.
+   * the ends point towards positive & negative y
+   */
+  private static drawBridgeFoundation (x: number, y: number) {
+    const line1 = document.createElement('path')
+    line1.setAttribute('stroke-width', '5')
+    line1.setAttribute('d', `M${x},${y - 10} L${x},${y - 20}`)
+
+    const line2 = document.createElement('path')
+    line2.setAttribute('stroke-width', '5')
+    line2.setAttribute('d', `M${x},${y + 10} L${x},${y + 20}`)
+
+    const group = document.createElement('g')
+    group.append(line1)
+    group.append(line2)
+    return group
+  }
+
+  /**
    * draws box for arm / bruecke.
    * @param signalMountType SignalMountType => if bruecke, draw two mounts, otherwise one
    * @param extentLeft includes START/END-WIDTH
@@ -170,28 +205,11 @@ export default class SvgDrawBridge extends SvgDrawSignal {
     rect.setAttribute('fill', 'white')
     kombination.appendChild(rect)
 
-    const sw = 0
-    const line1 = document.createElement('path')
-    line1.setAttribute('stroke-width', '5')
-    line1.setAttribute('d', 'M0,-10 L0,-20')
-    kombination.appendChild(line1)
-
-    const line2 = document.createElement('path')
-    line2.setAttribute('stroke-width', '5')
-    line2.setAttribute('d', 'M0,10 L0,20')
-    kombination.appendChild(line2)
+    kombination.appendChild(this.drawBridgeFoundation(0,0))
 
     if (signalMountType === SignalMountType.Signalbruecke) {
-      const x = width - sw
-      const line3 = document.createElement('path')
-      line3.setAttribute('stroke-width', '5')
-      line3.setAttribute('d', `M${x},10 L${x},0`)
-      kombination.appendChild(line3)
-
-      const line4 = document.createElement('path')
-      line4.setAttribute('stroke-width', '5')
-      line4.setAttribute('d', `M${x},30 L${x},40`)
-      kombination.appendChild(line4)
+      const x = width - this.SVG_BRIDGE_EXTRA_START_WIDTH
+      kombination.appendChild(this.drawBridgeFoundation(x,0))
     }
 
     const bbox = fromCenterPointAndMasure([width / 2, 20], width, 40)
