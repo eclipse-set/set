@@ -12,6 +12,7 @@ import com.google.common.collect.Range
 import java.math.BigDecimal
 import java.util.List
 import java.util.Optional
+import org.eclipse.set.basis.constants.ToolboxConstants
 import org.eclipse.set.basis.graph.DirectedEdge
 import org.eclipse.set.basis.graph.TopPoint
 import org.eclipse.set.core.services.Services
@@ -19,6 +20,7 @@ import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung
 import org.eclipse.set.model.planpro.Basisobjekte.Bereich_Objekt
 import org.eclipse.set.model.planpro.Basisobjekte.Bereich_Objekt_Teilbereich_AttributeGroup
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
+import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_Strecke_AttributeGroup
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
 import org.eclipse.set.model.planpro.Geodaten.Strecke
 import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
@@ -27,12 +29,17 @@ import org.eclipse.set.model.planpro.Ortung.FMA_Komponente
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Ra12
 import org.eclipse.set.model.planpro.Signale.Signal
 import org.locationtech.jts.geom.Coordinate
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+
+import static org.eclipse.set.ppmodel.extensions.geometry.GEOKanteGeometryExtensions.*
 
 import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.ENUMWirkrichtungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.CollectionExtensions.*
+import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
 
 /**
  * This class extends {@link Punkt_Objekt}.
@@ -40,6 +47,8 @@ import static extension org.eclipse.set.ppmodel.extensions.utils.CollectionExten
  * @author Schaefer
  */
 class PunktObjektExtensions extends BasisObjektExtensions {
+	static val Logger logger = LoggerFactory.getLogger(
+		typeof(PunktObjektExtensions))
 
 	/**
 	 * @param punktObjekt this Punkt Objekt
@@ -168,8 +177,107 @@ class PunktObjektExtensions extends BasisObjektExtensions {
 		return point.getCoordinate(direction).getEffectiveRotation
 	}
 
-	def static List<Strecke> getStrecken(Punkt_Objekt po) {
-		return po.punktObjektStrecke.map[IDStrecke?.value].filterNull.toList
+	def static List<Pair<String, List<String>>> getStreckeAndKm(
+		Punkt_Objekt po) {
+		val cache = po.getCache(po.container.cacheString,
+			ToolboxConstants.CacheId.POINT_OBJECT_ROUTE_KM)
+		val poGuid = po.identitaet.wert
+		if (cache.getIfPresent(poGuid) !== null) {
+			return cache.getIfPresent(
+				poGuid) as List<Pair<String, List<String>>>
+		}
+
+		if (po.punktObjektStrecke.nullOrEmpty) {
+			cache.set(poGuid, #[])
+			return #[]
+		}
+		
+		val getStreckeFunc = [ Punkt_Objekt_Strecke_AttributeGroup pos |
+			pos.IDStrecke?.value?.bezeichnung?.bezeichnungStrecke?.wert ?: ""
+		]
+
+		if (po.punktObjektStrecke.size === 1) {
+			val result = #[getStreckeFunc.apply(po.punktObjektStrecke.first) ->
+				#[po.punktObjektStrecke.first.streckeKm.wert]]
+			cache.set(poGuid, result)
+			return result
+		}
+
+		val kmMassgebends = po.punktObjektStrecke.filter [
+			kmMassgebend?.wert === true
+		]
+		if (!kmMassgebends.nullOrEmpty) {
+			val result = kmMassgebends.map [
+				getStreckeFunc.apply(it) -> #[streckeKm.wert]
+			].toList
+			cache.set(poGuid, result)
+			return result
+		}
+		
+		if (!isFindGeometryComplete) {
+			return po.punktObjektStrecke.map [ pos |
+				getStreckeFunc.apply(pos) -> #[]
+			].toList
+		}
+		
+		val routeThroughBereichObjekt = po.singlePoint.
+			streckenThroughBereichObjekt
+
+		val result = routeThroughBereichObjekt.map [ route |
+			route.bezeichnung?.bezeichnungStrecke?.wert ?: "" ->
+				po.getStreckeKm(#[route])
+		].toList
+		cache.set(poGuid, result)
+		return result
+
+	}
+
+	def static List<String> getStreckeKm(Punkt_Objekt po,
+		List<Strecke> routeThroughBereichObjekt) {
+		val cache = po.getCache(po.container.cacheString,
+			ToolboxConstants.CacheId.POINT_OBJECT_ROUTE_KM)
+		val poGuid = po.identitaet.wert
+		if (cache.getIfPresent(poGuid) !== null) {
+			val cachedValue = cache.getIfPresent(
+				poGuid) as List<Pair<String, List<String>>>
+			return cachedValue.flatMap[value].toList
+		}
+
+		val kmMassgebend = po.punktObjektStrecke.filter [
+			kmMassgebend?.wert === true
+		]
+		if (!kmMassgebend.nullOrEmpty) {
+			return kmMassgebend.map[streckeKm.wert].toList
+		}
+
+		if (!isFindGeometryComplete) {
+			return null
+		}
+
+		val result = routeThroughBereichObjekt.map [ route |
+			try {
+				return route ->
+					po.singlePoint.getStreckeKmThroughProjection(route).
+						toTableDecimal(3)
+			} catch (Exception e) {
+				logger.error(
+					"Can't find the Signal route km through projection point on route",
+					e)
+				return route -> po.punktObjektStrecke.findFirst [ pos |
+					pos.IDStrecke.value == route
+				]?.streckeKm?.wert
+			}
+		].filterNull.toList
+
+		if (result.isNullOrEmpty) {
+			cache.set(poGuid, po.punktObjektStrecke.map [
+				IDStrecke.value.bezeichnung.bezeichnungStrecke ->
+					#[streckeKm.wert].toList
+			].toList)
+			return po.punktObjektStrecke.map[streckeKm.wert].toList
+		}
+		cache.set(poGuid, result.map[key -> #[value].toList].toList)
+		return result.map[value].toList
 	}
 
 	def static List<Strecke> getStreckenThroughBereichObjekt(Punkt_Objekt po) {

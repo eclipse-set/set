@@ -10,7 +10,6 @@ package org.eclipse.set.feature.table.pt1.sskw;
 
 import static org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum.ASC;
 import static org.eclipse.set.feature.table.pt1.sskw.SskwColumns.Freimeldung_Fma;
-import static org.eclipse.set.feature.table.pt1.sskw.SskwColumns.Weiche_Antriebe;
 import static org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparatorType.MIXED_STRING;
 
 import java.util.Comparator;
@@ -91,7 +90,7 @@ public final class SskwTransformationService
 
 	@Override
 	protected List<String> getTopologicalColumnPosition() {
-		return List.of(Freimeldung_Fma, Weiche_Antriebe);
+		return List.of(Freimeldung_Fma);
 	}
 
 }

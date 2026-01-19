@@ -20,6 +20,7 @@ import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.messages.Messages;
+import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt;
 import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
 import org.eclipse.set.utils.table.sorting.TableRowGroupComparator;
@@ -64,9 +65,14 @@ public final class SskgTransformationService
 
 	@Override
 	public Comparator<RowGroup> getRowGroupComparator() {
-		return TableRowGroupComparator.builder()
-				.sort("A", LEXICOGRAPHICAL, ASC) //$NON-NLS-1$
-				.build();
+		// It can be directly compare by Column J/K but for consistent
+		// with another table the CompareRouteAndKm will be used.
+		return TableRowGroupComparator.builder().sortByRouteAndKm(obj -> {
+			if (obj instanceof final Punkt_Objekt po) {
+				return po;
+			}
+			return null;
+		}).sort(SskgColumns.Bezeichnung, LEXICOGRAPHICAL, ASC).build();
 	}
 
 	@Override

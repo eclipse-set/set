@@ -110,6 +110,7 @@ import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensio
 import static extension org.eclipse.set.ppmodel.extensions.GeoPunktExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.SignalBefestigungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalRahmenExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalbegriffExtensions.*
@@ -137,6 +138,14 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 		ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_SONSTIGE_NIEDRIG,
 		ENUM_BEFESTIGUNG_ART_SONDERANORDNUNG_MAST_HOCH,
 		ENUM_BEFESTIGUNG_ART_SONDERANORDNUNG_MAST_NIEDRIG]
+	static val inRelevantFiktivFunktion = #[
+		ENUM_FIKTIVES_SIGNAL_FUNKTION_ZUG_START_ZIEL_BK_MIT_ZS_1,
+		ENUM_FIKTIVES_SIGNAL_FUNKTION_ZUG_START_ZIEL_BK_MIT_ZS_7,
+		ENUM_FIKTIVES_SIGNAL_FUNKTION_ZUG_START_ZIEL_NE_14_MIT_ZS_1,
+		ENUM_FIKTIVES_SIGNAL_FUNKTION_ZUG_START_ZIEL_NE_14_MIT_ZS_7,
+		ENUM_FIKTIVES_SIGNAL_FUNKTION_ZUG_START_ZIEL_NE_14_MIT_ZS_8,
+		ENUM_FIKTIVES_SIGNAL_FUNKTION_RANGIER_START_ZIEL_NE_14
+	]
 	val BankService bankingService
 	val String tableShortCut
 
@@ -506,16 +515,15 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 									fundament?.signalBefestigungAllg?.
 										fundamentArt
 								].filterNull.map[translate].filterNull
-								if (!fundament.nullOrEmpty) {
-									return fundament.toSet
-								}
-								
-								row.addTopologicalCell(cols.getColumn(Fundament_Art_Regelzeichnung))
-								val regelzeichnung = map[getFundament].filterNull.
-									flatMap[IDRegelzeichnung].map [
+								val regelzeichnung = map[getFundament].
+									filterNull.flatMap[IDRegelzeichnung].map [
 										value?.fillRegelzeichnung
 									].filterNull
-								
+								if (!regelzeichnung.isNullOrEmpty) {
+									row.addTopologicalCell(
+										cols.getColumn(
+											Fundament_Art_Regelzeichnung))
+								}
 								return (regelzeichnung + fundament).toSet
 							],
 							null,
@@ -768,8 +776,8 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 						fillIterable(
 							row,
 							cols.getColumn(Weitere_Regelzeichnung_Nr),
-							signalRahmen,
-							[fillSignalisierungWeitere],
+							signal,
+							[fillSignalisierungWeitere(signalRahmen)],
 							MIXED_STRING_COMPARATOR,
 							[it]
 						)
@@ -949,7 +957,10 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 	}
 
 	private static def boolean isSsksSignal(Signal signal) {
-		if (signal?.signalFiktiv !== null) {
+		if (signal?.signalFiktiv !== null &&
+			!signal?.signalFiktiv?.fiktivesSignalFunktion.exists [
+				inRelevantFiktivFunktion.contains(it)
+			]) {
 			return true
 		}
 
@@ -1304,17 +1315,37 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 		return begriffe.fold(false, [result, id|result || type.isInstance(id)])
 	}
 
-	private static def List<String> fillSignalisierungWeitere(
+	private static def List<String> fillSignalisierungWeitere(Signal signal,
 		List<Signal_Rahmen> signalRahmen) {
+		// 1.Case: Signal_Rahmen contains Ne2 or Ne14
 		val rahmen = signalRahmen.filter [
 			!signalbegriffe.filter [
 				signalbegriffID instanceof Ne2 ||
 					signalbegriffID instanceof Ne14
 			].empty
 		].toList
-		return rahmen.map[IDRegelzeichnung?.value].filterNull.map [
-			fillRegelzeichnung
-		].toList
+		if (!rahmen.nullOrEmpty) {
+			return rahmen.map[IDRegelzeichnung?.value].filterNull.map [
+				fillRegelzeichnung
+			].toList
+		}
+
+		// 2.Case: It give another Signal Ne2/Ne14, which have same Mast with current Signal
+		val sameMastSignal = signalRahmen.map[IDSignalBefestigung?.value].
+			filterNull.flatMap [
+				attachmentSignal
+			].filter [
+				it !== signal && (hasSignalbegriffID(typeof(Ne2)) ||
+					hasSignalbegriffID(typeof(Ne14)))
+			].toList
+		if (sameMastSignal.nullOrEmpty) {
+			return #[]
+		}
+		return sameMastSignal.filter[!signalRahmen.nullOrEmpty].flatMap [ s |
+			s.signalRahmen.map[IDRegelzeichnung?.value].filterNull.map [
+				'''«fillRegelzeichnung» («s.bezeichnung?.bezeichnungTabelle?.wert ?: ""»)'''
+			]
+		].filterNull.toList
 	}
 
 	private static def String fillSonstigesAutomatischeFahrtstellung(

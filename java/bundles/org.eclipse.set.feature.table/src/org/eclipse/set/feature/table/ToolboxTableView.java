@@ -15,6 +15,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -29,6 +30,7 @@ import org.eclipse.e4.core.services.nls.Translation;
 import org.eclipse.e4.ui.di.UISynchronize;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.emf.common.command.CommandStackListener;
+import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.nebula.widgets.nattable.NatTable;
 import org.eclipse.nebula.widgets.nattable.data.IDataProvider;
@@ -78,6 +80,7 @@ import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.CompareTableCellContent;
 import org.eclipse.set.model.tablemodel.PlanCompareRow;
 import org.eclipse.set.model.tablemodel.PlanCompareRowType;
+import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.TableCell;
 import org.eclipse.set.model.tablemodel.TableRow;
@@ -108,9 +111,12 @@ import org.eclipse.set.utils.events.ToolboxEvents;
 import org.eclipse.set.utils.exception.ExceptionHandler;
 import org.eclipse.set.utils.table.BodyLayerStack;
 import org.eclipse.set.utils.table.Pt1TableChangeProperties;
+import org.eclipse.set.utils.table.TableInfo;
 import org.eclipse.set.utils.table.TableInfo.Pt1TableCategory;
 import org.eclipse.set.utils.table.TableModelInstanceBodyDataProvider;
 import org.eclipse.set.utils.table.menu.TableMenuService;
+import org.eclipse.set.utils.table.sorting.AbstractCompareWithDependencyOnServiceCriterion;
+import org.eclipse.set.utils.table.sorting.TableRowGroupComparator;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.custom.StyledText;
@@ -157,9 +163,7 @@ public final class ToolboxTableView extends BasePart {
 
 	private ToolboxEventHandler<JumpToTableEvent> tableSelectRowHandler;
 	private ToolboxEventHandler<TableDataChangeEvent> tableDataChangeHandler;
-
 	private ToolboxEventHandler<SelectedControlAreaChangedEvent> selectionControlAreaHandler;
-
 	private int scrollToPositionRequested = -1;
 
 	private StyledText tableFooting;
@@ -198,6 +202,8 @@ public final class ToolboxTableView extends BasePart {
 
 	private EventHandler secondaryPlanningLoadedHanlder;
 
+	private TableInfo tableInfo;
+
 	/**
 	 * constructor
 	 */
@@ -225,11 +231,11 @@ public final class ToolboxTableView extends BasePart {
 		}
 	}
 
-	private Titlebox getTitlebox(final String shortcut) {
+	private Titlebox getTitlebox() {
 		final PlanProToTitleboxTransformation planProToTitlebox = new PlanProToTitleboxTransformation(
 				getSessionService());
 		return planProToTitlebox.transform(
-				tableService.getTableNameInfo(shortcut),
+				tableService.getTableNameInfo(tableInfo),
 				this::getAttachmentPath);
 	}
 
@@ -277,7 +283,7 @@ public final class ToolboxTableView extends BasePart {
 		};
 		ToolboxEvents.subscribe(getBroker(), TableDataChangeEvent.class,
 				tableDataChangeHandler,
-				TableDataChangeEvent.getTopic(getTableShortcut())
+				TableDataChangeEvent.getTopic(tableInfo.shortcut())
 						.toLowerCase());
 
 		selectionControlAreaHandler = new DefaultToolboxEventHandler<>() {
@@ -323,11 +329,7 @@ public final class ToolboxTableView extends BasePart {
 		ToolboxEvents.unsubscribe(getBroker(), tableDataChangeHandler);
 		ToolboxEvents.unsubscribe(getBroker(), selectionControlAreaHandler);
 		getBroker().unsubscribe(secondaryPlanningLoadedHanlder);
-		getBroker().send(Events.CLOSE_PART, getTableShortcut().toLowerCase());
-	}
-
-	private String getTableShortcut() {
-		return tableService.extractShortcut(getToolboxPart().getElementId());
+		getBroker().send(Events.CLOSE_PART, tableInfo.shortcut());
 	}
 
 	private void tableSelectRowHandler(final JumpToTableEvent event) {
@@ -354,8 +356,8 @@ public final class ToolboxTableView extends BasePart {
 	 * 
 	 * @return the table view model
 	 */
-	private Table transformToTableModel(final String elementId) {
-		return tableService.createDiffTable(elementId, tableType,
+	private Table transformToTableModel() {
+		return tableService.createDiffTable(tableInfo, tableType,
 				controlAreaIds);
 	}
 
@@ -404,7 +406,7 @@ public final class ToolboxTableView extends BasePart {
 
 	@Override
 	protected void createView(final Composite parent) {
-
+		tableInfo = tableService.getTableInfo(this);
 		// initialize table type
 		tableType = getModelSession().getTableType();
 		controlAreaIds = getModelSession().getSelectedControlAreas()
@@ -414,7 +416,7 @@ public final class ToolboxTableView extends BasePart {
 
 		tableService.updateTable(this, Collections.emptyList(),
 				() -> updateModel(getToolboxPart()), tableInstances::clear);
-
+		subcribeTriggerResortEvent();
 		// if the table was not created (possibly the creation was canceled by
 		// the user), we stop here with creating the view
 		if (table == null) {
@@ -452,8 +454,7 @@ public final class ToolboxTableView extends BasePart {
 
 		bodyLayerStack = new BodyLayerStack(bodyDataLayer);
 
-		bodyLayerStack.freezeColumns(
-				tableService.getFixedColumns(getToolboxPart().getElementId()));
+		bodyLayerStack.freezeColumns(tableService.getFixedColumns(tableInfo));
 
 		final SelectionLayer selectionLayer = bodyLayerStack
 				.getSelectionLayer();
@@ -753,18 +754,17 @@ public final class ToolboxTableView extends BasePart {
 	}
 
 	void export() {
-		final String shortcut = getTableShortcut();
 		final List<Thread> transformatorThreads = ThreadUtils.getAllThreads()
 				.stream()
 				.filter(t -> t != null
-						&& t.getName().startsWith(shortcut.toLowerCase())
+						&& t.getName().startsWith(tableInfo.shortcut())
 						&& t.isAlive())
 				.toList();
 		if (!transformatorThreads.isEmpty() && !getDialogService()
 				.confirmExportNotCompleteTable(getToolboxShell())) {
 			return;
 		}
-		final Map<TableType, Table> tables = compileService.compile(shortcut,
+		final Map<TableType, Table> tables = compileService.compile(tableInfo,
 				getModelSession(), controlAreaIds);
 		final Optional<String> optionalOutputDir = getDialogService()
 				.selectDirectory(getToolboxShell(),
@@ -775,10 +775,9 @@ public final class ToolboxTableView extends BasePart {
 						monitor.beginTask(messages.ToolboxTableView_ExportTable,
 								IProgressMonitor.UNKNOWN);
 						exportService.exportPdf(tables,
-								ExportType.PLANNING_RECORDS,
-								getTitlebox(shortcut), getFreeFieldInfo(),
-								shortcut, outputDir,
-								getModelSession().getToolboxPaths(),
+								ExportType.PLANNING_RECORDS, getTitlebox(),
+								getFreeFieldInfo(), tableInfo.shortcut(),
+								outputDir, getModelSession().getToolboxPaths(),
 								getModelSession().getTableType(),
 								OverwriteHandling
 										.forUserConfirmation(path -> Boolean
@@ -808,7 +807,7 @@ public final class ToolboxTableView extends BasePart {
 		// update banderole
 		getBanderole().setTableType(tableType);
 
-		table = transformToTableModel(part.getElementId());
+		table = transformToTableModel();
 		// flag creation
 		MApplicationElementExtensions.setViewState(part,
 				ToolboxViewState.CREATED);
@@ -880,6 +879,51 @@ public final class ToolboxTableView extends BasePart {
 		final List<TableRow> tableRows = TableExtensions.getTableRows(table);
 		return TableRowExtensions
 				.getLeadingObjectGuid(tableRows.get(rowPosition));
+	}
+
+	/**
+	 * The table can contains the TableRow comparator, which need the another
+	 * service to be completed, then can execute. This function will subscribe
+	 * the needed event and trigger resort, when all event was triggered
+	 */
+	private void subcribeTriggerResortEvent() {
+		final Comparator<RowGroup> comparator = tableService
+				.getRowGroupComparator(tableInfo);
+		if (table != null
+				&& comparator instanceof final TableRowGroupComparator rowGroupComparator) {
+			// This is new instance of Comparator, therefore need call sort here
+			// to determine the waiting on another service criterion
+			ECollections.sort(table.getTablecontent().getRowgroups(),
+					rowGroupComparator);
+			final List<String> triggerComparisonEvent = rowGroupComparator
+					.getCriteria()
+					.stream()
+					.filter(AbstractCompareWithDependencyOnServiceCriterion.class::isInstance)
+					.map(criterion -> (AbstractCompareWithDependencyOnServiceCriterion<TableRow>) criterion)
+					.filter(criterion -> !criterion
+							.getTriggerComparisonEventTopic()
+							.isEmpty())
+					.map(AbstractCompareWithDependencyOnServiceCriterion::getTriggerComparisonEventTopic)
+					.toList();
+			if (triggerComparisonEvent.isEmpty()) {
+				return;
+			}
+			final List<String> triggeredEvents = new ArrayList<>();
+			triggerComparisonEvent.forEach(triggerEvent -> getBroker()
+					.subscribe(triggerEvent, event -> {
+						triggeredEvents.add(triggerEvent);
+						if (triggeredEvents.size() == triggerComparisonEvent
+								.size()
+								&& triggeredEvents
+										.containsAll(triggerComparisonEvent)) {
+							tableService.sortTable(table, tableType, tableInfo);
+							tableInstances.clear();
+							tableInstances.addAll(
+									TableExtensions.getTableRows(table));
+							natTable.refresh();
+						}
+					}));
+		}
 	}
 
 }

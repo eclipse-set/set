@@ -119,6 +119,12 @@ public class PlanningAccessServiceImpl implements PlanningAccessService {
 		if (planingGroups.isEmpty()) {
 			return null;
 		}
+
+		final var currentArt = getCurrentUntergewerkArt();
+		if (currentArt == null) {
+			return planingGroups.get(0);
+		}
+
 		final Map<ENUMUntergewerkArt, List<Planung_Gruppe>> groupsBySubWork = planingGroups
 				.stream()
 				.filter(group -> {

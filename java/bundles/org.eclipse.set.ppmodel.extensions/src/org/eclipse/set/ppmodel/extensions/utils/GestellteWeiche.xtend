@@ -9,6 +9,7 @@
 package org.eclipse.set.ppmodel.extensions.utils
 
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element
+import java.util.Objects
 
 /**
  * A {@link W_Kr_Gsp_Element} with a Lage.
@@ -43,4 +44,13 @@ class GestellteWeiche {
 	def String getBezeichnung() {
 		return '''«element.bezeichnung.bezeichnungTabelle.wert» «lage»'''
 	}
+	
+	override int hashCode() {
+		return Objects.hash(element, lage)
+	}
+	
+	override boolean equals(Object obj) {
+		return hashCode == Objects.hashCode(obj)
+	}
+	
 }

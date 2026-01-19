@@ -165,4 +165,20 @@ public class Messages {
 	 */
 	public String TableExportPart_ExportPlanningRecordsDescriptionService_ViewName;
 
+	/**
+	 * Nicht generierbar:
+	 */
+	public String TableOverviewPart_NonTransformableTable;
+
+	/**
+	 * Fehler bei Tabellengenerierung
+	 */
+	public String TableTransform_Error;
+
+	/**
+	 * Es gibt Fehler bei der Tabellengenerierung der Vergleichsplanung. Es wird
+	 * nur die Tabelle der Originalplanung angezeigt.
+	 */
+	public String TableTransform_ComparePlanError_Msg;
+
 }

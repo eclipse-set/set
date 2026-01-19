@@ -10,15 +10,10 @@ package org.eclipse.set.utils.xml;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
-
+import org.eclipse.set.basis.PlanProXMLNode;
 import org.eclipse.set.model.validationreport.ObjectScope;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 /**
  * Determines the scope of an object based on an XML node
@@ -31,7 +26,7 @@ public class NodeObjectScopeProvider {
 
 	private static final String NODE_CONTAINER = "Container"; //$NON-NLS-1$
 
-	private static final String XPATH_PLANUNGSBEREICH = "//ID_LST_Objekt_Planungsbereich/Wert/text()"; //$NON-NLS-1$
+	private static final String XPATH_PLANUNGSBEREICH = "//LST_Planung_Gruppe/LST_Planung_Einzel/LST_Objekte_Planungsbereich/ID_LST_Objekt_Planungsbereich/Wert"; //$NON-NLS-1$
 
 	/**
 	 * Checks whether a node is inside a Ausgabe_Fachdaten container
@@ -41,7 +36,7 @@ public class NodeObjectScopeProvider {
 	 * @return whether the node is contained within a Ausgabe_Fachdaten
 	 *         container
 	 */
-	private static boolean isChildOfNode(final Node node,
+	private static boolean isChildOfNode(final PlanProXMLNode node,
 			final String parentNodeName) {
 		if (node == null) {
 			return false;
@@ -50,7 +45,7 @@ public class NodeObjectScopeProvider {
 		if (nodeName != null && nodeName.equals(parentNodeName)) {
 			return true;
 		}
-		return isChildOfNode(node.getParentNode(), parentNodeName);
+		return isChildOfNode(node.getParent(), parentNodeName);
 	}
 
 	private List<String> guidPlanungsbereichCache;
@@ -60,11 +55,11 @@ public class NodeObjectScopeProvider {
 	 *            The node to find the scope for
 	 * @return The object scope or ObjectScope.UNKNOWN
 	 */
-	public ObjectScope getObjectScope(final Node node) {
+	public ObjectScope getObjectScope(final PlanProXMLNode node) {
 		if (node == null) {
 			return ObjectScope.UNKNOWN;
 		}
-		final Node parent = node.getParentNode();
+		final PlanProXMLNode parent = node.getParent();
 		if (parent == null) {
 			return ObjectScope.UNKNOWN;
 		}
@@ -86,25 +81,20 @@ public class NodeObjectScopeProvider {
 
 	}
 
-	private boolean isGUIDInLSTPlanungsbereich(final Node node,
+	private boolean isGUIDInLSTPlanungsbereich(final PlanProXMLNode node,
 			final String guid) {
 		// For performance reasons, build a cache of all guids for objects
 		// inside the ID_LST_Objekt_Planungsbereich
 		if (guidPlanungsbereichCache == null) {
 			guidPlanungsbereichCache = new ArrayList<>();
-
-			final XPath xPath = XPathFactory.newInstance().newXPath();
-			final String expression = String.format(XPATH_PLANUNGSBEREICH,
-					guid);
 			try {
-				final NodeList nodeList = (NodeList) xPath.compile(expression)
-						.evaluate(node.getOwnerDocument(),
-								XPathConstants.NODESET);
-				for (int i = 0; i < nodeList.getLength(); ++i) {
-					final Node entry = nodeList.item(i);
-					guidPlanungsbereichCache.add(entry.getNodeValue());
-				}
-			} catch (final XPathExpressionException e) {
+				final PlanProXMLNode rootNode = node.getRootNode();
+				final Set<PlanProXMLNode> evaluateXPath = PlanProXMLNode
+						.evaluateXPath(rootNode, XPATH_PLANUNGSBEREICH);
+				guidPlanungsbereichCache.addAll(evaluateXPath.stream()
+						.map(PlanProXMLNode::getTextValue)
+						.toList());
+			} catch (final Exception e) {
 				throw new RuntimeException(e);
 			}
 

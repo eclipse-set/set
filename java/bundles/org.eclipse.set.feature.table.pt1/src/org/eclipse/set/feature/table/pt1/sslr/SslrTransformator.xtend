@@ -25,7 +25,6 @@ import org.eclipse.set.utils.table.TMFactory
 import org.osgi.service.event.EventAdmin
 
 import static org.eclipse.set.feature.table.pt1.sslr.SslrColumns.*
-import static org.eclipse.set.model.planpro.Fahrstrasse.ENUMRangierGegenfahrtausschluss.*
 
 import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BedienAnzeigeElementExtensions.*
@@ -145,35 +144,29 @@ class SslrTransformator extends AbstractPlanPro2TableModelTransformator {
 		// I: Sslr.Abhaengigkeiten.Inselgleis.Bezeichnung
 		val raFahrtGleichzeitigVerbot = fstrZugRangier?.fstrFahrweg?.
 			zielSignal?.raFahrtGleichzeitigVerbot ?: Collections.emptySet
-		fillSwitch(
+		fillIterable(
 			cols.getColumn(Inselgleis_Bezeichnung),
 			fstrZugRangier,
-			new Case<Fstr_Zug_Rangier>(
-				[!raFahrtGleichzeitigVerbot.empty],
-				[
-					raFahrtGleichzeitigVerbot.map [
+			[ fstr |
+				val result = newHashSet
+				if (!raFahrtGleichzeitigVerbot.nullOrEmpty) {
+					result.addAll(raFahrtGleichzeitigVerbot.map [
 						bezeichnung?.bezGleisBezeichnung?.wert
-					]
-				],
-				ITERABLE_FILLING_SEPARATOR,
-				MIXED_STRING_COMPARATOR
-			),
-			new Case<Fstr_Zug_Rangier>(
-				[
-					#{
-						ENUM_RANGIER_GEGENFAHRTAUSSCHLUSS_JA,
-						ENUM_RANGIER_GEGENFAHRTAUSSCHLUSS_INSELGLEIS_FREI
-					}.contains(fstrRangier?.rangierGegenfahrtausschluss?.wert)
-				],
-				[fstr |
-					it.addTopologicalCell(cols.getColumn(Inselgleis_Bezeichnung))
-					fstr.container.gleisBezeichnung.filter [
+					].filterNull)
+				}
+				
+				if (fstr.fstrRangier?.rangierGegenfahrtausschluss?.wert !==
+					null) {
+						val bezeichnung = fstr.container.gleisBezeichnung.filter [
 						intersects(fstr?.fstrFahrweg?.zielSignal)
-					].map[bezeichnung?.bezGleisBezeichnung?.wert]
-				],
-				ITERABLE_FILLING_SEPARATOR,
-				MIXED_STRING_COMPARATOR
-			)
+					].map[bezeichnung?.bezGleisBezeichnung?.wert].filterNull
+					if (!bezeichnung.empty && result.addAll(bezeichnung)) {
+						addTopologicalCell(cols.getColumn(Inselgleis_Bezeichnung))	
+					}
+				}
+				return result
+			],
+			MIXED_STRING_COMPARATOR
 		)
 
 		// J: Sslr.Abhaengigkeiten.Inselgleis.Gegenfahrtausschluss

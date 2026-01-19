@@ -7,7 +7,8 @@
 	"settings": {
 		"editor.codeActionsOnSave": {
 			"source.fixAll": "explicit",
-			"source.organizeImports": "explicit"
+			"source.organizeImports": "explicit",
+			"source.fixAll.eslint": "explicit"
 		},
 		"editor.formatOnSave": true,
 		"eslint.validate": [

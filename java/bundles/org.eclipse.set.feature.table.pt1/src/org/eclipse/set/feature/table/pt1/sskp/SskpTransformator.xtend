@@ -8,6 +8,7 @@
  */
 package org.eclipse.set.feature.table.pt1.sskp
 
+import java.math.RoundingMode
 import java.util.Set
 import org.eclipse.set.basis.graph.TopPoint
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
@@ -20,6 +21,7 @@ import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_DWeg
 import org.eclipse.set.model.planpro.PZB.ENUMPZBArt
 import org.eclipse.set.model.planpro.PZB.ENUMWirksamkeitFstr
 import org.eclipse.set.model.planpro.PZB.PZB_Element
+import org.eclipse.set.model.planpro.PZB.util.PZBValidator
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Ne5
 import org.eclipse.set.model.planpro.Signale.ENUMSignalArt
 import org.eclipse.set.model.planpro.Signale.ENUMSignalFunktion
@@ -29,7 +31,6 @@ import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.model.tablemodel.TableRow
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.ppmodel.extensions.utils.Case
-import org.eclipse.set.ppmodel.extensions.utils.TopGraph
 import org.eclipse.set.utils.math.AgateRounding
 import org.eclipse.set.utils.table.TMFactory
 import org.osgi.service.event.EventAdmin
@@ -64,8 +65,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	new(Set<ColumnDescriptor> cols,
 		EnumTranslationService enumTranslationService,
-		TopologicalGraphService topGraphService,
-		EventAdmin eventAdmin) {
+		TopologicalGraphService topGraphService, EventAdmin eventAdmin) {
 		super(cols, enumTranslationService, eventAdmin)
 		this.topGraphService = topGraphService
 	}
@@ -73,7 +73,6 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 	override transformTableContent(MultiContainer_AttributeGroup container,
 		TMFactory factory, Stell_Bereich controlArea) {
 
-		val topGraph = new TopGraph(container.TOPKante)
 		for (PZB_Element pzb : container.PZBElement.filter[isPlanningObject].
 			filterObjectsInControlArea(controlArea).filter [
 				PZBElementGUE?.IDPZBElementMitnutzung?.value === null
@@ -92,11 +91,11 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 			if (!isPZB2000 || fstrDwegs.nullOrEmpty ||
 				pzb.PZBElementGM === null) {
 				val instance = rg.newTableRow()
-				fillRowGroupContent(instance, pzb, null, topGraph)
+				fillRowGroupContent(instance, pzb, null)
 			} else {
 				pzb?.fstrDWegs?.forEach [
 					val instance = rg.newTableRow()
-					fillRowGroupContent(instance, pzb, it, topGraph)
+					fillRowGroupContent(instance, pzb, it)
 				]
 			}
 		}
@@ -105,7 +104,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	private def fillRowGroupContent(TableRow instance, PZB_Element pzb,
-		Fstr_DWeg dweg, TopGraph topGraph) {
+		Fstr_DWeg dweg) {
 		// A: Sskp.Bezug.BezugsElement
 		fillIterable(
 			instance,
@@ -176,19 +175,27 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 					val dwegV = fstrDWegSpezifisch.DWegV?.wert.toInteger
 					val inclination = fstrDWegAllg?.massgebendeNeigung?.wert.
 						toDouble
-					val multipleValue = inclination > 0 ? 0.05 : 0.1
+					val multipleValue = inclination >= 0 ? 0.05 : 0.1
+
 					if (dwegV === 0) {
 						return ""
 					}
-					
+
 					if (dwegV > 40 || (dwegV <= 40 && inclination <= 0)) {
-						addTopologicalCell(instance, cols.getColumn(PZB_Schutzstrecke_Soll))
+						addTopologicalCell(instance,
+							cols.getColumn(PZB_Schutzstrecke_Soll))
 					}
-					
+					val fillFunc = [ long value |
+						if (inclination >= 0) {
+							return value < 210 ? 210 : value
+						}
+						return value > 550 ? 550 : value
+					]
+
 					if (dwegV > 60) {
-						return '''«AgateRounding.roundUp(ADDITION_SCHUTZSTRECKE_SOLL_60 - inclination * multipleValue * 200)»'''
+						return '''«fillFunc.apply(AgateRounding.roundUp(ADDITION_SCHUTZSTRECKE_SOLL_60 - inclination * multipleValue * 200))»'''
 					} else if (dwegV <= 60 && dwegV > 40) {
-						return '''«AgateRounding.roundUp(ADDITION_SCHUTZSTRECKE_SOLL_40_60 - inclination * multipleValue * 100)»'''
+						return '''«fillFunc.apply(AgateRounding.roundUp(ADDITION_SCHUTZSTRECKE_SOLL_40_60 - inclination * multipleValue * 100))»'''
 					} else if (dwegV <= 40) {
 						return '''«inclination > 0 ? 210 : AgateRounding.roundUp(ADDITION_SCHUTZSTRECKE_SOLL_40 - inclination * multipleValue * 50)»'''
 					}
@@ -314,8 +321,9 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 			cols.getColumn(Abstand_Signal_Weiche),
 			pzb,
 			[
-				PZBElementBezugspunkt.filterNull.map [
-					getDistanceSignalTrackSwitch(topGraph, pzb, it)
+				PZBElementBezugspunkt.filterNull.map [ bezugpunkt |
+					getDistanceSignalTrackSwitch(it, bezugpunkt,
+						getDistanceScale)
 				]
 			],
 			null
@@ -353,7 +361,8 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				].filterNull.map [ pzbEle |
 					pzbEle -> getPointsDistance(it, pzbEle).min
 				].filter[value.doubleValue !== 0].map [ pair |
-					val distance = AgateRounding.roundDown(pair.value).toString
+					val distance = AgateRounding.roundDown(pair.value,
+						distanceScale).toTableDecimal(distanceScale)
 					if (PZBArt?.wert === ENUMPZBArt.ENUMPZB_ART_500_HZ) {
 						return distance
 					}
@@ -376,6 +385,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 			val isGefahrstelle = inaGefahrstelles.exists [
 				prioritaetGefahrstelle?.wert.intValue === 1
 			] && !inaGefahrstelles.map[IDMarkanterPunkt].empty
+			val scaleValue = pzb.distanceScale
 			// K: Sskp.Ina.Gef_Stelle
 			fillIterableWithConditional(
 				instance,
@@ -402,7 +412,9 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 					val markanteStelle = inaGefahrstelles.map [
 						IDMarkanterPunkt?.value?.IDMarkanteStelle?.value
 					].filter(Punkt_Objekt)
-					return getDistanceOfPoints(markanteStelle, it)
+					return AgateRounding.roundDown(
+						getDistanceOfPoints(markanteStelle, it), scaleValue).
+						toTableDecimal(scaleValue)
 				]
 			)
 
@@ -419,7 +431,9 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				pzb,
 				[bahnsteigDistance.distanceStart.present],
 				[
-					bahnsteigDistance.distanceStart.getAsDouble.toTableInteger
+					AgateRounding.roundDown(
+						bahnsteigDistance.distanceStart.getAsDouble,
+						scaleValue).toTableDecimal(scaleValue)
 				]
 			)
 
@@ -430,7 +444,9 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				pzb,
 				[bahnsteigDistance.distanceEnd.present],
 				[
-					bahnsteigDistance.distanceEnd.getAsDouble.toTableInteger
+					AgateRounding.roundDown(
+						bahnsteigDistance.distanceEnd.getAsDouble, scaleValue).
+						toTableDecimal(scaleValue)
 				]
 			)
 
@@ -451,7 +467,8 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 					PZBZuordnungSignal?.map[IDSignal?.value].map [ signal |
 						getPointsDistance(pzb, signal).min
 					].filter[it.doubleValue !== 0.0].map [
-						AgateRounding.roundDown(it).toString
+						AgateRounding.roundDown(it, scaleValue).
+							toTableDecimal(scaleValue)
 					]
 				],
 				NUMERIC_COMPARATOR,
@@ -477,7 +494,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 						signal -> getPointsDistance(pzb, signal).min
 					].filter[value.doubleValue !== 0.0].map [
 
-						'''«AgateRounding.roundDown(value).toString» «
+						'''«AgateRounding.roundDown(value, scaleValue).toTableDecimal(scaleValue)» «
 						»(«key.bezeichnung?.bezeichnungTabelle?.wert»)'''
 					]
 				],
@@ -542,7 +559,24 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				pzb,
 				[pzbGUEs],
 				null,
-				[GUEMessstrecke?.wert.intValue.toString]
+				[
+					val value = GUEMessstrecke?.wert?.setScale(2,
+						RoundingMode.FLOOR)
+					if (value === null) {
+						return ""
+					}
+
+					if (!PZBValidator.INSTANCE.
+						validateGUE_Messstrecke_Type(value, null, null)) {
+						val GUEMessstreckePattern = PZBValidator.
+							GUE_MESSSTRECKE_TYPE__PATTERN__VALUES.flatMap [ pattern |
+								pattern.map[t|t.toString]
+							].firstOrNull
+
+						throw new IllegalArgumentException('''The value: «value.toString»  isn't match the pattern: «GUEMessstreckePattern»''')
+					}
+					return value.toString
+				]
 			)
 
 			// V: Sskp.Gue.GUE_Anordnung
@@ -618,22 +652,22 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 			: object?.bezeichnung?.bezeichnungTabelle?.wert
 	}
 
-	private dispatch def String getDistanceSignalTrackSwitch(TopGraph topGraph,
-		PZB_Element pzb, Basis_Objekt object) {
+	private dispatch def String getDistanceSignalTrackSwitch(PZB_Element pzb,
+		Basis_Objekt object, int scaleValue) {
 		throw new IllegalArgumentException(object.class.simpleName)
 	}
 
-	private dispatch def String getDistanceSignalTrackSwitch(TopGraph topGraph,
-		PZB_Element pzb, Signal signal) {
+	private dispatch def String getDistanceSignalTrackSwitch(PZB_Element pzb,
+		Signal signal, int scaleValue) {
 		if (signal?.signalReal?.signalFunktion?.wert !==
 			ENUMSignalFunktion.ENUM_SIGNAL_FUNKTION_BUE_UEBERWACHUNGSSIGNAL) {
 			val distance = AgateRounding.roundDown(
-				getPointsDistance(pzb, signal).min)
-			val directionSign = topGraph.
+				getPointsDistance(pzb, signal).min, scaleValue)
+			val directionSign = topGraphService.
 					isInWirkrichtungOfSignal(signal, pzb) ? "+" : "-"
-			return distance == 0
-				? distance.toString
-				: '''«directionSign»«distance.toString»'''
+			return distance == 0.0
+				? distance.toTableDecimal(scaleValue)
+				: '''«directionSign»«distance.toTableDecimal(scaleValue)»'''
 		}
 
 		val bueSpezifischesSignal = signal.container.BUESpezifischesSignal.
@@ -654,22 +688,24 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 		if (bueKantens.empty) {
 			return ""
 		}
-		return getDistanceOfPoints(bueKantens, pzb)
+		return AgateRounding.roundDown(getDistanceOfPoints(bueKantens, pzb),
+			scaleValue).toTableDecimal(scaleValue)
 
 	}
 
-	private dispatch def String getDistanceSignalTrackSwitch(TopGraph topGraph,
-		PZB_Element pzb, W_Kr_Gsp_Element gspElement) {
+	private dispatch def String getDistanceSignalTrackSwitch(PZB_Element pzb,
+		W_Kr_Gsp_Element gspElement, int scaleValue) {
 		val gspKomponent = gspElement.WKrGspKomponenten.filter [
 			zungenpaar !== null
 		]
 		if (gspKomponent.empty) {
 			throw new IllegalArgumentException('''«gspElement?.bezeichnung.bezeichnungTabelle?.wert» hast no Zungenpaar''')
 		}
-		return getDistanceOfPoints(gspKomponent, pzb)
+		return AgateRounding.roundDown(getDistanceOfPoints(gspKomponent, pzb),
+			scaleValue).toTableDecimal(scaleValue)
 	}
 
-	private def String getDistanceOfPoints(Iterable<? extends Punkt_Objekt> p1s,
+	private def double getDistanceOfPoints(Iterable<? extends Punkt_Objekt> p1s,
 		Punkt_Objekt p2) {
 		val distance = p1s?.fold(
 			Double.MAX_VALUE,
@@ -677,10 +713,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				Math.min(current, getPointsDistance(p1, p2).min)
 			]
 		)
-		if (distance.doubleValue === 0) {
-			return ""
-		}
-		return AgateRounding.roundDown(distance).toString
+		return distance.doubleValue
 	}
 
 	private def Iterable<Double> getPointsDistance(Punkt_Objekt p1,
@@ -695,4 +728,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 		].filter[present].map[get.doubleValue].toList
 	}
 
+	protected def int getDistanceScale(PZB_Element pzb) {
+		return 0;
+	}
 }

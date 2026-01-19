@@ -9,7 +9,6 @@
 package org.eclipse.set.feature.siteplan.transform
 
 import java.util.ArrayList
-import java.util.HashSet
 import java.util.List
 import org.eclipse.set.basis.geometry.GEOKanteCoordinate
 import org.eclipse.set.core.services.geometry.PointObjectPositionService
@@ -17,7 +16,6 @@ import org.eclipse.set.feature.siteplan.positionservice.PositionService
 import org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt
 import org.eclipse.set.model.planpro.Signale.ENUMSignalBefestigungsart
 import org.eclipse.set.model.planpro.Signale.Signal
-import org.eclipse.set.model.planpro.Signale.Signal_Befestigung
 import org.eclipse.set.model.siteplan.Direction
 import org.eclipse.set.model.siteplan.SignalMount
 import org.eclipse.set.model.siteplan.SignalMountType
@@ -28,11 +26,14 @@ import org.eclipse.set.model.siteplan.SiteplanFactory
 import org.eclipse.set.model.siteplan.SiteplanPackage
 import org.osgi.service.component.annotations.Component
 import org.osgi.service.component.annotations.Reference
+import org.eclipse.set.model.planpro.Signale.ENUMRahmenArt
+import java.util.Set
 
 import static extension org.eclipse.set.feature.siteplan.transform.TransformUtils.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalBefestigungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalRahmenExtensions.*
+import org.eclipse.set.model.planpro.Signale.Signal_Befestigung
 
 /**
  * Transforms PlanPro Signals to Siteplan Signals/SignalMounts
@@ -64,9 +65,56 @@ class SignalTransformator extends BaseTransformator<Signal> {
 	override transform(Signal signal) {
 		val si = new SignalInfo
 		si.signals = #[signal].toSet
+		
+		// add all mounts connected to SignalRahmen of this signal
 		si.mounts = signal.signalRahmen?.map[signalBefestigung]?.toSet ?:
 			newHashSet
+		// add all parents (recursively) to si.mounts.
+		val mountsWithParents = si.mounts.map [ mount |
+					mount?.signalBefestigungen].flatten
+		si.mounts = newHashSet(mountsWithParents)
+		
+		si.baseMount = signal.findBaseMount(si.mounts)
 		signalinfo.add(si)
+	}
+	
+	
+	/**
+	 * for a given signal, together with all mounts associated to that signal, returns the root mount if the signal.
+	 * The root mount has no parents (so it is not attached to anything). 
+	 * Think of it as the foundation in most signal assemblies
+	 * A signal may have multiple of these mounts. 
+	 * If so, return (an arbitrary) one of these, where the Schirm of that signal is attached to.
+	 * the rootMount of a signal is used in the Lageplan to determine the geo-position where that signal should be drawn.
+	 * 
+	 * If mounts form a loop, return mount farthest away from schirm.
+	 */
+	private static def Signal_Befestigung findBaseMount(Signal signal, Set<Signal_Befestigung> mounts) {
+		val mounts_with_no_parents = mounts.filter[signalBefestigung === null]		
+		val mounts_with_schirm = signal.signalRahmen?.filter[rahmenArt?.getWert() === ENUMRahmenArt.ENUM_RAHMEN_ART_SCHIRM].map[signalBefestigung].filterNull
+
+		//original definition: (0 mounts with no parent)
+		if (mounts_with_no_parents.isEmpty) {
+			return null
+		}
+		// original definition: (1 mount with no parent)
+		// return any mount with no parent, if no mount with schirm exist. (same result as in previous implementation)
+		if (mounts_with_no_parents.size() == 1 || mounts_with_schirm.isEmpty) {
+			return mounts_with_no_parents.head
+		}
+		
+		// If more then one mount like that exists, return the one with a schirm.	
+		// If there are multiple ones, take any	
+		var mount = mounts_with_schirm.head
+		var visited = newHashSet()
+		
+		// walk up to root mount. If mounts form a loop, return mount farthest away from schirm.
+		while (mount.signalBefestigung !== null && !visited.contains(mount.signalBefestigung)) {
+			visited.add(mount)
+			mount = mount.signalBefestigung
+		}
+		
+		return mount
 	}
 
 	override finalizeTransform() {
@@ -76,21 +124,14 @@ class SignalTransformator extends BaseTransformator<Signal> {
 		val mergedSignalInfo = new ArrayList<SignalInfo>
 		signalinfo.forEach [ si |
 			try {
-				val signalMounts = si.mounts.map [ mount |
-					mount?.signalBefestigungen
-				].flatten
-				val merged = mergedSignalInfo.findFirst [ msi |
-					msi.mounts.contains(signalMounts.lastOrNull)
+				val mergeWith = mergedSignalInfo.findFirst [ msi |
+					msi.mounts.contains(si.baseMount)
 				]
-				if (merged === null) {
-					val mounts = new HashSet<Signal_Befestigung>()
-					mounts += si.mounts
-					mounts += signalMounts
-					si.mounts = mounts
+				if (mergeWith === null) {
 					mergedSignalInfo.add(si)
 				} else {
-					merged.signals += si.signals
-					merged.mounts += signalMounts
+					mergeWith.signals += si.signals
+					mergeWith.mounts += si.mounts
 				}
 			} catch (Exception exc) {
 				recordError(si.signals.head?.identitaet?.wert,

@@ -9,7 +9,7 @@
 	<packaging>pom</packaging>
 
 	<properties>
-		<tycho-version>4.0.13</tycho-version>
+		<tycho-version>5.0.0</tycho-version>
 		<deploy-plugin-version>3.1.4</deploy-plugin-version>
 		<assembly.version>2.4</assembly.version>
 		<replacer.version>1.4.1</replacer.version>
@@ -96,6 +96,7 @@
 		<module>java/bundles/org.eclipse.set.rcp.extensions</module>
 		<module>java/bundles/org.eclipse.set.utils.rcp</module>
 		<module>java/bundles/org.eclipse.set.utils.table</module>
+		<module>java/bundles/org.eclipse.set.utils.table.test</module>
 		<module>java/bundles/org.eclipse.set.utils.test</module>
 		<module>java-test</module>
 	</modules>
@@ -190,7 +191,7 @@
 					<plugin>
 						<groupId>org.eclipse.xtend</groupId>
 						<artifactId>xtend-maven-plugin</artifactId>
-						<version>2.38.0</version>
+						<version>2.39.0</version>
 						<executions>
 							<execution>
 								<goals>
@@ -260,7 +261,7 @@
 							<dependency>
 								<groupId>com.puppycrawl.tools</groupId>
 								<artifactId>checkstyle</artifactId>
-								<version>11.1.0</version>
+								<version>13.0.0</version>
 							</dependency>
 						</dependencies>
 						<configuration>

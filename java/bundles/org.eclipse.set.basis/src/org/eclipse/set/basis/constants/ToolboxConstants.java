@@ -13,6 +13,7 @@ import java.util.Comparator;
 import org.eclipse.set.basis.MixedStringComparator;
 import org.eclipse.set.basis.NumericFirstComparatorDecorator;
 import org.eclipse.set.basis.ToolboxProperties;
+import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt;
 
 /**
  * Common toolbox constants.
@@ -91,6 +92,11 @@ public final class ToolboxConstants {
 		 * The id of the siteplan
 		 */
 		public static final String SITEPLAN_CACHE_ID = "toolbox.cache.siteplan";
+
+		/**
+		 * The cache id for the route and route km of the {@link Punkt_Objekt}
+		 */
+		public static final String POINT_OBJECT_ROUTE_KM = "toolbox.cache.point-object-route-km";
 	}
 
 	/**
@@ -154,7 +160,7 @@ public final class ToolboxConstants {
 	 * Compares strings numerical.
 	 */
 	public static final MixedStringComparator NUMERIC_COMPARATOR = new MixedStringComparator(
-			"(?<numberN>[0-9]+)");
+			"(?<numberPrefix>-)?(?<numberN>[0-9]+)(.(?<numberD>[0-9]+))?");
 
 	/**
 	 * The id of the attachment viewer part.
@@ -345,6 +351,11 @@ public final class ToolboxConstants {
 	 * Label for Topological Cell
 	 */
 	public static final String TABLE_TOPOLOGICAL_CELL = "topologicalCell";
+
+	/**
+	 * Separator for file name by compare plan
+	 */
+	public static final String TITLE_FILE_NAME_SEPARATOR = " ⇔ ";
 
 	/**
 	 * The tolerance value between TOP_Kante length and the sum of GEO_Kanten

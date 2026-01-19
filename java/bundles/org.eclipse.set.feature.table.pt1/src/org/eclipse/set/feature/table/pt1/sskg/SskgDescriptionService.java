@@ -34,4 +34,9 @@ public class SskgDescriptionService extends AbstractESTWTableDescription {
 	protected String getToolboxViewTooltip() {
 		return messages.SskgDescriptionService_ViewTooltip;
 	}
+
+	@Override
+	protected String getTableShortcut() {
+		return messages.ToolboxTableNameSskgShort;
+	}
 }

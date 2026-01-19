@@ -9,10 +9,16 @@
 package org.eclipse.set.basis;
 
 import java.util.Comparator;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.Optional;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Strings;
 
@@ -24,18 +30,11 @@ import com.google.common.base.Strings;
  * 
  * @author Schaefer
  */
+@SuppressWarnings("nls")
 public class MixedStringComparator implements Comparator<String> {
+	Logger logger = LoggerFactory.getLogger(MixedStringComparator.class);
+	private static final String NUMBER = "number";
 
-	private static final int NAME_GROUP = 1;
-
-	private static final Pattern NAME_PATTERN = Pattern
-			.compile("\\??\\(\\?\\<([^>]+)\\>[^)]*\\)(.*)"); //$NON-NLS-1$
-
-	private static final String NUMBER = "number"; //$NON-NLS-1$
-
-	private static final int REST_GROUP = 2;
-
-	@SuppressWarnings("nls")
 	private static String transform(final String text) {
 		String replaced = text.replace('ä', 'a');
 		replaced = text.replace('Ä', 'A');
@@ -61,7 +60,12 @@ public class MixedStringComparator implements Comparator<String> {
 	 */
 	public MixedStringComparator(final String signature) {
 		pattern = Pattern.compile(signature);
-		groups = findGroupNames(signature);
+		final List<Entry<String, Integer>> sortedGroups = pattern.namedGroups()
+				.entrySet()
+				.stream()
+				.sorted((a, b) -> a.getValue().compareTo(b.getValue()))
+				.toList();
+		groups = sortedGroups.stream().map(Entry::getKey).toList();
 	}
 
 	/**
@@ -87,38 +91,33 @@ public class MixedStringComparator implements Comparator<String> {
 
 		final Matcher matcher1 = pattern.matcher(o1);
 		final Matcher matcher2 = pattern.matcher(o2);
-
-		if (!matcher1.matches()) {
-			throw new IllegalArgumentException(
-					"pattern=" + pattern.toString() + " input=" + o1); //$NON-NLS-1$ //$NON-NLS-2$
-		}
-		if (!matcher2.matches()) {
-			throw new IllegalArgumentException(
-					"pattern=" + pattern.toString() + " input=" + o2); //$NON-NLS-1$ //$NON-NLS-2$
+		final Optional<Integer> patternCompare = compareNullableValue(matcher1,
+				matcher2, m -> {
+					if (!m.matches()) {
+						logger.error("pattern= {} - input= {}", pattern,
+								m == matcher1 ? o1 : o2);
+						return true;
+					}
+					return false;
+				});
+		if (patternCompare.isPresent()) {
+			return patternCompare.get().intValue();
 		}
 
 		for (final String groupName : groups) {
+			final Optional<Integer> compareExistGroup = compareNullableValue(
+					matcher1, matcher2,
+					m -> tryCatchFalse(m, o -> o.group(groupName)));
+			if (compareExistGroup.isPresent()) {
+				return compareExistGroup.get().intValue();
+			}
 			final String groupO1 = matcher1.group(groupName);
 			final String groupO2 = matcher2.group(groupName);
 			if (groupName.startsWith(NUMBER)) {
-				int value1;
-				if (Strings.isNullOrEmpty(groupO1)) {
-					value1 = 0;
-				} else {
-					value1 = Integer.parseInt(groupO1);
-				}
-				int value2;
-				if (Strings.isNullOrEmpty(groupO2)) {
-					value2 = 0;
-				} else {
-					value2 = Integer.parseInt(groupO2);
-				}
-
-				if (value1 < value2) {
-					return -1;
-				}
-				if (value1 > value2) {
-					return 1;
+				final int compareNumber = compareNumber(groupName, groupO1,
+						groupO2);
+				if (compareNumber != 0) {
+					return compareNumber;
 				}
 			} else {
 				final String groupO1NullSafe = groupO1 == null ? "" : groupO1; //$NON-NLS-1$
@@ -130,20 +129,60 @@ public class MixedStringComparator implements Comparator<String> {
 		}
 
 		return 0;
-
 	}
 
-	private List<String> findGroupNames(final String signature) {
-		final LinkedList<String> result = new LinkedList<>();
+	private static int compareNumber(final String groupName,
+			final String groupO1, final String groupO2) {
+		if (groupName.startsWith("numberD")) {
+			final String value1 = groupO1 == null ? "0.0" : "0." + groupO1;
+			final String value2 = groupO2 == null ? "0.0" : "0." + groupO2;
+			return Double.valueOf(value1).compareTo(Double.valueOf(value2));
+		}
+		final double value1 = Strings.isNullOrEmpty(groupO1) ? 0
+				: Double.parseDouble(groupO1);
+		final double value2 = Strings.isNullOrEmpty(groupO2) ? 0
+				: Double.parseDouble(groupO2);
 
-		final Matcher matcher = NAME_PATTERN.matcher(signature);
-		if (matcher.matches()) {
-			final String name = matcher.group(NAME_GROUP);
-			final String rest = matcher.group(REST_GROUP);
-			result.add(name);
-			result.addAll(findGroupNames(rest));
+		return Double.compare(value1, value2);
+	}
+
+	/**
+	 * Compare nullable/ not available objects
+	 * 
+	 * @param <T>
+	 *            the compare type
+	 * @param first
+	 *            the first value
+	 * @param second
+	 *            the second value
+	 * @param checkNullable
+	 *            checkNullable predicate
+	 * @return the optional empty, when both of the values are available
+	 */
+	public static <T> Optional<Integer> compareNullableValue(final T first,
+			final T second, final Predicate<T> checkNullable) {
+		if (checkNullable.test(first) && first == second) {
+			return Optional.of(Integer.valueOf(0));
 		}
 
-		return result;
+		if (checkNullable.test(first)) {
+			return Optional.of(Integer.valueOf(-1));
+		}
+
+		if (checkNullable.test(second)) {
+			return Optional.of(Integer.valueOf(1));
+		}
+
+		return Optional.empty();
+	}
+
+	private static <T, U> boolean tryCatchFalse(final T obj,
+			final Function<T, U> function) {
+		try {
+			function.apply(obj);
+			return false;
+		} catch (final Exception e) {
+			return true;
+		}
 	}
 }

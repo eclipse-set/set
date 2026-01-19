@@ -20,6 +20,7 @@ import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -78,10 +79,14 @@ public abstract class AbstractPlanPro2TableTransformationService
 	public ColumnDescriptor fillHeaderDescriptions(
 			final ColumnDescriptorModelBuilder builder) {
 		final GroupBuilder root = builder.createRootColumn(getTableHeading());
+		String tableShortcut = getTableNameInfo().getShortName().toLowerCase();
+		// IMPROVE: this is only a temporary situation for the table
+		// Sskp_dm
+		if (tableShortcut.equals("sskp_dm")) { //$NON-NLS-1$
+			tableShortcut = "sskp"; //$NON-NLS-1$
+		}
 		final Path templatePath = Paths
-				.get(TEMPLATE_DIR,
-						getTableNameInfo().getShortName().toLowerCase()
-								+ "_vorlage.xlsx") //$NON-NLS-1$
+				.get(TEMPLATE_DIR, tableShortcut + "_vorlage.xlsx") //$NON-NLS-1$
 				.toAbsolutePath();
 		try (final FileInputStream inputStream = new FileInputStream(
 				templatePath.toFile());
@@ -164,13 +169,15 @@ public abstract class AbstractPlanPro2TableTransformationService
 	protected abstract List<String> getTopologicalColumnPosition();
 
 	protected void setTopologicalColumnHightlight(final Table table) {
+
 		final Set<ColumnDescriptor> topologicalCols = getTopologicalColumnPosition()
 				.stream()
-				.flatMap(position -> cols.stream()
+				.map(position -> cols.stream()
 						.filter(col -> col.getColumnPosition() != null
-								&& col.getColumnPosition().equals(position)
-								// Only take the column at last level
-								&& col.getChildren().isEmpty()))
+								&& col.getColumnPosition().equals(position))
+						.findFirst()
+						.orElse(null))
+				.filter(Objects::nonNull)
 				.collect(Collectors.toSet());
 		TableExtensions.getTableRows(table)
 				.forEach(row -> TableRowExtensions.setTopologicalCell(row,

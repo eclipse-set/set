@@ -22,6 +22,7 @@ import org.eclipse.set.model.tablemodel.MultiColorCellContent;
 import org.eclipse.set.model.tablemodel.TableCell;
 import org.eclipse.set.model.tablemodel.TablemodelFactory;
 import org.eclipse.set.model.tablemodel.extensions.CellContentExtensions;
+import org.eclipse.set.model.tablemodel.extensions.TableCellExtensions;
 import org.eclipse.set.ppmodel.extensions.EObjectExtensions;
 import org.eclipse.set.services.table.TableDiffService;
 import org.osgi.service.component.annotations.Component;
@@ -64,7 +65,6 @@ public class TableStateDiffService extends AbstractTableDiff {
 		compareContent.setSeparator(EObjectExtensions
 				.getNullableObject(oldCell, c -> c.getContent().getSeparator())
 				.orElse(null));
-
 		return compareContent;
 	}
 
@@ -87,17 +87,15 @@ public class TableStateDiffService extends AbstractTableDiff {
 			// and final state
 			final CompareCellContent compareCellContent = TablemodelFactory.eINSTANCE
 					.createCompareCellContent();
-			oldCellContent.getValue().forEach(colorContent -> {
-				compareCellContent.getOldValue()
-						.add(String.format(colorContent.getStringFormat(),
-								colorContent.getMultiColorValue()));
-			});
+			oldCellContent.getValue()
+					.forEach(colorContent -> compareCellContent.getOldValue()
+							.add(String.format(colorContent.getStringFormat(),
+									colorContent.getMultiColorValue())));
 
-			newCellContent.getValue().forEach(colorContent -> {
-				compareCellContent.getNewValue()
-						.add(String.format(colorContent.getStringFormat(),
-								colorContent.getMultiColorValue()));
-			});
+			newCellContent.getValue()
+					.forEach(colorContent -> compareCellContent.getNewValue()
+							.add(String.format(colorContent.getStringFormat(),
+									colorContent.getMultiColorValue())));
 			oldCell.setContent(compareCellContent);
 		}
 	}
