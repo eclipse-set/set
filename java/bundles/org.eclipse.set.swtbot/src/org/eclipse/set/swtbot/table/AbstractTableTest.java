@@ -111,15 +111,22 @@ public abstract class AbstractTableTest extends AbstractPPHNTest {
 		layers = SWTBotUtils.getNattableLayers(nattableBot);
 	}
 
+	@SuppressWarnings("boxing")
 	protected void thenRowAndColumnCountEqualReferenceCSV() {
 		final int nattableColumnCount = layers.gridLayer()
 				.getPreferredColumnCount() - fixedColumnCount;
 		final int referenceColumnCount = referenceData.get(0).size();
-		assertEquals(referenceColumnCount, nattableColumnCount);
+		assertEquals(referenceColumnCount, nattableColumnCount,
+				() -> String.format("%s expected column count: %d but was: %d",
+						getTestTableName(), referenceColumnCount,
+						nattableColumnCount));
 		final int nattableRowCount = getNattableHeaderRowCount()
-				+ +layers.selectionLayer().getRowCount();
+				+ layers.selectionLayer().getRowCount();
 		final int referenceRowCount = referenceData.size();
-		assertEquals(referenceRowCount, nattableRowCount);
+		assertEquals(referenceRowCount, nattableRowCount,
+				() -> String.format("%s expected row count: %d but was: %d",
+						getTestTableName(), referenceRowCount,
+						nattableRowCount));
 	}
 
 	protected void thenTableDataEqualReferenceCSV() {
