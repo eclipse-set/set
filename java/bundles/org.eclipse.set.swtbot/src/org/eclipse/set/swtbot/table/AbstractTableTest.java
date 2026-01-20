@@ -37,7 +37,7 @@ public abstract class AbstractTableTest extends AbstractPPHNTest {
 	protected static final String ZERO_WIDTH_SPACE = "\\u200B";
 
 	protected static Stream<Arguments> providesPtTable() {
-		return PtTable.tablesToTest.stream().map(table -> Arguments.of(table));
+		return PtTable.tablesToTest.stream().map(Arguments::of);
 	}
 
 	protected int fixedColumnCount = 1;
@@ -85,9 +85,19 @@ public abstract class AbstractTableTest extends AbstractPPHNTest {
 						// richtext
 						// value
 						.replace("\"\"", "\"");
-				assertEquals(referenceValue, cellValue);
+				assertEquals(referenceValue, cellValue, getErrorMessage(
+						columnIndex, rowIndex, referenceValue, cellValue));
 			}
 		}
+	}
+
+	@SuppressWarnings("boxing")
+	protected String getErrorMessage(final int columnIndex, final int rowIndex,
+			final String expectedValue, final String actualValue) {
+		return String.format(
+				"%s at row: %d, column: %d. ExpectedValue: %s - ActualValue: %s",
+				getTestTableName(), rowIndex, columnIndex, expectedValue,
+				actualValue);
 	}
 
 	protected int getNattableHeaderRowCount() {

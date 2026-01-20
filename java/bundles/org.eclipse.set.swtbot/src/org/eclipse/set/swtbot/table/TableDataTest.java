@@ -8,12 +8,11 @@
  */
 package org.eclipse.set.swtbot.table;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.IOException;
 
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotCombo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInstance;
@@ -31,12 +30,19 @@ import org.junit.jupiter.params.provider.MethodSource;
 @ExtendWith(TestFailHandle.class)
 @TestInstance(Lifecycle.PER_CLASS)
 public class TableDataTest extends AbstractTableTest {
+	private static String ALL_DATA_OPTION = "Gesamter Dateiinhalt";
+	private static String PLANUNG_BEREICH_OPTION = "Planungsbereich";
 	PtTable tableToTest;
 
 	@BeforeEach
 	@Override
 	public void beforeEach() throws Exception {
 		// do nothing
+	}
+
+	@Override
+	public String getReferenceDir() {
+		return super.getReferenceDir() + "diffState/";
 	}
 
 	@Override
@@ -91,5 +97,10 @@ public class TableDataTest extends AbstractTableTest {
 	@BeforeAll
 	void beforeAll() throws Exception {
 		super.beforeEach();
+		final SWTBotCombo controlAreaCombo = bot
+				.comboBox(PLANUNG_BEREICH_OPTION);
+		if (controlAreaCombo != null) {
+			controlAreaCombo.setSelection(ALL_DATA_OPTION);
+		}
 	}
 }
