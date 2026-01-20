@@ -195,8 +195,7 @@ class MultiContainer_AttributeGroup {
 		Assert.isTrue(!containers.empty)
 		this.containers = containers
 		cacheString = "multi/" + containers.map [
-			'''«(eContainer as LST_Zustand).identitaet.wert»/«eContainer.hashCode» '''
-			
+			'''«(eContainer as LST_Zustand).identitaet.wert»/«eContainer.hashCode»'''
 		].join("/")
 	}
 

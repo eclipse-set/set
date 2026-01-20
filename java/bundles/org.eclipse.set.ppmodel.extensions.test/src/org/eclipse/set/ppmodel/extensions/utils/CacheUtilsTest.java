@@ -15,9 +15,9 @@ import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.set.basis.Pair;
-import org.eclipse.set.ppmodel.extensions.UrObjectExtensions;
 import org.eclipse.set.model.planpro.Basisobjekte.BasisobjekteFactory;
 import org.eclipse.set.model.planpro.Basisobjekte.Identitaet_TypeClass;
 import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
@@ -25,8 +25,12 @@ import org.eclipse.set.model.planpro.PlanPro.Container_AttributeGroup;
 import org.eclipse.set.model.planpro.PlanPro.LST_Zustand;
 import org.eclipse.set.model.planpro.PlanPro.PlanProFactory;
 import org.eclipse.set.model.planpro.PlanPro.PlanProPackage;
+import org.eclipse.set.model.planpro.PlanPro.impl.LST_ZustandImpl;
+import org.eclipse.set.model.planpro.Signale.Signal;
 import org.eclipse.set.model.planpro.Signale.SignaleFactory;
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element;
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.Weichen_und_GleissperrenFactory;
+import org.eclipse.set.ppmodel.extensions.UrObjectExtensions;
 import org.eclipse.set.unittest.utils.TestData;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -52,22 +56,23 @@ class CacheUtilsTest {
 
 	@SuppressWarnings("nls") // we don't translate the test data
 	private static Stream<TestData<Ur_Objekt, String>> testGetCacheKey() {
+		final W_Kr_Gsp_Element first = create( //
+				Weichen_und_GleissperrenFactory.eINSTANCE::createW_Kr_Gsp_Element,
+				PlanProPackage.eINSTANCE
+						.getContainer_AttributeGroup_WKrGspElement(),
+				"element-id", "container-id");
+		final int firstContainerHashCode = getLSTZustandHashCode(first);
+
+		final Signal testSignal = create(SignaleFactory.eINSTANCE::createSignal,
+				PlanProPackage.eINSTANCE.getContainer_AttributeGroup_Signal(),
+				"123", "456");
+		final int signalContainerHashCore = getLSTZustandHashCode(testSignal);
 		return Stream.of( //
-				new TestData<>( //
-						create( //
-								Weichen_und_GleissperrenFactory.eINSTANCE::createW_Kr_Gsp_Element,
-								PlanProPackage.eINSTANCE
-										.getContainer_AttributeGroup_WKrGspElement(),
-								"element-id", "container-id"),
-						"multi/container-id/element-id"), //
-				new TestData<>( //
-						create( //
-								SignaleFactory.eINSTANCE::createSignal,
-								PlanProPackage.eINSTANCE
-										.getContainer_AttributeGroup_Signal(),
-								"123", "456"),
-						"multi/456/123") //
-		);
+				new TestData<>(first,
+						"multi/container-id/" + firstContainerHashCode
+								+ "/element-id"),
+				new TestData<>(testSignal,
+						"multi/456/" + signalContainerHashCore + "/123"));
 	}
 
 	// IMPROVE: mock the elements
@@ -118,21 +123,28 @@ class CacheUtilsTest {
 
 	@SuppressWarnings("nls") // we don't translate the test data
 	private static Stream<TestData<Pair<Ur_Objekt, String>, String>> testGetCacheKeyOther() {
+		final W_Kr_Gsp_Element testGsp = create( //
+				Weichen_und_GleissperrenFactory.eINSTANCE::createW_Kr_Gsp_Element,
+				PlanProPackage.eINSTANCE
+						.getContainer_AttributeGroup_WKrGspElement(),
+				"element-id", "container-id");
+		final int testGspContainerHashCode = getLSTZustandHashCode(testGsp);
+
+		final Signal testSignal = create( //
+				SignaleFactory.eINSTANCE::createSignal,
+				PlanProPackage.eINSTANCE.getContainer_AttributeGroup_Signal(),
+				"123", "456");
+		final int testSignalContainerHashCode = getLSTZustandHashCode(
+				testSignal);
 		return Stream.of( //
 				new TestData<>( //
-						new Pair<>(create( //
-								Weichen_und_GleissperrenFactory.eINSTANCE::createW_Kr_Gsp_Element,
-								PlanProPackage.eINSTANCE
-										.getContainer_AttributeGroup_WKrGspElement(),
-								"element-id", "container-id"), "other"),
-						"multi/container-id/element-id/other=other"), //
+						new Pair<>(testGsp, "other"),
+						"multi/container-id/" + testGspContainerHashCode
+								+ "/element-id/other=other"), //
 				new TestData<>( //
-						new Pair<>(create( //
-								SignaleFactory.eINSTANCE::createSignal,
-								PlanProPackage.eINSTANCE
-										.getContainer_AttributeGroup_Signal(),
-								"123", "456"), "xxx"),
-						"multi/456/123/other=xxx") //
+						new Pair<>(testSignal, "xxx"),
+						"multi/456/" + testSignalContainerHashCode
+								+ "/123/other=xxx") //
 		);
 	}
 
@@ -142,5 +154,23 @@ class CacheUtilsTest {
 
 	private void whenGettingCacheKeyWithOther() {
 		result = CacheUtils.getCacheKey(input, other);
+	}
+
+	@SuppressWarnings("nls")
+	private static int getLSTZustandHashCode(final EObject object) {
+		if (object == null) {
+			throw new NullPointerException("contained object must not be null");
+		}
+
+		// Find nearest LST_ZustandImpl
+		var container = object;
+		while (container != null && !(container instanceof LST_ZustandImpl)) {
+			container = container.eContainer();
+		}
+
+		if (container == null) {
+			throw new RuntimeException("unable to find containing LST_Zustand");
+		}
+		return container.hashCode();
 	}
 }
