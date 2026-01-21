@@ -97,8 +97,7 @@ public abstract class AbstractTableTransformationService<T>
 	public Table transform(final T model) {
 		final Table table = TablemodelFactory.eINSTANCE.createTable();
 		buildHeading(table);
-		transformator = createTransformator();
-		transformator.transformTableContent(model, new TMFactory(table));
+		getTransformator().transformTableContent(model, new TMFactory(table));
 		TableExtensions.getTableRows(table).forEach(row -> {
 			for (int i = 0; i < row.getCells().size(); i++) {
 				if (row.getCells().get(i).getContent() == null) {
@@ -129,6 +128,13 @@ public abstract class AbstractTableTransformationService<T>
 		final ColumnDescriptorModelBuilder builder = new ColumnDescriptorModelBuilder(
 				table);
 		return fillHeaderDescriptions(builder);
+	}
+
+	private TableModelTransformator<T> getTransformator() {
+		if (transformator == null) {
+			transformator = createTransformator();
+		}
+		return transformator;
 	}
 
 }

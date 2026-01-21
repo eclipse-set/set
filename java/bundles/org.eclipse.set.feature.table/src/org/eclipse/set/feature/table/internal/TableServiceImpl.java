@@ -11,7 +11,6 @@ package org.eclipse.set.feature.table.internal;
 import static org.eclipse.set.basis.extensions.MApplicationElementExtensions.isOpenPart;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -270,30 +269,6 @@ public final class TableServiceImpl implements TableService {
 
 	}
 
-	@SuppressWarnings("unchecked")
-	private void combineTableErrors(final IModelSession modelSession,
-			final String cacheKey) {
-		final Collection<TableError> initialErrors = (Collection<TableError>) getCacheService()
-				.getCache(modelSession.getPlanProSchnittstelle(),
-						ToolboxConstants.CacheId.TABLE_ERRORS_INITIAL)
-				.getIfPresent(cacheKey);
-		final Collection<TableError> finalErrors = (Collection<TableError>) getCacheService()
-				.getCache(modelSession.getPlanProSchnittstelle(),
-						ToolboxConstants.CacheId.TABLE_ERRORS_FINAL)
-				.getIfPresent(cacheKey);
-		if (initialErrors == null || finalErrors == null) {
-			return;
-		}
-		final Collection<TableError> combined = new ArrayList<>();
-		combined.addAll(initialErrors);
-		combined.addAll(finalErrors);
-		getCacheService()
-				.getCache(modelSession.getPlanProSchnittstelle(),
-						ToolboxConstants.CacheId.TABLE_ERRORS)
-				.set(cacheKey, combined);
-		broker.post(Events.TABLEERROR_CHANGED, null);
-	}
-
 	private void saveTableError(final TableInfo tableInfo,
 			final IModelSession modelSession,
 			final Collection<TableError> errors) {
@@ -305,14 +280,6 @@ public final class TableServiceImpl implements TableService {
 						ToolboxConstants.CacheId.TABLE_ERRORS)
 				.set(shortCut, errors);
 		broker.post(Events.TABLEERROR_CHANGED, null);
-		if (modelSession.getTableType() == TableType.SINGLE) {
-			getCacheService()
-					.getCache(modelSession.getPlanProSchnittstelle(),
-							ToolboxConstants.CacheId.TABLE_ERRORS_SINGLE)
-					.set(shortCut, errors);
-			broker.post(Events.TABLEERROR_CHANGED, null);
-			return;
-		}
 	}
 
 	private Object loadTransform(final TableInfo tableInfo,
