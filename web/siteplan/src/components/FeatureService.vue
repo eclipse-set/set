@@ -116,7 +116,7 @@ export default class FeatureService extends Vue {
   unsubscribe: SubscribeOptions | undefined
   map: Map = store.state.map
   model: SiteplanModel | null = null
-  svgService: SvgService = new SvgService(axios)
+  svgService: SvgService = new SvgService()
   listFeature: ILageplanFeature[] = []
   inLODView = false
   collisionService = new CollisionService(this.map)
