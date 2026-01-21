@@ -551,11 +551,8 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 		var errorIdentiefer = getLeadingObjectIdentifier(row,
 			leadingObject?.identitaet?.wert)
 		var errorMsg = e.createErrorMsg(row)
-		val container = row.group.leadingObject.container
-		val tableType = container.containerType.defaultTableType
 		val error = new TableError(leadingObject, errorIdentiefer, "", errorMsg,
-			row)
-		error.tableType = tableType
+			row, leadingObject.container.containerType)
 		tableErrors.add(error)
 		row.set(column, '''«ERROR_PREFIX»«errorMsg»''')
 		logger.
