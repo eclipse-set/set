@@ -16,9 +16,13 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotCTabItem;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotCombo;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotRootMenu;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -38,6 +42,12 @@ public class TableControlAreaDataTest extends AbstractTableTest {
 	boolean isTableDataEmpty = false;
 	PtTable tableToTest;
 	String testArea;
+
+	@BeforeEach
+	@Override
+	public void beforeEach() throws Exception {
+		// donothing
+	}
 
 	@Override
 	public String getReferenceDir() {
@@ -65,6 +75,17 @@ public class TableControlAreaDataTest extends AbstractTableTest {
 		referenceData = loadReferenceFile(table.shortcut());
 	}
 
+	@AfterEach
+	void afterEach() throws Exception {
+		final SWTBotCTabItem cTabItem = bot.cTabItem(tableToTest.tableName());
+
+		cTabItem.setFocus();
+		cTabItem.show();
+		final SWTBotRootMenu contextMenu = cTabItem.contextMenu();
+		final List<String> menuItems = cTabItem.contextMenu().menuItems();
+		cTabItem.contextMenu("Alle schließen").click();
+	}
+
 	@BeforeAll
 	void beforeAll() throws Exception {
 		// Load test file first time to determine the control areas
@@ -79,7 +100,6 @@ public class TableControlAreaDataTest extends AbstractTableTest {
 		if (controlAreas.isEmpty()) {
 			Assumptions.abort("Control area not exist");
 		}
-
 	}
 
 	void expectMissingReferenceWhenTableDataEmpty() {
@@ -114,7 +134,6 @@ public class TableControlAreaDataTest extends AbstractTableTest {
 				thenRowAndColumnCountEqualReferenceCSV();
 				thenTableDataEqualReferenceCSV();
 			}
-
 		}
 	}
 }

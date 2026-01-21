@@ -42,6 +42,7 @@ public abstract class AbstractTableTest extends AbstractPPHNTest {
 
 	protected int fixedColumnCount = 1;
 	protected NattableLayers layers;
+	protected SWTBotNatTable nattableBot;
 	protected List<CSVRecord> referenceData = new LinkedList<>();
 
 	@Override
@@ -106,8 +107,7 @@ public abstract class AbstractTableTest extends AbstractPPHNTest {
 
 	protected void givenNattableBot(final String tableName) {
 		bot.button(tableName).click();
-		final SWTBotNatTable nattableBot = SWTBotUtils.waitForNattable(bot,
-				30000);
+		nattableBot = SWTBotUtils.waitForNattable(bot, 30000);
 		layers = SWTBotUtils.getNattableLayers(nattableBot);
 	}
 
