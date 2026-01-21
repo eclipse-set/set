@@ -66,13 +66,13 @@ class CacheUtilsTest {
 		final Signal testSignal = create(SignaleFactory.eINSTANCE::createSignal,
 				PlanProPackage.eINSTANCE.getContainer_AttributeGroup_Signal(),
 				"123", "456");
-		final int signalContainerHashCore = getLSTZustandHashCode(testSignal);
+		final int signalContainerHashCode = getLSTZustandHashCode(testSignal);
 		return Stream.of( //
 				new TestData<>(first,
 						"multi/container-id/" + firstContainerHashCode
 								+ "/element-id"),
 				new TestData<>(testSignal,
-						"multi/456/" + signalContainerHashCore + "/123"));
+						"multi/456/" + signalContainerHashCode + "/123"));
 	}
 
 	// IMPROVE: mock the elements
