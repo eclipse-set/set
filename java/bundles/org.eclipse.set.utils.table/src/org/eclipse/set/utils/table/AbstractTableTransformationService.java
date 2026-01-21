@@ -79,7 +79,9 @@ public abstract class AbstractTableTransformationService<T>
 		if (table == null) {
 			return;
 		}
-		transformator = createTransformator();
+		if (transformator == null) {
+			transformator = createTransformator();
+		}
 		setColumnTextAlignment(table);
 	}
 
@@ -90,19 +92,6 @@ public abstract class AbstractTableTransformationService<T>
 				.sort("A", LEXICOGRAPHICAL, ASC) //$NON-NLS-1$
 				.build();
 	}
-
-	// @Override
-	// public Table transform(final T model, final Stell_Bereich controlArea) {
-	// final Table table = TablemodelFactory.eINSTANCE.createTable();
-	// buildHeading(table);
-	// transformator = createTransformator();
-	// transformator.transformTableContent(model, new TMFactory(table),
-	// controlArea);
-	// // Fill blank value to cell
-	//
-	// setColumnTextAlignment(table);
-	// return table;
-	// }
 
 	@Override
 	public Table transform(final T model) {
