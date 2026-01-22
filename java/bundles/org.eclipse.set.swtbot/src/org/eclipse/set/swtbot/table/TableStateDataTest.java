@@ -19,7 +19,11 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import org.eclipse.set.basis.constants.TableType;
+import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotCTabItem;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotCombo;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
@@ -40,21 +44,25 @@ public class TableStateDataTest extends AbstractTableTest {
 	private static final String FINAL_STATE_TEXT = "Zielzustand";
 	private static final String INITIAL_STATE_TEXT = "Startzustand";
 
-	private static Stream<Arguments> providesPtTableByTableType() {
-		return List.of(TableType.INITIAL, TableType.FINAL)
-				.stream()
-				.map(type -> Arguments.of(type, PtTable.tablesToTest));
+	private static Stream<Arguments> providesTableType() {
+		return Stream.of(Arguments.of(TableType.INITIAL),
+				Arguments.of(TableType.FINAL));
 	}
 
 	TableType tableState;
 	PtTable tableToTest;
 	SWTBotCombo tableTypeSelectionCombo;
 
+	@BeforeAll
+	void beforeAll() throws Exception {
+		super.beforeEach();
+		tableTypeSelectionCombo = bot.comboBox(DIFF_STATE_TEXT);
+	}
+
 	@BeforeEach
 	@Override
 	public void beforeEach() throws Exception {
-		super.beforeEach();
-		tableTypeSelectionCombo = bot.comboBox(DIFF_STATE_TEXT);
+		// do nothing
 	}
 
 	@Override
@@ -116,18 +124,29 @@ public class TableStateDataTest extends AbstractTableTest {
 		assertFalse(referenceData.isEmpty());
 	}
 
+	@AfterEach
+	void afterEach() throws Exception {
+		for (final PtTable table : PtTable.tablesToTest) {
+			SWTBotCTabItem tabItem = bot.cTabItem(table.tableName());
+			UIThreadRunnable.syncExec(() -> {
+				tabItem.activate();
+				tabItem.close();
+			});
+		}
+
+	}
+
 	/**
 	 * Compare table data with reference file
 	 * 
 	 * @throws Exception
 	 */
 	@ParameterizedTest
-	@MethodSource("providesPtTableByTableType")
-	void testTableStateData(final TableType tableType,
-			final List<PtTable> tablesToTest) throws Exception {
+	@MethodSource("providesTableType")
+	void testTableStateData(final TableType tableType) throws Exception {
 		this.tableState = tableType;
 		whenChangeTableType();
-		for (final PtTable table : tablesToTest) {
+		for (final PtTable table : PtTable.tablesToTest) {
 			this.tableToTest = table;
 			givenNattableBot(table.tableName());
 			givenReferenceCSV(table);

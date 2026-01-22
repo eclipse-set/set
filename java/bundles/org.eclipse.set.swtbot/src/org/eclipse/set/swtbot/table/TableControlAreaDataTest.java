@@ -16,9 +16,9 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotCTabItem;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotCombo;
-import org.eclipse.swtbot.swt.finder.widgets.SWTBotRootMenu;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.BeforeAll;
@@ -77,13 +77,17 @@ public class TableControlAreaDataTest extends AbstractTableTest {
 
 	@AfterEach
 	void afterEach() throws Exception {
-		final SWTBotCTabItem cTabItem = bot.cTabItem(tableToTest.tableName());
+		for (PtTable table : PtTable.tablesToTest) {
+			if (!table.tableName().endsWith("estw")) {
+				continue;
+			}
+			final SWTBotCTabItem cTabItem = bot.cTabItem(table.tableName());
+			UIThreadRunnable.syncExec(() -> {
+				cTabItem.activate();
+				cTabItem.close();
+			});
+		}
 
-		cTabItem.setFocus();
-		cTabItem.show();
-		final SWTBotRootMenu contextMenu = cTabItem.contextMenu();
-		final List<String> menuItems = cTabItem.contextMenu().menuItems();
-		cTabItem.contextMenu("Alle schließen").click();
 	}
 
 	@BeforeAll
@@ -117,7 +121,7 @@ public class TableControlAreaDataTest extends AbstractTableTest {
 	 */
 	@ParameterizedTest
 	@FieldSource("controlAreas")
-	void testTableStateData(final String controlArea) throws Exception {
+	void testTableControlAreaData(final String controlArea) throws Exception {
 		controlAreaCombo.setSelection(controlArea);
 		testArea = controlArea;
 		for (final PtTable table : PtTable.tablesToTest) {
