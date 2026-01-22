@@ -32,9 +32,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 /**
- * Test table data by each {@link TableType}. The table data bei change
- * Stell_Bereich should be test too, but in currently test file given't
- * Stell_Bereich. By fail this test will not export new reference file
+ * Test table data by each {@link TableType}.
  * 
  * @author truong
  */
@@ -45,6 +43,7 @@ public class TableStateDataTest extends AbstractTableTest {
 	private static final String INITIAL_STATE_TEXT = "Startzustand";
 
 	private static Stream<Arguments> providesTableType() {
+		// Diff state is already tested in TableTestData
 		return Stream.of(Arguments.of(TableType.INITIAL),
 				Arguments.of(TableType.FINAL));
 	}
