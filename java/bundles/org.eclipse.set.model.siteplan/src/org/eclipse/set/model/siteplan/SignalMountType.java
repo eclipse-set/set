@@ -285,8 +285,7 @@ public enum SignalMountType implements Enumerator {
 	private static final SignalMountType[] VALUES_ARRAY = new SignalMountType[] {
 			MAST, MEHRERE_MASTEN, PFOSTEN, SCHIENENFUSS, GLEISABSCHLUSS,
 			MAST_NIEDRIG, PFOSTEN_NIEDRIG, DECKENKONSTRUKTION, WANDKONSTRUKTION,
-			SIGNALAUSLEGER, SIGNALBRUECKE,
-			SONDERKONSTRUKTION, };
+			SIGNALAUSLEGER, SIGNALBRUECKE, SONDERKONSTRUKTION, };
 
 	/**
 	 * A public read-only list of all the '<em><b>Signal Mount Type</b></em>'
