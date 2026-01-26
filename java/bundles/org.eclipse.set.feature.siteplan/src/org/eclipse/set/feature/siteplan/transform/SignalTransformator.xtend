@@ -31,6 +31,7 @@ import static extension org.eclipse.set.feature.siteplan.transform.TransformUtil
 import static extension org.eclipse.set.ppmodel.extensions.SignalBefestigungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalRahmenExtensions.*
+import java.util.Set
 
 /**
  * Transforms PlanPro Signals to Siteplan Signals/SignalMounts
@@ -139,11 +140,13 @@ class SignalTransformator extends BaseTransformator<Signal> {
 		// Signals are rotated according to their effective rotation
 		signalMount.position.rotation = effectiveRotation
 
-		signalMount.mountType = signalInfo.mountType
 		// Transform each attached signal
 		signalMount.attachedSignals.addAll(signalInfo.signals.map [
 			transformAttachedSignal(it, signalInfo, signalMount)
 		].filter[!screen.empty])
+		
+		
+		signalMount.mountType = signalInfo.mountType
 
 		// Discard empty signals
 		if (signalMount.attachedSignals.empty)
@@ -190,6 +193,21 @@ class SignalTransformator extends BaseTransformator<Signal> {
 		}
 	}
 
+
+
+	private static val Set<ENUMBefestigungArt> MAST_BEFESTIGUNGSARTEN = newHashSet(
+		ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_MAST_HOCH,
+		ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_MAST_NIEDRIG,
+		ENUMBefestigungArt. ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_SONSTIGE_HOCH,
+		ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_SONSTIGE_NIEDRIG,
+		ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_SONDERANORDNUNG_MAST_HOCH,
+		ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_SONDERANORDNUNG_MAST_NIEDRIG
+	);
+
+	def private int countMasts(Iterable<ENUMBefestigungArt> mounts) {
+		return mounts.filter[ MAST_BEFESTIGUNGSARTEN.contains(it) ].size;
+	}
+	
 	/**
 	 * Original Definition:
 	 * - if there are only Sonderkonstruktionen as mounts, return SONDERKONSTRUKTION
@@ -205,6 +223,16 @@ class SignalTransformator extends BaseTransformator<Signal> {
 	 * - if any specific mount is an SignalAuslegerLinks, return SignalAuslegerLinks.
 	 */
 	def SignalMountType getMountType(SignalInfo info) {
+		val signal2 = info.signals.sortBy[identitaet.wert].head
+		if (signal2.identitaet.wert.equals("88F74BD2-6F41-4747-B94D-6CDA6C844158") || 
+			signal2.identitaet.wert.equals("f423d726-53d1-4bfb-a205-852e9241aa21") 
+		) {	    
+	    	println("found 78Vff");
+		}
+
+		
+		println("found" +info.getSignalGuid().toString());
+		
 		var mounts = info.mounts.sortBy[identitaet.wert].map [
 			signalBefestigungAllg.befestigungArt.wert
 		]
@@ -236,10 +264,16 @@ class SignalTransformator extends BaseTransformator<Signal> {
 					return SignalMountType.SIGNALBRUECKE;
 				}
 
+
+				val mastCount = this.countMasts(mounts);
+				if (mastCount > 1) {
+					return SignalMountType.MEHRERE_MASTEN;
+				}
+
 				var mount = specificMounts.head
 				// If multiple signals are attached to a MAST, convert into MEHRERE_MASTEN  
 				if (mount === SignalMountType.MAST && info.signals.length > 1) {
-					mount = SignalMountType.MEHRERE_MASTEN
+					return SignalMountType.MEHRERE_MASTEN;
 				}
 				return mount
 
