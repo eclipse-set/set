@@ -111,6 +111,8 @@ Bundle-ActivationPolicy: lazy
 Service-Component: OSGI-INF/org.eclipse.set.feature.table.pt1.messages.Messages.xml,
  OSGI-INF/org.eclipse.set.feature.table.pt1.ssbb.SsbbDescriptionService.xml,
  OSGI-INF/org.eclipse.set.feature.table.pt1.ssbb.SsbbTransformationService.xml,
+ OSGI-INF/org.eclipse.set.feature.table.pt1.ssbv.SsbvDescriptionService.xml,
+ OSGI-INF/org.eclipse.set.feature.table.pt1.ssbv.SsbvTransformationService.xml,
  OSGI-INF/org.eclipse.set.feature.table.pt1.ssit.SsitDescriptionService.xml,
  OSGI-INF/org.eclipse.set.feature.table.pt1.ssit.SsitTransformationService.xml,
  OSGI-INF/org.eclipse.set.feature.table.pt1.sska.SskaDescriptionService.xml,

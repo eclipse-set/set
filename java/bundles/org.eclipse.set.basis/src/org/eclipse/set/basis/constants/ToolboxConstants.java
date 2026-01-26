@@ -293,6 +293,11 @@ public final class ToolboxConstants {
 	public static final String ESTW_SUPPLEMENT_PART_ID_PREFIX = "org.eclipse.set.feature.table.supplement-estw";
 
 	/**
+	 * The prefix of Supplement table part
+	 */
+	public static final String SUPPLEMENT_TABLE_PART_ID_PREFIX = "org.eclipse.set.feature.table.supplement";
+
+	/**
 	 * Rounding result of BigDecimal.divide to place after comma
 	 */
 	public static final int ROUNDING_TO_PLACE = 5;
