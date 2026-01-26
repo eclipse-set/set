@@ -140,13 +140,14 @@ class SignalTransformator extends BaseTransformator<Signal> {
 		// Signals are rotated according to their effective rotation
 		signalMount.position.rotation = effectiveRotation
 
+		// transform MountType
+		signalMount.mountType = signalInfo.mountType
+		
 		// Transform each attached signal
 		signalMount.attachedSignals.addAll(signalInfo.signals.map [
 			transformAttachedSignal(it, signalInfo, signalMount)
 		].filter[!screen.empty])
 		
-		
-		signalMount.mountType = signalInfo.mountType
 
 		// Discard empty signals
 		if (signalMount.attachedSignals.empty)
@@ -222,17 +223,7 @@ class SignalTransformator extends BaseTransformator<Signal> {
 	 *  (ASSUMPTION: no Arbeitsbuehne without a Bridge / Ausleger (see changes in mapToSiteplanMountType))
 	 * - if any specific mount is an SignalAuslegerLinks, return SignalAuslegerLinks.
 	 */
-	def SignalMountType getMountType(SignalInfo info) {
-		val signal2 = info.signals.sortBy[identitaet.wert].head
-		if (signal2.identitaet.wert.equals("88F74BD2-6F41-4747-B94D-6CDA6C844158") || 
-			signal2.identitaet.wert.equals("f423d726-53d1-4bfb-a205-852e9241aa21") 
-		) {	    
-	    	println("found 78Vff");
-		}
-
-		
-		println("found" +info.getSignalGuid().toString());
-		
+	def SignalMountType getMountType(SignalInfo info) {		
 		var mounts = info.mounts.sortBy[identitaet.wert].map [
 			signalBefestigungAllg.befestigungArt.wert
 		]
