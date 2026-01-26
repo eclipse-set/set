@@ -179,17 +179,15 @@ export default class SvgDrawBridge extends SvgDrawSignal {
       leftOverhang = SvgDrawBridge.SVG_BRIDGE_EXTRA_START_WIDTH
       rightOverhang = SvgDrawBridge.SVG_BRIDGE_EXTRA_START_WIDTH
     } else {
-      if (extentLeft < -EPS) { // has signals on the left of the foundation
-        leftOverhang = SvgDrawBridge.SVG_BRIDGE_EXTRA_END_WIDTH
-      } else {
-        leftOverhang = SvgDrawBridge.SVG_BRIDGE_EXTRA_START_WIDTH
-      }
+      // condition <=> has signals on the left of the foundation
+      leftOverhang = (extentLeft < -EPS) ?
+        SvgDrawBridge.SVG_BRIDGE_EXTRA_END_WIDTH :
+        SvgDrawBridge.SVG_BRIDGE_EXTRA_START_WIDTH
 
-      if (extentRight > EPS) { // has signals on the right of the foundation
-        rightOverhang = SvgDrawBridge.SVG_BRIDGE_EXTRA_END_WIDTH
-      } else {
-        rightOverhang = SvgDrawBridge.SVG_BRIDGE_EXTRA_START_WIDTH
-      }
+      // condition <=> has signals on the right of the foundation
+      rightOverhang = (extentRight > EPS) ?
+        SvgDrawBridge.SVG_BRIDGE_EXTRA_END_WIDTH :
+        SvgDrawBridge.SVG_BRIDGE_EXTRA_START_WIDTH
     }
 
     const width = extentRight - extentLeft + rightOverhang + leftOverhang
