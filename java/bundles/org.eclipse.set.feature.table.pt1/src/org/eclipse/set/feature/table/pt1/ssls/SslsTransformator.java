@@ -96,8 +96,7 @@ public class SslsTransformator extends AbstractPlanPro2TableModelTransformator {
 			final SignalingSection signalingSection) {
 		final Signal startSignal = signalingSection.getStartSignal();
 		final RowFactory rg = factory.newRowGroup(startSignal);
-		// Only "Stop" entry, the single Signal mit the bracketed by for non
-		// Fiktiv Signal
+		// Only add "Stop" entry row if signal is not fiktiv
 		if (startSignal.getSignalFiktiv() == null) {
 			fill(rg.newTableRow(),
 					getColumn(cols, SslsColumns.Signal_Abschnitt), startSignal,
