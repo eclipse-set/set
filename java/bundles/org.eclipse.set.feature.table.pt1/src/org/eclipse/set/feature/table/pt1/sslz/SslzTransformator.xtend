@@ -109,7 +109,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 				instance,
 				cols.getColumn(Grundsatzangaben_Bezeichnung),
 				fstrZugRangier,
-				[getZugFstrBezeichnung([isZ(it)])]
+				[getZugFstrBezeichnung([true])]
 			)
 
 			// B: Sslz.Grundsatzangaben.Fahrweg.Start
