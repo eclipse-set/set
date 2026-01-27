@@ -59,8 +59,8 @@ class AussenelementansteuerungExtensions extends BasisObjektExtensions {
 
 	def static List<Basis_Objekt> getInformationPrimaer(
 		Aussenelementansteuerung aussenelementansteuerung) {
-		return aussenelementansteuerung?.IDInformationPrimaer?.map[value].
-			filterNull.toList
+		return aussenelementansteuerung?.IDInformationPrimaer?.map[value]?.
+			filterNull?.toList ?: #[]
 	}
 
 	def static List<ESTW_Zentraleinheit> getESTWZentraleinheits(

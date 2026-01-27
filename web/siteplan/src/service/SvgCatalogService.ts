@@ -39,11 +39,13 @@ import SignalSVGCatalog from '@/util/SVG/SVGCatalog/SignalSVGCatalog'
 import TrackCloseSVGCatalog from '@/util/SVG/SVGCatalog/TrackCloseSVGCatalog'
 import TrackLockSVGCatalog from '@/util/SVG/SVGCatalog/TrackLockSVGCatalog'
 import { AndereSignalGroup, HauptVorSignalGroup, OtherSVGCatalog, SVGMast } from '@/util/SVG/SvgEnum'
-import { AxiosStatic } from 'axios'
+import axios from 'axios'
 
 export default class SvgCatalogService {
+  private static INSTANCE = new SvgCatalogService()
+
+  private catalogLoaded: Promise<void>
   private catalog: Map<string, ISvgElement[]> = new Map<string, ISvgElement[]>()
-  private axios: AxiosStatic
   private signalSVGCatalog: SignalSVGCatalog[] = []
   private fmaComponentCatalog: FMAComponentCatalog
   private pzbCatalog: PZBCatalog
@@ -55,9 +57,8 @@ export default class SvgCatalogService {
   private lockKeyCatalog: LockKeySVGCatalog
   private othersCatalog: OthersSVGCatalog
   private cantCatalog: CantSVGCatalog
-  constructor (axios: AxiosStatic) {
-    this.axios = axios
-    this.loadSvgCatalog()
+  private constructor () {
+    this.catalogLoaded = this.loadSvgCatalog()
     this.registerSignalSVGCatalog()
 
     this.fmaComponentCatalog = new FMAComponentCatalog(this.catalog)
@@ -70,6 +71,14 @@ export default class SvgCatalogService {
     this.lockKeyCatalog = new LockKeySVGCatalog(this.catalog)
     this.cantCatalog = new CantSVGCatalog(this.catalog)
     this.othersCatalog = new OthersSVGCatalog(this.catalog)
+  }
+
+  public static getInstance () {
+    return SvgCatalogService.INSTANCE
+  }
+
+  public async isReady (): Promise<void> {
+    await this.catalogLoaded
   }
 
   public getSignalSVGCatalog (): SignalSVGCatalog[] {
@@ -116,20 +125,24 @@ export default class SvgCatalogService {
     }
   }
 
-  private loadSvgCatalog (): void {
+  private async loadSvgCatalog (): Promise<void> {
+    console.info('Start loading svg catalog...')
     const listSignalSvgFile = Object.assign({}, HauptVorSignalGroup, AndereSignalGroup, SVGMast)
+    const promises: Promise<void>[] = []
     for (const [, file] of Object.entries(listSignalSvgFile)) {
-      this.loadSvgFile(file)
+      promises.push(this.loadSvgFile(file))
     }
     const listOtherSvgFile = Object.assign({}, OtherSVGCatalog)
     for (const [, file] of Object.entries(listOtherSvgFile)) {
-      this.loadSvgFile(file)
+      promises.push(this.loadSvgFile(file))
     }
+    await Promise.all(promises)
+    console.info('Loading svg catalog finished.')
   }
 
-  private loadSvgFile (file: string): void {
+  private loadSvgFile (file: string): Promise<void> {
     const parser = new DOMParser()
-    this.axios.get(`/SvgKatalog/${file}.svg`).then(response => {
+    return axios.get(`/SvgKatalog/${file}.svg`).then(response => {
       const domXML = parser.parseFromString(response.data, 'image/svg+xml')
       const svgs = this.createSVGElements(domXML)
       this.catalog.set(file, svgs)

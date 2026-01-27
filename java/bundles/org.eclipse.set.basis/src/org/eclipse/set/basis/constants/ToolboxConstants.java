@@ -160,7 +160,7 @@ public final class ToolboxConstants {
 	 * Compares strings numerical.
 	 */
 	public static final MixedStringComparator NUMERIC_COMPARATOR = new MixedStringComparator(
-			"(?<numberPrefix>-)?(?<numberN>[0-9]+)(,(?<numberD>[0-9]+))?");
+			"(?<numberPrefix>-)?(?<numberN>[0-9]+)(.(?<numberD>[0-9]+))?");
 
 	/**
 	 * The id of the attachment viewer part.
@@ -351,6 +351,11 @@ public final class ToolboxConstants {
 	 * Label for Topological Cell
 	 */
 	public static final String TABLE_TOPOLOGICAL_CELL = "topologicalCell";
+
+	/**
+	 * Separator for file name by compare plan
+	 */
+	public static final String TITLE_FILE_NAME_SEPARATOR = " ⇔ ";
 
 	/**
 	 * The tolerance value between TOP_Kante length and the sum of GEO_Kanten

@@ -98,6 +98,10 @@ class TableCellExtensions {
 		TextAlignment textAlignment) {
 		cell.format.textAlignment = textAlignment
 	}
+	
+	def static void setTopologicalCalcultation(TableCell cell, boolean isTopologicalCalculation) {
+		cell.format.topologicalCalculation = isTopologicalCalculation
+	}
 
 	def static CellFormat getFormat(TableCell cell) {
 		val results = cell.cellannotation.filter(CellFormat).toList

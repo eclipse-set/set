@@ -33,6 +33,7 @@ class TopGraph extends AbstractRouting<TOP_Kante, TOP_Knoten, Punkt_Objekt_TOP_K
 	val Set<DirectedEdge<TOP_Kante, TOP_Knoten, Punkt_Objekt_TOP_Kante_AttributeGroup>> edges
 
 	new(Iterable<TOP_Kante> topKanten) {
+		super()
 		edges = topKanten.map[#{transform(true), transform(false)}].flatten.
 			toSet
 	}
@@ -61,7 +62,7 @@ class TopGraph extends AbstractRouting<TOP_Kante, TOP_Knoten, Punkt_Objekt_TOP_K
 	}
 
 	override getEdges(TOP_Knoten node) {
-		return node.topKanten.toSet
+		return edgesOfNode.computeIfAbsent(node, [topKanten.toSet])
 	}
 
 	override getHeadEdge(TOP_Knoten head, TOP_Kante edge) {
@@ -90,9 +91,9 @@ class TopGraph extends AbstractRouting<TOP_Kante, TOP_Knoten, Punkt_Objekt_TOP_K
 	override getEmptyPath() {
 		return new TopKantePath
 	}
-	
+
 	override getCacheKey() {
 		return edges.toList.map[getCacheKey].join("/")
 	}
-	
+
 }

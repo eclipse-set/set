@@ -612,7 +612,7 @@ class TopKanteExtensions extends BasisObjektExtensions {
 	 */
 	def static boolean intersect(TOP_Kante topKante,
 		Punkt_Objekt_TOP_Kante_AttributeGroup singlePoint) {
-		return !topKante.intersection(singlePoint.singlePoints).empty
+		return singlePoint.IDTOPKante.value === topKante
 	}
 
 	/**
@@ -680,6 +680,12 @@ class TopKanteExtensions extends BasisObjektExtensions {
 		}
 
 		throw new IllegalArgumentException('''topKnoten=«topKnoten.identitaet.wert»''')
+	}
+
+	def static boolean isRoute(TOP_Kante topKante, TOP_Kante destination) {
+		val connectionNode = topKante.connectionTo(destination)
+		return connectionNode !== null &&
+			topKante.isRoute(destination, connectionNode)
 	}
 
 	/**
@@ -833,10 +839,8 @@ class TopKanteExtensions extends BasisObjektExtensions {
 			current = geoKante.getOpposite(current)
 			geoKanten.remove(0)
 			if (geoKanten.nullOrEmpty) {
-				result.add(current ->
-					distance +
-						(geoKante.GEOKanteAllg?.GEOLaenge?.wert ?:
-							BigDecimal.ZERO))
+				result.add(current -> distance +
+					(geoKante.GEOKanteAllg?.GEOLaenge?.wert ?: BigDecimal.ZERO))
 			}
 		}
 		return result
