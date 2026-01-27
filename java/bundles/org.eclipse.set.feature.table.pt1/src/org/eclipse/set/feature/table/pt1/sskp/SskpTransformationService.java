@@ -88,27 +88,30 @@ public class SskpTransformationService
 	}
 
 	private static String getCellContent(final TableCell cell) {
+		String cellValue = ""; //$NON-NLS-1$
 		if (cell.getContent() instanceof final StringCellContent cellContent) {
-			return getFirstOrNull(cellContent.getValue());
+			cellValue = getFirstOrNull(cellContent.getValue());
 		}
 		if (cell.getContent() instanceof final CompareCellContent cellContent) {
 			if (cellContent.getNewValue().isEmpty()
 					|| cellContent.getOldValue().isEmpty()) {
-				return Optional
+				cellValue = Optional
 						.ofNullable(getFirstOrNull(cellContent.getNewValue()))
 						.orElse(getFirstOrNull(cellContent.getOldValue()));
 			}
-			return cellContent.getNewValue().get(0) + cellContent.getSeparator()
+			cellValue = cellContent.getNewValue().get(0)
+					+ cellContent.getSeparator()
 					+ cellContent.getOldValue().get(0);
 		}
 		if (cell.getContent() instanceof final MultiColorCellContent cellContent) {
 			final MultiColorContent firstOrNull = getFirstOrNull(
 					cellContent.getValue());
 
-			return firstOrNull != null ? firstOrNull.getMultiColorValue()
+			cellValue = firstOrNull != null ? firstOrNull.getMultiColorValue()
 					: null;
 		}
-		return null;
+		return cellValue == null || cellValue.isEmpty() ? null
+				: cellValue.split(" ")[0]; //$NON-NLS-1$
 	}
 
 	@Override
