@@ -375,6 +375,8 @@ public final class ToolboxTableView extends BasePart {
 
 					// Update footnotes
 					updateFootnotes();
+					// Update widget layout
+					natTable.getParent().layout();
 				}));
 	}
 
