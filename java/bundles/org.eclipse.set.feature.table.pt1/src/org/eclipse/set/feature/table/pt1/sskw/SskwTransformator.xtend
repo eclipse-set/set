@@ -18,7 +18,6 @@ import org.eclipse.set.basis.constants.ToolboxConstants
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.core.services.session.SessionService
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
-import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.BasisTypen.ENUMLinksRechts
 import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung
 import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
@@ -56,7 +55,6 @@ import static extension org.eclipse.set.ppmodel.extensions.GleisAbschnittExtensi
 import static extension org.eclipse.set.ppmodel.extensions.MultiContainer_AttributeGroupExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalbegriffExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspElementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspKomponenteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
@@ -102,10 +100,9 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
-		TMFactory factory, Stell_Bereich controlArea) {
+		TMFactory factory) {
 		xmlFinder = createEObjetXMLFinder(container)
-		val weichen = container.WKrGspElement.filter[isPlanningObject].
-			filterObjectsInControlArea(controlArea)
+		val weichen = container.WKrGspElement
 
 		for (element : weichen) {
 			if (Thread.currentThread.interrupted) {

@@ -12,6 +12,7 @@ import java.util.ArrayList
 import java.util.Collections
 import java.util.Comparator
 import java.util.List
+import java.util.Map
 import java.util.Set
 import org.eclipse.emf.common.util.Enumerator
 import org.eclipse.set.basis.constants.ToolboxConstants
@@ -27,15 +28,13 @@ import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGrou
 import org.eclipse.set.utils.events.TableDataChangeEvent
 import org.eclipse.set.utils.table.AbstractTableModelTransformator
 import org.eclipse.set.utils.table.Pt1TableChangeProperties
-import org.eclipse.set.utils.table.TMFactory
 import org.eclipse.set.utils.table.TableError
 import org.osgi.service.event.EventAdmin
 
-import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.TableRowExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.MultiContainer_AttributeGroupExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.CacheUtils.*
-import java.util.Map
 
 abstract class AbstractPlanPro2TableModelTransformator extends AbstractTableModelTransformator<MultiContainer_AttributeGroup> {
 	protected val FootnoteTransformation footnoteTransformation = new FootnoteTransformation()
@@ -131,19 +130,6 @@ abstract class AbstractPlanPro2TableModelTransformator extends AbstractTableMode
 			throw new RuntimeException("Missing column " + pos);
 		}
 		return column;
-	}
-
-	override transformTableContent(MultiContainer_AttributeGroup container,
-		TMFactory factory) {
-		val table = transformTableContent(container, factory, null)
-		table.tableRows.forEach [ row |
-			row.cells.forEach [ cell, index |
-				if (cell.content === null) {
-					fillBlank(row, index)
-				}
-			]
-		]
-		return table
 	}
 
 	def <S, T extends Ur_Objekt> void fillSingleCellWhenAllowed(
@@ -297,9 +283,12 @@ abstract class AbstractPlanPro2TableModelTransformator extends AbstractTableMode
 		ColumnDescriptor column, MultiContainer_AttributeGroup container,
 		Exception e) {
 		val errorMsg = createErrorMsg(e, row)
-		val guid = row.group.leadingObject?.identitaet?.wert
-		val leadingObject = getLeadingObjectIdentifier(row, guid)
-		tableErrors.add(new TableError(guid, leadingObject, "", errorMsg, row))
+		val leadingObject = row.group.leadingObject
+		val errorIdentiefer = getLeadingObjectIdentifier(row, leadingObject?.identitaet?.wert)
+		val tableType = container.containerType.defaultTableType
+		val error = new TableError(leadingObject, errorIdentiefer, "", errorMsg, row)
+		error.tableType = tableType
+		tableErrors.add(error)
 		return new Pt1TableChangeProperties(container, row, column,
 			#['''«ERROR_PREFIX»«errorMsg»'''], ITERABLE_FILLING_SEPARATOR)
 	}
