@@ -14,6 +14,7 @@ import static org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.getFir
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 
 import org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
@@ -61,6 +62,10 @@ public class SskpTransformationService
 	private TopologicalGraphService topGraphService;
 	@Reference
 	private EventAdmin eventAdmin;
+
+	private static final List<String> FREQUENCY_ODER = List.of("2000", //$NON-NLS-1$
+			"1000/2000", "1000", //$NON-NLS-1$ //$NON-NLS-2$
+			"500"); //$NON-NLS-1$
 
 	/**
 	 * constructor.
@@ -113,8 +118,6 @@ public class SskpTransformationService
 
 	@Override
 	public Comparator<RowGroup> getRowGroupComparator() {
-		final List<String> gmOrder = List.of("2000", "1000/2000", "1000", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				"500"); //$NON-NLS-1$
 		return TableRowGroupComparator.builder().sortByRouteAndKm(obj -> {
 			if (obj instanceof final PZB_Element pzb) {
 				final List<Basis_Objekt> bezugPunkts = PZBElementExtensions
@@ -129,12 +132,23 @@ public class SskpTransformationService
 		})
 				.sort(Bezugselement, CellComparatorType.LEXICOGRAPHICAL,
 						SortDirectionEnum.ASC)
-				.sort(Wirkfrequenz, Comparator.comparing(
-						SskpTransformationService::getCellContent,
-						Comparator.nullsLast(Comparator.comparing(
-								gmOrder::indexOf, Integer::compareUnsigned))))
+				.sort(Wirkfrequenz,
+						Comparator.comparing(
+								SskpTransformationService::getCellContent,
+								Comparator.nullsLast(frequencyComparator())))
 				.build();
 
+	}
+
+	@SuppressWarnings("boxing")
+	private static Comparator<String> frequencyComparator() {
+		return (first, second) -> {
+			final Function<String, Integer> getPiority = value -> {
+				return FREQUENCY_ODER.indexOf(value.replace("GÜ", "").trim()); //$NON-NLS-1$ //$NON-NLS-2$
+			};
+			return Integer.compareUnsigned(getPiority.apply(first),
+					getPiority.apply(second));
+		};
 	}
 
 	@Override
