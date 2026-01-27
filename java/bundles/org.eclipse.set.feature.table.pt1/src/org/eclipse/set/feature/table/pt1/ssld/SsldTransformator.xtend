@@ -16,7 +16,6 @@ import org.eclipse.set.basis.graph.TopPoint
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.core.services.graph.TopologicalGraphService
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
-import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_DWeg
 import org.eclipse.set.model.planpro.Geodaten.ENUMTOPAnschluss
@@ -40,7 +39,6 @@ import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions
 import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKnotenExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspElementExtensions.*
 import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
 
@@ -111,11 +109,9 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	override transformTableContent(
 		MultiContainer_AttributeGroup container,
-		TMFactory factory,
-		Stell_Bereich controlArea
+		TMFactory factory
 	) {
-		val fstDwegList = container.fstrDWeg.filter[isPlanningObject].
-			filterObjectsInControlArea(controlArea)
+		val fstDwegList = container.fstrDWeg
 
 		// var footnoteNumber = 1;
 		for (dweg : fstDwegList) {

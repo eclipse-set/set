@@ -154,22 +154,14 @@
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="CompareCellContent" eSuperTypes="#//CellContent">
+  <eClassifiers xsi:type="ecore:EClass" name="CompareStateCellContent" eSuperTypes="#//CellContent">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="Result of a compare operation between two cells."/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="oldValue" upperBound="-1"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The old value"/>
-      </eAnnotations>
-    </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="newValue" upperBound="-1"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The new value"/>
-      </eAnnotations>
-    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="oldValue" eType="#//CellContent"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="newValue" eType="#//CellContent"
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CellAnnotation"/>
   <eClassifiers xsi:type="ecore:EClass" name="MultiColorCellContent" eSuperTypes="#//CellContent">

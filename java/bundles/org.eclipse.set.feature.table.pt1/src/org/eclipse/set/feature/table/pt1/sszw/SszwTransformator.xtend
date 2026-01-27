@@ -51,7 +51,6 @@ import static extension org.eclipse.set.ppmodel.extensions.ETCSWKrExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.StellBereichExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrAnlageExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspElementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
@@ -76,14 +75,14 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
-		TMFactory factory, Stell_Bereich controlArea) {
+		TMFactory factory) {
 		this.factory = factory
 		return container.transform
 	}
 
 	private def Table create factory.table transform(
 		MultiContainer_AttributeGroup contanier) {
-		contanier.ETCSWKr.filter[isPlanningObject].forEach [
+		contanier.ETCSWKr.forEach [
 			if (Thread.currentThread.interrupted) {
 				return
 			}

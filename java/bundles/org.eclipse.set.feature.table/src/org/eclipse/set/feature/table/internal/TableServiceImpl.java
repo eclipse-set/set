@@ -9,19 +9,15 @@
 package org.eclipse.set.feature.table.internal;
 
 import static org.eclipse.set.basis.extensions.MApplicationElementExtensions.isOpenPart;
-import static org.eclipse.set.ppmodel.extensions.StellBereichExtensions.getStellBereich;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -39,6 +35,7 @@ import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.MissingSupplier;
 import org.eclipse.set.basis.cache.Cache;
+import org.eclipse.set.basis.constants.ContainerType;
 import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.basis.constants.ToolboxConstants;
@@ -54,7 +51,6 @@ import org.eclipse.set.core.services.part.ToolboxPartService;
 import org.eclipse.set.core.services.session.SessionService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.messages.Messages;
-import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.model.tablemodel.Table;
@@ -63,7 +59,7 @@ import org.eclipse.set.model.tablemodel.TablemodelFactory;
 import org.eclipse.set.model.tablemodel.extensions.TableCellExtensions;
 import org.eclipse.set.model.tablemodel.extensions.TableExtensions;
 import org.eclipse.set.model.tablemodel.extensions.TableRowExtensions;
-import org.eclipse.set.ppmodel.extensions.ContainerExtensions;
+import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
 import org.eclipse.set.services.table.TableDiffService;
@@ -132,9 +128,6 @@ public final class TableServiceImpl implements TableService {
 	private static final Queue<Pair<BasePart, Runnable>> transformTableThreads = new LinkedList<>();
 	private static final Set<TableInfo> nonTransformableTables = new HashSet<>();
 
-	private static final String EMPTY = "empty"; //$NON-NLS-1$
-	private static final String IGNORED_PLANNING_AREA_CACHE_KEY = "ignoredPlanningArea";//$NON-NLS-1$
-
 	private CacheService getCacheService() {
 		return ToolboxConfiguration.isDebugMode() ? Services.getNoCacheService()
 				: cacheService;
@@ -179,15 +172,19 @@ public final class TableServiceImpl implements TableService {
 		}
 	}
 
-	private Table createDiffTable(final TableInfo tableInfo,
-			final IModelSession modelSession, final String controlAreaId) {
+	private Table createDiffStateTable(final TableInfo tableInfo,
+			final IModelSession modelSession) {
+		final PlanPro2TableTransformationService modelService = getModelService(
+				tableInfo);
 
-		final Table startTable = transformToTable(tableInfo, TableType.INITIAL,
-				modelSession, controlAreaId == null ? Collections.emptySet()
-						: Set.of(controlAreaId));
-		final Table zielTable = transformToTable(tableInfo, TableType.FINAL,
-				modelSession, controlAreaId == null ? Collections.emptySet()
-						: Set.of(controlAreaId));
+		final Table startTable = modelService
+				.transform(PlanProSchnittstelleExtensions.getContainer(
+						modelSession.getPlanProSchnittstelle(),
+						ContainerType.INITIAL));
+		final Table zielTable = modelService
+				.transform(PlanProSchnittstelleExtensions.getContainer(
+						modelSession.getPlanProSchnittstelle(),
+						ContainerType.FINAL));
 		if (zielTable == null || startTable == null) {
 			return null;
 		}
@@ -205,20 +202,6 @@ public final class TableServiceImpl implements TableService {
 	public String extractShortcut(final String elementId) {
 		final String[] parts = elementId.split("\\."); //$NON-NLS-1$
 		return parts[parts.length - 1];
-	}
-
-	private String getContainerCacheId(final IModelSession modelSession,
-			final TableType tableType) {
-		// For table diffs, combine initial and final cache ids
-		if (tableType == TableType.DIFF) {
-			return getContainerCacheId(modelSession, TableType.INITIAL) + "#" //$NON-NLS-1$
-					+ getContainerCacheId(modelSession, TableType.FINAL);
-		}
-
-		// For other tables, use the container's cache id
-		return tableType.toString() + "$" //$NON-NLS-1$
-				+ ContainerExtensions.getCacheId(modelSession
-						.getContainer(tableType.getContainerForTable()));
 	}
 
 	@Override
@@ -267,134 +250,53 @@ public final class TableServiceImpl implements TableService {
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
 	public Map<TableInfo, Collection<TableError>> getTableErrors(
 			final IModelSession modelSession, final Set<String> controlAreaIds,
 			final Pt1TableCategory tableCategory) {
-		final HashMap<TableInfo, Collection<TableError>> map = new HashMap<>();
-		final String tableErrorsCacheGroup = switch (modelSession
-				.getTableType()) {
-			case FINAL -> ToolboxConstants.CacheId.TABLE_ERRORS_FINAL;
-			case INITIAL -> ToolboxConstants.CacheId.TABLE_ERRORS_INITIAL;
-			case SINGLE -> ToolboxConstants.CacheId.TABLE_ERRORS_SINGLE;
-			case DIFF -> ToolboxConstants.CacheId.TABLE_ERRORS;
-		};
-		final Cache cache = getCacheService().getCache(
-				modelSession.getPlanProSchnittstelle(), tableErrorsCacheGroup);
+		final HashMap<TableInfo, Collection<TableError>> result = new HashMap<>();
 		getAvailableTables().forEach(tableInfo -> {
 			if (tableInfo.category().equals(tableCategory)) {
-				final List<Pair<String, String>> cacheKeys = getCacheKeys(
-						tableInfo.shortcut(), modelSession, controlAreaIds);
-				final List<List<TableError>> tableErrors = cacheKeys.stream()
-						.map(cacheKey -> (List<TableError>) cache
-								.getIfPresent(cacheKey.getValue()))
-						.filter(Objects::nonNull)
-						.toList();
+				final List<TableError> tableErrors = TableServiceUtils
+						.getCachedTableError(getCacheService(), tableInfo,
+								modelSession, controlAreaIds);
 				if (!tableErrors.isEmpty()
 						|| !TableService.isTransformComplete(tableInfo, null)) {
-					map.put(tableInfo,
-							tableErrors.stream()
-									.flatMap(List::stream)
-									.toList());
+					result.put(tableInfo, tableErrors);
 				}
 			}
 		});
-		return map;
+		return result;
 
-	}
-
-	@SuppressWarnings("unchecked")
-	private void combineTableErrors(final IModelSession modelSession,
-			final String cacheKey) {
-		final Collection<TableError> initialErrors = (Collection<TableError>) getCacheService()
-				.getCache(modelSession.getPlanProSchnittstelle(),
-						ToolboxConstants.CacheId.TABLE_ERRORS_INITIAL)
-				.getIfPresent(cacheKey);
-		final Collection<TableError> finalErrors = (Collection<TableError>) getCacheService()
-				.getCache(modelSession.getPlanProSchnittstelle(),
-						ToolboxConstants.CacheId.TABLE_ERRORS_FINAL)
-				.getIfPresent(cacheKey);
-		if (initialErrors == null || finalErrors == null) {
-			return;
-		}
-		final Collection<TableError> combined = new ArrayList<>();
-		combined.addAll(initialErrors);
-		combined.addAll(finalErrors);
-		getCacheService()
-				.getCache(modelSession.getPlanProSchnittstelle(),
-						ToolboxConstants.CacheId.TABLE_ERRORS)
-				.set(cacheKey, combined);
-		broker.post(Events.TABLEERROR_CHANGED, null);
 	}
 
 	private void saveTableError(final TableInfo tableInfo,
-			final IModelSession modelSession, final TableType tableType,
-			final Collection<TableError> errors, final String cacheKey) {
+			final IModelSession modelSession,
+			final Collection<TableError> errors) {
 		final String shortName = getTableNameInfo(tableInfo).getShortName();
-		errors.forEach(error -> {
-			error.setSource(shortName);
-			error.setTableType(tableType);
-		});
-		switch (tableType) {
-			case INITIAL:
-				getCacheService()
-						.getCache(modelSession.getPlanProSchnittstelle(),
-								ToolboxConstants.CacheId.TABLE_ERRORS_INITIAL)
-						.set(cacheKey, errors);
-				break;
-			case FINAL:
-				getCacheService()
-						.getCache(modelSession.getPlanProSchnittstelle(),
-								ToolboxConstants.CacheId.TABLE_ERRORS_FINAL)
-						.set(cacheKey, errors);
-				break;
-			case SINGLE:
-				getCacheService()
-						.getCache(modelSession.getPlanProSchnittstelle(),
-								ToolboxConstants.CacheId.TABLE_ERRORS_SINGLE)
-						.set(cacheKey, errors);
-				// The plan with single state don't need combine cache errrors
-				broker.post(Events.TABLEERROR_CHANGED, null);
-				return;
-			default:
-				return;
-		}
-		combineTableErrors(modelSession, cacheKey);
+		final String shortCut = tableInfo.shortcut();
+		errors.forEach(error -> error.setSource(shortName));
+		getCacheService()
+				.getCache(modelSession.getPlanProSchnittstelle(),
+						ToolboxConstants.CacheId.TABLE_ERRORS)
+				.set(shortCut, errors);
+		broker.post(Events.TABLEERROR_CHANGED, null);
 	}
 
 	private Object loadTransform(final TableInfo tableInfo,
-			final TableType tableType, final IModelSession modelSession,
-			final String controlAreaId) {
+			final IModelSession modelSession) {
 		final PlanPro2TableTransformationService modelService = getModelService(
 				tableInfo);
 		Table transformedTable = null;
-		if (tableType == TableType.DIFF) {
-			transformedTable = createDiffTable(tableInfo, modelSession,
-					controlAreaId);
-			modelService.format(transformedTable);
-		} else {
-			final MultiContainer_AttributeGroup container = modelSession
-					.getContainer(tableType.getContainerForTable());
-			final Stell_Bereich area = getStellBereich(container,
-					controlAreaId);
-			if (controlAreaId == null
-					|| isContainerContainArea(container, controlAreaId)) {
-				transformedTable = modelService.transform(container, area);
-			} else {
-				// Create empty table
-				transformedTable = TablemodelFactory.eINSTANCE.createTable();
-				transformedTable.setTablecontent(
-						TablemodelFactory.eINSTANCE.createTableContent());
-				modelService.buildHeading(transformedTable);
-			}
-		}
+		transformedTable = createDiffStateTable(tableInfo, modelSession);
+		modelService.format(transformedTable);
 		if (Thread.currentThread().isInterrupted()
 				|| transformedTable == null) {
 			return MissingSupplier.MISSING_VALUE;
 		}
 
 		// sorting
-		sortTable(transformedTable, tableType, tableInfo);
+		sortTable(transformedTable, tableInfo);
+		saveTableToCache(transformedTable, modelSession, tableInfo);
 		return transformedTable;
 	}
 
@@ -468,73 +370,42 @@ public final class TableServiceImpl implements TableService {
 		return builder.toString();
 	}
 
-	private List<Pair<String, String>> getCacheKeys(final String shortCut,
-			final IModelSession modelSession,
-			final Set<String> controlAreaIds) {
-		if (controlAreaIds.isEmpty()) {
-			final String cachedKey = modelSession.isPlanningAreaIgnored()
-					? cacheService.cacheKeyBuilder(shortCut,
-							IGNORED_PLANNING_AREA_CACHE_KEY, EMPTY)
-					: cacheService.cacheKeyBuilder(shortCut, EMPTY);
-			return List.of(Pair.of(null, cachedKey));
-		}
-		return controlAreaIds.stream().map(areaId -> {
-			// Planning area is always ignored when any control area is
-			// selected.
-			final String areaCacheKey = cacheService.cacheKeyBuilder(shortCut,
-					IGNORED_PLANNING_AREA_CACHE_KEY, areaId);
-			return Pair.of(areaId, areaCacheKey);
-		}).toList();
-	}
-
 	@Override
 	public Table transformToTable(final TableInfo tableInfo,
 			final TableType tableType, final IModelSession modelSession,
 			final Set<String> controlAreaIds) {
-		final String containerId = getContainerCacheId(modelSession, tableType);
 		final Cache cache = getCacheService().getCache(
 				modelSession.getPlanProSchnittstelle(),
-				ToolboxConstants.SHORTCUT_TO_TABLE_CACHE_ID, containerId);
-
-		Table resultTable = null;
-
-		final List<Pair<String, String>> cacheKeys = getCacheKeys(
-				tableInfo.shortcut(), modelSession, controlAreaIds);
-		for (final Pair<String, String> cacheKey : cacheKeys) {
-			final String areaId = cacheKey.getKey();
-			final String areaCacheKey = cacheKey.getValue();
-			Table table = (Table) cache.getIfPresent(areaCacheKey);
-
-			if (table == null) {
-				table = (Table) loadTransform(tableInfo, tableType,
-						modelSession, areaId);
-				saveTableToCache(table, modelSession, containerId, tableInfo,
-						tableType, areaCacheKey);
-			}
-			if (resultTable == null) {
-				resultTable = EcoreUtil.copy(table);
-			} else {
-				for (final RowGroup rowGroup : table.getTablecontent()
-						.getRowgroups()) {
-					TableExtensions.addRowGroup(resultTable, rowGroup);
-				}
-			}
+				ToolboxConstants.SHORTCUT_TO_TABLE_CACHE_ID);
+		final Table table = cache.get(tableInfo.shortcut(),
+				() -> (Table) loadTransform(tableInfo, modelSession));
+		if (tableType != TableType.DIFF && !controlAreaIds.isEmpty()
+				&& controlAreaIds.stream()
+						.noneMatch(area -> isContainerContainArea(
+								modelSession.getContainer(
+										tableType.getContainerForTable()),
+								area))) {
+			// Create empty table
+			final Table emptyTable = TablemodelFactory.eINSTANCE.createTable();
+			emptyTable.setTablecontent(
+					TablemodelFactory.eINSTANCE.createTableContent());
+			getModelService(tableInfo).buildHeading(emptyTable);
+			return emptyTable;
 		}
 
-		// sorting
-		if (resultTable != null && resultTable.getTablecontent() != null) {
-			sortTable(resultTable, tableType, tableInfo);
-		}
-
+		final Table resultTable = TableServiceUtils.filterRequestValue(
+				EcoreUtil.copy(table), tableInfo, tableType, modelSession,
+				controlAreaIds);
+		TableServiceUtils.clearEmptyRow(resultTable);
+		sortTable(resultTable, tableInfo);
 		return resultTable;
+
 	}
 
 	private void saveTableToCache(final Table table,
-			final IModelSession modelSession, final String containerId,
-			final TableInfo tableInfo, final TableType tableType,
-			final String areaCacheKey) {
-		final String threadName = String.format("%s/saveCache/%s", //$NON-NLS-1$
-				tableInfo.shortcut(), areaCacheKey);
+			final IModelSession modelSession, final TableInfo tableInfo) {
+		final String threadName = String.format("%s/saveCache", //$NON-NLS-1$
+				tableInfo.shortcut());
 		final PlanPro2TableTransformationService modelService = getModelService(
 				tableInfo);
 		// It will create a separate transformation for each table state, which
@@ -544,13 +415,11 @@ public final class TableServiceImpl implements TableService {
 			final Runnable storageFunc = () -> {
 				final Cache cache = getCacheService().getCache(
 						modelSession.getPlanProSchnittstelle(),
-						ToolboxConstants.SHORTCUT_TO_TABLE_CACHE_ID,
-						containerId);
+						ToolboxConstants.SHORTCUT_TO_TABLE_CACHE_ID);
 				if (table != null) {
-					cache.set(areaCacheKey, table);
+					cache.set(tableInfo.shortcut(), table);
 				}
-				saveTableError(tableInfo, modelSession, tableType, errors,
-						areaCacheKey);
+				saveTableError(tableInfo, modelSession, errors);
 			};
 
 			if (TableService.isTransformComplete(tableInfo,
@@ -729,7 +598,7 @@ public final class TableServiceImpl implements TableService {
 			final Table compareTable = diffServiceMap
 					.get(TableCompareType.PROJECT)
 					.createDiffTable(mainSessionTable, compareSessionTable);
-			sortTable(compareTable, TableType.DIFF, tableInfo);
+			sortTable(compareTable, tableInfo);
 			return compareTable;
 		} catch (final Exception e) {
 			dialogService.error(Display.getCurrent().getActiveShell(),
@@ -741,8 +610,7 @@ public final class TableServiceImpl implements TableService {
 	}
 
 	@Override
-	public void sortTable(final Table table, final TableType tableType,
-			final TableInfo tableInfo) {
+	public void sortTable(final Table table, final TableInfo tableInfo) {
 		final Comparator<RowGroup> comparator = getModelService(tableInfo)
 				.getRowGroupComparator();
 		ECollections.sort(table.getTablecontent().getRowgroups(), comparator);
