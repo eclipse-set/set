@@ -10,6 +10,7 @@
  */
 package org.eclipse.set.feature.table.pt1.ssls;
 
+import static org.eclipse.set.model.planpro.Signale.ENUMFiktivesSignalFunktion.*;
 import static org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.getContainer;
 
 import java.util.HashSet;
@@ -20,6 +21,7 @@ import java.util.stream.Collectors;
 
 import org.eclipse.set.basis.Pair;
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Zug_Rangier;
+import org.eclipse.set.model.planpro.Signale.ENUMFiktivesSignalFunktion;
 import org.eclipse.set.model.planpro.Signale.Signal;
 import org.eclipse.set.ppmodel.extensions.FstrZugRangierExtensions;
 
@@ -36,6 +38,12 @@ public class SignalingSection {
 	private final Set<SignalingRouteSection> signalingRouteSections;
 	private final List<Fstr_Zug_Rangier> allTrainRoute;
 	private final int MAXIMAL_ROUTE_SECTION = 4;
+
+	private static final List<ENUMFiktivesSignalFunktion> SPECIAL_HANLDE_FIKTIVE_SIGNAL = List
+			.of(ENUM_FIKTIVES_SIGNAL_FUNKTION_ZUG_START_AWANST,
+					ENUM_FIKTIVES_SIGNAL_FUNKTION_FAP_START,
+					ENUM_FIKTIVES_SIGNAL_FUNKTION_FAP_ZIEL,
+					ENUM_FIKTIVES_SIGNAL_FUNKTION_ZUG_START_OHNE_SIGNAL);
 
 	/**
 	 * @param startSignal
@@ -60,7 +68,22 @@ public class SignalingSection {
 		signalingRouteSections.addAll(fstrZugFromStart.stream().map(fstrZug -> {
 			return new SignalingRouteSection(startSignal, fstrZug);
 		}).toList());
+		if (isSpecialHandleFiktiveSignal()) {
+			return;
+		}
 		fstrZugFromStart.forEach(fstr -> determineFstrAbschnitte(fstr, 1));
+	}
+
+	private boolean isSpecialHandleFiktiveSignal() {
+		if (startSignal.getSignalFiktiv() == null) {
+			return false;
+		}
+
+		return startSignal.getSignalFiktiv()
+				.getFiktivesSignalFunktion()
+				.stream()
+				.anyMatch(func -> SPECIAL_HANLDE_FIKTIVE_SIGNAL
+						.contains(func.getWert()));
 	}
 
 	private void determineFstrAbschnitte(final Fstr_Zug_Rangier fstrZug,
