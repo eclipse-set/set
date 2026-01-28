@@ -11,19 +11,23 @@ async function loadSiteplan (page: Page) {
   await expect(page.locator('.loading')).not.toBeVisible()
 }
 
+const screenshotOptions = (page: Page) => ({
+  mask: [page.locator('.rotate-control-container, .center-route-control-container')]
+})
+
 test('initial loading', async ({ page }) => {
   await loadSiteplan(page)
 
-  await expect(page).toHaveScreenshot('pphn-initial-view.png')
+  await expect(page).toHaveScreenshot('pphn-initial-view.png', screenshotOptions(page))
 })
 
 test('total view displaying', async ({ page }) => {
   await loadSiteplan(page)
 
   await page.getByRole('button', { name: '▣' }).click()
-  await expect(page).toHaveScreenshot('pphn-total-view.png')
+  await expect(page).toHaveScreenshot('pphn-total-view.png', screenshotOptions(page))
 
   await page.getByRole('button', { name: '⦻' }).click()
   await page.mouse.move(0, 0) // move mouse to upper left corner again to get remove hover effect from center button
-  await expect(page).toHaveScreenshot('pphn-initial-view.png')
+  await expect(page).toHaveScreenshot('pphn-initial-view.png', screenshotOptions(page))
 })
