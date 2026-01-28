@@ -160,7 +160,7 @@ public class CompareTableCellContentItemProvider
 
 		newChildDescriptors.add(createChildParameter(
 				TablemodelPackage.Literals.COMPARE_TABLE_CELL_CONTENT__MAIN_PLAN_CELL_CONTENT,
-				TablemodelFactory.eINSTANCE.createCompareCellContent()));
+				TablemodelFactory.eINSTANCE.createCompareStateCellContent()));
 
 		newChildDescriptors.add(createChildParameter(
 				TablemodelPackage.Literals.COMPARE_TABLE_CELL_CONTENT__MAIN_PLAN_CELL_CONTENT,
@@ -176,7 +176,7 @@ public class CompareTableCellContentItemProvider
 
 		newChildDescriptors.add(createChildParameter(
 				TablemodelPackage.Literals.COMPARE_TABLE_CELL_CONTENT__COMPARE_PLAN_CELL_CONTENT,
-				TablemodelFactory.eINSTANCE.createCompareCellContent()));
+				TablemodelFactory.eINSTANCE.createCompareStateCellContent()));
 
 		newChildDescriptors.add(createChildParameter(
 				TablemodelPackage.Literals.COMPARE_TABLE_CELL_CONTENT__COMPARE_PLAN_CELL_CONTENT,

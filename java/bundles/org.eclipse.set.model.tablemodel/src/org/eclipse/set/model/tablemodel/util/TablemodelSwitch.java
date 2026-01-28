@@ -130,11 +130,11 @@ public class TablemodelSwitch<T> extends Switch<T> {
 					result = defaultCase(theEObject);
 				return result;
 			}
-			case TablemodelPackage.COMPARE_CELL_CONTENT: {
-				CompareCellContent compareCellContent = (CompareCellContent) theEObject;
-				T result = caseCompareCellContent(compareCellContent);
+			case TablemodelPackage.COMPARE_STATE_CELL_CONTENT: {
+				CompareStateCellContent compareStateCellContent = (CompareStateCellContent) theEObject;
+				T result = caseCompareStateCellContent(compareStateCellContent);
 				if (result == null)
-					result = caseCellContent(compareCellContent);
+					result = caseCellContent(compareStateCellContent);
 				if (result == null)
 					result = defaultCase(theEObject);
 				return result;
@@ -360,18 +360,18 @@ public class TablemodelSwitch<T> extends Switch<T> {
 
 	/**
 	 * Returns the result of interpreting the object as an instance of
-	 * '<em>Compare Cell Content</em>'. <!-- begin-user-doc --> This
+	 * '<em>Compare State Cell Content</em>'. <!-- begin-user-doc --> This
 	 * implementation returns null; returning a non-null result will terminate
 	 * the switch. <!-- end-user-doc -->
 	 * 
 	 * @param object
 	 *            the target of the switch.
 	 * @return the result of interpreting the object as an instance of
-	 *         '<em>Compare Cell Content</em>'.
+	 *         '<em>Compare State Cell Content</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseCompareCellContent(CompareCellContent object) {
+	public T caseCompareStateCellContent(CompareStateCellContent object) {
 		return null;
 	}
 
