@@ -103,7 +103,8 @@ public class SsbvTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	@SuppressWarnings("nls")
 	private static String getReferenceObjDesignation(final EObject refObj) {
-		final String typeName = UrObjectExtensions.getTypeName(refObj);
+		final String typeName = UrObjectExtensions.getTypeName(refObj)
+				.replace("_TypeClass", "");
 		final String objDesignation = switch (refObj) {
 			case final Aussenelementansteuerung aussenelement -> AussenelementansteuerungExtensions
 					.getElementBezeichnung(aussenelement);
