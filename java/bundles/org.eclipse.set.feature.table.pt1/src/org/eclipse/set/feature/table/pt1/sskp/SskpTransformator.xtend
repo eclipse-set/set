@@ -61,6 +61,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 	static final double ADDITION_SCHUTZSTRECKE_SOLL_60 = 450
 	static final double ADDITION_SCHUTZSTRECKE_SOLL_40_60 = 350
 	static final double ADDITION_SCHUTZSTRECKE_SOLL_40 = 210
+	public static final String GUE_ADDITION = "(GÜ)"
 	TopologicalGraphService topGraphService;
 
 	new(Set<ColumnDescriptor> cols,
@@ -124,7 +125,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 			instance,
 			cols.getColumn(Wirkfrequenz),
 			pzb,
-			['''«PZBArt?.translate»«IF !pzbGUEs.nullOrEmpty» GÜ«ENDIF»''']
+			['''«PZBArt?.translate»«IF !pzbGUEs.nullOrEmpty» «GUE_ADDITION»«ENDIF»''']
 		)
 
 		val isPZB2000 = pzb.PZBArt?.wert === ENUMPZBArt.ENUMPZB_ART_2000_HZ ||
