@@ -13,17 +13,16 @@
 
 .rotate-control-container {
   top: 1.25em;
+  transform: scaleY(2);
 }
 
 .rotate-control-button {
-  font-size: 2.3em;
-  width: 0.65em;
-  transform: scaleY(-2);
+  transform: scaleY(-1);
 }
 
 .rotate-control-container.rotate-control-right {
   left: 3.9em;
-  transform: scaleX(-1);
+  transform: scaleY(2) scaleX(-1);
 }
 
 .rotate-control-container.rotate-control-left {
