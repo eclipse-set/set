@@ -144,7 +144,9 @@ public class SskpTransformationService
 	private static Comparator<String> frequencyComparator() {
 		return (first, second) -> {
 			final Function<String, Integer> getPiority = value -> {
-				return FREQUENCY_ODER.indexOf(value.replace("GÜ", "").trim()); //$NON-NLS-1$ //$NON-NLS-2$
+				return FREQUENCY_ODER.indexOf(
+						value.replace(SskpTransformator.GUE_ADDITION, "") //$NON-NLS-1$
+								.trim());
 			};
 			return Integer.compareUnsigned(getPiority.apply(first),
 					getPiority.apply(second));
