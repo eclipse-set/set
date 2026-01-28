@@ -97,6 +97,7 @@ public final class ToolboxConstants {
 		 * The cache id for the route and route km of the {@link Punkt_Objekt}
 		 */
 		public static final String POINT_OBJECT_ROUTE_KM = "toolbox.cache.point-object-route-km";
+
 	}
 
 	/**
@@ -361,6 +362,11 @@ public final class ToolboxConstants {
 	 * Separator for file name by compare plan
 	 */
 	public static final String TITLE_FILE_NAME_SEPARATOR = " ⇔ ";
+
+	/**
+	 * Shortcut of Worknotes table
+	 */
+	public static final String WORKNOTES_TABLE_SHORTCUT = "Ssbv"; //$NON-NLS-1$
 
 	/**
 	 * The tolerance value between TOP_Kante length and the sum of GEO_Kanten

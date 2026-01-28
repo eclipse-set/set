@@ -55,11 +55,13 @@ import org.eclipse.set.core.services.session.SessionService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.messages.Messages;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
+import org.eclipse.set.model.planpro.Basisobjekte.Bearbeitungsvermerk;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.TableRow;
 import org.eclipse.set.model.tablemodel.TablemodelFactory;
+import org.eclipse.set.model.tablemodel.extensions.FootnoteContainerExtensions;
 import org.eclipse.set.model.tablemodel.extensions.TableCellExtensions;
 import org.eclipse.set.model.tablemodel.extensions.TableExtensions;
 import org.eclipse.set.model.tablemodel.extensions.TableRowExtensions;
@@ -129,6 +131,7 @@ public final class TableServiceImpl implements TableService {
 	private final Map<TableInfo, PlanPro2TableTransformationService> modelServiceMap = new ConcurrentHashMap<>();
 
 	private final Map<TableCompareType, TableDiffService> diffServiceMap = new ConcurrentHashMap<>();
+	private final Map<TableInfo, Set<Bearbeitungsvermerk>> workNotesProTable = new ConcurrentHashMap<>();
 	private static final Queue<Pair<BasePart, Runnable>> transformTableThreads = new LinkedList<>();
 	private static final Set<TableInfo> nonTransformableTables = new HashSet<>();
 
@@ -177,6 +180,10 @@ public final class TableServiceImpl implements TableService {
 		if (diffServiceMap.containsKey(compareType)) {
 			diffServiceMap.remove(compareType);
 		}
+	}
+
+	void cleanWorkNotesProTable() {
+		workNotesProTable.clear();
 	}
 
 	private Table createDiffTable(final TableInfo tableInfo,
@@ -525,8 +532,43 @@ public final class TableServiceImpl implements TableService {
 		if (resultTable != null && resultTable.getTablecontent() != null) {
 			sortTable(resultTable, tableType, tableInfo);
 		}
-
 		return resultTable;
+	}
+
+	private void storageWorknotes(final TableInfo tableInfo,
+			final Table resultTable) {
+		if (resultTable == null || resultTable.getTablecontent() == null) {
+			return;
+		}
+		// Filter worknotes, which already in another tables visualation
+		if (tableInfo.shortcut()
+				.equalsIgnoreCase(ToolboxConstants.WORKNOTES_TABLE_SHORTCUT)) {
+			final Set<Bearbeitungsvermerk> alreadyFoundNote = workNotesProTable
+					.values()
+					.stream()
+					.flatMap(Collection::stream)
+					.collect(Collectors.toSet());
+			resultTable.getTablecontent()
+					.getRowgroups()
+					.removeIf(group -> alreadyFoundNote
+							.contains(group.getLeadingObject()));
+			return;
+		}
+		final Set<Bearbeitungsvermerk> tableNotes = TableExtensions
+				.getTableRows(resultTable)
+				.stream()
+				.flatMap(row -> FootnoteContainerExtensions
+						.getFootnotes(row.getFootnotes())
+						.stream())
+				.collect(Collectors.toSet());
+		workNotesProTable.compute(tableInfo, (k, v) -> {
+			if (v == null) {
+				return tableNotes;
+			}
+			v.addAll(tableNotes);
+			return v;
+		});
+		broker.send(Events.RELOAD_WORKNOTES_TABLE, null);
 	}
 
 	private void saveTableToCache(final Table table,
@@ -704,6 +746,7 @@ public final class TableServiceImpl implements TableService {
 					controlAreaIds);
 			if (sessionService.getLoadedSession(
 					ToolboxFileRole.COMPARE_PLANNING) == null) {
+				storageWorknotes(tableInfo, mainSessionTable);
 				return mainSessionTable;
 			}
 			// Waiting table compare transform, then create compare table
@@ -730,6 +773,7 @@ public final class TableServiceImpl implements TableService {
 					.get(TableCompareType.PROJECT)
 					.createDiffTable(mainSessionTable, compareSessionTable);
 			sortTable(compareTable, TableType.DIFF, tableInfo);
+			storageWorknotes(tableInfo, compareSessionTable);
 			return compareTable;
 		} catch (final Exception e) {
 			dialogService.error(Display.getCurrent().getActiveShell(),

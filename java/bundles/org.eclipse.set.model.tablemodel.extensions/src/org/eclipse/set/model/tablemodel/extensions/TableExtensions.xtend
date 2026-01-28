@@ -38,6 +38,7 @@ import static extension org.eclipse.set.model.tablemodel.extensions.TableContent
 import static extension org.eclipse.set.model.tablemodel.extensions.TableRowExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.EObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 import static extension org.eclipse.set.utils.StringExtensions.*
 
 /**
@@ -300,10 +301,20 @@ class TableExtensions {
 	 */
 	static def RowGroup getGroupByLeadingObject(Table table, Ur_Objekt object,
 		int index) {
-		return table.tablecontent.rowgroups.findFirst [
+		val matchesRows = table.tablecontent.rowgroups.filter [
 			leadingObject?.identitaet?.wert == object?.identitaet?.wert &&
 				leadingObjectIndex === index
-		]
+		].toList
+		// When give more than one Object with same GUID,
+		// then find object in same Subwork 
+		if (matchesRows.size > 1) {
+			return matchesRows.findFirst [
+				leadingObject.LSTZustand.eContainer ==
+					object.LSTZustand.eContainer
+			]
+		}
+
+		return matchesRows.firstOrNull
 	}
 
 	/**
@@ -513,9 +524,8 @@ class TableExtensions {
 					]
 			}
 			CompareTableFootnoteContainer: {
-				return isInlineFootnote(table,
-					fc.
-						mainPlanFootnoteContainer, maxCharInCell)
+				return isInlineFootnote(table, fc.mainPlanFootnoteContainer,
+					maxCharInCell)
 			}
 			default:
 				false

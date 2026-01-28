@@ -201,7 +201,7 @@ public final class ToolboxTableView extends BasePart {
 	private TableModelInstanceBodyDataProvider bodyDataProvider;
 
 	private EventHandler secondaryPlanningLoadedHanlder;
-
+	private EventHandler reloadWorkNotesTable;
 	private TableInfo tableInfo;
 
 	/**
@@ -320,6 +320,21 @@ public final class ToolboxTableView extends BasePart {
 		};
 		getBroker().subscribe(Events.COMPARE_MODEL_LOADED,
 				secondaryPlanningLoadedHanlder);
+
+		if (tableService.getTableInfo(this)
+				.shortcut()
+				.equalsIgnoreCase(ToolboxConstants.WORKNOTES_TABLE_SHORTCUT)) {
+			reloadWorkNotesTable = event -> {
+				if (!event.getTopic()
+						.equalsIgnoreCase(Events.RELOAD_WORKNOTES_TABLE)) {
+					return;
+				}
+				updateModel(getToolboxPart());
+			};
+			getBroker().subscribe(Events.RELOAD_WORKNOTES_TABLE,
+					reloadWorkNotesTable);
+		}
+
 	}
 
 	@PreDestroy

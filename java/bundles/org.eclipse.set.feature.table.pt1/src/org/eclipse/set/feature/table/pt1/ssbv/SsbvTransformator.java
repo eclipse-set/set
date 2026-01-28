@@ -67,10 +67,10 @@ public class SsbvTransformator extends AbstractPlanPro2TableModelTransformator {
 			final TMFactory factory, final Stell_Bereich controlArea) {
 		final List<ID_Bearbeitungsvermerk_TypeClass> idReferences = Streams
 				.stream(container.getAllContents())
+				.parallel()
 				.filter(ID_Bearbeitungsvermerk_TypeClass.class::isInstance)
 				.map(ID_Bearbeitungsvermerk_TypeClass.class::cast)
 				.toList();
-
 		for (final Bearbeitungsvermerk bv : container
 				.getBearbeitungsvermerk()) {
 			if (Thread.currentThread().isInterrupted()) {
@@ -83,19 +83,21 @@ public class SsbvTransformator extends AbstractPlanPro2TableModelTransformator {
 					note -> EObjectExtensions
 							.getNullableObject(note,
 									e -> e.getBearbeitungsvermerkAllg()
-											.getKurztext()
+											.getKommentar()
 											.getWert())
 							.orElse("")); //$NON-NLS-1$
 
 			// B: Referenziert von Objects
 			fillIterable(row, getColumn(cols, SsbvColumns.Reference_Object), bv,
 					note -> idReferences.stream()
+							.parallel()
 							.filter(ref -> ref.getValue().equals(note))
 							.map(EObject::eContainer)
 							.map(SsbvTransformator::getReferenceObjDesignation)
 							.toList(),
 					MIXED_STRING_COMPARATOR);
 		}
+
 		return factory.getTable();
 	}
 
