@@ -11,8 +11,8 @@ import { FeatureType } from '@/feature/FeatureInfo'
 import { Label } from '@/model/Label'
 import { PZB, PZBEffectivity } from '@/model/PZB'
 import { ISvgElement, SvgElement } from '@/model/SvgElement'
-import AbstractDrawSVG from '@/util/SVG/Draw/AbstractDrawSVG'
 import '@/util/ElementExtensions'
+import AbstractDrawSVG from '@/util/SVG/Draw/AbstractDrawSVG'
 import SvgDraw from './SvgDraw'
 
 /**
@@ -36,7 +36,7 @@ export default class SvgDrawPZB extends AbstractDrawSVG {
   // Label font size
   LABEL_FONT_SIZE = 14
 
-  public drawSVG<T extends object> (data: T, label?: Label | undefined): ISvgElement {
+  public drawSVG<T extends object> (data: T, label?: Label | undefined): ISvgElement | null {
     const pzb = data as PZB
     const svg = this.getSvgFromCatalog(data)
     if (svg === null) {

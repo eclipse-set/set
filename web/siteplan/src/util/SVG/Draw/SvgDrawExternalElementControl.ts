@@ -20,7 +20,7 @@ export default class SvgDrawExternalElementControl extends AbstractDrawSVG {
   SVG_DRAWAREA = 500
   LABEL_FONT_SIZE = 16
 
-  public drawSVG<T extends object> (data: T, label?: Label | undefined): ISvgElement {
+  public drawSVG<T extends object> (data: T, label?: Label): ISvgElement | null {
     const eec = data as ExternalElementControl
     const svg = this.getSvgFromCatalog(eec)
     if (svg === null) {
