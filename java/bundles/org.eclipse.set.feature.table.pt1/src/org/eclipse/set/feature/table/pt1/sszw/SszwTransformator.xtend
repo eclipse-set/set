@@ -4,7 +4,7 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
  * 
  */
@@ -37,6 +37,7 @@ import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGrou
 import org.eclipse.set.ppmodel.extensions.utils.Case
 import org.eclipse.set.utils.math.AgateRounding
 import org.eclipse.set.utils.table.TMFactory
+import org.eclipse.set.utils.table.TableError
 import org.osgi.service.event.EventAdmin
 
 import static org.eclipse.set.feature.table.pt1.sszw.SszwColumns.*
@@ -44,6 +45,7 @@ import static org.eclipse.set.model.planpro.BasisTypen.ENUMLinksRechts.*
 import static org.eclipse.set.model.planpro.Weichen_und_Gleissperren.ENUMWKrArt.*
 import static org.eclipse.set.ppmodel.extensions.geometry.GEOKanteGeometryExtensions.*
 
+import static extension org.eclipse.set.model.tablemodel.extensions.TableRowExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.AussenelementansteuerungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.ESTW_ZentraleinheitExtensions.*
@@ -124,31 +126,41 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 		)
 
 		// D: Sszw.W_Kr.Standort.Strecke
-		val streckeInfos = etcsWkr.streckeInfo
-		fillIterable(
-			row,
-			cols.getColumn(Strecke),
-			etcsWkr,
-			[streckeInfos.map[key]],
-			null
-		)
+		try {
 
-		// E: Sszw.W_Kr.Standort.Km
-		fillIterableSingleCellWhenAllowed(
-			row,
-			cols.getColumn(km),
-			etcsWkr,
-			[isFindGeometryComplete || streckeInfos.map[value].exists[isPresent]],
-			[
-				val kmValues = streckeInfos.map[value].filter[isPresent].map [
-					get
-				].toList
-				return kmValues
-			],
-			null,
-			ITERABLE_FILLING_SEPARATOR,
-			tableShortcut
-		)
+			val streckeInfos = etcsWkr.streckeInfo
+			fillIterable(
+				row,
+				cols.getColumn(Strecke),
+				etcsWkr,
+				[streckeInfos.map[key]],
+				null
+			)
+
+			// E: Sszw.W_Kr.Standort.Km
+			fillIterableSingleCellWhenAllowed(
+				row,
+				cols.getColumn(km),
+				etcsWkr,
+				[
+					isFindGeometryComplete || streckeInfos.map[value].exists [
+						isPresent
+					]
+				],
+				[
+					val kmValues = streckeInfos.map[value].filter[isPresent].map [
+						get
+					].toList
+					return kmValues
+				],
+				null,
+				ITERABLE_FILLING_SEPARATOR,
+				tableShortcut
+			)
+		} catch (Exception e) {
+			handleFillingException(e, row, cols.getColumn(Strecke))
+			handleFillingException(e, row, cols.getColumn(km))
+		}
 
 		val wKomponentEW_L = refWKrAnlage.getGspKomponente(
 			wKrGspElement,
@@ -424,8 +436,9 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 		val distance = gspKomponente.map[new TopPoint(it)].map [ gspPoint |
 			topGraphService.findShortestDistance(signalTopPoint, gspPoint)
 		].map[orElse(null)].filterNull
-		return distance.nullOrEmpty ? "" : AgateRounding.roundDown(
-			distance.min.doubleValue).toString
+		return distance.nullOrEmpty
+			? ""
+			: AgateRounding.roundDown(distance.min.doubleValue).toString
 	}
 
 	private def String getWKrGeschwindigkeit(
@@ -461,7 +474,8 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 				val gspKomponent = gspElement.WKrGspKomponenten.firstOrNull
 				return allowSpeed.apply(gspKomponent)?.toString ?: ""
 			}
-			default: ""
+			default:
+				""
 		}
 	}
 
