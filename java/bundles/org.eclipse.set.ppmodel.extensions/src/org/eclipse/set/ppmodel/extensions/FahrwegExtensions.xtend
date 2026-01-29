@@ -206,7 +206,7 @@ class FahrwegExtensions extends BereichObjektExtensions {
 			element.getTOPAnschluss(weichenKnoten) != ENUMTOP_ANSCHLUSS_SPITZE
 		]
 
-		Assert.isTrue(schenkels.size == 1, '''Unplausibel Verbindung by «IF weichenKnoten !== null» Top_Knoten: «weichenKnoten.identitaet.wert»«
+		Assert.isTrue(schenkels.size == 1, '''Unplausible Verbindung bei «IF weichenKnoten !== null» Top_Knoten: «weichenKnoten.identitaet.wert»«
 			»«ELSEIF komponente !== null» Weiche: «komponente?.identitaet?.wert»«ENDIF»''')
 		val schenkel = schenkels.get(0)
 		val anschluss = schenkel.element.getTOPAnschluss(weichenKnoten)
@@ -216,7 +216,7 @@ class FahrwegExtensions extends BereichObjektExtensions {
 		if (anschluss === ENUMTOP_ANSCHLUSS_RECHTS) {
 			return new WeichenSchenkel(schenkel, WeichenSchenkel.Lage.R)
 		}
-		throw new IllegalArgumentException('''Unplausibel Weicheschenkels: «komponente.identitaet.wert»''')
+		throw new IllegalArgumentException('''Unplausible Weicheschenkel: «komponente.identitaet.wert»''')
 	}
 
 	/**
