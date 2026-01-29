@@ -54,9 +54,9 @@ public class TestFailHandle implements TestWatcher {
 		if (testInstance.isPresent() && testInstance
 				.get() instanceof final AbstractTableTest tableTest) {
 			exportCurrentCSV(tableTest.getTestFile(),
-					tableTest.getTestTableName(), tableTest.getClass());
+					tableTest.getTestTableReferenceName(), tableTest.getClass());
 			exportReferenceCSV(tableTest.getTestFile(),
-					tableTest.getTestTableName(), tableTest.getReferenceDir(),
+					tableTest.getTestTableReferenceName(), tableTest.getReferenceDir(),
 					tableTest.getTestResourceClass().getClassLoader(),
 					tableTest.getClass());
 		}
