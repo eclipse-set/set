@@ -184,7 +184,7 @@ class FootnoteTransformation {
 		return #[directFootnotes, routeKmFootnotes].flatten
 	}
 
-// Determine Footnotes for Sskt table
+	// Determine Footnotes for Sskt table
 	private def dispatch Iterable<ID_Bearbeitungsvermerk_TypeClass> getObjectFootnotes(
 		Bedien_Standort element) {
 		val directFootnotes = element.IDBearbeitungsvermerk
@@ -233,7 +233,7 @@ class FootnoteTransformation {
 		return #[directionFootnotes, routeKmFootnotes].flatten
 	}
 
-	// Determin Footnotes for Sskg, Ssza table
+	// Determine Footnotes for Sskg, Ssza table
 	private def dispatch Iterable<ID_Bearbeitungsvermerk_TypeClass> getObjectFootnotes(
 		Punkt_Objekt po) {
 		val directFootnotes = po.IDBearbeitungsvermerk
