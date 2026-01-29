@@ -112,7 +112,7 @@ public class ValidationViewTest extends AbstractTableTest {
 	}
 
 	@Override
-	public String getTestTableName() {
+	public String getTestTableReferenceName() {
 		return VALIDATION_TABLE_NAME;
 	}
 
@@ -207,6 +207,6 @@ public class ValidationViewTest extends AbstractTableTest {
 		whenOpeningValidateView();
 		bot.button("Alle ausklappen").click();
 		thenRowAndColumnCountEqualReferenceCSV();
-		thenTableDataEqualReferenceCSV();
+		thenExpectTableDataEqualReferenceCSV();
 	}
 }

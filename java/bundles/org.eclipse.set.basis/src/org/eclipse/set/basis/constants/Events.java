@@ -110,4 +110,9 @@ public interface Events {
 	 * When a subwork is selected
 	 */
 	String SUBWORK_CHANGED = "subwork/change";
+
+	/**
+	 * When a table open after Worknotes table - Ssbv
+	 */
+	String RELOAD_WORKNOTES_TABLE = "table/reload/ssbv";
 }

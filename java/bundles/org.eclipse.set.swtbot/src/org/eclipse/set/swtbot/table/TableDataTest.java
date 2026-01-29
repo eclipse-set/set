@@ -8,9 +8,7 @@
  */
 package org.eclipse.set.swtbot.table;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.IOException;
 
@@ -40,7 +38,7 @@ public class TableDataTest extends AbstractTableTest {
 	}
 
 	@Override
-	public String getTestTableName() {
+	public String getTestTableReferenceName() {
 		if (tableToTest != null) {
 			return tableToTest.shortcut();
 		}
@@ -70,7 +68,7 @@ public class TableDataTest extends AbstractTableTest {
 		whenExistReferenceCSV();
 		thenRowAndColumnCountEqualReferenceCSV();
 		thenPtTableColumnHeaderEqualReferenceCSV();
-		thenTableDataEqualReferenceCSV();
+		thenExpectTableDataEqualReferenceCSV();
 	}
 
 	protected void thenPtTableColumnHeaderEqualReferenceCSV() {
