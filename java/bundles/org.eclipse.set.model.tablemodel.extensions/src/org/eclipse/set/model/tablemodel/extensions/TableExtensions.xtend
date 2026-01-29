@@ -307,7 +307,7 @@ class TableExtensions {
 		].toList
 		// When give more than one Object with same GUID,
 		// then find object in same Subwork 
-		if (matchesRows.size > 1) {
+		if (matchesRows.size > 1 && object !== null) {
 			return matchesRows.findFirst [
 				leadingObject.LSTZustand.eContainer ==
 					object.LSTZustand.eContainer
