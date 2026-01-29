@@ -27,18 +27,20 @@ import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt;
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt;
 import org.eclipse.set.model.planpro.PZB.PZB_Element;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
-import org.eclipse.set.model.tablemodel.CompareCellContent;
+import org.eclipse.set.model.tablemodel.CompareStateCellContent;
 import org.eclipse.set.model.tablemodel.MultiColorCellContent;
 import org.eclipse.set.model.tablemodel.MultiColorContent;
 import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.model.tablemodel.RowMergeMode;
 import org.eclipse.set.model.tablemodel.StringCellContent;
 import org.eclipse.set.model.tablemodel.TableCell;
+import org.eclipse.set.model.tablemodel.extensions.CellContentExtensions;
 import org.eclipse.set.ppmodel.extensions.PZBElementExtensions;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
 import org.eclipse.set.utils.table.ColumnDescriptorModelBuilder;
 import org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparatorType;
 import org.eclipse.set.utils.table.sorting.TableRowGroupComparator;
+import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.event.EventAdmin;
@@ -96,15 +98,19 @@ public class SskpTransformationService
 		if (cell.getContent() instanceof final StringCellContent cellContent) {
 			return getFirstOrNull(cellContent.getValue());
 		}
-		if (cell.getContent() instanceof final CompareCellContent cellContent) {
-			if (cellContent.getNewValue().isEmpty()
-					|| cellContent.getOldValue().isEmpty()) {
-				return Optional
-						.ofNullable(getFirstOrNull(cellContent.getNewValue()))
-						.orElse(getFirstOrNull(cellContent.getOldValue()));
+		if (cell.getContent() instanceof final CompareStateCellContent cellContent) {
+			final List<String> oldValues = IterableExtensions
+					.toList(CellContentExtensions
+							.getStringValueIterable(cellContent.getOldValue()));
+			final List<String> newValues = IterableExtensions
+					.toList(CellContentExtensions
+							.getStringValueIterable(cellContent.getNewValue()));
+			if (oldValues.isEmpty() || newValues.isEmpty()) {
+				return Optional.ofNullable(getFirstOrNull(newValues))
+						.orElse(getFirstOrNull(oldValues));
 			}
-			return cellContent.getNewValue().get(0) + cellContent.getSeparator()
-					+ cellContent.getOldValue().get(0);
+			return newValues.get(0) + cellContent.getSeparator()
+					+ oldValues.get(0);
 		}
 		if (cell.getContent() instanceof final MultiColorCellContent cellContent) {
 			final MultiColorContent firstOrNull = getFirstOrNull(

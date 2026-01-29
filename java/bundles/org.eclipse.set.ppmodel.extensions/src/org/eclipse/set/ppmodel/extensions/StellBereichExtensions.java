@@ -30,8 +30,8 @@ import org.eclipse.set.model.planpro.Ansteuerung_Element.Technik_Standort;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Uebertragungsweg;
 import org.eclipse.set.model.planpro.Bahnuebergang.BUE_Anlage;
 import org.eclipse.set.model.planpro.Bahnuebergang.BUE_Kante;
-import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt;
 import org.eclipse.set.model.planpro.Basisobjekte.Bereich_Objekt;
+import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
 import org.eclipse.set.model.planpro.Bedienung.Bedien_Bezirk;
 import org.eclipse.set.model.planpro.Bedienung.Bedien_Einrichtung_Oertlich;
 import org.eclipse.set.model.planpro.Bedienung.Bedien_Standort;
@@ -206,7 +206,7 @@ public class StellBereichExtensions {
 	 * @return true, if the element belong to the area
 	 */
 	public static boolean isInControlArea(final Stell_Bereich area,
-			final Basis_Objekt object) {
+			final Ur_Objekt object) {
 		if (object == null) {
 			return false;
 		}
