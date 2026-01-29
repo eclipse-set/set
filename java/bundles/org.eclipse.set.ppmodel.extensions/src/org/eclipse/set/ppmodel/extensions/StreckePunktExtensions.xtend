@@ -49,7 +49,7 @@ class StreckePunktExtensions extends BasisObjektExtensions {
 			firstOrNull
 		if (geoKanten === null) {
 			throw new IllegalArgumentException(
-				"Route point isn't reference to GEO_Kante"
+				"Streckenpunkt verweist nicht auf eine GEO_Kante"
 			)
 		}
 		val metadata = Services.geometryService.getGeoKanteMetaData(geoKanten)
@@ -61,6 +61,6 @@ class StreckePunktExtensions extends BasisObjektExtensions {
 			return metadata.end
 		}
 		throw new IllegalArgumentException(
-			"Route point isn't reference to GEO_Knoten of a GEO_Kante")
+			"Streckenpunkt verweist nicht auf GEO_Knoten einer GEO_Kante")
 	}
 }
