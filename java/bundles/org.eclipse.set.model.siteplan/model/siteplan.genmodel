@@ -22,8 +22,7 @@
       <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//SignalMountType/PfostenNiedrig"/>
       <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//SignalMountType/Deckenkonstruktion"/>
       <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//SignalMountType/Wandkonstruktion"/>
-      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//SignalMountType/SignalauslegerLinks"/>
-      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//SignalMountType/SignalauslegerMitte"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//SignalMountType/Signalausleger"/>
       <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//SignalMountType/Signalbruecke"/>
       <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//SignalMountType/Sonderkonstruktion"/>
     </genEnums>
