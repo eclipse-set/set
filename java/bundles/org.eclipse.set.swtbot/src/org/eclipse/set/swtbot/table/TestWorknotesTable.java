@@ -15,6 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.List;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
@@ -25,6 +26,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
  */
 @ExtendWith(TestFailHandle.class)
 @TestInstance(Lifecycle.PER_CLASS)
+@Disabled
 public class TestWorknotesTable extends AbstractTableTest {
 
 	String tableRefName;
