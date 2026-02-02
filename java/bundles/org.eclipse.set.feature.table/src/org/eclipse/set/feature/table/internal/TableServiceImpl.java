@@ -568,7 +568,10 @@ public final class TableServiceImpl implements TableService {
 			v.addAll(tableNotes);
 			return v;
 		});
-		broker.send(Events.RELOAD_WORKNOTES_TABLE, null);
+		// Reload Sxxx table only when all tables was transformed
+		if (transformTableThreads.isEmpty()) {
+			broker.send(Events.RELOAD_WORKNOTES_TABLE, null);
+		}
 	}
 
 	private void saveTableToCache(final Table table,

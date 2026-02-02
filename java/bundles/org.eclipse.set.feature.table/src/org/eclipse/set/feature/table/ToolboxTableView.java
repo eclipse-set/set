@@ -330,6 +330,7 @@ public final class ToolboxTableView extends BasePart {
 					return;
 				}
 				updateModel(getToolboxPart());
+				natTable.refresh();
 			};
 			getBroker().subscribe(Events.RELOAD_WORKNOTES_TABLE,
 					reloadWorkNotesTable);
