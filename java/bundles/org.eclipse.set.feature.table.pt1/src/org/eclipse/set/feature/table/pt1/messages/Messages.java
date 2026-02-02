@@ -764,17 +764,17 @@ public class Messages extends AbstractMessageService {
 	public String SskpDmTableView_Heading;
 
 	/**
-	 * Ssls – Signaltabelle 2
+	 * Ssls – Signalisierungstabelle
 	 */
 	public String SslsDescriptionService_ViewName;
 
 	/**
-	 * Signaltabelle 2
+	 * Signalisierungstabelle
 	 */
 	public String SslsDescriptionService_ViewTooltip;
 
 	/**
-	 * Signaltabelle 2 – Ssls
+	 * Signalisierungstabelle – Ssls
 	 */
 	public String SslsTableView_Heading;
 
@@ -784,7 +784,7 @@ public class Messages extends AbstractMessageService {
 	public String ToolboxTableNameSslsShort;
 
 	/**
-	 * Signaltabelle 2
+	 * Signalisierungstabelle
 	 */
 	public String ToolboxTableNameSslsLong;
 
