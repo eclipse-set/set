@@ -119,19 +119,18 @@ public class TableSpanUtils {
 			final CellContent cellContentB) {
 		return switch (cellContentA) {
 			case final StringCellContent stringCellContentA -> !isEmptyCellContentValue(
-					stringCellContentA.getValue());
-			case final CompareCellContent compareCellContentA -> {
+					stringCellContentA);
+			case final CompareStateCellContent compareCellContentA -> {
 				if (!isEmptyCellContentValue(compareCellContentA.getNewValue())
 						&& !isEmptyCellContentValue(
 								compareCellContentA.getOldValue())) {
 					yield true;
 				}
 				if (cellContentB instanceof final StringCellContent stringCellContentB) {
-					yield isEmptyCellContentValue(
-							stringCellContentB.getValue());
+					yield isEmptyCellContentValue(stringCellContentB);
 				}
 
-				if (cellContentB instanceof final CompareCellContent compareCellContentB) {
+				if (cellContentB instanceof final CompareStateCellContent compareCellContentB) {
 					yield !isEmptyCellContentValue(
 							compareCellContentA.getNewValue())
 							&& (isEmptyCellContentValue(
@@ -224,7 +223,11 @@ public class TableSpanUtils {
 		}
 	}
 
-	private static boolean isEmptyCellContentValue(final List<String> values) {
+	private static boolean isEmptyCellContentValue(
+			final CellContent cellContent) {
+		final List<String> values = Streams
+				.stream(getStringValueIterable(cellContent))
+				.toList();
 		return values.isEmpty() || values.stream()
 				.map(String::trim)
 				.filter(v -> !v.isEmpty() && !v.isBlank())
