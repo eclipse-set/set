@@ -231,7 +231,7 @@ public class TableModelInstanceBodyDataProvider
 				}
 				break;
 			case INITIAL:
-				if (!equalsValues(newValues, properties.getNewValues())) {
+				if (!equalsValues(oldValues, properties.getNewValues())) {
 					return createCompareCellContent(properties.getNewValues(),
 							newValues, oldContent.getSeparator());
 				}
