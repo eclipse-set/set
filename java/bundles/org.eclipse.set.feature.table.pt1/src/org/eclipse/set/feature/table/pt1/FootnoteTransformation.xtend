@@ -8,6 +8,7 @@
  */
 package org.eclipse.set.feature.table.pt1
 
+import java.util.List
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Aussenelementansteuerung
 import org.eclipse.set.model.planpro.Ansteuerung_Element.ESTW_Zentraleinheit
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Technik_Standort
@@ -16,6 +17,7 @@ import org.eclipse.set.model.planpro.Balisentechnik_ETCS.ETCS_W_Kr
 import org.eclipse.set.model.planpro.BasisTypen.ID_Bearbeitungsvermerk_TypeClass
 import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
 import org.eclipse.set.model.planpro.Basisobjekte.Bearbeitungsvermerk
+import org.eclipse.set.model.planpro.Basisobjekte.ENUMObjektzustandBesonders
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_Strecke_AttributeGroup
 import org.eclipse.set.model.planpro.Bedienung.Bedien_Einrichtung_Oertlich
@@ -44,7 +46,6 @@ import static extension org.eclipse.set.ppmodel.extensions.TechnikStandortExtens
 import static extension org.eclipse.set.ppmodel.extensions.WKrAnlageExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspElementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
-import org.eclipse.set.model.planpro.Basisobjekte.ENUMObjektzustandBesonders
 
 /**
  * Transform basis objects to footnotes.
@@ -60,17 +61,21 @@ class FootnoteTransformation {
 	 */
 	def void transform(Basis_Objekt object, TableRow row) {
 		this.row = row
+		// Add direct footnote
 		object?.IDBearbeitungsvermerk?.map[value].forEach[addFootnote]
 		val refFootnote = object?.refObjectFootnotes
-		val directState = object.basisObjektAllg?.objektzustandBesonders?.wert
+		object.basisObjektAllg?.objektzustandBesonders?.wert?.addFootnote
 		
-		object?.refObjectFootnotes?.filter(ID_Bearbeitungsvermerk_TypeClass).map [
+		refFootnote?.filter(ID_Bearbeitungsvermerk_TypeClass).map [
 			value
 		]?.toSet?.forEach[addFootnote]
+		// Add object state note by reference object. Example table: ssks and sskw
+		refFootnote?.filter(ENUMObjektzustandBesonders).toSet.forEach[addFootnote]
 	}
 
-	private def dispatch Iterable<?> getRefObjectFootnotes(Basis_Objekt object) {
-		return #[]
+	private def dispatch Iterable<?> getRefObjectFootnotes(
+		Basis_Objekt object) {
+		return object.bearbeitungsvermerk
 	}
 
 	// Determine Footnotes for Ssks Table
@@ -100,27 +105,55 @@ class FootnoteTransformation {
 		}
 		return signalBefestigung.signalBefestigungen.filter [
 			IDBearbeitungsvermerk !== null
-		].flatMap[IDBearbeitungsvermerk]
+		].flatMap [
+			val result = newArrayList
+			val stateNote = basisObjektAllg?.objektzustandBesonders?.wert
+			if (stateNote !== null) {
+				result.add(stateNote)
+			}
+			result.addAll(IDBearbeitungsvermerk)
+			return result
+		]
 	}
 
 	// Determine Footnotes for Ssks Table
 	private def dispatch Iterable<?> getRefObjectFootnotes(
 		Signal_Rahmen signalRahmen) {
+		val List<Object> result = newArrayList
+		val stateNote = signalRahmen?.basisObjektAllg?.objektzustandBesonders?.
+			wert
+		if (stateNote !== null) {
+			result.add(stateNote)
+		}
+
 		val rahmenFootnotes = signalRahmen.IDBearbeitungsvermerk.filterNull
+		result.addAll(rahmenFootnotes)
 		val signalBegriffFootntoes = signalRahmen.signalbegriffe.flatMap [
 			IDBearbeitungsvermerk
 		].filterNull
-		return #[rahmenFootnotes, signalBegriffFootntoes].flatten
+		result.addAll(signalBegriffFootntoes)
+		return result
 	}
 
 	// Determine Footnotes for Sskw Table
 	private def dispatch Iterable<?> getRefObjectFootnotes(
 		W_Kr_Gsp_Element gspElement) {
-		val gspKomponentFootNotes = gspElement?.WKrGspKomponenten?.flatMap [
-			IDBearbeitungsvermerk
+		val List<Object> result = newArrayList
+		gspElement?.WKrGspKomponenten?.forEach [
+			result.addAll(IDBearbeitungsvermerk)
+			if (basisObjektAllg?.objektzustandBesonders?.wert !== null) {
+				result.add(basisObjektAllg.objektzustandBesonders.wert)
+			}
 		]
 		val gspAnlageFootNotes = gspElement?.WKrAnlage?.IDBearbeitungsvermerk
-		return #[gspKomponentFootNotes, gspAnlageFootNotes].filterNull.flatten
+		result.addAll(gspAnlageFootNotes)
+		if (gspElement?.WKrAnlage?.basisObjektAllg?.objektzustandBesonders?.
+			wert !== null) {
+			result.add(
+				gspElement?.WKrAnlage?.basisObjektAllg?.objektzustandBesonders?.
+					wert)
+		}
+		return result.filterNull
 	}
 
 	// Determine Footnotes for Ssbb & Ssit Table
@@ -190,7 +223,8 @@ class FootnoteTransformation {
 	}
 
 	// Determine Footnotes for Sszs table
-	private def dispatch Iterable<?> getRefObjectFootnotes(ETCS_Signal element) {
+	private def dispatch Iterable<?> getRefObjectFootnotes(
+		ETCS_Signal element) {
 		val routeKmFootnotes = element?.IDSignal?.value?.punktObjektStrecke?.map [
 			refObjectFootnotes
 		].flatten ?: #[]
@@ -207,7 +241,7 @@ class FootnoteTransformation {
 			case ENUMW_KR_ART_KLOTHOIDENWEICHE,
 			case ENUMW_KR_ART_KORBBOGENWEICHE: {
 				val gspKomponent = element.WKrGspKomponents.firstOrNull
-				return gspKomponent.objectFootnotes ?: #[]
+				return gspKomponent.getRefObjectFootnotes ?: #[]
 			}
 			case ENUMW_KR_ART_DKW,
 			case ENUMW_KR_ART_EKW,
@@ -240,8 +274,11 @@ class FootnoteTransformation {
 				createSimpleFootnoteContainer()
 		(row.footnotes as SimpleFootnoteContainer).footnotes.add(comment)
 	}
-	
+
 	private def dispatch void addFootnote(ENUMObjektzustandBesonders objState) {
+		if (objState === null) {
+			return
+		}
 		if (row.footnotes === null)
 			row.footnotes = TablemodelFactory.eINSTANCE.
 				createSimpleFootnoteContainer()
