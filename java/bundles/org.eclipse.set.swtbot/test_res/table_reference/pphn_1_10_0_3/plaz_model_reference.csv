@@ -1,6 +1,6 @@
 ﻿PlaZ Modell-Prüfung
 Datei: plaz_model_current.csv
-Prüfungszeit: 2026-01-12 22:50:41
+Prüfungszeit: 2026-01-28 09:50:15
 Werkzeugkofferversion: ${application-version}
 
 
@@ -221,13 +221,12 @@ Werkzeugkofferversion: ${application-version}
 "208";"Erfolg";"Koordinaten";"";"";"";"Fachdaten";"";"Alle Geo-Kanten haben unterschiedliche Anfangs- und End-Koordinaten."
 "209";"Erfolg";"Koordinatensystem";"";"";"";"Fachdaten";"";"Instanzen von GEO_Punkt_Allg haben ein gültiges Koordinatensystem."
 "210";"Erfolg";"Mehrfache Koordinatensystem";"";"";"";"Fachdaten";"";"Instanzen von GEO_Kante haben ein konsistentes Koordinatensystem."
-"211";"Erfolg";"Mehrfache Koordinatensystem";"";"";"";"Fachdaten";"";"Instanzen von GEO_Punkt_Allg haben ein konsistentes Koordinatensystem."
-"212";"Erfolg";"Mehrfache Teilbereiche";"";"";"";"Fachdaten";"";"Alle Bereichsobjekte haben eindeutige TOP-Kanten definiert."
-"213";"Erfolg";"Mehrfache Teilbereiche";"";"";"";"Fachdaten";"";"Teilbereichsgrenzen der LST-Objekte sind einzigartig."
-"214";"Erfolg";"Punktobjektabstand";"";"";"";"Fachdaten";"";"Der Punktobjektabstand aller LST-Objekte ist gültig."
-"215";"Erfolg";"Signalbefestigungsketten";"";"";"";"Fachdaten";"";"Die Verweisketten der Signalbefestigungen sind pausibel"
-"216";"Erfolg";"TOP_Kante";"";"";"";"Fachdaten";"";"TOP_Kanten haben eindeutige Endknoten."
-"217";"Erfolg";"TOP_Kante";"";"";"";"Fachdaten";"";"TOP_Kanten und GEO_Kanten haben übereinstimmende Längen."
-"218";"Erfolg";"Untergewerk Art";"";"";"";"Fachdaten";"";"Jedes Untergewerk ist eindeutig und passt zu der zugehörigen Planung_Gruppe"
-"219";"Erfolg";"Verortungsvergleich";"";"";"";"Fachdaten";"";"Die topologische Verortung der berechneten Geo-Koordinaten sind plausibilisiert"
-"220";"Erfolg";"Überlappende Teilbereiche";"";"";"";"Fachdaten";"";"Teilbereichsgrenzen der LST-Objekte sind plausibel"
+"211";"Erfolg";"Mehrfache Teilbereiche";"";"";"";"Fachdaten";"";"Alle Bereichsobjekte haben eindeutige TOP-Kanten definiert."
+"212";"Erfolg";"Mehrfache Teilbereiche";"";"";"";"Fachdaten";"";"Teilbereichsgrenzen der LST-Objekte sind einzigartig."
+"213";"Erfolg";"Punktobjektabstand";"";"";"";"Fachdaten";"";"Der Punktobjektabstand aller LST-Objekte ist gültig."
+"214";"Erfolg";"Signalbefestigungsketten";"";"";"";"Fachdaten";"";"Die Verweisketten der Signalbefestigungen sind pausibel"
+"215";"Erfolg";"TOP_Kante";"";"";"";"Fachdaten";"";"TOP_Kanten haben eindeutige Endknoten."
+"216";"Erfolg";"TOP_Kante";"";"";"";"Fachdaten";"";"TOP_Kanten und GEO_Kanten haben übereinstimmende Längen."
+"217";"Erfolg";"Untergewerk Art";"";"";"";"Fachdaten";"";"Jedes Untergewerk ist eindeutig und passt zu der zugehörigen Planung_Gruppe"
+"218";"Erfolg";"Verortungsvergleich";"";"";"";"Fachdaten";"";"Die topologische Verortung der berechneten Geo-Koordinaten sind plausibilisiert"
+"219";"Erfolg";"Überlappende Teilbereiche";"";"";"";"Fachdaten";"";"Teilbereichsgrenzen der LST-Objekte sind plausibel"

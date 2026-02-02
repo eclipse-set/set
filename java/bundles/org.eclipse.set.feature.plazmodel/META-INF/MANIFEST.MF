@@ -93,7 +93,6 @@ Service-Component: OSGI-INF/org.eclipse.set.feature.plazmodel.PlazModelDescripti
  OSGI-INF/org.eclipse.set.feature.plazmodel.check.GuidStateUnique.xml,
  OSGI-INF/org.eclipse.set.feature.plazmodel.check.GuidUnique.xml,
  OSGI-INF/org.eclipse.set.feature.plazmodel.check.MeridianBetweenGEOKante.xml,
- OSGI-INF/org.eclipse.set.feature.plazmodel.check.MultiCRSCheck.xml,
  OSGI-INF/org.eclipse.set.feature.plazmodel.check.PlanungsBereichValid.xml,
  OSGI-INF/org.eclipse.set.feature.plazmodel.check.PunktObjektTOPKante.xml,
  OSGI-INF/org.eclipse.set.feature.plazmodel.check.SignalBefestigungReferencenValid.xml,

@@ -24,6 +24,7 @@ import static extension org.eclipse.set.model.tablemodel.extensions.TableCellExt
 import static extension org.eclipse.set.model.tablemodel.extensions.TableContentExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.TableRowExtensions.*
+import org.eclipse.emf.ecore.util.EcoreUtil
 
 /**
  * Extensions for {@link RowGroup}.
@@ -38,12 +39,12 @@ class RowGroupExtensions {
 	 * 
 	 * @return the new row with the given values
 	 */
-	static def TableRow addRow(RowGroup group, List<TableCell> cells) {
+	static def TableRow addRow(RowGroup group, TableRow row) {
 		val newRow = TablemodelFactory.eINSTANCE.createTableRow
 		group.rows.add(newRow)
 		val table = group.table
 		table.columns.forEach[newRow.cells.add(createTableCell)]
-		cells.forEach [ cell |
+		row.cells.forEach [ cell |
 			val content = cell.content
 			val columnPosition = cell.columndescriptor.columnPosition
 			val targetCell = newRow.cells.findFirst [
@@ -58,6 +59,7 @@ class RowGroupExtensions {
 				
 			}
 		]
+		newRow.footnotes = EcoreUtil.copy(row.footnotes)
 		return newRow
 	}
 
