@@ -44,6 +44,7 @@ import static extension org.eclipse.set.ppmodel.extensions.TechnikStandortExtens
 import static extension org.eclipse.set.ppmodel.extensions.WKrAnlageExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspElementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
+import static extension org.eclipse.set.model.tablemodel.extensions.FootnoteExtensions.*
 
 /**
  * Transform basis objects to footnotes.
@@ -59,7 +60,13 @@ class FootnoteTransformation {
 	 */
 	def void transform(Basis_Objekt object, TableRow row) {
 		this.row = row
-		object?.objectFootnotes?.map[value]?.toSet?.forEach[addFootnote]
+		object?.objectFootnotes?.filterNull.map[value]?.toSet?.forEach [
+			addFootnote
+		]
+
+		object.transformObjectStateEnum(
+			object?.basisObjektAllg?.objektzustandBesonders?.wert)?.value?.
+			addFootnote
 	}
 
 	private def dispatch Iterable<ID_Bearbeitungsvermerk_TypeClass> getObjectFootnotes(
@@ -95,29 +102,52 @@ class FootnoteTransformation {
 		}
 		return signalBefestigung.signalBefestigungen.filter [
 			IDBearbeitungsvermerk !== null
-		].flatMap[IDBearbeitungsvermerk]
+		].flatMap [
+			val notes = IDBearbeitungsvermerk
+			val objectStateNote = #[
+				signalBefestigung.transformObjectStateEnum(
+					basisObjektAllg?.objektzustandBesonders?.wert)
+			]
+			return #[notes, objectStateNote].flatten
+		]
 	}
 
 	// Determine Footnotes for Ssks Table
 	private def dispatch Iterable<ID_Bearbeitungsvermerk_TypeClass> getObjectFootnotes(
 		Signal_Rahmen signalRahmen) {
 		val rahmenFootnotes = signalRahmen.IDBearbeitungsvermerk.filterNull
+		val objectStateNote = #[signalRahmen.transformObjectStateEnum(
+			signalRahmen.basisObjektAllg?.objektzustandBesonders?.wert)]
 		val signalBegriffFootntoes = signalRahmen.signalbegriffe.flatMap [
 			IDBearbeitungsvermerk
 		].filterNull
-		return #[rahmenFootnotes, signalBegriffFootntoes].flatten
+		return #[rahmenFootnotes, objectStateNote, signalBegriffFootntoes].
+			flatten
 	}
 
 	// Determine Footnotes for Sskw Table
 	private def dispatch Iterable<ID_Bearbeitungsvermerk_TypeClass> getObjectFootnotes(
 		W_Kr_Gsp_Element gspElement) {
 		val gspElementFootNotes = gspElement?.IDBearbeitungsvermerk
-		val gspKomponentFootNotes = gspElement?.WKrGspKomponenten?.flatMap [
+		val gspKomonenten = gspElement?.WKrGspKomponenten
+		val gspKomponentFootNotes = gspKomonenten?.flatMap [
 			IDBearbeitungsvermerk
 		]
-		val gspAnlageFootNotes = gspElement?.WKrAnlage?.IDBearbeitungsvermerk
+		val gspKomponentObjStates = gspKomonenten?.map [
+			transformObjectStateEnum(
+				basisObjektAllg?.objektzustandBesonders?.wert)
+
+		]
+
+		val gspAnlage = gspElement?.WKrAnlage
+		val gspAnlageFootNotes = gspAnlage?.IDBearbeitungsvermerk
+		val gspAnlageObjState = #[
+			gspAnlage.transformObjectStateEnum(
+				gspAnlage?.basisObjektAllg?.objektzustandBesonders?.wert)
+		]
 		return #[gspElementFootNotes, gspKomponentFootNotes,
-			gspAnlageFootNotes].filterNull.flatten
+			gspKomponentObjStates, gspAnlageFootNotes, gspAnlageObjState].
+			filterNull.flatten
 	}
 
 	// Determine Footnotes for Ssbb & Ssit Table
@@ -248,6 +278,9 @@ class FootnoteTransformation {
 	}
 
 	private def void addFootnote(Bearbeitungsvermerk comment) {
+		if (comment === null) {
+			return
+		}
 		if (row.footnotes === null)
 			row.footnotes = TablemodelFactory.eINSTANCE.
 				createSimpleFootnoteContainer()
