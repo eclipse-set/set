@@ -366,7 +366,7 @@ public final class ToolboxConstants {
 	/**
 	 * Shortcut of Worknotes table
 	 */
-	public static final String WORKNOTES_TABLE_SHORTCUT = "Ssbv"; //$NON-NLS-1$
+	public static final String WORKNOTES_TABLE_SHORTCUT = "Sxxx"; //$NON-NLS-1$
 
 	/**
 	 * The tolerance value between TOP_Kante length and the sum of GEO_Kanten

@@ -8,10 +8,10 @@
  * SPDX-License-Identifier: EPL-2.0
  * 
  */
-package org.eclipse.set.feature.table.pt1.ssbv;
+package org.eclipse.set.feature.table.pt1.sxxx;
 
 import org.eclipse.set.core.services.part.PartDescriptionService;
-import org.eclipse.set.feature.table.AbstractSupplementTableDescription;
+import org.eclipse.set.feature.table.AbstractESTWSupplementTableDesciption;
 import org.eclipse.set.feature.table.pt1.messages.Messages;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -20,24 +20,25 @@ import org.osgi.service.component.annotations.Reference;
  * 
  */
 @Component(service = PartDescriptionService.class)
-public class SsbvDescriptionService extends AbstractSupplementTableDescription {
+public class SxxxDescriptionService
+		extends AbstractESTWSupplementTableDesciption {
 
 	@Reference
 	Messages messages;
 
 	@Override
 	protected String getToolboxViewName() {
-		return messages.SsbvDescriptionService_ViewName;
+		return messages.SxxxDescriptionService_ViewName;
 	}
 
 	@Override
 	protected String getToolboxViewTooltip() {
-		return messages.SsbvDescriptionService_ViewTooltip;
+		return messages.SxxxDescriptionService_ViewTooltip;
 	}
 
 	@Override
 	protected String getTableShortcut() {
-		return messages.ToolboxTableNameSsbvShort;
+		return messages.ToolboxTableNameSxxxShort;
 	}
 
 }

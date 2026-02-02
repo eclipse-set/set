@@ -108,11 +108,11 @@ Import-Package: com.google.common.base,
  org.osgi.service.event;version="1.3.1",
  org.slf4j;version="1.7.2"
 Bundle-ActivationPolicy: lazy
-Service-Component: OSGI-INF/org.eclipse.set.feature.table.pt1.messages.Messages.xml,
+Service-Component: OSGI-INF/org.eclipse.set.feature.table.pt1.Sxxx.SxxxDescriptionService.xml,
+ OSGI-INF/org.eclipse.set.feature.table.pt1.Sxxx.SxxxTransformationService.xml,
+ OSGI-INF/org.eclipse.set.feature.table.pt1.messages.Messages.xml,
  OSGI-INF/org.eclipse.set.feature.table.pt1.ssbb.SsbbDescriptionService.xml,
  OSGI-INF/org.eclipse.set.feature.table.pt1.ssbb.SsbbTransformationService.xml,
- OSGI-INF/org.eclipse.set.feature.table.pt1.ssbv.SsbvDescriptionService.xml,
- OSGI-INF/org.eclipse.set.feature.table.pt1.ssbv.SsbvTransformationService.xml,
  OSGI-INF/org.eclipse.set.feature.table.pt1.ssit.SsitDescriptionService.xml,
  OSGI-INF/org.eclipse.set.feature.table.pt1.ssit.SsitTransformationService.xml,
  OSGI-INF/org.eclipse.set.feature.table.pt1.sska.SskaDescriptionService.xml,
@@ -163,4 +163,6 @@ Service-Component: OSGI-INF/org.eclipse.set.feature.table.pt1.messages.Messages.
  OSGI-INF/org.eclipse.set.feature.table.pt1.sszs.SszsDescriptionService.xml,
  OSGI-INF/org.eclipse.set.feature.table.pt1.sszs.SszsTransformationService.xml,
  OSGI-INF/org.eclipse.set.feature.table.pt1.sszw.SszwDescriptionService.xml,
- OSGI-INF/org.eclipse.set.feature.table.pt1.sszw.SszwTransformationService.xml
+ OSGI-INF/org.eclipse.set.feature.table.pt1.sszw.SszwTransformationService.xml,
+ OSGI-INF/org.eclipse.set.feature.table.pt1.sxxx.SxxxDescriptionService.xml,
+ OSGI-INF/org.eclipse.set.feature.table.pt1.sxxx.SxxxTransformationService.xml

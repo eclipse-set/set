@@ -8,7 +8,7 @@
  * SPDX-License-Identifier: EPL-2.0
  * 
  */
-package org.eclipse.set.feature.table.pt1.ssbv;
+package org.eclipse.set.feature.table.pt1.sxxx;
 
 import java.util.Collections;
 import java.util.List;
@@ -29,8 +29,8 @@ import org.osgi.service.event.EventAdmin;
  */
 @Component(service = {
 		PlanPro2TableTransformationService.class }, immediate = true, property = {
-				"table.category=supplement", "table.shortcut=ssbv" })
-public class SsbvTransformationService
+				"table.category=supplement-estw", "table.shortcut=sxxx" })
+public class SxxxTransformationService
 		extends AbstractPlanPro2TableTransformationService {
 	@Reference
 	Messages messages;
@@ -43,12 +43,12 @@ public class SsbvTransformationService
 
 	@Override
 	protected String getTableHeading() {
-		return messages.SsbvTableView_Heading;
+		return messages.SxxxTableView_Heading;
 	}
 
 	@Override
 	protected String getShortcut() {
-		return messages.ToolboxTableNameSsbvShort;
+		return messages.ToolboxTableNameSxxxShort;
 	}
 
 	@Override
@@ -58,14 +58,14 @@ public class SsbvTransformationService
 
 	@Override
 	public TableNameInfo getTableNameInfo() {
-		return new TableNameInfo(messages.ToolboxTableNameSsbvLong,
-				messages.ToolboxTableNameSsbvPlanningNumber,
-				messages.ToolboxTableNameSsbvShort);
+		return new TableNameInfo(messages.ToolboxTableNameSxxxLong,
+				messages.ToolboxTableNameSxxxPlanningNumber,
+				messages.ToolboxTableNameSxxxShort);
 	}
 
 	@Override
 	public TableModelTransformator<MultiContainer_AttributeGroup> createTransformator() {
-		return new SsbvTransformator(cols, enumTranslationService, eventAdmin);
+		return new SxxxTransformator(cols, enumTranslationService, eventAdmin);
 	}
 
 }

@@ -8,13 +8,13 @@
  * SPDX-License-Identifier: EPL-2.0
  * 
  */
-package org.eclipse.set.feature.table.pt1.ssbv;
+package org.eclipse.set.feature.table.pt1.sxxx;
 
 /**
  * 
  */
 @SuppressWarnings("nls")
-public class SsbvColumns {
+public class SxxxColumns {
 	/**
 	 * A: Inhalt Bearbeitungsvermerk
 	 */

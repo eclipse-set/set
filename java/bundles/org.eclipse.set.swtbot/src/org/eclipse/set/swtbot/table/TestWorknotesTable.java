@@ -22,7 +22,7 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
- * Test data of table Ssbv
+ * Test data of table Sxxx
  */
 @ExtendWith(TestFailHandle.class)
 @TestInstance(Lifecycle.PER_CLASS)
@@ -67,8 +67,8 @@ public class TestWorknotesTable extends AbstractTableTest {
 
 	@SuppressWarnings("boxing")
 	void givenWorknotesTable() {
-		worknotesTable = new PtTable("Ssbv",
-				"Ssbv – Bearbeitungsvermerke Tabelle", List.of(0));
+		worknotesTable = new PtTable("Sxxx",
+				"Sxxx – Bearbeitungsvermerke Tabelle", List.of(0));
 	}
 
 	void givenWorknotesTableReferenceOpenAfter() throws Exception {

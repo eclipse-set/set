@@ -8,7 +8,7 @@
  * SPDX-License-Identifier: EPL-2.0
  * 
  */
-package org.eclipse.set.feature.table.pt1.ssbv;
+package org.eclipse.set.feature.table.pt1.sxxx;
 
 import static org.eclipse.set.ppmodel.extensions.EObjectExtensions.getNullableObject;
 
@@ -45,7 +45,7 @@ import com.google.common.collect.Streams;
  * 
  * @author truong
  */
-public class SsbvTransformator extends AbstractPlanPro2TableModelTransformator {
+public class SxxxTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	/**
 	 * @param cols
@@ -55,7 +55,7 @@ public class SsbvTransformator extends AbstractPlanPro2TableModelTransformator {
 	 * @param eventAdmin
 	 *            the {@link EventAdmin}
 	 */
-	public SsbvTransformator(final Set<ColumnDescriptor> cols,
+	public SxxxTransformator(final Set<ColumnDescriptor> cols,
 			final EnumTranslationService enumTranslationService,
 			final EventAdmin eventAdmin) {
 		super(cols, enumTranslationService, eventAdmin);
@@ -79,7 +79,7 @@ public class SsbvTransformator extends AbstractPlanPro2TableModelTransformator {
 			final TableRow row = factory.newTableRow(bv);
 
 			// A: Bearbeitungsvermerke inhalt
-			fill(row, getColumn(cols, SsbvColumns.Text_Content), bv,
+			fill(row, getColumn(cols, SxxxColumns.Text_Content), bv,
 					note -> EObjectExtensions
 							.getNullableObject(note,
 									e -> e.getBearbeitungsvermerkAllg()
@@ -88,12 +88,12 @@ public class SsbvTransformator extends AbstractPlanPro2TableModelTransformator {
 							.orElse("")); //$NON-NLS-1$
 
 			// B: Referenziert von Objects
-			fillIterable(row, getColumn(cols, SsbvColumns.Reference_Object), bv,
+			fillIterable(row, getColumn(cols, SxxxColumns.Reference_Object), bv,
 					note -> idReferences.stream()
 							.parallel()
 							.filter(ref -> ref.getValue().equals(note))
 							.map(EObject::eContainer)
-							.map(SsbvTransformator::getReferenceObjDesignation)
+							.map(SxxxTransformator::getReferenceObjDesignation)
 							.toList(),
 					MIXED_STRING_COMPARATOR);
 		}

@@ -112,7 +112,7 @@ public interface Events {
 	String SUBWORK_CHANGED = "subwork/change";
 
 	/**
-	 * When a table open after Worknotes table - Ssbv
+	 * When a table open after Worknotes table - Sxxx
 	 */
-	String RELOAD_WORKNOTES_TABLE = "table/reload/ssbv";
+	String RELOAD_WORKNOTES_TABLE = "table/reload/Sxxx";
 }
