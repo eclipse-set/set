@@ -244,7 +244,9 @@ class FootnoteTransformation {
 
 	private def dispatch Iterable<ID_Bearbeitungsvermerk_TypeClass> getObjectFootnotes(
 		Punkt_Objekt_Strecke_AttributeGroup pos) {
-		return pos?.streckeKm?.IDBearbeitungsvermerk ?: #[]
+		val routeNotes = pos.IDStrecke?.IDBearbeitungsvermerk
+		val kmNotes = pos?.streckeKm?.IDBearbeitungsvermerk
+		return #[routeNotes, kmNotes].flatten.filterNull
 	}
 
 	private def void addFootnote(Bearbeitungsvermerk comment) {
