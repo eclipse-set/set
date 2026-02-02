@@ -44,6 +44,11 @@ import static extension org.eclipse.set.ppmodel.extensions.TechnikStandortExtens
 import static extension org.eclipse.set.ppmodel.extensions.WKrAnlageExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspElementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.FmaAnlageExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.FstrZugRangierExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.FahrwegExtensions.*
+import org.eclipse.set.model.planpro.Ortung.FMA_Anlage
+import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Zug_Rangier
 
 /**
  * Transform basis objects to footnotes.
@@ -231,6 +236,28 @@ class FootnoteTransformation {
 				#[]
 		}
 		return #[directionFootnotes, routeKmFootnotes].flatten
+	}
+
+	// Determine Footnotes for Sskf
+	private def dispatch Iterable<ID_Bearbeitungsvermerk_TypeClass> getObjectFootnotes(
+		FMA_Anlage fmaAnlage) {
+		val directFootnotes = fmaAnlage.IDBearbeitungsvermerk
+		val refFootnotes = fmaAnlage.schaltmittelZuordnungen.flatMap [
+			IDBearbeitungsvermerk
+		]
+		return #[directFootnotes, refFootnotes].flatten.filterNull
+	}
+
+	// Determine Footnotes for Sslz
+	private def dispatch Iterable<ID_Bearbeitungsvermerk_TypeClass> getObjectFootnotes(
+		Fstr_Zug_Rangier fstrZugRangier) {
+		val directFoonotes = fstrZugRangier.IDBearbeitungsvermerk
+		if (!isZ(fstrZugRangier)) {
+			return directFoonotes
+		}
+		val refFootnotes = fstrZugRangier.fstrFahrweg?.start.
+			zweitesHaltfallkriterium?.IDBearbeitungsvermerk
+		return #[directFoonotes, refFootnotes].flatten.filterNull
 	}
 
 	// Determine Footnotes for Sskg, Ssza table
