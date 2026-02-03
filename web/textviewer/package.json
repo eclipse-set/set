@@ -12,7 +12,7 @@
   "author": "",
   "license": "",
   "dependencies": {
-    "axios": "^1.13.3",
+    "axios": "^1.13.4",
     "monaco-editor": "^0.55.1"
   },
   "devDependencies": {
