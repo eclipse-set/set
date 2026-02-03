@@ -15,7 +15,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.List;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
@@ -26,7 +25,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
  */
 @ExtendWith(TestFailHandle.class)
 @TestInstance(Lifecycle.PER_CLASS)
-@Disabled
 public class TestWorknotesTable extends AbstractTableTest {
 
 	String tableRefName;
@@ -68,7 +66,7 @@ public class TestWorknotesTable extends AbstractTableTest {
 	@SuppressWarnings("boxing")
 	void givenWorknotesTable() {
 		worknotesTable = new PtTable("Sxxx",
-				"Sxxx – Bearbeitungsvermerke Tabelle", List.of(0));
+				"Sxxx – Tabelle weiterer Bearbeitungsvermerke", List.of(0));
 	}
 
 	void givenWorknotesTableReferenceOpenAfter() throws Exception {
