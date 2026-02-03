@@ -253,7 +253,7 @@ class FootnoteTransformation {
 		Fstr_Zug_Rangier fstrZugRangier) {
 		val directFoonotes = fstrZugRangier.IDBearbeitungsvermerk
 		if (!isZ(fstrZugRangier)) {
-			return directFoonotes
+			return directFoonotes.filterNull
 		}
 		val refFootnotes = fstrZugRangier.fstrFahrweg?.start.
 			zweitesHaltfallkriterium?.IDBearbeitungsvermerk ?: #[]
