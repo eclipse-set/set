@@ -242,9 +242,9 @@ class FootnoteTransformation {
 	private def dispatch Iterable<ID_Bearbeitungsvermerk_TypeClass> getObjectFootnotes(
 		FMA_Anlage fmaAnlage) {
 		val directFootnotes = fmaAnlage.IDBearbeitungsvermerk
-		val refFootnotes = fmaAnlage.schaltmittelZuordnungen.flatMap [
+		val refFootnotes = fmaAnlage?.schaltmittelZuordnungen?.flatMap [
 			IDBearbeitungsvermerk
-		]
+		] ?: #[]
 		return #[directFootnotes, refFootnotes].flatten.filterNull
 	}
 
@@ -256,7 +256,7 @@ class FootnoteTransformation {
 			return directFoonotes
 		}
 		val refFootnotes = fstrZugRangier.fstrFahrweg?.start.
-			zweitesHaltfallkriterium?.IDBearbeitungsvermerk
+			zweitesHaltfallkriterium?.IDBearbeitungsvermerk ?: #[]
 		return #[directFoonotes, refFootnotes].flatten.filterNull
 	}
 
