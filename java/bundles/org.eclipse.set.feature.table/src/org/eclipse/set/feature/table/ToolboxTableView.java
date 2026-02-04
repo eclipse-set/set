@@ -96,7 +96,7 @@ import org.eclipse.set.ppmodel.extensions.utils.PlanProToTitleboxTransformation;
 import org.eclipse.set.services.export.ExportService;
 import org.eclipse.set.services.export.TableCompileService;
 import org.eclipse.set.services.table.TableService;
-import org.eclipse.set.services.table.TableService.TableRendereUtil;
+import org.eclipse.set.services.table.TableService.TableRendererUtil;
 import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.RefreshAction;
 import org.eclipse.set.utils.SelectableAction;
@@ -363,7 +363,7 @@ public final class ToolboxTableView extends BasePart {
 	}
 
 	private void updateTableView(final List<Pt1TableCategory> tableCategories) {
-		tableService.updateTable(this, tableCategories, new TableRendereUtil(
+		tableService.updateTable(this, tableCategories, new TableRendererUtil(
 				() -> transformToTableModel(), transformedTable -> {
 					if (transformedTable == null) {
 						return;
@@ -421,7 +421,7 @@ public final class ToolboxTableView extends BasePart {
 				.map(Pair::getSecond)
 				.collect(Collectors.toSet());
 		tableService.updateTable(this, Collections.emptyList(),
-				new TableRendereUtil(this::transformToTableModel,
+				new TableRendererUtil(this::transformToTableModel,
 						transformedTable -> {
 							if (transformedTable == null) {
 								return;

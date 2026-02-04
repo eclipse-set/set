@@ -130,7 +130,7 @@ public final class TableServiceImpl implements TableService {
 	private final Map<TableInfo, PlanPro2TableTransformationService> modelServiceMap = new ConcurrentHashMap<>();
 
 	private final Map<TableCompareType, TableDiffService> diffServiceMap = new ConcurrentHashMap<>();
-	private static final Queue<Pair<BasePart, TableRendereUtil>> transformTableThreads = new LinkedList<>();
+	private static final Queue<Pair<BasePart, TableRendererUtil>> transformTableThreads = new LinkedList<>();
 	private static final Set<TableInfo> nonTransformableTables = new HashSet<>();
 
 	private static final String EMPTY = "empty"; //$NON-NLS-1$
@@ -588,7 +588,7 @@ public final class TableServiceImpl implements TableService {
 	@Override
 	public void updateTable(final BasePart tablePart,
 			final List<Pt1TableCategory> tableCategories,
-			final TableRendereUtil rendereUtil) {
+			final TableRendererUtil rendereUtil) {
 		// Find which table categories should be update
 		final List<String> tablePrefixes = List
 				.of(ToolboxConstants.ESTW_TABLE_PART_ID_PREFIX,
@@ -653,7 +653,7 @@ public final class TableServiceImpl implements TableService {
 			Threads.stopCurrentOnCancel(monitor);
 
 			// Wait for table transform
-			for (Pair<BasePart, TableRendereUtil> transformThread; (transformThread = transformTableThreads
+			for (Pair<BasePart, TableRendererUtil> transformThread; (transformThread = transformTableThreads
 					.poll()) != null;) {
 				final TableInfo tableInfo = getTableInfo(
 						transformThread.getKey());
@@ -664,7 +664,7 @@ public final class TableServiceImpl implements TableService {
 						.updateTableUIAction();
 				monitor.subTask(tableNameInfo.getFullDisplayName());
 				final Table transformedTable = transformThread.getValue()
-						.transfromTableAction()
+						.transformTableAction()
 						.get();
 				Display.getDefault()
 						.asyncExec(() -> updateTableUIAction

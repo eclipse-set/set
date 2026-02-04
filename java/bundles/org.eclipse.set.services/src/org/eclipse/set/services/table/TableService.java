@@ -40,12 +40,12 @@ public interface TableService {
 	/**
 	 * Helper class for transform and reload table
 	 * 
-	 * @param transfromTableAction
+	 * @param transformTableAction
 	 *            create table from PlanPro model data
 	 * @param updateTableUIAction
 	 *            update table ui
 	 */
-	public static record TableRendereUtil(Supplier<Table> transfromTableAction,
+	public static record TableRendererUtil(Supplier<Table> transformTableAction,
 			Consumer<Table> updateTableUIAction) {
 
 	}
@@ -165,10 +165,10 @@ public interface TableService {
 	 *            the list of table category. when the list is empty, then
 	 *            update all table
 	 * @param rendereUtil
-	 *            the {@link TableRendereUtil}
+	 *            the {@link TableRendererUtil}
 	 */
 	void updateTable(BasePart part, List<Pt1TableCategory> tableCategories,
-			TableRendereUtil rendereUtil);
+			TableRendererUtil rendereUtil);
 
 	/**
 	 * Get fixed columns
