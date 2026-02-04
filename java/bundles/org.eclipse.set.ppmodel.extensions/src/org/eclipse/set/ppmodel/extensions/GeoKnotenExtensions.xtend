@@ -49,12 +49,12 @@ class GeoKnotenExtensions extends BasisObjektExtensions {
 	 * 
 	 * @returns the GEO-Punkte for this GEO-Knoten
 	 */
-	def static List<GEO_Punkt> getGeoPunkte(
+	def static Iterable<GEO_Punkt> getGeoPunkte(
 		GEO_Knoten knoten
 	) {
 		return knoten.container.GEOPunkt.filter [
 			IDGEOKnoten !== null && IDGEOKnoten?.wert == knoten.identitaet.wert
-		].toList
+		]
 	}
 
 	/**
@@ -93,7 +93,7 @@ class GeoKnotenExtensions extends BasisObjektExtensions {
 	 * @returns the coordinate of this GEO Knoten
 	 */
 	def static Coordinate getCoordinate(GEO_Knoten geoKnoten) {
-		val List<GEO_Punkt> geoPunkte = geoKnoten.geoPunkte
+		val geoPunkte = geoKnoten.geoPunkte
 		val GEO_Punkt geoPunkt = geoPunkte.getGeoPunkt(geoKnoten)
 		return geoPunkt.coordinate
 	}
@@ -102,14 +102,15 @@ class GeoKnotenExtensions extends BasisObjektExtensions {
 		val crs = geoKnoten.geoPunkte.map [
 			GEOPunktAllg?.GEOKoordinatensystem?.wert
 		].toSet.uniqueOrNull
-		return crs !== null ? crs : ENUMGEOKoordinatensystem.
-			ENUMGEO_KOORDINATENSYSTEM_SONSTIGE
+		return crs !== null
+			? crs
+			: ENUMGEOKoordinatensystem.ENUMGEO_KOORDINATENSYSTEM_SONSTIGE
 	}
 
-	def static GEO_Punkt getGeoPunkt(List<GEO_Punkt> geoPunkte,
+	def static GEO_Punkt getGeoPunkt(Iterable<GEO_Punkt> geoPunkte,
 		GEO_Knoten geoKnoten) {
 		if (geoPunkte.size === 1) {
-			return geoPunkte.first
+			return geoPunkte.get(0)
 		}
 		val crs = geoPunkte.map[GEOPunktAllg?.GEOKoordinatensystem?.wert].toSet
 		// A Geo_Knoten reference to two Geo_Punkt only when the Geo_Knoten have 2 Coordinatensystem
@@ -119,7 +120,7 @@ class GeoKnotenExtensions extends BasisObjektExtensions {
 					Integer.valueOf(geoPunkte.size()),
 					geoKnoten.getIdentitaet().getWert()))
 		}
-		
+
 		return geoPunkte.firstOrNull
 	}
 

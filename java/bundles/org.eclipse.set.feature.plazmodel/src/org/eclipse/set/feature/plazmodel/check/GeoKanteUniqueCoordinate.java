@@ -35,6 +35,7 @@ import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGrou
 import org.locationtech.jts.geom.Coordinate;
 import org.osgi.service.component.annotations.Component;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Streams;
 
 /**
@@ -101,8 +102,10 @@ public class GeoKanteUniqueCoordinate extends AbstractPlazContainerCheck
 				return;
 			}
 			try {
-				final List<GEO_Punkt> geoPunkteA = getGeoPunkte(geoKnotenA);
-				final List<GEO_Punkt> geoPunkteB = getGeoPunkte(geoKnotenB);
+				final List<GEO_Punkt> geoPunkteA = Lists
+						.newArrayList(getGeoPunkte(geoKnotenA));
+				final List<GEO_Punkt> geoPunkteB = Lists
+						.newArrayList(getGeoPunkte(geoKnotenB));
 				geoPunkteA.addAll(geoPunkteB);
 				final Map<ENUMGEOKoordinatensystem, List<GEO_Punkt>> geoPunktGroupByCRS = geoPunkteA
 						.stream()

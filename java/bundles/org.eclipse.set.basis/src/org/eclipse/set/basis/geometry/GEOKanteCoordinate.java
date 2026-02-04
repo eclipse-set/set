@@ -42,15 +42,12 @@ public class GEOKanteCoordinate {
 	 *            the {@link GeoPosition}
 	 * @param geoKante
 	 *            the {@link GEOKanteMetadata}
-	 * @param crs
-	 *            the coordinate system
 	 */
 	public GEOKanteCoordinate(final GeoPosition position,
-			final GEOKanteMetadata geoKante,
-			final ENUMGEOKoordinatensystem crs) {
+			final GEOKanteMetadata geoKante) {
 		this.position = position;
 		this.geoKante = geoKante;
-		this.crs = crs;
+		this.crs = geoKante.getGeoCRS();
 		this.topDistance = determineTopDistance(position.getCoordinate(),
 				geoKante);
 	}
@@ -60,15 +57,12 @@ public class GEOKanteCoordinate {
 	 *            the coordinate
 	 * @param geoKante
 	 *            the {@link Bereich_Objekt}
-	 * @param crs
-	 *            the coordinate system
 	 */
 	public GEOKanteCoordinate(final Coordinate coordinate,
-			final GEOKanteMetadata geoKante,
-			final ENUMGEOKoordinatensystem crs) {
+			final GEOKanteMetadata geoKante) {
 		this.position = new GeoPosition(coordinate, 0, 0);
 		this.geoKante = geoKante;
-		this.crs = crs;
+		this.crs = geoKante.getGeoCRS();
 		this.topDistance = determineTopDistance(coordinate, geoKante);
 	}
 

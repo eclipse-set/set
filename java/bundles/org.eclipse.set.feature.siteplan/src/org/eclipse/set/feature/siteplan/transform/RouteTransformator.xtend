@@ -142,7 +142,7 @@ class RouteTransformator extends BaseTransformator<Strecke> {
 			geoKante = geoKanten.get(0)
 			// Find the metadata for the current GEO_Kante
 			val metadata = new GEOKanteMetadata(geoKante, geoDistance,
-				geoKnoten, geometryService.getGeometry(geoKante))
+				geoKnoten, geometryService.getGeometry(geoKante), geoKnoten.CRS)
 
 			// For every 100m on this GEO_Kante, determine the point
 			while (offset <= metadata.end.doubleValue) {
@@ -153,7 +153,8 @@ class RouteTransformator extends BaseTransformator<Strecke> {
 				// Add the point to the result
 				try {
 					result.add(
-						geometryService.getCoordinate(metadata, BigDecimal.valueOf(offset), BigDecimal.ZERO,
+						geometryService.getCoordinate(metadata,
+							BigDecimal.valueOf(offset), BigDecimal.ZERO,
 							ENUMWirkrichtung.ENUM_WIRKRICHTUNG_IN) -> offset)
 					offset += STRECKE_KM_SPACING
 				} catch (GeometryException exc) {
