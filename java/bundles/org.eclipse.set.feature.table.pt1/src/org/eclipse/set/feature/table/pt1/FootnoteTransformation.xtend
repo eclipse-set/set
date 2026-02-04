@@ -70,7 +70,7 @@ class FootnoteTransformation {
 		object?.IDBearbeitungsvermerk?.map[value]?.toSet?.forEach[addFootnote]
 		object?.referenceFootnotes?.map[value]?.toSet?.forEach[addFootnote]
 
-		object.transformObjectStateEnum(
+		object?.transformObjectStateEnum(
 			object?.basisObjektAllg?.objektzustandBesonders?.wert)?.value?.
 			addFootnote
 	}
@@ -114,7 +114,7 @@ class FootnoteTransformation {
 			val objectStateNote = #[
 				signalBefestigung?.transformObjectStateEnum(
 					basisObjektAllg?.objektzustandBesonders?.wert)
-			]
+			].filterNull
 			return #[notes, objectStateNote].flatten
 		] ?: #[]
 	}
@@ -124,7 +124,8 @@ class FootnoteTransformation {
 		Signal_Rahmen signalRahmen) {
 		val rahmenFootnotes = signalRahmen?.IDBearbeitungsvermerk?.filterNull
 		val objectStateNote = #[signalRahmen?.transformObjectStateEnum(
-			signalRahmen?.basisObjektAllg?.objektzustandBesonders?.wert)]
+			signalRahmen?.basisObjektAllg?.objektzustandBesonders?.wert)].
+			filterNull
 		val signalBegriffFootntoes = signalRahmen?.signalbegriffe?.flatMap [
 			IDBearbeitungsvermerk
 		]?.filterNull
@@ -142,14 +143,14 @@ class FootnoteTransformation {
 		val gspKomponentObjStates = gspKomonenten?.map [
 			transformObjectStateEnum(
 				basisObjektAllg?.objektzustandBesonders?.wert)
-		]
+		].filterNull
 
 		val gspAnlage = gspElement?.WKrAnlage
 		val gspAnlageFootNotes = gspAnlage?.IDBearbeitungsvermerk
 		val gspAnlageObjStates = #[
 			gspAnlage.transformObjectStateEnum(
 				gspAnlage?.basisObjektAllg?.objektzustandBesonders?.wert)
-		]
+		].filterNull
 
 		return #[gspKomponentFootNotes, gspKomponentObjStates,
 			gspAnlageFootNotes, gspAnlageObjStates].filterNull.flatten
