@@ -239,7 +239,7 @@ class FootnoteTransformation {
 		Punkt_Objekt_Strecke_AttributeGroup pos) {
 		val routeNotes = pos?.IDStrecke?.IDBearbeitungsvermerk
 		val kmNotes = pos?.streckeKm?.IDBearbeitungsvermerk
-		return #[routeNotes, kmNotes].flatten.filterNull
+		return #[routeNotes, kmNotes].filterNull.flatten
 	}
 
 	private def void addFootnote(Bearbeitungsvermerk comment) {
