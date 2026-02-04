@@ -44,12 +44,14 @@ import static extension org.eclipse.set.ppmodel.extensions.TechnikStandortExtens
 import static extension org.eclipse.set.ppmodel.extensions.WKrAnlageExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspElementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
+import static extension org.eclipse.set.model.tablemodel.extensions.FootnoteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FmaAnlageExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FstrZugRangierExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FahrwegExtensions.*
 import org.eclipse.set.model.planpro.Ortung.FMA_Anlage
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Zug_Rangier
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Unterbringung
+import org.eclipse.set.model.planpro.Ortung.Schaltmittel_Zuordnung
 
 /**
  * Transform basis objects to footnotes.
@@ -68,9 +70,12 @@ class FootnoteTransformation {
 		// Direct attachment notes
 		object?.IDBearbeitungsvermerk?.map[value]?.toSet?.forEach[addFootnote]
 		object?.referenceFootnotes?.map[value]?.toSet?.forEach[addFootnote]
+
+		object?.transformObjectStateEnum?.value?.addFootnote
 	}
-	
-	private def dispatch Iterable<ID_Bearbeitungsvermerk_TypeClass> getReferenceFootnotes(Basis_Objekt obj) {
+
+	private def dispatch Iterable<ID_Bearbeitungsvermerk_TypeClass> getReferenceFootnotes(
+		Basis_Objekt obj) {
 		return #[]
 	}
 
@@ -103,27 +108,48 @@ class FootnoteTransformation {
 		}
 		return signalBefestigung?.signalBefestigungen?.filter [
 			IDBearbeitungsvermerk !== null
-		]?.flatMap[IDBearbeitungsvermerk] ?: #[]
+		]?.flatMap [
+			val notes = IDBearbeitungsvermerk
+			val objectStateNote = #[
+				signalBefestigung?.transformObjectStateEnum(
+					basisObjektAllg?.objektzustandBesonders?.wert)
+			].filterNull
+			return #[notes, objectStateNote].flatten
+		] ?: #[]
 	}
 
 	// Determine Footnotes for Ssks Table
 	private def dispatch Iterable<ID_Bearbeitungsvermerk_TypeClass> getReferenceFootnotes(
 		Signal_Rahmen signalRahmen) {
 		val rahmenFootnotes = signalRahmen?.IDBearbeitungsvermerk?.filterNull
+		val objectStateNote = #[signalRahmen?.transformObjectStateEnum].
+			filterNull
 		val signalBegriffFootntoes = signalRahmen?.signalbegriffe?.flatMap [
 			IDBearbeitungsvermerk
 		]?.filterNull
-		return #[rahmenFootnotes, signalBegriffFootntoes].filterNull.flatten
+		return #[rahmenFootnotes, objectStateNote, signalBegriffFootntoes].
+			filterNull.flatten
 	}
 
 	// Determine Footnotes for Sskw Table
 	private def dispatch Iterable<ID_Bearbeitungsvermerk_TypeClass> getReferenceFootnotes(
 		W_Kr_Gsp_Element gspElement) {
-		val gspKomponentFootNotes = gspElement?.WKrGspKomponenten?.flatMap [
+		val gspKomonenten = gspElement?.WKrGspKomponenten
+		val gspKomponentFootNotes = gspKomonenten?.flatMap [
 			IDBearbeitungsvermerk
 		]
-		val gspAnlageFootNotes = gspElement?.WKrAnlage?.IDBearbeitungsvermerk
-		return #[gspKomponentFootNotes, gspAnlageFootNotes].filterNull.flatten
+		val gspKomponentObjStates = gspKomonenten?.map [
+			transformObjectStateEnum
+		].filterNull
+
+		val gspAnlage = gspElement?.WKrAnlage
+		val gspAnlageFootNotes = gspAnlage?.IDBearbeitungsvermerk
+		val gspAnlageObjStates = #[
+			gspAnlage.transformObjectStateEnum
+		].filterNull
+
+		return #[gspKomponentFootNotes, gspKomponentObjStates,
+			gspAnlageFootNotes, gspAnlageObjStates].filterNull.flatten
 	}
 
 	// Determine Footnotes for Ssbb & Ssit Table
@@ -149,12 +175,17 @@ class FootnoteTransformation {
 		Schloss schloss
 	) {
 		if (schloss?.schlossSk !== null) {
-			return schloss?.schlossKombination?.unterbringung?.
-				referenceFootnotes ?: #[]
+			val objStateNote = #[schloss?.schlossKombination?.
+				transformObjectStateEnum].filterNull
+			return #[objStateNote, schloss?.schlossKombination?.unterbringung?.
+				referenceFootnotes].filterNull.flatten
 		}
 
 		if (schloss?.schlossSsp !== null) {
-			return schloss?.schluesselsperre?.unterbringung?.referenceFootnotes ?: #[]
+			val objStateNote = #[schloss?.schluesselsperre?.
+				transformObjectStateEnum].filterNull
+			return #[objStateNote, schloss?.schluesselsperre?.unterbringung?.
+				referenceFootnotes].filterNull.flatten
 		}
 		return #[]
 	}
@@ -173,7 +204,10 @@ class FootnoteTransformation {
 
 	private def dispatch Iterable<ID_Bearbeitungsvermerk_TypeClass> getReferenceFootnotes(
 		Unterbringung obj) {
-		return obj?.punktObjektStrecke?.flatMap[referenceFootnotes] ?: #[]
+		val objStateNote = #[obj.transformObjectStateEnum].filterNull
+		return #[objStateNote, obj?.punktObjektStrecke?.flatMap [
+			referenceFootnotes
+		]].filterNull.flatten
 	}
 
 	// Determine Footnotes for Sszs table
@@ -194,8 +228,10 @@ class FootnoteTransformation {
 			case ENUMW_KR_ART_DW,
 			case ENUMW_KR_ART_KLOTHOIDENWEICHE,
 			case ENUMW_KR_ART_KORBBOGENWEICHE: {
-				val gspKomponent = element.WKrGspKomponents.firstOrNull
-				return gspKomponent.referenceFootnotes ?: #[]
+				val gspKomponent = element?.WKrGspKomponents?.firstOrNull
+				val objStateNote = #[gspKomponent?.transformObjectStateEnum]
+				return #[objStateNote, gspKomponent?.referenceFootnotes].
+					filterNull.flatten
 			}
 			case ENUMW_KR_ART_DKW,
 			case ENUMW_KR_ART_EKW,
@@ -213,7 +249,7 @@ class FootnoteTransformation {
 	private def dispatch Iterable<ID_Bearbeitungsvermerk_TypeClass> getReferenceFootnotes(
 		FMA_Anlage fmaAnlage) {
 		return fmaAnlage?.schaltmittelZuordnungen?.flatMap [
-			IDBearbeitungsvermerk
+			referenceFootnotes
 		] ?: #[]
 	}
 
@@ -224,7 +260,13 @@ class FootnoteTransformation {
 			return #[]
 		}
 		return fstrZugRangier.fstrFahrweg?.start?.zweitesHaltfallkriterium?.
-			IDBearbeitungsvermerk ?: #[]
+			referenceFootnotes ?: #[]
+	}
+
+	private def dispatch Iterable<ID_Bearbeitungsvermerk_TypeClass> getReferenceFootnotes(
+		Schaltmittel_Zuordnung obj) {
+		val objStateNote = #[obj?.transformObjectStateEnum].filterNull
+		return #[objStateNote, obj?.IDBearbeitungsvermerk].filterNull.flatten
 	}
 
 	// Determine Footnotes for Sskg, Ssza table
@@ -243,6 +285,9 @@ class FootnoteTransformation {
 	}
 
 	private def void addFootnote(Bearbeitungsvermerk comment) {
+		if (comment === null) {
+			return
+		}
 		if (row.footnotes === null)
 			row.footnotes = TablemodelFactory.eINSTANCE.
 				createSimpleFootnoteContainer()
