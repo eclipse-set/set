@@ -66,7 +66,7 @@ class FootnoteTransformation {
 	def void transform(Basis_Objekt object, TableRow row) {
 		this.row = row
 		// Direct attachment notes
-		object?.IDBearbeitungsvermerk?.map[value].toSet.forEach[addFootnote]
+		object?.IDBearbeitungsvermerk?.map[value]?.toSet?.forEach[addFootnote]
 		object?.referenceFootnotes?.map[value]?.toSet?.forEach[addFootnote]
 	}
 
@@ -78,12 +78,12 @@ class FootnoteTransformation {
 		]
 		val signalBefestigungFootNotes = signal?.signalRahmen?.map [
 			signalBefestigung
-		].filterNull.flatMap [
+		]?.filterNull?.flatMap [
 			referenceFootnotes
 		]
 
 		// Strecke & Km footnotes
-		val posFootNotes = signal?.punktObjektStrecke.flatMap [
+		val posFootNotes = signal?.punktObjektStrecke?.flatMap [
 			referenceFootnotes
 		]
 
@@ -99,7 +99,7 @@ class FootnoteTransformation {
 		}
 		return signalBefestigung?.signalBefestigungen?.filter [
 			IDBearbeitungsvermerk !== null
-		].flatMap[IDBearbeitungsvermerk] ?: #[]
+		]?.flatMap[IDBearbeitungsvermerk] ?: #[]
 	}
 
 	// Determine Footnotes for Ssks Table
@@ -108,7 +108,7 @@ class FootnoteTransformation {
 		val rahmenFootnotes = signalRahmen?.IDBearbeitungsvermerk?.filterNull
 		val signalBegriffFootntoes = signalRahmen?.signalbegriffe?.flatMap [
 			IDBearbeitungsvermerk
-		].filterNull
+		]?.filterNull
 		return #[rahmenFootnotes, signalBegriffFootntoes].filterNull.flatten
 	}
 
@@ -219,7 +219,7 @@ class FootnoteTransformation {
 		if (!isZ(fstrZugRangier)) {
 			return #[]
 		}
-		return fstrZugRangier.fstrFahrweg?.start.zweitesHaltfallkriterium?.
+		return fstrZugRangier.fstrFahrweg?.start?.zweitesHaltfallkriterium?.
 			IDBearbeitungsvermerk ?: #[]
 	}
 
