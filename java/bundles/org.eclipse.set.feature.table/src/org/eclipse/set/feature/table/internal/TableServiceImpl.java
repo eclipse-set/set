@@ -56,6 +56,7 @@ import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.messages.Messages;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
 import org.eclipse.set.model.planpro.Basisobjekte.Bearbeitungsvermerk;
+import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
 import org.eclipse.set.model.tablemodel.CellContent;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.RowGroup;
@@ -130,10 +131,14 @@ public final class TableServiceImpl implements TableService {
 	@Inject
 	SessionService sessionService;
 
+	record WorkNoteUsage(Bearbeitungsvermerk bearbeitungsVermerk,
+			Ur_Objekt ownerObject) {
+	}
+
 	private final Map<TableInfo, PlanPro2TableTransformationService> modelServiceMap = new ConcurrentHashMap<>();
 
 	private final Map<TableCompareType, TableDiffService> diffServiceMap = new ConcurrentHashMap<>();
-	private final Map<TableInfo, Set<Bearbeitungsvermerk>> workNotesProTable = new ConcurrentHashMap<>();
+	private final Map<TableInfo, Map<Bearbeitungsvermerk, Set<Ur_Objekt>>> workNotesPerTable = new ConcurrentHashMap<>();
 	private static final Queue<Pair<BasePart, Runnable>> transformTableThreads = new LinkedList<>();
 	private static final Set<TableInfo> nonTransformableTables = new HashSet<>();
 
@@ -185,7 +190,7 @@ public final class TableServiceImpl implements TableService {
 	}
 
 	void cleanWorkNotesProTable() {
-		workNotesProTable.clear();
+		workNotesPerTable.clear();
 	}
 
 	private Table createDiffTable(final TableInfo tableInfo,
@@ -546,17 +551,19 @@ public final class TableServiceImpl implements TableService {
 		if (tableInfo.shortcut()
 				.equalsIgnoreCase(ToolboxConstants.WORKNOTES_TABLE_SHORTCUT)) {
 			// Special handle for fill Column C of Sxxx table
-			workNotesProTable.forEach((table, notes) -> {
+			workNotesPerTable.forEach((table, notes) -> {
 				if (notes.isEmpty()) {
 					return;
 				}
 				final TableNameInfo tableNameInfo = getTableNameInfo(table);
-				// TODO
-				notes.forEach(note -> {
+				notes.forEach((note, owners) -> {
 					final RowGroup group = TableExtensions
 							.getGroupByLeadingObject(resultTable, note, 0);
 					if (group != null) {
 						group.getRows().forEach(row -> {
+							if (!owners.contains(row.getRowObject())) {
+								return;
+							}
 							final CellContent content = row.getCells()
 									.get(2)
 									.getContent();
@@ -576,19 +583,40 @@ public final class TableServiceImpl implements TableService {
 			});
 			return;
 		}
-		final Set<Bearbeitungsvermerk> tableNotes = TableExtensions
-				.getTableRows(resultTable)
+		final Map<Bearbeitungsvermerk, Set<Ur_Objekt>> tableNotes = new HashMap<>();
+		TableExtensions.getTableRowGroups(resultTable)
 				.stream()
-				.flatMap(row -> FootnoteContainerExtensions
-						.getFootnotes(row.getFootnotes())
-						.stream())
-				.collect(Collectors.toSet());
-		workNotesProTable.compute(tableInfo, (k, v) -> {
-			if (v == null) {
+				.map(rowGroup -> Pair.of(rowGroup.getLeadingObject(),
+						rowGroup.getRows()))
+				.map(p -> Pair.of(p.getKey(),
+						p.getValue()
+								.stream()
+								.flatMap(row -> FootnoteContainerExtensions
+										.getFootnotes(row.getFootnotes())
+										.stream())))
+				.forEach(p -> p.getValue()
+						.forEach(note -> tableNotes.compute(note, (k, v) -> {
+							if (v == null) {
+								v = new HashSet<>();
+							}
+							v.add(p.getKey());
+							return v;
+						})));
+		;
+		workNotesPerTable.compute(tableInfo, (k, tablNotes) -> {
+			if (tablNotes == null) {
 				return tableNotes;
 			}
-			v.addAll(tableNotes);
-			return v;
+			tableNotes.forEach((note, noteOwners) -> {
+				tablNotes.compute(note, (notesAsKey, existingNoteOwners) -> {
+					if (existingNoteOwners == null) {
+						return noteOwners;
+					}
+					existingNoteOwners.addAll(noteOwners);
+					return existingNoteOwners;
+				});
+			});
+			return tablNotes;
 		});
 		// Reload Sxxx table only when all tables was transformed
 		if (transformTableThreads.isEmpty()) {

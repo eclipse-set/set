@@ -88,15 +88,24 @@ class TableExtensions {
 	/**
 	 * @param table this table
 	 * 
-	 * @return the rows of this table
+	 * @return the row groups of this table
 	 */
-	static def List<TableRow> getTableRows(Table table) {
+	static def List<RowGroup> getTableRowGroups(Table table) {
 		val content = table?.tablecontent
 		if (content === null) {
 			return #[]
 		}
+		return content.rowgroups
+	}
+	
+	/**
+	 * @param table this table
+	 * 
+	 * @return the rows of this table
+	 */
+	static def List<TableRow> getTableRows(Table table) {
 		var rows = newLinkedList();
-		for (RowGroup rowgroup : content.rowgroups)
+		for (RowGroup rowgroup : table.tableRowGroups)
 			rows.addAll(rowgroup.rows)
 		return rows
 	}
