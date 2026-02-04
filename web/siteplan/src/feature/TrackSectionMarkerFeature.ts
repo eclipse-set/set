@@ -34,9 +34,45 @@ export default class TrackSectionMarkerFeature extends LageplanFeature<Track> {
   }
 
   getFeatures (model: SiteplanState): Feature<Geometry>[] {
-    return this.getObjectsModel(model).flatMap(track =>
-      track?.sections.flatMap(section =>
-        this.createTrackSectionMarkerFeature([section.startCoordinate.x, section.startCoordinate.y], section)))
+    return this.getObjectsModel(model).flatMap(track => {
+      const trackStartPos: OlCoordinate = [track.startCoordinate.x, track.startCoordinate.y]
+      return [this.createTrackMarkerFeature(trackStartPos, track)].concat(
+        track?.sections.flatMap(section =>
+          this.createTrackSectionMarkerFeature([section.startCoordinate.x, section.startCoordinate.y], section)) || []
+      )
+    })
+  }
+
+  private createTrackMarkerFeature (position: OlCoordinate, track: Track): Feature<Geometry> {
+    const feature = createFeature(
+      FeatureType.TrackSectionMarker,
+      track,
+      new OlPoint(position)
+    )
+
+    feature.setStyle((_, resolution) => {
+      console.log('Track color visible:', store.state.trackColorVisible)
+      if (!store.state.trackColorVisible) {
+        return new Style()
+      }
+
+      console.log('Enabled trackmaker color')
+      const baseResolution = this.map.getView().getResolutionForZoom(this.svgService.getBaseZoomLevel())
+      const scale = baseResolution / resolution
+
+      // Determine style for the marker
+      const style = this.svgService.getFeatureStyle(
+        { type: FeatureType.TrackSectionMarker },
+        FeatureType.TrackSectionMarker
+      )
+
+      // Rescale the feature according to the current zoom level
+      // to keep a constant size
+      style.getImage()?.setScale(scale)
+
+      return style
+    })
+    return feature
   }
 
   private createTrackSectionMarkerFeature (position: OlCoordinate, trackSection: TrackSection): Feature<Geometry> {
@@ -51,6 +87,7 @@ export default class TrackSectionMarkerFeature extends LageplanFeature<Track> {
         return new Style()
       }
 
+      console.log('Enabled section color')
       const baseResolution = this.map.getView().getResolutionForZoom(this.svgService.getBaseZoomLevel())
       const scale = baseResolution / resolution
 

@@ -121,7 +121,10 @@ class TrackTransformator extends BaseTransformator<TOP_Kante> implements EventHa
 			sectionColor = '''hsl(«(SiteplanConstants.TOP_KANTEN_COLOR.size + 1) * 137.5», 100%, 65%)'''
 			SiteplanConstants.TOP_KANTEN_COLOR.put(track.guid, sectionColor)
 		}
-
+		val geoCoordinate = topKante.TOPKnotenA.GEOKnoten.coordinate
+		track.startCoordinate = SiteplanFactory.eINSTANCE.createCoordinate
+		track.startCoordinate.x = geoCoordinate.x
+		track.startCoordinate.y = geoCoordinate.y
 		geoKantes.createTransformatorThread(this.class.name + "_" + track.guid,
 			Runtime.runtime.availableProcessors, [
 				val section = transformTrackSection(it)
@@ -279,12 +282,12 @@ class TrackTransformator extends BaseTransformator<TOP_Kante> implements EventHa
 		val guid = geoKante.identitaet.wert
 		if (result.type.length > 1 && existsTrackType) {
 			recordError(guid, String.format(ERROR_MULTIPLE_GLEIS_ART, guid),
-				positionService.transformCoordinate(getCenterSupplier.get.getCoordinate,
-					geoKnotenA.CRS))
+				positionService.transformCoordinate(
+					getCenterSupplier.get.getCoordinate, geoKnotenA.CRS))
 		} else if (result.type.length == 0 && existsTrackType) {
 			recordError(guid, String.format(ERROR_NO_GLEIS_ART, guid),
-				positionService.transformCoordinate(getCenterSupplier.get.getCoordinate,
-					geoKnotenA.CRS))
+				positionService.transformCoordinate(
+					getCenterSupplier.get.getCoordinate, geoKnotenA.CRS))
 		}
 
 		return result

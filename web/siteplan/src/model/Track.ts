@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v20.html
  */
 import { checkInstance } from '@/util/ObjectExtension'
-import { defaultPositionObj, Position } from './Position'
+import { Coordinate, defaultCoordinateObj, defaultPositionObj, Position } from './Position'
 import SiteplanObject, { defaultObjectColorObj } from './SiteplanObject'
 import TrackSection, { defaultTrackSectionObj } from './TrackSection'
 
@@ -33,6 +33,7 @@ export default interface Track extends SiteplanObject
     guid: string
     sections: TrackSection[]
     designations: TrackDesignation[]
+    startCoordinate: Coordinate
 }
 
 export function defaultTrackObj (): Track {
@@ -40,7 +41,8 @@ export function defaultTrackObj (): Track {
     guid: 'abc',
     designations: [defaultTrackDesignationObj()],
     sections: [defaultTrackSectionObj()],
-    objectColors: [defaultObjectColorObj()]
+    objectColors: [defaultObjectColorObj()],
+    startCoordinate: defaultCoordinateObj()
   }
 }
 
