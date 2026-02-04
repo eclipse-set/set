@@ -25,6 +25,7 @@ import java.util.Objects;
 import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -129,7 +130,7 @@ public final class TableServiceImpl implements TableService {
 	private final Map<TableInfo, PlanPro2TableTransformationService> modelServiceMap = new ConcurrentHashMap<>();
 
 	private final Map<TableCompareType, TableDiffService> diffServiceMap = new ConcurrentHashMap<>();
-	private static final Queue<Pair<BasePart, Runnable>> transformTableThreads = new LinkedList<>();
+	private static final Queue<Pair<BasePart, TableRendererUtil>> transformTableThreads = new LinkedList<>();
 	private static final Set<TableInfo> nonTransformableTables = new HashSet<>();
 
 	private static final String EMPTY = "empty"; //$NON-NLS-1$
@@ -230,7 +231,8 @@ public final class TableServiceImpl implements TableService {
 
 	@Override
 	public TableInfo getTableInfo(final String shortcut) {
-		return getAvailableTables().stream()
+		return modelServiceMap.keySet()
+				.stream()
 				.filter(table -> table.shortcut().equalsIgnoreCase(shortcut))
 				.findFirst()
 				.orElse(null);
@@ -503,13 +505,23 @@ public final class TableServiceImpl implements TableService {
 		for (final Pair<String, String> cacheKey : cacheKeys) {
 			final String areaId = cacheKey.getKey();
 			final String areaCacheKey = cacheKey.getValue();
-			Table table = (Table) cache.getIfPresent(areaCacheKey);
-
-			if (table == null) {
-				table = (Table) loadTransform(tableInfo, tableType,
+			final Object cachedObj = cache.get(areaCacheKey, () -> {
+				final Object transformed = loadTransform(tableInfo, tableType,
 						modelSession, areaId);
-				saveTableToCache(table, modelSession, containerId, tableInfo,
-						tableType, areaCacheKey);
+				if (transformed != null
+						&& transformed instanceof final Table transformedTable) {
+					saveTableToCache(transformedTable, modelSession,
+							containerId, tableInfo, tableType, areaCacheKey);
+					return transformedTable;
+				}
+
+				return MissingSupplier.MISSING_VALUE;
+			});
+			final Table table = cachedObj != null
+					&& Table.class.isInstance(cachedObj) ? (Table) cachedObj
+							: null;
+			if (table == null) {
+				return null;
 			}
 			if (resultTable == null) {
 				resultTable = EcoreUtil.copy(table);
@@ -576,7 +588,7 @@ public final class TableServiceImpl implements TableService {
 	@Override
 	public void updateTable(final BasePart tablePart,
 			final List<Pt1TableCategory> tableCategories,
-			final Runnable updateTableHandler, final Runnable clearInstance) {
+			final TableRendererUtil rendereUtil) {
 		// Find which table categories should be update
 		final List<String> tablePrefixes = List
 				.of(ToolboxConstants.ESTW_TABLE_PART_ID_PREFIX,
@@ -601,7 +613,7 @@ public final class TableServiceImpl implements TableService {
 				.map(MPart.class::cast)
 				.toList();
 
-		transformTableThreads.add(new Pair<>(tablePart, updateTableHandler));
+		transformTableThreads.add(new Pair<>(tablePart, rendereUtil));
 		final List<MPart> parts = transformTableThreads.stream()
 				.map(pair -> pair.getKey().getToolboxPart())
 				.toList();
@@ -623,12 +635,6 @@ public final class TableServiceImpl implements TableService {
 				logger.error(e.toString(), e);
 				throw new RuntimeException(e);
 			} catch (final InterruptedException e) {
-				clearInstance.run();
-				transformTableThreads
-						.forEach(pair -> MApplicationElementExtensions
-								.setViewState(pair.getKey().getToolboxPart(),
-										ToolboxViewState.CANCELED));
-
 				Thread.currentThread().interrupt();
 			}
 		}
@@ -647,18 +653,32 @@ public final class TableServiceImpl implements TableService {
 			Threads.stopCurrentOnCancel(monitor);
 
 			// Wait for table transform
-			for (Pair<BasePart, Runnable> transformThread; (transformThread = transformTableThreads
+			for (Pair<BasePart, TableRendererUtil> transformThread; (transformThread = transformTableThreads
 					.poll()) != null;) {
 				final TableInfo tableInfo = getTableInfo(
 						transformThread.getKey());
 				final TableNameInfo tableNameInfo = getTableNameInfo(tableInfo);
+				final BasePart tablePart = transformThread.getKey();
+				final Consumer<Table> updateTableUIAction = transformThread
+						.getValue()
+						.updateTableUIAction();
 				monitor.subTask(tableNameInfo.getFullDisplayName());
-				Display.getDefault().syncExec(transformThread.getValue());
+				final Table transformedTable = transformThread.getValue()
+						.transformTableAction()
+						.get();
+				Display.getDefault()
+						.asyncExec(() -> updateTableUIAction
+								.accept(transformedTable));
+				// Display.getDefault().syncExec(transformThread.getValue());
 				monitor.worked(1);
+				if (monitor.isCanceled()) {
+					MApplicationElementExtensions.setViewState(
+							tablePart.getToolboxPart(),
+							ToolboxViewState.CANCELED);
+					Thread.currentThread().interrupt();
+				}
 			}
-			if (monitor.isCanceled()) {
-				throw new InterruptedException();
-			}
+
 			// stop progress
 			monitor.done();
 			logger.info("ProgressMonitorDialog done."); //$NON-NLS-1$
@@ -678,7 +698,9 @@ public final class TableServiceImpl implements TableService {
 			try {
 				final TableNameInfo nameInfo = getTableNameInfo(tableInfo);
 				monitor.subTask(nameInfo.getFullDisplayName());
-				final Table table = createDiffTable(tableInfo, tableType,
+				final Table table = transformToTable(tableInfo, tableType,
+						sessionService.getLoadedSession(
+								ToolboxFileRole.SESSION),
 						controlAreaIds);
 				while (!TableService.isTransformComplete(tableInfo, null)) {
 					Thread.sleep(2000);
@@ -690,7 +712,6 @@ public final class TableServiceImpl implements TableService {
 			}
 
 		}
-		monitor.done();
 		return result;
 	}
 
