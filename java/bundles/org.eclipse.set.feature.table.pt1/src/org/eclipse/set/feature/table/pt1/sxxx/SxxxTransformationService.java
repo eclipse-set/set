@@ -89,7 +89,7 @@ public class SxxxTransformationService
 	public ColumnDescriptor fillHeaderDescriptions(
 			final ColumnDescriptorModelBuilder builder) {
 		final ColumnDescriptor cd = super.fillHeaderDescriptions(builder);
-		// Merge all columns except C to F
+		// only merge on column A
 		cd.setMergeCommonValues(RowMergeMode.ENABLED);
 		List.of(SxxxColumns.Reference_Object, SxxxColumns.Visualation_In_Table)
 				.forEach(it -> cols.forEach(col -> {
