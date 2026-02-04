@@ -5,6 +5,8 @@ on:
   workflow_run:
     workflows: ["Build SET"]
     types: [completed]
+    branches:
+      - '*'
 
 jobs:
   swtbot:
