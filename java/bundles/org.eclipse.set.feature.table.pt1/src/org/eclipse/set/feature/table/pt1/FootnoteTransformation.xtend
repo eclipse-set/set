@@ -69,6 +69,10 @@ class FootnoteTransformation {
 		object?.IDBearbeitungsvermerk?.map[value]?.toSet?.forEach[addFootnote]
 		object?.referenceFootnotes?.map[value]?.toSet?.forEach[addFootnote]
 	}
+	
+	private def dispatch Iterable<ID_Bearbeitungsvermerk_TypeClass> getReferenceFootnotes(Basis_Objekt obj) {
+		return #[]
+	}
 
 	// Determine Footnotes for Ssks Table
 	private def dispatch Iterable<ID_Bearbeitungsvermerk_TypeClass> getReferenceFootnotes(
