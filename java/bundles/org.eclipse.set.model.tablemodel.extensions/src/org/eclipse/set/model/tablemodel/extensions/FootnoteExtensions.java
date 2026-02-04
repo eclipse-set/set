@@ -26,6 +26,26 @@ import org.eclipse.set.model.planpro.Basisobjekte.ENUMObjektzustandBesonders;
  * @author truong
  */
 public class FootnoteExtensions {
+
+	/**
+	 * Transformation {@link ENUMObjektzustandBesonders} to
+	 * {@link Bearbeitungsvermerk} and referenced to
+	 * {@link ID_Bearbeitungsvermerk_TypeClass} without GUID for used in table
+	 * Foot note
+	 * 
+	 * @param owner
+	 *            the owner object
+	 * @return the {@link ID_Bearbeitungsvermerk_TypeClass} without reference
+	 *         GUID, only value
+	 */
+	public static ID_Bearbeitungsvermerk_TypeClass transformObjectStateEnum(
+			final Basis_Objekt owner) {
+		return transformObjectStateEnum(owner,
+				owner.getBasisObjektAllg()
+						.getObjektzustandBesonders()
+						.getWert());
+	}
+
 	/**
 	 * Transformation {@link ENUMObjektzustandBesonders} to
 	 * {@link Bearbeitungsvermerk} and referenced to

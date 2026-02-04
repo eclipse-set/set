@@ -51,6 +51,7 @@ import static extension org.eclipse.set.ppmodel.extensions.FahrwegExtensions.*
 import org.eclipse.set.model.planpro.Ortung.FMA_Anlage
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Zug_Rangier
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Unterbringung
+import org.eclipse.set.model.planpro.Ortung.Schaltmittel_Zuordnung
 
 /**
  * Transform basis objects to footnotes.
@@ -70,9 +71,7 @@ class FootnoteTransformation {
 		object?.IDBearbeitungsvermerk?.map[value]?.toSet?.forEach[addFootnote]
 		object?.referenceFootnotes?.map[value]?.toSet?.forEach[addFootnote]
 
-		object?.transformObjectStateEnum(
-			object?.basisObjektAllg?.objektzustandBesonders?.wert)?.value?.
-			addFootnote
+		object?.transformObjectStateEnum?.value?.addFootnote
 	}
 
 	private def dispatch Iterable<ID_Bearbeitungsvermerk_TypeClass> getReferenceFootnotes(
@@ -123,8 +122,7 @@ class FootnoteTransformation {
 	private def dispatch Iterable<ID_Bearbeitungsvermerk_TypeClass> getReferenceFootnotes(
 		Signal_Rahmen signalRahmen) {
 		val rahmenFootnotes = signalRahmen?.IDBearbeitungsvermerk?.filterNull
-		val objectStateNote = #[signalRahmen?.transformObjectStateEnum(
-			signalRahmen?.basisObjektAllg?.objektzustandBesonders?.wert)].
+		val objectStateNote = #[signalRahmen?.transformObjectStateEnum].
 			filterNull
 		val signalBegriffFootntoes = signalRahmen?.signalbegriffe?.flatMap [
 			IDBearbeitungsvermerk
@@ -141,15 +139,13 @@ class FootnoteTransformation {
 			IDBearbeitungsvermerk
 		]
 		val gspKomponentObjStates = gspKomonenten?.map [
-			transformObjectStateEnum(
-				basisObjektAllg?.objektzustandBesonders?.wert)
+			transformObjectStateEnum
 		].filterNull
 
 		val gspAnlage = gspElement?.WKrAnlage
 		val gspAnlageFootNotes = gspAnlage?.IDBearbeitungsvermerk
 		val gspAnlageObjStates = #[
-			gspAnlage.transformObjectStateEnum(
-				gspAnlage?.basisObjektAllg?.objektzustandBesonders?.wert)
+			gspAnlage.transformObjectStateEnum
 		].filterNull
 
 		return #[gspKomponentFootNotes, gspKomponentObjStates,
@@ -179,13 +175,17 @@ class FootnoteTransformation {
 		Schloss schloss
 	) {
 		if (schloss?.schlossSk !== null) {
-			return schloss?.schlossKombination?.unterbringung?.
-				referenceFootnotes ?: #[]
+			val objStateNote = #[schloss?.schlossKombination?.
+				transformObjectStateEnum].filterNull
+			return #[objStateNote, schloss?.schlossKombination?.unterbringung?.
+				referenceFootnotes].filterNull.flatten
 		}
 
 		if (schloss?.schlossSsp !== null) {
-			return schloss?.schluesselsperre?.unterbringung?.
-				referenceFootnotes ?: #[]
+			val objStateNote = #[schloss?.schluesselsperre?.
+				transformObjectStateEnum].filterNull
+			return #[objStateNote, schloss?.schluesselsperre?.unterbringung?.
+				referenceFootnotes].filterNull.flatten
 		}
 		return #[]
 	}
@@ -204,7 +204,10 @@ class FootnoteTransformation {
 
 	private def dispatch Iterable<ID_Bearbeitungsvermerk_TypeClass> getReferenceFootnotes(
 		Unterbringung obj) {
-		return obj?.punktObjektStrecke?.flatMap[referenceFootnotes] ?: #[]
+		val objStateNote = #[obj.transformObjectStateEnum].filterNull
+		return #[objStateNote, obj?.punktObjektStrecke?.flatMap [
+			referenceFootnotes
+		]].filterNull.flatten
 	}
 
 	// Determine Footnotes for Sszs table
@@ -225,8 +228,10 @@ class FootnoteTransformation {
 			case ENUMW_KR_ART_DW,
 			case ENUMW_KR_ART_KLOTHOIDENWEICHE,
 			case ENUMW_KR_ART_KORBBOGENWEICHE: {
-				val gspKomponent = element.WKrGspKomponents.firstOrNull
-				return gspKomponent.referenceFootnotes ?: #[]
+				val gspKomponent = element?.WKrGspKomponents?.firstOrNull
+				val objStateNote = #[gspKomponent?.transformObjectStateEnum]
+				return #[objStateNote, gspKomponent?.referenceFootnotes].
+					filterNull.flatten
 			}
 			case ENUMW_KR_ART_DKW,
 			case ENUMW_KR_ART_EKW,
@@ -244,7 +249,7 @@ class FootnoteTransformation {
 	private def dispatch Iterable<ID_Bearbeitungsvermerk_TypeClass> getReferenceFootnotes(
 		FMA_Anlage fmaAnlage) {
 		return fmaAnlage?.schaltmittelZuordnungen?.flatMap [
-			IDBearbeitungsvermerk
+			referenceFootnotes
 		] ?: #[]
 	}
 
@@ -255,7 +260,13 @@ class FootnoteTransformation {
 			return #[]
 		}
 		return fstrZugRangier.fstrFahrweg?.start?.zweitesHaltfallkriterium?.
-			IDBearbeitungsvermerk ?: #[]
+			referenceFootnotes ?: #[]
+	}
+
+	private def dispatch Iterable<ID_Bearbeitungsvermerk_TypeClass> getReferenceFootnotes(
+		Schaltmittel_Zuordnung obj) {
+		val objStateNote = #[obj?.transformObjectStateEnum].filterNull
+		return #[objStateNote, obj?.IDBearbeitungsvermerk].filterNull.flatten
 	}
 
 	// Determine Footnotes for Sskg, Ssza table
