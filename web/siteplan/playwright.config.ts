@@ -30,9 +30,10 @@ export default defineConfig({
     }
   ],
 
-  /* Run your local dev server before starting the tests */
+  /* In CI use production build otherwise running
+  local dev server before starting the tests */
   webServer: {
-    command: 'npm run serve',
+    command: process.env.CI ? 'npm run build-prod && npm exec vite preview -- --port 8080' : 'npm run serve',
     url: 'http://localhost:8080',
     reuseExistingServer: !process.env.CI
   }
