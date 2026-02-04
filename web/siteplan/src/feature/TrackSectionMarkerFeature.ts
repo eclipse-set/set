@@ -51,12 +51,10 @@ export default class TrackSectionMarkerFeature extends LageplanFeature<Track> {
     )
 
     feature.setStyle((_, resolution) => {
-      console.log('Track color visible:', store.state.trackColorVisible)
       if (!store.state.trackColorVisible) {
         return new Style()
       }
 
-      console.log('Enabled trackmaker color')
       const baseResolution = this.map.getView().getResolutionForZoom(this.svgService.getBaseZoomLevel())
       const scale = baseResolution / resolution
 
@@ -87,7 +85,6 @@ export default class TrackSectionMarkerFeature extends LageplanFeature<Track> {
         return new Style()
       }
 
-      console.log('Enabled section color')
       const baseResolution = this.map.getView().getResolutionForZoom(this.svgService.getBaseZoomLevel())
       const scale = baseResolution / resolution
 
