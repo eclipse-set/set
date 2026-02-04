@@ -40,8 +40,9 @@ public class FootnoteExtensions {
 	 */
 	public static ID_Bearbeitungsvermerk_TypeClass transformObjectStateEnum(
 			final Basis_Objekt owner) {
-		if (owner.getBasisObjektAllg() == null || owner.getBasisObjektAllg()
-				.getObjektzustandBesonders() == null) {
+		if (owner == null || owner.getBasisObjektAllg() == null
+				|| owner.getBasisObjektAllg()
+						.getObjektzustandBesonders() == null) {
 			return null;
 		}
 		return transformObjectStateEnum(owner,
