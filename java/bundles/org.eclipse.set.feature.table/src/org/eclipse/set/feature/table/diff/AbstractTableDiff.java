@@ -176,6 +176,12 @@ public abstract class AbstractTableDiff implements TableDiffService {
 
 		final CompareFootnoteContainer diffFootnotes = TablemodelFactory.eINSTANCE
 				.createCompareFootnoteContainer();
+		diffFootnotes.setUnchangedFootnotes(
+				TablemodelFactory.eINSTANCE.createSimpleFootnoteContainer());
+		diffFootnotes.setOldFootnotes(
+				TablemodelFactory.eINSTANCE.createSimpleFootnoteContainer());
+		diffFootnotes.setNewFootnotes(
+				TablemodelFactory.eINSTANCE.createSimpleFootnoteContainer());
 
 		firstFootnotes.forEach(f -> compareFootnotes(f, secondFootnotes,
 				unchanged -> diffFootnotes.getUnchangedFootnotes()
