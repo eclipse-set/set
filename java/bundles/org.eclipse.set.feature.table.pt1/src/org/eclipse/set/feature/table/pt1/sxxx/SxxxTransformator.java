@@ -73,29 +73,35 @@ public class SxxxTransformator extends AbstractPlanPro2TableModelTransformator {
 				.toList();
 		for (final Bearbeitungsvermerk bv : container
 				.getBearbeitungsvermerk()) {
-			if (Thread.currentThread().isInterrupted()) {
-				return null;
+			final List<EObject> referencedByList = idReferences.stream()
+					.parallel()
+					.filter(ref -> ref.getValue().equals(bv))
+					.map(EObject::eContainer)
+					.toList();
+
+			for (final EObject referencedBy : referencedByList) {
+				if (Thread.currentThread().isInterrupted()) {
+					return null;
+				}
+				final TableRow row = factory.newTableRow(bv);
+
+				// A: Bearbeitungsvermerke inhalt
+				fill(row, getColumn(cols, SxxxColumns.Text_Content), bv,
+						note -> EObjectExtensions
+								.getNullableObject(note,
+										e -> e.getBearbeitungsvermerkAllg()
+												.getKommentar()
+												.getWert())
+								.orElse("")); //$NON-NLS-1$
+
+				// B: Referenziert von Objects
+				fill(row, getColumn(cols, SxxxColumns.Reference_Object), bv,
+						note -> getReferenceObjDesignation(referencedBy));
+
+				// C: Ausgabe in Plan
+				fill(row, getColumn(cols, SxxxColumns.Visualation_In_Table), bv,
+						note -> "??");
 			}
-			final TableRow row = factory.newTableRow(bv);
-
-			// A: Bearbeitungsvermerke inhalt
-			fill(row, getColumn(cols, SxxxColumns.Text_Content), bv,
-					note -> EObjectExtensions
-							.getNullableObject(note,
-									e -> e.getBearbeitungsvermerkAllg()
-											.getKommentar()
-											.getWert())
-							.orElse("")); //$NON-NLS-1$
-
-			// B: Referenziert von Objects
-			fillIterable(row, getColumn(cols, SxxxColumns.Reference_Object), bv,
-					note -> idReferences.stream()
-							.parallel()
-							.filter(ref -> ref.getValue().equals(note))
-							.map(EObject::eContainer)
-							.map(SxxxTransformator::getReferenceObjDesignation)
-							.toList(),
-					MIXED_STRING_COMPARATOR);
 		}
 
 		return factory.getTable();

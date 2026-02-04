@@ -10,16 +10,22 @@
  */
 package org.eclipse.set.feature.table.pt1.sxxx;
 
+import static org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum.ASC;
+import static org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparatorType.LEXICOGRAPHICAL;
+
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.messages.Messages;
+import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
 import org.eclipse.set.utils.table.TableModelTransformator;
+import org.eclipse.set.utils.table.sorting.TableRowGroupComparator;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.event.EventAdmin;
@@ -66,6 +72,14 @@ public class SxxxTransformationService
 	@Override
 	public TableModelTransformator<MultiContainer_AttributeGroup> createTransformator() {
 		return new SxxxTransformator(cols, enumTranslationService, eventAdmin);
+	}
+
+	@Override
+	public Comparator<RowGroup> getRowGroupComparator() {
+		return TableRowGroupComparator.builder()
+				.sort(SxxxColumns.Text_Content, LEXICOGRAPHICAL, ASC)
+				.sort(SxxxColumns.Reference_Object, LEXICOGRAPHICAL, ASC)
+				.build();
 	}
 
 }
