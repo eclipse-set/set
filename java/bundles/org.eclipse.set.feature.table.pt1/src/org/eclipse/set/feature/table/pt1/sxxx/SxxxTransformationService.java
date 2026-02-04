@@ -21,9 +21,12 @@ import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.messages.Messages;
+import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.RowGroup;
+import org.eclipse.set.model.tablemodel.RowMergeMode;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
+import org.eclipse.set.utils.table.ColumnDescriptorModelBuilder;
 import org.eclipse.set.utils.table.TableModelTransformator;
 import org.eclipse.set.utils.table.sorting.TableRowGroupComparator;
 import org.osgi.service.component.annotations.Component;
@@ -80,6 +83,22 @@ public class SxxxTransformationService
 				.sort(SxxxColumns.Text_Content, LEXICOGRAPHICAL, ASC)
 				.sort(SxxxColumns.Reference_Object, LEXICOGRAPHICAL, ASC)
 				.build();
+	}
+
+	@Override
+	public ColumnDescriptor fillHeaderDescriptions(
+			final ColumnDescriptorModelBuilder builder) {
+		final ColumnDescriptor cd = super.fillHeaderDescriptions(builder);
+		// Merge all columns except C to F
+		cd.setMergeCommonValues(RowMergeMode.ENABLED);
+		List.of(SxxxColumns.Reference_Object, SxxxColumns.Visualation_In_Table)
+				.forEach(it -> cols.forEach(col -> {
+					if (it.equals(col.getColumnPosition())) {
+						col.setMergeCommonValues(RowMergeMode.DISABLED);
+					}
+				}));
+
+		return cd;
 	}
 
 }

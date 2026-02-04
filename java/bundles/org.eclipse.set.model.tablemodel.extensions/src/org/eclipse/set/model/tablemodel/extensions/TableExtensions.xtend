@@ -434,17 +434,22 @@ class TableExtensions {
 		val common = (table.eAllContents.filter(SimpleFootnoteContainer).map [
 			footnotes.map[new FootnoteInfo(it, FootnoteType.COMMON_FOOTNOTE)]
 		] + table.eAllContents.filter(CompareFootnoteContainer).map [
-			unchangedFootnotes.map [
+			unchangedFootnotes.footnotes.map [
 				new FootnoteInfo(it, FootnoteType.COMMON_FOOTNOTE)
 			]
 		]).toList.flatten
 
 		val old = table.eAllContents.filter(CompareFootnoteContainer).map [
-			oldFootnotes.map[new FootnoteInfo(it, FootnoteType.OLD_FOOTNOTE)]
+			oldFootnotes.footnotes.map [
+				new FootnoteInfo(it, FootnoteType.OLD_FOOTNOTE)
+			]
 		].toList.flatten
 
 		val newF = table.eAllContents.filter(CompareFootnoteContainer).map [
-			newFootnotes.map[new FootnoteInfo(it, FootnoteType.NEW_FOOTNOTE)]
+
+			newFootnotes.footnotes.map [
+				new FootnoteInfo(it, FootnoteType.NEW_FOOTNOTE)
+			]
 		].toList.flatten
 
 		// sort new and common together by text, then append old entries
@@ -505,13 +510,13 @@ class TableExtensions {
 				]
 			}
 			CompareFootnoteContainer: {
-				val oldFootnotes = fc.oldFootnotes.map [
+				val oldFootnotes = fc.oldFootnotes.footnotes.map [
 					getFootnoteInfo(table, it)
 				].filterNull
-				val newFootnotes = fc.newFootnotes.map [
+				val newFootnotes = fc.newFootnotes.footnotes.map [
 					getFootnoteInfo(table, it)
 				].filterNull
-				val unchangedFootnotes = fc.unchangedFootnotes.map [
+				val unchangedFootnotes = fc.unchangedFootnotes.footnotes.map [
 					getFootnoteInfo(table, it)
 				].filterNull
 				val allFootnotes = #[oldFootnotes, newFootnotes,

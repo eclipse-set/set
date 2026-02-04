@@ -17,13 +17,16 @@ import javax.imageio.ImageIO
 import javax.xml.parsers.DocumentBuilderFactory
 import javax.xml.parsers.ParserConfigurationException
 import org.eclipse.set.basis.FreeFieldInfo
+import org.eclipse.set.basis.constants.ToolboxConstants
 import org.eclipse.set.model.tablemodel.CellContent
 import org.eclipse.set.model.tablemodel.CompareCellContent
 import org.eclipse.set.model.tablemodel.CompareFootnoteContainer
 import org.eclipse.set.model.tablemodel.CompareTableCellContent
+import org.eclipse.set.model.tablemodel.CompareTableFootnoteContainer
 import org.eclipse.set.model.tablemodel.FootnoteContainer
 import org.eclipse.set.model.tablemodel.MultiColorCellContent
 import org.eclipse.set.model.tablemodel.MultiColorContent
+import org.eclipse.set.model.tablemodel.PlanCompareRow
 import org.eclipse.set.model.tablemodel.SimpleFootnoteContainer
 import org.eclipse.set.model.tablemodel.Table
 import org.eclipse.set.model.tablemodel.TableContent
@@ -41,15 +44,12 @@ import org.w3c.dom.Document
 import org.w3c.dom.Element
 
 import static extension org.eclipse.set.model.tablemodel.extensions.CellContentExtensions.*
+import static extension org.eclipse.set.model.tablemodel.extensions.TableCellExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.TableContentExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensions.*
-import static extension org.eclipse.set.model.tablemodel.extensions.TableCellExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.TableRowExtensions.*
 import static extension org.eclipse.set.utils.StringExtensions.*
 import static extension org.eclipse.set.utils.export.xsl.siteplan.SiteplanXSL.pxToMilimeter
-import org.eclipse.set.basis.constants.ToolboxConstants
-import org.eclipse.set.model.tablemodel.PlanCompareRow
-import org.eclipse.set.model.tablemodel.CompareTableFootnoteContainer
 
 /**
  * Transformation from {@link Table} to TableDocument {@link Document}.
@@ -63,7 +63,7 @@ class TableToTableDocument {
 
 	public static val String FOOTNOTE_INLINE_TEXT_SEPARATOR = String.
 		format("%n")
-	private static val String FOOTNOTE_MARK_SEPRATOR = "; "
+	static val String FOOTNOTE_MARK_SEPRATOR = "; "
 
 	val Document doc
 	var String tablename
@@ -419,13 +419,17 @@ class TableToTableDocument {
 	private dispatch def void addFootnoteContent(Element element,
 		CompareFootnoteContainer fc, int columnNumber, boolean isRemarkColumn) {
 		val separator = remarkTextInlnie ? FOOTNOTE_INLINE_TEXT_SEPARATOR : FOOTNOTE_MARK_SEPRATOR
-		val oldFootnotes = fc.oldFootnotes.map[getFootnoteInfo(fc, it)].map [
+		val oldFootnotes = fc.oldFootnotes.footnotes.map [
+			getFootnoteInfo(fc, it)
+		].map [
 			remarkTextInlnie ? toText : toShorthand
 		].iterableToString(separator)
-		val newFootnotes = fc.newFootnotes.map[getFootnoteInfo(fc, it)].map [
+		val newFootnotes = fc.newFootnotes.footnotes.map [
+			getFootnoteInfo(fc, it)
+		].map [
 			remarkTextInlnie ? toText : toShorthand
 		].iterableToString(separator)
-		val unchangedFootnotes = fc.unchangedFootnotes.map [
+		val unchangedFootnotes = fc.unchangedFootnotes.footnotes.map [
 			getFootnoteInfo(fc, it)
 		].map[remarkTextInlnie ? toText : toShorthand].
 			iterableToString(separator)
@@ -487,8 +491,9 @@ class TableToTableDocument {
 	private def Element addContentToElement(String content, Element element,
 		int columnNumber, boolean isRemarkColumn) {
 		val checkOutput = content.checkForTestOutput(columnNumber)
-		element.textContent = isRemarkColumn ? checkOutput : checkOutput.
-			intersperseWithZeroSpacesSC
+		element.textContent = isRemarkColumn
+			? checkOutput
+			: checkOutput.intersperseWithZeroSpacesSC
 		return element
 	}
 

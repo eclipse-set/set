@@ -59,7 +59,9 @@ class FootnoteTransformation {
 	 */
 	def void transform(Basis_Objekt object, TableRow row) {
 		this.row = row
-		object?.objectFootnotes?.map[value]?.toSet?.forEach[addFootnote]
+		object?.objectFootnotes?.map[value]?.toSet?.forEach [
+			object.addFootnote(it)
+		]
 	}
 
 	private def dispatch Iterable<ID_Bearbeitungsvermerk_TypeClass> getObjectFootnotes(
@@ -247,10 +249,13 @@ class FootnoteTransformation {
 		return pos?.streckeKm?.IDBearbeitungsvermerk ?: #[]
 	}
 
-	private def void addFootnote(Bearbeitungsvermerk comment) {
+	private def void addFootnote(Basis_Objekt obj,
+		Bearbeitungsvermerk comment) {
 		if (row.footnotes === null)
 			row.footnotes = TablemodelFactory.eINSTANCE.
 				createSimpleFootnoteContainer()
+
 		(row.footnotes as SimpleFootnoteContainer).footnotes.add(comment)
+		(row.footnotes as SimpleFootnoteContainer).ownerObject = obj
 	}
 }

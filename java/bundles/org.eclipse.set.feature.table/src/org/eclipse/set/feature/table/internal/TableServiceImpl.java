@@ -56,8 +56,10 @@ import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.messages.Messages;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
 import org.eclipse.set.model.planpro.Basisobjekte.Bearbeitungsvermerk;
+import org.eclipse.set.model.tablemodel.CellContent;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.RowGroup;
+import org.eclipse.set.model.tablemodel.StringCellContent;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.TableRow;
 import org.eclipse.set.model.tablemodel.TablemodelFactory;
@@ -543,15 +545,35 @@ public final class TableServiceImpl implements TableService {
 		// Filter worknotes, which already in another tables visualation
 		if (tableInfo.shortcut()
 				.equalsIgnoreCase(ToolboxConstants.WORKNOTES_TABLE_SHORTCUT)) {
-			final Set<Bearbeitungsvermerk> alreadyFoundNote = workNotesProTable
-					.values()
-					.stream()
-					.flatMap(Collection::stream)
-					.collect(Collectors.toSet());
-			resultTable.getTablecontent()
-					.getRowgroups()
-					.removeIf(group -> alreadyFoundNote
-							.contains(group.getLeadingObject()));
+			// Special handle for fill Column C of Sxxx table
+			workNotesProTable.forEach((table, notes) -> {
+				if (notes.isEmpty()) {
+					return;
+				}
+				final TableNameInfo tableNameInfo = getTableNameInfo(table);
+				// TODO
+				notes.forEach(note -> {
+					final RowGroup group = TableExtensions
+							.getGroupByLeadingObject(resultTable, note, 0);
+					if (group != null) {
+						group.getRows().forEach(row -> {
+							final CellContent content = row.getCells()
+									.get(2)
+									.getContent();
+							if (content == null) {
+								final StringCellContent cellContent = TablemodelFactory.eINSTANCE
+										.createStringCellContent();
+								cellContent.getValue()
+										.add(tableNameInfo.getShortName());
+								row.getCells().get(2).setContent(cellContent);
+							} else if (content instanceof final StringCellContent stringCellContent) {
+								stringCellContent.getValue()
+										.add(tableNameInfo.getShortName());
+							}
+						});
+					}
+				});
+			});
 			return;
 		}
 		final Set<Bearbeitungsvermerk> tableNotes = TableExtensions

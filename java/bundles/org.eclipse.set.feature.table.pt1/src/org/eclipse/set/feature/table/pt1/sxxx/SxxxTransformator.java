@@ -23,6 +23,7 @@ import org.eclipse.set.model.planpro.Ansteuerung_Element.ESTW_Zentraleinheit;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
 import org.eclipse.set.model.planpro.BasisTypen.ID_Bearbeitungsvermerk_TypeClass;
 import org.eclipse.set.model.planpro.Basisobjekte.Bearbeitungsvermerk;
+import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
 import org.eclipse.set.model.planpro.Bedienung.Bedien_Einrichtung_Oertlich;
 import org.eclipse.set.model.planpro.Ortung.FMA_Anlage;
 import org.eclipse.set.model.planpro.Ortung.FMA_Komponente;
@@ -35,6 +36,7 @@ import org.eclipse.set.ppmodel.extensions.AussenelementansteuerungExtensions;
 import org.eclipse.set.ppmodel.extensions.EObjectExtensions;
 import org.eclipse.set.ppmodel.extensions.UrObjectExtensions;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
+import org.eclipse.set.utils.table.RowFactory;
 import org.eclipse.set.utils.table.TMFactory;
 import org.osgi.service.event.EventAdmin;
 
@@ -73,6 +75,7 @@ public class SxxxTransformator extends AbstractPlanPro2TableModelTransformator {
 				.toList();
 		for (final Bearbeitungsvermerk bv : container
 				.getBearbeitungsvermerk()) {
+			final RowFactory rowGroup = factory.newRowGroup(bv);
 			final List<EObject> referencedByList = idReferences.stream()
 					.parallel()
 					.filter(ref -> ref.getValue().equals(bv))
@@ -83,7 +86,10 @@ public class SxxxTransformator extends AbstractPlanPro2TableModelTransformator {
 				if (Thread.currentThread().isInterrupted()) {
 					return null;
 				}
-				final TableRow row = factory.newTableRow(bv);
+				final TableRow row = rowGroup.newTableRow();
+				if (referencedBy instanceof final Ur_Objekt obj) {
+					row.setRowObject(obj);
+				}
 
 				// A: Bearbeitungsvermerke inhalt
 				fill(row, getColumn(cols, SxxxColumns.Text_Content), bv,
@@ -99,8 +105,7 @@ public class SxxxTransformator extends AbstractPlanPro2TableModelTransformator {
 						note -> getReferenceObjDesignation(referencedBy));
 
 				// C: Ausgabe in Plan
-				fill(row, getColumn(cols, SxxxColumns.Visualation_In_Table), bv,
-						note -> "??");
+				// Will fill in TableService
 			}
 		}
 

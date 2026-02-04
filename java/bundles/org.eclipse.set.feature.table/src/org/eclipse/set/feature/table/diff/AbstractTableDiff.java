@@ -179,12 +179,17 @@ public abstract class AbstractTableDiff implements TableDiffService {
 
 		firstFootnotes.forEach(f -> compareFootnotes(f, secondFootnotes,
 				unchanged -> diffFootnotes.getUnchangedFootnotes()
+						.getFootnotes()
 						.add(unchanged),
-				changed -> diffFootnotes.getOldFootnotes().add(changed)));
+				changed -> diffFootnotes.getOldFootnotes()
+						.getFootnotes()
+						.add(changed)));
 		secondFootnotes
 				.forEach(f -> compareFootnotes(f, firstFootnotes, unchange -> {
 					// do nothing (already added by for loop above)
-				}, changed -> diffFootnotes.getNewFootnotes().add(changed)));
+				}, changed -> diffFootnotes.getNewFootnotes()
+						.getFootnotes()
+						.add(changed)));
 		mergedRow.setFootnotes(diffFootnotes);
 	}
 
