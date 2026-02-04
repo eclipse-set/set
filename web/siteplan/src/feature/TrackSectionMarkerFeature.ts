@@ -36,14 +36,22 @@ export default class TrackSectionMarkerFeature extends LageplanFeature<Track> {
   getFeatures (model: SiteplanState): Feature<Geometry>[] {
     return this.getObjectsModel(model).flatMap(track => {
       const trackStartPos: OlCoordinate = [track.startCoordinate.x, track.startCoordinate.y]
-      return [this.createTrackMarkerFeature(trackStartPos, track)].concat(
+      return [this.createTrackMarkerFeature(trackStartPos, track, () => store.state.trackColorVisible)].concat(
         track?.sections.flatMap(section =>
-          this.createTrackSectionMarkerFeature([section.startCoordinate.x, section.startCoordinate.y], section)) || []
+          this.createTrackMarkerFeature(
+            [section.startCoordinate.x, section.startCoordinate.y],
+            section,
+            () => store.state.trackSectionColorVisible
+          )) || []
       )
     })
   }
 
-  private createTrackMarkerFeature (position: OlCoordinate, track: Track): Feature<Geometry> {
+  private createTrackMarkerFeature (
+    position: OlCoordinate,
+    track: Track | TrackSection,
+    visiblePredicate: () => boolean
+  ): Feature<Geometry> {
     const feature = createFeature(
       FeatureType.TrackSectionMarker,
       track,
@@ -51,7 +59,7 @@ export default class TrackSectionMarkerFeature extends LageplanFeature<Track> {
     )
 
     feature.setStyle((_, resolution) => {
-      if (!store.state.trackColorVisible) {
+      if (!visiblePredicate()) {
         return new Style()
       }
 
@@ -70,41 +78,6 @@ export default class TrackSectionMarkerFeature extends LageplanFeature<Track> {
 
       return style
     })
-    return feature
-  }
-
-  private createTrackSectionMarkerFeature (position: OlCoordinate, trackSection: TrackSection): Feature<Geometry> {
-    const feature = createFeature(
-      FeatureType.TrackSectionMarker,
-      trackSection,
-      new OlPoint(position)
-    )
-
-    feature.setStyle((_, resolution) => {
-      if (!store.state.trackSectionColorVisible) {
-        return new Style()
-      }
-
-      const baseResolution = this.map.getView().getResolutionForZoom(this.svgService.getBaseZoomLevel())
-      const scale = baseResolution / resolution
-
-      // Determine style for the marker
-      const style = this.svgService.getFeatureStyle(
-        { type: FeatureType.TrackSectionMarker },
-        FeatureType.TrackSectionMarker
-      )
-
-      // Rescale the feature according to the current zoom level
-      // to keep a constant size
-      style.getImage()?.setScale(scale)
-
-      return style
-    })
-
-    return feature
-  }
-
-  setFeatureColor (feature: Feature<Geometry>): Feature<Geometry> {
     return feature
   }
 }
