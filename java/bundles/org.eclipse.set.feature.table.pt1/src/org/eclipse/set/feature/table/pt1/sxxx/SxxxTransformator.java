@@ -81,7 +81,18 @@ public class SxxxTransformator extends AbstractPlanPro2TableModelTransformator {
 					.filter(ref -> ref.getValue().equals(bv))
 					.map(EObject::eContainer)
 					.toList();
-
+			if (referencedByList.isEmpty()) {
+				final TableRow row = rowGroup.newTableRow();
+				// A: Bearbeitungsvermerke inhalt
+				fill(row, getColumn(cols, SxxxColumns.Text_Content), bv,
+						note -> EObjectExtensions
+								.getNullableObject(note,
+										e -> e.getBearbeitungsvermerkAllg()
+												.getKommentar()
+												.getWert())
+								.orElse("")); //$NON-NLS-1$
+				continue;
+			}
 			for (final EObject referencedBy : referencedByList) {
 				if (Thread.currentThread().isInterrupted()) {
 					return null;
@@ -89,6 +100,8 @@ public class SxxxTransformator extends AbstractPlanPro2TableModelTransformator {
 				final TableRow row = rowGroup.newTableRow();
 				if (referencedBy instanceof final Ur_Objekt obj) {
 					row.setRowObject(obj);
+				} else {
+					System.out.println(referencedBy.getClass().getName());
 				}
 
 				// A: Bearbeitungsvermerke inhalt

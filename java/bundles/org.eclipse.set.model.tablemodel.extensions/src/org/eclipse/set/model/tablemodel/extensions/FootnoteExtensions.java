@@ -10,6 +10,12 @@
  */
 package org.eclipse.set.model.tablemodel.extensions;
 
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.model.planpro.BasisTypen.BasisTypenFactory;
@@ -19,6 +25,12 @@ import org.eclipse.set.model.planpro.Basisobjekte.BasisobjekteFactory;
 import org.eclipse.set.model.planpro.Basisobjekte.Bearbeitungsvermerk;
 import org.eclipse.set.model.planpro.Basisobjekte.Bearbeitungsvermerk_Allg_AttributeGroup;
 import org.eclipse.set.model.planpro.Basisobjekte.ENUMObjektzustandBesonders;
+import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
+import org.eclipse.set.model.tablemodel.CellContent;
+import org.eclipse.set.model.tablemodel.StringCellContent;
+import org.eclipse.set.model.tablemodel.Table;
+import org.eclipse.set.model.tablemodel.TableRow;
+import org.eclipse.set.model.tablemodel.TablemodelFactory;
 
 /**
  * Extension for table footnote
@@ -26,6 +38,15 @@ import org.eclipse.set.model.planpro.Basisobjekte.ENUMObjektzustandBesonders;
  * @author truong
  */
 public class FootnoteExtensions {
+	/**
+	 * @param ownerObj
+	 *            the {@link Ur_Objekt}
+	 * @param notes
+	 *            the notes of the object
+	 */
+	public static record WorkNotesUsage(Ur_Objekt ownerObj,
+			Set<Bearbeitungsvermerk> notes) {
+	}
 
 	/**
 	 * Transformation {@link ENUMObjektzustandBesonders} to
@@ -109,5 +130,63 @@ public class FootnoteExtensions {
 
 		bv.setBearbeitungsvermerkAllg(bvAttr);
 		return bv;
+	}
+
+	/**
+	 * @param table
+	 *            the {@link Table}
+	 * @return the {@link Ur_Objekt} and the belong {@link Bearbeitungsvermerk}
+	 */
+	public static Set<WorkNotesUsage> getNotesInTable(final Table table) {
+		return TableExtensions.getTableRows(table).stream().map(row -> {
+			final Set<Bearbeitungsvermerk> footnotes = FootnoteContainerExtensions
+					.getFootnotes(row.getFootnotes())
+					.stream()
+					.collect(Collectors.toSet());
+			if (footnotes.isEmpty()) {
+				return null;
+			}
+			return new WorkNotesUsage(TableRowExtensions.getLeadingObject(row),
+					footnotes);
+		}).filter(Objects::nonNull).collect(Collectors.toSet());
+	}
+
+	/**
+	 * Special handle for column C of Sxxx table.
+	 *
+	 * @param sxxxTable
+	 *            the Sxxx table
+	 * @param workNotesInAnotherTable
+	 *            the {@link WorkNotesUsage} in another table
+	 * @param tableName
+	 *            the table name of table, which worknote belong to
+	 */
+	public static void fillSxxxTableColumnC(final Table sxxxTable,
+			final Set<WorkNotesUsage> workNotesInAnotherTable,
+			final String tableName) {
+		final List<TableRow> tableRows = TableExtensions
+				.getTableRows(sxxxTable);
+		workNotesInAnotherTable.forEach(workNotes -> {
+			final Optional<TableRow> rowOpt = tableRows.stream()
+					.filter(r -> r.getRowObject() != null)
+					.filter(r -> r.getRowObject().equals(workNotes.ownerObj))
+					.findFirst();
+			if (rowOpt.isEmpty()) {
+				return;
+			}
+			final CellContent content = rowOpt.get()
+					.getCells()
+					.get(2)
+					.getContent();
+			if (content == null) {
+				final StringCellContent cellContent = TablemodelFactory.eINSTANCE
+						.createStringCellContent();
+				cellContent.getValue().add(tableName);
+				rowOpt.get().getCells().get(2).setContent(cellContent);
+			} else if (content instanceof final StringCellContent stringCellContent) {
+				stringCellContent.getValue().add(tableName);
+				stringCellContent.getValue().removeIf(String::isEmpty);
+			}
+		});
 	}
 }

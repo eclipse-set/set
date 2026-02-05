@@ -152,6 +152,11 @@ public abstract class AbstractTableDiff implements TableDiffService {
 		if (diffContent == null) {
 			return;
 		}
+
+		if (first.getRowObject() == null && second != null
+				&& second.getRowObject() != null) {
+			first.setRowObject(second.getRowObject());
+		}
 		oldCell.setContent(diffContent);
 		if (newCell != null && TableCellExtensions.getFormat(newCell)
 				.isTopologicalCalculation()) {
