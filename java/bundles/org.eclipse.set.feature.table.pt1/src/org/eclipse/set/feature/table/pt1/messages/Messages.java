@@ -793,4 +793,34 @@ public class Messages extends AbstractMessageService {
 	 */
 	public String ToolboxTableNameSslsPlanningNumber;
 
+	/**
+	 * Sxxx
+	 */
+	public String ToolboxTableNameSxxxShort;
+
+	/**
+	 * Tabelle weiterer Bearbeitungsvermerke – Sxxx
+	 */
+	public String SxxxTableView_Heading;
+
+	/**
+	 * Tabelle weiterer Bearbeitungsvermerke
+	 */
+	public String ToolboxTableNameSxxxLong;
+
+	/**
+	 * ???
+	 */
+	public String ToolboxTableNameSxxxPlanningNumber;
+
+	/**
+	 * Sxxx – Tabelle weiterer Bearbeitungsvermerke
+	 */
+	public String SxxxDescriptionService_ViewName;
+
+	/**
+	 * Tabelle weiterer Bearbeitungsvermerke
+	 */
+	public String SxxxDescriptionService_ViewTooltip;
+
 }

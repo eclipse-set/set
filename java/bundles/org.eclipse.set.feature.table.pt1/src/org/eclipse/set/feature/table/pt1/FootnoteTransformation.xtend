@@ -68,10 +68,14 @@ class FootnoteTransformation {
 	def void transform(Basis_Objekt object, TableRow row) {
 		this.row = row
 		// Direct attachment notes
-		object?.IDBearbeitungsvermerk?.map[value]?.toSet?.forEach[addFootnote]
-		object?.referenceFootnotes?.map[value]?.toSet?.forEach[addFootnote]
+		object?.IDBearbeitungsvermerk?.map[value]?.toSet?.forEach [
+			object.addFootnote(it)
+		]
+		object?.referenceFootnotes?.map[value]?.toSet?.forEach [
+			object.addFootnote(it)
+		]
 
-		object?.transformObjectStateEnum?.value?.addFootnote
+		object?.addFootnote(object?.transformObjectStateEnum?.value)
 	}
 
 	private def dispatch Iterable<ID_Bearbeitungsvermerk_TypeClass> getReferenceFootnotes(
@@ -125,7 +129,8 @@ class FootnoteTransformation {
 		val objectStateNote = #[signalRahmen?.transformObjectStateEnum].
 			filterNull
 		val signalBegriffFootntoes = signalRahmen?.signalbegriffe?.flatMap [
-			IDBearbeitungsvermerk
+			val stateNote = #[transformObjectStateEnum].filterNull
+			return #[stateNote, IDBearbeitungsvermerk].filterNull.flatten
 		]?.filterNull
 		return #[rahmenFootnotes, objectStateNote, signalBegriffFootntoes].
 			filterNull.flatten
@@ -284,13 +289,17 @@ class FootnoteTransformation {
 		return #[routeNotes, kmNotes].filterNull.flatten
 	}
 
-	private def void addFootnote(Bearbeitungsvermerk comment) {
-		if (comment === null) {
+	private def void addFootnote(Basis_Objekt obj,
+		Bearbeitungsvermerk comment) {
+		if (obj === null || comment === null) {
 			return
 		}
-		if (row.footnotes === null)
+		if (row.footnotes === null) {
 			row.footnotes = TablemodelFactory.eINSTANCE.
 				createSimpleFootnoteContainer()
+			(row.footnotes as SimpleFootnoteContainer).ownerObject = obj
+		}
+
 		(row.footnotes as SimpleFootnoteContainer).footnotes.add(comment)
 	}
 }
