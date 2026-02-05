@@ -80,13 +80,13 @@ public interface TableRow extends EObject {
 	void setFootnotes(FootnoteContainer value);
 
 	/**
-	 * Returns the value of the '<em><b>Row Object</b></em>' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * Returns the value of the '<em><b>Row Object</b></em>' reference. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @return the value of the '<em>Row Object</em>' containment reference.
+	 * @return the value of the '<em>Row Object</em>' reference.
 	 * @see #setRowObject(Ur_Objekt)
 	 * @see org.eclipse.set.model.tablemodel.TablemodelPackage#getTableRow_RowObject()
-	 * @model containment="true"
+	 * @model
 	 * @generated
 	 */
 	Ur_Objekt getRowObject();
@@ -94,12 +94,10 @@ public interface TableRow extends EObject {
 	/**
 	 * Sets the value of the
 	 * '{@link org.eclipse.set.model.tablemodel.TableRow#getRowObject <em>Row
-	 * Object</em>}' containment reference. <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
+	 * Object</em>}' reference. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @param value
-	 *            the new value of the '<em>Row Object</em>' containment
-	 *            reference.
+	 *            the new value of the '<em>Row Object</em>' reference.
 	 * @see #getRowObject()
 	 * @generated
 	 */

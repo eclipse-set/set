@@ -10,7 +10,6 @@ package org.eclipse.set.model.tablemodel.impl;
 
 import java.util.Collection;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
@@ -51,7 +50,7 @@ public class SimpleFootnoteContainerImpl extends FootnoteContainerImpl
 
 	/**
 	 * The cached value of the '{@link #getOwnerObject() <em>Owner Object</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @see #getOwnerObject()
 	 * @generated
@@ -100,6 +99,16 @@ public class SimpleFootnoteContainerImpl extends FootnoteContainerImpl
 	 */
 	@Override
 	public Ur_Objekt getOwnerObject() {
+		if (ownerObject != null && ownerObject.eIsProxy()) {
+			InternalEObject oldOwnerObject = (InternalEObject) ownerObject;
+			ownerObject = (Ur_Objekt) eResolveProxy(oldOwnerObject);
+			if (ownerObject != oldOwnerObject) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
+							TablemodelPackage.SIMPLE_FOOTNOTE_CONTAINER__OWNER_OBJECT,
+							oldOwnerObject, ownerObject));
+			}
+		}
 		return ownerObject;
 	}
 
@@ -108,21 +117,8 @@ public class SimpleFootnoteContainerImpl extends FootnoteContainerImpl
 	 * 
 	 * @generated
 	 */
-	public NotificationChain basicSetOwnerObject(Ur_Objekt newOwnerObject,
-			NotificationChain msgs) {
-		Ur_Objekt oldOwnerObject = ownerObject;
-		ownerObject = newOwnerObject;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this,
-					Notification.SET,
-					TablemodelPackage.SIMPLE_FOOTNOTE_CONTAINER__OWNER_OBJECT,
-					oldOwnerObject, newOwnerObject);
-			if (msgs == null)
-				msgs = notification;
-			else
-				msgs.add(notification);
-		}
-		return msgs;
+	public Ur_Objekt basicGetOwnerObject() {
+		return ownerObject;
 	}
 
 	/**
@@ -132,40 +128,12 @@ public class SimpleFootnoteContainerImpl extends FootnoteContainerImpl
 	 */
 	@Override
 	public void setOwnerObject(Ur_Objekt newOwnerObject) {
-		if (newOwnerObject != ownerObject) {
-			NotificationChain msgs = null;
-			if (ownerObject != null)
-				msgs = ((InternalEObject) ownerObject).eInverseRemove(this,
-						EOPPOSITE_FEATURE_BASE
-								- TablemodelPackage.SIMPLE_FOOTNOTE_CONTAINER__OWNER_OBJECT,
-						null, msgs);
-			if (newOwnerObject != null)
-				msgs = ((InternalEObject) newOwnerObject).eInverseAdd(this,
-						EOPPOSITE_FEATURE_BASE
-								- TablemodelPackage.SIMPLE_FOOTNOTE_CONTAINER__OWNER_OBJECT,
-						null, msgs);
-			msgs = basicSetOwnerObject(newOwnerObject, msgs);
-			if (msgs != null)
-				msgs.dispatch();
-		} else if (eNotificationRequired())
+		Ur_Objekt oldOwnerObject = ownerObject;
+		ownerObject = newOwnerObject;
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
 					TablemodelPackage.SIMPLE_FOOTNOTE_CONTAINER__OWNER_OBJECT,
-					newOwnerObject, newOwnerObject));
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated
-	 */
-	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd,
-			int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case TablemodelPackage.SIMPLE_FOOTNOTE_CONTAINER__OWNER_OBJECT:
-				return basicSetOwnerObject(null, msgs);
-		}
-		return super.eInverseRemove(otherEnd, featureID, msgs);
+					oldOwnerObject, ownerObject));
 	}
 
 	/**
@@ -179,7 +147,9 @@ public class SimpleFootnoteContainerImpl extends FootnoteContainerImpl
 			case TablemodelPackage.SIMPLE_FOOTNOTE_CONTAINER__FOOTNOTES:
 				return getFootnotes();
 			case TablemodelPackage.SIMPLE_FOOTNOTE_CONTAINER__OWNER_OBJECT:
-				return getOwnerObject();
+				if (resolve)
+					return getOwnerObject();
+				return basicGetOwnerObject();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}

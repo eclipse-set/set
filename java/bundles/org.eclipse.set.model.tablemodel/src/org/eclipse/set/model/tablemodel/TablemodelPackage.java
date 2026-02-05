@@ -361,8 +361,8 @@ public interface TablemodelPackage extends EPackage {
 	int TABLE_ROW__FOOTNOTES = 2;
 
 	/**
-	 * The feature id for the '<em><b>Row Object</b></em>' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The feature id for the '<em><b>Row Object</b></em>' reference. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @generated
 	 * @ordered
@@ -836,8 +836,8 @@ public interface TablemodelPackage extends EPackage {
 			+ 0;
 
 	/**
-	 * The feature id for the '<em><b>Owner Object</b></em>' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The feature id for the '<em><b>Owner Object</b></em>' reference. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @generated
 	 * @ordered
@@ -1017,8 +1017,8 @@ public interface TablemodelPackage extends EPackage {
 	int PLAN_COMPARE_ROW__FOOTNOTES = TABLE_ROW__FOOTNOTES;
 
 	/**
-	 * The feature id for the '<em><b>Row Object</b></em>' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The feature id for the '<em><b>Row Object</b></em>' reference. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @generated
 	 * @ordered
@@ -1368,12 +1368,11 @@ public interface TablemodelPackage extends EPackage {
 	EReference getTableRow_Footnotes();
 
 	/**
-	 * Returns the meta object for the containment reference
+	 * Returns the meta object for the reference
 	 * '{@link org.eclipse.set.model.tablemodel.TableRow#getRowObject <em>Row
 	 * Object</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @return the meta object for the containment reference '<em>Row
-	 *         Object</em>'.
+	 * @return the meta object for the reference '<em>Row Object</em>'.
 	 * @see org.eclipse.set.model.tablemodel.TableRow#getRowObject()
 	 * @see #getTableRow()
 	 * @generated
@@ -1692,12 +1691,11 @@ public interface TablemodelPackage extends EPackage {
 	EReference getSimpleFootnoteContainer_Footnotes();
 
 	/**
-	 * Returns the meta object for the containment reference
+	 * Returns the meta object for the reference
 	 * '{@link org.eclipse.set.model.tablemodel.SimpleFootnoteContainer#getOwnerObject
 	 * <em>Owner Object</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @return the meta object for the containment reference '<em>Owner
-	 *         Object</em>'.
+	 * @return the meta object for the reference '<em>Owner Object</em>'.
 	 * @see org.eclipse.set.model.tablemodel.SimpleFootnoteContainer#getOwnerObject()
 	 * @see #getSimpleFootnoteContainer()
 	 * @generated
@@ -2087,8 +2085,7 @@ public interface TablemodelPackage extends EPackage {
 
 		/**
 		 * The meta object literal for the '<em><b>Row Object</b></em>'
-		 * containment reference feature. <!-- begin-user-doc --> <!--
-		 * end-user-doc -->
+		 * reference feature. <!-- begin-user-doc --> <!-- end-user-doc -->
 		 * 
 		 * @generated
 		 */
@@ -2360,8 +2357,7 @@ public interface TablemodelPackage extends EPackage {
 
 		/**
 		 * The meta object literal for the '<em><b>Owner Object</b></em>'
-		 * containment reference feature. <!-- begin-user-doc --> <!--
-		 * end-user-doc -->
+		 * reference feature. <!-- begin-user-doc --> <!-- end-user-doc -->
 		 * 
 		 * @generated
 		 */

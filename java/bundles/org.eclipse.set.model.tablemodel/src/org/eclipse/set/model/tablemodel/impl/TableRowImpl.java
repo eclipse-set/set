@@ -92,7 +92,7 @@ public class TableRowImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * The cached value of the '{@link #getRowObject() <em>Row Object</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @see #getRowObject()
 	 * @generated
@@ -199,6 +199,16 @@ public class TableRowImpl extends MinimalEObjectImpl.Container
 	 */
 	@Override
 	public Ur_Objekt getRowObject() {
+		if (rowObject != null && rowObject.eIsProxy()) {
+			InternalEObject oldRowObject = (InternalEObject) rowObject;
+			rowObject = (Ur_Objekt) eResolveProxy(oldRowObject);
+			if (rowObject != oldRowObject) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
+							TablemodelPackage.TABLE_ROW__ROW_OBJECT,
+							oldRowObject, rowObject));
+			}
+		}
 		return rowObject;
 	}
 
@@ -207,20 +217,8 @@ public class TableRowImpl extends MinimalEObjectImpl.Container
 	 * 
 	 * @generated
 	 */
-	public NotificationChain basicSetRowObject(Ur_Objekt newRowObject,
-			NotificationChain msgs) {
-		Ur_Objekt oldRowObject = rowObject;
-		rowObject = newRowObject;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this,
-					Notification.SET, TablemodelPackage.TABLE_ROW__ROW_OBJECT,
-					oldRowObject, newRowObject);
-			if (msgs == null)
-				msgs = notification;
-			else
-				msgs.add(notification);
-		}
-		return msgs;
+	public Ur_Objekt basicGetRowObject() {
+		return rowObject;
 	}
 
 	/**
@@ -230,25 +228,12 @@ public class TableRowImpl extends MinimalEObjectImpl.Container
 	 */
 	@Override
 	public void setRowObject(Ur_Objekt newRowObject) {
-		if (newRowObject != rowObject) {
-			NotificationChain msgs = null;
-			if (rowObject != null)
-				msgs = ((InternalEObject) rowObject).eInverseRemove(this,
-						EOPPOSITE_FEATURE_BASE
-								- TablemodelPackage.TABLE_ROW__ROW_OBJECT,
-						null, msgs);
-			if (newRowObject != null)
-				msgs = ((InternalEObject) newRowObject).eInverseAdd(this,
-						EOPPOSITE_FEATURE_BASE
-								- TablemodelPackage.TABLE_ROW__ROW_OBJECT,
-						null, msgs);
-			msgs = basicSetRowObject(newRowObject, msgs);
-			if (msgs != null)
-				msgs.dispatch();
-		} else if (eNotificationRequired())
+		Ur_Objekt oldRowObject = rowObject;
+		rowObject = newRowObject;
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
-					TablemodelPackage.TABLE_ROW__ROW_OBJECT, newRowObject,
-					newRowObject));
+					TablemodelPackage.TABLE_ROW__ROW_OBJECT, oldRowObject,
+					rowObject));
 	}
 
 	/**
@@ -290,8 +275,6 @@ public class TableRowImpl extends MinimalEObjectImpl.Container
 						msgs);
 			case TablemodelPackage.TABLE_ROW__FOOTNOTES:
 				return basicSetFootnotes(null, msgs);
-			case TablemodelPackage.TABLE_ROW__ROW_OBJECT:
-				return basicSetRowObject(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -311,7 +294,9 @@ public class TableRowImpl extends MinimalEObjectImpl.Container
 			case TablemodelPackage.TABLE_ROW__FOOTNOTES:
 				return getFootnotes();
 			case TablemodelPackage.TABLE_ROW__ROW_OBJECT:
-				return getRowObject();
+				if (resolve)
+					return getRowObject();
+				return basicGetRowObject();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}

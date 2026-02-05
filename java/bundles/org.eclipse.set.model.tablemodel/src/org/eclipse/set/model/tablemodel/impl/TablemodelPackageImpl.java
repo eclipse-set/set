@@ -1263,7 +1263,7 @@ public class TablemodelPackageImpl extends EPackageImpl
 		initEReference(getTableRow_RowObject(),
 				theBasisobjektePackage.getUr_Objekt(), null, "rowObject", null,
 				0, 1, TableRow.class, !IS_TRANSIENT, !IS_VOLATILE,
-				IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+				IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES,
 				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(tableCellEClass, TableCell.class, "TableCell", !IS_ABSTRACT,
@@ -1378,7 +1378,7 @@ public class TablemodelPackageImpl extends EPackageImpl
 		initEReference(getSimpleFootnoteContainer_OwnerObject(),
 				theBasisobjektePackage.getUr_Objekt(), null, "ownerObject",
 				null, 0, 1, SimpleFootnoteContainer.class, !IS_TRANSIENT,
-				!IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+				!IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES,
 				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(compareTableCellContentEClass, CompareTableCellContent.class,

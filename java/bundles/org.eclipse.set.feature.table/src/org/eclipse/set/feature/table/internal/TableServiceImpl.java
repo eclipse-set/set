@@ -602,7 +602,6 @@ public final class TableServiceImpl implements TableService {
 							v.add(p.getKey());
 							return v;
 						})));
-		;
 		workNotesPerTable.compute(tableInfo, (k, tablNotes) -> {
 			if (tablNotes == null) {
 				return tableNotes;
