@@ -172,21 +172,33 @@ public class FootnoteExtensions {
 					.filter(r -> r.getRowObject().equals(workNotes.ownerObj))
 					.findFirst();
 			if (rowOpt.isEmpty()) {
+				// For notes, which not direct in group leading object
+				// attachment like Signal_Befestigung, Signal_Begriff,... then
+				// fill table name whole rows in group
+				TableExtensions.getTableRowGroups(sxxxTable)
+						.stream()
+						.filter(group -> workNotes.notes()
+								.stream()
+								.anyMatch(note -> group.getLeadingObject()
+										.equals(note)))
+						.forEach(group -> group.getRows()
+								.forEach(r -> fillValue(r, tableName)));
 				return;
 			}
-			final CellContent content = rowOpt.get()
-					.getCells()
-					.get(2)
-					.getContent();
-			if (content == null) {
-				final StringCellContent cellContent = TablemodelFactory.eINSTANCE
-						.createStringCellContent();
-				cellContent.getValue().add(tableName);
-				rowOpt.get().getCells().get(2).setContent(cellContent);
-			} else if (content instanceof final StringCellContent stringCellContent) {
-				stringCellContent.getValue().add(tableName);
-				stringCellContent.getValue().removeIf(String::isEmpty);
-			}
+			fillValue(rowOpt.get(), tableName);
 		});
+	}
+
+	private static void fillValue(final TableRow row, final String value) {
+		final CellContent content = row.getCells().get(2).getContent();
+		if (content == null) {
+			final StringCellContent cellContent = TablemodelFactory.eINSTANCE
+					.createStringCellContent();
+			cellContent.getValue().add(value);
+			row.getCells().get(2).setContent(cellContent);
+		} else if (content instanceof final StringCellContent stringCellContent) {
+			stringCellContent.getValue().add(value);
+			stringCellContent.getValue().removeIf(String::isEmpty);
+		}
 	}
 }

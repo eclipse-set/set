@@ -294,11 +294,12 @@ class FootnoteTransformation {
 		if (obj === null || comment === null) {
 			return
 		}
-		if (row.footnotes === null)
+		if (row.footnotes === null) {
 			row.footnotes = TablemodelFactory.eINSTANCE.
 				createSimpleFootnoteContainer()
+			(row.footnotes as SimpleFootnoteContainer).ownerObject = obj
+		}
 
 		(row.footnotes as SimpleFootnoteContainer).footnotes.add(comment)
-		(row.footnotes as SimpleFootnoteContainer).ownerObject = obj
 	}
 }
