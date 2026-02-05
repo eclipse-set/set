@@ -32,7 +32,8 @@ import org.osgi.service.component.annotations.Reference;
  */
 @Component(immediate = true)
 public class ExampleServiceImpl implements ExampleService {
-
+	private static final String EXAMPLE_PROJECT_1_10_0_1_LABEL = "Beispielprojekt 1.10.0.1 laden"; //$NON-NLS-1$
+	private static final String EXAMPLE_PROJECT_1_10_0_3_LABEL = "Beispielprojekt 1.10.0.3 laden"; //$NON-NLS-1$
 	private static final String EXAMPLE_DIR = "examples"; //$NON-NLS-1$
 
 	private List<RecentOpenFile> exampleFiles;
@@ -74,8 +75,21 @@ public class ExampleServiceImpl implements ExampleService {
 		final LinkedList<RecentOpenFile> result = new LinkedList<>();
 		if (examples != null) {
 			for (final String filename : examples) {
-				result.add(new RecentOpenFile(filename,
-						Paths.get(EXAMPLE_DIR, filename)));
+				if (filename.equalsIgnoreCase(
+						ToolboxConstants.EXAMPLE_PROJECT_1_10_0_1)) {
+					result.add(
+							new RecentOpenFile(EXAMPLE_PROJECT_1_10_0_1_LABEL,
+									Paths.get(EXAMPLE_DIR, filename)));
+				} else if (filename.equalsIgnoreCase(
+						ToolboxConstants.EXAMPLE_PROJECT_1_10_0_3)) {
+					result.add(
+							new RecentOpenFile(EXAMPLE_PROJECT_1_10_0_3_LABEL,
+									Paths.get(EXAMPLE_DIR, filename)));
+				} else {
+					result.add(new RecentOpenFile(filename,
+							Paths.get(EXAMPLE_DIR, filename)));
+				}
+
 			}
 		}
 		return result;

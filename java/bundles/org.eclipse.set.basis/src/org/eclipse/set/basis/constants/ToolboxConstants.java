@@ -369,6 +369,16 @@ public final class ToolboxConstants {
 	public static final String WORKNOTES_TABLE_SHORTCUT = "Sxxx"; //$NON-NLS-1$
 
 	/**
+	 * Name of example project model 1.10.0.1
+	 */
+	public static final String EXAMPLE_PROJECT_1_10_0_1 = "PPHN_01-02_IbnZ2AeM_2026-01-12_19-00.planpro";
+
+	/**
+	 * Name of example project model 1.10.0.3
+	 */
+	public static final String EXAMPLE_PROJECT_1_10_0_3 = "PPHN_01-02_IbnZ2AeM_2026-02-02_17-47.planpro";
+
+	/**
 	 * The tolerance value between TOP_Kante length and the sum of GEO_Kanten
 	 * length, which belong to this TOP_Kante (in Meter)
 	 */
