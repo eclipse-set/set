@@ -410,9 +410,9 @@ public class GeoKanteGeometryServiceImpl
 			final TOP_Knoten topKnoten, final BigDecimal distance) {
 		final List<GEOKanteMetadata> geoMetadatas = getGeoKanteMetadatas(
 				topKante, topKnoten);
+
 		final Optional<GEOKanteMetadata> result = geoMetadatas.stream()
-				.filter(md -> md.getStart().compareTo(distance) <= 0
-						&& md.getEnd().compareTo(distance) >= 0)
+				.filter(md -> md.isIntersection(distance))
 				.findFirst();
 		return result.orElse(null);
 	}
@@ -644,7 +644,6 @@ public class GeoKanteGeometryServiceImpl
 	private List<GEOKanteMetadata> getGeoKantenMetadata(
 			final Basis_Objekt geoArt, final GEO_Knoten startKnoten,
 			final List<Bereich_Objekt> bereichObjekte) {
-
 		final BigDecimal distanceScalingFactor = BasisObjektExtensions
 				.getGeoArtScalingFactor(geoArt);
 		BigDecimal distance = BigDecimal.ZERO;
