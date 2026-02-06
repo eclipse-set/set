@@ -101,7 +101,7 @@ class BasisObjektExtensions extends UrObjectExtensions {
 		}
 		
 		val scale = geoLength.divide(geoArtLength,
-			ToolboxConstants.ROUNDING_TO_PLACE, RoundingMode.DOWN)
+			ToolboxConstants.ROUNDING_TO_PLACE, RoundingMode.HALF_UP)
 		return scale > BigDecimal.ZERO ? scale : BigDecimal.ONE
 
 	}
