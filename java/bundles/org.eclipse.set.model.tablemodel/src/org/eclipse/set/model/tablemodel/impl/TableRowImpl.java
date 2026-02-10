@@ -23,6 +23,7 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
+import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
 import org.eclipse.set.model.tablemodel.FootnoteContainer;
 import org.eclipse.set.model.tablemodel.TableCell;
 import org.eclipse.set.model.tablemodel.TableRow;
@@ -41,6 +42,8 @@ import org.eclipse.set.model.tablemodel.TablemodelPackage;
  * <em>Row Index</em>}</li>
  * <li>{@link org.eclipse.set.model.tablemodel.impl.TableRowImpl#getFootnotes
  * <em>Footnotes</em>}</li>
+ * <li>{@link org.eclipse.set.model.tablemodel.impl.TableRowImpl#getRowObject
+ * <em>Row Object</em>}</li>
  * </ul>
  *
  * @generated
@@ -86,6 +89,16 @@ public class TableRowImpl extends MinimalEObjectImpl.Container
 	 * @ordered
 	 */
 	protected FootnoteContainer footnotes;
+
+	/**
+	 * The cached value of the '{@link #getRowObject() <em>Row Object</em>}'
+	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @see #getRowObject()
+	 * @generated
+	 * @ordered
+	 */
+	protected Ur_Objekt rowObject;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -185,6 +198,50 @@ public class TableRowImpl extends MinimalEObjectImpl.Container
 	 * @generated
 	 */
 	@Override
+	public Ur_Objekt getRowObject() {
+		if (rowObject != null && rowObject.eIsProxy()) {
+			InternalEObject oldRowObject = (InternalEObject) rowObject;
+			rowObject = (Ur_Objekt) eResolveProxy(oldRowObject);
+			if (rowObject != oldRowObject) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
+							TablemodelPackage.TABLE_ROW__ROW_OBJECT,
+							oldRowObject, rowObject));
+			}
+		}
+		return rowObject;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	public Ur_Objekt basicGetRowObject() {
+		return rowObject;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
+	public void setRowObject(Ur_Objekt newRowObject) {
+		Ur_Objekt oldRowObject = rowObject;
+		rowObject = newRowObject;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					TablemodelPackage.TABLE_ROW__ROW_OBJECT, oldRowObject,
+					rowObject));
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
 	public int getRowIndex() {
 		return rowIndex;
 	}
@@ -236,6 +293,10 @@ public class TableRowImpl extends MinimalEObjectImpl.Container
 				return getRowIndex();
 			case TablemodelPackage.TABLE_ROW__FOOTNOTES:
 				return getFootnotes();
+			case TablemodelPackage.TABLE_ROW__ROW_OBJECT:
+				if (resolve)
+					return getRowObject();
+				return basicGetRowObject();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -259,6 +320,9 @@ public class TableRowImpl extends MinimalEObjectImpl.Container
 			case TablemodelPackage.TABLE_ROW__FOOTNOTES:
 				setFootnotes((FootnoteContainer) newValue);
 				return;
+			case TablemodelPackage.TABLE_ROW__ROW_OBJECT:
+				setRowObject((Ur_Objekt) newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -280,6 +344,9 @@ public class TableRowImpl extends MinimalEObjectImpl.Container
 			case TablemodelPackage.TABLE_ROW__FOOTNOTES:
 				setFootnotes((FootnoteContainer) null);
 				return;
+			case TablemodelPackage.TABLE_ROW__ROW_OBJECT:
+				setRowObject((Ur_Objekt) null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -298,6 +365,8 @@ public class TableRowImpl extends MinimalEObjectImpl.Container
 				return rowIndex != ROW_INDEX_EDEFAULT;
 			case TablemodelPackage.TABLE_ROW__FOOTNOTES:
 				return footnotes != null;
+			case TablemodelPackage.TABLE_ROW__ROW_OBJECT:
+				return rowObject != null;
 		}
 		return super.eIsSet(featureID);
 	}

@@ -361,13 +361,22 @@ public interface TablemodelPackage extends EPackage {
 	int TABLE_ROW__FOOTNOTES = 2;
 
 	/**
+	 * The feature id for the '<em><b>Row Object</b></em>' reference. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 * @ordered
+	 */
+	int TABLE_ROW__ROW_OBJECT = 3;
+
+	/**
 	 * The number of structural features of the '<em>Table Row</em>' class. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @generated
 	 * @ordered
 	 */
-	int TABLE_ROW_FEATURE_COUNT = 3;
+	int TABLE_ROW_FEATURE_COUNT = 4;
 
 	/**
 	 * The number of operations of the '<em>Table Row</em>' class. <!--
@@ -757,8 +766,8 @@ public interface TablemodelPackage extends EPackage {
 	int COMPARE_FOOTNOTE_CONTAINER = 13;
 
 	/**
-	 * The feature id for the '<em><b>Old Footnotes</b></em>' reference list.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The feature id for the '<em><b>Old Footnotes</b></em>' reference. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @generated
 	 * @ordered
@@ -767,8 +776,8 @@ public interface TablemodelPackage extends EPackage {
 			+ 0;
 
 	/**
-	 * The feature id for the '<em><b>New Footnotes</b></em>' reference list.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The feature id for the '<em><b>New Footnotes</b></em>' reference. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @generated
 	 * @ordered
@@ -777,8 +786,8 @@ public interface TablemodelPackage extends EPackage {
 			+ 1;
 
 	/**
-	 * The feature id for the '<em><b>Unchanged Footnotes</b></em>' reference
-	 * list. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The feature id for the '<em><b>Unchanged Footnotes</b></em>' reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @generated
 	 * @ordered
@@ -829,6 +838,16 @@ public interface TablemodelPackage extends EPackage {
 			+ 0;
 
 	/**
+	 * The feature id for the '<em><b>Owner Object</b></em>' reference. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 * @ordered
+	 */
+	int SIMPLE_FOOTNOTE_CONTAINER__OWNER_OBJECT = FOOTNOTE_CONTAINER_FEATURE_COUNT
+			+ 1;
+
+	/**
 	 * The number of structural features of the '<em>Simple Footnote
 	 * Container</em>' class. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
@@ -836,7 +855,7 @@ public interface TablemodelPackage extends EPackage {
 	 * @ordered
 	 */
 	int SIMPLE_FOOTNOTE_CONTAINER_FEATURE_COUNT = FOOTNOTE_CONTAINER_FEATURE_COUNT
-			+ 1;
+			+ 2;
 
 	/**
 	 * The number of operations of the '<em>Simple Footnote Container</em>'
@@ -998,6 +1017,15 @@ public interface TablemodelPackage extends EPackage {
 	 * @ordered
 	 */
 	int PLAN_COMPARE_ROW__FOOTNOTES = TABLE_ROW__FOOTNOTES;
+
+	/**
+	 * The feature id for the '<em><b>Row Object</b></em>' reference. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 * @ordered
+	 */
+	int PLAN_COMPARE_ROW__ROW_OBJECT = TABLE_ROW__ROW_OBJECT;
 
 	/**
 	 * The feature id for the '<em><b>Row Type</b></em>' attribute. <!--
@@ -1342,6 +1370,18 @@ public interface TablemodelPackage extends EPackage {
 	EReference getTableRow_Footnotes();
 
 	/**
+	 * Returns the meta object for the reference
+	 * '{@link org.eclipse.set.model.tablemodel.TableRow#getRowObject <em>Row
+	 * Object</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @return the meta object for the reference '<em>Row Object</em>'.
+	 * @see org.eclipse.set.model.tablemodel.TableRow#getRowObject()
+	 * @see #getTableRow()
+	 * @generated
+	 */
+	EReference getTableRow_RowObject();
+
+	/**
 	 * Returns the meta object for the attribute
 	 * '{@link org.eclipse.set.model.tablemodel.TableRow#getRowIndex <em>Row
 	 * Index</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -1594,11 +1634,11 @@ public interface TablemodelPackage extends EPackage {
 	EClass getCompareFootnoteContainer();
 
 	/**
-	 * Returns the meta object for the reference list
+	 * Returns the meta object for the reference
 	 * '{@link org.eclipse.set.model.tablemodel.CompareFootnoteContainer#getOldFootnotes
 	 * <em>Old Footnotes</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @return the meta object for the reference list '<em>Old Footnotes</em>'.
+	 * @return the meta object for the reference '<em>Old Footnotes</em>'.
 	 * @see org.eclipse.set.model.tablemodel.CompareFootnoteContainer#getOldFootnotes()
 	 * @see #getCompareFootnoteContainer()
 	 * @generated
@@ -1606,11 +1646,11 @@ public interface TablemodelPackage extends EPackage {
 	EReference getCompareFootnoteContainer_OldFootnotes();
 
 	/**
-	 * Returns the meta object for the reference list
+	 * Returns the meta object for the reference
 	 * '{@link org.eclipse.set.model.tablemodel.CompareFootnoteContainer#getNewFootnotes
 	 * <em>New Footnotes</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @return the meta object for the reference list '<em>New Footnotes</em>'.
+	 * @return the meta object for the reference '<em>New Footnotes</em>'.
 	 * @see org.eclipse.set.model.tablemodel.CompareFootnoteContainer#getNewFootnotes()
 	 * @see #getCompareFootnoteContainer()
 	 * @generated
@@ -1654,6 +1694,18 @@ public interface TablemodelPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getSimpleFootnoteContainer_Footnotes();
+
+	/**
+	 * Returns the meta object for the reference
+	 * '{@link org.eclipse.set.model.tablemodel.SimpleFootnoteContainer#getOwnerObject
+	 * <em>Owner Object</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @return the meta object for the reference '<em>Owner Object</em>'.
+	 * @see org.eclipse.set.model.tablemodel.SimpleFootnoteContainer#getOwnerObject()
+	 * @see #getSimpleFootnoteContainer()
+	 * @generated
+	 */
+	EReference getSimpleFootnoteContainer_OwnerObject();
 
 	/**
 	 * Returns the meta object for class
@@ -2037,6 +2089,14 @@ public interface TablemodelPackage extends EPackage {
 		EReference TABLE_ROW__FOOTNOTES = eINSTANCE.getTableRow_Footnotes();
 
 		/**
+		 * The meta object literal for the '<em><b>Row Object</b></em>'
+		 * reference feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * 
+		 * @generated
+		 */
+		EReference TABLE_ROW__ROW_OBJECT = eINSTANCE.getTableRow_RowObject();
+
+		/**
 		 * The meta object literal for the '<em><b>Row Index</b></em>' attribute
 		 * feature. <!-- begin-user-doc --> <!-- end-user-doc -->
 		 * 
@@ -2256,7 +2316,7 @@ public interface TablemodelPackage extends EPackage {
 
 		/**
 		 * The meta object literal for the '<em><b>Old Footnotes</b></em>'
-		 * reference list feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * reference feature. <!-- begin-user-doc --> <!-- end-user-doc -->
 		 * 
 		 * @generated
 		 */
@@ -2265,7 +2325,7 @@ public interface TablemodelPackage extends EPackage {
 
 		/**
 		 * The meta object literal for the '<em><b>New Footnotes</b></em>'
-		 * reference list feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * reference feature. <!-- begin-user-doc --> <!-- end-user-doc -->
 		 * 
 		 * @generated
 		 */
@@ -2274,7 +2334,7 @@ public interface TablemodelPackage extends EPackage {
 
 		/**
 		 * The meta object literal for the '<em><b>Unchanged Footnotes</b></em>'
-		 * reference list feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * reference feature. <!-- begin-user-doc --> <!-- end-user-doc -->
 		 * 
 		 * @generated
 		 */
@@ -2302,6 +2362,15 @@ public interface TablemodelPackage extends EPackage {
 		 */
 		EReference SIMPLE_FOOTNOTE_CONTAINER__FOOTNOTES = eINSTANCE
 				.getSimpleFootnoteContainer_Footnotes();
+
+		/**
+		 * The meta object literal for the '<em><b>Owner Object</b></em>'
+		 * reference feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * 
+		 * @generated
+		 */
+		EReference SIMPLE_FOOTNOTE_CONTAINER__OWNER_OBJECT = eINSTANCE
+				.getSimpleFootnoteContainer_OwnerObject();
 
 		/**
 		 * The meta object literal for the

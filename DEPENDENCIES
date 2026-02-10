@@ -291,7 +291,7 @@ p2/orbit/p2.eclipse.feature/org.eclipse.jdt.bcoview.feature/1.2.700.v20250114-13
 p2/orbit/p2.eclipse.feature/org.eclipse.jdt.jeview.feature/1.1.700.v20250428-2158, EPL-2.0, approved, eclipse.jdt
 p2/orbit/p2.eclipse.feature/org.eclipse.jdt.source/3.20.200.v20250528-1830, EPL-2.0, approved, eclipse.equinox
 p2/orbit/p2.eclipse.feature/org.eclipse.jdt/3.20.200.v20250528-1830, EPL-2.0, approved, eclipse.equinox
-p2/orbit/p2.eclipse.feature/org.eclipse.justj.openjdk.hotspot.jre.full.stripped/21.0.9.v20251105-0741, EPL-2.0, approved, technology.justj
+p2/orbit/p2.eclipse.feature/org.eclipse.justj.openjdk.hotspot.jre.full.stripped/21.0.10.v20260205-0638, EPL-2.0, approved, technology.justj
 p2/orbit/p2.eclipse.feature/org.eclipse.nebula.widgets.nattable.core.feature/2.2.0.202306301103, EPL-2.0, approved, technology.nebula.nattable
 p2/orbit/p2.eclipse.feature/org.eclipse.nebula.widgets.nattable.core.source.feature/2.2.0.202306301103, EPL-2.0, approved, technology.nebula
 p2/orbit/p2.eclipse.feature/org.eclipse.nebula.widgets.nattable.extension.e4.feature/2.2.0.202306301103, EPL-2.0, approved, technology.nebula.nattable
@@ -958,8 +958,8 @@ p2/orbit/p2.eclipse.plugin/org.eclipse.jsch.core.nl_de/4.26.0.v20230220105658, E
 p2/orbit/p2.eclipse.plugin/org.eclipse.jsch.core/1.5.600.v20250513-1235, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.jsch.ui.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.jsch.ui/1.5.700.v20250504-2222, EPL-2.0, approved, eclipse.platform
-p2/orbit/p2.eclipse.plugin/org.eclipse.justj.openjdk.hotspot.jre.full.stripped.win32.x86_64/21.0.9.v20251105-0741, EPL-2.0, approved, technology.justj
-p2/orbit/p2.eclipse.plugin/org.eclipse.justj.openjdk.hotspot.jre.full.stripped/21.0.9.v20251105-0741, EPL-2.0, approved, technology.justj
+p2/orbit/p2.eclipse.plugin/org.eclipse.justj.openjdk.hotspot.jre.full.stripped.win32.x86_64/21.0.10.v20260205-0638, EPL-2.0, approved, technology.justj
+p2/orbit/p2.eclipse.plugin/org.eclipse.justj.openjdk.hotspot.jre.full.stripped/21.0.10.v20260205-0638, EPL-2.0, approved, technology.justj
 p2/orbit/p2.eclipse.plugin/org.eclipse.ltk.core.refactoring.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.ltk.core.refactoring/3.15.0.v20241206-0650, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.ltk.ui.refactoring.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, eclipse.platform

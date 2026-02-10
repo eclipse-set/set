@@ -117,6 +117,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="rowIndex" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="footnotes" eType="#//FootnoteContainer"
         containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rowObject" eType="ecore:EClass ../../org.eclipse.set.model.planpro/model/Basisobjekte.ecore#//Ur_Objekt"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TableCell">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -180,16 +181,14 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="FootnoteContainer" abstract="true"/>
   <eClassifiers xsi:type="ecore:EClass" name="CompareFootnoteContainer" eSuperTypes="#//FootnoteContainer">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="oldFootnotes" upperBound="-1"
-        eType="ecore:EClass ../../org.eclipse.set.model.planpro/model/Basisobjekte.ecore#//Bearbeitungsvermerk"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="newFootnotes" upperBound="-1"
-        eType="ecore:EClass ../../org.eclipse.set.model.planpro/model/Basisobjekte.ecore#//Bearbeitungsvermerk"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="unchangedFootnotes" upperBound="-1"
-        eType="ecore:EClass ../../org.eclipse.set.model.planpro/model/Basisobjekte.ecore#//Bearbeitungsvermerk"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="oldFootnotes" eType="#//SimpleFootnoteContainer"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="newFootnotes" eType="#//SimpleFootnoteContainer"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="unchangedFootnotes" eType="#//SimpleFootnoteContainer"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="SimpleFootnoteContainer" eSuperTypes="#//FootnoteContainer">
     <eStructuralFeatures xsi:type="ecore:EReference" name="footnotes" upperBound="-1"
         eType="ecore:EClass ../../org.eclipse.set.model.planpro/model/Basisobjekte.ecore#//Bearbeitungsvermerk"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ownerObject" eType="ecore:EClass ../../org.eclipse.set.model.planpro/model/Basisobjekte.ecore#//Ur_Objekt"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CompareTableCellContent" eSuperTypes="#//CellContent">
     <eStructuralFeatures xsi:type="ecore:EReference" name="mainPlanCellContent" eType="#//CellContent"
