@@ -91,19 +91,6 @@ public abstract class AbstractTableTransformationService<T>
 				.build();
 	}
 
-	// @Override
-	// public Table transform(final T model, final Stell_Bereich controlArea) {
-	// final Table table = TablemodelFactory.eINSTANCE.createTable();
-	// buildHeading(table);
-	// transformator = createTransformator();
-	// transformator.transformTableContent(model, new TMFactory(table),
-	// controlArea);
-	// // Fill blank value to cell
-	//
-	// setColumnTextAlignment(table);
-	// return table;
-	// }
-
 	@Override
 	public Table transform(final T model) {
 		final Table table = TablemodelFactory.eINSTANCE.createTable();
