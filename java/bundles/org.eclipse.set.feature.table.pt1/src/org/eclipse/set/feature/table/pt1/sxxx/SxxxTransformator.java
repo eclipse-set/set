@@ -20,7 +20,6 @@ import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Aussenelementansteuerung;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.ESTW_Zentraleinheit;
-import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
 import org.eclipse.set.model.planpro.BasisTypen.ID_Bearbeitungsvermerk_TypeClass;
 import org.eclipse.set.model.planpro.Basisobjekte.Bearbeitungsvermerk;
 import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
@@ -66,7 +65,7 @@ public class SxxxTransformator extends AbstractPlanPro2TableModelTransformator {
 	@Override
 	public Table transformTableContent(
 			final MultiContainer_AttributeGroup container,
-			final TMFactory factory, final Stell_Bereich controlArea) {
+			final TMFactory factory) {
 		final List<ID_Bearbeitungsvermerk_TypeClass> idReferences = Streams
 				.stream(container.getAllContents())
 				.parallel()
