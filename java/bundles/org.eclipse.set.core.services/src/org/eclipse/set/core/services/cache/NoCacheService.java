@@ -36,8 +36,7 @@ public class NoCacheService implements CacheService {
 
 	@Override
 	public Cache getCache(final PlanPro_Schnittstelle schnittStellle,
-			final String cacheId, final String containerCacheId)
-			throws IllegalArgumentException {
+			final String... cacheId) throws IllegalArgumentException {
 		return new NoCache();
 	}
 
@@ -54,8 +53,8 @@ public class NoCacheService implements CacheService {
 	}
 
 	@Override
-	public Cache getCache(final ToolboxFileRole role, final String cacheId,
-			final String containerCacheId) throws IllegalArgumentException {
+	public Cache getCache(final ToolboxFileRole role, final String... cacheId)
+			throws IllegalArgumentException {
 		return new NoCache();
 	}
 

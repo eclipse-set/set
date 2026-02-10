@@ -64,9 +64,9 @@
     <genClasses ecoreClass="tablemodel.ecore#//StringCellContent">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tablemodel.ecore#//StringCellContent/value"/>
     </genClasses>
-    <genClasses ecoreClass="tablemodel.ecore#//CompareCellContent">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tablemodel.ecore#//CompareCellContent/oldValue"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tablemodel.ecore#//CompareCellContent/newValue"/>
+    <genClasses ecoreClass="tablemodel.ecore#//CompareStateCellContent">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tablemodel.ecore#//CompareStateCellContent/oldValue"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tablemodel.ecore#//CompareStateCellContent/newValue"/>
     </genClasses>
     <genClasses ecoreClass="tablemodel.ecore#//CellAnnotation"/>
     <genClasses ecoreClass="tablemodel.ecore#//MultiColorCellContent">

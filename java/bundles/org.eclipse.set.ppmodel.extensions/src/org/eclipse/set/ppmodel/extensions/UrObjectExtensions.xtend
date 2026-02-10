@@ -12,13 +12,12 @@ import org.eclipse.emf.ecore.EObject
 import org.eclipse.set.basis.cache.Cache
 import org.eclipse.set.core.services.Services
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
-import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
 import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt
 import org.eclipse.set.model.planpro.PlanPro.LST_Zustand
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle
+import org.eclipse.set.utils.ToolboxConfiguration
 
 import static extension org.eclipse.set.ppmodel.extensions.StellBereichExtensions.*
-import org.eclipse.set.utils.ToolboxConfiguration
 
 /**
  * Diese Klasse erweitert {@link Ur_Objekt}.
@@ -97,7 +96,7 @@ class UrObjectExtensions extends BasisAttributExtensions {
 		return planData.exists[wert == guid]
 	}
 
-	def static <T extends Basis_Objekt> Iterable<T> filterObjectsInControlArea(
+	def static <T extends Ur_Objekt> Iterable<T> filterObjectsInControlArea(
 		Iterable<T> objects, Stell_Bereich area) {
 		if (area === null) {
 			return objects

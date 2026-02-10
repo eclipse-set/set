@@ -19,8 +19,8 @@ import javax.xml.parsers.ParserConfigurationException
 import org.eclipse.set.basis.FreeFieldInfo
 import org.eclipse.set.basis.constants.ToolboxConstants
 import org.eclipse.set.model.tablemodel.CellContent
-import org.eclipse.set.model.tablemodel.CompareCellContent
 import org.eclipse.set.model.tablemodel.CompareFootnoteContainer
+import org.eclipse.set.model.tablemodel.CompareStateCellContent
 import org.eclipse.set.model.tablemodel.CompareTableCellContent
 import org.eclipse.set.model.tablemodel.CompareTableFootnoteContainer
 import org.eclipse.set.model.tablemodel.FootnoteContainer
@@ -343,12 +343,12 @@ class TableToTableDocument {
 		}
 	}
 
-	private def dispatch Element createContent(CompareCellContent content,
+	private def dispatch Element createContent(CompareStateCellContent content,
 		FootnoteContainer fc, int columnNumber, boolean isRemarkColumn) {
 		val element = doc.createElement("DiffContent")
 		formatCompareContent(
-			content.oldValue,
-			content.newValue,
+			content.oldValue.stringValueIterable,
+			content.newValue.stringValueIterable,
 			[doc.createElement("OldValue")],
 			[doc.createElement("UnchangedValue")],
 			[doc.createElement("NewValue")],

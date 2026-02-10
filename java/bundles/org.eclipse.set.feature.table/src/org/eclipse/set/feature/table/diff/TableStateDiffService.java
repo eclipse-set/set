@@ -10,6 +10,7 @@
  */
 package org.eclipse.set.feature.table.diff;
 
+import static org.eclipse.set.model.tablemodel.extensions.CellContentExtensions.createStringCellContent;
 import static org.eclipse.set.model.tablemodel.extensions.TableCellExtensions.getIterableStringValue;
 
 import java.util.Collections;
@@ -17,8 +18,9 @@ import java.util.Set;
 
 import org.eclipse.set.core.services.session.SessionService;
 import org.eclipse.set.model.tablemodel.CellContent;
-import org.eclipse.set.model.tablemodel.CompareCellContent;
+import org.eclipse.set.model.tablemodel.CompareStateCellContent;
 import org.eclipse.set.model.tablemodel.MultiColorCellContent;
+import org.eclipse.set.model.tablemodel.StringCellContent;
 import org.eclipse.set.model.tablemodel.TableCell;
 import org.eclipse.set.model.tablemodel.TablemodelFactory;
 import org.eclipse.set.model.tablemodel.extensions.CellContentExtensions;
@@ -51,16 +53,24 @@ public class TableStateDiffService extends AbstractTableDiff {
 			return oldCell.getContent();
 		}
 
+		if (!StringCellContent.class.isInstance(oldCell.getContent())
+				|| newCell != null && newCell.getContent() != null
+						&& !StringCellContent.class
+								.isInstance(newCell.getContent())) {
+			throw new IllegalArgumentException(
+					"Can not create CompareStateCellContent only from StringCellContent"); //$NON-NLS-1$
+		}
+
 		final Set<String> oldValues = getIterableStringValue(oldCell);
 		final Set<String> newValues = newCell == null ? Collections.emptySet()
 				: getIterableStringValue(newCell);
 		if (oldValues.equals(newValues)) {
 			return null;
 		}
-		final CompareCellContent compareContent = TablemodelFactory.eINSTANCE
-				.createCompareCellContent();
-		compareContent.getOldValue().addAll(oldValues);
-		compareContent.getNewValue().addAll(newValues);
+		final CompareStateCellContent compareContent = TablemodelFactory.eINSTANCE
+				.createCompareStateCellContent();
+		compareContent.setOldValue(createStringCellContent(oldValues));
+		compareContent.setNewValue(createStringCellContent(newValues));
 		compareContent.setSeparator(EObjectExtensions
 				.getNullableObject(oldCell, c -> c.getContent().getSeparator())
 				.orElse(null));
@@ -84,17 +94,19 @@ public class TableStateDiffService extends AbstractTableDiff {
 			// Convert to CompareCellContent, when give different between
 			// initial
 			// and final state
-			final CompareCellContent compareCellContent = TablemodelFactory.eINSTANCE
-					.createCompareCellContent();
+			final CompareStateCellContent compareCellContent = TablemodelFactory.eINSTANCE
+					.createCompareStateCellContent();
 			oldCellContent.getValue()
-					.forEach(colorContent -> compareCellContent.getOldValue()
-							.add(String.format(colorContent.getStringFormat(),
-									colorContent.getMultiColorValue())));
+					.forEach(colorContent -> compareCellContent
+							.setOldValue(createStringCellContent(String.format(
+									colorContent.getStringFormat(),
+									colorContent.getMultiColorValue()))));
 
 			newCellContent.getValue()
-					.forEach(colorContent -> compareCellContent.getNewValue()
-							.add(String.format(colorContent.getStringFormat(),
-									colorContent.getMultiColorValue())));
+					.forEach(colorContent -> compareCellContent
+							.setNewValue(createStringCellContent(String.format(
+									colorContent.getStringFormat(),
+									colorContent.getMultiColorValue()))));
 			oldCell.setContent(compareCellContent);
 		}
 	}

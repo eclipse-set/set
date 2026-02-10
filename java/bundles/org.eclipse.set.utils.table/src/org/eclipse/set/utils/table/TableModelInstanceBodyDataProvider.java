@@ -28,7 +28,7 @@ import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.eclipse.set.core.services.session.SessionService;
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.set.model.tablemodel.CellContent;
-import org.eclipse.set.model.tablemodel.CompareCellContent;
+import org.eclipse.set.model.tablemodel.CompareStateCellContent;
 import org.eclipse.set.model.tablemodel.CompareTableCellContent;
 import org.eclipse.set.model.tablemodel.StringCellContent;
 import org.eclipse.set.model.tablemodel.TableCell;
@@ -36,6 +36,7 @@ import org.eclipse.set.model.tablemodel.TableRow;
 import org.eclipse.set.model.tablemodel.TablemodelFactory;
 import org.eclipse.set.model.tablemodel.extensions.CellContentExtensions;
 import org.eclipse.set.model.tablemodel.extensions.TableRowExtensions;
+import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -177,7 +178,7 @@ public class TableModelInstanceBodyDataProvider
 		return switch (oldContent) {
 			case final StringCellContent stringContent -> getNewContent(
 					stringContent, properties);
-			case final CompareCellContent compareContent -> getNewContent(
+			case final CompareStateCellContent compareContent -> getNewContent(
 					compareContent, properties);
 			case final CompareTableCellContent compareTableContent -> getNewContent(
 					compareTableContent, properties);
@@ -212,24 +213,27 @@ public class TableModelInstanceBodyDataProvider
 	}
 
 	private static CellContent getNewContent(
-			final CompareCellContent oldContent,
+			final CompareStateCellContent oldContent,
 			final Pt1TableChangeProperties properties) {
 		final ContainerType containerType = properties.getContainerType();
+		final List<String> oldValues = IterableExtensions
+				.toList(CellContentExtensions
+						.getStringValueIterable(oldContent.getOldValue()));
+		final List<String> newValues = IterableExtensions
+				.toList(CellContentExtensions
+						.getStringValueIterable(oldContent.getNewValue()));
 		switch (containerType) {
 			case FINAL:
-				if (!equalsValues(oldContent.getNewValue(),
-						properties.getNewValues())) {
-					return createCompareCellContent(oldContent.getOldValue(),
+				if (!equalsValues(newValues, properties.getNewValues())) {
+					return createCompareCellContent(oldValues,
 							properties.getNewValues(),
 							oldContent.getSeparator());
 				}
 				break;
 			case INITIAL:
-				if (!equalsValues(oldContent.getOldValue(),
-						properties.getNewValues())) {
+				if (!equalsValues(oldValues, properties.getNewValues())) {
 					return createCompareCellContent(properties.getNewValues(),
-							oldContent.getNewValue(),
-							oldContent.getSeparator());
+							newValues, oldContent.getSeparator());
 				}
 				break;
 			default:
@@ -286,13 +290,15 @@ public class TableModelInstanceBodyDataProvider
 				: clone;
 	}
 
-	private static CompareCellContent createCompareCellContent(
+	private static CompareStateCellContent createCompareCellContent(
 			final List<String> oldValues, final List<String> newValues,
 			final String separator) {
-		final CompareCellContent compareContent = TablemodelFactory.eINSTANCE
-				.createCompareCellContent();
-		compareContent.getOldValue().addAll(oldValues);
-		compareContent.getNewValue().addAll(newValues);
+		final CompareStateCellContent compareContent = TablemodelFactory.eINSTANCE
+				.createCompareStateCellContent();
+		compareContent.setOldValue(
+				CellContentExtensions.createStringCellContent(oldValues));
+		compareContent.setNewValue(
+				CellContentExtensions.createStringCellContent(newValues));
 		compareContent.setSeparator(separator);
 		return compareContent;
 	}
