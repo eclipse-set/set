@@ -183,10 +183,6 @@ public final class TableServiceImpl implements TableService {
 		}
 	}
 
-	void cleanWorkNotesProTable() {
-		workNotesPerTable.clear();
-	}
-
 	private Table createDiffTable(final TableInfo tableInfo,
 			final IModelSession modelSession, final String controlAreaId) {
 
@@ -822,9 +818,9 @@ public final class TableServiceImpl implements TableService {
 				.collect(Collectors.toSet());
 	}
 
-	@SuppressWarnings("static-method")
 	void clearInstance() {
 		transformTableThreads.clear();
 		nonTransformableTables.clear();
+		workNotesPerTable.clear();
 	}
 }
