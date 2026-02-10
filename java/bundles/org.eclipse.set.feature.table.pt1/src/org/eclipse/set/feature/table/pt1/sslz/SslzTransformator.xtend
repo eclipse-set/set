@@ -90,14 +90,8 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
-		TMFactory factory, Stell_Bereich controlArea) {
-		val fstrZugRangierList = container.fstrZugRangier
-		val fstrZugRangierListSorted = fstrZugRangierList
-		var current = 0
-
-		for (fstrZugRangier : container.fstrZugRangier.filter [
-			isPlanningObject && isZ
-		].filterObjectsInControlArea(controlArea)) {
+		TMFactory factory) {
+		for (fstrZugRangier : container.fstrZugRangier.filter[isZ]) {
 
 			if (Thread.currentThread.interrupted) {
 				return null
@@ -165,7 +159,8 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 				])
 
 			// G: Sslz.Grundsatzangaben.Art
-			fill(instance,
+			fill(
+				instance,
 				cols.getColumn(Art),
 				fstrZugRangier,
 				[fstrZugArt]
