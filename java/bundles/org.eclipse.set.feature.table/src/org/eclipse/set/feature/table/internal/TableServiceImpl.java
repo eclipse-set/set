@@ -197,7 +197,7 @@ public final class TableServiceImpl implements TableService {
 	void cleanWorkNotesProTable() {
 		workNotesPerTable.clear();
 	}
-	
+
 	private Table createDiffStateTable(final TableInfo tableInfo,
 			final IModelSession modelSession) {
 		final PlanPro2TableTransformationService modelService = getModelService(
