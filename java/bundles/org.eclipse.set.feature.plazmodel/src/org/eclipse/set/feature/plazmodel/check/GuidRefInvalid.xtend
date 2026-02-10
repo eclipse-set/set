@@ -14,6 +14,7 @@ import org.eclipse.set.model.planpro.BasisTypen.Zeiger_TypeClass
 import org.eclipse.set.model.planpro.Verweise.VerweisePackage
 import org.eclipse.set.model.plazmodel.PlazFactory
 import org.osgi.service.component.annotations.Component
+import org.eclipse.set.model.planpro.BasisTypen.ID_Bearbeitungsvermerk_TypeClass
 
 /**
  * Check if that GUID references point to correct object
@@ -23,14 +24,19 @@ import org.osgi.service.component.annotations.Component
 @Component(immediate=true)
 class GuidRefInvalid implements PlazCheck {
 	override run(IModelSession modelSession) {
-		return modelSession.planProSchnittstelle.eAllContents.filter(
-			Zeiger_TypeClass).filter [
-			eGet(getValidFeature(it)).equals(Boolean.TRUE)
+		return modelSession.planProSchnittstelle.eAllContents.filter[
+			(it instanceof Zeiger_TypeClass || it instanceof ID_Bearbeitungsvermerk_TypeClass)	
+		].filter [
+			switch (it) {
+				Zeiger_TypeClass: eGet(getValidFeature(it)).equals(Boolean.TRUE)
+				ID_Bearbeitungsvermerk_TypeClass: it.value === null
+				default: false
+			}
 		].map [
 			val err = PlazFactory.eINSTANCE.createPlazError
 			val refName = it.eClass.name.replace("_TypeClass", "")
 			val objName = it.eContainer.eClass.name.replace("_AttributeGroup", "")
-			err.message = '''Der Verweis «refName» im Objekt «objName» führt auf ein falsches Objekt.'''
+			err.message = '''Der Verweis «refName» im Objekt «objName» führt auf ein falsches oder nicht vorhandenes Objekt.'''
 
 			err.type = checkType
 			err.object = it
@@ -44,6 +50,7 @@ class GuidRefInvalid implements PlazCheck {
 				getID_Anforderer_Element_TypeClass_InvalidReference().
 				getName());
 	}
+	
 
 	override checkType() {
 		return "Ungültiger ID-Verweis"

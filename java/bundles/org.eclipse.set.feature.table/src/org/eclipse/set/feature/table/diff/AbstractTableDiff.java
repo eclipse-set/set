@@ -152,6 +152,11 @@ public abstract class AbstractTableDiff implements TableDiffService {
 		if (diffContent == null) {
 			return;
 		}
+
+		if (first.getRowObject() == null && second != null
+				&& second.getRowObject() != null) {
+			first.setRowObject(second.getRowObject());
+		}
 		oldCell.setContent(diffContent);
 		if (newCell != null && TableCellExtensions.getFormat(newCell)
 				.isTopologicalCalculation()) {
@@ -176,15 +181,26 @@ public abstract class AbstractTableDiff implements TableDiffService {
 
 		final CompareFootnoteContainer diffFootnotes = TablemodelFactory.eINSTANCE
 				.createCompareFootnoteContainer();
+		diffFootnotes.setUnchangedFootnotes(
+				TablemodelFactory.eINSTANCE.createSimpleFootnoteContainer());
+		diffFootnotes.setOldFootnotes(
+				TablemodelFactory.eINSTANCE.createSimpleFootnoteContainer());
+		diffFootnotes.setNewFootnotes(
+				TablemodelFactory.eINSTANCE.createSimpleFootnoteContainer());
 
 		firstFootnotes.forEach(f -> compareFootnotes(f, secondFootnotes,
 				unchanged -> diffFootnotes.getUnchangedFootnotes()
+						.getFootnotes()
 						.add(unchanged),
-				changed -> diffFootnotes.getOldFootnotes().add(changed)));
+				changed -> diffFootnotes.getOldFootnotes()
+						.getFootnotes()
+						.add(changed)));
 		secondFootnotes
 				.forEach(f -> compareFootnotes(f, firstFootnotes, unchange -> {
 					// do nothing (already added by for loop above)
-				}, changed -> diffFootnotes.getNewFootnotes().add(changed)));
+				}, changed -> diffFootnotes.getNewFootnotes()
+						.getFootnotes()
+						.add(changed)));
 		mergedRow.setFootnotes(diffFootnotes);
 	}
 

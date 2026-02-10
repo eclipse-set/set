@@ -11,7 +11,7 @@
 package org.eclipse.set.feature.table.pt1.ssls;
 
 import org.eclipse.set.core.services.part.PartDescriptionService;
-import org.eclipse.set.feature.table.AbstractESTWTableDescription;
+import org.eclipse.set.feature.table.AbstractESTWSupplementTableDesciption;
 import org.eclipse.set.feature.table.pt1.messages.Messages;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -23,7 +23,8 @@ import org.osgi.service.component.annotations.Reference;
  */
 @Component(service = PartDescriptionService.class, property = {
 		"devMode=true" })
-public class SslsDescriptionService extends AbstractESTWTableDescription {
+public class SslsDescriptionService
+		extends AbstractESTWSupplementTableDesciption {
 	@Reference
 	Messages messages;
 

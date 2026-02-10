@@ -40,7 +40,11 @@ public record TableInfo(Pt1TableCategory category, String shortcut,
 		/**
 		 * ESTW supplement table
 		 */
-		ESTW_SUPPLEMENT("supplement-estw"); //$NON-NLS-1$
+		ESTW_SUPPLEMENT("supplement-estw"), //$NON-NLS-1$
+		/**
+		 * Supplement table
+		 */
+		SUPPLEMENT("supplement"); //$NON-NLS-1$
 
 		private static final Map<String, Pt1TableCategory> categories = new HashMap<>();
 		static {
@@ -69,6 +73,7 @@ public record TableInfo(Pt1TableCategory category, String shortcut,
 				case ETCS -> SetViewGroups.getTable_ETCS().text();
 				case ESTW_SUPPLEMENT -> SetViewGroups.getTable_ESTW_Supplement()
 						.text();
+				case SUPPLEMENT -> SetViewGroups.getTable_Supplement().text();
 			};
 		}
 

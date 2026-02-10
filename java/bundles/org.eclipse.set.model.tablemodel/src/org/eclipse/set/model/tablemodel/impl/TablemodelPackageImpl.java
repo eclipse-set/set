@@ -569,6 +569,16 @@ public class TablemodelPackageImpl extends EPackageImpl
 	 * @generated
 	 */
 	@Override
+	public EReference getTableRow_RowObject() {
+		return (EReference) tableRowEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
 	public EAttribute getTableRow_RowIndex() {
 		return (EAttribute) tableRowEClass.getEStructuralFeatures().get(1);
 	}
@@ -846,6 +856,18 @@ public class TablemodelPackageImpl extends EPackageImpl
 	 * @generated
 	 */
 	@Override
+	public EReference getSimpleFootnoteContainer_OwnerObject() {
+		return (EReference) simpleFootnoteContainerEClass
+				.getEStructuralFeatures()
+				.get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
 	public EClass getCompareTableCellContent() {
 		return compareTableCellContentEClass;
 	}
@@ -1019,6 +1041,7 @@ public class TablemodelPackageImpl extends EPackageImpl
 		createEReference(tableRowEClass, TABLE_ROW__CELLS);
 		createEAttribute(tableRowEClass, TABLE_ROW__ROW_INDEX);
 		createEReference(tableRowEClass, TABLE_ROW__FOOTNOTES);
+		createEReference(tableRowEClass, TABLE_ROW__ROW_OBJECT);
 
 		tableCellEClass = createEClass(TABLE_CELL);
 		createEReference(tableCellEClass, TABLE_CELL__CONTENT);
@@ -1066,6 +1089,8 @@ public class TablemodelPackageImpl extends EPackageImpl
 		simpleFootnoteContainerEClass = createEClass(SIMPLE_FOOTNOTE_CONTAINER);
 		createEReference(simpleFootnoteContainerEClass,
 				SIMPLE_FOOTNOTE_CONTAINER__FOOTNOTES);
+		createEReference(simpleFootnoteContainerEClass,
+				SIMPLE_FOOTNOTE_CONTAINER__OWNER_OBJECT);
 
 		compareTableCellContentEClass = createEClass(
 				COMPARE_TABLE_CELL_CONTENT);
@@ -1239,6 +1264,11 @@ public class TablemodelPackageImpl extends EPackageImpl
 				null, "footnotes", null, 0, 1, TableRow.class, !IS_TRANSIENT,
 				!IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
 				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getTableRow_RowObject(),
+				theBasisobjektePackage.getUr_Objekt(), null, "rowObject", null,
+				0, 1, TableRow.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(tableCellEClass, TableCell.class, "TableCell", !IS_ABSTRACT,
 				!IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -1325,22 +1355,19 @@ public class TablemodelPackageImpl extends EPackageImpl
 				CompareFootnoteContainer.class, "CompareFootnoteContainer",
 				!IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getCompareFootnoteContainer_OldFootnotes(),
-				theBasisobjektePackage.getBearbeitungsvermerk(), null,
-				"oldFootnotes", null, 0, -1, CompareFootnoteContainer.class,
-				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE,
-				IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED,
-				IS_ORDERED);
+				this.getSimpleFootnoteContainer(), null, "oldFootnotes", null,
+				0, 1, CompareFootnoteContainer.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getCompareFootnoteContainer_NewFootnotes(),
-				theBasisobjektePackage.getBearbeitungsvermerk(), null,
-				"newFootnotes", null, 0, -1, CompareFootnoteContainer.class,
-				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE,
-				IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED,
-				IS_ORDERED);
+				this.getSimpleFootnoteContainer(), null, "newFootnotes", null,
+				0, 1, CompareFootnoteContainer.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getCompareFootnoteContainer_UnchangedFootnotes(),
-				theBasisobjektePackage.getBearbeitungsvermerk(), null,
-				"unchangedFootnotes", null, 0, -1,
-				CompareFootnoteContainer.class, !IS_TRANSIENT, !IS_VOLATILE,
-				IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES,
+				this.getSimpleFootnoteContainer(), null, "unchangedFootnotes",
+				null, 0, 1, CompareFootnoteContainer.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES,
 				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(simpleFootnoteContainerEClass, SimpleFootnoteContainer.class,
@@ -1352,6 +1379,11 @@ public class TablemodelPackageImpl extends EPackageImpl
 				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE,
 				IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED,
 				IS_ORDERED);
+		initEReference(getSimpleFootnoteContainer_OwnerObject(),
+				theBasisobjektePackage.getUr_Objekt(), null, "ownerObject",
+				null, 0, 1, SimpleFootnoteContainer.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(compareTableCellContentEClass, CompareTableCellContent.class,
 				"CompareTableCellContent", !IS_ABSTRACT, !IS_INTERFACE,

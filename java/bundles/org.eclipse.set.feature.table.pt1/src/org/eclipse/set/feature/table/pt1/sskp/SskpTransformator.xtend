@@ -59,6 +59,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 	static final double ADDITION_SCHUTZSTRECKE_SOLL_60 = 450
 	static final double ADDITION_SCHUTZSTRECKE_SOLL_40_60 = 350
 	static final double ADDITION_SCHUTZSTRECKE_SOLL_40 = 210
+	public static final String GUE_ADDITION = "(GÜ)"
 	TopologicalGraphService topGraphService;
 
 	new(Set<ColumnDescriptor> cols,
@@ -102,6 +103,11 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	private def fillRowGroupContent(TableRow instance, PZB_Element pzb,
 		Fstr_DWeg dweg) {
+			
+		val pzbGUEs = (pzb.container.PZBElement.map[PZBElementGUE].filterNull.
+			filter[IDPZBElementMitnutzung?.value === pzb] +
+			#[pzb.PZBElementGUE]).filterNull
+			
 		// A: Sskp.Bezug.BezugsElement
 		fillIterable(
 			instance,
@@ -116,7 +122,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 			instance,
 			cols.getColumn(Wirkfrequenz),
 			pzb,
-			[PZBArt?.translate]
+			['''«PZBArt?.translate»«IF !pzbGUEs.nullOrEmpty» «GUE_ADDITION»«ENDIF»''']
 		)
 
 		val isPZB2000 = pzb.PZBArt?.wert === ENUMPZBArt.ENUMPZB_ART_2000_HZ ||
@@ -513,10 +519,6 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				fillBlank(instance, i)
 			}
 		}
-
-		val pzbGUEs = (pzb.container.PZBElement.map[PZBElementGUE].filterNull.
-			filter[IDPZBElementMitnutzung?.value === pzb] +
-			#[pzb.PZBElementGUE]).filterNull
 
 		if (!pzbGUEs.empty) {
 			// R: Sskp.Gue.Pruefgeschwindigkeit

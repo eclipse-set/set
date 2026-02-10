@@ -22,6 +22,8 @@ import org.eclipse.emf.common.util.EList;
  * <em>Sections</em>}</li>
  * <li>{@link org.eclipse.set.model.siteplan.Track#getDesignations
  * <em>Designations</em>}</li>
+ * <li>{@link org.eclipse.set.model.siteplan.Track#getStartCoordinate <em>Start
+ * Coordinate</em>}</li>
  * </ul>
  *
  * @see org.eclipse.set.model.siteplan.SiteplanPackage#getTrack()
@@ -55,5 +57,32 @@ public interface Track extends SiteplanObject {
 	 * @generated
 	 */
 	EList<TrackDesignation> getDesignations();
+
+	/**
+	 * Returns the value of the '<em><b>Start Coordinate</b></em>' containment
+	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @return the value of the '<em>Start Coordinate</em>' containment
+	 *         reference.
+	 * @see #setStartCoordinate(Coordinate)
+	 * @see org.eclipse.set.model.siteplan.SiteplanPackage#getTrack_StartCoordinate()
+	 * @model containment="true"
+	 * @generated
+	 */
+	Coordinate getStartCoordinate();
+
+	/**
+	 * Sets the value of the
+	 * '{@link org.eclipse.set.model.siteplan.Track#getStartCoordinate <em>Start
+	 * Coordinate</em>}' containment reference. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
+	 * @param value
+	 *            the new value of the '<em>Start Coordinate</em>' containment
+	 *            reference.
+	 * @see #getStartCoordinate()
+	 * @generated
+	 */
+	void setStartCoordinate(Coordinate value);
 
 } // Track

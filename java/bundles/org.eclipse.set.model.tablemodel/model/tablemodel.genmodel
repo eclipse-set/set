@@ -51,6 +51,7 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tablemodel.ecore#//TableRow/cells"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tablemodel.ecore#//TableRow/rowIndex"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tablemodel.ecore#//TableRow/footnotes"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tablemodel.ecore#//TableRow/rowObject"/>
     </genClasses>
     <genClasses ecoreClass="tablemodel.ecore#//TableCell">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tablemodel.ecore#//TableCell/content"/>
@@ -84,6 +85,7 @@
     </genClasses>
     <genClasses ecoreClass="tablemodel.ecore#//SimpleFootnoteContainer">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tablemodel.ecore#//SimpleFootnoteContainer/footnotes"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tablemodel.ecore#//SimpleFootnoteContainer/ownerObject"/>
     </genClasses>
     <genClasses ecoreClass="tablemodel.ecore#//CompareTableCellContent">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tablemodel.ecore#//CompareTableCellContent/mainPlanCellContent"/>

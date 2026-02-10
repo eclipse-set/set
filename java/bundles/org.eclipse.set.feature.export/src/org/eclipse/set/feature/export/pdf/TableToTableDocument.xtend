@@ -63,7 +63,7 @@ class TableToTableDocument {
 
 	public static val String FOOTNOTE_INLINE_TEXT_SEPARATOR = String.
 		format("%n")
-	private static val String FOOTNOTE_MARK_SEPRATOR = "; "
+	static val String FOOTNOTE_MARK_SEPRATOR = "; "
 
 	val Document doc
 	var String tablename
@@ -419,13 +419,17 @@ class TableToTableDocument {
 	private dispatch def void addFootnoteContent(Element element,
 		CompareFootnoteContainer fc, int columnNumber, boolean isRemarkColumn) {
 		val separator = remarkTextInlnie ? FOOTNOTE_INLINE_TEXT_SEPARATOR : FOOTNOTE_MARK_SEPRATOR
-		val oldFootnotes = fc.oldFootnotes.map[getFootnoteInfo(fc, it)].map [
+		val oldFootnotes = fc.oldFootnotes.footnotes.map [
+			getFootnoteInfo(fc, it)
+		].map [
 			remarkTextInlnie ? toText : toShorthand
 		].iterableToString(separator)
-		val newFootnotes = fc.newFootnotes.map[getFootnoteInfo(fc, it)].map [
+		val newFootnotes = fc.newFootnotes.footnotes.map [
+			getFootnoteInfo(fc, it)
+		].map [
 			remarkTextInlnie ? toText : toShorthand
 		].iterableToString(separator)
-		val unchangedFootnotes = fc.unchangedFootnotes.map [
+		val unchangedFootnotes = fc.unchangedFootnotes.footnotes.map [
 			getFootnoteInfo(fc, it)
 		].map[remarkTextInlnie ? toText : toShorthand].
 			iterableToString(separator)

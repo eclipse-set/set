@@ -12,6 +12,7 @@ import static org.eclipse.set.model.tablemodel.extensions.CellContentExtensions.
 
 import java.util.List;
 
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.set.model.tablemodel.CellContent;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.CompareStateCellContent;
@@ -95,8 +96,52 @@ public class TableSpanUtils {
 		if (cellContentA == null) {
 			return cellContentB == null;
 		}
+		if (isEqual(cellContentA, cellContentB)) {
+			return true;
+		}
 
-		return isEqual(cellContentA, cellContentB);
+		// The cell value must not be same to be merge. When the RowMergeMode ==
+		// ENABLE, then should be cells anyway merge.
+		// Here replace the cell content by priority : StringCellContent ->
+		// CompareCellContent (both value not empty or new value not empty) will
+		// set to the second cell
+		final boolean shouldReplaceValue = shouldReplaceValue(cellContentA,
+				cellContentB);
+		if (shouldReplaceValue) {
+			rowB.getCells()
+					.get(column)
+					.setContent(EcoreUtil.copy(cellContentA));
+		}
+		return shouldReplaceValue;
+	}
+
+	private static boolean shouldReplaceValue(final CellContent cellContentA,
+			final CellContent cellContentB) {
+		return switch (cellContentA) {
+			case final StringCellContent stringCellContentA -> !isEmptyCellContentValue(
+					stringCellContentA);
+			case final CompareStateCellContent compareCellContentA -> {
+				if (!isEmptyCellContentValue(compareCellContentA.getNewValue())
+						&& !isEmptyCellContentValue(
+								compareCellContentA.getOldValue())) {
+					yield true;
+				}
+				if (cellContentB instanceof final StringCellContent stringCellContentB) {
+					yield isEmptyCellContentValue(stringCellContentB);
+				}
+
+				if (cellContentB instanceof final CompareStateCellContent compareCellContentB) {
+					yield !isEmptyCellContentValue(
+							compareCellContentA.getNewValue())
+							&& (isEmptyCellContentValue(
+									compareCellContentB.getNewValue())
+									|| isEmptyCellContentValue(
+											compareCellContentB.getOldValue()));
+				}
+				yield true;
+			}
+			default -> false;
+		};
 	}
 
 	private static boolean isEqual(final CellContent cellContentA,
@@ -176,5 +221,16 @@ public class TableSpanUtils {
 			}
 			return cd.getMergeCommonValues() == RowMergeMode.ENABLED;
 		}
+	}
+
+	private static boolean isEmptyCellContentValue(
+			final CellContent cellContent) {
+		final List<String> values = Streams
+				.stream(getStringValueIterable(cellContent))
+				.toList();
+		return values.isEmpty() || values.stream()
+				.map(String::trim)
+				.filter(v -> !v.isEmpty() && !v.isBlank())
+				.count() == 0;
 	}
 }

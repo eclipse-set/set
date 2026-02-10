@@ -95,12 +95,16 @@ public class SslsTransformator extends AbstractPlanPro2TableModelTransformator {
 			final SignalingSection signalingSection) {
 		final Signal startSignal = signalingSection.getStartSignal();
 		final RowFactory rg = factory.newRowGroup(startSignal);
+		// Only add "Stop" entry row if signal is not fiktiv
+		if (startSignal.getSignalFiktiv() == null) {
+			fill(rg.newTableRow(),
+					getColumn(cols, SslsColumns.Signal_Abschnitt), startSignal,
+					signal -> String.format("(%s)", //$NON-NLS-1$
+							signal.getBezeichnung()
+									.getBezeichnungTabelle()
+									.getWert()));
+		}
 
-		fill(rg.newTableRow(), getColumn(cols, SslsColumns.Signal_Abschnitt),
-				startSignal, signal -> String.format("(%s)", //$NON-NLS-1$
-						signal.getBezeichnung()
-								.getBezeichnungTabelle()
-								.getWert()));
 		final List<SignalingRouteSection> abschnitte = new ArrayList<>(
 				signalingSection.getSignalingRouteSections());
 
