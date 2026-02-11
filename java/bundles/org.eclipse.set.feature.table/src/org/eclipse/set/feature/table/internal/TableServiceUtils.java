@@ -200,18 +200,6 @@ public class TableServiceUtils {
 		if (controlAreaIds.isEmpty()) {
 			return;
 		}
-		// final List<Stell_Bereich> initalControlAreas =
-		// controlAreaIds.stream()
-		// .map(areaId -> getStellBereich(
-		// modelsession.getContainer(ContainerType.INITIAL),
-		// areaId))
-		// .filter(Objects::nonNull)
-		// .toList();
-		// final List<Stell_Bereich> finalControlAreas = controlAreaIds.stream()
-		// .map(areaId -> getStellBereich(
-		// modelsession.getContainer(ContainerType.FINAL), areaId))
-		// .filter(Objects::nonNull)
-		// .toList();
 		final List<RowGroup> relevantRowGroup = filterElementBelongToControlArea(
 				result.getTablecontent().getRowgroups(),
 				rowGroup -> UrObjektEachContainer.createInstance(
@@ -225,36 +213,6 @@ public class TableServiceUtils {
 				group.getRows().clear();
 			}
 		});
-		// result.getTablecontent().getRowgroups().forEach(group -> {
-		// final Pair<Ur_Objekt, Ur_Objekt> initalFinalObj = getInitalFinalObj(
-		// group.getLeadingObject(), modelsession);
-		// final Ur_Objekt initalObj = initalFinalObj.getKey();
-		// final Ur_Objekt finalObj = initalFinalObj.getValue();
-		//
-		// final boolean isFinalObjBelongToAreas = isElementBelongToAreas(
-		// finalObj, finalControlAreas);
-		// final boolean isInitialObjBelongToAreas = isElementBelongToAreas(
-		// initalObj, initalControlAreas);
-		// if (isFinalObjBelongToAreas && isInitialObjBelongToAreas) {
-		// return;
-		// }
-		//
-		// if (!isFinalObjBelongToAreas && !isInitialObjBelongToAreas) {
-		// group.getRows().clear();
-		// }
-		//
-		// if (isFinalObjBelongToAreas) {
-		// group.getRows()
-		// .forEach(row -> handleTableRowNotBelongToArea()
-		// .accept(row, TableType.INITIAL));
-		// }
-		//
-		// if (isInitialObjBelongToAreas) {
-		// group.getRows()
-		// .forEach(row -> handleTableRowNotBelongToArea()
-		// .accept(row, TableType.FINAL));
-		// }
-		// });
 	}
 
 	private static <T> List<T> filterElementBelongToControlArea(
@@ -320,9 +278,10 @@ public class TableServiceUtils {
 
 	private static boolean isElementBelongToAreas(final Ur_Objekt element,
 			final List<Stell_Bereich> areas) {
-		// Specially case for block element. When this block element not belong
-		// to area, but this is relevant block element of another block element,
-		// which belong to control area, then return true
+		// Special case for block element: When this block element does not
+		// belong
+		// to area, but is relevant block element of another block element,
+		// which belongs to control area, then return true
 		// See: ppmtab - General condition and
 		// SslbTransformator#findRelevantBlockElements for more information
 		if (element instanceof final Block_Element blockElement) {
