@@ -337,8 +337,8 @@ class CellContentExtensions {
 		BiFunction<Bearbeitungsvermerk, T, U> postFormatter
 	) {
 		formatCompareContent(
-			(content.oldFootnotes + content.unchangedFootnotes),
-			(content.newFootnotes + content.unchangedFootnotes),
+			(content.oldFootnotes.footnotes + content.unchangedFootnotes.footnotes),
+			(content.newFootnotes.footnotes + content.unchangedFootnotes.footnotes),
 			oldFormatter,
 			commonFormatter,
 			newFormatter,

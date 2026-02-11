@@ -57,7 +57,7 @@ public class TableControlAreaDataTest extends AbstractTableTest {
 	}
 
 	@Override
-	public String getTestTableName() {
+	public String getTestTableReferenceName() {
 		if (tableToTest != null) {
 			return tableToTest.shortcut();
 		}

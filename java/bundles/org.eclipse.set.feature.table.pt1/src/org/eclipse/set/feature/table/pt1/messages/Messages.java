@@ -764,17 +764,17 @@ public class Messages extends AbstractMessageService {
 	public String SskpDmTableView_Heading;
 
 	/**
-	 * Ssls – Signaltabelle 2
+	 * Ssls – Signalisierungstabelle
 	 */
 	public String SslsDescriptionService_ViewName;
 
 	/**
-	 * Signaltabelle 2
+	 * Signalisierungstabelle
 	 */
 	public String SslsDescriptionService_ViewTooltip;
 
 	/**
-	 * Signaltabelle 2 – Ssls
+	 * Signalisierungstabelle – Ssls
 	 */
 	public String SslsTableView_Heading;
 
@@ -784,7 +784,7 @@ public class Messages extends AbstractMessageService {
 	public String ToolboxTableNameSslsShort;
 
 	/**
-	 * Signaltabelle 2
+	 * Signalisierungstabelle
 	 */
 	public String ToolboxTableNameSslsLong;
 
@@ -792,5 +792,35 @@ public class Messages extends AbstractMessageService {
 	 * ??
 	 */
 	public String ToolboxTableNameSslsPlanningNumber;
+
+	/**
+	 * Sxxx
+	 */
+	public String ToolboxTableNameSxxxShort;
+
+	/**
+	 * Tabelle weiterer Bearbeitungsvermerke – Sxxx
+	 */
+	public String SxxxTableView_Heading;
+
+	/**
+	 * Tabelle weiterer Bearbeitungsvermerke
+	 */
+	public String ToolboxTableNameSxxxLong;
+
+	/**
+	 * ???
+	 */
+	public String ToolboxTableNameSxxxPlanningNumber;
+
+	/**
+	 * Sxxx – Tabelle weiterer Bearbeitungsvermerke
+	 */
+	public String SxxxDescriptionService_ViewName;
+
+	/**
+	 * Tabelle weiterer Bearbeitungsvermerke
+	 */
+	public String SxxxDescriptionService_ViewTooltip;
 
 }

@@ -51,7 +51,7 @@ class TopKantePath extends AbstractDirectedEdgePath<TOP_Kante, TOP_Knoten, Punkt
 		this(bereich.topKanten, start, end)
 		// test if all edges are consumed
 		val mySet = edgeIterator.map[element].toSet
-
+		
 		if (!bereich.topKanten.equals(mySet)) {
 			throw new IllegalArgumentException('''sort top edges failed, bereich=«bereich.debugString»''')
 		}
@@ -176,7 +176,7 @@ class TopKantePath extends AbstractDirectedEdgePath<TOP_Kante, TOP_Knoten, Punkt
 	) {
 		// Is the point directly located on a TOP_Kante?
 		for (topKante : topKanten) {
-			if (connection.IDTOPKante === topKante) {
+			if (connection.IDTOPKante.value === topKante) {
 				return topKante
 			}
 		}

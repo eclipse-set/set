@@ -40,7 +40,7 @@ public class FixedColumnTest extends AbstractTableTest {
 	PtTable tableToTest;
 
 	@Override
-	public String getTestTableName() {
+	public String getTestTableReferenceName() {
 		if (tableToTest != null) {
 			return tableToTest.shortcut();
 		}

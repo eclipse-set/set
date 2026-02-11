@@ -52,7 +52,7 @@ public abstract class AbstractTableTest extends AbstractPPHNTest {
 		@SuppressWarnings("unchecked")
 		final List<? extends ExpandItem> expandItems = bot
 				.widgets(allOf(widgetOfType(ExpandItem.class), withRegex(
-						"^.+ – (Zusatzt|T)abellen( \\(in Entwicklung\\))?$")));
+						"(^.+ – )?(Zusatzt|T)abellen( \\(in Entwicklung\\))?$")));
 		expandItems.forEach(item -> {
 			final SWTBotExpandItem swtBotExpandItem = new SWTBotExpandItem(
 					item);
@@ -67,7 +67,7 @@ public abstract class AbstractTableTest extends AbstractPPHNTest {
 				+ getTestFile().getShortName() + "/";
 	}
 
-	public abstract String getTestTableName();
+	public abstract String getTestTableReferenceName();
 
 	protected void compareValue(final ILayer nattableLayer, final int startRow,
 			final int endRow) {
@@ -97,7 +97,7 @@ public abstract class AbstractTableTest extends AbstractPPHNTest {
 			final String expectedValue, final String actualValue) {
 		return String.format(
 				"%s at row: %d, column: %d. ExpectedValue: %s - ActualValue: %s",
-				getTestTableName(), rowIndex, columnIndex, expectedValue,
+				getTestTableReferenceName(), rowIndex, columnIndex, expectedValue,
 				actualValue);
 	}
 
@@ -111,6 +111,12 @@ public abstract class AbstractTableTest extends AbstractPPHNTest {
 		layers = SWTBotUtils.getNattableLayers(nattableBot);
 	}
 
+	protected void thenExpectTableDataEqualReferenceCSV() {
+		final int startRow = getNattableHeaderRowCount();
+		assertDoesNotThrow(() -> compareValue(layers.selectionLayer(), startRow,
+				layers.selectionLayer().getRowCount()));
+	}
+
 	@SuppressWarnings("boxing")
 	protected void thenRowAndColumnCountEqualReferenceCSV() {
 		final int nattableColumnCount = layers.gridLayer()
@@ -118,20 +124,14 @@ public abstract class AbstractTableTest extends AbstractPPHNTest {
 		final int referenceColumnCount = referenceData.get(0).size();
 		assertEquals(referenceColumnCount, nattableColumnCount,
 				() -> String.format("%s expected column count: %d but was: %d",
-						getTestTableName(), referenceColumnCount,
+						getTestTableReferenceName(), referenceColumnCount,
 						nattableColumnCount));
 		final int nattableRowCount = getNattableHeaderRowCount()
 				+ layers.selectionLayer().getRowCount();
 		final int referenceRowCount = referenceData.size();
 		assertEquals(referenceRowCount, nattableRowCount,
 				() -> String.format("%s expected row count: %d but was: %d",
-						getTestTableName(), referenceRowCount,
+						getTestTableReferenceName(), referenceRowCount,
 						nattableRowCount));
-	}
-
-	protected void thenTableDataEqualReferenceCSV() {
-		final int startRow = getNattableHeaderRowCount();
-		assertDoesNotThrow(() -> compareValue(layers.selectionLayer(), startRow,
-				layers.selectionLayer().getRowCount()));
 	}
 }

@@ -46,7 +46,7 @@ public class TableDataTest extends AbstractTableTest {
 	}
 
 	@Override
-	public String getTestTableName() {
+	public String getTestTableReferenceName() {
 		if (tableToTest != null) {
 			return tableToTest.shortcut();
 		}
@@ -76,7 +76,7 @@ public class TableDataTest extends AbstractTableTest {
 		whenExistReferenceCSV();
 		thenRowAndColumnCountEqualReferenceCSV();
 		thenPtTableColumnHeaderEqualReferenceCSV();
-		thenTableDataEqualReferenceCSV();
+		thenExpectTableDataEqualReferenceCSV();
 	}
 
 	protected void thenPtTableColumnHeaderEqualReferenceCSV() {

@@ -28,6 +28,7 @@ public class SetViewGroups {
 	private static final ToolboxViewGroup TABLE_ESTW;
 	private static final ToolboxViewGroup TABLE_ETCS;
 	private static final ToolboxViewGroup TABLE_ESTW_SUPPLEMENT;
+	private static final ToolboxViewGroup TABLE_SUPPLEMENT;
 
 	static {
 		DEVELOPMENT = new ToolboxViewGroup.Builder()
@@ -80,6 +81,13 @@ public class SetViewGroups {
 				.withIcon(SetImages.IC_GRID_ON_BLACK_18DP_1X)
 				.withOrderPriority(200)
 				.build();
+		TABLE_SUPPLEMENT = new ToolboxViewGroup.Builder()
+				.withText(Messages.SetViewGroups_Table_Supplement)
+				.withIcon(SetImages.IC_GRID_ON_BLACK_18DP_1X)
+				.withOrderPriority(170)
+				.setDevelopment(true)
+				.build();
+
 	}
 
 	/**
@@ -143,5 +151,12 @@ public class SetViewGroups {
 	 */
 	public static ToolboxViewGroup getTable_ESTW_Supplement() {
 		return TABLE_ESTW_SUPPLEMENT;
+	}
+
+	/**
+	 * @return table table supplement view group
+	 */
+	public static ToolboxViewGroup getTable_Supplement() {
+		return TABLE_SUPPLEMENT;
 	}
 }

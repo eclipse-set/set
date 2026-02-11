@@ -284,10 +284,10 @@ abstract class AbstractPlanPro2TableModelTransformator extends AbstractTableMode
 		Exception e) {
 		val errorMsg = createErrorMsg(e, row)
 		val leadingObject = row.group.leadingObject
-		val errorIdentiefer = getLeadingObjectIdentifier(row,
-			leadingObject?.identitaet?.wert)
-		val error = new TableError(leadingObject, errorIdentiefer, "", errorMsg,
-			row, leadingObject.container.containerType)
+		val errorIdentiefer = getLeadingObjectIdentifier(row, leadingObject?.identitaet?.wert)
+		val tableType = container.containerType.defaultTableType
+		val error = new TableError(leadingObject, errorIdentiefer, "", errorMsg, row)
+		error.tableType = tableType
 		tableErrors.add(error)
 		return new Pt1TableChangeProperties(container, row, column,
 			#['''«ERROR_PREFIX»«errorMsg»'''], ITERABLE_FILLING_SEPARATOR)

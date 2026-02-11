@@ -83,9 +83,12 @@ public class FootnoteContainerExtensions {
 					.getFootnotes();
 			case final CompareFootnoteContainer compareContainer -> {
 				final List<Bearbeitungsvermerk> result = new ArrayList<>();
-				result.addAll(compareContainer.getNewFootnotes());
-				result.addAll(compareContainer.getOldFootnotes());
-				result.addAll(compareContainer.getUnchangedFootnotes());
+				result.addAll(
+						compareContainer.getNewFootnotes().getFootnotes());
+				result.addAll(
+						compareContainer.getOldFootnotes().getFootnotes());
+				result.addAll(compareContainer.getUnchangedFootnotes()
+						.getFootnotes());
 				yield result;
 			}
 			case final CompareTableFootnoteContainer compareTableContainer -> getFootnotes(

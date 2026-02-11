@@ -38,6 +38,7 @@ import static extension org.eclipse.set.model.tablemodel.extensions.TableContent
 import static extension org.eclipse.set.model.tablemodel.extensions.TableRowExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.EObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 import static extension org.eclipse.set.utils.StringExtensions.*
 
 /**
@@ -87,15 +88,24 @@ class TableExtensions {
 	/**
 	 * @param table this table
 	 * 
-	 * @return the rows of this table
+	 * @return the row groups of this table
 	 */
-	static def List<TableRow> getTableRows(Table table) {
+	static def List<RowGroup> getTableRowGroups(Table table) {
 		val content = table?.tablecontent
 		if (content === null) {
 			return #[]
 		}
+		return content.rowgroups
+	}
+	
+	/**
+	 * @param table this table
+	 * 
+	 * @return the rows of this table
+	 */
+	static def List<TableRow> getTableRows(Table table) {
 		var rows = newLinkedList();
-		for (RowGroup rowgroup : content.rowgroups)
+		for (RowGroup rowgroup : table.tableRowGroups)
 			rows.addAll(rowgroup.rows)
 		return rows
 	}
@@ -300,10 +310,20 @@ class TableExtensions {
 	 */
 	static def RowGroup getGroupByLeadingObject(Table table, Ur_Objekt object,
 		int index) {
-		return table.tablecontent.rowgroups.findFirst [
+		val matchesRows = table.tablecontent.rowgroups.filter [
 			leadingObject?.identitaet?.wert == object?.identitaet?.wert &&
 				leadingObjectIndex === index
-		]
+		].toList
+		// When give more than one Object with same GUID,
+		// then find object in same Subwork 
+		if (matchesRows.size > 1 && object !== null) {
+			return matchesRows.findFirst [
+				leadingObject.LSTZustand.eContainer ==
+					object.LSTZustand.eContainer
+			]
+		}
+
+		return matchesRows.firstOrNull
 	}
 
 	/**
@@ -423,17 +443,22 @@ class TableExtensions {
 		val common = (table.eAllContents.filter(SimpleFootnoteContainer).map [
 			footnotes.map[new FootnoteInfo(it, FootnoteType.COMMON_FOOTNOTE)]
 		] + table.eAllContents.filter(CompareFootnoteContainer).map [
-			unchangedFootnotes.map [
+			unchangedFootnotes.footnotes.map [
 				new FootnoteInfo(it, FootnoteType.COMMON_FOOTNOTE)
 			]
 		]).toList.flatten
 
 		val old = table.eAllContents.filter(CompareFootnoteContainer).map [
-			oldFootnotes.map[new FootnoteInfo(it, FootnoteType.OLD_FOOTNOTE)]
+			oldFootnotes.footnotes.map [
+				new FootnoteInfo(it, FootnoteType.OLD_FOOTNOTE)
+			]
 		].toList.flatten
 
 		val newF = table.eAllContents.filter(CompareFootnoteContainer).map [
-			newFootnotes.map[new FootnoteInfo(it, FootnoteType.NEW_FOOTNOTE)]
+
+			newFootnotes.footnotes.map [
+				new FootnoteInfo(it, FootnoteType.NEW_FOOTNOTE)
+			]
 		].toList.flatten
 
 		// sort new and common together by text, then append old entries
@@ -494,13 +519,13 @@ class TableExtensions {
 				]
 			}
 			CompareFootnoteContainer: {
-				val oldFootnotes = fc.oldFootnotes.map [
+				val oldFootnotes = fc.oldFootnotes.footnotes.map [
 					getFootnoteInfo(table, it)
 				].filterNull
-				val newFootnotes = fc.newFootnotes.map [
+				val newFootnotes = fc.newFootnotes.footnotes.map [
 					getFootnoteInfo(table, it)
 				].filterNull
-				val unchangedFootnotes = fc.unchangedFootnotes.map [
+				val unchangedFootnotes = fc.unchangedFootnotes.footnotes.map [
 					getFootnoteInfo(table, it)
 				].filterNull
 				val allFootnotes = #[oldFootnotes, newFootnotes,
@@ -513,9 +538,8 @@ class TableExtensions {
 					]
 			}
 			CompareTableFootnoteContainer: {
-				return isInlineFootnote(table,
-					fc.
-						mainPlanFootnoteContainer, maxCharInCell)
+				return isInlineFootnote(table, fc.mainPlanFootnoteContainer,
+					maxCharInCell)
 			}
 			default:
 				false
