@@ -13,7 +13,7 @@ import { AndereSignalGroup } from '../../SvgEnum'
 import SignalSVGCatalog from '../SignalSVGCatalog'
 
 export default class AdditiveSignalScreen extends SignalSVGCatalog {
-  private readonly alleinstehendeScreens = ['Zs2', 'Zs2v', 'Zs3', 'Zs3v', 'Zs6', 'Zp9', 'Zp9Ls', 'Zp10', 'Zp10Ls']
+  private readonly alleinstehendeScreens = ['Zs2', 'Zs2v', 'Zs3', 'Zs3v', 'Zs6', 'Zp9', 'Zp9Ls', 'Zp10', 'Zp10Ls', 'Ne2']
 
   public getSignalScreen (signal: Signal): ISvgElement | null {
     return this.getStandingAloneAdditiveSignal(signal)
