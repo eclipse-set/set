@@ -138,7 +138,7 @@ public class TableControlAreaDataTest extends AbstractTableTest {
 				expectReferenceCSVNotEmpty();
 				givenFixedColumnCount(table);
 				thenRowAndColumnCountEqualReferenceCSV();
-				thenTableDataEqualReferenceCSV();
+				thenExpectTableDataEqualReferenceCSV();
 			}
 		}
 	}

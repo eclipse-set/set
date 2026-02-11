@@ -152,7 +152,7 @@ public class TableStateDataTest extends AbstractTableTest {
 			givenFixedColumnCount(table);
 			whenExistReferenceCSV();
 			thenRowAndColumnCountEqualReferenceCSV();
-			thenTableDataEqualReferenceCSV();
+			thenExpectTableDataEqualReferenceCSV();
 		}
 	}
 }
