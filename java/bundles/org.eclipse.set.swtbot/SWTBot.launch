@@ -519,7 +519,7 @@
         <setEntry value="slf4j.api@default:default"/>
     </setAttribute>
     <setAttribute key="selected_workspace_bundles">
-        <setEntry value="org.eclipse.set.application.ppt@default:default"/>
+        <setEntry value="org.eclipse.set.application.set@default:default"/>
         <setEntry value="org.eclipse.set.application.test@default:false"/>
         <setEntry value="org.eclipse.set.application@default:default"/>
         <setEntry value="org.eclipse.set.basis.test@default:false"/>
@@ -566,16 +566,12 @@
         <setEntry value="org.eclipse.set.ppmodel.extensions.container@default:default"/>
         <setEntry value="org.eclipse.set.ppmodel.extensions.test@default:false"/>
         <setEntry value="org.eclipse.set.ppmodel.extensions@default:default"/>
-        <setEntry value="org.eclipse.set.ppt.services@default:default"/>
-        <setEntry value="org.eclipse.set.ppt.utils@default:default"/>
         <setEntry value="org.eclipse.set.rcp.application@default:default"/>
         <setEntry value="org.eclipse.set.rcp.compatibility@default:default"/>
         <setEntry value="org.eclipse.set.rcp.extensions@default:default"/>
         <setEntry value="org.eclipse.set.releng.logging@default:false"/>
         <setEntry value="org.eclipse.set.services@default:default"/>
-        <setEntry value="org.eclipse.set.sessionservice.ppt@default:default"/>
         <setEntry value="org.eclipse.set.sessionservice@default:default"/>
-        <setEntry value="org.eclipse.set.swtbot.ppt@default:default"/>
         <setEntry value="org.eclipse.set.swtbot@default:default"/>
         <setEntry value="org.eclipse.set.unittest.utils@default:default"/>
         <setEntry value="org.eclipse.set.utils.rcp@default:false"/>
