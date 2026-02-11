@@ -97,8 +97,8 @@ public abstract class AbstractTableTest extends AbstractPPHNTest {
 			final String expectedValue, final String actualValue) {
 		return String.format(
 				"%s at row: %d, column: %d. ExpectedValue: %s - ActualValue: %s",
-				getTestTableReferenceName(), rowIndex, columnIndex, expectedValue,
-				actualValue);
+				getTestTableReferenceName(), rowIndex, columnIndex,
+				expectedValue, actualValue);
 	}
 
 	protected int getNattableHeaderRowCount() {
