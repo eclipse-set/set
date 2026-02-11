@@ -13,7 +13,6 @@ import java.util.Set
 import org.eclipse.set.basis.Pair
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
-import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
 import org.eclipse.set.model.planpro.Nahbedienung.ENUMNBGrenzeArt
 import org.eclipse.set.model.planpro.Nahbedienung.NB_Zone
@@ -41,7 +40,6 @@ import static extension org.eclipse.set.ppmodel.extensions.NbExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.NbZoneElementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.NbZoneExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.NbZoneGrenzeExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspKomponenteExtensions.*
 
 /**
@@ -59,15 +57,14 @@ class SslnTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
-		TMFactory factory, Stell_Bereich controlArea) {
+		TMFactory factory) {
 		this.factory = factory
-		return container.transform(controlArea)
+		return container.transform
 	}
 
 	private def Table create factory.table transform(
-		MultiContainer_AttributeGroup container, Stell_Bereich controlArea) {
-		container.NBZone.filter[isPlanningObject].
-			filterObjectsInControlArea(controlArea).forEach [ it |
+		MultiContainer_AttributeGroup container) {
+		container.NBZone.forEach [ it |
 				if (Thread.currentThread.interrupted) {
 					return
 				}

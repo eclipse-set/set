@@ -206,12 +206,10 @@ public interface TableService {
 	 * 
 	 * @param table
 	 *            the table
-	 * @param tableType
-	 *            the {@link TableType}
 	 * @param tableInfo
 	 *            the {@link TableInfo}
 	 */
-	void sortTable(Table table, TableType tableType, TableInfo tableInfo);
+	void sortTable(Table table, TableInfo tableInfo);
 
 	/**
 	 * @param tableInfo

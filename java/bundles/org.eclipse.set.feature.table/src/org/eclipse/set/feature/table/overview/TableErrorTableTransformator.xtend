@@ -9,12 +9,11 @@
 package org.eclipse.set.feature.table.overview
 
 import java.util.Collection
-import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
+import java.util.Comparator
+import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.utils.table.AbstractTableModelTransformator
 import org.eclipse.set.utils.table.TMFactory
 import org.eclipse.set.utils.table.TableError
-import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
-import java.util.Comparator
 
 class TableErrorTableTransformator extends AbstractTableModelTransformator<Collection<TableError>> {
 	TableErrorTableColumns columns;
@@ -40,15 +39,10 @@ class TableErrorTableTransformator extends AbstractTableModelTransformator<Colle
 				enumTranslationService.translate(error.tableType).presentation
 			])
 			fill(instance, columns.RowNumber, error, [error.rowNumber])
-			fill(instance, columns.LeadingObject, error, [error.leadingObject])
+			fill(instance, columns.LeadingObject, error, [error.getErrorIdentifier])
 			fill(instance, columns.Message, error, [error.message])
 		]
 
 		return factory.table
-	}
-
-	override transformTableContent(Collection<TableError> errors,
-		TMFactory factory, Stell_Bereich controlArea) {
-		transformTableContent(errors, factory)
 	}
 }
