@@ -64,9 +64,9 @@ class LayoutTransformator {
 		result.label = sheetCut?.bezeichnung?.bezLageplanBlattschnitt?.wert?.
 			toString
 		result.polygonDirection.addAll(
-			sheetCut.polygonzugAusrichtung?.wert?.transformCoordinate)
+			sheetCut?.polygonzugAusrichtung?.wert?.transformCoordinate ?: #[])
 		result.polygon.addAll(
-			sheetCut.polygonzugBlattschnitt?.wert?.transformCoordinate)
+			sheetCut?.polygonzugBlattschnitt?.wert?.transformCoordinate ?: #[])
 		return result
 	}
 
