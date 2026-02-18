@@ -50,6 +50,7 @@ import org.eclipse.set.model.planpro.Ortung.FMA_Anlage;
 import org.eclipse.set.model.planpro.Ortung.FMA_Komponente;
 import org.eclipse.set.model.planpro.Ortung.Zugeinwirkung;
 import org.eclipse.set.model.planpro.PZB.PZB_Element;
+import org.eclipse.set.model.planpro.Schluesselabhaengigkeiten.Schloss;
 import org.eclipse.set.model.planpro.Signale.Signal;
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element;
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Komponente;
@@ -284,7 +285,10 @@ public class StellBereichExtensions {
 					.intersects(area, bueKante);
 			case final BUE_Anlage bueAnlage -> BereichObjektExtensions
 					.intersects(area, bueAnlage);
-			default -> throw new IllegalArgumentException();
+			case final Schloss schloss -> SchlossExtensions
+					.isBelongToControlArea(area, schloss);
+			default -> throw new IllegalArgumentException(
+					"Unsupported object " + object.toString());
 		};
 	}
 

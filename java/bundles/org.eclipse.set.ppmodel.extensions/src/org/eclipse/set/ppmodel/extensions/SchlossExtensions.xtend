@@ -8,6 +8,7 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
+import java.util.Arrays
 import org.eclipse.set.model.planpro.Bahnuebergang.BUE_Anlage
 import org.eclipse.set.model.planpro.Schluesselabhaengigkeiten.Schloss
 import org.eclipse.set.model.planpro.Schluesselabhaengigkeiten.Schlosskombination
@@ -87,18 +88,22 @@ class SchlossExtensions extends BasisObjektExtensions {
 	def static W_Kr_Gsp_Element getSonderanlage(Schloss schloss) {
 		return schloss?.schlossSonderanlage?.IDSonderanlage?.value
 	}
-	
-	def static Iterable<Schloss> filterObjectsIsBelongToControlArea(Iterable<Schloss> schlosses, Stell_Bereich controlArea) {
+
+	def static Iterable<Schloss> filterObjectsIsBelongToControlArea(
+		Iterable<Schloss> schlosses, Stell_Bereich controlArea) {
 		if (controlArea === null || schlosses.nullOrEmpty) {
 			return schlosses;
 		}
-		
+
 		val result = newHashSet
 		val container = schlosses?.head?.container
 		// 1. Condition
 		// IMPROVE: Not completely, because the requirements for this case aren't clear
 		val stellelements = container.stellelement.map[IDInformation?.value].
-			filterNull.filter[AussenelementansteuerungExtensions.isBelongToControlArea(it, controlArea)]
+			filterNull.filter [
+				AussenelementansteuerungExtensions.
+					isBelongToControlArea(it, controlArea)
+			]
 		val ssp = container.schluesselsperre.filter [ ssp |
 			stellelements.exists[it === ssp.IDStellelement.value]
 		]
@@ -126,5 +131,11 @@ class SchlossExtensions extends BasisObjektExtensions {
 			technischBerechtigter?.wert
 		].forEach[result.add(it)]
 		return result
+	}
+
+	def static boolean isBelongToControlArea(Stell_Bereich controlArea,
+		Schloss schloss) {
+		return Arrays.asList(schloss).
+			filterObjectsIsBelongToControlArea(controlArea).length > 0
 	}
 }
