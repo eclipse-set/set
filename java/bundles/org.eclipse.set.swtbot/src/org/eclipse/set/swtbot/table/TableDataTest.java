@@ -32,7 +32,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 public class TableDataTest extends AbstractTableTest {
 	private static String ALL_DATA_OPTION = "Gesamter Dateiinhalt";
 	private static String PLANUNG_BEREICH_OPTION = "Planungsbereich";
-	PtTable tableToTest;
 
 	@BeforeEach
 	@Override

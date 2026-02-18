@@ -12,21 +12,39 @@ package org.eclipse.set.swtbot.table;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.LinkOption;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Stream;
 
+import org.apache.commons.csv.CSVRecord;
+import org.eclipse.set.basis.Pair;
+import org.eclipse.set.swtbot.ValidationViewTest;
+import org.eclipse.set.swtbot.table.TestFailHandle.ReopenTableBeforeFailHandle;
+import org.eclipse.set.swtbot.utils.AbstractSWTBotTest;
+import org.eclipse.set.swtbot.utils.SWTBotUtils;
+import org.eclipse.set.utils.table.export.ExportToCSV;
 import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotCTabItem;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotCombo;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotText;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.FieldSource;
+import org.junit.jupiter.params.provider.MethodSource;
 
 /**
  * Test table data each Stell_Bereich
@@ -40,9 +58,8 @@ public class TableControlAreaDataTest extends AbstractTableTest {
 	private static String PLANUNG_BEREICH_OPTION = "Planungsbereich";
 
 	private SWTBotCombo controlAreaCombo;
-	List<String> controlAreas;
+	List<Arguments.ArgumentSet> controlAreasAndPtTable;
 	boolean isTableDataEmpty = false;
-	PtTable tableToTest;
 	String testArea;
 
 	@BeforeEach
@@ -79,17 +96,11 @@ public class TableControlAreaDataTest extends AbstractTableTest {
 
 	@AfterEach
 	void afterEach() throws Exception {
-		for (PtTable table : PtTable.tablesToTest) {
-			if (!table.tableName().endsWith("estw")) {
-				continue;
-			}
-			final SWTBotCTabItem cTabItem = bot.cTabItem(table.tableName());
-			UIThreadRunnable.syncExec(() -> {
-				cTabItem.activate();
-				cTabItem.close();
-			});
-		}
-
+		final SWTBotCTabItem cTabItem = bot.cTabItem(tableToTest.tableName());
+		UIThreadRunnable.syncExec(() -> {
+			cTabItem.activate();
+			cTabItem.close();
+		});
 	}
 
 	@BeforeAll
@@ -97,13 +108,20 @@ public class TableControlAreaDataTest extends AbstractTableTest {
 		// Load test file first time to determine the control areas
 		super.beforeEach();
 		controlAreaCombo = bot.comboBox("Planungsbereich");
-		controlAreas = Arrays.asList(controlAreaCombo.items())
+		controlAreasAndPtTable = Arrays.asList(controlAreaCombo.items())
 				.stream()
 				.filter(item -> !item.equals(ALL_DATA_OPTION)
 						&& !item.equals(PLANUNG_BEREICH_OPTION)
 						&& !item.equals(ALL_CONTROL_AREA))
+				.flatMap(controlArea -> PtTable.tablesToTest.stream()
+						.filter(table -> table.category().endsWith("estw"))
+						.map(table -> new Pair<String, PtTable>(controlArea,
+								table)))
+				.map(pair -> Arguments.argumentSet(
+						pair.getFirst() + " - " + pair.getSecond().shortcut(),
+						pair.getFirst(), pair.getSecond()))
 				.toList();
-		if (controlAreas.isEmpty()) {
+		if (controlAreasAndPtTable.isEmpty()) {
 			Assumptions.abort("Control area not exist");
 		}
 	}
@@ -121,25 +139,23 @@ public class TableControlAreaDataTest extends AbstractTableTest {
 	 * 
 	 * @throws Exception
 	 */
-	@ParameterizedTest
-	@FieldSource("controlAreas")
-	void testTableControlAreaData(final String controlArea) throws Exception {
+	@ParameterizedTest(name = "{argumentSetName}")
+	@FieldSource("controlAreasAndPtTable")
+	@ExtendWith(ReopenTableBeforeFailHandle.class)
+	void testTableControlAreaData(final String controlArea, PtTable table) throws Exception {
 		controlAreaCombo.setSelection(controlArea);
 		testArea = controlArea;
-		for (final PtTable table : PtTable.tablesToTest) {
-			if (!table.category().endsWith("estw")) {
-				continue;
-			}
-			tableToTest = table;
-			givenNattableBot(table.tableName());
-			expectMissingReferenceWhenTableDataEmpty();
-			if (!isTableDataEmpty) {
-				givenReferenceCSV(table);
-				expectReferenceCSVNotEmpty();
-				givenFixedColumnCount(table);
-				thenRowAndColumnCountEqualReferenceCSV();
-				thenExpectTableDataEqualReferenceCSV();
-			}
+		tableToTest = table;
+		
+		givenNattableBot(table.tableName());
+		expectMissingReferenceWhenTableDataEmpty();
+		if (!isTableDataEmpty) {
+			givenReferenceCSV(table);
+			expectReferenceCSVNotEmpty();
+			givenFixedColumnCount(table);
+			thenRowAndColumnCountEqualReferenceCSV();
+			thenExpectTableDataEqualReferenceCSV();
 		}
 	}
+	
 }

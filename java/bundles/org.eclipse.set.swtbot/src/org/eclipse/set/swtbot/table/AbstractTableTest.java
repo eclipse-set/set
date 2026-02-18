@@ -44,6 +44,8 @@ public abstract class AbstractTableTest extends AbstractPPHNTest {
 	protected NattableLayers layers;
 	protected SWTBotNatTable nattableBot;
 	protected List<CSVRecord> referenceData = new LinkedList<>();
+	
+	protected PtTable tableToTest;
 
 	@Override
 	@BeforeEach

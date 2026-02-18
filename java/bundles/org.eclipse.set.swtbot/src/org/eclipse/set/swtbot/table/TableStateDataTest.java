@@ -18,7 +18,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
+import org.eclipse.set.basis.Pair;
 import org.eclipse.set.basis.constants.TableType;
+import org.eclipse.set.swtbot.table.TestFailHandle.ReopenTableBeforeFailHandle;
 import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotCTabItem;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotCombo;
@@ -27,6 +29,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -38,24 +41,34 @@ import org.junit.jupiter.params.provider.MethodSource;
  */
 @TestInstance(Lifecycle.PER_CLASS)
 public class TableStateDataTest extends AbstractTableTest {
+	private static String ALL_DATA_OPTION = "Gesamter Dateiinhalt";
+	private static String PLANUNG_BEREICH_OPTION = "Planungsbereich";
+	
 	private static final String DIFF_STATE_TEXT = "Vergleich Start/Ziel";
 	private static final String FINAL_STATE_TEXT = "Zielzustand";
 	private static final String INITIAL_STATE_TEXT = "Startzustand";
 
-	private static Stream<Arguments> providesTableType() {
+	private static Stream<Arguments> providesTableTypeAndTable() {
 		// Diff state is already tested in TableTestData
-		return Stream.of(Arguments.of(TableType.INITIAL),
-				Arguments.of(TableType.FINAL));
+		return Arrays.asList(TableType.INITIAL, TableType.FINAL)
+				.stream()
+				.flatMap(state -> PtTable.tablesToTest.stream()
+						.map(table -> new Pair<TableType, PtTable>(state,
+								table)))
+				.map(pair -> Arguments.argumentSet(
+						pair.getFirst() + " - " + pair.getSecond().shortcut(),
+						pair.getFirst(), pair.getSecond()));
 	}
 
 	TableType tableState;
-	PtTable tableToTest;
 	SWTBotCombo tableTypeSelectionCombo;
+	SWTBotCombo controlAreaCombo;
 
 	@BeforeAll
 	void beforeAll() throws Exception {
 		super.beforeEach();
 		tableTypeSelectionCombo = bot.comboBox(DIFF_STATE_TEXT);
+		controlAreaCombo = bot.comboBox(PLANUNG_BEREICH_OPTION);
 	}
 
 	@BeforeEach
@@ -116,6 +129,9 @@ public class TableStateDataTest extends AbstractTableTest {
 				return;
 			}
 		}
+		// because changing the table type resets the control area we need to switch back to all data
+		// TODO: as soon as the control area stays stable we should move this into the @BeforeAll hook 
+		controlAreaCombo.setSelection(ALL_DATA_OPTION);
 	}
 
 	protected void whenExistReferenceCSV() {
@@ -125,14 +141,11 @@ public class TableStateDataTest extends AbstractTableTest {
 
 	@AfterEach
 	void afterEach() throws Exception {
-		for (final PtTable table : PtTable.tablesToTest) {
-			SWTBotCTabItem tabItem = bot.cTabItem(table.tableName());
-			UIThreadRunnable.syncExec(() -> {
-				tabItem.activate();
-				tabItem.close();
-			});
-		}
-
+		final SWTBotCTabItem cTabItem = bot.cTabItem(tableToTest.tableName());
+		UIThreadRunnable.syncExec(() -> {
+			cTabItem.activate();
+			cTabItem.close();
+		});
 	}
 
 	/**
@@ -140,19 +153,19 @@ public class TableStateDataTest extends AbstractTableTest {
 	 * 
 	 * @throws Exception
 	 */
-	@ParameterizedTest
-	@MethodSource("providesTableType")
-	void testTableStateData(final TableType tableType) throws Exception {
+	@ParameterizedTest(name = "{argumentSetName}")
+	@MethodSource("providesTableTypeAndTable")
+	@ExtendWith(ReopenTableBeforeFailHandle.class)
+	void testTableStateData(final TableType tableType, final PtTable table)
+			throws Exception {
 		this.tableState = tableType;
 		whenChangeTableType();
-		for (final PtTable table : PtTable.tablesToTest) {
-			this.tableToTest = table;
-			givenNattableBot(table.tableName());
-			givenReferenceCSV(table);
-			givenFixedColumnCount(table);
-			whenExistReferenceCSV();
-			thenRowAndColumnCountEqualReferenceCSV();
-			thenExpectTableDataEqualReferenceCSV();
-		}
+		this.tableToTest = table;
+		givenNattableBot(table.tableName());
+		givenReferenceCSV(table);
+		givenFixedColumnCount(table);
+		whenExistReferenceCSV();
+		thenRowAndColumnCountEqualReferenceCSV();
+		thenExpectTableDataEqualReferenceCSV();
 	}
 }
