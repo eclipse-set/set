@@ -99,7 +99,7 @@ class BasisObjektExtensions extends UrObjectExtensions {
 		if (geoLength <= BigDecimal.ZERO || geoArtLength <= BigDecimal.ZERO) {
 			return BigDecimal.ONE
 		}
-
+		
 		val scale = geoLength.divide(geoArtLength,
 			ToolboxConstants.ROUNDING_TO_PLACE, RoundingMode.HALF_UP)
 		return scale > BigDecimal.ZERO ? scale : BigDecimal.ONE
