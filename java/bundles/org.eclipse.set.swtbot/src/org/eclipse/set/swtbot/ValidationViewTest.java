@@ -28,7 +28,6 @@ import org.eclipse.set.swtbot.table.TestFailHandle;
 import org.eclipse.set.swtbot.utils.AbstractSWTBotTest;
 import org.eclipse.set.swtbot.utils.SWTBotUtils;
 import org.eclipse.set.utils.table.export.ExportToCSV;
-import org.eclipse.swtbot.nebula.nattable.finder.widgets.SWTBotNatTable;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotText;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -56,10 +55,9 @@ public class ValidationViewTest extends AbstractTableTest {
 			if (testInstance.isPresent() && testInstance
 					.get() instanceof final ValidationViewTest tableTest) {
 				exportWidgeValue(tableTest);
-				exportReferenceCSV(tableTest.getTestFile(),
-						VALIDATION_INFORMATION_CSV, tableTest.getReferenceDir(),
-						tableTest.getTestResourceClass().getClassLoader(),
-						tableTest.getClass());
+				tableTest.tableName = VALIDATION_INFORMATION_CSV;
+				exportReferenceCSV(tableTest);
+				tableTest.tableName = VALIDATION_TABLE_NAME;
 			}
 		}
 
@@ -80,9 +78,7 @@ public class ValidationViewTest extends AbstractTableTest {
 			}
 			final ExportToCSV<String> exportToCSV = new ExportToCSV<>(
 					csvHeader);
-			final File file = getExportFile(testInstance.getTestFile(),
-					VALIDATION_INFORMATION_CSV + "_current.csv",
-					testInstance.getClass());
+			final File file = getExportFile(testInstance, "_current.csv");
 			if (!file.getParentFile().exists()) {
 				file.getParentFile().mkdirs();
 			}
@@ -96,6 +92,8 @@ public class ValidationViewTest extends AbstractTableTest {
 	protected static final String RICHTEXT_REPLACE_REGEX = "<[^>]+>";
 	protected static final String VALIDATION_INFORMATION_CSV = "validation_information";
 	protected static final String VALIDATION_TABLE_NAME = "validation_view";
+
+	private String tableName = VALIDATION_TABLE_NAME;
 
 	private static List<String> splitString(final String text,
 			final String regex) {
@@ -113,7 +111,7 @@ public class ValidationViewTest extends AbstractTableTest {
 
 	@Override
 	public String getTestTableReferenceName() {
-		return VALIDATION_TABLE_NAME;
+		return tableName;
 	}
 
 	@Override
@@ -189,8 +187,7 @@ public class ValidationViewTest extends AbstractTableTest {
 	}
 
 	protected void whenOpeningValidateView() {
-		final SWTBotNatTable nattableBot = SWTBotUtils.waitForNattable(bot,
-				30000);
+		nattableBot = SWTBotUtils.waitForNattable(bot, 30000);
 		layers = SWTBotUtils.getNattableLayers(nattableBot);
 	}
 

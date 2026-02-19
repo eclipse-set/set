@@ -37,12 +37,15 @@ public abstract class AbstractTableTest extends AbstractPPHNTest {
 	protected static final String ZERO_WIDTH_SPACE = "\\u200B";
 
 	protected static Stream<Arguments> providesPtTable() {
-		return PtTable.tablesToTest.stream().map(table -> Arguments.of(table));
+		return PtTable.tablesToTest.stream().map(Arguments::of);
 	}
 
 	protected int fixedColumnCount = 1;
 	protected NattableLayers layers;
+	protected SWTBotNatTable nattableBot;
 	protected List<CSVRecord> referenceData = new LinkedList<>();
+
+	protected PtTable tableToTest;
 
 	@Override
 	@BeforeEach
@@ -85,9 +88,19 @@ public abstract class AbstractTableTest extends AbstractPPHNTest {
 						// richtext
 						// value
 						.replace("\"\"", "\"");
-				assertEquals(referenceValue, cellValue);
+				assertEquals(referenceValue, cellValue, getErrorMessage(
+						columnIndex, rowIndex, referenceValue, cellValue));
 			}
 		}
+	}
+
+	@SuppressWarnings("boxing")
+	protected String getErrorMessage(final int columnIndex, final int rowIndex,
+			final String expectedValue, final String actualValue) {
+		return String.format(
+				"%s at row: %d, column: %d. ExpectedValue: %s - ActualValue: %s",
+				getTestTableReferenceName(), rowIndex, columnIndex,
+				expectedValue, actualValue);
 	}
 
 	protected int getNattableHeaderRowCount() {
@@ -96,8 +109,7 @@ public abstract class AbstractTableTest extends AbstractPPHNTest {
 
 	protected void givenNattableBot(final String tableName) {
 		bot.button(tableName).click();
-		final SWTBotNatTable nattableBot = SWTBotUtils.waitForNattable(bot,
-				30000);
+		nattableBot = SWTBotUtils.waitForNattable(bot, 30000);
 		layers = SWTBotUtils.getNattableLayers(nattableBot);
 	}
 
@@ -107,14 +119,21 @@ public abstract class AbstractTableTest extends AbstractPPHNTest {
 				layers.selectionLayer().getRowCount()));
 	}
 
+	@SuppressWarnings("boxing")
 	protected void thenRowAndColumnCountEqualReferenceCSV() {
 		final int nattableColumnCount = layers.gridLayer()
 				.getPreferredColumnCount() - fixedColumnCount;
 		final int referenceColumnCount = referenceData.get(0).size();
-		assertEquals(referenceColumnCount, nattableColumnCount);
+		assertEquals(referenceColumnCount, nattableColumnCount,
+				() -> String.format("%s expected column count: %d but was: %d",
+						getTestTableReferenceName(), referenceColumnCount,
+						nattableColumnCount));
 		final int nattableRowCount = getNattableHeaderRowCount()
-				+ +layers.selectionLayer().getRowCount();
+				+ layers.selectionLayer().getRowCount();
 		final int referenceRowCount = referenceData.size();
-		assertEquals(referenceRowCount, nattableRowCount);
+		assertEquals(referenceRowCount, nattableRowCount,
+				() -> String.format("%s expected row count: %d but was: %d",
+						getTestTableReferenceName(), referenceRowCount,
+						nattableRowCount));
 	}
 }
