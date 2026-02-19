@@ -69,6 +69,7 @@ public class TableStateDataTest extends AbstractTableTest {
 		super.beforeEach();
 		tableTypeSelectionCombo = bot.comboBox(DIFF_STATE_TEXT);
 		controlAreaCombo = bot.comboBox(PLANUNG_BEREICH_OPTION);
+		controlAreaCombo.setSelection(ALL_DATA_OPTION);
 	}
 
 	@BeforeEach
@@ -129,9 +130,6 @@ public class TableStateDataTest extends AbstractTableTest {
 				return;
 			}
 		}
-		// because changing the table type resets the control area we need to switch back to all data
-		// TODO: as soon as the control area stays stable we should move this into the @BeforeAll hook 
-		controlAreaCombo.setSelection(ALL_DATA_OPTION);
 	}
 
 	protected void whenExistReferenceCSV() {
