@@ -94,7 +94,7 @@ public class ValidationViewTest extends AbstractTableTest {
 	protected static final String VALIDATION_TABLE_NAME = "validation_view";
 
 	private String tableName = VALIDATION_TABLE_NAME;
-	
+
 	private static List<String> splitString(final String text,
 			final String regex) {
 		final List<String> asList = Arrays.asList(text.split(regex));
@@ -187,8 +187,7 @@ public class ValidationViewTest extends AbstractTableTest {
 	}
 
 	protected void whenOpeningValidateView() {
-		nattableBot = SWTBotUtils.waitForNattable(bot,
-				30000);
+		nattableBot = SWTBotUtils.waitForNattable(bot, 30000);
 		layers = SWTBotUtils.getNattableLayers(nattableBot);
 	}
 

@@ -25,7 +25,6 @@ import org.eclipse.set.swtbot.utils.AbstractSWTBotTest;
 import org.eclipse.set.swtbot.utils.MockDialogService;
 import org.eclipse.set.swtbot.utils.MockDialogServiceContextFunction;
 import org.eclipse.set.swtbot.utils.SWTBotUtils;
-import org.eclipse.set.swtbot.utils.TestFile;
 import org.eclipse.swt.SWT;
 import org.eclipse.swtbot.nebula.nattable.finder.widgets.SWTBotNatTable;
 import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
@@ -98,9 +97,10 @@ public class TestFailHandle implements TestWatcher {
 			outFile.getParentFile().mkdirs();
 		}
 		final String tableName = tableTest.getTestTableReferenceName();
-		final InputStream referenceResource = tableTest.getTestResourceClass().getClassLoader()
-				.getResourceAsStream(
-						tableTest.getReferenceDir() + tableName + REFERENCE_CSV_EXTENSIONS);
+		final InputStream referenceResource = tableTest.getTestResourceClass()
+				.getClassLoader()
+				.getResourceAsStream(tableTest.getReferenceDir() + tableName
+						+ REFERENCE_CSV_EXTENSIONS);
 		// New table given't reference datei
 		if (referenceResource == null) {
 			LOGGER.debug(String.format("Cannot find file: %s",
@@ -134,7 +134,11 @@ public class TestFailHandle implements TestWatcher {
 		}
 
 	}
-	
+
+	/**
+	 * Special fail handle that reopens the table so that the current CSV can be
+	 * exported
+	 */
 	public static class ReopenTableBeforeFailHandle extends TestFailHandle {
 		@Override
 		public void testFailed(final ExtensionContext context,
@@ -144,7 +148,8 @@ public class TestFailHandle implements TestWatcher {
 					.get() instanceof final AbstractTableTest tableTest) {
 				tableTest.givenNattableBot(tableTest.tableToTest.tableName());
 				super.testFailed(context, cause);
-				final SWTBotCTabItem cTabItem = tableTest.bot.cTabItem(tableTest.tableToTest.tableName());
+				final SWTBotCTabItem cTabItem = tableTest.bot
+						.cTabItem(tableTest.tableToTest.tableName());
 				UIThreadRunnable.syncExec(() -> {
 					cTabItem.activate();
 					cTabItem.close();

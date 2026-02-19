@@ -43,7 +43,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 public class TableStateDataTest extends AbstractTableTest {
 	private static String ALL_DATA_OPTION = "Gesamter Dateiinhalt";
 	private static String PLANUNG_BEREICH_OPTION = "Planungsbereich";
-	
+
 	private static final String DIFF_STATE_TEXT = "Vergleich Start/Ziel";
 	private static final String FINAL_STATE_TEXT = "Zielzustand";
 	private static final String INITIAL_STATE_TEXT = "Startzustand";

@@ -12,27 +12,14 @@ package org.eclipse.set.swtbot.table;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.LinkOption;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Stream;
-
-import org.apache.commons.csv.CSVRecord;
 import org.eclipse.set.basis.Pair;
-import org.eclipse.set.swtbot.ValidationViewTest;
 import org.eclipse.set.swtbot.table.TestFailHandle.ReopenTableBeforeFailHandle;
-import org.eclipse.set.swtbot.utils.AbstractSWTBotTest;
-import org.eclipse.set.swtbot.utils.SWTBotUtils;
-import org.eclipse.set.utils.table.export.ExportToCSV;
 import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotCTabItem;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotCombo;
-import org.eclipse.swtbot.swt.finder.widgets.SWTBotText;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.BeforeAll;
@@ -40,11 +27,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.FieldSource;
-import org.junit.jupiter.params.provider.MethodSource;
 
 /**
  * Test table data each Stell_Bereich
@@ -142,11 +127,12 @@ public class TableControlAreaDataTest extends AbstractTableTest {
 	@ParameterizedTest(name = "{argumentSetName}")
 	@FieldSource("controlAreasAndPtTable")
 	@ExtendWith(ReopenTableBeforeFailHandle.class)
-	void testTableControlAreaData(final String controlArea, PtTable table) throws Exception {
+	void testTableControlAreaData(final String controlArea, PtTable table)
+			throws Exception {
 		controlAreaCombo.setSelection(controlArea);
 		testArea = controlArea;
 		tableToTest = table;
-		
+
 		givenNattableBot(table.tableName());
 		expectMissingReferenceWhenTableDataEmpty();
 		if (!isTableDataEmpty) {
@@ -157,5 +143,5 @@ public class TableControlAreaDataTest extends AbstractTableTest {
 			thenExpectTableDataEqualReferenceCSV();
 		}
 	}
-	
+
 }
