@@ -19,7 +19,7 @@ export default class SvgDrawLockKey extends AbstractDrawSVG{
   SVG_DRAWAREA = 500
   LABEL_FONT_SIZE = 14
 
-  public drawSVG<T extends object> (data: T, label?: Label | undefined): ISvgElement {
+  public drawSVG<T extends object> (data: T, label?: Label | undefined): ISvgElement | null {
     const lockkey = data as LockKey
     const svg = this.getSvgFromCatalog(data)
     if (svg === null) {
