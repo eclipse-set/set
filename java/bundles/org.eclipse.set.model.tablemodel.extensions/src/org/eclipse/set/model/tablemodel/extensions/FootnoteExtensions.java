@@ -26,11 +26,17 @@ import org.eclipse.set.model.planpro.Basisobjekte.Bearbeitungsvermerk;
 import org.eclipse.set.model.planpro.Basisobjekte.Bearbeitungsvermerk_Allg_AttributeGroup;
 import org.eclipse.set.model.planpro.Basisobjekte.ENUMObjektzustandBesonders;
 import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
+import org.eclipse.set.model.planpro.Signalbegriffe_Struktur.Signalbegriff_ID_TypeClass;
+import org.eclipse.set.model.planpro.Signale.ENUMRahmenArt;
+import org.eclipse.set.model.planpro.Signale.Signal_Befestigung;
+import org.eclipse.set.model.planpro.Signale.Signal_Rahmen;
+import org.eclipse.set.model.planpro.Signale.Signal_Signalbegriff;
 import org.eclipse.set.model.tablemodel.CellContent;
 import org.eclipse.set.model.tablemodel.StringCellContent;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.TableRow;
 import org.eclipse.set.model.tablemodel.TablemodelFactory;
+import org.eclipse.set.ppmodel.extensions.SignalRahmenExtensions;
 
 /**
  * Extension for table footnote
@@ -200,5 +206,138 @@ public class FootnoteExtensions {
 			stringCellContent.getValue().add(value);
 			stringCellContent.getValue().removeIf(String::isEmpty);
 		}
+	}
+
+	/**
+	 * Generates a prefix for every footnote that is related to the provided
+	 * basis objekt.
+	 * 
+	 * @param obj
+	 *            the basis objekt for which the prefix shall be generated
+	 * @return null as basis objekte don't have a prefix by default
+	 */
+	public static String getPrefix(final Basis_Objekt obj) {
+		return null;
+	}
+
+	/**
+	 * Generates a prefix for every footnote that is related to the provided
+	 * signal befestigung.
+	 * 
+	 * @param signalBefestigung
+	 *            the signal befestigung for which the prefix shall be generated
+	 * @return the prefix or null if not possible to create prefix
+	 */
+	public static String getPrefix(final Signal_Befestigung signalBefestigung) {
+		if (signalBefestigung == null) {
+			return null;
+		}
+		final EnumTranslationService enumTranslationService = Services
+				.getEnumTranslationService();
+		return enumTranslationService
+				.translate(signalBefestigung.getSignalBefestigungAllg()
+						.getBefestigungArt()
+						.getWert())
+				.getPresentation();
+	}
+
+	/**
+	 * Generates a prefix for every footnote that is related to the provided
+	 * signal rahmen.
+	 * 
+	 * @param signalRahmen
+	 *            the signal rahmen for which the prefix shall be generated
+	 * @return the prefix or null if not possible to create prefix
+	 */
+	public static String getPrefix(final Signal_Rahmen signalRahmen) {
+		if (signalRahmen == null || signalRahmen.getRahmenArt() == null
+				|| signalRahmen.getRahmenArt().getWert() == null) {
+			return null;
+		}
+		final ENUMRahmenArt rahmenArt = signalRahmen.getRahmenArt().getWert();
+		final EnumTranslationService enumTranslationService = Services
+				.getEnumTranslationService();
+		final String prefix = enumTranslationService.translate(rahmenArt)
+				.getPresentation();
+		if (rahmenArt.equals(ENUMRahmenArt.ENUM_RAHMEN_ART_BLECHTAFEL)
+				|| rahmenArt
+						.equals(ENUMRahmenArt.ENUM_RAHMEN_ART_ZUSATZANZEIGER)) {
+			final List<String> signalBegriffe = SignalRahmenExtensions
+					.getSignalbegriffe(signalRahmen)
+					.stream()
+					.map((signalBegriff) -> getPrefix(signalBegriff, false))
+					.filter(begriff -> begriff != null)
+					.collect(Collectors.toSet())
+					.stream()
+					.sorted()
+					.toList();
+			if (signalBegriffe.size() > 0) {
+				return prefix + " " + String.join(", ", signalBegriffe); //$NON-NLS-1$ //$NON-NLS-2$
+			}
+		}
+		return prefix;
+	}
+
+	/**
+	 * Generates a prefix for every footnote that is related to the provided
+	 * signal begriff.
+	 * 
+	 * @param signalBegriff
+	 *            the signal begriff for which the prefix shall be generated
+	 * @return the prefix or null if not possible to create prefix
+	 */
+	public static String getPrefix(final Signal_Signalbegriff signalBegriff) {
+		return getPrefix(signalBegriff, true);
+	}
+
+	private static String getPrefix(final Signal_Signalbegriff signalBegriff,
+			final boolean withSymbol) {
+		if (signalBegriff == null
+				|| signalBegriff.getSignalbegriffID() == null) {
+			return null;
+		}
+		final Signalbegriff_ID_TypeClass signalBegriffId = signalBegriff
+				.getSignalbegriffID();
+		final String prefix = signalBegriffId.getClass().getSimpleName();
+		if (withSymbol && signalBegriffId.getSymbol() != null) {
+			return prefix + " " + signalBegriffId.getSymbol(); //$NON-NLS-1$
+		}
+		return prefix;
+	}
+
+	/**
+	 * Adds the given prefix to all the bearbeitungsvermerke.
+	 * Bearbeitungsvermerke are cloned so that the original bearbeitungsvermerke
+	 * stay untouched.
+	 * 
+	 * @param bearbeitungsVermerke
+	 *            the bearbeitungsvermerke to prefix
+	 * @param prefix
+	 *            the prefix to for the kommentar of bearbeitungsvermerk or null
+	 *            if no prefix should be added
+	 * @return the extend bearbeitungsvermerke
+	 */
+	public static List<ID_Bearbeitungsvermerk_TypeClass> withPrefix(
+			final List<ID_Bearbeitungsvermerk_TypeClass> bearbeitungsVermerke,
+			final String prefix) {
+		if (prefix == null) {
+			return bearbeitungsVermerke;
+		}
+		return bearbeitungsVermerke.stream().map(bv -> {
+			final Bearbeitungsvermerk bearbeitungsvermerk = createBearbeitungsvermerkWithoutGuid(
+					prefix + ": " //$NON-NLS-1$
+							+ bv.getValue()
+									.getBearbeitungsvermerkAllg()
+									.getKommentar()
+									.getWert());
+			bearbeitungsvermerk.setIdentitaet(
+					BasisobjekteFactory.eINSTANCE.createIdentitaet_TypeClass());
+			bearbeitungsvermerk.getIdentitaet()
+					.setWert(bv.getValue().getIdentitaet().getWert());
+			final ID_Bearbeitungsvermerk_TypeClass idBv = BasisTypenFactory.eINSTANCE
+					.createID_Bearbeitungsvermerk_TypeClass();
+			idBv.setValue(bearbeitungsvermerk);
+			return idBv;
+		}).toList();
 	}
 }
