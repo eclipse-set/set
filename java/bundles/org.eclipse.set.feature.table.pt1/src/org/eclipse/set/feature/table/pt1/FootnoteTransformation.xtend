@@ -68,10 +68,10 @@ class FootnoteTransformation {
 	def void transform(Basis_Objekt object, TableRow row) {
 		this.row = row
 		// Direct attachment notes
-		object?.IDBearbeitungsvermerk?.map[value]?.toSet?.forEach [
+		object?.IDBearbeitungsvermerk?.filterNull?.map[value]?.toSet?.forEach [
 			object.addFootnote(it)
 		]
-		object?.referenceFootnotes?.map[value]?.toSet?.forEach [
+		object?.referenceFootnotes?.filterNull?.map[value]?.toSet?.forEach [
 			object.addFootnote(it)
 		]
 
