@@ -298,7 +298,10 @@ public class FootnoteExtensions {
 		}
 		final Signalbegriff_ID_TypeClass signalBegriffId = signalBegriff
 				.getSignalbegriffID();
-		final String prefix = signalBegriffId.getClass().getSimpleName();
+		// TODO: Properly determine name of Signalbegriff_ID
+		final String prefix = signalBegriffId.getClass()
+				.getSimpleName()
+				.replace("Impl", ""); //$NON-NLS-1$ //$NON-NLS-2$
 		if (withSymbol && signalBegriffId.getSymbol() != null) {
 			return prefix + " " + signalBegriffId.getSymbol(); //$NON-NLS-1$
 		}
