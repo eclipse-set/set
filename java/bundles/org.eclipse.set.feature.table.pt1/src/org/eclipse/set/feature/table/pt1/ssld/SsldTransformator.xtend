@@ -51,6 +51,8 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	val TopologicalGraphService topGraphService;
 
+	val FREIGEMELDET_LAENGE_TOLERANCE = BigDecimal.ONE;
+
 	new(Set<ColumnDescriptor> cols,
 		EnumTranslationService enumTranslationService,
 		TopologicalGraphService topGraphService, EventAdmin eventAdmin) {
@@ -71,11 +73,13 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	def String getFreigemeldetLaenge(Fstr_DWeg dweg, BigDecimal maxLength) {
 		val startSignal = dweg?.fstrFahrweg?.start
-		val fmas = dweg?.fmaAnlageFreimeldung?.map[fmaGrenzen]?.flatten?.toSet?.
-			filter [
-				dweg.IDFstrFahrweg.value.contains(it) &&
-					topGraphService.isInWirkrichtungOfSignal(startSignal, it)
-			]?.toList
+		val allFmas = dweg?.fmaAnlageFreimeldung?.map[fmaGrenzen]?.flatten?.
+			toSet
+		val fmas = allFmas?.filter [
+			dweg?.fstrFahrweg?.contains(it,
+				FREIGEMELDET_LAENGE_TOLERANCE.doubleValue) &&
+				topGraphService.isInWirkrichtungOfSignal(startSignal, it)
+		]?.toList
 		val pathFromSignalToFMA = fmas?.map [
 			it -> getShortestPath(dweg?.fstrFahrweg?.start, it)
 		]
@@ -104,9 +108,10 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 		}
 
 		val distance = relevantFmas.map[value.length].max
-		return distance > maxLength.add(BigDecimal.ONE)
-			? '''> «maxLength.toTableIntegerAgateDown»'''
-			: distance.toTableIntegerAgateDown
+		if (distance > maxLength.add(FREIGEMELDET_LAENGE_TOLERANCE)) {
+			return '''> «maxLength.toTableIntegerAgateDown»''';
+		}
+		return distance.toTableIntegerAgateDown
 	}
 
 	override transformTableContent(
