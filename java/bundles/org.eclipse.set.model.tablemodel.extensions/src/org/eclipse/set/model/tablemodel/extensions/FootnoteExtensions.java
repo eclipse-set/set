@@ -12,7 +12,6 @@ package org.eclipse.set.model.tablemodel.extensions;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -167,11 +166,12 @@ public class FootnoteExtensions {
 		final List<TableRow> tableRows = TableExtensions
 				.getTableRows(sxxxTable);
 		workNotesInAnotherTable.forEach(workNotes -> {
-			final Optional<TableRow> rowOpt = tableRows.stream()
+			final List<TableRow> ownerTableRows = tableRows.stream()
 					.filter(r -> r.getRowObject() != null)
 					.filter(r -> r.getRowObject().equals(workNotes.ownerObj))
-					.findFirst();
-			if (rowOpt.isEmpty()) {
+					.toList();
+			ownerTableRows.forEach(r -> fillValue(r, tableName));
+			if (ownerTableRows.isEmpty()) {
 				// For notes, which not direct in group leading object
 				// attachment like Signal_Befestigung, Signal_Begriff,... then
 				// fill table name whole rows in group
@@ -185,7 +185,6 @@ public class FootnoteExtensions {
 								.forEach(r -> fillValue(r, tableName)));
 				return;
 			}
-			fillValue(rowOpt.get(), tableName);
 		});
 	}
 
