@@ -7,13 +7,15 @@ Grundstellung​​​​​​​";"Vorzugslage/
 Grundstellung​​​​​​​";"Auffahr-
 ortung​​​​​​​​​";Anzahl (Lage) Antriebe​​​​​​​​​​;"Weichen-
 signal​​​​​​​​​​​";"Prüf-
-kontakte​​​​​​​​​​​​";zul. Geschwindigkeit​​​​​​​​​​​​​;zul. Geschwindigkeit​​​​​​​​​​​​​;zul. Geschwindigkeit​​​​​​​​​​​​​​​;zul. Geschwindigkeit​​​​​​​​​​​​​​​;Herzstück​​​​​​​​​​​​​​​​​;Gleissperre​​​​​​​​​​​​​​​​​​;Gleissperre​​​​​​​​​​​​​​​​​​;Gleissperre​​​​​​​​​​​​​​​​​​;Gleissperre​​​​​​​​​​​​​​​​​​;Sonstiges​​​​​​​​​​​​​​​​​​​​​​;Sonstiges​​​​​​​​​​​​​​​​​​​​​​;Sonderanlage​​​​​​​​​​​​​​​​​​​​​​​​;Bemerkung​​​​​​​​​​​​​​​​​​​​​​​​​
+kontakte
+(Zprk)​​​​​​​​​​​​";zul. Geschwindigkeit​​​​​​​​​​​​​;zul. Geschwindigkeit​​​​​​​​​​​​​;zul. Geschwindigkeit​​​​​​​​​​​​​​​;zul. Geschwindigkeit​​​​​​​​​​​​​​​;Herzstück​​​​​​​​​​​​​​​​​;Gleissperre​​​​​​​​​​​​​​​​​​;Gleissperre​​​​​​​​​​​​​​​​​​;Gleissperre​​​​​​​​​​​​​​​​​​;Gleissperre​​​​​​​​​​​​​​​​​​;Sonstiges​​​​​​​​​​​​​​​​​​​​​​;Sonstiges​​​​​​​​​​​​​​​​​​​​​​;Sonderanlage​​​​​​​​​​​​​​​​​​​​​​​​;Bemerkung​​​​​​​​​​​​​​​​​​​​​​​​​
 ;Bezeichnung;Art​;Form​​;FMA​​​;Links mit​​​​;Rechts mit​​​​​;Isolierfall​​​​​​;"Lage/
 Stellung​​​​​​​";"Auto-
 matik​​​​​​​​";"Auffahr-
 ortung​​​​​​​​​";Anzahl (Lage) Antriebe​​​​​​​​​​;"Weichen-
 signal​​​​​​​​​​​";"Prüf-
-kontakte​​​​​​​​​​​​";Links​​​​​​​​​​​​​;Rechts​​​​​​​​​​​​​​;Links​​​​​​​​​​​​​​​;Rechts​​​​​​​​​​​​​​​​;Anzahl (Lage) Antriebe​​​​​​​​​​​​​​​​​;Anzahl Antriebe​​​​​​​​​​​​​​​​​​;"Gsp-
+kontakte
+(Zprk)​​​​​​​​​​​​";Links​​​​​​​​​​​​​;Rechts​​​​​​​​​​​​​​;Links​​​​​​​​​​​​​​​;Rechts​​​​​​​​​​​​​​​​;Anzahl (Lage) Antriebe​​​​​​​​​​​​​​​​​;Anzahl Antriebe​​​​​​​​​​​​​​​​​​;"Gsp-
 signal​​​​​​​​​​​​​​​​​​​";"Auswurf-
 richtung​​​​​​​​​​​​​​​​​​​​";"Schutz-
 schiene​​​​​​​​​​​​​​​​​​​​​";"Regelzeichnung
