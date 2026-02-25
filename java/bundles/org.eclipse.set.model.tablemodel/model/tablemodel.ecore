@@ -187,8 +187,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="SimpleFootnoteContainer" eSuperTypes="#//FootnoteContainer">
     <eStructuralFeatures xsi:type="ecore:EReference" name="footnotes" upperBound="-1"
-        eType="ecore:EClass ../../org.eclipse.set.model.planpro/model/Basisobjekte.ecore#//Bearbeitungsvermerk"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="ownerObject" eType="ecore:EClass ../../org.eclipse.set.model.planpro/model/Basisobjekte.ecore#//Ur_Objekt"/>
+        eType="#//FootnoteMetaInformation"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CompareTableCellContent" eSuperTypes="#//CellContent">
     <eStructuralFeatures xsi:type="ecore:EReference" name="mainPlanCellContent" eType="#//CellContent"
@@ -210,5 +209,9 @@
     <eLiterals name="NEW_ROW"/>
     <eLiterals name="REMOVED_ROW" value="1"/>
     <eLiterals name="CHANGED_GUID_ROW" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FootnoteMetaInformation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ownerObject" eType="ecore:EClass ../../org.eclipse.set.model.planpro/model/Basisobjekte.ecore#//Ur_Objekt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="footnote" eType="ecore:EClass ../../org.eclipse.set.model.planpro/model/Basisobjekte.ecore#//Bearbeitungsvermerk"/>
   </eClassifiers>
 </ecore:EPackage>

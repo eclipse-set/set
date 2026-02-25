@@ -125,7 +125,7 @@ class CellContentExtensions {
 	static def dispatch String getRichTextValueWithFootnotes(
 		StringCellContent content, SimpleFootnoteContainer fc) {
 		val footnoteText = fc.footnotes.map [
-			'''*«getFootnoteNumber(content, it)»'''
+			'''*«getFootnoteNumber(content, it.footnote)»'''
 		].iterableToString(FOOTNOTE_SEPARATOR)
 
 		if (footnoteText != "")
@@ -337,8 +337,8 @@ class CellContentExtensions {
 		BiFunction<Bearbeitungsvermerk, T, U> postFormatter
 	) {
 		formatCompareContent(
-			(content.oldFootnotes.footnotes + content.unchangedFootnotes.footnotes),
-			(content.newFootnotes.footnotes + content.unchangedFootnotes.footnotes),
+			(content.oldFootnotes.footnotes + content.unchangedFootnotes.footnotes).map[footnote],
+			(content.newFootnotes.footnotes + content.unchangedFootnotes.footnotes).map[footnote],
 			oldFormatter,
 			commonFormatter,
 			newFormatter,

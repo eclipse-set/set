@@ -17,10 +17,10 @@ import java.util.stream.IntStream;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.set.core.services.session.SessionService;
-import org.eclipse.set.model.planpro.Basisobjekte.Bearbeitungsvermerk;
 import org.eclipse.set.model.tablemodel.CellContent;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.CompareFootnoteContainer;
+import org.eclipse.set.model.tablemodel.FootnoteMetaInformation;
 import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.model.tablemodel.StringCellContent;
 import org.eclipse.set.model.tablemodel.Table;
@@ -172,12 +172,12 @@ public abstract class AbstractTableDiff implements TableDiffService {
 		if (mergedRow == null) {
 			return;
 		}
-		final List<Bearbeitungsvermerk> firstFootnotes = FootnoteContainerExtensions
-				.getFootnotes(mergedRow.getFootnotes());
-		final List<Bearbeitungsvermerk> secondFootnotes = newRow == null
+		final List<FootnoteMetaInformation> firstFootnotes = FootnoteContainerExtensions
+				.getFootnoteMetaInformations(mergedRow.getFootnotes());
+		final List<FootnoteMetaInformation> secondFootnotes = newRow == null
 				? Collections.emptyList()
 				: FootnoteContainerExtensions
-						.getFootnotes(newRow.getFootnotes());
+						.getFootnoteMetaInformations(newRow.getFootnotes());
 
 		final CompareFootnoteContainer diffFootnotes = TablemodelFactory.eINSTANCE
 				.createCompareFootnoteContainer();
@@ -205,14 +205,17 @@ public abstract class AbstractTableDiff implements TableDiffService {
 	}
 
 	@SuppressWarnings("static-method")
-	protected void compareFootnotes(final Bearbeitungsvermerk footnote,
-			final List<Bearbeitungsvermerk> anotherFootnotes,
-			final Consumer<Bearbeitungsvermerk> addUnchangedConsumer,
-			final Consumer<Bearbeitungsvermerk> addChangedConsumer) {
+	protected void compareFootnotes(final FootnoteMetaInformation footnote,
+			final List<FootnoteMetaInformation> anotherFootnotes,
+			final Consumer<FootnoteMetaInformation> addUnchangedConsumer,
+			final Consumer<FootnoteMetaInformation> addChangedConsumer) {
 		if (anotherFootnotes.stream()
-				.anyMatch(f -> f.getIdentitaet()
+				.anyMatch(f -> f.getFootnote()
+						.getIdentitaet()
 						.getWert()
-						.equals(footnote.getIdentitaet().getWert()))) {
+						.equals(footnote.getFootnote()
+								.getIdentitaet()
+								.getWert()))) {
 			addUnchangedConsumer.accept(footnote);
 		} else {
 			addChangedConsumer.accept(footnote);

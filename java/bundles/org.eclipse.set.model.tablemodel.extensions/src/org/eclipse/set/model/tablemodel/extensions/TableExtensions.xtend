@@ -40,6 +40,7 @@ import static extension org.eclipse.set.ppmodel.extensions.EObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 import static extension org.eclipse.set.utils.StringExtensions.*
+import org.eclipse.set.model.tablemodel.FootnoteMetaInformation
 
 /**
  * Extensions for {@link Table}.
@@ -417,6 +418,10 @@ class TableExtensions {
 	}
 
 	static class FootnoteInfo {
+		new(FootnoteMetaInformation fnMeta, FootnoteType ft) {
+			this(fnMeta.footnote, ft)
+		}
+		
 		new(Bearbeitungsvermerk fn, FootnoteType ft) {
 			this.footnote = fn
 			this.type = ft
@@ -471,8 +476,18 @@ class TableExtensions {
 	}
 
 	static def FootnoteInfo getFootnoteInfo(Table table,
+		FootnoteMetaInformation fnMeta) {
+		return table.getFootnoteInfo(fnMeta.footnote)
+	}
+	
+	static def FootnoteInfo getFootnoteInfo(Table table,
 		Bearbeitungsvermerk fn) {
 		return table.allFootnotes.findFirst[footnote == fn]
+	}
+	
+	static def FootnoteInfo getFootnoteInfo(EObject tableContent,
+		FootnoteMetaInformation fnMeta) {
+		return getFootnoteInfo(tableContent, fnMeta.footnote)
 	}
 
 	static def FootnoteInfo getFootnoteInfo(EObject tableContent,

@@ -19,6 +19,7 @@ import org.eclipse.set.model.planpro.Basisobjekte.Bearbeitungsvermerk;
 import org.eclipse.set.model.tablemodel.CompareFootnoteContainer;
 import org.eclipse.set.model.tablemodel.CompareTableFootnoteContainer;
 import org.eclipse.set.model.tablemodel.FootnoteContainer;
+import org.eclipse.set.model.tablemodel.FootnoteMetaInformation;
 import org.eclipse.set.model.tablemodel.SimpleFootnoteContainer;
 import org.eclipse.set.ppmodel.extensions.EObjectExtensions;
 
@@ -75,6 +76,19 @@ public class FootnoteContainerExtensions {
 	 */
 	public static List<Bearbeitungsvermerk> getFootnotes(
 			final FootnoteContainer fc) {
+		return getFootnoteMetaInformations(fc).stream()
+				.map(meta -> meta.getFootnote())
+				.toList();
+	}
+
+	/**
+	 * 
+	 * @param fc
+	 *            the {@link FootnoteContainer}
+	 * @return the footnotes of the container
+	 */
+	public static List<FootnoteMetaInformation> getFootnoteMetaInformations(
+			final FootnoteContainer fc) {
 		if (fc == null) {
 			return Collections.emptyList();
 		}
@@ -82,16 +96,16 @@ public class FootnoteContainerExtensions {
 			case final SimpleFootnoteContainer simpleContainer -> simpleContainer
 					.getFootnotes();
 			case final CompareFootnoteContainer compareContainer -> {
-				final List<Bearbeitungsvermerk> result = new ArrayList<>();
-				result.addAll(
-						compareContainer.getNewFootnotes().getFootnotes());
-				result.addAll(
-						compareContainer.getOldFootnotes().getFootnotes());
-				result.addAll(compareContainer.getUnchangedFootnotes()
-						.getFootnotes());
+				final List<FootnoteMetaInformation> result = new ArrayList<>();
+				result.addAll(getFootnoteMetaInformations(
+						compareContainer.getNewFootnotes()));
+				result.addAll(getFootnoteMetaInformations(
+						compareContainer.getOldFootnotes()));
+				result.addAll(getFootnoteMetaInformations(
+						compareContainer.getUnchangedFootnotes()));
 				yield result;
 			}
-			case final CompareTableFootnoteContainer compareTableContainer -> getFootnotes(
+			case final CompareTableFootnoteContainer compareTableContainer -> getFootnoteMetaInformations(
 					compareTableContainer.getMainPlanFootnoteContainer());
 			default -> Collections.emptyList();
 		};

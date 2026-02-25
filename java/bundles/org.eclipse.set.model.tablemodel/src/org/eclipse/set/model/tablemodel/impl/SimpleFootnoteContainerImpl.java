@@ -9,15 +9,11 @@
 package org.eclipse.set.model.tablemodel.impl;
 
 import java.util.Collection;
-import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.InternalEObject;
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
-import org.eclipse.set.model.planpro.Basisobjekte.Bearbeitungsvermerk;
-import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
+import org.eclipse.set.model.tablemodel.FootnoteMetaInformation;
 import org.eclipse.set.model.tablemodel.SimpleFootnoteContainer;
 import org.eclipse.set.model.tablemodel.TablemodelPackage;
 
@@ -30,8 +26,6 @@ import org.eclipse.set.model.tablemodel.TablemodelPackage;
  * <ul>
  * <li>{@link org.eclipse.set.model.tablemodel.impl.SimpleFootnoteContainerImpl#getFootnotes
  * <em>Footnotes</em>}</li>
- * <li>{@link org.eclipse.set.model.tablemodel.impl.SimpleFootnoteContainerImpl#getOwnerObject
- * <em>Owner Object</em>}</li>
  * </ul>
  *
  * @generated
@@ -46,17 +40,7 @@ public class SimpleFootnoteContainerImpl extends FootnoteContainerImpl
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<Bearbeitungsvermerk> footnotes;
-
-	/**
-	 * The cached value of the '{@link #getOwnerObject() <em>Owner Object</em>}'
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @see #getOwnerObject()
-	 * @generated
-	 * @ordered
-	 */
-	protected Ur_Objekt ownerObject;
+	protected EList<FootnoteMetaInformation> footnotes;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -83,57 +67,13 @@ public class SimpleFootnoteContainerImpl extends FootnoteContainerImpl
 	 * @generated
 	 */
 	@Override
-	public EList<Bearbeitungsvermerk> getFootnotes() {
+	public EList<FootnoteMetaInformation> getFootnotes() {
 		if (footnotes == null) {
-			footnotes = new EObjectResolvingEList<Bearbeitungsvermerk>(
-					Bearbeitungsvermerk.class, this,
+			footnotes = new EObjectResolvingEList<FootnoteMetaInformation>(
+					FootnoteMetaInformation.class, this,
 					TablemodelPackage.SIMPLE_FOOTNOTE_CONTAINER__FOOTNOTES);
 		}
 		return footnotes;
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated
-	 */
-	@Override
-	public Ur_Objekt getOwnerObject() {
-		if (ownerObject != null && ownerObject.eIsProxy()) {
-			InternalEObject oldOwnerObject = (InternalEObject) ownerObject;
-			ownerObject = (Ur_Objekt) eResolveProxy(oldOwnerObject);
-			if (ownerObject != oldOwnerObject) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
-							TablemodelPackage.SIMPLE_FOOTNOTE_CONTAINER__OWNER_OBJECT,
-							oldOwnerObject, ownerObject));
-			}
-		}
-		return ownerObject;
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated
-	 */
-	public Ur_Objekt basicGetOwnerObject() {
-		return ownerObject;
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated
-	 */
-	@Override
-	public void setOwnerObject(Ur_Objekt newOwnerObject) {
-		Ur_Objekt oldOwnerObject = ownerObject;
-		ownerObject = newOwnerObject;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					TablemodelPackage.SIMPLE_FOOTNOTE_CONTAINER__OWNER_OBJECT,
-					oldOwnerObject, ownerObject));
 	}
 
 	/**
@@ -146,10 +86,6 @@ public class SimpleFootnoteContainerImpl extends FootnoteContainerImpl
 		switch (featureID) {
 			case TablemodelPackage.SIMPLE_FOOTNOTE_CONTAINER__FOOTNOTES:
 				return getFootnotes();
-			case TablemodelPackage.SIMPLE_FOOTNOTE_CONTAINER__OWNER_OBJECT:
-				if (resolve)
-					return getOwnerObject();
-				return basicGetOwnerObject();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -166,10 +102,7 @@ public class SimpleFootnoteContainerImpl extends FootnoteContainerImpl
 			case TablemodelPackage.SIMPLE_FOOTNOTE_CONTAINER__FOOTNOTES:
 				getFootnotes().clear();
 				getFootnotes().addAll(
-						(Collection<? extends Bearbeitungsvermerk>) newValue);
-				return;
-			case TablemodelPackage.SIMPLE_FOOTNOTE_CONTAINER__OWNER_OBJECT:
-				setOwnerObject((Ur_Objekt) newValue);
+						(Collection<? extends FootnoteMetaInformation>) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -186,9 +119,6 @@ public class SimpleFootnoteContainerImpl extends FootnoteContainerImpl
 			case TablemodelPackage.SIMPLE_FOOTNOTE_CONTAINER__FOOTNOTES:
 				getFootnotes().clear();
 				return;
-			case TablemodelPackage.SIMPLE_FOOTNOTE_CONTAINER__OWNER_OBJECT:
-				setOwnerObject((Ur_Objekt) null);
-				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -203,8 +133,6 @@ public class SimpleFootnoteContainerImpl extends FootnoteContainerImpl
 		switch (featureID) {
 			case TablemodelPackage.SIMPLE_FOOTNOTE_CONTAINER__FOOTNOTES:
 				return footnotes != null && !footnotes.isEmpty();
-			case TablemodelPackage.SIMPLE_FOOTNOTE_CONTAINER__OWNER_OBJECT:
-				return ownerObject != null;
 		}
 		return super.eIsSet(featureID);
 	}

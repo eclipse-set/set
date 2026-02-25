@@ -53,6 +53,7 @@ import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Zug_Rangier
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Unterbringung
 import org.eclipse.set.model.planpro.Ortung.Schaltmittel_Zuordnung
 import org.eclipse.set.model.planpro.Signale.Signal_Signalbegriff
+import org.eclipse.set.model.tablemodel.FootnoteMetaInformation
 
 /**
  * Transform basis objects to footnotes.
@@ -69,23 +70,21 @@ class FootnoteTransformation {
 	def void transform(Basis_Objekt object, TableRow row) {
 		this.row = row
 		// Direct attachment notes
-		object?.IDBearbeitungsvermerk?.filterNull?.map[value]?.toSet?.forEach [
-			object.addFootnote(it)
-		]
-		object?.referenceFootnotes?.filterNull?.map[value]?.toSet?.forEach [
-			object.addFootnote(it)
-		]
-
-		object?.addFootnote(object?.transformObjectStateEnum?.value)
+		object?.IDBearbeitungsvermerk?.filterNull?.map[value]?.toSet?.map [
+			getFootnoteMetaInformation(object)
+		]?.forEach[addFootnote]
+		object?.transformObjectStateEnum?.getFootnoteMetaInformation(object)?.
+			addFootnote
+		object?.referenceFootnotes?.forEach[addFootnote]
 	}
 
-	private def dispatch Iterable<ID_Bearbeitungsvermerk_TypeClass> getReferenceFootnotes(
+	private def dispatch Iterable<FootnoteMetaInformation> getReferenceFootnotes(
 		Basis_Objekt obj) {
 		return #[]
 	}
 
 	// Determine Footnotes for Ssks Table
-	private def dispatch Iterable<ID_Bearbeitungsvermerk_TypeClass> getReferenceFootnotes(
+	private def dispatch Iterable<FootnoteMetaInformation> getReferenceFootnotes(
 		Signal signal) {
 		val signalRahmenFootNotes = signal?.signalRahmen?.flatMap [
 			referenceFootnotes
@@ -106,28 +105,33 @@ class FootnoteTransformation {
 	}
 
 	// Determine Footnotes for Ssks Table
-	private def dispatch Iterable<ID_Bearbeitungsvermerk_TypeClass> getReferenceFootnotes(
+	private def dispatch Iterable<FootnoteMetaInformation> getReferenceFootnotes(
 		Signal_Befestigung signalBefestigung) {
 		if (signalBefestigung === null) {
 			return #[]
 		}
-		val footnotes = signalBefestigung?.signalBefestigungen?.flatMap [
-			val notes = IDBearbeitungsvermerk ?: #[]
+		return signalBefestigung?.signalBefestigungen?.flatMap [ sb |
+			val notes = sb?.IDBearbeitungsvermerk?.map [
+				getFootnoteMetaInformation(sb)
+			] ?: #[]
 			val objectStateNote = #[
-				signalBefestigung?.transformObjectStateEnum
+				sb?.transformObjectStateEnum?.
+					getFootnoteMetaInformation(sb)
 			].filterNull
-			return #[notes, objectStateNote].flatten
-		] ?: #[]
+			val footnotes = #[notes, objectStateNote].flatten
 
-		return footnotes.toList.withPrefix(signalBefestigung.prefix)
+			return footnotes.toList.withPrefix(sb.prefix)
+		] ?: #[]
 	}
 
 	// Determine Footnotes for Ssks Table
-	private def dispatch Iterable<ID_Bearbeitungsvermerk_TypeClass> getReferenceFootnotes(
+	private def dispatch Iterable<FootnoteMetaInformation> getReferenceFootnotes(
 		Signal_Rahmen signalRahmen) {
-		val rahmenFootnotes = signalRahmen?.IDBearbeitungsvermerk?.filterNull
-		val objectStateNote = #[signalRahmen?.transformObjectStateEnum].
-			filterNull
+		val rahmenFootnotes = signalRahmen?.IDBearbeitungsvermerk?.map [
+			getFootnoteMetaInformation(signalRahmen)
+		]?.filterNull
+		val objectStateNote = #[signalRahmen?.transformObjectStateEnum?.
+			getFootnoteMetaInformation(signalRahmen)]?.filterNull
 		val signalRahmenFootnotes = #[rahmenFootnotes, objectStateNote].
 			filterNull.flatten.toList.withPrefix(signalRahmen.prefix)
 
@@ -139,27 +143,37 @@ class FootnoteTransformation {
 	}
 
 	// Determine Footnotes for Ssks Table
-	private def dispatch Iterable<ID_Bearbeitungsvermerk_TypeClass> getReferenceFootnotes(Signal_Signalbegriff signalBegriff) {
-		val signalBegriffFootnotes = signalBegriff?.IDBearbeitungsvermerk?.filterNull
-		val objectStateNote = #[signalBegriff?.transformObjectStateEnum].filterNull
-		return #[signalBegriffFootnotes, objectStateNote].filterNull.flatten.toList.withPrefix(signalBegriff.prefix)
+	private def dispatch Iterable<FootnoteMetaInformation> getReferenceFootnotes(
+		Signal_Signalbegriff signalBegriff) {
+		val signalBegriffFootnotes = signalBegriff?.IDBearbeitungsvermerk?.map [
+			getFootnoteMetaInformation(signalBegriff)
+		]?.filterNull
+		val objectStateNote = #[signalBegriff?.transformObjectStateEnum?.
+			getFootnoteMetaInformation(signalBegriff)].filterNull
+		return #[signalBegriffFootnotes, objectStateNote].filterNull.flatten.
+			toList.withPrefix(signalBegriff.prefix)
 	}
-	
+
 	// Determine Footnotes for Sskw Table
-	private def dispatch Iterable<ID_Bearbeitungsvermerk_TypeClass> getReferenceFootnotes(
+	private def dispatch Iterable<FootnoteMetaInformation> getReferenceFootnotes(
 		W_Kr_Gsp_Element gspElement) {
 		val gspKomonenten = gspElement?.WKrGspKomponenten
-		val gspKomponentFootNotes = gspKomonenten?.flatMap [
-			IDBearbeitungsvermerk
+		val gspKomponentFootNotes = gspKomonenten?.flatMap [ gspKomponente |
+			gspKomponente.IDBearbeitungsvermerk.map [
+				getFootnoteMetaInformation(gspKomponente)
+			]
 		]
 		val gspKomponentObjStates = gspKomonenten?.map [
-			transformObjectStateEnum
+			transformObjectStateEnum?.getFootnoteMetaInformation(it)
 		].filterNull
 
 		val gspAnlage = gspElement?.WKrAnlage
-		val gspAnlageFootNotes = gspAnlage?.IDBearbeitungsvermerk
+		val gspAnlageFootNotes = gspAnlage?.IDBearbeitungsvermerk?.map [
+			getFootnoteMetaInformation(gspAnlage)
+		]
 		val gspAnlageObjStates = #[
-			gspAnlage.transformObjectStateEnum
+			gspAnlage?.transformObjectStateEnum?.
+				getFootnoteMetaInformation(gspAnlage)
 		].filterNull
 
 		return #[gspKomponentFootNotes, gspKomponentObjStates,
@@ -167,65 +181,69 @@ class FootnoteTransformation {
 	}
 
 	// Determine Footnotes for Ssbb & Ssit Table
-	private def dispatch Iterable<ID_Bearbeitungsvermerk_TypeClass> getReferenceFootnotes(
+	private def dispatch Iterable<FootnoteMetaInformation> getReferenceFootnotes(
 		Bedien_Einrichtung_Oertlich einrichtung) {
 		return einrichtung?.unterbringung?.referenceFootnotes ?: #[]
 	}
 
 	// Determine Footnotes for Sska Table
-	private def dispatch Iterable<ID_Bearbeitungsvermerk_TypeClass> getReferenceFootnotes(
+	private def dispatch Iterable<FootnoteMetaInformation> getReferenceFootnotes(
 		Aussenelementansteuerung element) {
 		return element?.unterbringung?.referenceFootnotes ?: #[]
 	}
 
 	// Determine Footnotes for Sska Table
-	private def dispatch Iterable<ID_Bearbeitungsvermerk_TypeClass> getReferenceFootnotes(
+	private def dispatch Iterable<FootnoteMetaInformation> getReferenceFootnotes(
 		ESTW_Zentraleinheit element) {
 		return element?.unterbringung?.referenceFootnotes ?: #[]
 	}
 
 	// Determine Footnotes for Ssko Table
-	private def dispatch Iterable<ID_Bearbeitungsvermerk_TypeClass> getReferenceFootnotes(
+	private def dispatch Iterable<FootnoteMetaInformation> getReferenceFootnotes(
 		Schloss schloss
 	) {
 		if (schloss?.schlossSk !== null) {
-			val objStateNote = #[schloss?.schlossKombination?.
-				transformObjectStateEnum].filterNull
-			return #[objStateNote, schloss?.schlossKombination?.unterbringung?.
+			val schlossKombination = schloss?.schlossKombination
+			val objStateNote = #[
+				schlossKombination?.transformObjectStateEnum?.
+					getFootnoteMetaInformation(schlossKombination)].filterNull
+			return #[objStateNote, schlossKombination?.unterbringung?.
 				referenceFootnotes].filterNull.flatten
 		}
 
 		if (schloss?.schlossSsp !== null) {
-			val objStateNote = #[schloss?.schluesselsperre?.
-				transformObjectStateEnum].filterNull
-			return #[objStateNote, schloss?.schluesselsperre?.unterbringung?.
+			val schluesselSperre = schloss?.schluesselsperre
+			val objStateNote = #[schluesselSperre?.transformObjectStateEnum?.
+				getFootnoteMetaInformation(schluesselSperre)].filterNull
+			return #[objStateNote, schluesselSperre?.unterbringung?.
 				referenceFootnotes].filterNull.flatten
 		}
 		return #[]
 	}
 
 	// Determine Footnotes for Sskt table
-	private def dispatch Iterable<ID_Bearbeitungsvermerk_TypeClass> getReferenceFootnotes(
+	private def dispatch Iterable<FootnoteMetaInformation> getReferenceFootnotes(
 		Technik_Standort element) {
 		return element?.unterbringung?.referenceFootnotes ?: #[]
 	}
 
 	// Determine Footnotes for Sskt table
-	private def dispatch Iterable<ID_Bearbeitungsvermerk_TypeClass> getReferenceFootnotes(
+	private def dispatch Iterable<FootnoteMetaInformation> getReferenceFootnotes(
 		Bedien_Standort element) {
 		return element?.unterbringung?.referenceFootnotes ?: #[]
 	}
 
-	private def dispatch Iterable<ID_Bearbeitungsvermerk_TypeClass> getReferenceFootnotes(
+	private def dispatch Iterable<FootnoteMetaInformation> getReferenceFootnotes(
 		Unterbringung obj) {
-		val objStateNote = #[obj.transformObjectStateEnum].filterNull
+		val objStateNote = #[obj?.transformObjectStateEnum?.
+			getFootnoteMetaInformation(obj)].filterNull
 		return #[objStateNote, obj?.punktObjektStrecke?.flatMap [
 			referenceFootnotes
 		]].filterNull.flatten
 	}
 
 	// Determine Footnotes for Sszs table
-	private def dispatch Iterable<ID_Bearbeitungsvermerk_TypeClass> getReferenceFootnotes(
+	private def dispatch Iterable<FootnoteMetaInformation> getReferenceFootnotes(
 		ETCS_Signal element) {
 		return element?.IDSignal?.value?.punktObjektStrecke?.flatMap [
 			referenceFootnotes
@@ -233,7 +251,7 @@ class FootnoteTransformation {
 	}
 
 	// Determine Footnotes for Sszw table
-	private def dispatch Iterable<ID_Bearbeitungsvermerk_TypeClass> getReferenceFootnotes(
+	private def dispatch Iterable<FootnoteMetaInformation> getReferenceFootnotes(
 		ETCS_W_Kr element) {
 		return switch (element?.IDWKrAnlage?.value?.WKrAnlageArt) {
 			case ENUMW_KR_ART_EW,
@@ -243,7 +261,8 @@ class FootnoteTransformation {
 			case ENUMW_KR_ART_KLOTHOIDENWEICHE,
 			case ENUMW_KR_ART_KORBBOGENWEICHE: {
 				val gspKomponent = element?.WKrGspKomponents?.firstOrNull
-				val objStateNote = #[gspKomponent?.transformObjectStateEnum]
+				val objStateNote = #[gspKomponent?.transformObjectStateEnum?.
+					getFootnoteMetaInformation(gspKomponent)]
 				return #[objStateNote, gspKomponent?.referenceFootnotes].
 					filterNull.flatten
 			}
@@ -260,7 +279,7 @@ class FootnoteTransformation {
 	}
 
 	// Determine Footnotes for Sskf
-	private def dispatch Iterable<ID_Bearbeitungsvermerk_TypeClass> getReferenceFootnotes(
+	private def dispatch Iterable<FootnoteMetaInformation> getReferenceFootnotes(
 		FMA_Anlage fmaAnlage) {
 		return fmaAnlage?.schaltmittelZuordnungen?.flatMap [
 			referenceFootnotes
@@ -268,47 +287,66 @@ class FootnoteTransformation {
 	}
 
 	// Determine Footnotes for Sslz
-	private def dispatch Iterable<ID_Bearbeitungsvermerk_TypeClass> getReferenceFootnotes(
+	private def dispatch Iterable<FootnoteMetaInformation> getReferenceFootnotes(
 		Fstr_Zug_Rangier fstrZugRangier) {
 		if (!isZ(fstrZugRangier)) {
 			return #[]
 		}
-		return fstrZugRangier.fstrFahrweg?.start?.zweitesHaltfallkriterium?.
+		return fstrZugRangier?.fstrFahrweg?.start?.zweitesHaltfallkriterium?.
 			referenceFootnotes ?: #[]
 	}
 
-	private def dispatch Iterable<ID_Bearbeitungsvermerk_TypeClass> getReferenceFootnotes(
+	private def dispatch Iterable<FootnoteMetaInformation> getReferenceFootnotes(
 		Schaltmittel_Zuordnung obj) {
 		val objStateNote = #[obj?.transformObjectStateEnum].filterNull
-		return #[objStateNote, obj?.IDBearbeitungsvermerk].filterNull.flatten
+		return #[objStateNote, obj?.IDBearbeitungsvermerk].filterNull.flatten.
+			map[getFootnoteMetaInformation(obj)]
 	}
 
 	// Determine Footnotes for Sskg, Ssza table
-	private def dispatch Iterable<ID_Bearbeitungsvermerk_TypeClass> getReferenceFootnotes(
+	private def dispatch Iterable<FootnoteMetaInformation> getReferenceFootnotes(
 		Punkt_Objekt po) {
 		return po?.punktObjektStrecke?.flatMap [
 			referenceFootnotes
 		] ?: #[]
 	}
 
-	private def dispatch Iterable<ID_Bearbeitungsvermerk_TypeClass> getReferenceFootnotes(
+	private def dispatch Iterable<FootnoteMetaInformation> getReferenceFootnotes(
 		Punkt_Objekt_Strecke_AttributeGroup pos) {
 		val routeNotes = pos?.IDStrecke?.IDBearbeitungsvermerk
 		val kmNotes = pos?.streckeKm?.IDBearbeitungsvermerk
-		return #[routeNotes, kmNotes].filterNull.flatten
+		return #[routeNotes, kmNotes].filterNull.flatten.map [
+			getFootnoteMetaInformation(null)
+		]
 	}
 
-	private def void addFootnote(Basis_Objekt obj,
-		Bearbeitungsvermerk comment) {
-		if (obj === null || comment === null) {
+	private def void addFootnote(FootnoteMetaInformation footnote) {
+		if (footnote === null) {
 			return
 		}
 		if (row.footnotes === null) {
 			row.footnotes = TablemodelFactory.eINSTANCE.
 				createSimpleFootnoteContainer()
-			(row.footnotes as SimpleFootnoteContainer).ownerObject = obj
 		}
-
-		(row.footnotes as SimpleFootnoteContainer).footnotes.add(comment)
+		(row.footnotes as SimpleFootnoteContainer).footnotes.add(footnote)
 	}
+
+	private def getFootnoteMetaInformation(ID_Bearbeitungsvermerk_TypeClass bv,
+		Basis_Objekt obj) {
+		return bv?.value?.getFootnoteMetaInformation(obj)
+	}
+
+	private def getFootnoteMetaInformation(Bearbeitungsvermerk bv,
+		Basis_Objekt obj) {
+		if (bv === null) {
+			return null
+		}
+		val footnoteMetaInformation = TablemodelFactory.eINSTANCE.
+			createFootnoteMetaInformation()
+		footnoteMetaInformation.ownerObject = obj
+		footnoteMetaInformation.footnote = (bv)
+
+		return footnoteMetaInformation
+	}
+
 }
