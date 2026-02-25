@@ -66,7 +66,7 @@ public class TestWorknotesTable extends AbstractTableTest {
 	@SuppressWarnings("boxing")
 	void givenWorknotesTable() {
 		worknotesTable = new PtTable("Sxxx",
-				"Sxxx – Tabelle weiterer Bearbeitungsvermerke",
+				"Sxxx – Tabelle der Bearbeitungsvermerke",
 				"supplement", List.of(0));
 	}
 

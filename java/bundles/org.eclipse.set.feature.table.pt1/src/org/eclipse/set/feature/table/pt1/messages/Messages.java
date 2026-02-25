@@ -799,12 +799,12 @@ public class Messages extends AbstractMessageService {
 	public String ToolboxTableNameSxxxShort;
 
 	/**
-	 * Tabelle weiterer Bearbeitungsvermerke – Sxxx
+	 * Tabelle der Bearbeitungsvermerke – Sxxx
 	 */
 	public String SxxxTableView_Heading;
 
 	/**
-	 * Tabelle weiterer Bearbeitungsvermerke
+	 * Tabelle der Bearbeitungsvermerke
 	 */
 	public String ToolboxTableNameSxxxLong;
 
@@ -814,12 +814,12 @@ public class Messages extends AbstractMessageService {
 	public String ToolboxTableNameSxxxPlanningNumber;
 
 	/**
-	 * Sxxx – Tabelle weiterer Bearbeitungsvermerke
+	 * Sxxx – Tabelle der Bearbeitungsvermerke
 	 */
 	public String SxxxDescriptionService_ViewName;
 
 	/**
-	 * Tabelle weiterer Bearbeitungsvermerke
+	 * Tabelle der Bearbeitungsvermerke
 	 */
 	public String SxxxDescriptionService_ViewTooltip;
 
