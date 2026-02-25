@@ -54,6 +54,7 @@ import org.eclipse.set.model.planpro.Ansteuerung_Element.Unterbringung
 import org.eclipse.set.model.planpro.Ortung.Schaltmittel_Zuordnung
 import org.eclipse.set.model.planpro.Signale.Signal_Signalbegriff
 import org.eclipse.set.model.tablemodel.FootnoteMetaInformation
+import org.eclipse.emf.ecore.EObject
 
 /**
  * Transform basis objects to footnotes.
@@ -115,8 +116,7 @@ class FootnoteTransformation {
 				getFootnoteMetaInformation(sb)
 			] ?: #[]
 			val objectStateNote = #[
-				sb?.transformObjectStateEnum?.
-					getFootnoteMetaInformation(sb)
+				sb?.transformObjectStateEnum?.getFootnoteMetaInformation(sb)
 			].filterNull
 			val footnotes = #[notes, objectStateNote].flatten
 
@@ -313,11 +313,13 @@ class FootnoteTransformation {
 
 	private def dispatch Iterable<FootnoteMetaInformation> getReferenceFootnotes(
 		Punkt_Objekt_Strecke_AttributeGroup pos) {
-		val routeNotes = pos?.IDStrecke?.IDBearbeitungsvermerk
-		val kmNotes = pos?.streckeKm?.IDBearbeitungsvermerk
-		return #[routeNotes, kmNotes].filterNull.flatten.map [
-			getFootnoteMetaInformation(null)
-		]
+		val routeNotes = pos?.IDStrecke?.IDBearbeitungsvermerk?.map [
+			getFootnoteMetaInformation(pos.IDStrecke)
+		] ?: #[]
+		val kmNotes = pos?.streckeKm?.IDBearbeitungsvermerk?.map [
+			getFootnoteMetaInformation(pos.streckeKm)
+		] ?: #[]
+		return #[routeNotes, kmNotes].flatten.filterNull
 	}
 
 	private def void addFootnote(FootnoteMetaInformation footnote) {
@@ -332,12 +334,12 @@ class FootnoteTransformation {
 	}
 
 	private def getFootnoteMetaInformation(ID_Bearbeitungsvermerk_TypeClass bv,
-		Basis_Objekt obj) {
+		EObject obj) {
 		return bv?.value?.getFootnoteMetaInformation(obj)
 	}
 
 	private def getFootnoteMetaInformation(Bearbeitungsvermerk bv,
-		Basis_Objekt obj) {
+		EObject obj) {
 		if (bv === null) {
 			return null
 		}

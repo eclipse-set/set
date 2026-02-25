@@ -11,7 +11,6 @@ package org.eclipse.set.model.tablemodel;
 import org.eclipse.emf.ecore.EObject;
 
 import org.eclipse.set.model.planpro.Basisobjekte.Bearbeitungsvermerk;
-import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
 
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Footnote
@@ -42,7 +41,7 @@ public interface FootnoteMetaInformation extends EObject {
 	 * @model
 	 * @generated
 	 */
-	Ur_Objekt getOwnerObject();
+	EObject getOwnerObject();
 
 	/**
 	 * Sets the value of the
@@ -55,7 +54,7 @@ public interface FootnoteMetaInformation extends EObject {
 	 * @see #getOwnerObject()
 	 * @generated
 	 */
-	void setOwnerObject(Ur_Objekt value);
+	void setOwnerObject(EObject value);
 
 	/**
 	 * Returns the value of the '<em><b>Footnote</b></em>' reference. <!--

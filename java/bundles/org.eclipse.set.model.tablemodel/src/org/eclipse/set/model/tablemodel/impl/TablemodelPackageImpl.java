@@ -1298,10 +1298,9 @@ public class TablemodelPackageImpl extends EPackageImpl
 				null, "footnotes", null, 0, 1, TableRow.class, !IS_TRANSIENT,
 				!IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
 				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getTableRow_RowObject(),
-				theBasisobjektePackage.getUr_Objekt(), null, "rowObject", null,
-				0, 1, TableRow.class, !IS_TRANSIENT, !IS_VOLATILE,
-				IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES,
+		initEReference(getTableRow_RowObject(), ecorePackage.getEObject(), null,
+				"rowObject", null, 0, 1, TableRow.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES,
 				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(tableCellEClass, TableCell.class, "TableCell", !IS_ABSTRACT,
@@ -1457,9 +1456,9 @@ public class TablemodelPackageImpl extends EPackageImpl
 				"FootnoteMetaInformation", !IS_ABSTRACT, !IS_INTERFACE,
 				IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getFootnoteMetaInformation_OwnerObject(),
-				theBasisobjektePackage.getUr_Objekt(), null, "ownerObject",
-				null, 0, 1, FootnoteMetaInformation.class, !IS_TRANSIENT,
-				!IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES,
+				ecorePackage.getEObject(), null, "ownerObject", null, 0, 1,
+				FootnoteMetaInformation.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES,
 				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getFootnoteMetaInformation_Footnote(),
 				theBasisobjektePackage.getBearbeitungsvermerk(), null,

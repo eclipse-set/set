@@ -16,6 +16,7 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -23,7 +24,6 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
-import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
 import org.eclipse.set.model.tablemodel.FootnoteContainer;
 import org.eclipse.set.model.tablemodel.TableCell;
 import org.eclipse.set.model.tablemodel.TableRow;
@@ -98,7 +98,7 @@ public class TableRowImpl extends MinimalEObjectImpl.Container
 	 * @generated
 	 * @ordered
 	 */
-	protected Ur_Objekt rowObject;
+	protected EObject rowObject;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -198,10 +198,10 @@ public class TableRowImpl extends MinimalEObjectImpl.Container
 	 * @generated
 	 */
 	@Override
-	public Ur_Objekt getRowObject() {
+	public EObject getRowObject() {
 		if (rowObject != null && rowObject.eIsProxy()) {
 			InternalEObject oldRowObject = (InternalEObject) rowObject;
-			rowObject = (Ur_Objekt) eResolveProxy(oldRowObject);
+			rowObject = eResolveProxy(oldRowObject);
 			if (rowObject != oldRowObject) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
@@ -217,7 +217,7 @@ public class TableRowImpl extends MinimalEObjectImpl.Container
 	 * 
 	 * @generated
 	 */
-	public Ur_Objekt basicGetRowObject() {
+	public EObject basicGetRowObject() {
 		return rowObject;
 	}
 
@@ -227,8 +227,8 @@ public class TableRowImpl extends MinimalEObjectImpl.Container
 	 * @generated
 	 */
 	@Override
-	public void setRowObject(Ur_Objekt newRowObject) {
-		Ur_Objekt oldRowObject = rowObject;
+	public void setRowObject(EObject newRowObject) {
+		EObject oldRowObject = rowObject;
 		rowObject = newRowObject;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
@@ -321,7 +321,7 @@ public class TableRowImpl extends MinimalEObjectImpl.Container
 				setFootnotes((FootnoteContainer) newValue);
 				return;
 			case TablemodelPackage.TABLE_ROW__ROW_OBJECT:
-				setRowObject((Ur_Objekt) newValue);
+				setRowObject((EObject) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -345,7 +345,7 @@ public class TableRowImpl extends MinimalEObjectImpl.Container
 				setFootnotes((FootnoteContainer) null);
 				return;
 			case TablemodelPackage.TABLE_ROW__ROW_OBJECT:
-				setRowObject((Ur_Objekt) null);
+				setRowObject((EObject) null);
 				return;
 		}
 		super.eUnset(featureID);

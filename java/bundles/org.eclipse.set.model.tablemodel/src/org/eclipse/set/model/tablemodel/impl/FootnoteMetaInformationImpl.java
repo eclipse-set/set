@@ -11,14 +11,13 @@ package org.eclipse.set.model.tablemodel.impl;
 import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 import org.eclipse.set.model.planpro.Basisobjekte.Bearbeitungsvermerk;
-import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
-
 import org.eclipse.set.model.tablemodel.FootnoteMetaInformation;
 import org.eclipse.set.model.tablemodel.TablemodelPackage;
 
@@ -47,7 +46,7 @@ public class FootnoteMetaInformationImpl extends MinimalEObjectImpl.Container
 	 * @generated
 	 * @ordered
 	 */
-	protected Ur_Objekt ownerObject;
+	protected EObject ownerObject;
 
 	/**
 	 * The cached value of the '{@link #getFootnote() <em>Footnote</em>}'
@@ -84,10 +83,10 @@ public class FootnoteMetaInformationImpl extends MinimalEObjectImpl.Container
 	 * @generated
 	 */
 	@Override
-	public Ur_Objekt getOwnerObject() {
+	public EObject getOwnerObject() {
 		if (ownerObject != null && ownerObject.eIsProxy()) {
 			InternalEObject oldOwnerObject = (InternalEObject) ownerObject;
-			ownerObject = (Ur_Objekt) eResolveProxy(oldOwnerObject);
+			ownerObject = eResolveProxy(oldOwnerObject);
 			if (ownerObject != oldOwnerObject) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
@@ -103,7 +102,7 @@ public class FootnoteMetaInformationImpl extends MinimalEObjectImpl.Container
 	 * 
 	 * @generated
 	 */
-	public Ur_Objekt basicGetOwnerObject() {
+	public EObject basicGetOwnerObject() {
 		return ownerObject;
 	}
 
@@ -113,8 +112,8 @@ public class FootnoteMetaInformationImpl extends MinimalEObjectImpl.Container
 	 * @generated
 	 */
 	@Override
-	public void setOwnerObject(Ur_Objekt newOwnerObject) {
-		Ur_Objekt oldOwnerObject = ownerObject;
+	public void setOwnerObject(EObject newOwnerObject) {
+		EObject oldOwnerObject = ownerObject;
 		ownerObject = newOwnerObject;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
@@ -195,7 +194,7 @@ public class FootnoteMetaInformationImpl extends MinimalEObjectImpl.Container
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case TablemodelPackage.FOOTNOTE_META_INFORMATION__OWNER_OBJECT:
-				setOwnerObject((Ur_Objekt) newValue);
+				setOwnerObject((EObject) newValue);
 				return;
 			case TablemodelPackage.FOOTNOTE_META_INFORMATION__FOOTNOTE:
 				setFootnote((Bearbeitungsvermerk) newValue);
@@ -213,7 +212,7 @@ public class FootnoteMetaInformationImpl extends MinimalEObjectImpl.Container
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case TablemodelPackage.FOOTNOTE_META_INFORMATION__OWNER_OBJECT:
-				setOwnerObject((Ur_Objekt) null);
+				setOwnerObject((EObject) null);
 				return;
 			case TablemodelPackage.FOOTNOTE_META_INFORMATION__FOOTNOTE:
 				setFootnote((Bearbeitungsvermerk) null);
