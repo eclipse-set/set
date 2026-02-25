@@ -58,8 +58,8 @@ public class FootnoteContainerExtensions {
 	public static List<String> getFootnotesComment(final FootnoteContainer fc) {
 		return getFootnotes(fc).stream()
 				.map(footnote -> EObjectExtensions
-						.getNullableObject(footnote.getFootnote(),
-								fn -> fn.getBearbeitungsvermerkAllg()
+						.getNullableObject(footnote.getBearbeitungsvermerk(),
+								bv -> bv.getBearbeitungsvermerkAllg()
 										.getKommentar()
 										.getWert())
 						.orElse(null))

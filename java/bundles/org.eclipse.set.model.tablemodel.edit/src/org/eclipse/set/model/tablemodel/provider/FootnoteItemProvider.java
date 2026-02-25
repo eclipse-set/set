@@ -59,7 +59,7 @@ public class FootnoteItemProvider extends ItemProviderAdapter
 			super.getPropertyDescriptors(object);
 
 			addOwnerObjectPropertyDescriptor(object);
-			addFootnotePropertyDescriptor(object);
+			addBearbeitungsvermerkPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -84,21 +84,22 @@ public class FootnoteItemProvider extends ItemProviderAdapter
 	}
 
 	/**
-	 * This adds a property descriptor for the Footnote feature. <!--
+	 * This adds a property descriptor for the Bearbeitungsvermerk feature. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @generated
 	 */
-	protected void addFootnotePropertyDescriptor(Object object) {
+	protected void addBearbeitungsvermerkPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add(createItemPropertyDescriptor(
 				((ComposeableAdapterFactory) adapterFactory)
 						.getRootAdapterFactory(),
 				getResourceLocator(),
-				getString("_UI_Footnote_footnote_feature"),
+				getString("_UI_Footnote_bearbeitungsvermerk_feature"),
 				getString("_UI_PropertyDescriptor_description",
-						"_UI_Footnote_footnote_feature", "_UI_Footnote_type"),
-				TablemodelPackage.Literals.FOOTNOTE__FOOTNOTE, true, false,
-				true, null, null, null));
+						"_UI_Footnote_bearbeitungsvermerk_feature",
+						"_UI_Footnote_type"),
+				TablemodelPackage.Literals.FOOTNOTE__BEARBEITUNGSVERMERK, true,
+				false, true, null, null, null));
 	}
 
 	/**

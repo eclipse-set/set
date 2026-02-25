@@ -210,10 +210,10 @@ public abstract class AbstractTableDiff implements TableDiffService {
 			final Consumer<Footnote> addUnchangedConsumer,
 			final Consumer<Footnote> addChangedConsumer) {
 		if (anotherFootnotes.stream()
-				.anyMatch(f -> f.getFootnote()
+				.anyMatch(f -> f.getBearbeitungsvermerk()
 						.getIdentitaet()
 						.getWert()
-						.equals(footnote.getFootnote()
+						.equals(footnote.getBearbeitungsvermerk()
 								.getIdentitaet()
 								.getWert()))) {
 			addUnchangedConsumer.accept(footnote);

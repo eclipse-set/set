@@ -418,12 +418,12 @@ class TableExtensions {
 	}
 
 	static class FootnoteInfo {
-		new(Footnote fnMeta, FootnoteType ft) {
-			this(fnMeta.footnote, ft)
+		new(Footnote fn, FootnoteType ft) {
+			this(fn.bearbeitungsvermerk, ft)
 		}
 
-		new(Bearbeitungsvermerk fn, FootnoteType ft) {
-			this.footnote = fn
+		new(Bearbeitungsvermerk bv, FootnoteType ft) {
+			this.bearbeitungsvermerk = bv
 			this.type = ft
 		}
 
@@ -432,14 +432,14 @@ class TableExtensions {
 		}
 
 		def String toReferenceText() {
-			return '''*«index»: «footnote?.bearbeitungsvermerkAllg?.kommentar?.wert»'''
+			return '''*«index»: «bearbeitungsvermerk?.bearbeitungsvermerkAllg?.kommentar?.wert»'''
 		}
 
 		def String toText() {
-			return footnote?.bearbeitungsvermerkAllg?.kommentar?.wert
+			return bearbeitungsvermerk?.bearbeitungsvermerkAllg?.kommentar?.wert
 		}
 
-		public Bearbeitungsvermerk footnote;
+		public Bearbeitungsvermerk bearbeitungsvermerk;
 		public int index;
 		public FootnoteType type;
 	}
@@ -469,32 +469,32 @@ class TableExtensions {
 		// sort new and common together by text, then append old entries
 		val footnotes = (common + newF).sortBy[toText] + old.sortBy[toText]
 
-		return footnotes.distinctBy[toText -> footnote].indexed.map [
+		return footnotes.distinctBy[toText -> bearbeitungsvermerk].indexed.map [
 			value.index = key + 1
 			return value
 		]
 	}
 
 	static def FootnoteInfo getFootnoteInfo(Table table, Footnote fn) {
-		return table.getFootnoteInfo(fn.footnote)
+		return table.getFootnoteInfo(fn.bearbeitungsvermerk)
 	}
 
 	static def FootnoteInfo getFootnoteInfo(Table table,
-		Bearbeitungsvermerk fn) {
-		return table.allFootnotes.findFirst[footnote == fn]
+		Bearbeitungsvermerk bv) {
+		return table.allFootnotes.findFirst[bearbeitungsvermerk == bv]
 	}
 
 	static def FootnoteInfo getFootnoteInfo(EObject tableContent, Footnote fn) {
-		return getFootnoteInfo(tableContent, fn.footnote)
+		return getFootnoteInfo(tableContent, fn.bearbeitungsvermerk)
 	}
 
 	static def FootnoteInfo getFootnoteInfo(EObject tableContent,
-		Bearbeitungsvermerk fn) {
+		Bearbeitungsvermerk bv) {
 		var object = tableContent
 		while (!(object instanceof Table)) {
 			object = object.eContainer
 		}
-		return getFootnoteInfo(object as Table, fn)
+		return getFootnoteInfo(object as Table, bv)
 	}
 
 	static def boolean isTableEmpty(Table table) {

@@ -973,7 +973,7 @@ public class TablemodelPackageImpl extends EPackageImpl
 	 * @generated
 	 */
 	@Override
-	public EReference getFootnote_Footnote() {
+	public EReference getFootnote_Bearbeitungsvermerk() {
 		return (EReference) footnoteEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -1135,7 +1135,7 @@ public class TablemodelPackageImpl extends EPackageImpl
 
 		footnoteEClass = createEClass(FOOTNOTE);
 		createEReference(footnoteEClass, FOOTNOTE__OWNER_OBJECT);
-		createEReference(footnoteEClass, FOOTNOTE__FOOTNOTE);
+		createEReference(footnoteEClass, FOOTNOTE__BEARBEITUNGSVERMERK);
 
 		// Create enums
 		columnWidthModeEEnum = createEEnum(COLUMN_WIDTH_MODE);
@@ -1452,11 +1452,12 @@ public class TablemodelPackageImpl extends EPackageImpl
 				null, "ownerObject", null, 0, 1, Footnote.class, !IS_TRANSIENT,
 				!IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES,
 				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getFootnote_Footnote(),
+		initEReference(getFootnote_Bearbeitungsvermerk(),
 				theBasisobjektePackage.getBearbeitungsvermerk(), null,
-				"footnote", null, 0, 1, Footnote.class, !IS_TRANSIENT,
-				!IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+				"bearbeitungsvermerk", null, 0, 1, Footnote.class,
+				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE,
+				IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED,
+				IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(columnWidthModeEEnum, ColumnWidthMode.class,

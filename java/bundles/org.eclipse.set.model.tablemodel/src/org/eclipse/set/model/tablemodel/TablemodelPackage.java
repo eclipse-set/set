@@ -1065,13 +1065,13 @@ public interface TablemodelPackage extends EPackage {
 	int FOOTNOTE__OWNER_OBJECT = 0;
 
 	/**
-	 * The feature id for the '<em><b>Footnote</b></em>' reference. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
+	 * The feature id for the '<em><b>Bearbeitungsvermerk</b></em>' reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @generated
 	 * @ordered
 	 */
-	int FOOTNOTE__FOOTNOTE = 1;
+	int FOOTNOTE__BEARBEITUNGSVERMERK = 1;
 
 	/**
 	 * The number of structural features of the '<em>Footnote</em>' class. <!--
@@ -1861,15 +1861,16 @@ public interface TablemodelPackage extends EPackage {
 
 	/**
 	 * Returns the meta object for the reference
-	 * '{@link org.eclipse.set.model.tablemodel.Footnote#getFootnote
-	 * <em>Footnote</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * '{@link org.eclipse.set.model.tablemodel.Footnote#getBearbeitungsvermerk
+	 * <em>Bearbeitungsvermerk</em>}'. <!-- begin-user-doc --> <!-- end-user-doc
+	 * -->
 	 * 
-	 * @return the meta object for the reference '<em>Footnote</em>'.
-	 * @see org.eclipse.set.model.tablemodel.Footnote#getFootnote()
+	 * @return the meta object for the reference '<em>Bearbeitungsvermerk</em>'.
+	 * @see org.eclipse.set.model.tablemodel.Footnote#getBearbeitungsvermerk()
 	 * @see #getFootnote()
 	 * @generated
 	 */
-	EReference getFootnote_Footnote();
+	EReference getFootnote_Bearbeitungsvermerk();
 
 	/**
 	 * Returns the meta object for enum
@@ -2531,12 +2532,13 @@ public interface TablemodelPackage extends EPackage {
 		EReference FOOTNOTE__OWNER_OBJECT = eINSTANCE.getFootnote_OwnerObject();
 
 		/**
-		 * The meta object literal for the '<em><b>Footnote</b></em>' reference
-		 * feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * The meta object literal for the '<em><b>Bearbeitungsvermerk</b></em>'
+		 * reference feature. <!-- begin-user-doc --> <!-- end-user-doc -->
 		 * 
 		 * @generated
 		 */
-		EReference FOOTNOTE__FOOTNOTE = eINSTANCE.getFootnote_Footnote();
+		EReference FOOTNOTE__BEARBEITUNGSVERMERK = eINSTANCE
+				.getFootnote_Bearbeitungsvermerk();
 
 		/**
 		 * The meta object literal for the

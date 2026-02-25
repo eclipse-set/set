@@ -22,8 +22,8 @@ import org.eclipse.set.model.planpro.Basisobjekte.Bearbeitungsvermerk;
  * <ul>
  * <li>{@link org.eclipse.set.model.tablemodel.Footnote#getOwnerObject <em>Owner
  * Object</em>}</li>
- * <li>{@link org.eclipse.set.model.tablemodel.Footnote#getFootnote
- * <em>Footnote</em>}</li>
+ * <li>{@link org.eclipse.set.model.tablemodel.Footnote#getBearbeitungsvermerk
+ * <em>Bearbeitungsvermerk</em>}</li>
  * </ul>
  *
  * @see org.eclipse.set.model.tablemodel.TablemodelPackage#getFootnote()
@@ -57,28 +57,28 @@ public interface Footnote extends EObject {
 	void setOwnerObject(EObject value);
 
 	/**
-	 * Returns the value of the '<em><b>Footnote</b></em>' reference. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
+	 * Returns the value of the '<em><b>Bearbeitungsvermerk</b></em>' reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @return the value of the '<em>Footnote</em>' reference.
-	 * @see #setFootnote(Bearbeitungsvermerk)
-	 * @see org.eclipse.set.model.tablemodel.TablemodelPackage#getFootnote_Footnote()
+	 * @return the value of the '<em>Bearbeitungsvermerk</em>' reference.
+	 * @see #setBearbeitungsvermerk(Bearbeitungsvermerk)
+	 * @see org.eclipse.set.model.tablemodel.TablemodelPackage#getFootnote_Bearbeitungsvermerk()
 	 * @model
 	 * @generated
 	 */
-	Bearbeitungsvermerk getFootnote();
+	Bearbeitungsvermerk getBearbeitungsvermerk();
 
 	/**
 	 * Sets the value of the
-	 * '{@link org.eclipse.set.model.tablemodel.Footnote#getFootnote
-	 * <em>Footnote</em>}' reference. <!-- begin-user-doc --> <!-- end-user-doc
-	 * -->
+	 * '{@link org.eclipse.set.model.tablemodel.Footnote#getBearbeitungsvermerk
+	 * <em>Bearbeitungsvermerk</em>}' reference. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
 	 * 
 	 * @param value
-	 *            the new value of the '<em>Footnote</em>' reference.
-	 * @see #getFootnote()
+	 *            the new value of the '<em>Bearbeitungsvermerk</em>' reference.
+	 * @see #getBearbeitungsvermerk()
 	 * @generated
 	 */
-	void setFootnote(Bearbeitungsvermerk value);
+	void setBearbeitungsvermerk(Bearbeitungsvermerk value);
 
 } // Footnote

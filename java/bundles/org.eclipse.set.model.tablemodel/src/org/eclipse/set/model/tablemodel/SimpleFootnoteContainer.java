@@ -30,8 +30,8 @@ public interface SimpleFootnoteContainer extends FootnoteContainer {
 	/**
 	 * Returns the value of the '<em><b>Footnotes</b></em>' reference list. The
 	 * list contents are of type
-	 * {@link org.eclipse.set.model.tablemodel.Footnote}. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
+	 * {@link org.eclipse.set.model.tablemodel.Footnote}. <!-- begin-user-doc
+	 * --> <!-- end-user-doc -->
 	 * 
 	 * @return the value of the '<em>Footnotes</em>' reference list.
 	 * @see org.eclipse.set.model.tablemodel.TablemodelPackage#getSimpleFootnoteContainer_Footnotes()

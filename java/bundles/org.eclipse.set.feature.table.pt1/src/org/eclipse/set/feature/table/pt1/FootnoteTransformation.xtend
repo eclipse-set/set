@@ -346,7 +346,7 @@ class FootnoteTransformation {
 		}
 		val footnote = TablemodelFactory.eINSTANCE.createFootnote()
 		footnote.ownerObject = obj
-		footnote.footnote = (bv)
+		footnote.bearbeitungsvermerk = bv
 
 		return footnote
 	}

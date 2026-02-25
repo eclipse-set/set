@@ -297,19 +297,21 @@ public class FootnoteExtensions {
 		if (prefix == null) {
 			return footnotes;
 		}
-		return footnotes.stream().map(meta -> {
+		return footnotes.stream().map(footnote -> {
 			final Bearbeitungsvermerk bearbeitungsvermerk = createBearbeitungsvermerkWithoutGuid(
 					prefix + ": " //$NON-NLS-1$
-							+ meta.getFootnote()
+							+ footnote.getBearbeitungsvermerk()
 									.getBearbeitungsvermerkAllg()
 									.getKommentar()
 									.getWert());
 			bearbeitungsvermerk.setIdentitaet(
 					BasisobjekteFactory.eINSTANCE.createIdentitaet_TypeClass());
 			bearbeitungsvermerk.getIdentitaet()
-					.setWert(meta.getFootnote().getIdentitaet().getWert());
-			meta.setFootnote(bearbeitungsvermerk);
-			return meta;
+					.setWert(footnote.getBearbeitungsvermerk()
+							.getIdentitaet()
+							.getWert());
+			footnote.setBearbeitungsvermerk(bearbeitungsvermerk);
+			return footnote;
 		}).toList();
 	}
 }

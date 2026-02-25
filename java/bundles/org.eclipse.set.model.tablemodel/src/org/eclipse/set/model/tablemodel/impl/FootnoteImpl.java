@@ -31,8 +31,8 @@ import org.eclipse.set.model.tablemodel.TablemodelPackage;
  * <ul>
  * <li>{@link org.eclipse.set.model.tablemodel.impl.FootnoteImpl#getOwnerObject
  * <em>Owner Object</em>}</li>
- * <li>{@link org.eclipse.set.model.tablemodel.impl.FootnoteImpl#getFootnote
- * <em>Footnote</em>}</li>
+ * <li>{@link org.eclipse.set.model.tablemodel.impl.FootnoteImpl#getBearbeitungsvermerk
+ * <em>Bearbeitungsvermerk</em>}</li>
  * </ul>
  *
  * @generated
@@ -50,14 +50,15 @@ public class FootnoteImpl extends MinimalEObjectImpl.Container
 	protected EObject ownerObject;
 
 	/**
-	 * The cached value of the '{@link #getFootnote() <em>Footnote</em>}'
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getBearbeitungsvermerk()
+	 * <em>Bearbeitungsvermerk</em>}' reference. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
 	 * 
-	 * @see #getFootnote()
+	 * @see #getBearbeitungsvermerk()
 	 * @generated
 	 * @ordered
 	 */
-	protected Bearbeitungsvermerk footnote;
+	protected Bearbeitungsvermerk bearbeitungsvermerk;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -128,18 +129,19 @@ public class FootnoteImpl extends MinimalEObjectImpl.Container
 	 * @generated
 	 */
 	@Override
-	public Bearbeitungsvermerk getFootnote() {
-		if (footnote != null && footnote.eIsProxy()) {
-			InternalEObject oldFootnote = (InternalEObject) footnote;
-			footnote = (Bearbeitungsvermerk) eResolveProxy(oldFootnote);
-			if (footnote != oldFootnote) {
+	public Bearbeitungsvermerk getBearbeitungsvermerk() {
+		if (bearbeitungsvermerk != null && bearbeitungsvermerk.eIsProxy()) {
+			InternalEObject oldBearbeitungsvermerk = (InternalEObject) bearbeitungsvermerk;
+			bearbeitungsvermerk = (Bearbeitungsvermerk) eResolveProxy(
+					oldBearbeitungsvermerk);
+			if (bearbeitungsvermerk != oldBearbeitungsvermerk) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
-							TablemodelPackage.FOOTNOTE__FOOTNOTE, oldFootnote,
-							footnote));
+							TablemodelPackage.FOOTNOTE__BEARBEITUNGSVERMERK,
+							oldBearbeitungsvermerk, bearbeitungsvermerk));
 			}
 		}
-		return footnote;
+		return bearbeitungsvermerk;
 	}
 
 	/**
@@ -147,8 +149,8 @@ public class FootnoteImpl extends MinimalEObjectImpl.Container
 	 * 
 	 * @generated
 	 */
-	public Bearbeitungsvermerk basicGetFootnote() {
-		return footnote;
+	public Bearbeitungsvermerk basicGetBearbeitungsvermerk() {
+		return bearbeitungsvermerk;
 	}
 
 	/**
@@ -157,13 +159,14 @@ public class FootnoteImpl extends MinimalEObjectImpl.Container
 	 * @generated
 	 */
 	@Override
-	public void setFootnote(Bearbeitungsvermerk newFootnote) {
-		Bearbeitungsvermerk oldFootnote = footnote;
-		footnote = newFootnote;
+	public void setBearbeitungsvermerk(
+			Bearbeitungsvermerk newBearbeitungsvermerk) {
+		Bearbeitungsvermerk oldBearbeitungsvermerk = bearbeitungsvermerk;
+		bearbeitungsvermerk = newBearbeitungsvermerk;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
-					TablemodelPackage.FOOTNOTE__FOOTNOTE, oldFootnote,
-					footnote));
+					TablemodelPackage.FOOTNOTE__BEARBEITUNGSVERMERK,
+					oldBearbeitungsvermerk, bearbeitungsvermerk));
 	}
 
 	/**
@@ -178,10 +181,10 @@ public class FootnoteImpl extends MinimalEObjectImpl.Container
 				if (resolve)
 					return getOwnerObject();
 				return basicGetOwnerObject();
-			case TablemodelPackage.FOOTNOTE__FOOTNOTE:
+			case TablemodelPackage.FOOTNOTE__BEARBEITUNGSVERMERK:
 				if (resolve)
-					return getFootnote();
-				return basicGetFootnote();
+					return getBearbeitungsvermerk();
+				return basicGetBearbeitungsvermerk();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -197,8 +200,8 @@ public class FootnoteImpl extends MinimalEObjectImpl.Container
 			case TablemodelPackage.FOOTNOTE__OWNER_OBJECT:
 				setOwnerObject((EObject) newValue);
 				return;
-			case TablemodelPackage.FOOTNOTE__FOOTNOTE:
-				setFootnote((Bearbeitungsvermerk) newValue);
+			case TablemodelPackage.FOOTNOTE__BEARBEITUNGSVERMERK:
+				setBearbeitungsvermerk((Bearbeitungsvermerk) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -215,8 +218,8 @@ public class FootnoteImpl extends MinimalEObjectImpl.Container
 			case TablemodelPackage.FOOTNOTE__OWNER_OBJECT:
 				setOwnerObject((EObject) null);
 				return;
-			case TablemodelPackage.FOOTNOTE__FOOTNOTE:
-				setFootnote((Bearbeitungsvermerk) null);
+			case TablemodelPackage.FOOTNOTE__BEARBEITUNGSVERMERK:
+				setBearbeitungsvermerk((Bearbeitungsvermerk) null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -232,8 +235,8 @@ public class FootnoteImpl extends MinimalEObjectImpl.Container
 		switch (featureID) {
 			case TablemodelPackage.FOOTNOTE__OWNER_OBJECT:
 				return ownerObject != null;
-			case TablemodelPackage.FOOTNOTE__FOOTNOTE:
-				return footnote != null;
+			case TablemodelPackage.FOOTNOTE__BEARBEITUNGSVERMERK:
+				return bearbeitungsvermerk != null;
 		}
 		return super.eIsSet(featureID);
 	}
