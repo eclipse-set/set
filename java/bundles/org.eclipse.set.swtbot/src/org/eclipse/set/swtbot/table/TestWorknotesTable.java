@@ -67,7 +67,7 @@ public class TestWorknotesTable extends AbstractTableTest {
 	void givenWorknotesTable() {
 		worknotesTable = new PtTable("Sxxx",
 				"Sxxx – Tabelle weiterer Bearbeitungsvermerke",
-				"supplement-estw", List.of(0));
+				"supplement", List.of(0));
 	}
 
 	void givenWorknotesTableReferenceOpenAfter() throws Exception {
