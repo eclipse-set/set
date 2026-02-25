@@ -52,6 +52,7 @@ import org.eclipse.set.model.planpro.Ortung.FMA_Anlage
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Zug_Rangier
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Unterbringung
 import org.eclipse.set.model.planpro.Ortung.Schaltmittel_Zuordnung
+import org.eclipse.set.model.planpro.Signale.Signal_Signalbegriff
 
 /**
  * Transform basis objects to footnotes.
@@ -110,16 +111,15 @@ class FootnoteTransformation {
 		if (signalBefestigung === null) {
 			return #[]
 		}
-		return signalBefestigung?.signalBefestigungen?.filter [
-			IDBearbeitungsvermerk !== null
-		]?.flatMap [
-			val notes = IDBearbeitungsvermerk
+		val footnotes = signalBefestigung?.signalBefestigungen?.flatMap [
+			val notes = IDBearbeitungsvermerk ?: #[]
 			val objectStateNote = #[
-				signalBefestigung?.transformObjectStateEnum(
-					basisObjektAllg?.objektzustandBesonders?.wert)
+				signalBefestigung?.transformObjectStateEnum
 			].filterNull
 			return #[notes, objectStateNote].flatten
 		] ?: #[]
+
+		return footnotes.toList.withPrefix(signalBefestigung.prefix)
 	}
 
 	// Determine Footnotes for Ssks Table
@@ -128,14 +128,23 @@ class FootnoteTransformation {
 		val rahmenFootnotes = signalRahmen?.IDBearbeitungsvermerk?.filterNull
 		val objectStateNote = #[signalRahmen?.transformObjectStateEnum].
 			filterNull
-		val signalBegriffFootntoes = signalRahmen?.signalbegriffe?.flatMap [
-			val stateNote = #[transformObjectStateEnum].filterNull
-			return #[stateNote, IDBearbeitungsvermerk].filterNull.flatten
-		]?.filterNull
-		return #[rahmenFootnotes, objectStateNote, signalBegriffFootntoes].
-			filterNull.flatten
+		val signalRahmenFootnotes = #[rahmenFootnotes, objectStateNote].
+			filterNull.flatten.toList.withPrefix(signalRahmen.prefix)
+
+		val signalBegriffFootnotes = signalRahmen?.signalbegriffe?.flatMap [
+			referenceFootnotes
+		]
+		return #[signalRahmenFootnotes, signalBegriffFootnotes].filterNull.
+			flatten
 	}
 
+	// Determine Footnotes for Ssks Table
+	private def dispatch Iterable<ID_Bearbeitungsvermerk_TypeClass> getReferenceFootnotes(Signal_Signalbegriff signalBegriff) {
+		val signalBegriffFootnotes = signalBegriff?.IDBearbeitungsvermerk?.filterNull
+		val objectStateNote = #[signalBegriff?.transformObjectStateEnum].filterNull
+		return #[signalBegriffFootnotes, objectStateNote].filterNull.flatten.toList.withPrefix(signalBegriff.prefix)
+	}
+	
 	// Determine Footnotes for Sskw Table
 	private def dispatch Iterable<ID_Bearbeitungsvermerk_TypeClass> getReferenceFootnotes(
 		W_Kr_Gsp_Element gspElement) {
