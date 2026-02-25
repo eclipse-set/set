@@ -72,10 +72,10 @@ class TeilbereichTOPKante extends AbstractPlazContainerCheck implements PlazChec
 	private def getErrorSeverity(double limitA, double limitB,
 		double topLength) {
 		if ((limitA > topLength &&
-			(limitA - topLength) <= ToolboxConstants.TOP_GEO_LENGTH_TOLERANCE) ||
+			(limitA - topLength) <= ToolboxConstants.TEILBEREICH_TOP_KANTE_TOLERANCE) ||
 			(limitB > topLength &&
 				(limitB - topLength) <=
-					ToolboxConstants.TOP_GEO_LENGTH_TOLERANCE)) {
+					ToolboxConstants.TEILBEREICH_TOP_KANTE_TOLERANCE)) {
 			return ValidationSeverity.WARNING
 		}
 
