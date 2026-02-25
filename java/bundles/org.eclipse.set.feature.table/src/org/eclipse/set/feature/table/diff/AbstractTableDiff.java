@@ -20,7 +20,7 @@ import org.eclipse.set.core.services.session.SessionService;
 import org.eclipse.set.model.tablemodel.CellContent;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.CompareFootnoteContainer;
-import org.eclipse.set.model.tablemodel.FootnoteMetaInformation;
+import org.eclipse.set.model.tablemodel.Footnote;
 import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.model.tablemodel.StringCellContent;
 import org.eclipse.set.model.tablemodel.Table;
@@ -172,12 +172,12 @@ public abstract class AbstractTableDiff implements TableDiffService {
 		if (mergedRow == null) {
 			return;
 		}
-		final List<FootnoteMetaInformation> firstFootnotes = FootnoteContainerExtensions
-				.getFootnoteMetaInformations(mergedRow.getFootnotes());
-		final List<FootnoteMetaInformation> secondFootnotes = newRow == null
+		final List<Footnote> firstFootnotes = FootnoteContainerExtensions
+				.getFootnotes(mergedRow.getFootnotes());
+		final List<Footnote> secondFootnotes = newRow == null
 				? Collections.emptyList()
 				: FootnoteContainerExtensions
-						.getFootnoteMetaInformations(newRow.getFootnotes());
+						.getFootnotes(newRow.getFootnotes());
 
 		final CompareFootnoteContainer diffFootnotes = TablemodelFactory.eINSTANCE
 				.createCompareFootnoteContainer();
@@ -205,10 +205,10 @@ public abstract class AbstractTableDiff implements TableDiffService {
 	}
 
 	@SuppressWarnings("static-method")
-	protected void compareFootnotes(final FootnoteMetaInformation footnote,
-			final List<FootnoteMetaInformation> anotherFootnotes,
-			final Consumer<FootnoteMetaInformation> addUnchangedConsumer,
-			final Consumer<FootnoteMetaInformation> addChangedConsumer) {
+	protected void compareFootnotes(final Footnote footnote,
+			final List<Footnote> anotherFootnotes,
+			final Consumer<Footnote> addUnchangedConsumer,
+			final Consumer<Footnote> addChangedConsumer) {
 		if (anotherFootnotes.stream()
 				.anyMatch(f -> f.getFootnote()
 						.getIdentitaet()

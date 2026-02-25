@@ -1046,15 +1046,14 @@ public interface TablemodelPackage extends EPackage {
 
 	/**
 	 * The meta object id for the
-	 * '{@link org.eclipse.set.model.tablemodel.impl.FootnoteMetaInformationImpl
-	 * <em>Footnote Meta Information</em>}' class. <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
+	 * '{@link org.eclipse.set.model.tablemodel.impl.FootnoteImpl
+	 * <em>Footnote</em>}' class. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @see org.eclipse.set.model.tablemodel.impl.FootnoteMetaInformationImpl
-	 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getFootnoteMetaInformation()
+	 * @see org.eclipse.set.model.tablemodel.impl.FootnoteImpl
+	 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getFootnote()
 	 * @generated
 	 */
-	int FOOTNOTE_META_INFORMATION = 18;
+	int FOOTNOTE = 18;
 
 	/**
 	 * The feature id for the '<em><b>Owner Object</b></em>' reference. <!--
@@ -1063,7 +1062,7 @@ public interface TablemodelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int FOOTNOTE_META_INFORMATION__OWNER_OBJECT = 0;
+	int FOOTNOTE__OWNER_OBJECT = 0;
 
 	/**
 	 * The feature id for the '<em><b>Footnote</b></em>' reference. <!--
@@ -1072,25 +1071,25 @@ public interface TablemodelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int FOOTNOTE_META_INFORMATION__FOOTNOTE = 1;
+	int FOOTNOTE__FOOTNOTE = 1;
 
 	/**
-	 * The number of structural features of the '<em>Footnote Meta
-	 * Information</em>' class. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The number of structural features of the '<em>Footnote</em>' class. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @generated
 	 * @ordered
 	 */
-	int FOOTNOTE_META_INFORMATION_FEATURE_COUNT = 2;
+	int FOOTNOTE_FEATURE_COUNT = 2;
 
 	/**
-	 * The number of operations of the '<em>Footnote Meta Information</em>'
-	 * class. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The number of operations of the '<em>Footnote</em>' class. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @generated
 	 * @ordered
 	 */
-	int FOOTNOTE_META_INFORMATION_OPERATION_COUNT = 0;
+	int FOOTNOTE_OPERATION_COUNT = 0;
 
 	/**
 	 * The meta object id for the
@@ -1839,39 +1838,38 @@ public interface TablemodelPackage extends EPackage {
 
 	/**
 	 * Returns the meta object for class
-	 * '{@link org.eclipse.set.model.tablemodel.FootnoteMetaInformation
-	 * <em>Footnote Meta Information</em>}'. <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
+	 * '{@link org.eclipse.set.model.tablemodel.Footnote <em>Footnote</em>}'.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @return the meta object for class '<em>Footnote Meta Information</em>'.
-	 * @see org.eclipse.set.model.tablemodel.FootnoteMetaInformation
+	 * @return the meta object for class '<em>Footnote</em>'.
+	 * @see org.eclipse.set.model.tablemodel.Footnote
 	 * @generated
 	 */
-	EClass getFootnoteMetaInformation();
+	EClass getFootnote();
 
 	/**
 	 * Returns the meta object for the reference
-	 * '{@link org.eclipse.set.model.tablemodel.FootnoteMetaInformation#getOwnerObject
+	 * '{@link org.eclipse.set.model.tablemodel.Footnote#getOwnerObject
 	 * <em>Owner Object</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @return the meta object for the reference '<em>Owner Object</em>'.
-	 * @see org.eclipse.set.model.tablemodel.FootnoteMetaInformation#getOwnerObject()
-	 * @see #getFootnoteMetaInformation()
+	 * @see org.eclipse.set.model.tablemodel.Footnote#getOwnerObject()
+	 * @see #getFootnote()
 	 * @generated
 	 */
-	EReference getFootnoteMetaInformation_OwnerObject();
+	EReference getFootnote_OwnerObject();
 
 	/**
 	 * Returns the meta object for the reference
-	 * '{@link org.eclipse.set.model.tablemodel.FootnoteMetaInformation#getFootnote
+	 * '{@link org.eclipse.set.model.tablemodel.Footnote#getFootnote
 	 * <em>Footnote</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @return the meta object for the reference '<em>Footnote</em>'.
-	 * @see org.eclipse.set.model.tablemodel.FootnoteMetaInformation#getFootnote()
-	 * @see #getFootnoteMetaInformation()
+	 * @see org.eclipse.set.model.tablemodel.Footnote#getFootnote()
+	 * @see #getFootnote()
 	 * @generated
 	 */
-	EReference getFootnoteMetaInformation_Footnote();
+	EReference getFootnote_Footnote();
 
 	/**
 	 * Returns the meta object for enum
@@ -2514,16 +2512,15 @@ public interface TablemodelPackage extends EPackage {
 
 		/**
 		 * The meta object literal for the
-		 * '{@link org.eclipse.set.model.tablemodel.impl.FootnoteMetaInformationImpl
-		 * <em>Footnote Meta Information</em>}' class. <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+		 * '{@link org.eclipse.set.model.tablemodel.impl.FootnoteImpl
+		 * <em>Footnote</em>}' class. <!-- begin-user-doc --> <!-- end-user-doc
+		 * -->
 		 * 
-		 * @see org.eclipse.set.model.tablemodel.impl.FootnoteMetaInformationImpl
-		 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getFootnoteMetaInformation()
+		 * @see org.eclipse.set.model.tablemodel.impl.FootnoteImpl
+		 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getFootnote()
 		 * @generated
 		 */
-		EClass FOOTNOTE_META_INFORMATION = eINSTANCE
-				.getFootnoteMetaInformation();
+		EClass FOOTNOTE = eINSTANCE.getFootnote();
 
 		/**
 		 * The meta object literal for the '<em><b>Owner Object</b></em>'
@@ -2531,8 +2528,7 @@ public interface TablemodelPackage extends EPackage {
 		 * 
 		 * @generated
 		 */
-		EReference FOOTNOTE_META_INFORMATION__OWNER_OBJECT = eINSTANCE
-				.getFootnoteMetaInformation_OwnerObject();
+		EReference FOOTNOTE__OWNER_OBJECT = eINSTANCE.getFootnote_OwnerObject();
 
 		/**
 		 * The meta object literal for the '<em><b>Footnote</b></em>' reference
@@ -2540,8 +2536,7 @@ public interface TablemodelPackage extends EPackage {
 		 * 
 		 * @generated
 		 */
-		EReference FOOTNOTE_META_INFORMATION__FOOTNOTE = eINSTANCE
-				.getFootnoteMetaInformation_Footnote();
+		EReference FOOTNOTE__FOOTNOTE = eINSTANCE.getFootnote_Footnote();
 
 		/**
 		 * The meta object literal for the

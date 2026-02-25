@@ -149,7 +149,7 @@ public class SimpleFootnoteContainerItemProvider
 
 		newChildDescriptors.add(createChildParameter(
 				TablemodelPackage.Literals.SIMPLE_FOOTNOTE_CONTAINER__FOOTNOTES,
-				TablemodelFactory.eINSTANCE.createFootnoteMetaInformation()));
+				TablemodelFactory.eINSTANCE.createFootnote()));
 	}
 
 }

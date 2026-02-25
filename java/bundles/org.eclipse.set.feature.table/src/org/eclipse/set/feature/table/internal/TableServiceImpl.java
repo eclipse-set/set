@@ -52,7 +52,7 @@ import org.eclipse.set.core.services.session.SessionService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.messages.Messages;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
-import org.eclipse.set.model.tablemodel.FootnoteMetaInformation;
+import org.eclipse.set.model.tablemodel.Footnote;
 import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.TableRow;
@@ -127,7 +127,7 @@ public final class TableServiceImpl implements TableService {
 	private final Map<TableInfo, PlanPro2TableTransformationService> modelServiceMap = new ConcurrentHashMap<>();
 
 	private final Map<TableCompareType, TableDiffService> diffServiceMap = new ConcurrentHashMap<>();
-	private final Map<TableInfo, Set<FootnoteMetaInformation>> workNotesPerTable = new ConcurrentHashMap<>();
+	private final Map<TableInfo, Set<Footnote>> workNotesPerTable = new ConcurrentHashMap<>();
 	private static final Queue<Pair<BasePart, Runnable>> transformTableThreads = new LinkedList<>();
 	private static final Set<TableInfo> nonTransformableTables = new HashSet<>();
 
@@ -427,7 +427,7 @@ public final class TableServiceImpl implements TableService {
 			});
 			return;
 		}
-		final Set<FootnoteMetaInformation> tableNotes = FootnoteExtensions
+		final Set<Footnote> tableNotes = FootnoteExtensions
 				.getNotesInTable(resultTable);
 
 		workNotesPerTable.put(tableInfo, tableNotes);

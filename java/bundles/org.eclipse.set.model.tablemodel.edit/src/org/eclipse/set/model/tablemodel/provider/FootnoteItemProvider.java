@@ -29,12 +29,12 @@ import org.eclipse.set.model.tablemodel.TablemodelPackage;
 
 /**
  * This is the item provider adapter for a
- * {@link org.eclipse.set.model.tablemodel.FootnoteMetaInformation} object. <!--
- * begin-user-doc --> <!-- end-user-doc -->
+ * {@link org.eclipse.set.model.tablemodel.Footnote} object. <!-- begin-user-doc
+ * --> <!-- end-user-doc -->
  * 
  * @generated
  */
-public class FootnoteMetaInformationItemProvider extends ItemProviderAdapter
+public class FootnoteItemProvider extends ItemProviderAdapter
 		implements IEditingDomainItemProvider, IStructuredItemContentProvider,
 		ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource {
 	/**
@@ -43,7 +43,7 @@ public class FootnoteMetaInformationItemProvider extends ItemProviderAdapter
 	 * 
 	 * @generated
 	 */
-	public FootnoteMetaInformationItemProvider(AdapterFactory adapterFactory) {
+	public FootnoteItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 
@@ -75,12 +75,12 @@ public class FootnoteMetaInformationItemProvider extends ItemProviderAdapter
 				((ComposeableAdapterFactory) adapterFactory)
 						.getRootAdapterFactory(),
 				getResourceLocator(),
-				getString("_UI_FootnoteMetaInformation_ownerObject_feature"),
+				getString("_UI_Footnote_ownerObject_feature"),
 				getString("_UI_PropertyDescriptor_description",
-						"_UI_FootnoteMetaInformation_ownerObject_feature",
-						"_UI_FootnoteMetaInformation_type"),
-				TablemodelPackage.Literals.FOOTNOTE_META_INFORMATION__OWNER_OBJECT,
-				true, false, true, null, null, null));
+						"_UI_Footnote_ownerObject_feature",
+						"_UI_Footnote_type"),
+				TablemodelPackage.Literals.FOOTNOTE__OWNER_OBJECT, true, false,
+				true, null, null, null));
 	}
 
 	/**
@@ -94,24 +94,22 @@ public class FootnoteMetaInformationItemProvider extends ItemProviderAdapter
 				((ComposeableAdapterFactory) adapterFactory)
 						.getRootAdapterFactory(),
 				getResourceLocator(),
-				getString("_UI_FootnoteMetaInformation_footnote_feature"),
+				getString("_UI_Footnote_footnote_feature"),
 				getString("_UI_PropertyDescriptor_description",
-						"_UI_FootnoteMetaInformation_footnote_feature",
-						"_UI_FootnoteMetaInformation_type"),
-				TablemodelPackage.Literals.FOOTNOTE_META_INFORMATION__FOOTNOTE,
-				true, false, true, null, null, null));
+						"_UI_Footnote_footnote_feature", "_UI_Footnote_type"),
+				TablemodelPackage.Literals.FOOTNOTE__FOOTNOTE, true, false,
+				true, null, null, null));
 	}
 
 	/**
-	 * This returns FootnoteMetaInformation.gif. <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
+	 * This returns Footnote.gif. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator()
-				.getImage("full/obj16/FootnoteMetaInformation"));
+		return overlayImage(object,
+				getResourceLocator().getImage("full/obj16/Footnote"));
 	}
 
 	/**
@@ -122,7 +120,7 @@ public class FootnoteMetaInformationItemProvider extends ItemProviderAdapter
 	 */
 	@Override
 	public String getText(Object object) {
-		return getString("_UI_FootnoteMetaInformation_type");
+		return getString("_UI_Footnote_type");
 	}
 
 	/**

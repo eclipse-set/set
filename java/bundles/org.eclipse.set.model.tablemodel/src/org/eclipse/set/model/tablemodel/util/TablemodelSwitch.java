@@ -217,9 +217,9 @@ public class TablemodelSwitch<T> extends Switch<T> {
 					result = defaultCase(theEObject);
 				return result;
 			}
-			case TablemodelPackage.FOOTNOTE_META_INFORMATION: {
-				FootnoteMetaInformation footnoteMetaInformation = (FootnoteMetaInformation) theEObject;
-				T result = caseFootnoteMetaInformation(footnoteMetaInformation);
+			case TablemodelPackage.FOOTNOTE: {
+				Footnote footnote = (Footnote) theEObject;
+				T result = caseFootnote(footnote);
 				if (result == null)
 					result = defaultCase(theEObject);
 				return result;
@@ -538,18 +538,18 @@ public class TablemodelSwitch<T> extends Switch<T> {
 
 	/**
 	 * Returns the result of interpreting the object as an instance of
-	 * '<em>Footnote Meta Information</em>'. <!-- begin-user-doc --> This
-	 * implementation returns null; returning a non-null result will terminate
-	 * the switch. <!-- end-user-doc -->
+	 * '<em>Footnote</em>'. <!-- begin-user-doc --> This implementation returns
+	 * null; returning a non-null result will terminate the switch. <!--
+	 * end-user-doc -->
 	 * 
 	 * @param object
 	 *            the target of the switch.
 	 * @return the result of interpreting the object as an instance of
-	 *         '<em>Footnote Meta Information</em>'.
+	 *         '<em>Footnote</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseFootnoteMetaInformation(FootnoteMetaInformation object) {
+	public T caseFootnote(Footnote object) {
 		return null;
 	}
 

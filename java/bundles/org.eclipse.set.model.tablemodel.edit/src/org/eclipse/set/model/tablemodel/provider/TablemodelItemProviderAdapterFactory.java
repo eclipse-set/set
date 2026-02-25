@@ -493,28 +493,27 @@ public class TablemodelItemProviderAdapterFactory
 
 	/**
 	 * This keeps track of the one adapter used for all
-	 * {@link org.eclipse.set.model.tablemodel.FootnoteMetaInformation}
-	 * instances. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated
-	 */
-	protected FootnoteMetaInformationItemProvider footnoteMetaInformationItemProvider;
-
-	/**
-	 * This creates an adapter for a
-	 * {@link org.eclipse.set.model.tablemodel.FootnoteMetaInformation}. <!--
+	 * {@link org.eclipse.set.model.tablemodel.Footnote} instances. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @generated
 	 */
+	protected FootnoteItemProvider footnoteItemProvider;
+
+	/**
+	 * This creates an adapter for a
+	 * {@link org.eclipse.set.model.tablemodel.Footnote}. <!-- begin-user-doc
+	 * --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
 	@Override
-	public Adapter createFootnoteMetaInformationAdapter() {
-		if (footnoteMetaInformationItemProvider == null) {
-			footnoteMetaInformationItemProvider = new FootnoteMetaInformationItemProvider(
-					this);
+	public Adapter createFootnoteAdapter() {
+		if (footnoteItemProvider == null) {
+			footnoteItemProvider = new FootnoteItemProvider(this);
 		}
 
-		return footnoteMetaInformationItemProvider;
+		return footnoteItemProvider;
 	}
 
 	/**
@@ -656,8 +655,8 @@ public class TablemodelItemProviderAdapterFactory
 			compareTableFootnoteContainerItemProvider.dispose();
 		if (planCompareRowItemProvider != null)
 			planCompareRowItemProvider.dispose();
-		if (footnoteMetaInformationItemProvider != null)
-			footnoteMetaInformationItemProvider.dispose();
+		if (footnoteItemProvider != null)
+			footnoteItemProvider.dispose();
 	}
 
 }

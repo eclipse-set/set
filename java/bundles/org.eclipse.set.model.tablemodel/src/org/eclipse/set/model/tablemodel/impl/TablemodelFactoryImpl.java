@@ -96,8 +96,8 @@ public class TablemodelFactoryImpl extends EFactoryImpl
 				return createCompareTableFootnoteContainer();
 			case TablemodelPackage.PLAN_COMPARE_ROW:
 				return createPlanCompareRow();
-			case TablemodelPackage.FOOTNOTE_META_INFORMATION:
-				return createFootnoteMetaInformation();
+			case TablemodelPackage.FOOTNOTE:
+				return createFootnote();
 			default:
 				throw new IllegalArgumentException("The class '"
 						+ eClass.getName() + "' is not a valid classifier");
@@ -328,9 +328,9 @@ public class TablemodelFactoryImpl extends EFactoryImpl
 	 * @generated
 	 */
 	@Override
-	public FootnoteMetaInformation createFootnoteMetaInformation() {
-		FootnoteMetaInformationImpl footnoteMetaInformation = new FootnoteMetaInformationImpl();
-		return footnoteMetaInformation;
+	public Footnote createFootnote() {
+		FootnoteImpl footnote = new FootnoteImpl();
+		return footnote;
 	}
 
 	/**

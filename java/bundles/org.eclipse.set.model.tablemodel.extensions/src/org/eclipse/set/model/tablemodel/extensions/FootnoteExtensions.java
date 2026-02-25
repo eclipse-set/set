@@ -30,7 +30,7 @@ import org.eclipse.set.model.planpro.Signale.Signal_Befestigung;
 import org.eclipse.set.model.planpro.Signale.Signal_Rahmen;
 import org.eclipse.set.model.planpro.Signale.Signal_Signalbegriff;
 import org.eclipse.set.model.tablemodel.CellContent;
-import org.eclipse.set.model.tablemodel.FootnoteMetaInformation;
+import org.eclipse.set.model.tablemodel.Footnote;
 import org.eclipse.set.model.tablemodel.StringCellContent;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.TableRow;
@@ -133,12 +133,11 @@ public class FootnoteExtensions {
 	 *            the {@link Table}
 	 * @return the {@link Ur_Objekt} and the belong {@link Bearbeitungsvermerk}
 	 */
-	public static Set<FootnoteMetaInformation> getNotesInTable(
-			final Table table) {
+	public static Set<Footnote> getNotesInTable(final Table table) {
 		return IterableExtensions.toSet(IterableExtensions
 				.flatMap(TableExtensions.getTableRows(table), row -> {
-					final List<FootnoteMetaInformation> footnotes = FootnoteContainerExtensions
-							.getFootnoteMetaInformations(row.getFootnotes());
+					final List<Footnote> footnotes = FootnoteContainerExtensions
+							.getFootnotes(row.getFootnotes());
 					return footnotes;
 				}));
 	}
@@ -149,12 +148,12 @@ public class FootnoteExtensions {
 	 * @param sxxxTable
 	 *            the Sxxx table
 	 * @param workNotesInAnotherTable
-	 *            the {@link FootnoteMetaInformation} in another table
+	 *            the {@link Footnote} in another table
 	 * @param tableName
 	 *            the table name of table, which worknote belong to
 	 */
 	public static void fillSxxxTableColumnC(final Table sxxxTable,
-			final Set<FootnoteMetaInformation> workNotesInAnotherTable,
+			final Set<Footnote> workNotesInAnotherTable,
 			final String tableName) {
 		final List<TableRow> tableRows = TableExtensions
 				.getTableRows(sxxxTable);
@@ -282,24 +281,23 @@ public class FootnoteExtensions {
 	}
 
 	/**
-	 * Adds the given prefix to all the bearbeitungsvermerke.
-	 * Bearbeitungsvermerke are cloned so that the original bearbeitungsvermerke
-	 * stay untouched.
+	 * Adds the given prefix to all the footnotes. Bearbeitungsvermerke of
+	 * footnotes are cloned so that the original bearbeitungsvermerke stay
+	 * untouched.
 	 * 
-	 * @param bearbeitungsVermerke
-	 *            the bearbeitungsvermerke to prefix
+	 * @param footnotes
+	 *            the footnotes to prefix
 	 * @param prefix
 	 *            the prefix to for the kommentar of bearbeitungsvermerk or null
 	 *            if no prefix should be added
-	 * @return the extended bearbeitungsvermerke
+	 * @return the extended footnotes
 	 */
-	public static List<FootnoteMetaInformation> withPrefix(
-			final List<FootnoteMetaInformation> bearbeitungsVermerke,
+	public static List<Footnote> withPrefix(final List<Footnote> footnotes,
 			final String prefix) {
 		if (prefix == null) {
-			return bearbeitungsVermerke;
+			return footnotes;
 		}
-		return bearbeitungsVermerke.stream().map(meta -> {
+		return footnotes.stream().map(meta -> {
 			final Bearbeitungsvermerk bearbeitungsvermerk = createBearbeitungsvermerkWithoutGuid(
 					prefix + ": " //$NON-NLS-1$
 							+ meta.getFootnote()

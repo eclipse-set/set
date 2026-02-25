@@ -173,13 +173,13 @@ public interface TablemodelFactory extends EFactory {
 	PlanCompareRow createPlanCompareRow();
 
 	/**
-	 * Returns a new object of class '<em>Footnote Meta Information</em>'. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
+	 * Returns a new object of class '<em>Footnote</em>'. <!-- begin-user-doc
+	 * --> <!-- end-user-doc -->
 	 * 
-	 * @return a new object of class '<em>Footnote Meta Information</em>'.
+	 * @return a new object of class '<em>Footnote</em>'.
 	 * @generated
 	 */
-	FootnoteMetaInformation createFootnoteMetaInformation();
+	Footnote createFootnote();
 
 	/**
 	 * Returns the package supported by this factory. <!-- begin-user-doc -->

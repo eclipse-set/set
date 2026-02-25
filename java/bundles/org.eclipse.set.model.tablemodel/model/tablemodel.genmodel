@@ -97,9 +97,9 @@
     <genClasses ecoreClass="tablemodel.ecore#//PlanCompareRow">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tablemodel.ecore#//PlanCompareRow/rowType"/>
     </genClasses>
-    <genClasses ecoreClass="tablemodel.ecore#//FootnoteMetaInformation">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tablemodel.ecore#//FootnoteMetaInformation/ownerObject"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tablemodel.ecore#//FootnoteMetaInformation/footnote"/>
+    <genClasses ecoreClass="tablemodel.ecore#//Footnote">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tablemodel.ecore#//Footnote/ownerObject"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tablemodel.ecore#//Footnote/footnote"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

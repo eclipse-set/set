@@ -168,9 +168,8 @@ public class TablemodelAdapterFactory extends AdapterFactoryImpl {
 		}
 
 		@Override
-		public Adapter caseFootnoteMetaInformation(
-				FootnoteMetaInformation object) {
-			return createFootnoteMetaInformationAdapter();
+		public Adapter caseFootnote(Footnote object) {
+			return createFootnoteAdapter();
 		}
 
 		@Override
@@ -478,17 +477,16 @@ public class TablemodelAdapterFactory extends AdapterFactoryImpl {
 
 	/**
 	 * Creates a new adapter for an object of class
-	 * '{@link org.eclipse.set.model.tablemodel.FootnoteMetaInformation
-	 * <em>Footnote Meta Information</em>}'. <!-- begin-user-doc --> This
-	 * default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases
-	 * anyway. <!-- end-user-doc -->
+	 * '{@link org.eclipse.set.model.tablemodel.Footnote <em>Footnote</em>}'.
+	 * <!-- begin-user-doc --> This default implementation returns null so that
+	 * we can easily ignore cases; it's useful to ignore a case when inheritance
+	 * will catch all the cases anyway. <!-- end-user-doc -->
 	 * 
 	 * @return the new adapter.
-	 * @see org.eclipse.set.model.tablemodel.FootnoteMetaInformation
+	 * @see org.eclipse.set.model.tablemodel.Footnote
 	 * @generated
 	 */
-	public Adapter createFootnoteMetaInformationAdapter() {
+	public Adapter createFootnoteAdapter() {
 		return null;
 	}
 

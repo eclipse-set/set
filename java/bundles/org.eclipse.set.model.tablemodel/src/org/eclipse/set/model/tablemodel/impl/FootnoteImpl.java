@@ -18,26 +18,27 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 import org.eclipse.set.model.planpro.Basisobjekte.Bearbeitungsvermerk;
-import org.eclipse.set.model.tablemodel.FootnoteMetaInformation;
+
+import org.eclipse.set.model.tablemodel.Footnote;
 import org.eclipse.set.model.tablemodel.TablemodelPackage;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object
- * '<em><b>Footnote Meta Information</b></em>'. <!-- end-user-doc -->
+ * '<em><b>Footnote</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- * <li>{@link org.eclipse.set.model.tablemodel.impl.FootnoteMetaInformationImpl#getOwnerObject
+ * <li>{@link org.eclipse.set.model.tablemodel.impl.FootnoteImpl#getOwnerObject
  * <em>Owner Object</em>}</li>
- * <li>{@link org.eclipse.set.model.tablemodel.impl.FootnoteMetaInformationImpl#getFootnote
+ * <li>{@link org.eclipse.set.model.tablemodel.impl.FootnoteImpl#getFootnote
  * <em>Footnote</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class FootnoteMetaInformationImpl extends MinimalEObjectImpl.Container
-		implements FootnoteMetaInformation {
+public class FootnoteImpl extends MinimalEObjectImpl.Container
+		implements Footnote {
 	/**
 	 * The cached value of the '{@link #getOwnerObject() <em>Owner Object</em>}'
 	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -63,7 +64,7 @@ public class FootnoteMetaInformationImpl extends MinimalEObjectImpl.Container
 	 * 
 	 * @generated
 	 */
-	protected FootnoteMetaInformationImpl() {
+	protected FootnoteImpl() {
 		super();
 	}
 
@@ -74,7 +75,7 @@ public class FootnoteMetaInformationImpl extends MinimalEObjectImpl.Container
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return TablemodelPackage.Literals.FOOTNOTE_META_INFORMATION;
+		return TablemodelPackage.Literals.FOOTNOTE;
 	}
 
 	/**
@@ -90,7 +91,7 @@ public class FootnoteMetaInformationImpl extends MinimalEObjectImpl.Container
 			if (ownerObject != oldOwnerObject) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
-							TablemodelPackage.FOOTNOTE_META_INFORMATION__OWNER_OBJECT,
+							TablemodelPackage.FOOTNOTE__OWNER_OBJECT,
 							oldOwnerObject, ownerObject));
 			}
 		}
@@ -117,8 +118,8 @@ public class FootnoteMetaInformationImpl extends MinimalEObjectImpl.Container
 		ownerObject = newOwnerObject;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
-					TablemodelPackage.FOOTNOTE_META_INFORMATION__OWNER_OBJECT,
-					oldOwnerObject, ownerObject));
+					TablemodelPackage.FOOTNOTE__OWNER_OBJECT, oldOwnerObject,
+					ownerObject));
 	}
 
 	/**
@@ -134,8 +135,8 @@ public class FootnoteMetaInformationImpl extends MinimalEObjectImpl.Container
 			if (footnote != oldFootnote) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
-							TablemodelPackage.FOOTNOTE_META_INFORMATION__FOOTNOTE,
-							oldFootnote, footnote));
+							TablemodelPackage.FOOTNOTE__FOOTNOTE, oldFootnote,
+							footnote));
 			}
 		}
 		return footnote;
@@ -161,8 +162,8 @@ public class FootnoteMetaInformationImpl extends MinimalEObjectImpl.Container
 		footnote = newFootnote;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
-					TablemodelPackage.FOOTNOTE_META_INFORMATION__FOOTNOTE,
-					oldFootnote, footnote));
+					TablemodelPackage.FOOTNOTE__FOOTNOTE, oldFootnote,
+					footnote));
 	}
 
 	/**
@@ -173,11 +174,11 @@ public class FootnoteMetaInformationImpl extends MinimalEObjectImpl.Container
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case TablemodelPackage.FOOTNOTE_META_INFORMATION__OWNER_OBJECT:
+			case TablemodelPackage.FOOTNOTE__OWNER_OBJECT:
 				if (resolve)
 					return getOwnerObject();
 				return basicGetOwnerObject();
-			case TablemodelPackage.FOOTNOTE_META_INFORMATION__FOOTNOTE:
+			case TablemodelPackage.FOOTNOTE__FOOTNOTE:
 				if (resolve)
 					return getFootnote();
 				return basicGetFootnote();
@@ -193,10 +194,10 @@ public class FootnoteMetaInformationImpl extends MinimalEObjectImpl.Container
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case TablemodelPackage.FOOTNOTE_META_INFORMATION__OWNER_OBJECT:
+			case TablemodelPackage.FOOTNOTE__OWNER_OBJECT:
 				setOwnerObject((EObject) newValue);
 				return;
-			case TablemodelPackage.FOOTNOTE_META_INFORMATION__FOOTNOTE:
+			case TablemodelPackage.FOOTNOTE__FOOTNOTE:
 				setFootnote((Bearbeitungsvermerk) newValue);
 				return;
 		}
@@ -211,10 +212,10 @@ public class FootnoteMetaInformationImpl extends MinimalEObjectImpl.Container
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case TablemodelPackage.FOOTNOTE_META_INFORMATION__OWNER_OBJECT:
+			case TablemodelPackage.FOOTNOTE__OWNER_OBJECT:
 				setOwnerObject((EObject) null);
 				return;
-			case TablemodelPackage.FOOTNOTE_META_INFORMATION__FOOTNOTE:
+			case TablemodelPackage.FOOTNOTE__FOOTNOTE:
 				setFootnote((Bearbeitungsvermerk) null);
 				return;
 		}
@@ -229,12 +230,12 @@ public class FootnoteMetaInformationImpl extends MinimalEObjectImpl.Container
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case TablemodelPackage.FOOTNOTE_META_INFORMATION__OWNER_OBJECT:
+			case TablemodelPackage.FOOTNOTE__OWNER_OBJECT:
 				return ownerObject != null;
-			case TablemodelPackage.FOOTNOTE_META_INFORMATION__FOOTNOTE:
+			case TablemodelPackage.FOOTNOTE__FOOTNOTE:
 				return footnote != null;
 		}
 		return super.eIsSet(featureID);
 	}
 
-} // FootnoteMetaInformationImpl
+} // FootnoteImpl
