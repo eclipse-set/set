@@ -8,6 +8,7 @@
  */
 package org.eclipse.set.basis.constants;
 
+import java.math.BigDecimal;
 import java.util.Comparator;
 
 import org.eclipse.set.basis.MixedStringComparator;
@@ -388,7 +389,8 @@ public final class ToolboxConstants {
 	 * The tolerance value between the Begrenzungen of a Teilbereich and its
 	 * associated TOP_KANTE
 	 */
-	public static final double TEILBEREICH_TOP_KANTE_TOLERANCE = 0.001;
+	public static final BigDecimal TEILBEREICH_TOP_KANTE_TOLERANCE = BigDecimal
+			.valueOf(0.001);
 
 	static {
 		DEFAULT_HOME_DIR = "./";

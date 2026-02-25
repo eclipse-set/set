@@ -18,6 +18,7 @@ import org.osgi.service.component.annotations.Component
 
 import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
 import org.eclipse.set.basis.constants.ToolboxConstants
+import java.math.BigDecimal
 
 /**
  * Validates that Bereich_Objekt_Teilbereich entries
@@ -46,8 +47,7 @@ class TeilbereichTOPKante extends AbstractPlazContainerCheck implements PlazChec
 				err.message = errmsg
 				err.type = checkType
 				err.object = it
-				err.severity = getErrorSeverity(limitA.doubleValue,
-					limitB.doubleValue, topLength.doubleValue)
+				err.severity = getErrorSeverity(limitA, limitB, topLength)
 				return err
 			}
 			return null
@@ -69,13 +69,14 @@ class TeilbereichTOPKante extends AbstractPlazContainerCheck implements PlazChec
 		return null
 	}
 
-	private def getErrorSeverity(double limitA, double limitB,
-		double topLength) {
+	private def getErrorSeverity(BigDecimal limitA, BigDecimal limitB,
+		BigDecimal topLength) {
 		if ((limitA > topLength &&
-			(limitA - topLength) <= ToolboxConstants.TEILBEREICH_TOP_KANTE_TOLERANCE) ||
+			limitA.subtract(topLength).compareTo(
+				ToolboxConstants.TEILBEREICH_TOP_KANTE_TOLERANCE) <= 0) ||
 			(limitB > topLength &&
-				(limitB - topLength) <=
-					ToolboxConstants.TEILBEREICH_TOP_KANTE_TOLERANCE)) {
+				limitB.subtract(topLength).compareTo(
+					ToolboxConstants.TEILBEREICH_TOP_KANTE_TOLERANCE) <= 0)) {
 			return ValidationSeverity.WARNING
 		}
 
