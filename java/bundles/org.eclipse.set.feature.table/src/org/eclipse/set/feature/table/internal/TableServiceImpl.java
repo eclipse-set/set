@@ -18,7 +18,6 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -53,12 +52,12 @@ import org.eclipse.set.core.services.session.SessionService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.messages.Messages;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
+import org.eclipse.set.model.tablemodel.Footnote;
 import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.TableRow;
 import org.eclipse.set.model.tablemodel.TablemodelFactory;
 import org.eclipse.set.model.tablemodel.extensions.FootnoteExtensions;
-import org.eclipse.set.model.tablemodel.extensions.FootnoteExtensions.WorkNotesUsage;
 import org.eclipse.set.model.tablemodel.extensions.TableCellExtensions;
 import org.eclipse.set.model.tablemodel.extensions.TableExtensions;
 import org.eclipse.set.model.tablemodel.extensions.TableRowExtensions;
@@ -128,7 +127,7 @@ public final class TableServiceImpl implements TableService {
 	private final Map<TableInfo, PlanPro2TableTransformationService> modelServiceMap = new ConcurrentHashMap<>();
 
 	private final Map<TableCompareType, TableDiffService> diffServiceMap = new ConcurrentHashMap<>();
-	private final Map<TableInfo, Set<FootnoteExtensions.WorkNotesUsage>> workNotesPerTable = new ConcurrentHashMap<>();
+	private final Map<TableInfo, Set<Footnote>> workNotesPerTable = new ConcurrentHashMap<>();
 	private static final Queue<Pair<BasePart, Runnable>> transformTableThreads = new LinkedList<>();
 	private static final Set<TableInfo> nonTransformableTables = new HashSet<>();
 
@@ -428,27 +427,10 @@ public final class TableServiceImpl implements TableService {
 			});
 			return;
 		}
-		final Set<FootnoteExtensions.WorkNotesUsage> tableNotes = FootnoteExtensions
+		final Set<Footnote> tableNotes = FootnoteExtensions
 				.getNotesInTable(resultTable);
 
-		workNotesPerTable.compute(tableInfo, (k, tablNotes) -> {
-			if (tablNotes == null) {
-				return tableNotes;
-			}
-
-			tableNotes.forEach(workNote -> {
-				final Optional<WorkNotesUsage> wn = tablNotes.stream()
-						.filter(n -> n.ownerObj().equals(workNote.ownerObj()))
-						.findFirst();
-				if (wn.isEmpty()) {
-					tablNotes.add(workNote);
-					return;
-				}
-				wn.get().notes().addAll(workNote.notes());
-			});
-
-			return tablNotes;
-		});
+		workNotesPerTable.put(tableInfo, tableNotes);
 		// Reload Sxxx table only when all tables was transformed
 		if (transformTableThreads.isEmpty()) {
 			broker.send(Events.RELOAD_WORKNOTES_TABLE, null);

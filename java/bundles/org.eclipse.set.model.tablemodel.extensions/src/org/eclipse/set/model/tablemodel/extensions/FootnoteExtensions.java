@@ -11,8 +11,6 @@
 package org.eclipse.set.model.tablemodel.extensions;
 
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -32,11 +30,13 @@ import org.eclipse.set.model.planpro.Signale.Signal_Befestigung;
 import org.eclipse.set.model.planpro.Signale.Signal_Rahmen;
 import org.eclipse.set.model.planpro.Signale.Signal_Signalbegriff;
 import org.eclipse.set.model.tablemodel.CellContent;
+import org.eclipse.set.model.tablemodel.Footnote;
 import org.eclipse.set.model.tablemodel.StringCellContent;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.TableRow;
 import org.eclipse.set.model.tablemodel.TablemodelFactory;
 import org.eclipse.set.ppmodel.extensions.SignalRahmenExtensions;
+import org.eclipse.xtext.xbase.lib.IterableExtensions;
 
 /**
  * Extension for table footnote
@@ -44,16 +44,6 @@ import org.eclipse.set.ppmodel.extensions.SignalRahmenExtensions;
  * @author truong
  */
 public class FootnoteExtensions {
-	/**
-	 * @param ownerObj
-	 *            the {@link Ur_Objekt}
-	 * @param notes
-	 *            the notes of the object
-	 */
-	public static record WorkNotesUsage(Ur_Objekt ownerObj,
-			Set<Bearbeitungsvermerk> notes) {
-	}
-
 	/**
 	 * Transformation {@link ENUMObjektzustandBesonders} to
 	 * {@link Bearbeitungsvermerk} and referenced to
@@ -143,18 +133,13 @@ public class FootnoteExtensions {
 	 *            the {@link Table}
 	 * @return the {@link Ur_Objekt} and the belong {@link Bearbeitungsvermerk}
 	 */
-	public static Set<WorkNotesUsage> getNotesInTable(final Table table) {
-		return TableExtensions.getTableRows(table).stream().map(row -> {
-			final Set<Bearbeitungsvermerk> footnotes = FootnoteContainerExtensions
-					.getFootnotes(row.getFootnotes())
-					.stream()
-					.collect(Collectors.toSet());
-			if (footnotes.isEmpty()) {
-				return null;
-			}
-			return new WorkNotesUsage(TableRowExtensions.getLeadingObject(row),
-					footnotes);
-		}).filter(Objects::nonNull).collect(Collectors.toSet());
+	public static Set<Footnote> getNotesInTable(final Table table) {
+		return IterableExtensions.toSet(IterableExtensions
+				.flatMap(TableExtensions.getTableRows(table), row -> {
+					final List<Footnote> footnotes = FootnoteContainerExtensions
+							.getFootnotes(row.getFootnotes());
+					return footnotes;
+				}));
 	}
 
 	/**
@@ -163,35 +148,22 @@ public class FootnoteExtensions {
 	 * @param sxxxTable
 	 *            the Sxxx table
 	 * @param workNotesInAnotherTable
-	 *            the {@link WorkNotesUsage} in another table
+	 *            the {@link Footnote} in another table
 	 * @param tableName
 	 *            the table name of table, which worknote belong to
 	 */
 	public static void fillSxxxTableColumnC(final Table sxxxTable,
-			final Set<WorkNotesUsage> workNotesInAnotherTable,
+			final Set<Footnote> workNotesInAnotherTable,
 			final String tableName) {
 		final List<TableRow> tableRows = TableExtensions
 				.getTableRows(sxxxTable);
-		workNotesInAnotherTable.forEach(workNotes -> {
-			final Optional<TableRow> rowOpt = tableRows.stream()
+		workNotesInAnotherTable.forEach(workNote -> {
+			final List<TableRow> ownerTableRows = tableRows.stream()
 					.filter(r -> r.getRowObject() != null)
-					.filter(r -> r.getRowObject().equals(workNotes.ownerObj))
-					.findFirst();
-			if (rowOpt.isEmpty()) {
-				// For notes, which not direct in group leading object
-				// attachment like Signal_Befestigung, Signal_Begriff,... then
-				// fill table name whole rows in group
-				TableExtensions.getTableRowGroups(sxxxTable)
-						.stream()
-						.filter(group -> workNotes.notes()
-								.stream()
-								.anyMatch(note -> group.getLeadingObject()
-										.equals(note)))
-						.forEach(group -> group.getRows()
-								.forEach(r -> fillValue(r, tableName)));
-				return;
-			}
-			fillValue(rowOpt.get(), tableName);
+					.filter(r -> r.getRowObject()
+							.equals(workNote.getOwnerObject()))
+					.toList();
+			ownerTableRows.forEach(r -> fillValue(r, tableName));
 		});
 	}
 
@@ -309,38 +281,37 @@ public class FootnoteExtensions {
 	}
 
 	/**
-	 * Adds the given prefix to all the bearbeitungsvermerke.
-	 * Bearbeitungsvermerke are cloned so that the original bearbeitungsvermerke
-	 * stay untouched.
+	 * Adds the given prefix to all the footnotes. Bearbeitungsvermerke of
+	 * footnotes are cloned so that the original bearbeitungsvermerke stay
+	 * untouched.
 	 * 
-	 * @param bearbeitungsVermerke
-	 *            the bearbeitungsvermerke to prefix
+	 * @param footnotes
+	 *            the footnotes to prefix
 	 * @param prefix
 	 *            the prefix to for the kommentar of bearbeitungsvermerk or null
 	 *            if no prefix should be added
-	 * @return the extend bearbeitungsvermerke
+	 * @return the extended footnotes
 	 */
-	public static List<ID_Bearbeitungsvermerk_TypeClass> withPrefix(
-			final List<ID_Bearbeitungsvermerk_TypeClass> bearbeitungsVermerke,
+	public static List<Footnote> withPrefix(final List<Footnote> footnotes,
 			final String prefix) {
 		if (prefix == null) {
-			return bearbeitungsVermerke;
+			return footnotes;
 		}
-		return bearbeitungsVermerke.stream().map(bv -> {
+		return footnotes.stream().map(footnote -> {
 			final Bearbeitungsvermerk bearbeitungsvermerk = createBearbeitungsvermerkWithoutGuid(
 					prefix + ": " //$NON-NLS-1$
-							+ bv.getValue()
+							+ footnote.getBearbeitungsvermerk()
 									.getBearbeitungsvermerkAllg()
 									.getKommentar()
 									.getWert());
 			bearbeitungsvermerk.setIdentitaet(
 					BasisobjekteFactory.eINSTANCE.createIdentitaet_TypeClass());
 			bearbeitungsvermerk.getIdentitaet()
-					.setWert(bv.getValue().getIdentitaet().getWert());
-			final ID_Bearbeitungsvermerk_TypeClass idBv = BasisTypenFactory.eINSTANCE
-					.createID_Bearbeitungsvermerk_TypeClass();
-			idBv.setValue(bearbeitungsvermerk);
-			return idBv;
+					.setWert(footnote.getBearbeitungsvermerk()
+							.getIdentitaet()
+							.getWert());
+			footnote.setBearbeitungsvermerk(bearbeitungsvermerk);
+			return footnote;
 		}).toList();
 	}
 }

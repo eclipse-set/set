@@ -15,9 +15,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-import org.eclipse.set.model.planpro.Basisobjekte.Bearbeitungsvermerk;
 import org.eclipse.set.model.tablemodel.CompareFootnoteContainer;
 import org.eclipse.set.model.tablemodel.CompareTableFootnoteContainer;
+import org.eclipse.set.model.tablemodel.Footnote;
 import org.eclipse.set.model.tablemodel.FootnoteContainer;
 import org.eclipse.set.model.tablemodel.SimpleFootnoteContainer;
 import org.eclipse.set.ppmodel.extensions.EObjectExtensions;
@@ -58,8 +58,8 @@ public class FootnoteContainerExtensions {
 	public static List<String> getFootnotesComment(final FootnoteContainer fc) {
 		return getFootnotes(fc).stream()
 				.map(footnote -> EObjectExtensions
-						.getNullableObject(footnote,
-								fn -> fn.getBearbeitungsvermerkAllg()
+						.getNullableObject(footnote.getBearbeitungsvermerk(),
+								bv -> bv.getBearbeitungsvermerkAllg()
 										.getKommentar()
 										.getWert())
 						.orElse(null))
@@ -73,8 +73,7 @@ public class FootnoteContainerExtensions {
 	 *            the {@link FootnoteContainer}
 	 * @return the footnotes of the container
 	 */
-	public static List<Bearbeitungsvermerk> getFootnotes(
-			final FootnoteContainer fc) {
+	public static List<Footnote> getFootnotes(final FootnoteContainer fc) {
 		if (fc == null) {
 			return Collections.emptyList();
 		}
@@ -82,13 +81,11 @@ public class FootnoteContainerExtensions {
 			case final SimpleFootnoteContainer simpleContainer -> simpleContainer
 					.getFootnotes();
 			case final CompareFootnoteContainer compareContainer -> {
-				final List<Bearbeitungsvermerk> result = new ArrayList<>();
+				final List<Footnote> result = new ArrayList<>();
+				result.addAll(getFootnotes(compareContainer.getNewFootnotes()));
+				result.addAll(getFootnotes(compareContainer.getOldFootnotes()));
 				result.addAll(
-						compareContainer.getNewFootnotes().getFootnotes());
-				result.addAll(
-						compareContainer.getOldFootnotes().getFootnotes());
-				result.addAll(compareContainer.getUnchangedFootnotes()
-						.getFootnotes());
+						getFootnotes(compareContainer.getUnchangedFootnotes()));
 				yield result;
 			}
 			case final CompareTableFootnoteContainer compareTableContainer -> getFootnotes(

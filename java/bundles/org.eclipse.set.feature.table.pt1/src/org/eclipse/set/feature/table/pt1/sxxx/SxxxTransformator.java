@@ -22,7 +22,6 @@ import org.eclipse.set.model.planpro.Ansteuerung_Element.Aussenelementansteuerun
 import org.eclipse.set.model.planpro.Ansteuerung_Element.ESTW_Zentraleinheit;
 import org.eclipse.set.model.planpro.BasisTypen.ID_Bearbeitungsvermerk_TypeClass;
 import org.eclipse.set.model.planpro.Basisobjekte.Bearbeitungsvermerk;
-import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
 import org.eclipse.set.model.planpro.Bedienung.Bedien_Einrichtung_Oertlich;
 import org.eclipse.set.model.planpro.Ortung.FMA_Anlage;
 import org.eclipse.set.model.planpro.Ortung.FMA_Komponente;
@@ -97,11 +96,7 @@ public class SxxxTransformator extends AbstractPlanPro2TableModelTransformator {
 					return null;
 				}
 				final TableRow row = rowGroup.newTableRow();
-				if (referencedBy instanceof final Ur_Objekt obj) {
-					row.setRowObject(obj);
-				} else {
-					System.out.println(referencedBy.getClass().getName());
-				}
+				row.setRowObject(referencedBy);
 
 				// A: Bearbeitungsvermerke inhalt
 				fill(row, getColumn(cols, SxxxColumns.Text_Content), bv,

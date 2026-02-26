@@ -14,29 +14,36 @@ import java.util.List;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 
-import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
-import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
-import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
-import org.eclipse.emf.edit.provider.ViewerNotification;
+import org.eclipse.emf.common.util.ResourceLocator;
 
-import org.eclipse.set.model.tablemodel.PlanCompareRow;
+import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
+import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
+import org.eclipse.emf.edit.provider.IItemLabelProvider;
+import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
+import org.eclipse.emf.edit.provider.IItemPropertySource;
+import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
+import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
+import org.eclipse.emf.edit.provider.ItemProviderAdapter;
+
 import org.eclipse.set.model.tablemodel.TablemodelPackage;
 
 /**
  * This is the item provider adapter for a
- * {@link org.eclipse.set.model.tablemodel.PlanCompareRow} object. <!--
- * begin-user-doc --> <!-- end-user-doc -->
+ * {@link org.eclipse.set.model.tablemodel.Footnote} object. <!-- begin-user-doc
+ * --> <!-- end-user-doc -->
  * 
  * @generated
  */
-public class PlanCompareRowItemProvider extends TableRowItemProvider {
+public class FootnoteItemProvider extends ItemProviderAdapter
+		implements IEditingDomainItemProvider, IStructuredItemContentProvider,
+		ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource {
 	/**
 	 * This constructs an instance from a factory and a notifier. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @generated
 	 */
-	public PlanCompareRowItemProvider(AdapterFactory adapterFactory) {
+	public FootnoteItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 
@@ -51,41 +58,59 @@ public class PlanCompareRowItemProvider extends TableRowItemProvider {
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addRowTypePropertyDescriptor(object);
+			addOwnerObjectPropertyDescriptor(object);
+			addBearbeitungsvermerkPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
 
 	/**
-	 * This adds a property descriptor for the Row Type feature. <!--
+	 * This adds a property descriptor for the Owner Object feature. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @generated
 	 */
-	protected void addRowTypePropertyDescriptor(Object object) {
+	protected void addOwnerObjectPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add(createItemPropertyDescriptor(
 				((ComposeableAdapterFactory) adapterFactory)
 						.getRootAdapterFactory(),
 				getResourceLocator(),
-				getString("_UI_PlanCompareRow_rowType_feature"),
+				getString("_UI_Footnote_ownerObject_feature"),
 				getString("_UI_PropertyDescriptor_description",
-						"_UI_PlanCompareRow_rowType_feature",
-						"_UI_PlanCompareRow_type"),
-				TablemodelPackage.Literals.PLAN_COMPARE_ROW__ROW_TYPE, true,
-				false, false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null,
-				null));
+						"_UI_Footnote_ownerObject_feature",
+						"_UI_Footnote_type"),
+				TablemodelPackage.Literals.FOOTNOTE__OWNER_OBJECT, true, false,
+				true, null, null, null));
 	}
 
 	/**
-	 * This returns PlanCompareRow.gif. <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
+	 * This adds a property descriptor for the Bearbeitungsvermerk feature. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	protected void addBearbeitungsvermerkPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add(createItemPropertyDescriptor(
+				((ComposeableAdapterFactory) adapterFactory)
+						.getRootAdapterFactory(),
+				getResourceLocator(),
+				getString("_UI_Footnote_bearbeitungsvermerk_feature"),
+				getString("_UI_PropertyDescriptor_description",
+						"_UI_Footnote_bearbeitungsvermerk_feature",
+						"_UI_Footnote_type"),
+				TablemodelPackage.Literals.FOOTNOTE__BEARBEITUNGSVERMERK, true,
+				false, true, null, null, null));
+	}
+
+	/**
+	 * This returns Footnote.gif. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
 		return overlayImage(object,
-				getResourceLocator().getImage("full/obj16/PlanCompareRow"));
+				getResourceLocator().getImage("full/obj16/Footnote"));
 	}
 
 	/**
@@ -96,9 +121,7 @@ public class PlanCompareRowItemProvider extends TableRowItemProvider {
 	 */
 	@Override
 	public String getText(Object object) {
-		PlanCompareRow planCompareRow = (PlanCompareRow) object;
-		return getString("_UI_PlanCompareRow_type") + " "
-				+ planCompareRow.getRowIndex();
+		return getString("_UI_Footnote_type");
 	}
 
 	/**
@@ -112,13 +135,6 @@ public class PlanCompareRowItemProvider extends TableRowItemProvider {
 	@Override
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
-
-		switch (notification.getFeatureID(PlanCompareRow.class)) {
-			case TablemodelPackage.PLAN_COMPARE_ROW__ROW_TYPE:
-				fireNotifyChanged(new ViewerNotification(notification,
-						notification.getNotifier(), false, true));
-				return;
-		}
 		super.notifyChanged(notification);
 	}
 
@@ -136,28 +152,14 @@ public class PlanCompareRowItemProvider extends TableRowItemProvider {
 	}
 
 	/**
-	 * This returns the label text for
-	 * {@link org.eclipse.emf.edit.command.CreateChildCommand}. <!--
+	 * Return the resource locator for this item provider's resources. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @generated
 	 */
 	@Override
-	public String getCreateChildText(Object owner, Object feature, Object child,
-			Collection<?> selection) {
-		Object childFeature = feature;
-		Object childObject = child;
-
-		boolean qualify = childFeature == TablemodelPackage.Literals.TABLE_ROW__CELLS
-				|| childFeature == TablemodelPackage.Literals.TABLE_ROW__ROW_OBJECT
-				|| childFeature == TablemodelPackage.Literals.TABLE_ROW__FOOTNOTES;
-
-		if (qualify) {
-			return getString("_UI_CreateChild_text2",
-					new Object[] { getTypeText(childObject),
-							getFeatureText(childFeature), getTypeText(owner) });
-		}
-		return super.getCreateChildText(owner, feature, child, selection);
+	public ResourceLocator getResourceLocator() {
+		return TablemodelEditPlugin.INSTANCE;
 	}
 
 }

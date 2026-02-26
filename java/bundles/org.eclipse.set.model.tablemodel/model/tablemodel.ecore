@@ -117,7 +117,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="rowIndex" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="footnotes" eType="#//FootnoteContainer"
         containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="rowObject" eType="ecore:EClass ../../org.eclipse.set.model.planpro/model/Basisobjekte.ecore#//Ur_Objekt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rowObject" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TableCell">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -187,8 +187,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="SimpleFootnoteContainer" eSuperTypes="#//FootnoteContainer">
     <eStructuralFeatures xsi:type="ecore:EReference" name="footnotes" upperBound="-1"
-        eType="ecore:EClass ../../org.eclipse.set.model.planpro/model/Basisobjekte.ecore#//Bearbeitungsvermerk"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="ownerObject" eType="ecore:EClass ../../org.eclipse.set.model.planpro/model/Basisobjekte.ecore#//Ur_Objekt"/>
+        eType="#//Footnote"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CompareTableCellContent" eSuperTypes="#//CellContent">
     <eStructuralFeatures xsi:type="ecore:EReference" name="mainPlanCellContent" eType="#//CellContent"
@@ -210,5 +209,9 @@
     <eLiterals name="NEW_ROW"/>
     <eLiterals name="REMOVED_ROW" value="1"/>
     <eLiterals name="CHANGED_GUID_ROW" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Footnote">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ownerObject" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bearbeitungsvermerk" eType="ecore:EClass ../../org.eclipse.set.model.planpro/model/Basisobjekte.ecore#//Bearbeitungsvermerk"/>
   </eClassifiers>
 </ecore:EPackage>
