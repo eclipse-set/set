@@ -838,16 +838,6 @@ public interface TablemodelPackage extends EPackage {
 			+ 0;
 
 	/**
-	 * The feature id for the '<em><b>Owner Object</b></em>' reference. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated
-	 * @ordered
-	 */
-	int SIMPLE_FOOTNOTE_CONTAINER__OWNER_OBJECT = FOOTNOTE_CONTAINER_FEATURE_COUNT
-			+ 1;
-
-	/**
 	 * The number of structural features of the '<em>Simple Footnote
 	 * Container</em>' class. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
@@ -855,7 +845,7 @@ public interface TablemodelPackage extends EPackage {
 	 * @ordered
 	 */
 	int SIMPLE_FOOTNOTE_CONTAINER_FEATURE_COUNT = FOOTNOTE_CONTAINER_FEATURE_COUNT
-			+ 2;
+			+ 1;
 
 	/**
 	 * The number of operations of the '<em>Simple Footnote Container</em>'
@@ -1056,6 +1046,53 @@ public interface TablemodelPackage extends EPackage {
 
 	/**
 	 * The meta object id for the
+	 * '{@link org.eclipse.set.model.tablemodel.impl.FootnoteImpl
+	 * <em>Footnote</em>}' class. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @see org.eclipse.set.model.tablemodel.impl.FootnoteImpl
+	 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getFootnote()
+	 * @generated
+	 */
+	int FOOTNOTE = 18;
+
+	/**
+	 * The feature id for the '<em><b>Owner Object</b></em>' reference. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 * @ordered
+	 */
+	int FOOTNOTE__OWNER_OBJECT = 0;
+
+	/**
+	 * The feature id for the '<em><b>Bearbeitungsvermerk</b></em>' reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 * @ordered
+	 */
+	int FOOTNOTE__BEARBEITUNGSVERMERK = 1;
+
+	/**
+	 * The number of structural features of the '<em>Footnote</em>' class. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 * @ordered
+	 */
+	int FOOTNOTE_FEATURE_COUNT = 2;
+
+	/**
+	 * The number of operations of the '<em>Footnote</em>' class. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 * @ordered
+	 */
+	int FOOTNOTE_OPERATION_COUNT = 0;
+
+	/**
+	 * The meta object id for the
 	 * '{@link org.eclipse.set.model.tablemodel.ColumnWidthMode <em>Column Width
 	 * Mode</em>}' enum. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
@@ -1063,7 +1100,7 @@ public interface TablemodelPackage extends EPackage {
 	 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getColumnWidthMode()
 	 * @generated
 	 */
-	int COLUMN_WIDTH_MODE = 18;
+	int COLUMN_WIDTH_MODE = 19;
 
 	/**
 	 * The meta object id for the
@@ -1074,7 +1111,7 @@ public interface TablemodelPackage extends EPackage {
 	 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getRowMergeMode()
 	 * @generated
 	 */
-	int ROW_MERGE_MODE = 19;
+	int ROW_MERGE_MODE = 20;
 
 	/**
 	 * The meta object id for the
@@ -1086,7 +1123,7 @@ public interface TablemodelPackage extends EPackage {
 	 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getPlanCompareRowType()
 	 * @generated
 	 */
-	int PLAN_COMPARE_ROW_TYPE = 20;
+	int PLAN_COMPARE_ROW_TYPE = 21;
 
 	/**
 	 * Returns the meta object for class
@@ -1696,18 +1733,6 @@ public interface TablemodelPackage extends EPackage {
 	EReference getSimpleFootnoteContainer_Footnotes();
 
 	/**
-	 * Returns the meta object for the reference
-	 * '{@link org.eclipse.set.model.tablemodel.SimpleFootnoteContainer#getOwnerObject
-	 * <em>Owner Object</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @return the meta object for the reference '<em>Owner Object</em>'.
-	 * @see org.eclipse.set.model.tablemodel.SimpleFootnoteContainer#getOwnerObject()
-	 * @see #getSimpleFootnoteContainer()
-	 * @generated
-	 */
-	EReference getSimpleFootnoteContainer_OwnerObject();
-
-	/**
 	 * Returns the meta object for class
 	 * '{@link org.eclipse.set.model.tablemodel.CompareTableCellContent
 	 * <em>Compare Table Cell Content</em>}'. <!-- begin-user-doc --> <!--
@@ -1810,6 +1835,42 @@ public interface TablemodelPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getPlanCompareRow_RowType();
+
+	/**
+	 * Returns the meta object for class
+	 * '{@link org.eclipse.set.model.tablemodel.Footnote <em>Footnote</em>}'.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @return the meta object for class '<em>Footnote</em>'.
+	 * @see org.eclipse.set.model.tablemodel.Footnote
+	 * @generated
+	 */
+	EClass getFootnote();
+
+	/**
+	 * Returns the meta object for the reference
+	 * '{@link org.eclipse.set.model.tablemodel.Footnote#getOwnerObject
+	 * <em>Owner Object</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @return the meta object for the reference '<em>Owner Object</em>'.
+	 * @see org.eclipse.set.model.tablemodel.Footnote#getOwnerObject()
+	 * @see #getFootnote()
+	 * @generated
+	 */
+	EReference getFootnote_OwnerObject();
+
+	/**
+	 * Returns the meta object for the reference
+	 * '{@link org.eclipse.set.model.tablemodel.Footnote#getBearbeitungsvermerk
+	 * <em>Bearbeitungsvermerk</em>}'. <!-- begin-user-doc --> <!-- end-user-doc
+	 * -->
+	 * 
+	 * @return the meta object for the reference '<em>Bearbeitungsvermerk</em>'.
+	 * @see org.eclipse.set.model.tablemodel.Footnote#getBearbeitungsvermerk()
+	 * @see #getFootnote()
+	 * @generated
+	 */
+	EReference getFootnote_Bearbeitungsvermerk();
 
 	/**
 	 * Returns the meta object for enum
@@ -2364,15 +2425,6 @@ public interface TablemodelPackage extends EPackage {
 				.getSimpleFootnoteContainer_Footnotes();
 
 		/**
-		 * The meta object literal for the '<em><b>Owner Object</b></em>'
-		 * reference feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
-		 * @generated
-		 */
-		EReference SIMPLE_FOOTNOTE_CONTAINER__OWNER_OBJECT = eINSTANCE
-				.getSimpleFootnoteContainer_OwnerObject();
-
-		/**
 		 * The meta object literal for the
 		 * '{@link org.eclipse.set.model.tablemodel.impl.CompareTableCellContentImpl
 		 * <em>Compare Table Cell Content</em>}' class. <!-- begin-user-doc -->
@@ -2458,6 +2510,35 @@ public interface TablemodelPackage extends EPackage {
 		 */
 		EAttribute PLAN_COMPARE_ROW__ROW_TYPE = eINSTANCE
 				.getPlanCompareRow_RowType();
+
+		/**
+		 * The meta object literal for the
+		 * '{@link org.eclipse.set.model.tablemodel.impl.FootnoteImpl
+		 * <em>Footnote</em>}' class. <!-- begin-user-doc --> <!-- end-user-doc
+		 * -->
+		 * 
+		 * @see org.eclipse.set.model.tablemodel.impl.FootnoteImpl
+		 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getFootnote()
+		 * @generated
+		 */
+		EClass FOOTNOTE = eINSTANCE.getFootnote();
+
+		/**
+		 * The meta object literal for the '<em><b>Owner Object</b></em>'
+		 * reference feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * 
+		 * @generated
+		 */
+		EReference FOOTNOTE__OWNER_OBJECT = eINSTANCE.getFootnote_OwnerObject();
+
+		/**
+		 * The meta object literal for the '<em><b>Bearbeitungsvermerk</b></em>'
+		 * reference feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * 
+		 * @generated
+		 */
+		EReference FOOTNOTE__BEARBEITUNGSVERMERK = eINSTANCE
+				.getFootnote_Bearbeitungsvermerk();
 
 		/**
 		 * The meta object literal for the
