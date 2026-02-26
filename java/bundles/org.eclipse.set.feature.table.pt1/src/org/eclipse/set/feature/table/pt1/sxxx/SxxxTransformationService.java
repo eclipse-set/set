@@ -101,4 +101,9 @@ public class SxxxTransformationService
 		return cd;
 	}
 
+	@Override
+	public boolean enableFiltering() {
+		return true;
+	}
+
 }

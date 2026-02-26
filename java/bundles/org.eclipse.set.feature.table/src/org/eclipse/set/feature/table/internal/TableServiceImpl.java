@@ -258,6 +258,11 @@ public final class TableServiceImpl implements TableService {
 	}
 
 	@Override
+	public boolean enableFiltering(final TableInfo tableInfo) {
+		return getModelService(tableInfo).enableFiltering();
+	}
+
+	@Override
 	public Map<TableInfo, Collection<TableError>> getTableErrors(
 			final IModelSession modelSession, final Set<String> controlAreaIds,
 			final Pt1TableCategory tableCategory) {
