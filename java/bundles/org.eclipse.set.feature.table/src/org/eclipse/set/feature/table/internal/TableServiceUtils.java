@@ -128,7 +128,9 @@ public class TableServiceUtils {
 			final IModelSession modelsession,
 			final Set<String> controlAreaIds) {
 		final Table result = filterTableByState(table, tableType);
-		if (tableInfo.category() == Pt1TableCategory.ETCS) {
+		if (tableInfo.category() == Pt1TableCategory.ETCS || tableInfo
+				.shortcut()
+				.equalsIgnoreCase(ToolboxConstants.WORKNOTES_TABLE_SHORTCUT)) {
 			return result;
 		}
 		if (tableType == TableType.DIFF) {
