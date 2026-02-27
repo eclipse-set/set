@@ -127,7 +127,7 @@ public final class TableServiceImpl implements TableService {
 	private final Map<TableInfo, PlanPro2TableTransformationService> modelServiceMap = new ConcurrentHashMap<>();
 
 	private final Map<TableCompareType, TableDiffService> diffServiceMap = new ConcurrentHashMap<>();
-	private final Map<TableInfo, Set<Footnote>> workNotesPerTable = new ConcurrentHashMap<>();
+	private final Map<String, Set<Footnote>> workNotesPerTable = new ConcurrentHashMap<>();
 	private static final Queue<Pair<BasePart, Runnable>> transformTableThreads = new LinkedList<>();
 	private static final Set<TableInfo> nonTransformableTables = new HashSet<>();
 
@@ -240,6 +240,10 @@ public final class TableServiceImpl implements TableService {
 	@Override
 	public TableNameInfo getTableNameInfo(final TableInfo tableInfo) {
 		return getModelService(tableInfo).getTableNameInfo();
+	}
+
+	private TableNameInfo getTableNameInfo(final String shortcut) {
+		return getModelService(getTableInfo(shortcut)).getTableNameInfo();
 	}
 
 	@Override
@@ -421,21 +425,25 @@ public final class TableServiceImpl implements TableService {
 		// Filter worknotes, which already in another tables visualation
 		if (tableInfo.shortcut()
 				.equalsIgnoreCase(ToolboxConstants.WORKNOTES_TABLE_SHORTCUT)) {
-			// Special handle for fill Column C of Sxxx table
-			workNotesPerTable.forEach((table, notes) -> {
-				if (notes.isEmpty()) {
-					return;
-				}
-				final TableNameInfo tableNameInfo = getTableNameInfo(table);
-				FootnoteExtensions.fillSxxxTableColumnC(resultTable, notes,
-						tableNameInfo.getShortName());
-			});
+			final List<TableInfo> missingTables = getAvailableTables().stream()
+					.filter(table -> {
+						return !table.shortcut()
+								.equalsIgnoreCase(
+										ToolboxConstants.WORKNOTES_TABLE_SHORTCUT)
+								&& !workNotesPerTable.containsKey(
+										getTableNameInfo(table.shortcut())
+												.getShortName());
+					})
+					.toList();
+			FootnoteExtensions.fillSxxxTableColumnC(resultTable,
+					workNotesPerTable, missingTables.isEmpty());
 			return;
 		}
 		final Set<Footnote> tableNotes = FootnoteExtensions
 				.getNotesInTable(resultTable);
 
-		workNotesPerTable.put(tableInfo, tableNotes);
+		final TableNameInfo tableNameInfo = getTableNameInfo(tableInfo);
+		workNotesPerTable.put(tableNameInfo.getShortName(), tableNotes);
 		// Reload Sxxx table only when all tables was transformed
 		if (transformTableThreads.isEmpty()) {
 			broker.send(Events.RELOAD_WORKNOTES_TABLE, null);

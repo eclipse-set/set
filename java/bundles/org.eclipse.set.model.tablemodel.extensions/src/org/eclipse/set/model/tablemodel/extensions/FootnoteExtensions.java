@@ -10,7 +10,10 @@
  */
 package org.eclipse.set.model.tablemodel.extensions;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -147,23 +150,36 @@ public class FootnoteExtensions {
 	 *
 	 * @param sxxxTable
 	 *            the Sxxx table
-	 * @param workNotesInAnotherTable
-	 *            the {@link Footnote} in another table
-	 * @param tableName
-	 *            the table name of table, which worknote belong to
+	 * @param footnotesPerTable
+	 *            all the tables with their {@link Footnote}
+	 * @param allTablesGenerated
+	 *            information if all tables have generated its footnotes yet
 	 */
 	public static void fillSxxxTableColumnC(final Table sxxxTable,
-			final Set<Footnote> workNotesInAnotherTable,
-			final String tableName) {
+			final Map<String, Set<Footnote>> footnotesPerTable,
+			final boolean allTablesGenerated) {
+		final Map<Object, Set<String>> tablesPerOwnerObject = new HashMap<>();
+		footnotesPerTable.forEach((table, footnotes) -> {
+			footnotes.forEach(footnote -> tablesPerOwnerObject
+					.compute(footnote.getOwnerObject(), (key, value) -> {
+						Set<String> set = value;
+						if (set == null) {
+							set = new HashSet<>();
+						}
+						set.add(table);
+						return set;
+					}));
+		});
 		final List<TableRow> tableRows = TableExtensions
 				.getTableRows(sxxxTable);
-		workNotesInAnotherTable.forEach(workNote -> {
-			final List<TableRow> ownerTableRows = tableRows.stream()
-					.filter(r -> r.getRowObject() != null)
-					.filter(r -> r.getRowObject()
-							.equals(workNote.getOwnerObject()))
-					.toList();
-			ownerTableRows.forEach(r -> fillValue(r, tableName));
+		tableRows.forEach(tableRow -> {
+			final Set<String> tables = tablesPerOwnerObject
+					.get(tableRow.getRowObject());
+			if (tables != null && tables.size() > 0) {
+				tables.forEach(table -> fillValue(tableRow, table));
+			} else {
+				fillValue(tableRow, allTablesGenerated ? "--" : "??");
+			}
 		});
 	}
 
