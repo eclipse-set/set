@@ -474,7 +474,7 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 		Punkt_Objekt object,
 		double tolerance
 	) {
-		if (tolerance == 1) {
+		if (tolerance == 0) {
 			return bereich.contains(object)
 		}
 		return bereich.bereichObjektTeilbereich.exists [ bo |

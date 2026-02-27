@@ -1,0 +1,3 @@
+diff/
+*.planpro
+!test_res/test_file/*.planpro
