@@ -20,6 +20,7 @@ import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Aussenelementansteuerung;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.ESTW_Zentraleinheit;
+import org.eclipse.set.model.planpro.BasisTypen.BasisAttribut_AttributeGroup;
 import org.eclipse.set.model.planpro.BasisTypen.ID_Bearbeitungsvermerk_TypeClass;
 import org.eclipse.set.model.planpro.Basisobjekte.Bearbeitungsvermerk;
 import org.eclipse.set.model.planpro.Bedienung.Bedien_Einrichtung_Oertlich;
@@ -34,6 +35,7 @@ import org.eclipse.set.ppmodel.extensions.AussenelementansteuerungExtensions;
 import org.eclipse.set.ppmodel.extensions.EObjectExtensions;
 import org.eclipse.set.ppmodel.extensions.UrObjectExtensions;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
+import org.eclipse.set.utils.EnumeratorExtensions;
 import org.eclipse.set.utils.table.RowFactory;
 import org.eclipse.set.utils.table.TMFactory;
 import org.osgi.service.event.EventAdmin;
@@ -46,7 +48,6 @@ import com.google.common.collect.Streams;
  * @author truong
  */
 public class SxxxTransformator extends AbstractPlanPro2TableModelTransformator {
-
 	/**
 	 * @param cols
 	 *            the columns descriptor
@@ -79,6 +80,20 @@ public class SxxxTransformator extends AbstractPlanPro2TableModelTransformator {
 					.filter(ref -> ref.getValue().equals(bv))
 					.map(EObject::eContainer)
 					.toList();
+
+			final List<EObject> sonstigeEnumReferee = referencedByList.stream()
+					.filter(obj -> obj instanceof final BasisAttribut_AttributeGroup basisAttribut
+							&& EnumeratorExtensions
+									.isSonstigeEnumWert(basisAttribut))
+					.toList();
+
+			if (sonstigeEnumReferee.size() > 0
+					&& referencedByList.size() == sonstigeEnumReferee.size()) {
+				// bearbeitungsvermerke that are only used at sonstige enum
+				// values shall not be displayed at all
+				continue;
+			}
+
 			if (referencedByList.isEmpty()) {
 				final TableRow row = rowGroup.newTableRow();
 				// A: Bearbeitungsvermerke inhalt
@@ -94,6 +109,11 @@ public class SxxxTransformator extends AbstractPlanPro2TableModelTransformator {
 			for (final EObject referencedBy : referencedByList) {
 				if (Thread.currentThread().isInterrupted()) {
 					return null;
+				}
+				if (sonstigeEnumReferee.contains(referencedBy)) {
+					// ignore those referees that are connected to a sonstige
+					// enum value
+					continue;
 				}
 				final TableRow row = rowGroup.newTableRow();
 				row.setRowObject(referencedBy);

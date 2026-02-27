@@ -54,7 +54,6 @@ public class TestWorknotesTable extends AbstractTableTest {
 		whenOpenWorkNotesTable();
 		givenWorknotesTableReferenceOpenBefore();
 		whenExistReferenceCSV();
-		whenOpenAnotherTable();
 		thenExpectTableDataEqualReferenceCSV();
 	}
 
@@ -66,8 +65,8 @@ public class TestWorknotesTable extends AbstractTableTest {
 	@SuppressWarnings("boxing")
 	void givenWorknotesTable() {
 		worknotesTable = new PtTable("Sxxx",
-				"Sxxx – Tabelle weiterer Bearbeitungsvermerke",
-				"supplement-estw", List.of(0));
+				"Sxxx – Tabelle der Bearbeitungsvermerke", "supplement",
+				List.of(0));
 	}
 
 	void givenWorknotesTableReferenceOpenAfter() throws Exception {

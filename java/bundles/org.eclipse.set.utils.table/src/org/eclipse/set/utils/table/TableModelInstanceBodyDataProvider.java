@@ -11,7 +11,9 @@ package org.eclipse.set.utils.table;
 import static org.eclipse.set.model.tablemodel.extensions.CellContentExtensions.HOURGLASS_ICON;
 import static org.eclipse.set.model.tablemodel.extensions.CellContentExtensions.getStringValueIterable;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
@@ -54,11 +56,14 @@ public class TableModelInstanceBodyDataProvider
 			.getLogger(TableModelInstanceBodyDataProvider.class);
 
 	private static final String NULL_VALUE = ""; //$NON-NLS-1$
+	private static final String EXCULDE_FILTER_SIGN = "-"; //$NON-NLS-1$
 
 	private final List<TableRow> instances;
+	private List<TableRow> filteredInstances;
 	private final int propertyCount;
 	private final TableSpanUtils spanUtils;
 	private final SessionService sessionService;
+	private Map<Integer, Object> filters = new HashMap<>();
 
 	/**
 	 * @param propertyCount
@@ -75,6 +80,7 @@ public class TableModelInstanceBodyDataProvider
 		this.propertyCount = propertyCount;
 		this.spanUtils = new TableSpanUtils(instances);
 		this.sessionService = sessionService;
+		this.refresh();
 	}
 
 	@Override
@@ -85,7 +91,7 @@ public class TableModelInstanceBodyDataProvider
 	@Override
 	public Object getDataValue(final int columnIndex, final int rowIndex) {
 		final String value = TableRowExtensions
-				.getRichTextValue(instances.get(rowIndex), columnIndex);
+				.getRichTextValue(filteredInstances.get(rowIndex), columnIndex);
 		if (value == null) {
 			logger.debug("column={} row={} is empty", //$NON-NLS-1$
 					Integer.valueOf(columnIndex), Integer.valueOf(rowIndex));
@@ -96,7 +102,7 @@ public class TableModelInstanceBodyDataProvider
 
 	@Override
 	public int getRowCount() {
-		return instances.size();
+		return filteredInstances.size();
 	}
 
 	@Override
@@ -122,6 +128,53 @@ public class TableModelInstanceBodyDataProvider
 	}
 
 	/**
+	 * Applies a set of filters to the table
+	 * 
+	 * @param filterIndexToObjectMap
+	 *            A map<columnIndex, filterValue> of filters to apply
+	 */
+	public void applyFilter(final Map<Integer, Object> filterIndexToObjectMap) {
+		this.filters = filterIndexToObjectMap;
+		this.refresh();
+	}
+
+	/**
+	 * Refreshes the internal state e.g. when the instances changed.
+	 */
+	public void refresh() {
+		this.filteredInstances = this.instances.stream()
+				.filter(this::filterMatch)
+				.toList();
+	}
+
+	private boolean filterMatch(final TableRow row) {
+		final List<CellContent> contents = row.getCells()
+				.stream()
+				.map(cell -> cell.getContent())
+				.toList();
+		for (int i = 0; i < this.getColumnCount(); i++) {
+			if (filters.containsKey(Integer.valueOf(i))) {
+				final String content = CellContentExtensions
+						.getPlainStringValue(contents.get(i))
+						.toLowerCase();
+				String filterValue = filters.get(Integer.valueOf(i))
+						.toString()
+						.toLowerCase();
+				final boolean isExcludeFilter = filterValue.substring(0, 1)
+						.equals(EXCULDE_FILTER_SIGN);
+				filterValue = isExcludeFilter ? filterValue.substring(1)
+						: filterValue;
+
+				// Equivalence logic
+				if (isExcludeFilter == content.contains(filterValue)) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
+	/**
 	 * Update table value
 	 * 
 	 * @param tableType
@@ -143,6 +196,7 @@ public class TableModelInstanceBodyDataProvider
 				TableRowExtensions.set(first.get(),
 						properties.getChangeDataColumn(),
 						properties.getNewValues(), properties.getSeparator());
+				this.refresh();
 			}
 			return;
 		}
@@ -171,6 +225,7 @@ public class TableModelInstanceBodyDataProvider
 					properties);
 			cell.setContent(newContent);
 		});
+		this.refresh();
 	}
 
 	private CellContent getNewContent(final CellContent oldContent,

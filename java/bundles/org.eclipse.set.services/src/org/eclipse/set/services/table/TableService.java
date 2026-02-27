@@ -166,6 +166,14 @@ public interface TableService {
 	Set<Integer> getFixedColumns(final TableInfo tableInfo);
 
 	/**
+	 * 
+	 * @param tableInfo
+	 *            {@link TableInfo}
+	 * @return whether filtering should be enabled for the table or not
+	 */
+	boolean enableFiltering(final TableInfo tableInfo);
+
+	/**
 	 * Check the running threads, if exists thread name start with table short
 	 * cut
 	 * 

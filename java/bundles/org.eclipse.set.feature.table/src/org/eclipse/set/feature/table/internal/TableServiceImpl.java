@@ -127,7 +127,7 @@ public final class TableServiceImpl implements TableService {
 	private final Map<TableInfo, PlanPro2TableTransformationService> modelServiceMap = new ConcurrentHashMap<>();
 
 	private final Map<TableCompareType, TableDiffService> diffServiceMap = new ConcurrentHashMap<>();
-	private final Map<TableInfo, Set<Footnote>> workNotesPerTable = new ConcurrentHashMap<>();
+	private final Map<String, Set<Footnote>> footnotesPerTable = new ConcurrentHashMap<>();
 	private static final Queue<Pair<BasePart, Runnable>> transformTableThreads = new LinkedList<>();
 	private static final Set<TableInfo> nonTransformableTables = new HashSet<>();
 
@@ -175,8 +175,8 @@ public final class TableServiceImpl implements TableService {
 		}
 	}
 
-	void cleanWorkNotesProTable() {
-		workNotesPerTable.clear();
+	void cleanFootnotesProTable() {
+		footnotesPerTable.clear();
 	}
 
 	private Table createDiffStateTable(final TableInfo tableInfo,
@@ -242,6 +242,10 @@ public final class TableServiceImpl implements TableService {
 		return getModelService(tableInfo).getTableNameInfo();
 	}
 
+	private TableNameInfo getTableNameInfo(final String shortcut) {
+		return getModelService(getTableInfo(shortcut)).getTableNameInfo();
+	}
+
 	@Override
 	public Collection<TableInfo> getAvailableTables() {
 		return modelServiceMap.keySet()
@@ -254,6 +258,11 @@ public final class TableServiceImpl implements TableService {
 	@Override
 	public Set<Integer> getFixedColumns(final TableInfo tableInfo) {
 		return getModelService(tableInfo).getFixedColumnsPos();
+	}
+
+	@Override
+	public boolean enableFiltering(final TableInfo tableInfo) {
+		return getModelService(tableInfo).enableFiltering();
 	}
 
 	@Override
@@ -408,29 +417,33 @@ public final class TableServiceImpl implements TableService {
 		return resultTable;
 	}
 
-	private void storageWorknotes(final TableInfo tableInfo,
+	private void storageFootnotes(final TableInfo tableInfo,
 			final Table resultTable) {
 		if (resultTable == null || resultTable.getTablecontent() == null) {
 			return;
 		}
-		// Filter worknotes, which already in another tables visualation
+		// Filter footnotes, which already in another tables visualization
 		if (tableInfo.shortcut()
 				.equalsIgnoreCase(ToolboxConstants.WORKNOTES_TABLE_SHORTCUT)) {
-			// Special handle for fill Column C of Sxxx table
-			workNotesPerTable.forEach((table, notes) -> {
-				if (notes.isEmpty()) {
-					return;
-				}
-				final TableNameInfo tableNameInfo = getTableNameInfo(table);
-				FootnoteExtensions.fillSxxxTableColumnC(resultTable, notes,
-						tableNameInfo.getShortName());
-			});
+			final List<TableInfo> missingTables = getAvailableTables().stream()
+					.filter(table -> {
+						return !table.shortcut()
+								.equalsIgnoreCase(
+										ToolboxConstants.WORKNOTES_TABLE_SHORTCUT)
+								&& !footnotesPerTable.containsKey(
+										getTableNameInfo(table.shortcut())
+												.getShortName());
+					})
+					.toList();
+			FootnoteExtensions.fillSxxxTableColumnC(resultTable,
+					footnotesPerTable, missingTables.isEmpty());
 			return;
 		}
 		final Set<Footnote> tableNotes = FootnoteExtensions
 				.getNotesInTable(resultTable);
 
-		workNotesPerTable.put(tableInfo, tableNotes);
+		final TableNameInfo tableNameInfo = getTableNameInfo(tableInfo);
+		footnotesPerTable.put(tableNameInfo.getShortName(), tableNotes);
 		// Reload Sxxx table only when all tables was transformed
 		if (transformTableThreads.isEmpty()) {
 			broker.send(Events.RELOAD_WORKNOTES_TABLE, null);
@@ -608,7 +621,7 @@ public final class TableServiceImpl implements TableService {
 					controlAreaIds);
 			if (sessionService.getLoadedSession(
 					ToolboxFileRole.COMPARE_PLANNING) == null) {
-				storageWorknotes(tableInfo, mainSessionTable);
+				storageFootnotes(tableInfo, mainSessionTable);
 				return mainSessionTable;
 			}
 			// Waiting table compare transform, then create compare table
@@ -635,7 +648,7 @@ public final class TableServiceImpl implements TableService {
 					.get(TableCompareType.PROJECT)
 					.createDiffTable(mainSessionTable, compareSessionTable);
 			sortTable(compareTable, tableInfo);
-			storageWorknotes(tableInfo, compareSessionTable);
+			storageFootnotes(tableInfo, compareSessionTable);
 			return compareTable;
 		} catch (final Exception e) {
 			dialogService.error(Display.getCurrent().getActiveShell(),
