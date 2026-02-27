@@ -178,37 +178,37 @@ jobs:
         uses: eclipse-set/build/.github/actions/setup-java@main
       
       - name: Fetch pdf viewer
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         with:
           name: pdfviewer-artifact
           path: web/pdf/dist
       
       - name: Fetch text viewer
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         with:
           name: textviewer-artifact
           path: web/textviewer/dist
       
       - name: Fetch about
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         with:
           name: about-artifact
           path: web/about/dist   
 
       - name: Fetch siteplan
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         with:
           name: siteplan-artifact
           path: web/siteplan/dist
 
       - name: Fetch developerhelp
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         with:
           name: developerhelp-artifact
           path: web/developerhelp/dist
 
       - name: Fetch news
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         with:
           name: news-artifact
           path: web/news/public
@@ -286,7 +286,7 @@ jobs:
         uses: eclipse-set/build/.github/actions/setup-java@main
         
       - name: Fetch SET
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         with:
           name: eclipse-set-snapshot-${{github.run_number}}
           path: ${{ env.TEST_APPLICATION_DIR }}
@@ -294,7 +294,7 @@ jobs:
       - name: Fetch m2 Deploy
         # For main or tag build, the m2 packages can be taken directly from github m2package
         if: github.ref != 'refs/heads/main' && !startsWith(github.ref, 'refs/tags/')
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         with:
           name: set-m2deploy-${{github.run_number}}
           path: ${{ env.DEPLOY_DIR }}
@@ -359,7 +359,7 @@ jobs:
 
       - name: Fetch table csv
         if: needs.swtbot.result == 'failure'
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         with:
           name: table-csv-${{github.run_number}}
           path: ${{ env.DIFF_DIR }}
