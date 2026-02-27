@@ -8,6 +8,7 @@
  */
 package org.eclipse.set.basis.constants;
 
+import java.math.BigDecimal;
 import java.util.Comparator;
 
 import org.eclipse.set.basis.MixedStringComparator;
@@ -383,6 +384,14 @@ public final class ToolboxConstants {
 	 * length, which belong to this TOP_Kante (in Meter)
 	 */
 	public static final double TOP_GEO_LENGTH_TOLERANCE = 0.01;
+
+	/**
+	 * The tolerance value between the Begrenzungen of a Teilbereich and its
+	 * associated TOP_KANTE
+	 */
+	public static final BigDecimal TEILBEREICH_TOP_KANTE_TOLERANCE = BigDecimal
+			.valueOf(0.001);
+
 	static {
 		DEFAULT_HOME_DIR = "./";
 		TMP_BASE_DIR = System.getProperty(ToolboxProperties.TMP_BASE_DIR,
