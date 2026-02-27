@@ -127,7 +127,7 @@ public final class TableServiceImpl implements TableService {
 	private final Map<TableInfo, PlanPro2TableTransformationService> modelServiceMap = new ConcurrentHashMap<>();
 
 	private final Map<TableCompareType, TableDiffService> diffServiceMap = new ConcurrentHashMap<>();
-	private final Map<String, Set<Footnote>> workNotesPerTable = new ConcurrentHashMap<>();
+	private final Map<String, Set<Footnote>> footnotesPerTable = new ConcurrentHashMap<>();
 	private static final Queue<Pair<BasePart, Runnable>> transformTableThreads = new LinkedList<>();
 	private static final Set<TableInfo> nonTransformableTables = new HashSet<>();
 
@@ -175,8 +175,8 @@ public final class TableServiceImpl implements TableService {
 		}
 	}
 
-	void cleanWorkNotesProTable() {
-		workNotesPerTable.clear();
+	void cleanFootnotesProTable() {
+		footnotesPerTable.clear();
 	}
 
 	private Table createDiffStateTable(final TableInfo tableInfo,
@@ -417,12 +417,12 @@ public final class TableServiceImpl implements TableService {
 		return resultTable;
 	}
 
-	private void storageWorknotes(final TableInfo tableInfo,
+	private void storageFootnotes(final TableInfo tableInfo,
 			final Table resultTable) {
 		if (resultTable == null || resultTable.getTablecontent() == null) {
 			return;
 		}
-		// Filter worknotes, which already in another tables visualation
+		// Filter footnotes, which already in another tables visualization
 		if (tableInfo.shortcut()
 				.equalsIgnoreCase(ToolboxConstants.WORKNOTES_TABLE_SHORTCUT)) {
 			final List<TableInfo> missingTables = getAvailableTables().stream()
@@ -430,20 +430,20 @@ public final class TableServiceImpl implements TableService {
 						return !table.shortcut()
 								.equalsIgnoreCase(
 										ToolboxConstants.WORKNOTES_TABLE_SHORTCUT)
-								&& !workNotesPerTable.containsKey(
+								&& !footnotesPerTable.containsKey(
 										getTableNameInfo(table.shortcut())
 												.getShortName());
 					})
 					.toList();
 			FootnoteExtensions.fillSxxxTableColumnC(resultTable,
-					workNotesPerTable, missingTables.isEmpty());
+					footnotesPerTable, missingTables.isEmpty());
 			return;
 		}
 		final Set<Footnote> tableNotes = FootnoteExtensions
 				.getNotesInTable(resultTable);
 
 		final TableNameInfo tableNameInfo = getTableNameInfo(tableInfo);
-		workNotesPerTable.put(tableNameInfo.getShortName(), tableNotes);
+		footnotesPerTable.put(tableNameInfo.getShortName(), tableNotes);
 		// Reload Sxxx table only when all tables was transformed
 		if (transformTableThreads.isEmpty()) {
 			broker.send(Events.RELOAD_WORKNOTES_TABLE, null);
@@ -621,7 +621,7 @@ public final class TableServiceImpl implements TableService {
 					controlAreaIds);
 			if (sessionService.getLoadedSession(
 					ToolboxFileRole.COMPARE_PLANNING) == null) {
-				storageWorknotes(tableInfo, mainSessionTable);
+				storageFootnotes(tableInfo, mainSessionTable);
 				return mainSessionTable;
 			}
 			// Waiting table compare transform, then create compare table
@@ -648,7 +648,7 @@ public final class TableServiceImpl implements TableService {
 					.get(TableCompareType.PROJECT)
 					.createDiffTable(mainSessionTable, compareSessionTable);
 			sortTable(compareTable, tableInfo);
-			storageWorknotes(tableInfo, compareSessionTable);
+			storageFootnotes(tableInfo, compareSessionTable);
 			return compareTable;
 		} catch (final Exception e) {
 			dialogService.error(Display.getCurrent().getActiveShell(),
