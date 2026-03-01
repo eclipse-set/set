@@ -118,6 +118,7 @@ import static extension org.eclipse.set.ppmodel.extensions.UnterbringungExtensio
 import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
+import org.eclipse.set.model.tablemodel.extensions.FootnoteExtensions.FootnoteColumnReferences
 
 /**
  * Table transformation for a Signaltabelle (Ssks).
@@ -182,6 +183,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 						val signalRahmen = signal.
 							signalRahmenForBefestigung(gruppe)
 						val TableRow row = rowGroup.newTableRow
+						val footnoteColumnReferences = new FootnoteColumnReferences()
 
 						// A: Ssks.Bezeichnung_Signal
 						fillConditional(
@@ -248,6 +250,9 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							row.addTopologicalCell(cols.getColumn(Km))
 							row.addTopologicalCell(cols.getColumn(Strecke))
 						}
+
+						footnoteColumnReferences.addStreckeKm(signal, Strecke,
+							Km)
 
 						// E: Ssks.Standortmerkmale.Standort.Strecke
 						fillIterableWithConditional(
@@ -872,7 +877,10 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							row,
 							cols.getColumn(Bemerkung),
 							signal,
-							[fillBemerkung(signalRahmen, row)]
+							[
+								fillBemerkung(signalRahmen, row,
+									footnoteColumnReferences)
+							]
 						)
 					}
 				}
@@ -1459,7 +1467,8 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 	}
 
 	private def String fillBemerkung(Signal signal,
-		List<Signal_Rahmen> signalRahmen, TableRow row) {
+		List<Signal_Rahmen> signalRahmen, TableRow row,
+		FootnoteColumnReferences footnoteColumnReferences) {
 		val bemerkungen = new LinkedList
 		bemerkungen.addAll(
 			signalRahmen.map[signalbegriffe].flatten.map [
@@ -1484,7 +1493,7 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 			bemerkungen.add("Rahmenhöhen beachten")
 		}
 
-		fillFootnotes(row, signal)
+		fillFootnotes(row, signal, footnoteColumnReferences)
 
 		return '''«FOR bemerkung : bemerkungen SEPARATOR ", "»«bemerkung»«ENDFOR»'''
 	}

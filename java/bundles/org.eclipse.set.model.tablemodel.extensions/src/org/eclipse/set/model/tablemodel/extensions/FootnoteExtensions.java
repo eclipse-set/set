@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.model.planpro.BasisTypen.BasisTypenFactory;
@@ -26,6 +27,7 @@ import org.eclipse.set.model.planpro.Basisobjekte.BasisobjekteFactory;
 import org.eclipse.set.model.planpro.Basisobjekte.Bearbeitungsvermerk;
 import org.eclipse.set.model.planpro.Basisobjekte.Bearbeitungsvermerk_Allg_AttributeGroup;
 import org.eclipse.set.model.planpro.Basisobjekte.ENUMObjektzustandBesonders;
+import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt;
 import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
 import org.eclipse.set.model.planpro.Signalbegriffe_Struktur.Signalbegriff_ID_TypeClass;
 import org.eclipse.set.model.planpro.Signale.ENUMRahmenArt;
@@ -329,5 +331,57 @@ public class FootnoteExtensions {
 			footnote.setBearbeitungsvermerk(bearbeitungsvermerk);
 			return footnote;
 		}).toList();
+	}
+
+	/**
+	 * A util class to manage a map of what footnote was coming from what column
+	 * for a row.
+	 */
+	public static class FootnoteColumnReferences {
+		private final Map<EObject, String> columnReferences = new HashMap<>();
+
+		/**
+		 * 
+		 * @param object
+		 *            the owner object of the Bearbeitungsvermerk reference
+		 * @param column
+		 *            the column where the object was used for
+		 */
+		public void addReference(final EObject object, final String column) {
+			this.columnReferences.put(object, column);
+		}
+
+		/**
+		 * Adds footnote references for the ID_Strecke and Strecke_Km objects.
+		 * 
+		 * @param po
+		 *            the Punkt_Objekt whose strecke and km footnotes shall be
+		 *            referenced
+		 * @param streckeColumn
+		 *            the column for ID_Strecke object
+		 * @param kmColumn
+		 *            the column for the Strecke_Km object
+		 */
+		public void addStreckeKm(final Punkt_Objekt po,
+				final String streckeColumn, final String kmColumn) {
+			po.getPunktObjektStrecke().stream().forEach(pos -> {
+				this.addReference(pos.getIDStrecke(), streckeColumn);
+				this.addReference(pos.getStreckeKm(), kmColumn);
+			});
+		}
+
+		/**
+		 * Applys column prefix to a footnote if necessary
+		 * 
+		 * @param footnote
+		 *            the footnote to add a prefix
+		 */
+		public void applyColumnPrefix(final Footnote footnote) {
+			if (!columnReferences.containsKey(footnote.getOwnerObject())) {
+				return;
+			}
+			withPrefix(List.of(footnote),
+					columnReferences.get(footnote.getOwnerObject()));
+		}
 	}
 }
