@@ -32,8 +32,10 @@ import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
 import org.eclipse.set.model.planpro.Block.Block_Anlage;
 import org.eclipse.set.model.planpro.Block.Block_Element;
 import org.eclipse.set.model.tablemodel.CellContent;
+import org.eclipse.set.model.tablemodel.CompareFootnoteContainer;
 import org.eclipse.set.model.tablemodel.CompareStateCellContent;
 import org.eclipse.set.model.tablemodel.RowGroup;
+import org.eclipse.set.model.tablemodel.SimpleFootnoteContainer;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.TableCell;
 import org.eclipse.set.model.tablemodel.TableRow;
@@ -180,7 +182,21 @@ public class TableServiceUtils {
 		if (compareStateRows.isEmpty()) {
 			return table;
 		}
-		compareStateRows.forEach(row -> row.getCells()
+		compareStateRows.forEach(row -> {
+			transformCompareCellContent(row, tableType);
+		});
+
+		TableExtensions.getTableRows(table)
+				.stream()
+				.filter(row -> row
+						.getFootnotes() instanceof CompareFootnoteContainer)
+				.forEach(row -> transformCompareFootnote(row, tableType));
+		return table;
+	}
+
+	private static void transformCompareCellContent(final TableRow compareRow,
+			final TableType tableType) {
+		compareRow.getCells()
 				.stream()
 				.filter(cell -> cell
 						.getContent() instanceof CompareStateCellContent)
@@ -192,8 +208,34 @@ public class TableServiceUtils {
 					} else if (tableType == TableType.FINAL) {
 						cell.setContent(compareCellContent.getNewValue());
 					}
-				}));
-		return table;
+				});
+	}
+
+	private static void transformCompareFootnote(final TableRow compareRow,
+			final TableType tableType) {
+		if (compareRow
+				.getFootnotes() instanceof final CompareFootnoteContainer compareFnContainer) {
+			final SimpleFootnoteContainer simpleFootnoteContainer = TablemodelFactory.eINSTANCE
+					.createSimpleFootnoteContainer();
+			simpleFootnoteContainer.getFootnotes()
+					.addAll(compareFnContainer.getUnchangedFootnotes()
+							.getFootnotes());
+			switch (tableType) {
+				case INITIAL:
+					simpleFootnoteContainer.getFootnotes()
+							.addAll(compareFnContainer.getOldFootnotes()
+									.getFootnotes());
+					break;
+				case FINAL:
+					simpleFootnoteContainer.getFootnotes()
+							.addAll(compareFnContainer.getNewFootnotes()
+									.getFootnotes());
+					break;
+				default:
+					return;
+			}
+			compareRow.setFootnotes(simpleFootnoteContainer);
+		}
 	}
 
 	private static void filterRowGroupBelongToControlAreaByDiffState(
