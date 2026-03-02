@@ -48,15 +48,16 @@ public class TableStateDiffService extends AbstractTableDiff {
 	@Override
 	CellContent createDiffContent(final TableCell oldCell,
 			final TableCell newCell) {
-		if (oldCell.getContent() instanceof MultiColorCellContent) {
+		if (oldCell.getContent() instanceof MultiColorCellContent
+				|| newCell != null && newCell
+						.getContent() instanceof MultiColorCellContent) {
 			createMultiColorDiffCotent(oldCell, newCell);
 			return oldCell.getContent();
 		}
 
-		if (!StringCellContent.class.isInstance(oldCell.getContent())
-				|| newCell != null && newCell.getContent() != null
-						&& !StringCellContent.class
-								.isInstance(newCell.getContent())) {
+		if (!(oldCell.getContent() instanceof StringCellContent)
+				|| newCell != null && newCell.getContent() != null && !(newCell
+						.getContent() instanceof StringCellContent)) {
 			throw new IllegalArgumentException(
 					"Can not create CompareStateCellContent only from StringCellContent"); //$NON-NLS-1$
 		}
