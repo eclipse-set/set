@@ -32,8 +32,8 @@ import org.osgi.service.component.annotations.Reference;
  */
 @Component(immediate = true)
 public class ExampleServiceImpl implements ExampleService {
-	private static final String EXAMPLE_PROJECT_1_10_0_1_LABEL = "Beispielprojekt 1.10.0.1 laden"; //$NON-NLS-1$
-	private static final String EXAMPLE_PROJECT_1_10_0_3_LABEL = "Beispielprojekt 1.10.0.3 laden"; //$NON-NLS-1$
+	private static final String EXAMPLE_PROJECT_1_10_0_1_LABEL = "Beispielprojekt P-Hausen 1.10.0.1 laden"; //$NON-NLS-1$
+	private static final String EXAMPLE_PROJECT_1_10_0_3_LABEL = "Beispielprojekt P-Hausen 1.10.0.3 laden"; //$NON-NLS-1$
 	private static final String EXAMPLE_DIR = "examples"; //$NON-NLS-1$
 
 	private List<RecentOpenFile> exampleFiles;
