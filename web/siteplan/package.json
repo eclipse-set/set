@@ -7,7 +7,8 @@
     "serve": "vite --port 8080",
     "build": "vite build --mode development",
     "build-prod": "vite build --mode production",
-    "lint": "eslint src"
+    "lint": "eslint src",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "@turf/boolean-disjoint": "^7.3.3",
@@ -26,6 +27,7 @@
     "vuex": "^4.1.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.57.0",
     "@stylistic/eslint-plugin": "5.7.0",
     "@types/geojson": "^7946.0.15",
     "@typescript-eslint/eslint-plugin": "^8.53.0",

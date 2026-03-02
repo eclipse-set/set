@@ -51,10 +51,12 @@ jobs:
           node-version: 20
 
       - name: Install dependencies
-        run: cd web/siteplan && npm install
+        run: npm ci
+        working-directory: web/siteplan
 
       - name: Eslint
-        run: cd web/siteplan && npm run lint
+        run: npm run lint
+        working-directory: web/siteplan
 
   lint-textviewer:
     runs-on: ubuntu-latest
