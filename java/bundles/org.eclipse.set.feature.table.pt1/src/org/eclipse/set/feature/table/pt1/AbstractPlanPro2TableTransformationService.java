@@ -31,7 +31,6 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
-import org.eclipse.set.model.tablemodel.Footnote;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.extensions.ColumnDescriptorExtensions;
 import org.eclipse.set.model.tablemodel.extensions.FootnoteExtensions;
@@ -189,8 +188,6 @@ public abstract class AbstractPlanPro2TableTransformationService
 
 	protected void setReferencesColumnToFootnote(final Table table) {
 		final Map<Class<?>, String> footnotesColumnReferences = getFootnotesColumnReferences();
-		final Set<Footnote> notesInTable = FootnoteExtensions
-				.getNotesInTable(table);
 		FootnoteExtensions.getNotesInTable(table)
 				.stream()
 				.filter(fn -> footnotesColumnReferences.keySet()
