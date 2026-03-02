@@ -983,6 +983,16 @@ public class TablemodelPackageImpl extends EPackageImpl
 	 * @generated
 	 */
 	@Override
+	public EAttribute getFootnote_ReferenceColumn() {
+		return (EAttribute) footnoteEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
 	public EEnum getColumnWidthMode() {
 		return columnWidthModeEEnum;
 	}
@@ -1136,6 +1146,7 @@ public class TablemodelPackageImpl extends EPackageImpl
 		footnoteEClass = createEClass(FOOTNOTE);
 		createEReference(footnoteEClass, FOOTNOTE__OWNER_OBJECT);
 		createEReference(footnoteEClass, FOOTNOTE__BEARBEITUNGSVERMERK);
+		createEAttribute(footnoteEClass, FOOTNOTE__REFERENCE_COLUMN);
 
 		// Create enums
 		columnWidthModeEEnum = createEEnum(COLUMN_WIDTH_MODE);
@@ -1458,6 +1469,10 @@ public class TablemodelPackageImpl extends EPackageImpl
 				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE,
 				IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED,
 				IS_ORDERED);
+		initEAttribute(getFootnote_ReferenceColumn(), ecorePackage.getEString(),
+				"referenceColumn", null, 0, 1, Footnote.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
+				!IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(columnWidthModeEEnum, ColumnWidthMode.class,

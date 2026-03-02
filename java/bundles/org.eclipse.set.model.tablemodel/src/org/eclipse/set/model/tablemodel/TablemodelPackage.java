@@ -1074,13 +1074,22 @@ public interface TablemodelPackage extends EPackage {
 	int FOOTNOTE__BEARBEITUNGSVERMERK = 1;
 
 	/**
+	 * The feature id for the '<em><b>Reference Column</b></em>' attribute. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 * @ordered
+	 */
+	int FOOTNOTE__REFERENCE_COLUMN = 2;
+
+	/**
 	 * The number of structural features of the '<em>Footnote</em>' class. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @generated
 	 * @ordered
 	 */
-	int FOOTNOTE_FEATURE_COUNT = 2;
+	int FOOTNOTE_FEATURE_COUNT = 3;
 
 	/**
 	 * The number of operations of the '<em>Footnote</em>' class. <!--
@@ -1873,6 +1882,19 @@ public interface TablemodelPackage extends EPackage {
 	EReference getFootnote_Bearbeitungsvermerk();
 
 	/**
+	 * Returns the meta object for the attribute
+	 * '{@link org.eclipse.set.model.tablemodel.Footnote#getReferenceColumn
+	 * <em>Reference Column</em>}'. <!-- begin-user-doc --> <!-- end-user-doc
+	 * -->
+	 * 
+	 * @return the meta object for the attribute '<em>Reference Column</em>'.
+	 * @see org.eclipse.set.model.tablemodel.Footnote#getReferenceColumn()
+	 * @see #getFootnote()
+	 * @generated
+	 */
+	EAttribute getFootnote_ReferenceColumn();
+
+	/**
 	 * Returns the meta object for enum
 	 * '{@link org.eclipse.set.model.tablemodel.ColumnWidthMode <em>Column Width
 	 * Mode</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -2539,6 +2561,15 @@ public interface TablemodelPackage extends EPackage {
 		 */
 		EReference FOOTNOTE__BEARBEITUNGSVERMERK = eINSTANCE
 				.getFootnote_Bearbeitungsvermerk();
+
+		/**
+		 * The meta object literal for the '<em><b>Reference Column</b></em>'
+		 * attribute feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * 
+		 * @generated
+		 */
+		EAttribute FOOTNOTE__REFERENCE_COLUMN = eINSTANCE
+				.getFootnote_ReferenceColumn();
 
 		/**
 		 * The meta object literal for the

@@ -213,5 +213,6 @@
   <eClassifiers xsi:type="ecore:EClass" name="Footnote">
     <eStructuralFeatures xsi:type="ecore:EReference" name="ownerObject" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="bearbeitungsvermerk" eType="ecore:EClass ../../org.eclipse.set.model.planpro/model/Basisobjekte.ecore#//Bearbeitungsvermerk"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="referenceColumn" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
 </ecore:EPackage>
