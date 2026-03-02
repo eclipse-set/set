@@ -29,6 +29,7 @@ import org.osgi.service.event.EventAdmin
 
 import static org.eclipse.set.feature.table.pt1.sskg.SskgColumns.*
 
+import static extension org.eclipse.set.model.tablemodel.extensions.FootnoteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BueKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FmaKomponenteAchszaehlpunktExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FmaKomponenteExtensions.*
@@ -61,6 +62,8 @@ class SskgTransformator extends AbstractPlanPro2TableModelTransformator {
 				return null
 			}
 			val TableRow row = factory.newTableRow(ein);
+			val footnoteColumnReferences = newFootnoteColumnReferences
+			
 			// A: Sskg.Grunsatzangaben.Bezeichnung
 			fill(
 				row,
@@ -143,6 +146,7 @@ class SskgTransformator extends AbstractPlanPro2TableModelTransformator {
 				]
 			)
 
+			footnoteColumnReferences.addStreckeKm(ein, Standort_Strecke, Standort_km)
 			// J: Sskg.Standortmerkmale.Standort.Strecke
 			fillIterable(
 				row,
@@ -179,13 +183,14 @@ class SskgTransformator extends AbstractPlanPro2TableModelTransformator {
 			)
 
 			// M: Sskg.Bemerkung
-			fillFootnotes(row, ein)
+			fillFootnotes(row, ein, footnoteColumnReferences)
 			instances.add(row);
 		}
 
 		for (FMA_Komponente fma : container.FMAKomponente) {
 			if (fma.FMAKomponenteAchszaehlpunkt !== null) {
 				val TableRow row = factory.newTableRow(fma);
+				val footnoteColumnReferences = newFootnoteColumnReferences
 				// A: Sskg.Grundsatzangaben.Bezeichnung
 				fill(
 					row,
@@ -284,6 +289,7 @@ class SskgTransformator extends AbstractPlanPro2TableModelTransformator {
 					]
 				)
 
+				footnoteColumnReferences.addStreckeKm(fma, Standort_Strecke, Standort_km)
 				// J: Sskg.Standortmerkmale.Standort.Strecke
 				fillIterable(
 					row,
@@ -318,7 +324,7 @@ class SskgTransformator extends AbstractPlanPro2TableModelTransformator {
 				)
 
 				// M: Sskg.Bemerkung
-				fillFootnotes(row, fma)
+				fillFootnotes(row, fma, footnoteColumnReferences)
 				instances.add(row);
 			}
 		}

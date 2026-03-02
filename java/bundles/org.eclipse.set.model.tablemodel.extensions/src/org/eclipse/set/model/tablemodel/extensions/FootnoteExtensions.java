@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Unterbringung;
 import org.eclipse.set.model.planpro.BasisTypen.BasisTypenFactory;
 import org.eclipse.set.model.planpro.BasisTypen.ID_Bearbeitungsvermerk_TypeClass;
 import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt;
@@ -333,6 +334,10 @@ public class FootnoteExtensions {
 		}).toList();
 	}
 
+	public static FootnoteColumnReferences newFootnoteColumnReferences() {
+		return new FootnoteColumnReferences();
+	}
+
 	/**
 	 * A util class to manage a map of what footnote was coming from what column
 	 * for a row.
@@ -364,7 +369,32 @@ public class FootnoteExtensions {
 		 */
 		public void addStreckeKm(final Punkt_Objekt po,
 				final String streckeColumn, final String kmColumn) {
+			if (po == null) {
+				return;
+			}
 			po.getPunktObjektStrecke().stream().forEach(pos -> {
+				this.addReference(pos.getIDStrecke(), streckeColumn);
+				this.addReference(pos.getStreckeKm(), kmColumn);
+			});
+		}
+
+		/**
+		 * Adds footnote references for the ID_Strecke and Strecke_Km objects.
+		 * 
+		 * @param unterbringung
+		 *            the Unterbringung whose strecke and km footnotes shall be
+		 *            referenced
+		 * @param streckeColumn
+		 *            the column for ID_Strecke object
+		 * @param kmColumn
+		 *            the column for the Strecke_Km object
+		 */
+		public void addStreckeKm(final Unterbringung unterbringung,
+				final String streckeColumn, final String kmColumn) {
+			if (unterbringung == null) {
+				return;
+			}
+			unterbringung.getPunktObjektStrecke().stream().forEach(pos -> {
 				this.addReference(pos.getIDStrecke(), streckeColumn);
 				this.addReference(pos.getStreckeKm(), kmColumn);
 			});
