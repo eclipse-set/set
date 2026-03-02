@@ -13,6 +13,7 @@ package org.eclipse.set.feature.table.pt1.ssza;
 import static org.eclipse.set.feature.table.pt1.ssza.SszaColumns.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
@@ -21,6 +22,8 @@ import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.messages.Messages;
+import org.eclipse.set.model.planpro.Basisobjekte.Strecke_Km_TypeClass;
+import org.eclipse.set.model.planpro.Verweise.ID_Strecke_TypeClass;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.RowMergeMode;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
@@ -103,6 +106,14 @@ public final class SszaTransformationService
 	@Override
 	protected List<String> getTopologicalColumnPosition() {
 		return List.of(SszaColumns.DP_Standort_rel_Lage_zu_BP);
+	}
+
+	@Override
+	protected Map<Class<?>, String> getFootnotesColumnReferences() {
+		return Map.of(ID_Strecke_TypeClass.class,
+				SszaColumns.Bezugspunkt_Standort_Strecke,
+				Strecke_Km_TypeClass.class,
+				SszaColumns.Bezugspunkt_Standort_km);
 	}
 
 }

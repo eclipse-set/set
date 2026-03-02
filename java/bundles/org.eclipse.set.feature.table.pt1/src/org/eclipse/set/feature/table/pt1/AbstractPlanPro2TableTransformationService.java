@@ -20,6 +20,7 @@ import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -30,8 +31,10 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
+import org.eclipse.set.model.tablemodel.Footnote;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.extensions.ColumnDescriptorExtensions;
+import org.eclipse.set.model.tablemodel.extensions.FootnoteExtensions;
 import org.eclipse.set.model.tablemodel.extensions.TableExtensions;
 import org.eclipse.set.model.tablemodel.extensions.TableRowExtensions;
 import org.eclipse.set.model.tablemodel.format.TextAlignment;
@@ -158,6 +161,7 @@ public abstract class AbstractPlanPro2TableTransformationService
 			pt1TableTransformator.getTopologicalCells()
 					.forEach(TableRowExtensions::setTopologicalCell);
 			setTopologicalColumnHightlight(table);
+			setReferencesColumnToFootnote(table);
 		}
 		return table;
 	}
@@ -166,8 +170,9 @@ public abstract class AbstractPlanPro2TableTransformationService
 
 	protected abstract List<String> getTopologicalColumnPosition();
 
-	protected void setTopologicalColumnHightlight(final Table table) {
+	protected abstract Map<Class<?>, String> getFootnotesColumnReferences();
 
+	protected void setTopologicalColumnHightlight(final Table table) {
 		final Set<ColumnDescriptor> topologicalCols = getTopologicalColumnPosition()
 				.stream()
 				.map(position -> cols.stream()
@@ -180,5 +185,26 @@ public abstract class AbstractPlanPro2TableTransformationService
 		TableExtensions.getTableRows(table)
 				.forEach(row -> TableRowExtensions.setTopologicalCell(row,
 						topologicalCols));
+	}
+
+	protected void setReferencesColumnToFootnote(final Table table) {
+		final Map<Class<?>, String> footnotesColumnReferences = getFootnotesColumnReferences();
+		final Set<Footnote> notesInTable = FootnoteExtensions
+				.getNotesInTable(table);
+		FootnoteExtensions.getNotesInTable(table)
+				.stream()
+				.filter(fn -> footnotesColumnReferences.keySet()
+						.stream()
+						.anyMatch(ref -> ref.isInstance(fn.getOwnerObject())))
+				.forEach(fn -> {
+					footnotesColumnReferences.entrySet()
+							.stream()
+							.forEach(entry -> {
+								if (entry.getKey()
+										.isInstance(fn.getOwnerObject())) {
+									fn.setReferenceColumn(entry.getValue());
+								}
+							});
+				});
 	}
 }

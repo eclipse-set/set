@@ -11,8 +11,10 @@ package org.eclipse.set.feature.table.pt1.sskp;
 import static org.eclipse.set.feature.table.pt1.sskp.SskpColumns.*;
 import static org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.getFirstOrNull;
 
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 
@@ -190,5 +192,10 @@ public class SskpTransformationService
 				Abstand_GM_2000_Bahnsteig_Anfang,
 				Abstand_GM_2000_Bahnsteig_Ende, H_Tafel_Abstand,
 				Abstand_vorsignalWdh_GM_2000);
+	}
+
+	@Override
+	protected Map<Class<?>, String> getFootnotesColumnReferences() {
+		return Collections.emptyMap();
 	}
 }

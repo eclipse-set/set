@@ -23,8 +23,11 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
+import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 
+import org.eclipse.emf.edit.provider.ViewerNotification;
+import org.eclipse.set.model.tablemodel.Footnote;
 import org.eclipse.set.model.tablemodel.TablemodelPackage;
 
 /**
@@ -60,6 +63,7 @@ public class FootnoteItemProvider extends ItemProviderAdapter
 
 			addOwnerObjectPropertyDescriptor(object);
 			addBearbeitungsvermerkPropertyDescriptor(object);
+			addReferenceColumnPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -103,6 +107,26 @@ public class FootnoteItemProvider extends ItemProviderAdapter
 	}
 
 	/**
+	 * This adds a property descriptor for the Reference Column feature. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	protected void addReferenceColumnPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add(createItemPropertyDescriptor(
+				((ComposeableAdapterFactory) adapterFactory)
+						.getRootAdapterFactory(),
+				getResourceLocator(),
+				getString("_UI_Footnote_referenceColumn_feature"),
+				getString("_UI_PropertyDescriptor_description",
+						"_UI_Footnote_referenceColumn_feature",
+						"_UI_Footnote_type"),
+				TablemodelPackage.Literals.FOOTNOTE__REFERENCE_COLUMN, true,
+				false, false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null,
+				null));
+	}
+
+	/**
 	 * This returns Footnote.gif. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @generated
@@ -121,7 +145,10 @@ public class FootnoteItemProvider extends ItemProviderAdapter
 	 */
 	@Override
 	public String getText(Object object) {
-		return getString("_UI_Footnote_type");
+		String label = ((Footnote) object).getReferenceColumn();
+		return label == null || label.length() == 0
+				? getString("_UI_Footnote_type")
+				: getString("_UI_Footnote_type") + " " + label;
 	}
 
 	/**
@@ -135,6 +162,13 @@ public class FootnoteItemProvider extends ItemProviderAdapter
 	@Override
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
+
+		switch (notification.getFeatureID(Footnote.class)) {
+			case TablemodelPackage.FOOTNOTE__REFERENCE_COLUMN:
+				fireNotifyChanged(new ViewerNotification(notification,
+						notification.getNotifier(), false, true));
+				return;
+		}
 		super.notifyChanged(notification);
 	}
 

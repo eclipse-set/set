@@ -14,6 +14,7 @@ import static org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparat
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
@@ -22,6 +23,8 @@ import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableTransformationServ
 import org.eclipse.set.feature.table.pt1.messages.Messages;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Aussenelementansteuerung;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.ESTW_Zentraleinheit;
+import org.eclipse.set.model.planpro.Basisobjekte.Strecke_Km_TypeClass;
+import org.eclipse.set.model.planpro.Verweise.ID_Strecke_TypeClass;
 import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
 import org.eclipse.set.utils.table.sorting.TableRowGroupComparator;
@@ -89,6 +92,13 @@ public final class SskaTransformationService
 	@Override
 	protected List<String> getTopologicalColumnPosition() {
 		return Collections.emptyList();
+	}
+
+	@Override
+	protected Map<Class<?>, String> getFootnotesColumnReferences() {
+		return Map.of(ID_Strecke_TypeClass.class,
+				SskaColumns.Unterbringung_Strecke, Strecke_Km_TypeClass.class,
+				SskaColumns.Unterbringung_km);
 	}
 
 }

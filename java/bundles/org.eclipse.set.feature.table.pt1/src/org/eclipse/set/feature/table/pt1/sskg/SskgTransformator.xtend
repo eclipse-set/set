@@ -146,7 +146,6 @@ class SskgTransformator extends AbstractPlanPro2TableModelTransformator {
 				]
 			)
 
-			footnoteColumnReferences.addStreckeKm(ein, Standort_Strecke, Standort_km)
 			// J: Sskg.Standortmerkmale.Standort.Strecke
 			fillIterable(
 				row,

@@ -12,8 +12,10 @@ import static org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum.ASC;
 import static org.eclipse.set.feature.table.pt1.ssld.SsldColumns.*;
 import static org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparatorType.MIXED_STRING;
 
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.core.services.graph.TopologicalGraphService;
@@ -103,4 +105,8 @@ public final class SsldTransformationService
 				massgebende_Neigung, v_Aufwertung_Verzicht);
 	}
 
+	@Override
+	protected Map<Class<?>, String> getFootnotesColumnReferences() {
+		return Collections.emptyMap();
+	}
 }

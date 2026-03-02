@@ -12,8 +12,10 @@ import static org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum.ASC;
 import static org.eclipse.set.feature.table.pt1.ssla.SslaColumns.*;
 import static org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparatorType.LEXICOGRAPHICAL;
 
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
@@ -98,6 +100,11 @@ public final class SslaTransformationService
 	protected List<String> getTopologicalColumnPosition() {
 		return List.of(Bezeichnung, Fahrweg_Start, Fahrweg_Ziel,
 				Durchrutschweg_Ziel, Unterwegssignal);
+	}
+
+	@Override
+	protected Map<Class<?>, String> getFootnotesColumnReferences() {
+		return Collections.emptyMap();
 	}
 
 }

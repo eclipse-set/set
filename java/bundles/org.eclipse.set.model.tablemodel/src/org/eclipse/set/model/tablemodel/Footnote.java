@@ -24,6 +24,8 @@ import org.eclipse.set.model.planpro.Basisobjekte.Bearbeitungsvermerk;
  * Object</em>}</li>
  * <li>{@link org.eclipse.set.model.tablemodel.Footnote#getBearbeitungsvermerk
  * <em>Bearbeitungsvermerk</em>}</li>
+ * <li>{@link org.eclipse.set.model.tablemodel.Footnote#getReferenceColumn
+ * <em>Reference Column</em>}</li>
  * </ul>
  *
  * @see org.eclipse.set.model.tablemodel.TablemodelPackage#getFootnote()
@@ -80,5 +82,30 @@ public interface Footnote extends EObject {
 	 * @generated
 	 */
 	void setBearbeitungsvermerk(Bearbeitungsvermerk value);
+
+	/**
+	 * Returns the value of the '<em><b>Reference Column</b></em>' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @return the value of the '<em>Reference Column</em>' attribute.
+	 * @see #setReferenceColumn(String)
+	 * @see org.eclipse.set.model.tablemodel.TablemodelPackage#getFootnote_ReferenceColumn()
+	 * @model
+	 * @generated
+	 */
+	String getReferenceColumn();
+
+	/**
+	 * Sets the value of the
+	 * '{@link org.eclipse.set.model.tablemodel.Footnote#getReferenceColumn
+	 * <em>Reference Column</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
+	 * @param value
+	 *            the new value of the '<em>Reference Column</em>' attribute.
+	 * @see #getReferenceColumn()
+	 * @generated
+	 */
+	void setReferenceColumn(String value);
 
 } // Footnote

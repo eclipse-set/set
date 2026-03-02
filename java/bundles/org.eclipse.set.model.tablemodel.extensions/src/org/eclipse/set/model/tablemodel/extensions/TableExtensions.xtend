@@ -419,12 +419,13 @@ class TableExtensions {
 
 	static class FootnoteInfo {
 		new(Footnote fn, FootnoteType ft) {
-			this(fn.bearbeitungsvermerk, ft)
+			this(fn.bearbeitungsvermerk, ft, fn.referenceColumn)
 		}
 
-		new(Bearbeitungsvermerk bv, FootnoteType ft) {
+		new(Bearbeitungsvermerk bv, FootnoteType ft, String refCol) {
 			this.bearbeitungsvermerk = bv
 			this.type = ft
+			this.referenceColumn = refCol
 		}
 
 		def String toShorthand() {
@@ -432,16 +433,18 @@ class TableExtensions {
 		}
 
 		def String toReferenceText() {
-			return '''*«index»: «bearbeitungsvermerk?.bearbeitungsvermerkAllg?.kommentar?.wert»'''
+			return '''*«index»: «toText»'''
 		}
 
 		def String toText() {
-			return bearbeitungsvermerk?.bearbeitungsvermerkAllg?.kommentar?.wert
+			return '''«IF referenceColumn !== null && !referenceColumn.isEmpty»«referenceColumn»: «ENDIF»«
+			»«bearbeitungsvermerk?.bearbeitungsvermerkAllg?.kommentar?.wert»'''
 		}
 
 		public Bearbeitungsvermerk bearbeitungsvermerk;
 		public int index;
 		public FootnoteType type;
+		public String referenceColumn
 	}
 
 	static def Iterable<FootnoteInfo> getAllFootnotes(Table table) {
