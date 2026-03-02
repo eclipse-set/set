@@ -24,7 +24,6 @@ import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.model.tablemodel.TableRow
 import org.eclipse.set.model.tablemodel.TablemodelFactory
 import org.eclipse.set.model.tablemodel.extensions.CellContentExtensions
-import org.eclipse.set.model.tablemodel.extensions.FootnoteExtensions.FootnoteColumnReferences
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.utils.events.TableDataChangeEvent
 import org.eclipse.set.utils.table.AbstractTableModelTransformator
@@ -63,12 +62,7 @@ abstract class AbstractPlanPro2TableModelTransformator extends AbstractTableMode
 	}
 
 	protected def void fillFootnotes(TableRow row, Basis_Objekt object) {
-		fillFootnotes(row, object, new FootnoteColumnReferences());
-	}
-
-	protected def void fillFootnotes(TableRow row, Basis_Objekt object,
-		FootnoteColumnReferences footnoteColumnReferences) {
-		footnoteTransformation.transform(object, row, footnoteColumnReferences)
+		footnoteTransformation.transform(object, row)
 
 		// Ensure a cell exists for the last column to fill footnotes into
 		val column = this.cols.filter[columnPosition !== null].sortBy [

@@ -30,7 +30,6 @@ import org.osgi.service.event.EventAdmin
 import static org.eclipse.set.feature.table.pt1.sska.SskaColumns.*
 import static org.eclipse.set.model.planpro.Bedienung.ENUMBedienPlatzArt.*
 
-import static extension org.eclipse.set.model.tablemodel.extensions.FootnoteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.AussenelementansteuerungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BedienBezirkExtensions.*
@@ -65,7 +64,6 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 				return null
 			}
 			val instance = factory.newTableRow(element)
-			val footnoteColumnReferences = newFootnoteColumnReferences
 
 			// A: Sska.Grundsatzangaben.Bezeichnung
 			fill(
@@ -110,7 +108,6 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 				[unterbringung.ort ?: ""]
 			)
 
-			footnoteColumnReferences.addStreckeKm(element.unterbringung, Unterbringung_Strecke, Unterbringung_km)
 			// F: Sska.Grundsatzangaben.Unterbringung.Strecke
 			fillIterable(
 				instance,
@@ -258,7 +255,7 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 			)
 
 			// W: Bemerkung
-			fillFootnotes(instance, element, footnoteColumnReferences)
+			fillFootnotes(instance, element)
 		}
 
 		return factory.table

@@ -82,7 +82,6 @@ import org.eclipse.set.model.planpro.Signale.Signal_Befestigung
 import org.eclipse.set.model.planpro.Signale.Signal_Rahmen
 import org.eclipse.set.model.planpro.Signale.Signal_Signalbegriff
 import org.eclipse.set.model.tablemodel.ColumnDescriptor
-import org.eclipse.set.model.tablemodel.extensions.FootnoteExtensions.FootnoteColumnReferences
 import org.eclipse.set.model.tablemodel.TableRow
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.ppmodel.extensions.utils.Case
@@ -105,7 +104,6 @@ import static org.eclipse.set.model.planpro.Signale.ENUMSignalFunktion.*
 import static org.eclipse.set.model.planpro.Signale.ENUMTunnelsignal.*
 import static org.eclipse.set.ppmodel.extensions.geometry.GEOKanteGeometryExtensions.*
 
-import static extension org.eclipse.set.model.tablemodel.extensions.FootnoteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.GeoPunktExtensions.*
@@ -184,7 +182,6 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 						val signalRahmen = signal.
 							signalRahmenForBefestigung(gruppe)
 						val TableRow row = rowGroup.newTableRow
-						val footnoteColumnReferences = newFootnoteColumnReferences
 
 						// A: Ssks.Bezeichnung_Signal
 						fillConditional(
@@ -251,9 +248,6 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							row.addTopologicalCell(cols.getColumn(Km))
 							row.addTopologicalCell(cols.getColumn(Strecke))
 						}
-
-						footnoteColumnReferences.addStreckeKm(signal, Strecke,
-							Km)
 
 						// E: Ssks.Standortmerkmale.Standort.Strecke
 						fillIterableWithConditional(
@@ -878,10 +872,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							row,
 							cols.getColumn(Bemerkung),
 							signal,
-							[
-								fillBemerkung(signalRahmen, row,
-									footnoteColumnReferences)
-							]
+							[fillBemerkung(signalRahmen, row)]
 						)
 					}
 				}
@@ -1468,8 +1459,7 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 	}
 
 	private def String fillBemerkung(Signal signal,
-		List<Signal_Rahmen> signalRahmen, TableRow row,
-		FootnoteColumnReferences footnoteColumnReferences) {
+		List<Signal_Rahmen> signalRahmen, TableRow row) {
 		val bemerkungen = new LinkedList
 		bemerkungen.addAll(
 			signalRahmen.map[signalbegriffe].flatten.map [
@@ -1494,7 +1484,7 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 			bemerkungen.add("Rahmenhöhen beachten")
 		}
 
-		fillFootnotes(row, signal, footnoteColumnReferences)
+		fillFootnotes(row, signal)
 
 		return '''«FOR bemerkung : bemerkungen SEPARATOR ", "»«bemerkung»«ENDFOR»'''
 	}

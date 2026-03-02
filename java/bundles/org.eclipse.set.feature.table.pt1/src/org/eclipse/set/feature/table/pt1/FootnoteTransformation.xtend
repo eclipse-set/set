@@ -55,7 +55,6 @@ import org.eclipse.set.model.planpro.Ortung.Schaltmittel_Zuordnung
 import org.eclipse.set.model.planpro.Signale.Signal_Signalbegriff
 import org.eclipse.set.model.tablemodel.Footnote
 import org.eclipse.emf.ecore.EObject
-import org.eclipse.set.model.tablemodel.extensions.FootnoteExtensions.FootnoteColumnReferences
 
 /**
  * Transform basis objects to footnotes.
@@ -65,15 +64,12 @@ import org.eclipse.set.model.tablemodel.extensions.FootnoteExtensions.FootnoteCo
 class FootnoteTransformation {
 
 	var TableRow row
-	var FootnoteColumnReferences footnoteColumnReferences
 
 	/**
 	 * @param row the table row
 	 */
-	def void transform(Basis_Objekt object, TableRow row,
-		FootnoteColumnReferences footnoteColumnReferences) {
+	def void transform(Basis_Objekt object, TableRow row) {
 		this.row = row
-		this.footnoteColumnReferences = footnoteColumnReferences
 		// Direct attachment notes
 		object?.IDBearbeitungsvermerk?.filterNull?.map[value]?.toSet?.map [
 			createFootnote(object)
@@ -351,7 +347,6 @@ class FootnoteTransformation {
 		val footnote = TablemodelFactory.eINSTANCE.createFootnote()
 		footnote.ownerObject = obj
 		footnote.bearbeitungsvermerk = bv
-		footnoteColumnReferences.applyColumnPrefix(footnote);
 
 		return footnote
 	}

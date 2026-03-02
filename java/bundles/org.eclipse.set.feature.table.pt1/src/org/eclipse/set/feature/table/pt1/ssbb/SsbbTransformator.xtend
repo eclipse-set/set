@@ -28,7 +28,6 @@ import org.osgi.service.event.EventAdmin
 
 import static org.eclipse.set.feature.table.pt1.ssbb.SsbbColumns.*
 
-import static extension org.eclipse.set.model.tablemodel.extensions.FootnoteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BedienAnzeigeElementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BedienEinrichtungOertlichExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BueAnlageExtensions.*
@@ -71,7 +70,6 @@ class SsbbTransformator extends AbstractPlanPro2TableModelTransformator {
 	private def TableRow create factory.newTableRow(einrichtung) transform(
 		Bedien_Einrichtung_Oertlich einrichtung) {
 		val instance = it
-		val footnoteColumnReferences = newFootnoteColumnReferences
 		val lBedienAnzeigeElement = einrichtung.bedienAnzeigeElemente
 		val lBUEBedienAnzeigeElement = lBedienAnzeigeElement.map [
 			bueBedienAnzeigeElemente
@@ -146,8 +144,7 @@ class SsbbTransformator extends AbstractPlanPro2TableModelTransformator {
 					translate ?: ""
 			]
 		)
-		
-		footnoteColumnReferences.addStreckeKm(einrichtung.unterbringung, Befestigung_Strecke, Befestigung_km)
+
 		// E: Ssbb.Grundsatzangaben.Befestigung.Strecke
 		fillIterable(
 			instance,
@@ -232,7 +229,7 @@ class SsbbTransformator extends AbstractPlanPro2TableModelTransformator {
 		)
 
 		// J: Ssbb.Bemerkung
-		fillFootnotes(instance, einrichtung, footnoteColumnReferences)
+		fillFootnotes(instance, einrichtung)
 
 		return
 	}

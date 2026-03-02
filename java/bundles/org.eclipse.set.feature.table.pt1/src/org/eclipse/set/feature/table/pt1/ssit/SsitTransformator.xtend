@@ -26,7 +26,6 @@ import org.osgi.service.event.EventAdmin
 
 import static org.eclipse.set.feature.table.pt1.ssit.SsitColumns.*
 
-import static extension org.eclipse.set.model.tablemodel.extensions.FootnoteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BedienAnzeigeElementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BedienEinrichtungOertlichExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.NbBedienAnzeigeElementExtensions.*
@@ -76,7 +75,6 @@ class SsitTransformator extends AbstractPlanPro2TableModelTransformator {
 		val lNbBedienAnzeigeElemente = lBedienAnzeigeElemente.map [
 			nbBedienAnzeigeElemente
 		].flatten
-		val footnoteColumnReferences = newFootnoteColumnReferences
 
 		// A: Ssit.Grundsatzangaben.Bezeichnung
 		fill(
@@ -112,7 +110,6 @@ class SsitTransformator extends AbstractPlanPro2TableModelTransformator {
 			]
 		)
 
-		footnoteColumnReferences.addStreckeKm(einrichtung.unterbringung, Befestigung_Strecke, Befestigung_km)
 		// E: Ssit.Grundsatzangaben.Befestigung.Strecke
 		fillIterable(
 			cols.getColumn(Befestigung_Strecke),
@@ -304,7 +301,7 @@ class SsitTransformator extends AbstractPlanPro2TableModelTransformator {
 		)
 
 		// R: Bemerkung
-		fillFootnotes(einrichtung, footnoteColumnReferences)
+		fillFootnotes(einrichtung)
 
 		return
 	}
