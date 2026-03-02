@@ -115,8 +115,7 @@
     <eLiterals name="PfostenNiedrig" value="6" literal="PfostenNiedrig"/>
     <eLiterals name="Deckenkonstruktion" value="7" literal="Deckenkonstruktion"/>
     <eLiterals name="Wandkonstruktion" value="8" literal="Wandkonstruktion"/>
-    <eLiterals name="SignalauslegerLinks" value="9" literal="SignalauslegerLinks"/>
-    <eLiterals name="SignalauslegerMitte" value="10" literal="SignalauslegerMitte"/>
+    <eLiterals name="Signalausleger" value="9" literal="Signalausleger"/>
     <eLiterals name="Signalbruecke" value="11" literal="Signalbruecke"/>
     <eLiterals name="Sonderkonstruktion" value="12" literal="Sonderkonstruktion"/>
   </eClassifiers>
