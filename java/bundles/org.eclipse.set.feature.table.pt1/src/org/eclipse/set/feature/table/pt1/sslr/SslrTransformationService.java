@@ -12,8 +12,10 @@ import static org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum.ASC;
 import static org.eclipse.set.feature.table.pt1.sslr.SslrColumns.*;
 import static org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparatorType.MIXED_STRING;
 
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
@@ -89,5 +91,10 @@ public class SslrTransformationService
 	@Override
 	protected List<String> getTopologicalColumnPosition() {
 		return List.of(Fahrweg_Entscheidungsweiche, Abhaengiger_BUe);
+	}
+
+	@Override
+	protected Map<Class<?>, String> getFootnotesColumnReferences() {
+		return Collections.emptyMap();
 	}
 }

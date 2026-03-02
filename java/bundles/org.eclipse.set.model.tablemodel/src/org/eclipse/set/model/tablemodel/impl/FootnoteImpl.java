@@ -33,6 +33,8 @@ import org.eclipse.set.model.tablemodel.TablemodelPackage;
  * <em>Owner Object</em>}</li>
  * <li>{@link org.eclipse.set.model.tablemodel.impl.FootnoteImpl#getBearbeitungsvermerk
  * <em>Bearbeitungsvermerk</em>}</li>
+ * <li>{@link org.eclipse.set.model.tablemodel.impl.FootnoteImpl#getReferenceColumn
+ * <em>Reference Column</em>}</li>
  * </ul>
  *
  * @generated
@@ -59,6 +61,26 @@ public class FootnoteImpl extends MinimalEObjectImpl.Container
 	 * @ordered
 	 */
 	protected Bearbeitungsvermerk bearbeitungsvermerk;
+
+	/**
+	 * The default value of the '{@link #getReferenceColumn() <em>Reference
+	 * Column</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @see #getReferenceColumn()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String REFERENCE_COLUMN_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getReferenceColumn() <em>Reference
+	 * Column</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @see #getReferenceColumn()
+	 * @generated
+	 * @ordered
+	 */
+	protected String referenceColumn = REFERENCE_COLUMN_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -175,6 +197,31 @@ public class FootnoteImpl extends MinimalEObjectImpl.Container
 	 * @generated
 	 */
 	@Override
+	public String getReferenceColumn() {
+		return referenceColumn;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
+	public void setReferenceColumn(String newReferenceColumn) {
+		String oldReferenceColumn = referenceColumn;
+		referenceColumn = newReferenceColumn;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					TablemodelPackage.FOOTNOTE__REFERENCE_COLUMN,
+					oldReferenceColumn, referenceColumn));
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case TablemodelPackage.FOOTNOTE__OWNER_OBJECT:
@@ -185,6 +232,8 @@ public class FootnoteImpl extends MinimalEObjectImpl.Container
 				if (resolve)
 					return getBearbeitungsvermerk();
 				return basicGetBearbeitungsvermerk();
+			case TablemodelPackage.FOOTNOTE__REFERENCE_COLUMN:
+				return getReferenceColumn();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -202,6 +251,9 @@ public class FootnoteImpl extends MinimalEObjectImpl.Container
 				return;
 			case TablemodelPackage.FOOTNOTE__BEARBEITUNGSVERMERK:
 				setBearbeitungsvermerk((Bearbeitungsvermerk) newValue);
+				return;
+			case TablemodelPackage.FOOTNOTE__REFERENCE_COLUMN:
+				setReferenceColumn((String) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -221,6 +273,9 @@ public class FootnoteImpl extends MinimalEObjectImpl.Container
 			case TablemodelPackage.FOOTNOTE__BEARBEITUNGSVERMERK:
 				setBearbeitungsvermerk((Bearbeitungsvermerk) null);
 				return;
+			case TablemodelPackage.FOOTNOTE__REFERENCE_COLUMN:
+				setReferenceColumn(REFERENCE_COLUMN_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -237,8 +292,29 @@ public class FootnoteImpl extends MinimalEObjectImpl.Container
 				return ownerObject != null;
 			case TablemodelPackage.FOOTNOTE__BEARBEITUNGSVERMERK:
 				return bearbeitungsvermerk != null;
+			case TablemodelPackage.FOOTNOTE__REFERENCE_COLUMN:
+				return REFERENCE_COLUMN_EDEFAULT == null
+						? referenceColumn != null
+						: !REFERENCE_COLUMN_EDEFAULT.equals(referenceColumn);
 		}
 		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
+	public String toString() {
+		if (eIsProxy())
+			return super.toString();
+
+		StringBuilder result = new StringBuilder(super.toString());
+		result.append(" (referenceColumn: ");
+		result.append(referenceColumn);
+		result.append(')');
+		return result.toString();
 	}
 
 } // FootnoteImpl
