@@ -38,7 +38,7 @@ jobs:
         working-directory: web/about
         
       - name: Store artifact
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: about-artifact
           path: web/about/dist
@@ -57,7 +57,7 @@ jobs:
         working-directory: web/developerhelp
 
       - name: Store artifact
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: developerhelp-artifact
           path: web/developerhelp/dist
@@ -73,7 +73,7 @@ jobs:
           npm run build-prod
         working-directory: web/textviewer
       - name: Store artifact
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: textviewer-artifact
           path: web/textviewer/dist
@@ -90,7 +90,7 @@ jobs:
           npm run build-prod
         working-directory: web/pdf
       - name: Store artifact
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: pdfviewer-artifact
           path: web/pdf/dist
@@ -116,7 +116,7 @@ jobs:
         working-directory: web/siteplan
       
       - name: Store artifact
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: siteplan-artifact
           path: web/siteplan/dist
@@ -137,7 +137,7 @@ jobs:
         working-directory: web/news
 
       - name: Store artifact
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: news-artifact
           path: web/news/public
@@ -232,14 +232,14 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
       
       - name: Upload artifact
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: eclipse-set-snapshot-${{github.run_number}}
           path: java/bundles/org.eclipse.set.releng.set.product/target/products/SET/win32/win32/x86_64/
           retention-days: 7
 
       - name: Upload m2repo artifact
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         if:  github.event_name == 'pull_request' || startsWith(github.ref, 'refs/heads/release')
         with:
           name: set-m2deploy-${{github.run_number}}
@@ -330,7 +330,7 @@ jobs:
       
       - name: Upload csv files
         if: failure() && steps.test-steps.outcome == 'failure'
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: table-csv-${{github.run_number}}
           path: ${{ github.workspace}}/java/bundles/org.eclipse.set.swtbot/target/classes/diff/**/*.csv
@@ -375,7 +375,7 @@ jobs:
       
       - name: Upload Diff-File
         if: needs.swtbot.result == 'failure'
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: table-diff-files-${{github.run_number}}
           path: ${{ env.DIFF_DIR }}/diff-md
