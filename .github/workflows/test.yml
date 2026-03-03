@@ -3,7 +3,7 @@ name: Test SET
 
 on: 
   workflow_run:
-    workflows: [Build SET]
+    workflows: ["Build SET"]
     types: 
       - completed
 
