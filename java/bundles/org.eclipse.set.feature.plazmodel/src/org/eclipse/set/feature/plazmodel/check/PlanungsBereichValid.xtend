@@ -127,7 +127,7 @@ class PlanungsBereichValid extends AbstractPlazContainerCheck implements PlazChe
 	}
 
 	override getGeneralErrMsg() {
-		return "Das Objekt {GUID} verweist auf das zugehörige Objekt {TYP} {REF_GUID}, die Objekte liegen aber uneinheitlich in Planungs- und Betrachtungsbereich."
+		return "Das Objekt {REF_GUID} verweist auf das zugehörige Objekt {TYP} {GUID}, die Objekte liegen aber uneinheitlich in Planungs- und Betrachtungsbereich."
 	}
 
 	override handleEvent(Event event) {
