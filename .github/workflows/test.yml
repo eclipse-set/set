@@ -4,9 +4,9 @@ name: Test SET
 on: 
   workflow_run:
     workflows: ["Build SET"]
-    types: [completed]
-    branches:
-      - '*'
+    types: 
+      - completed
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
 jobs:
   swtbot:
