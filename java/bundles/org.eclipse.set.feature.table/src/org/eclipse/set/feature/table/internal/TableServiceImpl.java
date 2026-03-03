@@ -275,7 +275,7 @@ public final class TableServiceImpl implements TableService {
 				final List<TableError> tableErrors = TableServiceUtils
 						.getCachedTableError(getCacheService(), tableInfo,
 								modelSession, controlAreaIds);
-				if (!tableErrors.isEmpty()
+				if (tableErrors != null
 						|| !TableService.isTransformComplete(tableInfo, null)) {
 					result.put(tableInfo, tableErrors);
 				}

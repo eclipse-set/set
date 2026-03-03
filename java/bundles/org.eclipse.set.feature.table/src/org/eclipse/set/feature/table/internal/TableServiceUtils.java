@@ -93,6 +93,9 @@ public class TableServiceUtils {
 		final Cache cache = cachService.getCache(
 				modelSession.getPlanProSchnittstelle(),
 				ToolboxConstants.CacheId.TABLE_ERRORS);
+		if (!cache.contains(tableInfo.shortcut())) {
+			return null;
+		}
 		final List<TableError> cachedErrors = cache.get(tableInfo.shortcut(),
 				Collections::emptyList);
 		if (cachedErrors.isEmpty()) {
