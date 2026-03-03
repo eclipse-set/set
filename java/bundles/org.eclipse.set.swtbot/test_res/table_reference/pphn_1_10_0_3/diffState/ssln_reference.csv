@@ -1,0 +1,37 @@
+Row;A;B;C;D;E;F;G;H;I;J;K;L;M;N
+;Grundsatzangaben;Grundsatzangaben;Unterstellungsverhältnis​​;Unterstellungsverhältnis​​;Unterstellungsverhältnis​​;Grenze​​​​​;Element​​​​​​;Element​​​​​​;Element​​​​​​;Element​​​​​​;Element​​​​​​;Element​​​​​​;Nahstellbereich R​​​​​​​​​​​​;Bemerkung​​​​​​​​​​​​​
+;Grundsatzangaben;Grundsatzangaben;Unterstellungsverhältnis​​;Unterstellungsverhältnis​​;Unterstellungsverhältnis​​;Grenze​​​​​;Weiche/Gleissperre​​​​​​;Weiche/Gleissperre​​​​​​;Signal​​​​​​​​;Signal​​​​​​​​;Schlüsselsperre​​​​​​​​​​;Bedieneinrichtung​​​​​​​​​​​;Nahstellbereich R​​​​​​​​​​​​;Bemerkung​​​​​​​​​​​​​
+;Bereich/Zone;Art​;"unterge-
+ordnet zu​​";Rang der Zuschaltung​​​;Auflösung Grenze zu übergeordneter Zone​​​​;"Bezeichnung
+(Element innen, außen)​​​​​";frei stellbar (Rückgabevoraussetzung)​​​​​​;verschlossen​​​​​​​;frei stellbar (Rückgabevoraussetzung)​​​​​​​​;Kennlicht​​​​​​​​​;Schlüsselsperre​​​​​​​​​​;Bedieneinrichtung​​​​​​​​​​​;Bedienungshandlung​​​​​​​​​​​​;Bemerkung​​​​​​​​​​​​​
+;;;;;;;;;;;;;;
+1;"<p style=""text-align:left""><span>60Nb1/​1</span></p>";"<p style=""text-align:center""><span>W ​(W ​elektr.)​</span></p>";"<p style=""text-align:center""><span>2</span></p>";"<p style=""text-align:center""><span></span></p>";"<p style=""text-align:center""><span></span></p>";"<p style=""text-align:center""><span>60L107X ​(60L107X, ​60W54)​
+<br></br>60L108X ​(60L108X, ​60W53)​
+<br></br>60LW51X ​(60LW51X, ​-​)​</span></p>";"<p style=""text-align:center""><span></span></p>";"<p style=""text-align:center""><span></span></p>";"<p style=""text-align:center""><span></span></p>";"<p style=""text-align:center""><span>60L108Y</span></p>";"<p style=""text-align:center""><span></span></p>";"<p style=""text-align:center""><span>Nb1</span></p>";"<p style=""text-align:center""><span></span></p>";"<p style=""text-align:left""></p>"
+2;"<p style=""text-align:left""><span>60Nb2/​2</span></p>";"<p style=""text-align:center""><span>W ​(W ​elektr.)​</span></p>";"<p style=""text-align:center""><span></span></p>";"<p style=""text-align:center""><span></span></p>";"<p style=""text-align:center""><span></span></p>";"<p style=""text-align:center""><span>60L105Y ​(60L105Y, ​60W5)​
+<br></br>60L106Y ​(60L106Y, ​60W5)​
+<br></br>60L123X ​(60L123X, ​)​
+<br></br>60LW51X ​(60LW51X, ​-​)​
+<br></br>60LW52X ​(60LW52X, ​-​)​
+<br></br>60W28/​60W29 ​(60W28/​60W29, ​60W29)​
+<br></br>60W30/​60W34 ​(60W30/​60W34, ​60W30)​
+<br></br>60ZR4 ​(60ZR4, ​-​)​
+<br></br>60ZV4 ​(60ZV4, ​60W5)​</span></p>";"<p style=""text-align:center""><span>60W24 ​(-​)​
+<br></br>60W26 ​(-​)​
+<br></br>60W28CD ​(-​)​
+<br></br>60W51 ​(-​)​
+<br></br>60W52 ​(-​)​
+<br></br>60W53 ​(-​)​
+<br></br>60W54 ​(-​)​</span></p>";"<p style=""text-align:center""><span>60W25 ​(-​)​
+<br></br>60W27 ​(-​)​
+<br></br>60W28AB ​(-​)​
+<br></br>60W34 ​(-​)​</span></p>";"<p style=""text-align:center""><span></span></p>";"<p style=""text-align:center""><span>60L105X
+<br></br>60L106X
+<br></br>60L107X
+<br></br>60L107Y
+<br></br>60L108X
+<br></br>60L123Y
+<br></br>60L124X
+<br></br>60L124Y
+<br></br>60LW26Y</span></p>";"<p style=""text-align:center""><span></span></p>";"<p style=""text-align:center""><span>Nb2/​1
+<br></br>Nb2/​2</span></p>";"<p style=""text-align:center""><span></span></p>";"<p style=""text-align:left""></p>"

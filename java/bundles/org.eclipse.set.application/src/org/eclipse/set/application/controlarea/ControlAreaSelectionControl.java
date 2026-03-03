@@ -122,7 +122,6 @@ public class ControlAreaSelectionControl {
 
 			@Override
 			public void accept(final NewTableTypeEvent t) {
-				initCombo();
 				setCombo(t.getTableType());
 				// Send update event, when table type change
 				seletcionControlArea(comboViewer.getSelection(),
@@ -193,26 +192,26 @@ public class ControlAreaSelectionControl {
 		comboViewer.insert(getDefaultValue(), 0);
 		comboViewer.insert(messages.ControlAreaCombo_All_Objects_Value, 1);
 
-		final Optional<ControlAreaValue> oldValue = values.stream()
-				.filter(areaValue -> {
-					if (oldSelectionValue instanceof String) {
-						return areaValue.equals(oldSelectionValue);
-					} else if (oldSelectionValue instanceof final ControlAreaValue oldAreaValue) {
-						return areaValue.areaName()
-								.equals(oldAreaValue.areaName());
-					}
-					return false;
-				})
-				.findFirst();
-		if (!oldSelectionValue
-				.equals(messages.ControlAreaCombo_All_Objects_Value)
-				&& oldValue.isPresent()) {
-			final int index = comboViewer.getCombo()
-					.indexOf(oldValue.get().areaName());
-			comboViewer.getCombo().select(index);
-		} else {
-			comboViewer.getCombo().select(0);
+		if (oldSelectionValue instanceof final String oldText) {
+			final int i = comboViewer.getCombo().indexOf(oldText);
+			comboViewer.getCombo().select(i >= 0 ? i : 0);
+			comboViewer.getCombo().setEnabled(true);
+			return;
 		}
+
+		int selectIndex = -1;
+
+		if (oldSelectionValue instanceof final ControlAreaValue oldArea) {
+			for (final ControlAreaValue v : values) {
+				if (v.areaId() != null && v.areaId().equals(oldArea.areaId())) {
+					selectIndex = comboViewer.getCombo().indexOf(v.areaName());
+					break;
+				}
+			}
+		}
+
+		comboViewer.getCombo().select(selectIndex >= 0 ? selectIndex : 0);
+
 		comboViewer.getCombo().setEnabled(true);
 	}
 

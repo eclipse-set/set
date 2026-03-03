@@ -134,7 +134,7 @@ public class ToolboxConfiguration {
 	 */
 	public static boolean isDevelopmentMode() {
 		return Boolean.parseBoolean(System.getProperty(
-				ToolboxProperties.DEVELOPMENT_MODE, Boolean.TRUE.toString()));
+				ToolboxProperties.DEVELOPMENT_MODE, Boolean.FALSE.toString()));
 	}
 
 	/**
@@ -170,7 +170,7 @@ public class ToolboxConfiguration {
 	private static final String BASE_ZOOM_LEVEL = "20";
 	private static final String DEFAULT_COLLISIONS_ENABLED = "true";
 	private static final String DEFAULT_SHEETCUT_CRS = "DR0";
-	private static final String BANK_LINE_TOP_PATH_OFFSET_LIMIT = "0.2";
+	private static final String BANK_LINE_TOP_PATH_OFFSET_LIMIT = "0.1";
 	private static final String EXPORT_SITEPLAN_SCALE_DEFAULT = "1000";
 	private static final String PATH_FINDING_TOLERANCE = "0.001";
 	private static final String GEOMETRY_ARC_STEP_LENGTH = "0.001"; // meter

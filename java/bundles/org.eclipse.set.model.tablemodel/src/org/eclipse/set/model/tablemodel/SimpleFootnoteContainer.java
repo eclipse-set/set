@@ -9,7 +9,6 @@
 package org.eclipse.set.model.tablemodel;
 
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.set.model.planpro.Basisobjekte.Bearbeitungsvermerk;
 
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Simple
@@ -31,14 +30,14 @@ public interface SimpleFootnoteContainer extends FootnoteContainer {
 	/**
 	 * Returns the value of the '<em><b>Footnotes</b></em>' reference list. The
 	 * list contents are of type
-	 * {@link org.eclipse.set.model.planpro.Basisobjekte.Bearbeitungsvermerk}.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * {@link org.eclipse.set.model.tablemodel.Footnote}. <!-- begin-user-doc
+	 * --> <!-- end-user-doc -->
 	 * 
 	 * @return the value of the '<em>Footnotes</em>' reference list.
 	 * @see org.eclipse.set.model.tablemodel.TablemodelPackage#getSimpleFootnoteContainer_Footnotes()
 	 * @model
 	 * @generated
 	 */
-	EList<Bearbeitungsvermerk> getFootnotes();
+	EList<Footnote> getFootnotes();
 
 } // SimpleFootnoteContainer

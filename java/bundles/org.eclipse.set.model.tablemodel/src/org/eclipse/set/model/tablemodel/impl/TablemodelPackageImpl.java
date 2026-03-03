@@ -22,10 +22,11 @@ import org.eclipse.set.model.tablemodel.CellAnnotation;
 import org.eclipse.set.model.tablemodel.CellContent;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.ColumnWidthMode;
-import org.eclipse.set.model.tablemodel.CompareCellContent;
 import org.eclipse.set.model.tablemodel.CompareFootnoteContainer;
+import org.eclipse.set.model.tablemodel.CompareStateCellContent;
 import org.eclipse.set.model.tablemodel.CompareTableCellContent;
 import org.eclipse.set.model.tablemodel.CompareTableFootnoteContainer;
+import org.eclipse.set.model.tablemodel.Footnote;
 import org.eclipse.set.model.tablemodel.FootnoteContainer;
 import org.eclipse.set.model.tablemodel.MultiColorCellContent;
 import org.eclipse.set.model.tablemodel.MultiColorContent;
@@ -137,7 +138,7 @@ public class TablemodelPackageImpl extends EPackageImpl
 	 * 
 	 * @generated
 	 */
-	private EClass compareCellContentEClass = null;
+	private EClass compareStateCellContentEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -201,6 +202,13 @@ public class TablemodelPackageImpl extends EPackageImpl
 	 * @generated
 	 */
 	private EClass planCompareRowEClass = null;
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	private EClass footnoteEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -569,6 +577,16 @@ public class TablemodelPackageImpl extends EPackageImpl
 	 * @generated
 	 */
 	@Override
+	public EReference getTableRow_RowObject() {
+		return (EReference) tableRowEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
 	public EAttribute getTableRow_RowIndex() {
 		return (EAttribute) tableRowEClass.getEStructuralFeatures().get(1);
 	}
@@ -660,8 +678,8 @@ public class TablemodelPackageImpl extends EPackageImpl
 	 * @generated
 	 */
 	@Override
-	public EClass getCompareCellContent() {
-		return compareCellContentEClass;
+	public EClass getCompareStateCellContent() {
+		return compareStateCellContentEClass;
 	}
 
 	/**
@@ -670,8 +688,9 @@ public class TablemodelPackageImpl extends EPackageImpl
 	 * @generated
 	 */
 	@Override
-	public EAttribute getCompareCellContent_OldValue() {
-		return (EAttribute) compareCellContentEClass.getEStructuralFeatures()
+	public EReference getCompareStateCellContent_OldValue() {
+		return (EReference) compareStateCellContentEClass
+				.getEStructuralFeatures()
 				.get(0);
 	}
 
@@ -681,8 +700,9 @@ public class TablemodelPackageImpl extends EPackageImpl
 	 * @generated
 	 */
 	@Override
-	public EAttribute getCompareCellContent_NewValue() {
-		return (EAttribute) compareCellContentEClass.getEStructuralFeatures()
+	public EReference getCompareStateCellContent_NewValue() {
+		return (EReference) compareStateCellContentEClass
+				.getEStructuralFeatures()
 				.get(1);
 	}
 
@@ -933,6 +953,46 @@ public class TablemodelPackageImpl extends EPackageImpl
 	 * @generated
 	 */
 	@Override
+	public EClass getFootnote() {
+		return footnoteEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
+	public EReference getFootnote_OwnerObject() {
+		return (EReference) footnoteEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
+	public EReference getFootnote_Bearbeitungsvermerk() {
+		return (EReference) footnoteEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
+	public EAttribute getFootnote_ReferenceColumn() {
+		return (EAttribute) footnoteEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
 	public EEnum getColumnWidthMode() {
 		return columnWidthModeEEnum;
 	}
@@ -1017,6 +1077,7 @@ public class TablemodelPackageImpl extends EPackageImpl
 		createEReference(tableRowEClass, TABLE_ROW__CELLS);
 		createEAttribute(tableRowEClass, TABLE_ROW__ROW_INDEX);
 		createEReference(tableRowEClass, TABLE_ROW__FOOTNOTES);
+		createEReference(tableRowEClass, TABLE_ROW__ROW_OBJECT);
 
 		tableCellEClass = createEClass(TABLE_CELL);
 		createEReference(tableCellEClass, TABLE_CELL__CONTENT);
@@ -1029,11 +1090,12 @@ public class TablemodelPackageImpl extends EPackageImpl
 		stringCellContentEClass = createEClass(STRING_CELL_CONTENT);
 		createEAttribute(stringCellContentEClass, STRING_CELL_CONTENT__VALUE);
 
-		compareCellContentEClass = createEClass(COMPARE_CELL_CONTENT);
-		createEAttribute(compareCellContentEClass,
-				COMPARE_CELL_CONTENT__OLD_VALUE);
-		createEAttribute(compareCellContentEClass,
-				COMPARE_CELL_CONTENT__NEW_VALUE);
+		compareStateCellContentEClass = createEClass(
+				COMPARE_STATE_CELL_CONTENT);
+		createEReference(compareStateCellContentEClass,
+				COMPARE_STATE_CELL_CONTENT__OLD_VALUE);
+		createEReference(compareStateCellContentEClass,
+				COMPARE_STATE_CELL_CONTENT__NEW_VALUE);
 
 		cellAnnotationEClass = createEClass(CELL_ANNOTATION);
 
@@ -1081,6 +1143,11 @@ public class TablemodelPackageImpl extends EPackageImpl
 		planCompareRowEClass = createEClass(PLAN_COMPARE_ROW);
 		createEAttribute(planCompareRowEClass, PLAN_COMPARE_ROW__ROW_TYPE);
 
+		footnoteEClass = createEClass(FOOTNOTE);
+		createEReference(footnoteEClass, FOOTNOTE__OWNER_OBJECT);
+		createEReference(footnoteEClass, FOOTNOTE__BEARBEITUNGSVERMERK);
+		createEAttribute(footnoteEClass, FOOTNOTE__REFERENCE_COLUMN);
+
 		// Create enums
 		columnWidthModeEEnum = createEEnum(COLUMN_WIDTH_MODE);
 		rowMergeModeEEnum = createEEnum(ROW_MERGE_MODE);
@@ -1123,7 +1190,8 @@ public class TablemodelPackageImpl extends EPackageImpl
 
 		// Add supertypes to classes
 		stringCellContentEClass.getESuperTypes().add(this.getCellContent());
-		compareCellContentEClass.getESuperTypes().add(this.getCellContent());
+		compareStateCellContentEClass.getESuperTypes()
+				.add(this.getCellContent());
 		multiColorCellContentEClass.getESuperTypes().add(this.getCellContent());
 		compareFootnoteContainerEClass.getESuperTypes()
 				.add(this.getFootnoteContainer());
@@ -1235,6 +1303,10 @@ public class TablemodelPackageImpl extends EPackageImpl
 				null, "footnotes", null, 0, 1, TableRow.class, !IS_TRANSIENT,
 				!IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
 				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getTableRow_RowObject(), ecorePackage.getEObject(), null,
+				"rowObject", null, 0, 1, TableRow.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(tableCellEClass, TableCell.class, "TableCell", !IS_ABSTRACT,
 				!IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -1268,19 +1340,19 @@ public class TablemodelPackageImpl extends EPackageImpl
 				!IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
 				!IS_DERIVED, IS_ORDERED);
 
-		initEClass(compareCellContentEClass, CompareCellContent.class,
-				"CompareCellContent", !IS_ABSTRACT, !IS_INTERFACE,
+		initEClass(compareStateCellContentEClass, CompareStateCellContent.class,
+				"CompareStateCellContent", !IS_ABSTRACT, !IS_INTERFACE,
 				IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getCompareCellContent_OldValue(),
-				ecorePackage.getEString(), "oldValue", null, 0, -1,
-				CompareCellContent.class, !IS_TRANSIENT, !IS_VOLATILE,
-				IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED,
-				IS_ORDERED);
-		initEAttribute(getCompareCellContent_NewValue(),
-				ecorePackage.getEString(), "newValue", null, 0, -1,
-				CompareCellContent.class, !IS_TRANSIENT, !IS_VOLATILE,
-				IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED,
-				IS_ORDERED);
+		initEReference(getCompareStateCellContent_OldValue(),
+				this.getCellContent(), null, "oldValue", null, 0, 1,
+				CompareStateCellContent.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getCompareStateCellContent_NewValue(),
+				this.getCellContent(), null, "newValue", null, 0, 1,
+				CompareStateCellContent.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(cellAnnotationEClass, CellAnnotation.class, "CellAnnotation",
 				!IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -1321,33 +1393,29 @@ public class TablemodelPackageImpl extends EPackageImpl
 				CompareFootnoteContainer.class, "CompareFootnoteContainer",
 				!IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getCompareFootnoteContainer_OldFootnotes(),
-				theBasisobjektePackage.getBearbeitungsvermerk(), null,
-				"oldFootnotes", null, 0, -1, CompareFootnoteContainer.class,
-				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE,
-				IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED,
-				IS_ORDERED);
+				this.getSimpleFootnoteContainer(), null, "oldFootnotes", null,
+				0, 1, CompareFootnoteContainer.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getCompareFootnoteContainer_NewFootnotes(),
-				theBasisobjektePackage.getBearbeitungsvermerk(), null,
-				"newFootnotes", null, 0, -1, CompareFootnoteContainer.class,
-				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE,
-				IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED,
-				IS_ORDERED);
+				this.getSimpleFootnoteContainer(), null, "newFootnotes", null,
+				0, 1, CompareFootnoteContainer.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getCompareFootnoteContainer_UnchangedFootnotes(),
-				theBasisobjektePackage.getBearbeitungsvermerk(), null,
-				"unchangedFootnotes", null, 0, -1,
-				CompareFootnoteContainer.class, !IS_TRANSIENT, !IS_VOLATILE,
-				IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES,
+				this.getSimpleFootnoteContainer(), null, "unchangedFootnotes",
+				null, 0, 1, CompareFootnoteContainer.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES,
 				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(simpleFootnoteContainerEClass, SimpleFootnoteContainer.class,
 				"SimpleFootnoteContainer", !IS_ABSTRACT, !IS_INTERFACE,
 				IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getSimpleFootnoteContainer_Footnotes(),
-				theBasisobjektePackage.getBearbeitungsvermerk(), null,
-				"footnotes", null, 0, -1, SimpleFootnoteContainer.class,
-				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE,
-				IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED,
-				IS_ORDERED);
+				this.getFootnote(), null, "footnotes", null, 0, -1,
+				SimpleFootnoteContainer.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(compareTableCellContentEClass, CompareTableCellContent.class,
 				"CompareTableCellContent", !IS_ABSTRACT, !IS_INTERFACE,
@@ -1388,6 +1456,23 @@ public class TablemodelPackageImpl extends EPackageImpl
 				PlanCompareRow.class, !IS_TRANSIENT, !IS_VOLATILE,
 				IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED,
 				IS_ORDERED);
+
+		initEClass(footnoteEClass, Footnote.class, "Footnote", !IS_ABSTRACT,
+				!IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getFootnote_OwnerObject(), ecorePackage.getEObject(),
+				null, "ownerObject", null, 0, 1, Footnote.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getFootnote_Bearbeitungsvermerk(),
+				theBasisobjektePackage.getBearbeitungsvermerk(), null,
+				"bearbeitungsvermerk", null, 0, 1, Footnote.class,
+				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE,
+				IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED,
+				IS_ORDERED);
+		initEAttribute(getFootnote_ReferenceColumn(), ecorePackage.getEString(),
+				"referenceColumn", null, 0, 1, Footnote.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
+				!IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(columnWidthModeEEnum, ColumnWidthMode.class,

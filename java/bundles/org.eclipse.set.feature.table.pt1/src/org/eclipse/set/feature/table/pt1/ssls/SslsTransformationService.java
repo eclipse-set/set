@@ -12,6 +12,7 @@ package org.eclipse.set.feature.table.pt1.ssls;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
@@ -72,4 +73,8 @@ public class SslsTransformationService
 		return new SslsTransformator(cols, enumTranslationService, eventAdmin);
 	}
 
+	@Override
+	protected Map<Class<?>, String> getFootnotesColumnReferences() {
+		return Collections.emptyMap();
+	}
 }

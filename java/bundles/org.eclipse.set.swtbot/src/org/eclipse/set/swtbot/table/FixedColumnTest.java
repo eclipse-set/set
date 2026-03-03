@@ -37,10 +37,9 @@ public class FixedColumnTest extends AbstractTableTest {
 	}
 
 	protected FreezeLayer freezeLayer;
-	PtTable tableToTest;
 
 	@Override
-	public String getTestTableName() {
+	public String getTestTableReferenceName() {
 		if (tableToTest != null) {
 			return tableToTest.shortcut();
 		}

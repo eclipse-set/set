@@ -13,6 +13,7 @@ import static org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparat
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.core.services.graph.TopologicalGraphService;
@@ -21,6 +22,8 @@ import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.messages.Messages;
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt;
+import org.eclipse.set.model.planpro.Basisobjekte.Strecke_Km_TypeClass;
+import org.eclipse.set.model.planpro.Verweise.ID_Strecke_TypeClass;
 import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
 import org.eclipse.set.utils.table.sorting.TableRowGroupComparator;
@@ -95,5 +98,11 @@ public final class SskgTransformationService
 	@Override
 	protected List<String> getTopologicalColumnPosition() {
 		return List.of(SskgColumns.Bezugspunkt_Abstand);
+	}
+
+	@Override
+	protected Map<Class<?>, String> getFootnotesColumnReferences() {
+		return Map.of(ID_Strecke_TypeClass.class, SskgColumns.Standort_Strecke,
+				Strecke_Km_TypeClass.class, SskgColumns.Standort_km);
 	}
 }

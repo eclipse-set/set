@@ -18524,6 +18524,21 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSchaltmittel_Funktion_ARM_Alternative;
 
 	/**
+	 * ARV (ANV)
+	 */
+	public String ENUMSchaltmittel_Funktion_ARV_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMSchaltmittel_Funktion_ARV_Sorting;
+
+	/**
+	 * ARV (ANV)
+	 */
+	public String ENUMSchaltmittel_Funktion_ARV_Alternative;
+
+	/**
 	 * Aus BÜ
 	 */
 	public String ENUMSchaltmittel_Funktion_Aus_BUE_Presentation;

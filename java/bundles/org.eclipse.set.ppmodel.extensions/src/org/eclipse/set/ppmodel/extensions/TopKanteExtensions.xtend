@@ -683,9 +683,13 @@ class TopKanteExtensions extends BasisObjektExtensions {
 	}
 
 	def static boolean isRoute(TOP_Kante topKante, TOP_Kante destination) {
-		val connectionNode = topKante.connectionTo(destination)
-		return connectionNode !== null &&
-			topKante.isRoute(destination, connectionNode)
+		try {
+			val connectionNode = topKante.connectionTo(destination)
+			return connectionNode !== null &&
+				topKante.isRoute(destination, connectionNode)
+		} catch (IllegalArgumentException e) {
+			return false
+		}
 	}
 
 	/**

@@ -8,6 +8,7 @@
  */
 package org.eclipse.set.basis.constants;
 
+import java.math.BigDecimal;
 import java.util.Comparator;
 
 import org.eclipse.set.basis.MixedStringComparator;
@@ -97,6 +98,7 @@ public final class ToolboxConstants {
 		 * The cache id for the route and route km of the {@link Punkt_Objekt}
 		 */
 		public static final String POINT_OBJECT_ROUTE_KM = "toolbox.cache.point-object-route-km";
+
 	}
 
 	/**
@@ -293,6 +295,11 @@ public final class ToolboxConstants {
 	public static final String ESTW_SUPPLEMENT_PART_ID_PREFIX = "org.eclipse.set.feature.table.supplement-estw";
 
 	/**
+	 * The prefix of Supplement table part
+	 */
+	public static final String SUPPLEMENT_TABLE_PART_ID_PREFIX = "org.eclipse.set.feature.table.supplement";
+
+	/**
 	 * Rounding result of BigDecimal.divide to place after comma
 	 */
 	public static final int ROUNDING_TO_PLACE = 5;
@@ -358,10 +365,33 @@ public final class ToolboxConstants {
 	public static final String TITLE_FILE_NAME_SEPARATOR = " ⇔ ";
 
 	/**
+	 * Shortcut of Worknotes table
+	 */
+	public static final String WORKNOTES_TABLE_SHORTCUT = "Sxxx"; //$NON-NLS-1$
+
+	/**
+	 * Name of example project model 1.10.0.1
+	 */
+	public static final String EXAMPLE_PROJECT_1_10_0_1 = "PPHN_01-02_IbnZ2AeM_2026-01-12_19-00.planpro";
+
+	/**
+	 * Name of example project model 1.10.0.3
+	 */
+	public static final String EXAMPLE_PROJECT_1_10_0_3 = "PPHN_01-02_IbnZ2AeM_2026-02-02_17-47.planpro";
+
+	/**
 	 * The tolerance value between TOP_Kante length and the sum of GEO_Kanten
 	 * length, which belong to this TOP_Kante (in Meter)
 	 */
 	public static final double TOP_GEO_LENGTH_TOLERANCE = 0.01;
+
+	/**
+	 * The tolerance value between the Begrenzungen of a Teilbereich and its
+	 * associated TOP_KANTE
+	 */
+	public static final BigDecimal TEILBEREICH_TOP_KANTE_TOLERANCE = BigDecimal
+			.valueOf(0.001);
+
 	static {
 		DEFAULT_HOME_DIR = "./";
 		TMP_BASE_DIR = System.getProperty(ToolboxProperties.TMP_BASE_DIR,

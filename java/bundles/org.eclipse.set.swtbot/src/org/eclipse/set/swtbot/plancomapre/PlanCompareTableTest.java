@@ -33,7 +33,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 @TestInstance(Lifecycle.PER_CLASS)
 public class PlanCompareTableTest extends AbstractPlanCompareTest {
 	protected static Stream<Arguments> providesPtTable() {
-		return PtTable.tablesToTest.stream().map(table -> Arguments.of(table));
+		return PtTable.tablesToTest.stream().map(Arguments::of);
 	}
 
 	SWTBotNatTable nattableBot;
