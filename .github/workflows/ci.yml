@@ -269,3 +269,9 @@ jobs:
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v4
         if: github.ref == 'refs/heads/main'
+
+      - name: Trigger test workflow
+        uses: peter-evans/repository-dispatch@ff45666b9427631e3450c54a1bcbee4d9ff4d7c0 # v3.0.0
+        with:
+          event-type: test
+          client-payload: '{ "ref": "${{github.ref }}", "run_id":${{ github.run_id}}, "run_number":${{github.run_number}}, "event_name": "${{github.event_name}}", "actor_id": "${{github.actor_id}}" }'
