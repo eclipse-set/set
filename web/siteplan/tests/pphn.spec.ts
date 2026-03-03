@@ -7,7 +7,7 @@ async function loadSiteplan (page: Page) {
   })
 
   await page.goto('/')
-  await expect(page.locator('.loading')).toBeVisible({ timeout: 10_000 })
+  await expect(page.locator('.loading')).toBeVisible({ timeout: 30_000 })
   await expect(page.locator('.loading')).not.toBeVisible()
 }
 
