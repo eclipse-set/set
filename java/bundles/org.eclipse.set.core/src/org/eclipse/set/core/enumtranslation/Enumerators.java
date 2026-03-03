@@ -64,7 +64,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMA_Wert_112_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMA_Wert_112_Sorting;
 
@@ -79,7 +79,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMA_Wert_128_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMA_Wert_128_Sorting;
 
@@ -94,7 +94,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMA_Wert_144_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMA_Wert_144_Sorting;
 
@@ -109,7 +109,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMA_Wert_16_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMA_Wert_16_Sorting;
 
@@ -124,7 +124,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMA_Wert_160_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMA_Wert_160_Sorting;
 
@@ -139,7 +139,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMA_Wert_176_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMA_Wert_176_Sorting;
 
@@ -154,7 +154,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMA_Wert_192_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMA_Wert_192_Sorting;
 
@@ -169,7 +169,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMA_Wert_208_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMA_Wert_208_Sorting;
 
@@ -184,7 +184,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMA_Wert_224_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMA_Wert_224_Sorting;
 
@@ -199,7 +199,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMA_Wert_240_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMA_Wert_240_Sorting;
 
@@ -214,7 +214,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMA_Wert_32_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMA_Wert_32_Sorting;
 
@@ -229,7 +229,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMA_Wert_48_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMA_Wert_48_Sorting;
 
@@ -244,7 +244,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMA_Wert_64_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMA_Wert_64_Sorting;
 
@@ -259,7 +259,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMA_Wert_80_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMA_Wert_80_Sorting;
 
@@ -274,7 +274,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMA_Wert_96_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMA_Wert_96_Sorting;
 
@@ -289,7 +289,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMAkustik_Anb_Ann_5_s_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMAkustik_Anb_Ann_5_s_Sorting;
 
@@ -304,7 +304,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMAkustik_Anb_Ann_bis_Ankunft_Zug_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMAkustik_Anb_Ann_bis_Ankunft_Zug_Sorting;
 
@@ -319,7 +319,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMAkustik_Sonst_5_s_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMAkustik_Sonst_5_s_Sorting;
 
@@ -334,7 +334,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMAkustik_Sonst_keine_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMAkustik_Sonst_keine_Sorting;
 
@@ -349,7 +349,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMAnhang_Art_Abnahmeniederschrift_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMAnhang_Art_Abnahmeniederschrift_Sorting;
 
@@ -364,7 +364,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMAnhang_Art_Anbindung_IB2_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMAnhang_Art_Anbindung_IB2_Sorting;
 
@@ -379,7 +379,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMAnhang_Art_Anbindung_IB3_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMAnhang_Art_Anbindung_IB3_Sorting;
 
@@ -394,7 +394,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMAnhang_Art_BAST_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMAnhang_Art_BAST_Sorting;
 
@@ -409,7 +409,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMAnhang_Art_BELU_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMAnhang_Art_BELU_Sorting;
 
@@ -424,7 +424,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMAnhang_Art_Benutzeroberflaeche_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMAnhang_Art_Benutzeroberflaeche_Sorting;
 
@@ -439,7 +439,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMAnhang_Art_Bestaetig_Gleichstellung_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMAnhang_Art_Bestaetig_Gleichstellung_Sorting;
 
@@ -454,7 +454,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMAnhang_Art_Bestaetig_Qualitaetspruefung_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMAnhang_Art_Bestaetig_Qualitaetspruefung_Sorting;
 
@@ -469,7 +469,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMAnhang_Art_Bestaetig_Uebernahme_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMAnhang_Art_Bestaetig_Uebernahme_Sorting;
 
@@ -484,7 +484,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMAnhang_Art_DWS_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMAnhang_Art_DWS_Sorting;
 
@@ -499,7 +499,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMAnhang_Art_Erlaeuterungsbericht_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMAnhang_Art_Erlaeuterungsbericht_Sorting;
 
@@ -514,7 +514,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMAnhang_Art_Freigabe_Bvb_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMAnhang_Art_Freigabe_Bvb_Sorting;
 
@@ -529,7 +529,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMAnhang_Art_Genehmigung_AG_Bh_Bhv_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMAnhang_Art_Genehmigung_AG_Bh_Bhv_Sorting;
 
@@ -544,7 +544,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMAnhang_Art_GEO_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMAnhang_Art_GEO_Sorting;
 
@@ -559,7 +559,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMAnhang_Art_INA_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMAnhang_Art_INA_Sorting;
 
@@ -574,7 +574,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMAnhang_Art_Material_Besonders_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMAnhang_Art_Material_Besonders_Sorting;
 
@@ -589,7 +589,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMAnhang_Art_Moebelaufstellplan_Aufriss_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMAnhang_Art_Moebelaufstellplan_Aufriss_Sorting;
 
@@ -604,7 +604,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMAnhang_Art_Moebelaufstellplan_Grundriss_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMAnhang_Art_Moebelaufstellplan_Grundriss_Sorting;
 
@@ -619,7 +619,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMAnhang_Art_Monitoraufteilung_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMAnhang_Art_Monitoraufteilung_Sorting;
 
@@ -649,7 +649,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMAnhang_Art_Planverzeichnis_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMAnhang_Art_Planverzeichnis_Sorting;
 
@@ -664,7 +664,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMAnhang_Art_Pruefbericht_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMAnhang_Art_Pruefbericht_Sorting;
 
@@ -679,7 +679,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMAnhang_Art_Raumplan_Bedienraeume_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMAnhang_Art_Raumplan_Bedienraeume_Sorting;
 
@@ -694,7 +694,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMAnhang_Art_Raumplan_Rechnerraeume_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMAnhang_Art_Raumplan_Rechnerraeume_Sorting;
 
@@ -709,7 +709,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMAnhang_Art_Regelwerksstand_Besonders_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMAnhang_Art_Regelwerksstand_Besonders_Sorting;
 
@@ -724,7 +724,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMAnhang_Art_Richtungssinn_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMAnhang_Art_Richtungssinn_Sorting;
 
@@ -739,7 +739,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMAnhang_Art_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMAnhang_Art_sonstige_Sorting;
 
@@ -754,7 +754,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMAnhang_Art_Steuerbezirksuebersicht_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMAnhang_Art_Steuerbezirksuebersicht_Sorting;
 
@@ -769,7 +769,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMAnhang_Art_Uebertragungswegeplan_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMAnhang_Art_Uebertragungswegeplan_Sorting;
 
@@ -784,7 +784,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMAnhang_Art_UiG_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMAnhang_Art_UiG_Sorting;
 
@@ -799,7 +799,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMAnhang_Art_Vorgabe_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMAnhang_Art_Vorgabe_Sorting;
 
@@ -814,7 +814,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMAnhang_Art_Vorgabe_GBT_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMAnhang_Art_Vorgabe_GBT_Sorting;
 
@@ -829,7 +829,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMAnhang_Art_VzG_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMAnhang_Art_VzG_Sorting;
 
@@ -844,7 +844,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMAnhang_Art_ZiE_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMAnhang_Art_ZiE_Sorting;
 
@@ -859,7 +859,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMAnhang_Art_ZN_Raumplan_Bedienraum_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMAnhang_Art_ZN_Raumplan_Bedienraum_Sorting;
 
@@ -874,7 +874,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMAnhang_Art_ZN_Raumplan_Rechnerraum_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMAnhang_Art_ZN_Raumplan_Rechnerraum_Sorting;
 
@@ -889,7 +889,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMAnschaltdauer_G_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMAnschaltdauer_G_Sorting;
 
@@ -904,7 +904,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMAnschaltdauer_T_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMAnschaltdauer_T_Sorting;
 
@@ -919,7 +919,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMAnschaltdauer_Z_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMAnschaltdauer_Z_Sorting;
 
@@ -934,7 +934,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMAnwendungssystem_ESG_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMAnwendungssystem_ESG_Sorting;
 
@@ -949,7 +949,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMAnwendungssystem_GNT_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMAnwendungssystem_GNT_Sorting;
 
@@ -964,7 +964,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMAnwendungssystem_L2_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMAnwendungssystem_L2_Sorting;
 
@@ -979,7 +979,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMAnwendungssystem_L2oS_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMAnwendungssystem_L2oS_Sorting;
 
@@ -994,7 +994,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMAnwendungssystem_LZB_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMAnwendungssystem_LZB_Sorting;
 
@@ -1009,7 +1009,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMAnwendungssystem_ohne_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMAnwendungssystem_ohne_Sorting;
 
@@ -1024,7 +1024,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMAnwendungssystem_PZB_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMAnwendungssystem_PZB_Sorting;
 
@@ -1039,7 +1039,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMAnwendungssystem_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMAnwendungssystem_sonstige_Sorting;
 
@@ -1054,7 +1054,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMAnwendungssystem_ZBS_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMAnwendungssystem_ZBS_Sorting;
 
@@ -1069,7 +1069,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMArt_Bedingung_Default_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMArt_Bedingung_Default_Sorting;
 
@@ -1084,7 +1084,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMArt_Bedingung_Festdaten_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMArt_Bedingung_Festdaten_Sorting;
 
@@ -1099,7 +1099,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMArt_Bedingung_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMArt_Bedingung_sonstige_Sorting;
 
@@ -1114,7 +1114,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMArt_Bedingung_Stoertelegramm_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMArt_Bedingung_Stoertelegramm_Sorting;
 
@@ -1129,7 +1129,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMAufloesung_Ssp_Zielgleis_besetzt_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMAufloesung_Ssp_Zielgleis_besetzt_Sorting;
 
@@ -1144,7 +1144,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMAufloesung_Ssp_Zielgleis_frei_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMAufloesung_Ssp_Zielgleis_frei_Sorting;
 
@@ -1159,7 +1159,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMAusrichtung_gegen_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMAusrichtung_gegen_Sorting;
 
@@ -1174,7 +1174,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMAusrichtung_in_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMAusrichtung_in_Sorting;
 
@@ -1189,7 +1189,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMAusrichtung_keine_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMAusrichtung_keine_Sorting;
 
@@ -1369,7 +1369,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMAusstieg_ETCS_Sperre_ja_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMAusstieg_ETCS_Sperre_ja_Sorting;
 
@@ -1384,7 +1384,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMAusstieg_ETCS_Sperre_nein_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMAusstieg_ETCS_Sperre_nein_Sorting;
 
@@ -1399,7 +1399,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMAusstieg_ETCS_Sperre_regulaer_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMAusstieg_ETCS_Sperre_regulaer_Sorting;
 
@@ -1414,7 +1414,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMAuto_Einstellung_SB_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMAuto_Einstellung_SB_Sorting;
 
@@ -1429,7 +1429,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMAuto_Einstellung_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMAuto_Einstellung_sonstige_Sorting;
 
@@ -1444,7 +1444,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMAuto_Einstellung_ZL_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMAuto_Einstellung_ZL_Sorting;
 
@@ -1459,7 +1459,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMAutomatische_Einstellung_SB_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMAutomatische_Einstellung_SB_Sorting;
 
@@ -1474,7 +1474,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMAutomatische_Einstellung_ZL_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMAutomatische_Einstellung_ZL_Sorting;
 
@@ -1594,7 +1594,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBalisenhalter_BSS_85_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBalisenhalter_BSS_85_Sorting;
 
@@ -1609,7 +1609,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBalisenhalter_Kolster_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBalisenhalter_Kolster_Sorting;
 
@@ -1624,7 +1624,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBalisenhalter_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBalisenhalter_sonstige_Sorting;
 
@@ -1639,7 +1639,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBalisenhalter_unbekannt_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBalisenhalter_unbekannt_Sorting;
 
@@ -1654,7 +1654,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBalisenhalter_Vortok_doppelt_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBalisenhalter_Vortok_doppelt_Sorting;
 
@@ -1669,7 +1669,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBalisenhalter_Vortok_einfach_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBalisenhalter_Vortok_einfach_Sorting;
 
@@ -1684,7 +1684,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBandbreite_100Mbit_s_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBandbreite_100Mbit_s_Sorting;
 
@@ -1699,7 +1699,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBandbreite_10Mbit_s_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBandbreite_10Mbit_s_Sorting;
 
@@ -1714,7 +1714,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBandbreite_2Mbit_s_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBandbreite_2Mbit_s_Sorting;
 
@@ -1729,7 +1729,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBandbreite_64kbit_s_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBandbreite_64kbit_s_Sorting;
 
@@ -1744,7 +1744,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBandbreite_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBandbreite_sonstige_Sorting;
 
@@ -1759,7 +1759,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBaubereich_Art_ausgebaut_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBaubereich_Art_ausgebaut_Sorting;
 
@@ -1774,7 +1774,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBaubereich_Art_Baugleis_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBaubereich_Art_Baugleis_Sorting;
 
@@ -1789,7 +1789,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBaubereich_Art_gesperrt_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBaubereich_Art_gesperrt_Sorting;
 
@@ -1804,7 +1804,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBaubereich_Art_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBaubereich_Art_sonstige_Sorting;
 
@@ -1819,7 +1819,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBaumprofil_Rechteck_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBaumprofil_Rechteck_Sorting;
 
@@ -1834,7 +1834,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBaumprofil_rund_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBaumprofil_rund_Sorting;
 
@@ -1849,7 +1849,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBaumprofil_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBaumprofil_sonstige_Sorting;
 
@@ -1864,7 +1864,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBedien_Einricht_Bauart_Bedienpult_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBedien_Einricht_Bauart_Bedienpult_Sorting;
 
@@ -1879,7 +1879,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBedien_Einricht_Bauart_Bediensaeule_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBedien_Einricht_Bauart_Bediensaeule_Sorting;
 
@@ -1894,7 +1894,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBedien_Einricht_Bauart_Bedientablett_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBedien_Einricht_Bauart_Bedientablett_Sorting;
 
@@ -1909,7 +1909,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBedien_Einricht_Bauart_Bedientafel_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBedien_Einricht_Bauart_Bedientafel_Sorting;
 
@@ -1924,7 +1924,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBedien_Einricht_Bauart_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBedien_Einricht_Bauart_sonstige_Sorting;
 
@@ -1939,7 +1939,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBedien_Einricht_Bauart_Stellpult_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBedien_Einricht_Bauart_Stellpult_Sorting;
 
@@ -1954,7 +1954,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBedien_Einricht_Bauart_Stelltisch_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBedien_Einricht_Bauart_Stelltisch_Sorting;
 
@@ -1969,7 +1969,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBedien_Platz_Art_Not_BPS_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBedien_Platz_Art_Not_BPS_Sorting;
 
@@ -1984,7 +1984,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBedien_Platz_Art_Not_BPS_abgesetzt_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBedien_Platz_Art_Not_BPS_abgesetzt_Sorting;
 
@@ -1999,7 +1999,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBedien_Platz_Art_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBedien_Platz_Art_sonstige_Sorting;
 
@@ -2014,7 +2014,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBedien_Platz_Art_Standard_BPS_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBedien_Platz_Art_Standard_BPS_Sorting;
 
@@ -2029,7 +2029,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBedien_Platz_Art_Standard_BPS_abgesetzt_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBedien_Platz_Art_Standard_BPS_abgesetzt_Sorting;
 
@@ -2044,7 +2044,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBedienung_Art_aussen_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBedienung_Art_aussen_Sorting;
 
@@ -2059,7 +2059,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBedienung_Art_aussen_Awanst_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBedienung_Art_aussen_Awanst_Sorting;
 
@@ -2074,7 +2074,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBedienung_Art_innen_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBedienung_Art_innen_Sorting;
 
@@ -2089,7 +2089,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBefestigung_Art_andere_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBefestigung_Art_andere_Sorting;
 
@@ -2104,7 +2104,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBefestigung_Art_andere_Sonderkonstruktion_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBefestigung_Art_andere_Sonderkonstruktion_Sorting;
 
@@ -2119,7 +2119,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBefestigung_Art_Arbeitsbuehne_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBefestigung_Art_Arbeitsbuehne_Sorting;
 
@@ -2134,7 +2134,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBefestigung_Art_Bahnsteig_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBefestigung_Art_Bahnsteig_Sorting;
 
@@ -2149,7 +2149,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBefestigung_Art_Dach_Decke_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBefestigung_Art_Dach_Decke_Sorting;
 
@@ -2164,7 +2164,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBefestigung_Art_Fundament_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBefestigung_Art_Fundament_Sorting;
 
@@ -2179,7 +2179,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBefestigung_Art_Konstruktionsteil_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBefestigung_Art_Konstruktionsteil_Sorting;
 
@@ -2194,7 +2194,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBefestigung_Art_OL_Kettenwerk_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBefestigung_Art_OL_Kettenwerk_Sorting;
 
@@ -2209,7 +2209,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBefestigung_Art_OL_Mast_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBefestigung_Art_OL_Mast_Sorting;
 
@@ -2224,7 +2224,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBefestigung_Art_Pfahl_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBefestigung_Art_Pfahl_Sorting;
 
@@ -2239,7 +2239,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBefestigung_Art_Pfosten_hoch_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBefestigung_Art_Pfosten_hoch_Sorting;
 
@@ -2254,7 +2254,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBefestigung_Art_Pfosten_niedrig_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBefestigung_Art_Pfosten_niedrig_Sorting;
 
@@ -2269,7 +2269,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBefestigung_Art_Prellbock_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBefestigung_Art_Prellbock_Sorting;
 
@@ -2284,7 +2284,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBefestigung_Art_Rahmen_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBefestigung_Art_Rahmen_Sorting;
 
@@ -2299,7 +2299,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBefestigung_Art_Regelanordnung_Mast_hoch_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBefestigung_Art_Regelanordnung_Mast_hoch_Sorting;
 
@@ -2314,7 +2314,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBefestigung_Art_Regelanordnung_Mast_niedrig_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBefestigung_Art_Regelanordnung_Mast_niedrig_Sorting;
 
@@ -2329,7 +2329,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBefestigung_Art_Regelanordnung_Sonstige_hoch_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBefestigung_Art_Regelanordnung_Sonstige_hoch_Sorting;
 
@@ -2344,7 +2344,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBefestigung_Art_Regelanordnung_Sonstige_niedrig_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBefestigung_Art_Regelanordnung_Sonstige_niedrig_Sorting;
 
@@ -2359,7 +2359,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBefestigung_Art_Schienenfuss_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBefestigung_Art_Schienenfuss_Sorting;
 
@@ -2374,7 +2374,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBefestigung_Art_Signalausleger_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBefestigung_Art_Signalausleger_Sorting;
 
@@ -2389,7 +2389,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBefestigung_Art_Signalbruecke_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBefestigung_Art_Signalbruecke_Sorting;
 
@@ -2404,7 +2404,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBefestigung_Art_Sonderanordnung_Mast_hoch_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBefestigung_Art_Sonderanordnung_Mast_hoch_Sorting;
 
@@ -2419,7 +2419,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBefestigung_Art_Sonderanordnung_Mast_niedrig_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBefestigung_Art_Sonderanordnung_Mast_niedrig_Sorting;
 
@@ -2434,7 +2434,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBefestigung_Art_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBefestigung_Art_sonstige_Sorting;
 
@@ -2449,7 +2449,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBefestigung_Art_Wand_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBefestigung_Art_Wand_Sorting;
 
@@ -2464,7 +2464,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBeleuchtet_angestrahlt_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBeleuchtet_angestrahlt_Sorting;
 
@@ -2479,7 +2479,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBeleuchtet_innenbeleuchtet_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBeleuchtet_innenbeleuchtet_Sorting;
 
@@ -2494,7 +2494,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBeleuchtet_nein_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBeleuchtet_nein_Sorting;
 
@@ -2509,7 +2509,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBesonderes_Fahrwegelement_abklappbarer_Prellbock_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBesonderes_Fahrwegelement_abklappbarer_Prellbock_Sorting;
 
@@ -2524,7 +2524,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBesonderes_Fahrwegelement_bewegliche_Bruecke_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBesonderes_Fahrwegelement_bewegliche_Bruecke_Sorting;
 
@@ -2539,7 +2539,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBesonderes_Fahrwegelement_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBesonderes_Fahrwegelement_sonstige_Sorting;
 
@@ -2554,7 +2554,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBesonderes_Fahrwegelement_Wehrkammertor_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBesonderes_Fahrwegelement_Wehrkammertor_Sorting;
 
@@ -2569,7 +2569,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBestandsrelevanz_Bestandsdaten_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBestandsrelevanz_Bestandsdaten_Sorting;
 
@@ -2584,7 +2584,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBestandsrelevanz_Bestandsdokumentation_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBestandsrelevanz_Bestandsdokumentation_Sorting;
 
@@ -2599,7 +2599,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBestandsrelevanz_dauerhaft_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBestandsrelevanz_dauerhaft_Sorting;
 
@@ -2614,7 +2614,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBestandsrelevanz_nein_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBestandsrelevanz_nein_Sorting;
 
@@ -2719,7 +2719,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBezeichnung_Kennbuchstabe_B_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBezeichnung_Kennbuchstabe_B_Sorting;
 
@@ -2734,7 +2734,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBezeichnung_Kennbuchstabe_G_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBezeichnung_Kennbuchstabe_G_Sorting;
 
@@ -2749,7 +2749,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBezeichnung_Kennbuchstabe_K_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBezeichnung_Kennbuchstabe_K_Sorting;
 
@@ -2764,7 +2764,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBezeichnung_Kennbuchstabe_W_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBezeichnung_Kennbuchstabe_W_Sorting;
 
@@ -2779,7 +2779,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBf_Kennung_20_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBf_Kennung_20_Sorting;
 
@@ -2794,7 +2794,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBf_Kennung_21_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBf_Kennung_21_Sorting;
 
@@ -2809,7 +2809,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBf_Kennung_22_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBf_Kennung_22_Sorting;
 
@@ -2824,7 +2824,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBf_Kennung_23_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBf_Kennung_23_Sorting;
 
@@ -2839,7 +2839,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBf_Kennung_24_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBf_Kennung_24_Sorting;
 
@@ -2854,7 +2854,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBf_Kennung_50_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBf_Kennung_50_Sorting;
 
@@ -2869,7 +2869,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBf_Kennung_51_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBf_Kennung_51_Sorting;
 
@@ -3229,7 +3229,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBremsweg_1000_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBremsweg_1000_Sorting;
 
@@ -3244,7 +3244,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBremsweg_400_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBremsweg_400_Sorting;
 
@@ -3259,7 +3259,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBremsweg_700_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBremsweg_700_Sorting;
 
@@ -3274,7 +3274,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBremsweg_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBremsweg_sonstige_Sorting;
 
@@ -3289,7 +3289,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBSO_Teilsystem_Art_iBS_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBSO_Teilsystem_Art_iBS_Sorting;
 
@@ -3304,7 +3304,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBSO_Teilsystem_Art_Transfernetz_Bedienung_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBSO_Teilsystem_Art_Transfernetz_Bedienung_Sorting;
 
@@ -3319,7 +3319,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBUE_Bauart_Bau_Bue_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBUE_Bauart_Bau_Bue_Sorting;
 
@@ -3334,7 +3334,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBUE_Bauart_Bue_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBUE_Bauart_Bue_Sorting;
 
@@ -3379,7 +3379,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBUE_Funktionsueberwachung_FSUe_B_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBUE_Funktionsueberwachung_FSUe_B_Sorting;
 
@@ -3394,7 +3394,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBUE_Funktionsueberwachung_FSUe_E_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBUE_Funktionsueberwachung_FSUe_E_Sorting;
 
@@ -3409,7 +3409,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBUE_Funktionsueberwachung_FSUe_S_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBUE_Funktionsueberwachung_FSUe_S_Sorting;
 
@@ -3424,7 +3424,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBUE_Funktionsueberwachung_Fue_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBUE_Funktionsueberwachung_Fue_Sorting;
 
@@ -3439,7 +3439,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBUE_Funktionsueberwachung_Hp_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBUE_Funktionsueberwachung_Hp_Sorting;
 
@@ -3454,7 +3454,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBUE_Funktionsueberwachung_Ues_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBUE_Funktionsueberwachung_Ues_Sorting;
 
@@ -3469,7 +3469,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBUE_Funktionsueberwachung_UesOE_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBUE_Funktionsueberwachung_UesOE_Sorting;
 
@@ -3484,7 +3484,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBUE_Handschalteinrichtung_AT_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBUE_Handschalteinrichtung_AT_Sorting;
 
@@ -3499,7 +3499,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBUE_Handschalteinrichtung_ET_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBUE_Handschalteinrichtung_ET_Sorting;
 
@@ -3514,7 +3514,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBUE_Handschalteinrichtung_HAT_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBUE_Handschalteinrichtung_HAT_Sorting;
 
@@ -3529,7 +3529,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBUE_Handschalteinrichtung_HET_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBUE_Handschalteinrichtung_HET_Sorting;
 
@@ -3544,7 +3544,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBUE_Handschalteinrichtung_RS_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBUE_Handschalteinrichtung_RS_Sorting;
 
@@ -3559,7 +3559,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBUE_Handschalteinrichtung_RT_ein_aus_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBUE_Handschalteinrichtung_RT_ein_aus_Sorting;
 
@@ -3574,7 +3574,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBUE_Handschalteinrichtung_RT_ein_RT_aus_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBUE_Handschalteinrichtung_RT_ein_RT_aus_Sorting;
 
@@ -3589,7 +3589,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBUE_Handschalteinrichtung_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBUE_Handschalteinrichtung_sonstige_Sorting;
 
@@ -3604,7 +3604,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBUE_Handschalteinrichtung_UT_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBUE_Handschalteinrichtung_UT_Sorting;
 
@@ -3619,7 +3619,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBUE_Lage_geoeffnet_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBUE_Lage_geoeffnet_Sorting;
 
@@ -3634,7 +3634,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBUE_Lage_geschlossen_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBUE_Lage_geschlossen_Sorting;
 
@@ -3649,7 +3649,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBUE_Sicherungsart_A_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBUE_Sicherungsart_A_Sorting;
 
@@ -3664,7 +3664,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBUE_Sicherungsart_A_und_Lf_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBUE_Sicherungsart_A_und_Lf_Sorting;
 
@@ -3679,7 +3679,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBUE_Sicherungsart_A_und_Sprechverbindung_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBUE_Sicherungsart_A_und_Sprechverbindung_Sorting;
 
@@ -3694,7 +3694,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBUE_Sicherungsart_Anrufschranke_und_Sprechverbindung_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBUE_Sicherungsart_Anrufschranke_und_Sprechverbindung_Sorting;
 
@@ -3709,7 +3709,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBUE_Sicherungsart_bgBUe_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBUE_Sicherungsart_bgBUe_Sorting;
 
@@ -3724,7 +3724,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBUE_Sicherungsart_Lz_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBUE_Sicherungsart_Lz_Sorting;
 
@@ -3739,7 +3739,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBUE_Sicherungsart_LzF_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBUE_Sicherungsart_LzF_Sorting;
 
@@ -3754,7 +3754,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBUE_Sicherungsart_LzH_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBUE_Sicherungsart_LzH_Sorting;
 
@@ -3769,7 +3769,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBUE_Sicherungsart_LzH_2F_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBUE_Sicherungsart_LzH_2F_Sorting;
 
@@ -3784,7 +3784,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBUE_Sicherungsart_LzH_F_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBUE_Sicherungsart_LzH_F_Sorting;
 
@@ -3799,7 +3799,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBUE_Sicherungsart_LzHH_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBUE_Sicherungsart_LzHH_Sorting;
 
@@ -3814,7 +3814,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBUE_Sicherungsart_LzHH_2F_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBUE_Sicherungsart_LzHH_2F_Sorting;
 
@@ -3829,7 +3829,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBUE_Sicherungsart_LzHH_F_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBUE_Sicherungsart_LzHH_F_Sorting;
 
@@ -3844,7 +3844,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBUE_Sicherungsart_LzV_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBUE_Sicherungsart_LzV_Sorting;
 
@@ -3859,7 +3859,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBUE_Sicherungsart_P_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBUE_Sicherungsart_P_Sorting;
 
@@ -3874,7 +3874,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBUE_Sicherungsart_P_und_Lf_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBUE_Sicherungsart_P_und_Lf_Sorting;
 
@@ -3889,7 +3889,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBUE_Sicherungsart_P_und_U_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBUE_Sicherungsart_P_und_U_Sorting;
 
@@ -3904,7 +3904,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBUE_Sicherungsart_schluesselabhaengig_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBUE_Sicherungsart_schluesselabhaengig_Sorting;
 
@@ -3919,7 +3919,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBUE_Sicherungsart_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBUE_Sicherungsart_sonstige_Sorting;
 
@@ -3934,7 +3934,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBUE_Sicherungsart_Ue_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBUE_Sicherungsart_Ue_Sorting;
 
@@ -3949,7 +3949,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBUE_Sicherungsart_Ue_und_A_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBUE_Sicherungsart_Ue_und_A_Sorting;
 
@@ -3964,7 +3964,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBUE_Sicherungsart_Ue_und_P_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBUE_Sicherungsart_Ue_und_P_Sorting;
 
@@ -3979,7 +3979,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBUE_Sicherungsart_Ue_und_U_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBUE_Sicherungsart_Ue_und_U_Sorting;
 
@@ -4009,7 +4009,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBUE_Technik_Anrufschranke_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBUE_Technik_Anrufschranke_Sorting;
 
@@ -4024,7 +4024,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBUE_Technik_BUEP_93_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBUE_Technik_BUEP_93_Sorting;
 
@@ -4039,7 +4039,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBUE_Technik_BUES2000_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBUE_Technik_BUES2000_Sorting;
 
@@ -4054,7 +4054,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBUE_Technik_BUES_72D_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBUE_Technik_BUES_72D_Sorting;
 
@@ -4069,7 +4069,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBUE_Technik_BUES_72Z_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBUE_Technik_BUES_72Z_Sorting;
 
@@ -4084,7 +4084,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBUE_Technik_EBUET_80_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBUE_Technik_EBUET_80_Sorting;
 
@@ -4099,7 +4099,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBUE_Technik_EBUET_80_VB_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBUE_Technik_EBUET_80_VB_Sorting;
 
@@ -4114,7 +4114,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBUE_Technik_FUE_58_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBUE_Technik_FUE_58_Sorting;
 
@@ -4129,7 +4129,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBUE_Technik_FUE_60_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBUE_Technik_FUE_60_Sorting;
 
@@ -4144,7 +4144,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBUE_Technik_HL_64_B_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBUE_Technik_HL_64_B_Sorting;
 
@@ -4159,7 +4159,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBUE_Technik_HL_64_C_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBUE_Technik_HL_64_C_Sorting;
 
@@ -4174,7 +4174,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBUE_Technik_HS_64_B_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBUE_Technik_HS_64_B_Sorting;
 
@@ -4189,7 +4189,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBUE_Technik_HS_64_C_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBUE_Technik_HS_64_C_Sorting;
 
@@ -4204,7 +4204,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBUE_Technik_keine_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBUE_Technik_keine_Sorting;
 
@@ -4219,7 +4219,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBUE_Technik_LO1_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBUE_Technik_LO1_Sorting;
 
@@ -4234,7 +4234,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBUE_Technik_LO1_57_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBUE_Technik_LO1_57_Sorting;
 
@@ -4249,7 +4249,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBUE_Technik_NE_BUE_90_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBUE_Technik_NE_BUE_90_Sorting;
 
@@ -4264,7 +4264,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBUE_Technik_RBUEP_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBUE_Technik_RBUEP_Sorting;
 
@@ -4279,7 +4279,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBUE_Technik_RBUET_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBUE_Technik_RBUET_Sorting;
 
@@ -4294,7 +4294,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBUE_Technik_SIMIS_LC_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBUE_Technik_SIMIS_LC_Sorting;
 
@@ -4309,7 +4309,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBUE_Technik_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBUE_Technik_sonstige_Sorting;
 
@@ -4324,7 +4324,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBV_Darstellung_In_Plan_Anlagentabelle_Transition_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBV_Darstellung_In_Plan_Anlagentabelle_Transition_Sorting;
 
@@ -4339,7 +4339,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBV_Darstellung_In_Plan_Balisenpruefprotokoll_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBV_Darstellung_In_Plan_Balisenpruefprotokoll_Sorting;
 
@@ -4354,7 +4354,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBV_Darstellung_In_Plan_Bedieneinrichtungstabelle_BUe_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBV_Darstellung_In_Plan_Bedieneinrichtungstabelle_BUe_Sorting;
 
@@ -4369,7 +4369,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBV_Darstellung_In_Plan_Bedieneinrichtungstabelle_Stw_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBV_Darstellung_In_Plan_Bedieneinrichtungstabelle_Stw_Sorting;
 
@@ -4384,7 +4384,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBV_Darstellung_In_Plan_BUe_Abhaengigkeitstabelle_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBV_Darstellung_In_Plan_BUe_Abhaengigkeitstabelle_Sorting;
 
@@ -4399,7 +4399,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBV_Darstellung_In_Plan_BUe_Kabellage__und_Uebersichtsplan_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBV_Darstellung_In_Plan_BUe_Kabellage__und_Uebersichtsplan_Sorting;
 
@@ -4414,7 +4414,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBV_Darstellung_In_Plan_BUe_Kabeluebersichtsplan_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBV_Darstellung_In_Plan_BUe_Kabeluebersichtsplan_Sorting;
 
@@ -4429,7 +4429,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBV_Darstellung_In_Plan_BUe_Lageplan_ntg_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBV_Darstellung_In_Plan_BUe_Lageplan_ntg_Sorting;
 
@@ -4444,7 +4444,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBV_Darstellung_In_Plan_Deadlock_Tabelle_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBV_Darstellung_In_Plan_Deadlock_Tabelle_Sorting;
 
@@ -4459,7 +4459,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBV_Darstellung_In_Plan_Durchrutschweg__und_Gefahrpunkttabelle_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBV_Darstellung_In_Plan_Durchrutschweg__und_Gefahrpunkttabelle_Sorting;
 
@@ -4474,7 +4474,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBV_Darstellung_In_Plan_Elementansteuertabelle_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBV_Darstellung_In_Plan_Elementansteuertabelle_Sorting;
 
@@ -4489,7 +4489,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBV_Darstellung_In_Plan_ESG_Datenpunkttabelle_1_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBV_Darstellung_In_Plan_ESG_Datenpunkttabelle_1_Sorting;
 
@@ -4504,7 +4504,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBV_Darstellung_In_Plan_ESG_Datenpunkttabelle_2_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBV_Darstellung_In_Plan_ESG_Datenpunkttabelle_2_Sorting;
 
@@ -4519,7 +4519,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBV_Darstellung_In_Plan_ESG_Datenpunkttabelle_3_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBV_Darstellung_In_Plan_ESG_Datenpunkttabelle_3_Sorting;
 
@@ -4534,7 +4534,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBV_Darstellung_In_Plan_ETCS_Datenpunkttabelle_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBV_Darstellung_In_Plan_ETCS_Datenpunkttabelle_Sorting;
 
@@ -4549,7 +4549,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBV_Darstellung_In_Plan_ETCS_Melde__und_Kommandoanschaltung_Signale__Muka_Signale__Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBV_Darstellung_In_Plan_ETCS_Melde__und_Kommandoanschaltung_Signale__Muka_Signale__Sorting;
 
@@ -4564,7 +4564,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBV_Darstellung_In_Plan_ETCS_Melde__und_Kommandoanschaltung_Weichen__Muka_Weichen__Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBV_Darstellung_In_Plan_ETCS_Melde__und_Kommandoanschaltung_Weichen__Muka_Weichen__Sorting;
 
@@ -4579,7 +4579,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBV_Darstellung_In_Plan_Flankenschutztabelle_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBV_Darstellung_In_Plan_Flankenschutztabelle_Sorting;
 
@@ -4594,7 +4594,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBV_Darstellung_In_Plan_Freimeldetabelle_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBV_Darstellung_In_Plan_Freimeldetabelle_Sorting;
 
@@ -4609,7 +4609,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBV_Darstellung_In_Plan_GFR_Plan_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBV_Darstellung_In_Plan_GFR_Plan_Sorting;
 
@@ -4624,7 +4624,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBV_Darstellung_In_Plan_Gleisfreimeldeplan_fuer_Gleisstromkreise_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBV_Darstellung_In_Plan_Gleisfreimeldeplan_fuer_Gleisstromkreise_Sorting;
 
@@ -4639,7 +4639,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBV_Darstellung_In_Plan_Gleismagnettabelle_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBV_Darstellung_In_Plan_Gleismagnettabelle_Sorting;
 
@@ -4654,7 +4654,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBV_Darstellung_In_Plan_Gleisschaltmitteltabelle_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBV_Darstellung_In_Plan_Gleisschaltmitteltabelle_Sorting;
 
@@ -4669,7 +4669,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBV_Darstellung_In_Plan_Inselgleistabelle_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBV_Darstellung_In_Plan_Inselgleistabelle_Sorting;
 
@@ -4684,7 +4684,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBV_Darstellung_In_Plan_Kabellageplan_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBV_Darstellung_In_Plan_Kabellageplan_Sorting;
 
@@ -4699,7 +4699,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBV_Darstellung_In_Plan_Kabeluebersichtsplan_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBV_Darstellung_In_Plan_Kabeluebersichtsplan_Sorting;
 
@@ -4714,7 +4714,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBV_Darstellung_In_Plan_LEU_Tabelle_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBV_Darstellung_In_Plan_LEU_Tabelle_Sorting;
 
@@ -4729,7 +4729,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBV_Darstellung_In_Plan_Meldedrucktabelle_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBV_Darstellung_In_Plan_Meldedrucktabelle_Sorting;
 
@@ -4744,7 +4744,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBV_Darstellung_In_Plan_Nahbedienungstabelle_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBV_Darstellung_In_Plan_Nahbedienungstabelle_Sorting;
 
@@ -4759,7 +4759,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBV_Darstellung_In_Plan_Rangierstrassentabelle_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBV_Darstellung_In_Plan_Rangierstrassentabelle_Sorting;
 
@@ -4774,7 +4774,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBV_Darstellung_In_Plan_Schlosstabelle_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBV_Darstellung_In_Plan_Schlosstabelle_Sorting;
 
@@ -4789,7 +4789,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBV_Darstellung_In_Plan_Sicherungstechnischer_Kreuzungsplan_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBV_Darstellung_In_Plan_Sicherungstechnischer_Kreuzungsplan_Sorting;
 
@@ -4804,7 +4804,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBV_Darstellung_In_Plan_Sicherungstechnischer_Lageplan_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBV_Darstellung_In_Plan_Sicherungstechnischer_Lageplan_Sorting;
 
@@ -4819,7 +4819,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBV_Darstellung_In_Plan_Sicherungstechnischer_Uebersichtsplan_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBV_Darstellung_In_Plan_Sicherungstechnischer_Uebersichtsplan_Sorting;
 
@@ -4834,7 +4834,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBV_Darstellung_In_Plan_Sicherungstechnischer_Uebersichtsplan_BUe_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBV_Darstellung_In_Plan_Sicherungstechnischer_Uebersichtsplan_BUe_Sorting;
 
@@ -4849,7 +4849,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBV_Darstellung_In_Plan_Signal__und_Schutzstreckentabelle_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBV_Darstellung_In_Plan_Signal__und_Schutzstreckentabelle_Sorting;
 
@@ -4864,7 +4864,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBV_Darstellung_In_Plan_Signaltabelle_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBV_Darstellung_In_Plan_Signaltabelle_Sorting;
 
@@ -4879,7 +4879,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBV_Darstellung_In_Plan_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBV_Darstellung_In_Plan_sonstige_Sorting;
 
@@ -4894,7 +4894,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBV_Darstellung_In_Plan_Stammkabeluebersichtsplan_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBV_Darstellung_In_Plan_Stammkabeluebersichtsplan_Sorting;
 
@@ -4909,7 +4909,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBV_Darstellung_In_Plan_Statische_Streckeneigenschaften_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBV_Darstellung_In_Plan_Statische_Streckeneigenschaften_Sorting;
 
@@ -4924,7 +4924,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBV_Darstellung_In_Plan_Streckenblocktabelle_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBV_Darstellung_In_Plan_Streckenblocktabelle_Sorting;
 
@@ -4939,7 +4939,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBV_Darstellung_In_Plan_Tabelle_der_aneinandergereihten_Fahrstrassen_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBV_Darstellung_In_Plan_Tabelle_der_aneinandergereihten_Fahrstrassen_Sorting;
 
@@ -4954,7 +4954,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBV_Darstellung_In_Plan_Tabelle_der_ATO_Segment_Profiles_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBV_Darstellung_In_Plan_Tabelle_der_ATO_Segment_Profiles_Sorting;
 
@@ -4969,7 +4969,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBV_Darstellung_In_Plan_Tabelle_der_ATO_Timing_Points_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBV_Darstellung_In_Plan_Tabelle_der_ATO_Timing_Points_Sorting;
 
@@ -4984,7 +4984,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBV_Darstellung_In_Plan_Tabelle_der_ATO_TS_Instanzen_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBV_Darstellung_In_Plan_Tabelle_der_ATO_TS_Instanzen_Sorting;
 
@@ -4999,7 +4999,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBV_Darstellung_In_Plan_Tabelle_der_Ein__und_Ausstiege_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBV_Darstellung_In_Plan_Tabelle_der_Ein__und_Ausstiege_Sorting;
 
@@ -5014,7 +5014,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBV_Darstellung_In_Plan_Tabelle_der_Technik__und_Bedienstandorte_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBV_Darstellung_In_Plan_Tabelle_der_Technik__und_Bedienstandorte_Sorting;
 
@@ -5029,7 +5029,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBV_Darstellung_In_Plan_Uebertragungswegtabelle_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBV_Darstellung_In_Plan_Uebertragungswegtabelle_Sorting;
 
@@ -5044,7 +5044,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBV_Darstellung_In_Plan_Weichenlaufkettentabelle_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBV_Darstellung_In_Plan_Weichenlaufkettentabelle_Sorting;
 
@@ -5059,7 +5059,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBV_Darstellung_In_Plan_Weichentabelle_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBV_Darstellung_In_Plan_Weichentabelle_Sorting;
 
@@ -5074,7 +5074,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBV_Darstellung_In_Plan_ZBS_Datenpunkttabelle_1_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBV_Darstellung_In_Plan_ZBS_Datenpunkttabelle_1_Sorting;
 
@@ -5089,7 +5089,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBV_Darstellung_In_Plan_ZBS_Datenpunkttabelle_2_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBV_Darstellung_In_Plan_ZBS_Datenpunkttabelle_2_Sorting;
 
@@ -5104,7 +5104,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBV_Darstellung_In_Plan_ZBS_Datenpunkttabelle_3_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBV_Darstellung_In_Plan_ZBS_Datenpunkttabelle_3_Sorting;
 
@@ -5119,7 +5119,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBV_Darstellung_In_Plan_ZL_Anstosstabelle_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBV_Darstellung_In_Plan_ZL_Anstosstabelle_Sorting;
 
@@ -5134,7 +5134,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBV_Darstellung_In_Plan_ZLV_Bus_Uebersichtsplan_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBV_Darstellung_In_Plan_ZLV_Bus_Uebersichtsplan_Sorting;
 
@@ -5149,7 +5149,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBV_Darstellung_In_Plan_ZN_Tabelle_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBV_Darstellung_In_Plan_ZN_Tabelle_Sorting;
 
@@ -5164,7 +5164,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBV_Darstellung_In_Plan_ZN_Uebersichtsplan_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBV_Darstellung_In_Plan_ZN_Uebersichtsplan_Sorting;
 
@@ -5179,7 +5179,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBV_Darstellung_In_Plan_Zugstrassentabelle_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBV_Darstellung_In_Plan_Zugstrassentabelle_Sorting;
 
@@ -5194,7 +5194,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBV_Darstellung_In_Plan_Zwieschutzweichentabelle_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMBV_Darstellung_In_Plan_Zwieschutzweichentabelle_Sorting;
 
@@ -5209,7 +5209,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMC_Wert_0_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMC_Wert_0_Sorting;
 
@@ -5224,7 +5224,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMC_Wert_128_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMC_Wert_128_Sorting;
 
@@ -5239,7 +5239,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMC_Wert_192_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMC_Wert_192_Sorting;
 
@@ -5254,7 +5254,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMC_Wert_64_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMC_Wert_64_Sorting;
 
@@ -5269,7 +5269,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDateityp_jpg_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDateityp_jpg_Sorting;
 
@@ -5299,7 +5299,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDateityp_mpeg_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDateityp_mpeg_Sorting;
 
@@ -5314,7 +5314,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDateityp_pdf_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDateityp_pdf_Sorting;
 
@@ -5329,7 +5329,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDateityp_png_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDateityp_png_Sorting;
 
@@ -5344,7 +5344,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDateityp_tif_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDateityp_tif_Sorting;
 
@@ -5359,7 +5359,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_ATO_Praezisionshalt_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_ATO_Praezisionshalt_Sorting;
 
@@ -5374,7 +5374,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_ATO_Praezisionshalt_hochpraezise_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_ATO_Praezisionshalt_hochpraezise_Sorting;
 
@@ -5389,7 +5389,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_ATO_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_ATO_sonstige_Sorting;
 
@@ -5404,7 +5404,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Bezug_Funktional_Art_mittelbar_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Bezug_Funktional_Art_mittelbar_Sorting;
 
@@ -5419,7 +5419,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Bezug_Funktional_Art_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Bezug_Funktional_Art_sonstige_Sorting;
 
@@ -5434,7 +5434,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Bezug_Funktional_Art_unmittelbar_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Bezug_Funktional_Art_unmittelbar_Sorting;
 
@@ -5449,7 +5449,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Link_Art_Grund_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Link_Art_Grund_Sorting;
 
@@ -5464,7 +5464,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Link_Art_Hilfs_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Link_Art_Hilfs_Sorting;
 
@@ -5479,7 +5479,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Link_Art_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Link_Art_sonstige_Sorting;
 
@@ -5494,7 +5494,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_Art_primaer_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_Art_primaer_Sorting;
 
@@ -5509,7 +5509,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_Art_sekundaer_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_Art_sekundaer_Sorting;
 
@@ -5524,7 +5524,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ESG_AA_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ESG_AA_Sorting;
 
@@ -5539,7 +5539,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ESG_AB_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ESG_AB_Sorting;
 
@@ -5554,7 +5554,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ESG_AE_E_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ESG_AE_E_Sorting;
 
@@ -5569,7 +5569,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ESG_AE_L_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ESG_AE_L_Sorting;
 
@@ -5584,7 +5584,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ESG_AG_E_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ESG_AG_E_Sorting;
 
@@ -5599,7 +5599,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ESG_AG_L_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ESG_AG_L_Sorting;
 
@@ -5614,7 +5614,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ESG_AH_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ESG_AH_Sorting;
 
@@ -5629,7 +5629,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ESG_AM_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ESG_AM_Sorting;
 
@@ -5644,7 +5644,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ESG_AR_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ESG_AR_Sorting;
 
@@ -5659,7 +5659,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ESG_AS_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ESG_AS_Sorting;
 
@@ -5674,7 +5674,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ESG_AT_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ESG_AT_Sorting;
 
@@ -5689,7 +5689,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ESG_ATS_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ESG_ATS_Sorting;
 
@@ -5704,7 +5704,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ESG_AV_E_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ESG_AV_E_Sorting;
 
@@ -5719,7 +5719,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ESG_AV_L_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ESG_AV_L_Sorting;
 
@@ -5734,7 +5734,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ESG_AW_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ESG_AW_Sorting;
 
@@ -5749,7 +5749,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ESG_AWP_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ESG_AWP_Sorting;
 
@@ -5764,7 +5764,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ESG_BMI_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ESG_BMI_Sorting;
 
@@ -5779,7 +5779,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ESG_BPI_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ESG_BPI_Sorting;
 
@@ -5794,7 +5794,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ESG_BRI_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ESG_BRI_Sorting;
 
@@ -5809,7 +5809,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ESG_BW_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ESG_BW_Sorting;
 
@@ -5824,7 +5824,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ESG_EA_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ESG_EA_Sorting;
 
@@ -5839,7 +5839,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ESG_EF_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ESG_EF_Sorting;
 
@@ -5854,7 +5854,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ESG_EH_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ESG_EH_Sorting;
 
@@ -5869,7 +5869,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ESG_EM_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ESG_EM_Sorting;
 
@@ -5884,7 +5884,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ESG_EP_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ESG_EP_Sorting;
 
@@ -5899,7 +5899,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ESG_GLI_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ESG_GLI_Sorting;
 
@@ -5914,7 +5914,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ESG_HG_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ESG_HG_Sorting;
 
@@ -5929,7 +5929,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ESG_HS_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ESG_HS_Sorting;
 
@@ -5944,7 +5944,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ESG_HV_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ESG_HV_Sorting;
 
@@ -5959,7 +5959,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ESG_LF_S_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ESG_LF_S_Sorting;
 
@@ -5974,7 +5974,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ESG_LF_V_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ESG_LF_V_Sorting;
 
@@ -5989,7 +5989,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ESG_LFI_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ESG_LFI_Sorting;
 
@@ -6004,7 +6004,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ESG_LG_S_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ESG_LG_S_Sorting;
 
@@ -6019,7 +6019,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ESG_LG_V_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ESG_LG_V_Sorting;
 
@@ -6034,7 +6034,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ESG_LR_S_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ESG_LR_S_Sorting;
 
@@ -6049,7 +6049,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ESG_LR_V_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ESG_LR_V_Sorting;
 
@@ -6064,7 +6064,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ESG_MG_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ESG_MG_Sorting;
 
@@ -6079,7 +6079,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ESG_MH_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ESG_MH_Sorting;
 
@@ -6094,7 +6094,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ESG_MP_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ESG_MP_Sorting;
 
@@ -6109,7 +6109,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ESG_MS_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ESG_MS_Sorting;
 
@@ -6124,7 +6124,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ESG_MV_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ESG_MV_Sorting;
 
@@ -6139,7 +6139,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ESG_NV_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ESG_NV_Sorting;
 
@@ -6154,7 +6154,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ESG_SK_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ESG_SK_Sorting;
 
@@ -6169,7 +6169,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ESG_SN_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ESG_SN_Sorting;
 
@@ -6184,7 +6184,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ESG_SP_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ESG_SP_Sorting;
 
@@ -6199,7 +6199,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ESG_ST_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ESG_ST_Sorting;
 
@@ -6214,7 +6214,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ESG_TE_E_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ESG_TE_E_Sorting;
 
@@ -6229,7 +6229,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ESG_TE_L_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ESG_TE_L_Sorting;
 
@@ -6244,7 +6244,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ESG_TG_E_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ESG_TG_E_Sorting;
 
@@ -6259,7 +6259,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ESG_TG_L_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ESG_TG_L_Sorting;
 
@@ -6274,7 +6274,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ESG_TM_E_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ESG_TM_E_Sorting;
 
@@ -6289,7 +6289,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ESG_TM_L_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ESG_TM_L_Sorting;
 
@@ -6304,7 +6304,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ESG_TP_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ESG_TP_Sorting;
 
@@ -6319,7 +6319,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ESG_TV_E_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ESG_TV_E_Sorting;
 
@@ -6334,7 +6334,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ESG_TV_L_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ESG_TV_L_Sorting;
 
@@ -6349,7 +6349,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ESG_VP_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ESG_VP_Sorting;
 
@@ -6364,7 +6364,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ESG_VS_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ESG_VS_Sorting;
 
@@ -6379,7 +6379,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ESG_VW_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ESG_VW_Sorting;
 
@@ -6394,7 +6394,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_GNT_B1_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_GNT_B1_Sorting;
 
@@ -6409,7 +6409,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_GNT_B2_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_GNT_B2_Sorting;
 
@@ -6424,7 +6424,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_GNT_B3_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_GNT_B3_Sorting;
 
@@ -6439,7 +6439,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_GNT_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_GNT_sonstige_Sorting;
 
@@ -6454,7 +6454,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_Trans_A_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_Trans_A_Sorting;
 
@@ -6469,7 +6469,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_Trans_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_Trans_sonstige_Sorting;
 
@@ -6484,7 +6484,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_Trans_TR_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_Trans_TR_Sorting;
 
@@ -6499,7 +6499,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ZBS_RBE_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ZBS_RBE_Sorting;
 
@@ -6514,7 +6514,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ZBS_RS_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ZBS_RS_Sorting;
 
@@ -6529,7 +6529,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ZBS_RSp_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ZBS_RSp_Sorting;
 
@@ -6544,7 +6544,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ZBS_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ZBS_sonstige_Sorting;
 
@@ -6559,7 +6559,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ZBS_ZA_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ZBS_ZA_Sorting;
 
@@ -6574,7 +6574,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ZBS_ZBbP_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ZBS_ZBbP_Sorting;
 
@@ -6589,7 +6589,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ZBS_ZBP_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ZBS_ZBP_Sorting;
 
@@ -6604,7 +6604,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ZBS_ZF_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ZBS_ZF_Sorting;
 
@@ -6619,7 +6619,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ZBS_ZH_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ZBS_ZH_Sorting;
 
@@ -6634,7 +6634,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ZBS_ZHF_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ZBS_ZHF_Sorting;
 
@@ -6649,7 +6649,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ZBS_ZLiH_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ZBS_ZLiH_Sorting;
 
@@ -6664,7 +6664,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ZBS_ZLiV_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ZBS_ZLiV_Sorting;
 
@@ -6679,7 +6679,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ZBS_ZO_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ZBS_ZO_Sorting;
 
@@ -6694,7 +6694,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ZBS_ZRE_1_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ZBS_ZRE_1_Sorting;
 
@@ -6709,7 +6709,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ZBS_ZRE_2_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ZBS_ZRE_2_Sorting;
 
@@ -6724,7 +6724,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ZBS_ZRH_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ZBS_ZRH_Sorting;
 
@@ -6739,7 +6739,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ZBS_ZRHF_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ZBS_ZRHF_Sorting;
 
@@ -6754,7 +6754,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ZBS_ZRLa_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ZBS_ZRLa_Sorting;
 
@@ -6769,7 +6769,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ZBS_ZRV_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ZBS_ZRV_Sorting;
 
@@ -6784,7 +6784,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ZBS_ZUe_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ZBS_ZUe_Sorting;
 
@@ -6799,7 +6799,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ZBS_ZV_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDP_Typ_ZBS_ZV_Sorting;
 
@@ -6814,7 +6814,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDurchfahrt_erlaubt_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDurchfahrt_erlaubt_Sorting;
 
@@ -6829,7 +6829,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDurchfahrt_nur_mit_Sh1_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDurchfahrt_nur_mit_Sh1_Sorting;
 
@@ -6844,7 +6844,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDurchfahrt_verboten_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMDurchfahrt_verboten_Sorting;
 
@@ -6859,7 +6859,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMEinzeldatei_Art_Hilfsdatei_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMEinzeldatei_Art_Hilfsdatei_Sorting;
 
@@ -6874,7 +6874,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMEinzeldatei_Art_Ladedatei_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMEinzeldatei_Art_Ladedatei_Sorting;
 
@@ -6889,7 +6889,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMElektrischer_Antrieb_Lage_links_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMElektrischer_Antrieb_Lage_links_Sorting;
 
@@ -6904,7 +6904,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMElektrischer_Antrieb_Lage_mittig_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMElektrischer_Antrieb_Lage_mittig_Sorting;
 
@@ -6919,7 +6919,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMElektrischer_Antrieb_Lage_rechts_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMElektrischer_Antrieb_Lage_rechts_Sorting;
 
@@ -6934,7 +6934,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMElektrischer_Antrieb_Lage_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMElektrischer_Antrieb_Lage_sonstige_Sorting;
 
@@ -6949,7 +6949,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMElement_Lage_Abschnitt_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMElement_Lage_Abschnitt_Sorting;
 
@@ -6964,7 +6964,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMElement_Lage_Weiche_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMElement_Lage_Weiche_Sorting;
 
@@ -6979,7 +6979,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMElement_Lage_WeicheL_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMElement_Lage_WeicheL_Sorting;
 
@@ -6994,7 +6994,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMElement_Lage_WeicheR_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMElement_Lage_WeicheR_Sorting;
 
@@ -7009,7 +7009,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMEnergie_Eingang_Art_Brennstoffzelle_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMEnergie_Eingang_Art_Brennstoffzelle_Sorting;
 
@@ -7024,7 +7024,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMEnergie_Eingang_Art_Fahrleitung_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMEnergie_Eingang_Art_Fahrleitung_Sorting;
 
@@ -7039,7 +7039,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMEnergie_Eingang_Art_Landesnetz_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMEnergie_Eingang_Art_Landesnetz_Sorting;
 
@@ -7054,7 +7054,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMEnergie_Eingang_Art_Solar_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMEnergie_Eingang_Art_Solar_Sorting;
 
@@ -7069,7 +7069,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMEnergie_Eingang_Art_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMEnergie_Eingang_Art_sonstige_Sorting;
 
@@ -7084,7 +7084,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMETCS_Knoten_Art_Sonstige_Gleisabschluss_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMETCS_Knoten_Art_Sonstige_Gleisabschluss_Sorting;
 
@@ -7099,7 +7099,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMETCS_Knoten_Art_Sonstige_Grenze_Ausruestungsbereich_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMETCS_Knoten_Art_Sonstige_Grenze_Ausruestungsbereich_Sorting;
 
@@ -7129,7 +7129,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMETCS_Knoten_Art_Sonstige_Km_Sprung_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMETCS_Knoten_Art_Sonstige_Km_Sprung_Sorting;
 
@@ -7159,7 +7159,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMETCS_Knoten_Art_Sonstige_KrW_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMETCS_Knoten_Art_Sonstige_KrW_Sorting;
 
@@ -7174,7 +7174,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMETCS_Knoten_Art_Sonstige_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMETCS_Knoten_Art_Sonstige_sonstige_Sorting;
 
@@ -7189,7 +7189,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMETCS_Knoten_Art_Sonstige_Streckenende_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMETCS_Knoten_Art_Sonstige_Streckenende_Sorting;
 
@@ -7204,7 +7204,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMETCS_Knoten_Art_Sonstige_Streckenwechsel_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMETCS_Knoten_Art_Sonstige_Streckenwechsel_Sorting;
 
@@ -7399,7 +7399,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMEV_Modul_Art_autonom_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMEV_Modul_Art_autonom_Sorting;
 
@@ -7414,7 +7414,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMEV_Modul_Art_autonom_klein_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMEV_Modul_Art_autonom_klein_Sorting;
 
@@ -7429,7 +7429,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMEV_Modul_Art_netzgebunden_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMEV_Modul_Art_netzgebunden_Sorting;
 
@@ -7444,7 +7444,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMEV_Modul_Art_PoP_V_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMEV_Modul_Art_PoP_V_Sorting;
 
@@ -7459,7 +7459,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMEV_Modul_Art_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMEV_Modul_Art_sonstige_Sorting;
 
@@ -7594,7 +7594,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFahrt_Ueber_links_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFahrt_Ueber_links_Sorting;
 
@@ -7609,7 +7609,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFahrt_Ueber_rechts_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFahrt_Ueber_rechts_Sorting;
 
@@ -7624,7 +7624,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFahrt_Ueber_Spitze_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFahrt_Ueber_Spitze_Sorting;
 
@@ -7944,7 +7944,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFiktives_Signal_Funktion_Zug_Ziel_Strecke_Sorting;
 
 	/**
-	 * ZZS
+	 * ZZS 
 	 */
 	public String ENUMFiktives_Signal_Funktion_Zug_Ziel_Strecke_Alternative;
 
@@ -7954,7 +7954,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFMA_Anschluss_Speiserichtung_Ausspeisung_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFMA_Anschluss_Speiserichtung_Ausspeisung_Sorting;
 
@@ -7969,7 +7969,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFMA_Anschluss_Speiserichtung_Einspeisung_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFMA_Anschluss_Speiserichtung_Einspeisung_Sorting;
 
@@ -7984,7 +7984,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFMA_Art_Achszaehlanlage_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFMA_Art_Achszaehlanlage_Sorting;
 
@@ -7999,7 +7999,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFMA_Art_FTGS_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFMA_Art_FTGS_Sorting;
 
@@ -8014,7 +8014,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFMA_Art_NF_Gleisstromkreis_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFMA_Art_NF_Gleisstromkreis_Sorting;
 
@@ -8029,7 +8029,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFMA_Art_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFMA_Art_sonstige_Sorting;
 
@@ -8044,7 +8044,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFMA_Art_TF_Gleisstromkreis_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFMA_Art_TF_Gleisstromkreis_Sorting;
 
@@ -8059,7 +8059,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFMA_Element_Art_Anschlussseile_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFMA_Element_Art_Anschlussseile_Sorting;
 
@@ -8074,7 +8074,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFMA_Element_Art_Drosselspule_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFMA_Element_Art_Drosselspule_Sorting;
 
@@ -8089,7 +8089,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFMA_Element_Art_Endverbinder_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFMA_Element_Art_Endverbinder_Sorting;
 
@@ -8104,7 +8104,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFMA_Element_Art_Endverbinder_modifiziert_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFMA_Element_Art_Endverbinder_modifiziert_Sorting;
 
@@ -8119,7 +8119,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFMA_Element_Art_Kurzschlussverbinder_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFMA_Element_Art_Kurzschlussverbinder_Sorting;
 
@@ -8134,7 +8134,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFMA_Element_Art_Potentialausgleichsverbinder_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFMA_Element_Art_Potentialausgleichsverbinder_Sorting;
 
@@ -8149,7 +8149,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFMA_Element_Art_S_Verbinder_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFMA_Element_Art_S_Verbinder_Sorting;
 
@@ -8164,7 +8164,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFMA_Element_Art_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFMA_Element_Art_sonstige_Sorting;
 
@@ -8179,7 +8179,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFMA_Element_Art_Ueberlagerungsverbinder_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFMA_Element_Art_Ueberlagerungsverbinder_Sorting;
 
@@ -8194,7 +8194,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFMA_Element_Seilanzahl_1_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFMA_Element_Seilanzahl_1_Sorting;
 
@@ -8209,7 +8209,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFMA_Element_Seilanzahl_2_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFMA_Element_Seilanzahl_2_Sorting;
 
@@ -8224,7 +8224,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFMA_Element_Seilanzahl_4_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFMA_Element_Seilanzahl_4_Sorting;
 
@@ -8239,7 +8239,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFMA_Element_Seilanzahl_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFMA_Element_Seilanzahl_sonstige_Sorting;
 
@@ -8254,7 +8254,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFMA_Komponente_Art_elektrischer_Trennstoss_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFMA_Komponente_Art_elektrischer_Trennstoss_Sorting;
 
@@ -8269,7 +8269,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFMA_Komponente_Art_Isolierstoss_einschienig_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFMA_Komponente_Art_Isolierstoss_einschienig_Sorting;
 
@@ -8284,7 +8284,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFMA_Komponente_Art_Isolierstoss_zweischienig_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFMA_Komponente_Art_Isolierstoss_zweischienig_Sorting;
 
@@ -8509,7 +8509,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFT_GNT_Punktart_1_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFT_GNT_Punktart_1_Sorting;
 
@@ -8524,7 +8524,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFT_GNT_Punktart_2_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFT_GNT_Punktart_2_Sorting;
 
@@ -8539,7 +8539,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFT_GNT_Punktart_3_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFT_GNT_Punktart_3_Sorting;
 
@@ -8599,7 +8599,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFT_Hinweis_Funktion_Ortung_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFT_Hinweis_Funktion_Ortung_Sorting;
 
@@ -8644,7 +8644,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFT_Hinweis_Funktion_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFT_Hinweis_Funktion_sonstige_Sorting;
 
@@ -8659,7 +8659,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFT_Hinweis_Funktion_ZBS_Ende_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFT_Hinweis_Funktion_ZBS_Ende_Sorting;
 
@@ -8704,7 +8704,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFT_ZBS_Typ_Null_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFT_ZBS_Typ_Null_Sorting;
 
@@ -8719,7 +8719,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFT_ZBS_Typ_RBE_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFT_ZBS_Typ_RBE_Sorting;
 
@@ -8734,7 +8734,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFT_ZBS_Typ_RS_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFT_ZBS_Typ_RS_Sorting;
 
@@ -8749,7 +8749,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFT_ZBS_Typ_RSp_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFT_ZBS_Typ_RSp_Sorting;
 
@@ -8764,7 +8764,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFT_ZBS_Typ_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFT_ZBS_Typ_sonstige_Sorting;
 
@@ -8779,7 +8779,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFT_ZBS_Typ_ZA_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFT_ZBS_Typ_ZA_Sorting;
 
@@ -8794,7 +8794,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFT_ZBS_Typ_ZBbP_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFT_ZBS_Typ_ZBbP_Sorting;
 
@@ -8809,7 +8809,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFT_ZBS_Typ_ZBP_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFT_ZBS_Typ_ZBP_Sorting;
 
@@ -8824,7 +8824,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFT_ZBS_Typ_ZF_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFT_ZBS_Typ_ZF_Sorting;
 
@@ -8839,7 +8839,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFT_ZBS_Typ_ZH_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFT_ZBS_Typ_ZH_Sorting;
 
@@ -8854,7 +8854,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFT_ZBS_Typ_ZHF_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFT_ZBS_Typ_ZHF_Sorting;
 
@@ -8869,7 +8869,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFT_ZBS_Typ_ZLiH_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFT_ZBS_Typ_ZLiH_Sorting;
 
@@ -8884,7 +8884,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFT_ZBS_Typ_ZLiV_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFT_ZBS_Typ_ZLiV_Sorting;
 
@@ -8899,7 +8899,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFT_ZBS_Typ_ZO_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFT_ZBS_Typ_ZO_Sorting;
 
@@ -8914,7 +8914,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFT_ZBS_Typ_ZRE_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFT_ZBS_Typ_ZRE_Sorting;
 
@@ -8929,7 +8929,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFT_ZBS_Typ_ZRH_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFT_ZBS_Typ_ZRH_Sorting;
 
@@ -8944,7 +8944,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFT_ZBS_Typ_ZRHF_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFT_ZBS_Typ_ZRHF_Sorting;
 
@@ -8959,7 +8959,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFT_ZBS_Typ_ZRLa_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFT_ZBS_Typ_ZRLa_Sorting;
 
@@ -8974,7 +8974,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFT_ZBS_Typ_ZRV_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFT_ZBS_Typ_ZRV_Sorting;
 
@@ -8989,7 +8989,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFT_ZBS_Typ_ZUe_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFT_ZBS_Typ_ZUe_Sorting;
 
@@ -9004,7 +9004,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFT_ZBS_Typ_ZV_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFT_ZBS_Typ_ZV_Sorting;
 
@@ -9019,7 +9019,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFue_Schaltfall_12_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFue_Schaltfall_12_Sorting;
 
@@ -9034,7 +9034,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFue_Schaltfall_2_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFue_Schaltfall_2_Sorting;
 
@@ -9049,7 +9049,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFuellung_doppelte_Schraffur_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFuellung_doppelte_Schraffur_Sorting;
 
@@ -9064,7 +9064,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFuellung_einfache_Schraffur_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFuellung_einfache_Schraffur_Sorting;
 
@@ -9079,7 +9079,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFuellung_einfache_Schraffur_gestrichelt_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFuellung_einfache_Schraffur_gestrichelt_Sorting;
 
@@ -9094,7 +9094,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFuellung_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFuellung_sonstige_Sorting;
 
@@ -9139,7 +9139,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFundament_Art_gross_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFundament_Art_gross_Sorting;
 
@@ -9154,7 +9154,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFundament_Art_klein_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFundament_Art_klein_Sorting;
 
@@ -9199,7 +9199,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFundament_Art_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFundament_Art_sonstige_Sorting;
 
@@ -9214,7 +9214,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFunktion_Ohne_Signal_RS_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFunktion_Ohne_Signal_RS_Sorting;
 
@@ -9229,7 +9229,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFunktion_Ohne_Signal_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFunktion_Ohne_Signal_sonstige_Sorting;
 
@@ -9244,7 +9244,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFunktion_Ohne_Signal_ZS_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFunktion_Ohne_Signal_ZS_Sorting;
 
@@ -9259,7 +9259,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFunktionalitaet_Anzeigefeld_Anbiete_Annahmefeld_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFunktionalitaet_Anzeigefeld_Anbiete_Annahmefeld_Sorting;
 
@@ -9274,7 +9274,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFunktionalitaet_Anzeigefeld_Meldeort_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFunktionalitaet_Anzeigefeld_Meldeort_Sorting;
 
@@ -9304,7 +9304,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFunktionalitaet_Anzeigefeld_Spiegelfeld_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFunktionalitaet_Anzeigefeld_Spiegelfeld_Sorting;
 
@@ -9319,7 +9319,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFunktionalitaet_Anzeigefeld_Stapelfeld_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFunktionalitaet_Anzeigefeld_Stapelfeld_Sorting;
 
@@ -9334,7 +9334,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFunktionalitaet_Anzeigefeld_Voranzeigefeld_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFunktionalitaet_Anzeigefeld_Voranzeigefeld_Sorting;
 
@@ -9349,7 +9349,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFunktionalitaet_Anzeigefeld_Wandelfeld_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFunktionalitaet_Anzeigefeld_Wandelfeld_Sorting;
 
@@ -9364,7 +9364,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFuss_Radweg_Art_Fuss_Radweg_abgesetzt_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFuss_Radweg_Art_Fuss_Radweg_abgesetzt_Sorting;
 
@@ -9379,7 +9379,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFuss_Radweg_Art_Fuss_Radweg_parallel_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFuss_Radweg_Art_Fuss_Radweg_parallel_Sorting;
 
@@ -9394,7 +9394,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFuss_Radweg_Art_Fussweg_abgesetzt_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFuss_Radweg_Art_Fussweg_abgesetzt_Sorting;
 
@@ -9409,7 +9409,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFuss_Radweg_Art_Fussweg_parallel_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFuss_Radweg_Art_Fussweg_parallel_Sorting;
 
@@ -9424,7 +9424,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFuss_Radweg_Art_Radweg_abgesetzt_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFuss_Radweg_Art_Radweg_abgesetzt_Sorting;
 
@@ -9439,7 +9439,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFuss_Radweg_Art_Radweg_parallel_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFuss_Radweg_Art_Radweg_parallel_Sorting;
 
@@ -9454,7 +9454,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFuss_Radweg_Art_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFuss_Radweg_Art_sonstige_Sorting;
 
@@ -9469,7 +9469,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFuss_Radweg_Seite_beidseitig_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFuss_Radweg_Seite_beidseitig_Sorting;
 
@@ -9484,7 +9484,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFuss_Radweg_Seite_Quadrant_1_2_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFuss_Radweg_Seite_Quadrant_1_2_Sorting;
 
@@ -9499,7 +9499,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFuss_Radweg_Seite_Quadrant_3_4_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMFuss_Radweg_Seite_Quadrant_3_4_Sorting;
 
@@ -9514,7 +9514,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMGeltungsbereich_DS_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMGeltungsbereich_DS_Sorting;
 
@@ -9529,7 +9529,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMGeltungsbereich_DV_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMGeltungsbereich_DV_Sorting;
 
@@ -9544,7 +9544,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMGeltungsbereich_S_Bahn_B_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMGeltungsbereich_S_Bahn_B_Sorting;
 
@@ -9559,7 +9559,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMGeltungsbereich_S_Bahn_HH_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMGeltungsbereich_S_Bahn_HH_Sorting;
 
@@ -9574,7 +9574,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMGEO_Form_Bloss_einfach_geschwungen_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMGEO_Form_Bloss_einfach_geschwungen_Sorting;
 
@@ -9589,7 +9589,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMGEO_Form_Blosskurve_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMGEO_Form_Blosskurve_Sorting;
 
@@ -9604,7 +9604,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMGEO_Form_Bogen_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMGEO_Form_Bogen_Sorting;
 
@@ -9619,7 +9619,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMGEO_Form_Gerade_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMGEO_Form_Gerade_Sorting;
 
@@ -9634,7 +9634,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMGEO_Form_Klothoide_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMGEO_Form_Klothoide_Sorting;
 
@@ -9649,7 +9649,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMGEO_Form_Km_Sprung_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMGEO_Form_Km_Sprung_Sorting;
 
@@ -9664,7 +9664,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMGEO_Form_Polylinie_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMGEO_Form_Polylinie_Sorting;
 
@@ -9679,7 +9679,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMGEO_Form_Richtgerade_Knick_am_Ende_200_gon_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMGEO_Form_Richtgerade_Knick_am_Ende_200_gon_Sorting;
 
@@ -9694,7 +9694,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMGEO_Form_S_Form_einfach_geschwungen_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMGEO_Form_S_Form_einfach_geschwungen_Sorting;
 
@@ -9709,7 +9709,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMGEO_Form_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMGEO_Form_sonstige_Sorting;
 
@@ -9724,7 +9724,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMGEO_Form_Uebergangsbogen_S_Form_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMGEO_Form_Uebergangsbogen_S_Form_Sorting;
 
@@ -9739,7 +9739,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMGEO_Koordinatensystem_CR0_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMGEO_Koordinatensystem_CR0_Sorting;
 
@@ -9754,7 +9754,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMGEO_Koordinatensystem_DR0_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMGEO_Koordinatensystem_DR0_Sorting;
 
@@ -9769,7 +9769,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMGEO_Koordinatensystem_ER0_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMGEO_Koordinatensystem_ER0_Sorting;
 
@@ -9784,7 +9784,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMGEO_Koordinatensystem_FR0_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMGEO_Koordinatensystem_FR0_Sorting;
 
@@ -9799,7 +9799,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMGEO_Koordinatensystem_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMGEO_Koordinatensystem_sonstige_Sorting;
 
@@ -9814,7 +9814,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMGFK_Kategorie_gross_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMGFK_Kategorie_gross_Sorting;
 
@@ -9829,7 +9829,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMGFK_Kategorie_klein_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMGFK_Kategorie_klein_Sorting;
 
@@ -9844,7 +9844,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMGFK_Kategorie_mittel_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMGFK_Kategorie_mittel_Sorting;
 
@@ -9859,7 +9859,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMGFR_Art_automatisch_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMGFR_Art_automatisch_Sorting;
 
@@ -9874,7 +9874,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMGFR_Art_mit_Bediener_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMGFR_Art_mit_Bediener_Sorting;
 
@@ -9889,7 +9889,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMGFR_Art_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMGFR_Art_sonstige_Sorting;
 
@@ -10144,7 +10144,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMGleissperre_Betriebsart_abgelegt_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMGleissperre_Betriebsart_abgelegt_Sorting;
 
@@ -10159,7 +10159,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMGleissperre_Betriebsart_aufgelegt_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMGleissperre_Betriebsart_aufgelegt_Sorting;
 
@@ -10174,7 +10174,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMGleissperre_Betriebsart_Betrieb_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMGleissperre_Betriebsart_Betrieb_Sorting;
 
@@ -10189,7 +10189,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMGleissperre_Vorzugslage_abgelegt_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMGleissperre_Vorzugslage_abgelegt_Sorting;
 
@@ -10204,7 +10204,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMGleissperre_Vorzugslage_aufgelegt_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMGleissperre_Vorzugslage_aufgelegt_Sorting;
 
@@ -10219,7 +10219,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMGleissperrensignal_innenbeleuchtet_beidseitig_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMGleissperrensignal_innenbeleuchtet_beidseitig_Sorting;
 
@@ -10234,7 +10234,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMGleissperrensignal_innenbeleuchtet_einseitig_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMGleissperrensignal_innenbeleuchtet_einseitig_Sorting;
 
@@ -10249,7 +10249,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMGleissperrensignal_reflektierend_beidseitig_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMGleissperrensignal_reflektierend_beidseitig_Sorting;
 
@@ -10264,7 +10264,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMGleissperrensignal_reflektierend_einseitig_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMGleissperrensignal_reflektierend_einseitig_Sorting;
 
@@ -10279,7 +10279,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMGsp_Lage_abgelegt_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMGsp_Lage_abgelegt_Sorting;
 
@@ -10294,7 +10294,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMGsp_Lage_aufgelegt_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMGsp_Lage_aufgelegt_Sorting;
 
@@ -10309,7 +10309,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMGUE_Anordnung_1_EA_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMGUE_Anordnung_1_EA_Sorting;
 
@@ -10324,7 +10324,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMGUE_Anordnung_2_AE_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMGUE_Anordnung_2_AE_Sorting;
 
@@ -10339,7 +10339,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMGUE_Bauart_GPE_90R_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMGUE_Bauart_GPE_90R_Sorting;
 
@@ -10354,7 +10354,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMGUE_Bauart_GUE_60_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMGUE_Bauart_GUE_60_Sorting;
 
@@ -10369,7 +10369,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMGUE_Bauart_PZ_80_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMGUE_Bauart_PZ_80_Sorting;
 
@@ -10384,7 +10384,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMGUE_Bauart_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMGUE_Bauart_sonstige_Sorting;
 
@@ -10399,7 +10399,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMGUE_Energieversorgung_Solar_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMGUE_Energieversorgung_Solar_Sorting;
 
@@ -10414,7 +10414,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMGUE_Energieversorgung_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMGUE_Energieversorgung_sonstige_Sorting;
 
@@ -10429,7 +10429,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMGUE_Energieversorgung_Stellwerk_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMGUE_Energieversorgung_Stellwerk_Sorting;
 
@@ -10444,7 +10444,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMHoehenlinie_Form_Gerade_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMHoehenlinie_Form_Gerade_Sorting;
 
@@ -10459,7 +10459,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMHoehenlinie_Form_Parabel_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMHoehenlinie_Form_Parabel_Sorting;
 
@@ -10489,7 +10489,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMHoehenlinie_Form_Weichenabzweig_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMHoehenlinie_Form_Weichenabzweig_Sorting;
 
@@ -10504,7 +10504,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMHp_Ersatzstecker_Abhaengigkeit_aufgehoben_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMHp_Ersatzstecker_Abhaengigkeit_aufgehoben_Sorting;
 
@@ -10519,7 +10519,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMHp_Ersatzstecker_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMHp_Ersatzstecker_sonstige_Sorting;
 
@@ -10534,7 +10534,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMHSystem_DBRH_2003_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMHSystem_DBRH_2003_Sorting;
 
@@ -10549,7 +10549,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMHSystem_DBRH_2016_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMHSystem_DBRH_2016_Sorting;
 
@@ -10564,7 +10564,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMHSystem_DHHN_12_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMHSystem_DHHN_12_Sorting;
 
@@ -10579,7 +10579,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMHSystem_DHHN_2016_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMHSystem_DHHN_2016_Sorting;
 
@@ -10594,7 +10594,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMHSystem_DHHN_85_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMHSystem_DHHN_85_Sorting;
 
@@ -10609,7 +10609,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMHSystem_DHHN_92_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMHSystem_DHHN_92_Sorting;
 
@@ -10624,7 +10624,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMHSystem_HN_56_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMHSystem_HN_56_Sorting;
 
@@ -10639,7 +10639,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMHSystem_HN_76_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMHSystem_HN_76_Sorting;
 
@@ -10654,7 +10654,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMHSystem_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMHSystem_sonstige_Sorting;
 
@@ -10669,7 +10669,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMIsolierung_einschienig_L_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMIsolierung_einschienig_L_Sorting;
 
@@ -10684,7 +10684,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMIsolierung_einschienig_R_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMIsolierung_einschienig_R_Sorting;
 
@@ -10699,7 +10699,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMIsolierung_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMIsolierung_sonstige_Sorting;
 
@@ -10714,7 +10714,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMIsolierung_zweischienig_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMIsolierung_zweischienig_Sorting;
 
@@ -10729,7 +10729,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMKabel_Art_Balisenkabel_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMKabel_Art_Balisenkabel_Sorting;
 
@@ -10744,7 +10744,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMKabel_Art_Energie_400V_AC_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMKabel_Art_Energie_400V_AC_Sorting;
 
@@ -10759,7 +10759,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMKabel_Art_Energie_750V_DC_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMKabel_Art_Energie_750V_DC_Sorting;
 
@@ -10774,7 +10774,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMKabel_Art_LWL_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMKabel_Art_LWL_Sorting;
 
@@ -10789,7 +10789,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMKabel_Art_Signalkabel_adrig_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMKabel_Art_Signalkabel_adrig_Sorting;
 
@@ -10804,7 +10804,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMKabel_Art_Signalkabel_kombiniert_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMKabel_Art_Signalkabel_kombiniert_Sorting;
 
@@ -10819,7 +10819,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMKabel_Art_Signalkabel_Sternvierer_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMKabel_Art_Signalkabel_Sternvierer_Sorting;
 
@@ -10834,7 +10834,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMKabel_Art_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMKabel_Art_sonstige_Sorting;
 
@@ -10849,7 +10849,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMKabel_Verteilpunkt_Art_Kabelschrank_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMKabel_Verteilpunkt_Art_Kabelschrank_Sorting;
 
@@ -10864,7 +10864,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMKabel_Verteilpunkt_Art_Kabelverteiler_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMKabel_Verteilpunkt_Art_Kabelverteiler_Sorting;
 
@@ -10879,7 +10879,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMKabel_Verteilpunkt_Art_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMKabel_Verteilpunkt_Art_sonstige_Sorting;
 
@@ -10894,7 +10894,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMKlassifizierung_Bundestrasse_ausserorts_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMKlassifizierung_Bundestrasse_ausserorts_Sorting;
 
@@ -10909,7 +10909,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMKlassifizierung_Bundestrasse_innerorts_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMKlassifizierung_Bundestrasse_innerorts_Sorting;
 
@@ -10924,7 +10924,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMKlassifizierung_Fussweg_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMKlassifizierung_Fussweg_Sorting;
 
@@ -10939,7 +10939,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMKlassifizierung_Fussweg_Radweg_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMKlassifizierung_Fussweg_Radweg_Sorting;
 
@@ -10954,7 +10954,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMKlassifizierung_Gemeindestrasse_ausserorts_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMKlassifizierung_Gemeindestrasse_ausserorts_Sorting;
 
@@ -10969,7 +10969,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMKlassifizierung_Gemeindestrasse_innerorts_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMKlassifizierung_Gemeindestrasse_innerorts_Sorting;
 
@@ -10984,7 +10984,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMKlassifizierung_Kreisstrasse_ausserorts_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMKlassifizierung_Kreisstrasse_ausserorts_Sorting;
 
@@ -10999,7 +10999,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMKlassifizierung_Kreisstrasse_innerorts_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMKlassifizierung_Kreisstrasse_innerorts_Sorting;
 
@@ -11014,7 +11014,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMKlassifizierung_Landstrasse_ausserorts_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMKlassifizierung_Landstrasse_ausserorts_Sorting;
 
@@ -11029,7 +11029,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMKlassifizierung_Landstrasse_innerorts_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMKlassifizierung_Landstrasse_innerorts_Sorting;
 
@@ -11044,7 +11044,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMKlassifizierung_Privatstrasse_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMKlassifizierung_Privatstrasse_Sorting;
 
@@ -11059,7 +11059,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMKlassifizierung_Privatweg_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMKlassifizierung_Privatweg_Sorting;
 
@@ -11074,7 +11074,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMKlassifizierung_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMKlassifizierung_sonstige_Sorting;
 
@@ -11089,7 +11089,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMKlassifizierung_Weg_Forst_Land_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMKlassifizierung_Weg_Forst_Land_Sorting;
 
@@ -11104,7 +11104,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMKonstruktion_Feste_Fahrbahn_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMKonstruktion_Feste_Fahrbahn_Sorting;
 
@@ -11119,7 +11119,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMKonstruktion_Schutzschiene_links_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMKonstruktion_Schutzschiene_links_Sorting;
 
@@ -11134,7 +11134,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMKonstruktion_Schutzschiene_rechts_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMKonstruktion_Schutzschiene_rechts_Sorting;
 
@@ -11149,7 +11149,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMKonstruktion_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMKonstruktion_sonstige_Sorting;
 
@@ -11164,7 +11164,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMKoordinatensystem_DB_Ref_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMKoordinatensystem_DB_Ref_Sorting;
 
@@ -11179,7 +11179,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMKoordinatensystem_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMKoordinatensystem_sonstige_Sorting;
 
@@ -11194,7 +11194,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMKoordinatensystem_WGS84_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMKoordinatensystem_WGS84_Sorting;
 
@@ -11209,7 +11209,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLageplan_Art_BUe_Kreuzungsplan_LST_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLageplan_Art_BUe_Kreuzungsplan_LST_Sorting;
 
@@ -11224,7 +11224,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLageplan_Art_BUe_Sicherungstechn__Lage__und_Kabeluebersichtsplan_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLageplan_Art_BUe_Sicherungstechn__Lage__und_Kabeluebersichtsplan_Sorting;
 
@@ -11239,7 +11239,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLageplan_Art_Gleisfreimeldeplan_fuer_Gleisstromkreise_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLageplan_Art_Gleisfreimeldeplan_fuer_Gleisstromkreise_Sorting;
 
@@ -11254,7 +11254,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLageplan_Art_Kabellageplan_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLageplan_Art_Kabellageplan_Sorting;
 
@@ -11269,7 +11269,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLageplan_Art_Kabeluebersichtsplan_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLageplan_Art_Kabeluebersichtsplan_Sorting;
 
@@ -11284,7 +11284,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLageplan_Art_Sicherungstechnischer_Lageplan_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLageplan_Art_Sicherungstechnischer_Lageplan_Sorting;
 
@@ -11299,7 +11299,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLageplan_Art_Sicherungstechnischer_Uebersichtsplan_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLageplan_Art_Sicherungstechnischer_Uebersichtsplan_Sorting;
 
@@ -11314,7 +11314,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLageplan_Art_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLageplan_Art_sonstige_Sorting;
 
@@ -11329,7 +11329,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLageplan_Art_Stammkabeluebersichtsplan_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLageplan_Art_Stammkabeluebersichtsplan_Sorting;
 
@@ -11344,7 +11344,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLageplan_Art_ZLV_Bus_Uebersichtsplan_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLageplan_Art_ZLV_Bus_Uebersichtsplan_Sorting;
 
@@ -11374,7 +11374,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLagerung_beidseitig_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLagerung_beidseitig_Sorting;
 
@@ -11389,7 +11389,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLagerung_einseitig_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLagerung_einseitig_Sorting;
 
@@ -11404,7 +11404,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLenkziffernstellen_0_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLenkziffernstellen_0_Sorting;
 
@@ -11419,7 +11419,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLenkziffernstellen_1_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLenkziffernstellen_1_Sorting;
 
@@ -11434,7 +11434,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLEU_Art_LEU_P_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLEU_Art_LEU_P_Sorting;
 
@@ -11449,7 +11449,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLEU_Art_Voll_LEU_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLEU_Art_Voll_LEU_Sorting;
 
@@ -11464,7 +11464,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLFUE_Impuls_1_zu_40_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLFUE_Impuls_1_zu_40_Sorting;
 
@@ -11479,7 +11479,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLFUE_Impuls_Dauerimpuls_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLFUE_Impuls_Dauerimpuls_Sorting;
 
@@ -11494,7 +11494,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLFUE_Impuls_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLFUE_Impuls_sonstige_Sorting;
 
@@ -11509,7 +11509,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLichtraumprofil_1SMDR_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLichtraumprofil_1SMDR_Sorting;
 
@@ -11524,7 +11524,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLichtraumprofil_GC_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLichtraumprofil_GC_Sorting;
 
@@ -11539,7 +11539,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLichtraumprofil_SBahn_80003_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLichtraumprofil_SBahn_80003_Sorting;
 
@@ -11554,7 +11554,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLichtraumprofil_SBahn_Berlin_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLichtraumprofil_SBahn_Berlin_Sorting;
 
@@ -11569,7 +11569,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLichtraumprofil_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLichtraumprofil_sonstige_Sorting;
 
@@ -11584,7 +11584,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLinie_Art_Punktlinie_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLinie_Art_Punktlinie_Sorting;
 
@@ -11599,7 +11599,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLinie_Art_Strich_Dreipunktlinie_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLinie_Art_Strich_Dreipunktlinie_Sorting;
 
@@ -11614,7 +11614,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLinie_Art_Strich_Punktlinie_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLinie_Art_Strich_Punktlinie_Sorting;
 
@@ -11629,7 +11629,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLinie_Art_Strich_Strichlinie_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLinie_Art_Strich_Strichlinie_Sorting;
 
@@ -11644,7 +11644,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLinie_Art_Strich_Zweipunktlinie_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLinie_Art_Strich_Zweipunktlinie_Sorting;
 
@@ -11659,7 +11659,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLinie_Art_Strich_Zweistrichlinie_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLinie_Art_Strich_Zweistrichlinie_Sorting;
 
@@ -11674,7 +11674,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLinie_Art_Strichlinie_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLinie_Art_Strichlinie_Sorting;
 
@@ -11689,7 +11689,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLinie_Art_Strichlinie_lang_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLinie_Art_Strichlinie_lang_Sorting;
 
@@ -11704,7 +11704,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLinie_Art_Volllinie_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLinie_Art_Volllinie_Sorting;
 
@@ -11719,7 +11719,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLinie_Art_Zweistrich_Dreipunktlinie_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLinie_Art_Zweistrich_Dreipunktlinie_Sorting;
 
@@ -11734,7 +11734,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLinie_Art_Zweistrich_Punktlinie_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLinie_Art_Zweistrich_Punktlinie_Sorting;
 
@@ -11749,7 +11749,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLinie_Art_Zweistrich_Zweipunktlinie_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLinie_Art_Zweistrich_Zweipunktlinie_Sorting;
 
@@ -11764,7 +11764,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLinie_Subart_breit_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLinie_Subart_breit_Sorting;
 
@@ -11779,7 +11779,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLinie_Subart_extrabreit_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLinie_Subart_extrabreit_Sorting;
 
@@ -11794,7 +11794,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLinie_Subart_schmal_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLinie_Subart_schmal_Sorting;
 
@@ -11809,7 +11809,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLinksRechts_links_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLinksRechts_links_Sorting;
 
@@ -11824,7 +11824,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLinksRechts_rechts_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLinksRechts_rechts_Sorting;
 
@@ -11839,7 +11839,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Anhang_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Anhang_Sorting;
 
@@ -11854,7 +11854,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_ATO_Segment_Profile_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_ATO_Segment_Profile_Sorting;
 
@@ -11869,7 +11869,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_ATO_Timing_Point_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_ATO_Timing_Point_Sorting;
 
@@ -11884,7 +11884,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_ATO_TS_Instanz_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_ATO_TS_Instanz_Sorting;
 
@@ -11899,7 +11899,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Aussenelementansteuerung_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Aussenelementansteuerung_Sorting;
 
@@ -11914,7 +11914,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Bahnsteig_Anlage_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Bahnsteig_Anlage_Sorting;
 
@@ -11929,7 +11929,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Bahnsteig_Dach_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Bahnsteig_Dach_Sorting;
 
@@ -11944,7 +11944,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Bahnsteig_Kante_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Bahnsteig_Kante_Sorting;
 
@@ -11959,7 +11959,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Bahnsteig_Zugang_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Bahnsteig_Zugang_Sorting;
 
@@ -11974,7 +11974,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Balise_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Balise_Sorting;
 
@@ -11989,7 +11989,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Bearbeitungsvermerk_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Bearbeitungsvermerk_Sorting;
 
@@ -12004,7 +12004,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Bedien_Anrueckabschnitt_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Bedien_Anrueckabschnitt_Sorting;
 
@@ -12019,7 +12019,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Bedien_Anzeige_Element_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Bedien_Anzeige_Element_Sorting;
 
@@ -12034,7 +12034,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Bedien_Bezirk_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Bedien_Bezirk_Sorting;
 
@@ -12049,7 +12049,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Bedien_Einrichtung_Oertlich_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Bedien_Einrichtung_Oertlich_Sorting;
 
@@ -12064,7 +12064,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Bedien_GBT_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Bedien_GBT_Sorting;
 
@@ -12079,7 +12079,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Bedien_Oberflaeche_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Bedien_Oberflaeche_Sorting;
 
@@ -12094,7 +12094,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Bedien_Oberflaeche_Bild_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Bedien_Oberflaeche_Bild_Sorting;
 
@@ -12109,7 +12109,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Bedien_Oertlichkeit_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Bedien_Oertlichkeit_Sorting;
 
@@ -12124,7 +12124,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Bedien_Platz_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Bedien_Platz_Sorting;
 
@@ -12139,7 +12139,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Bedien_Standort_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Bedien_Standort_Sorting;
 
@@ -12154,7 +12154,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Bedien_Zentrale_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Bedien_Zentrale_Sorting;
 
@@ -12169,7 +12169,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Binaerdaten_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Binaerdaten_Sorting;
 
@@ -12184,7 +12184,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Block_Anlage_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Block_Anlage_Sorting;
 
@@ -12199,7 +12199,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Block_Element_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Block_Element_Sorting;
 
@@ -12214,7 +12214,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Block_Strecke_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Block_Strecke_Sorting;
 
@@ -12229,7 +12229,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_BUE_Anlage_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_BUE_Anlage_Sorting;
 
@@ -12244,7 +12244,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_BUE_Anlage_Strasse_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_BUE_Anlage_Strasse_Sorting;
 
@@ -12259,7 +12259,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_BUE_Anlage_V_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_BUE_Anlage_V_Sorting;
 
@@ -12274,7 +12274,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_BUE_Ausschaltung_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_BUE_Ausschaltung_Sorting;
 
@@ -12289,7 +12289,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_BUE_Bedien_Anzeige_Element_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_BUE_Bedien_Anzeige_Element_Sorting;
 
@@ -12304,7 +12304,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_BUE_Deckendes_Signal_Zuordnung_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_BUE_Deckendes_Signal_Zuordnung_Sorting;
 
@@ -12319,7 +12319,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_BUE_Einschaltung_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_BUE_Einschaltung_Sorting;
 
@@ -12334,7 +12334,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_BUE_Einschaltung_Zuordnung_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_BUE_Einschaltung_Zuordnung_Sorting;
 
@@ -12349,7 +12349,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_BUE_Gefahrraum_Eckpunkt_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_BUE_Gefahrraum_Eckpunkt_Sorting;
 
@@ -12364,7 +12364,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_BUE_Gleisbezogener_Gefahrraum_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_BUE_Gleisbezogener_Gefahrraum_Sorting;
 
@@ -12379,7 +12379,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_BUE_Kante_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_BUE_Kante_Sorting;
 
@@ -12394,7 +12394,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_BUE_Kreuzungsplan_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_BUE_Kreuzungsplan_Sorting;
 
@@ -12409,7 +12409,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_BUE_Schnittstelle_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_BUE_Schnittstelle_Sorting;
 
@@ -12424,7 +12424,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_BUE_Spezifisches_Signal_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_BUE_Spezifisches_Signal_Sorting;
 
@@ -12439,7 +12439,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_BUE_WS_Fstr_Zuordnung_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_BUE_WS_Fstr_Zuordnung_Sorting;
 
@@ -12454,7 +12454,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Datenpunkt_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Datenpunkt_Sorting;
 
@@ -12469,7 +12469,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Datenpunkt_Link_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Datenpunkt_Link_Sorting;
 
@@ -12484,7 +12484,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_ESTW_Zentraleinheit_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_ESTW_Zentraleinheit_Sorting;
 
@@ -12499,7 +12499,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_ETCS_Kante_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_ETCS_Kante_Sorting;
 
@@ -12514,7 +12514,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_ETCS_Knoten_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_ETCS_Knoten_Sorting;
 
@@ -12529,7 +12529,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_ETCS_Richtungsanzeige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_ETCS_Richtungsanzeige_Sorting;
 
@@ -12544,7 +12544,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_ETCS_Signal_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_ETCS_Signal_Sorting;
 
@@ -12559,7 +12559,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_ETCS_W_Kr_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_ETCS_W_Kr_Sorting;
 
@@ -12574,7 +12574,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_EV_Modul_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_EV_Modul_Sorting;
 
@@ -12589,7 +12589,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Fachtelegramm_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Fachtelegramm_Sorting;
 
@@ -12604,7 +12604,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Fla_Freimelde_Zuordnung_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Fla_Freimelde_Zuordnung_Sorting;
 
@@ -12619,7 +12619,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Fla_Schutz_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Fla_Schutz_Sorting;
 
@@ -12634,7 +12634,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Fla_Zwieschutz_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Fla_Zwieschutz_Sorting;
 
@@ -12649,7 +12649,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_FMA_Anlage_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_FMA_Anlage_Sorting;
 
@@ -12664,7 +12664,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_FMA_Element_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_FMA_Element_Sorting;
 
@@ -12679,7 +12679,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_FMA_Komponente_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_FMA_Komponente_Sorting;
 
@@ -12694,7 +12694,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Fstr_Abhaengigkeit_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Fstr_Abhaengigkeit_Sorting;
 
@@ -12709,7 +12709,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Fstr_Aneinander_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Fstr_Aneinander_Sorting;
 
@@ -12724,7 +12724,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Fstr_Aneinander_Zuordnung_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Fstr_Aneinander_Zuordnung_Sorting;
 
@@ -12739,7 +12739,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Fstr_DWeg_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Fstr_DWeg_Sorting;
 
@@ -12754,7 +12754,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Fstr_DWeg_W_Kr_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Fstr_DWeg_W_Kr_Sorting;
 
@@ -12769,7 +12769,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Fstr_Fahrweg_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Fstr_Fahrweg_Sorting;
 
@@ -12784,7 +12784,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Fstr_Nichthaltfall_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Fstr_Nichthaltfall_Sorting;
 
@@ -12799,7 +12799,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Fstr_Rangier_Fla_Zuordnung_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Fstr_Rangier_Fla_Zuordnung_Sorting;
 
@@ -12814,7 +12814,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Fstr_Signalisierung_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Fstr_Signalisierung_Sorting;
 
@@ -12829,7 +12829,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Fstr_Umfahrpunkt_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Fstr_Umfahrpunkt_Sorting;
 
@@ -12844,7 +12844,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Fstr_Zug_Rangier_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Fstr_Zug_Rangier_Sorting;
 
@@ -12859,7 +12859,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_FT_Anschaltbedingung_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_FT_Anschaltbedingung_Sorting;
 
@@ -12874,7 +12874,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_FT_Fahrweg_Teil_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_FT_Fahrweg_Teil_Sorting;
 
@@ -12889,7 +12889,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_GEO_Kante_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_GEO_Kante_Sorting;
 
@@ -12904,7 +12904,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_GEO_Knoten_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_GEO_Knoten_Sorting;
 
@@ -12919,7 +12919,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_GEO_Punkt_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_GEO_Punkt_Sorting;
 
@@ -12934,7 +12934,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Geschwindigkeitsprofil_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Geschwindigkeitsprofil_Sorting;
 
@@ -12949,7 +12949,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_GFR_Anlage_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_GFR_Anlage_Sorting;
 
@@ -12964,7 +12964,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_GFR_Element_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_GFR_Element_Sorting;
 
@@ -12979,7 +12979,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_GFR_Tripelspiegel_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_GFR_Tripelspiegel_Sorting;
 
@@ -12994,7 +12994,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Gleis_Abschluss_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Gleis_Abschluss_Sorting;
 
@@ -13009,7 +13009,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Gleis_Abschnitt_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Gleis_Abschnitt_Sorting;
 
@@ -13024,7 +13024,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Gleis_Art_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Gleis_Art_Sorting;
 
@@ -13039,7 +13039,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Gleis_Baubereich_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Gleis_Baubereich_Sorting;
 
@@ -13054,7 +13054,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Gleis_Bezeichnung_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Gleis_Bezeichnung_Sorting;
 
@@ -13069,7 +13069,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Gleis_Fahrbahn_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Gleis_Fahrbahn_Sorting;
 
@@ -13084,7 +13084,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Gleis_Lichtraum_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Gleis_Lichtraum_Sorting;
 
@@ -13099,7 +13099,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Gleis_Schaltgruppe_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Gleis_Schaltgruppe_Sorting;
 
@@ -13114,7 +13114,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Hoehenlinie_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Hoehenlinie_Sorting;
 
@@ -13129,7 +13129,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Hoehenpunkt_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Hoehenpunkt_Sorting;
 
@@ -13144,7 +13144,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Kabel_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Kabel_Sorting;
 
@@ -13159,7 +13159,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Kabel_Verteilpunkt_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Kabel_Verteilpunkt_Sorting;
 
@@ -13174,7 +13174,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_LEU_Anlage_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_LEU_Anlage_Sorting;
 
@@ -13189,7 +13189,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_LEU_Modul_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_LEU_Modul_Sorting;
 
@@ -13204,7 +13204,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_LEU_Schaltkasten_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_LEU_Schaltkasten_Sorting;
 
@@ -13219,7 +13219,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Lieferobjekt_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Lieferobjekt_Sorting;
 
@@ -13234,7 +13234,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Luft_Telegramm_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Luft_Telegramm_Sorting;
 
@@ -13249,7 +13249,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Markanter_Punkt_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Markanter_Punkt_Sorting;
 
@@ -13264,7 +13264,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_NB_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_NB_Sorting;
 
@@ -13279,7 +13279,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_NB_Bedien_Anzeige_Element_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_NB_Bedien_Anzeige_Element_Sorting;
 
@@ -13294,7 +13294,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_NB_Zone_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_NB_Zone_Sorting;
 
@@ -13309,7 +13309,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_NB_Zone_Element_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_NB_Zone_Element_Sorting;
 
@@ -13324,7 +13324,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_NB_Zone_Grenze_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_NB_Zone_Grenze_Sorting;
 
@@ -13339,7 +13339,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Oertlichkeit_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Oertlichkeit_Sorting;
 
@@ -13354,7 +13354,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Prog_Datei_Gruppe_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Prog_Datei_Gruppe_Sorting;
 
@@ -13369,7 +13369,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_PZB_Element_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_PZB_Element_Sorting;
 
@@ -13384,7 +13384,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_PZB_Element_Zuordnung_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_PZB_Element_Zuordnung_Sorting;
 
@@ -13399,7 +13399,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_PZB_Zuordnung_Signal_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_PZB_Zuordnung_Signal_Sorting;
 
@@ -13414,7 +13414,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_RBC_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_RBC_Sorting;
 
@@ -13429,7 +13429,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Regelzeichnung_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Regelzeichnung_Sorting;
 
@@ -13444,7 +13444,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Regelzeichnung_Parameter_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Regelzeichnung_Parameter_Sorting;
 
@@ -13459,7 +13459,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Schaltmittel_Fstr_Zuordnung_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Schaltmittel_Fstr_Zuordnung_Sorting;
 
@@ -13474,7 +13474,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Schaltmittel_Zuordnung_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Schaltmittel_Zuordnung_Sorting;
 
@@ -13489,7 +13489,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Schloss_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Schloss_Sorting;
 
@@ -13504,7 +13504,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Schlosskombination_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Schlosskombination_Sorting;
 
@@ -13519,7 +13519,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Schluessel_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Schluessel_Sorting;
 
@@ -13534,7 +13534,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Schluesselsperre_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Schluesselsperre_Sorting;
 
@@ -13549,7 +13549,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Schrankenantrieb_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Schrankenantrieb_Sorting;
 
@@ -13564,7 +13564,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Signal_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Signal_Sorting;
 
@@ -13579,7 +13579,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Signal_Befestigung_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Signal_Befestigung_Sorting;
 
@@ -13594,7 +13594,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Signal_Fank_Zuordnung_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Signal_Fank_Zuordnung_Sorting;
 
@@ -13609,7 +13609,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Signal_Rahmen_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Signal_Rahmen_Sorting;
 
@@ -13624,7 +13624,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Signal_Signalbegriff_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Signal_Signalbegriff_Sorting;
 
@@ -13639,7 +13639,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Sonstiger_Punkt_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Sonstiger_Punkt_Sorting;
 
@@ -13654,7 +13654,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Stell_Bereich_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Stell_Bereich_Sorting;
 
@@ -13669,7 +13669,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Stellelement_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Stellelement_Sorting;
 
@@ -13684,7 +13684,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Strecke_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Strecke_Sorting;
 
@@ -13699,7 +13699,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Strecke_Bremsweg_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Strecke_Bremsweg_Sorting;
 
@@ -13714,7 +13714,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Strecke_Punkt_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Strecke_Punkt_Sorting;
 
@@ -13729,7 +13729,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Technik_Standort_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Technik_Standort_Sorting;
 
@@ -13744,7 +13744,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Technischer_Bereich_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Technischer_Bereich_Sorting;
 
@@ -13759,7 +13759,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Technischer_Punkt_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Technischer_Punkt_Sorting;
 
@@ -13774,7 +13774,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_TOP_Kante_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_TOP_Kante_Sorting;
 
@@ -13789,7 +13789,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_TOP_Knoten_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_TOP_Knoten_Sorting;
 
@@ -13804,7 +13804,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Trasse_Kante_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Trasse_Kante_Sorting;
 
@@ -13819,7 +13819,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Trasse_Knoten_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Trasse_Knoten_Sorting;
 
@@ -13834,7 +13834,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Ueberhoehung_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Ueberhoehung_Sorting;
 
@@ -13849,7 +13849,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Ueberhoehungslinie_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Ueberhoehungslinie_Sorting;
 
@@ -13864,7 +13864,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Uebertragungsweg_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Uebertragungsweg_Sorting;
 
@@ -13879,7 +13879,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Unterbringung_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Unterbringung_Sorting;
 
@@ -13894,7 +13894,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Verkehrszeichen_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Verkehrszeichen_Sorting;
 
@@ -13909,7 +13909,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_W_Kr_Anlage_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_W_Kr_Anlage_Sorting;
 
@@ -13924,7 +13924,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_W_Kr_Gsp_Element_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_W_Kr_Gsp_Element_Sorting;
 
@@ -13939,7 +13939,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_W_Kr_Gsp_Komponente_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_W_Kr_Gsp_Komponente_Sorting;
 
@@ -13954,7 +13954,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Weichenlaufkette_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Weichenlaufkette_Sorting;
 
@@ -13969,7 +13969,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Weichenlaufkette_Zuordnung_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Weichenlaufkette_Zuordnung_Sorting;
 
@@ -13984,7 +13984,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_ZBS_Schutzstrecke_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_ZBS_Schutzstrecke_Sorting;
 
@@ -13999,7 +13999,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_ZBS_Signal_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_ZBS_Signal_Sorting;
 
@@ -14014,7 +14014,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_ZL_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_ZL_Sorting;
 
@@ -14029,7 +14029,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_ZL_DLP_Abschnitt_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_ZL_DLP_Abschnitt_Sorting;
 
@@ -14044,7 +14044,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_ZL_DLP_Fstr_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_ZL_DLP_Fstr_Sorting;
 
@@ -14059,7 +14059,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_ZL_Fstr_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_ZL_Fstr_Sorting;
 
@@ -14074,7 +14074,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_ZL_Fstr_Anstoss_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_ZL_Fstr_Anstoss_Sorting;
 
@@ -14089,7 +14089,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_ZL_Signalgruppe_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_ZL_Signalgruppe_Sorting;
 
@@ -14104,7 +14104,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_ZL_Signalgruppe_Zuordnung_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_ZL_Signalgruppe_Zuordnung_Sorting;
 
@@ -14119,7 +14119,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_ZLV_Bus_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_ZLV_Bus_Sorting;
 
@@ -14134,7 +14134,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_ZLV_Bus_Besondere_Anlage_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_ZLV_Bus_Besondere_Anlage_Sorting;
 
@@ -14149,7 +14149,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_ZLV_Bus_US_Zuordnung_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_ZLV_Bus_US_Zuordnung_Sorting;
 
@@ -14164,7 +14164,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_ZN_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_ZN_Sorting;
 
@@ -14179,7 +14179,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_ZN_Akustik_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_ZN_Akustik_Sorting;
 
@@ -14194,7 +14194,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_ZN_Anzeigefeld_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_ZN_Anzeigefeld_Sorting;
 
@@ -14209,7 +14209,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_ZN_Fortschalt_Kriterium_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_ZN_Fortschalt_Kriterium_Sorting;
 
@@ -14224,7 +14224,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_ZN_Telegramm_84_Zuordnung_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_ZN_Telegramm_84_Zuordnung_Sorting;
 
@@ -14239,7 +14239,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_ZN_Telegramm_85_Zuordnung_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_ZN_Telegramm_85_Zuordnung_Sorting;
 
@@ -14254,7 +14254,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_ZN_Unterstation_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_ZN_Unterstation_Sorting;
 
@@ -14269,7 +14269,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_ZN_ZBS_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_ZN_ZBS_Sorting;
 
@@ -14284,7 +14284,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_ZUB_Bereichsgrenze_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_ZUB_Bereichsgrenze_Sorting;
 
@@ -14299,7 +14299,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_ZUB_Streckeneigenschaft_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_ZUB_Streckeneigenschaft_Sorting;
 
@@ -14314,7 +14314,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLST_Objekt_Art_Zugeinwirkung_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMLST_Objekt_Art_Zugeinwirkung_Sorting;
 
@@ -14329,7 +14329,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMM_LEVELTR_L0_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMM_LEVELTR_L0_Sorting;
 
@@ -14344,7 +14344,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMM_LEVELTR_L1_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMM_LEVELTR_L1_Sorting;
 
@@ -14359,7 +14359,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMM_LEVELTR_L2_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMM_LEVELTR_L2_Sorting;
 
@@ -14374,7 +14374,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMM_LEVELTR_L3_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMM_LEVELTR_L3_Sorting;
 
@@ -14389,7 +14389,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMM_LEVELTR_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMM_LEVELTR_sonstige_Sorting;
 
@@ -14404,7 +14404,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMM_LEVELTR_STM_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMM_LEVELTR_STM_Sorting;
 
@@ -14419,7 +14419,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMMassnahme_Ersatzschutz_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMMassnahme_Ersatzschutz_Sorting;
 
@@ -14434,7 +14434,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMMassnahme_Verschluss_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMMassnahme_Verschluss_Sorting;
 
@@ -14449,7 +14449,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMMassnahme_Verschluss_Ersatzschutz_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMMassnahme_Verschluss_Ersatzschutz_Sorting;
 
@@ -14464,7 +14464,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMMassnahme_Verzicht_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMMassnahme_Verzicht_Sorting;
 
@@ -14479,7 +14479,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMMedium_Art_Kupfer_ADO8_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMMedium_Art_Kupfer_ADO8_Sorting;
 
@@ -14494,7 +14494,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMMedium_Art_Kupfer_KAG_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMMedium_Art_Kupfer_KAG_Sorting;
 
@@ -14509,7 +14509,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMMedium_Art_Kupfer_LSA_Plus_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMMedium_Art_Kupfer_LSA_Plus_Sorting;
 
@@ -14524,7 +14524,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMMedium_Art_Kupfer_RJ45_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMMedium_Art_Kupfer_RJ45_Sorting;
 
@@ -14539,7 +14539,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMMedium_Art_LWL_DIN_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMMedium_Art_LWL_DIN_Sorting;
 
@@ -14554,7 +14554,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMMedium_Art_LWL_E2000_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMMedium_Art_LWL_E2000_Sorting;
 
@@ -14569,7 +14569,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMMedium_Art_LWL_SC_LC_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMMedium_Art_LWL_SC_LC_Sorting;
 
@@ -14584,7 +14584,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMMedium_Art_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMMedium_Art_sonstige_Sorting;
 
@@ -14599,7 +14599,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMMelder_Anforderungsempfang_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMMelder_Anforderungsempfang_Sorting;
 
@@ -14614,7 +14614,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMMelder_Anzeige_Betriebszustand_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMMelder_Anzeige_Betriebszustand_Sorting;
 
@@ -14629,7 +14629,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMMelder_Leuchtmelder_ZP_10_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMMelder_Leuchtmelder_ZP_10_Sorting;
 
@@ -14644,7 +14644,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMMelder_Leuchtmelder_ZP_9_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMMelder_Leuchtmelder_ZP_9_Sorting;
 
@@ -14659,7 +14659,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMMelder_Signalanforderung_empfangen_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMMelder_Signalanforderung_empfangen_Sorting;
 
@@ -14674,7 +14674,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMMelder_Signalfahrtmelder_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMMelder_Signalfahrtmelder_Sorting;
 
@@ -14689,7 +14689,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMMelder_Signalhaltmelder_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMMelder_Signalhaltmelder_Sorting;
 
@@ -14704,7 +14704,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMMelder_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMMelder_sonstige_Sorting;
 
@@ -14719,7 +14719,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMMelder_Sperrmelder_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMMelder_Sperrmelder_Sorting;
 
@@ -14734,7 +14734,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMMelder_Vorbereitungsmeldung_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMMelder_Vorbereitungsmeldung_Sorting;
 
@@ -14749,7 +14749,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMMelder_Weichenmelder_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMMelder_Weichenmelder_Sorting;
 
@@ -14764,7 +14764,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMMelder_Zielmelder_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMMelder_Zielmelder_Sorting;
 
@@ -14779,7 +14779,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMMessfehler_2_bis_3_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMMessfehler_2_bis_3_Sorting;
 
@@ -14794,7 +14794,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMMessfehler_3_bis_5_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMMessfehler_3_bis_5_Sorting;
 
@@ -14809,7 +14809,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMMessfehler_5_bis_7_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMMessfehler_5_bis_7_Sorting;
 
@@ -14824,7 +14824,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMMessfehler_kleiner_4_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMMessfehler_kleiner_4_Sorting;
 
@@ -14839,7 +14839,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMMessfehler_kleiner_5_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMMessfehler_kleiner_5_Sorting;
 
@@ -14854,7 +14854,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMMontage_Ausgleichsgewichte_beidseitig_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMMontage_Ausgleichsgewichte_beidseitig_Sorting;
 
@@ -14869,7 +14869,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMMontage_Ausgleichsgewichte_einseitig_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMMontage_Ausgleichsgewichte_einseitig_Sorting;
 
@@ -14929,7 +14929,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMNB_Grenze_Art_ESTW_Bereich_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMNB_Grenze_Art_ESTW_Bereich_Sorting;
 
@@ -14944,7 +14944,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMNB_Grenze_Art_NB_Zone_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMNB_Grenze_Art_NB_Zone_Sorting;
 
@@ -14959,7 +14959,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMNB_Grenze_Art_Ortsstellbereich_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMNB_Grenze_Art_Ortsstellbereich_Sorting;
 
@@ -14974,7 +14974,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMNB_Rueckgabevoraussetzung_abgelegt_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMNB_Rueckgabevoraussetzung_abgelegt_Sorting;
 
@@ -14989,7 +14989,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMNB_Rueckgabevoraussetzung_aufgelegt_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMNB_Rueckgabevoraussetzung_aufgelegt_Sorting;
 
@@ -15004,7 +15004,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMNB_Rueckgabevoraussetzung_Hp_0_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMNB_Rueckgabevoraussetzung_Hp_0_Sorting;
 
@@ -15019,7 +15019,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMNB_Rueckgabevoraussetzung_keine_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMNB_Rueckgabevoraussetzung_keine_Sorting;
 
@@ -15034,7 +15034,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMNB_Rueckgabevoraussetzung_Kennlicht_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMNB_Rueckgabevoraussetzung_Kennlicht_Sorting;
 
@@ -15049,7 +15049,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMNB_Rueckgabevoraussetzung_links_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMNB_Rueckgabevoraussetzung_links_Sorting;
 
@@ -15064,7 +15064,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMNB_Rueckgabevoraussetzung_rechts_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMNB_Rueckgabevoraussetzung_rechts_Sorting;
 
@@ -15079,7 +15079,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMNB_Rueckgabevoraussetzung_Schluessel_eingeschlossen_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMNB_Rueckgabevoraussetzung_Schluessel_eingeschlossen_Sorting;
 
@@ -15094,7 +15094,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMNB_Verhaeltnis_Besonders_ueberlappend_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMNB_Verhaeltnis_Besonders_ueberlappend_Sorting;
 
@@ -15109,7 +15109,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMNB_Verhaeltnis_Besonders_vereinigt_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMNB_Verhaeltnis_Besonders_vereinigt_Sorting;
 
@@ -15124,7 +15124,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMNetz_Art_geschlossen_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMNetz_Art_geschlossen_Sorting;
 
@@ -15139,7 +15139,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMNetz_Art_KISA_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMNetz_Art_KISA_Sorting;
 
@@ -15154,7 +15154,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMNetz_Art_offen_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMNetz_Art_offen_Sorting;
 
@@ -15169,7 +15169,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMNetz_Art_SBI_intern_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMNetz_Art_SBI_intern_Sorting;
 
@@ -15184,7 +15184,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMNetz_Art_SG_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMNetz_Art_SG_Sorting;
 
@@ -15199,7 +15199,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMNetz_Art_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMNetz_Art_sonstige_Sorting;
 
@@ -15214,7 +15214,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMNID_STM_ATB_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMNID_STM_ATB_Sorting;
 
@@ -15229,7 +15229,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMNID_STM_Crocodile_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMNID_STM_Crocodile_Sorting;
 
@@ -15244,7 +15244,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMNID_STM_EBICAB_900__Poland__Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMNID_STM_EBICAB_900__Poland__Sorting;
 
@@ -15259,7 +15259,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMNID_STM_HVB_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMNID_STM_HVB_Sorting;
 
@@ -15274,7 +15274,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMNID_STM_INDUSI_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMNID_STM_INDUSI_Sorting;
 
@@ -15289,7 +15289,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMNID_STM_LS_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMNID_STM_LS_Sorting;
 
@@ -15304,7 +15304,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMNID_STM_MEMOR_IIP_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMNID_STM_MEMOR_IIP_Sorting;
 
@@ -15319,7 +15319,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMNID_STM_PZB_LZB_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMNID_STM_PZB_LZB_Sorting;
 
@@ -15334,7 +15334,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMNID_STM_RPS_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMNID_STM_RPS_Sorting;
 
@@ -15349,7 +15349,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMNID_STM_SHP_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMNID_STM_SHP_Sorting;
 
@@ -15364,7 +15364,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMNID_STM_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMNID_STM_sonstige_Sorting;
 
@@ -15379,7 +15379,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMNID_STM_TBL_1_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMNID_STM_TBL_1_Sorting;
 
@@ -15394,7 +15394,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMNID_STM_TBL_1P_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMNID_STM_TBL_1P_Sorting;
 
@@ -15409,7 +15409,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMNID_STM_TBL_2_3_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMNID_STM_TBL_2_3_Sorting;
 
@@ -15424,7 +15424,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMNID_STM_TVM_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMNID_STM_TVM_Sorting;
 
@@ -15439,7 +15439,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMNID_STM_ZUB121_Signum_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMNID_STM_ZUB121_Signum_Sorting;
 
@@ -15454,7 +15454,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMNID_STM_ZUB123_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMNID_STM_ZUB123_Sorting;
 
@@ -15469,7 +15469,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOberflaeche_Bildart_BERUE_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOberflaeche_Bildart_BERUE_Sorting;
 
@@ -15484,7 +15484,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOberflaeche_Bildart_Lupe_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOberflaeche_Bildart_Lupe_Sorting;
 
@@ -15499,7 +15499,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOberflaeche_Bildart_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOberflaeche_Bildart_sonstige_Sorting;
 
@@ -15514,7 +15514,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMObjektzustand_Besonders_am_Standort_angesteuert_nicht_gueltig_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMObjektzustand_Besonders_am_Standort_angesteuert_nicht_gueltig_Sorting;
 
@@ -15529,7 +15529,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMObjektzustand_Besonders_am_Standort_angesteuert_ungueltig_abgedeckt_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMObjektzustand_Besonders_am_Standort_angesteuert_ungueltig_abgedeckt_Sorting;
 
@@ -15559,7 +15559,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMObjektzustand_Besonders_am_Standort_nicht_angesteuert_ungueltig_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMObjektzustand_Besonders_am_Standort_nicht_angesteuert_ungueltig_Sorting;
 
@@ -15574,7 +15574,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMObjektzustand_Besonders_am_Standort_nicht_angesteuert_vorbereitend_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMObjektzustand_Besonders_am_Standort_nicht_angesteuert_vorbereitend_Sorting;
 
@@ -15589,7 +15589,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMObjektzustand_Besonders_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMObjektzustand_Besonders_sonstige_Sorting;
 
@@ -15604,7 +15604,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMObjektzustand_Besonders_standortfern_angesteuert_ungueltig_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMObjektzustand_Besonders_standortfern_angesteuert_ungueltig_Sorting;
 
@@ -15619,7 +15619,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMObjektzustand_Besonders_standortfern_nicht_angesteuert_ungueltig_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMObjektzustand_Besonders_standortfern_nicht_angesteuert_ungueltig_Sorting;
 
@@ -15634,7 +15634,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOertlichkeit_Art_Abzw_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOertlichkeit_Art_Abzw_Sorting;
 
@@ -15649,7 +15649,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOertlichkeit_Art_Abzw_Anst_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOertlichkeit_Art_Abzw_Anst_Sorting;
 
@@ -15664,7 +15664,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOertlichkeit_Art_Abzw_Awanst_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOertlichkeit_Art_Abzw_Awanst_Sorting;
 
@@ -15679,7 +15679,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOertlichkeit_Art_Anst_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOertlichkeit_Art_Anst_Sorting;
 
@@ -15694,7 +15694,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOertlichkeit_Art_Anst_Bk_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOertlichkeit_Art_Anst_Bk_Sorting;
 
@@ -15709,7 +15709,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOertlichkeit_Art_Awanst_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOertlichkeit_Art_Awanst_Sorting;
 
@@ -15724,7 +15724,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOertlichkeit_Art_Awanst_Bk_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOertlichkeit_Art_Awanst_Bk_Sorting;
 
@@ -15739,7 +15739,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOertlichkeit_Art_Bf_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOertlichkeit_Art_Bf_Sorting;
 
@@ -15754,7 +15754,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOertlichkeit_Art_Bf_Abzw_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOertlichkeit_Art_Bf_Abzw_Sorting;
 
@@ -15769,7 +15769,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOertlichkeit_Art_Bft_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOertlichkeit_Art_Bft_Sorting;
 
@@ -15784,7 +15784,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOertlichkeit_Art_Bft_Abzw_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOertlichkeit_Art_Bft_Abzw_Sorting;
 
@@ -15799,7 +15799,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOertlichkeit_Art_Bk_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOertlichkeit_Art_Bk_Sorting;
 
@@ -15814,7 +15814,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOertlichkeit_Art_BSO_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOertlichkeit_Art_BSO_Sorting;
 
@@ -15829,7 +15829,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOertlichkeit_Art_BZ_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOertlichkeit_Art_BZ_Sorting;
 
@@ -15844,7 +15844,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOertlichkeit_Art_Dkst_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOertlichkeit_Art_Dkst_Sorting;
 
@@ -15859,7 +15859,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOertlichkeit_Art_Gp_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOertlichkeit_Art_Gp_Sorting;
 
@@ -15874,7 +15874,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOertlichkeit_Art_Hp_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOertlichkeit_Art_Hp_Sorting;
 
@@ -15889,7 +15889,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOertlichkeit_Art_Hp_Abzw_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOertlichkeit_Art_Hp_Abzw_Sorting;
 
@@ -15904,7 +15904,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOertlichkeit_Art_Hp_Abzw_Anst_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOertlichkeit_Art_Hp_Abzw_Anst_Sorting;
 
@@ -15919,7 +15919,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOertlichkeit_Art_Hp_Abzw_Awanst_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOertlichkeit_Art_Hp_Abzw_Awanst_Sorting;
 
@@ -15934,7 +15934,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOertlichkeit_Art_Hp_Anst_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOertlichkeit_Art_Hp_Anst_Sorting;
 
@@ -15949,7 +15949,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOertlichkeit_Art_Hp_Anst_Bk_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOertlichkeit_Art_Hp_Anst_Bk_Sorting;
 
@@ -15964,7 +15964,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOertlichkeit_Art_Hp_Awanst_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOertlichkeit_Art_Hp_Awanst_Sorting;
 
@@ -15979,7 +15979,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOertlichkeit_Art_Hp_Awanst_Bk_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOertlichkeit_Art_Hp_Awanst_Bk_Sorting;
 
@@ -15994,7 +15994,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOertlichkeit_Art_Hp_Bft_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOertlichkeit_Art_Hp_Bft_Sorting;
 
@@ -16009,7 +16009,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOertlichkeit_Art_Hp_Bk_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOertlichkeit_Art_Hp_Bk_Sorting;
 
@@ -16024,7 +16024,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOertlichkeit_Art_Hp_Dkst_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOertlichkeit_Art_Hp_Dkst_Sorting;
 
@@ -16039,7 +16039,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOertlichkeit_Art_Hp_Uest_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOertlichkeit_Art_Hp_Uest_Sorting;
 
@@ -16054,7 +16054,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOertlichkeit_Art_Hp_Uest_Anst_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOertlichkeit_Art_Hp_Uest_Anst_Sorting;
 
@@ -16069,7 +16069,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOertlichkeit_Art_Hp_Uest_Awanst_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOertlichkeit_Art_Hp_Uest_Awanst_Sorting;
 
@@ -16084,7 +16084,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOertlichkeit_Art_LGr_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOertlichkeit_Art_LGr_Sorting;
 
@@ -16099,7 +16099,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOertlichkeit_Art_NE_Abzw_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOertlichkeit_Art_NE_Abzw_Sorting;
 
@@ -16114,7 +16114,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOertlichkeit_Art_NE_Anst_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOertlichkeit_Art_NE_Anst_Sorting;
 
@@ -16129,7 +16129,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOertlichkeit_Art_NE_Awanst_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOertlichkeit_Art_NE_Awanst_Sorting;
 
@@ -16144,7 +16144,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOertlichkeit_Art_NE_Bf_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOertlichkeit_Art_NE_Bf_Sorting;
 
@@ -16159,7 +16159,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOertlichkeit_Art_NE_Bft_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOertlichkeit_Art_NE_Bft_Sorting;
 
@@ -16174,7 +16174,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOertlichkeit_Art_NE_Bft_Abzw_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOertlichkeit_Art_NE_Bft_Abzw_Sorting;
 
@@ -16189,7 +16189,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOertlichkeit_Art_NE_Bk_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOertlichkeit_Art_NE_Bk_Sorting;
 
@@ -16204,7 +16204,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOertlichkeit_Art_NE_Gp_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOertlichkeit_Art_NE_Gp_Sorting;
 
@@ -16219,7 +16219,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOertlichkeit_Art_NE_Hp_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOertlichkeit_Art_NE_Hp_Sorting;
 
@@ -16234,7 +16234,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOertlichkeit_Art_NE_Hp_Abzw_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOertlichkeit_Art_NE_Hp_Abzw_Sorting;
 
@@ -16249,7 +16249,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOertlichkeit_Art_NE_Hp_Anst_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOertlichkeit_Art_NE_Hp_Anst_Sorting;
 
@@ -16264,7 +16264,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOertlichkeit_Art_NE_Hp_Awanst_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOertlichkeit_Art_NE_Hp_Awanst_Sorting;
 
@@ -16279,7 +16279,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOertlichkeit_Art_NE_Hp_Bk_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOertlichkeit_Art_NE_Hp_Bk_Sorting;
 
@@ -16294,7 +16294,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOertlichkeit_Art_NE_LGr_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOertlichkeit_Art_NE_LGr_Sorting;
 
@@ -16309,7 +16309,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOertlichkeit_Art_NE_RBGr_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOertlichkeit_Art_NE_RBGr_Sorting;
 
@@ -16324,7 +16324,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOertlichkeit_Art_NE_Uest_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOertlichkeit_Art_NE_Uest_Sorting;
 
@@ -16339,7 +16339,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOertlichkeit_Art_PDGr_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOertlichkeit_Art_PDGr_Sorting;
 
@@ -16354,7 +16354,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOertlichkeit_Art_RBGr_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOertlichkeit_Art_RBGr_Sorting;
 
@@ -16369,7 +16369,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOertlichkeit_Art_Sbk_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOertlichkeit_Art_Sbk_Sorting;
 
@@ -16384,7 +16384,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOertlichkeit_Art_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOertlichkeit_Art_sonstige_Sorting;
 
@@ -16399,7 +16399,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOertlichkeit_Art_Strw_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOertlichkeit_Art_Strw_Sorting;
 
@@ -16444,7 +16444,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOertlichkeit_Art_Uest_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOertlichkeit_Art_Uest_Sorting;
 
@@ -16459,7 +16459,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOertlichkeit_Art_Uest_Anst_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOertlichkeit_Art_Uest_Anst_Sorting;
 
@@ -16474,7 +16474,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOertlichkeit_Art_Uest_Awanst_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOertlichkeit_Art_Uest_Awanst_Sorting;
 
@@ -16489,7 +16489,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOertlichkeit_Art_vp_Abzw_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOertlichkeit_Art_vp_Abzw_Sorting;
 
@@ -16504,7 +16504,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOertlichkeit_Art_vp_Anst_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOertlichkeit_Art_vp_Anst_Sorting;
 
@@ -16519,7 +16519,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOertlichkeit_Art_vp_Awanst_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOertlichkeit_Art_vp_Awanst_Sorting;
 
@@ -16534,7 +16534,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOertlichkeit_Art_vp_Bf_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOertlichkeit_Art_vp_Bf_Sorting;
 
@@ -16549,7 +16549,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOertlichkeit_Art_vp_Bft_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOertlichkeit_Art_vp_Bft_Sorting;
 
@@ -16564,7 +16564,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOertlichkeit_Art_vp_Bk_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOertlichkeit_Art_vp_Bk_Sorting;
 
@@ -16579,7 +16579,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOertlichkeit_Art_vp_Hp_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOertlichkeit_Art_vp_Hp_Sorting;
 
@@ -16594,7 +16594,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOertlichkeit_Art_vp_Hp_Abzw_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOertlichkeit_Art_vp_Hp_Abzw_Sorting;
 
@@ -16609,7 +16609,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOertlichkeit_Art_vp_Hp_Anst_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOertlichkeit_Art_vp_Hp_Anst_Sorting;
 
@@ -16624,7 +16624,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOertlichkeit_Art_vp_Hp_Anst_Bk_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOertlichkeit_Art_vp_Hp_Anst_Bk_Sorting;
 
@@ -16639,7 +16639,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOertlichkeit_Art_vp_Hp_Awanst_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOertlichkeit_Art_vp_Hp_Awanst_Sorting;
 
@@ -16654,7 +16654,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOertlichkeit_Art_vp_LGr_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOertlichkeit_Art_vp_LGr_Sorting;
 
@@ -16669,7 +16669,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOertlichkeit_Art_vp_RBGr_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOertlichkeit_Art_vp_RBGr_Sorting;
 
@@ -16684,7 +16684,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOptik_Symbol_Fussgaenger_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOptik_Symbol_Fussgaenger_Sorting;
 
@@ -16699,7 +16699,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOptik_Symbol_Fussgaenger_Radfahrer_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOptik_Symbol_Fussgaenger_Radfahrer_Sorting;
 
@@ -16714,7 +16714,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOptik_Symbol_Pfeil_links_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOptik_Symbol_Pfeil_links_Sorting;
 
@@ -16729,7 +16729,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOptik_Symbol_Pfeil_rechts_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOptik_Symbol_Pfeil_rechts_Sorting;
 
@@ -16744,7 +16744,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOptik_Symbol_Radfahrer_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOptik_Symbol_Radfahrer_Sorting;
 
@@ -16759,7 +16759,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMOptik_Symbol_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMOptik_Symbol_sonstige_Sorting;
 
@@ -16774,7 +16774,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMPlan_Quelle_Ersatztrassierung_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMPlan_Quelle_Ersatztrassierung_Sorting;
 
@@ -16789,7 +16789,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMPlan_Quelle_GIS_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMPlan_Quelle_GIS_Sorting;
 
@@ -16804,7 +16804,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMPlan_Quelle_GND_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMPlan_Quelle_GND_Sorting;
 
@@ -16819,7 +16819,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMPlan_Quelle_GND_autokorr_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMPlan_Quelle_GND_autokorr_Sorting;
 
@@ -16834,7 +16834,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMPlan_Quelle_GND_mankorr_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMPlan_Quelle_GND_mankorr_Sorting;
 
@@ -16849,7 +16849,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMPlan_Quelle_Ivl_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMPlan_Quelle_Ivl_Sorting;
 
@@ -16864,7 +16864,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMPlan_Quelle_Ivmg_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMPlan_Quelle_Ivmg_Sorting;
 
@@ -16879,7 +16879,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMPlan_Quelle_Kopie_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMPlan_Quelle_Kopie_Sorting;
 
@@ -16894,7 +16894,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMPlan_Quelle_Neutrassierung_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMPlan_Quelle_Neutrassierung_Sorting;
 
@@ -16909,7 +16909,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMPlan_Quelle_Planung_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMPlan_Quelle_Planung_Sorting;
 
@@ -16924,7 +16924,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMPlan_Quelle_PT_2_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMPlan_Quelle_PT_2_Sorting;
 
@@ -16939,7 +16939,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMPlan_Quelle_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMPlan_Quelle_sonstige_Sorting;
 
@@ -16954,7 +16954,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMPlan_Quelle_Vermessung_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMPlan_Quelle_Vermessung_Sorting;
 
@@ -16969,7 +16969,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMPlanung_E_Art_Bauzustand_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMPlanung_E_Art_Bauzustand_Sorting;
 
@@ -16984,7 +16984,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMPlanung_E_Art_Bestandsdigitalisierung_Geo_Topo_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMPlanung_E_Art_Bestandsdigitalisierung_Geo_Topo_Sorting;
 
@@ -16999,7 +16999,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMPlanung_E_Art_Bestandsdigitalisierung_LST_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMPlanung_E_Art_Bestandsdigitalisierung_LST_Sorting;
 
@@ -17014,7 +17014,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMPlanung_E_Art_Bestandskorrektur_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMPlanung_E_Art_Bestandskorrektur_Sorting;
 
@@ -17029,7 +17029,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMPlanung_E_Art_Geodaten_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMPlanung_E_Art_Geodaten_Sorting;
 
@@ -17044,7 +17044,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMPlanung_E_Art_Revision_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMPlanung_E_Art_Revision_Sorting;
 
@@ -17059,7 +17059,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMPlanung_E_Art_Revision_letzte_Planung_E_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMPlanung_E_Art_Revision_letzte_Planung_E_Sorting;
 
@@ -17074,7 +17074,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMPlanung_E_Art_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMPlanung_E_Art_sonstige_Sorting;
 
@@ -17089,7 +17089,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMPlanung_E_Art_Verbindungsknoten_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMPlanung_E_Art_Verbindungsknoten_Sorting;
 
@@ -17104,7 +17104,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMPlanung_E_Art_Versionshebung_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMPlanung_E_Art_Versionshebung_Sorting;
 
@@ -17119,7 +17119,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMPlanung_E_Art_Voraussichtlich_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMPlanung_E_Art_Voraussichtlich_Sorting;
 
@@ -17134,7 +17134,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMPlanung_G_Art_Besonders_Bestandsdigitalisierung_Geo_Topo_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMPlanung_G_Art_Besonders_Bestandsdigitalisierung_Geo_Topo_Sorting;
 
@@ -17149,7 +17149,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMPlanung_G_Art_Besonders_Bestandsdigitalisierung_LST_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMPlanung_G_Art_Besonders_Bestandsdigitalisierung_LST_Sorting;
 
@@ -17164,7 +17164,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMPlanung_G_Art_Besonders_Geodaten_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMPlanung_G_Art_Besonders_Geodaten_Sorting;
 
@@ -17179,7 +17179,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMPlanung_G_Art_Besonders_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMPlanung_G_Art_Besonders_sonstige_Sorting;
 
@@ -17194,7 +17194,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMPlanung_G_Art_Besonders_Verbindungsknoten_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMPlanung_G_Art_Besonders_Verbindungsknoten_Sorting;
 
@@ -17209,7 +17209,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMPlanung_G_Art_Besonders_Versionshebung_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMPlanung_G_Art_Besonders_Versionshebung_Sorting;
 
@@ -17224,7 +17224,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMPlanung_Phase_EP_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMPlanung_Phase_EP_Sorting;
 
@@ -17239,7 +17239,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMPlanung_Phase_PT_1_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMPlanung_Phase_PT_1_Sorting;
 
@@ -17254,7 +17254,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMPlanung_Phase_PT_2_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMPlanung_Phase_PT_2_Sorting;
 
@@ -17269,7 +17269,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMPlanung_Phase_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMPlanung_Phase_sonstige_Sorting;
 
@@ -17284,7 +17284,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMPlanung_Phase_VP_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMPlanung_Phase_VP_Sorting;
 
@@ -17299,7 +17299,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMPosition_am_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMPosition_am_Sorting;
 
@@ -17314,7 +17314,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMPosition_hinter_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMPosition_hinter_Sorting;
 
@@ -17329,7 +17329,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMPosition_vor_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMPosition_vor_Sorting;
 
@@ -17344,7 +17344,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMPruefsumme_Art_MD4_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMPruefsumme_Art_MD4_Sorting;
 
@@ -17359,7 +17359,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMPruefsumme_Art_MD5_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMPruefsumme_Art_MD5_Sorting;
 
@@ -17374,7 +17374,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMPruefsumme_Art_SHA1_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMPruefsumme_Art_SHA1_Sorting;
 
@@ -17389,7 +17389,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMPruefsumme_Art_SHA256_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMPruefsumme_Art_SHA256_Sorting;
 
@@ -17404,7 +17404,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMPZB_Art_1000_2000_Hz_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMPZB_Art_1000_2000_Hz_Sorting;
 
@@ -17419,7 +17419,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMPZB_Art_1000_Hz_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMPZB_Art_1000_Hz_Sorting;
 
@@ -17434,7 +17434,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMPZB_Art_2000_Hz_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMPZB_Art_2000_Hz_Sorting;
 
@@ -17449,7 +17449,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMPZB_Art_500_Hz_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMPZB_Art_500_Hz_Sorting;
 
@@ -17464,7 +17464,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMRahmen_Art_Bezeichnungsschild_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMRahmen_Art_Bezeichnungsschild_Sorting;
 
@@ -17479,7 +17479,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMRahmen_Art_Blechtafel_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMRahmen_Art_Blechtafel_Sorting;
 
@@ -17494,7 +17494,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMRahmen_Art_Keramikkoerper_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMRahmen_Art_Keramikkoerper_Sorting;
 
@@ -17509,7 +17509,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMRahmen_Art_Schirm_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMRahmen_Art_Schirm_Sorting;
 
@@ -17524,7 +17524,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMRahmen_Art_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMRahmen_Art_sonstige_Sorting;
 
@@ -17539,7 +17539,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMRahmen_Art_Zusatzanzeiger_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMRahmen_Art_Zusatzanzeiger_Sorting;
 
@@ -17554,7 +17554,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMRangier_Gegenfahrtausschluss_Inselgleis_frei_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMRangier_Gegenfahrtausschluss_Inselgleis_frei_Sorting;
 
@@ -17569,7 +17569,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMRangier_Gegenfahrtausschluss_ja_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMRangier_Gegenfahrtausschluss_ja_Sorting;
 
@@ -17584,7 +17584,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMRangier_Gegenfahrtausschluss_nein_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMRangier_Gegenfahrtausschluss_nein_Sorting;
 
@@ -17599,7 +17599,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMRegionalbereich_Mitte_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMRegionalbereich_Mitte_Sorting;
 
@@ -17614,7 +17614,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMRegionalbereich_Nord_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMRegionalbereich_Nord_Sorting;
 
@@ -17629,7 +17629,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMRegionalbereich_Ost_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMRegionalbereich_Ost_Sorting;
 
@@ -17644,7 +17644,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMRegionalbereich_Sued_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMRegionalbereich_Sued_Sorting;
 
@@ -17659,7 +17659,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMRegionalbereich_Suedost_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMRegionalbereich_Suedost_Sorting;
 
@@ -17674,7 +17674,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMRegionalbereich_Suedwest_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMRegionalbereich_Suedwest_Sorting;
 
@@ -17689,7 +17689,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMRegionalbereich_West_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMRegionalbereich_West_Sorting;
 
@@ -17704,7 +17704,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMRichtungspfeil_linksweisend_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMRichtungspfeil_linksweisend_Sorting;
 
@@ -17719,7 +17719,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMRichtungspfeil_rechtsweisend_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMRichtungspfeil_rechtsweisend_Sorting;
 
@@ -17734,7 +17734,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMRichtungspfeil_Richtung_Gefahrenstelle_links_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMRichtungspfeil_Richtung_Gefahrenstelle_links_Sorting;
 
@@ -17749,7 +17749,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMRichtungspfeil_Richtung_Gefahrenstelle_rechts_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMRichtungspfeil_Richtung_Gefahrenstelle_rechts_Sorting;
 
@@ -17764,7 +17764,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMRichtungspfeil_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMRichtungspfeil_sonstige_Sorting;
 
@@ -17779,7 +17779,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMRolle_GEO_Planer_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMRolle_GEO_Planer_Sorting;
 
@@ -17794,7 +17794,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMRolle_GIS_Daten_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMRolle_GIS_Daten_Sorting;
 
@@ -17809,7 +17809,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMRolle_LST_Fachplaner_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMRolle_LST_Fachplaner_Sorting;
 
@@ -17839,7 +17839,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMRolle_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMRolle_sonstige_Sorting;
 
@@ -17854,7 +17854,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSBE_1_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSBE_1_Sorting;
 
@@ -17869,7 +17869,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSBE_2_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSBE_2_Sorting;
 
@@ -17884,7 +17884,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSchalter_Gefahrschalter_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSchalter_Gefahrschalter_Sorting;
 
@@ -17899,7 +17899,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSchalter_Nothaltschalter_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSchalter_Nothaltschalter_Sorting;
 
@@ -17914,7 +17914,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSchalter_Schalter_ein_aus_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSchalter_Schalter_ein_aus_Sorting;
 
@@ -17929,7 +17929,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSchalter_Schluesselschalter_DB_21_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSchalter_Schluesselschalter_DB_21_Sorting;
 
@@ -17944,7 +17944,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSchalter_Schluesselschalter_Vierkant_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSchalter_Schluesselschalter_Vierkant_Sorting;
 
@@ -17959,7 +17959,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSchalter_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSchalter_sonstige_Sorting;
 
@@ -17974,7 +17974,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSchalter_Vorbereitungsmeldung_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSchalter_Vorbereitungsmeldung_Sorting;
 
@@ -17989,7 +17989,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSchalter_Zustimmungstaste_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSchalter_Zustimmungstaste_Sorting;
 
@@ -18004,7 +18004,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSchaltmittel_Funktion_ARM_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSchaltmittel_Funktion_ARM_Sorting;
 
@@ -18034,7 +18034,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSchaltmittel_Funktion_Aus_BUE_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSchaltmittel_Funktion_Aus_BUE_Sorting;
 
@@ -18049,7 +18049,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSchaltmittel_Funktion_Awanst_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSchaltmittel_Funktion_Awanst_Sorting;
 
@@ -18064,7 +18064,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSchaltmittel_Funktion_Ein_BUE_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSchaltmittel_Funktion_Ein_BUE_Sorting;
 
@@ -18079,7 +18079,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSchaltmittel_Funktion_Haltfall_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSchaltmittel_Funktion_Haltfall_Sorting;
 
@@ -18094,7 +18094,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSchaltmittel_Funktion_Raeumungspruefung_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSchaltmittel_Funktion_Raeumungspruefung_Sorting;
 
@@ -18109,7 +18109,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSchaltmittel_Funktion_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSchaltmittel_Funktion_sonstige_Sorting;
 
@@ -18124,7 +18124,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSchaltmittel_Funktion_ZL_Anstoss_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSchaltmittel_Funktion_ZL_Anstoss_Sorting;
 
@@ -18139,7 +18139,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSchaltung_3_Drahtschaltung_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSchaltung_3_Drahtschaltung_Sorting;
 
@@ -18154,7 +18154,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSchaltung_6_Drahtschaltung_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSchaltung_6_Drahtschaltung_Sorting;
 
@@ -18169,7 +18169,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSchaltung_9_Drahtschaltung_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSchaltung_9_Drahtschaltung_Sorting;
 
@@ -18184,7 +18184,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSchaltung_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSchaltung_sonstige_Sorting;
 
@@ -18364,7 +18364,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSchluessel_Bartform_a_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSchluessel_Bartform_a_Sorting;
 
@@ -18379,7 +18379,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSchluessel_Bartform_b_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSchluessel_Bartform_b_Sorting;
 
@@ -18394,7 +18394,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSchluessel_Bartform_c_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSchluessel_Bartform_c_Sorting;
 
@@ -18409,7 +18409,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSchluessel_Bartform_d_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSchluessel_Bartform_d_Sorting;
 
@@ -18424,7 +18424,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSchluessel_Bartform_e_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSchluessel_Bartform_e_Sorting;
 
@@ -18439,7 +18439,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSchluessel_Bartform_f_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSchluessel_Bartform_f_Sorting;
 
@@ -18454,7 +18454,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSchluessel_Bartform_g_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSchluessel_Bartform_g_Sorting;
 
@@ -18469,7 +18469,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSchluessel_Bartform_h_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSchluessel_Bartform_h_Sorting;
 
@@ -18484,7 +18484,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSchluessel_Bartform_i_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSchluessel_Bartform_i_Sorting;
 
@@ -18499,7 +18499,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSchluessel_Bartform_k_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSchluessel_Bartform_k_Sorting;
 
@@ -18514,7 +18514,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSchluessel_Bartform_l_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSchluessel_Bartform_l_Sorting;
 
@@ -18529,7 +18529,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSchluessel_Bartform_m_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSchluessel_Bartform_m_Sorting;
 
@@ -18544,7 +18544,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSchluessel_Bartform_n_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSchluessel_Bartform_n_Sorting;
 
@@ -18559,7 +18559,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSchluessel_Bartform_o_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSchluessel_Bartform_o_Sorting;
 
@@ -18574,7 +18574,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSchluessel_Bartform_p_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSchluessel_Bartform_p_Sorting;
 
@@ -18589,7 +18589,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSchluessel_Bartform_q_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSchluessel_Bartform_q_Sorting;
 
@@ -18604,7 +18604,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSchluessel_Bartform_r_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSchluessel_Bartform_r_Sorting;
 
@@ -18619,7 +18619,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSchluessel_Bartform_s_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSchluessel_Bartform_s_Sorting;
 
@@ -18634,7 +18634,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSchluessel_Bartform_t_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSchluessel_Bartform_t_Sorting;
 
@@ -18649,7 +18649,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSchluessel_Bartform_u_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSchluessel_Bartform_u_Sorting;
 
@@ -18664,7 +18664,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSchluessel_Bartform_v_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSchluessel_Bartform_v_Sorting;
 
@@ -18679,7 +18679,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSchluessel_Bartform_w_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSchluessel_Bartform_w_Sorting;
 
@@ -18694,7 +18694,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSchluessel_Bartform_x_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSchluessel_Bartform_x_Sorting;
 
@@ -18709,7 +18709,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSchluessel_Bartform_z_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSchluessel_Bartform_z_Sorting;
 
@@ -18724,7 +18724,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSchluessel_Gruppe_0_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSchluessel_Gruppe_0_Sorting;
 
@@ -18739,7 +18739,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSchluessel_Gruppe_1_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSchluessel_Gruppe_1_Sorting;
 
@@ -18754,7 +18754,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSchluessel_Gruppe_2_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSchluessel_Gruppe_2_Sorting;
 
@@ -18769,7 +18769,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSchluessel_Gruppe_3_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSchluessel_Gruppe_3_Sorting;
 
@@ -18784,7 +18784,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSchluessel_Gruppe_4_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSchluessel_Gruppe_4_Sorting;
 
@@ -18799,7 +18799,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSchluessel_Gruppe_5_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSchluessel_Gruppe_5_Sorting;
 
@@ -18814,7 +18814,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSignal_Art_andere_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSignal_Art_andere_Sorting;
 
@@ -18829,7 +18829,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSignal_Art_Hauptsignal_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSignal_Art_Hauptsignal_Sorting;
 
@@ -18844,7 +18844,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSignal_Art_Hauptsperrsignal_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSignal_Art_Hauptsperrsignal_Sorting;
 
@@ -18859,7 +18859,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSignal_Art_Hauptsperrsignal_Ne_14_Ls_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSignal_Art_Hauptsperrsignal_Ne_14_Ls_Sorting;
 
@@ -18874,7 +18874,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSignal_Art_Mehrabschnittssignal_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSignal_Art_Mehrabschnittssignal_Sorting;
 
@@ -18889,7 +18889,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSignal_Art_Mehrabschnittssperrsignal_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSignal_Art_Mehrabschnittssperrsignal_Sorting;
 
@@ -18904,7 +18904,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSignal_Art_Sperrsignal_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSignal_Art_Sperrsignal_Sorting;
 
@@ -18919,7 +18919,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSignal_Art_Vorsignal_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSignal_Art_Vorsignal_Sorting;
 
@@ -18934,7 +18934,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSignal_Art_Vorsignalwiederholer_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSignal_Art_Vorsignalwiederholer_Sorting;
 
@@ -18949,7 +18949,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSignal_Art_Zugdeckungssignal_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSignal_Art_Zugdeckungssignal_Sorting;
 
@@ -18964,7 +18964,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSignal_Befestigungsart_andere_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSignal_Befestigungsart_andere_Sorting;
 
@@ -18979,7 +18979,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSignal_Befestigungsart_Fundament_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSignal_Befestigungsart_Fundament_Sorting;
 
@@ -18994,7 +18994,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSignal_Befestigungsart_Mast_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSignal_Befestigungsart_Mast_Sorting;
 
@@ -19009,7 +19009,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSignal_Befestigungsart_Signalausleger_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSignal_Befestigungsart_Signalausleger_Sorting;
 
@@ -19024,7 +19024,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSignal_Befestigungsart_Signalbruecke_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSignal_Befestigungsart_Signalbruecke_Sorting;
 
@@ -19039,7 +19039,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSignal_Befestigungsart_Sonderkonstruktion_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSignal_Befestigungsart_Sonderkonstruktion_Sorting;
 
@@ -19399,7 +19399,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSonderanlage_Lage_befahrbar_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSonderanlage_Lage_befahrbar_Sorting;
 
@@ -19414,7 +19414,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSonderanlage_Lage_nicht_befahrbar_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSonderanlage_Lage_nicht_befahrbar_Sorting;
 
@@ -19429,7 +19429,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSonderanlage_Lage_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSonderanlage_Lage_sonstige_Sorting;
 
@@ -19444,7 +19444,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSonstige_Zulaessige_Anordnung_Anordnung_des_Signals_rechts_am_Gleis_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSonstige_Zulaessige_Anordnung_Anordnung_des_Signals_rechts_am_Gleis_Sorting;
 
@@ -19459,7 +19459,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSonstige_Zulaessige_Anordnung_Anordnung_des_Signals_rechts_am_Gleis_ohne_Schachbretttafel_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSonstige_Zulaessige_Anordnung_Anordnung_des_Signals_rechts_am_Gleis_ohne_Schachbretttafel_Sorting;
 
@@ -19474,7 +19474,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSonstige_Zulaessige_Anordnung_Nichtgeltung_fuer_Fahrten_auf_dem_Gegengleis_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSonstige_Zulaessige_Anordnung_Nichtgeltung_fuer_Fahrten_auf_dem_Gegengleis_Sorting;
 
@@ -19489,7 +19489,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSpannung_Art_AC_110_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSpannung_Art_AC_110_Sorting;
 
@@ -19504,7 +19504,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSpannung_Art_AC_230_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSpannung_Art_AC_230_Sorting;
 
@@ -19519,7 +19519,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSpannung_Art_AC_400_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSpannung_Art_AC_400_Sorting;
 
@@ -19534,7 +19534,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSpannung_Art_DC_110_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSpannung_Art_DC_110_Sorting;
 
@@ -19549,7 +19549,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSpannung_Art_DC_136_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSpannung_Art_DC_136_Sorting;
 
@@ -19564,7 +19564,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSpannung_Art_DC_24_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSpannung_Art_DC_24_Sorting;
 
@@ -19579,7 +19579,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSpannung_Art_DC_36_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSpannung_Art_DC_36_Sorting;
 
@@ -19594,7 +19594,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSpannung_Art_DC_48_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSpannung_Art_DC_48_Sorting;
 
@@ -19609,7 +19609,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSpannung_Art_DC_60_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSpannung_Art_DC_60_Sorting;
 
@@ -19624,7 +19624,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMStandortangabe_Balisenschild_Signal_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMStandortangabe_Balisenschild_Signal_Sorting;
 
@@ -19639,7 +19639,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMStandortangabe_Balisenschild_Signal_Gleis_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMStandortangabe_Balisenschild_Signal_Gleis_Sorting;
 
@@ -19654,7 +19654,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMStandortangabe_Balisenschild_Strecke_sonstiger_Standort_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMStandortangabe_Balisenschild_Strecke_sonstiger_Standort_Sorting;
 
@@ -19669,7 +19669,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMStandortangabe_Balisenschild_Streckenkilometer_Gleis_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMStandortangabe_Balisenschild_Streckenkilometer_Gleis_Sorting;
 
@@ -19684,7 +19684,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMStart_Signal_Charakter_Ausfahr_Signal_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMStart_Signal_Charakter_Ausfahr_Signal_Sorting;
 
@@ -19699,7 +19699,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMStart_Signal_Charakter_Ausfahr_Signal_nachgelagert_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMStart_Signal_Charakter_Ausfahr_Signal_nachgelagert_Sorting;
 
@@ -19714,7 +19714,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMStart_Signal_Charakter_Block_Signal_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMStart_Signal_Charakter_Block_Signal_Sorting;
 
@@ -19729,7 +19729,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMStart_Signal_Charakter_Einfahr_Signal_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMStart_Signal_Charakter_Einfahr_Signal_Sorting;
 
@@ -19744,7 +19744,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMStart_Signal_Charakter_Nachrueck_Signal_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMStart_Signal_Charakter_Nachrueck_Signal_Sorting;
 
@@ -19759,7 +19759,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMStrecke_Art_Hauptbahn_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMStrecke_Art_Hauptbahn_Sorting;
 
@@ -19774,7 +19774,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMStrecke_Art_Nebenbahn_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMStrecke_Art_Nebenbahn_Sorting;
 
@@ -19789,7 +19789,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMStrecke_Richtung_a_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMStrecke_Richtung_a_Sorting;
 
@@ -19804,7 +19804,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMStrecke_Richtung_b_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMStrecke_Richtung_b_Sorting;
 
@@ -19819,7 +19819,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMStrecke_Richtung_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMStrecke_Richtung_sonstige_Sorting;
 
@@ -19834,7 +19834,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMStreuscheibe_Art_HG_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMStreuscheibe_Art_HG_Sorting;
 
@@ -19849,7 +19849,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMStreuscheibe_Art_HN_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMStreuscheibe_Art_HN_Sorting;
 
@@ -19864,7 +19864,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMStreuscheibe_Art_HRL_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMStreuscheibe_Art_HRL_Sorting;
 
@@ -19879,7 +19879,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMStreuscheibe_Art_LED_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMStreuscheibe_Art_LED_Sorting;
 
@@ -19894,7 +19894,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMStreuscheibe_Art_ORL_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMStreuscheibe_Art_ORL_Sorting;
 
@@ -19909,7 +19909,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMStreuscheibe_Art_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMStreuscheibe_Art_sonstige_Sorting;
 
@@ -19924,7 +19924,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMStreuscheibe_Art_VRL_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMStreuscheibe_Art_VRL_Sorting;
 
@@ -19939,7 +19939,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMStreuscheibe_Betriebsstellung_HG1_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMStreuscheibe_Betriebsstellung_HG1_Sorting;
 
@@ -19954,7 +19954,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMStreuscheibe_Betriebsstellung_HG1_gw_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMStreuscheibe_Betriebsstellung_HG1_gw_Sorting;
 
@@ -19969,7 +19969,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMStreuscheibe_Betriebsstellung_HG2_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMStreuscheibe_Betriebsstellung_HG2_Sorting;
 
@@ -19984,7 +19984,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMStreuscheibe_Betriebsstellung_HG2_gw_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMStreuscheibe_Betriebsstellung_HG2_gw_Sorting;
 
@@ -19999,7 +19999,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMStreuscheibe_Betriebsstellung_HG3_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMStreuscheibe_Betriebsstellung_HG3_Sorting;
 
@@ -20014,7 +20014,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMStreuscheibe_Betriebsstellung_HG3_gw_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMStreuscheibe_Betriebsstellung_HG3_gw_Sorting;
 
@@ -20029,7 +20029,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMStreuscheibe_Betriebsstellung_HG4_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMStreuscheibe_Betriebsstellung_HG4_Sorting;
 
@@ -20044,7 +20044,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMStreuscheibe_Betriebsstellung_HG4_gw_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMStreuscheibe_Betriebsstellung_HG4_gw_Sorting;
 
@@ -20059,7 +20059,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMStreuscheibe_Betriebsstellung_HL_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMStreuscheibe_Betriebsstellung_HL_Sorting;
 
@@ -20074,7 +20074,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMStreuscheibe_Betriebsstellung_HR_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMStreuscheibe_Betriebsstellung_HR_Sorting;
 
@@ -20089,7 +20089,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMStreuscheibe_Betriebsstellung_OL_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMStreuscheibe_Betriebsstellung_OL_Sorting;
 
@@ -20104,7 +20104,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMStreuscheibe_Betriebsstellung_OR_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMStreuscheibe_Betriebsstellung_OR_Sorting;
 
@@ -20119,7 +20119,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMStreuscheibe_Betriebsstellung_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMStreuscheibe_Betriebsstellung_sonstige_Sorting;
 
@@ -20134,7 +20134,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMStreuscheibe_Betriebsstellung_VL_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMStreuscheibe_Betriebsstellung_VL_Sorting;
 
@@ -20149,7 +20149,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMStreuscheibe_Betriebsstellung_VR_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMStreuscheibe_Betriebsstellung_VR_Sorting;
 
@@ -20164,7 +20164,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSTZ_2_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSTZ_2_Sorting;
 
@@ -20179,7 +20179,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSTZ_4_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSTZ_4_Sorting;
 
@@ -20194,7 +20194,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSystemhoehe_38_cm_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSystemhoehe_38_cm_Sorting;
 
@@ -20209,7 +20209,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSystemhoehe_55_cm_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSystemhoehe_55_cm_Sorting;
 
@@ -20224,7 +20224,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSystemhoehe_76_cm_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSystemhoehe_76_cm_Sorting;
 
@@ -20239,7 +20239,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSystemhoehe_96_cm_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSystemhoehe_96_cm_Sorting;
 
@@ -20254,7 +20254,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSystemhoehe_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMSystemhoehe_sonstige_Sorting;
 
@@ -20269,7 +20269,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTaste_Ausfahrgruppentaste_ZP_9_10_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTaste_Ausfahrgruppentaste_ZP_9_10_Sorting;
 
@@ -20284,7 +20284,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTaste_Bedientaste_ZP_10_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTaste_Bedientaste_ZP_10_Sorting;
 
@@ -20299,7 +20299,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTaste_Bedientaste_ZP_9_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTaste_Bedientaste_ZP_9_Sorting;
 
@@ -20314,7 +20314,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTaste_Fahrstrassenanforderung_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTaste_Fahrstrassenanforderung_Sorting;
 
@@ -20329,7 +20329,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTaste_Fahrstrassenzustimmung_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTaste_Fahrstrassenzustimmung_Sorting;
 
@@ -20344,7 +20344,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTaste_Freimeldetaste_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTaste_Freimeldetaste_Sorting;
 
@@ -20359,7 +20359,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTaste_Gruppentaste_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTaste_Gruppentaste_Sorting;
 
@@ -20374,7 +20374,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTaste_Hilfstaste_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTaste_Hilfstaste_Sorting;
 
@@ -20389,7 +20389,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTaste_Loeschtaste_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTaste_Loeschtaste_Sorting;
 
@@ -20404,7 +20404,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTaste_Rueckgabetaste_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTaste_Rueckgabetaste_Sorting;
 
@@ -20419,7 +20419,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTaste_Schluesseltaste_DB_21_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTaste_Schluesseltaste_DB_21_Sorting;
 
@@ -20434,7 +20434,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTaste_Schluesseltaste_Streckenschluessel_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTaste_Schluesseltaste_Streckenschluessel_Sorting;
 
@@ -20449,7 +20449,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTaste_Schluesseltaste_Vierkant_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTaste_Schluesseltaste_Vierkant_Sorting;
 
@@ -20464,7 +20464,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTaste_Signalanforderung_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTaste_Signalanforderung_Sorting;
 
@@ -20479,7 +20479,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTaste_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTaste_sonstige_Sorting;
 
@@ -20494,7 +20494,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTaste_Umstelltaste_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTaste_Umstelltaste_Sorting;
 
@@ -20509,7 +20509,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTaste_Weichenauffahrtaste_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTaste_Weichenauffahrtaste_Sorting;
 
@@ -20524,7 +20524,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTaste_Zieltaste_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTaste_Zieltaste_Sorting;
 
@@ -20539,7 +20539,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTaste_Zugfertigmeldetaste_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTaste_Zugfertigmeldetaste_Sorting;
 
@@ -20554,7 +20554,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTaste_Zugschlussmeldung_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTaste_Zugschlussmeldung_Sorting;
 
@@ -20569,7 +20569,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTaste_Zustimmungsanforderung_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTaste_Zustimmungsanforderung_Sorting;
 
@@ -20584,7 +20584,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTB_Art_Bahnsteig_ungenutzt_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTB_Art_Bahnsteig_ungenutzt_Sorting;
 
@@ -20719,7 +20719,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTB_Art_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTB_Art_sonstige_Sorting;
 
@@ -20734,7 +20734,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTB_Art_Tunnel_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTB_Art_Tunnel_Sorting;
 
@@ -20749,7 +20749,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTB_Art_Ueberfuehrung_ueber_Eisenbahn_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTB_Art_Ueberfuehrung_ueber_Eisenbahn_Sorting;
 
@@ -20764,7 +20764,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTechnik_Art_analog_FSK_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTechnik_Art_analog_FSK_Sorting;
 
@@ -20779,7 +20779,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTechnik_Art_Ethernet_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTechnik_Art_Ethernet_Sorting;
 
@@ -20794,7 +20794,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTechnik_Art_G_703_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTechnik_Art_G_703_Sorting;
 
@@ -20809,7 +20809,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTechnik_Art_SBI_intern_Kupferkabel_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTechnik_Art_SBI_intern_Kupferkabel_Sorting;
 
@@ -20824,7 +20824,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTechnik_Art_SBI_intern_LWL_Faser_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTechnik_Art_SBI_intern_LWL_Faser_Sorting;
 
@@ -20839,7 +20839,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTechnik_Art_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTechnik_Art_sonstige_Sorting;
 
@@ -20854,7 +20854,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTOP_Anschluss_Ende_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTOP_Anschluss_Ende_Sorting;
 
@@ -20869,7 +20869,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTOP_Anschluss_Ende_Bestdig_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTOP_Anschluss_Ende_Bestdig_Sorting;
 
@@ -20884,7 +20884,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTOP_Anschluss_Links_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTOP_Anschluss_Links_Sorting;
 
@@ -20899,7 +20899,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTOP_Anschluss_Meridiansprung_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTOP_Anschluss_Meridiansprung_Sorting;
 
@@ -20914,7 +20914,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTOP_Anschluss_RB_Grenze_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTOP_Anschluss_RB_Grenze_Sorting;
 
@@ -20929,7 +20929,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTOP_Anschluss_Rechts_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTOP_Anschluss_Rechts_Sorting;
 
@@ -20944,7 +20944,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTOP_Anschluss_Schnitt_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTOP_Anschluss_Schnitt_Sorting;
 
@@ -20959,7 +20959,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTOP_Anschluss_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTOP_Anschluss_sonstige_Sorting;
 
@@ -20974,7 +20974,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTOP_Anschluss_Spitze_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTOP_Anschluss_Spitze_Sorting;
 
@@ -20989,7 +20989,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTOP_Anschluss_Streckenwechsel_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTOP_Anschluss_Streckenwechsel_Sorting;
 
@@ -21004,7 +21004,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTOP_Anschluss_Verbindung_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTOP_Anschluss_Verbindung_Sorting;
 
@@ -21019,7 +21019,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTP_Art_Bahnsteigmonitor_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTP_Art_Bahnsteigmonitor_Sorting;
 
@@ -21034,7 +21034,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTP_Art_Bahnsteigspiegel_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTP_Art_Bahnsteigspiegel_Sorting;
 
@@ -21049,7 +21049,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTP_Art_FBOA_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTP_Art_FBOA_Sorting;
 
@@ -21064,7 +21064,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTP_Art_Gebaeude_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTP_Art_Gebaeude_Sorting;
 
@@ -21079,7 +21079,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTP_Art_HOA_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTP_Art_HOA_Sorting;
 
@@ -21094,7 +21094,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTP_Art_Mast_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTP_Art_Mast_Sorting;
 
@@ -21109,7 +21109,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTP_Art_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTP_Art_sonstige_Sorting;
 
@@ -21124,7 +21124,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTP_Art_Zughaltesensor_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTP_Art_Zughaltesensor_Sorting;
 
@@ -21139,7 +21139,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTrasse_Kante_Art_Erdtrasse_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTrasse_Kante_Art_Erdtrasse_Sorting;
 
@@ -21154,7 +21154,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTrasse_Kante_Art_frei_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTrasse_Kante_Art_frei_Sorting;
 
@@ -21169,7 +21169,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTrasse_Kante_Art_Kabelgestell_Tunnel_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTrasse_Kante_Art_Kabelgestell_Tunnel_Sorting;
 
@@ -21184,7 +21184,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTrasse_Kante_Art_Lufttrasse_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTrasse_Kante_Art_Lufttrasse_Sorting;
 
@@ -21199,7 +21199,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTrasse_Kante_Art_Rohrtrasse_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTrasse_Kante_Art_Rohrtrasse_Sorting;
 
@@ -21214,7 +21214,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTrasse_Kante_Art_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTrasse_Kante_Art_sonstige_Sorting;
 
@@ -21229,7 +21229,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTrasse_Kante_Art_Trogtrasse_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTrasse_Kante_Art_Trogtrasse_Sorting;
 
@@ -21244,7 +21244,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTrasse_Kante_Art_Trogtrasse_aufgestaendert_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTrasse_Kante_Art_Trogtrasse_aufgestaendert_Sorting;
 
@@ -21259,7 +21259,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTrasse_Kante_Art_Trogtrasse_Behelf_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTrasse_Kante_Art_Trogtrasse_Behelf_Sorting;
 
@@ -21274,7 +21274,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTrasse_Knoten_Art_Schacht_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTrasse_Knoten_Art_Schacht_Sorting;
 
@@ -21289,7 +21289,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTrasse_Knoten_Art_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTrasse_Knoten_Art_sonstige_Sorting;
 
@@ -21304,7 +21304,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTrasse_Knoten_Art_Trassenabzweig_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTrasse_Knoten_Art_Trassenabzweig_Sorting;
 
@@ -21319,7 +21319,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTrasse_Knoten_Art_Trassenaenderung_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTrasse_Knoten_Art_Trassenaenderung_Sorting;
 
@@ -21334,7 +21334,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTrasse_Knoten_Art_Trassenauslass_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTrasse_Knoten_Art_Trassenauslass_Sorting;
 
@@ -21349,7 +21349,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTrasse_Knoten_Art_Trassenende_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTrasse_Knoten_Art_Trassenende_Sorting;
 
@@ -21364,7 +21364,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTrasse_Nutzer_DB_Energie_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTrasse_Nutzer_DB_Energie_Sorting;
 
@@ -21409,7 +21409,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTrasse_Nutzer_DB_KT_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTrasse_Nutzer_DB_KT_Sorting;
 
@@ -21424,7 +21424,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTrasse_Nutzer_DB_Netz_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTrasse_Nutzer_DB_Netz_Sorting;
 
@@ -21439,7 +21439,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTrasse_Nutzer_DB_StuS_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTrasse_Nutzer_DB_StuS_Sorting;
 
@@ -21454,7 +21454,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTrasse_Nutzer_Dritte_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTrasse_Nutzer_Dritte_Sorting;
 
@@ -21469,7 +21469,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTrasse_Nutzer_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTrasse_Nutzer_sonstige_Sorting;
 
@@ -21484,7 +21484,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTrasse_Nutzer_unbekannt_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTrasse_Nutzer_unbekannt_Sorting;
 
@@ -21499,7 +21499,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTSO_Teilsystem_Art_Doku_ZMA_ZL_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTSO_Teilsystem_Art_Doku_ZMA_ZL_Sorting;
 
@@ -21514,7 +21514,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTSO_Teilsystem_Art_MDM_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTSO_Teilsystem_Art_MDM_Sorting;
 
@@ -21529,7 +21529,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTSO_Teilsystem_Art_RBC_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTSO_Teilsystem_Art_RBC_Sorting;
 
@@ -21544,7 +21544,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTSO_Teilsystem_Art_Transfernetz_mit_SI_LST_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTSO_Teilsystem_Art_Transfernetz_mit_SI_LST_Sorting;
 
@@ -21559,7 +21559,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTSO_Teilsystem_Art_ZE_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTSO_Teilsystem_Art_ZE_Sorting;
 
@@ -21574,7 +21574,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTueranschlag_abnehmbar_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTueranschlag_abnehmbar_Sorting;
 
@@ -21589,7 +21589,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTueranschlag_beidseitig_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTueranschlag_beidseitig_Sorting;
 
@@ -21604,7 +21604,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTueranschlag_links_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTueranschlag_links_Sorting;
 
@@ -21619,7 +21619,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTueranschlag_oben_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTueranschlag_oben_Sorting;
 
@@ -21634,7 +21634,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTueranschlag_rechts_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTueranschlag_rechts_Sorting;
 
@@ -21649,7 +21649,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTueranschlag_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTueranschlag_sonstige_Sorting;
 
@@ -21664,7 +21664,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTueranschlag_unten_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTueranschlag_unten_Sorting;
 
@@ -21679,7 +21679,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTunnelsignal_mit_Dauernachtschaltung_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTunnelsignal_mit_Dauernachtschaltung_Sorting;
 
@@ -21694,7 +21694,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTunnelsignal_nein_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTunnelsignal_nein_Sorting;
 
@@ -21709,7 +21709,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTunnelsignal_ohne_Dauernachtschaltung_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMTunnelsignal_ohne_Dauernachtschaltung_Sorting;
 
@@ -21724,7 +21724,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMUeberhoehungslinie_Form_gleichbleibend_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMUeberhoehungslinie_Form_gleichbleibend_Sorting;
 
@@ -21739,7 +21739,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMUeberhoehungslinie_Form_Rampe_Bloss_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMUeberhoehungslinie_Form_Rampe_Bloss_Sorting;
 
@@ -21754,7 +21754,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMUeberhoehungslinie_Form_Rampe_gerade_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMUeberhoehungslinie_Form_Rampe_gerade_Sorting;
 
@@ -21769,7 +21769,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMUeberhoehungslinie_Form_Rampe_S_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMUeberhoehungslinie_Form_Rampe_S_Sorting;
 
@@ -21784,7 +21784,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMUeberhoehungslinie_Form_Schere_Bloss_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMUeberhoehungslinie_Form_Schere_Bloss_Sorting;
 
@@ -21799,7 +21799,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMUeberhoehungslinie_Form_Schere_S_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMUeberhoehungslinie_Form_Schere_S_Sorting;
 
@@ -21829,7 +21829,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMUebertragung_FMinfo_Richtung_gehend_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMUebertragung_FMinfo_Richtung_gehend_Sorting;
 
@@ -21844,7 +21844,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMUebertragung_FMinfo_Richtung_kommend_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMUebertragung_FMinfo_Richtung_kommend_Sorting;
 
@@ -21859,7 +21859,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMUebertragungsweg_Art_Bahnuebergang_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMUebertragungsweg_Art_Bahnuebergang_Sorting;
 
@@ -21874,7 +21874,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMUebertragungsweg_Art_Diagnose_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMUebertragungsweg_Art_Diagnose_Sorting;
 
@@ -21889,7 +21889,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMUebertragungsweg_Art_ESTW_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMUebertragungsweg_Art_ESTW_Sorting;
 
@@ -21904,7 +21904,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMUebertragungsweg_Art_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMUebertragungsweg_Art_sonstige_Sorting;
 
@@ -21919,7 +21919,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMUebertragungsweg_Art_ZBS_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMUebertragungsweg_Art_ZBS_Sorting;
 
@@ -22159,7 +22159,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMUntergewerk_Art_ATO_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMUntergewerk_Art_ATO_Sorting;
 
@@ -22174,7 +22174,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMUntergewerk_Art_Bedienung_ETCS_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMUntergewerk_Art_Bedienung_ETCS_Sorting;
 
@@ -22189,7 +22189,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMUntergewerk_Art_Bedienung_Fdl_BZ_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMUntergewerk_Art_Bedienung_Fdl_BZ_Sorting;
 
@@ -22204,7 +22204,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMUntergewerk_Art_Bedienung_Fdl_ESTW_ZE_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMUntergewerk_Art_Bedienung_Fdl_ESTW_ZE_Sorting;
 
@@ -22219,7 +22219,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMUntergewerk_Art_BUe_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMUntergewerk_Art_BUe_Sorting;
 
@@ -22234,7 +22234,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMUntergewerk_Art_ESTW_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMUntergewerk_Art_ESTW_Sorting;
 
@@ -22249,7 +22249,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMUntergewerk_Art_ETCS_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMUntergewerk_Art_ETCS_Sorting;
 
@@ -22264,7 +22264,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMUntergewerk_Art_Geo_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMUntergewerk_Art_Geo_Sorting;
 
@@ -22279,7 +22279,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMUntergewerk_Art_Kabel_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMUntergewerk_Art_Kabel_Sorting;
 
@@ -22294,7 +22294,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMUntergewerk_Art_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMUntergewerk_Art_sonstige_Sorting;
 
@@ -22309,7 +22309,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMUntergewerk_Art_ZL_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMUntergewerk_Art_ZL_Sorting;
 
@@ -22324,7 +22324,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMUntergewerk_Art_ZLV_Bus_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMUntergewerk_Art_ZLV_Bus_Sorting;
 
@@ -22339,7 +22339,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMUntergewerk_Art_ZN_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMUntergewerk_Art_ZN_Sorting;
 
@@ -22354,7 +22354,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMV_Profil_Art_anzeigegefuehrt_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMV_Profil_Art_anzeigegefuehrt_Sorting;
 
@@ -22369,7 +22369,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMV_Profil_Art_anzeigegefuehrt_ES_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMV_Profil_Art_anzeigegefuehrt_ES_Sorting;
 
@@ -22384,7 +22384,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMV_Profil_Art_signalgefuehrt_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMV_Profil_Art_signalgefuehrt_Sorting;
 
@@ -22399,7 +22399,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMV_Profil_Art_signalgefuehrt_ES_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMV_Profil_Art_signalgefuehrt_ES_Sorting;
 
@@ -22414,7 +22414,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMV_Profil_Art_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMV_Profil_Art_sonstige_Sorting;
 
@@ -22429,7 +22429,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMV_Profil_Art_windabhaengig_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMV_Profil_Art_windabhaengig_Sorting;
 
@@ -22444,7 +22444,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMVerbot_WB_Art_Betriebsbremsung_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMVerbot_WB_Art_Betriebsbremsung_Sorting;
 
@@ -22459,7 +22459,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMVerbot_WB_Art_vollstaendig_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMVerbot_WB_Art_vollstaendig_Sorting;
 
@@ -22474,7 +22474,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMVergleichstyp_Besonders_AeM_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMVergleichstyp_Besonders_AeM_Sorting;
 
@@ -22489,7 +22489,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMVergleichstyp_Besonders_AeP_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMVergleichstyp_Besonders_AeP_Sorting;
 
@@ -22504,7 +22504,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMVergleichstyp_Besonders_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMVergleichstyp_Besonders_sonstige_Sorting;
 
@@ -22519,7 +22519,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMVerschluss_Ort_Herzstueck_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMVerschluss_Ort_Herzstueck_Sorting;
 
@@ -22534,7 +22534,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMVerschluss_Ort_Mitte_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMVerschluss_Ort_Mitte_Sorting;
 
@@ -22549,7 +22549,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMVerschluss_Ort_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMVerschluss_Ort_sonstige_Sorting;
 
@@ -22564,7 +22564,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMVerschluss_Ort_Spitze_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMVerschluss_Ort_Spitze_Sorting;
 
@@ -22579,7 +22579,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMVerwendung_Als_Rueckfall_nur_Rueckfall_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMVerwendung_Als_Rueckfall_nur_Rueckfall_Sorting;
 
@@ -22594,7 +22594,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMVerwendung_Als_Rueckfall_Rueckfall_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMVerwendung_Als_Rueckfall_Rueckfall_Sorting;
 
@@ -22609,7 +22609,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMVerwendung_Als_Rueckfall_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMVerwendung_Als_Rueckfall_sonstige_Sorting;
 
@@ -22624,7 +22624,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMW_Anschluss_links_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMW_Anschluss_links_Sorting;
 
@@ -22639,7 +22639,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMW_Anschluss_rechts_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMW_Anschluss_rechts_Sorting;
 
@@ -22654,7 +22654,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMW_Anschluss_Spitze_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMW_Anschluss_Spitze_Sorting;
 
@@ -22669,7 +22669,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMW_Gsp_Lage_abgelegt_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMW_Gsp_Lage_abgelegt_Sorting;
 
@@ -22684,7 +22684,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMW_Gsp_Lage_aufgelegt_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMW_Gsp_Lage_aufgelegt_Sorting;
 
@@ -22699,7 +22699,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMW_Gsp_Lage_links_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMW_Gsp_Lage_links_Sorting;
 
@@ -22714,7 +22714,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMW_Gsp_Lage_rechts_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMW_Gsp_Lage_rechts_Sorting;
 
@@ -22729,7 +22729,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMW_Gsp_Lage_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMW_Gsp_Lage_sonstige_Sorting;
 
@@ -23104,7 +23104,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMW_Kr_Gsp_Stellart_elektrisch_ferngestellt_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMW_Kr_Gsp_Stellart_elektrisch_ferngestellt_Sorting;
 
@@ -23119,7 +23119,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMW_Kr_Gsp_Stellart_elektrisch_ortsgestellt_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMW_Kr_Gsp_Stellart_elektrisch_ortsgestellt_Sorting;
 
@@ -23134,7 +23134,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMW_Kr_Gsp_Stellart_mechanisch_ferngestellt_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMW_Kr_Gsp_Stellart_mechanisch_ferngestellt_Sorting;
 
@@ -23149,7 +23149,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMW_Kr_Gsp_Stellart_mechanisch_ortsgestellt_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMW_Kr_Gsp_Stellart_mechanisch_ortsgestellt_Sorting;
 
@@ -23164,7 +23164,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMW_Kr_Gsp_Stellart_nicht_stellbar_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMW_Kr_Gsp_Stellart_nicht_stellbar_Sorting;
 
@@ -23179,7 +23179,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMW_Kr_Gsp_Stellart_Rueckfallweiche_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMW_Kr_Gsp_Stellart_Rueckfallweiche_Sorting;
 
@@ -23194,7 +23194,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMW_Kr_Gsp_Stellart_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMW_Kr_Gsp_Stellart_sonstige_Sorting;
 
@@ -23209,7 +23209,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMW_Kr_Gsp_Stellart_stillgelegt_links_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMW_Kr_Gsp_Stellart_stillgelegt_links_Sorting;
 
@@ -23224,7 +23224,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMW_Kr_Gsp_Stellart_stillgelegt_rechts_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMW_Kr_Gsp_Stellart_stillgelegt_rechts_Sorting;
 
@@ -23239,7 +23239,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMW_Kr_Gsp_Stellart_unbestimmt_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMW_Kr_Gsp_Stellart_unbestimmt_Sorting;
 
@@ -23269,7 +23269,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMWeiche_Betriebsart_Betrieb_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMWeiche_Betriebsart_Betrieb_Sorting;
 
@@ -23284,7 +23284,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMWeiche_Betriebsart_links_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMWeiche_Betriebsart_links_Sorting;
 
@@ -23299,7 +23299,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMWeiche_Betriebsart_rechts_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMWeiche_Betriebsart_rechts_Sorting;
 
@@ -23314,7 +23314,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMWeichensignal_innenbeleuchtet_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMWeichensignal_innenbeleuchtet_Sorting;
 
@@ -23329,7 +23329,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMWeichensignal_reflektierend_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMWeichensignal_reflektierend_Sorting;
 
@@ -23344,7 +23344,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMWirkrichtung_beide_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMWirkrichtung_beide_Sorting;
 
@@ -23359,7 +23359,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMWirkrichtung_gegen_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMWirkrichtung_gegen_Sorting;
 
@@ -23374,7 +23374,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMWirkrichtung_in_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMWirkrichtung_in_Sorting;
 
@@ -23389,7 +23389,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMWirksamkeit_Fstr_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMWirksamkeit_Fstr_sonstige_Sorting;
 
@@ -23404,7 +23404,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMWirksamkeit_Fstr_staendig_wirksam_wenn_Fahrstrasse_eingestellt_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMWirksamkeit_Fstr_staendig_wirksam_wenn_Fahrstrasse_eingestellt_Sorting;
 
@@ -23419,7 +23419,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMWirksamkeit_Fstr_unwirksam_wenn_Fahrstrasse_eingestellt_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMWirksamkeit_Fstr_unwirksam_wenn_Fahrstrasse_eingestellt_Sorting;
 
@@ -23434,7 +23434,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMWirksamkeit_schaltbar_von_Signal_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMWirksamkeit_schaltbar_von_Signal_Sorting;
 
@@ -23449,7 +23449,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMWirksamkeit_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMWirksamkeit_sonstige_Sorting;
 
@@ -23464,7 +23464,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMWirksamkeit_staendig_wirksam_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMWirksamkeit_staendig_wirksam_Sorting;
 
@@ -23479,7 +23479,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMX_Wert_0_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMX_Wert_0_Sorting;
 
@@ -23494,7 +23494,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMX_Wert_1_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMX_Wert_1_Sorting;
 
@@ -23509,7 +23509,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMX_Wert_11_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMX_Wert_11_Sorting;
 
@@ -23524,7 +23524,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMX_Wert_12_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMX_Wert_12_Sorting;
 
@@ -23539,7 +23539,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMX_Wert_13_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMX_Wert_13_Sorting;
 
@@ -23554,7 +23554,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMX_Wert_15_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMX_Wert_15_Sorting;
 
@@ -23569,7 +23569,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMX_Wert_5_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMX_Wert_5_Sorting;
 
@@ -23584,7 +23584,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMX_Wert_8_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMX_Wert_8_Sorting;
 
@@ -23599,7 +23599,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMZBS_Reaktion_Meldereaktion_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMZBS_Reaktion_Meldereaktion_Sorting;
 
@@ -23614,7 +23614,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMZBS_Reaktion_Sicherheitsreaktion_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMZBS_Reaktion_Sicherheitsreaktion_Sorting;
 
@@ -23629,7 +23629,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMZBS_Reaktion_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMZBS_Reaktion_sonstige_Sorting;
 
@@ -23644,7 +23644,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMZBS_Schnittstelle_LOGEM_LGM_28_8_D1_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMZBS_Schnittstelle_LOGEM_LGM_28_8_D1_Sorting;
 
@@ -23659,7 +23659,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMZBS_Schnittstelle_NOKIA_ECM_FAST_14400_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMZBS_Schnittstelle_NOKIA_ECM_FAST_14400_Sorting;
 
@@ -23674,7 +23674,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMZBS_Schnittstelle_NOKIA_ECM_FAST_19200_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMZBS_Schnittstelle_NOKIA_ECM_FAST_19200_Sorting;
 
@@ -23689,7 +23689,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMZBS_Schnittstelle_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMZBS_Schnittstelle_sonstige_Sorting;
 
@@ -23704,7 +23704,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMZN_Anlagentyp_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMZN_Anlagentyp_sonstige_Sorting;
 
@@ -23719,7 +23719,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMZN_Anlagentyp_ZN_B950_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMZN_Anlagentyp_ZN_B950_Sorting;
 
@@ -23734,7 +23734,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMZN_Anlagentyp_ZN_SuB_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMZN_Anlagentyp_ZN_SuB_Sorting;
 
@@ -23749,7 +23749,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMZN_Anlagentyp_ZNE_L2000_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMZN_Anlagentyp_ZNE_L2000_Sorting;
 
@@ -23764,7 +23764,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMZN_Anlagentyp_ZNL_2000_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMZN_Anlagentyp_ZNL_2000_Sorting;
 
@@ -23779,7 +23779,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMZN_Anlagentyp_ZNL_800_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMZN_Anlagentyp_ZNL_800_Sorting;
 
@@ -23794,7 +23794,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMZN_Anlagentyp_ZNP_801_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMZN_Anlagentyp_ZNP_801_Sorting;
 
@@ -23809,7 +23809,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMZN_Anlagentyp_ZNS_801_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMZN_Anlagentyp_ZNS_801_Sorting;
 
@@ -23824,7 +23824,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMZN_Anlagentyp_ZNS_901_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMZN_Anlagentyp_ZNS_901_Sorting;
 
@@ -23839,7 +23839,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMZN_Anlagentyp_ZNS_901R_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMZN_Anlagentyp_ZNS_901R_Sorting;
 
@@ -23854,7 +23854,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMZN_Anzeigefeld_Loeschkriterium_automatisch_nach_30_s_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMZN_Anzeigefeld_Loeschkriterium_automatisch_nach_30_s_Sorting;
 
@@ -23869,7 +23869,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMZN_Anzeigefeld_Loeschkriterium_Fahrstrasse_aufgeloest_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMZN_Anzeigefeld_Loeschkriterium_Fahrstrasse_aufgeloest_Sorting;
 
@@ -23884,7 +23884,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMZN_Anzeigefeld_Loeschkriterium_Fortschaltung_beim_Nachbarn_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMZN_Anzeigefeld_Loeschkriterium_Fortschaltung_beim_Nachbarn_Sorting;
 
@@ -23899,7 +23899,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMZN_Anzeigefeld_Loeschkriterium_haendisch_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMZN_Anzeigefeld_Loeschkriterium_haendisch_Sorting;
 
@@ -23914,7 +23914,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMZN_Anzeigefeld_Loeschkriterium_Rueckblock_eingegangen_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMZN_Anzeigefeld_Loeschkriterium_Rueckblock_eingegangen_Sorting;
 
@@ -23929,7 +23929,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMZN_Anzeigefeld_Loeschkriterium_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMZN_Anzeigefeld_Loeschkriterium_sonstige_Sorting;
 
@@ -23944,7 +23944,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMZN_Modem_LOGEM_1200_MD_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMZN_Modem_LOGEM_1200_MD_Sorting;
 
@@ -23959,7 +23959,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMZN_Modem_NOKIA_1200_SE_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMZN_Modem_NOKIA_1200_SE_Sorting;
 
@@ -23974,7 +23974,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMZN_Modem_SCADA_NG_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMZN_Modem_SCADA_NG_Sorting;
 
@@ -23989,7 +23989,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMZN_Modem_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMZN_Modem_sonstige_Sorting;
 
@@ -24004,7 +24004,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMZN_Schaltkriterium_Gleis_belegen_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMZN_Schaltkriterium_Gleis_belegen_Sorting;
 
@@ -24019,7 +24019,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMZN_Schaltkriterium_Gleis_belegen_und_davor_freifahren_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMZN_Schaltkriterium_Gleis_belegen_und_davor_freifahren_Sorting;
 
@@ -24034,7 +24034,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMZN_Schaltkriterium_Gleis_freifahren_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMZN_Schaltkriterium_Gleis_freifahren_Sorting;
 
@@ -24049,7 +24049,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMZN_Schaltkriterium_kein_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMZN_Schaltkriterium_kein_Sorting;
 
@@ -24064,7 +24064,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMZN_Schaltkriterium_manuell_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMZN_Schaltkriterium_manuell_Sorting;
 
@@ -24079,7 +24079,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMZN_Schaltkriterium_Signalhaltfall_Hauptsignal_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMZN_Schaltkriterium_Signalhaltfall_Hauptsignal_Sorting;
 
@@ -24094,7 +24094,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMZN_Schaltkriterium_Signalhaltfall_Rangiersignal_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMZN_Schaltkriterium_Signalhaltfall_Rangiersignal_Sorting;
 
@@ -24109,7 +24109,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMZN_Schaltkriterium_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMZN_Schaltkriterium_sonstige_Sorting;
 
@@ -24124,7 +24124,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMZN_Stellen_5_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMZN_Stellen_5_Sorting;
 
@@ -24139,7 +24139,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMZN_Stellen_6_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMZN_Stellen_6_Sorting;
 
@@ -24154,7 +24154,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMZugeinwirkung_Art_Doppel_Schleife_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMZugeinwirkung_Art_Doppel_Schleife_Sorting;
 
@@ -24169,7 +24169,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMZugeinwirkung_Art_Doppel_Sensor_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMZugeinwirkung_Art_Doppel_Sensor_Sorting;
 
@@ -24184,7 +24184,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMZugeinwirkung_Art_Dreifach_Schleife_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMZugeinwirkung_Art_Dreifach_Schleife_Sorting;
 
@@ -24199,7 +24199,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMZugeinwirkung_Art_Einfach_Schleife_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMZugeinwirkung_Art_Einfach_Schleife_Sorting;
 
@@ -24214,7 +24214,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMZugeinwirkung_Art_Einfach_Sensor_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMZugeinwirkung_Art_Einfach_Sensor_Sorting;
 
@@ -24229,7 +24229,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMZugeinwirkung_Art_Einfach_Sensor_richtungsabhaengig_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMZugeinwirkung_Art_Einfach_Sensor_richtungsabhaengig_Sorting;
 
@@ -24244,7 +24244,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMZugeinwirkung_Art_Isolierte_Schiene_alleinstehend_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMZugeinwirkung_Art_Isolierte_Schiene_alleinstehend_Sorting;
 
@@ -24259,7 +24259,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMZugeinwirkung_Art_Isolierte_Schiene_FMA_Anlage_mitbenutzt_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMZugeinwirkung_Art_Isolierte_Schiene_FMA_Anlage_mitbenutzt_Sorting;
 
@@ -24274,7 +24274,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMZugeinwirkung_Art_Schienenkontakt_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMZugeinwirkung_Art_Schienenkontakt_Sorting;
 
@@ -24289,7 +24289,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMZugeinwirkung_Art_sonstige_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMZugeinwirkung_Art_sonstige_Sorting;
 
@@ -24304,7 +24304,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMZwieschutz_Art_echt_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMZwieschutz_Art_echt_Sorting;
 
@@ -24319,7 +24319,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMZwieschutz_Art_echt_eigen_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMZwieschutz_Art_echt_eigen_Sorting;
 
@@ -24334,7 +24334,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMZwieschutz_Art_eigen_Presentation;
 
 	/**
-	 * 
+	 * null
 	 */
 	public String ENUMZwieschutz_Art_eigen_Sorting;
 
