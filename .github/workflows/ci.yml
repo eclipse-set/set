@@ -271,7 +271,25 @@ jobs:
         if: github.ref == 'refs/heads/main'
 
       - name: Trigger test workflow
-        uses: peter-evans/repository-dispatch@ff45666b9427631e3450c54a1bcbee4d9ff4d7c0 # v3.0.0
+        uses: actions/github-script@v7
         with:
-          event-type: test
-          client-payload: '{ "ref": "${{github.ref }}", "run_id":${{ github.run_id}}, "run_number":${{github.run_number}}, "event_name": "${{github.event_name}}", "actor_id": "${{github.actor_id}}" }'
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: "test.yml", // or the workflow file name
+              ref: context.ref, // THIS makes it branch-associated
+              inputs: {
+                run_id: context.runId.toString(),
+                run_number: context.runNumber.toString(),
+                ref: context.ref,
+                pr_number: context.payload.pull_request?.number?.toString() || ""
+                sha: context.sha
+                event_name: context.eventName,
+                actor_id: context.actorId.toString()
+              }
+            })
+        # uses: peter-evans/repository-dispatch@ff45666b9427631e3450c54a1bcbee4d9ff4d7c0 # v3.0.0
+        # with:
+        #   event-type: test
+        #   client-payload: '{ "ref": "${{github.ref }}", "run_id":${{ github.run_id}}, "run_number":${{github.run_number}}, "event_name": "${{github.event_name}}", "actor_id": "${{github.actor_id}}" }'
