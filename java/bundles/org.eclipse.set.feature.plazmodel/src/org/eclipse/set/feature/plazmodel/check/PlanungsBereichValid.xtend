@@ -103,10 +103,6 @@ class PlanungsBereichValid extends AbstractPlazContainerCheck implements PlazChe
 			val err = PlazFactory.eINSTANCE.createPlazError
 			err.message = transformErrorMsg(
 				Map.of("GUID", guid, //
-				"TYP", it.eClass.name, //
-				"REF_GUID", identitaet?.wert)
-			err.message = transformErrorMsg(
-				Map.of("GUID", guid, //
 				"TYP", source.eClass.name, //
 				"REF_TYP", it.eClass.name, //
 				"REF_GUID", identitaet?.wert)
