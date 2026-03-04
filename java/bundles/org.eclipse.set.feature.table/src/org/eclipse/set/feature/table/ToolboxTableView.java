@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -32,6 +33,7 @@ import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.emf.common.command.CommandStackListener;
 import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.jface.layout.GridDataFactory;
+import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.nebula.widgets.nattable.NatTable;
 import org.eclipse.nebula.widgets.nattable.config.ConfigRegistry;
 import org.eclipse.nebula.widgets.nattable.data.IDataProvider;
@@ -102,6 +104,7 @@ import org.eclipse.set.services.table.TableService;
 import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.RefreshAction;
 import org.eclipse.set.utils.SelectableAction;
+import org.eclipse.set.utils.ToolboxConfiguration;
 import org.eclipse.set.utils.events.ContainerDataChanged;
 import org.eclipse.set.utils.events.DefaultToolboxEventHandler;
 import org.eclipse.set.utils.events.JumpToSiteplanEvent;
@@ -114,6 +117,7 @@ import org.eclipse.set.utils.events.ToolboxEvents;
 import org.eclipse.set.utils.exception.ExceptionHandler;
 import org.eclipse.set.utils.table.BodyLayerStack;
 import org.eclipse.set.utils.table.Pt1TableChangeProperties;
+import org.eclipse.set.utils.table.TableError;
 import org.eclipse.set.utils.table.TableInfo;
 import org.eclipse.set.utils.table.TableInfo.Pt1TableCategory;
 import org.eclipse.set.utils.table.TableModelInstanceBodyDataProvider;
@@ -124,9 +128,12 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Label;
 import org.osgi.service.event.EventHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -152,6 +159,8 @@ public final class ToolboxTableView extends BasePart {
 
 	static final Logger logger = LoggerFactory
 			.getLogger(ToolboxTableView.class);
+
+	private Composite calculateMissingTablesPanel;
 
 	private BodyLayerStack bodyLayerStack;
 
@@ -333,6 +342,7 @@ public final class ToolboxTableView extends BasePart {
 					return;
 				}
 				updateModel(getToolboxPart());
+				updateCalculateMissingTablesPanel();
 				natTable.refresh();
 			};
 			getBroker().subscribe(Events.RELOAD_WORKNOTES_TABLE,
@@ -442,6 +452,11 @@ public final class ToolboxTableView extends BasePart {
 		// the user), we stop here with creating the view
 		if (table == null) {
 			return;
+		}
+
+		if (tableInfo.shortcut()
+				.equalsIgnoreCase(ToolboxConstants.WORKNOTES_TABLE_SHORTCUT)) {
+			this.addCalculateMissingTablesPanel(parent);
 		}
 
 		final ColumnDescriptor rootColumnDescriptor = table
@@ -778,6 +793,104 @@ public final class ToolboxTableView extends BasePart {
 				.setRowHeight(toPixel((float) ColumnDescriptorExtensions
 						.getGroup4RowHeight(rootColumnDescriptor)));
 		return columnGroup4HeaderLayer;
+	}
+
+	private Collection<TableInfo> getMissingTables() {
+		final Map<TableInfo, Collection<TableError>> computedErrors = tableService
+				.getTableErrors(getModelSession(), controlAreaIds, null);
+		final Collection<TableInfo> allTableInfos = tableService
+				.getAvailableTables();
+
+		final ArrayList<TableInfo> missingTables = new ArrayList<>();
+		missingTables.addAll(allTableInfos);
+		if (!ToolboxConfiguration.isDebugMode()) {
+			// in debug mode we want to be able to recompute the errors
+			// that's why we mark all as missing
+			missingTables
+					.removeIf(info -> computedErrors.keySet().contains(info));
+		}
+		return missingTables;
+	}
+
+	private void calculateAllMissingTables(final IProgressMonitor monitor) {
+		final Collection<TableInfo> missingTables = getMissingTables();
+		monitor.beginTask(messages.TableOverviewPart_CalculateMissingTask,
+				missingTables.size());
+		if (!getModelSession().isSingleState()) {
+			// We don't need create DIFF instance for Errors detecting
+			tableService.transformTables(monitor, new HashSet<>(missingTables),
+					TableType.INITIAL, controlAreaIds);
+			tableService.transformTables(monitor, new HashSet<>(missingTables),
+					TableType.FINAL, controlAreaIds);
+		} else {
+			tableService.transformTables(monitor, new HashSet<>(missingTables),
+					TableType.SINGLE, controlAreaIds);
+		}
+	}
+
+	private void calculateAllMissingTablesEvent() {
+		try {
+			getDialogService().showProgress(getToolboxShell(),
+					this::calculateAllMissingTables);
+		} catch (InvocationTargetException | InterruptedException e) {
+			getDialogService().error(getToolboxShell(), e);
+		}
+		updateCalculateMissingTablesPanel();
+	}
+
+	private void addCalculateMissingTablesPanel(final Composite parent) {
+		if (getMissingTables().size() == 0) {
+			return;
+		}
+		// custom panel
+		final Composite panel = new Composite(parent, SWT.CENTER);
+		GridLayoutFactory.fillDefaults().numColumns(2).applyTo(panel);
+		final Label label = new Label(panel, SWT.LEFT);
+		GridDataFactory.fillDefaults()
+				.align(SWT.BEGINNING, SWT.CENTER)
+				.grab(true, false)
+				.applyTo(label);
+		label.setText(messages.ToolboxTableView_TableIncompleteHint);
+		final Button button = new Button(panel, SWT.None);
+		GridDataFactory.swtDefaults()
+				.align(SWT.END, SWT.FILL)
+				.grab(true, false)
+				.applyTo(button);
+		button.setText(messages.ToolboxTableView_CalculateTables);
+		button.addSelectionListener(new SelectionListener() {
+			@Override
+			public void widgetDefaultSelected(final SelectionEvent e) {
+				calculateAllMissingTablesEvent();
+			}
+
+			@Override
+			public void widgetSelected(final SelectionEvent e) {
+				widgetDefaultSelected(e);
+			}
+		});
+
+		panel.setBackground(
+				Display.getCurrent().getSystemColor(SWT.COLOR_YELLOW));
+
+		calculateMissingTablesPanel = panel;
+		updateCalculateMissingTablesPanel();
+	}
+
+	private void updateCalculateMissingTablesPanel() {
+		if (calculateMissingTablesPanel == null) {
+			return;
+		}
+		if (getMissingTables().size() == 0) {
+			// calculateAllTablesPanel.setVisible(getMissingTables().size() >
+			// 0);
+			final Composite parent = calculateMissingTablesPanel.getParent();
+			calculateMissingTablesPanel.dispose();
+			// calculateAllTablesPanel.getParent().layout(true, true);
+			// calculateAllTablesPanel.getParent().update();
+			parent.layout(true, true);
+			parent.update();
+			calculateMissingTablesPanel = null;
+		}
 	}
 
 	@Override
