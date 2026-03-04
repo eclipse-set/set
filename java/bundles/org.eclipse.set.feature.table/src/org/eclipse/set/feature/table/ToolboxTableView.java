@@ -881,12 +881,8 @@ public final class ToolboxTableView extends BasePart {
 			return;
 		}
 		if (getMissingTables().size() == 0) {
-			// calculateAllTablesPanel.setVisible(getMissingTables().size() >
-			// 0);
 			final Composite parent = calculateMissingTablesPanel.getParent();
 			calculateMissingTablesPanel.dispose();
-			// calculateAllTablesPanel.getParent().layout(true, true);
-			// calculateAllTablesPanel.getParent().update();
 			parent.layout(true, true);
 			parent.update();
 			calculateMissingTablesPanel = null;
