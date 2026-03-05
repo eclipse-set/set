@@ -224,7 +224,7 @@ public class SignalSideDistance {
 	}
 
 	private Set<Signal_Befestigung> getSignalBefestigung() {
-		return signalRahmen(signal).stream().map(rahmen -> {
+		return Streams.stream(signalRahmen(signal)).map(rahmen -> {
 			final Iterator<Signal_Befestigung> signalBefestigungIterator = SignalRahmenExtensions
 					.getSignalBefestigungIterator(rahmen);
 			return Streams.stream(signalBefestigungIterator)
