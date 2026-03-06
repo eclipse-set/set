@@ -20,6 +20,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -77,6 +78,7 @@ import org.eclipse.set.model.planpro.Layoutinformationen.PlanPro_Layoutinfo;
 import org.eclipse.set.model.planpro.PlanPro.DocumentRoot;
 import org.eclipse.set.model.planpro.PlanPro.PlanProFactory;
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
+import org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration;
 import org.eclipse.set.ppmodel.extensions.DocumentRootExtensions;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleDebugExtensions;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
@@ -175,8 +177,8 @@ public class ModelSession implements IModelSession {
 	private double symbolRotation;
 	/*
 	 * TODO(1.10.0.1): Readd once temporary integrations are reenabled private
-	 * ToolboxTemporaryIntegration temporaryIntegration;
 	 */
+	ToolboxTemporaryIntegration temporaryIntegration;
 	private final ToolboxPaths toolboxPaths;
 	private boolean wasDirty = false;
 	protected final Shell mainWindow;
@@ -536,10 +538,12 @@ public class ModelSession implements IModelSession {
 	/*
 	 * TODO(1.10.0.1): Readd once temporary integrations are reenabled
 	 * 
-	 * @Override public Optional<ToolboxTemporaryIntegration>
-	 * getTemporaryIntegration() { return
-	 * Optional.ofNullable(temporaryIntegration); }
 	 */
+	@Override
+	public Optional<ToolboxTemporaryIntegration> getTemporaryIntegration() {
+		return Optional.ofNullable(temporaryIntegration);
+	}
+
 	@Override
 	public ToolboxFile getToolboxFile() {
 		return toolboxFile;
@@ -712,36 +716,54 @@ public class ModelSession implements IModelSession {
 				Boolean.valueOf(value));
 	}
 
-	/*
-	 * TODO(1.10.0.1): Readd once temporary integrations are reenabled
-	 * 
-	 * @Override public void switchToMergeMode( final
-	 * ToolboxTemporaryIntegration newTemporaryIntegration, final String
-	 * mergeDir, final Shell shell, final ToolboxFile temporaryToolboxFile)
-	 * throws IOException, UserAbortion { if (isMergeMode()) { throw new
-	 * IllegalStateException("Session already in merge mode."); //$NON-NLS-1$ }
-	 * 
-	 * // remember the original planning final PlanPro_Schnittstelle
-	 * originalPlanning = getPlanProSchnittstelle(); final ToolboxFile
-	 * originalFile = getToolboxFile(); toolboxFile = temporaryToolboxFile;
-	 * 
-	 * // save temporaryIntegration = newTemporaryIntegration;
-	 * setPlanProSchnittstelle(newTemporaryIntegration.getCompositePlanning());
-	 * final Wrapper<UserAbortion> userAbortion = new Wrapper<>();
-	 * Display.getDefault().syncExec(new Runnable() {
-	 * 
-	 * @Override public void run() { try { save(shell, false); } catch (final
-	 * UserAbortion e) { userAbortion.setValue(e); } } });
-	 * 
-	 * // test for abortion if (userAbortion.getValue() != null) {
-	 * temporaryIntegration = null; setPlanProSchnittstelle(originalPlanning);
-	 * toolboxFile.close(); toolboxFile = originalFile; revert(); throw
-	 * userAbortion.getValue(); }
-	 * 
-	 * // change role of temporary integration to session file
-	 * originalFile.close(); toolboxFile.close();
-	 * toolboxFile.setRole(ToolboxFileRole.SESSION); init(); }
-	 */
+	// TODO(1.10.0.1): Readd once temporary integrations are reenabled
+
+	@Override
+	public void switchToMergeMode(
+			final ToolboxTemporaryIntegration newTemporaryIntegration,
+			final String mergeDir, final Shell shell,
+			final ToolboxFile temporaryToolboxFile)
+			throws IOException, UserAbortion {
+		if (isMergeMode()) {
+			throw new IllegalStateException("Session already in merge mode."); //$NON-NLS-1$ }
+
+			// remember the original planning final PlanPro_Schnittstelle
+			final PlanPro_Schnittstelle originalPlanning = getPlanProSchnittstelle();
+			final ToolboxFile originalFile = getToolboxFile();
+			toolboxFile = temporaryToolboxFile;
+
+			// save temporaryIntegration = newTemporaryIntegration;
+			setPlanProSchnittstelle(
+					newTemporaryIntegration.getCompositePlanning());
+			final Wrapper<UserAbortion> userAbortion = new Wrapper<>();
+			Display.getDefault().syncExec(new Runnable() {
+
+				@Override
+				public void run() {
+					try {
+						save(shell, false);
+					} catch (final UserAbortion e) {
+						userAbortion.setValue(e);
+					}
+				}
+			});
+
+			// test for abortion if (userAbortion.getValue() != null) {
+			temporaryIntegration = null;
+			setPlanProSchnittstelle(originalPlanning);
+			toolboxFile.close();
+			toolboxFile = originalFile;
+			revert();
+			throw userAbortion.getValue();
+		}
+
+		// change role of temporary integration to session file
+		originalFile.close();
+		toolboxFile.close();
+		toolboxFile.setRole(ToolboxFileRole.SESSION);
+		init();
+	}
+
 	@Override
 	public String toString() {
 		return String.format("%s {guid=%s location=%s}", super.toString(), //$NON-NLS-1$

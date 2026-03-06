@@ -55,7 +55,11 @@ public enum ToolboxFileRole {
 	/**
 	 * The ToolboxFile is used as a temporary integration
 	 */
-	TEMPORARY_INTEGRATION,;
+	TEMPORARY_INTEGRATION,
+	/**
+	* 
+	*/
+	SECONDARY_PLANNING;
 
 	/**
 	 * Translates the role name into a directory name

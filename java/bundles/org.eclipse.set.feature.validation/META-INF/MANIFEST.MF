@@ -96,7 +96,8 @@ Require-Bundle: com.google.guava,
  org.eclipse.nebula.widgets.nattable.extension.nebula,
  org.eclipse.set.utils.table,
  org.eclipse.set.ppmodel.extensions,
- org.eclipse.set.model.planpro
+ org.eclipse.set.model.planpro,
+ org.eclipse.set.model.temporaryintegration;bundle-version="[2.6.0,3.0.0)"
 Export-Package: org.eclipse.set.feature.validation,
  org.eclipse.set.feature.validation.report,
  org.eclipse.set.feature.validation.service,
