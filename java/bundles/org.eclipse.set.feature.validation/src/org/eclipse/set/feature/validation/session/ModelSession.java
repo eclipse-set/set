@@ -43,6 +43,7 @@ import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.Pair;
 import org.eclipse.set.basis.ProjectInitializationData;
 import org.eclipse.set.basis.ToolboxPaths;
+import org.eclipse.set.basis.Wrapper;
 import org.eclipse.set.basis.constants.ContainerType;
 import org.eclipse.set.basis.constants.ExportType;
 import org.eclipse.set.basis.constants.PlanProFileNature;
@@ -726,29 +727,29 @@ public class ModelSession implements IModelSession {
 			throws IOException, UserAbortion {
 		if (isMergeMode()) {
 			throw new IllegalStateException("Session already in merge mode."); //$NON-NLS-1$ }
+		}
+		// remember the original planning final PlanPro_Schnittstelle
+		final PlanPro_Schnittstelle originalPlanning = getPlanProSchnittstelle();
+		final ToolboxFile originalFile = getToolboxFile();
+		toolboxFile = temporaryToolboxFile;
 
-			// remember the original planning final PlanPro_Schnittstelle
-			final PlanPro_Schnittstelle originalPlanning = getPlanProSchnittstelle();
-			final ToolboxFile originalFile = getToolboxFile();
-			toolboxFile = temporaryToolboxFile;
+		// save temporaryIntegration = newTemporaryIntegration;
+		setPlanProSchnittstelle(newTemporaryIntegration.getCompositePlanning());
+		final Wrapper<UserAbortion> userAbortion = new Wrapper<>();
+		Display.getDefault().syncExec(new Runnable() {
 
-			// save temporaryIntegration = newTemporaryIntegration;
-			setPlanProSchnittstelle(
-					newTemporaryIntegration.getCompositePlanning());
-			final Wrapper<UserAbortion> userAbortion = new Wrapper<>();
-			Display.getDefault().syncExec(new Runnable() {
-
-				@Override
-				public void run() {
-					try {
-						save(shell, false);
-					} catch (final UserAbortion e) {
-						userAbortion.setValue(e);
-					}
+			@Override
+			public void run() {
+				try {
+					save(shell, false);
+				} catch (final UserAbortion e) {
+					userAbortion.setValue(e);
 				}
-			});
+			}
+		});
 
-			// test for abortion if (userAbortion.getValue() != null) {
+		// test for abortion
+		if (userAbortion.getValue() != null) {
 			temporaryIntegration = null;
 			setPlanProSchnittstelle(originalPlanning);
 			toolboxFile.close();
@@ -756,7 +757,6 @@ public class ModelSession implements IModelSession {
 			revert();
 			throw userAbortion.getValue();
 		}
-
 		// change role of temporary integration to session file
 		originalFile.close();
 		toolboxFile.close();

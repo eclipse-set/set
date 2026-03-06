@@ -33,6 +33,7 @@ import static extension org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleE
 import static extension org.eclipse.set.ppmodel.extensions.PlanungProjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PlanungEinzelExtensions.*
 import static extension org.eclipse.set.model.simplemerge.extensions.ResolutionExtensions.*
+import org.eclipse.set.core.fileservice.ToolboxIDResolver
 
 /**
  * Extensions for {@link ToolboxTemporaryIntegration}.
@@ -343,14 +344,14 @@ class TemporaryIntegrationExtensions {
 		// content
 		val temporaryIntegration = TemporaryintegrationFactory.eINSTANCE.
 			createToolboxTemporaryIntegration
-		val primaryPlanning = readFrom(primaryPlanningToolboxFile.resource)
+		val primaryPlanning = readFrom(primaryPlanningToolboxFile.planProResource)
 		temporaryIntegration.primaryPlanning = EcoreUtil.copy(primaryPlanning)
 		temporaryIntegration.primaryPlanningFilename = primaryPlanningToolboxFile.
 			path.fileName.toString
 		temporaryIntegration.primaryPlanningWasValid = primaryPlanningWasValid
 		temporaryIntegration.compositePlanning = EcoreUtil.copy(primaryPlanning)
 		
-		val secondaryPlanning = readFrom(secondaryPlanningToolboxFile.resource)
+		val secondaryPlanning = readFrom(secondaryPlanningToolboxFile.planProResource)
 		temporaryIntegration.secondaryPlanning = EcoreUtil.copy(
 			secondaryPlanning)
 		temporaryIntegration.secondaryPlanningFilename = secondaryPlanningToolboxFile.
@@ -359,31 +360,34 @@ class TemporaryIntegrationExtensions {
 		temporaryIntegration.integrationDirectory = mergeDir.toString
 
 		// Retarget ID references to point to the newly created instances
-		val primaryResource = primaryPlanningToolboxFile.
-			resource as PlanProResourceImpl
-		val secondaryResource = secondaryPlanningToolboxFile.
-			resource as PlanProResourceImpl
+//		val primaryResource = primaryPlanningToolboxFile.
+//			planProResource
+//		val secondaryResource = secondaryPlanningToolboxFile.
+//			planProResource
+		ToolboxIDResolver.resolveIDReferences(temporaryIntegration.primaryPlanning)
+		ToolboxIDResolver.resolveIDReferences(temporaryIntegration.secondaryPlanning)
+		ToolboxIDResolver.resolveIDReferences(temporaryIntegration.compositePlanning)
 		// primaryPlanning -> Primary Resource
-		IDReferenceUtils.retargetIDReferences(primaryPlanning,
-			temporaryIntegration.primaryPlanning,
-			primaryResource.invalidIDReferences,
-			temporaryIntegration.primaryPlanningIDReferences);
-
-		// secondaryPlanning -> Secondary Resource
-		IDReferenceUtils.retargetIDReferences(secondaryPlanning,
-			temporaryIntegration.secondaryPlanning,
-			secondaryResource.invalidIDReferences,
-			temporaryIntegration.secondaryPlanningIDReferences)
-
-		// compositePlanning -> Both Resources
-		IDReferenceUtils.retargetIDReferences(primaryPlanning,
-			temporaryIntegration.compositePlanning,
-			primaryResource.invalidIDReferences,
-			temporaryIntegration.compositePlanningIDReferences)
-		IDReferenceUtils.retargetIDReferences(secondaryPlanning,
-			temporaryIntegration.compositePlanning,
-			secondaryResource.invalidIDReferences,
-			temporaryIntegration.compositePlanningIDReferences);
+//		IDReferenceUtils.retargetIDReferences(primaryPlanning,
+//			temporaryIntegration.primaryPlanning,
+//			primaryResource.invalidIDReferences,
+//			temporaryIntegration.primaryPlanningIDReferences);
+//
+//		// secondaryPlanning -> Secondary Resource
+//		IDReferenceUtils.retargetIDReferences(secondaryPlanning,
+//			temporaryIntegration.secondaryPlanning,
+//			secondaryResource.invalidIDReferences,
+//			temporaryIntegration.secondaryPlanningIDReferences)
+//
+//		// compositePlanning -> Both Resources
+//		IDReferenceUtils.retargetIDReferences(primaryPlanning,
+//			temporaryIntegration.compositePlanning,
+//			primaryResource.invalidIDReferences,
+//			temporaryIntegration.compositePlanningIDReferences)
+//		IDReferenceUtils.retargetIDReferences(secondaryPlanning,
+//			temporaryIntegration.compositePlanning,
+//			secondaryResource.invalidIDReferences,
+//			temporaryIntegration.compositePlanningIDReferences);
 
 		return temporaryIntegration
 	}

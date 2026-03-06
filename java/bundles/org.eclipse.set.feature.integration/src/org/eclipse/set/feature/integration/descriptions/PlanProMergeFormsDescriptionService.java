@@ -14,7 +14,6 @@ import javax.inject.Inject;
 import org.eclipse.e4.core.contexts.ContextInjectionFactory;
 import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.e4.core.services.nls.Translation;
-import org.eclipse.set.basis.constants.PlanProFileNature;
 import org.eclipse.set.basis.part.PartDescription;
 import org.eclipse.set.basis.viewgroups.ToolboxViewGroup;
 import org.eclipse.set.core.services.part.PartDescriptionService;
@@ -27,7 +26,7 @@ import org.osgi.service.component.annotations.Component;
  * 
  * @author Schaefer
  */
-@Component
+@Component(service = PartDescriptionService.class)
 public class PlanProMergeFormsDescriptionService
 		implements PartDescriptionService {
 	private static class InjectionHelper {
@@ -47,7 +46,7 @@ public class PlanProMergeFormsDescriptionService
 				.make(InjectionHelper.class, context);
 		return new PartDescription(
 				// ID
-				this.getClass().getName(),
+				"org.eclipse.set.feature.integration.servive.parts.PlanProMergeFormsPart",
 				// contributionURI
 				"bundleclass://org.eclipse.set.feature.integration/org.eclipse.set.feature.integration.service.parts.PlanProMergeFormsPart", //$NON-NLS-1$
 				// toolboxViewName
@@ -57,7 +56,7 @@ public class PlanProMergeFormsDescriptionService
 				// toolboxViewType
 				getToolboxViewGroup(),
 				// defaultForNature
-				PlanProFileNature.INTEGRATION,
+				null,
 				// toolboxViewNeedsLoadedModel
 				true,
 				// toolboxViewNeedsXsdValidation
