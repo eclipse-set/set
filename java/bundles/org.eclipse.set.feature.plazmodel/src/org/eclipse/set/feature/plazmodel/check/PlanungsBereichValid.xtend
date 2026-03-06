@@ -103,7 +103,8 @@ class PlanungsBereichValid extends AbstractPlazContainerCheck implements PlazChe
 			val err = PlazFactory.eINSTANCE.createPlazError
 			err.message = transformErrorMsg(
 				Map.of("GUID", guid, //
-				"TYP", it.eClass.name, //
+				"TYP", source.eClass.name, //
+				"REF_TYP", it.eClass.name, //
 				"REF_GUID", identitaet?.wert)
 			)
 			err.type = "Planungs-/Betrachtungsbereich"
@@ -127,7 +128,7 @@ class PlanungsBereichValid extends AbstractPlazContainerCheck implements PlazChe
 	}
 
 	override getGeneralErrMsg() {
-		return "Das Objekt {GUID} verweist auf das zugehörige Objekt {TYP} {REF_GUID}, die Objekte liegen aber uneinheitlich in Planungs- und Betrachtungsbereich."
+		return "Das Objekt {REF_TYP} {REF_GUID} verweist auf das zugehörige Objekt {TYP} {GUID}, die Objekte liegen aber uneinheitlich in Planungs- und Betrachtungsbereich."
 	}
 
 	override handleEvent(Event event) {
