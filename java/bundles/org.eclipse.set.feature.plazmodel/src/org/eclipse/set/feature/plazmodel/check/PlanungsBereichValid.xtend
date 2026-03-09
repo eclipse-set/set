@@ -93,8 +93,10 @@ class PlanungsBereichValid extends AbstractPlazContainerCheck implements PlazChe
 		val isPlanning = isPlanningObject(source)
 
 		val falsyReferences = objectWithReferencesMap.entrySet.filter [ entry |
-			entry.key !== source && isPlanningObject(entry.key) !== isPlanning
-		].map [ entry |
+			entry.key !== source
+		].filter [ entry |
+			entry.value.exists[wert == source.identitaet.wert]
+		].filter[entry|isPlanningObject(entry.key) !== isPlanning].map [ entry |
 			entry.value.filter[wert == guid].map[ref|entry.key -> ref]
 		].flatten
 
