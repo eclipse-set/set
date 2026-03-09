@@ -241,11 +241,8 @@ public class TableServiceUtils {
 		monitor.beginTask(messages.TableOverviewPart_CalculateMissingTask,
 				missingTables.size());
 		if (!modelSession.isSingleState()) {
-			// We don't need create DIFF instance for Errors detecting
 			tableService.transformTables(monitor, new HashSet<>(missingTables),
-					TableType.INITIAL, controlAreaIds);
-			tableService.transformTables(monitor, new HashSet<>(missingTables),
-					TableType.FINAL, controlAreaIds);
+					TableType.DIFF, controlAreaIds);
 		} else {
 			tableService.transformTables(monitor, new HashSet<>(missingTables),
 					TableType.SINGLE, controlAreaIds);
