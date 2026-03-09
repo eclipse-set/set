@@ -178,7 +178,7 @@ public class FootnoteExtensions {
 			if (tables != null && tables.size() > 0) {
 				tables.forEach(table -> fillValue(tableRow, table));
 			} else {
-				fillValue(tableRow, allTablesGenerated ? "xx" : "??"); //$NON-NLS-1$ //$NON-NLS-2$
+				fillValue(tableRow, allTablesGenerated ? "keine" : "?"); //$NON-NLS-1$ //$NON-NLS-2$
 			}
 		});
 	}
