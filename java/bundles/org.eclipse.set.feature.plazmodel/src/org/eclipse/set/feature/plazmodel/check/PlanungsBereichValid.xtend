@@ -90,25 +90,24 @@ class PlanungsBereichValid extends AbstractPlazContainerCheck implements PlazChe
 		if (guid === null) {
 			return #[]
 		}
-
 		val isPlanning = isPlanningObject(source)
-		val mismatchedObjects = objectWithReferencesMap.filter [ obj, references |
-			obj !== source
-		].filter [ obj, references |
-			references.exists[wert == source.identitaet.wert]
-		].filter [ obj, references |
-			isPlanningObject(obj) !== isPlanning
-		].keySet.filterNull
-		return mismatchedObjects.map [
+
+		val falsyReferences = objectWithReferencesMap.entrySet.filter [ entry |
+			entry.key !== source && isPlanningObject(entry.key) !== isPlanning
+		].map [ entry |
+			entry.value.filter[wert == guid].map[ref|entry.key -> ref]
+		].flatten
+
+		return falsyReferences.map [
 			val err = PlazFactory.eINSTANCE.createPlazError
 			err.message = transformErrorMsg(
 				Map.of("GUID", guid, //
 				"TYP", source.eClass.name, //
-				"REF_TYP", it.eClass.name, //
-				"REF_GUID", identitaet?.wert)
+				"REF_TYP", it.key.eClass.name, //
+				"REF_GUID", it.key.identitaet?.wert)
 			)
 			err.type = "Planungs-/Betrachtungsbereich"
-			err.object = source
+			err.object = it.value
 			err.severity = ValidationSeverity.WARNING
 			return err
 		]
