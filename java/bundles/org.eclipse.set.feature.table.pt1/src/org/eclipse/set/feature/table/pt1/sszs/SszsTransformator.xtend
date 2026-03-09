@@ -79,6 +79,9 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
 		TMFactory factory) {
+		val etcsRefSignalWithSignalBegriffe = container.ETCSSignal.map [
+			IDSignal?.value
+		].filterNull.toMap([it], [signalbegriffIds])
 		for (etcsSignal : container.ETCSSignal) {
 			val refSignal = etcsSignal.IDSignal?.value
 			val row = factory.newTableRow(etcsSignal)
@@ -94,6 +97,15 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 			// B: Sszs.Signal.Art
 			val signalRealAktivShirmArt = refSignal?.signalReal?.
 				signalRealAktivSchirm?.signalArt?.wert
+			val relevantSignalsInWirkrichtung = etcsSignal.findSignalInDistance(
+				[signalReal !== null],
+				[!existSignalRealAktiv],
+				[
+					etcsRefSignalWithSignalBegriffe.getOrDefault(it, emptySet).
+						isSignalNe14OrOzBk
+				],
+				[isSignalFiktivZielBkOrNe14]
+			)
 
 			fillSwitch(
 				row,
@@ -117,31 +129,21 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 									signalReal?.signalRealAktivSchirm?.
 										signalArt?.wert)
 							]
-						) || !findSignalInDistance(
-							row,
-							cols.getColumn(Art),
-							[signalReal !== null],
-							[!existSignalRealAktiv],
-							[isSignalNe14OrOzBk],
-							[isSignalFiktivZielBkOrNe14],
-							[
-								signalFiktiv?.autoEinstellung?.wert ===
-									ENUM_AUTO_EINSTELLUNG_SB
-							]
-						).nullOrEmpty
+						) ||
+							relevantSignalsInWirkrichtung.
+								existsSignalInWirkrichtungRelevant(
+									cols.getColumn(Art), row, [
+										signalFiktiv?.autoEinstellung?.wert ===
+											ENUM_AUTO_EINSTELLUNG_SB
+									])
 					],
 					["SB"]
 				),
 				new Case<ETCS_Signal>(
 					[
-						!findSignalInDistance(
-							row,
-							cols.getColumn(Art),
-							[signalReal !== null],
-							[!existSignalRealAktiv],
-							[isSignalNe14OrOzBk],
-							[isSignalFiktivZielBkOrNe14]
-						).nullOrEmpty
+						relevantSignalsInWirkrichtung.
+							existsSignalInWirkrichtungRelevant(
+								cols.getColumn(Art), row)
 					],
 					["VB"]
 				),
@@ -474,20 +476,15 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 					return (signalRealActiveAutoConfig ===
 						ENUM_AUTO_EINSTELLUNG_ZL ||
 						signalRealActiveAutoConfig ===
-							ENUM_AUTO_EINSTELLUNG_SB || !findSignalInDistance(
-							row,
-							cols.getColumn(Autom_Betrieb),
-							[signalReal !== null],
-							[!existSignalRealAktiv],
-							[isSignalNe14OrOzBk],
-							[isSignalFiktivZielBkOrNe14],
-							[
-								signalFiktiv.autoEinstellung.wert ===
-									ENUM_AUTO_EINSTELLUNG_SB ||
+							ENUM_AUTO_EINSTELLUNG_SB ||
+						relevantSignalsInWirkrichtung.
+							existsSignalInWirkrichtungRelevant(
+								cols.getColumn(Autom_Betrieb), row, [
 									signalFiktiv.autoEinstellung.wert ===
-										ENUM_AUTO_EINSTELLUNG_ZL
-							]
-						).nullOrEmpty
+										ENUM_AUTO_EINSTELLUNG_SB ||
+										signalFiktiv.autoEinstellung.wert ===
+											ENUM_AUTO_EINSTELLUNG_ZL
+								])
 						
 					).translate
 				]
@@ -553,8 +550,7 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 				],
 				ToolboxConstants.NUMERIC_COMPARATOR,
 				[
-					val distance = IDSignal?.value?.
-						getNearstFMAKomponent()
+					val distance = IDSignal?.value?.getNearstFMAKomponent()
 					if (distance.isPresent) {
 						return distance.get.toTableDecimal
 					}
@@ -710,9 +706,9 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 			signal?.signalReal?.signalRealAktivSchirm !== null
 	}
 
-	private def boolean isSignalNe14OrOzBk(Signal signal) {
-		return signal.hasSignalbegriffID(Ne14) ||
-			signal.hasSignalbegriffID(OzBk)
+	private def boolean isSignalNe14OrOzBk(
+		Set<Signalbegriff_ID_TypeClass> begriffe) {
+		return begriffe.exists[Ne14.isInstance(it) || OzBk.isInstance(it)]
 	}
 
 	private def boolean isSignalFiktivZielBkOrNe14(Signal signal) {
@@ -734,24 +730,32 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 	 * @paran predicates the list of predicate
 	 */
 	private def List<Signal> findSignalInDistance(ETCS_Signal sourceSignal,
-		TableRow row, ColumnDescriptor col,
 		(Signal)=>Boolean... predicates) {
 		val refSignal = sourceSignal.IDSignal?.value
 		if (refSignal === null) {
 			throw new IllegalArgumentException('''ETCS_Signal: «sourceSignal.identitaet.wert» missing Signal''')
 		}
-		val relevantSignal = sourceSignal.container.ETCSSignal.map [
+		return sourceSignal.container.ETCSSignal.map [
 			IDSignal?.value
-		].filterNull.filter [ signal |
-			predicates.forall[apply(signal)] &&
-				topGraphService.isInWirkrichtungOfSignal(refSignal, signal)
-		].filter [
-			sourceSignal.distanceToSignal(it) < MAX_TOP_DISTANCE_IN_METER
-		].toList
-		if (!relevantSignal.nullOrEmpty) {
-			row.addTopologicalCell(col)
+		].filterNull.filter[signal|predicates.forall[apply(signal)]].filter [
+			topGraphService.isInWirkrichtungOfSignal(refSignal, it)
+		].filter[sourceSignal.distanceToSignal(it) < MAX_TOP_DISTANCE_IN_METER].
+			toList
+	}
+
+	/**
+	 * Continue check for #findSignalInDistance and set topological cell, when it is relevant
+	 */
+	private def boolean existsSignalInWirkrichtungRelevant(List<Signal> signals,
+		ColumnDescriptor column, TableRow row,
+		(Signal)=>Boolean... predicates) {
+		val exists = signals.exists [ s |
+			predicates.isEmpty || predicates.forall[apply(s)]
+		]
+		if (exists) {
+			row.addTopologicalCell(column)
 		}
-		return relevantSignal
+		return exists
 	}
 
 	private def List<Fstr_Nichthaltfall> getFstrNichtHaltfall(Signal signal) {
