@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -77,6 +76,7 @@ import org.eclipse.set.feature.table.abstracttableview.ColumnGroup4HeaderLayer;
 import org.eclipse.set.feature.table.abstracttableview.ColumnGroupGroupGroupHeaderLayer;
 import org.eclipse.set.feature.table.abstracttableview.NatTableColumnGroupHelper;
 import org.eclipse.set.feature.table.abstracttableview.ToolboxTableModelThemeConfiguration;
+import org.eclipse.set.feature.table.internal.TableServiceUtils;
 import org.eclipse.set.feature.table.messages.Messages;
 import org.eclipse.set.feature.table.messages.MessagesWrapper;
 import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
@@ -104,7 +104,6 @@ import org.eclipse.set.services.table.TableService;
 import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.RefreshAction;
 import org.eclipse.set.utils.SelectableAction;
-import org.eclipse.set.utils.ToolboxConfiguration;
 import org.eclipse.set.utils.events.ContainerDataChanged;
 import org.eclipse.set.utils.events.DefaultToolboxEventHandler;
 import org.eclipse.set.utils.events.JumpToSiteplanEvent;
@@ -117,7 +116,6 @@ import org.eclipse.set.utils.events.ToolboxEvents;
 import org.eclipse.set.utils.exception.ExceptionHandler;
 import org.eclipse.set.utils.table.BodyLayerStack;
 import org.eclipse.set.utils.table.Pt1TableChangeProperties;
-import org.eclipse.set.utils.table.TableError;
 import org.eclipse.set.utils.table.TableInfo;
 import org.eclipse.set.utils.table.TableInfo.Pt1TableCategory;
 import org.eclipse.set.utils.table.TableModelInstanceBodyDataProvider;
@@ -796,36 +794,13 @@ public final class ToolboxTableView extends BasePart {
 	}
 
 	private Collection<TableInfo> getMissingTables() {
-		final Map<TableInfo, Collection<TableError>> computedErrors = tableService
-				.getTableErrors(getModelSession(), controlAreaIds, null);
-		final Collection<TableInfo> allTableInfos = tableService
-				.getAvailableTables();
-
-		final ArrayList<TableInfo> missingTables = new ArrayList<>();
-		missingTables.addAll(allTableInfos);
-		if (!ToolboxConfiguration.isDebugMode()) {
-			// in debug mode we want to be able to recompute the errors
-			// that's why we mark all as missing
-			missingTables
-					.removeIf(info -> computedErrors.keySet().contains(info));
-		}
-		return missingTables;
+		return TableServiceUtils.getMissingTables(tableService,
+				getModelSession(), controlAreaIds);
 	}
 
 	private void calculateAllMissingTables(final IProgressMonitor monitor) {
-		final Collection<TableInfo> missingTables = getMissingTables();
-		monitor.beginTask(messages.TableOverviewPart_CalculateMissingTask,
-				missingTables.size());
-		if (!getModelSession().isSingleState()) {
-			// We don't need create DIFF instance for Errors detecting
-			tableService.transformTables(monitor, new HashSet<>(missingTables),
-					TableType.INITIAL, controlAreaIds);
-			tableService.transformTables(monitor, new HashSet<>(missingTables),
-					TableType.FINAL, controlAreaIds);
-		} else {
-			tableService.transformTables(monitor, new HashSet<>(missingTables),
-					TableType.SINGLE, controlAreaIds);
-		}
+		TableServiceUtils.calculateAllMissingTables(tableService,
+				getModelSession(), controlAreaIds, monitor, messages);
 	}
 
 	private void calculateAllMissingTablesEvent() {
