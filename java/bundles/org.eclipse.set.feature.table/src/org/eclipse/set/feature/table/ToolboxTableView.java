@@ -423,7 +423,6 @@ public final class ToolboxTableView extends BasePart {
 		if (lines.size() > ToolboxConstants.FOOTNOTE_ACTIVE_SCROLL_MINIMUM) {
 			GridDataFactory.fillDefaults()
 					.grab(true, true)
-					.minSize(-1, 300)
 					.applyTo(tableFooting);
 		}
 		tableFooting.setText(StringUtils.join(lines, "\n")); //$NON-NLS-1$
@@ -566,6 +565,7 @@ public final class ToolboxTableView extends BasePart {
 				.minSize(-1, 500)
 				.applyTo(tableFooting);
 		tableFooting.setBackground(GRAY_BACKGROUND);
+		tableFooting.setAlwaysShowScrollBars(false);
 		updateFootnotes();
 		tableFooting.setEditable(false);
 
