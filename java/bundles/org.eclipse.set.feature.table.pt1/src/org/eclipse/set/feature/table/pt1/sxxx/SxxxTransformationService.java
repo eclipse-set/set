@@ -16,6 +16,7 @@ import static org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparat
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
@@ -38,7 +39,7 @@ import org.osgi.service.event.EventAdmin;
  */
 @Component(service = {
 		PlanPro2TableTransformationService.class }, immediate = true, property = {
-				"table.category=supplement-estw", "table.shortcut=sxxx" })
+				"table.category=supplement", "table.shortcut=sxxx" })
 public class SxxxTransformationService
 		extends AbstractPlanPro2TableTransformationService {
 	@Reference
@@ -101,4 +102,13 @@ public class SxxxTransformationService
 		return cd;
 	}
 
+	@Override
+	public boolean enableFiltering() {
+		return true;
+	}
+
+	@Override
+	protected Map<Class<?>, String> getFootnotesColumnReferences() {
+		return Collections.emptyMap();
+	}
 }

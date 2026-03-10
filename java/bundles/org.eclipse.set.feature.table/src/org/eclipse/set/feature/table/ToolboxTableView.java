@@ -33,7 +33,10 @@ import org.eclipse.emf.common.command.CommandStackListener;
 import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.nebula.widgets.nattable.NatTable;
+import org.eclipse.nebula.widgets.nattable.config.ConfigRegistry;
 import org.eclipse.nebula.widgets.nattable.data.IDataProvider;
+import org.eclipse.nebula.widgets.nattable.filterrow.FilterRowHeaderComposite;
+import org.eclipse.nebula.widgets.nattable.filterrow.IFilterStrategy;
 import org.eclipse.nebula.widgets.nattable.grid.data.DefaultColumnHeaderDataProvider;
 import org.eclipse.nebula.widgets.nattable.grid.data.DefaultCornerDataProvider;
 import org.eclipse.nebula.widgets.nattable.grid.data.DefaultRowHeaderDataProvider;
@@ -417,7 +420,11 @@ public final class ToolboxTableView extends BasePart {
 			startOffset += text.length() + 1;
 
 		}
-
+		if (lines.size() > ToolboxConstants.FOOTNOTE_ACTIVE_SCROLL_MINIMUM) {
+			GridDataFactory.fillDefaults()
+					.grab(true, true)
+					.applyTo(tableFooting);
+		}
 		tableFooting.setText(StringUtils.join(lines, "\n")); //$NON-NLS-1$
 		tableFooting.setStyleRanges(styles.toArray(new StyleRange[0]));
 	}
@@ -490,7 +497,7 @@ public final class ToolboxTableView extends BasePart {
 		// IMPROVE: The table header level should be determined automatically,
 		// and the corresponding header layers should be created accordingly. At
 		// present, only tables with 1, 2, or 4 levels are supported.
-		final ILayer headerLayer = anyMatch
+		ILayer headerLayer = anyMatch
 				? createGroupHeaderLayer(columnHeaderLayer,
 						rootColumnDescriptor)
 				: createHeaderLayer(columnHeaderLayer, rootColumnDescriptor);
@@ -501,6 +508,13 @@ public final class ToolboxTableView extends BasePart {
 		final RowHeaderLayer rowHeaderLayer = new RowHeaderLayer(
 				rowHeaderDataLayer, bodyLayerStack,
 				bodyLayerStack.getSelectionLayer());
+
+		if (tableService.enableFiltering(tableInfo)) {
+			final ConfigRegistry configRegistry = new ConfigRegistry();
+			headerLayer = new FilterRowHeaderComposite<>(
+					new FilterStrategy<>(bodyDataProvider), headerLayer,
+					columnHeaderDataLayer.getDataProvider(), configRegistry);
+		}
 
 		// Corner Layer stack
 		final DefaultCornerDataProvider cornerDataProvider = new DefaultCornerDataProvider(
@@ -545,14 +559,15 @@ public final class ToolboxTableView extends BasePart {
 		bodyLayerStack.getSelectionLayer().clear();
 
 		// display footnotes
-		tableFooting = new StyledText(parent, SWT.MULTI);
-		tableFooting.setBackground(GRAY_BACKGROUND);
-		updateFootnotes();
-		tableFooting.setEditable(false);
+		tableFooting = new StyledText(parent, SWT.MULTI | SWT.V_SCROLL);
 		GridDataFactory.fillDefaults()
 				.grab(true, false)
 				.minSize(-1, 500)
 				.applyTo(tableFooting);
+		tableFooting.setBackground(GRAY_BACKGROUND);
+		tableFooting.setAlwaysShowScrollBars(false);
+		updateFootnotes();
+		tableFooting.setEditable(false);
 
 		// export action
 		getBanderole().setExportAction(new SelectableAction() {
@@ -588,6 +603,23 @@ public final class ToolboxTableView extends BasePart {
 		});
 
 		updateButtons();
+	}
+
+	class FilterStrategy<T> implements IFilterStrategy<T> {
+		private final TableModelInstanceBodyDataProvider tableDataProvider;
+
+		public FilterStrategy(
+				final TableModelInstanceBodyDataProvider tableDataProvider) {
+			this.tableDataProvider = tableDataProvider;
+		}
+
+		@Override
+		public void applyFilter(
+				final Map<Integer, Object> filterIndexToObjectMap) {
+			tableDataProvider.applyFilter(filterIndexToObjectMap);
+			natTable.refresh();
+		}
+
 	}
 
 	private IConfigLabelAccumulator addTableCellLabelConfig() {
@@ -832,7 +864,9 @@ public final class ToolboxTableView extends BasePart {
 
 		tableInstances.clear();
 		tableInstances.addAll(TableExtensions.getTableRows(table));
-
+		if (bodyDataProvider != null) {
+			bodyDataProvider.refresh();
+		}
 	}
 
 	private void addMenuItems() {
@@ -934,10 +968,13 @@ public final class ToolboxTableView extends BasePart {
 								.size()
 								&& triggeredEvents
 										.containsAll(triggerComparisonEvent)) {
-							tableService.sortTable(table, tableType, tableInfo);
+							tableService.sortTable(table, tableInfo);
 							tableInstances.clear();
 							tableInstances.addAll(
 									TableExtensions.getTableRows(table));
+							if (bodyDataProvider != null) {
+								bodyDataProvider.refresh();
+							}
 							natTable.refresh();
 						}
 					}));

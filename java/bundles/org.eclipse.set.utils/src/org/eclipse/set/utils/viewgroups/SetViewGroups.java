@@ -85,7 +85,6 @@ public class SetViewGroups {
 				.withText(Messages.SetViewGroups_Table_Supplement)
 				.withIcon(SetImages.IC_GRID_ON_BLACK_18DP_1X)
 				.withOrderPriority(170)
-				.setDevelopment(true)
 				.build();
 
 	}

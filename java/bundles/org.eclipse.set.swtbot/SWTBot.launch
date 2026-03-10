@@ -124,8 +124,6 @@
         <setEntry value="maven.org.apache.xmlbeans.artifact.xmlbeans@default:default"/>
         <setEntry value="maven.org.apache.xmlgraphics.artifact.fop@default:default"/>
         <setEntry value="maven.org.apfloat.artifact.apfloat@default:default"/>
-        <setEntry value="net.bytebuddy.byte-buddy-agent@default:default"/>
-        <setEntry value="net.bytebuddy.byte-buddy@default:default"/>
         <setEntry value="org.apache.ant@default:default"/>
         <setEntry value="org.apache.aries.spifly.dynamic.bundle@default:default"/>
         <setEntry value="org.apache.batik.anim@default:default"/>

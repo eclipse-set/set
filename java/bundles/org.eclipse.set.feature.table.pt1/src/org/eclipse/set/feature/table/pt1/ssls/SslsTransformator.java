@@ -17,7 +17,6 @@ import java.util.stream.Collectors;
 
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator;
-import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
 import org.eclipse.set.model.planpro.Signale.Signal;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.Table;
@@ -54,7 +53,7 @@ public class SslsTransformator extends AbstractPlanPro2TableModelTransformator {
 	@Override
 	public Table transformTableContent(
 			final MultiContainer_AttributeGroup container,
-			final TMFactory factory, final Stell_Bereich controlArea) {
+			final TMFactory factory) {
 		final Set<Signal> startSignals = getFstrZugStartSignal(container);
 		signalingSections = new ArrayList<>();
 		startSignals.forEach(this::determineSignalingSections);

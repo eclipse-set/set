@@ -16,53 +16,65 @@ import java.util.List;
  *            table shortcut
  * @param tableName
  *            the table name
+ * @param category
+ *            the table category
  * @param fixedColumns
  *            index of fixed column
  *
  */
-public record PtTable(String shortcut, String tableName,
+public record PtTable(String shortcut, String tableName, String category,
 		List<Integer> fixedColumns) {
 	/**
 	 * List table to test
 	 */
 	@SuppressWarnings("boxing")
 	public static List<PtTable> tablesToTest = List.of(
-			new PtTable("ssbb", "Ssbb – Bedieneinrichtungstabelle BÜ",
+			new PtTable("ssbb", "Ssbb – Bedieneinrichtungstabelle BÜ", "estw",
 					List.of(0)),
-			new PtTable("ssit", "Ssit – Bedieneinrichtungstabelle Stw",
+			new PtTable("ssit", "Ssit – Bedieneinrichtungstabelle Stw", "estw",
 					List.of(0)),
-			new PtTable("sska", "Sska – Elementansteuertabelle", List.of(0)),
-			new PtTable("sskf", "Sskf – Freimeldetabelle", List.of(0)),
-			new PtTable("sskg", "Sskg – Gleisschaltmitteltabelle", List.of(0)),
-			new PtTable("ssko", "Ssko – Schlosstabelle", List.of(0)),
-			new PtTable("ssks", "Ssks – Signaltabelle", List.of(0)),
+			new PtTable("sska", "Sska – Elementansteuertabelle", "estw",
+					List.of(0)),
+			new PtTable("sskf", "Sskf – Freimeldetabelle", "estw", List.of(0)),
+			new PtTable("sskg", "Sskg – Gleisschaltmitteltabelle", "estw",
+					List.of(0)),
+			new PtTable("ssko", "Ssko – Schlosstabelle", "estw", List.of(0)),
+			new PtTable("ssks", "Ssks – Signaltabelle", "estw", List.of(0)),
 			new PtTable("sskt",
-					"Sskt – Tabelle der Technik- und Bedienstandorte",
+					"Sskt – Tabelle der Technik- und Bedienstandorte", "estw",
 					List.of(0)),
-			new PtTable("sskw", "Sskw – Weichentabelle", List.of(0)),
+			new PtTable("sskw", "Sskw – Weichentabelle", "estw", List.of(0)),
 			new PtTable("ssla",
 					"Ssla – Tabelle der aneinandergereihten Fahrstraßen",
+					"estw", List.of(0)),
+			new PtTable("sslb", "Sslb – Streckenblocktabelle", "estw",
 					List.of(0)),
-			new PtTable("sslb", "Sslb – Streckenblocktabelle", List.of(0)),
 			new PtTable("ssld", "Ssld – Durchrutschweg- und Gefahrpunkttabelle",
-					List.of(0, 1, 2)),
-			new PtTable("sslf", "Sslf – Flankenschutztabelle", List.of(0, 1)),
-			new PtTable("ssli", "Ssli – Inselgleistabelle", List.of(0)),
-			new PtTable("ssln", "Ssln – Nahbedienungstabelle", List.of(0)),
-			new PtTable("sslr", "Sslr – Rangierstraßentabelle", List.of(0)),
-			new PtTable("sslw", "Sslw – Zwieschutzweichentabelle", List.of(0)),
-			new PtTable("sslz", "Sslz – Zugstraßentabelle", List.of(0)),
-			new PtTable("ssvu", "Ssvu – Übertragungswegtabelle", List.of(0, 1)),
-			new PtTable("sskp", "Sskp – PZB-Tabelle", List.of(0, 1)),
-			new PtTable("sskp_dm", "Sskp_dm – PZB-Tabelle", List.of(0, 1)),
-			new PtTable("ssza", "Ssza – ETCS-Datenpunkttabelle", List.of(0)),
+					"estw", List.of(0, 1, 2)),
+			new PtTable("sslf", "Sslf – Flankenschutztabelle", "estw",
+					List.of(0, 1)),
+			new PtTable("ssli", "Ssli – Inselgleistabelle", "estw", List.of(0)),
+			new PtTable("ssln", "Ssln – Nahbedienungstabelle", "estw",
+					List.of(0)),
+			new PtTable("sslr", "Sslr – Rangierstraßentabelle", "estw",
+					List.of(0)),
+			new PtTable("sslw", "Sslw – Zwieschutzweichentabelle", "estw",
+					List.of(0)),
+			new PtTable("sslz", "Sslz – Zugstraßentabelle", "estw", List.of(0)),
+			new PtTable("ssvu", "Ssvu – Übertragungswegtabelle", "estw",
+					List.of(0, 1)),
+			new PtTable("sskp", "Sskp – PZB-Tabelle", "estw", List.of(0, 1)),
+			new PtTable("sskp_dm", "Sskp_dm – PZB-Tabelle", "supplement-estw",
+					List.of(0, 1)),
+			new PtTable("ssza", "Ssza – ETCS-Datenpunkttabelle", "etcs",
+					List.of(0)),
 			new PtTable("sszs",
 					"Sszs – ETCS Melde- und Kommandoanschaltung Signale",
-					List.of(0)),
+					"etcs", List.of(0)),
 			new PtTable("sszw",
 					"Sszw – ETCS Melde- und Kommandoanschaltung Weichen",
-					List.of(0)),
+					"etcs", List.of(0)),
 			new PtTable("sskz", "Sskz – Zuordnungstabelle FEAK/FEAS",
-					List.of(0)));
+					"supplement-estw", List.of(0)));
 
 }

@@ -29,4 +29,13 @@ public abstract class PlanPro2TableTransformationService extends
 	 * @return position of fixed columns
 	 */
 	public abstract Set<Integer> getFixedColumnsPos();
+
+	/**
+	 * @return whether filtering shall be enabled for the table or not
+	 */
+	@SuppressWarnings("static-method")
+	public boolean enableFiltering() {
+		// by default we disable filtering
+		return false;
+	}
 }

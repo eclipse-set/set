@@ -8,9 +8,11 @@
  */
 package org.eclipse.set.application.cacheservice;
 
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.set.basis.IModelSession;
@@ -58,10 +60,8 @@ public class CacheServiceImpl implements CacheService, EventHandler {
 
 	@Override
 	public Cache getCache(final PlanPro_Schnittstelle schnittstelle,
-			final String cacheId, final String containerCacheId)
-			throws IllegalArgumentException {
-		return getCache(getSessionRole(schnittstelle), cacheId,
-				containerCacheId);
+			final String... cacheId) throws IllegalArgumentException {
+		return getCache(getSessionRole(schnittstelle), cacheId);
 	}
 
 	private void invalidate(final ToolboxFileRole role) {
@@ -126,9 +126,10 @@ public class CacheServiceImpl implements CacheService, EventHandler {
 	}
 
 	@Override
-	public Cache getCache(final ToolboxFileRole role, final String cacheId,
-			final String containerCacheId) throws IllegalArgumentException {
-		final String cacheKey = cacheId + "/" + containerCacheId; //$NON-NLS-1$
+	public Cache getCache(final ToolboxFileRole role, final String... cacheId)
+			throws IllegalArgumentException {
+		final String cacheKey = Arrays.stream(cacheId)
+				.collect(Collectors.joining("/")); //$NON-NLS-1$
 		return getCache(role, cacheKey);
 	}
 
