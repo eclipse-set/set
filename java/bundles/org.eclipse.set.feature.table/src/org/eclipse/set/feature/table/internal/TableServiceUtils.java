@@ -13,20 +13,26 @@ package org.eclipse.set.feature.table.internal;
 import static org.eclipse.set.ppmodel.extensions.StellBereichExtensions.getStellBereich;
 import static org.eclipse.set.ppmodel.extensions.StellBereichExtensions.isInControlArea;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.cache.Cache;
 import org.eclipse.set.basis.constants.ContainerType;
 import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.core.services.cache.CacheService;
+import org.eclipse.set.feature.table.messages.Messages;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
 import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
 import org.eclipse.set.model.planpro.Block.Block_Anlage;
@@ -48,6 +54,8 @@ import org.eclipse.set.ppmodel.extensions.MultiContainer_AttributeGroupExtension
 import org.eclipse.set.ppmodel.extensions.StellBereichExtensions;
 import org.eclipse.set.ppmodel.extensions.UrObjectExtensions;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
+import org.eclipse.set.services.table.TableService;
+import org.eclipse.set.utils.ToolboxConfiguration;
 import org.eclipse.set.utils.table.TableError;
 import org.eclipse.set.utils.table.TableInfo;
 import org.eclipse.set.utils.table.TableInfo.Pt1TableCategory;
@@ -126,6 +134,119 @@ public class TableServiceUtils {
 		};
 		return filterElementBelongToControlArea(errorsByCurrentTableState,
 				getObj, controlAreaIds, modelSession, null);
+	}
+
+	/**
+	 * Provides a list of all not yet generated tables.
+	 * 
+	 * @param tableService
+	 *            the table service to fetch available tables
+	 * @param modelSession
+	 *            the current model session
+	 * @param controlAreaIds
+	 *            the set of control area id's
+	 * @return list of tables that are not yet generated
+	 */
+	public static Collection<TableInfo> getMissingTables(
+			final TableService tableService, final IModelSession modelSession,
+			final Set<String> controlAreaIds) {
+		return getMissingTables(tableService, modelSession, controlAreaIds,
+				null);
+	}
+
+	/**
+	 * Provides a list of all not yet generated tables.
+	 * 
+	 * @param tableService
+	 *            the table service to fetch available tables
+	 * @param modelSession
+	 *            the current model session
+	 * @param controlAreaIds
+	 *            the set of control area id's
+	 * @param tableCategory
+	 *            an optional table category to only calculate tables of this
+	 *            category. Provide null if this filter shall not be applied
+	 * @return list of tables that are not yet generated
+	 */
+	public static Collection<TableInfo> getMissingTables(
+			final TableService tableService, final IModelSession modelSession,
+			final Set<String> controlAreaIds,
+			final Pt1TableCategory tableCategory) {
+		final Map<TableInfo, Collection<TableError>> computedErrors = tableService
+				.getTableErrors(modelSession, controlAreaIds, tableCategory);
+		final Collection<TableInfo> allTableInfos = tableService
+				.getAvailableTables()
+				.stream()
+				.filter(table -> tableCategory == null
+						|| table.category().equals(tableCategory))
+				.toList();
+
+		final ArrayList<TableInfo> missingTables = new ArrayList<>();
+		missingTables.addAll(allTableInfos);
+		if (!ToolboxConfiguration.isDebugMode()) {
+			// in debug mode we want to be able to recompute the errors
+			// that's why we mark all as missing
+			missingTables
+					.removeIf(info -> computedErrors.keySet().contains(info));
+		}
+		return missingTables;
+	}
+
+	/**
+	 * Generates all not yet generated tables.
+	 * 
+	 * @param tableService
+	 *            the table service to fetch not yet generated tables tables
+	 * @param modelSession
+	 *            the current model session
+	 * @param controlAreaIds
+	 *            the set of control area id's
+	 * @param monitor
+	 *            the monitor to display progress
+	 * @param messages
+	 *            the translated messages for displaying in the progress monitor
+	 */
+	public static void calculateAllMissingTables(
+			final TableService tableService, final IModelSession modelSession,
+			final Set<String> controlAreaIds, final IProgressMonitor monitor,
+			final Messages messages) {
+		calculateAllMissingTables(tableService, modelSession, controlAreaIds,
+				null, monitor, messages);
+	}
+
+	/**
+	 * Generates all not yet generated tables.
+	 * 
+	 * @param tableService
+	 *            the table service to fetch not yet generated tables tables
+	 * @param modelSession
+	 *            the current model session
+	 * @param controlAreaIds
+	 *            the set of control area id's
+	 * @param tableCategory
+	 *            an optional table category to only calculate tables of this
+	 *            category. Provide null if this filter shall not be applied
+	 * @param monitor
+	 *            the monitor to display progress
+	 * @param messages
+	 *            the translated messages for displaying in the progress monitor
+	 */
+	public static void calculateAllMissingTables(
+			final TableService tableService, final IModelSession modelSession,
+			final Set<String> controlAreaIds,
+			final Pt1TableCategory tableCategory,
+			final IProgressMonitor monitor, final Messages messages) {
+		final Collection<TableInfo> missingTables = getMissingTables(
+				tableService, modelSession, controlAreaIds, tableCategory);
+		monitor.beginTask(messages.TableOverviewPart_CalculateMissingTask,
+				missingTables.size());
+		if (!modelSession.isSingleState()) {
+			tableService.transformTables(monitor, new HashSet<>(missingTables),
+					TableType.DIFF, controlAreaIds);
+		} else {
+			tableService.transformTables(monitor, new HashSet<>(missingTables),
+					TableType.SINGLE, controlAreaIds);
+		}
 	}
 
 	protected static Table filterRequestValue(final Table table,
