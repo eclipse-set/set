@@ -428,7 +428,11 @@ public final class ToolboxTableView extends BasePart {
 			startOffset += text.length() + 1;
 
 		}
-
+		if (lines.size() > ToolboxConstants.FOOTNOTE_ACTIVE_SCROLL_MINIMUM) {
+			GridDataFactory.fillDefaults()
+					.grab(true, true)
+					.applyTo(tableFooting);
+		}
 		tableFooting.setText(StringUtils.join(lines, "\n")); //$NON-NLS-1$
 		tableFooting.setStyleRanges(styles.toArray(new StyleRange[0]));
 	}
@@ -568,14 +572,15 @@ public final class ToolboxTableView extends BasePart {
 		bodyLayerStack.getSelectionLayer().clear();
 
 		// display footnotes
-		tableFooting = new StyledText(parent, SWT.MULTI);
-		tableFooting.setBackground(GRAY_BACKGROUND);
-		updateFootnotes();
-		tableFooting.setEditable(false);
+		tableFooting = new StyledText(parent, SWT.MULTI | SWT.V_SCROLL);
 		GridDataFactory.fillDefaults()
 				.grab(true, false)
 				.minSize(-1, 500)
 				.applyTo(tableFooting);
+		tableFooting.setBackground(GRAY_BACKGROUND);
+		tableFooting.setAlwaysShowScrollBars(false);
+		updateFootnotes();
+		tableFooting.setEditable(false);
 
 		// export action
 		getBanderole().setExportAction(new SelectableAction() {

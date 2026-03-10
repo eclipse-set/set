@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -40,6 +41,8 @@ import org.eclipse.set.model.tablemodel.TableRow;
 import org.eclipse.set.model.tablemodel.TablemodelFactory;
 import org.eclipse.set.ppmodel.extensions.SignalRahmenExtensions;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
+
+import com.google.common.collect.Streams;
 
 /**
  * Extension for table footnote
@@ -250,16 +253,16 @@ public class FootnoteExtensions {
 		if (rahmenArt.equals(ENUMRahmenArt.ENUM_RAHMEN_ART_BLECHTAFEL)
 				|| rahmenArt
 						.equals(ENUMRahmenArt.ENUM_RAHMEN_ART_ZUSATZANZEIGER)) {
-			final List<String> signalBegriffe = SignalRahmenExtensions
-					.getSignalbegriffe(signalRahmen)
-					.stream()
-					.map((signalBegriff) -> getPrefix(signalBegriff, false))
-					.filter(begriff -> begriff != null)
+			final List<String> signalBegriffe = Streams
+					.stream(SignalRahmenExtensions
+							.getSignalbegriffe(signalRahmen))
+					.map(signalBegriff -> getPrefix(signalBegriff, false))
+					.filter(Objects::nonNull)
 					.collect(Collectors.toSet())
 					.stream()
 					.sorted()
 					.toList();
-			if (signalBegriffe.size() > 0) {
+			if (!signalBegriffe.isEmpty()) {
 				return prefix + " " + String.join(", ", signalBegriffe); //$NON-NLS-1$ //$NON-NLS-2$
 			}
 		}
