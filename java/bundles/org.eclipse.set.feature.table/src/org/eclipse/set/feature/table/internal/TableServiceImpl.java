@@ -287,12 +287,12 @@ public final class TableServiceImpl implements TableService {
 		final String shortName = getTableNameInfo(tableInfo).getShortName();
 		final String shortCut = tableInfo.shortcut();
 		errors.forEach(error -> error.setSource(shortName));
-				getCacheService()
-						.getCache(modelSession.getPlanProSchnittstelle(),
+		getCacheService()
+				.getCache(modelSession.getPlanProSchnittstelle(),
 						ToolboxConstants.CacheId.TABLE_ERRORS)
 				.set(shortCut, errors);
-				broker.post(Events.TABLEERROR_CHANGED, null);
-		}
+		broker.post(Events.TABLEERROR_CHANGED, null);
+	}
 
 	private Object loadTransform(final TableInfo tableInfo,
 			final IModelSession modelSession) {
@@ -300,7 +300,7 @@ public final class TableServiceImpl implements TableService {
 				tableInfo);
 		Table transformedTable = null;
 		transformedTable = createDiffStateTable(tableInfo, modelSession);
-			modelService.format(transformedTable);
+		modelService.format(transformedTable);
 		if (Thread.currentThread().isInterrupted()
 				|| transformedTable == null) {
 			return MissingSupplier.MISSING_VALUE;
@@ -403,7 +403,7 @@ public final class TableServiceImpl implements TableService {
 					TablemodelFactory.eINSTANCE.createTableContent());
 			getModelService(tableInfo).buildHeading(emptyTable);
 			return emptyTable;
-			}
+		}
 
 		final Table resultTable = TableServiceUtils.filterRequestValue(
 				EcoreUtil.copy(table), tableInfo, tableType, modelSession,
@@ -433,8 +433,8 @@ public final class TableServiceImpl implements TableService {
 					.toList();
 			FootnoteExtensions.fillSxxxTableColumnC(resultTable,
 					footnotesPerTable, missingTables.isEmpty());
-					return;
-				}
+			return;
+		}
 		final Set<Footnote> tableNotes = FootnoteExtensions
 				.getNotesInTable(resultTable);
 
@@ -684,6 +684,6 @@ public final class TableServiceImpl implements TableService {
 	void clearInstance() {
 		transformTableThreads.clear();
 		nonTransformableTables.clear();
-		workNotesPerTable.clear();
+		footnotesPerTable.clear();
 	}
 }
