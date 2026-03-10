@@ -39,15 +39,14 @@ import org.junit.jupiter.params.provider.MethodSource;
  * 
  * @author truong
  */
-@ExtendWith(TestFailHandle.class)
 @TestInstance(Lifecycle.PER_CLASS)
 public class TableStateDataTest extends AbstractTableTest {
 	private static String ALL_DATA_OPTION = "Gesamter Dateiinhalt";
-	private static final String DIFF_STATE_TEXT = "Vergleich Start/Ziel";
+	private static String PLANUNG_BEREICH_OPTION = "Planungsbereich";
 
+	private static final String DIFF_STATE_TEXT = "Vergleich Start/Ziel";
 	private static final String FINAL_STATE_TEXT = "Zielzustand";
 	private static final String INITIAL_STATE_TEXT = "Startzustand";
-	private static String PLANUNG_BEREICH_OPTION = "Planungsbereich";
 
 	private static Stream<Arguments> providesTableTypeAndTable() {
 		// Diff state is already tested in TableTestData
@@ -61,9 +60,17 @@ public class TableStateDataTest extends AbstractTableTest {
 						pair.getFirst(), pair.getSecond()));
 	}
 
-	SWTBotCombo controlAreaCombo;
 	TableType tableState;
 	SWTBotCombo tableTypeSelectionCombo;
+	SWTBotCombo controlAreaCombo;
+
+	@BeforeAll
+	void beforeAll() throws Exception {
+		super.beforeEach();
+		tableTypeSelectionCombo = bot.comboBox(DIFF_STATE_TEXT);
+		controlAreaCombo = bot.comboBox(PLANUNG_BEREICH_OPTION);
+		controlAreaCombo.setSelection(ALL_DATA_OPTION);
+	}
 
 	@BeforeEach
 	@Override
@@ -137,14 +144,6 @@ public class TableStateDataTest extends AbstractTableTest {
 			cTabItem.activate();
 			cTabItem.close();
 		});
-	}
-
-	@BeforeAll
-	void beforeAll() throws Exception {
-		super.beforeEach();
-		tableTypeSelectionCombo = bot.comboBox(DIFF_STATE_TEXT);
-		controlAreaCombo = bot.comboBox(PLANUNG_BEREICH_OPTION);
-		controlAreaCombo.setSelection(ALL_DATA_OPTION);
 	}
 
 	/**

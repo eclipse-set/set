@@ -15,7 +15,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-
 import org.eclipse.set.basis.Pair;
 import org.eclipse.set.swtbot.table.TestFailHandle.ReopenTableBeforeFailHandle;
 import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
@@ -37,7 +36,6 @@ import org.junit.jupiter.params.provider.FieldSource;
  * 
  * @author truong
  */
-@ExtendWith(TestFailHandle.class)
 @TestInstance(Lifecycle.PER_CLASS)
 public class TableControlAreaDataTest extends AbstractTableTest {
 	private static String ALL_CONTROL_AREA = "Alle Stellbereiche";
@@ -129,7 +127,7 @@ public class TableControlAreaDataTest extends AbstractTableTest {
 	@ParameterizedTest(name = "{argumentSetName}")
 	@FieldSource("controlAreasAndPtTable")
 	@ExtendWith(ReopenTableBeforeFailHandle.class)
-	void testTableControlAreaData(final String controlArea, final PtTable table)
+	void testTableControlAreaData(final String controlArea, PtTable table)
 			throws Exception {
 		controlAreaCombo.setSelection(controlArea);
 		testArea = controlArea;
