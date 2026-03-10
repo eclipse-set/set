@@ -818,8 +818,9 @@ public final class ToolboxTableView extends BasePart {
 			return;
 		}
 		// custom panel
-		final Composite panel = new Composite(parent, SWT.CENTER);
+		final Composite panel = new Composite(parent, SWT.NONE);
 		GridLayoutFactory.fillDefaults().numColumns(2).applyTo(panel);
+		GridDataFactory.fillDefaults().grab(true, false).applyTo(panel);
 		final Label label = new Label(panel, SWT.LEFT);
 		GridDataFactory.fillDefaults()
 				.align(SWT.BEGINNING, SWT.CENTER)
@@ -827,10 +828,7 @@ public final class ToolboxTableView extends BasePart {
 				.applyTo(label);
 		label.setText(messages.ToolboxTableView_TableIncompleteHint);
 		final Button button = new Button(panel, SWT.None);
-		GridDataFactory.swtDefaults()
-				.align(SWT.END, SWT.FILL)
-				.grab(true, false)
-				.applyTo(button);
+		GridDataFactory.swtDefaults().align(SWT.END, SWT.FILL).applyTo(button);
 		button.setText(messages.ToolboxTableView_CalculateTables);
 		button.addSelectionListener(new SelectionListener() {
 			@Override
