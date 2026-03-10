@@ -431,6 +431,12 @@ public final class ToolboxTableView extends BasePart {
 
 		}
 
+		if (lines.size() > ToolboxConstants.FOOTNOTE_ACTIVE_SCROLL_MINIMUM) {
+			GridDataFactory.fillDefaults()
+					.grab(true, true)
+					.applyTo(tableFooting);
+		}
+
 		tableFooting.setText(StringUtils.join(lines, "\n")); //$NON-NLS-1$
 		tableFooting.setStyleRanges(styles.toArray(new StyleRange[0]));
 	}
@@ -586,7 +592,10 @@ public final class ToolboxTableView extends BasePart {
 			}
 		};
 
-		GridDataFactory.fillDefaults().grab(true, false).applyTo(tableFooting);
+		GridDataFactory.fillDefaults()
+				.grab(true, false)
+				.minSize(-1, 150)
+				.applyTo(tableFooting);
 		tableFooting.setBackground(GRAY_BACKGROUND);
 		tableFooting.setAlwaysShowScrollBars(false);
 		updateFootnotes();
@@ -829,7 +838,7 @@ public final class ToolboxTableView extends BasePart {
 	}
 
 	private void addCalculateMissingTablesPanel(final Composite parent) {
-		if (getMissingTables().size() == 0) {
+		if (getMissingTables().isEmpty()) {
 			return;
 		}
 		// custom panel
