@@ -140,8 +140,8 @@ class SignalExtensions extends PunktObjektExtensions {
 	 * 
 	 * @returns list of all Signal_Rahmen elements, which reference (= are connected to) the provided Signal.
 	 */
-	def static List<Signal_Rahmen> signalRahmen(Signal signal) {
-		return signal.container.signalRahmen.filter[r|r.signal == signal].toList
+	def static Iterable<Signal_Rahmen> signalRahmen(Signal signal) {
+		return signal.container.signalRahmen.filter[r|r.signal == signal]
 	}
 
 	/**
