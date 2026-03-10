@@ -128,6 +128,7 @@ import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
@@ -154,6 +155,7 @@ public final class ToolboxTableView extends BasePart {
 
 	private static Color GRAY_BACKGROUND = new Color(Display.getCurrent(), 240,
 			240, 240);
+	private static final int TABLE_FOOTNOTE_CONTANIER_MAX_HEIGHT = 150;
 
 	static final Logger logger = LoggerFactory
 			.getLogger(ToolboxTableView.class);
@@ -428,11 +430,13 @@ public final class ToolboxTableView extends BasePart {
 			startOffset += text.length() + 1;
 
 		}
+
 		if (lines.size() > ToolboxConstants.FOOTNOTE_ACTIVE_SCROLL_MINIMUM) {
 			GridDataFactory.fillDefaults()
 					.grab(true, true)
 					.applyTo(tableFooting);
 		}
+
 		tableFooting.setText(StringUtils.join(lines, "\n")); //$NON-NLS-1$
 		tableFooting.setStyleRanges(styles.toArray(new StyleRange[0]));
 	}
@@ -572,10 +576,25 @@ public final class ToolboxTableView extends BasePart {
 		bodyLayerStack.getSelectionLayer().clear();
 
 		// display footnotes
-		tableFooting = new StyledText(parent, SWT.MULTI | SWT.V_SCROLL);
+		tableFooting = new StyledText(parent, SWT.MULTI | SWT.V_SCROLL) {
+			@Override
+			public Point computeSize(final int wHint, final int hHint,
+					final boolean changed) {
+				// Limit height of the footnote
+				final Point preferredSize = super.computeSize(wHint, hHint,
+						changed);
+				if (preferredSize.y > TABLE_FOOTNOTE_CONTANIER_MAX_HEIGHT) {
+					return new Point(preferredSize.x,
+							TABLE_FOOTNOTE_CONTANIER_MAX_HEIGHT);
+				}
+				return preferredSize;
+
+			}
+		};
+
 		GridDataFactory.fillDefaults()
 				.grab(true, false)
-				.minSize(-1, 500)
+				.minSize(-1, 150)
 				.applyTo(tableFooting);
 		tableFooting.setBackground(GRAY_BACKGROUND);
 		tableFooting.setAlwaysShowScrollBars(false);
@@ -819,7 +838,7 @@ public final class ToolboxTableView extends BasePart {
 	}
 
 	private void addCalculateMissingTablesPanel(final Composite parent) {
-		if (getMissingTables().size() == 0) {
+		if (getMissingTables().isEmpty()) {
 			return;
 		}
 		// custom panel
