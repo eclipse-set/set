@@ -74,6 +74,7 @@ public class ToolboxFileServiceImpl implements ToolboxFileService {
 			newToolboxFile = convertToZipped(role);
 			newPath = PathExtensions.replaceExtension(newPath,
 					ToolboxConstants.EXTENSION_PLANPRO);
+			newToolboxFile.setTemporaryDirectory(tempDir);
 		} else if (format.isPlain()) {
 			newToolboxFile = convertToPlain(role);
 			newPath = PathExtensions.replaceExtension(newPath,

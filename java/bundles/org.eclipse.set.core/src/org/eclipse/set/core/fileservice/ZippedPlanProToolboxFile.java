@@ -110,7 +110,7 @@ public class ZippedPlanProToolboxFile extends AbstractToolboxFile {
 			setResource(LAYOUT_RESOURCE_TYPE_NAME, createPlanProResource());
 		} else {
 			setResource(TEMPORARY_RESOURCE_TYPE_NAME,
-					createTemporatyResource());
+					createTemporaryResource());
 		}
 
 	}
@@ -171,7 +171,7 @@ public class ZippedPlanProToolboxFile extends AbstractToolboxFile {
 		return newResource;
 	}
 
-	private PlanProFileResource createTemporatyResource() {
+	private PlanProFileResource createTemporaryResource() {
 		final PlanProFileResource newResource = new PlanProFileResource(
 				URI.createURI(TemporaryintegrationPackage.eNS_URI));
 		editingDomain.getResourceSet().getResources().add(newResource);
@@ -539,7 +539,14 @@ public class ZippedPlanProToolboxFile extends AbstractToolboxFile {
 
 	@Override
 	public PlanProFileResource getTemporaryResource() {
-		return getResource(TEMPORARY_RESOURCE_TYPE_NAME);
+		final PlanProFileResource resource = getResource(
+				TEMPORARY_RESOURCE_TYPE_NAME);
+		if (resource == null) {
+			final PlanProFileResource temporaryResource = createTemporaryResource();
+			setResource(TEMPORARY_RESOURCE_TYPE_NAME, temporaryResource);
+			return temporaryResource;
+		}
+		return resource;
 	}
 
 	public ToolboxFile createTemporaryToolboxFile(final String mergerDir,

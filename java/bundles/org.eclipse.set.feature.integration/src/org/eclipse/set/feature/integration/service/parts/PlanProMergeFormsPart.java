@@ -194,6 +194,10 @@ public class PlanProMergeFormsPart extends AbstractEmfFormsPart {
 	}
 
 	private ToolboxFile getConvertedPrimaryPlanning() {
+		if (session.getToolboxFile().getFormat().isZippedPlanPro()) {
+			return session.getToolboxFile();
+		}
+
 		return fileService.convertFormat(session.getToolboxFile(),
 				ToolboxFileRole.SESSION, session.getTempDir(),
 				SetFormat.createZippedPlanPro());
@@ -284,14 +288,18 @@ public class PlanProMergeFormsPart extends AbstractEmfFormsPart {
 					secondaryPlanningToolboxfile
 							.setTemporaryDirectory(session.getTempDir());
 					final List<ValidationResult> validationResultList = new ArrayList<>();
-					final ModelContents model = modelLoader.loadModelSync(
+					final ModelContents modelSync = modelLoader.loadModelSync(
 							secondaryPlanningToolboxfile,
 							validationResultList::add, shell);
+					secondaryPlanning = modelSync.schnittStelle();
 					final ValidationResult validationResult = validationResultList
 							.stream()
 							.filter(valid -> valid.getValidatedSourceClass()
 									.equals(PlanPro_Schnittstelle.class))
 							.findFirst().orElse(null);
+					if (validationResult == null) {
+						return;
+					}
 					if (!secondaryPlanningToolboxfile.getFormat()
 							.isZippedPlanPro()) {
 						secondaryPlanningToolboxfile = fileService
