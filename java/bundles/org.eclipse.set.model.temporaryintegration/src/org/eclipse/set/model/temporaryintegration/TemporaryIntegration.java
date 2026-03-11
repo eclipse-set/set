@@ -1,20 +1,19 @@
 /**
- * Copyright (c) {Jahr} DB Netz AG and others.
+ * Copyright (c) 2026 DB InfraGO AG and others
  * 
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v2.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v20.html
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
  */
 package org.eclipse.set.model.temporaryintegration;
 
-import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EObject;
 
-import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
+import org.eclipse.set.model.planpro.Layoutinformationen.PlanPro_Layoutinfo;
 
-import org.eclipse.set.model.planpro.Verweise.ID_PlanPro_Schnittstelle_TypeClass;
+import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
 
 import org.eclipse.set.model.simplemerge.SComparison;
 
@@ -29,15 +28,17 @@ import org.eclipse.set.model.simplemerge.SComparison;
  * <ul>
  *   <li>{@link org.eclipse.set.model.temporaryintegration.TemporaryIntegration#getPrimaryPlanning <em>Primary Planning</em>}</li>
  *   <li>{@link org.eclipse.set.model.temporaryintegration.TemporaryIntegration#getPrimaryPlanningFilename <em>Primary Planning Filename</em>}</li>
+ *   <li>{@link org.eclipse.set.model.temporaryintegration.TemporaryIntegration#getPrimaryLayout <em>Primary Layout</em>}</li>
  *   <li>{@link org.eclipse.set.model.temporaryintegration.TemporaryIntegration#isPrimaryPlanningWasValid <em>Primary Planning Was Valid</em>}</li>
  *   <li>{@link org.eclipse.set.model.temporaryintegration.TemporaryIntegration#getSecondaryPlanning <em>Secondary Planning</em>}</li>
+ *   <li>{@link org.eclipse.set.model.temporaryintegration.TemporaryIntegration#getSecondaryLayout <em>Secondary Layout</em>}</li>
  *   <li>{@link org.eclipse.set.model.temporaryintegration.TemporaryIntegration#getSecondaryPlanningFilename <em>Secondary Planning Filename</em>}</li>
  *   <li>{@link org.eclipse.set.model.temporaryintegration.TemporaryIntegration#isSecondaryPlanningWasValid <em>Secondary Planning Was Valid</em>}</li>
  *   <li>{@link org.eclipse.set.model.temporaryintegration.TemporaryIntegration#getCompositePlanning <em>Composite Planning</em>}</li>
+ *   <li>{@link org.eclipse.set.model.temporaryintegration.TemporaryIntegration#getCompositeyout <em>Compositeyout</em>}</li>
  *   <li>{@link org.eclipse.set.model.temporaryintegration.TemporaryIntegration#getIntegrationDirectory <em>Integration Directory</em>}</li>
  *   <li>{@link org.eclipse.set.model.temporaryintegration.TemporaryIntegration#getComparisonInitialState <em>Comparison Initial State</em>}</li>
  *   <li>{@link org.eclipse.set.model.temporaryintegration.TemporaryIntegration#getComparisonFinalState <em>Comparison Final State</em>}</li>
- *   <li>{@link org.eclipse.set.model.temporaryintegration.TemporaryIntegration#getPrimaryPlanningIDReferences <em>Primary Planning ID References</em>}</li>
  * </ul>
  *
  * @see org.eclipse.set.model.temporaryintegration.TemporaryintegrationPackage#getTemporaryIntegration()
@@ -90,6 +91,28 @@ public interface TemporaryIntegration extends EObject {
 	void setPrimaryPlanningFilename(String value);
 
 	/**
+	 * Returns the value of the '<em><b>Primary Layout</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Primary Layout</em>' containment reference.
+	 * @see #setPrimaryLayout(PlanPro_Layoutinfo)
+	 * @see org.eclipse.set.model.temporaryintegration.TemporaryintegrationPackage#getTemporaryIntegration_PrimaryLayout()
+	 * @model containment="true"
+	 * @generated
+	 */
+	PlanPro_Layoutinfo getPrimaryLayout();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.set.model.temporaryintegration.TemporaryIntegration#getPrimaryLayout <em>Primary Layout</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Primary Layout</em>' containment reference.
+	 * @see #getPrimaryLayout()
+	 * @generated
+	 */
+	void setPrimaryLayout(PlanPro_Layoutinfo value);
+
+	/**
 	 * Returns the value of the '<em><b>Primary Planning Was Valid</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -132,6 +155,28 @@ public interface TemporaryIntegration extends EObject {
 	 * @generated
 	 */
 	void setSecondaryPlanning(PlanPro_Schnittstelle value);
+
+	/**
+	 * Returns the value of the '<em><b>Secondary Layout</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Secondary Layout</em>' containment reference.
+	 * @see #setSecondaryLayout(PlanPro_Layoutinfo)
+	 * @see org.eclipse.set.model.temporaryintegration.TemporaryintegrationPackage#getTemporaryIntegration_SecondaryLayout()
+	 * @model containment="true"
+	 * @generated
+	 */
+	PlanPro_Layoutinfo getSecondaryLayout();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.set.model.temporaryintegration.TemporaryIntegration#getSecondaryLayout <em>Secondary Layout</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Secondary Layout</em>' containment reference.
+	 * @see #getSecondaryLayout()
+	 * @generated
+	 */
+	void setSecondaryLayout(PlanPro_Layoutinfo value);
 
 	/**
 	 * Returns the value of the '<em><b>Secondary Planning Filename</b></em>' attribute.
@@ -200,6 +245,28 @@ public interface TemporaryIntegration extends EObject {
 	void setCompositePlanning(PlanPro_Schnittstelle value);
 
 	/**
+	 * Returns the value of the '<em><b>Compositeyout</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Compositeyout</em>' containment reference.
+	 * @see #setCompositeyout(PlanPro_Layoutinfo)
+	 * @see org.eclipse.set.model.temporaryintegration.TemporaryintegrationPackage#getTemporaryIntegration_Compositeyout()
+	 * @model containment="true"
+	 * @generated
+	 */
+	PlanPro_Layoutinfo getCompositeyout();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.set.model.temporaryintegration.TemporaryIntegration#getCompositeyout <em>Compositeyout</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Compositeyout</em>' containment reference.
+	 * @see #getCompositeyout()
+	 * @generated
+	 */
+	void setCompositeyout(PlanPro_Layoutinfo value);
+
+	/**
 	 * Returns the value of the '<em><b>Integration Directory</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -264,17 +331,5 @@ public interface TemporaryIntegration extends EObject {
 	 * @generated
 	 */
 	void setComparisonFinalState(SComparison value);
-
-	/**
-	 * Returns the value of the '<em><b>Primary Planning ID References</b></em>' containment reference list.
-	 * The list contents are of type {@link org.eclipse.set.model.planpro.Verweise.ID_PlanPro_Schnittstelle_TypeClass}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Primary Planning ID References</em>' containment reference list.
-	 * @see org.eclipse.set.model.temporaryintegration.TemporaryintegrationPackage#getTemporaryIntegration_PrimaryPlanningIDReferences()
-	 * @model containment="true"
-	 * @generated
-	 */
-	EList<ID_PlanPro_Schnittstelle_TypeClass> getPrimaryPlanningIDReferences();
 
 } // TemporaryIntegration

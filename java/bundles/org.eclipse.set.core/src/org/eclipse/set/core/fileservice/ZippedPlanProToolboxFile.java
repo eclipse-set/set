@@ -33,13 +33,12 @@ import org.eclipse.set.basis.extensions.PathExtensions;
 import org.eclipse.set.basis.files.PlanProFileResource;
 import org.eclipse.set.basis.files.ToolboxFile;
 import org.eclipse.set.basis.files.ToolboxFileRole;
-import org.eclipse.set.basis.files.ToolboxIDResolver;
 import org.eclipse.set.basis.guid.Guid;
 import org.eclipse.set.core.services.Services;
 import org.eclipse.set.model.planpro.PlanPro.DocumentRoot;
 import org.eclipse.set.model.planpro.PlanPro.PlanProPackage;
+import org.eclipse.set.model.temporaryintegration.TemporaryIntegration;
 import org.eclipse.set.model.temporaryintegration.TemporaryintegrationPackage;
-import org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration;
 import org.eclipse.set.model.zipmanifest.Manifest;
 
 /**
@@ -106,8 +105,14 @@ public class ZippedPlanProToolboxFile extends AbstractToolboxFile {
 	ZippedPlanProToolboxFile(final Format format,
 			final EditingDomain editingDomain, final ToolboxFileRole role) {
 		this(null, format, editingDomain, false, role);
-		setResource(TECHNICAL_RESOURCE_TYPE_NAME, createPlanProResource());
-		setResource(LAYOUT_RESOURCE_TYPE_NAME, createPlanProResource());
+		if (role != ToolboxFileRole.TEMPORARY_INTEGRATION) {
+			setResource(TECHNICAL_RESOURCE_TYPE_NAME, createPlanProResource());
+			setResource(LAYOUT_RESOURCE_TYPE_NAME, createPlanProResource());
+		} else {
+			setResource(TEMPORARY_RESOURCE_TYPE_NAME,
+					createTemporatyResource());
+		}
+
 	}
 
 	/**
@@ -160,6 +165,15 @@ public class ZippedPlanProToolboxFile extends AbstractToolboxFile {
 	private PlanProFileResource createPlanProResource() {
 		final PlanProFileResource newResource = new PlanProFileResource(
 				URI.createURI(PlanProPackage.eNS_URI));
+		editingDomain.getResourceSet().getResources().add(newResource);
+
+		newResource.setEncoding(ENCODING);
+		return newResource;
+	}
+
+	private PlanProFileResource createTemporatyResource() {
+		final PlanProFileResource newResource = new PlanProFileResource(
+				URI.createURI(TemporaryintegrationPackage.eNS_URI));
 		editingDomain.getResourceSet().getResources().add(newResource);
 
 		newResource.setEncoding(ENCODING);
@@ -524,8 +538,13 @@ public class ZippedPlanProToolboxFile extends AbstractToolboxFile {
 	}
 
 	@Override
+	public PlanProFileResource getTemporaryResource() {
+		return getResource(TEMPORARY_RESOURCE_TYPE_NAME);
+	}
+
 	public ToolboxFile createTemporaryToolboxFile(final String mergerDir,
-			final ToolboxTemporaryIntegration newTemporaryIntegration) {
+			final TemporaryIntegration newTemporaryIntegration) {
+
 		final PlanProFileResource newResource = new PlanProFileResource(
 				URI.createURI(TemporaryintegrationPackage.eNS_URI));
 		editingDomain.getResourceSet().getResources().add(newResource);

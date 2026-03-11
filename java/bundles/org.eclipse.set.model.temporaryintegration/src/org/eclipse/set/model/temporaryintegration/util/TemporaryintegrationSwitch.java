@@ -1,10 +1,11 @@
 /**
- * Copyright (c) {Jahr} DB Netz AG and others.
+ * Copyright (c) 2026 DB InfraGO AG and others
  * 
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v2.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v20.html
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
  */
 package org.eclipse.set.model.temporaryintegration.util;
 
@@ -78,12 +79,6 @@ public class TemporaryintegrationSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case TemporaryintegrationPackage.TOOLBOX_TEMPORARY_INTEGRATION: {
-				ToolboxTemporaryIntegration toolboxTemporaryIntegration = (ToolboxTemporaryIntegration)theEObject;
-				T result = caseToolboxTemporaryIntegration(toolboxTemporaryIntegration);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -100,21 +95,6 @@ public class TemporaryintegrationSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseTemporaryIntegration(TemporaryIntegration object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Toolbox Temporary Integration</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Toolbox Temporary Integration</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseToolboxTemporaryIntegration(ToolboxTemporaryIntegration object) {
 		return null;
 	}
 

@@ -27,7 +27,6 @@ import org.eclipse.set.model.integrationview.ObjectQuantity
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle
 import org.eclipse.set.model.simplemerge.SMatch
 import org.eclipse.set.model.temporaryintegration.TemporaryIntegration
-import org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration
 
 import static extension org.eclipse.set.model.simplemerge.extensions.ResolutionExtensions.*
 import static extension org.eclipse.set.model.temporaryintegration.extensions.TemporaryIntegrationExtensions.*
@@ -210,7 +209,7 @@ class SessionToIntegrationViewTransformation {
 	private def Conflict transformToConflict(
 		SMatch match,
 		ContainerType type,
-		ToolboxTemporaryIntegration integration
+		TemporaryIntegration integration
 	) {
 		val conflict = transformToConflictCreate(match, type, integration)
 
@@ -294,7 +293,7 @@ class SessionToIntegrationViewTransformation {
 	transformToConflictCreate(
 		SMatch match,
 		ContainerType type,
-		ToolboxTemporaryIntegration integration
+		TemporaryIntegration integration
 	) {
 	}
 

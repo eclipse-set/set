@@ -36,7 +36,7 @@ import org.eclipse.set.model.integrationview.Conflict;
 import org.eclipse.set.model.planpro.Basisobjekte.Anhang;
 import org.eclipse.set.model.simplemerge.SMatch;
 import org.eclipse.set.model.simplemerge.extensions.SMatchExtensions;
-import org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration;
+import org.eclipse.set.model.temporaryintegration.TemporaryIntegration;
 import org.eclipse.set.model.temporaryintegration.extensions.TemporaryIntegrationExtensions;
 import org.eclipse.set.ppmodel.extensions.AnhangExtensions;
 import org.eclipse.swt.widgets.Menu;
@@ -180,7 +180,7 @@ public class ShowAttachmentAction implements Consumer<ColumnViewer> {
 		final SMatch match = transformation.getMatch(conflict);
 		final ContainerType containerType = SMatchExtensions
 				.getContainerType(match);
-		final ToolboxTemporaryIntegration integration = SMatchExtensions
+		final TemporaryIntegration integration = SMatchExtensions
 				.getIntegration(match);
 		final Context context = TemporaryIntegrationExtensions
 				.getMergeContext(integration, contextProvider, containerType);

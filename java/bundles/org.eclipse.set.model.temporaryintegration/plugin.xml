@@ -9,7 +9,7 @@
    <extension point="org.eclipse.emf.ecore.generated_package">
       <!-- @generated TemporaryIntegration -->
       <package
-            uri="tag:scheidt-bachmann-st.de,2018-06-29:planpro/temporaryintegration/1.8.0.1"
+            uri="tag:scheidt-bachmann-st.de,2026-03-11:planpro/temporaryintegration/1.10.0.3"
             class="org.eclipse.set.model.temporaryintegration.TemporaryintegrationPackage"
             genModel="model/TemporaryIntegration.genmodel"/>
    </extension>

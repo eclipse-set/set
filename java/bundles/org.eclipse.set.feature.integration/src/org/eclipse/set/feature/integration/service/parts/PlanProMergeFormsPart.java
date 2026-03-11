@@ -30,11 +30,9 @@ import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.constants.ContainerType;
 import org.eclipse.set.basis.constants.Events;
-import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.basis.constants.ValidationResult;
 import org.eclipse.set.basis.constants.ValidationResult.Outcome;
 import org.eclipse.set.basis.exceptions.UserAbortion;
-import org.eclipse.set.basis.extensions.PathExtensions;
 import org.eclipse.set.basis.files.SetFormat;
 import org.eclipse.set.basis.files.ToolboxFile;
 import org.eclipse.set.basis.files.ToolboxFileRole;
@@ -58,9 +56,7 @@ import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.set.model.simplemerge.SComparison;
 import org.eclipse.set.model.simplemerge.SMatch;
 import org.eclipse.set.model.temporaryintegration.TemporaryIntegration;
-import org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration;
 import org.eclipse.set.model.temporaryintegration.extensions.TemporaryIntegrationExtensions;
-import org.eclipse.set.model.temporaryintegration.util.TemporaryintegrationResourceImpl;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
 import org.eclipse.set.utils.RefreshAction;
 import org.eclipse.set.utils.SelectableAction;
@@ -180,30 +176,13 @@ public class PlanProMergeFormsPart extends AbstractEmfFormsPart {
 	}
 
 	private ToolboxFile createTemporaryToolboxFile(final String mergeDir,
-			final ToolboxTemporaryIntegration newTemporaryIntegration) {
+			final TemporaryIntegration newTemporaryIntegration) {
 		final Path mergeDirFileName = Paths.get(mergeDir,
 				session.getToolboxFile().getPath().getFileName().toString());
-		final Path mergeDirFileNameExtension = PathExtensions
-				.replaceExtension(mergeDirFileName,
-						fileService.extensionsForCategory(
-								ToolboxConstants.EXTENSION_CATEGORY_PPMERGE)
-								.get(0));
-		final ToolboxFile temporaryFile = fileService.load(
-				mergeDirFileNameExtension,
-				ToolboxFileRole.TEMPORARY_INTEGRATION);
+		final ToolboxFile temporaryFile = fileService
+				.createTemporaryToolboxFile(mergeDirFileName,
+						newTemporaryIntegration);
 		temporaryFile.setTemporaryDirectory(session.getTempDir());
-		temporaryFile.getPlanProResource().getContents()
-				.add(newTemporaryIntegration);
-		if (temporaryFile
-				.getResource() instanceof final TemporaryintegrationResourceImpl resource) {
-			resource.getTransformPrimaryInvalidIDReferences().addAll(
-					newTemporaryIntegration.getPrimaryPlanningIDReferences());
-			resource.getTransformSecondaryInvalidIDReferences().addAll(
-					newTemporaryIntegration.getSecondaryPlanningIDReferences());
-			resource.getTransformCompositeInvalidIDReferences().addAll(
-					newTemporaryIntegration.getCompositePlanningIDReferences());
-		}
-
 		try {
 			temporaryFile.copyAllMedia(getConvertedPrimaryPlanning());
 			temporaryFile.copyAllMedia(secondaryPlanningToolboxfile);
@@ -226,7 +205,7 @@ public class PlanProMergeFormsPart extends AbstractEmfFormsPart {
 				IProgressMonitor.UNKNOWN);
 		final String mergeDir = mergeView.getIntegrationDirectory();
 		final ToolboxFile primaryPlanningToolboxFile = getConvertedPrimaryPlanning();
-		final ToolboxTemporaryIntegration temporaryIntegration = TemporaryIntegrationExtensions
+		final TemporaryIntegration temporaryIntegration = TemporaryIntegrationExtensions
 				.create(primaryPlanningToolboxFile,
 						session.getValidationResult(PlanPro_Schnittstelle.class)
 								.getOutcome() == Outcome.VALID,
@@ -301,7 +280,7 @@ public class PlanProMergeFormsPart extends AbstractEmfFormsPart {
 				if (openFile.isPresent()) {
 					final Path path = openFile.get();
 					secondaryPlanningToolboxfile = fileService.load(path,
-							ToolboxFileRole.SECONDARY_PLANNING);
+							ToolboxFileRole.MERGE_PLANNING);
 					secondaryPlanningToolboxfile
 							.setTemporaryDirectory(session.getTempDir());
 					final List<ValidationResult> validationResultList = new ArrayList<>();
@@ -313,11 +292,14 @@ public class PlanProMergeFormsPart extends AbstractEmfFormsPart {
 							.filter(valid -> valid.getValidatedSourceClass()
 									.equals(PlanPro_Schnittstelle.class))
 							.findFirst().orElse(null);
-					secondaryPlanningToolboxfile = fileService.convertFormat(
-							secondaryPlanningToolboxfile,
-							ToolboxFileRole.SECONDARY_PLANNING,
-							session.getTempDir(),
-							SetFormat.createZippedPlanPro());
+					if (!secondaryPlanningToolboxfile.getFormat()
+							.isZippedPlanPro()) {
+						secondaryPlanningToolboxfile = fileService
+								.convertFormat(secondaryPlanningToolboxfile,
+										ToolboxFileRole.MERGE_PLANNING,
+										session.getTempDir(),
+										SetFormat.createZippedPlanPro());
+					}
 
 					// possible states
 					final boolean canNotLoad = secondaryPlanning == null;

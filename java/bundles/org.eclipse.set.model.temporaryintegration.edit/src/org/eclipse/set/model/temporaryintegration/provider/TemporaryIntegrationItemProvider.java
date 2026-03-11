@@ -1,10 +1,11 @@
 /**
- * Copyright (c) {Jahr} DB Netz AG and others.
+ * Copyright (c) 2026 DB InfraGO AG and others
  * 
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v2.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v20.html
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
  */
 package org.eclipse.set.model.temporaryintegration.provider;
 
@@ -30,9 +31,9 @@ import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
-import org.eclipse.set.model.planpro.PlanPro.PlanProFactory;
+import org.eclipse.set.model.planpro.Layoutinformationen.LayoutinformationenFactory;
 
-import org.eclipse.set.model.planpro.Verweise.VerweiseFactory;
+import org.eclipse.set.model.planpro.PlanPro.PlanProFactory;
 
 import org.eclipse.set.model.simplemerge.SimplemergeFactory;
 
@@ -206,11 +207,13 @@ public class TemporaryIntegrationItemProvider
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
 			childrenFeatures.add(TemporaryintegrationPackage.Literals.TEMPORARY_INTEGRATION__PRIMARY_PLANNING);
+			childrenFeatures.add(TemporaryintegrationPackage.Literals.TEMPORARY_INTEGRATION__PRIMARY_LAYOUT);
 			childrenFeatures.add(TemporaryintegrationPackage.Literals.TEMPORARY_INTEGRATION__SECONDARY_PLANNING);
+			childrenFeatures.add(TemporaryintegrationPackage.Literals.TEMPORARY_INTEGRATION__SECONDARY_LAYOUT);
 			childrenFeatures.add(TemporaryintegrationPackage.Literals.TEMPORARY_INTEGRATION__COMPOSITE_PLANNING);
+			childrenFeatures.add(TemporaryintegrationPackage.Literals.TEMPORARY_INTEGRATION__COMPOSITEYOUT);
 			childrenFeatures.add(TemporaryintegrationPackage.Literals.TEMPORARY_INTEGRATION__COMPARISON_INITIAL_STATE);
 			childrenFeatures.add(TemporaryintegrationPackage.Literals.TEMPORARY_INTEGRATION__COMPARISON_FINAL_STATE);
-			childrenFeatures.add(TemporaryintegrationPackage.Literals.TEMPORARY_INTEGRATION__PRIMARY_PLANNING_ID_REFERENCES);
 		}
 		return childrenFeatures;
 	}
@@ -274,11 +277,13 @@ public class TemporaryIntegrationItemProvider
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__PRIMARY_PLANNING:
+			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__PRIMARY_LAYOUT:
 			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__SECONDARY_PLANNING:
+			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__SECONDARY_LAYOUT:
 			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__COMPOSITE_PLANNING:
+			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__COMPOSITEYOUT:
 			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__COMPARISON_INITIAL_STATE:
 			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__COMPARISON_FINAL_STATE:
-			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__PRIMARY_PLANNING_ID_REFERENCES:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -303,13 +308,28 @@ public class TemporaryIntegrationItemProvider
 
 		newChildDescriptors.add
 			(createChildParameter
+				(TemporaryintegrationPackage.Literals.TEMPORARY_INTEGRATION__PRIMARY_LAYOUT,
+				 LayoutinformationenFactory.eINSTANCE.createPlanPro_Layoutinfo()));
+
+		newChildDescriptors.add
+			(createChildParameter
 				(TemporaryintegrationPackage.Literals.TEMPORARY_INTEGRATION__SECONDARY_PLANNING,
 				 PlanProFactory.eINSTANCE.createPlanPro_Schnittstelle()));
 
 		newChildDescriptors.add
 			(createChildParameter
+				(TemporaryintegrationPackage.Literals.TEMPORARY_INTEGRATION__SECONDARY_LAYOUT,
+				 LayoutinformationenFactory.eINSTANCE.createPlanPro_Layoutinfo()));
+
+		newChildDescriptors.add
+			(createChildParameter
 				(TemporaryintegrationPackage.Literals.TEMPORARY_INTEGRATION__COMPOSITE_PLANNING,
 				 PlanProFactory.eINSTANCE.createPlanPro_Schnittstelle()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(TemporaryintegrationPackage.Literals.TEMPORARY_INTEGRATION__COMPOSITEYOUT,
+				 LayoutinformationenFactory.eINSTANCE.createPlanPro_Layoutinfo()));
 
 		newChildDescriptors.add
 			(createChildParameter
@@ -320,11 +340,6 @@ public class TemporaryIntegrationItemProvider
 			(createChildParameter
 				(TemporaryintegrationPackage.Literals.TEMPORARY_INTEGRATION__COMPARISON_FINAL_STATE,
 				 SimplemergeFactory.eINSTANCE.createSComparison()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(TemporaryintegrationPackage.Literals.TEMPORARY_INTEGRATION__PRIMARY_PLANNING_ID_REFERENCES,
-				 VerweiseFactory.eINSTANCE.createID_PlanPro_Schnittstelle_TypeClass()));
 	}
 
 	/**
@@ -342,6 +357,9 @@ public class TemporaryIntegrationItemProvider
 			childFeature == TemporaryintegrationPackage.Literals.TEMPORARY_INTEGRATION__PRIMARY_PLANNING ||
 			childFeature == TemporaryintegrationPackage.Literals.TEMPORARY_INTEGRATION__SECONDARY_PLANNING ||
 			childFeature == TemporaryintegrationPackage.Literals.TEMPORARY_INTEGRATION__COMPOSITE_PLANNING ||
+			childFeature == TemporaryintegrationPackage.Literals.TEMPORARY_INTEGRATION__PRIMARY_LAYOUT ||
+			childFeature == TemporaryintegrationPackage.Literals.TEMPORARY_INTEGRATION__SECONDARY_LAYOUT ||
+			childFeature == TemporaryintegrationPackage.Literals.TEMPORARY_INTEGRATION__COMPOSITEYOUT ||
 			childFeature == TemporaryintegrationPackage.Literals.TEMPORARY_INTEGRATION__COMPARISON_INITIAL_STATE ||
 			childFeature == TemporaryintegrationPackage.Literals.TEMPORARY_INTEGRATION__COMPARISON_FINAL_STATE;
 

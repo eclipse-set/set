@@ -14,6 +14,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.emf.edit.domain.EditingDomain
 import org.eclipse.set.basis.constants.ContainerType
 import org.eclipse.set.basis.files.ToolboxFile
+import org.eclipse.set.core.fileservice.ToolboxIDResolver
 import org.eclipse.set.core.services.merge.MergeService
 import org.eclipse.set.core.services.merge.MergeService.Context
 import org.eclipse.set.core.services.merge.MergeService.ContextProvider
@@ -23,20 +24,19 @@ import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle
 import org.eclipse.set.model.simplemerge.Resolution
 import org.eclipse.set.model.simplemerge.SComparison
 import org.eclipse.set.model.simplemerge.SMatch
+import org.eclipse.set.model.temporaryintegration.TemporaryIntegration
 import org.eclipse.set.model.temporaryintegration.TemporaryintegrationFactory
 import org.eclipse.set.model.temporaryintegration.TemporaryintegrationPackage
-import org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration
 import org.eclipse.set.model.temporaryintegration.extensions.command.MergeCommand
 import org.eclipse.set.utils.IntegerGenerator
 
-import static extension org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.PlanungProjektExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.PlanungEinzelExtensions.*
 import static extension org.eclipse.set.model.simplemerge.extensions.ResolutionExtensions.*
-import org.eclipse.set.core.fileservice.ToolboxIDResolver
+import static extension org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.PlanungEinzelExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.PlanungProjektExtensions.*
 
 /**
- * Extensions for {@link ToolboxTemporaryIntegration}.
+ * Extensions for {@link TemporaryIntegration}.
  * 
  * @author Schaefer
  */
@@ -50,7 +50,7 @@ class TemporaryIntegrationExtensions {
 	 * @param contextProvider provides merge context for primary container, secondary container
 	 */
 	static def void automaticMerge(
-		ToolboxTemporaryIntegration integration,
+		TemporaryIntegration integration,
 		MergeService<SComparison> service,
 		ContextProvider contextProvider
 	) {
@@ -87,7 +87,7 @@ class TemporaryIntegrationExtensions {
 	}
 
 	static def void manualMerge(
-		ToolboxTemporaryIntegration integration,
+		TemporaryIntegration integration,
 		EditingDomain editingDomain,
 		SMatch match,
 		Resolution resolution,
@@ -174,7 +174,7 @@ class TemporaryIntegrationExtensions {
 	 * @return the conflicts of the initial containers
 	 */
 	static def List<SMatch> getConflictsInitial(
-		ToolboxTemporaryIntegration integration) {
+		TemporaryIntegration integration) {
 		if (!integration.merged) {
 			throw new IllegalStateException("Session not yet merged.")
 		}
@@ -184,7 +184,7 @@ class TemporaryIntegrationExtensions {
 	}
 
 	static def List<SMatch> getConflictsFinal(
-		ToolboxTemporaryIntegration integration) {
+		TemporaryIntegration integration) {
 		if (!integration.merged) {
 			throw new IllegalStateException("Session not yet merged.")
 		}
@@ -200,7 +200,7 @@ class TemporaryIntegrationExtensions {
 	 * 
 	 * @return the merge context
 	 */
-	static def Context getMergeContext(ToolboxTemporaryIntegration integration,
+	static def Context getMergeContext(TemporaryIntegration integration,
 		ContextProvider contextProvider, ContainerType type) {
 		switch (type) {
 			case INITIAL: {
@@ -216,7 +216,7 @@ class TemporaryIntegrationExtensions {
 	}
 
 	private static def Context getInitialMergeContext(
-		ToolboxTemporaryIntegration integration,
+		TemporaryIntegration integration,
 		ContextProvider contextProvider) {
 		val primaryContainer = integration.compositePlanning.LSTPlanungProjekt.
 			leadingPlanungGruppe.LSTPlanungEinzel.LSTZustandStart.container
@@ -227,7 +227,7 @@ class TemporaryIntegrationExtensions {
 	}
 
 	private static def Context getFinalMergeContext(
-		ToolboxTemporaryIntegration integration,
+		TemporaryIntegration integration,
 		ContextProvider contextProvider) {
 		val primaryContainer = integration.compositePlanning.LSTPlanungProjekt.
 			leadingPlanungGruppe.LSTPlanungEinzel.LSTZustandZiel.container
@@ -242,7 +242,7 @@ class TemporaryIntegrationExtensions {
 	 * 
 	 * @return whether the session was merged
 	 */
-	static def boolean isMerged(ToolboxTemporaryIntegration integration) {
+	static def boolean isMerged(TemporaryIntegration integration) {
 		if (integration.comparisonInitialState !== null &&
 			integration.comparisonFinalState !== null) {
 			return true
@@ -260,7 +260,7 @@ class TemporaryIntegrationExtensions {
 	 * @return a map of initial and final automatic matches
 	 */
 	static def Map<ContainerType, List<SMatch>> getAutomaticMatches(
-		ToolboxTemporaryIntegration integration
+		TemporaryIntegration integration
 	) {
 		return #{
 			ContainerType.INITIAL ->
@@ -280,7 +280,7 @@ class TemporaryIntegrationExtensions {
 	 * @return a map of initial and final conflict matches
 	 */
 	static def Map<ContainerType, List<SMatch>> getConflictMatches(
-		ToolboxTemporaryIntegration integration
+		TemporaryIntegration integration
 	) {
 		return #{
 			ContainerType.INITIAL ->
@@ -300,7 +300,7 @@ class TemporaryIntegrationExtensions {
 	 * @return a map of initial and final open conflict matches
 	 */
 	static def Map<ContainerType, List<SMatch>> getOpenConflictMatches(
-		ToolboxTemporaryIntegration integration
+		TemporaryIntegration integration
 	) {
 		return #{
 			ContainerType.INITIAL ->
@@ -320,7 +320,7 @@ class TemporaryIntegrationExtensions {
 	 * @return a map of initial and final manual resolved matches
 	 */
 	static def Map<ContainerType, List<SMatch>> getManualResolvedMatches(
-		ToolboxTemporaryIntegration integration
+		TemporaryIntegration integration
 	) {
 		return #{
 			ContainerType.INITIAL ->
@@ -334,7 +334,7 @@ class TemporaryIntegrationExtensions {
 		}
 	}
 
-	static def ToolboxTemporaryIntegration create(
+	static def TemporaryIntegration create(
 		ToolboxFile primaryPlanningToolboxFile,
 		boolean primaryPlanningWasValid,
 		ToolboxFile secondaryPlanningToolboxFile,
@@ -343,7 +343,7 @@ class TemporaryIntegrationExtensions {
 	) {
 		// content
 		val temporaryIntegration = TemporaryintegrationFactory.eINSTANCE.
-			createToolboxTemporaryIntegration
+			createTemporaryIntegration
 		val primaryPlanning = readFrom(primaryPlanningToolboxFile.planProResource)
 		temporaryIntegration.primaryPlanning = EcoreUtil.copy(primaryPlanning)
 		temporaryIntegration.primaryPlanningFilename = primaryPlanningToolboxFile.
@@ -359,35 +359,9 @@ class TemporaryIntegrationExtensions {
 		temporaryIntegration.secondaryPlanningWasValid = secondaryPlanningWasValid
 		temporaryIntegration.integrationDirectory = mergeDir.toString
 
-		// Retarget ID references to point to the newly created instances
-//		val primaryResource = primaryPlanningToolboxFile.
-//			planProResource
-//		val secondaryResource = secondaryPlanningToolboxFile.
-//			planProResource
 		ToolboxIDResolver.resolveIDReferences(temporaryIntegration.primaryPlanning)
 		ToolboxIDResolver.resolveIDReferences(temporaryIntegration.secondaryPlanning)
 		ToolboxIDResolver.resolveIDReferences(temporaryIntegration.compositePlanning)
-		// primaryPlanning -> Primary Resource
-//		IDReferenceUtils.retargetIDReferences(primaryPlanning,
-//			temporaryIntegration.primaryPlanning,
-//			primaryResource.invalidIDReferences,
-//			temporaryIntegration.primaryPlanningIDReferences);
-//
-//		// secondaryPlanning -> Secondary Resource
-//		IDReferenceUtils.retargetIDReferences(secondaryPlanning,
-//			temporaryIntegration.secondaryPlanning,
-//			secondaryResource.invalidIDReferences,
-//			temporaryIntegration.secondaryPlanningIDReferences)
-//
-//		// compositePlanning -> Both Resources
-//		IDReferenceUtils.retargetIDReferences(primaryPlanning,
-//			temporaryIntegration.compositePlanning,
-//			primaryResource.invalidIDReferences,
-//			temporaryIntegration.compositePlanningIDReferences)
-//		IDReferenceUtils.retargetIDReferences(secondaryPlanning,
-//			temporaryIntegration.compositePlanning,
-//			secondaryResource.invalidIDReferences,
-//			temporaryIntegration.compositePlanningIDReferences);
 
 		return temporaryIntegration
 	}
@@ -395,11 +369,11 @@ class TemporaryIntegrationExtensions {
 	private static def ContainerType getType(SMatch match) {
 		switch (match.eContainer.eContainingFeature) {
 			case TemporaryintegrationPackage.eINSTANCE.
-				toolboxTemporaryIntegration_ComparisonInitialState: {
+				temporaryIntegration_ComparisonInitialState: {
 				return ContainerType.INITIAL
 			}
 			case TemporaryintegrationPackage.eINSTANCE.
-				toolboxTemporaryIntegration_ComparisonFinalState: {
+				temporaryIntegration_ComparisonFinalState: {
 				return ContainerType.FINAL
 			}
 			default: {

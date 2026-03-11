@@ -20,12 +20,12 @@ import org.eclipse.set.basis.files.ToolboxFile;
 import org.eclipse.set.basis.files.ToolboxFile.Format;
 import org.eclipse.set.basis.files.ToolboxFileAC;
 import org.eclipse.set.basis.files.ToolboxFileRole;
-import org.eclipse.set.basis.files.ToolboxIDResolver;
 import org.eclipse.set.core.services.files.ToolboxFileFormatService;
 import org.eclipse.set.core.services.files.ToolboxFileService;
 import org.eclipse.set.model.planpro.PlanPro.DocumentRoot;
 import org.eclipse.set.model.planpro.PlanPro.PlanProFactory;
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
+import org.eclipse.set.model.temporaryintegration.TemporaryIntegration;
 import org.eclipse.set.ppmodel.extensions.DocumentRootExtensions;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
 import org.osgi.service.component.annotations.Component;
@@ -149,6 +149,20 @@ public class ToolboxFileServiceImpl implements ToolboxFileService {
 	@Override
 	public ToolboxFileAC loadAC(final Path path, final ToolboxFileRole role) {
 		return new ToolboxFileAC(load(path, role));
+	}
+
+	@Override
+	public ToolboxFile createTemporaryToolboxFile(final Path path,
+			final TemporaryIntegration tmpInt) {
+		final Path mergeDirFileNameExtension = PathExtensions.replaceExtension(
+				path,
+				extensionsForCategory(
+						ToolboxConstants.EXTENSION_CATEGORY_PPMERGE)
+								.getFirst());
+		final ToolboxFile tmpToolboxfile = load(mergeDirFileNameExtension,
+				ToolboxFileRole.TEMPORARY_INTEGRATION);
+		tmpToolboxfile.getTemporaryResource().getContents().add(tmpInt);
+		return tmpToolboxfile;
 	}
 
 	/**

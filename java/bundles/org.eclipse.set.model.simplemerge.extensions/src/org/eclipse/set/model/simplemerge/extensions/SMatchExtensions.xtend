@@ -8,14 +8,14 @@
  */
 package org.eclipse.set.model.simplemerge.extensions
 
-import org.eclipse.set.basis.constants.ContainerType
-import org.eclipse.set.model.temporaryintegration.TemporaryintegrationPackage
-import org.eclipse.set.core.services.merge.MergeService.Context
 import java.util.List
 import java.util.Optional
 import org.eclipse.emf.ecore.EObject
-import org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration
+import org.eclipse.set.basis.constants.ContainerType
+import org.eclipse.set.core.services.merge.MergeService.Context
 import org.eclipse.set.model.simplemerge.SMatch
+import org.eclipse.set.model.temporaryintegration.TemporaryIntegration
+import org.eclipse.set.model.temporaryintegration.TemporaryintegrationPackage
 
 /**
  * Extensions for {@link SMatch}.
@@ -73,29 +73,29 @@ class SMatchExtensions {
 		val containingFeature = match.eContainer.eContainingFeature
 
 		if (containingFeature === TemporaryintegrationPackage.eINSTANCE.
-			toolboxTemporaryIntegration_ComparisonInitialState) {
+			temporaryIntegration_ComparisonInitialState) {
 			return ContainerType.INITIAL
 		}
 
 		if (containingFeature === TemporaryintegrationPackage.eINSTANCE.
-			toolboxTemporaryIntegration_ComparisonFinalState) {
+			temporaryIntegration_ComparisonFinalState) {
 			return ContainerType.FINAL
 		}
 
 		throw new IllegalArgumentException(match.toString)
 	}
 
-	static def ToolboxTemporaryIntegration getIntegration(SMatch match) {
+	static def TemporaryIntegration getIntegration(SMatch match) {
 		return getIntegrationDispatch(match)
 	}
 
-	private static def dispatch ToolboxTemporaryIntegration getIntegrationDispatch(
-		ToolboxTemporaryIntegration object
+	private static def dispatch TemporaryIntegration getIntegrationDispatch(
+		TemporaryIntegration object
 	) {
 		return object
 	}
 
-	private static def dispatch ToolboxTemporaryIntegration getIntegrationDispatch(
+	private static def dispatch TemporaryIntegration getIntegrationDispatch(
 		EObject object
 	) {
 		return object.eContainer.integrationDispatch

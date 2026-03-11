@@ -1,10 +1,11 @@
 /**
- * Copyright (c) {Jahr} DB Netz AG and others.
+ * Copyright (c) 2026 DB InfraGO AG and others
  * 
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v2.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v20.html
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
  */
 package org.eclipse.set.model.temporaryintegration.provider;
 
@@ -98,29 +99,6 @@ public class TemporaryintegrationItemProviderAdapterFactory extends Temporaryint
 		}
 
 		return temporaryIntegrationItemProvider;
-	}
-
-	/**
-	 * This keeps track of the one adapter used for all {@link org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected ToolboxTemporaryIntegrationItemProvider toolboxTemporaryIntegrationItemProvider;
-
-	/**
-	 * This creates an adapter for a {@link org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Adapter createToolboxTemporaryIntegrationAdapter() {
-		if (toolboxTemporaryIntegrationItemProvider == null) {
-			toolboxTemporaryIntegrationItemProvider = new ToolboxTemporaryIntegrationItemProvider(this);
-		}
-
-		return toolboxTemporaryIntegrationItemProvider;
 	}
 
 	/**
@@ -229,7 +207,6 @@ public class TemporaryintegrationItemProviderAdapterFactory extends Temporaryint
 	@Override
 	public void dispose() {
 		if (temporaryIntegrationItemProvider != null) temporaryIntegrationItemProvider.dispose();
-		if (toolboxTemporaryIntegrationItemProvider != null) toolboxTemporaryIntegrationItemProvider.dispose();
 	}
 
 }

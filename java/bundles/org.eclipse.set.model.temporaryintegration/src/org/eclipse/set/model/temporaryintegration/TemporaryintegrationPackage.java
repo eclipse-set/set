@@ -1,10 +1,11 @@
 /**
- * Copyright (c) {Jahr} DB Netz AG and others.
+ * Copyright (c) 2026 DB InfraGO AG and others
  * 
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v2.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v20.html
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
  */
 package org.eclipse.set.model.temporaryintegration;
 
@@ -44,7 +45,7 @@ public interface TemporaryintegrationPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_URI = "tag:scheidt-bachmann-st.de,2018-06-29:planpro/temporaryintegration/1.8.0.1";
+	String eNS_URI = "tag:scheidt-bachmann-st.de,2026-03-11:planpro/temporaryintegration/1.10.0.3";
 
 	/**
 	 * The package namespace name.
@@ -91,13 +92,22 @@ public interface TemporaryintegrationPackage extends EPackage {
 	int TEMPORARY_INTEGRATION__PRIMARY_PLANNING_FILENAME = 1;
 
 	/**
+	 * The feature id for the '<em><b>Primary Layout</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEMPORARY_INTEGRATION__PRIMARY_LAYOUT = 2;
+
+	/**
 	 * The feature id for the '<em><b>Primary Planning Was Valid</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TEMPORARY_INTEGRATION__PRIMARY_PLANNING_WAS_VALID = 2;
+	int TEMPORARY_INTEGRATION__PRIMARY_PLANNING_WAS_VALID = 3;
 
 	/**
 	 * The feature id for the '<em><b>Secondary Planning</b></em>' containment reference.
@@ -106,7 +116,16 @@ public interface TemporaryintegrationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TEMPORARY_INTEGRATION__SECONDARY_PLANNING = 3;
+	int TEMPORARY_INTEGRATION__SECONDARY_PLANNING = 4;
+
+	/**
+	 * The feature id for the '<em><b>Secondary Layout</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEMPORARY_INTEGRATION__SECONDARY_LAYOUT = 5;
 
 	/**
 	 * The feature id for the '<em><b>Secondary Planning Filename</b></em>' attribute.
@@ -115,7 +134,7 @@ public interface TemporaryintegrationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TEMPORARY_INTEGRATION__SECONDARY_PLANNING_FILENAME = 4;
+	int TEMPORARY_INTEGRATION__SECONDARY_PLANNING_FILENAME = 6;
 
 	/**
 	 * The feature id for the '<em><b>Secondary Planning Was Valid</b></em>' attribute.
@@ -124,7 +143,7 @@ public interface TemporaryintegrationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TEMPORARY_INTEGRATION__SECONDARY_PLANNING_WAS_VALID = 5;
+	int TEMPORARY_INTEGRATION__SECONDARY_PLANNING_WAS_VALID = 7;
 
 	/**
 	 * The feature id for the '<em><b>Composite Planning</b></em>' containment reference.
@@ -133,7 +152,16 @@ public interface TemporaryintegrationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TEMPORARY_INTEGRATION__COMPOSITE_PLANNING = 6;
+	int TEMPORARY_INTEGRATION__COMPOSITE_PLANNING = 8;
+
+	/**
+	 * The feature id for the '<em><b>Compositeyout</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEMPORARY_INTEGRATION__COMPOSITEYOUT = 9;
 
 	/**
 	 * The feature id for the '<em><b>Integration Directory</b></em>' attribute.
@@ -142,7 +170,7 @@ public interface TemporaryintegrationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TEMPORARY_INTEGRATION__INTEGRATION_DIRECTORY = 7;
+	int TEMPORARY_INTEGRATION__INTEGRATION_DIRECTORY = 10;
 
 	/**
 	 * The feature id for the '<em><b>Comparison Initial State</b></em>' containment reference.
@@ -151,7 +179,7 @@ public interface TemporaryintegrationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TEMPORARY_INTEGRATION__COMPARISON_INITIAL_STATE = 8;
+	int TEMPORARY_INTEGRATION__COMPARISON_INITIAL_STATE = 11;
 
 	/**
 	 * The feature id for the '<em><b>Comparison Final State</b></em>' containment reference.
@@ -160,16 +188,7 @@ public interface TemporaryintegrationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TEMPORARY_INTEGRATION__COMPARISON_FINAL_STATE = 9;
-
-	/**
-	 * The feature id for the '<em><b>Primary Planning ID References</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TEMPORARY_INTEGRATION__PRIMARY_PLANNING_ID_REFERENCES = 10;
+	int TEMPORARY_INTEGRATION__COMPARISON_FINAL_STATE = 12;
 
 	/**
 	 * The number of structural features of the '<em>Temporary Integration</em>' class.
@@ -178,7 +197,7 @@ public interface TemporaryintegrationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TEMPORARY_INTEGRATION_FEATURE_COUNT = 11;
+	int TEMPORARY_INTEGRATION_FEATURE_COUNT = 13;
 
 	/**
 	 * The number of operations of the '<em>Temporary Integration</em>' class.
@@ -188,142 +207,6 @@ public interface TemporaryintegrationPackage extends EPackage {
 	 * @ordered
 	 */
 	int TEMPORARY_INTEGRATION_OPERATION_COUNT = 0;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.set.model.temporaryintegration.impl.ToolboxTemporaryIntegrationImpl <em>Toolbox Temporary Integration</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.set.model.temporaryintegration.impl.ToolboxTemporaryIntegrationImpl
-	 * @see org.eclipse.set.model.temporaryintegration.impl.TemporaryintegrationPackageImpl#getToolboxTemporaryIntegration()
-	 * @generated
-	 */
-	int TOOLBOX_TEMPORARY_INTEGRATION = 1;
-
-	/**
-	 * The feature id for the '<em><b>Primary Planning</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TOOLBOX_TEMPORARY_INTEGRATION__PRIMARY_PLANNING = 0;
-
-	/**
-	 * The feature id for the '<em><b>Primary Planning Filename</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TOOLBOX_TEMPORARY_INTEGRATION__PRIMARY_PLANNING_FILENAME = 1;
-
-	/**
-	 * The feature id for the '<em><b>Primary Planning Was Valid</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TOOLBOX_TEMPORARY_INTEGRATION__PRIMARY_PLANNING_WAS_VALID = 2;
-
-	/**
-	 * The feature id for the '<em><b>Secondary Planning</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TOOLBOX_TEMPORARY_INTEGRATION__SECONDARY_PLANNING = 3;
-
-	/**
-	 * The feature id for the '<em><b>Secondary Planning Filename</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TOOLBOX_TEMPORARY_INTEGRATION__SECONDARY_PLANNING_FILENAME = 4;
-
-	/**
-	 * The feature id for the '<em><b>Secondary Planning ID References</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TOOLBOX_TEMPORARY_INTEGRATION__SECONDARY_PLANNING_ID_REFERENCES = 5;
-
-	/**
-	 * The feature id for the '<em><b>Secondary Planning Was Valid</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TOOLBOX_TEMPORARY_INTEGRATION__SECONDARY_PLANNING_WAS_VALID = 6;
-
-	/**
-	 * The feature id for the '<em><b>Composite Planning</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TOOLBOX_TEMPORARY_INTEGRATION__COMPOSITE_PLANNING = 7;
-
-	/**
-	 * The feature id for the '<em><b>Composite Planning ID References</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TOOLBOX_TEMPORARY_INTEGRATION__COMPOSITE_PLANNING_ID_REFERENCES = 8;
-
-	/**
-	 * The feature id for the '<em><b>Integration Directory</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TOOLBOX_TEMPORARY_INTEGRATION__INTEGRATION_DIRECTORY = 9;
-
-	/**
-	 * The feature id for the '<em><b>Comparison Initial State</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TOOLBOX_TEMPORARY_INTEGRATION__COMPARISON_INITIAL_STATE = 10;
-
-	/**
-	 * The feature id for the '<em><b>Comparison Final State</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TOOLBOX_TEMPORARY_INTEGRATION__COMPARISON_FINAL_STATE = 11;
-
-	/**
-	 * The number of structural features of the '<em>Toolbox Temporary Integration</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TOOLBOX_TEMPORARY_INTEGRATION_FEATURE_COUNT = 12;
-
-	/**
-	 * The number of operations of the '<em>Toolbox Temporary Integration</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TOOLBOX_TEMPORARY_INTEGRATION_OPERATION_COUNT = 0;
 
 
 	/**
@@ -359,6 +242,17 @@ public interface TemporaryintegrationPackage extends EPackage {
 	EAttribute getTemporaryIntegration_PrimaryPlanningFilename();
 
 	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.set.model.temporaryintegration.TemporaryIntegration#getPrimaryLayout <em>Primary Layout</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Primary Layout</em>'.
+	 * @see org.eclipse.set.model.temporaryintegration.TemporaryIntegration#getPrimaryLayout()
+	 * @see #getTemporaryIntegration()
+	 * @generated
+	 */
+	EReference getTemporaryIntegration_PrimaryLayout();
+
+	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.set.model.temporaryintegration.TemporaryIntegration#isPrimaryPlanningWasValid <em>Primary Planning Was Valid</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -379,6 +273,17 @@ public interface TemporaryintegrationPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getTemporaryIntegration_SecondaryPlanning();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.set.model.temporaryintegration.TemporaryIntegration#getSecondaryLayout <em>Secondary Layout</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Secondary Layout</em>'.
+	 * @see org.eclipse.set.model.temporaryintegration.TemporaryIntegration#getSecondaryLayout()
+	 * @see #getTemporaryIntegration()
+	 * @generated
+	 */
+	EReference getTemporaryIntegration_SecondaryLayout();
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.set.model.temporaryintegration.TemporaryIntegration#getSecondaryPlanningFilename <em>Secondary Planning Filename</em>}'.
@@ -414,6 +319,17 @@ public interface TemporaryintegrationPackage extends EPackage {
 	EReference getTemporaryIntegration_CompositePlanning();
 
 	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.set.model.temporaryintegration.TemporaryIntegration#getCompositeyout <em>Compositeyout</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Compositeyout</em>'.
+	 * @see org.eclipse.set.model.temporaryintegration.TemporaryIntegration#getCompositeyout()
+	 * @see #getTemporaryIntegration()
+	 * @generated
+	 */
+	EReference getTemporaryIntegration_Compositeyout();
+
+	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.set.model.temporaryintegration.TemporaryIntegration#getIntegrationDirectory <em>Integration Directory</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -445,159 +361,6 @@ public interface TemporaryintegrationPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getTemporaryIntegration_ComparisonFinalState();
-
-	/**
-	 * Returns the meta object for the containment reference list '{@link org.eclipse.set.model.temporaryintegration.TemporaryIntegration#getPrimaryPlanningIDReferences <em>Primary Planning ID References</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Primary Planning ID References</em>'.
-	 * @see org.eclipse.set.model.temporaryintegration.TemporaryIntegration#getPrimaryPlanningIDReferences()
-	 * @see #getTemporaryIntegration()
-	 * @generated
-	 */
-	EReference getTemporaryIntegration_PrimaryPlanningIDReferences();
-
-	/**
-	 * Returns the meta object for class '{@link org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration <em>Toolbox Temporary Integration</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Toolbox Temporary Integration</em>'.
-	 * @see org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration
-	 * @generated
-	 */
-	EClass getToolboxTemporaryIntegration();
-
-	/**
-	 * Returns the meta object for the containment reference '{@link org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration#getPrimaryPlanning <em>Primary Planning</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Primary Planning</em>'.
-	 * @see org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration#getPrimaryPlanning()
-	 * @see #getToolboxTemporaryIntegration()
-	 * @generated
-	 */
-	EReference getToolboxTemporaryIntegration_PrimaryPlanning();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration#getPrimaryPlanningFilename <em>Primary Planning Filename</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Primary Planning Filename</em>'.
-	 * @see org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration#getPrimaryPlanningFilename()
-	 * @see #getToolboxTemporaryIntegration()
-	 * @generated
-	 */
-	EAttribute getToolboxTemporaryIntegration_PrimaryPlanningFilename();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration#isPrimaryPlanningWasValid <em>Primary Planning Was Valid</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Primary Planning Was Valid</em>'.
-	 * @see org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration#isPrimaryPlanningWasValid()
-	 * @see #getToolboxTemporaryIntegration()
-	 * @generated
-	 */
-	EAttribute getToolboxTemporaryIntegration_PrimaryPlanningWasValid();
-
-	/**
-	 * Returns the meta object for the containment reference '{@link org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration#getSecondaryPlanning <em>Secondary Planning</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Secondary Planning</em>'.
-	 * @see org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration#getSecondaryPlanning()
-	 * @see #getToolboxTemporaryIntegration()
-	 * @generated
-	 */
-	EReference getToolboxTemporaryIntegration_SecondaryPlanning();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration#getSecondaryPlanningFilename <em>Secondary Planning Filename</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Secondary Planning Filename</em>'.
-	 * @see org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration#getSecondaryPlanningFilename()
-	 * @see #getToolboxTemporaryIntegration()
-	 * @generated
-	 */
-	EAttribute getToolboxTemporaryIntegration_SecondaryPlanningFilename();
-
-	/**
-	 * Returns the meta object for the containment reference list '{@link org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration#getSecondaryPlanningIDReferences <em>Secondary Planning ID References</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Secondary Planning ID References</em>'.
-	 * @see org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration#getSecondaryPlanningIDReferences()
-	 * @see #getToolboxTemporaryIntegration()
-	 * @generated
-	 */
-	EReference getToolboxTemporaryIntegration_SecondaryPlanningIDReferences();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration#isSecondaryPlanningWasValid <em>Secondary Planning Was Valid</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Secondary Planning Was Valid</em>'.
-	 * @see org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration#isSecondaryPlanningWasValid()
-	 * @see #getToolboxTemporaryIntegration()
-	 * @generated
-	 */
-	EAttribute getToolboxTemporaryIntegration_SecondaryPlanningWasValid();
-
-	/**
-	 * Returns the meta object for the containment reference '{@link org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration#getCompositePlanning <em>Composite Planning</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Composite Planning</em>'.
-	 * @see org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration#getCompositePlanning()
-	 * @see #getToolboxTemporaryIntegration()
-	 * @generated
-	 */
-	EReference getToolboxTemporaryIntegration_CompositePlanning();
-
-	/**
-	 * Returns the meta object for the containment reference list '{@link org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration#getCompositePlanningIDReferences <em>Composite Planning ID References</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Composite Planning ID References</em>'.
-	 * @see org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration#getCompositePlanningIDReferences()
-	 * @see #getToolboxTemporaryIntegration()
-	 * @generated
-	 */
-	EReference getToolboxTemporaryIntegration_CompositePlanningIDReferences();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration#getIntegrationDirectory <em>Integration Directory</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Integration Directory</em>'.
-	 * @see org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration#getIntegrationDirectory()
-	 * @see #getToolboxTemporaryIntegration()
-	 * @generated
-	 */
-	EAttribute getToolboxTemporaryIntegration_IntegrationDirectory();
-
-	/**
-	 * Returns the meta object for the containment reference '{@link org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration#getComparisonInitialState <em>Comparison Initial State</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Comparison Initial State</em>'.
-	 * @see org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration#getComparisonInitialState()
-	 * @see #getToolboxTemporaryIntegration()
-	 * @generated
-	 */
-	EReference getToolboxTemporaryIntegration_ComparisonInitialState();
-
-	/**
-	 * Returns the meta object for the containment reference '{@link org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration#getComparisonFinalState <em>Comparison Final State</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Comparison Final State</em>'.
-	 * @see org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration#getComparisonFinalState()
-	 * @see #getToolboxTemporaryIntegration()
-	 * @generated
-	 */
-	EReference getToolboxTemporaryIntegration_ComparisonFinalState();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -649,6 +412,14 @@ public interface TemporaryintegrationPackage extends EPackage {
 		EAttribute TEMPORARY_INTEGRATION__PRIMARY_PLANNING_FILENAME = eINSTANCE.getTemporaryIntegration_PrimaryPlanningFilename();
 
 		/**
+		 * The meta object literal for the '<em><b>Primary Layout</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference TEMPORARY_INTEGRATION__PRIMARY_LAYOUT = eINSTANCE.getTemporaryIntegration_PrimaryLayout();
+
+		/**
 		 * The meta object literal for the '<em><b>Primary Planning Was Valid</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -663,6 +434,14 @@ public interface TemporaryintegrationPackage extends EPackage {
 		 * @generated
 		 */
 		EReference TEMPORARY_INTEGRATION__SECONDARY_PLANNING = eINSTANCE.getTemporaryIntegration_SecondaryPlanning();
+
+		/**
+		 * The meta object literal for the '<em><b>Secondary Layout</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference TEMPORARY_INTEGRATION__SECONDARY_LAYOUT = eINSTANCE.getTemporaryIntegration_SecondaryLayout();
 
 		/**
 		 * The meta object literal for the '<em><b>Secondary Planning Filename</b></em>' attribute feature.
@@ -689,6 +468,14 @@ public interface TemporaryintegrationPackage extends EPackage {
 		EReference TEMPORARY_INTEGRATION__COMPOSITE_PLANNING = eINSTANCE.getTemporaryIntegration_CompositePlanning();
 
 		/**
+		 * The meta object literal for the '<em><b>Compositeyout</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference TEMPORARY_INTEGRATION__COMPOSITEYOUT = eINSTANCE.getTemporaryIntegration_Compositeyout();
+
+		/**
 		 * The meta object literal for the '<em><b>Integration Directory</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -711,120 +498,6 @@ public interface TemporaryintegrationPackage extends EPackage {
 		 * @generated
 		 */
 		EReference TEMPORARY_INTEGRATION__COMPARISON_FINAL_STATE = eINSTANCE.getTemporaryIntegration_ComparisonFinalState();
-
-		/**
-		 * The meta object literal for the '<em><b>Primary Planning ID References</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference TEMPORARY_INTEGRATION__PRIMARY_PLANNING_ID_REFERENCES = eINSTANCE.getTemporaryIntegration_PrimaryPlanningIDReferences();
-
-		/**
-		 * The meta object literal for the '{@link org.eclipse.set.model.temporaryintegration.impl.ToolboxTemporaryIntegrationImpl <em>Toolbox Temporary Integration</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.eclipse.set.model.temporaryintegration.impl.ToolboxTemporaryIntegrationImpl
-		 * @see org.eclipse.set.model.temporaryintegration.impl.TemporaryintegrationPackageImpl#getToolboxTemporaryIntegration()
-		 * @generated
-		 */
-		EClass TOOLBOX_TEMPORARY_INTEGRATION = eINSTANCE.getToolboxTemporaryIntegration();
-
-		/**
-		 * The meta object literal for the '<em><b>Primary Planning</b></em>' containment reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference TOOLBOX_TEMPORARY_INTEGRATION__PRIMARY_PLANNING = eINSTANCE.getToolboxTemporaryIntegration_PrimaryPlanning();
-
-		/**
-		 * The meta object literal for the '<em><b>Primary Planning Filename</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute TOOLBOX_TEMPORARY_INTEGRATION__PRIMARY_PLANNING_FILENAME = eINSTANCE.getToolboxTemporaryIntegration_PrimaryPlanningFilename();
-
-		/**
-		 * The meta object literal for the '<em><b>Primary Planning Was Valid</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute TOOLBOX_TEMPORARY_INTEGRATION__PRIMARY_PLANNING_WAS_VALID = eINSTANCE.getToolboxTemporaryIntegration_PrimaryPlanningWasValid();
-
-		/**
-		 * The meta object literal for the '<em><b>Secondary Planning</b></em>' containment reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference TOOLBOX_TEMPORARY_INTEGRATION__SECONDARY_PLANNING = eINSTANCE.getToolboxTemporaryIntegration_SecondaryPlanning();
-
-		/**
-		 * The meta object literal for the '<em><b>Secondary Planning Filename</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute TOOLBOX_TEMPORARY_INTEGRATION__SECONDARY_PLANNING_FILENAME = eINSTANCE.getToolboxTemporaryIntegration_SecondaryPlanningFilename();
-
-		/**
-		 * The meta object literal for the '<em><b>Secondary Planning ID References</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference TOOLBOX_TEMPORARY_INTEGRATION__SECONDARY_PLANNING_ID_REFERENCES = eINSTANCE.getToolboxTemporaryIntegration_SecondaryPlanningIDReferences();
-
-		/**
-		 * The meta object literal for the '<em><b>Secondary Planning Was Valid</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute TOOLBOX_TEMPORARY_INTEGRATION__SECONDARY_PLANNING_WAS_VALID = eINSTANCE.getToolboxTemporaryIntegration_SecondaryPlanningWasValid();
-
-		/**
-		 * The meta object literal for the '<em><b>Composite Planning</b></em>' containment reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference TOOLBOX_TEMPORARY_INTEGRATION__COMPOSITE_PLANNING = eINSTANCE.getToolboxTemporaryIntegration_CompositePlanning();
-
-		/**
-		 * The meta object literal for the '<em><b>Composite Planning ID References</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference TOOLBOX_TEMPORARY_INTEGRATION__COMPOSITE_PLANNING_ID_REFERENCES = eINSTANCE.getToolboxTemporaryIntegration_CompositePlanningIDReferences();
-
-		/**
-		 * The meta object literal for the '<em><b>Integration Directory</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute TOOLBOX_TEMPORARY_INTEGRATION__INTEGRATION_DIRECTORY = eINSTANCE.getToolboxTemporaryIntegration_IntegrationDirectory();
-
-		/**
-		 * The meta object literal for the '<em><b>Comparison Initial State</b></em>' containment reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference TOOLBOX_TEMPORARY_INTEGRATION__COMPARISON_INITIAL_STATE = eINSTANCE.getToolboxTemporaryIntegration_ComparisonInitialState();
-
-		/**
-		 * The meta object literal for the '<em><b>Comparison Final State</b></em>' containment reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference TOOLBOX_TEMPORARY_INTEGRATION__COMPARISON_FINAL_STATE = eINSTANCE.getToolboxTemporaryIntegration_ComparisonFinalState();
 
 	}
 

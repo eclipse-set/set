@@ -79,7 +79,7 @@ import org.eclipse.set.model.planpro.Layoutinformationen.PlanPro_Layoutinfo;
 import org.eclipse.set.model.planpro.PlanPro.DocumentRoot;
 import org.eclipse.set.model.planpro.PlanPro.PlanProFactory;
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
-import org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration;
+import org.eclipse.set.model.temporaryintegration.TemporaryIntegration;
 import org.eclipse.set.ppmodel.extensions.DocumentRootExtensions;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleDebugExtensions;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
@@ -179,7 +179,7 @@ public class ModelSession implements IModelSession {
 	/*
 	 * TODO(1.10.0.1): Readd once temporary integrations are reenabled private
 	 */
-	ToolboxTemporaryIntegration temporaryIntegration;
+	TemporaryIntegration temporaryIntegration;
 	private final ToolboxPaths toolboxPaths;
 	private boolean wasDirty = false;
 	protected final Shell mainWindow;
@@ -541,7 +541,7 @@ public class ModelSession implements IModelSession {
 	 * 
 	 */
 	@Override
-	public Optional<ToolboxTemporaryIntegration> getTemporaryIntegration() {
+	public Optional<TemporaryIntegration> getTemporaryIntegration() {
 		return Optional.ofNullable(temporaryIntegration);
 	}
 
@@ -721,7 +721,7 @@ public class ModelSession implements IModelSession {
 
 	@Override
 	public void switchToMergeMode(
-			final ToolboxTemporaryIntegration newTemporaryIntegration,
+			final TemporaryIntegration newTemporaryIntegration,
 			final String mergeDir, final Shell shell,
 			final ToolboxFile temporaryToolboxFile)
 			throws IOException, UserAbortion {

@@ -15,6 +15,7 @@ import org.eclipse.set.basis.files.ToolboxFile;
 import org.eclipse.set.basis.files.ToolboxFile.Format;
 import org.eclipse.set.basis.files.ToolboxFileAC;
 import org.eclipse.set.basis.files.ToolboxFileRole;
+import org.eclipse.set.model.temporaryintegration.TemporaryIntegration;
 
 /**
  * This service can provide toolbox files.
@@ -93,4 +94,12 @@ public interface ToolboxFileService {
 	 * @return the toolbox file for the path
 	 */
 	ToolboxFileAC loadAC(Path path, ToolboxFileRole role);
+
+	/**
+	 * @param path
+	 * @param tmpInt
+	 * @return
+	 */
+	ToolboxFile createTemporaryToolboxFile(Path path,
+			TemporaryIntegration tmpInt);
 }

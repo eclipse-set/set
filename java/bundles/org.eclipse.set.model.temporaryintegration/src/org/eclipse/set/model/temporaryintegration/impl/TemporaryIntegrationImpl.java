@@ -1,19 +1,16 @@
 /**
- * Copyright (c) {Jahr} DB Netz AG and others.
+ * Copyright (c) 2026 DB InfraGO AG and others
  * 
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v2.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v20.html
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
  */
 package org.eclipse.set.model.temporaryintegration.impl;
 
-import java.util.Collection;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
-import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
@@ -21,12 +18,9 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
-import org.eclipse.emf.ecore.util.EObjectContainmentEList;
-import org.eclipse.emf.ecore.util.InternalEList;
+import org.eclipse.set.model.planpro.Layoutinformationen.PlanPro_Layoutinfo;
 
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
-
-import org.eclipse.set.model.planpro.Verweise.ID_PlanPro_Schnittstelle_TypeClass;
 
 import org.eclipse.set.model.simplemerge.SComparison;
 
@@ -43,15 +37,17 @@ import org.eclipse.set.model.temporaryintegration.TemporaryintegrationPackage;
  * <ul>
  *   <li>{@link org.eclipse.set.model.temporaryintegration.impl.TemporaryIntegrationImpl#getPrimaryPlanning <em>Primary Planning</em>}</li>
  *   <li>{@link org.eclipse.set.model.temporaryintegration.impl.TemporaryIntegrationImpl#getPrimaryPlanningFilename <em>Primary Planning Filename</em>}</li>
+ *   <li>{@link org.eclipse.set.model.temporaryintegration.impl.TemporaryIntegrationImpl#getPrimaryLayout <em>Primary Layout</em>}</li>
  *   <li>{@link org.eclipse.set.model.temporaryintegration.impl.TemporaryIntegrationImpl#isPrimaryPlanningWasValid <em>Primary Planning Was Valid</em>}</li>
  *   <li>{@link org.eclipse.set.model.temporaryintegration.impl.TemporaryIntegrationImpl#getSecondaryPlanning <em>Secondary Planning</em>}</li>
+ *   <li>{@link org.eclipse.set.model.temporaryintegration.impl.TemporaryIntegrationImpl#getSecondaryLayout <em>Secondary Layout</em>}</li>
  *   <li>{@link org.eclipse.set.model.temporaryintegration.impl.TemporaryIntegrationImpl#getSecondaryPlanningFilename <em>Secondary Planning Filename</em>}</li>
  *   <li>{@link org.eclipse.set.model.temporaryintegration.impl.TemporaryIntegrationImpl#isSecondaryPlanningWasValid <em>Secondary Planning Was Valid</em>}</li>
  *   <li>{@link org.eclipse.set.model.temporaryintegration.impl.TemporaryIntegrationImpl#getCompositePlanning <em>Composite Planning</em>}</li>
+ *   <li>{@link org.eclipse.set.model.temporaryintegration.impl.TemporaryIntegrationImpl#getCompositeyout <em>Compositeyout</em>}</li>
  *   <li>{@link org.eclipse.set.model.temporaryintegration.impl.TemporaryIntegrationImpl#getIntegrationDirectory <em>Integration Directory</em>}</li>
  *   <li>{@link org.eclipse.set.model.temporaryintegration.impl.TemporaryIntegrationImpl#getComparisonInitialState <em>Comparison Initial State</em>}</li>
  *   <li>{@link org.eclipse.set.model.temporaryintegration.impl.TemporaryIntegrationImpl#getComparisonFinalState <em>Comparison Final State</em>}</li>
- *   <li>{@link org.eclipse.set.model.temporaryintegration.impl.TemporaryIntegrationImpl#getPrimaryPlanningIDReferences <em>Primary Planning ID References</em>}</li>
  * </ul>
  *
  * @generated
@@ -88,6 +84,16 @@ public class TemporaryIntegrationImpl extends MinimalEObjectImpl.Container imple
 	protected String primaryPlanningFilename = PRIMARY_PLANNING_FILENAME_EDEFAULT;
 
 	/**
+	 * The cached value of the '{@link #getPrimaryLayout() <em>Primary Layout</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getPrimaryLayout()
+	 * @generated
+	 * @ordered
+	 */
+	protected PlanPro_Layoutinfo primaryLayout;
+
+	/**
 	 * The default value of the '{@link #isPrimaryPlanningWasValid() <em>Primary Planning Was Valid</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -116,6 +122,16 @@ public class TemporaryIntegrationImpl extends MinimalEObjectImpl.Container imple
 	 * @ordered
 	 */
 	protected PlanPro_Schnittstelle secondaryPlanning;
+
+	/**
+	 * The cached value of the '{@link #getSecondaryLayout() <em>Secondary Layout</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getSecondaryLayout()
+	 * @generated
+	 * @ordered
+	 */
+	protected PlanPro_Layoutinfo secondaryLayout;
 
 	/**
 	 * The default value of the '{@link #getSecondaryPlanningFilename() <em>Secondary Planning Filename</em>}' attribute.
@@ -168,6 +184,16 @@ public class TemporaryIntegrationImpl extends MinimalEObjectImpl.Container imple
 	protected PlanPro_Schnittstelle compositePlanning;
 
 	/**
+	 * The cached value of the '{@link #getCompositeyout() <em>Compositeyout</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getCompositeyout()
+	 * @generated
+	 * @ordered
+	 */
+	protected PlanPro_Layoutinfo compositeyout;
+
+	/**
 	 * The default value of the '{@link #getIntegrationDirectory() <em>Integration Directory</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -206,16 +232,6 @@ public class TemporaryIntegrationImpl extends MinimalEObjectImpl.Container imple
 	 * @ordered
 	 */
 	protected SComparison comparisonFinalState;
-
-	/**
-	 * The cached value of the '{@link #getPrimaryPlanningIDReferences() <em>Primary Planning ID References</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getPrimaryPlanningIDReferences()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<ID_PlanPro_Schnittstelle_TypeClass> primaryPlanningIDReferences;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -310,6 +326,51 @@ public class TemporaryIntegrationImpl extends MinimalEObjectImpl.Container imple
 	 * @generated
 	 */
 	@Override
+	public PlanPro_Layoutinfo getPrimaryLayout() {
+		return primaryLayout;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetPrimaryLayout(PlanPro_Layoutinfo newPrimaryLayout, NotificationChain msgs) {
+		PlanPro_Layoutinfo oldPrimaryLayout = primaryLayout;
+		primaryLayout = newPrimaryLayout;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, TemporaryintegrationPackage.TEMPORARY_INTEGRATION__PRIMARY_LAYOUT, oldPrimaryLayout, newPrimaryLayout);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void setPrimaryLayout(PlanPro_Layoutinfo newPrimaryLayout) {
+		if (newPrimaryLayout != primaryLayout) {
+			NotificationChain msgs = null;
+			if (primaryLayout != null)
+				msgs = ((InternalEObject)primaryLayout).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - TemporaryintegrationPackage.TEMPORARY_INTEGRATION__PRIMARY_LAYOUT, null, msgs);
+			if (newPrimaryLayout != null)
+				msgs = ((InternalEObject)newPrimaryLayout).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - TemporaryintegrationPackage.TEMPORARY_INTEGRATION__PRIMARY_LAYOUT, null, msgs);
+			msgs = basicSetPrimaryLayout(newPrimaryLayout, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, TemporaryintegrationPackage.TEMPORARY_INTEGRATION__PRIMARY_LAYOUT, newPrimaryLayout, newPrimaryLayout));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public boolean isPrimaryPlanningWasValid() {
 		return primaryPlanningWasValid;
 	}
@@ -370,6 +431,51 @@ public class TemporaryIntegrationImpl extends MinimalEObjectImpl.Container imple
 		}
 		else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, TemporaryintegrationPackage.TEMPORARY_INTEGRATION__SECONDARY_PLANNING, newSecondaryPlanning, newSecondaryPlanning));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public PlanPro_Layoutinfo getSecondaryLayout() {
+		return secondaryLayout;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetSecondaryLayout(PlanPro_Layoutinfo newSecondaryLayout, NotificationChain msgs) {
+		PlanPro_Layoutinfo oldSecondaryLayout = secondaryLayout;
+		secondaryLayout = newSecondaryLayout;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, TemporaryintegrationPackage.TEMPORARY_INTEGRATION__SECONDARY_LAYOUT, oldSecondaryLayout, newSecondaryLayout);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void setSecondaryLayout(PlanPro_Layoutinfo newSecondaryLayout) {
+		if (newSecondaryLayout != secondaryLayout) {
+			NotificationChain msgs = null;
+			if (secondaryLayout != null)
+				msgs = ((InternalEObject)secondaryLayout).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - TemporaryintegrationPackage.TEMPORARY_INTEGRATION__SECONDARY_LAYOUT, null, msgs);
+			if (newSecondaryLayout != null)
+				msgs = ((InternalEObject)newSecondaryLayout).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - TemporaryintegrationPackage.TEMPORARY_INTEGRATION__SECONDARY_LAYOUT, null, msgs);
+			msgs = basicSetSecondaryLayout(newSecondaryLayout, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, TemporaryintegrationPackage.TEMPORARY_INTEGRATION__SECONDARY_LAYOUT, newSecondaryLayout, newSecondaryLayout));
 	}
 
 	/**
@@ -461,6 +567,51 @@ public class TemporaryIntegrationImpl extends MinimalEObjectImpl.Container imple
 		}
 		else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, TemporaryintegrationPackage.TEMPORARY_INTEGRATION__COMPOSITE_PLANNING, newCompositePlanning, newCompositePlanning));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public PlanPro_Layoutinfo getCompositeyout() {
+		return compositeyout;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetCompositeyout(PlanPro_Layoutinfo newCompositeyout, NotificationChain msgs) {
+		PlanPro_Layoutinfo oldCompositeyout = compositeyout;
+		compositeyout = newCompositeyout;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, TemporaryintegrationPackage.TEMPORARY_INTEGRATION__COMPOSITEYOUT, oldCompositeyout, newCompositeyout);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void setCompositeyout(PlanPro_Layoutinfo newCompositeyout) {
+		if (newCompositeyout != compositeyout) {
+			NotificationChain msgs = null;
+			if (compositeyout != null)
+				msgs = ((InternalEObject)compositeyout).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - TemporaryintegrationPackage.TEMPORARY_INTEGRATION__COMPOSITEYOUT, null, msgs);
+			if (newCompositeyout != null)
+				msgs = ((InternalEObject)newCompositeyout).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - TemporaryintegrationPackage.TEMPORARY_INTEGRATION__COMPOSITEYOUT, null, msgs);
+			msgs = basicSetCompositeyout(newCompositeyout, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, TemporaryintegrationPackage.TEMPORARY_INTEGRATION__COMPOSITEYOUT, newCompositeyout, newCompositeyout));
 	}
 
 	/**
@@ -582,33 +733,24 @@ public class TemporaryIntegrationImpl extends MinimalEObjectImpl.Container imple
 	 * @generated
 	 */
 	@Override
-	public EList<ID_PlanPro_Schnittstelle_TypeClass> getPrimaryPlanningIDReferences() {
-		if (primaryPlanningIDReferences == null) {
-			primaryPlanningIDReferences = new EObjectContainmentEList<ID_PlanPro_Schnittstelle_TypeClass>(ID_PlanPro_Schnittstelle_TypeClass.class, this, TemporaryintegrationPackage.TEMPORARY_INTEGRATION__PRIMARY_PLANNING_ID_REFERENCES);
-		}
-		return primaryPlanningIDReferences;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__PRIMARY_PLANNING:
 				return basicSetPrimaryPlanning(null, msgs);
+			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__PRIMARY_LAYOUT:
+				return basicSetPrimaryLayout(null, msgs);
 			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__SECONDARY_PLANNING:
 				return basicSetSecondaryPlanning(null, msgs);
+			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__SECONDARY_LAYOUT:
+				return basicSetSecondaryLayout(null, msgs);
 			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__COMPOSITE_PLANNING:
 				return basicSetCompositePlanning(null, msgs);
+			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__COMPOSITEYOUT:
+				return basicSetCompositeyout(null, msgs);
 			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__COMPARISON_INITIAL_STATE:
 				return basicSetComparisonInitialState(null, msgs);
 			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__COMPARISON_FINAL_STATE:
 				return basicSetComparisonFinalState(null, msgs);
-			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__PRIMARY_PLANNING_ID_REFERENCES:
-				return ((InternalEList<?>)getPrimaryPlanningIDReferences()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -625,24 +767,28 @@ public class TemporaryIntegrationImpl extends MinimalEObjectImpl.Container imple
 				return getPrimaryPlanning();
 			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__PRIMARY_PLANNING_FILENAME:
 				return getPrimaryPlanningFilename();
+			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__PRIMARY_LAYOUT:
+				return getPrimaryLayout();
 			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__PRIMARY_PLANNING_WAS_VALID:
 				return isPrimaryPlanningWasValid();
 			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__SECONDARY_PLANNING:
 				return getSecondaryPlanning();
+			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__SECONDARY_LAYOUT:
+				return getSecondaryLayout();
 			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__SECONDARY_PLANNING_FILENAME:
 				return getSecondaryPlanningFilename();
 			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__SECONDARY_PLANNING_WAS_VALID:
 				return isSecondaryPlanningWasValid();
 			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__COMPOSITE_PLANNING:
 				return getCompositePlanning();
+			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__COMPOSITEYOUT:
+				return getCompositeyout();
 			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__INTEGRATION_DIRECTORY:
 				return getIntegrationDirectory();
 			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__COMPARISON_INITIAL_STATE:
 				return getComparisonInitialState();
 			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__COMPARISON_FINAL_STATE:
 				return getComparisonFinalState();
-			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__PRIMARY_PLANNING_ID_REFERENCES:
-				return getPrimaryPlanningIDReferences();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -652,7 +798,6 @@ public class TemporaryIntegrationImpl extends MinimalEObjectImpl.Container imple
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
@@ -662,11 +807,17 @@ public class TemporaryIntegrationImpl extends MinimalEObjectImpl.Container imple
 			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__PRIMARY_PLANNING_FILENAME:
 				setPrimaryPlanningFilename((String)newValue);
 				return;
+			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__PRIMARY_LAYOUT:
+				setPrimaryLayout((PlanPro_Layoutinfo)newValue);
+				return;
 			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__PRIMARY_PLANNING_WAS_VALID:
 				setPrimaryPlanningWasValid((Boolean)newValue);
 				return;
 			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__SECONDARY_PLANNING:
 				setSecondaryPlanning((PlanPro_Schnittstelle)newValue);
+				return;
+			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__SECONDARY_LAYOUT:
+				setSecondaryLayout((PlanPro_Layoutinfo)newValue);
 				return;
 			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__SECONDARY_PLANNING_FILENAME:
 				setSecondaryPlanningFilename((String)newValue);
@@ -677,6 +828,9 @@ public class TemporaryIntegrationImpl extends MinimalEObjectImpl.Container imple
 			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__COMPOSITE_PLANNING:
 				setCompositePlanning((PlanPro_Schnittstelle)newValue);
 				return;
+			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__COMPOSITEYOUT:
+				setCompositeyout((PlanPro_Layoutinfo)newValue);
+				return;
 			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__INTEGRATION_DIRECTORY:
 				setIntegrationDirectory((String)newValue);
 				return;
@@ -685,10 +839,6 @@ public class TemporaryIntegrationImpl extends MinimalEObjectImpl.Container imple
 				return;
 			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__COMPARISON_FINAL_STATE:
 				setComparisonFinalState((SComparison)newValue);
-				return;
-			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__PRIMARY_PLANNING_ID_REFERENCES:
-				getPrimaryPlanningIDReferences().clear();
-				getPrimaryPlanningIDReferences().addAll((Collection<? extends ID_PlanPro_Schnittstelle_TypeClass>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -708,11 +858,17 @@ public class TemporaryIntegrationImpl extends MinimalEObjectImpl.Container imple
 			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__PRIMARY_PLANNING_FILENAME:
 				setPrimaryPlanningFilename(PRIMARY_PLANNING_FILENAME_EDEFAULT);
 				return;
+			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__PRIMARY_LAYOUT:
+				setPrimaryLayout((PlanPro_Layoutinfo)null);
+				return;
 			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__PRIMARY_PLANNING_WAS_VALID:
 				setPrimaryPlanningWasValid(PRIMARY_PLANNING_WAS_VALID_EDEFAULT);
 				return;
 			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__SECONDARY_PLANNING:
 				setSecondaryPlanning((PlanPro_Schnittstelle)null);
+				return;
+			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__SECONDARY_LAYOUT:
+				setSecondaryLayout((PlanPro_Layoutinfo)null);
 				return;
 			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__SECONDARY_PLANNING_FILENAME:
 				setSecondaryPlanningFilename(SECONDARY_PLANNING_FILENAME_EDEFAULT);
@@ -723,6 +879,9 @@ public class TemporaryIntegrationImpl extends MinimalEObjectImpl.Container imple
 			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__COMPOSITE_PLANNING:
 				setCompositePlanning((PlanPro_Schnittstelle)null);
 				return;
+			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__COMPOSITEYOUT:
+				setCompositeyout((PlanPro_Layoutinfo)null);
+				return;
 			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__INTEGRATION_DIRECTORY:
 				setIntegrationDirectory(INTEGRATION_DIRECTORY_EDEFAULT);
 				return;
@@ -731,9 +890,6 @@ public class TemporaryIntegrationImpl extends MinimalEObjectImpl.Container imple
 				return;
 			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__COMPARISON_FINAL_STATE:
 				setComparisonFinalState((SComparison)null);
-				return;
-			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__PRIMARY_PLANNING_ID_REFERENCES:
-				getPrimaryPlanningIDReferences().clear();
 				return;
 		}
 		super.eUnset(featureID);
@@ -751,24 +907,28 @@ public class TemporaryIntegrationImpl extends MinimalEObjectImpl.Container imple
 				return primaryPlanning != null;
 			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__PRIMARY_PLANNING_FILENAME:
 				return PRIMARY_PLANNING_FILENAME_EDEFAULT == null ? primaryPlanningFilename != null : !PRIMARY_PLANNING_FILENAME_EDEFAULT.equals(primaryPlanningFilename);
+			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__PRIMARY_LAYOUT:
+				return primaryLayout != null;
 			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__PRIMARY_PLANNING_WAS_VALID:
 				return primaryPlanningWasValid != PRIMARY_PLANNING_WAS_VALID_EDEFAULT;
 			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__SECONDARY_PLANNING:
 				return secondaryPlanning != null;
+			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__SECONDARY_LAYOUT:
+				return secondaryLayout != null;
 			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__SECONDARY_PLANNING_FILENAME:
 				return SECONDARY_PLANNING_FILENAME_EDEFAULT == null ? secondaryPlanningFilename != null : !SECONDARY_PLANNING_FILENAME_EDEFAULT.equals(secondaryPlanningFilename);
 			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__SECONDARY_PLANNING_WAS_VALID:
 				return secondaryPlanningWasValid != SECONDARY_PLANNING_WAS_VALID_EDEFAULT;
 			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__COMPOSITE_PLANNING:
 				return compositePlanning != null;
+			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__COMPOSITEYOUT:
+				return compositeyout != null;
 			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__INTEGRATION_DIRECTORY:
 				return INTEGRATION_DIRECTORY_EDEFAULT == null ? integrationDirectory != null : !INTEGRATION_DIRECTORY_EDEFAULT.equals(integrationDirectory);
 			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__COMPARISON_INITIAL_STATE:
 				return comparisonInitialState != null;
 			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__COMPARISON_FINAL_STATE:
 				return comparisonFinalState != null;
-			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__PRIMARY_PLANNING_ID_REFERENCES:
-				return primaryPlanningIDReferences != null && !primaryPlanningIDReferences.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

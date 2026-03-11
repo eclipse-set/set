@@ -6,7 +6,7 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v20.html
  */
-package org.eclipse.set.basis.files
+package org.eclipse.set.core.fileservice
 
 import java.util.HashMap
 import java.util.Map

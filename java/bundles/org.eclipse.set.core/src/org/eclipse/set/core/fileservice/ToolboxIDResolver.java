@@ -7,7 +7,7 @@
  *
  * SPDX-License-Identifier: EPL-2.0
  */
-package org.eclipse.set.basis.files;
+package org.eclipse.set.core.fileservice;
 
 import java.util.Optional;
 

@@ -28,7 +28,7 @@ import org.eclipse.set.basis.exceptions.UserAbortion;
 import org.eclipse.set.basis.files.ToolboxFile;
 import org.eclipse.set.model.planpro.Layoutinformationen.PlanPro_Layoutinfo;
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
-import org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration;
+import org.eclipse.set.model.temporaryintegration.TemporaryIntegration;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.eclipse.swt.widgets.Shell;
 
@@ -335,9 +335,9 @@ public interface IModelSession {
 	 */
 	SaveFixResult getSaveFixResult();
 
-	Optional<ToolboxTemporaryIntegration> getTemporaryIntegration();
+	Optional<TemporaryIntegration> getTemporaryIntegration();
 
-	void switchToMergeMode(ToolboxTemporaryIntegration newTemporaryIntegration,
+	void switchToMergeMode(TemporaryIntegration newTemporaryIntegration,
 			String mergeDir, Shell shell, ToolboxFile temporaryToolboxFile)
 			throws IOException, UserAbortion;
 }
