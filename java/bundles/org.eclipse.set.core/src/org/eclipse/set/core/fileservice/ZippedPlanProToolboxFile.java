@@ -33,10 +33,13 @@ import org.eclipse.set.basis.extensions.PathExtensions;
 import org.eclipse.set.basis.files.PlanProFileResource;
 import org.eclipse.set.basis.files.ToolboxFile;
 import org.eclipse.set.basis.files.ToolboxFileRole;
+import org.eclipse.set.basis.files.ToolboxIDResolver;
 import org.eclipse.set.basis.guid.Guid;
 import org.eclipse.set.core.services.Services;
 import org.eclipse.set.model.planpro.PlanPro.DocumentRoot;
 import org.eclipse.set.model.planpro.PlanPro.PlanProPackage;
+import org.eclipse.set.model.temporaryintegration.TemporaryintegrationPackage;
+import org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration;
 import org.eclipse.set.model.zipmanifest.Manifest;
 
 /**
@@ -53,6 +56,7 @@ public class ZippedPlanProToolboxFile extends AbstractToolboxFile {
 	private static final String TRASH_CAN = "trash"; //$NON-NLS-1$
 	private static final String ZIP_SEPARATOR = "/"; //$NON-NLS-1$
 	private static final String LAYOUT_RESOURCE_TYPE_NAME = "layout"; //$NON-NLS-1$
+	private static final String TEMPORARY_RESOURCE_TYPE_NAME = "temporary"; //$NON-NLS-1$
 
 	private static void deleteDir(final Path directory) throws IOException {
 		if (Files.exists(directory)) {
@@ -517,5 +521,17 @@ public class ZippedPlanProToolboxFile extends AbstractToolboxFile {
 	@Override
 	public PlanProFileResource getLayoutResource() {
 		return getResource(LAYOUT_RESOURCE_TYPE_NAME);
+	}
+
+	@Override
+	public ToolboxFile createTemporaryToolboxFile(final String mergerDir,
+			final ToolboxTemporaryIntegration newTemporaryIntegration) {
+		final PlanProFileResource newResource = new PlanProFileResource(
+				URI.createURI(TemporaryintegrationPackage.eNS_URI));
+		editingDomain.getResourceSet().getResources().add(newResource);
+		newResource.setEncoding(ENCODING);
+		setResource(TEMPORARY_RESOURCE_TYPE_NAME, newResource);
+		newResource.getContents().add(newTemporaryIntegration);
+		return null;
 	}
 }

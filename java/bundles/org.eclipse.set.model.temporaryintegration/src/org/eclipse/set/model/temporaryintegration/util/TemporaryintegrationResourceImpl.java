@@ -9,26 +9,26 @@
 package org.eclipse.set.model.temporaryintegration.util;
 
 import org.eclipse.emf.common.util.URI;
-
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
 
 /**
- * <!-- begin-user-doc -->
- * The <b>Resource </b> associated with the package.
+ * <!-- begin-user-doc --> The <b>Resource </b> associated with the package.
  * <!-- end-user-doc -->
+ * 
  * @see org.eclipse.set.model.temporaryintegration.util.TemporaryintegrationResourceFactoryImpl
  * @generated
  */
 public class TemporaryintegrationResourceImpl extends XMLResourceImpl {
 	/**
-	 * Creates an instance of the resource.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param uri the URI of the new resource.
+	 * Creates an instance of the resource. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
+	 * @param uri
+	 *            the URI of the new resource.
 	 * @generated
 	 */
-	public TemporaryintegrationResourceImpl(URI uri) {
+	public TemporaryintegrationResourceImpl(final URI uri) {
 		super(uri);
 	}
 
-} //TemporaryintegrationResourceImpl
+} // TemporaryintegrationResourceImpl

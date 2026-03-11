@@ -20,6 +20,7 @@ import org.eclipse.set.basis.files.ToolboxFile;
 import org.eclipse.set.basis.files.ToolboxFile.Format;
 import org.eclipse.set.basis.files.ToolboxFileAC;
 import org.eclipse.set.basis.files.ToolboxFileRole;
+import org.eclipse.set.basis.files.ToolboxIDResolver;
 import org.eclipse.set.core.services.files.ToolboxFileFormatService;
 import org.eclipse.set.core.services.files.ToolboxFileService;
 import org.eclipse.set.model.planpro.PlanPro.DocumentRoot;

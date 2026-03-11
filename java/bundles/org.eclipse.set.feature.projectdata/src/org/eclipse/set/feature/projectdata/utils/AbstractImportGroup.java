@@ -15,7 +15,7 @@ import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.basis.exceptions.UserAbortion;
 import org.eclipse.set.basis.files.ToolboxFileRole;
-import org.eclipse.set.core.fileservice.ToolboxIDResolver;
+import org.eclipse.set.basis.files.ToolboxIDResolver;
 import org.eclipse.set.utils.events.EditingCompleted;
 import org.eclipse.set.utils.events.ToolboxEvents;
 import org.eclipse.swt.SWT;

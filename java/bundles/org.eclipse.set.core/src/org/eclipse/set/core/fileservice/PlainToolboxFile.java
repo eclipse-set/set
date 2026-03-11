@@ -22,11 +22,13 @@ import org.eclipse.set.basis.extensions.PathExtensions;
 import org.eclipse.set.basis.files.PlanProFileResource;
 import org.eclipse.set.basis.files.ToolboxFile;
 import org.eclipse.set.basis.files.ToolboxFileRole;
+import org.eclipse.set.basis.files.ToolboxIDResolver;
 import org.eclipse.set.basis.guid.Guid;
 import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.session.SessionService;
 import org.eclipse.set.model.planpro.PlanPro.DocumentRoot;
 import org.eclipse.set.model.planpro.PlanPro.util.PlanProResourceImpl;
+import org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration;
 
 /**
  * Toolbox file support for plain files.
@@ -228,5 +230,11 @@ public class PlainToolboxFile extends AbstractToolboxFile {
 	@Override
 	public ToolboxFileRole getRole() {
 		return role;
+	}
+
+	@Override
+	public ToolboxFile createTemporaryToolboxFile(final String mergerDir,
+			final ToolboxTemporaryIntegration newTemporaryIntegration) {
+		throw new UnsupportedOperationException();
 	}
 }

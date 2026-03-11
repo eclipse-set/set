@@ -60,6 +60,7 @@ import org.eclipse.set.model.simplemerge.SMatch;
 import org.eclipse.set.model.temporaryintegration.TemporaryIntegration;
 import org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration;
 import org.eclipse.set.model.temporaryintegration.extensions.TemporaryIntegrationExtensions;
+import org.eclipse.set.model.temporaryintegration.util.TemporaryintegrationResourceImpl;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
 import org.eclipse.set.utils.RefreshAction;
 import org.eclipse.set.utils.SelectableAction;
@@ -191,17 +192,17 @@ public class PlanProMergeFormsPart extends AbstractEmfFormsPart {
 				mergeDirFileNameExtension,
 				ToolboxFileRole.TEMPORARY_INTEGRATION);
 		temporaryFile.setTemporaryDirectory(session.getTempDir());
-		// temporaryFile.getPlanProResource().getContents().add(newTemporaryIntegration);
-		// if (temporaryFile
-		// .getResource() instanceof final TemporaryintegrationResourceImpl
-		// resource) {
-		// resource.getTransformPrimaryInvalidIDReferences().addAll(
-		// newTemporaryIntegration.getPrimaryPlanningIDReferences());
-		// resource.getTransformSecondaryInvalidIDReferences().addAll(
-		// newTemporaryIntegration.getSecondaryPlanningIDReferences());
-		// resource.getTransformCompositeInvalidIDReferences().addAll(
-		// newTemporaryIntegration.getCompositePlanningIDReferences());
-		// }
+		temporaryFile.getPlanProResource().getContents()
+				.add(newTemporaryIntegration);
+		if (temporaryFile
+				.getResource() instanceof final TemporaryintegrationResourceImpl resource) {
+			resource.getTransformPrimaryInvalidIDReferences().addAll(
+					newTemporaryIntegration.getPrimaryPlanningIDReferences());
+			resource.getTransformSecondaryInvalidIDReferences().addAll(
+					newTemporaryIntegration.getSecondaryPlanningIDReferences());
+			resource.getTransformCompositeInvalidIDReferences().addAll(
+					newTemporaryIntegration.getCompositePlanningIDReferences());
+		}
 
 		try {
 			temporaryFile.copyAllMedia(getConvertedPrimaryPlanning());
