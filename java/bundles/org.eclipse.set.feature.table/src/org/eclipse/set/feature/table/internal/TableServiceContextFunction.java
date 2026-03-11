@@ -199,10 +199,6 @@ public class TableServiceContextFunction extends ContextFunction
 					.getCacheService()
 					.getCache(schnitstelle,
 							ToolboxConstants.CacheId.DIRECTED_EDGE_TO_SUBPATH));
-			if (event.getTopic().equals(Events.MODEL_CHANGED)
-					&& tableService != null) {
-				tableService.cleanFootnotesProTable();
-			}
 		}
 
 		if (event.getTopic().equals(Events.CLOSE_SESSION)) {

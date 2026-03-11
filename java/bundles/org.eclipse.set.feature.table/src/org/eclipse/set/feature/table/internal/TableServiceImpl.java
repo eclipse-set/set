@@ -175,10 +175,6 @@ public final class TableServiceImpl implements TableService {
 		}
 	}
 
-	void cleanFootnotesProTable() {
-		footnotesPerTable.clear();
-	}
-
 	private Table createDiffStateTable(final TableInfo tableInfo,
 			final IModelSession modelSession) {
 		final PlanPro2TableTransformationService modelService = getModelService(
@@ -686,9 +682,9 @@ public final class TableServiceImpl implements TableService {
 				.collect(Collectors.toSet());
 	}
 
-	@SuppressWarnings("static-method")
 	void clearInstance() {
 		transformTableThreads.clear();
 		nonTransformableTables.clear();
+		footnotesPerTable.clear();
 	}
 }
