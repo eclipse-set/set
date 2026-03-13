@@ -55,7 +55,6 @@ public class ZippedPlanProToolboxFile extends AbstractToolboxFile {
 	private static final String TRASH_CAN = "trash"; //$NON-NLS-1$
 	private static final String ZIP_SEPARATOR = "/"; //$NON-NLS-1$
 	private static final String LAYOUT_RESOURCE_TYPE_NAME = "layout"; //$NON-NLS-1$
-	private static final String TEMPORARY_RESOURCE_TYPE_NAME = "temporary"; //$NON-NLS-1$
 
 	private static void deleteDir(final Path directory) throws IOException {
 		if (Files.exists(directory)) {
@@ -105,11 +104,11 @@ public class ZippedPlanProToolboxFile extends AbstractToolboxFile {
 	ZippedPlanProToolboxFile(final Format format,
 			final EditingDomain editingDomain, final ToolboxFileRole role) {
 		this(null, format, editingDomain, false, role);
-		if (role != ToolboxFileRole.TEMPORARY_INTEGRATION) {
+		if (!format.isTemporaryIntegration()) {
 			setResource(TECHNICAL_RESOURCE_TYPE_NAME, createPlanProResource());
 			setResource(LAYOUT_RESOURCE_TYPE_NAME, createPlanProResource());
 		} else {
-			setResource(TEMPORARY_RESOURCE_TYPE_NAME,
+			setResource(TECHNICAL_RESOURCE_TYPE_NAME,
 					createTemporaryResource());
 		}
 
@@ -328,6 +327,10 @@ public class ZippedPlanProToolboxFile extends AbstractToolboxFile {
 
 	@Override
 	public void openModel() throws IOException {
+		if (format.isTemporaryIntegration()) {
+			openTemporaryModel();
+			return;
+		}
 		if (isLoadable()) {
 			generateMD5CheckSum();
 			unzip();
@@ -338,6 +341,32 @@ public class ZippedPlanProToolboxFile extends AbstractToolboxFile {
 					.getFirst();
 			ToolboxIDResolver
 					.resolveIDReferences(doc.getPlanProSchnittstelle());
+		} else {
+			throw new IllegalStateException("Toolbox file not loadable."); //$NON-NLS-1$
+		}
+	}
+
+	private void openTemporaryModel() throws IOException {
+		if (isLoadable()) {
+			generateMD5CheckSum();
+			unzip();
+			loadResource(getModelPath(), editingDomain,
+					Services.getPlanProVersionService());
+			if (getPlanProResource().getContents()
+					.getFirst() instanceof final TemporaryIntegration tmpInt) {
+				ToolboxIDResolver
+						.resolveIDReferences(tmpInt.getCompositePlanning());
+				ToolboxIDResolver
+						.resolveIDReferences(tmpInt.getPrimaryPlanning());
+				ToolboxIDResolver
+						.resolveIDReferences(tmpInt.getSecondaryPlanning());
+				ToolboxIDResolver
+						.resolveIDReferences(tmpInt.getPrimaryLayout());
+				ToolboxIDResolver
+						.resolveIDReferences(tmpInt.getSecondaryLayout());
+				ToolboxIDResolver
+						.resolveIDReferences(tmpInt.getCompositeyout());
+			}
 		} else {
 			throw new IllegalStateException("Toolbox file not loadable."); //$NON-NLS-1$
 		}
@@ -523,8 +552,13 @@ public class ZippedPlanProToolboxFile extends AbstractToolboxFile {
 
 	@Override
 	protected String getContentType(final Path modelPath) {
-		return modelPath == null ? TECHNICAL_RESOURCE_TYPE_NAME
-				: PathExtensions.getBaseFileName(modelPath);
+		final String baseFileName = PathExtensions.getBaseFileName(modelPath);
+		return switch (baseFileName) {
+			case TECHNICAL_RESOURCE_TYPE_NAME -> TECHNICAL_RESOURCE_TYPE_NAME;
+			case LAYOUT_RESOURCE_TYPE_NAME -> LAYOUT_RESOURCE_TYPE_NAME;
+			default -> throw new UnsupportedOperationException(
+					"Unsupported content with file name: " + baseFileName); //$NON-NLS-1$
+		};
 	}
 
 	@Override
@@ -535,29 +569,5 @@ public class ZippedPlanProToolboxFile extends AbstractToolboxFile {
 	@Override
 	public PlanProFileResource getLayoutResource() {
 		return getResource(LAYOUT_RESOURCE_TYPE_NAME);
-	}
-
-	@Override
-	public PlanProFileResource getTemporaryResource() {
-		final PlanProFileResource resource = getResource(
-				TEMPORARY_RESOURCE_TYPE_NAME);
-		if (resource == null) {
-			final PlanProFileResource temporaryResource = createTemporaryResource();
-			setResource(TEMPORARY_RESOURCE_TYPE_NAME, temporaryResource);
-			return temporaryResource;
-		}
-		return resource;
-	}
-
-	public ToolboxFile createTemporaryToolboxFile(final String mergerDir,
-			final TemporaryIntegration newTemporaryIntegration) {
-
-		final PlanProFileResource newResource = new PlanProFileResource(
-				URI.createURI(TemporaryintegrationPackage.eNS_URI));
-		editingDomain.getResourceSet().getResources().add(newResource);
-		newResource.setEncoding(ENCODING);
-		setResource(TEMPORARY_RESOURCE_TYPE_NAME, newResource);
-		newResource.getContents().add(newTemporaryIntegration);
-		return null;
 	}
 }

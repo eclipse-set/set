@@ -181,8 +181,7 @@ public class PlanProMergeFormsPart extends AbstractEmfFormsPart {
 				session.getToolboxFile().getPath().getFileName().toString());
 		final ToolboxFile temporaryFile = fileService
 				.createTemporaryToolboxFile(mergeDirFileName,
-						newTemporaryIntegration);
-		temporaryFile.setTemporaryDirectory(session.getTempDir());
+						session.getTempDir(), newTemporaryIntegration);
 		try {
 			temporaryFile.copyAllMedia(getConvertedPrimaryPlanning());
 			temporaryFile.copyAllMedia(secondaryPlanningToolboxfile);
@@ -231,6 +230,7 @@ public class PlanProMergeFormsPart extends AbstractEmfFormsPart {
 			session.switchToMergeMode(temporaryIntegration, mergeDir, shell,
 					toolboxFile);
 			secondaryPlanningToolboxfile.close();
+			setOutdated(true);
 		} catch (final IOException | UserAbortion e) {
 			throw new InvocationTargetException(e);
 		}
@@ -491,8 +491,7 @@ public class PlanProMergeFormsPart extends AbstractEmfFormsPart {
 			final ProgressMonitorDialog progressMonitorDialog = new ProgressMonitorDialog(
 					shell);
 			progressMonitorDialog.run(true, false, this::mergeModel);
-			getBroker().send(Events.MODEL_CHANGED,
-					session.getPlanProSchnittstelle());
+			getBroker().send(Events.MODEL_CHANGED, session);
 		} catch (final InvocationTargetException | InterruptedException e) {
 			final Throwable cause = e.getCause();
 			if (!(cause instanceof UserAbortion)) {

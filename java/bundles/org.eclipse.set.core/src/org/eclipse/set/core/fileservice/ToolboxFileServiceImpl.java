@@ -154,15 +154,20 @@ public class ToolboxFileServiceImpl implements ToolboxFileService {
 
 	@Override
 	public ToolboxFile createTemporaryToolboxFile(final Path path,
-			final TemporaryIntegration tmpInt) {
+			final Path tmpDir, final TemporaryIntegration tmpInt) {
 		final Path mergeDirFileNameExtension = PathExtensions.replaceExtension(
 				path,
 				extensionsForCategory(
 						ToolboxConstants.EXTENSION_CATEGORY_PPMERGE)
 								.getFirst());
-		final ToolboxFile tmpToolboxfile = load(mergeDirFileNameExtension,
+
+		final ToolboxFile tmpToolboxfile = create(
+				SetFormat.createTemporaryIntegration(),
 				ToolboxFileRole.TEMPORARY_INTEGRATION);
-		tmpToolboxfile.getTemporaryResource().getContents().add(tmpInt);
+		tmpToolboxfile.setTemporaryDirectory(tmpDir);
+		tmpToolboxfile.setPath(mergeDirFileNameExtension);
+		tmpToolboxfile.getPlanProResource().getContents().add(tmpInt);
+
 		return tmpToolboxfile;
 	}
 

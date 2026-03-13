@@ -55,6 +55,7 @@ import static extension org.eclipse.set.ppmodel.extensions.EObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PlanungEinzelExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PlanungProjektExtensions.*
 import static extension org.eclipse.set.utils.StringExtensions.*
+import org.eclipse.set.model.temporaryintegration.TemporaryIntegration
 
 /**
  * Extensions for {@link PlanPro_Schnittstelle}.
@@ -331,6 +332,8 @@ class PlanProSchnittstelleExtensions {
 		val root = contents.head
 		if (root instanceof DocumentRoot) {
 			return root.planProSchnittstelle
+		} else if (root instanceof TemporaryIntegration) {
+			return root.compositePlanning
 		}
 		throw new IllegalArgumentException(
 			"Ressource contains no PlanPro model with the requested version."

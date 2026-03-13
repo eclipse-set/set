@@ -390,17 +390,19 @@ public class ModelSession implements IModelSession {
 		if (!isMergeMode()) {
 			throw new IllegalStateException("Session not in merge mode."); //$NON-NLS-1$
 		}
-		/*
-		 * TODO(1.10.0.1): Readd once temporary integrations are reenabled //
-		 * warning, if there were some invalid input plannings if
-		 * (!temporaryIntegration.isPrimaryPlanningWasValid() ||
-		 * !temporaryIntegration.isSecondaryPlanningWasValid()) { if
-		 * (!serviceProvider.dialogService
-		 * .createCompositePlanningWithInvalidInput(shell,
-		 * temporaryIntegration.isPrimaryPlanningWasValid(),
-		 * temporaryIntegration .isSecondaryPlanningWasValid())) { throw new
-		 * UserAbortion(); } }
-		 */
+
+		// TODO(1.10.0.1): Readd once temporary integrations are reenabled //
+		// warning, if there were some invalid input plannings
+		if (!temporaryIntegration.isPrimaryPlanningWasValid()
+				|| !temporaryIntegration.isSecondaryPlanningWasValid()) {
+			if (!serviceProvider.dialogService
+					.createCompositePlanningWithInvalidInput(shell,
+							temporaryIntegration.isPrimaryPlanningWasValid(),
+							temporaryIntegration
+									.isSecondaryPlanningWasValid())) {
+				throw new UserAbortion();
+			}
+		}
 
 		// find model path
 		final Format mergedFileFormat = sessionService.getMergedFileFormat();
@@ -632,11 +634,7 @@ public class ModelSession implements IModelSession {
 
 	@Override
 	public boolean isMergeMode() {
-		/*
-		 * TODO(1.10.0.1): Readd once temporary integrations are reenabled
-		 * return temporaryIntegration != null;
-		 */
-		return false;
+		return temporaryIntegration != null;
 	}
 
 	@Override
@@ -795,14 +793,16 @@ public class ModelSession implements IModelSession {
 	}
 
 	private void readMergeModel() throws IOException {
-		toolboxFile.openModel();
-		/*
-		 * TODO(1.10.0.1): Readd once temporary integrations are reenabled
-		 * temporaryIntegration = (ToolboxTemporaryIntegration) toolboxFile
-		 * .getResource().getContents().get(0);
-		 * setPlanProSchnittstelle(temporaryIntegration.getCompositePlanning());
-		 * validationResult.setValidationSupported(false);
-		 */
+		final ModelContents modelContent = serviceProvider.modelLoader
+				.loadModel(toolboxFile, this::setValidationResult);
+		temporaryIntegration = (TemporaryIntegration) toolboxFile
+				.getPlanProResource()
+				.getContents()
+				.get(0);
+		setPlanProSchnittstelle(modelContent.schnittStelle());
+		getValidationResult(PlanPro_Schnittstelle.class)
+				.setValidationSupported(false);
+
 	}
 
 	private void removeContentAdapter(final EObject object) {

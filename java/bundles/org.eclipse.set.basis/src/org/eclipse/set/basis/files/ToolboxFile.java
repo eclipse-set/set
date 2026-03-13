@@ -16,7 +16,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.set.basis.PlanProXMLNode;
 import org.eclipse.set.basis.guid.Guid;
-import org.eclipse.set.model.temporaryintegration.TemporaryIntegration;
 
 /**
  * Abstraction from concrete file format.
@@ -188,11 +187,6 @@ public interface ToolboxFile {
 	 * @return the planpro layout resource
 	 */
 	PlanProFileResource getLayoutResource();
-
-	/**
-	 * @return the {@link TemporaryIntegration} resource
-	 */
-	PlanProFileResource getTemporaryResource();
 
 	/**
 	 * @return the {@link ToolboxFileRole}

@@ -229,9 +229,4 @@ public class PlainToolboxFile extends AbstractToolboxFile {
 	public ToolboxFileRole getRole() {
 		return role;
 	}
-
-	@Override
-	public PlanProFileResource getTemporaryResource() {
-		throw new UnsupportedOperationException();
-	}
 }

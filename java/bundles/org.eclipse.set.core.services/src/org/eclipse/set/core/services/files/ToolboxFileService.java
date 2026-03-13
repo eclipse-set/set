@@ -97,9 +97,10 @@ public interface ToolboxFileService {
 
 	/**
 	 * @param path
+	 * @param tempDir
 	 * @param tmpInt
 	 * @return
 	 */
-	ToolboxFile createTemporaryToolboxFile(Path path,
+	ToolboxFile createTemporaryToolboxFile(Path path, Path tempDir,
 			TemporaryIntegration tmpInt);
 }
