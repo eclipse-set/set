@@ -171,8 +171,12 @@ public abstract class AbstractToolboxFile implements ToolboxFile {
 		if (contents.isEmpty()) {
 			return null;
 		}
-		return (org.eclipse.set.model.planpro.PlanPro.DocumentRoot) contents
-				.getFirst();
+
+		if (contents
+				.getFirst() instanceof final org.eclipse.set.model.planpro.PlanPro.DocumentRoot documentRoot) {
+			return documentRoot;
+		}
+		return null;
 	}
 
 	@Override

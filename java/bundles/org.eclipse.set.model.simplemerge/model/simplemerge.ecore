@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="simplemerge" nsURI="tag:scheidt-bachmann-st.de,2018-05-30:planpro/tsm"
+    nsPrefix="tsm">
+  <eClassifiers xsi:type="ecore:EClass" name="SComparison">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="matches" upperBound="-1"
+        eType="#//SMatch" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SMatch">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="guidPrimary" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="guidSecondary" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="resolution" eType="#//Resolution"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="elementType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Resolution">
+    <eLiterals name="PRIMARY_UNRESOLVED"/>
+    <eLiterals name="PRIMARY_AUTO" value="1"/>
+    <eLiterals name="PRIMARY_MANUAL" value="2"/>
+    <eLiterals name="SECONDARY_AUTO" value="3"/>
+    <eLiterals name="SECONDARY_MANUAL" value="4"/>
+  </eClassifiers>
+</ecore:EPackage>

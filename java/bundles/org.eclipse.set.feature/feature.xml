@@ -1454,4 +1454,28 @@ http://www.eclipse.org/legal/epl-v20.html
          id="bcutil"
          version="0.0.0"/>
 
+   <plugin
+         id="org.eclipse.set.model.temporaryintegration"
+         version="0.0.0"/>
+
+   <plugin
+         id="org.eclipse.set.model.simplemerge"
+         version="0.0.0"/>
+
+   <plugin
+         id="org.eclipse.set.feature.integration"
+         version="0.0.0"/>
+
+   <plugin
+         id="org.eclipse.set.model.integrationview"
+         version="0.0.0"/>
+
+   <plugin
+         id="org.eclipse.set.model.simplemerge.extensions"
+         version="0.0.0"/>
+
+   <plugin
+         id="org.eclipse.set.model.temporaryintegration.extensions"
+         version="0.0.0"/>
+
 </feature>
