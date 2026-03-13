@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.eclipse.set</groupId>
-	<artifactId>org.eclipse.set.model.simplemerge</artifactId>
+	<artifactId>org.eclipse.set.model.temporaryintegration.edit</artifactId>
 	<version>2.6.0-SNAPSHOT</version>
 	<packaging>eclipse-plugin</packaging>
 
