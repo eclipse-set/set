@@ -146,7 +146,7 @@ public class ToolboxTableModelThemeConfiguration
 
 	private static BorderStyle getCompareTableBorderStyle(
 			final LineStyleEnum lineStyle) {
-		return new BorderStyle(2, new Color(COMPARE_CELL_BORDER_COLOR),
+		return new BorderStyle(1, new Color(COMPARE_CELL_BORDER_COLOR),
 				lineStyle);
 	}
 
