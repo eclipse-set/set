@@ -4,7 +4,7 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
  * 
  */
@@ -163,28 +163,29 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 			wKrGspElement,
 			[isSimpleTrackSwitch],
 			[
-				val potk = punktObjektTOPKante.firstOrNull
-				return (potk.abstand.wert === BigDecimal.ZERO &&
-					potk.topKante.TOPAnschlussA ===
-						ENUMTOPAnschluss.ENUMTOP_ANSCHLUSS_LINKS) ||
-					(potk.abstand.wert !== BigDecimal.ZERO &&
-						potk.topKante.TOPAnschlussB ===
-							ENUMTOPAnschluss.ENUMTOP_ANSCHLUSS_RECHTS)
-			]
+				punktObjektTOPKante.exists [ potk |
+					(potk.abstand.wert === BigDecimal.ZERO &&
+						potk.topKante.TOPAnschlussA ===
+							ENUMTOPAnschluss.ENUMTOP_ANSCHLUSS_LINKS) ||
+						(potk.abstand.wert !== BigDecimal.ZERO &&
+							potk.topKante.TOPAnschlussB ===
+								ENUMTOPAnschluss.ENUMTOP_ANSCHLUSS_LINKS)
+				]
 		)
 
 		val wKomponentEW_R = refWKrAnlage.getGspKomponente(
 			wKrGspElement,
 			[isSimpleTrackSwitch],
 			[
-				val potk = punktObjektTOPKante.firstOrNull
-				return (potk.abstand.wert === BigDecimal.ZERO &&
-					potk.topKante.TOPAnschlussA ===
-						ENUMTOPAnschluss.ENUMTOP_ANSCHLUSS_RECHTS) ||
-					(potk.abstand.wert !== BigDecimal.ZERO &&
-						potk.topKante.TOPAnschlussB ===
-							ENUMTOPAnschluss.ENUMTOP_ANSCHLUSS_LINKS)
-			]
+				punktObjektTOPKante.exists [ potk |
+					(potk.abstand.wert === BigDecimal.ZERO &&
+						potk.topKante.TOPAnschlussA ===
+							ENUMTOPAnschluss.ENUMTOP_ANSCHLUSS_RECHTS) ||
+						(potk.abstand.wert !== BigDecimal.ZERO &&
+							potk.topKante.TOPAnschlussB ===
+								ENUMTOPAnschluss.ENUMTOP_ANSCHLUSS_RECHTS)
+
+				]
 		)
 
 		val wKomponentDKW_EKW_L = refWKrAnlage.getGspKomponente(
@@ -271,7 +272,7 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 		// J: Sszw.Zulaessige_Geschwindigkeit.Kreuzung.li
 		fill(
 			row,
-			cols.getColumn(Geschwindigkeit_W_L),
+			cols.getColumn(Geschwindigkeit_Kr_L),
 			refWKrAnlage,
 			[
 				getWKrGeschwindigkeit(
