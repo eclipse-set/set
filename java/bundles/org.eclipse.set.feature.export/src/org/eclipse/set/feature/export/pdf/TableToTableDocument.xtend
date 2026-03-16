@@ -421,17 +421,17 @@ class TableToTableDocument {
 		val separator = remarkTextInlnie ? FOOTNOTE_INLINE_TEXT_SEPARATOR : FOOTNOTE_MARK_SEPRATOR
 		val oldFootnotes = fc.oldFootnotes.footnotes.map [
 			getFootnoteInfo(fc, it)
-		].map [
+		].filterNull.map [
 			remarkTextInlnie ? toText : toShorthand
 		].iterableToString(separator)
 		val newFootnotes = fc.newFootnotes.footnotes.map [
 			getFootnoteInfo(fc, it)
-		].map [
+		].filterNull.map [
 			remarkTextInlnie ? toText : toShorthand
 		].iterableToString(separator)
 		val unchangedFootnotes = fc.unchangedFootnotes.footnotes.map [
 			getFootnoteInfo(fc, it)
-		].map[remarkTextInlnie ? toText : toShorthand].
+		].filterNull.map[remarkTextInlnie ? toText : toShorthand].
 			iterableToString(separator)
 
 		element.addFootnoteChild(oldFootnotes, WARNING_MARK_YELLOW,
