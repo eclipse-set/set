@@ -472,7 +472,7 @@ class TableExtensions {
 		// sort new and common together by text, then append old entries
 		val footnotes = (common + newF).sortBy[toText] + old.sortBy[toText]
 
-		return footnotes.distinctBy[toText -> bearbeitungsvermerk?.identitaet?.wert].indexed.map [
+		return footnotes.distinctBy[toText].indexed.map [
 			value.index = key + 1
 			return value
 		]
@@ -484,7 +484,9 @@ class TableExtensions {
 
 	static def FootnoteInfo getFootnoteInfo(Table table,
 		Bearbeitungsvermerk bv) {
-		return table.allFootnotes.findFirst[bearbeitungsvermerk == bv]
+		return table.allFootnotes.findFirst[bearbeitungsvermerk?.identitaet?.wert == bv?.identitaet?.wert ||
+			bv?.bearbeitungsvermerkAllg?.kommentar?.wert == toText
+		]
 	}
 
 	static def FootnoteInfo getFootnoteInfo(EObject tableContent, Footnote fn) {

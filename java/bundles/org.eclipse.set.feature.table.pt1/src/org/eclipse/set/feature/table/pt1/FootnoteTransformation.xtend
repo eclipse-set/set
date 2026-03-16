@@ -145,14 +145,19 @@ class FootnoteTransformation {
 	// Determine Footnotes for Ssks Table
 	private def dispatch Iterable<Footnote> getReferenceFootnotes(
 		Signal_Signalbegriff signalBegriff) {
+		val prefix = signalBegriff.prefix
 		val signalBegriffFootnotes = signalBegriff?.IDBearbeitungsvermerk?.map [
 			createFootnote(signalBegriff)
 		]?.filterNull
 		val objectStateNote = #[
 			signalBegriff?.transformObjectStateEnum?.
 				createFootnote(signalBegriff)].filterNull
-		return #[signalBegriffFootnotes, objectStateNote].filterNull.flatten.
-			toList.withPrefix(signalBegriff.prefix)
+		val begriffFootnotesWithPrefix = signalBegriffFootnotes.
+			withPrefix('''«prefix.key»«IF prefix.value !== null» «prefix.value»«ENDIF»''')
+		val objectStateNoteWithPrefix = objectStateNote.
+			withPrefix('''«prefix.key»«IF prefix.value !== null» («prefix.value»)«ENDIF»''')
+		return #[begriffFootnotesWithPrefix, objectStateNoteWithPrefix].
+			filterNull.flatten
 	}
 
 	// Determine Footnotes for Sskw Table
