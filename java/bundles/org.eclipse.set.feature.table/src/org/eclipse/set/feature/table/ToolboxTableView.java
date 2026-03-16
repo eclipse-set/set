@@ -123,12 +123,14 @@ import org.eclipse.set.utils.table.menu.TableMenuService;
 import org.eclipse.set.utils.table.sorting.AbstractCompareWithDependencyOnServiceCriterion;
 import org.eclipse.set.utils.table.sorting.TableRowGroupComparator;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
@@ -155,8 +157,8 @@ public final class ToolboxTableView extends BasePart {
 
 	private static Color GRAY_BACKGROUND = new Color(Display.getCurrent(), 240,
 			240, 240);
-	private static final int TABLE_FOOTNOTE_CONTANIER_MAX_HEIGHT = 150;
-
+	private static Color GRAY_BORDER_TOP = new Color(Display.getCurrent(), 171,
+			171, 171);
 	static final Logger logger = LoggerFactory
 			.getLogger(ToolboxTableView.class);
 
@@ -177,9 +179,7 @@ public final class ToolboxTableView extends BasePart {
 	private ToolboxEventHandler<TableDataChangeEvent> tableDataChangeHandler;
 	private ToolboxEventHandler<SelectedControlAreaChangedEvent> selectionControlAreaHandler;
 	private int scrollToPositionRequested = -1;
-
 	private StyledText tableFooting;
-
 	@Inject
 	@Translation
 	Messages messages;
@@ -432,6 +432,18 @@ public final class ToolboxTableView extends BasePart {
 			startOffset += text.length() + 1;
 
 		}
+		if (lines.isEmpty()) {
+			tableFooting.setVisible(false);
+
+		} else if (!(tableFooting.getParent() instanceof SashForm)) {
+			tableFooting.getParent().setLayout(new FillLayout());
+			final SashForm sashForm = new SashForm(tableFooting.getParent(),
+					SWT.VERTICAL);
+			natTable.setParent(sashForm);
+			tableFooting.setParent(sashForm);
+			// Default weight value nattable - 8, footnote - 2
+			sashForm.setWeights(8, 2);
+		}
 
 		if (lines.size() > ToolboxConstants.FOOTNOTE_ACTIVE_SCROLL_MINIMUM) {
 			GridDataFactory.fillDefaults()
@@ -578,25 +590,18 @@ public final class ToolboxTableView extends BasePart {
 		bodyLayerStack.getSelectionLayer().clear();
 
 		// display footnotes
-		tableFooting = new StyledText(parent, SWT.MULTI | SWT.V_SCROLL) {
-			@Override
-			public Point computeSize(final int wHint, final int hHint,
-					final boolean changed) {
-				// Limit height of the footnote
-				final Point preferredSize = super.computeSize(wHint, hHint,
-						changed);
-				if (preferredSize.y > TABLE_FOOTNOTE_CONTANIER_MAX_HEIGHT) {
-					return new Point(preferredSize.x,
-							TABLE_FOOTNOTE_CONTANIER_MAX_HEIGHT);
-				}
-				return preferredSize;
-
-			}
-		};
+		tableFooting = new StyledText(parent, SWT.MULTI | SWT.V_SCROLL);
+		tableFooting.setTopMargin(2);
+		// Draw top border
+		tableFooting.addPaintListener(e -> {
+			final Rectangle clientArea = tableFooting.getClientArea();
+			e.gc.setForeground(GRAY_BORDER_TOP);
+			e.gc.drawLine(0, 0, clientArea.width - 1, 0);
+		});
 
 		GridDataFactory.fillDefaults()
 				.grab(true, false)
-				.minSize(-1, 150)
+				.minSize(-1, 500)
 				.applyTo(tableFooting);
 		tableFooting.setBackground(GRAY_BACKGROUND);
 		tableFooting.setAlwaysShowScrollBars(false);
@@ -879,7 +884,7 @@ public final class ToolboxTableView extends BasePart {
 		if (calculateMissingTablesPanel == null) {
 			return;
 		}
-		if (getMissingTables().size() == 0) {
+		if (getMissingTables().isEmpty()) {
 			final Composite parent = calculateMissingTablesPanel.getParent();
 			calculateMissingTablesPanel.dispose();
 			parent.layout(true, true);
