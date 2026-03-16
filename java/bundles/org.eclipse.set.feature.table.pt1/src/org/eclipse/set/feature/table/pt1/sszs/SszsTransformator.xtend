@@ -4,7 +4,7 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
  * 
  */
@@ -634,8 +634,9 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 				cols.getColumn(Stellbereich),
 				refSignal,
 				[
-					container.stellBereich.filter [ area |
-						area.isInControlArea(stellelement)
+					container.stellBereich.filterNull.filter [ area |
+						area.aussenElementAnsteuerung ==
+							stellelement?.IDInformation?.value
 					].map [
 						aussenElementAnsteuerung.oertlichkeitNamensgebend.
 							bezeichnung?.oertlichkeitAbkuerzung?.wert
