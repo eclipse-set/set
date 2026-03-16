@@ -4,7 +4,7 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
  * 
  */
@@ -171,6 +171,7 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 							potk.topKante.TOPAnschlussB ===
 								ENUMTOPAnschluss.ENUMTOP_ANSCHLUSS_LINKS)
 				]
+			]
 		)
 
 		val wKomponentEW_R = refWKrAnlage.getGspKomponente(
@@ -186,6 +187,8 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 								ENUMTOPAnschluss.ENUMTOP_ANSCHLUSS_RECHTS)
 
 				]
+
+			]
 		)
 
 		val wKomponentDKW_EKW_L = refWKrAnlage.getGspKomponente(
@@ -434,9 +437,8 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 		val distance = gspKomponente.map[new TopPoint(it)].map [ gspPoint |
 			topGraphService.findShortestDistance(signalTopPoint, gspPoint)
 		].map[orElse(null)].filterNull
-		return distance.nullOrEmpty
-			? ""
-			: AgateRounding.roundDown(distance.min.doubleValue).toString
+		return distance.nullOrEmpty ? "" : AgateRounding.roundDown(
+			distance.min.doubleValue).toString
 	}
 
 	private def String getWKrGeschwindigkeit(
@@ -455,10 +457,10 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 		switch (type) {
 			case ENUMW_KR_ART_DKW,
 			case ENUMW_KR_ART_EKW: {
-				val gspKomponent = gspElement.WKrGspKomponenten.findFirst [
+				val gspKomponent = gspElement?.WKrGspKomponenten?.findFirst [
 					zungenpaar?.kreuzungsgleis?.wert === leftRightCross
 				]
-				return allowSpeedEKW_DKW.apply(gspKomponent)?.toString ?: ""
+				return allowSpeedEKW_DKW?.apply(gspKomponent)?.toString ?: ""
 			}
 			case ENUMW_KR_ART_ABW,
 			case ENUMW_KR_ART_DW,
@@ -469,8 +471,8 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 			case ENUMW_KR_ART_FLACHKREUZUNG,
 			case ENUMW_KR_ART_KR,
 			case ENUMW_KR_ART_SONSTIGE: {
-				val gspKomponent = gspElement.WKrGspKomponenten.firstOrNull
-				return allowSpeed.apply(gspKomponent)?.toString ?: ""
+				val gspKomponent = gspElement?.WKrGspKomponenten?.firstOrNull
+				return allowSpeed?.apply(gspKomponent)?.toString ?: ""
 			}
 			default:
 				""
