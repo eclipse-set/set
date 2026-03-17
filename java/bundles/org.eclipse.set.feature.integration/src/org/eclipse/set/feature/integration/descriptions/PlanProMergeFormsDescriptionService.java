@@ -79,6 +79,6 @@ public class PlanProMergeFormsDescriptionService
 
 	@Override
 	public ToolboxViewGroup getToolboxViewGroup() {
-		return SetViewGroups.getEdit();
+		return SetViewGroups.getDevelopment();
 	}
 }
