@@ -22,7 +22,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.ThreadUtils;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -93,7 +92,6 @@ import org.eclipse.set.model.tablemodel.extensions.ColumnDescriptorExtensions;
 import org.eclipse.set.model.tablemodel.extensions.Headings;
 import org.eclipse.set.model.tablemodel.extensions.TableCellExtensions;
 import org.eclipse.set.model.tablemodel.extensions.TableExtensions;
-import org.eclipse.set.model.tablemodel.extensions.TableExtensions.FootnoteInfo;
 import org.eclipse.set.model.tablemodel.extensions.TableRowExtensions;
 import org.eclipse.set.model.titlebox.Titlebox;
 import org.eclipse.set.ppmodel.extensions.utils.PlanProToFreeFieldTransformation;
@@ -123,12 +121,8 @@ import org.eclipse.set.utils.table.menu.TableMenuService;
 import org.eclipse.set.utils.table.sorting.AbstractCompareWithDependencyOnServiceCriterion;
 import org.eclipse.set.utils.table.sorting.TableRowGroupComparator;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.StyleRange;
-import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
@@ -153,10 +147,6 @@ public final class ToolboxTableView extends BasePart {
 
 	protected static final int DEBUG_WIDTH_CORRECTION = 0;
 
-	private static Color GRAY_BACKGROUND = new Color(Display.getCurrent(), 240,
-			240, 240);
-	private static final int TABLE_FOOTNOTE_CONTANIER_MAX_HEIGHT = 150;
-
 	static final Logger logger = LoggerFactory
 			.getLogger(ToolboxTableView.class);
 
@@ -177,9 +167,7 @@ public final class ToolboxTableView extends BasePart {
 	private ToolboxEventHandler<TableDataChangeEvent> tableDataChangeHandler;
 	private ToolboxEventHandler<SelectedControlAreaChangedEvent> selectionControlAreaHandler;
 	private int scrollToPositionRequested = -1;
-
-	private StyledText tableFooting;
-
+	private ToolboxTableFootnoteView tableFooting;
 	@Inject
 	@Translation
 	Messages messages;
@@ -398,49 +386,10 @@ public final class ToolboxTableView extends BasePart {
 			updateButtons();
 
 			// Update footnotes
-			updateFootnotes();
+			tableFooting.updateFootnotes(table);
 			// Update widget layout
 			natTable.getParent().layout();
 		}, tableInstances::clear);
-	}
-
-	private void updateFootnotes() {
-		final List<String> lines = new ArrayList<>();
-		final List<StyleRange> styles = new ArrayList<>();
-		int startOffset = 0;
-		for (final FootnoteInfo footnote : TableExtensions
-				.getAllFootnotes(table)) {
-			final String text = footnote.toReferenceText();
-			lines.add(text);
-
-			switch (footnote.type) {
-				case NEW_FOOTNOTE:
-					styles.add(new StyleRange(startOffset, text.length(),
-							new Color(255, 0, 0), null));
-					break;
-				case OLD_FOOTNOTE:
-					final StyleRange styleRange = new StyleRange(startOffset,
-							text.length(), null, new Color(255, 255, 0));
-					styleRange.strikeout = true;
-					styles.add(styleRange);
-
-					break;
-				case COMMON_FOOTNOTE:
-				default:
-					break;
-			}
-			startOffset += text.length() + 1;
-
-		}
-
-		if (lines.size() > ToolboxConstants.FOOTNOTE_ACTIVE_SCROLL_MINIMUM) {
-			GridDataFactory.fillDefaults()
-					.grab(true, true)
-					.applyTo(tableFooting);
-		}
-
-		tableFooting.setText(StringUtils.join(lines, "\n")); //$NON-NLS-1$
-		tableFooting.setStyleRanges(styles.toArray(new StyleRange[0]));
 	}
 
 	@Override
@@ -578,31 +527,8 @@ public final class ToolboxTableView extends BasePart {
 		bodyLayerStack.getSelectionLayer().clear();
 
 		// display footnotes
-		tableFooting = new StyledText(parent, SWT.MULTI | SWT.V_SCROLL) {
-			@Override
-			public Point computeSize(final int wHint, final int hHint,
-					final boolean changed) {
-				// Limit height of the footnote
-				final Point preferredSize = super.computeSize(wHint, hHint,
-						changed);
-				if (preferredSize.y > TABLE_FOOTNOTE_CONTANIER_MAX_HEIGHT) {
-					return new Point(preferredSize.x,
-							TABLE_FOOTNOTE_CONTANIER_MAX_HEIGHT);
-				}
-				return preferredSize;
-
-			}
-		};
-
-		GridDataFactory.fillDefaults()
-				.grab(true, false)
-				.minSize(-1, 150)
-				.applyTo(tableFooting);
-		tableFooting.setBackground(GRAY_BACKGROUND);
-		tableFooting.setAlwaysShowScrollBars(false);
-		updateFootnotes();
-		tableFooting.setEditable(false);
-
+		tableFooting = new ToolboxTableFootnoteView(parent);
+		tableFooting.updateFootnotes(table);
 		// export action
 		getBanderole().setExportAction(new SelectableAction() {
 			@Override
@@ -879,7 +805,7 @@ public final class ToolboxTableView extends BasePart {
 		if (calculateMissingTablesPanel == null) {
 			return;
 		}
-		if (getMissingTables().size() == 0) {
+		if (getMissingTables().isEmpty()) {
 			final Composite parent = calculateMissingTablesPanel.getParent();
 			calculateMissingTablesPanel.dispose();
 			parent.layout(true, true);
