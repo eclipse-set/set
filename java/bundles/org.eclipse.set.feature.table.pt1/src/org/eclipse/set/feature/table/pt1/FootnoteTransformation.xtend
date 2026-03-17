@@ -152,12 +152,8 @@ class FootnoteTransformation {
 		val objectStateNote = #[
 			signalBegriff?.transformObjectStateEnum?.
 				createFootnote(signalBegriff)].filterNull
-		val begriffFootnotesWithPrefix = signalBegriffFootnotes.
-			withPrefix('''«prefix.key»«IF prefix.value !== null» «prefix.value»«ENDIF»''')
-		val objectStateNoteWithPrefix = objectStateNote.
+		return #[signalBegriffFootnotes, objectStateNote].filterNull.flatten.
 			withPrefix('''«prefix.key»«IF prefix.value !== null» («prefix.value»)«ENDIF»''')
-		return #[begriffFootnotesWithPrefix, objectStateNoteWithPrefix].
-			filterNull.flatten
 	}
 
 	// Determine Footnotes for Sskw Table
