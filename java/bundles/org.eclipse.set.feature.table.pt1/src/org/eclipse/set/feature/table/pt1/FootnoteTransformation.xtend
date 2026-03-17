@@ -152,8 +152,8 @@ class FootnoteTransformation {
 		val objectStateNote = #[
 			signalBegriff?.transformObjectStateEnum?.
 				createFootnote(signalBegriff)].filterNull
-		val objectStateNoteWithPrefix = objectStateNote.withPrefix('''«prefix.key»«IF prefix.value !== null» («prefix.value»)«ENDIF»''')
-		val signalBegriffNotesWithPrefix = signalBegriffFootnotes.withPrefix('''«prefix.key»«IF prefix.value !== null» «prefix.value»«ENDIF»''')
+		val objectStateNoteWithPrefix = objectStateNote?.withPrefix('''«prefix.key»«IF prefix.value !== null» («prefix.value»)«ENDIF»''')
+		val signalBegriffNotesWithPrefix = signalBegriffFootnotes?.withPrefix('''«prefix.key»«IF prefix.value !== null» «prefix.value»«ENDIF»''')
 		return #[objectStateNoteWithPrefix, signalBegriffNotesWithPrefix].filterNull.flatten
 	}
 
