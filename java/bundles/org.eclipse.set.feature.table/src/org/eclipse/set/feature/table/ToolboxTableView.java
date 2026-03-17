@@ -419,8 +419,10 @@ public final class ToolboxTableView extends BasePart {
 							new Color(255, 0, 0), null));
 					break;
 				case OLD_FOOTNOTE:
-					styles.add(new StyleRange(startOffset, text.length(), null,
-							new Color(255, 255, 0)));
+					final StyleRange styleRange = new StyleRange(startOffset,
+							text.length(), null, new Color(255, 255, 0));
+					styleRange.strikeout = true;
+					styles.add(styleRange);
 
 					break;
 				case COMMON_FOOTNOTE:
