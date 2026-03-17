@@ -388,6 +388,10 @@ public class ZippedPlanProToolboxFile extends AbstractToolboxFile {
 	public void save() throws IOException {
 		resources.forEach((contentName, resource) -> {
 			try {
+				// TODO: layout merge isn't complete
+				if (resource.getContents().isEmpty()) {
+					return;
+				}
 				saveResource(resource);
 			} catch (final IOException e) {
 				throw new RuntimeException(e);

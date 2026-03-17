@@ -446,8 +446,9 @@ public class ModelSession implements IModelSession {
 		// delete temporary integration
 		/*
 		 * TODO(1.10.0.1): Readd once temporary integrations are reenabled
-		 * temporaryIntegration = null;
+		 * 
 		 */
+		temporaryIntegration = null;
 		mergeFile.delete(true);
 
 		// change role of composite planning file to session
@@ -792,7 +793,7 @@ public class ModelSession implements IModelSession {
 		}
 	}
 
-	private void readMergeModel() throws IOException {
+	private void readMergeModel() {
 		final ModelContents modelContent = serviceProvider.modelLoader
 				.loadModel(toolboxFile, this::setValidationResult);
 		temporaryIntegration = (TemporaryIntegration) toolboxFile

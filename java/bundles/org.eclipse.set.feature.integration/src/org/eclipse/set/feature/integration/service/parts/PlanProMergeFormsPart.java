@@ -392,7 +392,7 @@ public class PlanProMergeFormsPart extends AbstractEmfFormsPart {
 
 					// test validation result
 					session.refreshValidation();
-					if (session.getValidationResult(TemporaryIntegration.class)
+					if (session.getValidationResult(PlanPro_Schnittstelle.class)
 							.getOutcome() == Outcome.INVALID) {
 						if (!getDialogService().loadInvalidModel(shell, session
 								.getToolboxFile().getPath().toString())) {
@@ -540,8 +540,7 @@ public class PlanProMergeFormsPart extends AbstractEmfFormsPart {
 		try {
 			session.save(getToolboxShell());
 			updateButtonStates();
-			getBroker().send(Events.MODEL_CHANGED,
-					session.getPlanProSchnittstelle());
+			getBroker().send(Events.MODEL_CHANGED, session);
 		} catch (final UserAbortion e) {
 			// We continue normally after an user abortion
 		}

@@ -117,8 +117,7 @@ public class ConflictsTableAction implements Consumer<ColumnViewer> {
 									session.getEditingDomain(), match,
 									resolution, contextProvider));
 
-			eventBroker.send(Events.MODEL_CHANGED,
-					session.getPlanProSchnittstelle());
+			eventBroker.send(Events.MODEL_CHANGED, session);
 			transformation.transform(session, Optional.empty(),
 					Optional.empty(), Optional.empty());
 			updateButtonAction.get();
