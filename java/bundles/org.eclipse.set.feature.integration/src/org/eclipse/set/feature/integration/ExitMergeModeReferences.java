@@ -15,7 +15,6 @@ import org.eclipse.emf.ecp.view.spi.custom.model.ECPHardcodedReferences;
 import org.eclipse.emf.ecp.view.spi.model.VDomainModelReference;
 import org.eclipse.emf.ecp.view.spi.model.VFeaturePathDomainModelReference;
 import org.eclipse.emf.ecp.view.spi.model.VViewFactory;
-
 import org.eclipse.set.model.integrationview.IntegrationviewPackage;
 
 /**
@@ -30,8 +29,8 @@ public class ExitMergeModeReferences implements ECPHardcodedReferences {
 		final Set<VDomainModelReference> references = new LinkedHashSet<>();
 		final VFeaturePathDomainModelReference reference = VViewFactory.eINSTANCE
 				.createFeaturePathDomainModelReference();
-		reference.setDomainModelEFeature(
-				IntegrationviewPackage.eINSTANCE.getIntegrationView_CompositePlanning());
+		reference.setDomainModelEFeature(IntegrationviewPackage.eINSTANCE
+				.getIntegrationView_CompositePlanning());
 		references.add(reference);
 		return references;
 	}

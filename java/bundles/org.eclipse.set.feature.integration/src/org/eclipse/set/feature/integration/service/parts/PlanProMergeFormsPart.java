@@ -169,8 +169,10 @@ public class PlanProMergeFormsPart extends AbstractEmfFormsPart {
 				.getOpenConflictMatches(
 						session.getTemporaryIntegration().get());
 		@SuppressWarnings("boxing")
-		final Set<Integer> nonZeroSizes = openConflictMatches.values().stream()
-				.map(l -> l.size()).filter(i -> i > 0)
+		final Set<Integer> nonZeroSizes = openConflictMatches.values()
+				.stream()
+				.map(l -> l.size())
+				.filter(i -> i > 0)
 				.collect(Collectors.toSet());
 		return nonZeroSizes.isEmpty();
 	}
@@ -263,7 +265,8 @@ public class PlanProMergeFormsPart extends AbstractEmfFormsPart {
 		// create merge view
 		transformation = new SessionToIntegrationViewTransformation(messages,
 				nameService);
-		final Path mergeDir = getModelSession().getToolboxFile().getPath()
+		final Path mergeDir = getModelSession().getToolboxFile()
+				.getPath()
 				.getParent();
 		mergeView = transformation.transform(getModelSession(),
 				Optional.empty(), Optional.empty(),
@@ -296,7 +299,8 @@ public class PlanProMergeFormsPart extends AbstractEmfFormsPart {
 							.stream()
 							.filter(valid -> valid.getValidatedSourceClass()
 									.equals(PlanPro_Schnittstelle.class))
-							.findFirst().orElse(null);
+							.findFirst()
+							.orElse(null);
 					if (validationResult == null) {
 						return;
 					}
@@ -394,8 +398,10 @@ public class PlanProMergeFormsPart extends AbstractEmfFormsPart {
 					session.refreshValidation();
 					if (session.getValidationResult(PlanPro_Schnittstelle.class)
 							.getOutcome() == Outcome.INVALID) {
-						if (!getDialogService().loadInvalidModel(shell, session
-								.getToolboxFile().getPath().toString())) {
+						if (!getDialogService().loadInvalidModel(shell,
+								session.getToolboxFile()
+										.getPath()
+										.toString())) {
 							session.close();
 							return;
 						}
