@@ -18,6 +18,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.model.planpro.BasisTypen.BasisTypenFactory;
@@ -41,6 +42,7 @@ import org.eclipse.set.model.tablemodel.TableRow;
 import org.eclipse.set.model.tablemodel.TablemodelFactory;
 import org.eclipse.set.ppmodel.extensions.SignalRahmenExtensions;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
+import org.eclipse.xtext.xbase.lib.Pair;
 
 import com.google.common.collect.Streams;
 
@@ -256,7 +258,8 @@ public class FootnoteExtensions {
 			final List<String> signalBegriffe = Streams
 					.stream(SignalRahmenExtensions
 							.getSignalbegriffe(signalRahmen))
-					.map(signalBegriff -> getPrefix(signalBegriff, false))
+					.map(signalBegriff -> getPrefix(signalBegriff, false)
+							.getKey())
 					.filter(Objects::nonNull)
 					.collect(Collectors.toSet())
 					.stream()
@@ -275,13 +278,15 @@ public class FootnoteExtensions {
 	 * 
 	 * @param signalBegriff
 	 *            the signal begriff for which the prefix shall be generated
-	 * @return the prefix or null if not possible to create prefix
+	 * @return the signalbegriff name and the symbol
 	 */
-	public static String getPrefix(final Signal_Signalbegriff signalBegriff) {
+	public static Pair<String, String> getPrefix(
+			final Signal_Signalbegriff signalBegriff) {
 		return getPrefix(signalBegriff, true);
 	}
 
-	private static String getPrefix(final Signal_Signalbegriff signalBegriff,
+	private static Pair<String, String> getPrefix(
+			final Signal_Signalbegriff signalBegriff,
 			final boolean withSymbol) {
 		if (signalBegriff == null
 				|| signalBegriff.getSignalbegriffID() == null) {
@@ -289,14 +294,24 @@ public class FootnoteExtensions {
 		}
 		final Signalbegriff_ID_TypeClass signalBegriffId = signalBegriff
 				.getSignalbegriffID();
-		// TODO: Properly determine name of Signalbegriff_ID
-		final String prefix = signalBegriffId.getClass()
-				.getSimpleName()
-				.replace("Impl", ""); //$NON-NLS-1$ //$NON-NLS-2$
+		final String prefix = getSignalBregiffIDName(signalBegriffId)
+				.replace("_", " ");//$NON-NLS-1$ //$NON-NLS-2$
 		if (withSymbol && signalBegriffId.getSymbol() != null) {
-			return prefix + " " + signalBegriffId.getSymbol(); //$NON-NLS-1$
+			return new Pair<>(prefix, signalBegriffId.getSymbol());
 		}
-		return prefix;
+		return new Pair<>(prefix, null);
+	}
+
+	private static String getSignalBregiffIDName(
+			final Signalbegriff_ID_TypeClass signalBegriffId) {
+		try {
+			return signalBegriffId.eClass()
+					.getEAnnotation(ExtendedMetaData.ANNOTATION_URI)
+					.getDetails()
+					.get("name"); //$NON-NLS-1$
+		} catch (final Exception e) {
+			return signalBegriffId.eClass().getName();
+		}
 	}
 
 	/**
@@ -311,12 +326,12 @@ public class FootnoteExtensions {
 	 *            if no prefix should be added
 	 * @return the extended footnotes
 	 */
-	public static List<Footnote> withPrefix(final List<Footnote> footnotes,
-			final String prefix) {
+	public static Iterable<Footnote> withPrefix(
+			final Iterable<Footnote> footnotes, final String prefix) {
 		if (prefix == null) {
 			return footnotes;
 		}
-		return footnotes.stream().map(footnote -> {
+		return Streams.stream(footnotes).map(footnote -> {
 			final Bearbeitungsvermerk bearbeitungsvermerk = createBearbeitungsvermerkWithoutGuid(
 					prefix + ": " //$NON-NLS-1$
 							+ footnote.getBearbeitungsvermerk()
