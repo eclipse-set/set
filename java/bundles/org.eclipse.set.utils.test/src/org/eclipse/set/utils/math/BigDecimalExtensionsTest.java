@@ -65,5 +65,7 @@ public class BigDecimalExtensionsTest {
 		assertThat(
 				BigDecimalExtensions.toTableDecimal(BigDecimal.valueOf(1000.1)),
 				is("1000.1"));
+		assertThat(BigDecimalExtensions
+				.toTableDecimal(BigDecimal.valueOf(35.00), 2, 2), is("35.00"));
 	}
 }

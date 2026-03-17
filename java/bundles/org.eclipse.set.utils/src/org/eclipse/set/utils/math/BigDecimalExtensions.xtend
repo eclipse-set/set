@@ -31,6 +31,10 @@ class BigDecimalExtensions {
 	}
 
 	static def String toTableDecimal(BigDecimal length, int decimalPlace) {
+		return length.toTableDecimal(decimalPlace, 0)
+	}
+	
+	static def String toTableDecimal(BigDecimal length, int maxDecimalPlace, int minDecimalPlace) {
 		if (length === null) {
 			return null
 		}
@@ -38,10 +42,10 @@ class BigDecimalExtensions {
 		formatSymbols.decimalSeparator = '.'
 		val decimalFormat = new DecimalFormat("0.###", formatSymbols)
 		// Maximal place after comma
-		decimalFormat.maximumFractionDigits = decimalPlace
+		decimalFormat.maximumFractionDigits = maxDecimalPlace
 		// Minimun place after comma
-		decimalFormat.minimumFractionDigits = 0
-		val decimal = length.setScale(decimalPlace, RoundingMode.FLOOR)
+		decimalFormat.minimumFractionDigits = minDecimalPlace
+		val decimal = length.setScale(maxDecimalPlace, RoundingMode.FLOOR)
 		return decimalFormat.format(decimal)
 	}
 
