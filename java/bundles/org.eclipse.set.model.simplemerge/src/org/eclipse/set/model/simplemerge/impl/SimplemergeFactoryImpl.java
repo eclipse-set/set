@@ -22,34 +22,33 @@ import org.eclipse.set.model.simplemerge.*;
 /**
  * <!-- begin-user-doc --> An implementation of the model <b>Factory</b>. <!--
  * end-user-doc -->
- * 
  * @generated
  */
 public class SimplemergeFactoryImpl extends EFactoryImpl
 		implements SimplemergeFactory {
 	/**
-	 * Creates the default factory implementation. <!-- begin-user-doc --> <!--
+	 * Creates the default factory implementation.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public static SimplemergeFactory init() {
 		try {
-			SimplemergeFactory theSimplemergeFactory = (SimplemergeFactory) EPackage.Registry.INSTANCE
-					.getEFactory(SimplemergePackage.eNS_URI);
+			SimplemergeFactory theSimplemergeFactory = (SimplemergeFactory)EPackage.Registry.INSTANCE.getEFactory(SimplemergePackage.eNS_URI);
 			if (theSimplemergeFactory != null) {
 				return theSimplemergeFactory;
 			}
-		} catch (Exception exception) {
+		}
+		catch (Exception exception) {
 			EcorePlugin.INSTANCE.log(exception);
 		}
 		return new SimplemergeFactoryImpl();
 	}
 
 	/**
-	 * Creates an instance of the factory. <!-- begin-user-doc --> <!--
+	 * Creates an instance of the factory.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public SimplemergeFactoryImpl() {
@@ -58,25 +57,20 @@ public class SimplemergeFactoryImpl extends EFactoryImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
-			case SimplemergePackage.SCOMPARISON:
-				return createSComparison();
-			case SimplemergePackage.SMATCH:
-				return createSMatch();
+			case SimplemergePackage.SCOMPARISON: return createSComparison();
+			case SimplemergePackage.SMATCH: return createSMatch();
 			default:
-				throw new IllegalArgumentException("The class '"
-						+ eClass.getName() + "' is not a valid classifier");
+				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -85,14 +79,12 @@ public class SimplemergeFactoryImpl extends EFactoryImpl
 			case SimplemergePackage.RESOLUTION:
 				return createResolutionFromString(eDataType, initialValue);
 			default:
-				throw new IllegalArgumentException("The datatype '"
-						+ eDataType.getName() + "' is not a valid classifier");
+				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -101,14 +93,12 @@ public class SimplemergeFactoryImpl extends EFactoryImpl
 			case SimplemergePackage.RESOLUTION:
 				return convertResolutionToString(eDataType, instanceValue);
 			default:
-				throw new IllegalArgumentException("The datatype '"
-						+ eDataType.getName() + "' is not a valid classifier");
+				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -119,7 +109,6 @@ public class SimplemergeFactoryImpl extends EFactoryImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -130,22 +119,17 @@ public class SimplemergeFactoryImpl extends EFactoryImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Resolution createResolutionFromString(EDataType eDataType,
 			String initialValue) {
 		Resolution result = Resolution.get(initialValue);
-		if (result == null)
-			throw new IllegalArgumentException("The value '" + initialValue
-					+ "' is not a valid enumerator of '" + eDataType.getName()
-					+ "'");
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
 		return result;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String convertResolutionToString(EDataType eDataType,
@@ -155,17 +139,15 @@ public class SimplemergeFactoryImpl extends EFactoryImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public SimplemergePackage getSimplemergePackage() {
-		return (SimplemergePackage) getEPackage();
+		return (SimplemergePackage)getEPackage();
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @deprecated
 	 * @generated
 	 */

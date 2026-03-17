@@ -5,12 +5,12 @@ Bundle-SymbolicName: org.eclipse.set.model.simplemerge;singleton:=true
 Automatic-Module-Name: org.eclipse.set.model.simplemerge
 Bundle-Version: 2.6.0.qualifier
 Bundle-ClassPath: .
-Bundle-RequiredExecutionEnvironment: JavaSE-21
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Export-Package: org.eclipse.set.model.simplemerge,
  org.eclipse.set.model.simplemerge.impl,
  org.eclipse.set.model.simplemerge.util
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport
 Bundle-ActivationPolicy: lazy
-Bundle-Vendor: Eclipse Signalling Engineering Toolbox
+Bundle-Vendor: %providerName
 Bundle-Localization: plugin

@@ -20,35 +20,36 @@ import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.set.model.temporaryintegration.*;
 
 /**
- * <!-- begin-user-doc -->
- * An implementation of the model <b>Factory</b>.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> An implementation of the model <b>Factory</b>. <!--
+ * end-user-doc -->
+ * 
  * @generated
  */
-public class TemporaryintegrationFactoryImpl extends EFactoryImpl implements TemporaryintegrationFactory {
+public class TemporaryintegrationFactoryImpl extends EFactoryImpl
+		implements TemporaryintegrationFactory {
 	/**
-	 * Creates the default factory implementation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Creates the default factory implementation. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public static TemporaryintegrationFactory init() {
 		try {
-			TemporaryintegrationFactory theTemporaryintegrationFactory = (TemporaryintegrationFactory)EPackage.Registry.INSTANCE.getEFactory(TemporaryintegrationPackage.eNS_URI);
+			TemporaryintegrationFactory theTemporaryintegrationFactory = (TemporaryintegrationFactory) EPackage.Registry.INSTANCE
+					.getEFactory(TemporaryintegrationPackage.eNS_URI);
 			if (theTemporaryintegrationFactory != null) {
 				return theTemporaryintegrationFactory;
 			}
-		}
-		catch (Exception exception) {
+		} catch (Exception exception) {
 			EcorePlugin.INSTANCE.log(exception);
 		}
 		return new TemporaryintegrationFactoryImpl();
 	}
 
 	/**
-	 * Creates an instance of the factory.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Creates an instance of the factory. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public TemporaryintegrationFactoryImpl() {
@@ -56,22 +57,24 @@ public class TemporaryintegrationFactoryImpl extends EFactoryImpl implements Tem
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
-			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION: return createTemporaryIntegration();
+			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION:
+				return createTemporaryIntegration();
 			default:
-				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
+				throw new IllegalArgumentException("The class '"
+						+ eClass.getName() + "' is not a valid classifier");
 		}
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -81,18 +84,18 @@ public class TemporaryintegrationFactoryImpl extends EFactoryImpl implements Tem
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public TemporaryintegrationPackage getTemporaryintegrationPackage() {
-		return (TemporaryintegrationPackage)getEPackage();
+		return (TemporaryintegrationPackage) getEPackage();
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @deprecated
 	 * @generated
 	 */
@@ -101,4 +104,4 @@ public class TemporaryintegrationFactoryImpl extends EFactoryImpl implements Tem
 		return TemporaryintegrationPackage.eINSTANCE;
 	}
 
-} //TemporaryintegrationFactoryImpl
+} // TemporaryintegrationFactoryImpl
