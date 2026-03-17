@@ -55,15 +55,17 @@ public class BigDecimalExtensionsTest {
 	public void testToolboxLengthFormat() {
 		assertThat(
 				BigDecimalExtensions.toTableDecimal(BigDecimal.valueOf(0.001)),
-				is("0,001"));
+				is("0.001"));
 		assertThat(
 				BigDecimalExtensions.toTableDecimal(BigDecimal.valueOf(0.01)),
-				is("0,01"));
+				is("0.01"));
 		assertThat(
 				BigDecimalExtensions.toTableDecimal(BigDecimal.valueOf(0.0001)),
 				is("0"));
 		assertThat(
 				BigDecimalExtensions.toTableDecimal(BigDecimal.valueOf(1000.1)),
-				is("1000,1"));
+				is("1000.1"));
+		assertThat(BigDecimalExtensions
+				.toTableDecimal(BigDecimal.valueOf(35.00), 2, 2), is("35.00"));
 	}
 }
