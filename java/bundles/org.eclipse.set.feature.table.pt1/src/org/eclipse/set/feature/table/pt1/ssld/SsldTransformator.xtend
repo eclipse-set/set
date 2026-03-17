@@ -217,7 +217,7 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 				dweg,
 				[
 					fstrDWegAllg.massgebendeNeigung?.wert?.setScale(1,
-						RoundingMode.FLOOR)?.toString
+						RoundingMode.FLOOR)?.toTableDecimal(1)
 				]
 			)
 

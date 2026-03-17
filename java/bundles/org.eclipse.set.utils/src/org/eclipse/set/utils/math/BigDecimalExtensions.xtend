@@ -12,6 +12,7 @@ import java.math.BigDecimal
 import java.math.RoundingMode
 import org.eclipse.emf.common.util.Enumerator
 import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
 
 /**
  * Extensions for {@link Enumerator}.
@@ -26,24 +27,24 @@ class BigDecimalExtensions {
 	 * @return the formatted length
 	 */
 	static def String toTableDecimal(BigDecimal length) {
+		return length.toTableDecimal(3)
+	}
+
+	static def String toTableDecimal(BigDecimal length, int decimalPlace) {
 		if (length === null) {
 			return null
 		}
-		val decimalFormat = new DecimalFormat("0.###")
+		val formatSymbols = new DecimalFormatSymbols();
+		formatSymbols.decimalSeparator = '.'
+		val decimalFormat = new DecimalFormat("0.###", formatSymbols)
 		// Maximal place after comma
-		decimalFormat.maximumFractionDigits = 3
+		decimalFormat.maximumFractionDigits = decimalPlace
 		// Minimun place after comma
 		decimalFormat.minimumFractionDigits = 0
-		return decimalFormat.format(length)
+		val decimal = length.setScale(decimalPlace, RoundingMode.FLOOR)
+		return decimalFormat.format(decimal)
 	}
 
-
-	static def String toTableDecimal(BigDecimal length, int decimalPlace) {
-		if (length !== null) {
-			val decimal = length.setScale(decimalPlace, RoundingMode.FLOOR)
-			return decimal.toPlainString
-		}
-	}
 	/**
 	 * @param length the length
 	 * @param multiplier the multiplier
@@ -130,8 +131,7 @@ class BigDecimalExtensions {
 	static def <T extends Number> BigDecimal divideValue(BigDecimal value,
 		T divideValue) {
 		if (value !== null) {
-			return value.divide(divideValue.toBigDecimal,
-				RoundingMode.DOWN)
+			return value.divide(divideValue.toBigDecimal, RoundingMode.DOWN)
 		}
 		return null
 	}

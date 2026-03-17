@@ -546,7 +546,7 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 					return fstrNichtHaltfall.map [ fstr |
 						fstr.FMAKomponentOnFstr.map[fma|distanceToSignal(fma)].
 							max
-					].filterNull.toSet.map[toString]
+					].filterNull.toSet.map[toTableDecimal]
 				],
 				ToolboxConstants.NUMERIC_COMPARATOR,
 				[
