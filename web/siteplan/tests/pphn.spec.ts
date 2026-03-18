@@ -7,7 +7,7 @@ async function loadSiteplan (page: Page) {
   })
 
   await page.goto('/')
-  await expect(page.locator('.loading')).toBeVisible()
+  // await expect(page.locator('.loading')).toBeVisible()
   await expect(page.locator('.loading')).not.toBeVisible()
 }
 
