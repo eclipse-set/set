@@ -164,10 +164,10 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 			[isSimpleTrackSwitch],
 			[
 				punktObjektTOPKante.exists [ potk |
-					(potk.abstand.wert === BigDecimal.ZERO &&
+					(potk.abstand.wert.compareTo(BigDecimal.ZERO) === 0 &&
 						potk.topKante.TOPAnschlussA ===
 							ENUMTOPAnschluss.ENUMTOP_ANSCHLUSS_LINKS) ||
-						(potk.abstand.wert !== BigDecimal.ZERO &&
+						(potk.abstand.wert.compareTo(BigDecimal.ZERO) !== 0 &&
 							potk.topKante.TOPAnschlussB ===
 								ENUMTOPAnschluss.ENUMTOP_ANSCHLUSS_LINKS)
 				]
@@ -179,10 +179,10 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 			[isSimpleTrackSwitch],
 			[
 				punktObjektTOPKante.exists [ potk |
-					(potk.abstand.wert === BigDecimal.ZERO &&
+					(potk.abstand.wert.compareTo(BigDecimal.ZERO) === 0 &&
 						potk.topKante.TOPAnschlussA ===
 							ENUMTOPAnschluss.ENUMTOP_ANSCHLUSS_RECHTS) ||
-						(potk.abstand.wert !== BigDecimal.ZERO &&
+						(potk.abstand.wert.compareTo(BigDecimal.ZERO) !== 0 &&
 							potk.topKante.TOPAnschlussB ===
 								ENUMTOPAnschluss.ENUMTOP_ANSCHLUSS_RECHTS)
 
@@ -331,9 +331,9 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 					IDAussenelementansteuerung?.value === outsideControl
 				]) {
 					return #[
-						outsideControl.oertlichkeitNamensgebend.bezeichnung?.
+						outsideControl?.oertlichkeitNamensgebend?.bezeichnung?.
 							oertlichkeitAbkuerzung?.wert ?:
-							outsideControl.bezeichnung?.bezeichnungAEA?.wert]
+							outsideControl?.bezeichnung?.bezeichnungAEA?.wert]
 				}
 				return #[stellbereich?.oertlichkeitBezeichnung].filterNull
 			],
@@ -460,6 +460,9 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 				val gspKomponent = gspElement?.WKrGspKomponenten?.findFirst [
 					zungenpaar?.kreuzungsgleis?.wert === leftRightCross
 				]
+				if (gspKomponent === null) {
+					return "";
+				}
 				return allowSpeedEKW_DKW?.apply(gspKomponent)?.toString ?: ""
 			}
 			case ENUMW_KR_ART_ABW,
@@ -472,6 +475,9 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 			case ENUMW_KR_ART_KR,
 			case ENUMW_KR_ART_SONSTIGE: {
 				val gspKomponent = gspElement?.WKrGspKomponenten?.firstOrNull
+				if (gspKomponent === null) {
+					return "";
+				}
 				return allowSpeed?.apply(gspKomponent)?.toString ?: ""
 			}
 			default:
