@@ -10,6 +10,8 @@ package org.eclipse.set.model.tablemodel.extensions
 
 import com.google.common.base.Strings
 import com.google.common.html.HtmlEscapers
+import java.util.HashSet
+import java.util.List
 import java.util.function.BiFunction
 import java.util.function.Function
 import org.eclipse.set.model.planpro.Basisobjekte.Bearbeitungsvermerk
@@ -31,7 +33,6 @@ import static org.eclipse.set.model.tablemodel.extensions.Utils.*
 
 import static extension org.eclipse.set.model.tablemodel.extensions.TableCellExtensions.*
 import static extension org.eclipse.set.utils.StringExtensions.*
-import java.util.List
 
 /**
  * Extensions for {@link CellContent}.
@@ -125,8 +126,8 @@ class CellContentExtensions {
 	static def dispatch String getRichTextValueWithFootnotes(
 		StringCellContent content, SimpleFootnoteContainer fc) {
 		val footnoteText = fc.footnotes.map [
-			'''*«getFootnoteNumber(content, it.bearbeitungsvermerk)»'''
-		].iterableToString(FOOTNOTE_SEPARATOR)
+			getFootnoteNumber(content, it.bearbeitungsvermerk)
+		].toSet.sort.map['''*«it»'''].iterableToString(FOOTNOTE_SEPARATOR)
 
 		if (footnoteText != "")
 			return '''<p style="text-align:«content.textAlign»">«content.valueFormat» «footnoteText»</p>'''
@@ -153,8 +154,7 @@ class CellContentExtensions {
 				getCompareValueFormat(
 					mark, '''*«getFootnoteNumber(content, text)»''')
 			]
-		)
-
+		).toSet
 		result = result + #[footnotes.iterableToString(FOOTNOTE_SEPARATOR)]
 
 		return '''<p style="text-align:«content.textAlign»">«
@@ -337,13 +337,15 @@ class CellContentExtensions {
 		BiFunction<Bearbeitungsvermerk, T, U> postFormatter
 	) {
 		formatCompareContent(
-			(content.oldFootnotes.footnotes + content.unchangedFootnotes.footnotes).map[bearbeitungsvermerk],
-			(content.newFootnotes.footnotes + content.unchangedFootnotes.footnotes).map[bearbeitungsvermerk],
+			(content.oldFootnotes.footnotes +
+				content.unchangedFootnotes.footnotes).map[bearbeitungsvermerk],
+			(content.newFootnotes.footnotes +
+				content.unchangedFootnotes.footnotes).map[bearbeitungsvermerk],
 			oldFormatter,
 			commonFormatter,
 			newFormatter,
 			postFormatter,
-			[it?.bearbeitungsvermerkAllg?.kommentar?.wert]
+			[getFootnoteNumber(content, it)]
 		)
 	}
 

@@ -111,8 +111,7 @@ public class ToolboxTableModelThemeConfiguration
 			final IConfigRegistry configRegistry) {
 		final ICellPainter lineBorderDecorator = new LineBorderDecorator(
 				defaultCellPainter,
-				new BorderStyle(1, new Color(COMPARE_CELL_BORDER_COLOR),
-						LineStyleEnum.SOLID));
+				getCompareTableBorderStyle(LineStyleEnum.SOLID));
 		configRegistry.registerConfigAttribute(
 				CellConfigAttributes.CELL_PAINTER, lineBorderDecorator,
 				DisplayMode.NORMAL,
@@ -128,9 +127,7 @@ public class ToolboxTableModelThemeConfiguration
 					configRegistry.registerConfigAttribute(
 							CellConfigAttributes.CELL_PAINTER,
 							new CustomLineBorderDecorator(defaultCellPainter,
-									new BorderStyle(1,
-											new Color(
-													COMPARE_CELL_BORDER_COLOR),
+									getCompareTableBorderStyle(
 											LineStyleEnum.SOLID)),
 							DisplayMode.NORMAL, label);
 				});
@@ -140,13 +137,17 @@ public class ToolboxTableModelThemeConfiguration
 			final IConfigRegistry configRegistry) {
 		final CustomLineBorderDecorator customLineBorderDecorator = new CustomLineBorderDecorator(
 				defaultCellPainter,
-				new BorderStyle(1, new Color(COMPARE_CELL_BORDER_COLOR),
-						LineStyleEnum.DASHED));
+				getCompareTableBorderStyle(LineStyleEnum.DASHED));
 		configRegistry.registerConfigAttribute(
 				CellConfigAttributes.CELL_PAINTER, customLineBorderDecorator,
 				DisplayMode.NORMAL,
 				ToolboxConstants.TABLE_COMPARE_CHANGED_GUID_ROW_CELL_LABEL);
+	}
 
+	private static BorderStyle getCompareTableBorderStyle(
+			final LineStyleEnum lineStyle) {
+		return new BorderStyle(1, new Color(COMPARE_CELL_BORDER_COLOR),
+				lineStyle);
 	}
 
 	private void registerTopologicalTableCellStyle(

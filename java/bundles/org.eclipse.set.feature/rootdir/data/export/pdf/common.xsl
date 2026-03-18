@@ -278,7 +278,7 @@ http://www.eclipse.org/legal/epl-v20.html
 		</fo:block>
 	</xsl:template>
 
-	<xsl:variable name="compare-content-border-style" select="'0.3mm solid #0066FF'" />
+	<xsl:variable name="compare-content-border-style" select="'0.5mm solid #0066FF'" />
 	<xsl:template name="CompareCellContentStyle">
 		<xsl:choose>
 			<xsl:when test="CompareProjectContent">
