@@ -99,9 +99,14 @@ public class ToolboxTableFootnoteView extends StyledText {
 			startOffset += text.length() + 1;
 
 		}
+		setVisible(!lines.isEmpty());
+
 		if (lines.isEmpty()) {
-			setVisible(false);
-		} else if (!(getParent() instanceof SashForm)) {
+			getParent().layout();
+			return;
+		}
+
+		if (!(getParent() instanceof SashForm)) {
 			setFootnoteDynamicResize();
 		}
 
@@ -122,6 +127,5 @@ public class ToolboxTableFootnoteView extends StyledText {
 		}
 		// Default weight value nattable - 8, footnote - 2
 		sashForm.setWeights(8, 2);
-		setVisible(true);
 	}
 }
