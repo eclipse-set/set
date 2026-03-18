@@ -8,7 +8,9 @@
  */
 package org.eclipse.set.feature.table.overview;
 
-import static org.eclipse.set.basis.constants.ToolboxConstants.*;
+import static org.eclipse.set.basis.constants.ToolboxConstants.ESTW_SUPPLEMENT_PART_ID_PREFIX;
+import static org.eclipse.set.basis.constants.ToolboxConstants.ESTW_TABLE_PART_ID_PREFIX;
+import static org.eclipse.set.basis.constants.ToolboxConstants.ETCS_TABLE_PART_ID_PREFIX;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -27,9 +29,9 @@ import org.eclipse.e4.core.services.nls.Translation;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.set.basis.Pair;
 import org.eclipse.set.basis.constants.Events;
-import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.core.services.part.ToolboxPartService;
+import org.eclipse.set.feature.table.internal.TableServiceUtils;
 import org.eclipse.set.feature.table.messages.Messages;
 import org.eclipse.set.model.planpro.PlanPro.Container_AttributeGroup;
 import org.eclipse.set.services.table.TableService;
@@ -219,23 +221,9 @@ public class TableOverviewPart extends BasePart {
 	}
 
 	private void calculateAllMissingTables(final IProgressMonitor monitor) {
-		final Collection<TableInfo> missingTables = getMissingTables();
-		monitor.beginTask(messages.TableOverviewPart_CalculateMissingTask,
-				missingTables.size());
-		final TableType tableType = getModelSession().isSingleState()
-				? TableType.SINGLE
-				: TableType.DIFF;
-		if (tableType == TableType.DIFF) {
-			// We don't need create DIFF instance for Errors detecting
-			tableService.transformTables(monitor, new HashSet<>(missingTables),
-					TableType.INITIAL, controlAreaIds);
-			tableService.transformTables(monitor, new HashSet<>(missingTables),
-					TableType.FINAL, controlAreaIds);
-		} else {
-			tableService.transformTables(monitor, new HashSet<>(missingTables),
-					tableType, controlAreaIds);
-		}
-
+		TableServiceUtils.calculateAllMissingTables(tableService,
+				getModelSession(), controlAreaIds, getTableCategory(), monitor,
+				messages);
 	}
 
 	private void openAllTablesWithErrors() {
@@ -300,22 +288,8 @@ public class TableOverviewPart extends BasePart {
 	}
 
 	private Collection<TableInfo> getMissingTables() {
-		final Map<TableInfo, Collection<TableError>> computedErrors = getTableErrors();
-		final Collection<TableInfo> allTableInfos = tableService
-				.getAvailableTables()
-				.stream()
-				.filter(table -> table.category().equals(getTableCategory()))
-				.toList();
-
-		final ArrayList<TableInfo> missingTables = new ArrayList<>();
-		missingTables.addAll(allTableInfos);
-		if (!ToolboxConfiguration.isDebugMode()) {
-			// in debug mode we want to be able to recompute the errors
-			// that's why we mark all as missing
-			missingTables
-					.removeIf(info -> computedErrors.keySet().contains(info));
-		}
-		return missingTables;
+		return TableServiceUtils.getMissingTables(tableService,
+				getModelSession(), controlAreaIds, getTableCategory());
 	}
 
 	private Collection<TableInfo> getTablesContainingErrors() {

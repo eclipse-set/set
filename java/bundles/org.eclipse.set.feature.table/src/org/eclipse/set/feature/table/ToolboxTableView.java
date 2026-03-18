@@ -22,7 +22,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.ThreadUtils;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -32,6 +31,7 @@ import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.emf.common.command.CommandStackListener;
 import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.jface.layout.GridDataFactory;
+import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.nebula.widgets.nattable.NatTable;
 import org.eclipse.nebula.widgets.nattable.config.ConfigRegistry;
 import org.eclipse.nebula.widgets.nattable.data.IDataProvider;
@@ -75,6 +75,7 @@ import org.eclipse.set.feature.table.abstracttableview.ColumnGroup4HeaderLayer;
 import org.eclipse.set.feature.table.abstracttableview.ColumnGroupGroupGroupHeaderLayer;
 import org.eclipse.set.feature.table.abstracttableview.NatTableColumnGroupHelper;
 import org.eclipse.set.feature.table.abstracttableview.ToolboxTableModelThemeConfiguration;
+import org.eclipse.set.feature.table.internal.TableServiceUtils;
 import org.eclipse.set.feature.table.messages.Messages;
 import org.eclipse.set.feature.table.messages.MessagesWrapper;
 import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
@@ -91,7 +92,6 @@ import org.eclipse.set.model.tablemodel.extensions.ColumnDescriptorExtensions;
 import org.eclipse.set.model.tablemodel.extensions.Headings;
 import org.eclipse.set.model.tablemodel.extensions.TableCellExtensions;
 import org.eclipse.set.model.tablemodel.extensions.TableExtensions;
-import org.eclipse.set.model.tablemodel.extensions.TableExtensions.FootnoteInfo;
 import org.eclipse.set.model.tablemodel.extensions.TableRowExtensions;
 import org.eclipse.set.model.titlebox.Titlebox;
 import org.eclipse.set.ppmodel.extensions.utils.PlanProToFreeFieldTransformation;
@@ -121,12 +121,12 @@ import org.eclipse.set.utils.table.menu.TableMenuService;
 import org.eclipse.set.utils.table.sorting.AbstractCompareWithDependencyOnServiceCriterion;
 import org.eclipse.set.utils.table.sorting.TableRowGroupComparator;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.StyleRange;
-import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Label;
 import org.osgi.service.event.EventHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -147,11 +147,10 @@ public final class ToolboxTableView extends BasePart {
 
 	protected static final int DEBUG_WIDTH_CORRECTION = 0;
 
-	private static Color GRAY_BACKGROUND = new Color(Display.getCurrent(), 240,
-			240, 240);
-
 	static final Logger logger = LoggerFactory
 			.getLogger(ToolboxTableView.class);
+
+	private Composite calculateMissingTablesPanel;
 
 	private BodyLayerStack bodyLayerStack;
 
@@ -168,9 +167,7 @@ public final class ToolboxTableView extends BasePart {
 	private ToolboxEventHandler<TableDataChangeEvent> tableDataChangeHandler;
 	private ToolboxEventHandler<SelectedControlAreaChangedEvent> selectionControlAreaHandler;
 	private int scrollToPositionRequested = -1;
-
-	private StyledText tableFooting;
-
+	private ToolboxTableFootnoteView tableFooting;
 	@Inject
 	@Translation
 	Messages messages;
@@ -333,6 +330,7 @@ public final class ToolboxTableView extends BasePart {
 					return;
 				}
 				updateModel(getToolboxPart());
+				updateCalculateMissingTablesPanel();
 				natTable.refresh();
 			};
 			getBroker().subscribe(Events.RELOAD_WORKNOTES_TABLE,
@@ -388,41 +386,10 @@ public final class ToolboxTableView extends BasePart {
 			updateButtons();
 
 			// Update footnotes
-			updateFootnotes();
+			tableFooting.updateFootnotes(table);
 			// Update widget layout
 			natTable.getParent().layout();
 		}, tableInstances::clear);
-	}
-
-	private void updateFootnotes() {
-		final List<String> lines = new ArrayList<>();
-		final List<StyleRange> styles = new ArrayList<>();
-		int startOffset = 0;
-		for (final FootnoteInfo footnote : TableExtensions
-				.getAllFootnotes(table)) {
-			final String text = footnote.toReferenceText();
-			lines.add(text);
-
-			switch (footnote.type) {
-				case NEW_FOOTNOTE:
-					styles.add(new StyleRange(startOffset, text.length(),
-							new Color(255, 0, 0), null));
-					break;
-				case OLD_FOOTNOTE:
-					styles.add(new StyleRange(startOffset, text.length(), null,
-							new Color(255, 255, 0)));
-
-					break;
-				case COMMON_FOOTNOTE:
-				default:
-					break;
-			}
-			startOffset += text.length() + 1;
-
-		}
-
-		tableFooting.setText(StringUtils.join(lines, "\n")); //$NON-NLS-1$
-		tableFooting.setStyleRanges(styles.toArray(new StyleRange[0]));
 	}
 
 	@Override
@@ -442,6 +409,11 @@ public final class ToolboxTableView extends BasePart {
 		// the user), we stop here with creating the view
 		if (table == null) {
 			return;
+		}
+
+		if (tableInfo.shortcut()
+				.equalsIgnoreCase(ToolboxConstants.WORKNOTES_TABLE_SHORTCUT)) {
+			this.addCalculateMissingTablesPanel(parent);
 		}
 
 		final ColumnDescriptor rootColumnDescriptor = table
@@ -555,15 +527,8 @@ public final class ToolboxTableView extends BasePart {
 		bodyLayerStack.getSelectionLayer().clear();
 
 		// display footnotes
-		tableFooting = new StyledText(parent, SWT.MULTI);
-		tableFooting.setBackground(GRAY_BACKGROUND);
-		updateFootnotes();
-		tableFooting.setEditable(false);
-		GridDataFactory.fillDefaults()
-				.grab(true, false)
-				.minSize(-1, 500)
-				.applyTo(tableFooting);
-
+		tableFooting = new ToolboxTableFootnoteView(parent);
+		tableFooting.updateFootnotes(table);
 		// export action
 		getBanderole().setExportAction(new SelectableAction() {
 			@Override
@@ -778,6 +743,75 @@ public final class ToolboxTableView extends BasePart {
 				.setRowHeight(toPixel((float) ColumnDescriptorExtensions
 						.getGroup4RowHeight(rootColumnDescriptor)));
 		return columnGroup4HeaderLayer;
+	}
+
+	private Collection<TableInfo> getMissingTables() {
+		return TableServiceUtils.getMissingTables(tableService,
+				getModelSession(), controlAreaIds);
+	}
+
+	private void calculateAllMissingTables(final IProgressMonitor monitor) {
+		TableServiceUtils.calculateAllMissingTables(tableService,
+				getModelSession(), controlAreaIds, monitor, messages);
+	}
+
+	private void calculateAllMissingTablesEvent() {
+		try {
+			getDialogService().showProgress(getToolboxShell(),
+					this::calculateAllMissingTables);
+		} catch (InvocationTargetException | InterruptedException e) {
+			getDialogService().error(getToolboxShell(), e);
+		}
+		updateCalculateMissingTablesPanel();
+	}
+
+	private void addCalculateMissingTablesPanel(final Composite parent) {
+		if (getMissingTables().isEmpty()) {
+			return;
+		}
+		// custom panel
+		final Composite panel = new Composite(parent, SWT.NONE);
+		GridLayoutFactory.fillDefaults().numColumns(2).applyTo(panel);
+		GridDataFactory.fillDefaults().grab(true, false).applyTo(panel);
+		final Label label = new Label(panel, SWT.LEFT);
+		GridDataFactory.fillDefaults()
+				.align(SWT.BEGINNING, SWT.CENTER)
+				.grab(true, false)
+				.applyTo(label);
+		label.setText(messages.ToolboxTableView_TableIncompleteHint);
+		final Button button = new Button(panel, SWT.None);
+		GridDataFactory.swtDefaults().align(SWT.END, SWT.FILL).applyTo(button);
+		button.setText(messages.ToolboxTableView_CalculateTables);
+		button.addSelectionListener(new SelectionListener() {
+			@Override
+			public void widgetDefaultSelected(final SelectionEvent e) {
+				calculateAllMissingTablesEvent();
+			}
+
+			@Override
+			public void widgetSelected(final SelectionEvent e) {
+				widgetDefaultSelected(e);
+			}
+		});
+
+		panel.setBackground(
+				Display.getCurrent().getSystemColor(SWT.COLOR_YELLOW));
+
+		calculateMissingTablesPanel = panel;
+		updateCalculateMissingTablesPanel();
+	}
+
+	private void updateCalculateMissingTablesPanel() {
+		if (calculateMissingTablesPanel == null) {
+			return;
+		}
+		if (getMissingTables().isEmpty()) {
+			final Composite parent = calculateMissingTablesPanel.getParent();
+			calculateMissingTablesPanel.dispose();
+			parent.layout(true, true);
+			parent.update();
+			calculateMissingTablesPanel = null;
+		}
 	}
 
 	@Override

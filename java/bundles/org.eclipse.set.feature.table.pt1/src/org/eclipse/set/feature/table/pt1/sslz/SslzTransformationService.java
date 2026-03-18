@@ -27,6 +27,7 @@ import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.ppmodel.extensions.FahrwegExtensions;
 import org.eclipse.set.ppmodel.extensions.FstrZugRangierExtensions;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
+import org.eclipse.set.utils.table.sorting.LexicographicalCellComparator;
 import org.eclipse.set.utils.table.sorting.TableRowGroupComparator;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -93,6 +94,18 @@ public final class SslzTransformationService
 				.sort(Start, LEXICOGRAPHICAL, ASC)
 				.sort(Ziel, LEXICOGRAPHICAL, ASC)
 				.sort(Nummer, LEXICOGRAPHICAL, ASC)
+				.sort(Durchrutschweg_Bezeichnung,
+						new LexicographicalCellComparator(ASC) {
+							@SuppressWarnings("nls")
+							@Override
+							public int compareString(final String text1,
+									final String text2) {
+								// Ignore '*' in Dweg name
+								return super.compareString(
+										text1.replace("*", ""),
+										text2.replace("*", ""));
+							}
+						})
 				.build();
 	}
 

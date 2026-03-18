@@ -35,7 +35,7 @@ class DoubleExtensions {
 	 * @result the formatted length
 	 */
 	static def String toTableDecimal(Double length, int decimalPlace) {
-		return BigDecimal.valueOf(length).toTableDecimal(decimalPlace)
+		return BigDecimal.valueOf(length).toTableDecimal(decimalPlace, decimalPlace)
 	}
 	
 
