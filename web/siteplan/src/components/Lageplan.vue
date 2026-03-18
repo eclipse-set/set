@@ -45,9 +45,9 @@ export default {
   }),
   created () {
     this.unsubscribe = store.subscribe((m, s) => {
-      if (m.type === 'setLoading') {
-        this.loading = s.loading
-      }
+      // if (m.type === 'setLoading') {
+      //   this.loading = s.loading
+      // }
 
       if (m.type === 'setError') {
         this.error = s.error
