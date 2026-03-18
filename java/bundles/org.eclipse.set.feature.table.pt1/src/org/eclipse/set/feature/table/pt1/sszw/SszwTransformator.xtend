@@ -460,6 +460,9 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 				val gspKomponent = gspElement?.WKrGspKomponenten?.findFirst [
 					zungenpaar?.kreuzungsgleis?.wert === leftRightCross
 				]
+				if (gspKomponent === null) {
+					return "";
+				}
 				return allowSpeedEKW_DKW?.apply(gspKomponent)?.toString ?: ""
 			}
 			case ENUMW_KR_ART_ABW,
@@ -472,6 +475,9 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 			case ENUMW_KR_ART_KR,
 			case ENUMW_KR_ART_SONSTIGE: {
 				val gspKomponent = gspElement?.WKrGspKomponenten?.firstOrNull
+				if (gspKomponent === null) {
+					return "";
+				}
 				return allowSpeed?.apply(gspKomponent)?.toString ?: ""
 			}
 			default:
