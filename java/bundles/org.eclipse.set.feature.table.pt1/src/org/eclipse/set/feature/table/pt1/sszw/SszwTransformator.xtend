@@ -331,9 +331,9 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 					IDAussenelementansteuerung?.value === outsideControl
 				]) {
 					return #[
-						outsideControl.oertlichkeitNamensgebend.bezeichnung?.
+						outsideControl?.oertlichkeitNamensgebend?.bezeichnung?.
 							oertlichkeitAbkuerzung?.wert ?:
-							outsideControl.bezeichnung?.bezeichnungAEA?.wert]
+							outsideControl?.bezeichnung?.bezeichnungAEA?.wert]
 				}
 				return #[stellbereich?.oertlichkeitBezeichnung].filterNull
 			],
