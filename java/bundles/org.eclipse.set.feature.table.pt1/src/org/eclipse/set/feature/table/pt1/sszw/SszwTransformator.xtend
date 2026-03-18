@@ -164,10 +164,10 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 			[isSimpleTrackSwitch],
 			[
 				punktObjektTOPKante.exists [ potk |
-					(potk.abstand.wert === BigDecimal.ZERO &&
+					(potk.abstand.wert.compareTo(BigDecimal.ZERO) === 0 &&
 						potk.topKante.TOPAnschlussA ===
 							ENUMTOPAnschluss.ENUMTOP_ANSCHLUSS_LINKS) ||
-						(potk.abstand.wert !== BigDecimal.ZERO &&
+						(potk.abstand.wert.compareTo(BigDecimal.ZERO) !== 0 &&
 							potk.topKante.TOPAnschlussB ===
 								ENUMTOPAnschluss.ENUMTOP_ANSCHLUSS_LINKS)
 				]
@@ -179,10 +179,10 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 			[isSimpleTrackSwitch],
 			[
 				punktObjektTOPKante.exists [ potk |
-					(potk.abstand.wert === BigDecimal.ZERO &&
+					(potk.abstand.wert.compareTo(BigDecimal.ZERO) === 0 &&
 						potk.topKante.TOPAnschlussA ===
 							ENUMTOPAnschluss.ENUMTOP_ANSCHLUSS_RECHTS) ||
-						(potk.abstand.wert !== BigDecimal.ZERO &&
+						(potk.abstand.wert.compareTo(BigDecimal.ZERO) !== 0 &&
 							potk.topKante.TOPAnschlussB ===
 								ENUMTOPAnschluss.ENUMTOP_ANSCHLUSS_RECHTS)
 
