@@ -34,7 +34,7 @@ import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.eclipse.set.application.geometry.GeoKanteGeometryServiceImpl;
-import org.eclipse.set.application.geometry.GeoKanteGeometryServiceImpl.GeoKanteGeometrySessionData;
+import org.eclipse.set.application.geometry.GeoKanteGeometrySessionData;
 import org.eclipse.set.application.geometry.PointObjectPositionServiceImpl;
 import org.eclipse.set.basis.Pair;
 import org.eclipse.set.basis.constants.ContainerType;

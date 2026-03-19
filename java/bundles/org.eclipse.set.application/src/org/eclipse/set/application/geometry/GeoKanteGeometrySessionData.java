@@ -16,6 +16,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.eclipse.set.basis.geometry.GEOKanteMetadata;
 import org.eclipse.set.model.planpro.Geodaten.GEO_Kante;
+import org.eclipse.set.model.planpro.Geodaten.GEO_Knoten;
+import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.LineString;
 
 /**
@@ -26,12 +28,15 @@ public class GeoKanteGeometrySessionData {
 	private final Map<GEO_Kante, LineString> edgeGeometry;
 	private final Map<String, List<GEOKanteMetadata>> geoKanteMetadas;
 
+	private final Map<GEO_Knoten, Coordinate> geoNodeCoordinates;
+
 	/**
 	 * constructor
 	 */
 	public GeoKanteGeometrySessionData() {
 		edgeGeometry = new ConcurrentHashMap<>();
 		geoKanteMetadas = new ConcurrentHashMap<>();
+		geoNodeCoordinates = new ConcurrentHashMap<>();
 	}
 
 	/**
@@ -46,5 +51,21 @@ public class GeoKanteGeometrySessionData {
 	 */
 	public Map<String, List<GEOKanteMetadata>> getGeoKanteMetadas() {
 		return geoKanteMetadas;
+	}
+
+	/**
+	 * @return the geometry coordinate of {@link GEO_Knoten}
+	 */
+	public Map<GEO_Knoten, Coordinate> getGeoNodeCoordinates() {
+		return geoNodeCoordinates;
+	}
+
+	/**
+	 * Clear data
+	 */
+	public void clear() {
+		edgeGeometry.clear();
+		geoKanteMetadas.clear();
+		geoNodeCoordinates.clear();
 	}
 }
