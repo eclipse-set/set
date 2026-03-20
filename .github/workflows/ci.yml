@@ -317,7 +317,6 @@ jobs:
       - name: Run Test
         id: test-steps
         shell: bash
-        working-directory: java
         run: |
           m2RepoPath="https://maven.pkg.github.com/eclipse-set/set"
           if [[ "${{ github.event_name }}" == "pull_request" || "${{github.ref}}" == refs/heads/release/* ]]; then
