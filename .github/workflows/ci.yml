@@ -230,6 +230,7 @@ jobs:
           mvn -T 1.5C -U -B clean deploy checkstyle:checkstyle --settings .github/settings.xml -DaltDeploymentRepository="$m2RepoPath"
         env:
           GITHUB_TOKEN: ${{ github.token }}
+        working-directory: java
       
       - name: Upload artifact
         uses: actions/upload-artifact@v7
@@ -317,6 +318,7 @@ jobs:
       - name: Run Test
         id: test-steps
         shell: bash
+        working-directory: java
         run: |
           m2RepoPath="https://maven.pkg.github.com/eclipse-set/set"
           if [[ "${{ github.event_name }}" == "pull_request" || "${{github.ref}}" == refs/heads/release/* ]]; then
