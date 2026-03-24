@@ -9,9 +9,9 @@ Bundle-Vendor: Eclipse Signalling Engineering Toolbox
 Require-Bundle: org.hamcrest.core,
  org.eclipse.emf.ecore,
  org.eclipse.set.model.planpro,
- junit-platform-commons,
  junit-platform-launcher,
- junit-platform-runner
+ junit-platform-runner,
+ junit-platform-commons
 Import-Package: org.eclipse.emf.common.util,
  org.eclipse.emf.ecore.resource,
  org.eclipse.emf.ecore.xmi,
