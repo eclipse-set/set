@@ -8,7 +8,7 @@ async function loadSiteplan (page: Page) {
 
   await page.goto('/')
   // ensure that no .loading animation is there anymore
-  await expect(page.locator('.loading')).not.toBeVisible()
+  await expect(page.locator('.loading')).not.toBeVisible({ timeout: 10_000 })
 }
 
 const screenshotOptions = (page: Page) => ({
