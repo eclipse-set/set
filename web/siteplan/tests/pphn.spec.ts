@@ -7,7 +7,7 @@ async function loadSiteplan (page: Page) {
   })
 
   await page.goto('/')
-  // await expect(page.locator('.loading')).toBeVisible()
+  // ensure that no .loading animation is there anymore
   await expect(page.locator('.loading')).not.toBeVisible()
 }
 
