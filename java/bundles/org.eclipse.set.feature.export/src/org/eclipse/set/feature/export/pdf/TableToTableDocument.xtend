@@ -17,6 +17,8 @@ import javax.imageio.ImageIO
 import javax.xml.parsers.DocumentBuilderFactory
 import javax.xml.parsers.ParserConfigurationException
 import org.eclipse.set.basis.FreeFieldInfo
+import org.eclipse.set.basis.FreeFieldInfo.LoadedPlanInformation
+import org.eclipse.set.basis.FreeFieldInfo.SignificantInformation
 import org.eclipse.set.basis.constants.ToolboxConstants
 import org.eclipse.set.model.tablemodel.CellContent
 import org.eclipse.set.model.tablemodel.CompareFootnoteContainer
@@ -555,10 +557,20 @@ class TableToTableDocument {
 	}
 
 	private def Element create doc.createElement("SignificantInformation") transformToSignificantInformation(
-		String significantInformation) {
-		textContent = significantInformation
-		return
+		SignificantInformation significantInformation) {
+		appendChild(transformLoadedPlanInformation("MainPlan", significantInformation.mainPlan))
+		if (significantInformation.comparePlan !== null) {
+			appendChild(transformLoadedPlanInformation("ComparePlan", significantInformation.comparePlan))
+		}
 	}
+	
+	private def Element create doc.createElement("LoadedPlan") transformLoadedPlanInformation(String id, LoadedPlanInformation info) {
+		val idAttr = doc.createAttribute("id")
+		idAttr.value = id
+		attributeNode = idAttr
+		textContent = '''«info.name» «info.timestamp» MD5: «info.checksum»'''
+	}
+	
 
 	private def Element create doc.createElement("Footnotes")
 	transformToFootnotes(Table table) {

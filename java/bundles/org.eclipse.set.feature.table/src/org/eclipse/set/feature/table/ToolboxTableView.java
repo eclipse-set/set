@@ -218,8 +218,8 @@ public final class ToolboxTableView extends BasePart {
 
 	private FreeFieldInfo getFreeFieldInfo() {
 		final PlanProToFreeFieldTransformation planProToFreeField = PlanProToFreeFieldTransformation
-				.create();
-		return planProToFreeField.transform(getModelSession());
+				.create(getSessionService());
+		return planProToFreeField.transform();
 	}
 
 	private Path getAttachmentPath(final String guid) {
