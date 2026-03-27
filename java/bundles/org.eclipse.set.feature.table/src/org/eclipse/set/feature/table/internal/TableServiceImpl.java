@@ -21,6 +21,8 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -242,10 +244,6 @@ public final class TableServiceImpl implements TableService {
 		return getModelService(tableInfo).getTableNameInfo();
 	}
 
-	private TableNameInfo getTableNameInfo(final String shortcut) {
-		return getModelService(getTableInfo(shortcut)).getTableNameInfo();
-	}
-
 	@Override
 	public Collection<TableInfo> getAvailableTables() {
 		return modelServiceMap.keySet()
@@ -418,33 +416,35 @@ public final class TableServiceImpl implements TableService {
 		return resultTable;
 	}
 
-	private void storageFootnotes(final TableInfo tableInfo,
-			final Table resultTable) {
+	private void storageFootnotes(final ToolboxFileRole sessionRole,
+			final TableInfo tableInfo, final Table resultTable) {
 		if (resultTable == null || resultTable.getTablecontent() == null) {
 			return;
 		}
+		final Function<TableInfo, String> createKeyValue = info -> {
+			final TableNameInfo nameInfo = getTableNameInfo(info);
+			return sessionRole.toString() + "/" + nameInfo.getShortName(); //$NON-NLS-1$
+		};
+		final UnaryOperator<String> extractShortName = key -> key
+				.substring(key.lastIndexOf("/") + 1); //$NON-NLS-1$
 		// Filter footnotes, which already in another tables visualization
 		if (tableInfo.shortcut()
 				.equalsIgnoreCase(ToolboxConstants.WORKNOTES_TABLE_SHORTCUT)) {
 			final List<TableInfo> missingTables = getAvailableTables().stream()
-					.filter(table -> {
-						return !table.shortcut()
-								.equalsIgnoreCase(
-										ToolboxConstants.WORKNOTES_TABLE_SHORTCUT)
-								&& !footnotesPerTable.containsKey(
-										getTableNameInfo(table.shortcut())
-												.getShortName());
-					})
+					.filter(table -> !table.shortcut()
+							.equalsIgnoreCase(
+									ToolboxConstants.WORKNOTES_TABLE_SHORTCUT)
+							&& !footnotesPerTable
+									.containsKey(createKeyValue.apply(table)))
 					.toList();
 			FootnoteExtensions.fillSxxxTableColumnC(resultTable,
-					footnotesPerTable, missingTables.isEmpty());
+					footnotesPerTable, missingTables.isEmpty(),
+					extractShortName);
 			return;
 		}
 		final Set<Footnote> tableNotes = FootnoteExtensions
 				.getNotesInTable(resultTable);
-
-		final TableNameInfo tableNameInfo = getTableNameInfo(tableInfo);
-		footnotesPerTable.put(tableNameInfo.getShortName(), tableNotes);
+		footnotesPerTable.put(createKeyValue.apply(tableInfo), tableNotes);
 		// Reload Sxxx table only when all tables was transformed
 		if (transformTableThreads.isEmpty()) {
 			broker.send(Events.RELOAD_WORKNOTES_TABLE, null);
@@ -620,9 +620,10 @@ public final class TableServiceImpl implements TableService {
 			mainSessionTable = transformToTable(tableInfo, tableType,
 					sessionService.getLoadedSession(ToolboxFileRole.SESSION),
 					controlAreaIds);
+			storageFootnotes(ToolboxFileRole.SESSION, tableInfo,
+					mainSessionTable);
 			if (sessionService.getLoadedSession(
 					ToolboxFileRole.COMPARE_PLANNING) == null) {
-				storageFootnotes(tableInfo, mainSessionTable);
 				return mainSessionTable;
 			}
 			// Waiting table compare transform, then create compare table
@@ -645,11 +646,13 @@ public final class TableServiceImpl implements TableService {
 					.getLoadedSession(ToolboxFileRole.COMPARE_PLANNING);
 			final Table compareSessionTable = transformToTable(tableInfo,
 					tableType, compareSession, controlAreaIds);
+			storageFootnotes(ToolboxFileRole.COMPARE_PLANNING, tableInfo,
+					compareSessionTable);
 			final Table compareTable = diffServiceMap
 					.get(TableCompareType.PROJECT)
 					.createDiffTable(mainSessionTable, compareSessionTable);
 			sortTable(compareTable, tableInfo);
-			storageFootnotes(tableInfo, compareSessionTable);
+
 			return compareTable;
 		} catch (final Exception e) {
 			dialogService.error(Display.getCurrent().getActiveShell(),
