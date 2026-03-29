@@ -385,6 +385,11 @@ public final class ToolboxConstants {
 	public static final String EXAMPLE_PROJECT_1_10_0_3 = "PPHN_01-02_IbnZ2AeM_2026-02-02_17-47.planpro";
 
 	/**
+	 * The minimum of footnotes count to active horizontal scroll
+	 */
+	public static final int FOOTNOTE_ACTIVE_SCROLL_MINIMUM = 10;
+
+	/**
 	 * The tolerance value between TOP_Kante length and the sum of GEO_Kanten
 	 * length, which belong to this TOP_Kante (in Meter)
 	 */

@@ -123,6 +123,17 @@ public class Messages {
 	public String ToolboxTableView_ExportTable;
 
 	/**
+	 * Diese Tabelle ist unvollständig, da noch nicht alle anderen Tabellen
+	 * generiert wurden.
+	 */
+	public String ToolboxTableView_TableIncompleteHint;
+
+	/**
+	 * Tabellen berechnen
+	 */
+	public String ToolboxTableView_CalculateTables;
+
+	/**
 	 * Tabellenexport
 	 */
 	public String TableExportPart_TaskMsg;

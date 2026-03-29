@@ -574,7 +574,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 
 						throw new IllegalArgumentException('''The value: «value.toString»  isn't match the pattern: «GUEMessstreckePattern»''')
 					}
-					return value.toString
+					return value.toTableDecimal(2, 2)
 				]
 			)
 

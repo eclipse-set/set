@@ -9,15 +9,14 @@
 package org.eclipse.set.ppmodel.extensions
 
 import com.google.common.collect.Sets
+import java.util.Iterator
+import java.util.NoSuchElementException
+import java.util.Set
 import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
 import org.eclipse.set.model.planpro.Signale.Signal
 import org.eclipse.set.model.planpro.Signale.Signal_Befestigung
 import org.eclipse.set.model.planpro.Signale.Signal_Rahmen
 import org.eclipse.set.model.planpro.Signale.Signal_Signalbegriff
-import java.util.Iterator
-import java.util.List
-import java.util.NoSuchElementException
-import java.util.Set
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -98,12 +97,12 @@ class SignalRahmenExtensions extends BasisObjektExtensions {
 	 * 
 	 * @returns list of Signalbegriffe
 	 */
-	def static List<Signal_Signalbegriff> getSignalbegriffe(
+	def static Iterable<Signal_Signalbegriff> getSignalbegriffe(
 		Signal_Rahmen signalRahmen
 	) {
 		return signalRahmen.container.signalSignalbegriff.filter [ b |
-			b.signalRahmen == signalRahmen
-		].toList
+			b.signalRahmen === signalRahmen
+		]
 	}
 
 	/**
