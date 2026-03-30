@@ -29,6 +29,8 @@ public class TableNameInfo {
 	 *            the planning number
 	 * @param shortName
 	 *            the short name
+	 * @param rilNumber
+	 *            the Ril number
 	 */
 	public TableNameInfo(final String longName, final String planningNumber,
 			final String shortName, final String rilNumber) {
