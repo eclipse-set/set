@@ -362,7 +362,7 @@ public final class TableServiceImpl implements TableService {
 		final String delimeter = ";"; //$NON-NLS-1$
 		final StringBuilder builder = new StringBuilder();
 		for (final ColumnDescriptor colName : colNames) {
-			builder.append(colName.getLabel() + delimeter);
+			builder.append(colName.getLabel()).append(delimeter);
 		}
 		builder.append("\n"); //$NON-NLS-1$
 
@@ -370,8 +370,8 @@ public final class TableServiceImpl implements TableService {
 			for (final ColumnDescriptor colName : colNames) {
 				try {
 					builder.append(TableCellExtensions.getPlainStringValue(
-							TableRowExtensions.getCell(row, colName))
-							+ delimeter);
+							TableRowExtensions.getCell(row, colName)))
+							.append(delimeter);
 				} catch (final Exception e) {
 					builder.append(e.toString());
 				}
@@ -656,7 +656,6 @@ public final class TableServiceImpl implements TableService {
 					messages.TableTransform_ComparePlanError_Msg, e);
 			return mainSessionTable;
 		}
-
 	}
 
 	@Override

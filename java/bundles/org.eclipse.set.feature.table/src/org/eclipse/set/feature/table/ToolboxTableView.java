@@ -60,6 +60,7 @@ import org.eclipse.nebula.widgets.nattable.resize.command.RowHeightResetCommand;
 import org.eclipse.nebula.widgets.nattable.selection.SelectionLayer;
 import org.eclipse.nebula.widgets.nattable.viewport.command.ShowRowInViewportCommand;
 import org.eclipse.set.basis.FreeFieldInfo;
+import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.OverwriteHandling;
 import org.eclipse.set.basis.Pair;
 import org.eclipse.set.basis.constants.Events;
@@ -68,6 +69,7 @@ import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.basis.constants.ToolboxViewState;
 import org.eclipse.set.basis.extensions.MApplicationElementExtensions;
+import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.eclipse.set.basis.guid.Guid;
 import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.configurationservice.UserConfigurationService;
@@ -316,6 +318,20 @@ public final class ToolboxTableView extends BasePart {
 				return;
 			}
 			updateModel(getToolboxPart());
+			if (tableInfo != null && tableInfo.shortcut()
+					.equalsIgnoreCase(ToolboxConstants.WORKNOTES_TABLE_SHORTCUT)
+					|| getToolboxPart().getElementId()
+							.substring(getToolboxPart().getElementId()
+									.lastIndexOf(".") + 1)
+							.equalsIgnoreCase(
+									ToolboxConstants.WORKNOTES_TABLE_SHORTCUT)) {
+				final IModelSession mainSession = getSessionService()
+						.getLoadedSession(ToolboxFileRole.SESSION);
+				final Collection<TableInfo> mainSessionMissingTables = TableServiceUtils
+						.getMissingTables(tableService, getModelSession(),
+								controlAreaIds);
+				final Collection<TableInfo> compareSessionMissingTables = getMissingTables();
+			}
 
 		};
 		getBroker().subscribe(Events.COMPARE_MODEL_LOADED,
