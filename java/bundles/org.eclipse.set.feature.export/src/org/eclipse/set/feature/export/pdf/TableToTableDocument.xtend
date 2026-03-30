@@ -408,38 +408,28 @@ class TableToTableDocument {
 	private dispatch def void addFootnoteContent(Element element,
 		SimpleFootnoteContainer fc, int columnNumber, boolean isRemarkColumn) {
 		val footNotesInfo = fc.footnotes.map[getFootnoteInfo(fc, it)].filterNull
-		val separator = remarkTextInlnie ? FOOTNOTE_INLINE_TEXT_SEPARATOR : FOOTNOTE_MARK_SEPRATOR
-		val footnotes = footNotesInfo.map [
-			remarkTextInlnie ? toText : toShorthand
-		].iterableToString(separator)
-		element.addFootnoteChild(footnotes, WARNING_MARK_BLACK, columnNumber,
-			isRemarkColumn)
+		element.addFootnoteChild(footNotesInfo.footnotesToString,
+			WARNING_MARK_BLACK, columnNumber, isRemarkColumn)
 	}
 
 	private dispatch def void addFootnoteContent(Element element,
 		CompareFootnoteContainer fc, int columnNumber, boolean isRemarkColumn) {
-		val separator = remarkTextInlnie ? FOOTNOTE_INLINE_TEXT_SEPARATOR : FOOTNOTE_MARK_SEPRATOR
 		val oldFootnotes = fc.oldFootnotes.footnotes.map [
 			getFootnoteInfo(fc, it)
-		].filterNull.map [
-			remarkTextInlnie ? toText : toShorthand
-		].iterableToString(separator)
+		]
 		val newFootnotes = fc.newFootnotes.footnotes.map [
 			getFootnoteInfo(fc, it)
-		].filterNull.map [
-			remarkTextInlnie ? toText : toShorthand
-		].iterableToString(separator)
+		]
 		val unchangedFootnotes = fc.unchangedFootnotes.footnotes.map [
 			getFootnoteInfo(fc, it)
-		].filterNull.map[remarkTextInlnie ? toText : toShorthand].
-			iterableToString(separator)
+		]
 
-		element.addFootnoteChild(oldFootnotes, WARNING_MARK_YELLOW,
-			columnNumber, isRemarkColumn)
-		element.addFootnoteChild(unchangedFootnotes, WARNING_MARK_BLACK,
-			columnNumber, isRemarkColumn)
-		element.addFootnoteChild(newFootnotes, WARNING_MARK_RED, columnNumber,
-			isRemarkColumn)
+		element.addFootnoteChild(oldFootnotes.footnotesToString,
+			WARNING_MARK_YELLOW, columnNumber, isRemarkColumn)
+		element.addFootnoteChild(unchangedFootnotes.footnotesToString,
+			WARNING_MARK_BLACK, columnNumber, isRemarkColumn)
+		element.addFootnoteChild(newFootnotes.footnotesToString,
+			WARNING_MARK_RED, columnNumber, isRemarkColumn)
 	}
 
 	private dispatch def void addFootnoteContent(Element element,
@@ -447,6 +437,13 @@ class TableToTableDocument {
 		boolean isRemarkColumn) {
 		element.addFootnoteContent(fc.mainPlanFootnoteContainer, columnNumber,
 			isRemarkColumn)
+	}
+
+	private def String footnotesToString(Iterable<FootnoteInfo> fn) {
+		val separator = remarkTextInlnie ? FOOTNOTE_INLINE_TEXT_SEPARATOR : FOOTNOTE_MARK_SEPRATOR
+		return fn.filterNull.sortBy[index].map [
+			remarkTextInlnie ? toText : toShorthand
+		].toSet.iterableToString(separator)
 	}
 
 	private def Element createMultiColorElement(MultiColorContent content,
@@ -491,9 +488,8 @@ class TableToTableDocument {
 	private def Element addContentToElement(String content, Element element,
 		int columnNumber, boolean isRemarkColumn) {
 		val checkOutput = content.checkForTestOutput(columnNumber)
-		element.textContent = isRemarkColumn
-			? checkOutput
-			: checkOutput.intersperseWithZeroSpacesSC
+		element.textContent = isRemarkColumn ? checkOutput : checkOutput.
+			intersperseWithZeroSpacesSC
 		return element
 	}
 
