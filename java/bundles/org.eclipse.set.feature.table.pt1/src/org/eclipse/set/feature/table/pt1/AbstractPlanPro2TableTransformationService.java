@@ -80,7 +80,7 @@ public abstract class AbstractPlanPro2TableTransformationService
 	public ColumnDescriptor fillHeaderDescriptions(
 			final ColumnDescriptorModelBuilder builder) {
 		final GroupBuilder root = builder.createRootColumn(getTableHeading());
-		String tableShortcut = getTableNameInfo().shortName().toLowerCase();
+		String tableShortcut = getTableNameInfo().getShortName().toLowerCase();
 		// IMPROVE: this is only a temporary situation for the table
 		// Sskp_dm
 		if (tableShortcut.equals("sskp_dm")) { //$NON-NLS-1$

@@ -309,7 +309,7 @@ public class TableOverviewPart extends BasePart {
 		}
 		final List<String> shortNames = new ArrayList<>(tables.stream()
 				.map(tableInfo -> tableService.getTableNameInfo(tableInfo)
-						.shortName())
+						.getShortName())
 				.toList());
 		Collections.sort(shortNames);
 		return shortNames.stream().collect(Collectors.joining(", ")); //$NON-NLS-1$

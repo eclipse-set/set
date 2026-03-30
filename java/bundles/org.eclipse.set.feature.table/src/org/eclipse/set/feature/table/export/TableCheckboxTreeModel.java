@@ -68,7 +68,7 @@ public class TableCheckboxTreeModel extends CheckboxTreeModel {
 		}
 		final TableNameInfo nameInfo = tableService.getTableNameInfo(info);
 		final CheckBoxTreeElement newElement = new CheckBoxTreeElement(
-				nameInfo.shortName().toLowerCase(),
+				nameInfo.getShortName().toLowerCase(),
 				nameInfo.getFullDisplayName());
 		tableInfoTreeElementMap.put(info, newElement);
 		addElement(parent, newElement);
