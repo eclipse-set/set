@@ -86,7 +86,8 @@ public final class SsldTransformationService
 	public TableNameInfo getTableNameInfo() {
 		return new TableNameInfo(messages.ToolboxTableNameSsldLong,
 				messages.ToolboxTableNameSsldPlanningNumber,
-				messages.ToolboxTableNameSsldShort);
+				messages.ToolboxTableNameSsldShort,
+				messages.ToolboxTableNameSsldRil);
 	}
 
 	@Override

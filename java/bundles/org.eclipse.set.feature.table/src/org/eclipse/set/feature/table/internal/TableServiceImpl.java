@@ -283,7 +283,7 @@ public final class TableServiceImpl implements TableService {
 	private void saveTableError(final TableInfo tableInfo,
 			final IModelSession modelSession,
 			final Collection<TableError> errors) {
-		final String shortName = getTableNameInfo(tableInfo).getShortName();
+		final String shortName = getTableNameInfo(tableInfo).shortName();
 		final String shortCut = tableInfo.shortcut();
 		errors.forEach(error -> error.setSource(shortName));
 		getCacheService()
@@ -419,7 +419,7 @@ public final class TableServiceImpl implements TableService {
 		}
 		final Function<TableInfo, String> createKeyValue = info -> {
 			final TableNameInfo nameInfo = getTableNameInfo(info);
-			return sessionRole.toString() + "/" + nameInfo.getShortName(); //$NON-NLS-1$
+			return sessionRole.toString() + "/" + nameInfo.shortName(); //$NON-NLS-1$
 		};
 		final UnaryOperator<String> extractShortName = key -> key
 				.substring(key.lastIndexOf("/") + 1); //$NON-NLS-1$

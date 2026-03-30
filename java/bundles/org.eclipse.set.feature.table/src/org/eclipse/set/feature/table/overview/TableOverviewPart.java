@@ -8,9 +8,7 @@
  */
 package org.eclipse.set.feature.table.overview;
 
-import static org.eclipse.set.basis.constants.ToolboxConstants.ESTW_SUPPLEMENT_PART_ID_PREFIX;
-import static org.eclipse.set.basis.constants.ToolboxConstants.ESTW_TABLE_PART_ID_PREFIX;
-import static org.eclipse.set.basis.constants.ToolboxConstants.ETCS_TABLE_PART_ID_PREFIX;
+import static org.eclipse.set.basis.constants.ToolboxConstants.*;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -311,7 +309,7 @@ public class TableOverviewPart extends BasePart {
 		}
 		final List<String> shortNames = new ArrayList<>(tables.stream()
 				.map(tableInfo -> tableService.getTableNameInfo(tableInfo)
-						.getShortName())
+						.shortName())
 				.toList());
 		Collections.sort(shortNames);
 		return shortNames.stream().collect(Collectors.joining(", ")); //$NON-NLS-1$

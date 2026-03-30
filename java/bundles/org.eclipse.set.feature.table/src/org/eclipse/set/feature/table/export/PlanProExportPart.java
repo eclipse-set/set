@@ -200,9 +200,9 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 						tableInfo.category().toString());
 				elements.add(parentElement);
 			}
-			parentElement.addChild(new CheckBoxTreeElement(
-					nameInfo.getShortName().toLowerCase(),
-					nameInfo.getFullDisplayName()));
+			parentElement.addChild(
+					new CheckBoxTreeElement(nameInfo.shortName().toLowerCase(),
+							nameInfo.getFullDisplayName()));
 		});
 
 		if (additionalExportService != null) {
