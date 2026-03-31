@@ -182,7 +182,7 @@ jobs:
         with:
           name: pdfviewer-artifact
           path: web/pdf/dist
-      actions/download-artifact@
+
       - name: Fetch text viewer
         uses: actions/download-artifact@v8
         with:
