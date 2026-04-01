@@ -44,6 +44,8 @@ import org.eclipse.set.utils.table.menu.TableMenuService;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
+import org.osgi.service.event.Event;
+import org.osgi.service.event.EventHandler;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.inject.Inject;
@@ -81,33 +83,40 @@ public class PlazModelPart extends AbstractEmfFormsPart {
 	@SuppressWarnings("unchecked")
 	@PostConstruct
 	private void postConstruct() {
-		getBroker().subscribe(Events.DO_PLAZ_CHECK, event -> {
-			final Object property = event.getProperty(IEventBroker.DATA);
-			if (property instanceof final Class<?> clazz
-					&& PlazCheck.class.isAssignableFrom(clazz)) {
-				final PlazReport newReport = plazModelService.runPlazModel(
-						getModelSession(), (Class<? extends PlazCheck>) clazz);
-				if (plazReport == null || plazReport.getEntries().isEmpty()) {
-					tableView.updateView(newReport);
-					return;
+		getBroker().subscribe(Events.DO_PLAZ_CHECK, new EventHandler() {
+
+			@Override
+			public void handleEvent(final Event event) {
+				final Object property = event.getProperty(IEventBroker.DATA);
+				if (property instanceof final Class<?> clazz
+						&& PlazCheck.class.isAssignableFrom(clazz)) {
+					final PlazReport newReport = plazModelService.runPlazModel(
+							getModelSession(),
+							(Class<? extends PlazCheck>) clazz);
+					if (plazReport == null
+							|| plazReport.getEntries().isEmpty()) {
+						tableView.updateView(newReport);
+						return;
+					}
+
+					final List<String> objectArts = newReport.getEntries()
+							.stream()
+							.map(ValidationProblem::getObjectArt)
+							.distinct()
+							.toList();
+					final List<ValidationProblem> oldReports = plazReport
+							.getEntries()
+							.stream()
+							.filter(entry -> objectArts
+									.contains(entry.getObjectArt()))
+							.toList();
+					plazReport.getEntries().removeAll(oldReports);
+					plazReport.getEntries().addAll(newReport.getEntries());
+					PlazModelService
+							.sortAndIndexedProblems(plazReport.getEntries());
+					tableView.updateView(plazReport);
 				}
 
-				final List<String> objectArts = newReport.getEntries()
-						.stream()
-						.map(ValidationProblem::getObjectArt)
-						.distinct()
-						.toList();
-				final List<ValidationProblem> oldReports = plazReport
-						.getEntries()
-						.stream()
-						.filter(entry -> objectArts
-								.contains(entry.getObjectArt()))
-						.toList();
-				plazReport.getEntries().removeAll(oldReports);
-				plazReport.getEntries().addAll(newReport.getEntries());
-				PlazModelService
-						.sortAndIndexedProblems(plazReport.getEntries());
-				tableView.updateView(plazReport);
 			}
 		});
 	}

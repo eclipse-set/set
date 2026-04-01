@@ -31,7 +31,6 @@ import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.emf.common.command.CommandStackListener;
 import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.jface.layout.GridDataFactory;
-import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.nebula.widgets.nattable.NatTable;
 import org.eclipse.nebula.widgets.nattable.config.ConfigRegistry;
 import org.eclipse.nebula.widgets.nattable.data.IDataProvider;
@@ -60,7 +59,6 @@ import org.eclipse.nebula.widgets.nattable.resize.command.RowHeightResetCommand;
 import org.eclipse.nebula.widgets.nattable.selection.SelectionLayer;
 import org.eclipse.nebula.widgets.nattable.viewport.command.ShowRowInViewportCommand;
 import org.eclipse.set.basis.FreeFieldInfo;
-import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.OverwriteHandling;
 import org.eclipse.set.basis.Pair;
 import org.eclipse.set.basis.constants.Events;
@@ -69,7 +67,6 @@ import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.basis.constants.ToolboxViewState;
 import org.eclipse.set.basis.extensions.MApplicationElementExtensions;
-import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.eclipse.set.basis.guid.Guid;
 import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.configurationservice.UserConfigurationService;
@@ -77,7 +74,6 @@ import org.eclipse.set.feature.table.abstracttableview.ColumnGroup4HeaderLayer;
 import org.eclipse.set.feature.table.abstracttableview.ColumnGroupGroupGroupHeaderLayer;
 import org.eclipse.set.feature.table.abstracttableview.NatTableColumnGroupHelper;
 import org.eclipse.set.feature.table.abstracttableview.ToolboxTableModelThemeConfiguration;
-import org.eclipse.set.feature.table.internal.TableServiceUtils;
 import org.eclipse.set.feature.table.messages.Messages;
 import org.eclipse.set.feature.table.messages.MessagesWrapper;
 import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
@@ -122,13 +118,9 @@ import org.eclipse.set.utils.table.TableModelInstanceBodyDataProvider;
 import org.eclipse.set.utils.table.menu.TableMenuService;
 import org.eclipse.set.utils.table.sorting.AbstractCompareWithDependencyOnServiceCriterion;
 import org.eclipse.set.utils.table.sorting.TableRowGroupComparator;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Label;
+import org.osgi.service.event.Event;
 import org.osgi.service.event.EventHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -145,14 +137,12 @@ import jakarta.inject.Inject;
  * 
  * @author rumpf
  */
-public final class ToolboxTableView extends BasePart {
+public class ToolboxTableView extends BasePart {
 
 	protected static final int DEBUG_WIDTH_CORRECTION = 0;
 
 	static final Logger logger = LoggerFactory
 			.getLogger(ToolboxTableView.class);
-
-	private Composite calculateMissingTablesPanel;
 
 	private BodyLayerStack bodyLayerStack;
 
@@ -161,7 +151,7 @@ public final class ToolboxTableView extends BasePart {
 
 	@Inject
 	private ExportService exportService;
-	private NatTable natTable;
+	protected NatTable natTable;
 
 	private final List<TableRow> tableInstances = Lists.newLinkedList();
 
@@ -180,7 +170,7 @@ public final class ToolboxTableView extends BasePart {
 	Table table;
 
 	@Inject
-	TableService tableService;
+	protected TableService tableService;
 
 	@Inject
 	TableMenuService tableMenuService;
@@ -188,9 +178,9 @@ public final class ToolboxTableView extends BasePart {
 	@Inject
 	UserConfigurationService userConfigService;
 
-	TableType tableType;
+	protected TableType tableType;
 
-	Set<String> controlAreaIds;
+	protected Set<String> controlAreaIds;
 
 	/**
 	 * this injection is only needed to invoke the call of the respective
@@ -203,8 +193,7 @@ public final class ToolboxTableView extends BasePart {
 	private TableModelInstanceBodyDataProvider bodyDataProvider;
 
 	private EventHandler secondaryPlanningLoadedHanlder;
-	private EventHandler reloadWorkNotesTable;
-	private TableInfo tableInfo;
+	protected TableInfo tableInfo;
 
 	/**
 	 * constructor
@@ -258,7 +247,7 @@ public final class ToolboxTableView extends BasePart {
 	}
 
 	@PostConstruct
-	private void postConstruct() {
+	protected void postConstruct() {
 		tableSelectRowHandler = new DefaultToolboxEventHandler<>() {
 			@Override
 			public void accept(final JumpToTableEvent t) {
@@ -312,51 +301,22 @@ public final class ToolboxTableView extends BasePart {
 				SelectedControlAreaChangedEvent.class,
 				selectionControlAreaHandler);
 
-		secondaryPlanningLoadedHanlder = event -> {
-			if (!event.getTopic()
-					.equalsIgnoreCase(Events.COMPARE_MODEL_LOADED)) {
-				return;
-			}
-			updateModel(getToolboxPart());
-			if (tableInfo != null && tableInfo.shortcut()
-					.equalsIgnoreCase(ToolboxConstants.WORKNOTES_TABLE_SHORTCUT)
-					|| getToolboxPart().getElementId()
-							.substring(getToolboxPart().getElementId()
-									.lastIndexOf(".") + 1)
-							.equalsIgnoreCase(
-									ToolboxConstants.WORKNOTES_TABLE_SHORTCUT)) {
-				final IModelSession mainSession = getSessionService()
-						.getLoadedSession(ToolboxFileRole.SESSION);
-				final Collection<TableInfo> mainSessionMissingTables = TableServiceUtils
-						.getMissingTables(tableService, getModelSession(),
-								controlAreaIds);
-				final Collection<TableInfo> compareSessionMissingTables = getMissingTables();
-			}
-
-		};
+		secondaryPlanningLoadedHanlder = this::comparePlaningLoadedHandler;
 		getBroker().subscribe(Events.COMPARE_MODEL_LOADED,
 				secondaryPlanningLoadedHanlder);
-
-		if (tableService.getTableInfo(this)
-				.shortcut()
-				.equalsIgnoreCase(ToolboxConstants.WORKNOTES_TABLE_SHORTCUT)) {
-			reloadWorkNotesTable = event -> {
-				if (!event.getTopic()
-						.equalsIgnoreCase(Events.RELOAD_WORKNOTES_TABLE)) {
-					return;
-				}
-				updateModel(getToolboxPart());
-				updateCalculateMissingTablesPanel();
-				natTable.refresh();
-			};
-			getBroker().subscribe(Events.RELOAD_WORKNOTES_TABLE,
-					reloadWorkNotesTable);
-		}
-
 	}
 
+	protected void comparePlaningLoadedHandler(final Event event) {
+		if (!event.getTopic().equalsIgnoreCase(Events.COMPARE_MODEL_LOADED)) {
+			return;
+		}
+		updateModel(getToolboxPart());
+	}
+
+	@Override
 	@PreDestroy
-	private void preDestroy() {
+	protected void preDestroy() {
+		super.preDestroy();
 		logger.trace("preDestroy"); //$NON-NLS-1$ LOG
 		ToolboxEvents.unsubscribe(getBroker(), tableSelectRowHandler);
 		ToolboxEvents.unsubscribe(getBroker(), tableDataChangeHandler);
@@ -425,11 +385,6 @@ public final class ToolboxTableView extends BasePart {
 		// the user), we stop here with creating the view
 		if (table == null) {
 			return;
-		}
-
-		if (tableInfo.shortcut()
-				.equalsIgnoreCase(ToolboxConstants.WORKNOTES_TABLE_SHORTCUT)) {
-			this.addCalculateMissingTablesPanel(parent);
 		}
 
 		final ColumnDescriptor rootColumnDescriptor = table
@@ -759,75 +714,6 @@ public final class ToolboxTableView extends BasePart {
 				.setRowHeight(toPixel((float) ColumnDescriptorExtensions
 						.getGroup4RowHeight(rootColumnDescriptor)));
 		return columnGroup4HeaderLayer;
-	}
-
-	private Collection<TableInfo> getMissingTables() {
-		return TableServiceUtils.getMissingTables(tableService,
-				getModelSession(), controlAreaIds);
-	}
-
-	private void calculateAllMissingTables(final IProgressMonitor monitor) {
-		TableServiceUtils.calculateAllMissingTables(tableService,
-				getModelSession(), controlAreaIds, monitor, messages);
-	}
-
-	private void calculateAllMissingTablesEvent() {
-		try {
-			getDialogService().showProgress(getToolboxShell(),
-					this::calculateAllMissingTables);
-		} catch (InvocationTargetException | InterruptedException e) {
-			getDialogService().error(getToolboxShell(), e);
-		}
-		updateCalculateMissingTablesPanel();
-	}
-
-	private void addCalculateMissingTablesPanel(final Composite parent) {
-		if (getMissingTables().isEmpty()) {
-			return;
-		}
-		// custom panel
-		final Composite panel = new Composite(parent, SWT.NONE);
-		GridLayoutFactory.fillDefaults().numColumns(2).applyTo(panel);
-		GridDataFactory.fillDefaults().grab(true, false).applyTo(panel);
-		final Label label = new Label(panel, SWT.LEFT);
-		GridDataFactory.fillDefaults()
-				.align(SWT.BEGINNING, SWT.CENTER)
-				.grab(true, false)
-				.applyTo(label);
-		label.setText(messages.ToolboxTableView_TableIncompleteHint);
-		final Button button = new Button(panel, SWT.None);
-		GridDataFactory.swtDefaults().align(SWT.END, SWT.FILL).applyTo(button);
-		button.setText(messages.ToolboxTableView_CalculateTables);
-		button.addSelectionListener(new SelectionListener() {
-			@Override
-			public void widgetDefaultSelected(final SelectionEvent e) {
-				calculateAllMissingTablesEvent();
-			}
-
-			@Override
-			public void widgetSelected(final SelectionEvent e) {
-				widgetDefaultSelected(e);
-			}
-		});
-
-		panel.setBackground(
-				Display.getCurrent().getSystemColor(SWT.COLOR_YELLOW));
-
-		calculateMissingTablesPanel = panel;
-		updateCalculateMissingTablesPanel();
-	}
-
-	private void updateCalculateMissingTablesPanel() {
-		if (calculateMissingTablesPanel == null) {
-			return;
-		}
-		if (getMissingTables().isEmpty()) {
-			final Composite parent = calculateMissingTablesPanel.getParent();
-			calculateMissingTablesPanel.dispose();
-			parent.layout(true, true);
-			parent.update();
-			calculateMissingTablesPanel = null;
-		}
 	}
 
 	@Override
