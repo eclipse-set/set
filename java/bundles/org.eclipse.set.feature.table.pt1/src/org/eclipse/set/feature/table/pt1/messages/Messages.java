@@ -823,4 +823,34 @@ public class Messages extends AbstractMessageService {
 	 */
 	public String SxxxDescriptionService_ViewTooltip;
 
+	/**
+	 * Tabelle der Tafeln – Sskx
+	 */
+	public String SskxTableView_Heading;
+
+	/**
+	 * Tabelle der Tafeln
+	 */
+	public String ToolboxTableNameSskxLong;
+
+	/**
+	 * ???
+	 */
+	public String ToolboxTableNameSskxPlanningNumber;
+
+	/**
+	 * Sskx
+	 */
+	public String ToolboxTableNameSskxShort;
+
+	/**
+	 * Tabelle der Tafeln
+	 */
+	public String SskxDescriptionService_ViewTooltip;
+
+	/**
+	 * Sskx – Tabelle der Tafeln
+	 */
+	public String SskxDescriptionService_ViewName;
+
 }

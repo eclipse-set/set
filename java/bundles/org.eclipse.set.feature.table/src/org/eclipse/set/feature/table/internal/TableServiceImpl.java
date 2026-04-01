@@ -181,7 +181,6 @@ public final class TableServiceImpl implements TableService {
 			final IModelSession modelSession) {
 		final PlanPro2TableTransformationService modelService = getModelService(
 				tableInfo);
-
 		final Table startTable = modelService
 				.transform(PlanProSchnittstelleExtensions.getContainer(
 						modelSession.getPlanProSchnittstelle(),
@@ -403,7 +402,6 @@ public final class TableServiceImpl implements TableService {
 			getModelService(tableInfo).buildHeading(emptyTable);
 			return emptyTable;
 		}
-
 		final Table resultTable = TableServiceUtils.filterRequestValue(
 				EcoreUtil.copy(table), tableInfo, tableType, modelSession,
 				controlAreaIds);

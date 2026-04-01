@@ -51,7 +51,6 @@ import org.eclipse.set.model.planpro.Ortung.FMA_Komponente;
 import org.eclipse.set.model.planpro.Ortung.Zugeinwirkung;
 import org.eclipse.set.model.planpro.PZB.PZB_Element;
 import org.eclipse.set.model.planpro.Schluesselabhaengigkeiten.Schloss;
-import org.eclipse.set.model.planpro.Signale.Signal;
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element;
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Komponente;
 import org.eclipse.set.model.planpro.Zugnummernmeldeanlage.ZN_ZBS;
@@ -219,6 +218,7 @@ public class StellBereichExtensions {
 	 *            the element
 	 * @return true, if the element belong to the area
 	 */
+	@SuppressWarnings("nls")
 	public static boolean isInControlArea(final Stell_Bereich area,
 			final Ur_Objekt object) {
 		if (object == null) {
@@ -239,8 +239,6 @@ public class StellBereichExtensions {
 					.isBelongToControlArea(zugeinwirkung, area);
 			case final PZB_Element pzb -> PZBElementExtensions
 					.isBelongToControlArea(pzb, area);
-			case final Signal signal -> SignalExtensions
-					.isBelongToControlArea(signal, area);
 			case final Technik_Standort standort -> TechnikStandortExtensions
 					.isBelongToControlArea(standort, area);
 			case final Bedien_Standort standort -> BedienStandortExtensions

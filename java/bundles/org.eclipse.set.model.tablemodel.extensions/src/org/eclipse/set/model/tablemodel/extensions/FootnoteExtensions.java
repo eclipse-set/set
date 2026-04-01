@@ -298,21 +298,26 @@ public class FootnoteExtensions {
 		}
 		final Signalbegriff_ID_TypeClass signalBegriffId = signalBegriff
 				.getSignalbegriffID();
-		final String prefix = getSignalBregiffIDName(signalBegriffId)
-				.replace("_", " ");//$NON-NLS-1$ //$NON-NLS-2$
+		final String prefix = getSignalBregiffIDName(signalBegriffId);
 		if (withSymbol && signalBegriffId.getSymbol() != null) {
 			return new Pair<>(prefix, signalBegriffId.getSymbol());
 		}
 		return new Pair<>(prefix, null);
 	}
 
-	private static String getSignalBregiffIDName(
+	/**
+	 * @param signalBegriffId
+	 *            the {@link Signalbegriff_ID_TypeClass}
+	 * @return the name of this signalbegriff
+	 */
+	public static String getSignalBregiffIDName(
 			final Signalbegriff_ID_TypeClass signalBegriffId) {
 		try {
 			return signalBegriffId.eClass()
 					.getEAnnotation(ExtendedMetaData.ANNOTATION_URI)
 					.getDetails()
-					.get("name"); //$NON-NLS-1$
+					.get("name") //$NON-NLS-1$
+					.replace("_", " "); //$NON-NLS-1$ //$NON-NLS-2$
 		} catch (final Exception e) {
 			return signalBegriffId.eClass().getName();
 		}

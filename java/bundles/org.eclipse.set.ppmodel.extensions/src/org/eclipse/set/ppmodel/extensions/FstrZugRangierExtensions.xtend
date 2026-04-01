@@ -462,7 +462,7 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 		}
 		// TODO: 2. Condition for target signal isn't clearly 
 		return startSignal !== null &&
-			startSignal.isBelongToControlArea(controlArea)
+			startSignal.isSsksSignalBelongToArea(controlArea)
 	}
 
 	def static Signal getStartSignal(Fstr_Zug_Rangier fstrZug) {
