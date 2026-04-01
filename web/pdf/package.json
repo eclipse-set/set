@@ -12,7 +12,7 @@
     "pdfjs-dist": "^4.10.38"
   },
   "devDependencies": {
-    "copy-webpack-plugin": "^13.0.1",
+    "copy-webpack-plugin": "^14.0.0",
     "dotenv": "^17.3.1",
     "node-stream-zip": "^1.15.0",
     "string-replace-loader": "^3.3.0",
