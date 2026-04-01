@@ -135,7 +135,7 @@ public class TableServiceUtils {
 			default -> throw new IllegalArgumentException();
 		};
 		return filterElementBelongToControlArea(errorsByCurrentTableState,
-				getObj, controlAreaIds, modelSession, null);
+				tableInfo, getObj, controlAreaIds, modelSession, null);
 	}
 
 	/**
@@ -262,8 +262,8 @@ public class TableServiceUtils {
 			return result;
 		}
 		if (tableType == TableType.DIFF) {
-			filterRowGroupBelongToControlAreaByDiffState(result, modelsession,
-					controlAreaIds);
+			filterRowGroupBelongToControlAreaByDiffState(result, tableInfo,
+					modelsession, controlAreaIds);
 			result.getTablecontent()
 					.getRowgroups()
 					.removeIf(group -> !UrObjectExtensions
@@ -288,21 +288,6 @@ public class TableServiceUtils {
 
 		});
 		return result;
-	}
-
-	private static boolean isLeadingObjecBelongToArea(
-			final Ur_Objekt leadingObj, final Stell_Bereich area,
-			final TableInfo tableInfo) {
-		// Specify handle for Signal tabelle
-		if (leadingObj instanceof final Signal signal) {
-			if (tableInfo.shortcut().equalsIgnoreCase("Ssks")) { //$NON-NLS-1$
-				return SignalExtensions.isSsksSignalBelongToArea(signal, area);
-			} else if (tableInfo.shortcut().equalsIgnoreCase("Sskx")) { //$NON-NLS-1$
-				return SignalExtensions.isSskxSignalBelongToArea(signal, area);
-			}
-		}
-
-		return StellBereichExtensions.isInControlArea(area, leadingObj);
 	}
 
 	private static Table filterTableByState(final Table table,
@@ -378,13 +363,14 @@ public class TableServiceUtils {
 	}
 
 	private static void filterRowGroupBelongToControlAreaByDiffState(
-			final Table result, final IModelSession modelsession,
+			final Table result, final TableInfo tableInfo,
+			final IModelSession modelsession,
 			final Set<String> controlAreaIds) {
 		if (controlAreaIds.isEmpty()) {
 			return;
 		}
 		final List<RowGroup> relevantRowGroup = filterElementBelongToControlArea(
-				result.getTablecontent().getRowgroups(),
+				result.getTablecontent().getRowgroups(), tableInfo,
 				rowGroup -> UrObjektEachContainer.createInstance(
 						rowGroup.getLeadingObject(), modelsession),
 				controlAreaIds, modelsession,
@@ -399,7 +385,7 @@ public class TableServiceUtils {
 	}
 
 	private static <T> List<T> filterElementBelongToControlArea(
-			final List<T> listElement,
+			final List<T> listElement, final TableInfo tableInfo,
 			final Function<T, UrObjektEachContainer> getUrObj,
 			final Set<String> controlAreas, final IModelSession modelSession,
 			final BiConsumer<T, TableType> handleByInitialOrFinalElementNotBelongToArea) {
@@ -411,7 +397,7 @@ public class TableServiceUtils {
 					.toList();
 			return listElement.stream().filter(ele -> {
 				final Ur_Objekt obj = getUrObj.apply(ele).singleObj();
-				return isElementBelongToAreas(obj, areas);
+				return isElementBelongToAreas(obj, tableInfo, areas);
 			}).toList();
 		}
 		final List<Stell_Bereich> inititalControlAreas = controlAreas.stream()
@@ -427,9 +413,10 @@ public class TableServiceUtils {
 		return listElement.stream().filter(ele -> {
 			final UrObjektEachContainer objEachContainer = getUrObj.apply(ele);
 			final boolean isInitialObjBelongToAreas = isElementBelongToAreas(
-					objEachContainer.initalObj(), inititalControlAreas);
+					objEachContainer.initalObj(), tableInfo,
+					inititalControlAreas);
 			final boolean isFinalObjBelongToAreas = isElementBelongToAreas(
-					objEachContainer.finalObj(), finalControlAreas);
+					objEachContainer.finalObj(), tableInfo, finalControlAreas);
 			if (isInitialObjBelongToAreas != isFinalObjBelongToAreas
 					&& handleByInitialOrFinalElementNotBelongToArea != null) {
 				handleByInitialOrFinalElementNotBelongToArea.accept(ele,
@@ -460,14 +447,15 @@ public class TableServiceUtils {
 	}
 
 	private static boolean isElementBelongToAreas(final Ur_Objekt element,
-			final List<Stell_Bereich> areas) {
+			final TableInfo tableInfo, final List<Stell_Bereich> areas) {
 		// Special case for block element: When this block element does not
 		// belong
 		// to area, but is relevant block element of another block element,
 		// which belongs to control area, then return true
 		// See: ppmtab - General condition and
 		// SslbTransformator#findRelevantBlockElements for more information
-		if (element instanceof final Block_Element blockElement) {
+		if (tableInfo.shortcut().equalsIgnoreCase("Sslb") //$NON-NLS-1$
+				&& element instanceof final Block_Element blockElement) {
 			if (isInControlArea(areas, blockElement)) {
 				return true;
 			}
@@ -489,9 +477,32 @@ public class TableServiceUtils {
 							: targetAnlage.get()
 									.getIDBlockElementA()
 									.getValue();
-			return isInControlArea(areas, anotherBlockElement);
+			return isLeadObjecctBelongToArea(anotherBlockElement, areas,
+					tableInfo);
 		}
-		return isInControlArea(areas, element);
+		return isLeadObjecctBelongToArea(element, areas, tableInfo);
+	}
+
+	private static boolean isLeadObjecctBelongToArea(final Ur_Objekt leadingObj,
+			final List<Stell_Bereich> areas, final TableInfo tableInfo) {
+		return areas.stream()
+				.anyMatch(area -> isLeadingObjecBelongToArea(leadingObj, area,
+						tableInfo));
+	}
+
+	private static boolean isLeadingObjecBelongToArea(
+			final Ur_Objekt leadingObj, final Stell_Bereich area,
+			final TableInfo tableInfo) {
+		// Specify handle for Signal tabelle
+		if (leadingObj instanceof final Signal signal) {
+			if (tableInfo.shortcut().equalsIgnoreCase("Ssks")) { //$NON-NLS-1$
+				return SignalExtensions.isSsksSignalBelongToArea(signal, area);
+			} else if (tableInfo.shortcut().equalsIgnoreCase("Sskx")) { //$NON-NLS-1$
+				return SignalExtensions.isSskxSignalBelongToArea(signal, area);
+			}
+		}
+
+		return StellBereichExtensions.isInControlArea(area, leadingObj);
 	}
 
 	private static BiConsumer<TableRow, TableType> handleTableRowNotBelongToArea() {

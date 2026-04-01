@@ -31,6 +31,7 @@ import org.eclipse.set.model.planpro.Ansteuerung_Element.Uebertragungsweg;
 import org.eclipse.set.model.planpro.Bahnuebergang.BUE_Anlage;
 import org.eclipse.set.model.planpro.Bahnuebergang.BUE_Kante;
 import org.eclipse.set.model.planpro.Basisobjekte.Bereich_Objekt;
+import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt;
 import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
 import org.eclipse.set.model.planpro.Bedienung.Bedien_Bezirk;
 import org.eclipse.set.model.planpro.Bedienung.Bedien_Einrichtung_Oertlich;
@@ -285,6 +286,8 @@ public class StellBereichExtensions {
 					.intersects(area, bueAnlage);
 			case final Schloss schloss -> SchlossExtensions
 					.isBelongToControlArea(area, schloss);
+			case final Punkt_Objekt po -> BereichObjektExtensions.contains(area,
+					po, 1);
 			default -> throw new IllegalArgumentException(
 					"Unsupported object " + object.toString());
 		};

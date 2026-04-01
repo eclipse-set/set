@@ -52,7 +52,6 @@ import static extension org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteEx
 import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalRahmenExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalbegriffExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.StellBereichExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspKomponenteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 import static extension org.eclipse.set.utils.math.BigIntegerExtensions.*
@@ -446,7 +445,7 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 			return false
 		}
 		val startSignal = fstrZugRangier?.IDFstrFahrweg?.value?.IDStart?.value
-		return controlArea.isInControlArea(startSignal)
+		return startSignal.isSsksSignalBelongToArea(controlArea)
 	}
 
 	private def static boolean isZugStrBelongToControlArea(
