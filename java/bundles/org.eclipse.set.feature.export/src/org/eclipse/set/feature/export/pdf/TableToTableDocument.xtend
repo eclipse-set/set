@@ -425,15 +425,18 @@ class TableToTableDocument {
 		val unchangedFootnotes = fc.unchangedFootnotes.footnotes.map [
 			getFootnoteInfo(fc, it)
 		]
-		
+
 		// When the Footnote aren't inline rendere, then keep the reference number in one line
 		if (!remarkTextInlnie) {
 			element.setAttribute("keep-inline", "true")
 			// Sort unchanged & new footnotes together, then the old foonotes
 			#[unchangedFootnotes, newFootnotes].flatten.distinctBy[toShorthand].
 				sortBy[index].forEach [
-					val remark = oldFootnotes.
-							contains(it) ? WARNING_MARK_BLACK : WARNING_MARK_RED
+					val remark = unchangedFootnotes.exists [ unchanged |
+							unchanged.bearbeitungsvermerk ===
+								bearbeitungsvermerk &&
+								toShorthand == toShorthand
+						] ? WARNING_MARK_BLACK : WARNING_MARK_RED
 					element.addFootnoteChild(toShorthand, remark, columnNumber,
 						isRemarkColumn)
 				]
