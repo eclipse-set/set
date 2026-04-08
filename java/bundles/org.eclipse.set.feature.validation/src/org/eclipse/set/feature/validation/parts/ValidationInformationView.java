@@ -13,6 +13,7 @@ package org.eclipse.set.feature.validation.parts;
 import org.eclipse.set.model.validationreport.ValidationReport;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.ExpandBar;
 import org.eclipse.swt.widgets.ExpandItem;
@@ -34,12 +35,16 @@ public class ValidationInformationView {
 	}
 
 	private void createView() {
-		final ExpandBar expandBar = new ExpandBar(parent, SWT.None);
+		final ExpandBar expandBar = new ExpandBar(parent, SWT.NONE);
 		expandBar.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 	}
 
 	private void createModelInformation(final ExpandBar expandBar) {
-		final ExpandItem expandItem = new ExpandItem(expandBar, SWT.None);
+		final Composite composite = new Composite(expandBar, SWT.NONE);
+		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		final GridLayout gridLayout = new GridLayout(2, true);
+		composite.setLayout(gridLayout);
+		final ExpandItem expandItem = new ExpandItem(expandBar, SWT.NONE);
 		expandItem.setText(MODEL_INFOMATIONEN);
 
 	}
