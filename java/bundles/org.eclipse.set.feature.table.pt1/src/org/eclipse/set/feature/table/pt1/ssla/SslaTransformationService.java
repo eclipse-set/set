@@ -83,7 +83,8 @@ public final class SslaTransformationService
 	public TableNameInfo getTableNameInfo() {
 		return new TableNameInfo(messages.ToolboxTableNameSslaLong,
 				messages.ToolboxTableNameSslaPlanningNumber,
-				messages.ToolboxTableNameSslaShort);
+				messages.ToolboxTableNameSslaShort,
+				messages.ToolboxTableNameSslaRil);
 	}
 
 	@Override

@@ -65,7 +65,8 @@ public final class SszsTransformationService
 	public TableNameInfo getTableNameInfo() {
 		return new TableNameInfo(messages.ToolboxTableNameSszsLong,
 				messages.ToolboxTableNameSszsPlanningNumber,
-				messages.ToolboxTableNameSszsShort);
+				messages.ToolboxTableNameSszsShort,
+				messages.ToolboxTableNameSszsRil);
 	}
 
 	@Override

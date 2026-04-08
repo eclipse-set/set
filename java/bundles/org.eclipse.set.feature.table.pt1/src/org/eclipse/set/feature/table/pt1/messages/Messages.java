@@ -59,6 +59,11 @@ public class Messages extends AbstractMessageService {
 	public String ToolboxTableNameSsbbShort;
 
 	/**
+	 * 819.0102A27
+	 */
+	public String ToolboxTableNameSsbbRil;
+
+	/**
 	 * Ssit (Bedieneinrichtungstabelle Stw)
 	 */
 	public String SsitDescriptionService_ViewName;
@@ -77,6 +82,11 @@ public class Messages extends AbstractMessageService {
 	 * 10/46
 	 */
 	public String ToolboxTableNameSsitPlanningNumber;
+
+	/**
+	 * 819.0102A26
+	 */
+	public String ToolboxTableNameSsitRil;
 
 	/**
 	 * Bedieneinrichtungstabelle Stw
@@ -119,6 +129,11 @@ public class Messages extends AbstractMessageService {
 	public String SskaTableView_Heading;
 
 	/**
+	 * 819.0102A24
+	 */
+	public String ToolboxTableNameSskaRil;
+
+	/**
 	 * Sskf (Freimeldetabelle)
 	 */
 	public String SskfDescriptionService_ViewName;
@@ -147,6 +162,11 @@ public class Messages extends AbstractMessageService {
 	 * Freimeldetabelle (Sskf)
 	 */
 	public String SskfTableView_Heading;
+
+	/**
+	 * 819.0102A12
+	 */
+	public String ToolboxTableNameSskfRil;
 
 	/**
 	 * Sskg (Gleisschaltmitteltabelle)
@@ -179,7 +199,13 @@ public class Messages extends AbstractMessageService {
 	public String SskgTableView_Heading;
 
 	/**
+	 * 819.0102A13
+	 */
+	public String ToolboxTableNameSskgRil;
+
+	/**
 	 * Ssko (Schlosstabelle)
+	 * 
 	 */
 	public String SskoDescriptionService_ViewName;
 
@@ -207,6 +233,11 @@ public class Messages extends AbstractMessageService {
 	 * Schlosstabelle (Ssko)
 	 */
 	public String SskoTableView_Heading;
+
+	/**
+	 * 819.0102A28
+	 */
+	public String ToolboxTableNameSskoRil;
 
 	/**
 	 * Sskp – PZB-Tabelle
@@ -239,6 +270,11 @@ public class Messages extends AbstractMessageService {
 	public String SskpTableView_Heading;
 
 	/**
+	 * 819.0102A30
+	 */
+	public String ToolboxTableNameSskpRil;
+
+	/**
 	 * Ssks (Signaltabelle)
 	 */
 	public String SsksDescriptionService_ViewName;
@@ -267,6 +303,11 @@ public class Messages extends AbstractMessageService {
 	 * Signaltabelle (Ssks)
 	 */
 	public String SsksTableView_Heading;
+
+	/**
+	 * 819.0102A11
+	 */
+	public String ToolboxTableNameSsksRil;
 
 	/**
 	 * Sskt (Tabelle der Technik- und Bedienstandorte)
@@ -299,6 +340,11 @@ public class Messages extends AbstractMessageService {
 	public String SsktTableView_Heading;
 
 	/**
+	 * 819.0102A29
+	 */
+	public String ToolboxTableNameSsktRil;
+
+	/**
 	 * Sskw (Weichentabelle)
 	 */
 	public String SskwDescriptionService_ViewName;
@@ -329,6 +375,11 @@ public class Messages extends AbstractMessageService {
 	public String SskwTableView_Heading;
 
 	/**
+	 * 819.0102A20
+	 */
+	public String ToolboxTableNameSskwRil;
+
+	/**
 	 * Ssla (Tabelle der aneinandergereihten Fahrstraßen)
 	 */
 	public String SslaDescriptionService_ViewName;
@@ -357,6 +408,11 @@ public class Messages extends AbstractMessageService {
 	 * Aneinandergereihte Fahrstraßentabelle (Ssla)
 	 */
 	public String SslaTableView_Heading;
+
+	/**
+	 * 819.0102A16
+	 */
+	public String ToolboxTableNameSslaRil;
 
 	/**
 	 * Sslb (Streckenblocktabelle)
@@ -394,6 +450,11 @@ public class Messages extends AbstractMessageService {
 	public String SsldDescriptionService_ViewName;
 
 	/**
+	 * 819.0102A22
+	 */
+	public String ToolboxTableNameSslbRil;
+
+	/**
 	 * Durchrutschweg- und Gefahrpunkttabelle
 	 */
 	public String SsldDescriptionService_ViewTooltip;
@@ -417,6 +478,11 @@ public class Messages extends AbstractMessageService {
 	 * Durchrutschwegtabelle (Ssld)
 	 */
 	public String SsldTableView_Heading;
+
+	/**
+	 * 819.0102A14
+	 */
+	public String ToolboxTableNameSsldRil;
 
 	/**
 	 * Sslf (Flankenschutztabelle)
@@ -449,6 +515,11 @@ public class Messages extends AbstractMessageService {
 	public String SslfTableView_Heading;
 
 	/**
+	 * 819.0102A19
+	 */
+	public String ToolboxTableNameSslfRil;
+
+	/**
 	 * Ssli (Inselgleistabelle)
 	 */
 	public String SsliDescriptionService_ViewName;
@@ -477,6 +548,11 @@ public class Messages extends AbstractMessageService {
 	 * Inselgleistabelle (Ssli)
 	 */
 	public String Ssli_Heading;
+
+	/**
+	 * 819.0102A18
+	 */
+	public String ToolboxTableNameSsliRil;
 
 	/**
 	 * Ssln (Nahbedienungstabelle)
@@ -509,6 +585,11 @@ public class Messages extends AbstractMessageService {
 	public String SslnTableView_Heading;
 
 	/**
+	 * 819.0102A25
+	 */
+	public String ToolboxTableNameSslnRil;
+
+	/**
 	 * Sslr (Rangierstraßentabelle)
 	 */
 	public String SslrDescriptionService_ViewName;
@@ -537,6 +618,11 @@ public class Messages extends AbstractMessageService {
 	 * Rangierstraßentabelle (Sslr)
 	 */
 	public String Sslr_Heading;
+
+	/**
+	 * 819.0102A17
+	 */
+	public String ToolboxTableNameSslrRil;
 
 	/**
 	 * Sslw (Zwieschutzweichentabelle)
@@ -569,6 +655,11 @@ public class Messages extends AbstractMessageService {
 	public String SslwTableView_Heading;
 
 	/**
+	 * 819.0102A21
+	 */
+	public String ToolboxTableNameSslwRil;
+
+	/**
 	 * Sslz (Zugstraßentabelle)
 	 */
 	public String SslzDescriptionService_ViewName;
@@ -597,6 +688,11 @@ public class Messages extends AbstractMessageService {
 	 * Zugstraßentabelle (Sslz)
 	 */
 	public String SslzTableView_Heading;
+
+	/**
+	 * 819.0102A15
+	 */
+	public String ToolboxTableNameSslzRil;
 
 	/**
 	 * Ssvu (Übertragungswegtabelle)
@@ -629,6 +725,11 @@ public class Messages extends AbstractMessageService {
 	public String SsvuTableView_Heading;
 
 	/**
+	 * 819.0102A23
+	 */
+	public String ToolboxTableNameSsvuRil;
+
+	/**
 	 * Ssza (Datenpunkttabelle)
 	 */
 	public String SszaDescriptionService_ViewName;
@@ -657,6 +758,11 @@ public class Messages extends AbstractMessageService {
 	 * Datenpunkttabelle - Ssza
 	 */
 	public String SszaTableView_Heading;
+
+	/**
+	 * 
+	 */
+	public String ToolboxTableNameSszaRil;
 
 	/**
 	 * ETCS Melde- und Kommandoanschaltung Signale
@@ -689,6 +795,11 @@ public class Messages extends AbstractMessageService {
 	public String SszsDescriptionService_ViewTooltip;
 
 	/**
+	 * 
+	 */
+	public String ToolboxTableNameSszsRil;
+
+	/**
 	 * Sszw – ETCS Melde- und Kommandoanschaltung Weichen
 	 */
 	public String SszwDescriptionService_ViewName;
@@ -719,6 +830,11 @@ public class Messages extends AbstractMessageService {
 	public String SszwTableView_Heading;
 
 	/**
+	 * 
+	 */
+	public String ToolboxTableNameSszwRil;
+
+	/**
 	 * Sskz – Zuordnungstabelle FEAK/FEAS
 	 */
 	public String SskzDescriptionService_ViewName;
@@ -742,6 +858,11 @@ public class Messages extends AbstractMessageService {
 	 * ???
 	 */
 	public String ToolboxTableNameSskzPlanningNumber;
+
+	/**
+	 * 
+	 */
+	public String ToolboxTableNameSskzRil;
 
 	/**
 	 * Zuordnungstabelle FEAK/FEAS – Sskz
@@ -794,6 +915,11 @@ public class Messages extends AbstractMessageService {
 	public String ToolboxTableNameSslsPlanningNumber;
 
 	/**
+	 * 
+	 */
+	public String ToolboxTableNameSslsRil;
+
+	/**
 	 * Sxxx
 	 */
 	public String ToolboxTableNameSxxxShort;
@@ -822,6 +948,11 @@ public class Messages extends AbstractMessageService {
 	 * Tabelle der Bearbeitungsvermerke
 	 */
 	public String SxxxDescriptionService_ViewTooltip;
+
+	/**
+	 * 
+	 */
+	public String ToolboxTableNameSxxxRil;
 
 	/**
 	 * Tabelle der Tafeln – Sskx

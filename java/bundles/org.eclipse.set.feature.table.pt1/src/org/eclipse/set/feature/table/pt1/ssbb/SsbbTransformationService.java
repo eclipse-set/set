@@ -59,7 +59,8 @@ public class SsbbTransformationService
 	public TableNameInfo getTableNameInfo() {
 		return new TableNameInfo(messages.ToolboxTableNameSsbbLong,
 				messages.ToolboxTableNameSsbbPlanningNumber,
-				messages.ToolboxTableNameSsbbShort);
+				messages.ToolboxTableNameSsbbShort,
+				messages.ToolboxTableNameSsbbRil);
 	}
 
 	@Override

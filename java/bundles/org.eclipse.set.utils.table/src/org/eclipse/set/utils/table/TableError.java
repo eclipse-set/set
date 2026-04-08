@@ -12,7 +12,6 @@ import org.eclipse.set.basis.constants.ContainerType;
 import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
 import org.eclipse.set.model.planpro.Basisobjekte.impl.Ur_ObjektImpl;
 import org.eclipse.set.model.tablemodel.TableRow;
-import org.eclipse.set.model.tablemodel.extensions.TableRowExtensions;
 import org.eclipse.set.ppmodel.extensions.EObjectExtensions;
 
 /**
@@ -100,13 +99,6 @@ public class TableError extends Ur_ObjektImpl {
 	 */
 	public String getMessage() {
 		return message;
-	}
-
-	/**
-	 * @return the row number where the error occurred
-	 */
-	public String getRowNumber() {
-		return String.valueOf(TableRowExtensions.getTrueRowIndex(row) + 1);
 	}
 
 	/**

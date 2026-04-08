@@ -69,7 +69,8 @@ public final class SslzTransformationService
 	public TableNameInfo getTableNameInfo() {
 		return new TableNameInfo(messages.ToolboxTableNameSslzLong,
 				messages.ToolboxTableNameSslzPlanningNumber,
-				messages.ToolboxTableNameSslzShort);
+				messages.ToolboxTableNameSslzShort,
+				messages.ToolboxTableNameSslzRil);
 	}
 
 	@Override
