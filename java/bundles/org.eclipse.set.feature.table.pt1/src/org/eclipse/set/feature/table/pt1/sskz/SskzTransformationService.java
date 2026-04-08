@@ -71,7 +71,8 @@ public class SskzTransformationService extends
 	public TableNameInfo getTableNameInfo() {
 		return new TableNameInfo(messages.ToolboxTableNameSskzLong,
 				messages.ToolboxTableNameSskzPlanningNumber,
-				messages.ToolboxTableNameSskzShort);
+				messages.ToolboxTableNameSskzShort,
+				messages.ToolboxTableNameSskzRil);
 	}
 
 	@Override

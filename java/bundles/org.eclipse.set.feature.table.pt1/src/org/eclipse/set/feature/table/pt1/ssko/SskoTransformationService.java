@@ -60,7 +60,8 @@ public final class SskoTransformationService
 	public TableNameInfo getTableNameInfo() {
 		return new TableNameInfo(messages.ToolboxTableNameSskoLong,
 				messages.ToolboxTableNameSskoPlanningNumber,
-				messages.ToolboxTableNameSskoShort);
+				messages.ToolboxTableNameSskoShort,
+				messages.ToolboxTableNameSskoRil);
 	}
 
 	@Override

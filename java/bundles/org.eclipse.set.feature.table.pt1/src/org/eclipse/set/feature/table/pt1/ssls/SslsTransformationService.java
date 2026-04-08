@@ -65,7 +65,8 @@ public class SslsTransformationService
 	public TableNameInfo getTableNameInfo() {
 		return new TableNameInfo(messages.ToolboxTableNameSslsLong,
 				messages.ToolboxTableNameSslsPlanningNumber,
-				messages.ToolboxTableNameSslsShort);
+				messages.ToolboxTableNameSslsShort,
+				messages.ToolboxTableNameSslsRil);
 	}
 
 	@Override

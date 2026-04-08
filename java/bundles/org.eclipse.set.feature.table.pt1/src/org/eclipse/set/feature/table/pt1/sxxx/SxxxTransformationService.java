@@ -70,7 +70,8 @@ public class SxxxTransformationService
 	public TableNameInfo getTableNameInfo() {
 		return new TableNameInfo(messages.ToolboxTableNameSxxxLong,
 				messages.ToolboxTableNameSxxxPlanningNumber,
-				messages.ToolboxTableNameSxxxShort);
+				messages.ToolboxTableNameSxxxShort,
+				messages.ToolboxTableNameSxxxRil);
 	}
 
 	@Override

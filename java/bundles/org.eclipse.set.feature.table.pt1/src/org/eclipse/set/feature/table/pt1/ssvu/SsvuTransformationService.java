@@ -71,7 +71,8 @@ public final class SsvuTransformationService
 	public TableNameInfo getTableNameInfo() {
 		return new TableNameInfo(messages.ToolboxTableNameSsvuLong,
 				messages.ToolboxTableNameSsvuPlanningNumber,
-				messages.ToolboxTableNameSsvuShort);
+				messages.ToolboxTableNameSsvuShort,
+				messages.ToolboxTableNameSsvuRil);
 	}
 
 	@Override

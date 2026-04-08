@@ -71,7 +71,8 @@ public final class SskfTransformationService
 	public TableNameInfo getTableNameInfo() {
 		return new TableNameInfo(messages.ToolboxTableNameSskfLong,
 				messages.ToolboxTableNameSskfPlanningNumber,
-				messages.ToolboxTableNameSskfShort);
+				messages.ToolboxTableNameSskfShort,
+				messages.ToolboxTableNameSskfRil);
 	}
 
 	@Override
