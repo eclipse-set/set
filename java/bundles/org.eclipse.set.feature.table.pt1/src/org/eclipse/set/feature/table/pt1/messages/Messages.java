@@ -984,4 +984,9 @@ public class Messages extends AbstractMessageService {
 	 */
 	public String SskxDescriptionService_ViewName;
 
+	/**
+	 * 
+	 */
+	public String ToolboxTableNameSskxRil;
+
 }
