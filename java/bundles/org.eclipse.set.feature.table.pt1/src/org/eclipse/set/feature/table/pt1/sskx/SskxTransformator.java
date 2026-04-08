@@ -251,14 +251,6 @@ public class SskxTransformator extends AbstractSignalTableTransform {
 
 	private List<String> transformSignalbegriffeBezeichnung(
 			final Signal signal) {
-		if (signal.getIdentitaet()
-				.getWert()
-				.equals("0814189A-A1B8-4EC0-B7A8-6B1F76A4F781")) {
-			System.out.println(signal.getSignalReal()
-					.getGeltungsbereich()
-					.getFirst()
-					.getWert());
-		}
 		final List<ENUMGeltungsbereich> geltungsbereich = signal.getSignalReal()
 				.getGeltungsbereich()
 				.stream()
