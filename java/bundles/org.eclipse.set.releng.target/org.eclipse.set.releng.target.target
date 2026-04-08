@@ -403,7 +403,7 @@ DynamicImport-Package: *
 			<repositories>
 				<repository>
 					<id>set-github-model</id>
-					<url>https://maven.pkg.github.com/eclipse-set/model</url>
+					<url>https://maven.pkg.github.com/truongquangsb/model</url>
 				</repository>
 			</repositories>
 		</location>
