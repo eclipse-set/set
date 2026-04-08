@@ -45,6 +45,11 @@ public interface PlanProVersionService {
 			return String.format("%s.%s.%s", major, patch, minor); //$NON-NLS-1$
 		}
 
+		/**
+		 * @param another
+		 *            the another version format
+		 * @return true, if same
+		 */
 		public int compare(final PlanProVersionFormat another) {
 			if (!major.equals(another.major)) {
 				return major.compareToIgnoreCase(another.major);
@@ -65,7 +70,7 @@ public interface PlanProVersionService {
 	/**
 	 * @return the supported PlanPro version
 	 */
-	public VersionInfo createSupportedVersion();
+	public VersionInfo getSupportedVersions();
 
 	/**
 	 * @return the supported PlanPro version format
@@ -81,7 +86,15 @@ public interface PlanProVersionService {
 	public VersionInfo createUsedVersion(Path location);
 
 	/**
-	 * @return the current PlanPro version
+	 * @return the version info with actual PlanPro and Signalbegriff_Ril301
+	 *         version
 	 */
-	public String getCurrentVersion();
+	public VersionInfo getCurrentVersion();
+
+	/**
+	 * @param uri
+	 *            the used version in loaded file
+	 * @return true, if this version was supported
+	 */
+	public boolean isSupportedVersion(String uri);
 }

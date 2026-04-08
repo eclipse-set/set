@@ -58,8 +58,8 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute validationreport.ecore#//ValidationProblem/generalMsg"/>
     </genClasses>
     <genClasses ecoreClass="validationreport.ecore#//VersionInfo">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute validationreport.ecore#//VersionInfo/planPro"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute validationreport.ecore#//VersionInfo/signals"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute validationreport.ecore#//VersionInfo/planProVersions"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute validationreport.ecore#//VersionInfo/signalbegriffeVersions"/>
     </genClasses>
     <genClasses ecoreClass="validationreport.ecore#//FileInfo">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute validationreport.ecore#//FileInfo/fileName"/>

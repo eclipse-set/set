@@ -36,8 +36,9 @@ public class MockPlanProVersionService {
 			throws Throwable {
 		final PlanProVersionService mockVersionService = Mockito
 				.mock(PlanProVersionService.class);
-		Mockito.when(mockVersionService.getCurrentVersion())
-				.thenReturn(currentVersion.getFullVersion());
+		Mockito.when(mockVersionService.getCurrentVersion()
+				.getPlanProVersions()
+				.getFirst()).thenReturn(currentVersion.getFullVersion());
 		Mockito.when(mockVersionService.getSupportedVersionFormat())
 				.thenReturn(currentVersion);
 		try (MockedStatic<Services> mockStatic = Mockito

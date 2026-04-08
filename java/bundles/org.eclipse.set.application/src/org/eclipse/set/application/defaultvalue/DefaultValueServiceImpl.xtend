@@ -8,17 +8,17 @@
  */
 package org.eclipse.set.application.defaultvalue
 
-import org.eclipse.set.model.planpro.PlanPro.ENUMUntergewerkArt
-import org.eclipse.set.model.planpro.PlanPro.PlanProFactory
-import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle
 import jakarta.inject.Inject
 import org.eclipse.core.runtime.Assert
 import org.eclipse.set.core.services.defaultvalue.DefaultValueService
 import org.eclipse.set.core.services.version.PlanProVersionService
+import org.eclipse.set.model.planpro.PlanPro.ENUMUntergewerkArt
+import org.eclipse.set.model.planpro.PlanPro.PlanProFactory
+import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle
 
 import static extension org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.PlanungProjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PlanungEinzelExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.PlanungProjektExtensions.*
 
 /**
  * Implementation of {@link DefaultValueService}.
@@ -94,8 +94,8 @@ class DefaultValueServiceImpl implements DefaultValueService {
 		}
 
 		if (planungGAllg.planProXSDVersion.wert === null) {
-			val versionInfo = versionService.createSupportedVersion()
-			planungGAllg.planProXSDVersion.wert = versionInfo.planPro
+			val versionInfo = versionService.getCurrentVersion()
+			planungGAllg.planProXSDVersion.wert = versionInfo.planProVersions.head
 		}
 
 		if (planungGAllg.untergewerkArt === null) {

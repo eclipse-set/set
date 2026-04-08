@@ -43,8 +43,6 @@ public class PlanProVersionServiceImpl implements PlanProVersionService {
 
 	private static final String VERSION_FORMAT = "(?<major>[1-9]+\\.[0-9]+)\\.(?<patch>[0-9]+)(\\.(?<minor>[0-9]))*"; //$NON-NLS-1$
 
-	private static final String VERSION_SEPARATOR = ", "; //$NON-NLS-1$
-
 	@Activate
 	private void active() {
 		Services.setPlanProVersionService(this);
@@ -91,20 +89,21 @@ public class PlanProVersionServiceImpl implements PlanProVersionService {
 	}
 
 	@Override
-	public VersionInfo createSupportedVersion() {
+	public VersionInfo getSupportedVersions() {
 		final VersionInfo versionInfo = ValidationreportFactory.eINSTANCE
 				.createVersionInfo();
-		final String modelVersionsSupported = getSupportedVersions(
+		final List<String> modelVersionsSupported = getSupportedVersions(
 				PlanProPackage.eNAME);
 
-		versionInfo.setPlanPro(modelVersionsSupported);
-		final String signalbegriffSupportedVersion = getSupportedVersions(
+		versionInfo.getPlanProVersions().addAll(modelVersionsSupported);
+		final List<String> signalbegriffSupportedVersion = getSupportedVersions(
 				Signalbegriffe_Ril_301Package.eNAME);
-		versionInfo.setSignals(signalbegriffSupportedVersion);
+		versionInfo.getSignalbegriffeVersions()
+				.addAll(signalbegriffSupportedVersion);
 		return versionInfo;
 	}
 
-	private static String getSupportedVersions(final String packageName) {
+	private static List<String> getSupportedVersions(final String packageName) {
 		return PlanProSchemaDir.getSchemaPaths()
 				.stream()
 				.filter(p -> p.getFileName()
@@ -122,7 +121,7 @@ public class PlanProVersionServiceImpl implements PlanProVersionService {
 							second);
 					return firstVersion.compare(secondVersion);
 				})
-				.collect(Collectors.joining(VERSION_SEPARATOR));
+				.toList();
 	}
 
 	@Override
@@ -134,8 +133,10 @@ public class PlanProVersionServiceImpl implements PlanProVersionService {
 
 		final String planProVersion = parseVersion(text, PLAN_PRO_KEY);
 
-		versionInfo.setPlanPro(planProVersion != null ? planProVersion : ""); //$NON-NLS-1$
-		versionInfo.setSignals(parseVersion(text, SIGNALS_KEY));
+		versionInfo.getPlanProVersions()
+				.add(planProVersion != null ? planProVersion : ""); //$NON-NLS-1$
+		versionInfo.getSignalbegriffeVersions()
+				.add(parseVersion(text, SIGNALS_KEY));
 
 		return versionInfo;
 	}
@@ -146,7 +147,31 @@ public class PlanProVersionServiceImpl implements PlanProVersionService {
 	}
 
 	@Override
-	public String getCurrentVersion() {
-		return PlanProPackageExtensions.getModelVersion();
+	public VersionInfo getCurrentVersion() {
+		final VersionInfo versionInfo = ValidationreportFactory.eINSTANCE
+				.createVersionInfo();
+		final String planProVersion = parseVersion(PlanProPackage.eNS_URI,
+				PLAN_PRO_KEY);
+		versionInfo.getPlanProVersions().add(planProVersion);
+
+		final String signalBegriffeVersion = parseVersion(
+				Signalbegriffe_Ril_301Package.eNS_URI, SIGNALS_KEY);
+		versionInfo.getSignalbegriffeVersions().add(signalBegriffeVersion);
+		return versionInfo;
+	}
+
+	@Override
+	public boolean isSupportedVersion(final String uri) {
+		final VersionInfo supportedVersions = getSupportedVersions();
+		if (uri.startsWith(PLAN_PRO_KEY)) {
+			return supportedVersions.getPlanProVersions()
+					.contains(parseVersion(uri, PLAN_PRO_KEY));
+		}
+
+		if (uri.startsWith(SIGNALS_KEY)) {
+			return supportedVersions.getPlanProVersions()
+					.contains(parseVersion(uri, SIGNALS_KEY));
+		}
+		return false;
 	}
 }
