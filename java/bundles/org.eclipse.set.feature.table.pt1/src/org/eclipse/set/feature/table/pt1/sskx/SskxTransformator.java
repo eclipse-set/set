@@ -27,7 +27,13 @@ import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt;
 import org.eclipse.set.model.planpro.Geodaten.Technischer_Punkt;
 import org.eclipse.set.model.planpro.Gleis.Gleis_Bezeichnung;
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Ne14;
+import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Ne31str;
+import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Ne32str;
+import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Ne33str;
+import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Ne34str;
+import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Ne35str;
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.OzBk;
+import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Ra12;
 import org.eclipse.set.model.planpro.Signalbegriffe_Struktur.Signalbegriff_ID_TypeClass;
 import org.eclipse.set.model.planpro.Signale.ENUMBeleuchtet;
 import org.eclipse.set.model.planpro.Signale.ENUMGeltungsbereich;
@@ -56,6 +62,9 @@ import com.google.common.collect.Streams;
 public class SskxTransformator extends AbstractSignalTableTransform {
 
 	private static final String SIGNAL_BEGRIFFE_BEZEICHNUNG_SEPERATOR = ", "; //$NON-NLS-1$
+	private static final List<Class<? extends Signalbegriff_ID_TypeClass>> SPEICAL_BEZEICHNUNG_HANDLE_BEGRIFFE = List
+			.of(Ne31str.class, Ne32str.class, Ne33str.class, Ne34str.class,
+					Ne35str.class);
 
 	/**
 	 * Constructor
@@ -96,7 +105,8 @@ public class SskxTransformator extends AbstractSignalTableTransform {
 			return signalbegriffe.stream()
 					.map(Signal_Signalbegriff::getSignalbegriffID)
 					.noneMatch(begriff -> begriff instanceof Ne14
-							|| begriff instanceof OzBk);
+							|| begriff instanceof OzBk
+							|| begriff instanceof Ra12);
 		};
 	}
 
@@ -241,6 +251,14 @@ public class SskxTransformator extends AbstractSignalTableTransform {
 
 	private List<String> transformSignalbegriffeBezeichnung(
 			final Signal signal) {
+		if (signal.getIdentitaet()
+				.getWert()
+				.equals("0814189A-A1B8-4EC0-B7A8-6B1F76A4F781")) {
+			System.out.println(signal.getSignalReal()
+					.getGeltungsbereich()
+					.getFirst()
+					.getWert());
+		}
 		final List<ENUMGeltungsbereich> geltungsbereich = signal.getSignalReal()
 				.getGeltungsbereich()
 				.stream()
@@ -278,7 +296,7 @@ public class SskxTransformator extends AbstractSignalTableTransform {
 		if (geltung == ENUMGeltungsbereich.ENUM_GELTUNGSBEREICH_DV
 				|| geltung == null) {
 			selectBezeichnungFuncs
-					.add(Signalbegriff_ID_TypeClass::getKurzbezeichnungDS);
+					.add(Signalbegriff_ID_TypeClass::getKurzbezeichnungDV);
 		}
 
 		selectBezeichnungFuncs
@@ -294,6 +312,11 @@ public class SskxTransformator extends AbstractSignalTableTransform {
 				.stream()
 				.map(Signal_Signalbegriff::getSignalbegriffID)
 				.map(signalBegriffe -> {
+					if (SPEICAL_BEZEICHNUNG_HANDLE_BEGRIFFE.stream()
+							.anyMatch(c -> c.isInstance(signalBegriffe))) {
+						return FootnoteExtensions
+								.getSignalBregiffIDName(signalBegriffe);
+					}
 					for (final Function<Signalbegriff_ID_TypeClass, String> function : selectBezeichnungFunc) {
 						final String bezeichnung = function
 								.apply(signalBegriffe);
