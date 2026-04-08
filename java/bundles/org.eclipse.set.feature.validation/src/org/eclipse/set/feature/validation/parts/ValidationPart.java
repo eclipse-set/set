@@ -37,9 +37,9 @@ import org.eclipse.set.feature.validation.table.ValidationTableView;
 import org.eclipse.set.model.planpro.PlanPro.Container_AttributeGroup;
 import org.eclipse.set.model.validationreport.ValidationReport;
 import org.eclipse.set.model.validationreport.ValidationSeverity;
+import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.SaveAndRefreshAction;
 import org.eclipse.set.utils.SelectableAction;
-import org.eclipse.set.utils.emfforms.AbstractEmfFormsPart;
 import org.eclipse.set.utils.events.ContainerDataChanged;
 import org.eclipse.set.utils.events.ProjectDataChanged;
 import org.eclipse.set.utils.table.menu.TableMenuService;
@@ -65,7 +65,7 @@ import jakarta.inject.Inject;
  * 
  * @author Bleidiessel / Schaefer
  */
-public class ValidationPart extends AbstractEmfFormsPart {
+public class ValidationPart extends BasePart {
 
 	private static final int BUTTON_WIDTH_EXPORT_VALIDATION = 30;
 
@@ -113,9 +113,9 @@ public class ValidationPart extends AbstractEmfFormsPart {
 
 	@PostConstruct
 	void postConstruct() {
-		getBroker().subscribe(Events.CLOSE_SESSION, event -> {
-			modelService.put(INJECT_VIEW_VALIDATION_NATTABLE, null);
-		});
+		// getBroker().subscribe(Events.CLOSE_SESSION, event -> {
+		// modelService.put(INJECT_VIEW_VALIDATION_NATTABLE, null);
+		// });
 	}
 
 	/**
@@ -127,7 +127,7 @@ public class ValidationPart extends AbstractEmfFormsPart {
 	}
 
 	@Override
-	protected void createFormsView(final Composite parent) {
+	protected void createView(final Composite parent) {
 		final Shell shell = getToolboxShell();
 		final MPart part = getToolboxPart();
 		final DialogService dialogService = getDialogService();
@@ -151,70 +151,13 @@ public class ValidationPart extends AbstractEmfFormsPart {
 			validationReport = transformation.transform(getModelSession());
 
 			storageReport();
-
+			final ValidationInformationView validationInformationView = new ValidationInformationView(
+					parent, validationReport, messages);
 			// Register nattable injector
 			tableView = new ValidationTableView(this, messages,
 					tableMenuService);
-			final Function<Composite, Control> func = innerParent -> {
-
-				final Composite composite = new Composite(innerParent,
-						SWT.NONE);
-
-				GridLayoutFactory.swtDefaults()
-						.numColumns(3)
-						.applyTo(composite);
-				GridDataFactory.swtDefaults()
-						.align(SWT.FILL, SWT.FILL)
-						.grab(true, false)
-						.applyTo(composite);
-
-				final Control natTable = tableView.create(innerParent,
-						validationReport);
-				// create the open view button
-				final Button showTableButton = new Button(composite, SWT.PUSH);
-				GridDataFactory.swtDefaults()
-						.align(SWT.LEFT, SWT.FILL)
-						.grab(false, false)
-						.applyTo(showTableButton);
-
-				showTableButton.setText(messages.ShowValidationTableMsg);
-				showTableButton.addListener(SWT.Selection,
-						event -> showValidationTable());
-				showTableButton.setSize(BUTTON_WIDTH_EXPORT_VALIDATION, 0);
-
-				// create the toggle collapsed button
-				final Button collapseAllButton = tableView
-						.createExpandCollapseAllButton(composite,
-								messages.ValidationTable_ExpandAllGroup,
-								messages.ValidationTable_CollapseAllGroup);
-
-				exportValidationButton = new Button(composite, SWT.PUSH);
-				GridDataFactory.swtDefaults()
-						.align(SWT.RIGHT, SWT.FILL)
-						.grab(true, false)
-						.applyTo(exportValidationButton);
-				exportValidationButton.setText(messages.ExportValidationMsg);
-				exportValidationButton.addListener(SWT.Selection,
-						event -> tableView.exportCsv());
-				exportValidationButton.setSize(BUTTON_WIDTH_EXPORT_VALIDATION,
-						0);
-
-				// Setup layout
-				showTableButton.setLayoutData(
-						new GridData(SWT.LEFT, SWT.TOP, false, true));
-				collapseAllButton.setLayoutData(
-						new GridData(SWT.LEFT, SWT.TOP, false, true));
-				exportValidationButton.setLayoutData(
-						new GridData(SWT.RIGHT, SWT.TOP, true, true));
-
-				GridDataFactory.swtDefaults()
-						.align(SWT.FILL, SWT.FILL)
-						.grab(true, true)
-						.hint(SWT.DEFAULT, 600)
-						.applyTo(natTable);
-				return natTable;
-			};
-			modelService.put(INJECT_VIEW_VALIDATION_NATTABLE, func);
+			final Function<Composite, Control> func = createInjectedTable();
+			// modelService.put(INJECT_VIEW_VALIDATION_NATTABLE, func);
 
 			// create form content
 			final ScrolledComposite viewComposite = new ScrolledComposite(
@@ -224,9 +167,9 @@ public class ValidationPart extends AbstractEmfFormsPart {
 					.grab(true, true)
 					.applyTo(viewComposite);
 
-			createEmfFormsPart(viewComposite, validationReport,
-					VIEW_VALIDATION_REPORT);
-			viewComposite.setContent(getView().getSWTControl());
+			// createEmfFormsPart(viewComposite, validationReport,
+			// VIEW_VALIDATION_REPORT);
+			// viewComposite.setContent(getView().getSWTControl());
 
 			// initial update of button states
 			updateButtonStates();
@@ -235,8 +178,8 @@ public class ValidationPart extends AbstractEmfFormsPart {
 			// the scroll view size when the window is resized
 			resizeListenerObject = parent;
 			resizeListener = event -> {
-				final Point size = getView().getSWTControl()
-						.computeSize(SWT.DEFAULT, SWT.DEFAULT);
+				final Point size = viewComposite.computeSize(SWT.DEFAULT,
+						SWT.DEFAULT);
 				final Rectangle bounds = parent.getBounds();
 				// No offset from parent
 				bounds.x = 0;
@@ -247,7 +190,7 @@ public class ValidationPart extends AbstractEmfFormsPart {
 				bounds.height = (int) Math.max(bounds.height - 25.0,
 						size.y * 0.9);
 
-				getView().getSWTControl().setBounds(bounds);
+				viewComposite.setBounds(bounds);
 			};
 			parent.addListener(SWT.Resize, resizeListener);
 
@@ -255,6 +198,64 @@ public class ValidationPart extends AbstractEmfFormsPart {
 		} catch (final Exception e) {
 			createException = e;
 		}
+	}
+
+	protected Function<Composite, Control> createInjectedTable() {
+		return innerParent -> {
+
+			final Composite composite = new Composite(innerParent, SWT.NONE);
+
+			GridLayoutFactory.swtDefaults().numColumns(3).applyTo(composite);
+			GridDataFactory.swtDefaults()
+					.align(SWT.FILL, SWT.FILL)
+					.grab(true, false)
+					.applyTo(composite);
+
+			final Control natTable = tableView.create(innerParent,
+					validationReport);
+			// create the open view button
+			final Button showTableButton = new Button(composite, SWT.PUSH);
+			GridDataFactory.swtDefaults()
+					.align(SWT.LEFT, SWT.FILL)
+					.grab(false, false)
+					.applyTo(showTableButton);
+
+			showTableButton.setText(messages.ShowValidationTableMsg);
+			showTableButton.addListener(SWT.Selection,
+					event -> showValidationTable());
+			showTableButton.setSize(BUTTON_WIDTH_EXPORT_VALIDATION, 0);
+
+			// create the toggle collapsed button
+			final Button collapseAllButton = tableView
+					.createExpandCollapseAllButton(composite,
+							messages.ValidationTable_ExpandAllGroup,
+							messages.ValidationTable_CollapseAllGroup);
+
+			exportValidationButton = new Button(composite, SWT.PUSH);
+			GridDataFactory.swtDefaults()
+					.align(SWT.RIGHT, SWT.FILL)
+					.grab(true, false)
+					.applyTo(exportValidationButton);
+			exportValidationButton.setText(messages.ExportValidationMsg);
+			exportValidationButton.addListener(SWT.Selection,
+					event -> tableView.exportCsv());
+			exportValidationButton.setSize(BUTTON_WIDTH_EXPORT_VALIDATION, 0);
+
+			// Setup layout
+			showTableButton.setLayoutData(
+					new GridData(SWT.LEFT, SWT.TOP, false, true));
+			collapseAllButton.setLayoutData(
+					new GridData(SWT.LEFT, SWT.TOP, false, true));
+			exportValidationButton.setLayoutData(
+					new GridData(SWT.RIGHT, SWT.TOP, true, true));
+
+			GridDataFactory.swtDefaults()
+					.align(SWT.FILL, SWT.FILL)
+					.grab(true, true)
+					.hint(SWT.DEFAULT, 600)
+					.applyTo(natTable);
+			return natTable;
+		};
 	}
 
 	private void storageReport() {
@@ -312,8 +313,8 @@ public class ValidationPart extends AbstractEmfFormsPart {
 	}
 
 	private void updateButtonStates() {
-		exportValidationButton
-				.setEnabled(!validationReport.getProblems().isEmpty());
+		// exportValidationButton
+		// .setEnabled(!validationReport.getProblems().isEmpty());
 	}
 
 	@Override
@@ -339,6 +340,5 @@ public class ValidationPart extends AbstractEmfFormsPart {
 				&& !resizeListenerObject.isDisposed()) {
 			resizeListenerObject.removeListener(SWT.RESIZE, resizeListener);
 		}
-		this.dispose();
 	}
 }

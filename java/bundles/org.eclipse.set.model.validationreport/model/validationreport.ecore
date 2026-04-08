@@ -70,4 +70,75 @@
     <eLiterals name="FINAL" value="2" literal="Ziel"/>
     <eLiterals name="INFO" value="3" literal="Information"/>
   </eClassifiers>
+  <eSubpackages name="validationreport" nsURI="tag:scheidt-bachmann-st.de,2018-09-06:planpro/vr"
+      nsPrefix="vr">
+    <eClassifiers xsi:type="ecore:EClass" name="ValidationReport">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="modelLoaded" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="valid" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="xsdValid" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="emfValid" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="problems" upperBound="-1"
+          eType="#//validationreport/ValidationProblem" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="supportedVersion" lowerBound="1"
+          eType="#//validationreport/VersionInfo" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="toolboxVersion" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="subworkCount" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="subworkTypes" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="fileInfo" eType="#//validationreport/FileInfo"
+          containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ValidationProblem">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="severity" eType="#//validationreport/ValidationSeverity"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="severityText" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="lineNumber" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="message" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="objectArt" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="attributeName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="objectScope" eType="#//validationreport/ObjectScope"
+          defaultValueLiteral=""/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="objectState" eType="#//validationreport/ObjectState"
+          defaultValueLiteral=""/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="generalMsg" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="ValidationSeverity">
+      <eLiterals name="ERROR"/>
+      <eLiterals name="WARNING" value="1"/>
+      <eLiterals name="SUCCESS" value="2" literal="SUCCESS"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="VersionInfo">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="planProVersions" upperBound="-1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="signalbegriffeVersions"
+          upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="ObjectScope">
+      <eLiterals name="Layout" value="4" literal="Layout"/>
+      <eLiterals name="Content" value="3" literal="Fachdaten"/>
+      <eLiterals name="Betrachtung" value="2" literal="Betrachtung"/>
+      <eLiterals name="Plan" value="1" literal="Planung"/>
+      <eLiterals name="Unknown" literal=""/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="FileInfo">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="fileName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="usedVersion" lowerBound="1"
+          eType="#//validationreport/VersionInfo" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="checksum" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="guid" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="timeStamp" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="containerContents" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="ContainerContent">
+      <eLiterals name="MODEL" literal="Fachdaten"/>
+      <eLiterals name="LAYOUT" value="1" literal="Layoutdaten"/>
+      <eLiterals name="ATTACHMENT" value="2" literal="Anhänge"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="ObjectState">
+      <eLiterals name="NONE" literal=""/>
+      <eLiterals name="INITIAL" value="1" literal="Start"/>
+      <eLiterals name="FINAL" value="2" literal="Ziel"/>
+      <eLiterals name="INFO" value="3" literal="Information"/>
+    </eClassifiers>
+  </eSubpackages>
 </ecore:EPackage>

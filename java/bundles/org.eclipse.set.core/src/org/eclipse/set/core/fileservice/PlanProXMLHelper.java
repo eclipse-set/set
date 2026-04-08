@@ -22,7 +22,7 @@ import org.eclipse.set.model.validationreport.VersionInfo;
  */
 public class PlanProXMLHelper extends XMLHelperImpl {
 
-	private static final String PLANPRO_URI_PREFIX = "http://www.plan-pro.org/modell/Planpro"; //$NON-NLS-1$
+	private static final String PLANPRO_URI_PREFIX = "http://www.plan-pro.org/modell/PlanPro"; //$NON-NLS-1$
 	private static final String SIGNALBEGRIFF_RIL_URI_PREFIX = "http://www.plan-pro.org/modell/Signalbegriffe_Ril_301"; //$NON-NLS-1$
 	private final PlanProVersionService versionService;
 

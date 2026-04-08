@@ -24,6 +24,7 @@ import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Signalbegriffe_Ril_3
 import org.eclipse.set.model.validationreport.ValidationreportFactory;
 import org.eclipse.set.model.validationreport.VersionInfo;
 import org.eclipse.set.ppmodel.extensions.PlanProPackageExtensions;
+import org.eclipse.set.ppmodel.extensions.SignalbegriffeRil301PackageExtensions;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 
@@ -150,12 +151,12 @@ public class PlanProVersionServiceImpl implements PlanProVersionService {
 	public VersionInfo getCurrentVersion() {
 		final VersionInfo versionInfo = ValidationreportFactory.eINSTANCE
 				.createVersionInfo();
-		final String planProVersion = parseVersion(PlanProPackage.eNS_URI,
-				PLAN_PRO_KEY);
+		final String planProVersion = PlanProPackageExtensions
+				.getModelVersion();
 		versionInfo.getPlanProVersions().add(planProVersion);
 
-		final String signalBegriffeVersion = parseVersion(
-				Signalbegriffe_Ril_301Package.eNS_URI, SIGNALS_KEY);
+		final String signalBegriffeVersion = SignalbegriffeRil301PackageExtensions
+				.getModelVersion();
 		versionInfo.getSignalbegriffeVersions().add(signalBegriffeVersion);
 		return versionInfo;
 	}
@@ -163,14 +164,15 @@ public class PlanProVersionServiceImpl implements PlanProVersionService {
 	@Override
 	public boolean isSupportedVersion(final String uri) {
 		final VersionInfo supportedVersions = getSupportedVersions();
+		final String loadedVersion = uri.substring(uri.lastIndexOf("/") + 1); //$NON-NLS-1$
 		if (uri.startsWith(PLAN_PRO_KEY)) {
 			return supportedVersions.getPlanProVersions()
-					.contains(parseVersion(uri, PLAN_PRO_KEY));
+					.contains(loadedVersion);
 		}
 
 		if (uri.startsWith(SIGNALS_KEY)) {
-			return supportedVersions.getPlanProVersions()
-					.contains(parseVersion(uri, SIGNALS_KEY));
+			return supportedVersions.getSignalbegriffeVersions()
+					.contains(loadedVersion);
 		}
 		return false;
 	}
