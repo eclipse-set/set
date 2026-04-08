@@ -174,8 +174,10 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 		}
 	}
 
+	@Override
 	@PreDestroy
-	private void preDestroy() {
+	protected void preDestroy() {
+		super.preDestroy();
 		logger.trace("preDestroy"); //$NON-NLS-1$ LOG
 		ToolboxEvents.unsubscribe(getBroker(), selectionControlAreaHandler);
 	}
