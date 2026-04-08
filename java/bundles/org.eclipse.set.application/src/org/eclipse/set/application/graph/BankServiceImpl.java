@@ -501,10 +501,12 @@ public class BankServiceImpl implements BankService, EventHandler {
 
 		final BigDecimal distanceLeft = leftPosition.subtract(pointDistance)
 				.abs();
-
-		return List.of(
-				bankingDefault(ueRight.subtract(ueLeft), distanceLeft, length)
-						.add(ueLeft));
+		final BigDecimal defaultValue = bankingDefault(ueRight.subtract(ueLeft),
+				distanceLeft, length);
+		if (defaultValue == null) {
+			return Collections.emptyList();
+		}
+		return List.of(defaultValue.add(ueLeft));
 	}
 
 	static BigDecimal findBankingValue(final TopPoint point,
@@ -633,6 +635,9 @@ public class BankServiceImpl implements BankService, EventHandler {
 	 */
 	private static BigDecimal bankingDefault(final BigDecimal h_between,
 			final BigDecimal distanceFromLeft, final BigDecimal length) {
+		if (length.compareTo(BigDecimal.ZERO) == 0) {
+			return null;
+		}
 		return h_between.multiply(distanceFromLeft)
 				.divide(length, ToolboxConstants.ROUNDING_TO_PLACE,
 						RoundingMode.HALF_EVEN);
