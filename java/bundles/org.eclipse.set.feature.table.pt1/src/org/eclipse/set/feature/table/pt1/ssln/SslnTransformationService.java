@@ -64,7 +64,8 @@ public class SslnTransformationService
 	public TableNameInfo getTableNameInfo() {
 		return new TableNameInfo(messages.ToolboxTableNameSslnLong,
 				messages.ToolboxTableNameSslnPlanningNumber,
-				messages.ToolboxTableNameSslnShort);
+				messages.ToolboxTableNameSslnShort,
+				messages.ToolboxTableNameSslnRil);
 	}
 
 	@Override

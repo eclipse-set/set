@@ -71,7 +71,8 @@ public final class SslwTransformationService
 	public TableNameInfo getTableNameInfo() {
 		return new TableNameInfo(messages.ToolboxTableNameSslwLong,
 				messages.ToolboxTableNameSslwPlanningNumber,
-				messages.ToolboxTableNameSslwShort);
+				messages.ToolboxTableNameSslwShort,
+				messages.ToolboxTableNameSslwRil);
 	}
 
 	@Override

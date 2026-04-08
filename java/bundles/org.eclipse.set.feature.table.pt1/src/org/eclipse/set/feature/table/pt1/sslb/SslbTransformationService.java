@@ -76,7 +76,8 @@ public final class SslbTransformationService
 	public TableNameInfo getTableNameInfo() {
 		return new TableNameInfo(messages.ToolboxTableNameSslbLong,
 				messages.ToolboxTableNameSslbPlanningNumber,
-				messages.ToolboxTableNameSslbShort);
+				messages.ToolboxTableNameSslbShort,
+				messages.ToolboxTableNameSslbRil);
 	}
 
 	@Override

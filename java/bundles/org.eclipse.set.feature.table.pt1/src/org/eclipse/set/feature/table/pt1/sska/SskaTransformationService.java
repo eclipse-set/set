@@ -76,7 +76,8 @@ public final class SskaTransformationService
 	public TableNameInfo getTableNameInfo() {
 		return new TableNameInfo(messages.ToolboxTableNameSskaLong,
 				messages.ToolboxTableNameSskaPlanningNumber,
-				messages.ToolboxTableNameSskaShort);
+				messages.ToolboxTableNameSskaShort,
+				messages.ToolboxTableNameSskaRil);
 	}
 
 	@Override

@@ -72,7 +72,8 @@ public class SsktTransformationService
 	public TableNameInfo getTableNameInfo() {
 		return new TableNameInfo(messages.ToolboxTableNameSsktLong,
 				messages.ToolboxTableNameSsktPlanningNumber,
-				messages.ToolboxTableNameSsktShort);
+				messages.ToolboxTableNameSsktShort,
+				messages.ToolboxTableNameSsktRil);
 	}
 
 	@Override
