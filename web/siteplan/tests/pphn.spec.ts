@@ -18,7 +18,8 @@ const screenshotOptions = (page: Page) => ({
 
 test('initial loading', async ({ page }) => {
   await loadSiteplan(page)
-
+  // Move to home button to get hover effect like "total view displaying" test
+  await page.mouse.move(0, 0)
   await expect(page).toHaveScreenshot('pphn-initial-view.png', screenshotOptions(page))
 })
 
