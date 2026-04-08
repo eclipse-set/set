@@ -107,7 +107,7 @@ public class TopologicalGraphServiceImpl
 
 		// Notify that the top model changed
 		final Map<String, Object> properties = new HashMap<>();
-		properties.put("org.eclipse.e4.data", planProSchnittstelle); //$NON-NLS-1$
+		properties.put(IEventBroker.DATA, modelsession);
 		eventAdmin.sendEvent(new Event(Events.TOPMODEL_CHANGED, properties));
 	}
 
