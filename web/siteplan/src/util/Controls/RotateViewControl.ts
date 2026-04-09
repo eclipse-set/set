@@ -49,6 +49,7 @@ export default class RotateViewControl extends Control {
     this.view = view
     button.addEventListener('click', () => {
       this.onClick()
+      button.blur()
     }, false)
   }
 

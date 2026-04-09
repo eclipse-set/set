@@ -82,7 +82,8 @@ public final class SskgTransformationService
 	public TableNameInfo getTableNameInfo() {
 		return new TableNameInfo(messages.ToolboxTableNameSskgLong,
 				messages.ToolboxTableNameSskgPlanningNumber,
-				messages.ToolboxTableNameSskgShort);
+				messages.ToolboxTableNameSskgShort,
+				messages.ToolboxTableNameSskgRil);
 	}
 
 	@Override

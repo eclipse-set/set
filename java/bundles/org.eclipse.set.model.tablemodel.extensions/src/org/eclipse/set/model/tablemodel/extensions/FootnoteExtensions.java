@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
@@ -159,29 +160,32 @@ public class FootnoteExtensions {
 	 *            all the tables with their {@link Footnote}
 	 * @param allTablesGenerated
 	 *            information if all tables have generated its footnotes yet
+	 * @param extractTableShortName
+	 *            extract table name form footnotesPerTable key value
 	 */
 	public static void fillSxxxTableColumnC(final Table sxxxTable,
 			final Map<String, Set<Footnote>> footnotesPerTable,
-			final boolean allTablesGenerated) {
+			final boolean allTablesGenerated,
+			final UnaryOperator<String> extractTableShortName) {
 		final Map<Object, Set<String>> tablesPerOwnerObject = new HashMap<>();
-		footnotesPerTable.forEach((table, footnotes) -> {
-			footnotes.forEach(footnote -> tablesPerOwnerObject
-					.compute(footnote.getOwnerObject(), (key, value) -> {
-						Set<String> set = value;
-						if (set == null) {
-							set = new HashSet<>();
-						}
-						set.add(table);
-						return set;
-					}));
-		});
+		footnotesPerTable.forEach((table, footnotes) -> footnotes
+				.forEach(footnote -> tablesPerOwnerObject
+						.compute(footnote.getOwnerObject(), (key, value) -> {
+							Set<String> set = value;
+							if (set == null) {
+								set = new HashSet<>();
+							}
+							set.add(table);
+							return set;
+						})));
 		final List<TableRow> tableRows = TableExtensions
 				.getTableRows(sxxxTable);
 		tableRows.forEach(tableRow -> {
 			final Set<String> tables = tablesPerOwnerObject
 					.get(tableRow.getRowObject());
-			if (tables != null && tables.size() > 0) {
-				tables.forEach(table -> fillValue(tableRow, table));
+			if (tables != null && !tables.isEmpty()) {
+				tables.forEach(table -> fillValue(tableRow,
+						extractTableShortName.apply(table)));
 			} else {
 				fillValue(tableRow, allTablesGenerated ? "keine" : "?"); //$NON-NLS-1$ //$NON-NLS-2$
 			}
@@ -294,21 +298,26 @@ public class FootnoteExtensions {
 		}
 		final Signalbegriff_ID_TypeClass signalBegriffId = signalBegriff
 				.getSignalbegriffID();
-		final String prefix = getSignalBregiffIDName(signalBegriffId)
-				.replace("_", " ");//$NON-NLS-1$ //$NON-NLS-2$
+		final String prefix = getSignalBregiffIDName(signalBegriffId);
 		if (withSymbol && signalBegriffId.getSymbol() != null) {
 			return new Pair<>(prefix, signalBegriffId.getSymbol());
 		}
 		return new Pair<>(prefix, null);
 	}
 
-	private static String getSignalBregiffIDName(
+	/**
+	 * @param signalBegriffId
+	 *            the {@link Signalbegriff_ID_TypeClass}
+	 * @return the name of this signalbegriff
+	 */
+	public static String getSignalBregiffIDName(
 			final Signalbegriff_ID_TypeClass signalBegriffId) {
 		try {
 			return signalBegriffId.eClass()
 					.getEAnnotation(ExtendedMetaData.ANNOTATION_URI)
 					.getDetails()
-					.get("name"); //$NON-NLS-1$
+					.get("name") //$NON-NLS-1$
+					.replace("_", " "); //$NON-NLS-1$ //$NON-NLS-2$
 		} catch (final Exception e) {
 			return signalBegriffId.eClass().getName();
 		}

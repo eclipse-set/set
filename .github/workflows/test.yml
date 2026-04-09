@@ -1,0 +1,40 @@
+# This workflow will build the main SET application and publish it to GitHub Packages
+name: Test
+
+on:
+  pull_request:
+    paths:
+      - '**/java/**'
+      - 'web/siteplan/**'
+      - 'web/textviewer/**'
+  push:
+    tags:
+      - 'v**'
+    branches:
+      - 'release/**'
+      - 'main'
+
+jobs:
+  test-siteplan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Install dependencies
+        run: npm ci
+        working-directory: web/siteplan
+
+      - name: Install Playwright Browsers
+        run: npm exec playwright install --with-deps
+        working-directory: web/siteplan
+
+      - name: Run Playwright tests
+        run: npm run test:e2e
+        working-directory: web/siteplan
+
+      - uses: actions/upload-artifact@v6
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-report
+          path: web/siteplan/playwright-report/
+          retention-days: 1

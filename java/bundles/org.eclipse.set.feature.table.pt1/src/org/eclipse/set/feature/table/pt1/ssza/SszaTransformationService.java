@@ -71,7 +71,8 @@ public final class SszaTransformationService
 	public TableNameInfo getTableNameInfo() {
 		return new TableNameInfo(messages.ToolboxTableNameSszaLong,
 				messages.ToolboxTableNameSszaPlanningNumber,
-				messages.ToolboxTableNameSszaShort);
+				messages.ToolboxTableNameSszaShort,
+				messages.ToolboxTableNameSszaRil);
 	}
 
 	@Override

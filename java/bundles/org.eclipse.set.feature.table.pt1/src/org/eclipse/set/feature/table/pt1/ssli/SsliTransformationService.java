@@ -68,7 +68,8 @@ public class SsliTransformationService
 	public TableNameInfo getTableNameInfo() {
 		return new TableNameInfo(messages.ToolboxTableNameSsliLong,
 				messages.ToolboxTableNameSsliPlanningNumber,
-				messages.ToolboxTableNameSsliShort);
+				messages.ToolboxTableNameSsliShort,
+				messages.ToolboxTableNameSsliRil);
 	}
 
 	@Override

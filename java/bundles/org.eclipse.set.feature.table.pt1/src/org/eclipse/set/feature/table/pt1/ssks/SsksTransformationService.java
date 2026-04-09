@@ -80,7 +80,8 @@ public final class SsksTransformationService extends
 	public TableNameInfo getTableNameInfo() {
 		return new TableNameInfo(messages.ToolboxTableNameSsksLong,
 				messages.ToolboxTableNameSsksPlanningNumber,
-				messages.ToolboxTableNameSsksShort);
+				messages.ToolboxTableNameSsksShort,
+				messages.ToolboxTableNameSsksRil);
 	}
 
 	@Override

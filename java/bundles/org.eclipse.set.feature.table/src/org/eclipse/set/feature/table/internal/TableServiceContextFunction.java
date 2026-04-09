@@ -201,7 +201,7 @@ public class TableServiceContextFunction extends ContextFunction
 							ToolboxConstants.CacheId.DIRECTED_EDGE_TO_SUBPATH));
 			if (event.getTopic().equals(Events.MODEL_CHANGED)
 					&& tableService != null) {
-				tableService.cleanFootnotesProTable();
+				tableService.clearInstance();
 			}
 		}
 
