@@ -18,11 +18,15 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link org.eclipse.set.model.simplemerge.SMatch#getId <em>Id</em>}</li>
- *   <li>{@link org.eclipse.set.model.simplemerge.SMatch#getGuidPrimary <em>Guid Primary</em>}</li>
- *   <li>{@link org.eclipse.set.model.simplemerge.SMatch#getGuidSecondary <em>Guid Secondary</em>}</li>
- *   <li>{@link org.eclipse.set.model.simplemerge.SMatch#getResolution <em>Resolution</em>}</li>
- *   <li>{@link org.eclipse.set.model.simplemerge.SMatch#getElementType <em>Element Type</em>}</li>
+ * <li>{@link org.eclipse.set.model.simplemerge.SMatch#getId <em>Id</em>}</li>
+ * <li>{@link org.eclipse.set.model.simplemerge.SMatch#getGuidPrimary <em>Guid
+ * Primary</em>}</li>
+ * <li>{@link org.eclipse.set.model.simplemerge.SMatch#getGuidSecondary <em>Guid
+ * Secondary</em>}</li>
+ * <li>{@link org.eclipse.set.model.simplemerge.SMatch#getResolution
+ * <em>Resolution</em>}</li>
+ * <li>{@link org.eclipse.set.model.simplemerge.SMatch#getElementType
+ * <em>Element Type</em>}</li>
  * </ul>
  *
  * @see org.eclipse.set.model.simplemerge.SimplemergePackage#getSMatch()
@@ -48,9 +52,12 @@ public interface SMatch extends EObject {
 	int getId();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.set.model.simplemerge.SMatch#getId <em>Id</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Id</em>' attribute.
+	 * Sets the value of the
+	 * '{@link org.eclipse.set.model.simplemerge.SMatch#getId <em>Id</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @param value
+	 *            the new value of the '<em>Id</em>' attribute.
 	 * @see #getId()
 	 * @generated
 	 */
@@ -74,9 +81,12 @@ public interface SMatch extends EObject {
 	String getGuidPrimary();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.set.model.simplemerge.SMatch#getGuidPrimary <em>Guid Primary</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Guid Primary</em>' attribute.
+	 * Sets the value of the
+	 * '{@link org.eclipse.set.model.simplemerge.SMatch#getGuidPrimary <em>Guid
+	 * Primary</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @param value
+	 *            the new value of the '<em>Guid Primary</em>' attribute.
 	 * @see #getGuidPrimary()
 	 * @generated
 	 */
@@ -100,25 +110,29 @@ public interface SMatch extends EObject {
 	String getGuidSecondary();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.set.model.simplemerge.SMatch#getGuidSecondary <em>Guid Secondary</em>}' attribute.
-	 * <!-- begin-user-doc --> <!--
+	 * Sets the value of the
+	 * '{@link org.eclipse.set.model.simplemerge.SMatch#getGuidSecondary
+	 * <em>Guid Secondary</em>}' attribute. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * @param value the new value of the '<em>Guid Secondary</em>' attribute.
+	 * 
+	 * @param value
+	 *            the new value of the '<em>Guid Secondary</em>' attribute.
 	 * @see #getGuidSecondary()
 	 * @generated
 	 */
 	void setGuidSecondary(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Resolution</b></em>' attribute.
-	 * The literals are from the enumeration {@link org.eclipse.set.model.simplemerge.Resolution}.
-	 * <!-- begin-user-doc
+	 * Returns the value of the '<em><b>Resolution</b></em>' attribute. The
+	 * literals are from the enumeration
+	 * {@link org.eclipse.set.model.simplemerge.Resolution}. <!-- begin-user-doc
 	 * -->
 	 * <p>
 	 * If the meaning of the '<em>Resolution</em>' attribute isn't clear, there
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
+	 * 
 	 * @return the value of the '<em>Resolution</em>' attribute.
 	 * @see org.eclipse.set.model.simplemerge.Resolution
 	 * @see #setResolution(Resolution)
@@ -129,10 +143,13 @@ public interface SMatch extends EObject {
 	Resolution getResolution();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.set.model.simplemerge.SMatch#getResolution <em>Resolution</em>}' attribute.
-	 * <!-- begin-user-doc --> <!--
+	 * Sets the value of the
+	 * '{@link org.eclipse.set.model.simplemerge.SMatch#getResolution
+	 * <em>Resolution</em>}' attribute. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * @param value the new value of the '<em>Resolution</em>' attribute.
+	 * 
+	 * @param value
+	 *            the new value of the '<em>Resolution</em>' attribute.
 	 * @see org.eclipse.set.model.simplemerge.Resolution
 	 * @see #getResolution()
 	 * @generated
@@ -157,10 +174,13 @@ public interface SMatch extends EObject {
 	String getElementType();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.set.model.simplemerge.SMatch#getElementType <em>Element Type</em>}' attribute.
-	 * <!-- begin-user-doc --> <!--
+	 * Sets the value of the
+	 * '{@link org.eclipse.set.model.simplemerge.SMatch#getElementType
+	 * <em>Element Type</em>}' attribute. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * @param value the new value of the '<em>Element Type</em>' attribute.
+	 * 
+	 * @param value
+	 *            the new value of the '<em>Element Type</em>' attribute.
 	 * @see #getElementType()
 	 * @generated
 	 */

@@ -33,7 +33,8 @@ import org.eclipse.set.model.simplemerge.SimplemergePackage;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.eclipse.set.model.simplemerge.impl.SComparisonImpl#getMatches <em>Matches</em>}</li>
+ * <li>{@link org.eclipse.set.model.simplemerge.impl.SComparisonImpl#getMatches
+ * <em>Matches</em>}</li>
  * </ul>
  *
  * @generated
@@ -41,8 +42,9 @@ import org.eclipse.set.model.simplemerge.SimplemergePackage;
 public class SComparisonImpl extends MinimalEObjectImpl.Container
 		implements SComparison {
 	/**
-	 * The cached value of the '{@link #getMatches() <em>Matches</em>}' containment reference list.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getMatches() <em>Matches</em>}'
+	 * containment reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getMatches()
 	 * @generated
 	 * @ordered
@@ -51,6 +53,7 @@ public class SComparisonImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected SComparisonImpl() {
@@ -59,6 +62,7 @@ public class SComparisonImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -68,18 +72,21 @@ public class SComparisonImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EList<SMatch> getMatches() {
 		if (matches == null) {
-			matches = new EObjectContainmentEList<SMatch>(SMatch.class, this, SimplemergePackage.SCOMPARISON__MATCHES);
+			matches = new EObjectContainmentEList<SMatch>(SMatch.class, this,
+					SimplemergePackage.SCOMPARISON__MATCHES);
 		}
 		return matches;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -87,13 +94,15 @@ public class SComparisonImpl extends MinimalEObjectImpl.Container
 			int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case SimplemergePackage.SCOMPARISON__MATCHES:
-				return ((InternalEList<?>)getMatches()).basicRemove(otherEnd, msgs);
+				return ((InternalEList<?>) getMatches()).basicRemove(otherEnd,
+						msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -107,6 +116,7 @@ public class SComparisonImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -115,7 +125,7 @@ public class SComparisonImpl extends MinimalEObjectImpl.Container
 		switch (featureID) {
 			case SimplemergePackage.SCOMPARISON__MATCHES:
 				getMatches().clear();
-				getMatches().addAll((Collection<? extends SMatch>)newValue);
+				getMatches().addAll((Collection<? extends SMatch>) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -123,6 +133,7 @@ public class SComparisonImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -137,6 +148,7 @@ public class SComparisonImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override

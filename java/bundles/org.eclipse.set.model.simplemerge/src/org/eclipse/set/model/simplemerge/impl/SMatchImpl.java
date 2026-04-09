@@ -26,11 +26,16 @@ import org.eclipse.set.model.simplemerge.SimplemergePackage;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.eclipse.set.model.simplemerge.impl.SMatchImpl#getId <em>Id</em>}</li>
- *   <li>{@link org.eclipse.set.model.simplemerge.impl.SMatchImpl#getGuidPrimary <em>Guid Primary</em>}</li>
- *   <li>{@link org.eclipse.set.model.simplemerge.impl.SMatchImpl#getGuidSecondary <em>Guid Secondary</em>}</li>
- *   <li>{@link org.eclipse.set.model.simplemerge.impl.SMatchImpl#getResolution <em>Resolution</em>}</li>
- *   <li>{@link org.eclipse.set.model.simplemerge.impl.SMatchImpl#getElementType <em>Element Type</em>}</li>
+ * <li>{@link org.eclipse.set.model.simplemerge.impl.SMatchImpl#getId
+ * <em>Id</em>}</li>
+ * <li>{@link org.eclipse.set.model.simplemerge.impl.SMatchImpl#getGuidPrimary
+ * <em>Guid Primary</em>}</li>
+ * <li>{@link org.eclipse.set.model.simplemerge.impl.SMatchImpl#getGuidSecondary
+ * <em>Guid Secondary</em>}</li>
+ * <li>{@link org.eclipse.set.model.simplemerge.impl.SMatchImpl#getResolution
+ * <em>Resolution</em>}</li>
+ * <li>{@link org.eclipse.set.model.simplemerge.impl.SMatchImpl#getElementType
+ * <em>Element Type</em>}</li>
  * </ul>
  *
  * @generated
@@ -57,8 +62,9 @@ public class SMatchImpl extends MinimalEObjectImpl.Container implements SMatch {
 	protected int id = ID_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getGuidPrimary() <em>Guid Primary</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The default value of the '{@link #getGuidPrimary() <em>Guid
+	 * Primary</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getGuidPrimary()
 	 * @generated
 	 * @ordered
@@ -66,8 +72,9 @@ public class SMatchImpl extends MinimalEObjectImpl.Container implements SMatch {
 	protected static final String GUID_PRIMARY_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getGuidPrimary() <em>Guid Primary</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getGuidPrimary() <em>Guid Primary</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getGuidPrimary()
 	 * @generated
 	 * @ordered
@@ -75,8 +82,9 @@ public class SMatchImpl extends MinimalEObjectImpl.Container implements SMatch {
 	protected String guidPrimary = GUID_PRIMARY_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getGuidSecondary() <em>Guid Secondary</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The default value of the '{@link #getGuidSecondary() <em>Guid
+	 * Secondary</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getGuidSecondary()
 	 * @generated
 	 * @ordered
@@ -84,8 +92,9 @@ public class SMatchImpl extends MinimalEObjectImpl.Container implements SMatch {
 	protected static final String GUID_SECONDARY_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getGuidSecondary() <em>Guid Secondary</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getGuidSecondary() <em>Guid
+	 * Secondary</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getGuidSecondary()
 	 * @generated
 	 * @ordered
@@ -93,8 +102,9 @@ public class SMatchImpl extends MinimalEObjectImpl.Container implements SMatch {
 	protected String guidSecondary = GUID_SECONDARY_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getResolution() <em>Resolution</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The default value of the '{@link #getResolution() <em>Resolution</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getResolution()
 	 * @generated
 	 * @ordered
@@ -102,8 +112,9 @@ public class SMatchImpl extends MinimalEObjectImpl.Container implements SMatch {
 	protected static final Resolution RESOLUTION_EDEFAULT = Resolution.PRIMARY_UNRESOLVED;
 
 	/**
-	 * The cached value of the '{@link #getResolution() <em>Resolution</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getResolution() <em>Resolution</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getResolution()
 	 * @generated
 	 * @ordered
@@ -111,8 +122,9 @@ public class SMatchImpl extends MinimalEObjectImpl.Container implements SMatch {
 	protected Resolution resolution = RESOLUTION_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getElementType() <em>Element Type</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The default value of the '{@link #getElementType() <em>Element
+	 * Type</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getElementType()
 	 * @generated
 	 * @ordered
@@ -120,8 +132,9 @@ public class SMatchImpl extends MinimalEObjectImpl.Container implements SMatch {
 	protected static final String ELEMENT_TYPE_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getElementType() <em>Element Type</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getElementType() <em>Element Type</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getElementType()
 	 * @generated
 	 * @ordered
@@ -130,6 +143,7 @@ public class SMatchImpl extends MinimalEObjectImpl.Container implements SMatch {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected SMatchImpl() {
@@ -138,6 +152,7 @@ public class SMatchImpl extends MinimalEObjectImpl.Container implements SMatch {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -147,6 +162,7 @@ public class SMatchImpl extends MinimalEObjectImpl.Container implements SMatch {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -156,6 +172,7 @@ public class SMatchImpl extends MinimalEObjectImpl.Container implements SMatch {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -163,11 +180,13 @@ public class SMatchImpl extends MinimalEObjectImpl.Container implements SMatch {
 		int oldId = id;
 		id = newId;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SimplemergePackage.SMATCH__ID, oldId, id));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					SimplemergePackage.SMATCH__ID, oldId, id));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -177,6 +196,7 @@ public class SMatchImpl extends MinimalEObjectImpl.Container implements SMatch {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -184,11 +204,14 @@ public class SMatchImpl extends MinimalEObjectImpl.Container implements SMatch {
 		String oldGuidPrimary = guidPrimary;
 		guidPrimary = newGuidPrimary;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SimplemergePackage.SMATCH__GUID_PRIMARY, oldGuidPrimary, guidPrimary));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					SimplemergePackage.SMATCH__GUID_PRIMARY, oldGuidPrimary,
+					guidPrimary));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -198,6 +221,7 @@ public class SMatchImpl extends MinimalEObjectImpl.Container implements SMatch {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -205,11 +229,14 @@ public class SMatchImpl extends MinimalEObjectImpl.Container implements SMatch {
 		String oldGuidSecondary = guidSecondary;
 		guidSecondary = newGuidSecondary;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SimplemergePackage.SMATCH__GUID_SECONDARY, oldGuidSecondary, guidSecondary));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					SimplemergePackage.SMATCH__GUID_SECONDARY, oldGuidSecondary,
+					guidSecondary));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -219,18 +246,23 @@ public class SMatchImpl extends MinimalEObjectImpl.Container implements SMatch {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public void setResolution(Resolution newResolution) {
 		Resolution oldResolution = resolution;
-		resolution = newResolution == null ? RESOLUTION_EDEFAULT : newResolution;
+		resolution = newResolution == null ? RESOLUTION_EDEFAULT
+				: newResolution;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SimplemergePackage.SMATCH__RESOLUTION, oldResolution, resolution));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					SimplemergePackage.SMATCH__RESOLUTION, oldResolution,
+					resolution));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -240,6 +272,7 @@ public class SMatchImpl extends MinimalEObjectImpl.Container implements SMatch {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -247,11 +280,14 @@ public class SMatchImpl extends MinimalEObjectImpl.Container implements SMatch {
 		String oldElementType = elementType;
 		elementType = newElementType;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SimplemergePackage.SMATCH__ELEMENT_TYPE, oldElementType, elementType));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					SimplemergePackage.SMATCH__ELEMENT_TYPE, oldElementType,
+					elementType));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -273,25 +309,26 @@ public class SMatchImpl extends MinimalEObjectImpl.Container implements SMatch {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case SimplemergePackage.SMATCH__ID:
-				setId((Integer)newValue);
+				setId((Integer) newValue);
 				return;
 			case SimplemergePackage.SMATCH__GUID_PRIMARY:
-				setGuidPrimary((String)newValue);
+				setGuidPrimary((String) newValue);
 				return;
 			case SimplemergePackage.SMATCH__GUID_SECONDARY:
-				setGuidSecondary((String)newValue);
+				setGuidSecondary((String) newValue);
 				return;
 			case SimplemergePackage.SMATCH__RESOLUTION:
-				setResolution((Resolution)newValue);
+				setResolution((Resolution) newValue);
 				return;
 			case SimplemergePackage.SMATCH__ELEMENT_TYPE:
-				setElementType((String)newValue);
+				setElementType((String) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -299,6 +336,7 @@ public class SMatchImpl extends MinimalEObjectImpl.Container implements SMatch {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -325,6 +363,7 @@ public class SMatchImpl extends MinimalEObjectImpl.Container implements SMatch {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -333,24 +372,29 @@ public class SMatchImpl extends MinimalEObjectImpl.Container implements SMatch {
 			case SimplemergePackage.SMATCH__ID:
 				return id != ID_EDEFAULT;
 			case SimplemergePackage.SMATCH__GUID_PRIMARY:
-				return GUID_PRIMARY_EDEFAULT == null ? guidPrimary != null : !GUID_PRIMARY_EDEFAULT.equals(guidPrimary);
+				return GUID_PRIMARY_EDEFAULT == null ? guidPrimary != null
+						: !GUID_PRIMARY_EDEFAULT.equals(guidPrimary);
 			case SimplemergePackage.SMATCH__GUID_SECONDARY:
-				return GUID_SECONDARY_EDEFAULT == null ? guidSecondary != null : !GUID_SECONDARY_EDEFAULT.equals(guidSecondary);
+				return GUID_SECONDARY_EDEFAULT == null ? guidSecondary != null
+						: !GUID_SECONDARY_EDEFAULT.equals(guidSecondary);
 			case SimplemergePackage.SMATCH__RESOLUTION:
 				return resolution != RESOLUTION_EDEFAULT;
 			case SimplemergePackage.SMATCH__ELEMENT_TYPE:
-				return ELEMENT_TYPE_EDEFAULT == null ? elementType != null : !ELEMENT_TYPE_EDEFAULT.equals(elementType);
+				return ELEMENT_TYPE_EDEFAULT == null ? elementType != null
+						: !ELEMENT_TYPE_EDEFAULT.equals(elementType);
 		}
 		return super.eIsSet(featureID);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) return super.toString();
+		if (eIsProxy())
+			return super.toString();
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (id: ");

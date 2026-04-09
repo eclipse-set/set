@@ -31,9 +31,10 @@ import org.eclipse.set.model.simplemerge.SMatch;
 import org.eclipse.set.model.simplemerge.SimplemergePackage;
 
 /**
- * This is the item provider adapter for a {@link org.eclipse.set.model.simplemerge.SMatch} object.
- * <!-- begin-user-doc
+ * This is the item provider adapter for a
+ * {@link org.eclipse.set.model.simplemerge.SMatch} object. <!-- begin-user-doc
  * --> <!-- end-user-doc -->
+ * 
  * @generated
  */
 public class SMatchItemProvider extends ItemProviderAdapter
@@ -70,25 +71,20 @@ public class SMatchItemProvider extends ItemProviderAdapter
 	}
 
 	/**
-	 * This adds a property descriptor for the Id feature.
-	 * <!-- begin-user-doc
+	 * This adds a property descriptor for the Id feature. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected void addIdPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_SMatch_id_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_SMatch_id_feature", "_UI_SMatch_type"),
-				 SimplemergePackage.Literals.SMATCH__ID,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE,
-				 null,
-				 null));
+		itemPropertyDescriptors.add(createItemPropertyDescriptor(
+				((ComposeableAdapterFactory) adapterFactory)
+						.getRootAdapterFactory(),
+				getResourceLocator(), getString("_UI_SMatch_id_feature"),
+				getString("_UI_PropertyDescriptor_description",
+						"_UI_SMatch_id_feature", "_UI_SMatch_type"),
+				SimplemergePackage.Literals.SMATCH__ID, true, false, false,
+				ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE, null, null));
 	}
 
 	/**
@@ -98,19 +94,15 @@ public class SMatchItemProvider extends ItemProviderAdapter
 	 * @generated
 	 */
 	protected void addGuidPrimaryPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_SMatch_guidPrimary_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_SMatch_guidPrimary_feature", "_UI_SMatch_type"),
-				 SimplemergePackage.Literals.SMATCH__GUID_PRIMARY,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
+		itemPropertyDescriptors.add(createItemPropertyDescriptor(
+				((ComposeableAdapterFactory) adapterFactory)
+						.getRootAdapterFactory(),
+				getResourceLocator(),
+				getString("_UI_SMatch_guidPrimary_feature"),
+				getString("_UI_PropertyDescriptor_description",
+						"_UI_SMatch_guidPrimary_feature", "_UI_SMatch_type"),
+				SimplemergePackage.Literals.SMATCH__GUID_PRIMARY, true, false,
+				false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null, null));
 	}
 
 	/**
@@ -120,19 +112,15 @@ public class SMatchItemProvider extends ItemProviderAdapter
 	 * @generated
 	 */
 	protected void addGuidSecondaryPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_SMatch_guidSecondary_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_SMatch_guidSecondary_feature", "_UI_SMatch_type"),
-				 SimplemergePackage.Literals.SMATCH__GUID_SECONDARY,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
+		itemPropertyDescriptors.add(createItemPropertyDescriptor(
+				((ComposeableAdapterFactory) adapterFactory)
+						.getRootAdapterFactory(),
+				getResourceLocator(),
+				getString("_UI_SMatch_guidSecondary_feature"),
+				getString("_UI_PropertyDescriptor_description",
+						"_UI_SMatch_guidSecondary_feature", "_UI_SMatch_type"),
+				SimplemergePackage.Literals.SMATCH__GUID_SECONDARY, true, false,
+				false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null, null));
 	}
 
 	/**
@@ -142,19 +130,15 @@ public class SMatchItemProvider extends ItemProviderAdapter
 	 * @generated
 	 */
 	protected void addResolutionPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_SMatch_resolution_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_SMatch_resolution_feature", "_UI_SMatch_type"),
-				 SimplemergePackage.Literals.SMATCH__RESOLUTION,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
+		itemPropertyDescriptors.add(createItemPropertyDescriptor(
+				((ComposeableAdapterFactory) adapterFactory)
+						.getRootAdapterFactory(),
+				getResourceLocator(),
+				getString("_UI_SMatch_resolution_feature"),
+				getString("_UI_PropertyDescriptor_description",
+						"_UI_SMatch_resolution_feature", "_UI_SMatch_type"),
+				SimplemergePackage.Literals.SMATCH__RESOLUTION, true, false,
+				false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null, null));
 	}
 
 	/**
@@ -164,48 +148,46 @@ public class SMatchItemProvider extends ItemProviderAdapter
 	 * @generated
 	 */
 	protected void addElementTypePropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_SMatch_elementType_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_SMatch_elementType_feature", "_UI_SMatch_type"),
-				 SimplemergePackage.Literals.SMATCH__ELEMENT_TYPE,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
+		itemPropertyDescriptors.add(createItemPropertyDescriptor(
+				((ComposeableAdapterFactory) adapterFactory)
+						.getRootAdapterFactory(),
+				getResourceLocator(),
+				getString("_UI_SMatch_elementType_feature"),
+				getString("_UI_PropertyDescriptor_description",
+						"_UI_SMatch_elementType_feature", "_UI_SMatch_type"),
+				SimplemergePackage.Literals.SMATCH__ELEMENT_TYPE, true, false,
+				false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null, null));
 	}
 
 	/**
-	 * This returns SMatch.gif.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * This returns SMatch.gif. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/SMatch"));
+		return overlayImage(object,
+				getResourceLocator().getImage("full/obj16/SMatch"));
 	}
 
 	/**
-	 * This returns the label text for the adapted class.
-	 * <!-- begin-user-doc
+	 * This returns the label text for the adapted class. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public String getText(Object object) {
-		SMatch sMatch = (SMatch)object;
+		SMatch sMatch = (SMatch) object;
 		return getString("_UI_SMatch_type") + " " + sMatch.getId();
 	}
 
 	/**
-	 * This handles model notifications by calling {@link #updateChildren} to update any cached
-	 * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
-	 * <!-- begin-user-doc --> <!--
+	 * This handles model notifications by calling {@link #updateChildren} to
+	 * update any cached children and by creating a viewer notification, which
+	 * it passes to {@link #fireNotifyChanged}. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -218,7 +200,8 @@ public class SMatchItemProvider extends ItemProviderAdapter
 			case SimplemergePackage.SMATCH__GUID_SECONDARY:
 			case SimplemergePackage.SMATCH__RESOLUTION:
 			case SimplemergePackage.SMATCH__ELEMENT_TYPE:
-				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
+				fireNotifyChanged(new ViewerNotification(notification,
+						notification.getNotifier(), false, true));
 				return;
 		}
 		super.notifyChanged(notification);

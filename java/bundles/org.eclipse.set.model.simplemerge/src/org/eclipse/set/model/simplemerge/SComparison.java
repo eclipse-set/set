@@ -20,7 +20,8 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link org.eclipse.set.model.simplemerge.SComparison#getMatches <em>Matches</em>}</li>
+ * <li>{@link org.eclipse.set.model.simplemerge.SComparison#getMatches
+ * <em>Matches</em>}</li>
  * </ul>
  *
  * @see org.eclipse.set.model.simplemerge.SimplemergePackage#getSComparison()
@@ -29,14 +30,15 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface SComparison extends EObject {
 	/**
-	 * Returns the value of the '<em><b>Matches</b></em>' containment reference list.
-	 * The list contents are of type {@link org.eclipse.set.model.simplemerge.SMatch}.
-	 * <!-- begin-user-doc -->
+	 * Returns the value of the '<em><b>Matches</b></em>' containment reference
+	 * list. The list contents are of type
+	 * {@link org.eclipse.set.model.simplemerge.SMatch}. <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Matches</em>' containment reference list isn't
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
+	 * 
 	 * @return the value of the '<em>Matches</em>' containment reference list.
 	 * @see org.eclipse.set.model.simplemerge.SimplemergePackage#getSComparison_Matches()
 	 * @model containment="true"

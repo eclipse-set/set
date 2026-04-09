@@ -22,21 +22,22 @@ import org.eclipse.set.model.simplemerge.*;
  * starting with the actual class of the object and proceeding up the
  * inheritance hierarchy until a non-null result is returned, which is the
  * result of the switch. <!-- end-user-doc -->
+ * 
  * @see org.eclipse.set.model.simplemerge.SimplemergePackage
  * @generated
  */
 public class SimplemergeSwitch<T> extends Switch<T> {
 	/**
-	 * The cached model package
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached model package <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected static SimplemergePackage modelPackage;
 
 	/**
-	 * Creates an instance of the switch.
-	 * <!-- begin-user-doc --> <!--
+	 * Creates an instance of the switch. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public SimplemergeSwitch() {
@@ -60,38 +61,46 @@ public class SimplemergeSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
-	 * <!-- begin-user-doc --> <!--
+	 * Calls <code>caseXXX</code> for each class of the model until one returns
+	 * a non null result; it yields that result. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * @return the first non-null result returned by a <code>caseXXX</code> call.
+	 * 
+	 * @return the first non-null result returned by a <code>caseXXX</code>
+	 *         call.
 	 * @generated
 	 */
 	@Override
 	protected T doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
 			case SimplemergePackage.SCOMPARISON: {
-				SComparison sComparison = (SComparison)theEObject;
+				SComparison sComparison = (SComparison) theEObject;
 				T result = caseSComparison(sComparison);
-				if (result == null) result = defaultCase(theEObject);
+				if (result == null)
+					result = defaultCase(theEObject);
 				return result;
 			}
 			case SimplemergePackage.SMATCH: {
-				SMatch sMatch = (SMatch)theEObject;
+				SMatch sMatch = (SMatch) theEObject;
 				T result = caseSMatch(sMatch);
-				if (result == null) result = defaultCase(theEObject);
+				if (result == null)
+					result = defaultCase(theEObject);
 				return result;
 			}
-			default: return defaultCase(theEObject);
+			default:
+				return defaultCase(theEObject);
 		}
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>SComparison</em>'.
-	 * <!-- begin-user-doc --> This implementation
+	 * Returns the result of interpreting the object as an instance of
+	 * '<em>SComparison</em>'. <!-- begin-user-doc --> This implementation
 	 * returns null; returning a non-null result will terminate the switch. <!--
 	 * end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>SComparison</em>'.
+	 * 
+	 * @param object
+	 *            the target of the switch.
+	 * @return the result of interpreting the object as an instance of
+	 *         '<em>SComparison</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -100,12 +109,15 @@ public class SimplemergeSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>SMatch</em>'.
-	 * <!-- begin-user-doc --> This implementation returns
+	 * Returns the result of interpreting the object as an instance of
+	 * '<em>SMatch</em>'. <!-- begin-user-doc --> This implementation returns
 	 * null; returning a non-null result will terminate the switch. <!--
 	 * end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>SMatch</em>'.
+	 * 
+	 * @param object
+	 *            the target of the switch.
+	 * @return the result of interpreting the object as an instance of
+	 *         '<em>SMatch</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -114,12 +126,15 @@ public class SimplemergeSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>EObject</em>'.
-	 * <!-- begin-user-doc --> This implementation returns
+	 * Returns the result of interpreting the object as an instance of
+	 * '<em>EObject</em>'. <!-- begin-user-doc --> This implementation returns
 	 * null; returning a non-null result will terminate the switch, but this is
 	 * the last case anyway. <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>EObject</em>'.
+	 * 
+	 * @param object
+	 *            the target of the switch.
+	 * @return the result of interpreting the object as an instance of
+	 *         '<em>EObject</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject)
 	 * @generated
 	 */
