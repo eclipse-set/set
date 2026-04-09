@@ -17,6 +17,8 @@ import javax.imageio.ImageIO
 import javax.xml.parsers.DocumentBuilderFactory
 import javax.xml.parsers.ParserConfigurationException
 import org.eclipse.set.basis.FreeFieldInfo
+import org.eclipse.set.basis.FreeFieldInfo.LoadedPlanInformation
+import org.eclipse.set.basis.FreeFieldInfo.SignificantInformation
 import org.eclipse.set.basis.constants.ToolboxConstants
 import org.eclipse.set.model.tablemodel.CellContent
 import org.eclipse.set.model.tablemodel.CompareFootnoteContainer
@@ -48,6 +50,7 @@ import static extension org.eclipse.set.model.tablemodel.extensions.TableCellExt
 import static extension org.eclipse.set.model.tablemodel.extensions.TableContentExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.TableRowExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 import static extension org.eclipse.set.utils.StringExtensions.*
 import static extension org.eclipse.set.utils.export.xsl.siteplan.SiteplanXSL.pxToMilimeter
 
@@ -63,7 +66,7 @@ class TableToTableDocument {
 
 	public static val String FOOTNOTE_INLINE_TEXT_SEPARATOR = String.
 		format("%n")
-	static val String FOOTNOTE_MARK_SEPRATOR = "; "
+	static val String FOOTNOTE_MARK_SEPRATOR = ", "
 
 	val Document doc
 	var String tablename
@@ -396,6 +399,7 @@ class TableToTableDocument {
 	private def void addFootnoteChild(Element element, String content,
 		String mark, int columnNumber, boolean isRemarkColumn) {
 		val child = createCompareValueElement(mark, content)
+		child.setAttribute("isFootNote", "true")
 		element.appendChild(
 			content.addContentToElement(child, columnNumber, isRemarkColumn))
 	}
@@ -424,12 +428,32 @@ class TableToTableDocument {
 			getFootnoteInfo(fc, it)
 		]
 
-		element.addFootnoteChild(oldFootnotes.footnotesToString,
-			WARNING_MARK_YELLOW, columnNumber, isRemarkColumn)
-		element.addFootnoteChild(unchangedFootnotes.footnotesToString,
-			WARNING_MARK_BLACK, columnNumber, isRemarkColumn)
-		element.addFootnoteChild(newFootnotes.footnotesToString,
-			WARNING_MARK_RED, columnNumber, isRemarkColumn)
+		// When the Footnote aren't inline rendere, then keep the reference number in one line
+		if (!remarkTextInlnie) {
+			element.setAttribute("keep-inline", "true")
+			// Sort unchanged & new footnotes together, then the old foonotes
+			#[unchangedFootnotes, newFootnotes].flatten.distinctBy[toShorthand].
+				sortBy[index].forEach [
+					val remark = unchangedFootnotes.exists [ unchanged |
+							unchanged.bearbeitungsvermerk ===
+								bearbeitungsvermerk &&
+								toShorthand == toShorthand
+						] ? WARNING_MARK_BLACK : WARNING_MARK_RED
+					element.addFootnoteChild(toShorthand, remark, columnNumber,
+						isRemarkColumn)
+				]
+			oldFootnotes.distinctBy[toShorthand].sortBy[index].forEach [
+				element.addFootnoteChild(toShorthand, WARNING_MARK_YELLOW,
+					columnNumber, isRemarkColumn)
+			]
+		} else {
+			element.addFootnoteChild(unchangedFootnotes.footnotesToString,
+				WARNING_MARK_BLACK, columnNumber, isRemarkColumn)
+			element.addFootnoteChild(newFootnotes.footnotesToString,
+				WARNING_MARK_RED, columnNumber, isRemarkColumn)
+			element.addFootnoteChild(oldFootnotes.footnotesToString,
+				WARNING_MARK_YELLOW, columnNumber, isRemarkColumn)
+		}
 	}
 
 	private dispatch def void addFootnoteContent(Element element,
@@ -488,8 +512,9 @@ class TableToTableDocument {
 	private def Element addContentToElement(String content, Element element,
 		int columnNumber, boolean isRemarkColumn) {
 		val checkOutput = content.checkForTestOutput(columnNumber)
-		element.textContent = isRemarkColumn ? checkOutput : checkOutput.
-			intersperseWithZeroSpacesSC
+		element.textContent = isRemarkColumn
+			? checkOutput
+			: checkOutput.intersperseWithZeroSpacesSC
 		return element
 	}
 
@@ -551,10 +576,20 @@ class TableToTableDocument {
 	}
 
 	private def Element create doc.createElement("SignificantInformation") transformToSignificantInformation(
-		String significantInformation) {
-		textContent = significantInformation
-		return
+		SignificantInformation significantInformation) {
+		appendChild(transformLoadedPlanInformation("MainPlan", significantInformation.mainPlan))
+		if (significantInformation.comparePlan !== null) {
+			appendChild(transformLoadedPlanInformation("ComparePlan", significantInformation.comparePlan))
+		}
 	}
+	
+	private def Element create doc.createElement("LoadedPlan") transformLoadedPlanInformation(String id, LoadedPlanInformation info) {
+		val idAttr = doc.createAttribute("id")
+		idAttr.value = id
+		attributeNode = idAttr
+		textContent = '''«info.name» «info.timestamp» MD5: «info.checksum»'''
+	}
+	
 
 	private def Element create doc.createElement("Footnotes")
 	transformToFootnotes(Table table) {

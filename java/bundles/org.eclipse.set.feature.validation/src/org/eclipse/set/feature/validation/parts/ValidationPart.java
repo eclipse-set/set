@@ -331,8 +331,10 @@ public class ValidationPart extends AbstractEmfFormsPart {
 		setOutdated(true);
 	}
 
+	@Override
 	@PreDestroy
-	private void preDestroy() {
+	protected void preDestroy() {
+		super.preDestroy();
 		if (resizeListenerObject != null
 				&& !resizeListenerObject.isDisposed()) {
 			resizeListenerObject.removeListener(SWT.RESIZE, resizeListener);

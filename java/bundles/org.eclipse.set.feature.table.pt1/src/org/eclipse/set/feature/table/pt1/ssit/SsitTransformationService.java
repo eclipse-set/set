@@ -64,7 +64,8 @@ public class SsitTransformationService
 	public TableNameInfo getTableNameInfo() {
 		return new TableNameInfo(messages.ToolboxTableNameSsitLong,
 				messages.ToolboxTableNameSsitPlanningNumber,
-				messages.ToolboxTableNameSsitShort);
+				messages.ToolboxTableNameSsitShort,
+				messages.ToolboxTableNameSsitRil);
 	}
 
 	@Override

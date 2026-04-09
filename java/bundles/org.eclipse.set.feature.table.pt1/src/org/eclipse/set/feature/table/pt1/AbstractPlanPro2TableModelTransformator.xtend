@@ -302,5 +302,4 @@ abstract class AbstractPlanPro2TableModelTransformator extends AbstractTableMode
 			topologicalCells.put(row, newHashSet(col))
 		}
 	}
-
 }
