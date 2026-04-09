@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2018 DB Netz AG and others.
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -11,43 +11,46 @@ package org.eclipse.set.model.integrationview.impl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-
-import org.eclipse.set.model.integrationview.*;
+import org.eclipse.set.model.integrationview.Conflict;
+import org.eclipse.set.model.integrationview.Details;
+import org.eclipse.set.model.integrationview.IntegrationView;
+import org.eclipse.set.model.integrationview.IntegrationviewFactory;
+import org.eclipse.set.model.integrationview.IntegrationviewPackage;
+import org.eclipse.set.model.integrationview.ObjectQuantity;
 
 /**
- * <!-- begin-user-doc -->
- * An implementation of the model <b>Factory</b>.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> An implementation of the model <b>Factory</b>. <!--
+ * end-user-doc -->
+ * 
  * @generated
  */
-public class IntegrationviewFactoryImpl extends EFactoryImpl implements IntegrationviewFactory {
+public class IntegrationviewFactoryImpl extends EFactoryImpl
+		implements IntegrationviewFactory {
 	/**
-	 * Creates the default factory implementation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Creates the default factory implementation. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public static IntegrationviewFactory init() {
 		try {
-			IntegrationviewFactory theIntegrationviewFactory = (IntegrationviewFactory)EPackage.Registry.INSTANCE.getEFactory(IntegrationviewPackage.eNS_URI);
+			IntegrationviewFactory theIntegrationviewFactory = (IntegrationviewFactory) EPackage.Registry.INSTANCE
+					.getEFactory(IntegrationviewPackage.eNS_URI);
 			if (theIntegrationviewFactory != null) {
 				return theIntegrationviewFactory;
 			}
-		}
-		catch (Exception exception) {
+		} catch (Exception exception) {
 			EcorePlugin.INSTANCE.log(exception);
 		}
 		return new IntegrationviewFactoryImpl();
 	}
 
 	/**
-	 * Creates an instance of the factory.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Creates an instance of the factory. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public IntegrationviewFactoryImpl() {
@@ -55,25 +58,30 @@ public class IntegrationviewFactoryImpl extends EFactoryImpl implements Integrat
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
-			case IntegrationviewPackage.INTEGRATION_VIEW: return createIntegrationView();
-			case IntegrationviewPackage.OBJECT_QUANTITY: return createObjectQuantity();
-			case IntegrationviewPackage.CONFLICT: return createConflict();
-			case IntegrationviewPackage.DETAILS: return createDetails();
+			case IntegrationviewPackage.INTEGRATION_VIEW:
+				return createIntegrationView();
+			case IntegrationviewPackage.OBJECT_QUANTITY:
+				return createObjectQuantity();
+			case IntegrationviewPackage.CONFLICT:
+				return createConflict();
+			case IntegrationviewPackage.DETAILS:
+				return createDetails();
 			default:
-				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
+				throw new IllegalArgumentException("The class '"
+						+ eClass.getName() + "' is not a valid classifier");
 		}
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -83,8 +91,8 @@ public class IntegrationviewFactoryImpl extends EFactoryImpl implements Integrat
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -94,8 +102,8 @@ public class IntegrationviewFactoryImpl extends EFactoryImpl implements Integrat
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -105,8 +113,8 @@ public class IntegrationviewFactoryImpl extends EFactoryImpl implements Integrat
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -116,18 +124,18 @@ public class IntegrationviewFactoryImpl extends EFactoryImpl implements Integrat
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public IntegrationviewPackage getIntegrationviewPackage() {
-		return (IntegrationviewPackage)getEPackage();
+		return (IntegrationviewPackage) getEPackage();
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @deprecated
 	 * @generated
 	 */
@@ -136,4 +144,4 @@ public class IntegrationviewFactoryImpl extends EFactoryImpl implements Integrat
 		return IntegrationviewPackage.eINSTANCE;
 	}
 
-} //IntegrationviewFactoryImpl
+} // IntegrationviewFactoryImpl
