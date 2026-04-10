@@ -293,11 +293,20 @@ public final class TableServiceImpl implements TableService {
 	}
 
 	private Object loadTransform(final TableInfo tableInfo,
-			final IModelSession modelSession) {
+			final IModelSession modelSession, final TableType tableType) {
 		final PlanPro2TableTransformationService modelService = getModelService(
 				tableInfo);
+
 		Table transformedTable = null;
-		transformedTable = createDiffStateTable(tableInfo, modelSession);
+		if (tableType == TableType.SINGLE) {
+			transformedTable = modelService
+					.transform(PlanProSchnittstelleExtensions.getContainer(
+							modelSession.getPlanProSchnittstelle(),
+							ContainerType.SINGLE));
+		} else {
+			transformedTable = createDiffStateTable(tableInfo, modelSession);
+		}
+
 		modelService.format(transformedTable);
 		if (Thread.currentThread().isInterrupted()
 				|| transformedTable == null) {
@@ -388,7 +397,8 @@ public final class TableServiceImpl implements TableService {
 				modelSession.getPlanProSchnittstelle(),
 				ToolboxConstants.SHORTCUT_TO_TABLE_CACHE_ID);
 		final Table table = cache.get(tableInfo.shortcut(),
-				() -> (Table) loadTransform(tableInfo, modelSession));
+				() -> (Table) loadTransform(tableInfo, modelSession,
+						tableType));
 		if (tableType != TableType.DIFF && !controlAreaIds.isEmpty()
 				&& controlAreaIds.stream()
 						.noneMatch(area -> isContainerContainArea(
