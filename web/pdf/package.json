@@ -17,7 +17,7 @@
     "node-stream-zip": "^1.15.0",
     "string-replace-loader": "^3.3.0",
     "terser-webpack-plugin": "^5.4.0",
-    "webpack": "^5.105.4",
+    "webpack": "^5.106.1",
     "webpack-cli": "^7.0.2"
   }
 }
