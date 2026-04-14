@@ -335,7 +335,8 @@ public abstract class AbstractSignalTableTransform
 						s -> {
 							final SignalSideDistance signalSideDistances = sideDistancesSignal
 									.computeIfAbsent(s,
-											SignalSideDistance::new);
+											ele -> new SignalSideDistance(ele,
+													getSideDistanceMastType()));
 							final Set<SideDistance> distances = switch (linksrechts) {
 								case ENUM_LINKS_RECHTS_LINKS -> signalSideDistances
 										.getSideDistancesLeft();
@@ -353,6 +354,8 @@ public abstract class AbstractSignalTableTransform
 									.toList();
 						}, null, ITERABLE_FILLING_SEPARATOR));
 	}
+
+	protected abstract List<ENUMBefestigungArt> getSideDistanceMastType();
 
 	protected abstract ColumnDescriptor getFundamentHoeheColumn();
 
