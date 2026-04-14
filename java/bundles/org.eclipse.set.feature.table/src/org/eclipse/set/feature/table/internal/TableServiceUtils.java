@@ -10,12 +10,15 @@
  */
 package org.eclipse.set.feature.table.internal;
 
+import static org.eclipse.set.ppmodel.extensions.StellBereichExtensions.getStellBereich;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.BiConsumer;
@@ -30,6 +33,7 @@ import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.core.services.cache.CacheService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.messages.Messages;
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
 import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
 import org.eclipse.set.model.tablemodel.CellContent;
 import org.eclipse.set.model.tablemodel.CompareFootnoteContainer;
@@ -269,10 +273,15 @@ public class TableServiceUtils {
 					.createInstance(group.getLeadingObject(), modelsession);
 			final Ur_Objekt leadingObj = objectEachContanier
 					.getObject(tableType);
+			final MultiContainer_AttributeGroup container = modelsession
+					.getContainer(tableType.getContainerForTable());
+			final List<Stell_Bereich> areas = controlAreaIds.stream()
+					.map(areaId -> getStellBereich(container, areaId))
+					.toList();
 			return !transformationService
 					.isObjectBelongToRendereArea(leadingObj)
-					|| !transformationService.isObjectBelongToRendereArea(
-							leadingObj, controlAreaIds);
+					|| !transformationService
+							.isObjectBelongToRendereArea(leadingObj, areas);
 
 		});
 		return result;
@@ -380,21 +389,37 @@ public class TableServiceUtils {
 			final BiConsumer<T, TableType> handleByInitialOrFinalElementNotBelongToArea) {
 		if (modelSession.getTableType() == TableType.SINGLE) {
 			return listElement.stream().filter(ele -> {
+				final List<Stell_Bereich> areas = controlAreas.stream()
+						.map(area -> getStellBereich(
+								modelSession.getContainer(ContainerType.SINGLE),
+								area))
+						.toList();
 				final Ur_Objekt obj = getUrObj.apply(ele).singleObj();
 				return transformationService.isObjectBelongToRendereArea(obj,
-						controlAreas);
+						areas);
 			}).toList();
 		}
+
+		final List<Stell_Bereich> inititalControlAreas = controlAreas.stream()
+				.map(area -> getStellBereich(
+						modelSession.getContainer(ContainerType.INITIAL), area))
+				.filter(Objects::nonNull)
+				.toList();
+		final List<Stell_Bereich> finalControlAreas = controlAreas.stream()
+				.map(area -> getStellBereich(
+						modelSession.getContainer(ContainerType.FINAL), area))
+				.filter(Objects::nonNull)
+				.toList();
 
 		return listElement.stream().filter(ele -> {
 			final UrObjektEachContainer objEachContainer = getUrObj.apply(ele);
 
 			final boolean isInitialObjBelongToAreas = transformationService
 					.isObjectBelongToRendereArea(objEachContainer.initalObj,
-							controlAreas);
+							inititalControlAreas);
 			final boolean isFinalObjBelongToAreas = transformationService
 					.isObjectBelongToRendereArea(objEachContainer.finalObj,
-							controlAreas);
+							finalControlAreas);
 			if (isInitialObjBelongToAreas != isFinalObjBelongToAreas
 					&& handleByInitialOrFinalElementNotBelongToArea != null) {
 				handleByInitialOrFinalElementNotBelongToArea.accept(ele,

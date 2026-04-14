@@ -16,16 +16,12 @@ import org.eclipse.set.model.planpro.Balisentechnik_ETCS.RBC;
 import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
 import org.eclipse.set.model.planpro.PlanPro.LST_Objekte_Planungsbereich_AttributeGroup;
 import org.eclipse.set.model.tablemodel.Table;
-import org.eclipse.set.ppmodel.extensions.BasisAttributExtensions;
-import org.eclipse.set.ppmodel.extensions.EObjectExtensions;
 import org.eclipse.set.ppmodel.extensions.StellBereichExtensions;
 import org.eclipse.set.ppmodel.extensions.UrObjectExtensions;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
 import org.eclipse.set.utils.table.AbstractTableTransformationService;
 import org.eclipse.set.utils.table.TableInfo.Pt1TableCategory;
-
-import com.google.common.collect.Streams;
 
 /**
  * Common base for tables in this bundle
@@ -60,13 +56,13 @@ public abstract class PlanPro2TableTransformationService extends
 	 * 
 	 * @param obj
 	 *            the table object
-	 * @param areaIds
-	 *            the area guid
+	 * @param areas
+	 *            the selected control area
 	 * @return true, if the object is relevant
 	 */
 	public boolean isObjectBelongToRendereArea(final Ur_Objekt obj,
-			final Set<String> areaIds) {
-		if (areaIds.isEmpty()) {
+			final List<Stell_Bereich> areas) {
+		if (areas.isEmpty()) {
 			return true;
 		}
 		if (obj == null) {
@@ -74,22 +70,6 @@ public abstract class PlanPro2TableTransformationService extends
 		}
 		return switch (getTableCategory()) {
 			case ESTW, ESTW_SUPPLEMENT -> {
-				final MultiContainer_AttributeGroup container = BasisAttributExtensions
-						.getContainer(obj);
-				final List<Stell_Bereich> areas = Streams
-						.stream(container.getStellBereich())
-						.filter(area -> {
-							final String id = EObjectExtensions
-									.getNullableObject(area,
-											a -> a.getIdentitaet().getWert())
-									.orElse(null);
-							if (id == null) {
-								return false;
-							}
-							return areaIds.stream()
-									.anyMatch(i -> i.equalsIgnoreCase(id));
-						})
-						.toList();
 				yield StellBereichExtensions.isInControlArea(areas, obj);
 			}
 			default -> true;
