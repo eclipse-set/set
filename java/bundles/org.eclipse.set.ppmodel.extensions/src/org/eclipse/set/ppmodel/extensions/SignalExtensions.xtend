@@ -293,9 +293,6 @@ class SignalExtensions extends PunktObjektExtensions {
 	}
 
 	/**
-	 * Find recursive Aussenelemntansteuerung throught 
-	 * Aussenelementansteuerung#IDInformationPrimaer und
-	 * Aussenelementansteuerung#IDInformationSekundaer
 	 * @param signal this signal
 	 * @param getFirstControlFunc the function to get Aussenelemntansteuerung from signal
 	 * @return the relevant Aussenelementansteuerung or null, if no element matched the condition
@@ -311,7 +308,8 @@ class SignalExtensions extends PunktObjektExtensions {
 				it == aea?.AEAAllg?.aussenelementansteuerungArt?.wert
 			]
 		]
-		return aea.findRecursiveAEAInformation(isRelevantAea)
+
+		return isRelevantAea.test(aea) ? aea : null
 	}
 
 	/**
