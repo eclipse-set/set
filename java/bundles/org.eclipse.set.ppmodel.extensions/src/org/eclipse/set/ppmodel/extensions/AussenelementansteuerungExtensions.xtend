@@ -139,7 +139,14 @@ class AussenelementansteuerungExtensions extends BasisObjektExtensions {
 		].toList
 	}
 
-	/** */
+	/**
+	 * Find recursive Aussenelemntansteuerung throught 
+	 * Aussenelementansteuerung#IDInformationPrimaer und
+	 * Aussenelementansteuerung#IDInformationSekundaer
+	 * @param aea the Aussenelemntansteuerung
+	 * @param condition the condition
+	 * @param the Aussenelemntansteuerung or null, if it given't matched
+	 */
 	def static Aussenelementansteuerung findRecursiveAEAInformation(
 		Aussenelementansteuerung aea,
 		Predicate<Aussenelementansteuerung> condition) {
