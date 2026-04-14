@@ -8,11 +8,23 @@
  */
 package org.eclipse.set.feature.table;
 
+import java.util.List;
 import java.util.Set;
 
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
+import org.eclipse.set.model.planpro.Balisentechnik_ETCS.RBC;
+import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
+import org.eclipse.set.model.planpro.PlanPro.LST_Objekte_Planungsbereich_AttributeGroup;
+import org.eclipse.set.ppmodel.extensions.BasisAttributExtensions;
+import org.eclipse.set.ppmodel.extensions.EObjectExtensions;
+import org.eclipse.set.ppmodel.extensions.StellBereichExtensions;
+import org.eclipse.set.ppmodel.extensions.UrObjectExtensions;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
 import org.eclipse.set.utils.table.AbstractTableTransformationService;
+import org.eclipse.set.utils.table.TableInfo.Pt1TableCategory;
+
+import com.google.common.collect.Streams;
 
 /**
  * Common base for tables in this bundle
@@ -37,5 +49,57 @@ public abstract class PlanPro2TableTransformationService extends
 	public boolean enableFiltering() {
 		// by default we disable filtering
 		return false;
+	}
+
+	protected abstract Pt1TableCategory getTableCategory();
+
+	/**
+	 * Check if the object belong to the current selected
+	 * {@link Stell_Bereich}/{@link RBC} area
+	 * 
+	 * @param obj
+	 *            the table object
+	 * @param areaIds
+	 *            the area guid
+	 * @return true, if the object is relevant
+	 */
+	public boolean isObjectBelongToRendereArea(final Ur_Objekt obj,
+			final Set<String> areaIds) {
+		if (areaIds.isEmpty()) {
+			return true;
+		}
+		return switch (getTableCategory()) {
+			case ESTW, ESTW_SUPPLEMENT -> {
+				final MultiContainer_AttributeGroup container = BasisAttributExtensions
+						.getContainer(obj);
+				final List<Stell_Bereich> areas = Streams
+						.stream(container.getStellBereich())
+						.filter(area -> {
+							final String id = EObjectExtensions
+									.getNullableObject(area,
+											a -> a.getIdentitaet().getWert())
+									.orElse(null);
+							if (id == null) {
+								return false;
+							}
+							return areaIds.stream()
+									.anyMatch(i -> i.equalsIgnoreCase(id));
+						})
+						.toList();
+				yield StellBereichExtensions.isInControlArea(areas, obj);
+			}
+			default -> true;
+		};
+	}
+
+	/**
+	 * @param obj
+	 *            the table object
+	 * @return true if the object belong to
+	 *         {@link LST_Objekte_Planungsbereich_AttributeGroup#getIDLSTObjektPlanungsbereich()}
+	 */
+	@SuppressWarnings("static-method")
+	public boolean isObjectBelongToRendereArea(final Ur_Objekt obj) {
+		return UrObjectExtensions.isPlanningObject(obj);
 	}
 }

@@ -268,7 +268,8 @@ public final class TableServiceImpl implements TableService {
 					|| tableInfo.category().equals(tableCategory)) {
 				final List<TableError> tableErrors = TableServiceUtils
 						.getCachedTableError(getCacheService(), tableInfo,
-								modelSession, controlAreaIds);
+								modelSession, getModelService(tableInfo),
+								controlAreaIds);
 				if (tableErrors != null
 						|| !TableService.isTransformComplete(tableInfo, null)) {
 					result.put(tableInfo, tableErrors);
@@ -403,8 +404,8 @@ public final class TableServiceImpl implements TableService {
 			return emptyTable;
 		}
 		final Table resultTable = TableServiceUtils.filterRequestValue(
-				EcoreUtil.copy(table), tableInfo, tableType, modelSession,
-				controlAreaIds);
+				EcoreUtil.copy(table), tableType, modelSession,
+				getModelService(tableInfo), controlAreaIds);
 		TableServiceUtils.clearEmptyRow(resultTable);
 		sortTable(resultTable, tableInfo);
 		return resultTable;

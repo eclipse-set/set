@@ -16,6 +16,7 @@ import static org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparat
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.set.basis.constants.Events;
@@ -26,10 +27,16 @@ import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.messages.Messages;
 import org.eclipse.set.model.planpro.Basisobjekte.Strecke_Km_TypeClass;
+import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
 import org.eclipse.set.model.planpro.Signale.Signal;
 import org.eclipse.set.model.planpro.Verweise.ID_Strecke_TypeClass;
 import org.eclipse.set.model.tablemodel.RowGroup;
+import org.eclipse.set.ppmodel.extensions.BasisAttributExtensions;
+import org.eclipse.set.ppmodel.extensions.SignalExtensions;
+import org.eclipse.set.ppmodel.extensions.StellBereichExtensions;
+import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
+import org.eclipse.set.utils.table.TableInfo.Pt1TableCategory;
 import org.eclipse.set.utils.table.sorting.TableRowGroupComparator;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -138,5 +145,26 @@ public final class SsksTransformationService extends
 	protected Map<Class<?>, String> getFootnotesColumnReferences() {
 		return Map.of(ID_Strecke_TypeClass.class, SsksColumns.Strecke,
 				Strecke_Km_TypeClass.class, SsksColumns.Km);
+	}
+
+	@Override
+	protected Pt1TableCategory getTableCategory() {
+		return Pt1TableCategory.ESTW;
+	}
+
+	@Override
+	public boolean isObjectBelongToRendereArea(final Ur_Objekt obj,
+			final Set<String> areaIds) {
+		if (obj instanceof final Signal signal) {
+			final MultiContainer_AttributeGroup container = BasisAttributExtensions
+					.getContainer(obj);
+			return areaIds.stream()
+					.map(areaId -> StellBereichExtensions
+							.getStellBereich(container, areaId))
+					.anyMatch(area -> SignalExtensions
+							.isSsksSignalBelongToArea(signal, area));
+		}
+
+		return false;
 	}
 }
