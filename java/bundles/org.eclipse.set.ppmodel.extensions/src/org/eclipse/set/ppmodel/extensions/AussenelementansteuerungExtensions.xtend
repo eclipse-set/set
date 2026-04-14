@@ -18,6 +18,8 @@ import org.eclipse.set.model.planpro.Ansteuerung_Element.Stellelement
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 
 import static extension org.eclipse.set.ppmodel.extensions.StellBereichExtensions.*
+import java.util.function.Predicate
+import java.util.LinkedList
 
 /**
  * Extensions for {@link Aussenelementansteuerung}.
@@ -135,5 +137,35 @@ class AussenelementansteuerungExtensions extends BasisObjektExtensions {
 		return aussenElement?.container?.stellBereich?.filter [ area |
 			aussenElement.isBelongToControlArea(area)
 		].toList
+	}
+
+	/** */
+	def static Aussenelementansteuerung findRecursiveAEAInformation(
+		Aussenelementansteuerung aea,
+		Predicate<Aussenelementansteuerung> condition) {
+		if (condition.test(aea)) {
+			return aea
+		}
+
+		val LinkedList<Aussenelementansteuerung> recursiveList = newLinkedList
+		val addToListFunc = [ Aussenelementansteuerung ele |
+			if (!recursiveList.exists[it === ele]) {
+				recursiveList.add(ele)
+			}
+		]
+		#[aea.informationPrimaer.filter(Aussenelementansteuerung),
+			aea.informationSekundaer].flatten.forEach[addToListFunc.apply(it)]
+		while (!recursiveList.nullOrEmpty) {
+			val head = recursiveList.pop
+			if (condition.test(head)) {
+				return head
+			}
+			#[head.informationPrimaer.filter(Aussenelementansteuerung),
+				head.informationSekundaer].flatten.forEach [
+				addToListFunc.apply(it)
+			]
+		}
+		return null
+
 	}
 }

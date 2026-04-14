@@ -13,13 +13,14 @@ import java.util.Collections
 import java.util.LinkedList
 import java.util.List
 import java.util.Set
+import java.util.function.Predicate
 import org.eclipse.core.runtime.Assert
 import org.eclipse.set.basis.graph.Digraphs
 import org.eclipse.set.basis.graph.TopPoint
 import org.eclipse.set.core.services.graph.TopologicalGraphService
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Aussenelementansteuerung
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stellelement
-import org.eclipse.set.model.planpro.Ansteuerung_Element.Unterbringung
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Zug_Rangier
@@ -56,7 +57,6 @@ import static extension org.eclipse.set.ppmodel.extensions.FstrZugRangierExtensi
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalRahmenExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalbegriffExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.StellelementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.CollectionExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.Debug.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
@@ -293,18 +293,25 @@ class SignalExtensions extends PunktObjektExtensions {
 	}
 
 	/**
+	 * Find recursive Aussenelemntansteuerung throught 
+	 * Aussenelementansteuerung#IDInformationPrimaer und
+	 * Aussenelementansteuerung#IDInformationSekundaer
 	 * @param signal this signal
-	 * 
-	 * @return the Schaltkasten for this Signal; or {@code null}, if this
-	 * signal has no Schaltkasten
+	 * @param getFirstControlFunc the function to get Aussenelemntansteuerung from signal
+	 * @return the relevant Aussenelementansteuerung or null, if no element matched the condition
 	 */
-	def static Unterbringung getControlBox(Signal signal) {
-		val energie = signal.realAktivStellelement?.energie
-		if (energie?.AEAAllg?.aussenelementansteuerungArt?.wert ===
-			ENUM_AUSSENELEMENTANSTEUERUNG_ART_OBJEKTCONTROLLER) {
-			return energie.unterbringung
-		}
-		return null
+	def static Aussenelementansteuerung getControlElement(Signal signal,
+		(Signal)=>Aussenelementansteuerung getFirstControlFunc) {
+		val aea = getFirstControlFunc.apply(signal)
+		val relevantArt = #[ENUM_AUSSENELEMENTANSTEUERUNG_ART_OBJEKTCONTROLLER,
+			ENUM_AUSSENELEMENTANSTEUERUNG_ART_FE_AK,
+			ENUM_AUSSENELEMENTANSTEUERUNG_ART_FE_AS]
+		val Predicate<Aussenelementansteuerung> isRelevantAea = [ ele |
+			relevantArt.exists [
+				it == aea?.AEAAllg?.aussenelementansteuerungArt?.wert
+			]
+		]
+		return aea.findRecursiveAEAInformation(isRelevantAea)
 	}
 
 	/**
@@ -477,8 +484,9 @@ class SignalExtensions extends PunktObjektExtensions {
 		}
 		return false
 	}
-	
-	def static boolean isSskxSignalBelongToArea(Signal signal, Stell_Bereich area) {
+
+	def static boolean isSskxSignalBelongToArea(Signal signal,
+		Stell_Bereich area) {
 		return area.contains(signal, tolerantDistance)
 	}
 
