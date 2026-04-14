@@ -407,6 +407,7 @@ public final class TableServiceImpl implements TableService {
 				EcoreUtil.copy(table), tableType, modelSession,
 				getModelService(tableInfo), controlAreaIds);
 		TableServiceUtils.clearEmptyRow(resultTable);
+		getModelService(tableInfo).addAdditionRow(table, resultTable);
 		sortTable(resultTable, tableInfo);
 		return resultTable;
 	}

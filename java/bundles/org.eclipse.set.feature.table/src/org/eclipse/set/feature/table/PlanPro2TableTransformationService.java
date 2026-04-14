@@ -15,6 +15,7 @@ import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
 import org.eclipse.set.model.planpro.Balisentechnik_ETCS.RBC;
 import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
 import org.eclipse.set.model.planpro.PlanPro.LST_Objekte_Planungsbereich_AttributeGroup;
+import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.ppmodel.extensions.BasisAttributExtensions;
 import org.eclipse.set.ppmodel.extensions.EObjectExtensions;
 import org.eclipse.set.ppmodel.extensions.StellBereichExtensions;
@@ -68,6 +69,9 @@ public abstract class PlanPro2TableTransformationService extends
 		if (areaIds.isEmpty()) {
 			return true;
 		}
+		if (obj == null) {
+			return false;
+		}
 		return switch (getTableCategory()) {
 			case ESTW, ESTW_SUPPLEMENT -> {
 				final MultiContainer_AttributeGroup container = BasisAttributExtensions
@@ -101,5 +105,19 @@ public abstract class PlanPro2TableTransformationService extends
 	@SuppressWarnings("static-method")
 	public boolean isObjectBelongToRendereArea(final Ur_Objekt obj) {
 		return UrObjectExtensions.isPlanningObject(obj);
+	}
+
+	/**
+	 * Addition row to filtered table after filter the original table thought
+	 * rendered area
+	 * 
+	 * @param originalTable
+	 *            the origin table, which contains all value
+	 * @param filteredTable
+	 *            the filtered table
+	 */
+	public void addAdditionRow(final Table originalTable,
+			final Table filteredTable) {
+		// do nothing by default
 	}
 }
