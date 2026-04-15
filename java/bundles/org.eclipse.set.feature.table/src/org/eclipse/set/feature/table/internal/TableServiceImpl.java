@@ -130,12 +130,8 @@ public final class TableServiceImpl implements TableService {
     private final Map<TableInfo, PlanPro2TableTransformationService> modelServiceMap = new ConcurrentHashMap<>();
 
     private final Map<TableCompareType, TableDiffService> diffServiceMap = new ConcurrentHashMap<>();
-    <<<<<<< HEAD
-	private static final Queue<Pair<BasePart, TableRendererUtil>> transformTableThreads = new LinkedList<>();
-    =======
-	private final Map<String, Set<Footnote>> footnotesPerTable = new ConcurrentHashMap<>();
-    private static final Queue<Pair<BasePart, Runnable>> transformTableThreads = new LinkedList<>();
-    >>>>>>> main
+    private static final Queue<Pair<BasePart, TableRendererUtil>> transformTableThreads = new LinkedList<>();
+    private final Map<String, Set<Footnote>> footnotesPerTable = new ConcurrentHashMap<>();
     private static final Set<TableInfo> nonTransformableTables = new HashSet<>();
 
     private CacheService getCacheService() {
@@ -389,8 +385,18 @@ public final class TableServiceImpl implements TableService {
         final Cache cache = getCacheService().getCache(
                 modelSession.getPlanProSchnittstelle(),
                 ToolboxConstants.SHORTCUT_TO_TABLE_CACHE_ID);
-        final Table table = cache.get(tableInfo.shortcut(),
-                () -> (Table) loadTransform(tableInfo, modelSession));
+        final Object table = cache.get(tableInfo.shortcut(), () -> {
+            final Object transformed = loadTransform(tableInfo, modelSession);
+            if (transformed != null
+                    && transformed instanceof final Table transformedTable) {
+                return transformedTable;
+            }
+            return MissingSupplier.MISSING_VALUE;
+        });
+
+        if (!(table instanceof Table)) {
+            return null;
+        }
         if (tableType != TableType.DIFF && !controlAreaIds.isEmpty()
                 && controlAreaIds.stream()
                         .noneMatch(area -> isContainerContainArea(
@@ -405,8 +411,8 @@ public final class TableServiceImpl implements TableService {
             return emptyTable;
         }
         final Table resultTable = TableServiceUtils.filterRequestValue(
-                EcoreUtil.copy(table), tableInfo, tableType, modelSession,
-                controlAreaIds);
+                EcoreUtil.copy((Table) table), tableInfo, tableType,
+                modelSession, controlAreaIds);
         TableServiceUtils.clearEmptyRow(resultTable);
         sortTable(resultTable, tableInfo);
         return resultTable;

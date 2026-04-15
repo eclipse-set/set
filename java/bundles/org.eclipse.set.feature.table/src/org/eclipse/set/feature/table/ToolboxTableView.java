@@ -311,7 +311,7 @@ public class ToolboxTableView extends BasePart {
         if (!event.getTopic().equalsIgnoreCase(Events.COMPARE_MODEL_LOADED)) {
             return;
         }
-        updateModel(getToolboxPart());
+        updateModel(getToolboxPart(), transformToTableModel());
     }
 
     @Override
@@ -349,23 +349,27 @@ public class ToolboxTableView extends BasePart {
      *
      * @return the table view model
      */
-    private Table transformToTableModel() {
+    protected Table transformToTableModel() {
         return tableService.createDiffTable(tableInfo, tableType,
                 controlAreaIds);
     }
 
     private void updateTableView(final List<Pt1TableCategory> tableCategories) {
-        tableService.updateTable(this, tableCategories, () -> {
-            updateModel(getToolboxPart());
-            natTable.doCommand(new RowHeightResetCommand());
-            natTable.refresh();
-            updateButtons();
+        tableService.updateTable(this, tableCategories, new TableRendererUtil(
+                () -> transformToTableModel(), transformedTable -> {
+                    if (transformedTable == null) {
+                        return;
+                    }
+                    updateModel(getToolboxPart(), transformedTable);
+                    natTable.doCommand(new RowHeightResetCommand());
+                    natTable.refresh();
+                    updateButtons();
 
-            // Update footnotes
-            tableFooting.updateFootnotes(table);
-            // Update widget layout
-            natTable.getParent().layout();
-        }, tableInstances::clear);
+                    // Update footnotes
+                    tableFooting.updateFootnotes(transformedTable);
+                    // Update widget layout
+                    natTable.getParent().layout();
+                }));
     }
 
     @Override
