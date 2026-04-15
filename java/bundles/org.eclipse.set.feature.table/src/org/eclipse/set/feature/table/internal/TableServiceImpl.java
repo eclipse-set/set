@@ -650,6 +650,9 @@ public final class TableServiceImpl implements TableService {
             throw new RuntimeException(e);
         }
 
+        if (mainSessionTable == null) {
+            return null;
+        }
         // When it give Exception by transform second plan, then return the
         // first plan table
         try {
