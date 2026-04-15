@@ -23,6 +23,7 @@ import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt
 import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.model.tablemodel.CompareFootnoteContainer
 import org.eclipse.set.model.tablemodel.CompareTableFootnoteContainer
+import org.eclipse.set.model.tablemodel.Footnote
 import org.eclipse.set.model.tablemodel.FootnoteContainer
 import org.eclipse.set.model.tablemodel.RowGroup
 import org.eclipse.set.model.tablemodel.SimpleFootnoteContainer
@@ -38,6 +39,7 @@ import static extension org.eclipse.set.model.tablemodel.extensions.TableContent
 import static extension org.eclipse.set.model.tablemodel.extensions.TableRowExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.EObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 import static extension org.eclipse.set.utils.StringExtensions.*
 
 /**
@@ -87,15 +89,24 @@ class TableExtensions {
 	/**
 	 * @param table this table
 	 * 
-	 * @return the rows of this table
+	 * @return the row groups of this table
 	 */
-	static def List<TableRow> getTableRows(Table table) {
+	static def List<RowGroup> getTableRowGroups(Table table) {
 		val content = table?.tablecontent
 		if (content === null) {
 			return #[]
 		}
+		return content.rowgroups
+	}
+
+	/**
+	 * @param table this table
+	 * 
+	 * @return the rows of this table
+	 */
+	static def List<TableRow> getTableRows(Table table) {
 		var rows = newLinkedList();
-		for (RowGroup rowgroup : content.rowgroups)
+		for (RowGroup rowgroup : table.tableRowGroups)
 			rows.addAll(rowgroup.rows)
 		return rows
 	}
@@ -300,10 +311,20 @@ class TableExtensions {
 	 */
 	static def RowGroup getGroupByLeadingObject(Table table, Ur_Objekt object,
 		int index) {
-		return table.tablecontent.rowgroups.findFirst [
+		val matchesRows = table.tablecontent.rowgroups.filter [
 			leadingObject?.identitaet?.wert == object?.identitaet?.wert &&
 				leadingObjectIndex === index
-		]
+		].toList
+		// When give more than one Object with same GUID,
+		// then find object in same Subwork 
+		if (matchesRows.size > 1 && object !== null) {
+			return matchesRows.findFirst [
+				leadingObject.LSTZustand.eContainer ==
+					object.LSTZustand.eContainer
+			]
+		}
+
+		return matchesRows.firstOrNull
 	}
 
 	/**
@@ -397,9 +418,14 @@ class TableExtensions {
 	}
 
 	static class FootnoteInfo {
-		new(Bearbeitungsvermerk fn, FootnoteType ft) {
-			this.footnote = fn
+		new(Footnote fn, FootnoteType ft) {
+			this(fn.bearbeitungsvermerk, ft, fn.referenceColumn)
+		}
+
+		new(Bearbeitungsvermerk bv, FootnoteType ft, String refCol) {
+			this.bearbeitungsvermerk = bv
 			this.type = ft
+			this.referenceColumn = refCol
 		}
 
 		def String toShorthand() {
@@ -407,56 +433,73 @@ class TableExtensions {
 		}
 
 		def String toReferenceText() {
-			return '''*«index»: «footnote?.bearbeitungsvermerkAllg?.kommentar?.wert»'''
+			return '''*«index»: «toText»'''
 		}
 
 		def String toText() {
-			return footnote?.bearbeitungsvermerkAllg?.kommentar?.wert
+			return '''«IF referenceColumn !== null && !referenceColumn.isEmpty»«referenceColumn»: «ENDIF»«
+			»«bearbeitungsvermerk?.bearbeitungsvermerkAllg?.kommentar?.wert»'''
 		}
 
-		public Bearbeitungsvermerk footnote;
+		public Bearbeitungsvermerk bearbeitungsvermerk;
 		public int index;
 		public FootnoteType type;
+		public String referenceColumn
 	}
 
 	static def Iterable<FootnoteInfo> getAllFootnotes(Table table) {
 		val common = (table.eAllContents.filter(SimpleFootnoteContainer).map [
 			footnotes.map[new FootnoteInfo(it, FootnoteType.COMMON_FOOTNOTE)]
 		] + table.eAllContents.filter(CompareFootnoteContainer).map [
-			unchangedFootnotes.map [
+			unchangedFootnotes.footnotes.map [
 				new FootnoteInfo(it, FootnoteType.COMMON_FOOTNOTE)
 			]
 		]).toList.flatten
 
 		val old = table.eAllContents.filter(CompareFootnoteContainer).map [
-			oldFootnotes.map[new FootnoteInfo(it, FootnoteType.OLD_FOOTNOTE)]
+			oldFootnotes.footnotes.map [
+				new FootnoteInfo(it, FootnoteType.OLD_FOOTNOTE)
+			]
 		].toList.flatten
 
 		val newF = table.eAllContents.filter(CompareFootnoteContainer).map [
-			newFootnotes.map[new FootnoteInfo(it, FootnoteType.NEW_FOOTNOTE)]
+
+			newFootnotes.footnotes.map [
+				new FootnoteInfo(it, FootnoteType.NEW_FOOTNOTE)
+			]
 		].toList.flatten
 
 		// sort new and common together by text, then append old entries
 		val footnotes = (common + newF).sortBy[toText] + old.sortBy[toText]
 
-		return footnotes.distinctBy[toText -> footnote].indexed.map [
+		return footnotes.distinctBy[toText].indexed.map [
 			value.index = key + 1
 			return value
 		]
 	}
 
+	static def FootnoteInfo getFootnoteInfo(Table table, Footnote fn) {
+		return table.getFootnoteInfo(fn.bearbeitungsvermerk)
+	}
+
 	static def FootnoteInfo getFootnoteInfo(Table table,
-		Bearbeitungsvermerk fn) {
-		return table.allFootnotes.findFirst[footnote == fn]
+		Bearbeitungsvermerk bv) {
+		return table.allFootnotes.findFirst[bearbeitungsvermerk?.identitaet?.wert == bv?.identitaet?.wert ||
+			bv?.bearbeitungsvermerkAllg?.kommentar?.wert == toText
+		]
+	}
+
+	static def FootnoteInfo getFootnoteInfo(EObject tableContent, Footnote fn) {
+		return getFootnoteInfo(tableContent, fn.bearbeitungsvermerk)
 	}
 
 	static def FootnoteInfo getFootnoteInfo(EObject tableContent,
-		Bearbeitungsvermerk fn) {
+		Bearbeitungsvermerk bv) {
 		var object = tableContent
 		while (!(object instanceof Table)) {
 			object = object.eContainer
 		}
-		return getFootnoteInfo(object as Table, fn)
+		return getFootnoteInfo(object as Table, bv)
 	}
 
 	static def boolean isTableEmpty(Table table) {
@@ -494,13 +537,13 @@ class TableExtensions {
 				]
 			}
 			CompareFootnoteContainer: {
-				val oldFootnotes = fc.oldFootnotes.map [
+				val oldFootnotes = fc.oldFootnotes.footnotes.map [
 					getFootnoteInfo(table, it)
 				].filterNull
-				val newFootnotes = fc.newFootnotes.map [
+				val newFootnotes = fc.newFootnotes.footnotes.map [
 					getFootnoteInfo(table, it)
 				].filterNull
-				val unchangedFootnotes = fc.unchangedFootnotes.map [
+				val unchangedFootnotes = fc.unchangedFootnotes.footnotes.map [
 					getFootnoteInfo(table, it)
 				].filterNull
 				val allFootnotes = #[oldFootnotes, newFootnotes,
@@ -513,9 +556,8 @@ class TableExtensions {
 					]
 			}
 			CompareTableFootnoteContainer: {
-				return isInlineFootnote(table,
-					fc.
-						mainPlanFootnoteContainer, maxCharInCell)
+				return isInlineFootnote(table, fc.mainPlanFootnoteContainer,
+					maxCharInCell)
 			}
 			default:
 				false

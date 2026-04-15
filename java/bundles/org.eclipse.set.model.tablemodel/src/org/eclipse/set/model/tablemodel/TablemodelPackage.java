@@ -361,13 +361,22 @@ public interface TablemodelPackage extends EPackage {
 	int TABLE_ROW__FOOTNOTES = 2;
 
 	/**
+	 * The feature id for the '<em><b>Row Object</b></em>' reference. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 * @ordered
+	 */
+	int TABLE_ROW__ROW_OBJECT = 3;
+
+	/**
 	 * The number of structural features of the '<em>Table Row</em>' class. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @generated
 	 * @ordered
 	 */
-	int TABLE_ROW_FEATURE_COUNT = 3;
+	int TABLE_ROW_FEATURE_COUNT = 4;
 
 	/**
 	 * The number of operations of the '<em>Table Row</em>' class. <!--
@@ -522,15 +531,15 @@ public interface TablemodelPackage extends EPackage {
 
 	/**
 	 * The meta object id for the
-	 * '{@link org.eclipse.set.model.tablemodel.impl.CompareCellContentImpl
-	 * <em>Compare Cell Content</em>}' class. <!-- begin-user-doc --> <!--
+	 * '{@link org.eclipse.set.model.tablemodel.impl.CompareStateCellContentImpl
+	 * <em>Compare State Cell Content</em>}' class. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
 	 * 
-	 * @see org.eclipse.set.model.tablemodel.impl.CompareCellContentImpl
-	 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getCompareCellContent()
+	 * @see org.eclipse.set.model.tablemodel.impl.CompareStateCellContentImpl
+	 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getCompareStateCellContent()
 	 * @generated
 	 */
-	int COMPARE_CELL_CONTENT = 8;
+	int COMPARE_STATE_CELL_CONTENT = 8;
 
 	/**
 	 * The feature id for the '<em><b>Separator</b></em>' attribute. <!--
@@ -539,43 +548,45 @@ public interface TablemodelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COMPARE_CELL_CONTENT__SEPARATOR = CELL_CONTENT__SEPARATOR;
+	int COMPARE_STATE_CELL_CONTENT__SEPARATOR = CELL_CONTENT__SEPARATOR;
 
 	/**
-	 * The feature id for the '<em><b>Old Value</b></em>' attribute list. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated
-	 * @ordered
-	 */
-	int COMPARE_CELL_CONTENT__OLD_VALUE = CELL_CONTENT_FEATURE_COUNT + 0;
-
-	/**
-	 * The feature id for the '<em><b>New Value</b></em>' attribute list. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated
-	 * @ordered
-	 */
-	int COMPARE_CELL_CONTENT__NEW_VALUE = CELL_CONTENT_FEATURE_COUNT + 1;
-
-	/**
-	 * The number of structural features of the '<em>Compare Cell Content</em>'
-	 * class. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated
-	 * @ordered
-	 */
-	int COMPARE_CELL_CONTENT_FEATURE_COUNT = CELL_CONTENT_FEATURE_COUNT + 2;
-
-	/**
-	 * The number of operations of the '<em>Compare Cell Content</em>' class.
+	 * The feature id for the '<em><b>Old Value</b></em>' containment reference.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @generated
 	 * @ordered
 	 */
-	int COMPARE_CELL_CONTENT_OPERATION_COUNT = CELL_CONTENT_OPERATION_COUNT + 0;
+	int COMPARE_STATE_CELL_CONTENT__OLD_VALUE = CELL_CONTENT_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>New Value</b></em>' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 * @ordered
+	 */
+	int COMPARE_STATE_CELL_CONTENT__NEW_VALUE = CELL_CONTENT_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>Compare State Cell
+	 * Content</em>' class. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 * @ordered
+	 */
+	int COMPARE_STATE_CELL_CONTENT_FEATURE_COUNT = CELL_CONTENT_FEATURE_COUNT
+			+ 2;
+
+	/**
+	 * The number of operations of the '<em>Compare State Cell Content</em>'
+	 * class. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 * @ordered
+	 */
+	int COMPARE_STATE_CELL_CONTENT_OPERATION_COUNT = CELL_CONTENT_OPERATION_COUNT
+			+ 0;
 
 	/**
 	 * The meta object id for the
@@ -755,8 +766,8 @@ public interface TablemodelPackage extends EPackage {
 	int COMPARE_FOOTNOTE_CONTAINER = 13;
 
 	/**
-	 * The feature id for the '<em><b>Old Footnotes</b></em>' reference list.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The feature id for the '<em><b>Old Footnotes</b></em>' reference. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @generated
 	 * @ordered
@@ -765,8 +776,8 @@ public interface TablemodelPackage extends EPackage {
 			+ 0;
 
 	/**
-	 * The feature id for the '<em><b>New Footnotes</b></em>' reference list.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The feature id for the '<em><b>New Footnotes</b></em>' reference. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @generated
 	 * @ordered
@@ -775,8 +786,8 @@ public interface TablemodelPackage extends EPackage {
 			+ 1;
 
 	/**
-	 * The feature id for the '<em><b>Unchanged Footnotes</b></em>' reference
-	 * list. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The feature id for the '<em><b>Unchanged Footnotes</b></em>' reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @generated
 	 * @ordered
@@ -998,6 +1009,15 @@ public interface TablemodelPackage extends EPackage {
 	int PLAN_COMPARE_ROW__FOOTNOTES = TABLE_ROW__FOOTNOTES;
 
 	/**
+	 * The feature id for the '<em><b>Row Object</b></em>' reference. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 * @ordered
+	 */
+	int PLAN_COMPARE_ROW__ROW_OBJECT = TABLE_ROW__ROW_OBJECT;
+
+	/**
 	 * The feature id for the '<em><b>Row Type</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
@@ -1026,6 +1046,62 @@ public interface TablemodelPackage extends EPackage {
 
 	/**
 	 * The meta object id for the
+	 * '{@link org.eclipse.set.model.tablemodel.impl.FootnoteImpl
+	 * <em>Footnote</em>}' class. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @see org.eclipse.set.model.tablemodel.impl.FootnoteImpl
+	 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getFootnote()
+	 * @generated
+	 */
+	int FOOTNOTE = 18;
+
+	/**
+	 * The feature id for the '<em><b>Owner Object</b></em>' reference. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 * @ordered
+	 */
+	int FOOTNOTE__OWNER_OBJECT = 0;
+
+	/**
+	 * The feature id for the '<em><b>Bearbeitungsvermerk</b></em>' reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 * @ordered
+	 */
+	int FOOTNOTE__BEARBEITUNGSVERMERK = 1;
+
+	/**
+	 * The feature id for the '<em><b>Reference Column</b></em>' attribute. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 * @ordered
+	 */
+	int FOOTNOTE__REFERENCE_COLUMN = 2;
+
+	/**
+	 * The number of structural features of the '<em>Footnote</em>' class. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 * @ordered
+	 */
+	int FOOTNOTE_FEATURE_COUNT = 3;
+
+	/**
+	 * The number of operations of the '<em>Footnote</em>' class. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 * @ordered
+	 */
+	int FOOTNOTE_OPERATION_COUNT = 0;
+
+	/**
+	 * The meta object id for the
 	 * '{@link org.eclipse.set.model.tablemodel.ColumnWidthMode <em>Column Width
 	 * Mode</em>}' enum. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
@@ -1033,7 +1109,7 @@ public interface TablemodelPackage extends EPackage {
 	 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getColumnWidthMode()
 	 * @generated
 	 */
-	int COLUMN_WIDTH_MODE = 18;
+	int COLUMN_WIDTH_MODE = 19;
 
 	/**
 	 * The meta object id for the
@@ -1044,7 +1120,7 @@ public interface TablemodelPackage extends EPackage {
 	 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getRowMergeMode()
 	 * @generated
 	 */
-	int ROW_MERGE_MODE = 19;
+	int ROW_MERGE_MODE = 20;
 
 	/**
 	 * The meta object id for the
@@ -1056,7 +1132,7 @@ public interface TablemodelPackage extends EPackage {
 	 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getPlanCompareRowType()
 	 * @generated
 	 */
-	int PLAN_COMPARE_ROW_TYPE = 20;
+	int PLAN_COMPARE_ROW_TYPE = 21;
 
 	/**
 	 * Returns the meta object for class
@@ -1340,6 +1416,18 @@ public interface TablemodelPackage extends EPackage {
 	EReference getTableRow_Footnotes();
 
 	/**
+	 * Returns the meta object for the reference
+	 * '{@link org.eclipse.set.model.tablemodel.TableRow#getRowObject <em>Row
+	 * Object</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @return the meta object for the reference '<em>Row Object</em>'.
+	 * @see org.eclipse.set.model.tablemodel.TableRow#getRowObject()
+	 * @see #getTableRow()
+	 * @generated
+	 */
+	EReference getTableRow_RowObject();
+
+	/**
 	 * Returns the meta object for the attribute
 	 * '{@link org.eclipse.set.model.tablemodel.TableRow#getRowIndex <em>Row
 	 * Index</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -1448,38 +1536,41 @@ public interface TablemodelPackage extends EPackage {
 
 	/**
 	 * Returns the meta object for class
-	 * '{@link org.eclipse.set.model.tablemodel.CompareCellContent <em>Compare
-	 * Cell Content</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * '{@link org.eclipse.set.model.tablemodel.CompareStateCellContent
+	 * <em>Compare State Cell Content</em>}'. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
 	 * 
-	 * @return the meta object for class '<em>Compare Cell Content</em>'.
-	 * @see org.eclipse.set.model.tablemodel.CompareCellContent
+	 * @return the meta object for class '<em>Compare State Cell Content</em>'.
+	 * @see org.eclipse.set.model.tablemodel.CompareStateCellContent
 	 * @generated
 	 */
-	EClass getCompareCellContent();
+	EClass getCompareStateCellContent();
 
 	/**
-	 * Returns the meta object for the attribute list
-	 * '{@link org.eclipse.set.model.tablemodel.CompareCellContent#getOldValue
+	 * Returns the meta object for the containment reference
+	 * '{@link org.eclipse.set.model.tablemodel.CompareStateCellContent#getOldValue
 	 * <em>Old Value</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @return the meta object for the attribute list '<em>Old Value</em>'.
-	 * @see org.eclipse.set.model.tablemodel.CompareCellContent#getOldValue()
-	 * @see #getCompareCellContent()
+	 * @return the meta object for the containment reference '<em>Old
+	 *         Value</em>'.
+	 * @see org.eclipse.set.model.tablemodel.CompareStateCellContent#getOldValue()
+	 * @see #getCompareStateCellContent()
 	 * @generated
 	 */
-	EAttribute getCompareCellContent_OldValue();
+	EReference getCompareStateCellContent_OldValue();
 
 	/**
-	 * Returns the meta object for the attribute list
-	 * '{@link org.eclipse.set.model.tablemodel.CompareCellContent#getNewValue
+	 * Returns the meta object for the containment reference
+	 * '{@link org.eclipse.set.model.tablemodel.CompareStateCellContent#getNewValue
 	 * <em>New Value</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @return the meta object for the attribute list '<em>New Value</em>'.
-	 * @see org.eclipse.set.model.tablemodel.CompareCellContent#getNewValue()
-	 * @see #getCompareCellContent()
+	 * @return the meta object for the containment reference '<em>New
+	 *         Value</em>'.
+	 * @see org.eclipse.set.model.tablemodel.CompareStateCellContent#getNewValue()
+	 * @see #getCompareStateCellContent()
 	 * @generated
 	 */
-	EAttribute getCompareCellContent_NewValue();
+	EReference getCompareStateCellContent_NewValue();
 
 	/**
 	 * Returns the meta object for class
@@ -1589,11 +1680,11 @@ public interface TablemodelPackage extends EPackage {
 	EClass getCompareFootnoteContainer();
 
 	/**
-	 * Returns the meta object for the reference list
+	 * Returns the meta object for the reference
 	 * '{@link org.eclipse.set.model.tablemodel.CompareFootnoteContainer#getOldFootnotes
 	 * <em>Old Footnotes</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @return the meta object for the reference list '<em>Old Footnotes</em>'.
+	 * @return the meta object for the reference '<em>Old Footnotes</em>'.
 	 * @see org.eclipse.set.model.tablemodel.CompareFootnoteContainer#getOldFootnotes()
 	 * @see #getCompareFootnoteContainer()
 	 * @generated
@@ -1601,11 +1692,11 @@ public interface TablemodelPackage extends EPackage {
 	EReference getCompareFootnoteContainer_OldFootnotes();
 
 	/**
-	 * Returns the meta object for the reference list
+	 * Returns the meta object for the reference
 	 * '{@link org.eclipse.set.model.tablemodel.CompareFootnoteContainer#getNewFootnotes
 	 * <em>New Footnotes</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @return the meta object for the reference list '<em>New Footnotes</em>'.
+	 * @return the meta object for the reference '<em>New Footnotes</em>'.
 	 * @see org.eclipse.set.model.tablemodel.CompareFootnoteContainer#getNewFootnotes()
 	 * @see #getCompareFootnoteContainer()
 	 * @generated
@@ -1753,6 +1844,55 @@ public interface TablemodelPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getPlanCompareRow_RowType();
+
+	/**
+	 * Returns the meta object for class
+	 * '{@link org.eclipse.set.model.tablemodel.Footnote <em>Footnote</em>}'.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @return the meta object for class '<em>Footnote</em>'.
+	 * @see org.eclipse.set.model.tablemodel.Footnote
+	 * @generated
+	 */
+	EClass getFootnote();
+
+	/**
+	 * Returns the meta object for the reference
+	 * '{@link org.eclipse.set.model.tablemodel.Footnote#getOwnerObject
+	 * <em>Owner Object</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @return the meta object for the reference '<em>Owner Object</em>'.
+	 * @see org.eclipse.set.model.tablemodel.Footnote#getOwnerObject()
+	 * @see #getFootnote()
+	 * @generated
+	 */
+	EReference getFootnote_OwnerObject();
+
+	/**
+	 * Returns the meta object for the reference
+	 * '{@link org.eclipse.set.model.tablemodel.Footnote#getBearbeitungsvermerk
+	 * <em>Bearbeitungsvermerk</em>}'. <!-- begin-user-doc --> <!-- end-user-doc
+	 * -->
+	 * 
+	 * @return the meta object for the reference '<em>Bearbeitungsvermerk</em>'.
+	 * @see org.eclipse.set.model.tablemodel.Footnote#getBearbeitungsvermerk()
+	 * @see #getFootnote()
+	 * @generated
+	 */
+	EReference getFootnote_Bearbeitungsvermerk();
+
+	/**
+	 * Returns the meta object for the attribute
+	 * '{@link org.eclipse.set.model.tablemodel.Footnote#getReferenceColumn
+	 * <em>Reference Column</em>}'. <!-- begin-user-doc --> <!-- end-user-doc
+	 * -->
+	 * 
+	 * @return the meta object for the attribute '<em>Reference Column</em>'.
+	 * @see org.eclipse.set.model.tablemodel.Footnote#getReferenceColumn()
+	 * @see #getFootnote()
+	 * @generated
+	 */
+	EAttribute getFootnote_ReferenceColumn();
 
 	/**
 	 * Returns the meta object for enum
@@ -2032,6 +2172,14 @@ public interface TablemodelPackage extends EPackage {
 		EReference TABLE_ROW__FOOTNOTES = eINSTANCE.getTableRow_Footnotes();
 
 		/**
+		 * The meta object literal for the '<em><b>Row Object</b></em>'
+		 * reference feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * 
+		 * @generated
+		 */
+		EReference TABLE_ROW__ROW_OBJECT = eINSTANCE.getTableRow_RowObject();
+
+		/**
 		 * The meta object literal for the '<em><b>Row Index</b></em>' attribute
 		 * feature. <!-- begin-user-doc --> <!-- end-user-doc -->
 		 * 
@@ -2121,33 +2269,36 @@ public interface TablemodelPackage extends EPackage {
 
 		/**
 		 * The meta object literal for the
-		 * '{@link org.eclipse.set.model.tablemodel.impl.CompareCellContentImpl
-		 * <em>Compare Cell Content</em>}' class. <!-- begin-user-doc --> <!--
+		 * '{@link org.eclipse.set.model.tablemodel.impl.CompareStateCellContentImpl
+		 * <em>Compare State Cell Content</em>}' class. <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * 
+		 * @see org.eclipse.set.model.tablemodel.impl.CompareStateCellContentImpl
+		 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getCompareStateCellContent()
+		 * @generated
+		 */
+		EClass COMPARE_STATE_CELL_CONTENT = eINSTANCE
+				.getCompareStateCellContent();
+
+		/**
+		 * The meta object literal for the '<em><b>Old Value</b></em>'
+		 * containment reference feature. <!-- begin-user-doc --> <!--
 		 * end-user-doc -->
 		 * 
-		 * @see org.eclipse.set.model.tablemodel.impl.CompareCellContentImpl
-		 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getCompareCellContent()
 		 * @generated
 		 */
-		EClass COMPARE_CELL_CONTENT = eINSTANCE.getCompareCellContent();
+		EReference COMPARE_STATE_CELL_CONTENT__OLD_VALUE = eINSTANCE
+				.getCompareStateCellContent_OldValue();
 
 		/**
-		 * The meta object literal for the '<em><b>Old Value</b></em>' attribute
-		 * list feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * The meta object literal for the '<em><b>New Value</b></em>'
+		 * containment reference feature. <!-- begin-user-doc --> <!--
+		 * end-user-doc -->
 		 * 
 		 * @generated
 		 */
-		EAttribute COMPARE_CELL_CONTENT__OLD_VALUE = eINSTANCE
-				.getCompareCellContent_OldValue();
-
-		/**
-		 * The meta object literal for the '<em><b>New Value</b></em>' attribute
-		 * list feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
-		 * @generated
-		 */
-		EAttribute COMPARE_CELL_CONTENT__NEW_VALUE = eINSTANCE
-				.getCompareCellContent_NewValue();
+		EReference COMPARE_STATE_CELL_CONTENT__NEW_VALUE = eINSTANCE
+				.getCompareStateCellContent_NewValue();
 
 		/**
 		 * The meta object literal for the
@@ -2248,7 +2399,7 @@ public interface TablemodelPackage extends EPackage {
 
 		/**
 		 * The meta object literal for the '<em><b>Old Footnotes</b></em>'
-		 * reference list feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * reference feature. <!-- begin-user-doc --> <!-- end-user-doc -->
 		 * 
 		 * @generated
 		 */
@@ -2257,7 +2408,7 @@ public interface TablemodelPackage extends EPackage {
 
 		/**
 		 * The meta object literal for the '<em><b>New Footnotes</b></em>'
-		 * reference list feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * reference feature. <!-- begin-user-doc --> <!-- end-user-doc -->
 		 * 
 		 * @generated
 		 */
@@ -2266,7 +2417,7 @@ public interface TablemodelPackage extends EPackage {
 
 		/**
 		 * The meta object literal for the '<em><b>Unchanged Footnotes</b></em>'
-		 * reference list feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * reference feature. <!-- begin-user-doc --> <!-- end-user-doc -->
 		 * 
 		 * @generated
 		 */
@@ -2381,6 +2532,44 @@ public interface TablemodelPackage extends EPackage {
 		 */
 		EAttribute PLAN_COMPARE_ROW__ROW_TYPE = eINSTANCE
 				.getPlanCompareRow_RowType();
+
+		/**
+		 * The meta object literal for the
+		 * '{@link org.eclipse.set.model.tablemodel.impl.FootnoteImpl
+		 * <em>Footnote</em>}' class. <!-- begin-user-doc --> <!-- end-user-doc
+		 * -->
+		 * 
+		 * @see org.eclipse.set.model.tablemodel.impl.FootnoteImpl
+		 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getFootnote()
+		 * @generated
+		 */
+		EClass FOOTNOTE = eINSTANCE.getFootnote();
+
+		/**
+		 * The meta object literal for the '<em><b>Owner Object</b></em>'
+		 * reference feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * 
+		 * @generated
+		 */
+		EReference FOOTNOTE__OWNER_OBJECT = eINSTANCE.getFootnote_OwnerObject();
+
+		/**
+		 * The meta object literal for the '<em><b>Bearbeitungsvermerk</b></em>'
+		 * reference feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * 
+		 * @generated
+		 */
+		EReference FOOTNOTE__BEARBEITUNGSVERMERK = eINSTANCE
+				.getFootnote_Bearbeitungsvermerk();
+
+		/**
+		 * The meta object literal for the '<em><b>Reference Column</b></em>'
+		 * attribute feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * 
+		 * @generated
+		 */
+		EAttribute FOOTNOTE__REFERENCE_COLUMN = eINSTANCE
+				.getFootnote_ReferenceColumn();
 
 		/**
 		 * The meta object literal for the

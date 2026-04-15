@@ -10,6 +10,7 @@ package org.eclipse.set.ppmodel.extensions
 
 import java.math.BigDecimal
 import java.util.Collections
+import java.util.LinkedList
 import java.util.List
 import java.util.Set
 import org.eclipse.core.runtime.Assert
@@ -29,6 +30,8 @@ import org.eclipse.set.model.planpro.Ortung.FMA_Komponente
 import org.eclipse.set.model.planpro.Ortung.Schaltmittel_Zuordnung
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Zs3v
 import org.eclipse.set.model.planpro.Signalbegriffe_Struktur.Signalbegriff_ID_TypeClass
+import org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt
+import org.eclipse.set.model.planpro.Signale.ENUMRahmenArt
 import org.eclipse.set.model.planpro.Signale.Signal
 import org.eclipse.set.model.planpro.Signale.Signal_Befestigung
 import org.eclipse.set.model.planpro.Signale.Signal_Rahmen
@@ -56,6 +59,7 @@ import static extension org.eclipse.set.ppmodel.extensions.SignalbegriffExtensio
 import static extension org.eclipse.set.ppmodel.extensions.StellelementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.CollectionExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.Debug.*
+import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 
 /**
  * This class extends {@link Signal}.
@@ -140,8 +144,8 @@ class SignalExtensions extends PunktObjektExtensions {
 	 * 
 	 * @returns list of all Signal_Rahmen elements, which reference (= are connected to) the provided Signal.
 	 */
-	def static List<Signal_Rahmen> signalRahmen(Signal signal) {
-		return signal.container.signalRahmen.filter[r|r.signal == signal].toList
+	def static Iterable<Signal_Rahmen> signalRahmen(Signal signal) {
+		return signal.container.signalRahmen.filter[r|r.signal == signal]
 	}
 
 	/**
@@ -430,7 +434,7 @@ class SignalExtensions extends PunktObjektExtensions {
 	// Tolerant distance in meter
 	static final double tolerantDistance = 1
 
-	def static boolean isBelongToControlArea(Signal signal,
+	def static boolean isSsksSignalBelongToArea(Signal signal,
 		Stell_Bereich controlArea) {
 		val stellElement = signal.stellelement
 		if (stellElement?.IDEnergie?.value.isBelongToControlArea(controlArea) ||
@@ -473,6 +477,10 @@ class SignalExtensions extends PunktObjektExtensions {
 		}
 		return false
 	}
+	
+	def static boolean isSskxSignalBelongToArea(Signal signal, Stell_Bereich area) {
+		return area.contains(signal, tolerantDistance)
+	}
 
 	def static List<FMA_Komponente> getFmaKomponenten(Signal signal) {
 		val fstrFahrwegs = signal.container.fstrFahrweg.filter [
@@ -488,5 +496,37 @@ class SignalExtensions extends PunktObjektExtensions {
 
 	def static String getTableBezeichnung(Signal signal) {
 		return signal?.bezeichnung?.bezeichnungTabelle?.wert
+	}
+
+	def static List<List<Signal_Befestigung>> getBefestigungsgruppen(
+		Signal signal, List<ENUMBefestigungArt> mastTypeOfSignalWithTwoMast) {
+		val result = new LinkedList<List<Signal_Befestigung>>
+		val rahmen = signal.signalRahmen
+		val befestigungen = rahmen.map[it -> signalBefestigung].distinctBy [
+			value
+		].toList
+
+		switch mast : befestigungen.filter [
+			mastTypeOfSignalWithTwoMast.contains(
+				value?.signalBefestigungAllg?.befestigungArt?.wert)
+		] {
+			// condition "zwei Befestigungen"
+			case mast.size == 2: {
+				val mainMast = befestigungen.filter [
+					key.rahmenArt?.wert == ENUMRahmenArt.ENUM_RAHMEN_ART_SCHIRM
+				].filter [
+					mastTypeOfSignalWithTwoMast.contains(
+						value.signalBefestigungAllg?.befestigungArt?.wert)
+				].map[value].toSet
+				val subMast = mast.map[value].filter[!mainMast.contains(it)]
+				result.add(0, mainMast.toList)
+				result.add(1, subMast.toList)
+			}
+			case mast.size > 2:
+				throw new IllegalArgumentException('''«signal.bezeichnung?.bezeichnungAussenanlage?.toString» has more than two Befestigung Signal''')
+			default:
+				result.add(befestigungen.map[value].toList)
+		}
+		return result
 	}
 }

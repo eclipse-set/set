@@ -12,8 +12,10 @@ import static org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum.ASC;
 import static org.eclipse.set.feature.table.pt1.sslz.SslzColumns.*;
 import static org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparatorType.LEXICOGRAPHICAL;
 
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
@@ -25,6 +27,7 @@ import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.ppmodel.extensions.FahrwegExtensions;
 import org.eclipse.set.ppmodel.extensions.FstrZugRangierExtensions;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
+import org.eclipse.set.utils.table.sorting.LexicographicalCellComparator;
 import org.eclipse.set.utils.table.sorting.TableRowGroupComparator;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -66,7 +69,8 @@ public final class SslzTransformationService
 	public TableNameInfo getTableNameInfo() {
 		return new TableNameInfo(messages.ToolboxTableNameSslzLong,
 				messages.ToolboxTableNameSslzPlanningNumber,
-				messages.ToolboxTableNameSslzShort);
+				messages.ToolboxTableNameSslzShort,
+				messages.ToolboxTableNameSslzRil);
 	}
 
 	@Override
@@ -91,6 +95,18 @@ public final class SslzTransformationService
 				.sort(Start, LEXICOGRAPHICAL, ASC)
 				.sort(Ziel, LEXICOGRAPHICAL, ASC)
 				.sort(Nummer, LEXICOGRAPHICAL, ASC)
+				.sort(Durchrutschweg_Bezeichnung,
+						new LexicographicalCellComparator(ASC) {
+							@SuppressWarnings("nls")
+							@Override
+							public int compareString(final String text1,
+									final String text2) {
+								// Ignore '*' in Dweg name
+								return super.compareString(
+										text1.replace("*", ""),
+										text2.replace("*", ""));
+							}
+						})
 				.build();
 	}
 
@@ -99,5 +115,10 @@ public final class SslzTransformationService
 		return List.of(Entscheidungsweiche, Abhaengiger_BUe, Fahrweg,
 				Geschwindigkeit_Startsignal_Zs3, Im_Fahrweg_Zs3, Im_Fahrweg_Zs6,
 				Kennlicht, Vorsignalisierung);
+	}
+
+	@Override
+	protected Map<Class<?>, String> getFootnotesColumnReferences() {
+		return Collections.emptyMap();
 	}
 }

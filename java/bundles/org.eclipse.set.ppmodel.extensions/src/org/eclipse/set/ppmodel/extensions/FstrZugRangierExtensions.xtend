@@ -52,7 +52,6 @@ import static extension org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteEx
 import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalRahmenExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalbegriffExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.StellBereichExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspKomponenteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 import static extension org.eclipse.set.utils.math.BigIntegerExtensions.*
@@ -446,7 +445,7 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 			return false
 		}
 		val startSignal = fstrZugRangier?.IDFstrFahrweg?.value?.IDStart?.value
-		return controlArea.isInControlArea(startSignal)
+		return startSignal.isSsksSignalBelongToArea(controlArea)
 	}
 
 	private def static boolean isZugStrBelongToControlArea(
@@ -462,7 +461,7 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 		}
 		// TODO: 2. Condition for target signal isn't clearly 
 		return startSignal !== null &&
-			startSignal.isBelongToControlArea(controlArea)
+			startSignal.isSsksSignalBelongToArea(controlArea)
 	}
 
 	def static Signal getStartSignal(Fstr_Zug_Rangier fstrZug) {
@@ -473,9 +472,10 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 		return fstrZug?.fstrFahrweg?.zielSignal
 	}
 
-	def static Fstr_Zug_Rangier getZielFstrZugRangier(Fstr_Zug_Rangier fstr) {
-		val zielSignal = fstr.IDFstrFahrweg?.value.IDZiel?.value
-		return zielSignal.container.contents.filter(Fstr_Zug_Rangier).findFirst [
+	def static Iterable<Fstr_Zug_Rangier> getNextBlockFstrZugRangier(
+		Fstr_Zug_Rangier it) {
+		val zielSignal = IDFstrFahrweg?.value.IDZiel?.value
+		return zielSignal.container.fstrZugRangier.filter [
 			IDFstrFahrweg?.value?.IDStart?.value == zielSignal &&
 				fstrZug?.fstrZugArt?.wert === ENUMFstrZugArt.ENUM_FSTR_ZUG_ART_B
 		]
@@ -490,7 +490,7 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 		}
 		val fstrZug = fstrZugRangier.fstrZug
 		val fstrZugArt = fstrZug?.fstrZugArt?.wert?.literal
-		if (fstrZugRangier.zielFstrZugRangier !== null) {
+		if (!fstrZugRangier.nextBlockFstrZugRangier.nullOrEmpty) {
 			return '''«fstrZugArt.substring(1) ?: ""»B'''
 		}
 

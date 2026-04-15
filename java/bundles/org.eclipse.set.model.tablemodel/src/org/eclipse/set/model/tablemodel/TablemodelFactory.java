@@ -91,13 +91,13 @@ public interface TablemodelFactory extends EFactory {
 	StringCellContent createStringCellContent();
 
 	/**
-	 * Returns a new object of class '<em>Compare Cell Content</em>'. <!--
+	 * Returns a new object of class '<em>Compare State Cell Content</em>'. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @return a new object of class '<em>Compare Cell Content</em>'.
+	 * @return a new object of class '<em>Compare State Cell Content</em>'.
 	 * @generated
 	 */
-	CompareCellContent createCompareCellContent();
+	CompareStateCellContent createCompareStateCellContent();
 
 	/**
 	 * Returns a new object of class '<em>Cell Annotation</em>'. <!--
@@ -171,6 +171,15 @@ public interface TablemodelFactory extends EFactory {
 	 * @generated
 	 */
 	PlanCompareRow createPlanCompareRow();
+
+	/**
+	 * Returns a new object of class '<em>Footnote</em>'. <!-- begin-user-doc
+	 * --> <!-- end-user-doc -->
+	 * 
+	 * @return a new object of class '<em>Footnote</em>'.
+	 * @generated
+	 */
+	Footnote createFootnote();
 
 	/**
 	 * Returns the package supported by this factory. <!-- begin-user-doc -->

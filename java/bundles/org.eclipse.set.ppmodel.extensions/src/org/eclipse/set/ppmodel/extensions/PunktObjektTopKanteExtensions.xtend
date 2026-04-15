@@ -195,7 +195,7 @@ class PunktObjektTopKanteExtensions extends BasisObjektExtensions {
 
 	def static boolean isBelongToBereichObjekt(
 		Punkt_Objekt_TOP_Kante_AttributeGroup singlePoint, Bereich_Objekt bo) {
-		return bo.bereichObjektTeilbereich.filter[botb | 
+		return bo.bereichObjektTeilbereich.filter [ botb |
 			botb.IDTOPKante?.value == singlePoint.IDTOPKante.value
 		].exists [ botb |
 			val limitA = (botb.begrenzungA?.wert ?: 0).doubleValue
@@ -206,8 +206,7 @@ class PunktObjektTopKanteExtensions extends BasisObjektExtensions {
 
 		]
 	}
-	
-	
+
 	/**
 	 * Find relevant routes in area of a point object
 	 * 
@@ -225,7 +224,7 @@ class PunktObjektTopKanteExtensions extends BasisObjektExtensions {
 			]
 		].filterNull.toList
 	}
-	
+
 	/**
 	 * Find the kilometer mark of the projection of a point object on a route.
 	 * 
@@ -238,24 +237,39 @@ class PunktObjektTopKanteExtensions extends BasisObjektExtensions {
 			getCoordinate(potk)
 		return potkCoordinate.coordinate.getStreckeKmThroughProjection(strecke)
 	}
-	
+
 	/**
 	 * Find the kilometer mark of the coordinate on a route.
 	 * 
 	 * @param coordinate the coodinate
 	 * @param strecke the Strecke
 	 */
-	def static dispatch BigDecimal getStreckeKmThroughProjection(Coordinate coordinate, Strecke strecke) {
+	def static dispatch BigDecimal getStreckeKmThroughProjection(
+		Coordinate coordinate, Strecke strecke) {
 		val projectionPointAndDistance = Services.geometryService.
 			getProjectionCoordinateOnStrecke(coordinate, strecke)
-		val nearestRoutePoint = strecke.streckenPunkte.map [
+
+		val projectionDistance = projectionPointAndDistance?.second;
+		if (projectionDistance === null) {
+			return null;
+		}
+
+		val routePointPairs = strecke.streckenPunkte.map [
 			it -> streckePunktTopDistance
-		].minBy[(projectionPointAndDistance.second - it.value).abs]
+		].filter[it.value !== null]
+
+		if (routePointPairs.empty) {
+			return null;
+		}
+
+		val nearestRoutePoint = routePointPairs.minBy [
+			(projectionDistance - it.value).abs
+		]
 
 		val nearestRoutePointMeter = nearestRoutePoint.key.streckeMeter.wert
 		val distance = nearestRoutePoint.value -
-			projectionPointAndDistance.second
+			projectionDistance
 		val projectionMeter = nearestRoutePointMeter - distance
 		return (projectionMeter / BigDecimal.valueOf(1000))
-	} 
+	}
 }

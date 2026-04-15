@@ -8,16 +8,22 @@
  */
 package org.eclipse.set.utils.table;
 
+import static org.eclipse.set.model.tablemodel.extensions.CellContentExtensions.getStringValueIterable;
+
 import java.util.List;
 
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.set.model.tablemodel.CellContent;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
-import org.eclipse.set.model.tablemodel.CompareCellContent;
+import org.eclipse.set.model.tablemodel.CompareStateCellContent;
+import org.eclipse.set.model.tablemodel.CompareTableCellContent;
 import org.eclipse.set.model.tablemodel.RowMergeMode;
 import org.eclipse.set.model.tablemodel.StringCellContent;
 import org.eclipse.set.model.tablemodel.TableRow;
 import org.eclipse.set.model.tablemodel.extensions.CellContentExtensions;
 import org.eclipse.set.model.tablemodel.extensions.TableRowExtensions;
+
+import com.google.common.collect.Streams;
 
 /**
  * Helper class to calculate table spans
@@ -91,8 +97,70 @@ public class TableSpanUtils {
 		if (cellContentA == null) {
 			return cellContentB == null;
 		}
+		if (isEqual(cellContentA, cellContentB)) {
+			return true;
+		}
 
-		return isEqual(cellContentA, cellContentB);
+		// The cell value must not be same to be merge. When the RowMergeMode ==
+		// ENABLE, then should be cells anyway merge.
+		// Here replace the cell content by priority : StringCellContent ->
+		// CompareCellContent (both value not empty or new value not empty) will
+		// set to the second cell
+		final boolean shouldReplaceValue = shouldReplaceValue(cellContentA,
+				cellContentB);
+		if (shouldReplaceValue) {
+			rowB.getCells()
+					.get(column)
+					.setContent(EcoreUtil.copy(cellContentA));
+		}
+		return shouldReplaceValue;
+	}
+
+	private static boolean shouldReplaceValue(final CellContent cellContentA,
+			final CellContent cellContentB) {
+		return switch (cellContentA) {
+			case final StringCellContent stringCellContentA -> !isEmptyCellContentValue(
+					stringCellContentA);
+			case final CompareStateCellContent compareCellContentA -> {
+				if (!isEmptyCellContentValue(compareCellContentA.getNewValue())
+						&& !isEmptyCellContentValue(
+								compareCellContentA.getOldValue())) {
+					yield true;
+				}
+				if (cellContentB instanceof final StringCellContent stringCellContentB) {
+					yield isEmptyCellContentValue(stringCellContentB);
+				}
+
+				if (cellContentB instanceof final CompareStateCellContent compareCellContentB) {
+					yield !isEmptyCellContentValue(
+							compareCellContentA.getNewValue())
+							&& (isEmptyCellContentValue(
+									compareCellContentB.getNewValue())
+									|| isEmptyCellContentValue(
+											compareCellContentB.getOldValue()));
+				}
+				yield true;
+			}
+			case final CompareTableCellContent compareTableCellContentA -> {
+				if (compareTableCellContentA.getMainPlanCellContent() == null) {
+					yield false;
+				}
+				yield switch (cellContentB) {
+					case final CompareTableCellContent compareTableCellContentB -> compareTableCellContentB
+							.getMainPlanCellContent() != null
+							&& shouldReplaceValue(
+									compareTableCellContentA
+											.getMainPlanCellContent(),
+									compareTableCellContentB
+											.getMainPlanCellContent());
+
+					default -> shouldReplaceValue(
+							compareTableCellContentA.getMainPlanCellContent(),
+							cellContentB);
+				};
+			}
+			default -> false;
+		};
 	}
 
 	private static boolean isEqual(final CellContent cellContentA,
@@ -100,7 +168,7 @@ public class TableSpanUtils {
 		return switch (cellContentA) {
 			case final StringCellContent stringCellContentA -> isEqual(
 					stringCellContentA, cellContentB);
-			case final CompareCellContent compareCellContentA -> isEqual(
+			case final CompareStateCellContent compareCellContentA -> isEqual(
 					compareCellContentA, cellContentB);
 			default -> CellContentExtensions.isEqual(cellContentA,
 					cellContentB);
@@ -115,16 +183,16 @@ public class TableSpanUtils {
 			// compare cell content with the another cell. Because when the row
 			// in Final was removed/added will be COmpareCellContent and by
 			// normal compare the row can't be merged
-			case final CompareCellContent compareCellContentB -> {
-				final List<String> oldValuesB = compareCellContentB
-						.getOldValue()
-						.stream()
+			case final CompareStateCellContent compareCellContentB -> {
+				final List<String> oldValuesB = Streams
+						.stream(getStringValueIterable(
+								compareCellContentB.getOldValue()))
 						.map(String::trim)
 						.filter(v -> !v.isEmpty() && !v.isBlank())
 						.toList();
-				final List<String> newValuesB = compareCellContentB
-						.getNewValue()
-						.stream()
+				final List<String> newValuesB = Streams
+						.stream(getStringValueIterable(
+								compareCellContentB.getNewValue()))
 						.map(String::trim)
 						.filter(v -> !v.isEmpty() && !v.isBlank())
 						.toList();
@@ -139,7 +207,8 @@ public class TableSpanUtils {
 		};
 	}
 
-	private static boolean isEqual(final CompareCellContent compareCellContentA,
+	private static boolean isEqual(
+			final CompareStateCellContent compareCellContentA,
 			final CellContent cellContentB) {
 		return switch (cellContentB) {
 			case final StringCellContent stringCellContentB -> isEqual(
@@ -171,5 +240,16 @@ public class TableSpanUtils {
 			}
 			return cd.getMergeCommonValues() == RowMergeMode.ENABLED;
 		}
+	}
+
+	private static boolean isEmptyCellContentValue(
+			final CellContent cellContent) {
+		final List<String> values = Streams
+				.stream(getStringValueIterable(cellContent))
+				.toList();
+		return values.isEmpty() || values.stream()
+				.map(String::trim)
+				.filter(v -> !v.isEmpty() && !v.isBlank())
+				.count() == 0;
 	}
 }

@@ -39,13 +39,18 @@ class StreckePunktExtensions extends BasisObjektExtensions {
 
 	static def BigDecimal getStreckePunktTopDistance(Strecke_Punkt routePoint) {
 		val geoKnoten = routePoint.geoKnoten
+		if (geoKnoten == null) {
+			return null
+		}
 		val geoKanten = routePoint.container.GEOKante.filter [
 			parentKante instanceof Strecke &&
 				parentKante === routePoint.IDStrecke.value
 		].filter[geoKnotenA === geoKnoten || geoKnotenB === geoKnoten].
 			firstOrNull
 		if (geoKanten === null) {
-			return null
+			throw new IllegalArgumentException(
+				"Streckenpunkt verweist nicht auf eine GEO_Kante"
+			)
 		}
 		val metadata = Services.geometryService.getGeoKanteMetaData(geoKanten)
 		if (geoKanten.geoKnotenA === geoKnoten) {
@@ -56,6 +61,6 @@ class StreckePunktExtensions extends BasisObjektExtensions {
 			return metadata.end
 		}
 		throw new IllegalArgumentException(
-			"Route point isn't reference to GEO_Knoten of a GEO_Kante")
+			"Streckenpunkt verweist nicht auf GEO_Knoten einer GEO_Kante")
 	}
 }

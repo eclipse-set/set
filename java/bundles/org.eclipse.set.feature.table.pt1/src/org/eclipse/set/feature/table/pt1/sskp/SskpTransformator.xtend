@@ -14,7 +14,6 @@ import org.eclipse.set.basis.graph.TopPoint
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.core.services.graph.TopologicalGraphService
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
-import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_DWeg
@@ -45,7 +44,6 @@ import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions
 import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalRahmenExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalbegriffExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspElementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
@@ -61,6 +59,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 	static final double ADDITION_SCHUTZSTRECKE_SOLL_60 = 450
 	static final double ADDITION_SCHUTZSTRECKE_SOLL_40_60 = 350
 	static final double ADDITION_SCHUTZSTRECKE_SOLL_40 = 210
+	public static final String GUE_ADDITION = "(GÜ)"
 	TopologicalGraphService topGraphService;
 
 	new(Set<ColumnDescriptor> cols,
@@ -71,10 +70,9 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
-		TMFactory factory, Stell_Bereich controlArea) {
+		TMFactory factory) {
 
-		for (PZB_Element pzb : container.PZBElement.filter[isPlanningObject].
-			filterObjectsInControlArea(controlArea).filter [
+		for (PZB_Element pzb : container.PZBElement.filter [
 				PZBElementGUE?.IDPZBElementMitnutzung?.value === null
 			]) {
 
@@ -105,6 +103,11 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	private def fillRowGroupContent(TableRow instance, PZB_Element pzb,
 		Fstr_DWeg dweg) {
+			
+		val pzbGUEs = (pzb.container.PZBElement.map[PZBElementGUE].filterNull.
+			filter[IDPZBElementMitnutzung?.value === pzb] +
+			#[pzb.PZBElementGUE]).filterNull
+			
 		// A: Sskp.Bezug.BezugsElement
 		fillIterable(
 			instance,
@@ -119,7 +122,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 			instance,
 			cols.getColumn(Wirkfrequenz),
 			pzb,
-			[PZBArt?.translate]
+			['''«PZBArt?.translate»«IF !pzbGUEs.nullOrEmpty» «GUE_ADDITION»«ENDIF»''']
 		)
 
 		val isPZB2000 = pzb.PZBArt?.wert === ENUMPZBArt.ENUMPZB_ART_2000_HZ ||
@@ -517,10 +520,6 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 			}
 		}
 
-		val pzbGUEs = (pzb.container.PZBElement.map[PZBElementGUE].filterNull.
-			filter[IDPZBElementMitnutzung?.value === pzb] +
-			#[pzb.PZBElementGUE]).filterNull
-
 		if (!pzbGUEs.empty) {
 			// R: Sskp.Gue.Pruefgeschwindigkeit
 			fillIterable(
@@ -575,7 +574,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 
 						throw new IllegalArgumentException('''The value: «value.toString»  isn't match the pattern: «GUEMessstreckePattern»''')
 					}
-					return value.toString
+					return value.toTableDecimal(2, 2)
 				]
 			)
 

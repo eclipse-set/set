@@ -81,7 +81,7 @@ class MultiContainer_AttributeGroupExtensions {
 
 		throw new IllegalArgumentException('''PlanProSchinttStelle not contains LST_Zustand: «lstZustand.identitaet.wert»''')
 	}
-
+	
 	def static PlanPro_Schnittstelle getPlanProSchnittstelle(
 		MultiContainer_AttributeGroup container) {
 		val lstZustand = container.firstLSTZustand

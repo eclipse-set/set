@@ -34,20 +34,32 @@ export default class TrackSectionMarkerFeature extends LageplanFeature<Track> {
   }
 
   getFeatures (model: SiteplanState): Feature<Geometry>[] {
-    return this.getObjectsModel(model).flatMap(track =>
-      track?.sections.flatMap(section =>
-        this.createTrackSectionMarkerFeature([section.startCoordinate.x, section.startCoordinate.y], section)))
+    return this.getObjectsModel(model).flatMap(track => {
+      const trackStartPos: OlCoordinate = [track.startCoordinate.x, track.startCoordinate.y]
+      return [this.createTrackMarkerFeature(trackStartPos, track, () => store.state.trackColorVisible)].concat(
+        track?.sections.flatMap(section =>
+          this.createTrackMarkerFeature(
+            [section.startCoordinate.x, section.startCoordinate.y],
+            section,
+            () => store.state.trackSectionColorVisible
+          )) || []
+      )
+    })
   }
 
-  private createTrackSectionMarkerFeature (position: OlCoordinate, trackSection: TrackSection): Feature<Geometry> {
+  private createTrackMarkerFeature (
+    position: OlCoordinate,
+    track: Track | TrackSection,
+    visiblePredicate: () => boolean
+  ): Feature<Geometry> {
     const feature = createFeature(
       FeatureType.TrackSectionMarker,
-      trackSection,
+      track,
       new OlPoint(position)
     )
 
     feature.setStyle((_, resolution) => {
-      if (!store.state.trackSectionColorVisible) {
+      if (!visiblePredicate()) {
         return new Style()
       }
 
@@ -66,11 +78,6 @@ export default class TrackSectionMarkerFeature extends LageplanFeature<Track> {
 
       return style
     })
-
-    return feature
-  }
-
-  setFeatureColor (feature: Feature<Geometry>): Feature<Geometry> {
     return feature
   }
 }
