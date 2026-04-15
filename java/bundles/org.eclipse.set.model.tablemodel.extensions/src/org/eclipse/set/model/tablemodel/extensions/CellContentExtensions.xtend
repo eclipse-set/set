@@ -10,7 +10,6 @@ package org.eclipse.set.model.tablemodel.extensions
 
 import com.google.common.base.Strings
 import com.google.common.html.HtmlEscapers
-import java.util.HashSet
 import java.util.List
 import java.util.function.BiFunction
 import java.util.function.Function

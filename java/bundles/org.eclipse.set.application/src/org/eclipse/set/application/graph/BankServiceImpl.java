@@ -26,6 +26,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.eclipse.e4.core.services.events.IEventBroker;
+import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.constants.ContainerType;
 import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.basis.constants.ToolboxConstants;
@@ -107,9 +108,10 @@ public class BankServiceImpl implements BankService, EventHandler {
 	@Override
 	public void handleEvent(final Event event) {
 		final String topic = event.getTopic();
-		if (topic.equals(Events.TOPMODEL_CHANGED)) {
-			final PlanPro_Schnittstelle planProSchnittstelle = (PlanPro_Schnittstelle) event
-					.getProperty(IEventBroker.DATA);
+		if (topic.equals(Events.TOPMODEL_CHANGED) && event.getProperty(
+				IEventBroker.DATA) instanceof final IModelSession modelSession) {
+			final PlanPro_Schnittstelle planProSchnittstelle = modelSession
+					.getPlanProSchnittstelle();
 			final BankingInformationSession collection = getBankingSession(
 					planProSchnittstelle);
 			collection.getBankingInformations().clear();
@@ -138,6 +140,7 @@ public class BankServiceImpl implements BankService, EventHandler {
 						final HashMap<String, Object> properties = new HashMap<>();
 						properties.put(EventConstants.EVENT_TOPIC,
 								Events.BANKING_PROCESS_DONE);
+						properties.put(IEventBroker.DATA, modelSession);
 						eventAdmin.sendEvent(new Event(
 								Events.BANKING_PROCESS_DONE, properties));
 					} catch (final InterruptedException e) {
@@ -498,10 +501,12 @@ public class BankServiceImpl implements BankService, EventHandler {
 
 		final BigDecimal distanceLeft = leftPosition.subtract(pointDistance)
 				.abs();
-
-		return List.of(
-				bankingDefault(ueRight.subtract(ueLeft), distanceLeft, length)
-						.add(ueLeft));
+		final BigDecimal defaultValue = bankingDefault(ueRight.subtract(ueLeft),
+				distanceLeft, length);
+		if (defaultValue == null) {
+			return Collections.emptyList();
+		}
+		return List.of(defaultValue.add(ueLeft));
 	}
 
 	static BigDecimal findBankingValue(final TopPoint point,
@@ -630,6 +635,9 @@ public class BankServiceImpl implements BankService, EventHandler {
 	 */
 	private static BigDecimal bankingDefault(final BigDecimal h_between,
 			final BigDecimal distanceFromLeft, final BigDecimal length) {
+		if (length.compareTo(BigDecimal.ZERO) == 0) {
+			return null;
+		}
 		return h_between.multiply(distanceFromLeft)
 				.divide(length, ToolboxConstants.ROUNDING_TO_PLACE,
 						RoundingMode.HALF_EVEN);

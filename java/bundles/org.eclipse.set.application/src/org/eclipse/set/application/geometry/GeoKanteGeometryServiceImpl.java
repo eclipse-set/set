@@ -36,6 +36,7 @@ import java.util.Queue;
 import java.util.stream.StreamSupport;
 
 import org.eclipse.e4.core.services.events.IEventBroker;
+import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.Pair;
 import org.eclipse.set.basis.constants.ContainerType;
 import org.eclipse.set.basis.constants.Events;
@@ -131,7 +132,9 @@ public class GeoKanteGeometryServiceImpl
 	public void handleEvent(final Event event) {
 		final String topic = event.getTopic();
 		if (topic.equals(Events.TOPMODEL_CHANGED) && event.getProperty(
-				IEventBroker.DATA) instanceof final PlanPro_Schnittstelle schnitstelle) {
+				IEventBroker.DATA) instanceof final IModelSession modelSession) {
+			final PlanPro_Schnittstelle schnitstelle = modelSession
+					.getPlanProSchnittstelle();
 			// Only clear geometry data when main session change
 			final GeoKanteGeometrySessionData sessionData = getSessionData(
 					schnitstelle);

@@ -88,7 +88,8 @@ public class SskpTransformationService
 	public TableNameInfo getTableNameInfo() {
 		return new TableNameInfo(messages.ToolboxTableNameSskpLong,
 				messages.ToolboxTableNameSskpPlanningNumber,
-				messages.ToolboxTableNameSskpShort);
+				messages.ToolboxTableNameSskpShort,
+				messages.ToolboxTableNameSskpRil);
 	}
 
 	@Override
