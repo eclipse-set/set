@@ -62,12 +62,6 @@ public abstract class PlanPro2TableTransformationService extends
 	 */
 	public boolean isObjectBelongToRendereArea(final Ur_Objekt obj,
 			final List<Stell_Bereich> areas) {
-		if (areas.isEmpty()) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
 		return switch (getTableCategory()) {
 			case ESTW, ESTW_SUPPLEMENT -> {
 				yield StellBereichExtensions.isInControlArea(areas, obj);
