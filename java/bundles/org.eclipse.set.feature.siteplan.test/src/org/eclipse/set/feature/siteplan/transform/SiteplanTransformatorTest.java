@@ -10,8 +10,6 @@ package org.eclipse.set.feature.siteplan.transform;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-import java.io.IOException;
-
 import org.eclipse.set.feature.siteplan.transform.utils.SiteplanTest;
 import org.eclipse.set.model.siteplan.Siteplan;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -27,11 +25,11 @@ public class SiteplanTransformatorTest extends SiteplanTest {
 
 	@ParameterizedTest
 	@MethodSource("getSiteplanReferenceFiles")
-	void testSiteplanTransformSuccessful(final String file) throws IOException {
-		givenSiteplanTransformator();
+	void testSiteplanTransformSuccessful(final String file) throws Exception {
 		givenPlanProFile(file);
-
-		assertDoesNotThrow(() -> whenTransformingToSiteplanModel());
+		givenGeoKanteGeometryService();
+		givenSiteplanTransformator();
+		assertDoesNotThrow(this::whenTransformingToSiteplanModel);
 		// then no exception occurs
 	}
 
