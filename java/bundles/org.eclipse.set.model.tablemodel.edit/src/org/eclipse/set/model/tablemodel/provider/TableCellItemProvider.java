@@ -186,7 +186,7 @@ public class TableCellItemProvider extends ItemProviderAdapter
 
 		newChildDescriptors.add(createChildParameter(
 				TablemodelPackage.Literals.TABLE_CELL__CONTENT,
-				TablemodelFactory.eINSTANCE.createCompareCellContent()));
+				TablemodelFactory.eINSTANCE.createCompareStateCellContent()));
 
 		newChildDescriptors.add(createChildParameter(
 				TablemodelPackage.Literals.TABLE_CELL__CONTENT,

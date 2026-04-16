@@ -4,7 +4,7 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
  * 
  */
@@ -37,7 +37,6 @@ import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGrou
 import org.eclipse.set.ppmodel.extensions.utils.Case
 import org.eclipse.set.utils.math.AgateRounding
 import org.eclipse.set.utils.table.TMFactory
-import org.eclipse.set.utils.table.TableError
 import org.osgi.service.event.EventAdmin
 
 import static org.eclipse.set.feature.table.pt1.sszw.SszwColumns.*
@@ -45,7 +44,6 @@ import static org.eclipse.set.model.planpro.BasisTypen.ENUMLinksRechts.*
 import static org.eclipse.set.model.planpro.Weichen_und_Gleissperren.ENUMWKrArt.*
 import static org.eclipse.set.ppmodel.extensions.geometry.GEOKanteGeometryExtensions.*
 
-import static extension org.eclipse.set.model.tablemodel.extensions.TableRowExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.AussenelementansteuerungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.ESTW_ZentraleinheitExtensions.*
@@ -53,7 +51,6 @@ import static extension org.eclipse.set.ppmodel.extensions.ETCSWKrExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.StellBereichExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrAnlageExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspElementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
@@ -78,14 +75,14 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
-		TMFactory factory, Stell_Bereich controlArea) {
+		TMFactory factory) {
 		this.factory = factory
 		return container.transform
 	}
 
 	private def Table create factory.table transform(
 		MultiContainer_AttributeGroup contanier) {
-		contanier.ETCSWKr.filter[isPlanningObject].forEach [
+		contanier.ETCSWKr.forEach [
 			if (Thread.currentThread.interrupted) {
 				return
 			}
@@ -166,13 +163,14 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 			wKrGspElement,
 			[isSimpleTrackSwitch],
 			[
-				val potk = punktObjektTOPKante.firstOrNull
-				return (potk.abstand.wert === BigDecimal.ZERO &&
-					potk.topKante.TOPAnschlussA ===
-						ENUMTOPAnschluss.ENUMTOP_ANSCHLUSS_LINKS) ||
-					(potk.abstand.wert !== BigDecimal.ZERO &&
-						potk.topKante.TOPAnschlussB ===
-							ENUMTOPAnschluss.ENUMTOP_ANSCHLUSS_RECHTS)
+				punktObjektTOPKante.exists [ potk |
+					(potk.abstand.wert.compareTo(BigDecimal.ZERO) === 0 &&
+						potk.topKante.TOPAnschlussA ===
+							ENUMTOPAnschluss.ENUMTOP_ANSCHLUSS_LINKS) ||
+						(potk.abstand.wert.compareTo(BigDecimal.ZERO) !== 0 &&
+							potk.topKante.TOPAnschlussB ===
+								ENUMTOPAnschluss.ENUMTOP_ANSCHLUSS_LINKS)
+				]
 			]
 		)
 
@@ -180,13 +178,16 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 			wKrGspElement,
 			[isSimpleTrackSwitch],
 			[
-				val potk = punktObjektTOPKante.firstOrNull
-				return (potk.abstand.wert === BigDecimal.ZERO &&
-					potk.topKante.TOPAnschlussA ===
-						ENUMTOPAnschluss.ENUMTOP_ANSCHLUSS_RECHTS) ||
-					(potk.abstand.wert !== BigDecimal.ZERO &&
-						potk.topKante.TOPAnschlussB ===
-							ENUMTOPAnschluss.ENUMTOP_ANSCHLUSS_LINKS)
+				punktObjektTOPKante.exists [ potk |
+					(potk.abstand.wert.compareTo(BigDecimal.ZERO) === 0 &&
+						potk.topKante.TOPAnschlussA ===
+							ENUMTOPAnschluss.ENUMTOP_ANSCHLUSS_RECHTS) ||
+						(potk.abstand.wert.compareTo(BigDecimal.ZERO) !== 0 &&
+							potk.topKante.TOPAnschlussB ===
+								ENUMTOPAnschluss.ENUMTOP_ANSCHLUSS_RECHTS)
+
+				]
+
 			]
 		)
 
@@ -274,7 +275,7 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 		// J: Sszw.Zulaessige_Geschwindigkeit.Kreuzung.li
 		fill(
 			row,
-			cols.getColumn(Geschwindigkeit_W_L),
+			cols.getColumn(Geschwindigkeit_Kr_L),
 			refWKrAnlage,
 			[
 				getWKrGeschwindigkeit(
@@ -330,9 +331,9 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 					IDAussenelementansteuerung?.value === outsideControl
 				]) {
 					return #[
-						outsideControl.oertlichkeitNamensgebend.bezeichnung?.
+						outsideControl?.oertlichkeitNamensgebend?.bezeichnung?.
 							oertlichkeitAbkuerzung?.wert ?:
-							outsideControl.bezeichnung?.bezeichnungAEA?.wert]
+							outsideControl?.bezeichnung?.bezeichnungAEA?.wert]
 				}
 				return #[stellbereich?.oertlichkeitBezeichnung].filterNull
 			],
@@ -436,9 +437,8 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 		val distance = gspKomponente.map[new TopPoint(it)].map [ gspPoint |
 			topGraphService.findShortestDistance(signalTopPoint, gspPoint)
 		].map[orElse(null)].filterNull
-		return distance.nullOrEmpty
-			? ""
-			: AgateRounding.roundDown(distance.min.doubleValue).toString
+		return distance.nullOrEmpty ? "" : AgateRounding.roundDown(
+			distance.min.doubleValue).toString
 	}
 
 	private def String getWKrGeschwindigkeit(
@@ -457,10 +457,13 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 		switch (type) {
 			case ENUMW_KR_ART_DKW,
 			case ENUMW_KR_ART_EKW: {
-				val gspKomponent = gspElement.WKrGspKomponenten.findFirst [
+				val gspKomponent = gspElement?.WKrGspKomponenten?.findFirst [
 					zungenpaar?.kreuzungsgleis?.wert === leftRightCross
 				]
-				return allowSpeedEKW_DKW.apply(gspKomponent)?.toString ?: ""
+				if (gspKomponent === null) {
+					return "";
+				}
+				return allowSpeedEKW_DKW?.apply(gspKomponent)?.toString ?: ""
 			}
 			case ENUMW_KR_ART_ABW,
 			case ENUMW_KR_ART_DW,
@@ -471,8 +474,11 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 			case ENUMW_KR_ART_FLACHKREUZUNG,
 			case ENUMW_KR_ART_KR,
 			case ENUMW_KR_ART_SONSTIGE: {
-				val gspKomponent = gspElement.WKrGspKomponenten.firstOrNull
-				return allowSpeed.apply(gspKomponent)?.toString ?: ""
+				val gspKomponent = gspElement?.WKrGspKomponenten?.firstOrNull
+				if (gspKomponent === null) {
+					return "";
+				}
+				return allowSpeed?.apply(gspKomponent)?.toString ?: ""
 			}
 			default:
 				""

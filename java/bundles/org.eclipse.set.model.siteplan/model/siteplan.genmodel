@@ -253,6 +253,7 @@
     <genClasses ecoreClass="siteplan.ecore#//Track">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//Track/sections"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//Track/designations"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//Track/startCoordinate"/>
     </genClasses>
     <genClasses ecoreClass="siteplan.ecore#//TrackSection">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//TrackSection/shape"/>

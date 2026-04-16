@@ -231,8 +231,17 @@ http://www.eclipse.org/legal/epl-v20.html
 		</fo:table>
 	</xsl:template>
 
-	<xsl:template match="SignificantInformation">
+	<xsl:template match="SignificantInformation[LoadedPlan]">
 		<fo:block xsl:use-attribute-sets="significant-information-style">
+			<xsl:apply-templates select="LoadedPlan" />
+		</fo:block>
+	</xsl:template>
+
+	<xsl:template match="LoadedPlan">
+		<fo:block>
+			<xsl:if test="@id = 'ComparePlan'">
+				<xsl:text>Vergleich mit: </xsl:text>
+			</xsl:if>
 			<xsl:value-of select="." />
 		</fo:block>
 	</xsl:template>
@@ -278,7 +287,7 @@ http://www.eclipse.org/legal/epl-v20.html
 		</fo:block>
 	</xsl:template>
 
-	<xsl:variable name="compare-content-border-style" select="'0.3mm solid #0066FF'" />
+	<xsl:variable name="compare-content-border-style" select="'0.5mm solid #0066FF'" />
 	<xsl:template name="CompareCellContentStyle">
 		<xsl:choose>
 			<xsl:when test="CompareProjectContent">

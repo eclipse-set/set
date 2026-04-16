@@ -10,12 +10,16 @@
  */
 package org.eclipse.set.model.tablemodel.extensions;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.Set;
+import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 
+import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.model.planpro.BasisTypen.BasisTypenFactory;
@@ -26,11 +30,22 @@ import org.eclipse.set.model.planpro.Basisobjekte.Bearbeitungsvermerk;
 import org.eclipse.set.model.planpro.Basisobjekte.Bearbeitungsvermerk_Allg_AttributeGroup;
 import org.eclipse.set.model.planpro.Basisobjekte.ENUMObjektzustandBesonders;
 import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
+import org.eclipse.set.model.planpro.Signalbegriffe_Struktur.Signalbegriff_ID_TypeClass;
+import org.eclipse.set.model.planpro.Signale.ENUMRahmenArt;
+import org.eclipse.set.model.planpro.Signale.Signal_Befestigung;
+import org.eclipse.set.model.planpro.Signale.Signal_Rahmen;
+import org.eclipse.set.model.planpro.Signale.Signal_Signalbegriff;
 import org.eclipse.set.model.tablemodel.CellContent;
+import org.eclipse.set.model.tablemodel.Footnote;
 import org.eclipse.set.model.tablemodel.StringCellContent;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.TableRow;
 import org.eclipse.set.model.tablemodel.TablemodelFactory;
+import org.eclipse.set.ppmodel.extensions.SignalRahmenExtensions;
+import org.eclipse.xtext.xbase.lib.IterableExtensions;
+import org.eclipse.xtext.xbase.lib.Pair;
+
+import com.google.common.collect.Streams;
 
 /**
  * Extension for table footnote
@@ -38,16 +53,6 @@ import org.eclipse.set.model.tablemodel.TablemodelFactory;
  * @author truong
  */
 public class FootnoteExtensions {
-	/**
-	 * @param ownerObj
-	 *            the {@link Ur_Objekt}
-	 * @param notes
-	 *            the notes of the object
-	 */
-	public static record WorkNotesUsage(Ur_Objekt ownerObj,
-			Set<Bearbeitungsvermerk> notes) {
-	}
-
 	/**
 	 * Transformation {@link ENUMObjektzustandBesonders} to
 	 * {@link Bearbeitungsvermerk} and referenced to
@@ -137,18 +142,13 @@ public class FootnoteExtensions {
 	 *            the {@link Table}
 	 * @return the {@link Ur_Objekt} and the belong {@link Bearbeitungsvermerk}
 	 */
-	public static Set<WorkNotesUsage> getNotesInTable(final Table table) {
-		return TableExtensions.getTableRows(table).stream().map(row -> {
-			final Set<Bearbeitungsvermerk> footnotes = FootnoteContainerExtensions
-					.getFootnotes(row.getFootnotes())
-					.stream()
-					.collect(Collectors.toSet());
-			if (footnotes.isEmpty()) {
-				return null;
-			}
-			return new WorkNotesUsage(TableRowExtensions.getLeadingObject(row),
-					footnotes);
-		}).filter(Objects::nonNull).collect(Collectors.toSet());
+	public static Set<Footnote> getNotesInTable(final Table table) {
+		return IterableExtensions.toSet(IterableExtensions
+				.flatMap(TableExtensions.getTableRows(table), row -> {
+					final List<Footnote> footnotes = FootnoteContainerExtensions
+							.getFootnotes(row.getFootnotes());
+					return footnotes;
+				}));
 	}
 
 	/**
@@ -156,36 +156,39 @@ public class FootnoteExtensions {
 	 *
 	 * @param sxxxTable
 	 *            the Sxxx table
-	 * @param workNotesInAnotherTable
-	 *            the {@link WorkNotesUsage} in another table
-	 * @param tableName
-	 *            the table name of table, which worknote belong to
+	 * @param footnotesPerTable
+	 *            all the tables with their {@link Footnote}
+	 * @param allTablesGenerated
+	 *            information if all tables have generated its footnotes yet
+	 * @param extractTableShortName
+	 *            extract table name form footnotesPerTable key value
 	 */
 	public static void fillSxxxTableColumnC(final Table sxxxTable,
-			final Set<WorkNotesUsage> workNotesInAnotherTable,
-			final String tableName) {
+			final Map<String, Set<Footnote>> footnotesPerTable,
+			final boolean allTablesGenerated,
+			final UnaryOperator<String> extractTableShortName) {
+		final Map<Object, Set<String>> tablesPerOwnerObject = new HashMap<>();
+		footnotesPerTable.forEach((table, footnotes) -> footnotes
+				.forEach(footnote -> tablesPerOwnerObject
+						.compute(footnote.getOwnerObject(), (key, value) -> {
+							Set<String> set = value;
+							if (set == null) {
+								set = new HashSet<>();
+							}
+							set.add(table);
+							return set;
+						})));
 		final List<TableRow> tableRows = TableExtensions
 				.getTableRows(sxxxTable);
-		workNotesInAnotherTable.forEach(workNotes -> {
-			final Optional<TableRow> rowOpt = tableRows.stream()
-					.filter(r -> r.getRowObject() != null)
-					.filter(r -> r.getRowObject().equals(workNotes.ownerObj))
-					.findFirst();
-			if (rowOpt.isEmpty()) {
-				// For notes, which not direct in group leading object
-				// attachment like Signal_Befestigung, Signal_Begriff,... then
-				// fill table name whole rows in group
-				TableExtensions.getTableRowGroups(sxxxTable)
-						.stream()
-						.filter(group -> workNotes.notes()
-								.stream()
-								.anyMatch(note -> group.getLeadingObject()
-										.equals(note)))
-						.forEach(group -> group.getRows()
-								.forEach(r -> fillValue(r, tableName)));
-				return;
+		tableRows.forEach(tableRow -> {
+			final Set<String> tables = tablesPerOwnerObject
+					.get(tableRow.getRowObject());
+			if (tables != null && !tables.isEmpty()) {
+				tables.forEach(table -> fillValue(tableRow,
+						extractTableShortName.apply(table)));
+			} else {
+				fillValue(tableRow, allTablesGenerated ? "keine" : "?"); //$NON-NLS-1$ //$NON-NLS-2$
 			}
-			fillValue(rowOpt.get(), tableName);
 		});
 	}
 
@@ -200,5 +203,158 @@ public class FootnoteExtensions {
 			stringCellContent.getValue().add(value);
 			stringCellContent.getValue().removeIf(String::isEmpty);
 		}
+	}
+
+	/**
+	 * Generates a prefix for every footnote that is related to the provided
+	 * basis objekt.
+	 * 
+	 * @param obj
+	 *            the basis objekt for which the prefix shall be generated
+	 * @return null as basis objekte don't have a prefix by default
+	 */
+	public static String getPrefix(final Basis_Objekt obj) {
+		return null;
+	}
+
+	/**
+	 * Generates a prefix for every footnote that is related to the provided
+	 * signal befestigung.
+	 * 
+	 * @param signalBefestigung
+	 *            the signal befestigung for which the prefix shall be generated
+	 * @return the prefix or null if not possible to create prefix
+	 */
+	public static String getPrefix(final Signal_Befestigung signalBefestigung) {
+		if (signalBefestigung == null) {
+			return null;
+		}
+		final EnumTranslationService enumTranslationService = Services
+				.getEnumTranslationService();
+		return enumTranslationService
+				.translate(signalBefestigung.getSignalBefestigungAllg()
+						.getBefestigungArt()
+						.getWert())
+				.getPresentation();
+	}
+
+	/**
+	 * Generates a prefix for every footnote that is related to the provided
+	 * signal rahmen.
+	 * 
+	 * @param signalRahmen
+	 *            the signal rahmen for which the prefix shall be generated
+	 * @return the prefix or null if not possible to create prefix
+	 */
+	public static String getPrefix(final Signal_Rahmen signalRahmen) {
+		if (signalRahmen == null || signalRahmen.getRahmenArt() == null
+				|| signalRahmen.getRahmenArt().getWert() == null) {
+			return null;
+		}
+		final ENUMRahmenArt rahmenArt = signalRahmen.getRahmenArt().getWert();
+		final EnumTranslationService enumTranslationService = Services
+				.getEnumTranslationService();
+		final String prefix = enumTranslationService.translate(rahmenArt)
+				.getPresentation();
+		if (rahmenArt.equals(ENUMRahmenArt.ENUM_RAHMEN_ART_BLECHTAFEL)
+				|| rahmenArt
+						.equals(ENUMRahmenArt.ENUM_RAHMEN_ART_ZUSATZANZEIGER)) {
+			final List<String> signalBegriffe = Streams
+					.stream(SignalRahmenExtensions
+							.getSignalbegriffe(signalRahmen))
+					.map(signalBegriff -> getPrefix(signalBegriff, false)
+							.getKey())
+					.filter(Objects::nonNull)
+					.collect(Collectors.toSet())
+					.stream()
+					.sorted()
+					.toList();
+			if (!signalBegriffe.isEmpty()) {
+				return prefix + " " + String.join(", ", signalBegriffe); //$NON-NLS-1$ //$NON-NLS-2$
+			}
+		}
+		return prefix;
+	}
+
+	/**
+	 * Generates a prefix for every footnote that is related to the provided
+	 * signal begriff.
+	 * 
+	 * @param signalBegriff
+	 *            the signal begriff for which the prefix shall be generated
+	 * @return the signalbegriff name and the symbol
+	 */
+	public static Pair<String, String> getPrefix(
+			final Signal_Signalbegriff signalBegriff) {
+		return getPrefix(signalBegriff, true);
+	}
+
+	private static Pair<String, String> getPrefix(
+			final Signal_Signalbegriff signalBegriff,
+			final boolean withSymbol) {
+		if (signalBegriff == null
+				|| signalBegriff.getSignalbegriffID() == null) {
+			return null;
+		}
+		final Signalbegriff_ID_TypeClass signalBegriffId = signalBegriff
+				.getSignalbegriffID();
+		final String prefix = getSignalBregiffIDName(signalBegriffId);
+		if (withSymbol && signalBegriffId.getSymbol() != null) {
+			return new Pair<>(prefix, signalBegriffId.getSymbol());
+		}
+		return new Pair<>(prefix, null);
+	}
+
+	/**
+	 * @param signalBegriffId
+	 *            the {@link Signalbegriff_ID_TypeClass}
+	 * @return the name of this signalbegriff
+	 */
+	public static String getSignalBregiffIDName(
+			final Signalbegriff_ID_TypeClass signalBegriffId) {
+		try {
+			return signalBegriffId.eClass()
+					.getEAnnotation(ExtendedMetaData.ANNOTATION_URI)
+					.getDetails()
+					.get("name") //$NON-NLS-1$
+					.replace("_", " "); //$NON-NLS-1$ //$NON-NLS-2$
+		} catch (final Exception e) {
+			return signalBegriffId.eClass().getName();
+		}
+	}
+
+	/**
+	 * Adds the given prefix to all the footnotes. Bearbeitungsvermerke of
+	 * footnotes are cloned so that the original bearbeitungsvermerke stay
+	 * untouched.
+	 * 
+	 * @param footnotes
+	 *            the footnotes to prefix
+	 * @param prefix
+	 *            the prefix to for the kommentar of bearbeitungsvermerk or null
+	 *            if no prefix should be added
+	 * @return the extended footnotes
+	 */
+	public static Iterable<Footnote> withPrefix(
+			final Iterable<Footnote> footnotes, final String prefix) {
+		if (prefix == null) {
+			return footnotes;
+		}
+		return Streams.stream(footnotes).map(footnote -> {
+			final Bearbeitungsvermerk bearbeitungsvermerk = createBearbeitungsvermerkWithoutGuid(
+					prefix + ": " //$NON-NLS-1$
+							+ footnote.getBearbeitungsvermerk()
+									.getBearbeitungsvermerkAllg()
+									.getKommentar()
+									.getWert());
+			bearbeitungsvermerk.setIdentitaet(
+					BasisobjekteFactory.eINSTANCE.createIdentitaet_TypeClass());
+			bearbeitungsvermerk.getIdentitaet()
+					.setWert(footnote.getBearbeitungsvermerk()
+							.getIdentitaet()
+							.getWert());
+			footnote.setBearbeitungsvermerk(bearbeitungsvermerk);
+			return footnote;
+		}).toList();
 	}
 }

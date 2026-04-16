@@ -12,23 +12,32 @@ package org.eclipse.set.basis;
  * Additional information for (and around) the free field of the pdf export.
  * 
  * @author Schaefer
+ * @param significantInformation
+ *            the {@link SignificantInformation}
+ * 
  */
-public class FreeFieldInfo {
-
-	private String significantInformation;
-
+public record FreeFieldInfo(SignificantInformation significantInformation) {
 	/**
-	 * @return the significant information
+	 * @param mainPlan
+	 *            the main {@link LoadedPlanInformation}
+	 * @param comparePlan
+	 *            the compare {@link LoadedPlanInformation}
 	 */
-	public String getSignificantInformation() {
-		return significantInformation;
+	public record SignificantInformation(LoadedPlanInformation mainPlan,
+			LoadedPlanInformation comparePlan) {
+
 	}
 
 	/**
-	 * @param significantInformation
-	 *            the significant information to set
+	 * @param name
+	 *            the plan name
+	 * @param checksum
+	 *            the checksum
+	 * @param timestamp
+	 *            the timestamp
 	 */
-	public void setSignificantInformation(final String significantInformation) {
-		this.significantInformation = significantInformation;
+	public record LoadedPlanInformation(String name, String checksum,
+			String timestamp) {
+
 	}
 }

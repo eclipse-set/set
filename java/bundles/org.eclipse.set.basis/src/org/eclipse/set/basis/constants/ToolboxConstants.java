@@ -8,6 +8,7 @@
  */
 package org.eclipse.set.basis.constants;
 
+import java.math.BigDecimal;
 import java.util.Comparator;
 
 import org.eclipse.set.basis.MixedStringComparator;
@@ -379,10 +380,23 @@ public final class ToolboxConstants {
 	public static final String EXAMPLE_PROJECT_1_10_0_3 = "PPHN_01-02_IbnZ2AeM_2026-02-02_17-47.planpro";
 
 	/**
+	 * The minimum of footnotes count to active horizontal scroll
+	 */
+	public static final int FOOTNOTE_ACTIVE_SCROLL_MINIMUM = 10;
+
+	/**
 	 * The tolerance value between TOP_Kante length and the sum of GEO_Kanten
 	 * length, which belong to this TOP_Kante (in Meter)
 	 */
 	public static final double TOP_GEO_LENGTH_TOLERANCE = 0.01;
+
+	/**
+	 * The tolerance value between the Begrenzungen of a Teilbereich and its
+	 * associated TOP_KANTE
+	 */
+	public static final BigDecimal TEILBEREICH_TOP_KANTE_TOLERANCE = BigDecimal
+			.valueOf(0.001);
+
 	static {
 		DEFAULT_HOME_DIR = "./";
 		TMP_BASE_DIR = System.getProperty(ToolboxProperties.TMP_BASE_DIR,

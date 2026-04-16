@@ -25,10 +25,11 @@ import org.eclipse.set.swtbot.utils.AbstractSWTBotTest;
 import org.eclipse.set.swtbot.utils.MockDialogService;
 import org.eclipse.set.swtbot.utils.MockDialogServiceContextFunction;
 import org.eclipse.set.swtbot.utils.SWTBotUtils;
-import org.eclipse.set.swtbot.utils.TestFile;
 import org.eclipse.swt.SWT;
 import org.eclipse.swtbot.nebula.nattable.finder.widgets.SWTBotNatTable;
+import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
 import org.eclipse.swtbot.swt.finder.waits.DefaultCondition;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotCTabItem;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.TestWatcher;
@@ -53,29 +54,22 @@ public class TestFailHandle implements TestWatcher {
 		final Optional<Object> testInstance = context.getTestInstance();
 		if (testInstance.isPresent() && testInstance
 				.get() instanceof final AbstractTableTest tableTest) {
-			exportCurrentCSV(tableTest.getTestFile(),
-					tableTest.getTestTableReferenceName(),
-					tableTest.getClass());
-			exportReferenceCSV(tableTest.getTestFile(),
-					tableTest.getTestTableReferenceName(),
-					tableTest.getReferenceDir(),
-					tableTest.getTestResourceClass().getClassLoader(),
-					tableTest.getClass());
+			exportCurrentCSV(tableTest);
+			exportReferenceCSV(tableTest);
 		}
 		TestWatcher.super.testFailed(context, cause);
 	}
 
-	protected void exportCurrentCSV(final TestFile testFile,
-			final String tableName, final Class<?> testClass) {
+	protected void exportCurrentCSV(final AbstractTableTest tableTest) {
 		final MockDialogService mockDialogService = MockDialogServiceContextFunction.mockService;
-		final File file = getExportFile(testFile,
-				tableName + CURRENT_CSV_EXTENSIONS, testClass);
+		final File file = getExportFile(tableTest, CURRENT_CSV_EXTENSIONS);
 		if (!file.getParentFile().exists()) {
 			file.getParentFile().mkdirs();
 		}
 		mockDialogService.exportFileDialogHandler = filter -> {
 			return Optional.of(file.toPath());
 		};
+
 		final SWTBotNatTable nattableBot = SWTBotUtils
 				.waitForNattable(AbstractSWTBotTest.bot, 30000);
 		// Select a table cell to select Nattable. Don't take (0,1) because, it
@@ -94,20 +88,19 @@ public class TestFailHandle implements TestWatcher {
 			public boolean test() throws Exception {
 				return Files.exists(file.toPath(), LinkOption.NOFOLLOW_LINKS);
 			}
-		}, 5l * 60 * 1000);
+		}, 2 * 60 * 1000);
 	}
 
-	protected void exportReferenceCSV(final TestFile testFile,
-			final String tableName, final String parentDir,
-			final ClassLoader resourceClassLoader, final Class<?> testClass) {
-		final File outFile = getExportFile(testFile,
-				tableName + REFERENCE_CSV_EXTENSIONS, testClass);
+	protected void exportReferenceCSV(final AbstractTableTest tableTest) {
+		final File outFile = getExportFile(tableTest, REFERENCE_CSV_EXTENSIONS);
 		if (!outFile.getParentFile().exists()) {
 			outFile.getParentFile().mkdirs();
 		}
-		final InputStream referenceResource = resourceClassLoader
-				.getResourceAsStream(
-						parentDir + tableName + REFERENCE_CSV_EXTENSIONS);
+		final String tableName = tableTest.getTestTableReferenceName();
+		final InputStream referenceResource = tableTest.getTestResourceClass()
+				.getClassLoader()
+				.getResourceAsStream(tableTest.getReferenceDir() + tableName
+						+ REFERENCE_CSV_EXTENSIONS);
 		// New table given't reference datei
 		if (referenceResource == null) {
 			LOGGER.debug(String.format("Cannot find file: %s",
@@ -123,19 +116,45 @@ public class TestFailHandle implements TestWatcher {
 		}
 	}
 
-	protected File getExportFile(final TestFile testFile, final String csvFile,
-			final Class<?> testClass) {
+	protected File getExportFile(final AbstractTableTest tableTest,
+			final String extension) {
 		try {
-			final URL parent = testClass.getProtectionDomain()
+			final URL parent = tableTest.getClass()
+					.getProtectionDomain()
 					.getCodeSource()
 					.getLocation();
 			final File parentDir = Path.of(parent.toURI()).toFile();
 			return new File(parentDir,
-					Path.of(DIFF_DIR, testFile.getShortName(), csvFile)
+					Path.of(tableTest.getReferenceDir()
+							.replaceFirst(".*table_reference/", DIFF_DIR + "/"),
+							tableTest.getTestTableReferenceName() + extension)
 							.toString());
 		} catch (final URISyntaxException e) {
 			throw new RuntimeException(e);
 		}
 
+	}
+
+	/**
+	 * Special fail handle that reopens the table so that the current CSV can be
+	 * exported
+	 */
+	public static class ReopenTableBeforeFailHandle extends TestFailHandle {
+		@Override
+		public void testFailed(final ExtensionContext context,
+				final Throwable cause) {
+			final Optional<Object> testInstance = context.getTestInstance();
+			if (testInstance.isPresent() && testInstance
+					.get() instanceof final AbstractTableTest tableTest) {
+				tableTest.givenNattableBot(tableTest.tableToTest.tableName());
+				super.testFailed(context, cause);
+				final SWTBotCTabItem cTabItem = tableTest.bot
+						.cTabItem(tableTest.tableToTest.tableName());
+				UIThreadRunnable.syncExec(() -> {
+					cTabItem.activate();
+					cTabItem.close();
+				});
+			}
+		}
 	}
 }

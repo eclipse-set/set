@@ -15,6 +15,7 @@ import { Coordinate, Position } from '@/model/Position'
 import { Signal } from '@/model/Signal'
 import { SignalMount } from '@/model/SignalMount'
 import TrackClose from '@/model/TrackClose'
+import { store } from '@/store'
 import { FeatureCollection, Feature as GeoJSONFeature, GeometryCollection as GeoJSONGeometryCollection } from 'geojson'
 import { Feature } from 'ol'
 import GeoJSON from 'ol/format/GeoJSON'
@@ -34,8 +35,13 @@ export function getFeatureGUIDs (feature: Feature<Geometry>): string[] {
       const fma = getFeatureData(feature)
       return fma ? [fma.guid] : []
     case FeatureType.Track:
-      const trackSection = getFeatureData(feature)
-      return trackSection ? [trackSection.section.guid] : []
+      const isTrackColorVisible = store.state.trackColorVisible
+      const trackData = getFeatureData(feature)
+      if (!trackData) {
+        return []
+      }
+
+      return isTrackColorVisible ? [trackData.guid] : [trackData.section.guid]
     case FeatureType.TrackOutline:
       const trackOutline = getFeatureData(feature)
       return trackOutline ? [trackOutline.guid] : []

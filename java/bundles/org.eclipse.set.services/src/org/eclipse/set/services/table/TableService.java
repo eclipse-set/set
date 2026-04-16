@@ -166,6 +166,14 @@ public interface TableService {
 	Set<Integer> getFixedColumns(final TableInfo tableInfo);
 
 	/**
+	 * 
+	 * @param tableInfo
+	 *            {@link TableInfo}
+	 * @return whether filtering should be enabled for the table or not
+	 */
+	boolean enableFiltering(final TableInfo tableInfo);
+
+	/**
 	 * Check the running threads, if exists thread name start with table short
 	 * cut
 	 * 
@@ -206,12 +214,10 @@ public interface TableService {
 	 * 
 	 * @param table
 	 *            the table
-	 * @param tableType
-	 *            the {@link TableType}
 	 * @param tableInfo
 	 *            the {@link TableInfo}
 	 */
-	void sortTable(Table table, TableType tableType, TableInfo tableInfo);
+	void sortTable(Table table, TableInfo tableInfo);
 
 	/**
 	 * @param tableInfo

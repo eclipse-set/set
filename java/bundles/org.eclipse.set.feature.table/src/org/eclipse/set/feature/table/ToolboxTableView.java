@@ -22,7 +22,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.ThreadUtils;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -33,7 +32,10 @@ import org.eclipse.emf.common.command.CommandStackListener;
 import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.nebula.widgets.nattable.NatTable;
+import org.eclipse.nebula.widgets.nattable.config.ConfigRegistry;
 import org.eclipse.nebula.widgets.nattable.data.IDataProvider;
+import org.eclipse.nebula.widgets.nattable.filterrow.FilterRowHeaderComposite;
+import org.eclipse.nebula.widgets.nattable.filterrow.IFilterStrategy;
 import org.eclipse.nebula.widgets.nattable.grid.data.DefaultColumnHeaderDataProvider;
 import org.eclipse.nebula.widgets.nattable.grid.data.DefaultCornerDataProvider;
 import org.eclipse.nebula.widgets.nattable.grid.data.DefaultRowHeaderDataProvider;
@@ -88,7 +90,6 @@ import org.eclipse.set.model.tablemodel.extensions.ColumnDescriptorExtensions;
 import org.eclipse.set.model.tablemodel.extensions.Headings;
 import org.eclipse.set.model.tablemodel.extensions.TableCellExtensions;
 import org.eclipse.set.model.tablemodel.extensions.TableExtensions;
-import org.eclipse.set.model.tablemodel.extensions.TableExtensions.FootnoteInfo;
 import org.eclipse.set.model.tablemodel.extensions.TableRowExtensions;
 import org.eclipse.set.model.titlebox.Titlebox;
 import org.eclipse.set.ppmodel.extensions.utils.PlanProToFreeFieldTransformation;
@@ -117,13 +118,9 @@ import org.eclipse.set.utils.table.TableModelInstanceBodyDataProvider;
 import org.eclipse.set.utils.table.menu.TableMenuService;
 import org.eclipse.set.utils.table.sorting.AbstractCompareWithDependencyOnServiceCriterion;
 import org.eclipse.set.utils.table.sorting.TableRowGroupComparator;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.StyleRange;
-import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
+import org.osgi.service.event.Event;
 import org.osgi.service.event.EventHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -140,12 +137,9 @@ import jakarta.inject.Inject;
  * 
  * @author rumpf
  */
-public final class ToolboxTableView extends BasePart {
+public class ToolboxTableView extends BasePart {
 
 	protected static final int DEBUG_WIDTH_CORRECTION = 0;
-
-	private static Color GRAY_BACKGROUND = new Color(Display.getCurrent(), 240,
-			240, 240);
 
 	static final Logger logger = LoggerFactory
 			.getLogger(ToolboxTableView.class);
@@ -157,7 +151,7 @@ public final class ToolboxTableView extends BasePart {
 
 	@Inject
 	private ExportService exportService;
-	private NatTable natTable;
+	protected NatTable natTable;
 
 	private final List<TableRow> tableInstances = Lists.newLinkedList();
 
@@ -165,9 +159,7 @@ public final class ToolboxTableView extends BasePart {
 	private ToolboxEventHandler<TableDataChangeEvent> tableDataChangeHandler;
 	private ToolboxEventHandler<SelectedControlAreaChangedEvent> selectionControlAreaHandler;
 	private int scrollToPositionRequested = -1;
-
-	private StyledText tableFooting;
-
+	private ToolboxTableFootnoteView tableFooting;
 	@Inject
 	@Translation
 	Messages messages;
@@ -178,7 +170,7 @@ public final class ToolboxTableView extends BasePart {
 	Table table;
 
 	@Inject
-	TableService tableService;
+	protected TableService tableService;
 
 	@Inject
 	TableMenuService tableMenuService;
@@ -186,9 +178,9 @@ public final class ToolboxTableView extends BasePart {
 	@Inject
 	UserConfigurationService userConfigService;
 
-	TableType tableType;
+	protected TableType tableType;
 
-	Set<String> controlAreaIds;
+	protected Set<String> controlAreaIds;
 
 	/**
 	 * this injection is only needed to invoke the call of the respective
@@ -201,8 +193,7 @@ public final class ToolboxTableView extends BasePart {
 	private TableModelInstanceBodyDataProvider bodyDataProvider;
 
 	private EventHandler secondaryPlanningLoadedHanlder;
-	private EventHandler reloadWorkNotesTable;
-	private TableInfo tableInfo;
+	protected TableInfo tableInfo;
 
 	/**
 	 * constructor
@@ -218,8 +209,8 @@ public final class ToolboxTableView extends BasePart {
 
 	private FreeFieldInfo getFreeFieldInfo() {
 		final PlanProToFreeFieldTransformation planProToFreeField = PlanProToFreeFieldTransformation
-				.create();
-		return planProToFreeField.transform(getModelSession());
+				.create(getSessionService());
+		return planProToFreeField.transform();
 	}
 
 	private Path getAttachmentPath(final String guid) {
@@ -256,7 +247,7 @@ public final class ToolboxTableView extends BasePart {
 	}
 
 	@PostConstruct
-	private void postConstruct() {
+	protected void postConstruct() {
 		tableSelectRowHandler = new DefaultToolboxEventHandler<>() {
 			@Override
 			public void accept(final JumpToTableEvent t) {
@@ -310,36 +301,22 @@ public final class ToolboxTableView extends BasePart {
 				SelectedControlAreaChangedEvent.class,
 				selectionControlAreaHandler);
 
-		secondaryPlanningLoadedHanlder = event -> {
-			if (!event.getTopic()
-					.equalsIgnoreCase(Events.COMPARE_MODEL_LOADED)) {
-				return;
-			}
-			updateModel(getToolboxPart());
-
-		};
+		secondaryPlanningLoadedHanlder = this::comparePlaningLoadedHandler;
 		getBroker().subscribe(Events.COMPARE_MODEL_LOADED,
 				secondaryPlanningLoadedHanlder);
-
-		if (tableService.getTableInfo(this)
-				.shortcut()
-				.equalsIgnoreCase(ToolboxConstants.WORKNOTES_TABLE_SHORTCUT)) {
-			reloadWorkNotesTable = event -> {
-				if (!event.getTopic()
-						.equalsIgnoreCase(Events.RELOAD_WORKNOTES_TABLE)) {
-					return;
-				}
-				updateModel(getToolboxPart());
-				natTable.refresh();
-			};
-			getBroker().subscribe(Events.RELOAD_WORKNOTES_TABLE,
-					reloadWorkNotesTable);
-		}
-
 	}
 
+	protected void comparePlaningLoadedHandler(final Event event) {
+		if (!event.getTopic().equalsIgnoreCase(Events.COMPARE_MODEL_LOADED)) {
+			return;
+		}
+		updateModel(getToolboxPart());
+	}
+
+	@Override
 	@PreDestroy
-	private void preDestroy() {
+	protected void preDestroy() {
+		super.preDestroy();
 		logger.trace("preDestroy"); //$NON-NLS-1$ LOG
 		ToolboxEvents.unsubscribe(getBroker(), tableSelectRowHandler);
 		ToolboxEvents.unsubscribe(getBroker(), tableDataChangeHandler);
@@ -385,41 +362,10 @@ public final class ToolboxTableView extends BasePart {
 			updateButtons();
 
 			// Update footnotes
-			updateFootnotes();
+			tableFooting.updateFootnotes(table);
 			// Update widget layout
 			natTable.getParent().layout();
 		}, tableInstances::clear);
-	}
-
-	private void updateFootnotes() {
-		final List<String> lines = new ArrayList<>();
-		final List<StyleRange> styles = new ArrayList<>();
-		int startOffset = 0;
-		for (final FootnoteInfo footnote : TableExtensions
-				.getAllFootnotes(table)) {
-			final String text = footnote.toReferenceText();
-			lines.add(text);
-
-			switch (footnote.type) {
-				case NEW_FOOTNOTE:
-					styles.add(new StyleRange(startOffset, text.length(),
-							new Color(255, 0, 0), null));
-					break;
-				case OLD_FOOTNOTE:
-					styles.add(new StyleRange(startOffset, text.length(), null,
-							new Color(255, 255, 0)));
-
-					break;
-				case COMMON_FOOTNOTE:
-				default:
-					break;
-			}
-			startOffset += text.length() + 1;
-
-		}
-
-		tableFooting.setText(StringUtils.join(lines, "\n")); //$NON-NLS-1$
-		tableFooting.setStyleRanges(styles.toArray(new StyleRange[0]));
 	}
 
 	@Override
@@ -490,7 +436,7 @@ public final class ToolboxTableView extends BasePart {
 		// IMPROVE: The table header level should be determined automatically,
 		// and the corresponding header layers should be created accordingly. At
 		// present, only tables with 1, 2, or 4 levels are supported.
-		final ILayer headerLayer = anyMatch
+		ILayer headerLayer = anyMatch
 				? createGroupHeaderLayer(columnHeaderLayer,
 						rootColumnDescriptor)
 				: createHeaderLayer(columnHeaderLayer, rootColumnDescriptor);
@@ -501,6 +447,13 @@ public final class ToolboxTableView extends BasePart {
 		final RowHeaderLayer rowHeaderLayer = new RowHeaderLayer(
 				rowHeaderDataLayer, bodyLayerStack,
 				bodyLayerStack.getSelectionLayer());
+
+		if (tableService.enableFiltering(tableInfo)) {
+			final ConfigRegistry configRegistry = new ConfigRegistry();
+			headerLayer = new FilterRowHeaderComposite<>(
+					new FilterStrategy<>(bodyDataProvider), headerLayer,
+					columnHeaderDataLayer.getDataProvider(), configRegistry);
+		}
 
 		// Corner Layer stack
 		final DefaultCornerDataProvider cornerDataProvider = new DefaultCornerDataProvider(
@@ -545,15 +498,8 @@ public final class ToolboxTableView extends BasePart {
 		bodyLayerStack.getSelectionLayer().clear();
 
 		// display footnotes
-		tableFooting = new StyledText(parent, SWT.MULTI);
-		tableFooting.setBackground(GRAY_BACKGROUND);
-		updateFootnotes();
-		tableFooting.setEditable(false);
-		GridDataFactory.fillDefaults()
-				.grab(true, false)
-				.minSize(-1, 500)
-				.applyTo(tableFooting);
-
+		tableFooting = new ToolboxTableFootnoteView(parent);
+		tableFooting.updateFootnotes(table);
 		// export action
 		getBanderole().setExportAction(new SelectableAction() {
 			@Override
@@ -588,6 +534,23 @@ public final class ToolboxTableView extends BasePart {
 		});
 
 		updateButtons();
+	}
+
+	class FilterStrategy<T> implements IFilterStrategy<T> {
+		private final TableModelInstanceBodyDataProvider tableDataProvider;
+
+		public FilterStrategy(
+				final TableModelInstanceBodyDataProvider tableDataProvider) {
+			this.tableDataProvider = tableDataProvider;
+		}
+
+		@Override
+		public void applyFilter(
+				final Map<Integer, Object> filterIndexToObjectMap) {
+			tableDataProvider.applyFilter(filterIndexToObjectMap);
+			natTable.refresh();
+		}
+
 	}
 
 	private IConfigLabelAccumulator addTableCellLabelConfig() {
@@ -832,7 +795,9 @@ public final class ToolboxTableView extends BasePart {
 
 		tableInstances.clear();
 		tableInstances.addAll(TableExtensions.getTableRows(table));
-
+		if (bodyDataProvider != null) {
+			bodyDataProvider.refresh();
+		}
 	}
 
 	private void addMenuItems() {
@@ -934,10 +899,13 @@ public final class ToolboxTableView extends BasePart {
 								.size()
 								&& triggeredEvents
 										.containsAll(triggerComparisonEvent)) {
-							tableService.sortTable(table, tableType, tableInfo);
+							tableService.sortTable(table, tableInfo);
 							tableInstances.clear();
 							tableInstances.addAll(
 									TableExtensions.getTableRows(table));
+							if (bodyDataProvider != null) {
+								bodyDataProvider.refresh();
+							}
 							natTable.refresh();
 						}
 					}));

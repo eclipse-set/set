@@ -11,7 +11,9 @@ package org.eclipse.set.utils.table;
 import static org.eclipse.set.model.tablemodel.extensions.CellContentExtensions.HOURGLASS_ICON;
 import static org.eclipse.set.model.tablemodel.extensions.CellContentExtensions.getStringValueIterable;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
@@ -28,7 +30,7 @@ import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.eclipse.set.core.services.session.SessionService;
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.set.model.tablemodel.CellContent;
-import org.eclipse.set.model.tablemodel.CompareCellContent;
+import org.eclipse.set.model.tablemodel.CompareStateCellContent;
 import org.eclipse.set.model.tablemodel.CompareTableCellContent;
 import org.eclipse.set.model.tablemodel.StringCellContent;
 import org.eclipse.set.model.tablemodel.TableCell;
@@ -36,6 +38,7 @@ import org.eclipse.set.model.tablemodel.TableRow;
 import org.eclipse.set.model.tablemodel.TablemodelFactory;
 import org.eclipse.set.model.tablemodel.extensions.CellContentExtensions;
 import org.eclipse.set.model.tablemodel.extensions.TableRowExtensions;
+import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,11 +56,14 @@ public class TableModelInstanceBodyDataProvider
 			.getLogger(TableModelInstanceBodyDataProvider.class);
 
 	private static final String NULL_VALUE = ""; //$NON-NLS-1$
+	private static final String EXCULDE_FILTER_SIGN = "-"; //$NON-NLS-1$
 
 	private final List<TableRow> instances;
+	private List<TableRow> filteredInstances;
 	private final int propertyCount;
 	private final TableSpanUtils spanUtils;
 	private final SessionService sessionService;
+	private Map<Integer, Object> filters = new HashMap<>();
 
 	/**
 	 * @param propertyCount
@@ -74,6 +80,7 @@ public class TableModelInstanceBodyDataProvider
 		this.propertyCount = propertyCount;
 		this.spanUtils = new TableSpanUtils(instances);
 		this.sessionService = sessionService;
+		this.refresh();
 	}
 
 	@Override
@@ -84,7 +91,7 @@ public class TableModelInstanceBodyDataProvider
 	@Override
 	public Object getDataValue(final int columnIndex, final int rowIndex) {
 		final String value = TableRowExtensions
-				.getRichTextValue(instances.get(rowIndex), columnIndex);
+				.getRichTextValue(filteredInstances.get(rowIndex), columnIndex);
 		if (value == null) {
 			logger.debug("column={} row={} is empty", //$NON-NLS-1$
 					Integer.valueOf(columnIndex), Integer.valueOf(rowIndex));
@@ -95,7 +102,7 @@ public class TableModelInstanceBodyDataProvider
 
 	@Override
 	public int getRowCount() {
-		return instances.size();
+		return filteredInstances.size();
 	}
 
 	@Override
@@ -121,6 +128,53 @@ public class TableModelInstanceBodyDataProvider
 	}
 
 	/**
+	 * Applies a set of filters to the table
+	 * 
+	 * @param filterIndexToObjectMap
+	 *            A map<columnIndex, filterValue> of filters to apply
+	 */
+	public void applyFilter(final Map<Integer, Object> filterIndexToObjectMap) {
+		this.filters = filterIndexToObjectMap;
+		this.refresh();
+	}
+
+	/**
+	 * Refreshes the internal state e.g. when the instances changed.
+	 */
+	public void refresh() {
+		this.filteredInstances = this.instances.stream()
+				.filter(this::filterMatch)
+				.toList();
+	}
+
+	private boolean filterMatch(final TableRow row) {
+		final List<CellContent> contents = row.getCells()
+				.stream()
+				.map(cell -> cell.getContent())
+				.toList();
+		for (int i = 0; i < this.getColumnCount(); i++) {
+			if (filters.containsKey(Integer.valueOf(i))) {
+				final String content = CellContentExtensions
+						.getPlainStringValue(contents.get(i))
+						.toLowerCase();
+				String filterValue = filters.get(Integer.valueOf(i))
+						.toString()
+						.toLowerCase();
+				final boolean isExcludeFilter = filterValue.substring(0, 1)
+						.equals(EXCULDE_FILTER_SIGN);
+				filterValue = isExcludeFilter ? filterValue.substring(1)
+						: filterValue;
+
+				// Equivalence logic
+				if (isExcludeFilter == content.contains(filterValue)) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
+	/**
 	 * Update table value
 	 * 
 	 * @param tableType
@@ -142,6 +196,7 @@ public class TableModelInstanceBodyDataProvider
 				TableRowExtensions.set(first.get(),
 						properties.getChangeDataColumn(),
 						properties.getNewValues(), properties.getSeparator());
+				this.refresh();
 			}
 			return;
 		}
@@ -170,6 +225,7 @@ public class TableModelInstanceBodyDataProvider
 					properties);
 			cell.setContent(newContent);
 		});
+		this.refresh();
 	}
 
 	private CellContent getNewContent(final CellContent oldContent,
@@ -177,7 +233,7 @@ public class TableModelInstanceBodyDataProvider
 		return switch (oldContent) {
 			case final StringCellContent stringContent -> getNewContent(
 					stringContent, properties);
-			case final CompareCellContent compareContent -> getNewContent(
+			case final CompareStateCellContent compareContent -> getNewContent(
 					compareContent, properties);
 			case final CompareTableCellContent compareTableContent -> getNewContent(
 					compareTableContent, properties);
@@ -212,24 +268,27 @@ public class TableModelInstanceBodyDataProvider
 	}
 
 	private static CellContent getNewContent(
-			final CompareCellContent oldContent,
+			final CompareStateCellContent oldContent,
 			final Pt1TableChangeProperties properties) {
 		final ContainerType containerType = properties.getContainerType();
+		final List<String> oldValues = IterableExtensions
+				.toList(CellContentExtensions
+						.getStringValueIterable(oldContent.getOldValue()));
+		final List<String> newValues = IterableExtensions
+				.toList(CellContentExtensions
+						.getStringValueIterable(oldContent.getNewValue()));
 		switch (containerType) {
 			case FINAL:
-				if (!equalsValues(oldContent.getNewValue(),
-						properties.getNewValues())) {
-					return createCompareCellContent(oldContent.getOldValue(),
+				if (!equalsValues(newValues, properties.getNewValues())) {
+					return createCompareCellContent(oldValues,
 							properties.getNewValues(),
 							oldContent.getSeparator());
 				}
 				break;
 			case INITIAL:
-				if (!equalsValues(oldContent.getOldValue(),
-						properties.getNewValues())) {
+				if (!equalsValues(oldValues, properties.getNewValues())) {
 					return createCompareCellContent(properties.getNewValues(),
-							oldContent.getNewValue(),
-							oldContent.getSeparator());
+							newValues, oldContent.getSeparator());
 				}
 				break;
 			default:
@@ -286,13 +345,15 @@ public class TableModelInstanceBodyDataProvider
 				: clone;
 	}
 
-	private static CompareCellContent createCompareCellContent(
+	private static CompareStateCellContent createCompareCellContent(
 			final List<String> oldValues, final List<String> newValues,
 			final String separator) {
-		final CompareCellContent compareContent = TablemodelFactory.eINSTANCE
-				.createCompareCellContent();
-		compareContent.getOldValue().addAll(oldValues);
-		compareContent.getNewValue().addAll(newValues);
+		final CompareStateCellContent compareContent = TablemodelFactory.eINSTANCE
+				.createCompareStateCellContent();
+		compareContent.setOldValue(
+				CellContentExtensions.createStringCellContent(oldValues));
+		compareContent.setNewValue(
+				CellContentExtensions.createStringCellContent(newValues));
 		compareContent.setSeparator(separator);
 		return compareContent;
 	}

@@ -2,6 +2,7 @@ import { FlatCompat } from '@eslint/eslintrc'
 import js from '@eslint/js'
 import stylistic from '@stylistic/eslint-plugin'
 import typescriptEslint from '@typescript-eslint/eslint-plugin'
+import vue from "eslint-plugin-vue"
 import globals from 'globals'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -18,11 +19,12 @@ const compat = new FlatCompat({
 export default [
   {
     ignores: ['**/*.js']
-  }, ...compat.extends(
+  },
+  ...vue.configs["flat/recommended"],
+  ...compat.extends(
     'plugin:@typescript-eslint/recommended',
-    'plugin:vue/essential',
-    'plugin:vue/strongly-recommended'
-  ), {
+  ),
+  {
     plugins: {
       '@stylistic': stylistic,
       '@typescript-eslint': typescriptEslint

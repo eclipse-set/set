@@ -10,12 +10,13 @@ package org.eclipse.set.model.tablemodel.extensions
 
 import com.google.common.base.Strings
 import com.google.common.html.HtmlEscapers
+import java.util.List
 import java.util.function.BiFunction
 import java.util.function.Function
 import org.eclipse.set.model.planpro.Basisobjekte.Bearbeitungsvermerk
 import org.eclipse.set.model.tablemodel.CellContent
-import org.eclipse.set.model.tablemodel.CompareCellContent
 import org.eclipse.set.model.tablemodel.CompareFootnoteContainer
+import org.eclipse.set.model.tablemodel.CompareStateCellContent
 import org.eclipse.set.model.tablemodel.CompareTableCellContent
 import org.eclipse.set.model.tablemodel.CompareTableFootnoteContainer
 import org.eclipse.set.model.tablemodel.FootnoteContainer
@@ -24,6 +25,7 @@ import org.eclipse.set.model.tablemodel.MultiColorContent
 import org.eclipse.set.model.tablemodel.SimpleFootnoteContainer
 import org.eclipse.set.model.tablemodel.StringCellContent
 import org.eclipse.set.model.tablemodel.TableCell
+import org.eclipse.set.model.tablemodel.TablemodelFactory
 import org.eclipse.set.utils.ToolboxConfiguration
 
 import static org.eclipse.set.model.tablemodel.extensions.Utils.*
@@ -69,10 +71,11 @@ class CellContentExtensions {
 		»«content.valueFormat»</p>'''
 	}
 
-	static def dispatch String getRichTextValue(CompareCellContent content) {
+	static def dispatch String getRichTextValue(
+		CompareStateCellContent content) {
 		val result = formatCompareContent(
-			content.oldValue,
-			content.newValue,
+			content.oldValue.stringValueIterable,
+			content.newValue.stringValueIterable,
 			[WARNING_MARK_YELLOW],
 			[WARNING_MARK_BLACK],
 			[WARNING_MARK_RED],
@@ -122,8 +125,8 @@ class CellContentExtensions {
 	static def dispatch String getRichTextValueWithFootnotes(
 		StringCellContent content, SimpleFootnoteContainer fc) {
 		val footnoteText = fc.footnotes.map [
-			'''*«getFootnoteNumber(content, it)»'''
-		].iterableToString(FOOTNOTE_SEPARATOR)
+			getFootnoteNumber(content, it.bearbeitungsvermerk)
+		].toSet.sort.map['''*«it»'''].iterableToString(FOOTNOTE_SEPARATOR)
 
 		if (footnoteText != "")
 			return '''<p style="text-align:«content.textAlign»">«content.valueFormat» «footnoteText»</p>'''
@@ -150,8 +153,7 @@ class CellContentExtensions {
 				getCompareValueFormat(
 					mark, '''*«getFootnoteNumber(content, text)»''')
 			]
-		)
-
+		).toSet
 		result = result + #[footnotes.iterableToString(FOOTNOTE_SEPARATOR)]
 
 		return '''<p style="text-align:«content.textAlign»">«
@@ -184,8 +186,9 @@ class CellContentExtensions {
 		return content.value.iterableToString(content.separator)
 	}
 
-	static def dispatch String getPlainStringValue(CompareCellContent content) {
-		return '''«content.oldValue»/«content.newValue»'''
+	static def dispatch String getPlainStringValue(
+		CompareStateCellContent content) {
+		return '''«content.oldValue.stringValueIterable»/«content.newValue.stringValueIterable»'''
 	}
 
 	static def dispatch String getPlainStringValue(
@@ -215,6 +218,10 @@ class CellContentExtensions {
 	static def dispatch Iterable<String> getStringValueIterable(
 		StringCellContent content) {
 		return content.value
+	}
+
+	static def List<String> getStringValueList(CellContent content) {
+		return content.stringValueIterable.toList
 	}
 
 	/**
@@ -311,9 +318,10 @@ class CellContentExtensions {
 				content.value.filterNull.toSet.toList.map [
 					postFormatter.apply(it, commonFormatter.apply(it))
 				]
-			CompareCellContent:
-				formatCompareContent(content.oldValue, content.newValue,
-					oldFormatter, commonFormatter, newFormatter, postFormatter)
+			CompareStateCellContent:
+				formatCompareContent(content.oldValue.stringValueIterable,
+					content.newValue.stringValueIterable, oldFormatter,
+					commonFormatter, newFormatter, postFormatter)
 			CompareTableCellContent:
 				formatCompareContent(content.mainPlanCellContent, oldFormatter,
 					commonFormatter, newFormatter, postFormatter)
@@ -328,13 +336,15 @@ class CellContentExtensions {
 		BiFunction<Bearbeitungsvermerk, T, U> postFormatter
 	) {
 		formatCompareContent(
-			(content.oldFootnotes.footnotes + content.unchangedFootnotes.footnotes),
-			(content.newFootnotes.footnotes + content.unchangedFootnotes.footnotes),
+			(content.oldFootnotes.footnotes +
+				content.unchangedFootnotes.footnotes).map[bearbeitungsvermerk],
+			(content.newFootnotes.footnotes +
+				content.unchangedFootnotes.footnotes).map[bearbeitungsvermerk],
 			oldFormatter,
 			commonFormatter,
 			newFormatter,
 			postFormatter,
-			[it?.bearbeitungsvermerkAllg?.kommentar?.wert]
+			[getFootnoteNumber(content, it)]
 		)
 	}
 
@@ -429,5 +439,16 @@ class CellContentExtensions {
 	 */
 	def static boolean isEqual(CellContent content, CellContent other) {
 		return content.plainStringValue.equals(other.plainStringValue)
+	}
+
+	def static StringCellContent createStringCellContent(String value) {
+		return createStringCellContent(#[value])
+	}
+
+	def static StringCellContent createStringCellContent(
+		Iterable<String> value) {
+		val cellContent = TablemodelFactory.eINSTANCE.createStringCellContent
+		cellContent.value.addAll(value)
+		return cellContent
 	}
 }

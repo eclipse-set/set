@@ -19,7 +19,6 @@ import org.eclipse.nebula.widgets.nattable.NatTable;
 import org.eclipse.nebula.widgets.nattable.selection.SelectionLayer;
 import org.eclipse.set.application.Messages;
 import org.eclipse.set.basis.constants.Events;
-import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.part.ToolboxPartService;
 import org.eclipse.set.utils.events.JumpToSiteplanEvent;
@@ -141,11 +140,9 @@ public class TableMenuServiceImpl implements TableMenuService {
 								|| tableShortcut.isEmpty()) {
 							return;
 						}
-						String tableIdPrefix = ToolboxConstants.ESTW_TABLE_PART_ID_PREFIX;
-						if (jumpEvent.getTableCategory()
-								.equals(Pt1TableCategory.ETCS.getId())) {
-							tableIdPrefix = ToolboxConstants.ETCS_TABLE_PART_ID_PREFIX;
-						}
+						final String category = jumpEvent.getTableCategory();
+						final String tableIdPrefix = Pt1TableCategory
+								.getTablePartPrefix(category);
 						toolboxPartService.showPart(tableIdPrefix + "." //$NON-NLS-1$
 								+ tableShortcut.toLowerCase());
 						ToolboxEvents.send(broker, jumpEvent);

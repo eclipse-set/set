@@ -14,6 +14,7 @@ import static org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparat
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
@@ -70,7 +71,8 @@ public final class SslwTransformationService
 	public TableNameInfo getTableNameInfo() {
 		return new TableNameInfo(messages.ToolboxTableNameSslwLong,
 				messages.ToolboxTableNameSslwPlanningNumber,
-				messages.ToolboxTableNameSslwShort);
+				messages.ToolboxTableNameSslwShort,
+				messages.ToolboxTableNameSslwRil);
 	}
 
 	@Override
@@ -88,4 +90,8 @@ public final class SslwTransformationService
 		return Collections.emptyList();
 	}
 
+	@Override
+	protected Map<Class<?>, String> getFootnotesColumnReferences() {
+		return Collections.emptyMap();
+	}
 }

@@ -22,7 +22,7 @@ import org.eclipse.set.model.planpro.Ortung.FMA_Anlage
 
 import static extension org.eclipse.set.ppmodel.extensions.FahrwegExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.StellBereichExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
 
 /**
  * Extensions for {@link Fstr_DWeg}.
@@ -101,11 +101,11 @@ class DwegExtensions extends BasisObjektExtensions {
 			pathToFma.getDistance(new TopPoint(it)).isPresent
 		]
 	}
-	
+
 	def static boolean isBelongToControlArea(Fstr_DWeg fstrDWeg,
 		Stell_Bereich controlArea) {
-		return controlArea.
-			isInControlArea(fstrDWeg.IDFstrFahrweg?.value?.IDStart?.value)
+		return fstrDWeg.IDFstrFahrweg?.value?.IDStart?.value.
+			isSsksSignalBelongToArea(controlArea)
 	}
 
 }

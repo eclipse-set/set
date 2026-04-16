@@ -10,7 +10,9 @@
  */
 package org.eclipse.set.feature.table.pt1.sskz;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.set.basis.constants.Events;
@@ -69,7 +71,8 @@ public class SskzTransformationService extends
 	public TableNameInfo getTableNameInfo() {
 		return new TableNameInfo(messages.ToolboxTableNameSskzLong,
 				messages.ToolboxTableNameSskzPlanningNumber,
-				messages.ToolboxTableNameSskzShort);
+				messages.ToolboxTableNameSskzShort,
+				messages.ToolboxTableNameSskzRil);
 	}
 
 	@Override
@@ -102,5 +105,10 @@ public class SskzTransformationService extends
 	@Override
 	protected List<String> getTopologicalColumnPosition() {
 		return List.of(SskzColumns.Ueberhoehung);
+	}
+
+	@Override
+	protected Map<Class<?>, String> getFootnotesColumnReferences() {
+		return Collections.emptyMap();
 	}
 }
