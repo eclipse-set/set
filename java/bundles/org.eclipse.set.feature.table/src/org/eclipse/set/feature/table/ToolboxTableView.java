@@ -283,8 +283,8 @@ public class ToolboxTableView extends BasePart {
 				// Only ESTW tables regard to control area,
 				// when given't selected area, that mean PlaningArea or AlL File
 				// Content was selected, then update all table.
-				if (getToolboxPart().getElementId()
-						.startsWith(ToolboxConstants.ESTW_TABLE_PART_ID_PREFIX)
+				if (SelectedControlAreaChangedEvent
+						.istRelevantTable(getToolboxPart().getElementId())
 						|| t.getControlAreas().isEmpty()) {
 					controlAreaIds.clear();
 					t.getControlAreas()
