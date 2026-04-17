@@ -164,6 +164,9 @@
 						<groupId>org.eclipse.tycho</groupId>
 						<artifactId>tycho-ds-plugin</artifactId>
 						<version>${tycho-version}</version>
+						<configuration>
+							<enabled>true</enabled>
+						</configuration>
 					</plugin>
 
 					<plugin>
