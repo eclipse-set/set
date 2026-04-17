@@ -387,6 +387,12 @@ public class ToolboxTableView extends BasePart {
 			return;
 		}
 
+		if (tableService.getNonTransformableTables(tableInfo.category())
+				.contains(tableInfo)) {
+			getDialogService().error(getToolboxShell(),
+					messages.TableTransform_Error_Msg);
+		}
+
 		final ColumnDescriptor rootColumnDescriptor = table
 				.getColumndescriptors()
 				.get(0);

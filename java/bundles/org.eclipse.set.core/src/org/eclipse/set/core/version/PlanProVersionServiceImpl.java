@@ -32,7 +32,7 @@ import org.osgi.service.component.annotations.Component;
  * 
  * @author Schaefer
  */
-@Component
+@Component(immediate = true)
 public class PlanProVersionServiceImpl implements PlanProVersionService {
 
 	private static final String DELIMITER = ""; //$NON-NLS-1$

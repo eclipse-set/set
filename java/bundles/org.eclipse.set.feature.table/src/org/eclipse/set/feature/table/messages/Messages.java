@@ -192,4 +192,10 @@ public class Messages {
 	 */
 	public String TableTransform_ComparePlanError_Msg;
 
+	/**
+	 * Es gibt Fehler bei der Tabellengenerierung. Die Table kann nicht
+	 * vollständig darstellen
+	 */
+	public String TableTransform_Error_Msg;
+
 }

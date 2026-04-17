@@ -395,12 +395,7 @@ public final class TableServiceImpl implements TableService {
 								modelSession.getContainer(
 										tableType.getContainerForTable()),
 								area))) {
-			// Create empty table
-			final Table emptyTable = TablemodelFactory.eINSTANCE.createTable();
-			emptyTable.setTablecontent(
-					TablemodelFactory.eINSTANCE.createTableContent());
-			getModelService(tableInfo).buildHeading(emptyTable);
-			return emptyTable;
+			return createEmptyTable(tableInfo);
 		}
 		final Table resultTable = TableServiceUtils.filterRequestValue(
 				EcoreUtil.copy(table), tableInfo, tableType, modelSession,
@@ -408,6 +403,14 @@ public final class TableServiceImpl implements TableService {
 		TableServiceUtils.clearEmptyRow(resultTable);
 		sortTable(resultTable, tableInfo);
 		return resultTable;
+	}
+
+	private Table createEmptyTable(final TableInfo tableInfo) {
+		final Table emptyTable = TablemodelFactory.eINSTANCE.createTable();
+		emptyTable.setTablecontent(
+				TablemodelFactory.eINSTANCE.createTableContent());
+		getModelService(tableInfo).buildHeading(emptyTable);
+		return emptyTable;
 	}
 
 	private void storageFootnotes(final ToolboxFileRole sessionRole,
@@ -630,7 +633,8 @@ public final class TableServiceImpl implements TableService {
 					tableInfo.shortcut(), e.getMessage());
 			nonTransformableTables.add(tableInfo);
 			broker.post(Events.TABLEERROR_CHANGED, null);
-			throw new RuntimeException(e);
+			// Give empty table back
+			return createEmptyTable(tableInfo);
 		}
 
 		// When it give Exception by transform second plan, then return the

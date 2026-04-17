@@ -37,6 +37,8 @@ import org.eclipse.set.basis.guid.Guid;
 import org.eclipse.set.core.services.Services;
 import org.eclipse.set.model.planpro.PlanPro.DocumentRoot;
 import org.eclipse.set.model.planpro.PlanPro.PlanProPackage;
+import org.eclipse.set.model.temporaryintegration.TemporaryIntegration;
+import org.eclipse.set.model.temporaryintegration.TemporaryintegrationPackage;
 import org.eclipse.set.model.zipmanifest.Manifest;
 
 /**
@@ -102,8 +104,14 @@ public class ZippedPlanProToolboxFile extends AbstractToolboxFile {
 	ZippedPlanProToolboxFile(final Format format,
 			final EditingDomain editingDomain, final ToolboxFileRole role) {
 		this(null, format, editingDomain, false, role);
-		setResource(TECHNICAL_RESOURCE_TYPE_NAME, createPlanProResource());
-		setResource(LAYOUT_RESOURCE_TYPE_NAME, createPlanProResource());
+		if (!format.isTemporaryIntegration()) {
+			setResource(TECHNICAL_RESOURCE_TYPE_NAME, createPlanProResource());
+			setResource(LAYOUT_RESOURCE_TYPE_NAME, createPlanProResource());
+		} else {
+			setResource(TECHNICAL_RESOURCE_TYPE_NAME,
+					createTemporaryResource());
+		}
+
 	}
 
 	/**
@@ -156,6 +164,15 @@ public class ZippedPlanProToolboxFile extends AbstractToolboxFile {
 	private PlanProFileResource createPlanProResource() {
 		final PlanProFileResource newResource = new PlanProFileResource(
 				URI.createURI(PlanProPackage.eNS_URI));
+		editingDomain.getResourceSet().getResources().add(newResource);
+
+		newResource.setEncoding(ENCODING);
+		return newResource;
+	}
+
+	private PlanProFileResource createTemporaryResource() {
+		final PlanProFileResource newResource = new PlanProFileResource(
+				URI.createURI(TemporaryintegrationPackage.eNS_URI));
 		editingDomain.getResourceSet().getResources().add(newResource);
 
 		newResource.setEncoding(ENCODING);
@@ -310,6 +327,10 @@ public class ZippedPlanProToolboxFile extends AbstractToolboxFile {
 
 	@Override
 	public void openModel() throws IOException {
+		if (format.isTemporaryIntegration()) {
+			openTemporaryModel();
+			return;
+		}
 		if (isLoadable()) {
 			generateMD5CheckSum();
 			unzip();
@@ -320,6 +341,32 @@ public class ZippedPlanProToolboxFile extends AbstractToolboxFile {
 					.getFirst();
 			ToolboxIDResolver
 					.resolveIDReferences(doc.getPlanProSchnittstelle());
+		} else {
+			throw new IllegalStateException("Toolbox file not loadable."); //$NON-NLS-1$
+		}
+	}
+
+	private void openTemporaryModel() throws IOException {
+		if (isLoadable()) {
+			generateMD5CheckSum();
+			unzip();
+			loadResource(getModelPath(), editingDomain,
+					Services.getPlanProVersionService());
+			if (getPlanProResource().getContents()
+					.getFirst() instanceof final TemporaryIntegration tmpInt) {
+				ToolboxIDResolver
+						.resolveIDReferences(tmpInt.getCompositePlanning());
+				ToolboxIDResolver
+						.resolveIDReferences(tmpInt.getPrimaryPlanning());
+				ToolboxIDResolver
+						.resolveIDReferences(tmpInt.getSecondaryPlanning());
+				ToolboxIDResolver
+						.resolveIDReferences(tmpInt.getPrimaryLayout());
+				ToolboxIDResolver
+						.resolveIDReferences(tmpInt.getSecondaryLayout());
+				ToolboxIDResolver
+						.resolveIDReferences(tmpInt.getCompositeyout());
+			}
 		} else {
 			throw new IllegalStateException("Toolbox file not loadable."); //$NON-NLS-1$
 		}
@@ -341,6 +388,10 @@ public class ZippedPlanProToolboxFile extends AbstractToolboxFile {
 	public void save() throws IOException {
 		resources.forEach((contentName, resource) -> {
 			try {
+				// TODO: layout merge isn't complete
+				if (resource.getContents().isEmpty()) {
+					return;
+				}
 				saveResource(resource);
 			} catch (final IOException e) {
 				throw new RuntimeException(e);
@@ -505,8 +556,13 @@ public class ZippedPlanProToolboxFile extends AbstractToolboxFile {
 
 	@Override
 	protected String getContentType(final Path modelPath) {
-		return modelPath == null ? TECHNICAL_RESOURCE_TYPE_NAME
-				: PathExtensions.getBaseFileName(modelPath);
+		final String baseFileName = PathExtensions.getBaseFileName(modelPath);
+		return switch (baseFileName) {
+			case TECHNICAL_RESOURCE_TYPE_NAME -> TECHNICAL_RESOURCE_TYPE_NAME;
+			case LAYOUT_RESOURCE_TYPE_NAME -> LAYOUT_RESOURCE_TYPE_NAME;
+			default -> throw new UnsupportedOperationException(
+					"Unsupported content with file name: " + baseFileName); //$NON-NLS-1$
+		};
 	}
 
 	@Override
