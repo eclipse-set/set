@@ -19,6 +19,7 @@ import org.eclipse.set.basis.graph.Digraphs
 import org.eclipse.set.basis.graph.TopPoint
 import org.eclipse.set.core.services.graph.TopologicalGraphService
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Aussenelementansteuerung
+import org.eclipse.set.model.planpro.Ansteuerung_Element.ENUMAussenelementansteuerungArt
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stellelement
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
@@ -43,7 +44,6 @@ import org.eclipse.set.ppmodel.extensions.utils.TopRouting
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-import static org.eclipse.set.model.planpro.Ansteuerung_Element.ENUMAussenelementansteuerungArt.*
 import static org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung.*
 import static org.eclipse.set.model.planpro.Signale.ENUMFiktivesSignalFunktion.*
 import static org.eclipse.set.model.planpro.Signale.ENUMSignalFunktion.*
@@ -298,13 +298,10 @@ class SignalExtensions extends PunktObjektExtensions {
 	 * @return the relevant Aussenelementansteuerung or null, if no element matched the condition
 	 */
 	def static Aussenelementansteuerung getControlElement(Signal signal,
-		(Signal)=>Aussenelementansteuerung getFirstControlFunc) {
+		(Signal)=>Aussenelementansteuerung getFirstControlFunc, List<ENUMAussenelementansteuerungArt> requiredType) {
 		val aea = getFirstControlFunc.apply(signal)
-		val relevantArt = #[ENUM_AUSSENELEMENTANSTEUERUNG_ART_OBJEKTCONTROLLER,
-			ENUM_AUSSENELEMENTANSTEUERUNG_ART_FE_AK,
-			ENUM_AUSSENELEMENTANSTEUERUNG_ART_FE_AS]
 		val Predicate<Aussenelementansteuerung> isRelevantAea = [ ele |
-			relevantArt.exists [
+			requiredType.exists [
 				it == aea?.AEAAllg?.aussenelementansteuerungArt?.wert
 			]
 		]

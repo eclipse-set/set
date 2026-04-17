@@ -302,7 +302,8 @@ class SsksTransformator extends AbstractSignalTableTransform {
 		)
 		try {
 			// X: Ssks.Anschluss.Schaltkasten.Bezeichnung
-			val energieAea = signal.getControlElement[stellelement?.energie]
+			val energieAea = signal.getControlElement([stellelement?.energie],
+				#[ENUM_AUSSENELEMENTANSTEUERUNG_ART_OBJEKTCONTROLLER])
 			fill(
 				row,
 				cols.getColumn(Schaltkasten_Bezeichnung),
@@ -336,9 +337,9 @@ class SsksTransformator extends AbstractSignalTableTransform {
 			signal,
 			[hasSchaltkastenSeparatBezeichnung],
 			[
-				val informationAea = getControlElement[ s |
+				val informationAea = getControlElement([ s |
 					s?.stellelement?.information
-				]
+				], #[ENUM_AUSSENELEMENTANSTEUERUNG_ART_OBJEKTCONTROLLER])
 				informationAea?.bezeichnung?.bezeichnungAEA?.wert
 			]
 		)
