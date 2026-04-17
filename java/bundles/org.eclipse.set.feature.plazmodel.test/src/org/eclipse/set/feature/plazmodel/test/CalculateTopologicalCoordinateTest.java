@@ -105,9 +105,7 @@ public class CalculateTopologicalCoordinateTest extends AbstractToolboxTest {
 					.filter(entry -> entry.get(4).equals(topKanteGuid))
 					.toList();
 			assertFalse(csvEntries.isEmpty());
-			assertEquals(1, csvEntries.size(), () -> {
-				return "Test";
-			});
+			assertEquals(1, csvEntries.size());
 			CSVRecord csvEntry = csvEntries.getFirst();
 			String[] coordStrArry = getCoordinateString(EObjectExtensions
 					.getNullableObject(coord,
