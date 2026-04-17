@@ -4,7 +4,7 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
  * 
  */
@@ -83,6 +83,9 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 			IDSignal?.value
 		].filterNull.toMap([it], [signalbegriffIds])
 		for (etcsSignal : container.ETCSSignal) {
+			if (Thread.currentThread.isInterrupted) {
+				return null
+			}
 			val refSignal = etcsSignal.IDSignal?.value
 			val row = factory.newTableRow(etcsSignal)
 
@@ -501,9 +504,9 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 						return ""
 					}
 					val distanceValue = distance.get
-					return distanceValue <= 5 || distanceValue >= -3
-						? "0"
-						: AgateRounding.roundUp(distanceValue).toString
+					return distanceValue <= 5 ||
+						distanceValue >= -3 ? "0" : AgateRounding.roundUp(
+						distanceValue).toString
 				]
 			)
 
@@ -780,9 +783,9 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 			if (distances.compareTo(BigDecimal.ZERO) == 0) {
 				return fma -> 0.0
 			}
-			return topGraphService.isInWirkrichtungOfSignal(signal, fma)
-				? fma -> distances.doubleValue
-				: fma -> -distances.doubleValue
+			return topGraphService.
+				isInWirkrichtungOfSignal(signal, fma) ? fma ->
+				distances.doubleValue : fma -> -distances.doubleValue
 		].filterNull
 		if (distanceToSignal.empty) {
 			return Optional.empty

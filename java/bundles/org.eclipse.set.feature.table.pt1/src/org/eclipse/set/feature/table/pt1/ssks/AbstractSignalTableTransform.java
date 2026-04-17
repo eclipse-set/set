@@ -93,8 +93,8 @@ public abstract class AbstractSignalTableTransform
 			final TMFactory factory) {
 		sideDistancesSignal = new HashMap<>();
 		for (final Signal signal : getRelevantSignal(container)) {
-			Thread.currentThread();
-			if (Thread.interrupted()) {
+
+			if (Thread.currentThread().isInterrupted()) {
 				return null;
 			}
 			transformSignal(factory, container, signal);
