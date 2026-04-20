@@ -23,13 +23,19 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum;
+import org.eclipse.set.basis.constants.ContainerType;
 import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.basis.extensions.MatcherExtensions;
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt;
 import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
+import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.set.model.tablemodel.TableRow;
 import org.eclipse.set.model.tablemodel.extensions.TableRowExtensions;
+import org.eclipse.set.ppmodel.extensions.MultiContainer_AttributeGroupExtensions;
+import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
 import org.eclipse.set.ppmodel.extensions.PunktObjektExtensions;
+import org.eclipse.set.ppmodel.extensions.UrObjectExtensions;
+import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.eclipse.xtext.xbase.lib.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -77,10 +83,8 @@ public class CompareRouteAndKmCriterion
 
 	@Override
 	public int compare(final TableRow o1, final TableRow o2) {
-		final Ur_Objekt firstLeadingObj = TableRowExtensions
-				.getLeadingObject(o1);
-		final Ur_Objekt secondLeadingObj = TableRowExtensions
-				.getLeadingObject(o2);
+		final Ur_Objekt firstLeadingObj = getCompareObjekt(o1);
+		final Ur_Objekt secondLeadingObj = getCompareObjekt(o2);
 		final Optional<Integer> compareObj = compareNullableValue(
 				firstLeadingObj, secondLeadingObj, Objects::isNull);
 		if (compareObj.isPresent()) {
@@ -90,6 +94,32 @@ public class CompareRouteAndKmCriterion
 		final Punkt_Objekt secondPO = getPunktObjectFunc
 				.apply(secondLeadingObj);
 		return compareRouteAndKm(firstPO, secondPO);
+	}
+
+	/**
+	 * Take final object to compare. When final object not exist, then the
+	 * initial object
+	 * 
+	 * @param row
+	 *            the table row
+	 * @return the final object or the inital object, when final object not
+	 *         exist
+	 */
+	private static Ur_Objekt getCompareObjekt(final TableRow row) {
+		final Ur_Objekt obj = TableRowExtensions.getLeadingObject(row);
+		final ContainerType containerType = UrObjectExtensions
+				.getContainerType(obj);
+		if (containerType == ContainerType.FINAL) {
+			return obj;
+		}
+		final PlanPro_Schnittstelle planProSchnittstelle = UrObjectExtensions
+				.getPlanProSchnittstelle(obj);
+		final MultiContainer_AttributeGroup finalContainer = PlanProSchnittstelleExtensions
+				.getContainer(planProSchnittstelle, ContainerType.FINAL);
+		final Ur_Objekt finalObject = MultiContainer_AttributeGroupExtensions
+				.getObject(finalContainer, obj.getClass(),
+						obj.getIdentitaet().getWert());
+		return finalObject == null ? obj : finalObject;
 	}
 
 	// IMPROVE: the determine route and km can be depended on the
