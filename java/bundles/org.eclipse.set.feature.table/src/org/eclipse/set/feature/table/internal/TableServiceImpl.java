@@ -47,6 +47,7 @@ import org.eclipse.set.basis.extensions.MApplicationElementExtensions;
 import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.eclipse.set.basis.part.PartDescription;
 import org.eclipse.set.basis.threads.Threads;
+import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.cache.CacheService;
 import org.eclipse.set.core.services.dialog.DialogService;
 import org.eclipse.set.core.services.part.ToolboxPartService;
@@ -70,6 +71,7 @@ import org.eclipse.set.services.table.TableDiffService;
 import org.eclipse.set.services.table.TableDiffService.TableCompareType;
 import org.eclipse.set.services.table.TableService;
 import org.eclipse.set.utils.BasePart;
+import org.eclipse.set.utils.ToolboxConfiguration;
 import org.eclipse.set.utils.table.TableError;
 import org.eclipse.set.utils.table.TableInfo;
 import org.eclipse.set.utils.table.TableInfo.Pt1TableCategory;
@@ -133,7 +135,8 @@ public final class TableServiceImpl implements TableService {
 	private static final Set<TableInfo> nonTransformableTables = new HashSet<>();
 
 	private CacheService getCacheService() {
-		return cacheService;
+		return ToolboxConfiguration.isDebugMode() ? Services.getNoCacheService()
+				: cacheService;
 	}
 
 	/**
