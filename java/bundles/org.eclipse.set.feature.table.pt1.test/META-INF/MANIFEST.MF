@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Pt1 Table Test
+Bundle-SymbolicName: org.eclipse.set.feature.table.pt1.test
+Bundle-Vendor: Eclipse Signalling Engineering Toolbox
+Bundle-Version: 2.6.0.qualifier
+Fragment-Host: org.eclipse.set.feature.table.pt1;bundle-version="0.1.0"
+Automatic-Module-Name: org.eclipse.set.feature.table.pt1.test
+Bundle-RequiredExecutionEnvironment: JavaSE-21
+Import-Package: org.eclipse.set.application.graph,
+ org.eclipse.set.unittest.utils,
+ org.jgrapht.graph;version="[1.5.0,2.0.0)",
+ org.junit.jupiter.params
+Require-Bundle: org.mockito.mockito-core

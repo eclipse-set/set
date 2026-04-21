@@ -75,10 +75,13 @@ public class AbstractToolboxTest {
 	private static final String CONTENT_MODEL = "content"; //$NON-NLS-1$
 	private static final String LAYOUT_MODEL = "layout"; //$NON-NLS-1$
 	private static final String PLANPRO_ZIPPED_EXTENSION = "planpro"; //$NON-NLS-1$
-	private static final String PLANPRO_PLAIN_EXTENSION = "ppxml"; //$NON-NLS-1$
 
 	protected PlanPro_Schnittstelle planProSchnittstelle;
 	private ResourceSet resourceSet;
+
+	protected static String getModel(final TestFile testFile) {
+		return getModel(AbstractToolboxTest.class, testFile.getFileName());
+	}
 
 	protected static String getModel(final Class<?> clazz, final String name) {
 		final URL res = clazz.getClassLoader().getResource(name);
