@@ -423,6 +423,9 @@ public class BankServiceImpl implements BankService, EventHandler {
 								.getIDTOPKante()
 								.getValue())
 				.orElse(null);
+		if (beginEdge == null || endEdge == null) {
+			return false;
+		}
 		final List<ID_TOP_Kante_ohne_Proxy_TypeClass> topPaths = bankingLine
 				.getIDTOPKantePfad();
 		final ID_TOP_Kante_ohne_Proxy_TypeClass connectToBegin = topPaths
