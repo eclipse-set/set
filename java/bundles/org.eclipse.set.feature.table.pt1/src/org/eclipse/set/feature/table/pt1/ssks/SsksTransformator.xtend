@@ -111,6 +111,18 @@ import static extension org.eclipse.set.ppmodel.extensions.StellelementExtension
 import static extension org.eclipse.set.ppmodel.extensions.UnterbringungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
+import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_MAST_HOCH
+import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_PFOSTEN_HOCH
+import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_SONDERANORDNUNG_MAST_HOCH
+import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_DACH_DECKE
+import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_ARBEITSBUEHNE
+import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_MAST_NIEDRIG
+import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_WAND
+import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_SONSTIGE_HOCH
+import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_PFOSTEN_NIEDRIG
+import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_SONSTIGE_NIEDRIG
+import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_OL_MAST
+import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_SONDERANORDNUNG_MAST_NIEDRIG
 
 /**
  * Table transformation for a Signaltabelle (Ssks).
@@ -1225,6 +1237,20 @@ class SsksTransformator extends AbstractSignalTableTransform {
 			signal,
 			[throw new RuntimeException(e)]
 		)
+	}
+	
+	override protected getSideDistanceMastType() {
+		return List.of(ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_MAST_HOCH,
+				ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_MAST_NIEDRIG,
+				ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_SONSTIGE_HOCH,
+				ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_SONSTIGE_NIEDRIG,
+				ENUM_BEFESTIGUNG_ART_SONDERANORDNUNG_MAST_HOCH,
+				ENUM_BEFESTIGUNG_ART_SONDERANORDNUNG_MAST_NIEDRIG,
+				ENUM_BEFESTIGUNG_ART_PFOSTEN_HOCH,
+				ENUM_BEFESTIGUNG_ART_PFOSTEN_NIEDRIG,
+				ENUM_BEFESTIGUNG_ART_ARBEITSBUEHNE,
+				ENUM_BEFESTIGUNG_ART_OL_MAST, ENUM_BEFESTIGUNG_ART_WAND,
+				ENUM_BEFESTIGUNG_ART_DACH_DECKE);
 	}
 
 }

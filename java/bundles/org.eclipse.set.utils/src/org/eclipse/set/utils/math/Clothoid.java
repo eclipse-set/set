@@ -110,11 +110,19 @@ public class Clothoid {
 			final double totalLength, final int iterations) {
 		this.clothoidIter = iterations;
 		this.totalLength = totalLength;
-		final double startCurvature = radiusA == 0 ? 0 : 1 / radiusA;
+		double startCurvature = radiusA == 0 ? 0 : 1 / radiusA;
 		final double endCurvature = radiusB == 0 ? 0 : 1 / radiusB;
+		// When the radiusA and radiusB almost the same, then the
+		// EggClothoid-Algorithms work no more,
+		// because the curvatureIncrease -> infinity. Therefore in this case, we
+		// will handle like normal clothoid with Radius A = 0
+		if (Math.abs(startCurvature - endCurvature) < 1e-4) {
+			startCurvature = 0;
+		}
 		this.curvatureIncrease = (endCurvature - startCurvature) / totalLength;
 		this.distanceToStartingPoint = startCurvature / this.curvatureIncrease;
 		this.startingPoint = clothoidSegment(this.distanceToStartingPoint);
+
 	}
 
 	/**
