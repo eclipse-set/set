@@ -74,6 +74,9 @@ public class SxxxTransformator extends AbstractPlanPro2TableModelTransformator {
 				.toList();
 		for (final Bearbeitungsvermerk bv : container
 				.getBearbeitungsvermerk()) {
+			if (Thread.currentThread().isInterrupted()) {
+				return null;
+			}
 			final RowFactory rowGroup = factory.newRowGroup(bv);
 			final List<EObject> referencedByList = idReferences.stream()
 					.parallel()
