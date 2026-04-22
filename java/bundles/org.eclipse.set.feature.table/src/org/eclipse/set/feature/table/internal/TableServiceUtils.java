@@ -388,12 +388,12 @@ public class TableServiceUtils {
 			final PlanPro2TableTransformationService transformationService,
 			final BiConsumer<T, TableType> handleByInitialOrFinalElementNotBelongToArea) {
 		if (modelSession.getTableType() == TableType.SINGLE) {
+			final List<Stell_Bereich> areas = controlAreas.stream()
+					.map(area -> getStellBereich(
+							modelSession.getContainer(ContainerType.SINGLE),
+							area))
+					.toList();
 			return listElement.stream().filter(ele -> {
-				final List<Stell_Bereich> areas = controlAreas.stream()
-						.map(area -> getStellBereich(
-								modelSession.getContainer(ContainerType.SINGLE),
-								area))
-						.toList();
 				final Ur_Objekt obj = getUrObj.apply(ele).singleObj();
 				return transformationService.isObjectBelongToRendereArea(obj,
 						areas);
