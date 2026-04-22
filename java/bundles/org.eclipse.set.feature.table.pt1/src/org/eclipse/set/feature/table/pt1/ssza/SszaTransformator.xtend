@@ -352,7 +352,7 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 		fill(
 			cols.getColumn(rel_Lage_b_zu_a),
 			datenpunkt,
-			[relLagebzua]
+			[relLageBzuA]
 		)
 
 		fillFootnotes(datenpunkt)
@@ -559,7 +559,7 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 			getStreckeKmThroughProjection(strecke).toTableDecimal
 	}
 
-	private def String getRelLagebzua(Datenpunkt dp) {
+	private def String getRelLageBzuA(Datenpunkt dp) {
 		val lange = dp?.datenpunktAllg?.datenpunktLaenge?.wert?.toTableDecimal
 		if (lange === null) {
 			return ""
