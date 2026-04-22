@@ -82,6 +82,6 @@ public class SslsTransformationService
 
 	@Override
 	protected Pt1TableCategory getTableCategory() {
-		return Pt1TableCategory.ESTW;
+		return Pt1TableCategory.ESTW_SUPPLEMENT;
 	}
 }
