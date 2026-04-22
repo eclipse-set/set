@@ -12,48 +12,52 @@ package org.eclipse.set.feature.table.pt1.test;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator;
+import java.util.stream.Stream;
+
+import org.eclipse.set.basis.ToolboxProperties;
+import org.eclipse.set.core.services.Services;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableTransformationService;
-import org.eclipse.set.model.tablemodel.TablemodelFactory;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
-import org.eclipse.set.utils.table.TMFactory;
-import org.eclipse.set.utils.table.TableModelTransformator;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.mockito.ArgumentMatchers;
+import org.mockito.MockedStatic;
 import org.mockito.Mockito;
-import org.osgi.service.component.annotations.Component;
 
 /**
+ * Test Pt1 Table transformation
  * 
+ * @author Truong
  */
-@Component
-public class Pt1TableTransformationTest extends Pt1TableTest {
+class Pt1TableTransformationTest extends Pt1TableTest {
+
+	/**
+	 * @return the reference files
+	 */
+	protected static Stream<Arguments> getReferenceFiles() {
+		return Stream.of(Arguments.of(PPHN_1_10_0_3_20220517_PLANPRO, "pphn"),
+				Arguments.of(SINGLE_STATE_PLAN, "zustandpphn"));
+	}
+
 	@ParameterizedTest
 	@MethodSource("getReferenceFiles")
 	void testTransformator(final String file) throws Exception {
 		givenPlanProFile(file);
 		setupTransformationService();
-		for (final AbstractPlanPro2TableTransformationService transformationService : transformationServices) {
-			for (final MultiContainer_AttributeGroup container : getLSTContainer()) {
-				assertDoesNotThrow(() -> {
-					final TableModelTransformator<MultiContainer_AttributeGroup> transformator = transformationService
-							.createTransformator();
-					if (transformator instanceof final AbstractPlanPro2TableModelTransformator tableTransformator) {
-						final AbstractPlanPro2TableModelTransformator mock = Mockito
-								.mock(tableTransformator);
-						Mockito.when(mock.getColumn(ArgumentMatchers.anySet(),
-								ArgumentMatchers.anyString()))
-								.thenReturn(TablemodelFactory.eINSTANCE
-										.createColumnDescriptor());
-						Mockito.when(mock.transformTableContent(
-								ArgumentMatchers.any(), ArgumentMatchers.any()))
-								.thenCallRealMethod();
-					}
-					transformator.transformTableContent(container,
-							new TMFactory(
-									TablemodelFactory.eINSTANCE.createTable()));
-				});
+		System.setProperty(ToolboxProperties.DEVELOPMENT_MODE,
+				Boolean.FALSE.toString());
+		try (final MockedStatic<Services> mockServices = Mockito
+				.mockStatic(Services.class);) {
+			setupMockServices(mockServices);
+			for (final AbstractPlanPro2TableTransformationService transformationService : transformationServices) {
+				for (final MultiContainer_AttributeGroup container : getLSTContainer()) {
+					assertDoesNotThrow(
+							() -> transformationService.transform(container),
+							() -> "Error by transformation Table: "
+									+ transformationService.getClass()
+											.getPackageName());
+
+				}
 			}
 		}
 	}

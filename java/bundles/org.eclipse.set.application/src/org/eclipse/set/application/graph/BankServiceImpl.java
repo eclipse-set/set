@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -68,25 +67,6 @@ import org.slf4j.LoggerFactory;
 		EventConstants.EVENT_TOPIC + "=" + Events.CLOSE_SESSION }, service = {
 				EventHandler.class, BankService.class })
 public class BankServiceImpl implements BankService, EventHandler {
-
-	private class BankingInformationSession {
-		private final Map<TOP_Kante, Set<BankingInformation>> topEdgeBanking;
-		private final Map<Ueberhoehungslinie, Optional<BankingInformation>> bankingInformations;
-
-		public BankingInformationSession() {
-			this.topEdgeBanking = new ConcurrentHashMap<>();
-			this.bankingInformations = new ConcurrentHashMap<>();
-		}
-
-		public Map<TOP_Kante, Set<BankingInformation>> getTopEdgeBanking() {
-			return topEdgeBanking;
-		}
-
-		public Map<Ueberhoehungslinie, Optional<BankingInformation>> getBankingInformations() {
-			return bankingInformations;
-		}
-
-	}
 
 	@Reference
 	private TopologicalGraphService topGraph;

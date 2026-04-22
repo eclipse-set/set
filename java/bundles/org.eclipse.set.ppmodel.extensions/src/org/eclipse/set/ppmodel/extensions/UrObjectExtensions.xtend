@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2015 DB Netz AG and others.
+. * Copyright (c) 2015 DB Netz AG and others.
  * 
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
@@ -83,7 +83,7 @@ class UrObjectExtensions extends BasisAttributExtensions {
 	}
 
 	def static boolean isPlanningObject(Ur_Objekt object) {
-		val modelSession = Services.toolboxViewModelService.session.orElse(null)
+		val modelSession = Services.toolboxViewModelService?.session?.orElse(null)
 		if (modelSession !== null && modelSession.isPlanningAreaIgnored) {
 			return true;
 		}

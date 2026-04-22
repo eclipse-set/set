@@ -6,6 +6,7 @@ Bundle-Version: 2.6.0.qualifier
 Bundle-Activator: org.eclipse.set.application.Activator
 Bundle-Vendor: Eclipse Signalling Engineering Toolbox
 Export-Package: org.eclipse.set.application,
+ org.eclipse.set.application.cacheservice,
  org.eclipse.set.application.controlarea,
  org.eclipse.set.application.geometry,
  org.eclipse.set.application.graph,
