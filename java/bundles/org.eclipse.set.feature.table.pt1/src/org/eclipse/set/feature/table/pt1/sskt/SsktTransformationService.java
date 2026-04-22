@@ -119,6 +119,6 @@ public class SsktTransformationService
 
 	@Override
 	protected Pt1TableCategory getTableCategory() {
-		return Pt1TableCategory.ETCS;
+		return Pt1TableCategory.ESTW;
 	}
 }
