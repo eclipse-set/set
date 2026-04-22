@@ -55,7 +55,7 @@ public class SxxxTableView extends ToolboxTableView {
 					.equalsIgnoreCase(Events.RELOAD_WORKNOTES_TABLE)) {
 				return;
 			}
-			updateModel(getToolboxPart());
+			updateModel(getToolboxPart(), transformToTableModel());
 			updateCalculateMissingTablesPanel();
 			natTable.refresh();
 		};
