@@ -560,7 +560,7 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	private def String getRelLagebzua(Datenpunkt dp) {
-		val lange = dp?.datenpunktAllg?.datenpunktLaenge?.wert.toTableDecimal
+		val lange = dp?.datenpunktAllg?.datenpunktLaenge?.wert?.toTableDecimal
 		if (lange === null) {
 			return ""
 		}
@@ -570,7 +570,10 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 			return lange
 		}
 
-		val topKante = dp.singlePoint.topKante
+		val topKante = dp?.singlePoint?.topKante
+		if (topKante === null) {
+			return lange
+		}
 		val isTopKanteRouteSameDirection = dp.punktObjektStrecke.exists [
 			topKante.isInRouteDirection(IDStrecke.value)
 		]
