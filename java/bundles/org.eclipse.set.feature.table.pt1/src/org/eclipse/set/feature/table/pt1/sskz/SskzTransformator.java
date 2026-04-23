@@ -141,8 +141,7 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 	private Table transform(final Iterable<Aussenelementansteuerung> controls,
 			final TMFactory factory) {
 		for (final Aussenelementansteuerung control : controls) {
-			Thread.currentThread();
-			if (Thread.interrupted()) {
+			if (Thread.currentThread().isInterrupted()) {
 				return null;
 			}
 

@@ -97,6 +97,7 @@ import org.eclipse.set.ppmodel.extensions.utils.PlanProToTitleboxTransformation;
 import org.eclipse.set.services.export.ExportService;
 import org.eclipse.set.services.export.TableCompileService;
 import org.eclipse.set.services.table.TableService;
+import org.eclipse.set.services.table.TableService.TableRendererUtil;
 import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.RefreshAction;
 import org.eclipse.set.utils.SelectableAction;
@@ -134,7 +135,7 @@ import jakarta.inject.Inject;
 /**
  * View class for all toolbox table views. This class is responsible for
  * creating the actual nattable with all its layers.
- * 
+ *
  * @author rumpf
  */
 public class ToolboxTableView extends BasePart {
@@ -310,7 +311,7 @@ public class ToolboxTableView extends BasePart {
 		if (!event.getTopic().equalsIgnoreCase(Events.COMPARE_MODEL_LOADED)) {
 			return;
 		}
-		updateModel(getToolboxPart());
+		updateModel(getToolboxPart(), transformToTableModel());
 	}
 
 	@Override
@@ -343,29 +344,33 @@ public class ToolboxTableView extends BasePart {
 
 	/**
 	 * transform the current planpro model to the specific view table model.
-	 * 
+	 *
 	 * @param elementId
 	 *            the element id of the part
-	 * 
+	 *
 	 * @return the table view model
 	 */
-	private Table transformToTableModel() {
+	protected Table transformToTableModel() {
 		return tableService.createDiffTable(tableInfo, tableType,
 				controlAreaIds);
 	}
 
 	private void updateTableView(final List<Pt1TableCategory> tableCategories) {
-		tableService.updateTable(this, tableCategories, () -> {
-			updateModel(getToolboxPart());
-			natTable.doCommand(new RowHeightResetCommand());
-			natTable.refresh();
-			updateButtons();
+		tableService.updateTable(this, tableCategories, new TableRendererUtil(
+				() -> transformToTableModel(), transformedTable -> {
+					if (transformedTable == null) {
+						return;
+					}
+					updateModel(getToolboxPart(), transformedTable);
+					natTable.doCommand(new RowHeightResetCommand());
+					natTable.refresh();
+					updateButtons();
 
-			// Update footnotes
-			tableFooting.updateFootnotes(table);
-			// Update widget layout
-			natTable.getParent().layout();
-		}, tableInstances::clear);
+					// Update footnotes
+					tableFooting.updateFootnotes(transformedTable);
+					// Update widget layout
+					natTable.getParent().layout();
+				}));
 	}
 
 	@Override
@@ -377,16 +382,21 @@ public class ToolboxTableView extends BasePart {
 				.stream()
 				.map(Pair::getSecond)
 				.collect(Collectors.toSet());
-
 		tableService.updateTable(this, Collections.emptyList(),
-				() -> updateModel(getToolboxPart()), tableInstances::clear);
-		subcribeTriggerResortEvent();
+				new TableRendererUtil(this::transformToTableModel,
+						transformedTable -> {
+							if (transformedTable == null) {
+								return;
+							}
+							updateModel(getToolboxPart(), transformedTable);
+						}));
+
 		// if the table was not created (possibly the creation was canceled by
 		// the user), we stop here with creating the view
 		if (table == null) {
 			return;
 		}
-
+		subcribeTriggerResortEvent();
 		final ColumnDescriptor rootColumnDescriptor = table
 				.getColumndescriptors()
 				.get(0);
@@ -537,6 +547,7 @@ public class ToolboxTableView extends BasePart {
 	}
 
 	class FilterStrategy<T> implements IFilterStrategy<T> {
+
 		private final TableModelInstanceBodyDataProvider tableDataProvider;
 
 		public FilterStrategy(
@@ -784,11 +795,10 @@ public class ToolboxTableView extends BasePart {
 		getBanderole().setEnableExport(!getModelSession().isDirty());
 	}
 
-	void updateModel(final MPart part) {
+	void updateModel(final MPart part, final Table transformedTable) {
 		// update banderole
 		getBanderole().setTableType(tableType);
-
-		table = transformToTableModel();
+		table = transformedTable;
 		// flag creation
 		MApplicationElementExtensions.setViewState(part,
 				ToolboxViewState.CREATED);

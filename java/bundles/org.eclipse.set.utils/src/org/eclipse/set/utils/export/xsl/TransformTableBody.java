@@ -101,14 +101,9 @@ public class TransformTableBody {
 			throw new RuntimeException(
 					"Missing first data row. Is the printing area configured correctly?"); //$NON-NLS-1$
 		}
-
 		for (int i = 0; i <= getHeaderLastColumnIndex(sheet); i++) {
-			final Optional<Cell> cellAt = getCellAt(sheet,
-					firstDataRow.getRowNum(), i);
-
-			if (cellAt.isEmpty()) {
-				continue;
-			}
+			final Cell cellAt = getCellAt(sheet, firstDataRow.getRowNum(), i)
+					.orElse(firstDataRow.createCell(i));
 
 			if (parentGroupLastIndex.contains(i) || pageBreakAts.contains(i)) {
 				setExcelCellBorderStyle(cellAt, BorderDirection.RIGHT,
@@ -119,11 +114,10 @@ public class TransformTableBody {
 						BorderStyle.MEDIUM);
 			}
 
-			if (!isDefaultStyle(cellAt.get().getCellStyle())) {
+			if (!isDefaultStyle(cellAt.getCellStyle())) {
 				Set<Cell> sameStyleGroup = result.stream()
 						.filter(cells -> cells.stream()
-								.filter(cell -> isEquals(
-										cellAt.get().getCellStyle(),
+								.filter(cell -> isEquals(cellAt.getCellStyle(),
 										cell.getCellStyle()))
 								.findFirst()
 								.orElse(null) != null)
@@ -133,7 +127,7 @@ public class TransformTableBody {
 					sameStyleGroup = new LinkedHashSet<>();
 					result.add(sameStyleGroup);
 				}
-				sameStyleGroup.add(cellAt.get());
+				sameStyleGroup.add(cellAt);
 			}
 		}
 
