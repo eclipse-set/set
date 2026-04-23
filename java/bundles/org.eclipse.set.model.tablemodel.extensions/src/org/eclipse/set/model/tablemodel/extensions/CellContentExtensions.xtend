@@ -222,7 +222,7 @@ class CellContentExtensions {
 
 	static def dispatch Iterable<String> getStringValueIterable(
 		StringCellContent content) {
-		return content?.value.map[trim].filter[!blank && !nullOrEmpty] ?: #[]
+		return content?.value?.filter[!blank && !nullOrEmpty] ?: #[]
 	}
 
 	static def List<String> getStringValueList(CellContent content) {
