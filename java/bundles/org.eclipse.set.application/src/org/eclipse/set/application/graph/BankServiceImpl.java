@@ -375,6 +375,7 @@ public class BankServiceImpl implements BankService, EventHandler {
 					throw new IllegalArgumentException();
 				}
 				pathLength = pathLength
+						.add(TopKanteExtensions.getLaenge(currentEdge))
 						.add(getStartEndEdgeLength(endEdge, end, currentEdge));
 				sortedEdges.add(endEdge);
 				break;
