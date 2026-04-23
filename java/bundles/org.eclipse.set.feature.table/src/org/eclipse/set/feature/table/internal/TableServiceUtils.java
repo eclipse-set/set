@@ -254,11 +254,16 @@ public class TableServiceUtils {
 	}
 
 	protected static Table filterRequestValue(final Table table,
-			final TableType tableType, final IModelSession modelsession,
+			final TableType tableType, final TableInfo tableInfo,
+			final IModelSession modelsession,
 			final PlanPro2TableTransformationService transformationService,
 			final Set<String> controlAreaIds) {
 		final Table result = filterTableByState(table, tableType);
-
+		// Worknotes table need only regard on table state
+		if (tableInfo.shortcut()
+				.equalsIgnoreCase(ToolboxConstants.WORKNOTES_TABLE_SHORTCUT)) {
+			return result;
+		}
 		if (tableType == TableType.DIFF) {
 			filterRowGroupBelongToControlAreaByDiffState(result, modelsession,
 					transformationService, controlAreaIds);
