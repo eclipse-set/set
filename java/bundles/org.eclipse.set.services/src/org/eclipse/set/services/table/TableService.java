@@ -13,7 +13,9 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.set.basis.IModelSession;
@@ -34,6 +36,20 @@ import org.eclipse.set.utils.table.TableInfo.Pt1TableCategory;
  * @author rumpf
  */
 public interface TableService {
+
+	/**
+	 * Helper class for transform and reload table
+	 * 
+	 * @param transformTableAction
+	 *            create table from PlanPro model data
+	 * @param updateTableUIAction
+	 *            update table ui
+	 */
+	public static record TableRendererUtil(Supplier<Table> transformTableAction,
+			Consumer<Table> updateTableUIAction) {
+
+	}
+
 	/**
 	 * Extract the shortcut from an configuration element.
 	 * 
@@ -148,13 +164,11 @@ public interface TableService {
 	 * @param tableCategories
 	 *            the list of table category. when the list is empty, then
 	 *            update all table
-	 * @param updateTableHandler
-	 *            the update table handler
-	 * @param clearInstance
-	 *            the clear table instance handler
+	 * @param rendereUtil
+	 *            the {@link TableRendererUtil}
 	 */
 	void updateTable(BasePart part, List<Pt1TableCategory> tableCategories,
-			Runnable updateTableHandler, Runnable clearInstance);
+			TableRendererUtil rendereUtil);
 
 	/**
 	 * Get fixed columns

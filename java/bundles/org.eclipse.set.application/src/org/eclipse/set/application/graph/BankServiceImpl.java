@@ -43,7 +43,9 @@ import org.eclipse.set.model.planpro.Geodaten.TOP_Knoten;
 import org.eclipse.set.model.planpro.Geodaten.Ueberhoehung;
 import org.eclipse.set.model.planpro.Geodaten.Ueberhoehungslinie;
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
+import org.eclipse.set.model.planpro.Verweise.ID_TOP_Kante_ohne_Proxy_TypeClass;
 import org.eclipse.set.ppmodel.extensions.BasisAttributExtensions;
+import org.eclipse.set.ppmodel.extensions.EObjectExtensions;
 import org.eclipse.set.ppmodel.extensions.MultiContainer_AttributeGroupExtensions;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
 import org.eclipse.set.ppmodel.extensions.PunktObjektExtensions;
@@ -332,7 +334,9 @@ public class BankServiceImpl implements BankService, EventHandler {
 
 	/**
 	 * The Banking path is already defined. This function transform the
-	 * information to {@link BankingInformation}
+	 * information to {@link BankingInformation} Attention: The banking path
+	 * isn't contains start and end edge. This only have the TOP_Kante, which
+	 * the banking line complete overlap
 	 * 
 	 * @param bankingLine
 	 *            the {@link Ueberhoehungslinie}
@@ -351,14 +355,11 @@ public class BankServiceImpl implements BankService, EventHandler {
 				.getSinglePoint(bankingLine.getIDUeberhoehungA().getValue());
 		final Punkt_Objekt_TOP_Kante_AttributeGroup end = PunktObjektExtensions
 				.getSinglePoint(bankingLine.getIDUeberhoehungB().getValue());
-		// When the defined path not contains start/end point
-		if (relevantEdges.stream()
-				.noneMatch(edge -> edge == start.getIDTOPKante().getValue())
-				|| relevantEdges.stream()
-						.noneMatch(edge -> edge == end.getIDTOPKante()
-								.getValue())) {
+		// When the defined path not connected to start/end edge
+		if (!isRelevantTOPPath(bankingLine)) {
 			throw new IllegalArgumentException();
 		}
+		final TOP_Kante endEdge = end.getIDTOPKante().getValue();
 		final List<TOP_Kante> sortedEdges = new LinkedList<>();
 		TOP_Kante currentEdge = start.getIDTOPKante().getValue();
 		BigDecimal pathLength = BigDecimal.ZERO;
@@ -366,22 +367,16 @@ public class BankServiceImpl implements BankService, EventHandler {
 		while (!relevantEdges.isEmpty()) {
 			sortedEdges.add(currentEdge);
 			relevantEdges.remove(currentEdge);
-			if (currentEdge == end.getIDTOPKante().getValue()) {
+
+			if (TopKanteExtensions.isConnectedTo(currentEdge,
+					end.getIDTOPKante().getValue())) {
 				// when the path isn't end at end point
 				if (!relevantEdges.isEmpty()) {
 					throw new IllegalArgumentException();
 				}
-				// Edge before last edge
-				final TOP_Kante beforeLastEdge = sortedEdges
-						.get(sortedEdges.size() - 2);
-				final TOP_Knoten connectionNode = TopKanteExtensions
-						.connectionTo(currentEdge, beforeLastEdge);
-				final BigDecimal lastEdgeLength = connectionNode == currentEdge
-						.getIDTOPKnotenA()
-						.getValue() ? end.getAbstand().getWert()
-								: TopKanteExtensions.getLaenge(currentEdge)
-										.subtract(end.getAbstand().getWert());
-				pathLength = pathLength.add(lastEdgeLength);
+				pathLength = pathLength
+						.add(getStartEndEdgeLength(endEdge, end, currentEdge));
+				sortedEdges.add(endEdge);
 				break;
 			}
 			final List<TOP_Kante> nextEdges = new ArrayList<>();
@@ -396,15 +391,8 @@ public class BankServiceImpl implements BankService, EventHandler {
 				throw new IllegalArgumentException();
 			}
 			if (currentEdge == start.getIDTOPKante().getValue()) {
-				final TOP_Knoten connectionNode = TopKanteExtensions
-						.connectionTo(currentEdge, nextEdges.getFirst());
-				final BigDecimal firstEdgeLength = connectionNode == currentEdge
-						.getIDTOPKnotenB()
-						.getValue()
-								? TopKanteExtensions.getLaenge(currentEdge)
-										.subtract(start.getAbstand().getWert())
-								: start.getAbstand().getWert();
-				pathLength = pathLength.add(firstEdgeLength);
+				pathLength = pathLength.add(getStartEndEdgeLength(currentEdge,
+						start, nextEdges.getFirst()));
 			} else {
 				pathLength = pathLength
 						.add(TopKanteExtensions.getLaenge(currentEdge));
@@ -413,6 +401,56 @@ public class BankServiceImpl implements BankService, EventHandler {
 		}
 		return new BankingInformation(bankingLine,
 				new TopPath(sortedEdges, pathLength, new TopPoint(start)));
+	}
+
+	private static boolean isRelevantTOPPath(
+			final Ueberhoehungslinie bankingLine) {
+		final TOP_Kante beginEdge = EObjectExtensions
+				.getNullableObject(bankingLine,
+						b -> b.getIDUeberhoehungA()
+								.getValue()
+								.getPunktObjektTOPKante()
+								.getFirst()
+								.getIDTOPKante()
+								.getValue())
+				.orElse(null);
+		final TOP_Kante endEdge = EObjectExtensions
+				.getNullableObject(bankingLine,
+						b -> b.getIDUeberhoehungB()
+								.getValue()
+								.getPunktObjektTOPKante()
+								.getFirst()
+								.getIDTOPKante()
+								.getValue())
+				.orElse(null);
+		if (beginEdge == null || endEdge == null) {
+			return false;
+		}
+		final List<ID_TOP_Kante_ohne_Proxy_TypeClass> topPaths = bankingLine
+				.getIDTOPKantePfad();
+		final ID_TOP_Kante_ohne_Proxy_TypeClass connectToBegin = topPaths
+				.stream()
+				.filter(edge -> TopKanteExtensions.isConnectedTo(beginEdge,
+						edge.getValue()))
+				.findFirst()
+				.orElse(null);
+		final ID_TOP_Kante_ohne_Proxy_TypeClass connectToEnd = topPaths.stream()
+				.filter(edge -> TopKanteExtensions.isConnectedTo(endEdge,
+						edge.getValue()))
+				.findFirst()
+				.orElse(null);
+		return connectToBegin != null && connectToEnd != null;
+	}
+
+	private static BigDecimal getStartEndEdgeLength(final TOP_Kante edge,
+			final Punkt_Objekt_TOP_Kante_AttributeGroup potk,
+			final TOP_Kante connectedEdge) {
+		final TOP_Knoten connectionNode = TopKanteExtensions.connectionTo(edge,
+				connectedEdge);
+		return connectionNode == edge.getIDTOPKnotenB().getValue()
+				? TopKanteExtensions.getLaenge(edge)
+						.subtract(potk.getAbstand().getWert())
+				: potk.getAbstand().getWert();
 	}
 
 	@Override

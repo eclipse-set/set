@@ -25,11 +25,15 @@ import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.messages.Messages;
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
 import org.eclipse.set.model.planpro.Basisobjekte.Strecke_Km_TypeClass;
+import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
 import org.eclipse.set.model.planpro.Signale.Signal;
 import org.eclipse.set.model.planpro.Verweise.ID_Strecke_TypeClass;
 import org.eclipse.set.model.tablemodel.RowGroup;
+import org.eclipse.set.ppmodel.extensions.SignalExtensions;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
+import org.eclipse.set.utils.table.TableInfo.Pt1TableCategory;
 import org.eclipse.set.utils.table.sorting.TableRowGroupComparator;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -138,5 +142,25 @@ public final class SsksTransformationService extends
 	protected Map<Class<?>, String> getFootnotesColumnReferences() {
 		return Map.of(ID_Strecke_TypeClass.class, SsksColumns.Strecke,
 				Strecke_Km_TypeClass.class, SsksColumns.Km);
+	}
+
+	@Override
+	protected Pt1TableCategory getTableCategory() {
+		return Pt1TableCategory.ESTW;
+	}
+
+	@Override
+	public boolean isObjectBelongToRendereArea(final Ur_Objekt obj,
+			final List<Stell_Bereich> areas) {
+		if (areas.isEmpty()) {
+			return true;
+		}
+		if (obj instanceof final Signal signal) {
+			return areas.stream()
+					.anyMatch(area -> SignalExtensions
+							.isSsksSignalBelongToArea(signal, area));
+		}
+
+		return false;
 	}
 }

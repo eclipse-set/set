@@ -27,6 +27,7 @@ import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Aneinander;
 import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.ppmodel.extensions.FstrAneinanderExtensions;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
+import org.eclipse.set.utils.table.TableInfo.Pt1TableCategory;
 import org.eclipse.set.utils.table.sorting.TableRowGroupComparator;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -108,4 +109,8 @@ public final class SslaTransformationService
 		return Collections.emptyMap();
 	}
 
+	@Override
+	protected Pt1TableCategory getTableCategory() {
+		return Pt1TableCategory.ESTW;
+	}
 }

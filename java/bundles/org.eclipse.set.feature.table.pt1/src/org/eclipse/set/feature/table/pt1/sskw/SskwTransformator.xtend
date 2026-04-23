@@ -58,6 +58,7 @@ import static extension org.eclipse.set.ppmodel.extensions.SignalbegriffExtensio
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspElementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspKomponenteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.ENUMWKrGspStellart
 
 /**
  * Table transformation for a Weichentabelle (SSKW).
@@ -102,7 +103,13 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 	override transformTableContent(MultiContainer_AttributeGroup container,
 		TMFactory factory) {
 		xmlFinder = createEObjetXMLFinder(container)
-		val weichen = container.WKrGspElement
+		val weichen = container.WKrGspElement.filter [
+			val stellArt = WKrGspElementAllg?.WKrGspStellart?.wert
+			return stellArt !==
+				ENUMWKrGspStellart.ENUMW_KR_GSP_STELLART_STILLGELEGT_LINKS &&
+				stellArt !==
+					ENUMWKrGspStellart.ENUMW_KR_GSP_STELLART_STILLGELEGT_RECHTS
+		]
 
 		for (element : weichen) {
 			if (Thread.currentThread.interrupted) {
