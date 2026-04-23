@@ -188,8 +188,8 @@ class CellContentExtensions {
 
 	static def dispatch String getPlainStringValue(
 		CompareStateCellContent content) {
-		val oldValue = content.oldValue.stringValueIterable
-		val newValue = content.newValue.stringValueIterable
+		val oldValue = content?.oldValue?.stringValueIterable
+		val newValue = content?.newValue?.stringValueIterable
 		if (oldValue.isNullOrEmpty && newValue.nullOrEmpty) {
 			return ""
 		}
@@ -222,7 +222,7 @@ class CellContentExtensions {
 
 	static def dispatch Iterable<String> getStringValueIterable(
 		StringCellContent content) {
-		return content?.value?.filterNull.map[trim].filter [
+		return content?.value?.filterNull?.map[trim]?.filter [
 			!blank && !nullOrEmpty
 		] ?: #[]
 	}
