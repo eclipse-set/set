@@ -654,12 +654,19 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 			)
 
 			// W: Sskw.Sonstiges.Regelzeichnung_Nr
-			fillIterable(
+			fill(
 				instance,
 				cols.getColumn(Sonstiges_Regelzeichnung_Nr),
 				element,
-				[element.regelzeichnungen.map[fillRegelzeichnung]],
-				null
+				[
+					val regelZeichnung = element.regelzeichnungen.map [
+						fillRegelzeichnung
+					]
+					val anhangDWS = WKrAnlage?.IDAnhangDWS?.value?.anhangAllg?.
+						dateiname?.wert
+					return '''«regelZeichnung.join(ITERABLE_FILLING_SEPARATOR)»«
+						»«IF anhangDWS !== null»«ITERABLE_FILLING_SEPARATOR»«anhangDWS»«ENDIF»'''
+				]
 			)
 
 			// X: Sskw.Sonstiges.DWs
@@ -669,7 +676,7 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 				element,
 				[IDWKrAnlage === null],
 				[""],
-				[(WKrAnlage.IDAnhangDWS !== null).translate]
+				[(WKrAnlage.IDAnhangDWS?.value !== null).translate]
 			)
 
 			// Y: Sskw.Sonderanlage.Art
