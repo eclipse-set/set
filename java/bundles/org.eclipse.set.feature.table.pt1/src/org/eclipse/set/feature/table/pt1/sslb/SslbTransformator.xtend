@@ -188,12 +188,10 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 		)
 
 		// D: Sslb.Strecke.Streckenziel_Start
-		fillConditional(
+		fill(
 			cols.getColumn(Streckenziel_Start),
 			blockElement,
-			[isPlanningObject],
-			[IDSignal?.value?.bezeichnung?.bezeichnungTabelle?.wert],
-			['''(«IDSignal?.value?.bezeichnung?.bezeichnungTabelle?.wert»)''']
+			[IDSignal?.value?.bezeichnung?.bezeichnungTabelle?.wert]
 		)
 
 		// E: Sslb.Strecke.Betriebsfuehrung

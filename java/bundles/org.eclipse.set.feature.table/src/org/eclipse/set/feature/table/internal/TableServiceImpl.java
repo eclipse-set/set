@@ -99,7 +99,7 @@ import jakarta.inject.Inject;
  * the toolbox via the osgi event admin service on the topic
  * <code>modelsession/container/*</code> which will lead to invalidate all cache
  * entries in any case an event is received.
- *
+ * 
  * @author rumpf
  *
  */
@@ -142,7 +142,7 @@ public final class TableServiceImpl implements TableService {
 	/**
 	 * adds a model service. For a model service to be properly added it has to
 	 * set the <code>table.shortcut</code property.
-	 *
+	 * 
 	 * @param service
 	 *            the service
 	 * @param properties
@@ -270,7 +270,8 @@ public final class TableServiceImpl implements TableService {
 					|| tableInfo.category().equals(tableCategory)) {
 				final List<TableError> tableErrors = TableServiceUtils
 						.getCachedTableError(getCacheService(), tableInfo,
-								modelSession, controlAreaIds);
+								modelSession, getModelService(tableInfo),
+								controlAreaIds);
 				if (tableErrors != null
 						|| !TableService.isTransformComplete(tableInfo, null)) {
 					result.put(tableInfo, tableErrors);
@@ -331,7 +332,7 @@ public final class TableServiceImpl implements TableService {
 
 	/**
 	 * removes a model service.
-	 *
+	 * 
 	 * @param properties
 	 *            the service properties
 	 * @throws IllegalAccessException
@@ -354,7 +355,7 @@ public final class TableServiceImpl implements TableService {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param table
 	 * @return table as csv string
 	 */
@@ -425,9 +426,10 @@ public final class TableServiceImpl implements TableService {
 			return emptyTable;
 		}
 		final Table resultTable = TableServiceUtils.filterRequestValue(
-				EcoreUtil.copy((Table) table), tableInfo, tableType,
-				modelSession, controlAreaIds);
+				EcoreUtil.copy((Table) table), tableType, modelSession,
+				getModelService(tableInfo), controlAreaIds);
 		TableServiceUtils.clearEmptyRow(resultTable);
+		getModelService(tableInfo).addAdditionRow((Table) table, resultTable);
 		sortTable(resultTable, tableInfo);
 		return resultTable;
 	}
