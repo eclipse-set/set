@@ -188,7 +188,12 @@ class CellContentExtensions {
 
 	static def dispatch String getPlainStringValue(
 		CompareStateCellContent content) {
-		return '''«content.oldValue.stringValueIterable»/«content.newValue.stringValueIterable»'''
+		val oldValue = content.oldValue.stringValueIterable
+		val newValue = content.newValue.stringValueIterable
+		if (oldValue.isNullOrEmpty && newValue.nullOrEmpty) {
+			return ""
+		}
+		return '''«oldValue»/«newValue»'''
 	}
 
 	static def dispatch String getPlainStringValue(
@@ -217,7 +222,7 @@ class CellContentExtensions {
 
 	static def dispatch Iterable<String> getStringValueIterable(
 		StringCellContent content) {
-		return content.value
+		return content?.value.map[trim].filter[!blank && !nullOrEmpty] ?: #[]
 	}
 
 	static def List<String> getStringValueList(CellContent content) {
@@ -385,8 +390,9 @@ class CellContentExtensions {
 
 	private static def String getMultiColorFormat(MultiColorContent content) {
 		if (Strings.isNullOrEmpty(content.multiColorValue)) {
-			return Strings.isNullOrEmpty(content.stringFormat) ? "" : content.
-				stringFormat.htmlString
+			return Strings.isNullOrEmpty(content.stringFormat)
+				? ""
+				: content.stringFormat.htmlString
 		}
 
 		if (content.isDisableMultiColor) {
