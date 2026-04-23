@@ -14,12 +14,12 @@ import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.*;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -91,7 +91,7 @@ public abstract class AbstractSignalTableTransform
 	public Table transformTableContent(
 			final MultiContainer_AttributeGroup container,
 			final TMFactory factory) {
-		sideDistancesSignal = new HashMap<>();
+		sideDistancesSignal = new ConcurrentHashMap<>();
 		for (final Signal signal : getRelevantSignal(container)) {
 
 			if (Thread.currentThread().isInterrupted()) {
@@ -328,13 +328,14 @@ public abstract class AbstractSignalTableTransform
 
 	protected void fillAbstandMastMitte(final TableRow row,
 			final Signal signal) {
+
 		getAbstandMastMitteColumn().forEach(
 				(linksrechts, column) -> fillIterableMultiCellWhenAllow(row,
 						column, signal,
 						GEOKanteGeometryExtensions::isFindGeometryComplete,
 						s -> {
 							final SignalSideDistance signalSideDistances = sideDistancesSignal
-									.computeIfAbsent(s,
+									.computeIfAbsent(signal,
 											ele -> new SignalSideDistance(ele,
 													getSideDistanceMastType()));
 							final Set<SideDistance> distances = switch (linksrechts) {
