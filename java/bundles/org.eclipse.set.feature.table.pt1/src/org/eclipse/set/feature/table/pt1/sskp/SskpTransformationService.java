@@ -40,6 +40,7 @@ import org.eclipse.set.model.tablemodel.extensions.CellContentExtensions;
 import org.eclipse.set.ppmodel.extensions.PZBElementExtensions;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
 import org.eclipse.set.utils.table.ColumnDescriptorModelBuilder;
+import org.eclipse.set.utils.table.TableInfo.Pt1TableCategory;
 import org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparatorType;
 import org.eclipse.set.utils.table.sorting.TableRowGroupComparator;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
@@ -198,5 +199,10 @@ public class SskpTransformationService
 	@Override
 	protected Map<Class<?>, String> getFootnotesColumnReferences() {
 		return Collections.emptyMap();
+	}
+
+	@Override
+	protected Pt1TableCategory getTableCategory() {
+		return Pt1TableCategory.ESTW;
 	}
 }
