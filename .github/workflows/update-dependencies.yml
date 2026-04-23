@@ -12,3 +12,5 @@ jobs:
   dependencies:
     uses: eclipse-set/build/.github/workflows/update-dependencies.yml@main
     secrets: inherit
+    with:
+      pom: "java/pom.xml"

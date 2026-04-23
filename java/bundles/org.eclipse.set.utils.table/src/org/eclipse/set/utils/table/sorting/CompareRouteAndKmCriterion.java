@@ -19,17 +19,16 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum;
 import org.eclipse.set.basis.constants.Events;
-import org.eclipse.set.basis.extensions.MatcherExtensions;
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt;
 import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
 import org.eclipse.set.model.tablemodel.TableRow;
 import org.eclipse.set.model.tablemodel.extensions.TableRowExtensions;
 import org.eclipse.set.ppmodel.extensions.PunktObjektExtensions;
+import org.eclipse.set.ppmodel.extensions.PunktObjektStreckeExtensions;
 import org.eclipse.xtext.xbase.lib.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,9 +45,6 @@ public class CompareRouteAndKmCriterion
 	private final SortDirectionEnum direction;
 	private final Function<Ur_Objekt, Punkt_Objekt> getPunktObjectFunc;
 	private final NumericCellComparator numericComparator;
-	private static final String KILOMETRIERUNG_PATTERN = "(?<numberN>-?([1-9]\\d{0,2}|0)),((?<numberD1>\\d{3})|(?<numberD2>\\d)(?<numberN2>[\\+\\-][1-9]\\d{0,4}))"; //$NON-NLS-1$
-	private static final String EXTRA_LENGTH_GROUP_NAME = "numberN2"; //$NON-NLS-1$
-	private final Pattern kmPattern;
 	private boolean isWaitingOnService = false;
 
 	/**
@@ -72,7 +68,6 @@ public class CompareRouteAndKmCriterion
 		this.getPunktObjectFunc = getPunktObjectFunc;
 		this.direction = direction;
 		this.numericComparator = new NumericCellComparator(direction);
-		this.kmPattern = getKilometrierungPattern();
 	}
 
 	@Override
@@ -166,8 +161,10 @@ public class CompareRouteAndKmCriterion
 				}
 
 				final int compare = direction == SortDirectionEnum.ASC
-						? compareKm(firstKm, secondKm)
-						: compareKm(secondKm, firstKm);
+						? PunktObjektStreckeExtensions.compareKm()
+								.compare(firstKm, secondKm)
+						: PunktObjektStreckeExtensions.compareKm()
+								.compare(secondKm, firstKm);
 				if (compare != 0) {
 					return compare;
 				}
@@ -176,45 +173,14 @@ public class CompareRouteAndKmCriterion
 		return 0;
 	}
 
-	private int compareKm(final String first, final String second) {
-		final Pair<Double, Double> firstKm = analyseKmValue(first);
-		final Pair<Double, Double> secondKm = analyseKmValue(second);
-		final int mainValueCompare = firstKm.getKey()
-				.compareTo(secondKm.getKey());
-		if (mainValueCompare != 0) {
-			return mainValueCompare;
-		}
-		return firstKm.getValue().compareTo(secondKm.getValue());
-	}
-
-	@SuppressWarnings("nls")
-	private Pair<Double, Double> analyseKmValue(final String km) {
-		final Matcher matcher = kmPattern.matcher(km);
-		final Optional<String> extraLength = MatcherExtensions.getGroup(matcher,
-				EXTRA_LENGTH_GROUP_NAME);
-		if (extraLength.isPresent()) {
-			final String mainKm = km.replace(extraLength.get(), "");
-			return new Pair<>(Double.valueOf(mainKm.replace(",", ".")),
-					Double.valueOf(extraLength.get()));
-		}
-		return new Pair<>(Double.valueOf(km.replace(",", ".")),
-				Double.valueOf(0));
-	}
-
 	private boolean kmPatternCheck(final String km) {
-		final Matcher matcher = kmPattern.matcher(km);
+		final Matcher matcher = PunktObjektStreckeExtensions.KILOMETRIERUNG_PATTERN
+				.matcher(km);
 		if (!matcher.matches()) {
 			logger.error("Wrong Kilometer format: {}", km); //$NON-NLS-1$
 			return true;
 		}
 		return false;
-	}
-
-	/**
-	 * @return the kilometer pattern
-	 */
-	public static Pattern getKilometrierungPattern() {
-		return Pattern.compile(KILOMETRIERUNG_PATTERN);
 	}
 
 	private <T> Optional<Integer> compareCollection(final Collection<T> first,

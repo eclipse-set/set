@@ -28,6 +28,7 @@ import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.RowMergeMode;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
 import org.eclipse.set.utils.table.ColumnDescriptorModelBuilder;
+import org.eclipse.set.utils.table.TableInfo.Pt1TableCategory;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.event.EventAdmin;
@@ -117,4 +118,8 @@ public final class SszaTransformationService
 				SszaColumns.Bezugspunkt_Standort_km);
 	}
 
+	@Override
+	protected Pt1TableCategory getTableCategory() {
+		return Pt1TableCategory.ETCS;
+	}
 }

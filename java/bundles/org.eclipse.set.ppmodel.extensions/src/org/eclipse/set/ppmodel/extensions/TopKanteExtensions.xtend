@@ -33,6 +33,7 @@ import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt
 import org.eclipse.set.model.planpro.Geodaten.ENUMTOPAnschluss
 import org.eclipse.set.model.planpro.Geodaten.GEO_Kante
 import org.eclipse.set.model.planpro.Geodaten.GEO_Knoten
+import org.eclipse.set.model.planpro.Geodaten.Strecke
 import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
 import org.eclipse.set.model.planpro.Geodaten.TOP_Knoten
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element
@@ -47,9 +48,13 @@ import static extension org.eclipse.set.ppmodel.extensions.GeoKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.GeoKnotenExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.PunktObjektStreckeExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKnotenExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.CollectionExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.SetExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
+import org.eclipse.set.ppmodel.extensions.utils.DirectedTopKante
+import com.google.common.collect.Comparators
 
 /**
  * Diese Klasse erweitert {@link TOP_Kante}.
@@ -848,5 +853,50 @@ class TopKanteExtensions extends BasisObjektExtensions {
 			}
 		}
 		return result
+	}
+
+	def static boolean isInRouteDirection(TOP_Kante topKante, Strecke strecke) {
+		val directTopKante = new DirectedTopKante(topKante, true)
+		val punktObjektsWithDistance = directTopKante.iterator.filter [
+			IDTOPKante.value === topKante
+		].filter[eContainer instanceof Punkt_Objekt].map [
+			(eContainer as Punkt_Objekt) -> abstand.wert
+		].toList
+
+		// Sorting the Punkt_Objekt by Top_Kante distance to start of TOP_Kante
+		if (!Comparators.isInOrder(punktObjektsWithDistance, [ a, b |
+			a.value.compareTo(b.value)
+		])) {
+			punktObjektsWithDistance.sortWith([a, b|a.value.compareTo(b.value)])
+		}
+
+		val streckenKmStoredByTopKanteDirection = punktObjektsWithDistance.map [ pair |
+			pair.key.getStreckeKm(List.of(strecke)).firstOrNull
+		].filterNull.toList
+
+		// The route kilometer of a Punkt_Objekt can be inconsistent and
+		// may not follow the monotonic route kilometer sequence.
+		// Consequently, both counter variables track increasing and
+		// decreasing kilometers along the route. If the number of increasing steps
+		// exceeds the number of decreasing steps,
+		// the TOP_Kante is oriented in the same direction as the route.
+		var upwardCount = 0
+		var downwardCount = 0
+		for (var i = 0, var j = streckenKmStoredByTopKanteDirection.size -
+			1; i < streckenKmStoredByTopKanteDirection.size / 2 &&
+			j > streckenKmStoredByTopKanteDirection.size / 2; i++, j--) {
+			val first = streckenKmStoredByTopKanteDirection.get(i)
+			val second = streckenKmStoredByTopKanteDirection.get(j)
+			val compareValue = compareKm.compare(
+				first,
+				second
+			)
+			if (compareValue > 0) {
+				downwardCount++
+			} else {
+				upwardCount++
+			}
+		}
+		return upwardCount > downwardCount
 	}
 }
