@@ -24,6 +24,7 @@ import org.eclipse.emf.ecore.EValidator.PatternMatcher;
 import org.eclipse.set.basis.Pair;
 import org.eclipse.set.model.planpro.BasisTypen.util.BasisTypenValidator;
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt;
+import org.eclipse.set.ppmodel.extensions.PunktObjektStreckeExtensions;
 import org.eclipse.set.utils.table.sorting.CompareRouteAndKmCriterion;
 import org.junit.jupiter.api.Test;
 
@@ -134,8 +135,7 @@ public class CompareRouteAndKmCriterionTest {
 	@SuppressWarnings("boxing")
 	private void thenThePatternMustMatch() {
 		assertEquals(1, kilometrierungPatternInSchema.size());
-		final Pattern kilometrierungPattern = CompareRouteAndKmCriterion
-				.getKilometrierungPattern();
+		final Pattern kilometrierungPattern = PunktObjektStreckeExtensions.KILOMETRIERUNG_PATTERN;
 		final Pattern schemaPattern = Pattern
 				.compile(kilometrierungPatternInSchema.getFirst());
 

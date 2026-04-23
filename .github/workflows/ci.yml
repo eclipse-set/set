@@ -20,9 +20,9 @@ concurrency:
 
 env:
   GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-  DEPLOY_DIR: ${{ github.workspace }}/java-test/m2deploy
-  DIFF_DIR: java-test/diff
-  TEST_APPLICATION_DIR: ${{ github.workspace }}/java-test/application-under-test
+  DEPLOY_DIR: ${{ github.workspace }}/java/java-test/m2deploy
+  DIFF_DIR: java/java-test/diff
+  TEST_APPLICATION_DIR: ${{ github.workspace }}/java/java-test/application-under-test
 
 jobs:
   docs:
@@ -218,7 +218,7 @@ jobs:
         with:
           enableCrossOsArchive: true
           path: ~/.m2/repository/
-          key: ${{ runner.os }}-m2repo-${{ hashFiles('**/java/bundles/org.eclipse.set.releng.target/org.eclipse.set.releng.target.target', 'pom.xml') }}
+          key: ${{ runner.os }}-m2repo-${{ hashFiles('**/java/bundles/org.eclipse.set.releng.target/org.eclipse.set.releng.target.target', 'java/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2repo-
 
       - name: Build
@@ -227,7 +227,7 @@ jobs:
           if [[ ${{github.ref}} == "refs/heads/main" || "${{github.ref}}" == refs/tags/* ]]; then
             m2RepoPath="set-github::https://maven.pkg.github.com/${{ github.repository }}"
           fi
-          mvn -T 1.5C -U -B clean deploy checkstyle:checkstyle --settings .github/settings.xml -DaltDeploymentRepository="$m2RepoPath"
+          mvn -T 1.5C -U -B -f java/pom.xml clean deploy checkstyle:checkstyle --settings .github/settings.xml -DaltDeploymentRepository="$m2RepoPath"
         env:
           GITHUB_TOKEN: ${{ github.token }}
       
@@ -255,7 +255,7 @@ jobs:
 
       - name: Upload release asset
         if: startsWith(github.ref, 'refs/tags/')
-        uses: softprops/action-gh-release@153bb8e04406b158c6c84fc1615b65b24149a1fe # v2.6.1
+        uses: softprops/action-gh-release@b4309332981a82ec1c5618f44dd2e27cc8bfbfda # v3.0.0
         with: 
           files: java/bundles/org.eclipse.set.releng.set.product/target/products/unsigned-Eclipse-SET-*.zip
           
@@ -311,7 +311,7 @@ jobs:
         with:
           enableCrossOsArchive: true
           path: ~/.m2/repository
-          key: ${{ runner.os }}-m2repo-${{ hashFiles('**/java/bundles/org.eclipse.set.releng.target/org.eclipse.set.releng.target.target', 'pom.xml') }}
+          key: ${{ runner.os }}-m2repo-${{ hashFiles('**/java/bundles/org.eclipse.set.releng.target/org.eclipse.set.releng.target.target', 'java/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2repo-
 
       - name: Run Test
@@ -322,7 +322,7 @@ jobs:
           if [[ "${{ github.event_name }}" == "pull_request" || "${{github.ref}}" == refs/heads/release/* ]]; then
             m2RepoPath="file://${{ env.DEPLOY_DIR }}"
           fi
-          mvn -T 1.5C -U -B -f java-test/pom.xml clean verify  \
+          mvn -T 1.5C -U -B -f java/java-test/pom.xml clean verify  \
             --settings ./.github/settings.xml \
             -Dskip-test=false \
             -Dm2-repo-path="$m2RepoPath" \

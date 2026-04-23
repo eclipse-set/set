@@ -11,19 +11,29 @@
 package org.eclipse.set.feature.table.pt1.sskx;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
 import org.eclipse.e4.core.services.events.IEventBroker;
+import org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum;
 import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.core.services.graph.BankService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.messages.Messages;
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
+import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
+import org.eclipse.set.model.planpro.Signale.Signal;
+import org.eclipse.set.model.tablemodel.RowGroup;
+import org.eclipse.set.ppmodel.extensions.SignalExtensions;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
+import org.eclipse.set.utils.table.TableInfo.Pt1TableCategory;
 import org.eclipse.set.utils.table.TableModelTransformator;
+import org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparatorType;
+import org.eclipse.set.utils.table.sorting.TableRowGroupComparator;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.event.Event;
@@ -110,5 +120,39 @@ public class SskxTransformationService extends
 	@Override
 	protected Map<Class<?>, String> getFootnotesColumnReferences() {
 		return Collections.emptyMap();
+	}
+
+	@Override
+	protected Pt1TableCategory getTableCategory() {
+		return Pt1TableCategory.ESTW_SUPPLEMENT;
+	}
+
+	@Override
+	public Comparator<RowGroup> getRowGroupComparator() {
+		return TableRowGroupComparator.builder().sortByRouteAndKm(obj -> {
+			if (obj instanceof final Signal signal) {
+				return signal;
+			}
+			return null;
+		})
+				.sort(SskxColumns.Bezeichnung_Signal,
+						CellComparatorType.LEXICOGRAPHICAL,
+						SortDirectionEnum.ASC)
+				.build();
+	}
+
+	@Override
+	public boolean isObjectBelongToRendereArea(final Ur_Objekt obj,
+			final List<Stell_Bereich> areas) {
+		if (areas.isEmpty()) {
+			return true;
+		}
+		if (obj instanceof final Signal signal) {
+			return areas.stream()
+					.anyMatch(area -> SignalExtensions
+							.isSskxSignalBelongToArea(signal, area));
+		}
+
+		return false;
 	}
 }
