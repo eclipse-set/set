@@ -150,18 +150,14 @@ class AussenelementansteuerungExtensions extends BasisObjektExtensions {
 	def static Aussenelementansteuerung findRecursiveAEAInformation(
 		Aussenelementansteuerung aea,
 		Predicate<Aussenelementansteuerung> condition) {
-		if (condition.test(aea)) {
-			return aea
-		}
-
 		val LinkedList<Aussenelementansteuerung> recursiveList = newLinkedList
 		val addToListFunc = [ Aussenelementansteuerung ele |
 			if (!recursiveList.exists[it === ele]) {
 				recursiveList.add(ele)
 			}
 		]
-		#[aea.informationPrimaer.filter(Aussenelementansteuerung),
-			aea.informationSekundaer].flatten.forEach[addToListFunc.apply(it)]
+		
+		recursiveList.add(aea)
 		while (!recursiveList.nullOrEmpty) {
 			val head = recursiveList.pop
 			if (condition.test(head)) {
