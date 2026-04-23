@@ -247,6 +247,11 @@ public class ToolboxTableView extends BasePart {
 		}
 	}
 
+	private String extractShortcut() {
+		final String elementId = getToolboxPart().getElementId();
+		return elementId.substring(elementId.lastIndexOf(".") + 1); //$NON-NLS-1$
+	}
+
 	@PostConstruct
 	protected void postConstruct() {
 		tableSelectRowHandler = new DefaultToolboxEventHandler<>() {
@@ -262,21 +267,22 @@ public class ToolboxTableView extends BasePart {
 		tableDataChangeHandler = new DefaultToolboxEventHandler<>() {
 			@Override
 			public void accept(final TableDataChangeEvent t) {
-				if (!t.getProperties().isEmpty() && t.getProperties()
-						.getFirst() instanceof Pt1TableChangeProperties) {
-
-					t.getProperties().forEach(ele -> {
-						bodyDataProvider.updateContent(tableType,
-								(Pt1TableChangeProperties) ele);
-					});
+				if (!t.getProperties().isEmpty()
+						&& t.getProperties()
+								.getFirst() instanceof Pt1TableChangeProperties
+						&& t.getTableName()
+								.equalsIgnoreCase(extractShortcut())) {
+					bodyDataProvider.updateContent(row -> tableService
+							.fillDelayCells(row, t.getProperties()
+									.stream()
+									.map(Pt1TableChangeProperties.class::cast)
+									.toList(), tableType));
 					natTable.refresh();
 				}
 			}
 		};
 		ToolboxEvents.subscribe(getBroker(), TableDataChangeEvent.class,
-				tableDataChangeHandler,
-				TableDataChangeEvent.getTopic(tableInfo.shortcut())
-						.toLowerCase());
+				tableDataChangeHandler, TableDataChangeEvent.TOPIC);
 
 		selectionControlAreaHandler = new DefaultToolboxEventHandler<>() {
 			@Override
@@ -323,7 +329,7 @@ public class ToolboxTableView extends BasePart {
 		ToolboxEvents.unsubscribe(getBroker(), tableDataChangeHandler);
 		ToolboxEvents.unsubscribe(getBroker(), selectionControlAreaHandler);
 		getBroker().unsubscribe(secondaryPlanningLoadedHanlder);
-		getBroker().send(Events.CLOSE_PART, tableInfo.shortcut());
+		getBroker().send(Events.CLOSE_PART, extractShortcut());
 	}
 
 	private void tableSelectRowHandler(final JumpToTableEvent event) {
@@ -420,8 +426,7 @@ public class ToolboxTableView extends BasePart {
 		// is called
 		Assert.isNotNull(tableInstances);
 		bodyDataProvider = new TableModelInstanceBodyDataProvider(
-				TableExtensions.getPropertyCount(table), tableInstances,
-				getSessionService());
+				TableExtensions.getPropertyCount(table), tableInstances);
 
 		final SpanningDataLayer bodyDataLayer = new SpanningDataLayer(
 				bodyDataProvider);
@@ -749,15 +754,14 @@ public class ToolboxTableView extends BasePart {
 		final List<Thread> transformatorThreads = ThreadUtils.getAllThreads()
 				.stream()
 				.filter(t -> t != null
-						&& t.getName().startsWith(tableInfo.shortcut())
+						&& t.getName().startsWith(extractShortcut())
 						&& t.isAlive())
 				.toList();
 		if (!transformatorThreads.isEmpty() && !getDialogService()
 				.confirmExportNotCompleteTable(getToolboxShell())) {
 			return;
 		}
-		final Map<TableType, Table> tables = compileService.compile(tableInfo,
-				getModelSession(), controlAreaIds);
+
 		final Optional<String> optionalOutputDir = getDialogService()
 				.selectDirectory(getToolboxShell(),
 						userConfigService.getLastExportPath().toString());
@@ -766,9 +770,9 @@ public class ToolboxTableView extends BasePart {
 					monitor -> optionalOutputDir.ifPresent(outputDir -> {
 						monitor.beginTask(messages.ToolboxTableView_ExportTable,
 								IProgressMonitor.UNKNOWN);
-						exportService.exportPdf(tables,
+						exportService.exportPdf(Map.of(tableType, table),
 								ExportType.PLANNING_RECORDS, getTitlebox(),
-								getFreeFieldInfo(), tableInfo.shortcut(),
+								getFreeFieldInfo(), extractShortcut(),
 								outputDir, getModelSession().getToolboxPaths(),
 								getModelSession().getTableType(),
 								OverwriteHandling
