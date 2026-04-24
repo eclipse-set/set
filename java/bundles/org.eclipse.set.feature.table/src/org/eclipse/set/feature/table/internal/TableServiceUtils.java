@@ -374,11 +374,9 @@ public class TableServiceUtils {
 				(rowGroup, notBelongToAreaState) -> rowGroup.getRows()
 						.forEach(row -> handleTableRowNotBelongToArea()
 								.accept(row, notBelongToAreaState)));
-		result.getTablecontent().getRowgroups().forEach(group -> {
-			if (!relevantRowGroup.contains(group)) {
-				group.getRows().clear();
-			}
-		});
+		result.getTablecontent()
+				.getRowgroups()
+				.removeIf(group -> !relevantRowGroup.contains(group));
 	}
 
 	private static <T> List<T> filterElementBelongToControlArea(
@@ -413,13 +411,13 @@ public class TableServiceUtils {
 
 		return listElement.stream().filter(ele -> {
 			final UrObjektEachContainer objEachContainer = getUrObj.apply(ele);
-
-			final boolean isInitialObjBelongToAreas = transformationService
-					.isObjectBelongToRendereArea(objEachContainer.initalObj,
-							inititalControlAreas);
-			final boolean isFinalObjBelongToAreas = transformationService
-					.isObjectBelongToRendereArea(objEachContainer.finalObj,
-							finalControlAreas);
+			final boolean isInitialObjBelongToAreas = !inititalControlAreas
+					.isEmpty()
+					&& transformationService.isObjectBelongToRendereArea(
+							objEachContainer.initalObj, inititalControlAreas);
+			final boolean isFinalObjBelongToAreas = !finalControlAreas.isEmpty()
+					&& transformationService.isObjectBelongToRendereArea(
+							objEachContainer.finalObj, finalControlAreas);
 			if (isInitialObjBelongToAreas != isFinalObjBelongToAreas
 					&& handleByInitialOrFinalElementNotBelongToArea != null) {
 				handleByInitialOrFinalElementNotBelongToArea.accept(ele,
