@@ -426,8 +426,8 @@ public final class TableServiceImpl implements TableService {
 			return emptyTable;
 		}
 		final Table resultTable = TableServiceUtils.filterRequestValue(
-				EcoreUtil.copy((Table) table), tableType, modelSession,
-				getModelService(tableInfo), controlAreaIds);
+				EcoreUtil.copy((Table) table), tableType, tableInfo,
+				modelSession, getModelService(tableInfo), controlAreaIds);
 		TableServiceUtils.clearEmptyRow(resultTable);
 		getModelService(tableInfo).addAdditionRow((Table) table, resultTable);
 		sortTable(resultTable, tableInfo);
@@ -629,6 +629,7 @@ public final class TableServiceImpl implements TableService {
 				while (!TableService.isTransformComplete(tableInfo, null)) {
 					Thread.sleep(2000);
 				}
+				storageFootnotes(ToolboxFileRole.SESSION, tableInfo, table);
 				result.put(tableInfo, table);
 				monitor.worked(1);
 			} catch (final Exception e) {
