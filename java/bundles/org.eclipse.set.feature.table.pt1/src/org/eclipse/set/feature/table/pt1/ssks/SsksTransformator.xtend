@@ -99,6 +99,7 @@ import static org.eclipse.set.model.planpro.Signale.ENUMSignalArt.*
 import static org.eclipse.set.model.planpro.Signale.ENUMSignalFunktion.*
 import static org.eclipse.set.model.planpro.Signale.ENUMTunnelsignal.*
 
+import static extension org.eclipse.set.ppmodel.extensions.AussenelementansteuerungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.GeoPunktExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
@@ -150,7 +151,7 @@ class SsksTransformator extends AbstractSignalTableTransform {
 		super(cols, enumTranslationService, bankingService, eventAdmin,
 			tableShortCut)
 	}
-	
+
 	override protected fillSpecifyColumns(TableRow row,
 		MultiContainer_AttributeGroup container, Signal signal,
 		boolean isHauptbefestigung, List<Signal_Rahmen> signalRahmen) {
@@ -311,32 +312,35 @@ class SsksTransformator extends AbstractSignalTableTransform {
 					streuscheibeBetriebsstellung?.translate ?: ""
 			]
 		)
+		try {
+			// X: Ssks.Anschluss.Schaltkasten.Bezeichnung
+			val energieAea = signal.getControlElement([stellelement?.energie],
+				#[ENUM_AUSSENELEMENTANSTEUERUNG_ART_OBJEKTCONTROLLER])
+			fill(
+				row,
+				cols.getColumn(Schaltkasten_Bezeichnung),
+				signal,
+				[
+					energieAea?.bezeichnung?.bezeichnungAEA?.wert
+				]
+			)
 
-		// X: Ssks.Anschluss.Schaltkasten.Bezeichnung
-		fillConditional(
-			row,
-			cols.getColumn(Schaltkasten_Bezeichnung),
-			signal,
-			[
-				stellelement?.energie?.AEAAllg?.
-					aussenelementansteuerungArt?.wert ==
-					ENUM_AUSSENELEMENTANSTEUERUNG_ART_OBJEKTCONTROLLER
-			],
-			[
-				stellelement?.energie?.bezeichnung?.bezeichnungAEA?.wert
-			]
-		)
-
-		// Y: Ssks.Anschluss.Schaltkasten.Entfernung
-		fillConditional(
-			row,
-			cols.getColumn(Schaltkasten_Entfernung),
-			signal,
-			[controlBox !== null],
-			[
-				distance(controlBox).toTableIntegerAgateUp
-			]
-		)
+			// Y: Ssks.Anschluss.Schaltkasten.Entfernung
+			fillConditional(
+				row,
+				cols.getColumn(Schaltkasten_Entfernung),
+				signal,
+				[energieAea?.unterbringung !== null],
+				[
+					distance(energieAea?.unterbringung).toTableIntegerAgateUp
+				]
+			)
+		} catch (Exception e) {
+			handleFillingException(e, row,
+				cols.getColumn(Schaltkasten_Bezeichnung))
+			handleFillingException(e, row,
+				cols.getColumn(Schaltkasten_Entfernung))
+		}
 
 		// Z: Ssks.Anschluss.Schaltkasten_separat.Bezeichnung
 		fillConditional(
@@ -345,7 +349,10 @@ class SsksTransformator extends AbstractSignalTableTransform {
 			signal,
 			[hasSchaltkastenSeparatBezeichnung],
 			[
-				stellelement?.information?.bezeichnung?.bezeichnungAEA?.wert
+				val informationAea = getControlElement([ s |
+					s?.stellelement?.information
+				], #[ENUM_AUSSENELEMENTANSTEUERUNG_ART_OBJEKTCONTROLLER])
+				informationAea?.bezeichnung?.bezeichnungAEA?.wert
 			]
 		)
 
@@ -632,7 +639,6 @@ class SsksTransformator extends AbstractSignalTableTransform {
 			[fillBemerkung(signalRahmen, row)]
 		)
 	}
-
 
 	private static def boolean isSsksSignal(Signal signal) {
 		if (signal?.signalFiktiv !== null &&
@@ -1178,8 +1184,7 @@ class SsksTransformator extends AbstractSignalTableTransform {
 		}
 		return BigDecimal.valueOf(c1.distance(c2))
 	}
-	
-	
+
 	override protected getRelevantSignal(
 		MultiContainer_AttributeGroup contanier) {
 		return contanier.signal.filter[isSsksSignal]

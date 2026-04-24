@@ -27,6 +27,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import org.eclipse.set.basis.Pair;
@@ -53,6 +54,7 @@ import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.TableRow;
+import org.eclipse.set.ppmodel.extensions.AussenelementansteuerungExtensions;
 import org.eclipse.set.ppmodel.extensions.PZBElementExtensions;
 import org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteExtensions;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
@@ -354,7 +356,7 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 	@SuppressWarnings("nls")
 	private String getPzbDesignation(final PZB_Element pzb) {
 		final PZB_Art_TypeClass pzbArt = getNullableObject(pzb,
-				ele -> ele.getPZBArt()).orElse(null);
+				PZB_Element::getPZBArt).orElse(null);
 		if (pzbArt == null) {
 			return "";
 		}
@@ -417,10 +419,12 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 		final List<T> elements = Streams.stream(getElementFunc.apply(container))
 				.map(clazz::cast)
 				.toList();
-
+		final Predicate<Aussenelementansteuerung> findRecursiveCondition = aea -> AussenelementansteuerungExtensions
+				.findRecursiveAEAInformation(aea,
+						ele -> ele == control) != null;
 		return elements.parallelStream()
-				.filter(ele -> getControlFromFieldELement(ele)
-						.contains(control))
+				.filter(ele -> getControlFromFieldELement(ele).stream()
+						.anyMatch(findRecursiveCondition::test))
 				.toList();
 	}
 

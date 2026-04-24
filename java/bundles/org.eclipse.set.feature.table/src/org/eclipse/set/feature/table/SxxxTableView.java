@@ -74,8 +74,6 @@ public class SxxxTableView extends ToolboxTableView {
 	protected void createView(final Composite parent) {
 		super.createView(parent);
 		addCalculateMissingTablesPanel(parent);
-		// Move the panel to top position
-		calculateMissingTablesPanel.moveAbove(parent.getChildren()[0]);
 	}
 
 	@Override
@@ -174,6 +172,8 @@ public class SxxxTableView extends ToolboxTableView {
 
 		calculateMissingTablesPanel = panel;
 		updateCalculateMissingTablesPanel();
+		// Move the panel to top of view
+		calculateMissingTablesPanel.moveAbove(parent.getChildren()[0]);
 	}
 
 	private void updateCalculateMissingTablesPanel() {
