@@ -8,16 +8,7 @@
  */
 package org.eclipse.set.feature.table.pt1.sskp;
 
-import static org.eclipse.set.feature.table.pt1.sskp.SskpColumns.Abstand_GM_2000;
-import static org.eclipse.set.feature.table.pt1.sskp.SskpColumns.Abstand_GM_2000_Bahnsteig_Anfang;
-import static org.eclipse.set.feature.table.pt1.sskp.SskpColumns.Abstand_GM_2000_Bahnsteig_Ende;
-import static org.eclipse.set.feature.table.pt1.sskp.SskpColumns.Abstand_Signal_Weiche;
-import static org.eclipse.set.feature.table.pt1.sskp.SskpColumns.Abstand_vorsignalWdh_GM_2000;
-import static org.eclipse.set.feature.table.pt1.sskp.SskpColumns.Bezugselement;
-import static org.eclipse.set.feature.table.pt1.sskp.SskpColumns.Gef_Stelle_Abstand;
-import static org.eclipse.set.feature.table.pt1.sskp.SskpColumns.H_Tafel_Abstand;
-import static org.eclipse.set.feature.table.pt1.sskp.SskpColumns.PZB_Schutzstrecke_Ist;
-import static org.eclipse.set.feature.table.pt1.sskp.SskpColumns.Wirkfrequenz;
+import static org.eclipse.set.feature.table.pt1.sskp.SskpColumns.*;
 import static org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.getFirstOrNull;
 
 import java.util.Collections;
