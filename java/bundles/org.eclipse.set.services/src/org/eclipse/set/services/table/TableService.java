@@ -230,15 +230,20 @@ public interface TableService {
 	 *            the table
 	 * @param tableInfo
 	 *            the {@link TableInfo}
+	 * @param tableType
+	 *            the table type for which the table shall be sorted
 	 */
-	void sortTable(Table table, TableInfo tableInfo);
+	void sortTable(Table table, TableInfo tableInfo, final TableType tableType);
 
 	/**
 	 * @param tableInfo
 	 *            the {@link TableInfo}
+	 * @param tableType
+	 *            the table type for which the comparator is requested
 	 * @return the row group comparator
 	 */
-	Comparator<RowGroup> getRowGroupComparator(TableInfo tableInfo);
+	Comparator<RowGroup> getRowGroupComparator(TableInfo tableInfo,
+			final TableType tableType);
 
 	/**
 	 * @param part

@@ -19,6 +19,7 @@ import java.util.Map;
 
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.set.basis.constants.Events;
+import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.core.services.graph.BankService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
@@ -112,8 +113,9 @@ public final class SsksTransformationService extends
 	}
 
 	@Override
-	public Comparator<RowGroup> getRowGroupComparator() {
-		return TableRowGroupComparator.builder()
+	public Comparator<RowGroup> getRowGroupComparator(
+			final TableType tableType) {
+		return TableRowGroupComparator.builder(tableType)
 				.sort(Reales_Signal, EMPTY_LAST, ASC)
 				.sort(Fiktives_Signal, EMPTY_LAST, ASC)
 				// It can be directly compare by Column E/F but for consistent

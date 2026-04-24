@@ -507,7 +507,7 @@ class SignalExtensions extends PunktObjektExtensions {
 		val rahmen = signal.signalRahmen
 		val befestigungen = rahmen.map[it -> signalBefestigung].distinctBy [
 			value
-		].toList
+		].filterNull.toList
 
 		switch mast : befestigungen.filter [
 			mastTypeOfSignalWithTwoMast.contains(

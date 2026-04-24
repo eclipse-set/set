@@ -317,7 +317,7 @@ public final class TableServiceImpl implements TableService {
 		}
 
 		// sorting
-		sortTable(transformedTable, tableInfo);
+		sortTable(transformedTable, tableInfo, tableType);
 		saveTableToCache(transformedTable, modelSession, tableInfo);
 		return transformedTable;
 	}
@@ -430,7 +430,7 @@ public final class TableServiceImpl implements TableService {
 				modelSession, getModelService(tableInfo), controlAreaIds);
 		TableServiceUtils.clearEmptyRow(resultTable);
 		getModelService(tableInfo).addAdditionRow((Table) table, resultTable);
-		sortTable(resultTable, tableInfo);
+		sortTable(resultTable, tableInfo, tableType);
 		return resultTable;
 	}
 
@@ -682,7 +682,7 @@ public final class TableServiceImpl implements TableService {
 			final Table compareTable = diffServiceMap
 					.get(TableCompareType.PROJECT)
 					.createDiffTable(mainSessionTable, compareSessionTable);
-			sortTable(compareTable, tableInfo);
+			sortTable(compareTable, tableInfo, tableType);
 
 			return compareTable;
 		} catch (final Exception e) {
@@ -694,17 +694,18 @@ public final class TableServiceImpl implements TableService {
 	}
 
 	@Override
-	public void sortTable(final Table table, final TableInfo tableInfo) {
+	public void sortTable(final Table table, final TableInfo tableInfo,
+			final TableType tableType) {
 		final Comparator<RowGroup> comparator = getModelService(tableInfo)
-				.getRowGroupComparator();
+				.getRowGroupComparator(tableType);
 		ECollections.sort(table.getTablecontent().getRowgroups(), comparator);
 	}
 
 	@Override
 	public TableRowGroupComparator getRowGroupComparator(
-			final TableInfo tableInfo) {
+			final TableInfo tableInfo, final TableType tableType) {
 		final Comparator<RowGroup> comparator = getModelService(tableInfo)
-				.getRowGroupComparator();
+				.getRowGroupComparator(tableType);
 		if (comparator instanceof final TableRowGroupComparator rowGroupComparator) {
 			return rowGroupComparator;
 		}
