@@ -30,6 +30,8 @@ import org.eclipse.set.services.table.TableDiffService;
 import org.eclipse.set.services.table.TableDiffService.TableCompareType;
 import org.eclipse.set.services.table.TableService;
 import org.eclipse.set.utils.ToolboxConfiguration;
+import org.eclipse.set.utils.events.TableDataChangeEvent;
+import org.eclipse.set.utils.table.Pt1TableChangeProperties;
 import org.eclipse.set.utils.table.TableInfo;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -51,7 +53,8 @@ import org.osgi.service.event.EventHandler;
 				"service.context.key:String=org.eclipse.set.services.table.TableService",
 				EventConstants.EVENT_TOPIC + "=" + Events.MODEL_CHANGED,
 				EventConstants.EVENT_TOPIC + "=" + Events.COMPARE_MODEL_LOADED,
-				EventConstants.EVENT_TOPIC + "=" + Events.CLOSE_SESSION })
+				EventConstants.EVENT_TOPIC + "=" + Events.CLOSE_SESSION,
+				EventConstants.EVENT_TOPIC + "=" + TableDataChangeEvent.TOPIC })
 public class TableServiceContextFunction extends ContextFunction
 		implements EventHandler {
 
@@ -213,6 +216,23 @@ public class TableServiceContextFunction extends ContextFunction
 			EdgeToPointsCacheProxy.clearCacheInstance(
 					loadedSession.getPlanProSchnittstelle());
 			tableService.clearInstance();
+		}
+
+		if (event.getTopic().equals(TableDataChangeEvent.TOPIC)) {
+			final Object data = event.getProperty(IEventBroker.DATA);
+			if (data instanceof final TableDataChangeEvent changedEvent) {
+				if (!changedEvent.getProperties().isEmpty() && changedEvent
+						.getProperties()
+						.getFirst() instanceof Pt1TableChangeProperties) {
+					tableService.addChangedTableData(
+							changedEvent.getTableShortcut(),
+							changedEvent.getProperties()
+									.stream()
+									.map(Pt1TableChangeProperties.class::cast)
+									.toList());
+				}
+			}
+
 		}
 	}
 }

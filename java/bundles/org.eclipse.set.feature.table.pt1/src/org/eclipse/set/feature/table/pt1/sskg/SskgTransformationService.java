@@ -15,6 +15,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.core.services.graph.TopologicalGraphService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
@@ -26,6 +27,7 @@ import org.eclipse.set.model.planpro.Basisobjekte.Strecke_Km_TypeClass;
 import org.eclipse.set.model.planpro.Verweise.ID_Strecke_TypeClass;
 import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
+import org.eclipse.set.utils.table.TableInfo.Pt1TableCategory;
 import org.eclipse.set.utils.table.sorting.TableRowGroupComparator;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -67,15 +69,19 @@ public final class SskgTransformationService
 	}
 
 	@Override
-	public Comparator<RowGroup> getRowGroupComparator() {
+	public Comparator<RowGroup> getRowGroupComparator(
+			final TableType tableType) {
 		// It can be directly compare by Column J/K but for consistent
 		// with another table the CompareRouteAndKm will be used.
-		return TableRowGroupComparator.builder().sortByRouteAndKm(obj -> {
-			if (obj instanceof final Punkt_Objekt po) {
-				return po;
-			}
-			return null;
-		}).sort(SskgColumns.Bezeichnung, LEXICOGRAPHICAL, ASC).build();
+		return TableRowGroupComparator.builder(tableType)
+				.sortByRouteAndKm(obj -> {
+					if (obj instanceof final Punkt_Objekt po) {
+						return po;
+					}
+					return null;
+				})
+				.sort(SskgColumns.Bezeichnung, LEXICOGRAPHICAL, ASC)
+				.build();
 	}
 
 	@Override
@@ -89,6 +95,11 @@ public final class SskgTransformationService
 	@Override
 	protected String getTableHeading() {
 		return messages.SskgTableView_Heading;
+	}
+
+	@Override
+	protected Pt1TableCategory getTableCategory() {
+		return Pt1TableCategory.ESTW;
 	}
 
 	@Override

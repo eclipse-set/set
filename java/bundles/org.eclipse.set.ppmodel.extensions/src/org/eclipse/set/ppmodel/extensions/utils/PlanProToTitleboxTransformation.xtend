@@ -168,7 +168,7 @@ class PlanProToTitleboxTransformation {
 		it.set(
 			74, '''«mainSchnittstelle.oertlichkeit»«tableName?.planningNumber ?: EMPTY_PLANNING_NUMBER»''')
 		
-		it.set(40, tableName.rilNumber)
+		it.set(40, tableName?.rilNumber ?: "")
 		it.set(99, planungAllgemein.buildLastEditionNumber)
 		if (compareSchnittstelle !== null) {
 			// Fille compare plan information

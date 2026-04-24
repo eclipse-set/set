@@ -18,6 +18,7 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 
+import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.model.tablemodel.Table;
@@ -86,9 +87,10 @@ public abstract class AbstractTableTransformationService<T>
 	}
 
 	@Override
-	public Comparator<RowGroup> getRowGroupComparator() {
+	public Comparator<RowGroup> getRowGroupComparator(
+			final TableType tableType) {
 		// default comparator
-		return TableRowGroupComparator.builder()
+		return TableRowGroupComparator.builder(tableType)
 				.sort("A", LEXICOGRAPHICAL, ASC) //$NON-NLS-1$
 				.build();
 	}

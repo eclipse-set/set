@@ -33,7 +33,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Queue;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.StreamSupport;
 
 import org.eclipse.e4.core.services.events.IEventBroker;
@@ -101,55 +100,6 @@ import org.slf4j.LoggerFactory;
 				GeoKanteGeometryService.class, EventHandler.class })
 public class GeoKanteGeometryServiceImpl
 		implements GeoKanteGeometryService, EventHandler {
-	/**
-	 * Helper class for storage geometry and metadata of Geo_Kante each sessions
-	 */
-	public static class GeoKanteGeometrySessionData {
-		private final Map<GEO_Kante, LineString> edgeGeometry;
-		private final Map<String, List<GEOKanteMetadata>> geoKanteMetadas;
-		private final Map<GEO_Knoten, Coordinate> geoNodeCoordinates;
-
-		/**
-		 * COnstructor
-		 */
-		public GeoKanteGeometrySessionData() {
-			edgeGeometry = new ConcurrentHashMap<>();
-			geoKanteMetadas = new ConcurrentHashMap<>();
-			geoNodeCoordinates = new ConcurrentHashMap<>();
-		}
-
-		/**
-		 * @return the geometry data
-		 */
-		public Map<GEO_Kante, LineString> getEdgeGeometry() {
-			return edgeGeometry;
-		}
-
-		/**
-		 * @return the geokante metada
-		 */
-		public Map<String, List<GEOKanteMetadata>> getGeoKanteMetadas() {
-			return geoKanteMetadas;
-		}
-
-		/**
-		 * @return the geometry coordinate of {@link GEO_Knoten}
-		 */
-		public Map<GEO_Knoten, Coordinate> getGeoNodeCoordinates() {
-			return geoNodeCoordinates;
-		}
-
-		/**
-		 * Clear data
-		 */
-		public void clear() {
-			edgeGeometry.clear();
-			geoKanteMetadas.clear();
-			geoNodeCoordinates.clear();
-
-		}
-	}
-
 	private Thread findGeometryThread;
 	// Acceptable tolerance between the length of all GEO_Kante on a TOP_Kante
 	// and the length of the TOP_Kante

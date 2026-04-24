@@ -97,6 +97,7 @@ import org.eclipse.set.ppmodel.extensions.utils.PlanProToTitleboxTransformation;
 import org.eclipse.set.services.export.ExportService;
 import org.eclipse.set.services.export.TableCompileService;
 import org.eclipse.set.services.table.TableService;
+import org.eclipse.set.services.table.TableService.TableRendererUtil;
 import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.RefreshAction;
 import org.eclipse.set.utils.SelectableAction;
@@ -134,7 +135,7 @@ import jakarta.inject.Inject;
 /**
  * View class for all toolbox table views. This class is responsible for
  * creating the actual nattable with all its layers.
- * 
+ *
  * @author rumpf
  */
 public class ToolboxTableView extends BasePart {
@@ -246,6 +247,10 @@ public class ToolboxTableView extends BasePart {
 		}
 	}
 
+	private String extractShortcut() {
+		return tableService.extractShortcut(getToolboxPart().getElementId());
+	}
+
 	@PostConstruct
 	protected void postConstruct() {
 		tableSelectRowHandler = new DefaultToolboxEventHandler<>() {
@@ -261,21 +266,22 @@ public class ToolboxTableView extends BasePart {
 		tableDataChangeHandler = new DefaultToolboxEventHandler<>() {
 			@Override
 			public void accept(final TableDataChangeEvent t) {
-				if (!t.getProperties().isEmpty() && t.getProperties()
-						.getFirst() instanceof Pt1TableChangeProperties) {
-
-					t.getProperties().forEach(ele -> {
-						bodyDataProvider.updateContent(tableType,
-								(Pt1TableChangeProperties) ele);
-					});
+				if (!t.getProperties().isEmpty()
+						&& t.getProperties()
+								.getFirst() instanceof Pt1TableChangeProperties
+						&& t.getTableShortcut()
+								.equalsIgnoreCase(extractShortcut())) {
+					bodyDataProvider.updateContent(row -> tableService
+							.fillDelayCells(row, t.getProperties()
+									.stream()
+									.map(Pt1TableChangeProperties.class::cast)
+									.toList(), tableType));
 					natTable.refresh();
 				}
 			}
 		};
 		ToolboxEvents.subscribe(getBroker(), TableDataChangeEvent.class,
-				tableDataChangeHandler,
-				TableDataChangeEvent.getTopic(tableInfo.shortcut())
-						.toLowerCase());
+				tableDataChangeHandler, TableDataChangeEvent.TOPIC);
 
 		selectionControlAreaHandler = new DefaultToolboxEventHandler<>() {
 			@Override
@@ -283,8 +289,8 @@ public class ToolboxTableView extends BasePart {
 				// Only ESTW tables regard to control area,
 				// when given't selected area, that mean PlaningArea or AlL File
 				// Content was selected, then update all table.
-				if (getToolboxPart().getElementId()
-						.startsWith(ToolboxConstants.ESTW_TABLE_PART_ID_PREFIX)
+				if (SelectedControlAreaChangedEvent
+						.istRelevantTable(getToolboxPart().getElementId())
 						|| t.getControlAreas().isEmpty()) {
 					controlAreaIds.clear();
 					t.getControlAreas()
@@ -310,7 +316,7 @@ public class ToolboxTableView extends BasePart {
 		if (!event.getTopic().equalsIgnoreCase(Events.COMPARE_MODEL_LOADED)) {
 			return;
 		}
-		updateModel(getToolboxPart());
+		updateModel(getToolboxPart(), transformToTableModel());
 	}
 
 	@Override
@@ -322,7 +328,7 @@ public class ToolboxTableView extends BasePart {
 		ToolboxEvents.unsubscribe(getBroker(), tableDataChangeHandler);
 		ToolboxEvents.unsubscribe(getBroker(), selectionControlAreaHandler);
 		getBroker().unsubscribe(secondaryPlanningLoadedHanlder);
-		getBroker().send(Events.CLOSE_PART, tableInfo.shortcut());
+		getBroker().send(Events.CLOSE_PART, extractShortcut());
 	}
 
 	private void tableSelectRowHandler(final JumpToTableEvent event) {
@@ -343,29 +349,33 @@ public class ToolboxTableView extends BasePart {
 
 	/**
 	 * transform the current planpro model to the specific view table model.
-	 * 
+	 *
 	 * @param elementId
 	 *            the element id of the part
-	 * 
+	 *
 	 * @return the table view model
 	 */
-	private Table transformToTableModel() {
+	protected Table transformToTableModel() {
 		return tableService.createDiffTable(tableInfo, tableType,
 				controlAreaIds);
 	}
 
 	private void updateTableView(final List<Pt1TableCategory> tableCategories) {
-		tableService.updateTable(this, tableCategories, () -> {
-			updateModel(getToolboxPart());
-			natTable.doCommand(new RowHeightResetCommand());
-			natTable.refresh();
-			updateButtons();
+		tableService.updateTable(this, tableCategories, new TableRendererUtil(
+				() -> transformToTableModel(), transformedTable -> {
+					if (transformedTable == null) {
+						return;
+					}
+					updateModel(getToolboxPart(), transformedTable);
+					natTable.doCommand(new RowHeightResetCommand());
+					natTable.refresh();
+					updateButtons();
 
-			// Update footnotes
-			tableFooting.updateFootnotes(table);
-			// Update widget layout
-			natTable.getParent().layout();
-		}, tableInstances::clear);
+					// Update footnotes
+					tableFooting.updateFootnotes(transformedTable);
+					// Update widget layout
+					natTable.getParent().layout();
+				}));
 	}
 
 	@Override
@@ -377,16 +387,21 @@ public class ToolboxTableView extends BasePart {
 				.stream()
 				.map(Pair::getSecond)
 				.collect(Collectors.toSet());
-
 		tableService.updateTable(this, Collections.emptyList(),
-				() -> updateModel(getToolboxPart()), tableInstances::clear);
-		subcribeTriggerResortEvent();
+				new TableRendererUtil(this::transformToTableModel,
+						transformedTable -> {
+							if (transformedTable == null) {
+								return;
+							}
+							updateModel(getToolboxPart(), transformedTable);
+						}));
+
 		// if the table was not created (possibly the creation was canceled by
 		// the user), we stop here with creating the view
 		if (table == null) {
 			return;
 		}
-
+		subcribeTriggerResortEvent();
 		final ColumnDescriptor rootColumnDescriptor = table
 				.getColumndescriptors()
 				.get(0);
@@ -410,8 +425,7 @@ public class ToolboxTableView extends BasePart {
 		// is called
 		Assert.isNotNull(tableInstances);
 		bodyDataProvider = new TableModelInstanceBodyDataProvider(
-				TableExtensions.getPropertyCount(table), tableInstances,
-				getSessionService());
+				TableExtensions.getPropertyCount(table), tableInstances);
 
 		final SpanningDataLayer bodyDataLayer = new SpanningDataLayer(
 				bodyDataProvider);
@@ -537,6 +551,7 @@ public class ToolboxTableView extends BasePart {
 	}
 
 	class FilterStrategy<T> implements IFilterStrategy<T> {
+
 		private final TableModelInstanceBodyDataProvider tableDataProvider;
 
 		public FilterStrategy(
@@ -738,13 +753,17 @@ public class ToolboxTableView extends BasePart {
 		final List<Thread> transformatorThreads = ThreadUtils.getAllThreads()
 				.stream()
 				.filter(t -> t != null
-						&& t.getName().startsWith(tableInfo.shortcut())
+						&& t.getName().startsWith(extractShortcut())
 						&& t.isAlive())
 				.toList();
 		if (!transformatorThreads.isEmpty() && !getDialogService()
 				.confirmExportNotCompleteTable(getToolboxShell())) {
 			return;
 		}
+
+		// IMPROVE: we should use current table to export instead of new compile
+		// currently the Excel export only INITIAL or FINAL state, therefore
+		// need to new compile to take INITAL/FINAL state table
 		final Map<TableType, Table> tables = compileService.compile(tableInfo,
 				getModelSession(), controlAreaIds);
 		final Optional<String> optionalOutputDir = getDialogService()
@@ -757,7 +776,7 @@ public class ToolboxTableView extends BasePart {
 								IProgressMonitor.UNKNOWN);
 						exportService.exportPdf(tables,
 								ExportType.PLANNING_RECORDS, getTitlebox(),
-								getFreeFieldInfo(), tableInfo.shortcut(),
+								getFreeFieldInfo(), extractShortcut(),
 								outputDir, getModelSession().getToolboxPaths(),
 								getModelSession().getTableType(),
 								OverwriteHandling
@@ -784,11 +803,10 @@ public class ToolboxTableView extends BasePart {
 		getBanderole().setEnableExport(!getModelSession().isDirty());
 	}
 
-	void updateModel(final MPart part) {
+	void updateModel(final MPart part, final Table transformedTable) {
 		// update banderole
 		getBanderole().setTableType(tableType);
-
-		table = transformToTableModel();
+		table = transformedTable;
 		// flag creation
 		MApplicationElementExtensions.setViewState(part,
 				ToolboxViewState.CREATED);
@@ -871,7 +889,7 @@ public class ToolboxTableView extends BasePart {
 	 */
 	private void subcribeTriggerResortEvent() {
 		final Comparator<RowGroup> comparator = tableService
-				.getRowGroupComparator(tableInfo);
+				.getRowGroupComparator(tableInfo, tableType);
 		if (table != null
 				&& comparator instanceof final TableRowGroupComparator rowGroupComparator) {
 			// This is new instance of Comparator, therefore need call sort here
@@ -899,7 +917,7 @@ public class ToolboxTableView extends BasePart {
 								.size()
 								&& triggeredEvents
 										.containsAll(triggerComparisonEvent)) {
-							tableService.sortTable(table, tableInfo);
+							tableService.sortTable(table, tableInfo, tableType);
 							tableInstances.clear();
 							tableInstances.addAll(
 									TableExtensions.getTableRows(table));
