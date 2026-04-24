@@ -248,8 +248,7 @@ public class ToolboxTableView extends BasePart {
 	}
 
 	private String extractShortcut() {
-		final String elementId = getToolboxPart().getElementId();
-		return elementId.substring(elementId.lastIndexOf(".") + 1); //$NON-NLS-1$
+		return tableService.extractShortcut(getToolboxPart().getElementId());
 	}
 
 	@PostConstruct
@@ -270,7 +269,7 @@ public class ToolboxTableView extends BasePart {
 				if (!t.getProperties().isEmpty()
 						&& t.getProperties()
 								.getFirst() instanceof Pt1TableChangeProperties
-						&& t.getTableName()
+						&& t.getTableShortcut()
 								.equalsIgnoreCase(extractShortcut())) {
 					bodyDataProvider.updateContent(row -> tableService
 							.fillDelayCells(row, t.getProperties()

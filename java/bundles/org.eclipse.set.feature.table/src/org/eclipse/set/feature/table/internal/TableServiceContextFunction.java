@@ -225,7 +225,7 @@ public class TableServiceContextFunction extends ContextFunction
 						.getProperties()
 						.getFirst() instanceof Pt1TableChangeProperties) {
 					tableService.addChangedTableData(
-							changedEvent.getTableName(),
+							changedEvent.getTableShortcut(),
 							changedEvent.getProperties()
 									.stream()
 									.map(Pt1TableChangeProperties.class::cast)
