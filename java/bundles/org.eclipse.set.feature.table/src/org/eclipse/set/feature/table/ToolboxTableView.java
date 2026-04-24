@@ -762,6 +762,11 @@ public class ToolboxTableView extends BasePart {
 			return;
 		}
 
+		// IMPROVE: we should use current table to export instead of new compile
+		// currently the Excel export only INITIAL or FINAL state, therefore
+		// need to new compile to take INITAL/FINAL state table
+		final Map<TableType, Table> tables = compileService.compile(tableInfo,
+				getModelSession(), controlAreaIds);
 		final Optional<String> optionalOutputDir = getDialogService()
 				.selectDirectory(getToolboxShell(),
 						userConfigService.getLastExportPath().toString());
@@ -770,7 +775,7 @@ public class ToolboxTableView extends BasePart {
 					monitor -> optionalOutputDir.ifPresent(outputDir -> {
 						monitor.beginTask(messages.ToolboxTableView_ExportTable,
 								IProgressMonitor.UNKNOWN);
-						exportService.exportPdf(Map.of(tableType, table),
+						exportService.exportPdf(tables,
 								ExportType.PLANNING_RECORDS, getTitlebox(),
 								getFreeFieldInfo(), extractShortcut(),
 								outputDir, getModelSession().getToolboxPaths(),
