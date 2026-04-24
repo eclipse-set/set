@@ -101,20 +101,22 @@ public class CompareRouteAndKmCriterion
 	}
 
 	/**
-	 * Take final object to compare. When final object not exist, then the
-	 * initial object
+	 * Take object from container corresponding to the table type to compare.
+	 * This means TableType.INITIAL -> initial object, TableType.FINAL -> final
+	 * object, TableType.DIFF -> final object. When final object does not exist,
+	 * then we take the initial object
 	 * 
 	 * @param row
 	 *            the table row
 	 * @param tableType
-	 *            the table type where we need request the compare objekt for
-	 * @return the final object or the inital object, when final object not
+	 *            the table type to compare for
+	 * @return the final object or the initial object, when final object not
 	 *         exist
 	 */
 	private static Ur_Objekt getCompareObjekt(final TableRow row,
 			final TableType tableType) {
 		final Ur_Objekt obj = TableRowExtensions.getLeadingObject(row);
-		if (tableType == null || tableType != TableType.DIFF) {
+		if (tableType == null || tableType == TableType.INITIAL) {
 			return obj;
 		}
 		final PlanPro_Schnittstelle planProSchnittstelle = UrObjectExtensions
