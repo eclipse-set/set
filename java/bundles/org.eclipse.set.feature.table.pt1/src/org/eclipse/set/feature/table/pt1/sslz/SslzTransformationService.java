@@ -9,7 +9,18 @@
 package org.eclipse.set.feature.table.pt1.sslz;
 
 import static org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum.ASC;
-import static org.eclipse.set.feature.table.pt1.sslz.SslzColumns.*;
+import static org.eclipse.set.feature.table.pt1.sslz.SslzColumns.Abhaengiger_BUe;
+import static org.eclipse.set.feature.table.pt1.sslz.SslzColumns.Durchrutschweg_Bezeichnung;
+import static org.eclipse.set.feature.table.pt1.sslz.SslzColumns.Entscheidungsweiche;
+import static org.eclipse.set.feature.table.pt1.sslz.SslzColumns.Fahrweg;
+import static org.eclipse.set.feature.table.pt1.sslz.SslzColumns.Geschwindigkeit_Startsignal_Zs3;
+import static org.eclipse.set.feature.table.pt1.sslz.SslzColumns.Im_Fahrweg_Zs3;
+import static org.eclipse.set.feature.table.pt1.sslz.SslzColumns.Im_Fahrweg_Zs6;
+import static org.eclipse.set.feature.table.pt1.sslz.SslzColumns.Kennlicht;
+import static org.eclipse.set.feature.table.pt1.sslz.SslzColumns.Nummer;
+import static org.eclipse.set.feature.table.pt1.sslz.SslzColumns.Start;
+import static org.eclipse.set.feature.table.pt1.sslz.SslzColumns.Vorsignalisierung;
+import static org.eclipse.set.feature.table.pt1.sslz.SslzColumns.Ziel;
 import static org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparatorType.LEXICOGRAPHICAL;
 
 import java.util.Collections;
@@ -17,6 +28,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator;
@@ -85,14 +97,16 @@ public final class SslzTransformationService
 	}
 
 	@Override
-	public Comparator<RowGroup> getRowGroupComparator() {
-		return TableRowGroupComparator.builder().sortByRouteAndKm(obj -> {
-			if (obj instanceof final Fstr_Zug_Rangier fstr) {
-				return FahrwegExtensions.getStart(
-						FstrZugRangierExtensions.getFstrFahrweg(fstr));
-			}
-			return null;
-		})
+	public Comparator<RowGroup> getRowGroupComparator(
+			final TableType tableType) {
+		return TableRowGroupComparator.builder(tableType)
+				.sortByRouteAndKm(obj -> {
+					if (obj instanceof final Fstr_Zug_Rangier fstr) {
+						return FahrwegExtensions.getStart(
+								FstrZugRangierExtensions.getFstrFahrweg(fstr));
+					}
+					return null;
+				})
 				.sort(Start, LEXICOGRAPHICAL, ASC)
 				.sort(Ziel, LEXICOGRAPHICAL, ASC)
 				.sort(Nummer, LEXICOGRAPHICAL, ASC)

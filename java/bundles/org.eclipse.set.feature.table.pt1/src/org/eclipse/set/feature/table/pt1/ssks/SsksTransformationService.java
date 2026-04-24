@@ -9,7 +9,12 @@
 package org.eclipse.set.feature.table.pt1.ssks;
 
 import static org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum.ASC;
-import static org.eclipse.set.feature.table.pt1.ssks.SsksColumns.*;
+import static org.eclipse.set.feature.table.pt1.ssks.SsksColumns.Bezeichnung_Signal;
+import static org.eclipse.set.feature.table.pt1.ssks.SsksColumns.Fiktives_Signal;
+import static org.eclipse.set.feature.table.pt1.ssks.SsksColumns.Lichtraumprofil;
+import static org.eclipse.set.feature.table.pt1.ssks.SsksColumns.Reales_Signal;
+import static org.eclipse.set.feature.table.pt1.ssks.SsksColumns.Schaltkasten_Entfernung;
+import static org.eclipse.set.feature.table.pt1.ssks.SsksColumns.Ueberhoehung;
 import static org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparatorType.EMPTY_LAST;
 import static org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparatorType.LEXICOGRAPHICAL;
 
@@ -19,6 +24,7 @@ import java.util.Map;
 
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.set.basis.constants.Events;
+import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.core.services.graph.BankService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
@@ -112,8 +118,9 @@ public final class SsksTransformationService extends
 	}
 
 	@Override
-	public Comparator<RowGroup> getRowGroupComparator() {
-		return TableRowGroupComparator.builder()
+	public Comparator<RowGroup> getRowGroupComparator(
+			final TableType tableType) {
+		return TableRowGroupComparator.builder(tableType)
 				.sort(Reales_Signal, EMPTY_LAST, ASC)
 				.sort(Fiktives_Signal, EMPTY_LAST, ASC)
 				// It can be directly compare by Column E/F but for consistent

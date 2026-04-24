@@ -881,7 +881,7 @@ public class ToolboxTableView extends BasePart {
 	 */
 	private void subcribeTriggerResortEvent() {
 		final Comparator<RowGroup> comparator = tableService
-				.getRowGroupComparator(tableInfo);
+				.getRowGroupComparator(tableInfo, tableType);
 		if (table != null
 				&& comparator instanceof final TableRowGroupComparator rowGroupComparator) {
 			// This is new instance of Comparator, therefore need call sort here
@@ -909,7 +909,7 @@ public class ToolboxTableView extends BasePart {
 								.size()
 								&& triggeredEvents
 										.containsAll(triggerComparisonEvent)) {
-							tableService.sortTable(table, tableInfo);
+							tableService.sortTable(table, tableInfo, tableType);
 							tableInstances.clear();
 							tableInstances.addAll(
 									TableExtensions.getTableRows(table));

@@ -18,6 +18,7 @@ import java.util.Map;
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum;
 import org.eclipse.set.basis.constants.Events;
+import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.core.services.graph.BankService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
@@ -128,13 +129,15 @@ public class SskxTransformationService extends
 	}
 
 	@Override
-	public Comparator<RowGroup> getRowGroupComparator() {
-		return TableRowGroupComparator.builder().sortByRouteAndKm(obj -> {
-			if (obj instanceof final Signal signal) {
-				return signal;
-			}
-			return null;
-		})
+	public Comparator<RowGroup> getRowGroupComparator(
+			final TableType tableType) {
+		return TableRowGroupComparator.builder(tableType)
+				.sortByRouteAndKm(obj -> {
+					if (obj instanceof final Signal signal) {
+						return signal;
+					}
+					return null;
+				})
 				.sort(SskxColumns.Bezeichnung_Signal,
 						CellComparatorType.LEXICOGRAPHICAL,
 						SortDirectionEnum.ASC)

@@ -158,7 +158,7 @@ public class CompareRouteAndKmCriterionTest {
 				return po;
 			}
 			return null;
-		});
+		}, null);
 	}
 
 	@Test

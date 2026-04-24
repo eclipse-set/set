@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
 import org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum;
 import org.eclipse.set.basis.constants.ContainerType;
 import org.eclipse.set.basis.constants.Events;
+import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt;
 import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
@@ -52,34 +53,42 @@ public class CompareRouteAndKmCriterion
 	private final Function<Ur_Objekt, Punkt_Objekt> getPunktObjectFunc;
 	private final NumericCellComparator numericComparator;
 	private boolean isWaitingOnService = false;
+	private final TableType tableType;
 
 	/**
 	 * @param getPunktObjectFunc
 	 *            get {@link Punkt_Objekt} function
+	 * @param tableType
+	 *            the table type in which this criterion shall be applied. Set
+	 *            to null if table type is irrelevant.
 	 */
 	public CompareRouteAndKmCriterion(
-			final Function<Ur_Objekt, Punkt_Objekt> getPunktObjectFunc) {
-		this(getPunktObjectFunc, SortDirectionEnum.ASC);
+			final Function<Ur_Objekt, Punkt_Objekt> getPunktObjectFunc,
+			final TableType tableType) {
+		this(getPunktObjectFunc, tableType, SortDirectionEnum.ASC);
 	}
 
 	/**
 	 * @param getPunktObjectFunc
 	 *            get {@link Punkt_Objekt} function
+	 * @param tableType
+	 *            the table type in which this criterion shall be applied
 	 * @param direction
 	 *            the sort direction
 	 */
 	public CompareRouteAndKmCriterion(
 			final Function<Ur_Objekt, Punkt_Objekt> getPunktObjectFunc,
-			final SortDirectionEnum direction) {
+			final TableType tableType, final SortDirectionEnum direction) {
 		this.getPunktObjectFunc = getPunktObjectFunc;
+		this.tableType = tableType;
 		this.direction = direction;
 		this.numericComparator = new NumericCellComparator(direction);
 	}
 
 	@Override
 	public int compare(final TableRow o1, final TableRow o2) {
-		final Ur_Objekt firstLeadingObj = getCompareObjekt(o1);
-		final Ur_Objekt secondLeadingObj = getCompareObjekt(o2);
+		final Ur_Objekt firstLeadingObj = getCompareObjekt(o1, tableType);
+		final Ur_Objekt secondLeadingObj = getCompareObjekt(o2, tableType);
 		final Optional<Integer> compareObj = compareNullableValue(
 				firstLeadingObj, secondLeadingObj, Objects::isNull);
 		if (compareObj.isPresent()) {
@@ -97,14 +106,15 @@ public class CompareRouteAndKmCriterion
 	 * 
 	 * @param row
 	 *            the table row
+	 * @param tableType
+	 *            the table type where we need request the compare objekt for
 	 * @return the final object or the inital object, when final object not
 	 *         exist
 	 */
-	private static Ur_Objekt getCompareObjekt(final TableRow row) {
+	private static Ur_Objekt getCompareObjekt(final TableRow row,
+			final TableType tableType) {
 		final Ur_Objekt obj = TableRowExtensions.getLeadingObject(row);
-		final ContainerType containerType = UrObjectExtensions
-				.getContainerType(obj);
-		if (containerType == ContainerType.FINAL) {
+		if (tableType == null || tableType != TableType.DIFF) {
 			return obj;
 		}
 		final PlanPro_Schnittstelle planProSchnittstelle = UrObjectExtensions
