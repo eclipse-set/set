@@ -19,6 +19,7 @@ import java.util.Optional;
 import java.util.function.Function;
 
 import org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum;
+import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.core.services.graph.TopologicalGraphService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
@@ -40,6 +41,7 @@ import org.eclipse.set.model.tablemodel.extensions.CellContentExtensions;
 import org.eclipse.set.ppmodel.extensions.PZBElementExtensions;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
 import org.eclipse.set.utils.table.ColumnDescriptorModelBuilder;
+import org.eclipse.set.utils.table.TableInfo.Pt1TableCategory;
 import org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparatorType;
 import org.eclipse.set.utils.table.sorting.TableRowGroupComparator;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
@@ -126,19 +128,21 @@ public class SskpTransformationService
 	}
 
 	@Override
-	public Comparator<RowGroup> getRowGroupComparator() {
-		return TableRowGroupComparator.builder().sortByRouteAndKm(obj -> {
-			if (obj instanceof final PZB_Element pzb) {
-				final List<Basis_Objekt> bezugPunkts = PZBElementExtensions
-						.getPZBElementBezugspunkt(pzb);
+	public Comparator<RowGroup> getRowGroupComparator(
+			final TableType tableType) {
+		return TableRowGroupComparator.builder(tableType)
+				.sortByRouteAndKm(obj -> {
+					if (obj instanceof final PZB_Element pzb) {
+						final List<Basis_Objekt> bezugPunkts = PZBElementExtensions
+								.getPZBElementBezugspunkt(pzb);
 
-				if (!bezugPunkts.isEmpty() && bezugPunkts
-						.getFirst() instanceof final Punkt_Objekt po) {
-					return po;
-				}
-			}
-			return null;
-		})
+						if (!bezugPunkts.isEmpty() && bezugPunkts
+								.getFirst() instanceof final Punkt_Objekt po) {
+							return po;
+						}
+					}
+					return null;
+				})
 				.sort(Bezugselement, CellComparatorType.LEXICOGRAPHICAL,
 						SortDirectionEnum.ASC)
 				.sort(Wirkfrequenz,
@@ -198,5 +202,10 @@ public class SskpTransformationService
 	@Override
 	protected Map<Class<?>, String> getFootnotesColumnReferences() {
 		return Collections.emptyMap();
+	}
+
+	@Override
+	protected Pt1TableCategory getTableCategory() {
+		return Pt1TableCategory.ESTW;
 	}
 }

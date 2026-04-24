@@ -10,8 +10,10 @@
  */
 package org.eclipse.set.feature.table.internal;
 
+import static org.eclipse.set.model.tablemodel.extensions.CellContentExtensions.HOURGLASS_ICON;
+import static org.eclipse.set.model.tablemodel.extensions.CellContentExtensions.getStringValueIterable;
+import static org.eclipse.set.model.tablemodel.extensions.TableRowExtensions.getLeadingObjectGuid;
 import static org.eclipse.set.ppmodel.extensions.StellBereichExtensions.getStellBereich;
-import static org.eclipse.set.ppmodel.extensions.StellBereichExtensions.isInControlArea;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -19,49 +21,57 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.set.basis.IModelSession;
+import org.eclipse.set.basis.Pair;
 import org.eclipse.set.basis.cache.Cache;
 import org.eclipse.set.basis.constants.ContainerType;
 import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.basis.constants.ToolboxConstants;
+import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.eclipse.set.core.services.cache.CacheService;
+import org.eclipse.set.core.services.session.SessionService;
+import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.messages.Messages;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
 import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
-import org.eclipse.set.model.planpro.Block.Block_Anlage;
-import org.eclipse.set.model.planpro.Block.Block_Element;
-import org.eclipse.set.model.planpro.Signale.Signal;
+import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.set.model.tablemodel.CellContent;
 import org.eclipse.set.model.tablemodel.CompareFootnoteContainer;
 import org.eclipse.set.model.tablemodel.CompareStateCellContent;
+import org.eclipse.set.model.tablemodel.CompareTableCellContent;
 import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.model.tablemodel.SimpleFootnoteContainer;
+import org.eclipse.set.model.tablemodel.StringCellContent;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.TableCell;
 import org.eclipse.set.model.tablemodel.TableRow;
 import org.eclipse.set.model.tablemodel.TablemodelFactory;
 import org.eclipse.set.model.tablemodel.extensions.CellContentExtensions;
 import org.eclipse.set.model.tablemodel.extensions.TableExtensions;
-import org.eclipse.set.ppmodel.extensions.BasisAttributExtensions;
+import org.eclipse.set.model.tablemodel.extensions.TableRowExtensions;
 import org.eclipse.set.ppmodel.extensions.EObjectExtensions;
 import org.eclipse.set.ppmodel.extensions.MultiContainer_AttributeGroupExtensions;
-import org.eclipse.set.ppmodel.extensions.SignalExtensions;
-import org.eclipse.set.ppmodel.extensions.StellBereichExtensions;
 import org.eclipse.set.ppmodel.extensions.UrObjectExtensions;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.eclipse.set.services.table.TableService;
 import org.eclipse.set.utils.ToolboxConfiguration;
+import org.eclipse.set.utils.events.TableDataChangeEvent;
+import org.eclipse.set.utils.table.Pt1TableChangeProperties;
 import org.eclipse.set.utils.table.TableError;
 import org.eclipse.set.utils.table.TableInfo;
 import org.eclipse.set.utils.table.TableInfo.Pt1TableCategory;
-import org.eclipse.xtext.xbase.lib.Pair;
+import org.eclipse.xtext.xbase.lib.IterableExtensions;
 
 import com.google.common.collect.Streams;
 
@@ -94,11 +104,21 @@ public class TableServiceUtils {
 					getObjInContainer.apply(ContainerType.FINAL), null);
 		}
 
+		public Ur_Objekt getObject(final TableType tableType) {
+			return switch (tableType) {
+				case INITIAL -> initalObj;
+				case FINAL -> finalObj;
+				case SINGLE -> singleObj;
+				default -> null;
+			};
+		}
+
 	}
 
 	protected static List<TableError> getCachedTableError(
 			final CacheService cachService, final TableInfo tableInfo,
 			final IModelSession modelSession,
+			final PlanPro2TableTransformationService transformationService,
 			final Set<String> controlAreaIds) {
 		final Cache cache = cachService.getCache(
 				modelSession.getPlanProSchnittstelle(),
@@ -135,7 +155,8 @@ public class TableServiceUtils {
 			default -> throw new IllegalArgumentException();
 		};
 		return filterElementBelongToControlArea(errorsByCurrentTableState,
-				tableInfo, getObj, controlAreaIds, modelSession, null);
+				getObj, controlAreaIds, modelSession, transformationService,
+				null);
 	}
 
 	/**
@@ -252,18 +273,19 @@ public class TableServiceUtils {
 	}
 
 	protected static Table filterRequestValue(final Table table,
-			final TableInfo tableInfo, final TableType tableType,
+			final TableType tableType, final TableInfo tableInfo,
 			final IModelSession modelsession,
+			final PlanPro2TableTransformationService transformationService,
 			final Set<String> controlAreaIds) {
 		final Table result = filterTableByState(table, tableType);
-		if (tableInfo.category() == Pt1TableCategory.ETCS || tableInfo
-				.shortcut()
+		// Worknotes table need only regard on table state
+		if (tableInfo.shortcut()
 				.equalsIgnoreCase(ToolboxConstants.WORKNOTES_TABLE_SHORTCUT)) {
 			return result;
 		}
 		if (tableType == TableType.DIFF) {
-			filterRowGroupBelongToControlAreaByDiffState(result, tableInfo,
-					modelsession, controlAreaIds);
+			filterRowGroupBelongToControlAreaByDiffState(result, modelsession,
+					transformationService, controlAreaIds);
 			result.getTablecontent()
 					.getRowgroups()
 					.removeIf(group -> !UrObjectExtensions
@@ -271,20 +293,19 @@ public class TableServiceUtils {
 			return result;
 		}
 		result.getTablecontent().getRowgroups().removeIf(group -> {
-			final Pair<Ur_Objekt, Ur_Objekt> initalFinalObj = getInitalFinalObj(
-					group.getLeadingObject(), modelsession);
-			final Ur_Objekt leadingObj = tableType == TableType.FINAL
-					? initalFinalObj.getValue()
-					: initalFinalObj.getKey();
+			final UrObjektEachContainer objectEachContanier = UrObjektEachContainer
+					.createInstance(group.getLeadingObject(), modelsession);
+			final Ur_Objekt leadingObj = objectEachContanier
+					.getObject(tableType);
 			final MultiContainer_AttributeGroup container = modelsession
 					.getContainer(tableType.getContainerForTable());
 			final List<Stell_Bereich> areas = controlAreaIds.stream()
 					.map(areaId -> getStellBereich(container, areaId))
 					.toList();
-			return !UrObjectExtensions.isPlanningObject(leadingObj)
-					|| !areas.isEmpty() && areas.stream()
-							.noneMatch(area -> isLeadingObjecBelongToArea(
-									leadingObj, area, tableInfo));
+			return !transformationService
+					.isObjectBelongToRendereArea(leadingObj)
+					|| !transformationService
+							.isObjectBelongToRendereArea(leadingObj, areas);
 
 		});
 		return result;
@@ -363,31 +384,30 @@ public class TableServiceUtils {
 	}
 
 	private static void filterRowGroupBelongToControlAreaByDiffState(
-			final Table result, final TableInfo tableInfo,
-			final IModelSession modelsession,
+			final Table result, final IModelSession modelsession,
+			final PlanPro2TableTransformationService transformationService,
 			final Set<String> controlAreaIds) {
 		if (controlAreaIds.isEmpty()) {
 			return;
 		}
 		final List<RowGroup> relevantRowGroup = filterElementBelongToControlArea(
-				result.getTablecontent().getRowgroups(), tableInfo,
+				result.getTablecontent().getRowgroups(),
 				rowGroup -> UrObjektEachContainer.createInstance(
 						rowGroup.getLeadingObject(), modelsession),
-				controlAreaIds, modelsession,
+				controlAreaIds, modelsession, transformationService,
 				(rowGroup, notBelongToAreaState) -> rowGroup.getRows()
 						.forEach(row -> handleTableRowNotBelongToArea()
 								.accept(row, notBelongToAreaState)));
-		result.getTablecontent().getRowgroups().forEach(group -> {
-			if (!relevantRowGroup.contains(group)) {
-				group.getRows().clear();
-			}
-		});
+		result.getTablecontent()
+				.getRowgroups()
+				.removeIf(group -> !relevantRowGroup.contains(group));
 	}
 
 	private static <T> List<T> filterElementBelongToControlArea(
-			final List<T> listElement, final TableInfo tableInfo,
+			final List<T> listElement,
 			final Function<T, UrObjektEachContainer> getUrObj,
 			final Set<String> controlAreas, final IModelSession modelSession,
+			final PlanPro2TableTransformationService transformationService,
 			final BiConsumer<T, TableType> handleByInitialOrFinalElementNotBelongToArea) {
 		if (modelSession.getTableType() == TableType.SINGLE) {
 			final List<Stell_Bereich> areas = controlAreas.stream()
@@ -397,9 +417,11 @@ public class TableServiceUtils {
 					.toList();
 			return listElement.stream().filter(ele -> {
 				final Ur_Objekt obj = getUrObj.apply(ele).singleObj();
-				return isElementBelongToAreas(obj, tableInfo, areas);
+				return transformationService.isObjectBelongToRendereArea(obj,
+						areas);
 			}).toList();
 		}
+
 		final List<Stell_Bereich> inititalControlAreas = controlAreas.stream()
 				.map(area -> getStellBereich(
 						modelSession.getContainer(ContainerType.INITIAL), area))
@@ -410,13 +432,16 @@ public class TableServiceUtils {
 						modelSession.getContainer(ContainerType.FINAL), area))
 				.filter(Objects::nonNull)
 				.toList();
+
 		return listElement.stream().filter(ele -> {
 			final UrObjektEachContainer objEachContainer = getUrObj.apply(ele);
-			final boolean isInitialObjBelongToAreas = isElementBelongToAreas(
-					objEachContainer.initalObj(), tableInfo,
-					inititalControlAreas);
-			final boolean isFinalObjBelongToAreas = isElementBelongToAreas(
-					objEachContainer.finalObj(), tableInfo, finalControlAreas);
+			final boolean isInitialObjBelongToAreas = !inititalControlAreas
+					.isEmpty()
+					&& transformationService.isObjectBelongToRendereArea(
+							objEachContainer.initalObj, inititalControlAreas);
+			final boolean isFinalObjBelongToAreas = !finalControlAreas.isEmpty()
+					&& transformationService.isObjectBelongToRendereArea(
+							objEachContainer.finalObj, finalControlAreas);
 			if (isInitialObjBelongToAreas != isFinalObjBelongToAreas
 					&& handleByInitialOrFinalElementNotBelongToArea != null) {
 				handleByInitialOrFinalElementNotBelongToArea.accept(ele,
@@ -425,84 +450,6 @@ public class TableServiceUtils {
 			}
 			return isInitialObjBelongToAreas || isFinalObjBelongToAreas;
 		}).toList();
-	}
-
-	private static Pair<Ur_Objekt, Ur_Objekt> getInitalFinalObj(
-			final Ur_Objekt leadingObj, final IModelSession modelSession) {
-		if (modelSession.getTableType() == TableType.SINGLE) {
-			return new Pair<>(leadingObj, null);
-		}
-		final Function<ContainerType, Ur_Objekt> getObjInContainer = containerType -> {
-			final ContainerType currentType = UrObjectExtensions
-					.getContainerType(leadingObj);
-			final MultiContainer_AttributeGroup targetContainer = modelSession
-					.getContainer(containerType);
-			return currentType == containerType ? leadingObj
-					: MultiContainer_AttributeGroupExtensions.getObject(
-							targetContainer, leadingObj.getClass(),
-							leadingObj.getIdentitaet().getWert());
-		};
-		return new Pair<>(getObjInContainer.apply(ContainerType.INITIAL),
-				getObjInContainer.apply(ContainerType.FINAL));
-	}
-
-	private static boolean isElementBelongToAreas(final Ur_Objekt element,
-			final TableInfo tableInfo, final List<Stell_Bereich> areas) {
-		// Special case for block element: When this block element does not
-		// belong
-		// to area, but is relevant block element of another block element,
-		// which belongs to control area, then return true
-		// See: ppmtab - General condition and
-		// SslbTransformator#findRelevantBlockElements for more information
-		if (tableInfo.shortcut().equalsIgnoreCase("Sslb") //$NON-NLS-1$
-				&& element instanceof final Block_Element blockElement) {
-			if (isInControlArea(areas, blockElement)) {
-				return true;
-			}
-			final Optional<Block_Anlage> targetAnlage = Streams
-					.stream(BasisAttributExtensions.getContainer(blockElement)
-							.getBlockAnlage())
-					.filter(blockAnlage -> blockAnlage.getIDBlockElementA()
-							.getValue() == blockElement
-							|| blockAnlage.getIDBlockElementB()
-									.getValue() == blockElement)
-					.findFirst();
-			if (targetAnlage.isEmpty()) {
-				return false;
-			}
-			final Block_Element anotherBlockElement = targetAnlage.get()
-					.getIDBlockElementA()
-					.getValue() == blockElement
-							? targetAnlage.get().getIDBlockElementB().getValue()
-							: targetAnlage.get()
-									.getIDBlockElementA()
-									.getValue();
-			return isLeadObjecctBelongToArea(anotherBlockElement, areas,
-					tableInfo);
-		}
-		return isLeadObjecctBelongToArea(element, areas, tableInfo);
-	}
-
-	private static boolean isLeadObjecctBelongToArea(final Ur_Objekt leadingObj,
-			final List<Stell_Bereich> areas, final TableInfo tableInfo) {
-		return areas.stream()
-				.anyMatch(area -> isLeadingObjecBelongToArea(leadingObj, area,
-						tableInfo));
-	}
-
-	private static boolean isLeadingObjecBelongToArea(
-			final Ur_Objekt leadingObj, final Stell_Bereich area,
-			final TableInfo tableInfo) {
-		// Specify handle for Signal tabelle
-		if (leadingObj instanceof final Signal signal) {
-			if (tableInfo.shortcut().equalsIgnoreCase("Ssks")) { //$NON-NLS-1$
-				return SignalExtensions.isSsksSignalBelongToArea(signal, area);
-			} else if (tableInfo.shortcut().equalsIgnoreCase("Sskx")) { //$NON-NLS-1$
-				return SignalExtensions.isSskxSignalBelongToArea(signal, area);
-			}
-		}
-
-		return StellBereichExtensions.isInControlArea(area, leadingObj);
 	}
 
 	private static BiConsumer<TableRow, TableType> handleTableRowNotBelongToArea() {
@@ -555,6 +502,212 @@ public class TableServiceUtils {
 		table.getTablecontent()
 				.getRowgroups()
 				.removeIf(group -> group.getRows().isEmpty());
+	}
+
+	/**
+	 * Update table content with data from {@link TableDataChangeEvent}
+	 * 
+	 * @param tableRows
+	 *            the rows to update
+	 * @param changedDatas
+	 *            the new data
+	 * @param tableType
+	 *            the table type
+	 * @param sessionService
+	 *            the {@link SessionService}
+	 */
+	public static void updateTableContent(final List<TableRow> tableRows,
+			final List<Pt1TableChangeProperties> changedDatas,
+			final TableType tableType, final SessionService sessionService) {
+		if (tableType != TableType.DIFF) {
+			changedDatas.forEach(data -> {
+				if (tableType.getContainerForTable() == data
+						.getContainerType()) {
+					final Optional<TableRow> first = tableRows.stream()
+							.filter(e -> e.equals(data.getRow())
+									|| getLeadingObjectGuid(e)
+											.equals(getLeadingObjectGuid(
+													data.getRow())))
+							.findFirst();
+					if (first.isEmpty()) {
+						return;
+					}
+					TableRowExtensions.set(first.get(),
+							data.getChangeDataColumn(), data.getNewValues(),
+							data.getSeparator());
+				}
+			});
+			return;
+		}
+
+		final List<Pair<TableRow, Pt1TableChangeProperties>> changedDataRow = changedDatas
+				.stream()
+				.map(data -> {
+					final TableRow changedRow = tableRows.stream()
+							.filter(row -> row == data.getRow()
+									|| getLeadingObjectGuid(row)
+											.equals(getLeadingObjectGuid(
+													data.getRow())))
+							.findFirst()
+							.orElse(null);
+					if (changedRow == null) {
+						return null;
+					}
+					return new Pair<>(changedRow, data);
+				})
+				.filter(Objects::nonNull)
+				.toList();
+		if (changedDataRow.isEmpty()) {
+			return;
+		}
+		changedDataRow.forEach(row -> {
+			final TableCell cell = TableRowExtensions.getCell(row.getFirst(),
+					row.getSecond().getChangeDataColumn());
+			final CellContent newContent = getNewContent(cell.getContent(),
+					row.getSecond(), sessionService);
+			cell.setContent(newContent);
+		});
+	}
+
+	private static CellContent getNewContent(final CellContent oldContent,
+			final Pt1TableChangeProperties properties,
+			final SessionService sessionService) {
+		return switch (oldContent) {
+			case final StringCellContent stringContent -> getNewContent(
+					stringContent, properties);
+			case final CompareStateCellContent compareContent -> getNewContent(
+					compareContent, properties);
+			case final CompareTableCellContent compareTableContent -> getNewContent(
+					compareTableContent, properties, sessionService);
+			default -> throw new UnsupportedOperationException();
+		};
+	}
+
+	private static CellContent getNewContent(final StringCellContent oldContent,
+			final Pt1TableChangeProperties properties) {
+		final List<String> currentValues = StreamSupport
+				.stream(getStringValueIterable(oldContent).spliterator(), false)
+				.toList();
+		if (currentValues.size() == 1
+				&& currentValues.getFirst().equals(HOURGLASS_ICON)) {
+			final StringCellContent newContent = TablemodelFactory.eINSTANCE
+					.createStringCellContent();
+			newContent.getValue().addAll(properties.getNewValues());
+			newContent.setSeparator(properties.getSeparator());
+			return newContent;
+		}
+
+		if (!equalsValues(currentValues, properties.getNewValues())) {
+			if (properties.getContainerType() == ContainerType.INITIAL) {
+				return createCompareCellContent(properties.getNewValues(),
+						currentValues, oldContent.getSeparator());
+			}
+			return createCompareCellContent(currentValues,
+					properties.getNewValues(), oldContent.getSeparator());
+		}
+
+		return oldContent;
+	}
+
+	private static CellContent getNewContent(
+			final CompareStateCellContent oldContent,
+			final Pt1TableChangeProperties properties) {
+		final ContainerType containerType = properties.getContainerType();
+		final List<String> oldValues = IterableExtensions
+				.toList(CellContentExtensions
+						.getStringValueIterable(oldContent.getOldValue()));
+		final List<String> newValues = IterableExtensions
+				.toList(CellContentExtensions
+						.getStringValueIterable(oldContent.getNewValue()));
+		switch (containerType) {
+			case FINAL:
+				if (!equalsValues(newValues, properties.getNewValues())) {
+					return createCompareCellContent(oldValues,
+							properties.getNewValues(),
+							oldContent.getSeparator());
+				}
+				break;
+			case INITIAL:
+				if (!equalsValues(oldValues, properties.getNewValues())) {
+					return createCompareCellContent(properties.getNewValues(),
+							newValues, oldContent.getSeparator());
+				}
+				break;
+			default:
+				throw new IllegalArgumentException(
+						"SingelState can't have compare cell content"); //$NON-NLS-1$
+		}
+		return null;
+	}
+
+	private static CellContent getNewContent(
+			final CompareTableCellContent oldContent,
+			final Pt1TableChangeProperties properties,
+			final SessionService sessionService) {
+		final PlanPro_Schnittstelle planProSchnittstelle = properties
+				.getPlanProSchnittstelle();
+
+		final Optional<Entry<ToolboxFileRole, IModelSession>> targetSession = sessionService
+				.getLoadedSessions()
+				.entrySet()
+				.stream()
+				.filter(entry -> entry.getValue()
+						.getPlanProSchnittstelle()
+						.equals(planProSchnittstelle))
+				.findFirst();
+		if (targetSession.isEmpty()) {
+			return null;
+		}
+		final CompareTableCellContent clone = EcoreUtil.copy(oldContent);
+		switch (targetSession.get().getKey()) {
+			case SESSION: {
+				clone.setMainPlanCellContent(
+						getNewContent(oldContent.getMainPlanCellContent(),
+								properties, sessionService));
+				break;
+			}
+			case COMPARE_PLANNING: {
+				clone.setComparePlanCellContent(
+						getNewContent(oldContent.getComparePlanCellContent(),
+								properties, sessionService));
+				break;
+			}
+			default:
+				return null;
+		}
+
+		final Set<String> mainPlanCellValues = Streams
+				.stream(CellContentExtensions
+						.getStringValueIterable(clone.getMainPlanCellContent()))
+				.filter(value -> value != null && !value.trim().isEmpty())
+				.collect(Collectors.toSet());
+		final Set<String> comparePlanCellValues = Streams
+				.stream(CellContentExtensions.getStringValueIterable(
+						clone.getComparePlanCellContent()))
+				.filter(value -> value != null && !value.trim().isEmpty())
+				.collect(Collectors.toSet());
+		return mainPlanCellValues.equals(comparePlanCellValues)
+				? clone.getMainPlanCellContent()
+				: clone;
+	}
+
+	private static CompareStateCellContent createCompareCellContent(
+			final List<String> oldValues, final List<String> newValues,
+			final String separator) {
+		final CompareStateCellContent compareContent = TablemodelFactory.eINSTANCE
+				.createCompareStateCellContent();
+		compareContent.setOldValue(
+				CellContentExtensions.createStringCellContent(oldValues));
+		compareContent.setNewValue(
+				CellContentExtensions.createStringCellContent(newValues));
+		compareContent.setSeparator(separator);
+		return compareContent;
+	}
+
+	private static boolean equalsValues(final List<String> oldValues,
+			final List<String> newValues) {
+		return oldValues.size() == newValues.size()
+				&& oldValues.stream().allMatch(newValues::contains);
 	}
 
 }

@@ -24,8 +24,10 @@ import org.eclipse.set.basis.part.PartDescription;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
 import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.model.tablemodel.Table;
+import org.eclipse.set.model.tablemodel.TableRow;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
 import org.eclipse.set.utils.BasePart;
+import org.eclipse.set.utils.table.Pt1TableChangeProperties;
 import org.eclipse.set.utils.table.TableError;
 import org.eclipse.set.utils.table.TableInfo;
 import org.eclipse.set.utils.table.TableInfo.Pt1TableCategory;
@@ -230,15 +232,20 @@ public interface TableService {
 	 *            the table
 	 * @param tableInfo
 	 *            the {@link TableInfo}
+	 * @param tableType
+	 *            the table type for which the table shall be sorted
 	 */
-	void sortTable(Table table, TableInfo tableInfo);
+	void sortTable(Table table, TableInfo tableInfo, final TableType tableType);
 
 	/**
 	 * @param tableInfo
 	 *            the {@link TableInfo}
+	 * @param tableType
+	 *            the table type for which the comparator is requested
 	 * @return the row group comparator
 	 */
-	Comparator<RowGroup> getRowGroupComparator(TableInfo tableInfo);
+	Comparator<RowGroup> getRowGroupComparator(TableInfo tableInfo,
+			final TableType tableType);
 
 	/**
 	 * @param part
@@ -253,4 +260,17 @@ public interface TableService {
 	 * @return the {@link TableInfo}
 	 */
 	TableInfo getTableInfo(String shortcut);
+
+	/**
+	 * Fill table cell after table complete renderer
+	 * 
+	 * @param tableRow
+	 *            the row with delay cells
+	 * @param changedDatas
+	 *            the {@link Pt1TableChangeProperties}
+	 * @param tableType
+	 *            the table type
+	 */
+	void fillDelayCells(List<TableRow> tableRow,
+			List<Pt1TableChangeProperties> changedDatas, TableType tableType);
 }

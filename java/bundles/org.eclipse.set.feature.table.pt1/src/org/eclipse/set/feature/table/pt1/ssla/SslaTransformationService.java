@@ -9,7 +9,12 @@
 package org.eclipse.set.feature.table.pt1.ssla;
 
 import static org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum.ASC;
-import static org.eclipse.set.feature.table.pt1.ssla.SslaColumns.*;
+import static org.eclipse.set.feature.table.pt1.ssla.SslaColumns.Art;
+import static org.eclipse.set.feature.table.pt1.ssla.SslaColumns.Bezeichnung;
+import static org.eclipse.set.feature.table.pt1.ssla.SslaColumns.Durchrutschweg_Ziel;
+import static org.eclipse.set.feature.table.pt1.ssla.SslaColumns.Fahrweg_Start;
+import static org.eclipse.set.feature.table.pt1.ssla.SslaColumns.Fahrweg_Ziel;
+import static org.eclipse.set.feature.table.pt1.ssla.SslaColumns.Unterwegssignal;
 import static org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparatorType.LEXICOGRAPHICAL;
 
 import java.util.Collections;
@@ -18,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum;
+import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator;
@@ -27,6 +33,7 @@ import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Aneinander;
 import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.ppmodel.extensions.FstrAneinanderExtensions;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
+import org.eclipse.set.utils.table.TableInfo.Pt1TableCategory;
 import org.eclipse.set.utils.table.sorting.TableRowGroupComparator;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -65,8 +72,9 @@ public final class SslaTransformationService
 	}
 
 	@Override
-	public Comparator<RowGroup> getRowGroupComparator() {
-		return TableRowGroupComparator.builder()
+	public Comparator<RowGroup> getRowGroupComparator(
+			final TableType tableType) {
+		return TableRowGroupComparator.builder(tableType)
 				// Zugstraße - Z first, then Rangierstraßen - R
 				.sort(Art, LEXICOGRAPHICAL, SortDirectionEnum.DESC)
 				.sortByRouteAndKm(obj -> {
@@ -108,4 +116,8 @@ public final class SslaTransformationService
 		return Collections.emptyMap();
 	}
 
+	@Override
+	protected Pt1TableCategory getTableCategory() {
+		return Pt1TableCategory.ESTW;
+	}
 }

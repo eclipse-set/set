@@ -855,7 +855,7 @@ public class Messages extends AbstractMessageService {
 	public String ToolboxTableNameSskzLong;
 
 	/**
-	 * ???
+	 * 10/03
 	 */
 	public String ToolboxTableNameSskzPlanningNumber;
 
@@ -965,7 +965,7 @@ public class Messages extends AbstractMessageService {
 	public String ToolboxTableNameSskxLong;
 
 	/**
-	 * ???
+	 * 10/18
 	 */
 	public String ToolboxTableNameSskxPlanningNumber;
 

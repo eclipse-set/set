@@ -19,17 +19,23 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum;
+import org.eclipse.set.basis.constants.ContainerType;
 import org.eclipse.set.basis.constants.Events;
-import org.eclipse.set.basis.extensions.MatcherExtensions;
+import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt;
 import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
+import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.set.model.tablemodel.TableRow;
 import org.eclipse.set.model.tablemodel.extensions.TableRowExtensions;
+import org.eclipse.set.ppmodel.extensions.MultiContainer_AttributeGroupExtensions;
+import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
 import org.eclipse.set.ppmodel.extensions.PunktObjektExtensions;
+import org.eclipse.set.ppmodel.extensions.PunktObjektStreckeExtensions;
+import org.eclipse.set.ppmodel.extensions.UrObjectExtensions;
+import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.eclipse.xtext.xbase.lib.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,41 +52,43 @@ public class CompareRouteAndKmCriterion
 	private final SortDirectionEnum direction;
 	private final Function<Ur_Objekt, Punkt_Objekt> getPunktObjectFunc;
 	private final NumericCellComparator numericComparator;
-	private static final String KILOMETRIERUNG_PATTERN = "(?<numberN>-?([1-9]\\d{0,2}|0)),((?<numberD1>\\d{3})|(?<numberD2>\\d)(?<numberN2>[\\+\\-][1-9]\\d{0,4}))"; //$NON-NLS-1$
-	private static final String EXTRA_LENGTH_GROUP_NAME = "numberN2"; //$NON-NLS-1$
-	private final Pattern kmPattern;
 	private boolean isWaitingOnService = false;
+	private final TableType tableType;
 
 	/**
 	 * @param getPunktObjectFunc
 	 *            get {@link Punkt_Objekt} function
+	 * @param tableType
+	 *            the table type in which this criterion shall be applied. Set
+	 *            to null if table type is irrelevant.
 	 */
 	public CompareRouteAndKmCriterion(
-			final Function<Ur_Objekt, Punkt_Objekt> getPunktObjectFunc) {
-		this(getPunktObjectFunc, SortDirectionEnum.ASC);
+			final Function<Ur_Objekt, Punkt_Objekt> getPunktObjectFunc,
+			final TableType tableType) {
+		this(getPunktObjectFunc, tableType, SortDirectionEnum.ASC);
 	}
 
 	/**
 	 * @param getPunktObjectFunc
 	 *            get {@link Punkt_Objekt} function
+	 * @param tableType
+	 *            the table type in which this criterion shall be applied
 	 * @param direction
 	 *            the sort direction
 	 */
 	public CompareRouteAndKmCriterion(
 			final Function<Ur_Objekt, Punkt_Objekt> getPunktObjectFunc,
-			final SortDirectionEnum direction) {
+			final TableType tableType, final SortDirectionEnum direction) {
 		this.getPunktObjectFunc = getPunktObjectFunc;
+		this.tableType = tableType;
 		this.direction = direction;
 		this.numericComparator = new NumericCellComparator(direction);
-		this.kmPattern = getKilometrierungPattern();
 	}
 
 	@Override
 	public int compare(final TableRow o1, final TableRow o2) {
-		final Ur_Objekt firstLeadingObj = TableRowExtensions
-				.getLeadingObject(o1);
-		final Ur_Objekt secondLeadingObj = TableRowExtensions
-				.getLeadingObject(o2);
+		final Ur_Objekt firstLeadingObj = getCompareObjekt(o1, tableType);
+		final Ur_Objekt secondLeadingObj = getCompareObjekt(o2, tableType);
 		final Optional<Integer> compareObj = compareNullableValue(
 				firstLeadingObj, secondLeadingObj, Objects::isNull);
 		if (compareObj.isPresent()) {
@@ -90,6 +98,35 @@ public class CompareRouteAndKmCriterion
 		final Punkt_Objekt secondPO = getPunktObjectFunc
 				.apply(secondLeadingObj);
 		return compareRouteAndKm(firstPO, secondPO);
+	}
+
+	/**
+	 * Take object from container corresponding to the table type to compare.
+	 * This means TableType.INITIAL -> initial object, TableType.FINAL -> final
+	 * object, TableType.DIFF -> final object. When final object does not exist,
+	 * then we take the initial object
+	 * 
+	 * @param row
+	 *            the table row
+	 * @param tableType
+	 *            the table type to compare for
+	 * @return the final object or the initial object, when final object not
+	 *         exist
+	 */
+	private static Ur_Objekt getCompareObjekt(final TableRow row,
+			final TableType tableType) {
+		final Ur_Objekt obj = TableRowExtensions.getLeadingObject(row);
+		if (tableType == null || tableType == TableType.INITIAL) {
+			return obj;
+		}
+		final PlanPro_Schnittstelle planProSchnittstelle = UrObjectExtensions
+				.getPlanProSchnittstelle(obj);
+		final MultiContainer_AttributeGroup finalContainer = PlanProSchnittstelleExtensions
+				.getContainer(planProSchnittstelle, ContainerType.FINAL);
+		final Ur_Objekt finalObject = MultiContainer_AttributeGroupExtensions
+				.getObject(finalContainer, obj.getClass(),
+						obj.getIdentitaet().getWert());
+		return finalObject == null ? obj : finalObject;
 	}
 
 	// IMPROVE: the determine route and km can be depended on the
@@ -166,8 +203,10 @@ public class CompareRouteAndKmCriterion
 				}
 
 				final int compare = direction == SortDirectionEnum.ASC
-						? compareKm(firstKm, secondKm)
-						: compareKm(secondKm, firstKm);
+						? PunktObjektStreckeExtensions.compareKm()
+								.compare(firstKm, secondKm)
+						: PunktObjektStreckeExtensions.compareKm()
+								.compare(secondKm, firstKm);
 				if (compare != 0) {
 					return compare;
 				}
@@ -176,45 +215,14 @@ public class CompareRouteAndKmCriterion
 		return 0;
 	}
 
-	private int compareKm(final String first, final String second) {
-		final Pair<Double, Double> firstKm = analyseKmValue(first);
-		final Pair<Double, Double> secondKm = analyseKmValue(second);
-		final int mainValueCompare = firstKm.getKey()
-				.compareTo(secondKm.getKey());
-		if (mainValueCompare != 0) {
-			return mainValueCompare;
-		}
-		return firstKm.getValue().compareTo(secondKm.getValue());
-	}
-
-	@SuppressWarnings("nls")
-	private Pair<Double, Double> analyseKmValue(final String km) {
-		final Matcher matcher = kmPattern.matcher(km);
-		final Optional<String> extraLength = MatcherExtensions.getGroup(matcher,
-				EXTRA_LENGTH_GROUP_NAME);
-		if (extraLength.isPresent()) {
-			final String mainKm = km.replace(extraLength.get(), "");
-			return new Pair<>(Double.valueOf(mainKm.replace(",", ".")),
-					Double.valueOf(extraLength.get()));
-		}
-		return new Pair<>(Double.valueOf(km.replace(",", ".")),
-				Double.valueOf(0));
-	}
-
 	private boolean kmPatternCheck(final String km) {
-		final Matcher matcher = kmPattern.matcher(km);
+		final Matcher matcher = PunktObjektStreckeExtensions.KILOMETRIERUNG_PATTERN
+				.matcher(km);
 		if (!matcher.matches()) {
 			logger.error("Wrong Kilometer format: {}", km); //$NON-NLS-1$
 			return true;
 		}
 		return false;
-	}
-
-	/**
-	 * @return the kilometer pattern
-	 */
-	public static Pattern getKilometrierungPattern() {
-		return Pattern.compile(KILOMETRIERUNG_PATTERN);
 	}
 
 	private <T> Optional<Integer> compareCollection(final Collection<T> first,

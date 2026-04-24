@@ -11,7 +11,9 @@ package org.eclipse.set.feature.table.internal;
 import static org.eclipse.set.basis.extensions.MApplicationElementExtensions.isOpenPart;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -72,6 +74,7 @@ import org.eclipse.set.services.table.TableDiffService.TableCompareType;
 import org.eclipse.set.services.table.TableService;
 import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.ToolboxConfiguration;
+import org.eclipse.set.utils.table.Pt1TableChangeProperties;
 import org.eclipse.set.utils.table.TableError;
 import org.eclipse.set.utils.table.TableInfo;
 import org.eclipse.set.utils.table.TableInfo.Pt1TableCategory;
@@ -99,7 +102,7 @@ import jakarta.inject.Inject;
  * the toolbox via the osgi event admin service on the topic
  * <code>modelsession/container/*</code> which will lead to invalidate all cache
  * entries in any case an event is received.
- *
+ * 
  * @author rumpf
  *
  */
@@ -134,6 +137,8 @@ public final class TableServiceImpl implements TableService {
 	private final Map<String, Set<Footnote>> footnotesPerTable = new ConcurrentHashMap<>();
 	private static final Set<TableInfo> nonTransformableTables = new HashSet<>();
 
+	private static final Map<TableInfo, List<Pt1TableChangeProperties>> tableChangedData = new ConcurrentHashMap<>();
+
 	private CacheService getCacheService() {
 		return ToolboxConfiguration.isDebugMode() ? Services.getNoCacheService()
 				: cacheService;
@@ -142,7 +147,7 @@ public final class TableServiceImpl implements TableService {
 	/**
 	 * adds a model service. For a model service to be properly added it has to
 	 * set the <code>table.shortcut</code property.
-	 *
+	 * 
 	 * @param service
 	 *            the service
 	 * @param properties
@@ -176,6 +181,17 @@ public final class TableServiceImpl implements TableService {
 		if (diffServiceMap.containsKey(compareType)) {
 			diffServiceMap.remove(compareType);
 		}
+	}
+
+	void addChangedTableData(final String tableShortcut,
+			final List<Pt1TableChangeProperties> changedData) {
+		tableChangedData.compute(getTableInfo(tableShortcut), (key, value) -> {
+			if (value == null || value.isEmpty()) {
+				return new ArrayList<>(changedData);
+			}
+			value.addAll(changedData);
+			return value;
+		});
 	}
 
 	private Table createDiffStateTable(final TableInfo tableInfo,
@@ -270,7 +286,8 @@ public final class TableServiceImpl implements TableService {
 					|| tableInfo.category().equals(tableCategory)) {
 				final List<TableError> tableErrors = TableServiceUtils
 						.getCachedTableError(getCacheService(), tableInfo,
-								modelSession, controlAreaIds);
+								modelSession, getModelService(tableInfo),
+								controlAreaIds);
 				if (tableErrors != null
 						|| !TableService.isTransformComplete(tableInfo, null)) {
 					result.put(tableInfo, tableErrors);
@@ -295,11 +312,20 @@ public final class TableServiceImpl implements TableService {
 	}
 
 	private Object loadTransform(final TableInfo tableInfo,
-			final IModelSession modelSession) {
+			final IModelSession modelSession, final TableType tableType) {
 		final PlanPro2TableTransformationService modelService = getModelService(
 				tableInfo);
+
 		Table transformedTable = null;
-		transformedTable = createDiffStateTable(tableInfo, modelSession);
+		if (tableType == TableType.SINGLE) {
+			transformedTable = modelService
+					.transform(PlanProSchnittstelleExtensions.getContainer(
+							modelSession.getPlanProSchnittstelle(),
+							ContainerType.SINGLE));
+		} else {
+			transformedTable = createDiffStateTable(tableInfo, modelSession);
+		}
+
 		modelService.format(transformedTable);
 		if (Thread.currentThread().isInterrupted()
 				|| transformedTable == null) {
@@ -307,7 +333,7 @@ public final class TableServiceImpl implements TableService {
 		}
 
 		// sorting
-		sortTable(transformedTable, tableInfo);
+		sortTable(transformedTable, tableInfo, tableType);
 		saveTableToCache(transformedTable, modelSession, tableInfo);
 		return transformedTable;
 	}
@@ -322,7 +348,7 @@ public final class TableServiceImpl implements TableService {
 
 	/**
 	 * removes a model service.
-	 *
+	 * 
 	 * @param properties
 	 *            the service properties
 	 * @throws IllegalAccessException
@@ -345,7 +371,7 @@ public final class TableServiceImpl implements TableService {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param table
 	 * @return table as csv string
 	 */
@@ -390,7 +416,8 @@ public final class TableServiceImpl implements TableService {
 				modelSession.getPlanProSchnittstelle(),
 				ToolboxConstants.SHORTCUT_TO_TABLE_CACHE_ID);
 		final Object table = cache.get(tableInfo.shortcut(), () -> {
-			final Object transformed = loadTransform(tableInfo, modelSession);
+			final Object transformed = loadTransform(tableInfo, modelSession,
+					tableType);
 			if (transformed != null
 					&& transformed instanceof final Table transformedTable) {
 				return transformedTable;
@@ -415,10 +442,11 @@ public final class TableServiceImpl implements TableService {
 			return emptyTable;
 		}
 		final Table resultTable = TableServiceUtils.filterRequestValue(
-				EcoreUtil.copy((Table) table), tableInfo, tableType,
-				modelSession, controlAreaIds);
+				EcoreUtil.copy((Table) table), tableType, tableInfo,
+				modelSession, getModelService(tableInfo), controlAreaIds);
 		TableServiceUtils.clearEmptyRow(resultTable);
-		sortTable(resultTable, tableInfo);
+		getModelService(tableInfo).addAdditionRow((Table) table, resultTable);
+		sortTable(resultTable, tableInfo, tableType);
 		return resultTable;
 	}
 
@@ -471,9 +499,19 @@ public final class TableServiceImpl implements TableService {
 				final Cache cache = getCacheService().getCache(
 						modelSession.getPlanProSchnittstelle(),
 						ToolboxConstants.SHORTCUT_TO_TABLE_CACHE_ID);
-				if (table != null) {
-					cache.set(tableInfo.shortcut(), table);
+				if (table == null) {
+					return;
 				}
+				tableChangedData.computeIfPresent(tableInfo, (key, value) -> {
+					if (value.isEmpty()) {
+						return Collections.emptyList();
+					}
+					fillDelayCells(TableExtensions.getTableRows(table), value,
+							TableType.DIFF);
+					return Collections.emptyList();
+				});
+
+				cache.set(tableInfo.shortcut(), table);
 				saveTableError(tableInfo, modelSession, errors);
 			};
 
@@ -617,6 +655,7 @@ public final class TableServiceImpl implements TableService {
 				while (!TableService.isTransformComplete(tableInfo, null)) {
 					Thread.sleep(2000);
 				}
+				storageFootnotes(ToolboxFileRole.SESSION, tableInfo, table);
 				result.put(tableInfo, table);
 				monitor.worked(1);
 			} catch (final Exception e) {
@@ -669,7 +708,7 @@ public final class TableServiceImpl implements TableService {
 			final Table compareTable = diffServiceMap
 					.get(TableCompareType.PROJECT)
 					.createDiffTable(mainSessionTable, compareSessionTable);
-			sortTable(compareTable, tableInfo);
+			sortTable(compareTable, tableInfo, tableType);
 
 			return compareTable;
 		} catch (final Exception e) {
@@ -681,17 +720,18 @@ public final class TableServiceImpl implements TableService {
 	}
 
 	@Override
-	public void sortTable(final Table table, final TableInfo tableInfo) {
+	public void sortTable(final Table table, final TableInfo tableInfo,
+			final TableType tableType) {
 		final Comparator<RowGroup> comparator = getModelService(tableInfo)
-				.getRowGroupComparator();
+				.getRowGroupComparator(tableType);
 		ECollections.sort(table.getTablecontent().getRowgroups(), comparator);
 	}
 
 	@Override
 	public TableRowGroupComparator getRowGroupComparator(
-			final TableInfo tableInfo) {
+			final TableInfo tableInfo, final TableType tableType) {
 		final Comparator<RowGroup> comparator = getModelService(tableInfo)
-				.getRowGroupComparator();
+				.getRowGroupComparator(tableType);
 		if (comparator instanceof final TableRowGroupComparator rowGroupComparator) {
 			return rowGroupComparator;
 		}
@@ -713,5 +753,13 @@ public final class TableServiceImpl implements TableService {
 		modelServiceMap.values()
 				.forEach(transformService -> transformService.getTableErrors()
 						.clear());
+	}
+
+	@Override
+	public void fillDelayCells(final List<TableRow> tableRow,
+			final List<Pt1TableChangeProperties> changedDatas,
+			final TableType tableType) {
+		TableServiceUtils.updateTableContent(tableRow, changedDatas, tableType,
+				sessionService);
 	}
 }
