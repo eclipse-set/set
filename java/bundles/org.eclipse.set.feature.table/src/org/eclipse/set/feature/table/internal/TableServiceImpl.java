@@ -11,7 +11,9 @@ package org.eclipse.set.feature.table.internal;
 import static org.eclipse.set.basis.extensions.MApplicationElementExtensions.isOpenPart;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -72,6 +74,7 @@ import org.eclipse.set.services.table.TableDiffService.TableCompareType;
 import org.eclipse.set.services.table.TableService;
 import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.ToolboxConfiguration;
+import org.eclipse.set.utils.table.Pt1TableChangeProperties;
 import org.eclipse.set.utils.table.TableError;
 import org.eclipse.set.utils.table.TableInfo;
 import org.eclipse.set.utils.table.TableInfo.Pt1TableCategory;
@@ -134,6 +137,8 @@ public final class TableServiceImpl implements TableService {
 	private final Map<String, Set<Footnote>> footnotesPerTable = new ConcurrentHashMap<>();
 	private static final Set<TableInfo> nonTransformableTables = new HashSet<>();
 
+	private static final Map<TableInfo, List<Pt1TableChangeProperties>> tableChangedData = new ConcurrentHashMap<>();
+
 	private CacheService getCacheService() {
 		return ToolboxConfiguration.isDebugMode() ? Services.getNoCacheService()
 				: cacheService;
@@ -176,6 +181,17 @@ public final class TableServiceImpl implements TableService {
 		if (diffServiceMap.containsKey(compareType)) {
 			diffServiceMap.remove(compareType);
 		}
+	}
+
+	void addChangedTableData(final String tableShortcut,
+			final List<Pt1TableChangeProperties> changedData) {
+		tableChangedData.compute(getTableInfo(tableShortcut), (key, value) -> {
+			if (value == null || value.isEmpty()) {
+				return new ArrayList<>(changedData);
+			}
+			value.addAll(changedData);
+			return value;
+		});
 	}
 
 	private Table createDiffStateTable(final TableInfo tableInfo,
@@ -483,9 +499,19 @@ public final class TableServiceImpl implements TableService {
 				final Cache cache = getCacheService().getCache(
 						modelSession.getPlanProSchnittstelle(),
 						ToolboxConstants.SHORTCUT_TO_TABLE_CACHE_ID);
-				if (table != null) {
-					cache.set(tableInfo.shortcut(), table);
+				if (table == null) {
+					return;
 				}
+				tableChangedData.computeIfPresent(tableInfo, (key, value) -> {
+					if (value.isEmpty()) {
+						return Collections.emptyList();
+					}
+					fillDelayCells(TableExtensions.getTableRows(table), value,
+							TableType.DIFF);
+					return Collections.emptyList();
+				});
+
+				cache.set(tableInfo.shortcut(), table);
 				saveTableError(tableInfo, modelSession, errors);
 			};
 
@@ -727,5 +753,13 @@ public final class TableServiceImpl implements TableService {
 		modelServiceMap.values()
 				.forEach(transformService -> transformService.getTableErrors()
 						.clear());
+	}
+
+	@Override
+	public void fillDelayCells(final List<TableRow> tableRow,
+			final List<Pt1TableChangeProperties> changedDatas,
+			final TableType tableType) {
+		TableServiceUtils.updateTableContent(tableRow, changedDatas, tableType,
+				sessionService);
 	}
 }

@@ -24,8 +24,10 @@ import org.eclipse.set.basis.part.PartDescription;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
 import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.model.tablemodel.Table;
+import org.eclipse.set.model.tablemodel.TableRow;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
 import org.eclipse.set.utils.BasePart;
+import org.eclipse.set.utils.table.Pt1TableChangeProperties;
 import org.eclipse.set.utils.table.TableError;
 import org.eclipse.set.utils.table.TableInfo;
 import org.eclipse.set.utils.table.TableInfo.Pt1TableCategory;
@@ -258,4 +260,17 @@ public interface TableService {
 	 * @return the {@link TableInfo}
 	 */
 	TableInfo getTableInfo(String shortcut);
+
+	/**
+	 * Fill table cell after table complete renderer
+	 * 
+	 * @param tableRow
+	 *            the row with delay cells
+	 * @param changedDatas
+	 *            the {@link Pt1TableChangeProperties}
+	 * @param tableType
+	 *            the table type
+	 */
+	void fillDelayCells(List<TableRow> tableRow,
+			List<Pt1TableChangeProperties> changedDatas, TableType tableType);
 }

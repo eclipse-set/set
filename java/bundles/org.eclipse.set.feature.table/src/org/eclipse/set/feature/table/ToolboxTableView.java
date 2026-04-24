@@ -247,6 +247,10 @@ public class ToolboxTableView extends BasePart {
 		}
 	}
 
+	private String extractShortcut() {
+		return tableService.extractShortcut(getToolboxPart().getElementId());
+	}
+
 	@PostConstruct
 	protected void postConstruct() {
 		tableSelectRowHandler = new DefaultToolboxEventHandler<>() {
@@ -262,21 +266,22 @@ public class ToolboxTableView extends BasePart {
 		tableDataChangeHandler = new DefaultToolboxEventHandler<>() {
 			@Override
 			public void accept(final TableDataChangeEvent t) {
-				if (!t.getProperties().isEmpty() && t.getProperties()
-						.getFirst() instanceof Pt1TableChangeProperties) {
-
-					t.getProperties().forEach(ele -> {
-						bodyDataProvider.updateContent(tableType,
-								(Pt1TableChangeProperties) ele);
-					});
+				if (!t.getProperties().isEmpty()
+						&& t.getProperties()
+								.getFirst() instanceof Pt1TableChangeProperties
+						&& t.getTableShortcut()
+								.equalsIgnoreCase(extractShortcut())) {
+					bodyDataProvider.updateContent(row -> tableService
+							.fillDelayCells(row, t.getProperties()
+									.stream()
+									.map(Pt1TableChangeProperties.class::cast)
+									.toList(), tableType));
 					natTable.refresh();
 				}
 			}
 		};
 		ToolboxEvents.subscribe(getBroker(), TableDataChangeEvent.class,
-				tableDataChangeHandler,
-				TableDataChangeEvent.getTopic(tableInfo.shortcut())
-						.toLowerCase());
+				tableDataChangeHandler, TableDataChangeEvent.TOPIC);
 
 		selectionControlAreaHandler = new DefaultToolboxEventHandler<>() {
 			@Override
@@ -323,7 +328,7 @@ public class ToolboxTableView extends BasePart {
 		ToolboxEvents.unsubscribe(getBroker(), tableDataChangeHandler);
 		ToolboxEvents.unsubscribe(getBroker(), selectionControlAreaHandler);
 		getBroker().unsubscribe(secondaryPlanningLoadedHanlder);
-		getBroker().send(Events.CLOSE_PART, tableInfo.shortcut());
+		getBroker().send(Events.CLOSE_PART, extractShortcut());
 	}
 
 	private void tableSelectRowHandler(final JumpToTableEvent event) {
@@ -420,8 +425,7 @@ public class ToolboxTableView extends BasePart {
 		// is called
 		Assert.isNotNull(tableInstances);
 		bodyDataProvider = new TableModelInstanceBodyDataProvider(
-				TableExtensions.getPropertyCount(table), tableInstances,
-				getSessionService());
+				TableExtensions.getPropertyCount(table), tableInstances);
 
 		final SpanningDataLayer bodyDataLayer = new SpanningDataLayer(
 				bodyDataProvider);
@@ -749,13 +753,17 @@ public class ToolboxTableView extends BasePart {
 		final List<Thread> transformatorThreads = ThreadUtils.getAllThreads()
 				.stream()
 				.filter(t -> t != null
-						&& t.getName().startsWith(tableInfo.shortcut())
+						&& t.getName().startsWith(extractShortcut())
 						&& t.isAlive())
 				.toList();
 		if (!transformatorThreads.isEmpty() && !getDialogService()
 				.confirmExportNotCompleteTable(getToolboxShell())) {
 			return;
 		}
+
+		// IMPROVE: we should use current table to export instead of new compile
+		// currently the Excel export only INITIAL or FINAL state, therefore
+		// need to new compile to take INITAL/FINAL state table
 		final Map<TableType, Table> tables = compileService.compile(tableInfo,
 				getModelSession(), controlAreaIds);
 		final Optional<String> optionalOutputDir = getDialogService()
@@ -768,7 +776,7 @@ public class ToolboxTableView extends BasePart {
 								IProgressMonitor.UNKNOWN);
 						exportService.exportPdf(tables,
 								ExportType.PLANNING_RECORDS, getTitlebox(),
-								getFreeFieldInfo(), tableInfo.shortcut(),
+								getFreeFieldInfo(), extractShortcut(),
 								outputDir, getModelSession().getToolboxPaths(),
 								getModelSession().getTableType(),
 								OverwriteHandling
