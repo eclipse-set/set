@@ -173,6 +173,9 @@ public class Pt1TableTest extends AbstractToolboxTest {
 				.toList();
 	}
 
+	/**
+	 * IMPROVE: use OSGi service unit test to inject these service
+	 */
 	protected void givenTransformationService() {
 		transformationServices = List
 				.of(new SsbbTransformationService(),
