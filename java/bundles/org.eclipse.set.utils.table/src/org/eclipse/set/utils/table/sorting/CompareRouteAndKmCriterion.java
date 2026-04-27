@@ -116,17 +116,23 @@ public class CompareRouteAndKmCriterion
 	private static Ur_Objekt getCompareObjekt(final TableRow row,
 			final TableType tableType) {
 		final Ur_Objekt obj = TableRowExtensions.getLeadingObject(row);
-		if (tableType == null || tableType == TableType.INITIAL) {
+		if (tableType == null) {
 			return obj;
 		}
-		final PlanPro_Schnittstelle planProSchnittstelle = UrObjectExtensions
-				.getPlanProSchnittstelle(obj);
-		final MultiContainer_AttributeGroup finalContainer = PlanProSchnittstelleExtensions
-				.getContainer(planProSchnittstelle, ContainerType.FINAL);
-		final Ur_Objekt finalObject = MultiContainer_AttributeGroupExtensions
-				.getObject(finalContainer, obj.getClass(),
-						obj.getIdentitaet().getWert());
-		return finalObject == null ? obj : finalObject;
+		return switch (tableType) {
+			case DIFF, FINAL -> {
+				final PlanPro_Schnittstelle planProSchnittstelle = UrObjectExtensions
+						.getPlanProSchnittstelle(obj);
+				final MultiContainer_AttributeGroup finalContainer = PlanProSchnittstelleExtensions
+						.getContainer(planProSchnittstelle,
+								ContainerType.FINAL);
+				final Ur_Objekt finalObject = MultiContainer_AttributeGroupExtensions
+						.getObject(finalContainer, obj.getClass(),
+								obj.getIdentitaet().getWert());
+				yield finalObject == null ? obj : finalObject;
+			}
+			default -> obj;
+		};
 	}
 
 	// IMPROVE: the determine route and km can be depended on the
