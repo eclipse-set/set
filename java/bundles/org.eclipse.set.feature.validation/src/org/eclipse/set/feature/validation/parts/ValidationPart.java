@@ -269,10 +269,16 @@ public class ValidationPart extends AbstractEmfFormsPart {
 				.stream()
 				.filter(problem -> problem
 						.getSeverity() != ValidationSeverity.SUCCESS)
-				.forEach(problem -> problems
-						.add(new ProblemMessage(problem.getMessage(),
-								problem.getType(), problem.getLineNumber(), 3,
-								problem.getObjectState().getLiteral())));
+				.forEach(problem -> {
+					final int severity = switch (problem.getSeverity()) {
+						case WARNING -> 2;
+						case ERROR -> 3;
+						default -> 0;
+					};
+					problems.add(new ProblemMessage(problem.getMessage(),
+							problem.getType(), problem.getLineNumber(),
+							severity, problem.getObjectScope().getLiteral()));
+				});
 		getBroker().post(Events.PROBLEMS_CHANGED, null);
 	}
 

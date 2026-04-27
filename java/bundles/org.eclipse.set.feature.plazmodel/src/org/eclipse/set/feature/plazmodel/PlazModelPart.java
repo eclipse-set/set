@@ -11,6 +11,7 @@ package org.eclipse.set.feature.plazmodel;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Function;
 
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.e4.core.services.nls.Translation;
@@ -182,13 +183,21 @@ public class PlazModelPart extends AbstractEmfFormsPart {
 		final List<ProblemMessage> problems = cache.get("plazReport", //$NON-NLS-1$
 				ArrayList::new);
 		problems.clear();
+		@SuppressWarnings("boxing")
+		final Function<ValidationSeverity, Integer> transformSeverity = severity -> switch (severity) {
+			case WARNING -> 2;
+			case ERROR -> 3;
+			default -> 0;
+		};
 		plazReport.getEntries()
 				.stream()
 				.filter(entry -> entry
 						.getSeverity() != ValidationSeverity.SUCCESS)
 				.forEach(entry -> problems
 						.add(new ProblemMessage(entry.getMessage(),
-								entry.getType(), entry.getLineNumber(), 2,
+								entry.getType(), entry.getLineNumber(),
+								transformSeverity.apply(entry.getSeverity())
+										.intValue(),
 								entry.getObjectScope().getLiteral())));
 		getBroker().post(Events.PROBLEMS_CHANGED, null);
 	}
