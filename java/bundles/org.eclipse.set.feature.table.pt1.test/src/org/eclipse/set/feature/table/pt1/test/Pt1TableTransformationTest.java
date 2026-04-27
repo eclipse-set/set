@@ -12,11 +12,17 @@ package org.eclipse.set.feature.table.pt1.test;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
+import java.util.Comparator;
 import java.util.stream.Stream;
 
+import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.set.basis.ToolboxProperties;
+import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.core.services.Services;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableTransformationService;
+import org.eclipse.set.model.tablemodel.RowGroup;
+import org.eclipse.set.model.tablemodel.Table;
+import org.eclipse.set.ppmodel.extensions.MultiContainer_AttributeGroupExtensions;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -51,12 +57,24 @@ class Pt1TableTransformationTest extends Pt1TableTest {
 			setupMockServices(mockServices);
 			for (final AbstractPlanPro2TableTransformationService transformationService : transformationServices) {
 				for (final MultiContainer_AttributeGroup container : getLSTContainer()) {
-					assertDoesNotThrow(
+					// Test transformation table
+					final Table transformedTable = assertDoesNotThrow(
 							() -> transformationService.transform(container),
 							() -> "Error by transformation Table: "
 									+ transformationService.getClass()
 											.getPackageName());
-
+					final TableType defaultTableType = MultiContainer_AttributeGroupExtensions
+							.getContainerType(container)
+							.getDefaultTableType();
+					// Test sorting table
+					assertDoesNotThrow(() -> {
+						final Comparator<RowGroup> comparator = transformationService
+								.getRowGroupComparator(defaultTableType);
+						ECollections.sort(transformedTable.getTablecontent()
+								.getRowgroups(), comparator);
+					}, () -> "Error by sort table: "
+							+ transformationService.getClass()
+									.getPackageName());
 				}
 			}
 		}
