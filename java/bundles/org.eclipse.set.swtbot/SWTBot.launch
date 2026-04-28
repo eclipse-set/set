@@ -45,7 +45,7 @@
     <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-clearPersistedState -os ${target.os} -ws ${target.ws} -arch ${target.arch} -consoleLog -nl de_DE_SET -data @user.home/.toolbox"/>
     <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="org.eclipse.set.swtbot"/>
     <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.pde.ui.workbenchClasspathProvider"/>
-    <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Dorg.eclipse.swt.graphics.Resource.reportNonDisposed=true -Xmx4096M -Dorg.eclipse.set.browser.locale=de-DE -Dfile.encoding=UTF8 -Dswing.defaultlaf=com.sun.java.swing.plaf.windows.WindowsLookAndFeel"/>
+    <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Dorg.eclipse.swt.graphics.Resource.reportNonDisposed=true -Xmx4096M -Dorg.eclipse.set.browser.locale=de-DE -Dfile.encoding=UTF8 -Dswing.defaultlaf=com.sun.java.swing.plaf.windows.WindowsLookAndFeel -Dtoolbox.development.mode=false"/>
     <stringAttribute key="org.eclipse.jdt.launching.WORKING_DIRECTORY" value="${eclipse_home}"/>
     <stringAttribute key="pde.version" value="3.3"/>
     <stringAttribute key="product" value="org.eclipse.set.application.set.product_set"/>
