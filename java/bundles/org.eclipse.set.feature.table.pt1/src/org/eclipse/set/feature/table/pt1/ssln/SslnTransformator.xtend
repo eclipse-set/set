@@ -331,13 +331,19 @@ class SslnTransformator extends AbstractPlanPro2TableModelTransformator {
 		val flaSchutz = grenze.flaSchutz
 		val nbElemente = grenze.container.NBZoneElement.map[nbElement].filter(
 			W_Kr_Gsp_Element)
-		val flaBezeichnung = grenze.flaSchutzElemente
 		val innen = flaSchutz.map[weicheGleissperreElement].filterNull.filter [ gsp |
 			nbElemente.exists[it === gsp]
 		]
-		val innenaussen = innen.empty
-				? '''«flaBezeichnung», -''' : '''- , «flaBezeichnung»'''
-		return '''«bezeichnung» («innenaussen»)'''
+		val aussen = flaSchutz.map[weicheGleissperreElement].filterNull.filter [ gsp |
+			!innen.exists[it === gsp]
+		]
+		val innnenToString = innen.empty ? "-" : innen.map [
+				it.bezeichnung?.bezeichnungTabelle?.wert
+			].filterNull.getIterableFilling(MIXED_STRING_COMPARATOR, " ")
+		val aussenToString = aussen.empty ? "" : aussen.map [
+				it.bezeichnung?.bezeichnungTabelle?.wert
+			].filterNull.getIterableFilling(MIXED_STRING_COMPARATOR, " ")
+		return '''«bezeichnung» («innnenToString», «aussenToString»)'''
 	}
 
 	private static dispatch def String toBezeichnungGrenze(
