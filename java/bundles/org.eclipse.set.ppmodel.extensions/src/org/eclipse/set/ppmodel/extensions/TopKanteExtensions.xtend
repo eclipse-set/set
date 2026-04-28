@@ -871,7 +871,11 @@ class TopKanteExtensions extends BasisObjektExtensions {
 		}
 
 		val streckenKmStoredByTopKanteDirection = punktObjektsWithDistance.map [ pair |
-			pair.key.getStreckeKm(List.of(strecke)).firstOrNull
+			try {
+				return pair.key.getStreckeKm(List.of(strecke)).firstOrNull
+			} catch (Exception e) {
+				return null;
+			}
 		].filterNull.toList
 
 		// The route kilometer of a Punkt_Objekt can be inconsistent and

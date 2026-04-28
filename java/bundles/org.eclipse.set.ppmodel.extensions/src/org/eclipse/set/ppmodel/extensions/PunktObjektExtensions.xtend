@@ -242,10 +242,10 @@ class PunktObjektExtensions extends BasisObjektExtensions {
 				poGuid) as List<Pair<String, List<String>>>
 			return cachedValue.flatMap[value].toList
 		}
-
-		if (po.punktObjektStrecke.size == 1 &&
-			routeThroughBereichObjekt.contains(
-				po.punktObjektStrecke.first.IDStrecke.value)) {
+		val poRoute = po?.punktObjektStrecke?.first?.IDStrecke?.value
+		if (po.punktObjektStrecke.size == 1 && poRoute !== null &&
+			routeThroughBereichObjekt.contains(poRoute
+				)) {
 			return #[po.punktObjektStrecke.first.streckeKm.wert]
 		}
 
@@ -265,7 +265,7 @@ class PunktObjektExtensions extends BasisObjektExtensions {
 		val result = routeThroughBereichObjekt.map [ route |
 			try {
 				return route ->
-					po.singlePoints.first.getStreckeKmThroughProjection(route).
+					po?.singlePoints?.first?.getStreckeKmThroughProjection(route).
 						toTableDecimal(3)
 			} catch (Exception e) {
 				logger.error(
