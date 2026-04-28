@@ -298,7 +298,8 @@ class SignalExtensions extends PunktObjektExtensions {
 	 * @return the relevant Aussenelementansteuerung or null, if no element matched the condition
 	 */
 	def static Aussenelementansteuerung getControlElement(Signal signal,
-		(Signal)=>Aussenelementansteuerung getFirstControlFunc, List<ENUMAussenelementansteuerungArt> requiredType) {
+		(Signal)=>Aussenelementansteuerung getFirstControlFunc,
+		List<ENUMAussenelementansteuerungArt> requiredType) {
 		val aea = getFirstControlFunc.apply(signal)
 		val Predicate<Aussenelementansteuerung> isRelevantAea = [ ele |
 			requiredType.exists [
@@ -509,10 +510,13 @@ class SignalExtensions extends PunktObjektExtensions {
 			value
 		].filterNull.toList
 
-		switch mast : befestigungen.filter [
-			mastTypeOfSignalWithTwoMast.contains(
-				value?.signalBefestigungAllg?.befestigungArt?.wert)
-		] {
+		val mast = befestigungen.filter [
+			val befestigungArt = value?.signalBefestigungAllg?.befestigungArt?.
+				wert
+			befestigungArt !== null &&
+				mastTypeOfSignalWithTwoMast.contains(befestigungArt)
+		]
+		switch mast {
 			// condition "zwei Befestigungen"
 			case mast.size == 2: {
 				val mainMast = befestigungen.filter [
