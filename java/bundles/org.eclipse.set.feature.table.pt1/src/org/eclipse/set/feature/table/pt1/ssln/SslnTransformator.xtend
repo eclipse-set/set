@@ -337,13 +337,15 @@ class SslnTransformator extends AbstractPlanPro2TableModelTransformator {
 		val aussen = flaSchutz.map[weicheGleissperreElement].filterNull.filter [ gsp |
 			!innen.exists[it === gsp]
 		]
-		val innnenToString = innen.empty ? "-" : innen.map [
-				it.bezeichnung?.bezeichnungTabelle?.wert
-			].filterNull.getIterableFilling(MIXED_STRING_COMPARATOR, " ")
-		val aussenToString = aussen.empty ? "" : aussen.map [
-				it.bezeichnung?.bezeichnungTabelle?.wert
-			].filterNull.getIterableFilling(MIXED_STRING_COMPARATOR, " ")
-		return '''«bezeichnung» («innnenToString», «aussenToString»)'''
+		val toString = [Iterable<W_Kr_Gsp_Element> gsps |
+			if (gsps.nullOrEmpty) {
+				return "-"
+			}
+			val gspBezeichnungen = gsps.filterNull.map[it.bezeichnung?.bezeichnungTabelle?.wert].filterNull
+			return gspBezeichnungen.getIterableFilling(MIXED_STRING_COMPARATOR, " ")
+		]
+		
+		return '''«bezeichnung» («toString.apply(innen)», «toString.apply(aussen)»)'''
 	}
 
 	private static dispatch def String toBezeichnungGrenze(
