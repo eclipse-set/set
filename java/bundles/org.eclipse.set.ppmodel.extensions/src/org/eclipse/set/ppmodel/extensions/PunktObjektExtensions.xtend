@@ -265,7 +265,7 @@ class PunktObjektExtensions extends BasisObjektExtensions {
 		val result = routeThroughBereichObjekt.map [ route |
 			try {
 				return route ->
-					po?.singlePoints?.first?.getStreckeKmThroughProjection(route).
+					po?.singlePoints?.first?.getStreckeKmThroughProjection(route)?.
 						toTableDecimal(3)
 			} catch (Exception e) {
 				logger.error(
