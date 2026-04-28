@@ -101,24 +101,23 @@ public class TransformTableBody {
 			throw new RuntimeException(
 					"Missing first data row. Is the printing area configured correctly?"); //$NON-NLS-1$
 		}
-		for (int i = 0; i <= getHeaderLastColumnIndex(sheet); i++) {
-			final Cell cellAt = getCellAt(sheet, firstDataRow.getRowNum(), i)
-					.orElse(firstDataRow.createCell(i));
-
-			if (parentGroupLastIndex.contains(i) || pageBreakAts.contains(i)) {
-				setExcelCellBorderStyle(cellAt, BorderDirection.RIGHT,
+		getFirstDataRow(sheet).forEach(cell -> {
+			final int index = cell.getColumnIndex() - 1;
+			if (parentGroupLastIndex.contains(index)
+					|| pageBreakAts.contains(index)) {
+				setExcelCellBorderStyle(cell, BorderDirection.RIGHT,
 						BorderStyle.MEDIUM);
 				// Set border style for The break column and the after
-			} else if (pageBreakAts.contains(i - 1)) {
-				setExcelCellBorderStyle(cellAt, BorderDirection.LEFT,
+			} else if (pageBreakAts.contains(index - 1)) {
+				setExcelCellBorderStyle(cell, BorderDirection.LEFT,
 						BorderStyle.MEDIUM);
 			}
 
-			if (!isDefaultStyle(cellAt.getCellStyle())) {
+			if (!isDefaultStyle(cell.getCellStyle())) {
 				Set<Cell> sameStyleGroup = result.stream()
 						.filter(cells -> cells.stream()
-								.filter(cell -> isEquals(cellAt.getCellStyle(),
-										cell.getCellStyle()))
+								.filter(c -> isEquals(cell.getCellStyle(),
+										c.getCellStyle()))
 								.findFirst()
 								.orElse(null) != null)
 						.findFirst()
@@ -127,9 +126,9 @@ public class TransformTableBody {
 					sameStyleGroup = new LinkedHashSet<>();
 					result.add(sameStyleGroup);
 				}
-				sameStyleGroup.add(cellAt);
+				sameStyleGroup.add(cell);
 			}
-		}
+		});
 
 		return result;
 	}
