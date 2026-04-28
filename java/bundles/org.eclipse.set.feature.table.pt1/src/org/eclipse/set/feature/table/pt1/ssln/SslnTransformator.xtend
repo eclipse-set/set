@@ -65,11 +65,11 @@ class SslnTransformator extends AbstractPlanPro2TableModelTransformator {
 	private def Table create factory.table transform(
 		MultiContainer_AttributeGroup container) {
 		container.NBZone.forEach [ it |
-				if (Thread.currentThread.interrupted) {
-					return
-				}
-				it.transform
-			]
+			if (Thread.currentThread.interrupted) {
+				return
+			}
+			it.transform
+		]
 		return
 	}
 
@@ -326,9 +326,20 @@ class SslnTransformator extends AbstractPlanPro2TableModelTransformator {
 		FMA_Komponente markanteStelle,
 		NB_Zone_Grenze grenze
 	) {
-		return grenze.toBezeichnungGrenze
+		val bezeichnung = grenze?.markanterPunkt?.bezeichnung?.
+			bezeichnungMarkanterPunkt?.wert
+		val flaSchutz = grenze.flaSchutz
+		val nbElemente = grenze.container.NBZoneElement.map[nbElement].filter(
+			W_Kr_Gsp_Element)
+		val flaBezeichnung = grenze.flaSchutzElemente
+		val innen = flaSchutz.map[weicheGleissperreElement].filterNull.filter [ gsp |
+			nbElemente.exists[it === gsp]
+		]
+		val innenaussen = innen.empty
+				? '''«flaBezeichnung», -''' : '''- , «flaBezeichnung»'''
+		return '''«bezeichnung» («innenaussen»)'''
 	}
-	
+
 	private static dispatch def String toBezeichnungGrenze(
 		W_Kr_Gsp_Komponente markanteStelle,
 		NB_Zone_Grenze grenze
@@ -348,7 +359,8 @@ class SslnTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	private static def String flaSchutzElemente(NB_Zone_Grenze grenze) {
 		val elemente = grenze.flaSchutz.map [
-			weicheGleissperreElement?.bezeichnung?.bezeichnungTabelle?.wert ?: ""
+			weicheGleissperreElement?.bezeichnung?.bezeichnungTabelle?.wert ?:
+				""
 		]
 		return if (elemente.empty) {
 			"-"
