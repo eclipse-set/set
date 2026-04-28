@@ -234,6 +234,9 @@ class PunktObjektExtensions extends BasisObjektExtensions {
 
 	def static List<String> getStreckeKm(Punkt_Objekt po,
 		List<Strecke> routeThroughBereichObjekt) {
+		if (po === null || routeThroughBereichObjekt.isNullOrEmpty) {
+			return emptyList
+		}
 		val cache = po.getCache(po.container.cacheString,
 			ToolboxConstants.CacheId.POINT_OBJECT_ROUTE_KM)
 		val poGuid = po.identitaet.wert
@@ -242,10 +245,9 @@ class PunktObjektExtensions extends BasisObjektExtensions {
 				poGuid) as List<Pair<String, List<String>>>
 			return cachedValue.flatMap[value].toList
 		}
-
-		if (po.punktObjektStrecke.size == 1 &&
-			routeThroughBereichObjekt.contains(
-				po.punktObjektStrecke.first.IDStrecke.value)) {
+		val poRoute = po.punktObjektStrecke.first?.IDStrecke?.value
+		if (po.punktObjektStrecke.size == 1 && poRoute !== null &&
+			routeThroughBereichObjekt.contains(poRoute)) {
 			return #[po.punktObjektStrecke.first.streckeKm.wert]
 		}
 
@@ -265,7 +267,7 @@ class PunktObjektExtensions extends BasisObjektExtensions {
 		val result = routeThroughBereichObjekt.map [ route |
 			try {
 				return route ->
-					po.singlePoints.first.getStreckeKmThroughProjection(route).
+					po?.singlePoints?.first?.getStreckeKmThroughProjection(route)?.
 						toTableDecimal(3)
 			} catch (Exception e) {
 				logger.error(

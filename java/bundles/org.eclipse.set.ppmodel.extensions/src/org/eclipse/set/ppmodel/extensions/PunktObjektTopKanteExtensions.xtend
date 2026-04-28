@@ -215,6 +215,9 @@ class PunktObjektTopKanteExtensions extends BasisObjektExtensions {
 	def static List<Strecke> getStreckenThroughBereichObjekt(
 		Punkt_Objekt_TOP_Kante_AttributeGroup potk) {
 		val topPoint = new TopPoint(potk)
+		if (potk?.container?.strecke === null) {
+			return null
+		}
 		return potk.container.strecke.filter [ route |
 			route.bereichObjektTeilbereich.filter [
 				topKante === topPoint.edge
@@ -235,7 +238,10 @@ class PunktObjektTopKanteExtensions extends BasisObjektExtensions {
 		Punkt_Objekt_TOP_Kante_AttributeGroup potk, Strecke strecke) {
 		val potkCoordinate = Services.pointObjectPositionService.
 			getCoordinate(potk)
-		return potkCoordinate.coordinate.getStreckeKmThroughProjection(strecke)
+		if (potkCoordinate === null) {
+			return null;
+		}
+		return potkCoordinate?.coordinate?.getStreckeKmThroughProjection(strecke)
 	}
 
 	/**
