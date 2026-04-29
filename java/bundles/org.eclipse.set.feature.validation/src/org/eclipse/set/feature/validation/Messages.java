@@ -222,11 +222,6 @@ public class Messages {
 	public String ValidationTableItem_JumpToTextView;
 
 	/**
-	 * Geladene Datei
-	 */
-	public String ValidationReport_GeladeneDatei;
-
-	/**
 	 * Alle expandieren
 	 */
 	public String ValidationTable_ExpandAllGroup;

@@ -5,7 +5,7 @@
     modelPluginID="org.eclipse.set.model.validationreport" modelName="Validationreport"
     rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container" codeFormatting="true"
     commentFormatting="true" testsDirectory="" importerID="org.eclipse.emf.importer.ecore"
-    complianceLevel="17.0" copyrightFields="false" operationReflection="true" importOrganizing="true">
+    complianceLevel="21.0" copyrightFields="false" operationReflection="true" importOrganizing="true">
   <foreignModel>validationreport.ecore</foreignModel>
   <genPackages prefix="Validationreport" basePackage="org.eclipse.set.model" disposableProviderFactory="true"
       ecorePackage="validationreport.ecore#/">
