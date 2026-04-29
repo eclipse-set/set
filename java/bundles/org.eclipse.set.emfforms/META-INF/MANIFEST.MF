@@ -107,4 +107,5 @@ Service-Component: OSGI-INF/org.eclipse.set.emfforms.attachment.AttachmentListRe
  OSGI-INF/org.eclipse.set.emfforms.table.TableControlDetailCustomSWTRendererService.xml,
  OSGI-INF/org.eclipse.set.emfforms.text.TextFieldService.xml,
  OSGI-INF/org.eclipse.set.emfforms.text.TextWithButtonControlSWTRendererService.xml,
+ OSGI-INF/org.eclipse.set.emfforms.text.VersionInfoRendererService.xml,
  OSGI-INF/org.eclipse.set.emfforms.view.ViewRendererService.xml
