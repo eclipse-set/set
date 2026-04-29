@@ -64,7 +64,6 @@
       <plugin id="org.eclipse.osgi" autoStart="true" startLevel="1" />
       <plugin id="org.eclipse.set.application" autoStart="true" startLevel="4" />
       <plugin id="org.eclipse.set.emfforms" autoStart="true" startLevel="4" />
-      <plugin id="org.eclipse.set.feature.integration" autoStart="true" startLevel="4" />
       <plugin id="org.eclipse.set.feature.table" autoStart="true" startLevel="4" />
       <plugin id="org.eclipse.set.sessionservice" autoStart="true" startLevel="2" />
       <property name="toolbox.tmpdir" value="$user.home$/.toolbox/" os="win32" />
