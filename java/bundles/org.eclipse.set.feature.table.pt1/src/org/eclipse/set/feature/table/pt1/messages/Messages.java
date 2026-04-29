@@ -22,7 +22,7 @@ import org.osgi.service.component.annotations.Reference;
 public class Messages extends AbstractMessageService {
 
 	@Reference
-	private void bindBundleLocalization(
+	protected void bindBundleLocalization(
 			final BundleLocalization bundleLocalization)
 			throws IllegalArgumentException, IllegalAccessException {
 		super.setupLocalization(bundleLocalization);

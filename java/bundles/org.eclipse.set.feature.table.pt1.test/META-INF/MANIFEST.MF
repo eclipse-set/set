@@ -1,0 +1,30 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Pt1 Table Test
+Bundle-SymbolicName: org.eclipse.set.feature.table.pt1.test
+Bundle-Vendor: Eclipse Signalling Engineering Toolbox
+Bundle-Version: 2.6.0.qualifier
+Fragment-Host: org.eclipse.set.feature.table.pt1;bundle-version="0.1.0"
+Automatic-Module-Name: org.eclipse.set.feature.table.pt1.test
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-21
+Import-Package: com.google.common.util.concurrent,
+ com.google.common.util.concurrent.internal,
+ net.bytebuddy,
+ net.bytebuddy.agent,
+ org.apache.commons.collections4,
+ org.apache.commons.lang3,
+ org.apache.commons.lang3.reflect,
+ org.eclipse.set.application.cacheservice,
+ org.eclipse.set.application.geometry,
+ org.eclipse.set.application.graph,
+ org.eclipse.set.unittest.utils,
+ org.eclipse.set.utils,
+ org.eclipse.swt.widgets,
+ org.jgrapht.graph,
+ org.jheaps.tree,
+ org.junit.jupiter.api,
+ org.junit.jupiter.api.function,
+ org.junit.jupiter.params,
+ org.junit.jupiter.params.provider
+Require-Bundle: org.mockito.mockito-core
