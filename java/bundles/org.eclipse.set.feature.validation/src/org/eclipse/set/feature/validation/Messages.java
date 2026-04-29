@@ -255,14 +255,4 @@ public class Messages {
 	 * Speichern PlanPro Daten
 	 */
 	public String SaveToolboxFile;
-
-	/**
-	 * PlanPro
-	 */
-	public String ValidationInformation_PlanPro_Versions_Label;
-
-	/**
-	 * Signalbegriffe
-	 */
-	public String ValidationInformation_Signalbegriff_Ril301_Versions_Label;
 }

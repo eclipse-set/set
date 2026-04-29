@@ -9,6 +9,9 @@
 package org.eclipse.set.core.services.version;
 
 import java.nio.file.Path;
+import java.util.Comparator;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.eclipse.set.model.validationreport.VersionInfo;
 
@@ -31,6 +34,8 @@ public interface PlanProVersionService {
 	 */
 	public record PlanProVersionFormat(String major, String patch,
 			String minor) {
+		private static final String VERSION_FORMAT = "(?<major>[1-9]+\\.[0-9]+)\\.(?<patch>[0-9]+)(\\.(?<minor>[0-9]))*"; //$NON-NLS-1$
+
 		/**
 		 * @return <major>.<patch>
 		 */
@@ -63,6 +68,38 @@ public interface PlanProVersionService {
 				return minor.compareToIgnoreCase(another.minor);
 			}
 			return 0;
+		}
+
+		/**
+		 * @return the planpro version comparator
+		 */
+		public static Comparator<String> compareVersion() {
+			return (first, second) -> {
+				final PlanProVersionFormat firstVersion = parseVersionFormat(
+						first);
+				final PlanProVersionFormat secondVersion = parseVersionFormat(
+						second);
+				return firstVersion.compare(secondVersion);
+			};
+		}
+
+		/**
+		 * Parse planpro version from string
+		 * 
+		 * @param version
+		 *            the version
+		 * @return the {@link PlanProVersionFormat}
+		 */
+		public static PlanProVersionFormat parseVersionFormat(
+				final String version) {
+			final Pattern compile = Pattern.compile(VERSION_FORMAT);
+			final Matcher matcher = compile.matcher(version);
+			if (!matcher.matches()) {
+				throw new IllegalArgumentException("Illegal Version Foramt"); //$NON-NLS-1$
+			}
+
+			return new PlanProVersionFormat(matcher.group("major"), //$NON-NLS-1$
+					matcher.group("patch"), matcher.group("minor")); //$NON-NLS-1$ //$NON-NLS-2$
 
 		}
 	}

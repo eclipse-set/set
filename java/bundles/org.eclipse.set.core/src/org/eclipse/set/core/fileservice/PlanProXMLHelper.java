@@ -44,12 +44,6 @@ public class PlanProXMLHelper extends XMLHelperImpl {
 
 	@Override
 	public void addPrefix(final String prefix, final String uri) {
-		if (uri.startsWith(
-				"http://www.plan-pro.org/modell/Signalbegriffe_Ril_301")) {
-			super.addPrefix(prefix,
-					"http://www.plan-pro.org/modell/Signalbegriffe_Ril_301/1.10.0.4");
-			return;
-		}
 		if (!versionService.isSupportedVersion(uri)) {
 			super.addPrefix(prefix, uri);
 			return;

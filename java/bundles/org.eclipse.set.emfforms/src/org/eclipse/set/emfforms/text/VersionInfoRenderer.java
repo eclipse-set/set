@@ -33,6 +33,7 @@ import org.eclipse.emfforms.spi.core.services.databinding.EMFFormsDatabinding;
 import org.eclipse.emfforms.spi.core.services.editsupport.EMFFormsEditSupport;
 import org.eclipse.emfforms.spi.core.services.label.EMFFormsLabelProvider;
 import org.eclipse.jface.databinding.swt.typed.WidgetProperties;
+import org.eclipse.set.core.services.version.PlanProVersionService.PlanProVersionFormat;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -155,6 +156,7 @@ public class VersionInfoRenderer extends TextControlSWTRenderer {
 						return ((List<?>) fromObject).stream()
 								.map(obj -> eFactory.convertToString(eDataType,
 										obj))
+								.sorted(PlanProVersionFormat.compareVersion())
 								.collect(Collectors.joining(", ")); //$NON-NLS-1$
 					}
 					return eFactory.convertToString(eDataType, fromObject);

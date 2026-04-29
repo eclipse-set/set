@@ -8,6 +8,8 @@
  */
 package org.eclipse.set.core.version;
 
+import static org.eclipse.set.core.services.version.PlanProVersionService.PlanProVersionFormat.parseVersionFormat;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -42,8 +44,6 @@ public class PlanProVersionServiceImpl implements PlanProVersionService {
 	private static final String SIGNALS_KEY = "http://www.plan-pro.org/modell/Signalbegriffe_Ril_301/"; //$NON-NLS-1$
 	private static final int VALUE_GROUP = 1;
 
-	private static final String VERSION_FORMAT = "(?<major>[1-9]+\\.[0-9]+)\\.(?<patch>[0-9]+)(\\.(?<minor>[0-9]))*"; //$NON-NLS-1$
-
 	@Activate
 	private void active() {
 		Services.setPlanProVersionService(this);
@@ -76,19 +76,6 @@ public class PlanProVersionServiceImpl implements PlanProVersionService {
 		return null;
 	}
 
-	private static PlanProVersionFormat parseVersionFormat(
-			final String version) {
-		final Pattern compile = Pattern.compile(VERSION_FORMAT);
-		final Matcher matcher = compile.matcher(version);
-		if (!matcher.matches()) {
-			throw new IllegalArgumentException("Illegal Version Foramt"); //$NON-NLS-1$
-		}
-
-		return new PlanProVersionFormat(matcher.group("major"), //$NON-NLS-1$
-				matcher.group("patch"), matcher.group("minor")); //$NON-NLS-1$ //$NON-NLS-2$
-
-	}
-
 	@Override
 	public VersionInfo getSupportedVersions() {
 		final VersionInfo versionInfo = ValidationreportFactory.eINSTANCE
@@ -115,13 +102,7 @@ public class PlanProVersionServiceImpl implements PlanProVersionService {
 				.map(Path::toString)
 				.collect(Collectors.toSet())
 				.stream()
-				.sorted((first, second) -> {
-					final PlanProVersionFormat firstVersion = parseVersionFormat(
-							first);
-					final PlanProVersionFormat secondVersion = parseVersionFormat(
-							second);
-					return firstVersion.compare(secondVersion);
-				})
+				.sorted(PlanProVersionFormat.compareVersion())
 				.toList();
 	}
 
