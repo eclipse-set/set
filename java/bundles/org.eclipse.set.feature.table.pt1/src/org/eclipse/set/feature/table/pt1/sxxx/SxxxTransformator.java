@@ -32,7 +32,6 @@ import org.eclipse.set.model.planpro.Signale.Signal;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.TableRow;
-import org.eclipse.set.model.tablemodel.extensions.CellContentExtensions;
 import org.eclipse.set.ppmodel.extensions.AussenelementansteuerungExtensions;
 import org.eclipse.set.ppmodel.extensions.EObjectExtensions;
 import org.eclipse.set.ppmodel.extensions.UrObjectExtensions;
@@ -124,8 +123,6 @@ public class SxxxTransformator extends AbstractPlanPro2TableModelTransformator {
 
 				// D: Ausgabe in Plan
 				// Will fill later in TableService
-				fill(row, getColumn(cols, Visualation_In_Table), bv,
-						note -> CellContentExtensions.HOURGLASS_ICON);
 
 			}
 		}
