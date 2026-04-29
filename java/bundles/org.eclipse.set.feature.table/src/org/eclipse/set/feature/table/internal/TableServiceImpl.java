@@ -471,7 +471,7 @@ public final class TableServiceImpl implements TableService {
 							&& !footnotesPerTable
 									.containsKey(createKeyValue.apply(table)))
 					.toList();
-			FootnoteExtensions.fillSxxxTableColumnC(resultTable,
+			FootnoteExtensions.fillSxxxTableColumnD(resultTable,
 					footnotesPerTable, missingTables.isEmpty(),
 					extractShortName);
 			return;
