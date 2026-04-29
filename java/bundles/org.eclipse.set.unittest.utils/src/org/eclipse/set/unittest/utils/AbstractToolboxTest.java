@@ -38,13 +38,19 @@ import org.eclipse.set.core.fileservice.ToolboxIDResolver;
 import org.eclipse.set.core.modelservice.PlanningAccessServiceImpl;
 import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.cache.NoCacheService;
-import org.eclipse.set.core.version.PlanProVersionServiceImpl;
+import org.eclipse.set.core.services.version.PlanProVersionService;
 import org.eclipse.set.model.planpro.PlanPro.DocumentRoot;
 import org.eclipse.set.model.planpro.PlanPro.PlanProPackage;
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.set.model.planpro.PlanPro.util.PlanProResourceFactoryImpl;
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Signalbegriffe_Ril_301Package;
+import org.eclipse.set.model.validationreport.ValidationreportFactory;
+import org.eclipse.set.model.validationreport.VersionInfo;
+import org.eclipse.set.ppmodel.extensions.PlanProPackageExtensions;
+import org.eclipse.set.ppmodel.extensions.SignalbegriffeRil301PackageExtensions;
 import org.junit.jupiter.api.BeforeEach;
+import org.mockito.ArgumentMatchers;
+import org.mockito.Mockito;
 
 /**
  * Base class for Siteplan Tests with common utilities
@@ -79,6 +85,7 @@ public class AbstractToolboxTest {
 
 	protected PlanPro_Schnittstelle planProSchnittstelle;
 	private ResourceSet resourceSet;
+	private PlanProVersionService planproVersionService;
 
 	protected static String getModel(final Class<?> clazz, final String name) {
 		final URL res = clazz.getClassLoader().getResource(name);
@@ -154,7 +161,7 @@ public class AbstractToolboxTest {
 				.eClass();
 		org.eclipse.set.model.planpro.Layoutinformationen.LayoutinformationenPackage.eINSTANCE
 				.eClass();
-
+		givenPlanProVersionService();
 		Services.setCacheService(new NoCacheService());
 		Services.setPlanningAccessService(new PlanningAccessServiceImpl());
 
@@ -255,8 +262,8 @@ public class AbstractToolboxTest {
 		final XMLResource resource = (XMLResource) resourceSet
 				.createResource(resourceURI);
 		final PlanProFileResource planproResource = new PlanProFileResource(
-				resourceURI, new PlanProXMLHelper(resource,
-						new PlanProVersionServiceImpl()));
+				resourceURI,
+				new PlanProXMLHelper(resource, planproVersionService));
 		try {
 			planproResource.load(null);
 		} catch (final Exception e) {
@@ -266,6 +273,22 @@ public class AbstractToolboxTest {
 			}
 		}
 		return planproResource;
+	}
+
+	@SuppressWarnings("boxing")
+	protected void givenPlanProVersionService() {
+		planproVersionService = Mockito.mock(PlanProVersionService.class);
+		final VersionInfo versionInfo = ValidationreportFactory.eINSTANCE
+				.createVersionInfo();
+		versionInfo.getPlanProVersions()
+				.add(PlanProPackageExtensions.getModelVersion());
+		versionInfo.getSignalbegriffeVersions()
+				.add(SignalbegriffeRil301PackageExtensions.getModelVersion());
+		Mockito.when(planproVersionService
+				.isSupportedVersion(ArgumentMatchers.anyString()))
+				.thenReturn(Boolean.TRUE);
+		Mockito.when(planproVersionService.getCurrentVersion())
+				.thenReturn(versionInfo);
 	}
 
 }
