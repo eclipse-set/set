@@ -34,7 +34,8 @@ public interface PlanProVersionService {
 	 */
 	public record PlanProVersionFormat(String major, String patch,
 			String minor) {
-		private static final String VERSION_FORMAT = "(?<major>[1-9]+\\.[0-9]+)\\.(?<patch>[0-9]+)(\\.(?<minor>[0-9]))*"; //$NON-NLS-1$
+
+		private static final String VERSION_FORMAT = "(?<major>[1-9]+\\.\\d+)\\.(?<patch>\\d+)(\\.(?<minor>\\d))*"; //$NON-NLS-1$
 
 		/**
 		 * @return <major>.<patch>
