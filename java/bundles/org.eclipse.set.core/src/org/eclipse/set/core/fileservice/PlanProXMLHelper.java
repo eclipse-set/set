@@ -13,6 +13,7 @@ package org.eclipse.set.core.fileservice;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.XMLHelperImpl;
 import org.eclipse.set.core.services.version.PlanProVersionService;
+import org.eclipse.set.model.validationreport.VersionInfo;
 
 /**
  * Make the old minor version compatible
@@ -21,7 +22,8 @@ import org.eclipse.set.core.services.version.PlanProVersionService;
  */
 public class PlanProXMLHelper extends XMLHelperImpl {
 
-	private static final String PLANPRO_URI_PREFIX = "http://www.plan-pro.org/modell/"; //$NON-NLS-1$
+	private static final String PLANPRO_URI_PREFIX = "http://www.plan-pro.org/modell/PlanPro"; //$NON-NLS-1$
+	private static final String SIGNALBEGRIFF_RIL_URI_PREFIX = "http://www.plan-pro.org/modell/Signalbegriffe_Ril_301"; //$NON-NLS-1$
 	private final PlanProVersionService versionService;
 
 	private static String parseVersion(final String uri) {
@@ -42,21 +44,23 @@ public class PlanProXMLHelper extends XMLHelperImpl {
 
 	@Override
 	public void addPrefix(final String prefix, final String uri) {
-		if (!uri.startsWith(PLANPRO_URI_PREFIX)
-				|| parseVersion(uri).equals(versionService.getCurrentVersion())
-				|| !parseVersion(uri)
-						.startsWith(versionService.getSupportedVersionFormat()
-								.getMajorPatchVersion())) {
+		if (!versionService.isSupportedVersion(uri)) {
 			super.addPrefix(prefix, uri);
 			return;
 		}
 
 		// When the version isn't equal current version, but this version is
 		// supported then replace the version part in uri to current version
-		final String version = parseVersion(uri);
-		final String newUri = uri.replace(version,
-				versionService.getCurrentVersion());
+		final VersionInfo currentVersion = versionService.getCurrentVersion();
+		String newUri = uri;
+		final String loadedVersion = parseVersion(uri);
+		if (uri.startsWith(PLANPRO_URI_PREFIX)) {
+			newUri = uri.replace(loadedVersion,
+					currentVersion.getPlanProVersions().getFirst());
+		} else if (uri.startsWith(SIGNALBEGRIFF_RIL_URI_PREFIX)) {
+			newUri = uri.replace(loadedVersion,
+					currentVersion.getSignalbegriffeVersions().getFirst());
+		}
 		super.addPrefix(prefix, newUri);
-
 	}
 }

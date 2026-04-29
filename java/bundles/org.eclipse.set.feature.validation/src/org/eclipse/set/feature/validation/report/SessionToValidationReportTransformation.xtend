@@ -170,7 +170,7 @@ class SessionToValidationReportTransformation {
 			transform
 
 		report.supportedVersion = report.supportedVersion ?:
-			versionService.createSupportedVersion
+			versionService.supportedVersions
 		report.toolboxVersion = ToolboxConfiguration.toolboxVersion.longVersion
 	}
 
