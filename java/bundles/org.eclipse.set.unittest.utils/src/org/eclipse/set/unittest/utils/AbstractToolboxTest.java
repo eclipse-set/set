@@ -40,8 +40,8 @@ import org.eclipse.set.core.fileservice.ToolboxIDResolver;
 import org.eclipse.set.core.modelservice.PlanningAccessServiceImpl;
 import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.cache.NoCacheService;
-import org.eclipse.set.model.planpro.Layoutinformationen.PlanPro_Layoutinfo;
 import org.eclipse.set.core.services.version.PlanProVersionService;
+import org.eclipse.set.model.planpro.Layoutinformationen.PlanPro_Layoutinfo;
 import org.eclipse.set.model.planpro.PlanPro.DocumentRoot;
 import org.eclipse.set.model.planpro.PlanPro.PlanProPackage;
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
@@ -63,251 +63,252 @@ import org.mockito.Mockito;
  */
 public class AbstractToolboxTest {
 
-    /**
-     * PPHN_1.10.0.1_01-02_Ibn-Z._-_2._AeM_2022-05-17_13-44_tg2.planpro file
-     */
-    public static String PPHN_1_10_0_1_20220517_PLANPRO = getModel(
-            "PPHN_1.10.0.1_01-02_Ibn-Z._-_2._AeM_2022-05-17_13-44_tg2.planpro"); //$NON-NLS-1$
-    /**
-     * PPHN_1.10.0.3_01-02_Ibn-Z._-_2._AeM_2022-05-17_13-44_tg3.planpro file
-     */
-    public static String PPHN_1_10_0_3_20220517_PLANPRO = getModel(
-            "PPHN_1.10.0.3_01-02_Ibn-Z._-_2._AeM_2022-05-17_13-44_tg3.planpro"); //$NON-NLS-1$
+	/**
+	 * PPHN_1.10.0.1_01-02_Ibn-Z._-_2._AeM_2022-05-17_13-44_tg2.planpro file
+	 */
+	public static String PPHN_1_10_0_1_20220517_PLANPRO = getModel(
+			"PPHN_1.10.0.1_01-02_Ibn-Z._-_2._AeM_2022-05-17_13-44_tg2.planpro"); //$NON-NLS-1$
+	/**
+	 * PPHN_1.10.0.3_01-02_Ibn-Z._-_2._AeM_2022-05-17_13-44_tg3.planpro file
+	 */
+	public static String PPHN_1_10_0_3_20220517_PLANPRO = getModel(
+			"PPHN_1.10.0.3_01-02_Ibn-Z._-_2._AeM_2022-05-17_13-44_tg3.planpro"); //$NON-NLS-1$
 
-    /**
-     * PPHN_1.10.0.1_01-02_Ibn-Z._-_2._AeM_2022-05-17_13-44_tg2.ppxml file
-     */
-    public static String PPHN_1_10_0_1_20220517_PPXML = getModel(
-            "PPHN_1.10.0.1_01-02_Ibn-Z._-_2._AeM_2022-05-17_13-44_tg2.ppxml"); //$NON-NLS-1$
+	/**
+	 * PPHN_1.10.0.1_01-02_Ibn-Z._-_2._AeM_2022-05-17_13-44_tg2.ppxml file
+	 */
+	public static String PPHN_1_10_0_1_20220517_PPXML = getModel(
+			"PPHN_1.10.0.1_01-02_Ibn-Z._-_2._AeM_2022-05-17_13-44_tg2.ppxml"); //$NON-NLS-1$
 
-    /**
-     * Info__2026-04-21_10-40.planpro
-     */
-    public static String SINGLE_STATE_PLAN = getModel(
-            "Info__2026-04-21_10-40.planpro"); //$NON-NLS-1$
-    private static final String UNZIP_DIR = "res/toolbox"; //$NON-NLS-1$
-    private static final String CONTENT_MODEL = "content"; //$NON-NLS-1$
-    private static final String LAYOUT_MODEL = "layout"; //$NON-NLS-1$
-    private static final String PLANPRO_ZIPPED_EXTENSION = "planpro"; //$NON-NLS-1$
+	/**
+	 * Info__2026-04-21_10-40.planpro
+	 */
+	public static String SINGLE_STATE_PLAN = getModel(
+			"Info__2026-04-21_10-40.planpro"); //$NON-NLS-1$
+	private static final String UNZIP_DIR = "res/toolbox"; //$NON-NLS-1$
+	private static final String CONTENT_MODEL = "content"; //$NON-NLS-1$
+	private static final String LAYOUT_MODEL = "layout"; //$NON-NLS-1$
+	private static final String PLANPRO_ZIPPED_EXTENSION = "planpro"; //$NON-NLS-1$
 
-    protected PlanPro_Schnittstelle planProSchnittstelle;
-    protected PlanPro_Layoutinfo layoutInfo;
-    private ResourceSet resourceSet;
-    private PlanProVersionService planproVersionService;
+	protected PlanPro_Schnittstelle planProSchnittstelle;
+	protected PlanPro_Layoutinfo layoutInfo;
+	private ResourceSet resourceSet;
+	private PlanProVersionService planproVersionService;
 
-    protected static String getModel(final Class<?> clazz, final String name) {
-        final URL res = clazz.getClassLoader().getResource(name);
+	protected static String getModel(final Class<?> clazz, final String name) {
+		final URL res = clazz.getClassLoader().getResource(name);
 
-        // If the resource is inside an OSGi bundle, we need to extract it first
-        if (res.toString().startsWith("bundleresource://")) { //$NON-NLS-1$
-            try {
-                final Path path = Files.createTempFile("set-test", name); //$NON-NLS-1$
-                Files.deleteIfExists(path);
-                try (InputStream stream = res.openStream()) {
-                    Files.copy(stream, path);
-                }
-                return path.toAbsolutePath().toString();
-            } catch (final IOException e) {
-                throw new RuntimeException(e);
-            }
+		// If the resource is inside an OSGi bundle, we need to extract it first
+		if (res.toString().startsWith("bundleresource://")) { //$NON-NLS-1$
+			try {
+				final Path path = Files.createTempFile("set-test", name); //$NON-NLS-1$
+				Files.deleteIfExists(path);
+				try (InputStream stream = res.openStream()) {
+					Files.copy(stream, path);
+				}
+				return path.toAbsolutePath().toString();
+			} catch (final IOException e) {
+				throw new RuntimeException(e);
+			}
 
-        }
+		}
 
-        try {
-            return Paths.get(res.toURI()).toAbsolutePath().toString();
-        } catch (final URISyntaxException e) {
-            throw new RuntimeException(e);
-        }
-    }
+		try {
+			return Paths.get(res.toURI()).toAbsolutePath().toString();
+		} catch (final URISyntaxException e) {
+			throw new RuntimeException(e);
+		}
+	}
 
-    private static String getModel(final String name) {
-        return getModel(AbstractToolboxTest.class, name);
-    }
+	private static String getModel(final String name) {
+		return getModel(AbstractToolboxTest.class, name);
+	}
 
-    /**
-     * Loads a .ppxml file into the planProSchnittstelle variable
-     *
-     * @param filename The path to the .ppxml
-     * @throws IOException
-     */
-    protected void givenPlanProFile(final String filename) throws IOException {
-        initPackages();
-        resourceSet = new ResourceSetImpl();
-        resourceSet.getPackageRegistry()
-                .put(PlanProPackage.eNS_URI, PlanProPackage.eINSTANCE);
-        resourceSet.getPackageRegistry()
-                .put(Signalbegriffe_Ril_301Package.eNS_URI,
-                        Signalbegriffe_Ril_301Package.eINSTANCE);
-        if (isZippedPlanProFile(filename)) {
-            loadZippedPlanProFile(filename);
-        } else {
-            final URI testFileURI = URI.createFileURI(filename);
-            final XMLResource resource = loadResource(testFileURI);
-            if (!resource.getContents().isEmpty() && resource.getContents()
-                    .get(0) instanceof final DocumentRoot docRoot) {
-                planProSchnittstelle = docRoot.getPlanProSchnittstelle();
-                ToolboxIDResolver.resolveIDReferences(planProSchnittstelle);
-            } else {
-                throw new IllegalArgumentException(
-                        "Resource contains no PlanPro model with the requested version."); //$NON-NLS-1$
-            }
-        }
-    }
+	/**
+	 * Loads a .ppxml file into the planProSchnittstelle variable
+	 *
+	 * @param filename
+	 *            The path to the .ppxml
+	 * @throws IOException
+	 */
+	protected void givenPlanProFile(final String filename) throws IOException {
+		initPackages();
+		resourceSet = new ResourceSetImpl();
+		resourceSet.getPackageRegistry()
+				.put(PlanProPackage.eNS_URI, PlanProPackage.eINSTANCE);
+		resourceSet.getPackageRegistry()
+				.put(Signalbegriffe_Ril_301Package.eNS_URI,
+						Signalbegriffe_Ril_301Package.eINSTANCE);
+		if (isZippedPlanProFile(filename)) {
+			loadZippedPlanProFile(filename);
+		} else {
+			final URI testFileURI = URI.createFileURI(filename);
+			final XMLResource resource = loadResource(testFileURI);
+			if (!resource.getContents().isEmpty() && resource.getContents()
+					.get(0) instanceof final DocumentRoot docRoot) {
+				planProSchnittstelle = docRoot.getPlanProSchnittstelle();
+				ToolboxIDResolver.resolveIDReferences(planProSchnittstelle);
+			} else {
+				throw new IllegalArgumentException(
+						"Resource contains no PlanPro model with the requested version."); //$NON-NLS-1$
+			}
+		}
+	}
 
-    /**
-     * Ensure model packages are initialized
-     */
-    @SuppressWarnings("static-method") // @BeforeEach may not be static
-    @BeforeEach
-    protected void initPackages() {
-        // Required for EMF Initialization according to EMF FAQ
-        // See
-        // https://wiki.eclipse.org/EMF/FAQ#How_do_I_use_EMF_in_standalone_applications_.28such_as_an_ordinary_main.29.3F
-        org.eclipse.set.model.planpro.PlanPro.PlanProPackage.eINSTANCE.eClass();
-        org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Signalbegriffe_Ril_301Package.eINSTANCE
-                .eClass();
-        org.eclipse.set.model.planpro.Layoutinformationen.LayoutinformationenPackage.eINSTANCE
-                .eClass();
-        givenPlanProVersionService();
-        Services.setCacheService(new NoCacheService());
-        Services.setPlanningAccessService(new PlanningAccessServiceImpl());
+	/**
+	 * Ensure model packages are initialized
+	 */
+	@SuppressWarnings("static-method") // @BeforeEach may not be static
+	@BeforeEach
+	protected void initPackages() {
+		// Required for EMF Initialization according to EMF FAQ
+		// See
+		// https://wiki.eclipse.org/EMF/FAQ#How_do_I_use_EMF_in_standalone_applications_.28such_as_an_ordinary_main.29.3F
+		org.eclipse.set.model.planpro.PlanPro.PlanProPackage.eINSTANCE.eClass();
+		org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Signalbegriffe_Ril_301Package.eINSTANCE
+				.eClass();
+		org.eclipse.set.model.planpro.Layoutinformationen.LayoutinformationenPackage.eINSTANCE
+				.eClass();
+		givenPlanProVersionService();
+		Services.setCacheService(new NoCacheService());
+		Services.setPlanningAccessService(new PlanningAccessServiceImpl());
 
-        final PlanProResourceFactoryImpl resourceFactory = new PlanProResourceFactoryImpl();
+		final PlanProResourceFactoryImpl resourceFactory = new PlanProResourceFactoryImpl();
 
-        Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap()
-                .put("ppxml", resourceFactory); //$NON-NLS-1$
-        Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap()
-                .put("xml", //$NON-NLS-1$
-                        resourceFactory);
+		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap()
+				.put("ppxml", resourceFactory); //$NON-NLS-1$
+		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap()
+				.put("xml", //$NON-NLS-1$
+						resourceFactory);
 
-    }
+	}
 
-    private void loadZippedPlanProFile(final String filePath)
-            throws IOException {
-        final List<XMLResource> listResource = new ArrayList<>();
-        unzip(filePath);
-        final URI contentURI = URI
-                .createFileURI(getModelPath(CONTENT_MODEL).toString());
-        listResource.add(loadResource(contentURI));
+	private void loadZippedPlanProFile(final String filePath)
+			throws IOException {
+		final List<XMLResource> listResource = new ArrayList<>();
+		unzip(filePath);
+		final URI contentURI = URI
+				.createFileURI(getModelPath(CONTENT_MODEL).toString());
+		listResource.add(loadResource(contentURI));
 
-        final Path layoutModelPath = getModelPath(LAYOUT_MODEL);
-        if (Files.exists(layoutModelPath)) {
-            final URI layout = URI.createFileURI(layoutModelPath.toString());
-            listResource.add(loadResource(layout));
-        }
+		final Path layoutModelPath = getModelPath(LAYOUT_MODEL);
+		if (Files.exists(layoutModelPath)) {
+			final URI layout = URI.createFileURI(layoutModelPath.toString());
+			listResource.add(loadResource(layout));
+		}
 
-        listResource.forEach(resource -> {
-            final EObject root = resource.getContents().get(0);
-            if (root instanceof final DocumentRoot model) {
-                planProSchnittstelle = model.getPlanProSchnittstelle();
-                ToolboxIDResolver.resolveIDReferences(planProSchnittstelle);
-            } else if (root instanceof final org.eclipse.set.model.planpro.Layoutinformationen.DocumentRoot layoutRoot) {
-                layoutInfo = layoutRoot.getPlanProLayoutinfo();
-                ToolboxIDResolver.resolveIDReferences(layoutInfo);
-            } else {
-                throw new IllegalArgumentException(
-                        "Resource contains no PlanPro model with the requested version."); //$NON-NLS-1$
-            }
-        });
-    }
+		listResource.forEach(resource -> {
+			final EObject root = resource.getContents().get(0);
+			if (root instanceof final DocumentRoot model) {
+				planProSchnittstelle = model.getPlanProSchnittstelle();
+				ToolboxIDResolver.resolveIDReferences(planProSchnittstelle);
+			} else if (root instanceof final org.eclipse.set.model.planpro.Layoutinformationen.DocumentRoot layoutRoot) {
+				layoutInfo = layoutRoot.getPlanProLayoutinfo();
+				ToolboxIDResolver.resolveIDReferences(layoutInfo);
+			} else {
+				throw new IllegalArgumentException(
+						"Resource contains no PlanPro model with the requested version."); //$NON-NLS-1$
+			}
+		});
+	}
 
-    private static void unzip(final String filePath) throws IOException {
-        final Path unzipDir = Paths.get(UNZIP_DIR);
-        if (Files.exists(unzipDir)) {
-            try (Stream<Path> paths = Files.walk(unzipDir)) {
-                paths.sorted(Comparator.reverseOrder())
-                        .map(Path::toFile)
-                        .forEach(File::delete);
-            }
-        } else {
-            Files.createDirectories(unzipDir);
-        }
+	private static void unzip(final String filePath) throws IOException {
+		final Path unzipDir = Paths.get(UNZIP_DIR);
+		if (Files.exists(unzipDir)) {
+			try (Stream<Path> paths = Files.walk(unzipDir)) {
+				paths.sorted(Comparator.reverseOrder())
+						.map(Path::toFile)
+						.forEach(File::delete);
+			}
+		} else {
+			Files.createDirectories(unzipDir);
+		}
 
-        // unzip the archive
-        final byte[] buffer = new byte[1024];
-        try (final ZipInputStream zipIn = new ZipInputStream(
-                new FileInputStream(new File(filePath)))) {
-            for (ZipEntry zipEntry = zipIn
-                    .getNextEntry(); zipEntry != null; zipEntry = zipIn
-                            .getNextEntry()) {
-                final File newFile = newFile(unzipDir, zipEntry);
-                if (zipEntry.getName().endsWith("/")) { //$NON-NLS-1$
-                    newFile.mkdirs();
-                } else {
-                    // Create parent directories if not present
-                    newFile.getParentFile().mkdirs();
+		// unzip the archive
+		final byte[] buffer = new byte[1024];
+		try (final ZipInputStream zipIn = new ZipInputStream(
+				new FileInputStream(new File(filePath)))) {
+			for (ZipEntry zipEntry = zipIn
+					.getNextEntry(); zipEntry != null; zipEntry = zipIn
+							.getNextEntry()) {
+				final File newFile = newFile(unzipDir, zipEntry);
+				if (zipEntry.getName().endsWith("/")) { //$NON-NLS-1$
+					newFile.mkdirs();
+				} else {
+					// Create parent directories if not present
+					newFile.getParentFile().mkdirs();
 
-                    // Extract the file
-                    try (final FileOutputStream fos = new FileOutputStream(
-                            newFile)) {
-                        int len;
-                        while ((len = zipIn.read(buffer)) > 0) {
-                            fos.write(buffer, 0, len);
-                        }
-                    }
-                }
-            }
-            zipIn.closeEntry();
-        }
-    }
+					// Extract the file
+					try (final FileOutputStream fos = new FileOutputStream(
+							newFile)) {
+						int len;
+						while ((len = zipIn.read(buffer)) > 0) {
+							fos.write(buffer, 0, len);
+						}
+					}
+				}
+			}
+			zipIn.closeEntry();
+		}
+	}
 
-    private static File newFile(final Path dir, final ZipEntry entry)
-            throws IOException {
-        final File file = new File(dir.toString(), entry.getName());
+	private static File newFile(final Path dir, final ZipEntry entry)
+			throws IOException {
+		final File file = new File(dir.toString(), entry.getName());
 
-        // test file position against dir
-        final String filePath = file.getCanonicalPath();
-        final String dirPath = dir.toFile().getCanonicalPath() + File.separator;
-        if (filePath.startsWith(dirPath)) {
-            return file;
-        }
-        throw new IOException(
-                String.format("%s is outside of %s", filePath, dirPath)); //$NON-NLS-1$
-    }
+		// test file position against dir
+		final String filePath = file.getCanonicalPath();
+		final String dirPath = dir.toFile().getCanonicalPath() + File.separator;
+		if (filePath.startsWith(dirPath)) {
+			return file;
+		}
+		throw new IOException(
+				String.format("%s is outside of %s", filePath, dirPath)); //$NON-NLS-1$
+	}
 
-    private static boolean isZippedPlanProFile(final String filePath) {
-        final List<String> split = Arrays.asList(filePath.split("\\.")); //$NON-NLS-1$
-        if (split.size() > 1) {
-            return split.get(split.size() - 1).equals(PLANPRO_ZIPPED_EXTENSION);
-        }
-        return false;
-    }
+	private static boolean isZippedPlanProFile(final String filePath) {
+		final List<String> split = Arrays.asList(filePath.split("\\.")); //$NON-NLS-1$
+		if (split.size() > 1) {
+			return split.get(split.size() - 1).equals(PLANPRO_ZIPPED_EXTENSION);
+		}
+		return false;
+	}
 
-    private static Path getModelPath(final String modelName) {
-        return Paths.get(UNZIP_DIR, modelName + ".xml"); //$NON-NLS-1$
-    }
+	private static Path getModelPath(final String modelName) {
+		return Paths.get(UNZIP_DIR, modelName + ".xml"); //$NON-NLS-1$
+	}
 
-    private XMLResource loadResource(final URI resourceURI) throws IOException {
-        final XMLResource resource = (XMLResource) resourceSet
-                .createResource(resourceURI);
-        final PlanProFileResource planproResource = new PlanProFileResource(
-                resourceURI,
-                new PlanProXMLHelper(resource, planproVersionService));
-        try {
-            planproResource.load(null);
-        } catch (final Exception e) {
-            if (!(e.getCause() instanceof FeatureNotFoundException
-                    || e.getCause() instanceof IllegalValueException)) {
-                throw e;
-            }
-        }
-        return planproResource;
-    }
+	private XMLResource loadResource(final URI resourceURI) throws IOException {
+		final XMLResource resource = (XMLResource) resourceSet
+				.createResource(resourceURI);
+		final PlanProFileResource planproResource = new PlanProFileResource(
+				resourceURI,
+				new PlanProXMLHelper(resource, planproVersionService));
+		try {
+			planproResource.load(null);
+		} catch (final Exception e) {
+			if (!(e.getCause() instanceof FeatureNotFoundException
+					|| e.getCause() instanceof IllegalValueException)) {
+				throw e;
+			}
+		}
+		return planproResource;
+	}
 
-    @SuppressWarnings("boxing")
-    protected void givenPlanProVersionService() {
-        planproVersionService = Mockito.mock(PlanProVersionService.class);
-        final VersionInfo versionInfo = ValidationreportFactory.eINSTANCE
-                .createVersionInfo();
-        versionInfo.getPlanProVersions()
-                .add(PlanProPackageExtensions.getModelVersion());
-        versionInfo.getSignalbegriffeVersions()
-                .add(SignalbegriffeRil301PackageExtensions.getModelVersion());
-        Mockito.when(planproVersionService
-                .isSupportedVersion(ArgumentMatchers.anyString()))
-                .thenReturn(Boolean.TRUE);
-        Mockito.when(planproVersionService.getCurrentVersion())
-                .thenReturn(versionInfo);
-    }
+	@SuppressWarnings("boxing")
+	protected void givenPlanProVersionService() {
+		planproVersionService = Mockito.mock(PlanProVersionService.class);
+		final VersionInfo versionInfo = ValidationreportFactory.eINSTANCE
+				.createVersionInfo();
+		versionInfo.getPlanProVersions()
+				.add(PlanProPackageExtensions.getModelVersion());
+		versionInfo.getSignalbegriffeVersions()
+				.add(SignalbegriffeRil301PackageExtensions.getModelVersion());
+		Mockito.when(planproVersionService
+				.isSupportedVersion(ArgumentMatchers.anyString()))
+				.thenReturn(Boolean.TRUE);
+		Mockito.when(planproVersionService.getCurrentVersion())
+				.thenReturn(versionInfo);
+	}
 
 }
