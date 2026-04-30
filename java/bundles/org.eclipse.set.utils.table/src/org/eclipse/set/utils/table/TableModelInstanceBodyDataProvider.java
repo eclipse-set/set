@@ -39,7 +39,7 @@ public class TableModelInstanceBodyDataProvider
 	private final List<TableRow> instances;
 	private List<TableRow> filteredInstances;
 	private final int propertyCount;
-	private final TableSpanUtils spanUtils;
+	private TableSpanUtils spanUtils;
 	private Map<Integer, Object> filters = new HashMap<>();
 
 	/**
@@ -52,7 +52,6 @@ public class TableModelInstanceBodyDataProvider
 			final List<TableRow> instances) {
 		this.instances = instances;
 		this.propertyCount = propertyCount;
-		this.spanUtils = new TableSpanUtils(instances);
 		this.refresh();
 	}
 
@@ -118,6 +117,7 @@ public class TableModelInstanceBodyDataProvider
 		this.filteredInstances = this.instances.stream()
 				.filter(this::filterMatch)
 				.toList();
+		this.spanUtils = new TableSpanUtils(this.filteredInstances);
 	}
 
 	private boolean filterMatch(final TableRow row) {

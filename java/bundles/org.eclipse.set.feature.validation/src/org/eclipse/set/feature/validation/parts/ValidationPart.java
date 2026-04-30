@@ -155,65 +155,7 @@ public class ValidationPart extends AbstractEmfFormsPart {
 			// Register nattable injector
 			tableView = new ValidationTableView(this, messages,
 					tableMenuService);
-			final Function<Composite, Control> func = innerParent -> {
-
-				final Composite composite = new Composite(innerParent,
-						SWT.NONE);
-
-				GridLayoutFactory.swtDefaults()
-						.numColumns(3)
-						.applyTo(composite);
-				GridDataFactory.swtDefaults()
-						.align(SWT.FILL, SWT.FILL)
-						.grab(true, false)
-						.applyTo(composite);
-
-				final Control natTable = tableView.create(innerParent,
-						validationReport);
-				// create the open view button
-				final Button showTableButton = new Button(composite, SWT.PUSH);
-				GridDataFactory.swtDefaults()
-						.align(SWT.LEFT, SWT.FILL)
-						.grab(false, false)
-						.applyTo(showTableButton);
-
-				showTableButton.setText(messages.ShowValidationTableMsg);
-				showTableButton.addListener(SWT.Selection,
-						event -> showValidationTable());
-				showTableButton.setSize(BUTTON_WIDTH_EXPORT_VALIDATION, 0);
-
-				// create the toggle collapsed button
-				final Button collapseAllButton = tableView
-						.createExpandCollapseAllButton(composite,
-								messages.ValidationTable_ExpandAllGroup,
-								messages.ValidationTable_CollapseAllGroup);
-
-				exportValidationButton = new Button(composite, SWT.PUSH);
-				GridDataFactory.swtDefaults()
-						.align(SWT.RIGHT, SWT.FILL)
-						.grab(true, false)
-						.applyTo(exportValidationButton);
-				exportValidationButton.setText(messages.ExportValidationMsg);
-				exportValidationButton.addListener(SWT.Selection,
-						event -> tableView.exportCsv());
-				exportValidationButton.setSize(BUTTON_WIDTH_EXPORT_VALIDATION,
-						0);
-
-				// Setup layout
-				showTableButton.setLayoutData(
-						new GridData(SWT.LEFT, SWT.TOP, false, true));
-				collapseAllButton.setLayoutData(
-						new GridData(SWT.LEFT, SWT.TOP, false, true));
-				exportValidationButton.setLayoutData(
-						new GridData(SWT.RIGHT, SWT.TOP, true, true));
-
-				GridDataFactory.swtDefaults()
-						.align(SWT.FILL, SWT.FILL)
-						.grab(true, true)
-						.hint(SWT.DEFAULT, 600)
-						.applyTo(natTable);
-				return natTable;
-			};
+			final Function<Composite, Control> func = this::createInjectedTable;
 			modelService.put(INJECT_VIEW_VALIDATION_NATTABLE, func);
 
 			// create form content
@@ -255,6 +197,61 @@ public class ValidationPart extends AbstractEmfFormsPart {
 		} catch (final Exception e) {
 			createException = e;
 		}
+	}
+
+	protected Control createInjectedTable(final Composite innerParent) {
+		final Composite composite = new Composite(innerParent, SWT.NONE);
+
+		GridLayoutFactory.swtDefaults().numColumns(3).applyTo(composite);
+		GridDataFactory.swtDefaults()
+				.align(SWT.FILL, SWT.FILL)
+				.grab(true, false)
+				.applyTo(composite);
+
+		final Control natTable = tableView.create(innerParent,
+				validationReport);
+		// create the open view button
+		final Button showTableButton = new Button(composite, SWT.PUSH);
+		GridDataFactory.swtDefaults()
+				.align(SWT.LEFT, SWT.FILL)
+				.grab(false, false)
+				.applyTo(showTableButton);
+
+		showTableButton.setText(messages.ShowValidationTableMsg);
+		showTableButton.addListener(SWT.Selection,
+				event -> showValidationTable());
+		showTableButton.setSize(BUTTON_WIDTH_EXPORT_VALIDATION, 0);
+
+		// create the toggle collapsed button
+		final Button collapseAllButton = tableView
+				.createExpandCollapseAllButton(composite,
+						messages.ValidationTable_ExpandAllGroup,
+						messages.ValidationTable_CollapseAllGroup);
+
+		exportValidationButton = new Button(composite, SWT.PUSH);
+		GridDataFactory.swtDefaults()
+				.align(SWT.RIGHT, SWT.FILL)
+				.grab(true, false)
+				.applyTo(exportValidationButton);
+		exportValidationButton.setText(messages.ExportValidationMsg);
+		exportValidationButton.addListener(SWT.Selection,
+				event -> tableView.exportCsv());
+		exportValidationButton.setSize(BUTTON_WIDTH_EXPORT_VALIDATION, 0);
+
+		// Setup layout
+		showTableButton
+				.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, true));
+		collapseAllButton
+				.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, true));
+		exportValidationButton
+				.setLayoutData(new GridData(SWT.RIGHT, SWT.TOP, true, true));
+
+		GridDataFactory.swtDefaults()
+				.align(SWT.FILL, SWT.FILL)
+				.grab(true, true)
+				.hint(SWT.DEFAULT, 600)
+				.applyTo(natTable);
+		return natTable;
 	}
 
 	private void storageReport() {

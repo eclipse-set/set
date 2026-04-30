@@ -65,6 +65,7 @@ jobs:
           
       - name: Push
         shell: bash
+        if: ${{ env.TARGET_BRANCH != 'main' }}
         working-directory: ${{ env.REPO_LOCAL_PATH }}
         run: |
           git config user.name 'eclipse-set-bot'
@@ -75,3 +76,19 @@ jobs:
           git status
           git push -f
           git status
+      
+      - name: Create PR
+        if: ${{ env.TARGET_BRANCH == 'main' }}
+        working-directory: ${{ env.REPO_LOCAL_PATH }}
+        run: |
+          git config user.name 'eclipse-set-bot'
+          git config user.email 'set-bot@eclipse.org'
+          git checkout -b update-table-reference
+          git status
+          git add -A
+          git commit --allow-empty -m "Update table reference" 
+          git status
+          git push --delete origin update-table-reference
+          git push --set-upstream origin update-table-reference
+          git status
+          gh pr create --base main --title "Update table reference"

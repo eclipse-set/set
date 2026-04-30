@@ -391,6 +391,11 @@ public final class ToolboxConstants {
 	public static final double TOP_GEO_LENGTH_TOLERANCE = 0.01;
 
 	/**
+	 * The separator for supported PlanPro, Signalbegriffe_Ril301 versions
+	 */
+	public static final String VERSION_SEPARATOR = ", ";
+
+	/**
 	 * The tolerance value between the Begrenzungen of a Teilbereich and its
 	 * associated TOP_KANTE
 	 */
