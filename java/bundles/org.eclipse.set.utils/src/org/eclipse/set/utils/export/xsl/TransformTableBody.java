@@ -102,7 +102,7 @@ public class TransformTableBody {
 					"Missing first data row. Is the printing area configured correctly?"); //$NON-NLS-1$
 		}
 		getFirstDataRow(sheet).forEach(cell -> {
-			final int index = cell.getColumnIndex() - 1;
+			final int index = cell.getColumnIndex();
 			if (parentGroupLastIndex.contains(index)
 					|| pageBreakAts.contains(index)) {
 				setExcelCellBorderStyle(cell, BorderDirection.RIGHT,
