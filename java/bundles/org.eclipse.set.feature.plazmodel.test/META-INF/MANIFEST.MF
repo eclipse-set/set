@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: PlaZ Model Test
 Bundle-SymbolicName: org.eclipse.set.feature.plazmodel.test
 Bundle-Vendor: Eclipse Signalling Engineering Toolbox
-Bundle-Version: 2.6.0.qualifier
+Bundle-Version: 2.6.0
 Fragment-Host: org.eclipse.set.feature.plazmodel
 Require-Bundle: org.eclipse.swt,
  org.eclipse.jface,
