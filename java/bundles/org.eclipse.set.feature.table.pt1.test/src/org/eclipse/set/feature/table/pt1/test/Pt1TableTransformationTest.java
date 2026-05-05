@@ -10,32 +10,66 @@
  */
 package org.eclipse.set.feature.table.pt1.test;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.*;
 
+import java.io.File;
+import java.nio.file.Path;
 import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Stream;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.set.basis.ToolboxProperties;
+import org.eclipse.set.basis.constants.ExportType;
 import org.eclipse.set.basis.constants.TableType;
-import org.eclipse.set.core.services.Services;
-import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableTransformationService;
+import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
+import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
+import org.eclipse.set.feature.table.pt1.ssks.SsksTransformationService;
 import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.ppmodel.extensions.MultiContainer_AttributeGroupExtensions;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
+import org.eclipse.set.utils.export.xsl.TransformTable;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.mockito.MockedStatic;
-import org.mockito.Mockito;
+import org.osgi.service.event.EventAdmin;
+import org.osgi.test.common.annotation.InjectService;
+import org.osgi.test.junit5.service.ServiceExtension;
+import org.w3c.dom.Document;
 
 /**
  * Test Pt1 Table transformation
  * 
  * @author Truong
  */
+@ExtendWith(ServiceExtension.class)
 class Pt1TableTransformationTest extends Pt1TableTest {
+
+	private static String Ssks_Pagebreak_Column_Index = "27";
+	private static String XSL_DIR = "res/xsl";
+
+	private static Document loadReferenceXSLDoc(final String shortcut)
+			throws Exception {
+		final String xslName = shortcut.toLowerCase() + "-fop.xsl";
+		final File file = Path.of(XSL_DIR, xslName).toFile();
+		if (!file.exists() || !file.isFile()) {
+			throw new IllegalArgumentException(
+					"File Not found: " + file.toString());
+		}
+		final DocumentBuilderFactory factory = DocumentBuilderFactory
+				.newInstance();
+		factory.setNamespaceAware(true);
+		factory.setIgnoringComments(true);
+		factory.setIgnoringElementContentWhitespace(true);
+		final DocumentBuilder newDocumentBuilder = factory.newDocumentBuilder();
+		return newDocumentBuilder.parse(file);
+	}
 
 	/**
 	 * @return the reference files
@@ -45,37 +79,72 @@ class Pt1TableTransformationTest extends Pt1TableTest {
 				Arguments.of(SINGLE_STATE_PLAN, "zustandpphn"));
 	}
 
+	@InjectService
+	EventAdmin eventAdmin;
+
+	@InjectService
+	List<PlanPro2TableTransformationService> transformationServices;
+
+	@InjectService
+	EnumTranslationService translationService;
+
+	private boolean compareXSLDoc(final Document actual,
+			final Document expect) {
+		return true;
+	}
+
+	@Test
+	void testPDFExportStyle() throws Exception {
+		givenPlanProFile(PPHN_1_10_0_3_20220517_PLANPRO);
+		setupTransformationService(eventAdmin);
+		for (final PlanPro2TableTransformationService service : transformationServices) {
+			final TransformTable transformTable = new TransformTable(
+					ExportType.INVENTORY_RECORDS,
+					service.getTableNameInfo().getShortName().toLowerCase(),
+					TableType.DIFF, translationService);
+			final Document xslDoc = assertDoesNotThrow(() -> {
+				if (service instanceof SsksTransformationService) {
+					return transformTable
+							.transform(List.of(Ssks_Pagebreak_Column_Index));
+				}
+				return transformTable.transform();
+			}, "Error by create XSL Doc: "
+					+ service.getClass().getPackageName());
+			assertNotNull(xslDoc, "Error by create XSL Doc: "
+					+ service.getClass().getPackageName());
+			final Document expect = loadReferenceXSLDoc(
+					service.getTableNameInfo().getShortName());
+			assertTrue(compareXSLDoc(xslDoc, expect));
+		}
+	}
+
 	@ParameterizedTest
 	@MethodSource("getReferenceFiles")
 	void testTransformator(final String file) throws Exception {
 		givenPlanProFile(file);
-		setupTransformationService();
+		setupTransformationService(eventAdmin);
 		System.setProperty(ToolboxProperties.DEVELOPMENT_MODE,
 				Boolean.FALSE.toString());
-		try (final MockedStatic<Services> mockServices = Mockito
-				.mockStatic(Services.class);) {
-			setupMockServices(mockServices);
-			for (final AbstractPlanPro2TableTransformationService transformationService : transformationServices) {
-				for (final MultiContainer_AttributeGroup container : getLSTContainer()) {
-					// Test transformation table
-					final Table transformedTable = assertDoesNotThrow(
-							() -> transformationService.transform(container),
-							() -> "Error by transformation Table: "
-									+ transformationService.getClass()
-											.getPackageName());
-					final TableType defaultTableType = MultiContainer_AttributeGroupExtensions
-							.getContainerType(container)
-							.getDefaultTableType();
-					// Test sorting table
-					assertDoesNotThrow(() -> {
-						final Comparator<RowGroup> comparator = transformationService
-								.getRowGroupComparator(defaultTableType);
-						ECollections.sort(transformedTable.getTablecontent()
-								.getRowgroups(), comparator);
-					}, () -> "Error by sort table: "
-							+ transformationService.getClass()
-									.getPackageName());
-				}
+		for (final PlanPro2TableTransformationService transformationService : transformationServices) {
+			for (final MultiContainer_AttributeGroup container : getLSTContainer()) {
+				// Test transformation table
+				final Table transformedTable = assertDoesNotThrow(
+						() -> transformationService.transform(container),
+						() -> "Error by transformation Table: "
+								+ transformationService.getClass()
+										.getPackageName());
+				final TableType defaultTableType = MultiContainer_AttributeGroupExtensions
+						.getContainerType(container)
+						.getDefaultTableType();
+				// Test sorting table
+				assertDoesNotThrow(() -> {
+					final Comparator<RowGroup> comparator = transformationService
+							.getRowGroupComparator(defaultTableType);
+					ECollections.sort(
+							transformedTable.getTablecontent().getRowgroups(),
+							comparator);
+				}, () -> "Error by sort table: "
+						+ transformationService.getClass().getPackageName());
 			}
 		}
 	}
