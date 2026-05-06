@@ -1,6 +1,15 @@
 # Eclipse Signalling Engineering Toolbox: Release notes 
 The Eclipse Signalling Engineering Toolbox provides means for initialization, managing, testing, validation, visualization, documentation and merging of instances of the object model for the railway interlocking signalling technology.
 
+## 2.6.0
+- Optimize performance and cache memory
+- New Table:
+    - Sxxx: Table of Annotation
+    - Sskx: Table of Panel-Signal
+    - Sskp-dm: PZB-Table in dm (Decimeter) accuracy
+- Support Signalbegriffe_Ril_301 version 1.10.0.4
+- Add Subwork selection, which will be used in Titlebox
+  
 ## 2.5.1
 - Fix memory leak after closing a plan
 - Fix table exception when opening a single state plan
