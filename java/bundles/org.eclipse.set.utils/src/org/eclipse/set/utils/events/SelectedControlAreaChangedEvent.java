@@ -11,9 +11,11 @@
 package org.eclipse.set.utils.events;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 import org.eclipse.set.basis.constants.TableType;
+import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
 
 /**
@@ -22,6 +24,9 @@ import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
  * @author Truong
  */
 public class SelectedControlAreaChangedEvent implements ToolboxEvent {
+	private static final List<String> relevantTablePrefix = List.of(
+			ToolboxConstants.ESTW_TABLE_PART_ID_PREFIX,
+			ToolboxConstants.ESTW_SUPPLEMENT_PART_ID_PREFIX);
 
 	/**
 	 * Helper class for define control area
@@ -121,6 +126,15 @@ public class SelectedControlAreaChangedEvent implements ToolboxEvent {
 	@Override
 	public String getTopic() {
 		return TOPIC;
+	}
+
+	/**
+	 * @param elementId
+	 *            the table part id
+	 * @return true, if the table relevant to the event
+	 */
+	public static boolean istRelevantTable(final String elementId) {
+		return relevantTablePrefix.stream().anyMatch(elementId::startsWith);
 	}
 
 }

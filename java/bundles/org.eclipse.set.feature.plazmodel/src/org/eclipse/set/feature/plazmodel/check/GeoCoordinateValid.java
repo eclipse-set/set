@@ -258,8 +258,12 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 		}
 		final Optional<TopologicalCoordinate> target = alreadyCalulatedCoordinates
 				.stream()
-				.filter(ele -> ele.state() == state && ele.po() == po
-						&& ele.potk() == potk)
+				.filter(ele -> ele.state() == state)
+				.filter(ele -> ele.po()
+						.getIdentitaet()
+						.getWert()
+						.equals(po.getIdentitaet().getWert()))
+				.filter(ele -> ele.potk() == potk)
 				.findFirst();
 		if (target.isPresent()) {
 			return target.get().coordinate();

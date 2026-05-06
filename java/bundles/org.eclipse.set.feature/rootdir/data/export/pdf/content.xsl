@@ -47,7 +47,7 @@
 			<xsl:choose>
 				<xsl:when test="@keep-inline='true'">
 					<xsl:for-each select="*[not(@isFootNote)]">
-						<fo:block>
+						<fo:block hyphenate="true" language="de">
 							<xsl:apply-templates select="." />
 						</fo:block>
 					</xsl:for-each>
@@ -59,16 +59,18 @@
 					</xsl:for-each>
 				</xsl:when>
 				<xsl:otherwise>
-					<fo:block>
-						<xsl:apply-templates />
-					</fo:block>
+					<xsl:for-each select="*">
+						<fo:block hyphenate="true" language="de">
+							<xsl:apply-templates select="." />
+						</fo:block>
+					</xsl:for-each>
 				</xsl:otherwise>
 			</xsl:choose>
 		</fo:block>
 	</xsl:template>
 
 	<xsl:template match="UnchangedValue">
-		<fo:inline hyphenate="true" language="de">
+		<fo:inline>
 			<xsl:value-of select="." />
 		</fo:inline>
 	</xsl:template>
@@ -76,7 +78,7 @@
 	<xsl:template
 		match="UnchangedValue[starts-with(.,'Error:') or starts-with(.,'&#9203;')]"
 		priority="1">
-		<fo:inline hyphenate="true" language="de">
+		<fo:inline>
 			<fo:external-graphic
 				xsl:use-attribute-sets="external-graphic-style"
 				src="data/pictures/warning_yellow.svg" fox:alt-text="Error" />
@@ -85,14 +87,14 @@
 
 	<xsl:template match="OldValue">
 		<fo:inline background-color="yellow"
-			text-decoration="line-through" hyphenate="true" language="de">
+			text-decoration="line-through">
 			<xsl:value-of select="." />
 		</fo:inline>
 	</xsl:template>
 
 	<xsl:template match="OldValue[starts-with(.,'&#x25a1;')]">
 		<fo:inline font-family="Arial" background-color="yellow"
-			text-decoration="line-through" hyphenate="true" language="de">
+			text-decoration="line-through">
 			<xsl:value-of select="." />
 		</fo:inline>
 	</xsl:template>
@@ -100,7 +102,7 @@
 	<xsl:template
 		match="OldValue[starts-with(.,'Error:') or starts-with(.,'&#9203;')]"
 		priority="1">
-		<fo:inline hyphenate="true" language="de">
+		<fo:inline>
 			<fo:external-graphic
 				xsl:use-attribute-sets="external-graphic-style"
 				src="data/pictures/warning_yellow.svg" fox:alt-text="Error" />
@@ -125,8 +127,7 @@
 	</xsl:template>
 
 	<xsl:template match="NewValue[starts-with(.,'&#x25a1;')]">
-		<fo:inline font-family="Arial" color="#cd0000"
-			hyphenate="true" language="de">
+		<fo:inline font-family="Arial" color="#cd0000">
 			<xsl:value-of select="." />
 		</fo:inline>
 	</xsl:template>
@@ -134,7 +135,7 @@
 	<xsl:template
 		match="NewValue[starts-with(.,'Error:') or starts-with(.,'&#9203;')]"
 		priority="1">
-		<fo:inline color="#cd0000" hyphenate="true" language="de">
+		<fo:inline color="#cd0000">
 			<fo:external-graphic
 				xsl:use-attribute-sets="external-graphic-style"
 				src="data/pictures/warning_red.svg" fox:alt-text="Error" />
@@ -144,7 +145,7 @@
 	<xsl:template
 		match="NewValue[starts-with(.,'Error:') or starts-with(.,'&#9203;')]"
 		priority="2">
-		<fo:inline color="#cd0000" hyphenate="true" language="de">
+		<fo:inline color="#cd0000">
 			<fo:external-graphic
 				xsl:use-attribute-sets="external-graphic-style"
 				src="data/pictures/warning_red.svg" fox:alt-text="Error" />

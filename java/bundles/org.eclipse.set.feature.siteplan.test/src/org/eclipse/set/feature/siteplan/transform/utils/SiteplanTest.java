@@ -8,11 +8,18 @@
  */
 package org.eclipse.set.feature.siteplan.transform.utils;
 
+import java.lang.reflect.Method;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.eclipse.set.application.geometry.GeoKanteGeometryServiceImpl;
+import org.eclipse.set.application.geometry.GeoKanteGeometrySessionData;
+import org.eclipse.set.application.geometry.PointObjectPositionServiceImpl;
+import org.eclipse.set.basis.constants.ContainerType;
+import org.eclipse.set.core.services.geometry.GeoKanteGeometryService;
 import org.eclipse.set.feature.siteplan.positionservice.PositionServiceImpl;
 import org.eclipse.set.feature.siteplan.transform.CantTransform;
 import org.eclipse.set.feature.siteplan.transform.ExternalElementControlTransform;
@@ -27,6 +34,9 @@ import org.eclipse.set.feature.siteplan.transform.TrackCloseTransformator;
 import org.eclipse.set.feature.siteplan.transform.TrackLockTransformator;
 import org.eclipse.set.feature.siteplan.transform.TrackSwitchTransformator;
 import org.eclipse.set.feature.siteplan.transform.TrackTransformator;
+import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
+import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
+import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.eclipse.set.unittest.utils.AbstractToolboxTest;
 import org.junit.jupiter.params.provider.Arguments;
 
@@ -46,8 +56,14 @@ public class SiteplanTest extends AbstractToolboxTest {
 		return Stream.of(Arguments.of(PPHN_1_10_0_3_20220517_PLANPRO, "pphn"));
 	}
 
+	protected static final String GEOMETRY_SERVICE_FIELD_NAME = "geometryService";
+	protected static final String POINT_OBJECT_POSITION_SERVICE_FIELD_NAME = "pointObjectPositionService";
+	protected static final String POSITION_SERVICE_FIELD_NAME = "positionService";
+
+	GeoKanteGeometryService geometryService;
+
 	// IMPROVE: OSGI-based test for dependency injection
-	protected static void setupTransformators(
+	protected void setupTransformators(
 			final SiteplanTransformatorImpl transformator) {
 		setupTransformator(transformator);
 		transformator.transformators.addAll(List.of(
@@ -58,19 +74,81 @@ public class SiteplanTest extends AbstractToolboxTest {
 				new TrackCloseTransformator(),
 				new ExternalElementControlTransform(), new CantTransform(),
 				new LockKeyTransformator()));
-		transformator.transformators.forEach(SiteplanTest::setupTransformator);
+		transformator.transformators.forEach(this::setupTransformator);
 	}
 
-	private static <T> void setupTransformator(final T transformator) {
+	private <T> void setupTransformator(final T transformator) {
 
 		try {
-			FieldUtils.writeField(transformator, "trackService", //$NON-NLS-1$
-					new GeoKanteGeometryServiceImpl(), true);
-			FieldUtils.writeField(transformator, "positionService",
-					new PositionServiceImpl(), true);
-		} catch (final IllegalAccessException e) {
+			registerService(transformator, GEOMETRY_SERVICE_FIELD_NAME);
+			registerService(transformator,
+					POINT_OBJECT_POSITION_SERVICE_FIELD_NAME);
+			registerService(transformator, POSITION_SERVICE_FIELD_NAME);
+		} catch (final Exception e) {
 			// ignore (test will fail)
 		}
+	}
+
+	private <T> void registerService(final T transformator,
+			final String serviceName)
+			throws IllegalAccessException, SecurityException {
+		try {
+			if (transformator.getClass()
+					.getDeclaredField(serviceName) == null) {
+				return;
+			}
+
+			switch (serviceName) {
+				case GEOMETRY_SERVICE_FIELD_NAME: {
+					FieldUtils.writeField(transformator, serviceName,
+							geometryService, true);
+					break;
+				}
+
+				case POINT_OBJECT_POSITION_SERVICE_FIELD_NAME: {
+					FieldUtils.writeField(transformator, serviceName,
+							new PointObjectPositionServiceImpl(), true);
+					break;
+				}
+
+				case POSITION_SERVICE_FIELD_NAME: {
+					FieldUtils.writeField(transformator, serviceName,
+							new PositionServiceImpl(), true);
+					break;
+				}
+				default:
+					return;
+			}
+		} catch (final NoSuchFieldException e) {
+			// ignore
+		}
+
+	}
+
+	@SuppressWarnings("boxing")
+	protected void givenGeoKanteGeometryService() throws Exception {
+		geometryService = new GeoKanteGeometryServiceImpl();
+		final Map<PlanPro_Schnittstelle, GeoKanteGeometrySessionData> sessionesData = new HashMap<>();
+
+		final GeoKanteGeometrySessionData geometrySessionData = new GeoKanteGeometrySessionData();
+		sessionesData.put(planProSchnittstelle, geometrySessionData);
+
+		FieldUtils.writeField(geometryService, "sessionesData", sessionesData,
+				true);
+
+		final Method declaredMethod = geometryService.getClass()
+				.getDeclaredMethod("findGeoKanteGeometry",
+						GeoKanteGeometrySessionData.class,
+						MultiContainer_AttributeGroup.class);
+		declaredMethod.setAccessible(true);
+
+		declaredMethod.invoke(geometryService, geometrySessionData,
+				PlanProSchnittstelleExtensions.getContainer(
+						planProSchnittstelle, ContainerType.INITIAL));
+		declaredMethod.invoke(geometryService, geometrySessionData,
+				PlanProSchnittstelleExtensions.getContainer(
+						planProSchnittstelle, ContainerType.FINAL));
+		FieldUtils.writeField(geometryService, "isProcessComplete", true, true);
 	}
 
 }

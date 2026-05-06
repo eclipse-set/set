@@ -66,3 +66,7 @@ org.sonarlint.eclipse.core.prefs
 
 # Temporary PlanPro-file unzip direcotry of JUnit tests
 **/res/toolbox
+
+# Temporary files for tycho pomless build
+.polyglot.META-INF
+.pid

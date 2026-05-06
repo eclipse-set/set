@@ -23,6 +23,7 @@ import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableTransformationServ
 import org.eclipse.set.feature.table.pt1.messages.Messages;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
+import org.eclipse.set.utils.table.TableInfo.Pt1TableCategory;
 import org.eclipse.set.utils.table.TableModelTransformator;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -110,5 +111,10 @@ public class SskzTransformationService extends
 	@Override
 	protected Map<Class<?>, String> getFootnotesColumnReferences() {
 		return Collections.emptyMap();
+	}
+
+	@Override
+	protected Pt1TableCategory getTableCategory() {
+		return Pt1TableCategory.ESTW_SUPPLEMENT;
 	}
 }

@@ -14,6 +14,9 @@ import org.eclipse.set.model.planpro.PlanPro.ENUMUntergewerkArt
 import org.eclipse.set.model.planpro.PlanPro.PlanProFactory
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle
 import org.eclipse.set.ppmodel.extensions.PlanProPackageExtensions
+import org.eclipse.set.model.planpro.PlanPro.ENUMUntergewerkArt
+import org.eclipse.set.model.planpro.PlanPro.PlanProFactory
+import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle
 
 import static extension org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PlanungEinzelExtensions.*

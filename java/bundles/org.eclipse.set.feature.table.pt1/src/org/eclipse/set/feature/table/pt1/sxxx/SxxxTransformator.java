@@ -10,6 +10,7 @@
  */
 package org.eclipse.set.feature.table.pt1.sxxx;
 
+import static org.eclipse.set.feature.table.pt1.sxxx.SxxxColumns.*;
 import static org.eclipse.set.ppmodel.extensions.EObjectExtensions.getNullableObject;
 
 import java.util.List;
@@ -74,6 +75,9 @@ public class SxxxTransformator extends AbstractPlanPro2TableModelTransformator {
 				.toList();
 		for (final Bearbeitungsvermerk bv : container
 				.getBearbeitungsvermerk()) {
+			if (Thread.currentThread().isInterrupted()) {
+				return null;
+			}
 			final RowFactory rowGroup = factory.newRowGroup(bv);
 			final List<EObject> referencedByList = idReferences.stream()
 					.parallel()
@@ -87,7 +91,7 @@ public class SxxxTransformator extends AbstractPlanPro2TableModelTransformator {
 									.isSonstigeEnumWert(basisAttribut))
 					.toList();
 
-			if (sonstigeEnumReferee.size() > 0
+			if (!sonstigeEnumReferee.isEmpty()
 					&& referencedByList.size() == sonstigeEnumReferee.size()) {
 				// bearbeitungsvermerke that are only used at sonstige enum
 				// values shall not be displayed at all
@@ -96,14 +100,7 @@ public class SxxxTransformator extends AbstractPlanPro2TableModelTransformator {
 
 			if (referencedByList.isEmpty()) {
 				final TableRow row = rowGroup.newTableRow();
-				// A: Bearbeitungsvermerke inhalt
-				fill(row, getColumn(cols, SxxxColumns.Text_Content), bv,
-						note -> EObjectExtensions
-								.getNullableObject(note,
-										e -> e.getBearbeitungsvermerkAllg()
-												.getKommentar()
-												.getWert())
-								.orElse("")); //$NON-NLS-1$
+				fillBearbeitungsvermerkContent(row, bv);
 				continue;
 			}
 			for (final EObject referencedBy : referencedByList) {
@@ -118,25 +115,41 @@ public class SxxxTransformator extends AbstractPlanPro2TableModelTransformator {
 				final TableRow row = rowGroup.newTableRow();
 				row.setRowObject(referencedBy);
 
-				// A: Bearbeitungsvermerke inhalt
-				fill(row, getColumn(cols, SxxxColumns.Text_Content), bv,
-						note -> EObjectExtensions
-								.getNullableObject(note,
-										e -> e.getBearbeitungsvermerkAllg()
-												.getKommentar()
-												.getWert())
-								.orElse("")); //$NON-NLS-1$
+				fillBearbeitungsvermerkContent(row, bv);
 
-				// B: Referenziert von Objects
-				fill(row, getColumn(cols, SxxxColumns.Reference_Object), bv,
+				// C: Referenziert von Objects
+				fill(row, getColumn(cols, Reference_Object), bv,
 						note -> getReferenceObjDesignation(referencedBy));
 
-				// C: Ausgabe in Plan
-				// Will fill in TableService
+				// D: Ausgabe in Plan
+				// Will fill later in TableService
+
 			}
 		}
 
 		return factory.getTable();
+
+	}
+
+	private void fillBearbeitungsvermerkContent(final TableRow row,
+			final Bearbeitungsvermerk bv) {
+		// A: Bearbeitungsvermerke.Kurztext
+		fill(row, getColumn(cols, Kurztext_Content), bv,
+				note -> EObjectExtensions
+						.getNullableObject(note,
+								e -> e.getBearbeitungsvermerkAllg()
+										.getKurztext()
+										.getWert())
+						.orElse("")); //$NON-NLS-1$
+
+		// B: Bearbeitungsvermerke inhalt
+		fill(row, getColumn(cols, Text_Content), bv,
+				note -> EObjectExtensions
+						.getNullableObject(note,
+								e -> e.getBearbeitungsvermerkAllg()
+										.getKommentar()
+										.getWert())
+						.orElse("")); //$NON-NLS-1$
 	}
 
 	@SuppressWarnings("nls")

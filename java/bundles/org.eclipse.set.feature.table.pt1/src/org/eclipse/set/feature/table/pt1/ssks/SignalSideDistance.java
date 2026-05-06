@@ -10,7 +10,6 @@
  */
 package org.eclipse.set.feature.table.pt1.ssks;
 
-import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.*;
 import static org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.getContainer;
 import static org.eclipse.set.ppmodel.extensions.EObjectExtensions.getNullableObject;
 import static org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.getSinglePoint;
@@ -93,21 +92,11 @@ public class SignalSideDistance {
 		}
 	}
 
-	private final List<ENUMBefestigungArt> relevantMastType = List.of(
-			ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_MAST_HOCH,
-			ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_MAST_NIEDRIG,
-			ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_SONSTIGE_HOCH,
-			ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_SONSTIGE_NIEDRIG,
-			ENUM_BEFESTIGUNG_ART_SONDERANORDNUNG_MAST_HOCH,
-			ENUM_BEFESTIGUNG_ART_SONDERANORDNUNG_MAST_NIEDRIG,
-			ENUM_BEFESTIGUNG_ART_PFOSTEN_HOCH,
-			ENUM_BEFESTIGUNG_ART_PFOSTEN_NIEDRIG,
-			ENUM_BEFESTIGUNG_ART_ARBEITSBUEHNE, ENUM_BEFESTIGUNG_ART_OL_MAST,
-			ENUM_BEFESTIGUNG_ART_WAND, ENUM_BEFESTIGUNG_ART_DACH_DECKE);
 	final Signal signal;
 	private final Set<SideDistance> sideDistancesRight = new HashSet<>();
 
 	private final Set<SideDistance> sideDistancesLeft = new HashSet<>();
+	private final List<ENUMBefestigungArt> relevantMastType;
 
 	/**
 	 * Max distance from main track to neighbor track
@@ -117,9 +106,13 @@ public class SignalSideDistance {
 	/**
 	 * @param signal
 	 *            the Signal
+	 * @param relevantMastType
+	 *            the relevant mast type for calculate side distance
 	 */
-	public SignalSideDistance(final Signal signal) {
+	public SignalSideDistance(final Signal signal,
+			final List<ENUMBefestigungArt> relevantMastType) {
 		this.signal = signal;
+		this.relevantMastType = relevantMastType;
 		getSideDistance();
 	}
 

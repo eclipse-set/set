@@ -55,6 +55,7 @@ import static extension org.eclipse.set.ppmodel.extensions.WKrAnlageExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspElementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
+import org.eclipse.set.model.tablemodel.TableRow
 
 /**
  * Table transformation for ETCS Melde- und Kommandoanschaltung Weichen (Sszw)
@@ -86,15 +87,16 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 			if (Thread.currentThread.interrupted) {
 				return
 			}
+			val rowgroup = factory.newRowGroup(it)
 			IDWKrAnlage?.value.WKrGspElemente.forEach [ gspElement |
-				transform(gspElement)
+				val row = rowgroup.newTableRow
+				row.transform(it, gspElement)
 			]
 		]
 		return
 	}
 
-	private def transform(ETCS_W_Kr etcsWkr, W_Kr_Gsp_Element wKrGspElement) {
-		val row = factory.newTableRow(etcsWkr)
+	private def transform(TableRow row, ETCS_W_Kr etcsWkr, W_Kr_Gsp_Element wKrGspElement) {
 		val refWKrAnlage = etcsWkr.IDWKrAnlage?.value
 		// A: Sszw.W_Kr.Bezeichnung
 		fill(
