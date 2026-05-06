@@ -367,14 +367,14 @@ public class ToolboxTableView extends BasePart {
 						return;
 					}
 					updateModel(getToolboxPart(), transformedTable);
-			natTable.doCommand(new RowHeightResetCommand());
-			natTable.refresh();
-			updateButtons();
+					natTable.doCommand(new RowHeightResetCommand());
+					natTable.refresh();
+					updateButtons();
 
-			// Update footnotes
+					// Update footnotes
 					tableFooting.updateFootnotes(transformedTable);
-			// Update widget layout
-			natTable.getParent().layout();
+					// Update widget layout
+					natTable.getParent().layout();
 				}));
 	}
 
