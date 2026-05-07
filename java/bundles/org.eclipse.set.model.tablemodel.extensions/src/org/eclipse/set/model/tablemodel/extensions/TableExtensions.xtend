@@ -493,14 +493,14 @@ class TableExtensions {
 		// then find the footnote with text
 		if (sameId.nullOrEmpty) {
 			return allNotes.findFirst [
-				bv.bearbeitungsvermerkAllg?.kurztext?.wert == toText
+				bv.bearbeitungsvermerkAllg?.kommentar?.wert == toText
 			]
 		}
 
 		// A footnote can have different prefix, therefore find here exactly text
 		if (sameId.distinctBy[toText].size > 1) {
 			return sameId.findFirst [
-				bv.bearbeitungsvermerkAllg?.kurztext?.wert == toText
+				bv.bearbeitungsvermerkAllg?.kommentar?.wert == toText
 			]
 		}
 		return sameId.firstOrNull
