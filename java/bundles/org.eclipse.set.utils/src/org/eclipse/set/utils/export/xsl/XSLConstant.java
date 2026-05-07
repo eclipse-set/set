@@ -25,6 +25,21 @@ public class XSLConstant {
 	public static final String FOLDING_MARK_STYLE = "0.5mm solid black";
 
 	/**
+	 * XSL namespace uri
+	 */
+	public static final String XSL_NS_URI = "http://www.w3.org/1999/XSL/Transform";
+
+	/**
+	 * FO namepsace uri
+	 */
+	public static final String FO_NS_URI = "http://www.w3.org/1999/XSL/Format";
+
+	/**
+	 * FOX namespace uri
+	 */
+	public static final String FOX_NS_URI = "http://xmlgraphics.apache.org/fop/extensions";
+
+	/**
 	 * The value of the name attribute
 	 */
 	public static class XSLNodeName {

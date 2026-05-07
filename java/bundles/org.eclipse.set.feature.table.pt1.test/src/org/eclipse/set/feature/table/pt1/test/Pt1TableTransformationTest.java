@@ -18,16 +18,16 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Stream;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
+import org.dom4j.Document;
+import org.dom4j.io.DOMReader;
+import org.dom4j.io.SAXReader;
+import org.dom4j.util.NodeComparator;
 import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.set.basis.ToolboxProperties;
 import org.eclipse.set.basis.constants.ExportType;
 import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
-import org.eclipse.set.feature.table.pt1.ssks.SsksTransformationService;
 import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.ppmodel.extensions.MultiContainer_AttributeGroupExtensions;
@@ -41,7 +41,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.osgi.service.event.EventAdmin;
 import org.osgi.test.common.annotation.InjectService;
 import org.osgi.test.junit5.service.ServiceExtension;
-import org.w3c.dom.Document;
 
 /**
  * Test Pt1 Table transformation
@@ -54,6 +53,12 @@ class Pt1TableTransformationTest extends Pt1TableTest {
 	private static String Ssks_Pagebreak_Column_Index = "27";
 	private static String XSL_DIR = "res/xsl";
 
+	private static boolean compareXSLDoc(final Document actual,
+			final Document expect) {
+		final NodeComparator nodeComparator = new NodeComparator();
+		return nodeComparator.compare(actual, expect) == 0;
+	}
+
 	private static Document loadReferenceXSLDoc(final String shortcut)
 			throws Exception {
 		final String xslName = shortcut.toLowerCase() + "-fop.xsl";
@@ -62,13 +67,8 @@ class Pt1TableTransformationTest extends Pt1TableTest {
 			throw new IllegalArgumentException(
 					"File Not found: " + file.toString());
 		}
-		final DocumentBuilderFactory factory = DocumentBuilderFactory
-				.newInstance();
-		factory.setNamespaceAware(true);
-		factory.setIgnoringComments(true);
-		factory.setIgnoringElementContentWhitespace(true);
-		final DocumentBuilder newDocumentBuilder = factory.newDocumentBuilder();
-		return newDocumentBuilder.parse(file);
+		final SAXReader saxReader = new SAXReader();
+		return saxReader.read(file);
 	}
 
 	/**
@@ -88,11 +88,6 @@ class Pt1TableTransformationTest extends Pt1TableTest {
 	@InjectService
 	EnumTranslationService translationService;
 
-	private boolean compareXSLDoc(final Document actual,
-			final Document expect) {
-		return true;
-	}
-
 	@Test
 	void testPDFExportStyle() throws Exception {
 		givenPlanProFile(PPHN_1_10_0_3_20220517_PLANPRO);
@@ -103,11 +98,14 @@ class Pt1TableTransformationTest extends Pt1TableTest {
 					service.getTableNameInfo().getShortName().toLowerCase(),
 					TableType.DIFF, translationService);
 			final Document xslDoc = assertDoesNotThrow(() -> {
-				if (service instanceof SsksTransformationService) {
-					return transformTable
-							.transform(List.of(Ssks_Pagebreak_Column_Index));
-				}
-				return transformTable.transform();
+				final org.w3c.dom.Document doc = service.getTableNameInfo()
+						.getShortName()
+						.equalsIgnoreCase("ssks")
+								? transformTable.transform(
+										List.of(Ssks_Pagebreak_Column_Index))
+								: transformTable.transform();
+				final DOMReader reader = new DOMReader();
+				return reader.read(doc);
 			}, "Error by create XSL Doc: "
 					+ service.getClass().getPackageName());
 			assertNotNull(xslDoc, "Error by create XSL Doc: "

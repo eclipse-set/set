@@ -12,6 +12,7 @@ package org.eclipse.set.utils.export.xsl;
 
 import static org.eclipse.set.utils.excel.ExcelWorkbookExtension.*;
 import static org.eclipse.set.utils.export.xsl.TransformStyle.setBorderStyle;
+import static org.eclipse.set.utils.export.xsl.XSLConstant.FO_NS_URI;
 import static org.eclipse.set.utils.export.xsl.XSLConstant.TableAttribute.NUMBER_COLUMNS_SPANNED;
 import static org.eclipse.set.utils.export.xsl.XSLConstant.TableAttribute.START_INDENT;
 import static org.eclipse.set.utils.export.xsl.XSLConstant.XSLFoAttributeName.ATTR_ID;
@@ -62,7 +63,7 @@ public class MultiPageTableHeader extends AbstractTransformTableHeader {
 	@Override
 	protected void addTableToTemplate(final Element tableTemplate,
 			final Element table) {
-		final Element block = doc.createElement(FO_BLOCK);
+		final Element block = doc.createElementNS(FO_NS_URI, FO_BLOCK);
 		block.appendChild(table);
 		tableTemplate.appendChild(block);
 	}
