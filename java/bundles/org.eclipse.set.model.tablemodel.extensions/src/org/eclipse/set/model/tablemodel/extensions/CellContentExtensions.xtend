@@ -126,7 +126,12 @@ class CellContentExtensions {
 		StringCellContent content, SimpleFootnoteContainer fc) {
 		val footnoteText = fc.footnotes.map [
 			getFootnoteNumber(content, it.bearbeitungsvermerk)
-		].toSet.sort.map['''*«it»'''].iterableToString(FOOTNOTE_SEPARATOR)
+		].toSet.sort.map [
+			if (it == -1) {
+				return WARNING_MARK_BLACK
+			}
+			return '''*«it»'''
+		].iterableToString(FOOTNOTE_SEPARATOR)
 
 		if (footnoteText != "")
 			return '''<p style="text-align:«content.textAlign»">«content.valueFormat» «footnoteText»</p>'''
@@ -150,8 +155,12 @@ class CellContentExtensions {
 			[WARNING_MARK_BLACK],
 			[WARNING_MARK_RED],
 			[ text, mark |
-				getCompareValueFormat(
-					mark, '''*«getFootnoteNumber(content, text)»''')
+				val fnNummer = getFootnoteNumber(content, text)
+				if (fnNummer == -1) {
+					return getCompareValueFormat(mark,
+						"Error: Can't find footnote number")
+				}
+				return getCompareValueFormat(mark, '''*«fnNummer»''')
 			]
 		).toSet
 		result = result + #[footnotes.iterableToString(FOOTNOTE_SEPARATOR)]
@@ -392,8 +401,9 @@ class CellContentExtensions {
 
 	private static def String getMultiColorFormat(MultiColorContent content) {
 		if (Strings.isNullOrEmpty(content.multiColorValue)) {
-			return Strings.isNullOrEmpty(content.stringFormat) ? "" : content.
-				stringFormat.htmlString
+			return Strings.isNullOrEmpty(content.stringFormat)
+				? ""
+				: content.stringFormat.htmlString
 		}
 
 		if (content.isDisableMultiColor) {
