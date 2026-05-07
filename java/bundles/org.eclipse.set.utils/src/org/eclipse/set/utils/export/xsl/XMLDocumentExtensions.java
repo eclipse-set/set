@@ -10,13 +10,11 @@
  */
 package org.eclipse.set.utils.export.xsl;
 
-import static org.eclipse.set.utils.export.xsl.XSLConstant.*;
 import static org.eclipse.set.utils.export.xsl.XSLConstant.XSLFoAttributeName.ATTR_NAME;
 
 import java.util.Arrays;
 import java.util.Optional;
 
-import org.eclipse.set.basis.Pair;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -61,7 +59,7 @@ public class XMLDocumentExtensions {
 	 */
 	public static Element createXMLElementWithAttrName(final Document doc,
 			final String tag, final String name) {
-		final Element element = createElementWithNS(doc, tag);
+		final Element element = doc.createElement(tag);
 		element.setAttribute("name", name);
 		return element;
 	}
@@ -98,10 +96,10 @@ public class XMLDocumentExtensions {
 	 */
 	public static Element createXMLElementWithAttr(final Document doc,
 			final String tag, final XMLAttribute... attributes) {
-		final Element element = createElementWithNS(doc, tag);
+		final Element element = doc.createElement(tag);
 		Arrays.stream(attributes)
-				.forEach(attribute -> setAttributeWithNS(element,
-						attribute.name, attribute.value));
+				.forEach(attribute -> element.setAttribute(attribute.name,
+						attribute.value));
 		return element;
 	}
 
@@ -151,39 +149,5 @@ public class XMLDocumentExtensions {
 					tagName, elementName));
 		}
 		element.get().setTextContent(value);
-	}
-
-	public static Element createElementWithNS(final Document doc,
-			final String tagName) {
-		final Pair<String, String> nsAndTagName = extractNS(tagName);
-		if (nsAndTagName.getFirst() != null) {
-			return doc.createElementNS(nsAndTagName.getFirst(),
-					nsAndTagName.getSecond());
-		}
-		return doc.createElement(nsAndTagName.getSecond());
-	}
-
-	public static void setAttributeWithNS(final Element element,
-			final String attributeName, final String value) {
-		final Pair<String, String> nsAndAttrName = extractNS(attributeName);
-		if (nsAndAttrName.getFirst() != null) {
-			element.setAttributeNS(nsAndAttrName.getFirst(),
-					nsAndAttrName.getSecond(), value);
-		} else {
-			element.setAttribute(nsAndAttrName.getSecond(), value);
-		}
-	}
-
-	private static Pair<String, String> extractNS(final String name) {
-		final String[] prefix = name.split(":");
-		if (prefix.length == 2) {
-			return switch (prefix[0]) {
-				case "xsl" -> new Pair<>(XSL_NS_URI, prefix[1]);
-				case "fo" -> new Pair<>(FO_NS_URI, prefix[1]);
-				case "fox" -> new Pair<>(FOX_NS_URI, prefix[1]);
-				default -> new Pair<>(null, name);
-			};
-		}
-		return new Pair<>(null, name);
 	}
 }

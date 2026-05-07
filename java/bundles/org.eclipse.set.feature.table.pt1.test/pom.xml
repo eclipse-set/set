@@ -29,10 +29,10 @@
 							<goal>copy-resources</goal>
 						</goals>
 						<configuration>
-							<outputDirectory>${basedir}/data/export/excel</outputDirectory>
+							<outputDirectory>${basedir}/data/export</outputDirectory>
 							<resources>
 								<resource>
-									<directory>${basedir}/../org.eclipse.set.feature/rootdir/data/export/excel</directory>
+									<directory>${basedir}/../org.eclipse.set.feature/rootdir/data/export</directory>
 								</resource>
 							</resources>
 						</configuration>

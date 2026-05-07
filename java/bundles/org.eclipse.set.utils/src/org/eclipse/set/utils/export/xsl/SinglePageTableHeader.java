@@ -12,7 +12,6 @@ package org.eclipse.set.utils.export.xsl;
 
 import static org.eclipse.set.utils.excel.ExcelWorkbookExtension.getColumnSpanRangeAt;
 import static org.eclipse.set.utils.excel.ExcelWorkbookExtension.getColumnWidthInCm;
-import static org.eclipse.set.utils.export.xsl.XSLConstant.XSL_NS_URI;
 import static org.eclipse.set.utils.export.xsl.XSLConstant.TableAttrValue.FOOTNOTES;
 import static org.eclipse.set.utils.export.xsl.XSLConstant.XSLFoAttributeName.ATTR_SELECT;
 import static org.eclipse.set.utils.export.xsl.XSLConstant.XSLTag.XSL_APPLY_TEMPLATE;
@@ -83,8 +82,7 @@ public class SinglePageTableHeader extends AbstractTransformTableHeader {
 	protected void addTableToTemplate(final Element tableTemplate,
 			final Element table) {
 		tableTemplate.appendChild(table);
-		final Element footNote = doc.createElementNS(XSL_NS_URI,
-				XSL_APPLY_TEMPLATE);
+		final Element footNote = doc.createElement(XSL_APPLY_TEMPLATE);
 		footNote.setAttribute(ATTR_SELECT, FOOTNOTES);
 		tableTemplate.appendChild(footNote);
 

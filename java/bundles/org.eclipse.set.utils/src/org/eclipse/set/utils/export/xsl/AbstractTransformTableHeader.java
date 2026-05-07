@@ -12,8 +12,6 @@ package org.eclipse.set.utils.export.xsl;
 import static org.eclipse.set.utils.excel.ExcelWorkbookExtension.*;
 import static org.eclipse.set.utils.export.xsl.TransformStyle.setBorderStyle;
 import static org.eclipse.set.utils.export.xsl.TransformStyle.transformCellStyle;
-import static org.eclipse.set.utils.export.xsl.XSLConstant.FO_NS_URI;
-import static org.eclipse.set.utils.export.xsl.XSLConstant.XSL_NS_URI;
 import static org.eclipse.set.utils.export.xsl.XSLConstant.TableAttrValue.*;
 import static org.eclipse.set.utils.export.xsl.XSLConstant.TableAttribute.*;
 import static org.eclipse.set.utils.export.xsl.XSLConstant.XSLFoAttributeName.ATTR_MATCH;
@@ -100,7 +98,6 @@ public abstract class AbstractTransformTableHeader {
 		documentBuilderFactory.setFeature(
 				"http://xml.org/sax/features/external-parameter-entities", //$NON-NLS-1$
 				false);
-		documentBuilderFactory.setNamespaceAware(true);
 		final DocumentBuilder builder = documentBuilderFactory
 				.newDocumentBuilder();
 		return builder.parse(Paths.get(path).toAbsolutePath().toFile());
@@ -137,28 +134,24 @@ public abstract class AbstractTransformTableHeader {
 			TransformerException;
 
 	protected Element transformTable() {
-		final Element tableTemplate = doc.createElementNS(XSL_NS_URI,
-				XSL_TEMPLATE);
+		final Element tableTemplate = doc.createElement(XSL_TEMPLATE);
 		tableTemplate.setAttribute(ATTR_MATCH, TABLE_ROWS_ROW);
-		final Element table = doc.createElementNS(FO_NS_URI, FO_TABLE);
+		final Element table = doc.createElement(FO_TABLE);
 		table.setAttribute(TABLE_LAYOUT, LAYOUT_FIXED);
 		table.setAttribute(TABLE_WIDTH, "100%"); //$NON-NLS-1$
 		final Set<Element> tableColumns = transformColumns();
 		tableColumns.forEach(table::appendChild);
 
-		final Element tableHeader = doc.createElementNS(FO_NS_URI,
-				FO_TABLE_HEADER);
-		XMLDocumentExtensions.setAttributeWithNS(tableHeader,
-				XSL_USE_ATTRIBUTE_SETS, TABLE_HEADER_STYLE);
+		final Element tableHeader = doc.createElement(FO_TABLE_HEADER);
+		tableHeader.setAttribute(XSL_USE_ATTRIBUTE_SETS, TABLE_HEADER_STYLE);
 
 		final Set<Element> tableRows = transformRows();
 		tableRows.forEach(tableHeader::appendChild);
 		table.appendChild(tableHeader);
 
-		final Element tableBody = doc.createElementNS(FO_NS_URI, FO_TABLE_BODY);
+		final Element tableBody = doc.createElement(FO_TABLE_BODY);
 		tableBody.setAttribute(START_INDENT, "0mm"); //$NON-NLS-1$
-		final Element tableBodyChild = doc.createElementNS(XSL_NS_URI,
-				XSL_APPLY_TEMPLATE);
+		final Element tableBodyChild = doc.createElement(XSL_APPLY_TEMPLATE);
 		tableBodyChild.setAttribute(ATTR_SELECT, ROWS_ROW);
 		tableBody.appendChild(tableBodyChild);
 		table.appendChild(tableBody);
@@ -198,8 +191,7 @@ public abstract class AbstractTransformTableHeader {
 
 	protected Element createTableColumn(final int columnNumber,
 			final float columnWidth) {
-		final Element tableColumn = doc.createElementNS(FO_NS_URI,
-				FO_TABLE_COLUMN);
+		final Element tableColumn = doc.createElement(FO_TABLE_COLUMN);
 		tableColumn.setAttribute(COLUMN_NUMBER, Integer.toString(columnNumber));
 		tableColumn.setAttribute(COLUMN_WIDTH,
 				Float.toString(columnWidth) + "cm"); //$NON-NLS-1$
@@ -210,7 +202,7 @@ public abstract class AbstractTransformTableHeader {
 		final LinkedHashSet<Element> rows = new LinkedHashSet<>();
 		final int headerLastRowIndex = getHeaderLastRowIndex(sheet);
 		for (int i = 0; i <= headerLastRowIndex; i++) {
-			final Element row = doc.createElementNS(FO_NS_URI, FO_TABLE_ROW);
+			final Element row = doc.createElement(FO_TABLE_ROW);
 			final Set<Element> cells = transformRowCells(sheet.getRow(i));
 			if (!cells.isEmpty()) {
 				cells.forEach(row::appendChild);
@@ -291,7 +283,7 @@ public abstract class AbstractTransformTableHeader {
 		final Optional<Element> firstCell = Optional.of(iterator.next());
 		Element firstCellBlock = (Element) firstCell.get().getFirstChild();
 		if (firstCellBlock == null) {
-			firstCellBlock = doc.createElementNS(FO_NS_URI, FO_BLOCK);
+			firstCellBlock = doc.createElement(FO_BLOCK);
 			firstCell.get().appendChild(firstCellBlock);
 		}
 		firstCellBlock.setAttribute("color", "white"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -318,9 +310,9 @@ public abstract class AbstractTransformTableHeader {
 	}
 
 	private Element createTableCell(final Optional<Cell> excelCell) {
-		final Element cell = doc.createElementNS(FO_NS_URI, FO_TABLE_CELL);
+		final Element cell = doc.createElement(FO_TABLE_CELL);
 		transformCellStyle(cell, excelCell);
-		final Element block = doc.createElementNS(FO_NS_URI, FO_BLOCK);
+		final Element block = doc.createElement(FO_BLOCK);
 		block.setAttribute(START_INDENT, "0mm"); //$NON-NLS-1$
 		if (excelCell.isPresent()) {
 			TransformStyle.setCellContent(block, excelCell.get());
@@ -336,9 +328,9 @@ public abstract class AbstractTransformTableHeader {
 	protected abstract Set<Element> getTableStyle();
 
 	protected static Element emptyTableTemplate(final Document doc) {
-		final Element template = doc.createElementNS(XSL_NS_URI, XSL_TEMPLATE);
+		final Element template = doc.createElement(XSL_TEMPLATE);
 		template.setAttribute(ATTR_MATCH, TABLE_NOT_ROWS_ROW);
-		final Element block = doc.createElementNS(FO_NS_URI, FO_BLOCK);
+		final Element block = doc.createElement(FO_BLOCK);
 		block.setTextContent("Die Tabelle ist leer"); //$NON-NLS-1$
 		template.appendChild(block);
 		return template;
@@ -369,4 +361,5 @@ public abstract class AbstractTransformTableHeader {
 		}
 		return Optional.empty();
 	}
+
 }

@@ -10,8 +10,6 @@ package org.eclipse.set.utils.export.xsl;
 
 import static org.eclipse.set.utils.excel.ExcelWorkbookExtension.getColumnWidthInCm;
 import static org.eclipse.set.utils.excel.ExcelWorkbookExtension.getHeaderLastColumnIndex;
-import static org.eclipse.set.utils.export.xsl.XSLConstant.FO_NS_URI;
-import static org.eclipse.set.utils.export.xsl.XSLConstant.XSL_NS_URI;
 import static org.eclipse.set.utils.export.xsl.XSLConstant.TableAttribute.XSL_USE_ATTRIBUTE_SETS;
 import static org.eclipse.set.utils.export.xsl.XSLConstant.XSLFoAttributeName.*;
 import static org.eclipse.set.utils.export.xsl.XSLConstant.XSLNodeName.WATER_MARK_TEMPLATE_NAME;
@@ -141,26 +139,20 @@ public class TransformTable {
 		final Document doc = transform();
 		final Node rootNode = doc.getElementsByTagName(XSL_STYLESHEET).item(0);
 		breakAtRows.forEach(rowNumber -> {
-			final Element template = doc.createElementNS(XSL_NS_URI,
-					XSL_TEMPLATE);
+			final Element template = doc.createElement(XSL_TEMPLATE);
 			template.setAttribute(ATTR_MATCH,
 					String.format("Row[@group-number = '%s']", rowNumber));
-			final Element tableRow = doc.createElementNS(FO_NS_URI,
-					FO_TABLE_ROW);
+			final Element tableRow = doc.createElement(FO_TABLE_ROW);
 			tableRow.setAttribute("break-after", "page");
-			final Element tableCell = doc.createElementNS(FO_NS_URI,
-					FO_TABLE_CELL);
-			XMLDocumentExtensions.setAttributeWithNS(tableCell,
-					XSL_USE_ATTRIBUTE_SETS, BODY_ROW_CELL_STYLE);
-			final Element block = doc.createElementNS(FO_NS_URI, FO_BLOCK);
-			final Element valueof = doc.createElementNS(XSL_NS_URI,
-					XSL_VALUE_OF);
+			final Element tableCell = doc.createElement(FO_TABLE_CELL);
+			tableCell.setAttribute(XSL_USE_ATTRIBUTE_SETS, BODY_ROW_CELL_STYLE);
+			final Element block = doc.createElement(FO_BLOCK);
+			final Element valueof = doc.createElement(XSL_VALUE_OF);
 			valueof.setAttribute(ATTR_SELECT, "@group-number");
 			block.appendChild(valueof);
 			tableCell.appendChild(block);
 
-			final Element applytemplate = doc.createElementNS(XSL_NS_URI,
-					XSL_APPLY_TEMPLATE);
+			final Element applytemplate = doc.createElement(XSL_APPLY_TEMPLATE);
 			tableRow.appendChild(tableCell);
 			tableRow.appendChild(applytemplate);
 			template.appendChild(tableRow);

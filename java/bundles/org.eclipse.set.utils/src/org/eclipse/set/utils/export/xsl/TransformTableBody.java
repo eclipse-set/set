@@ -14,8 +14,6 @@ import static org.eclipse.set.utils.excel.ExcelWorkbookExtension.*;
 import static org.eclipse.set.utils.export.xsl.TransformStyle.setExcelCellBorderStyle;
 import static org.eclipse.set.utils.export.xsl.TransformStyle.transformBorderStyle;
 import static org.eclipse.set.utils.export.xsl.XMLDocumentExtensions.createXMLElementWithAttr;
-import static org.eclipse.set.utils.export.xsl.XSLConstant.FO_NS_URI;
-import static org.eclipse.set.utils.export.xsl.XSLConstant.XSL_NS_URI;
 import static org.eclipse.set.utils.export.xsl.XSLConstant.TableAttribute.NUMBER_ROWS_SPANNED;
 import static org.eclipse.set.utils.export.xsl.XSLConstant.TableAttribute.XSL_USE_ATTRIBUTE_SETS;
 import static org.eclipse.set.utils.export.xsl.XSLConstant.XSLFoAttributeName.ATTR_NAME;
@@ -210,8 +208,7 @@ public class TransformTableBody {
 									XSLStyleSets.BODY_ROW_CELL_STYLE),
 							new XMLAttribute(NUMBER_ROWS_SPANNED, String
 									.format("{@%s}", NUMBER_ROWS_SPANNED))); //$NON-NLS-1$
-			final Element block = doc.createElementNS(FO_NS_URI,
-					XSLTag.FO_BLOCK);
+			final Element block = doc.createElement(XSLTag.FO_BLOCK);
 			final Element valueOf = createXMLElementWithAttr(doc, XSL_VALUE_OF,
 					ATTR_SELECT, "../@group-number"); //$NON-NLS-1$
 			block.appendChild(valueOf);
@@ -284,8 +281,7 @@ public class TransformTableBody {
 		TransformStyle.transformCellStyle(tableCell, Optional.of(cell));
 		tableCell.appendChild(createXMLElementWithAttr(doc, XSL_CALL_TEMPLATE,
 				ATTR_NAME, PLAN_COMPARE_CONTENT_TEMPLATE));
-		tableCell.appendChild(
-				doc.createElementNS(XSL_NS_URI, XSL_APPLY_TEMPLATE));
+		tableCell.appendChild(doc.createElement(XSL_APPLY_TEMPLATE));
 		return tableCell;
 	}
 }
