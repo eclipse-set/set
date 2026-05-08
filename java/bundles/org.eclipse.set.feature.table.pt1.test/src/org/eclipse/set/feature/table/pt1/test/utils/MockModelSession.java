@@ -13,6 +13,7 @@ package org.eclipse.set.feature.table.pt1.test.utils;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -32,6 +33,7 @@ import org.eclipse.set.basis.exceptions.UserAbortion;
 import org.eclipse.set.basis.files.ToolboxFile;
 import org.eclipse.set.model.planpro.Layoutinformationen.PlanPro_Layoutinfo;
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
+import org.eclipse.set.model.temporaryintegration.TemporaryIntegration;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.eclipse.swt.widgets.Shell;
 
@@ -238,6 +240,18 @@ public class MockModelSession implements IModelSession {
 
 	@Override
 	public EditingDomain getEditingDomain() {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public Optional<TemporaryIntegration> getTemporaryIntegration() {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public void switchToMergeMode(TemporaryIntegration newTemporaryIntegration,
+			String mergeDir, Shell shell, ToolboxFile temporaryToolboxFile)
+			throws IOException, UserAbortion {
 		throw new UnsupportedOperationException();
 	}
 
