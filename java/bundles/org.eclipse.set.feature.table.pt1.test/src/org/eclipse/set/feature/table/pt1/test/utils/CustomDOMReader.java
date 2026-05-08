@@ -16,7 +16,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 /**
- * 
+ * Individual {@link DOMReader} with tag namespace identification
  */
 public class CustomDOMReader extends DOMReader {
 	private static record TagNameWithNS(String prefix, String uri,

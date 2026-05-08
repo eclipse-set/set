@@ -19,9 +19,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import org.dom4j.Document;
-import org.dom4j.Namespace;
 import org.dom4j.io.SAXReader;
-import org.dom4j.util.NodeComparator;
 import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.set.basis.ToolboxProperties;
 import org.eclipse.set.basis.constants.ExportType;
@@ -29,6 +27,7 @@ import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.test.utils.CustomDOMReader;
+import org.eclipse.set.feature.table.pt1.test.utils.CustomNodeComparator;
 import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.ppmodel.extensions.MultiContainer_AttributeGroupExtensions;
@@ -59,42 +58,8 @@ class Pt1TableTransformationTest extends Pt1TableTest {
 
 	private static boolean compareXSLDoc(final Document actual,
 			final Document expect) {
-		// Compare namespace separate, because the order can be not same
-		final NodeComparator nodeComparator = new NodeComparator() {
-			@Override
-			public int compare(Namespace ns1, Namespace ns2) {
-				return 0;
-			}
-		};
-		boolean isSame = compareNamespace(actual, expect);
-
-		if (isSame) {
-			isSame = nodeComparator.compare(actual, expect) == 0;
-		}
-		return isSame;
-	}
-
-	private static boolean compareNamespace(final Document actual,
-			final Document expect) {
-		List<Namespace> actualNs = actual.content()
-				.stream()
-				.filter(Namespace.class::isInstance)
-				.map(Namespace.class::cast)
-				.toList();
-		List<Namespace> expectNs = expect.content()
-				.stream()
-				.filter(Namespace.class::isInstance)
-				.map(Namespace.class::cast)
-				.toList();
-		boolean isSame = actualNs.size() == expectNs.size();
-		if (isSame) {
-			NodeComparator nodeComparator = new NodeComparator();
-			isSame = actualNs.stream()
-					.allMatch(ns1 -> expectNs.stream()
-							.anyMatch(ns2 -> nodeComparator.compare(ns1,
-									ns2) == 0));
-		}
-		return isSame;
+		final CustomNodeComparator nodeComparator = new CustomNodeComparator();
+		return nodeComparator.compare(actual, expect) == 0;
 	}
 
 	private static Document loadReferenceXSLDoc(final String shortcut)
@@ -150,7 +115,9 @@ class Pt1TableTransformationTest extends Pt1TableTest {
 					+ service.getClass().getPackageName());
 			final Document expect = loadReferenceXSLDoc(
 					service.getTableNameInfo().getShortName());
-			assertTrue(compareXSLDoc(xslDoc, expect));
+			assertTrue(compareXSLDoc(xslDoc, expect),
+					"The XSL isn't equal expected: "
+							+ service.getTableNameInfo().getShortName());
 		}
 	}
 
