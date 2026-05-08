@@ -434,12 +434,7 @@ public final class TableServiceImpl implements TableService {
 								modelSession.getContainer(
 										tableType.getContainerForTable()),
 								area))) {
-			// Create empty table
-			final Table emptyTable = TablemodelFactory.eINSTANCE.createTable();
-			emptyTable.setTablecontent(
-					TablemodelFactory.eINSTANCE.createTableContent());
-			getModelService(tableInfo).buildHeading(emptyTable);
-			return emptyTable;
+			return createEmptyTable(tableInfo);
 		}
 		final Table resultTable = TableServiceUtils.filterRequestValue(
 				EcoreUtil.copy((Table) table), tableType, tableInfo,
@@ -448,6 +443,14 @@ public final class TableServiceImpl implements TableService {
 		getModelService(tableInfo).addAdditionRow((Table) table, resultTable);
 		sortTable(resultTable, tableInfo, tableType);
 		return resultTable;
+	}
+
+	private Table createEmptyTable(final TableInfo tableInfo) {
+		final Table emptyTable = TablemodelFactory.eINSTANCE.createTable();
+		emptyTable.setTablecontent(
+				TablemodelFactory.eINSTANCE.createTableContent());
+		getModelService(tableInfo).buildHeading(emptyTable);
+		return emptyTable;
 	}
 
 	private void storageFootnotes(final ToolboxFileRole sessionRole,
@@ -690,7 +693,8 @@ public final class TableServiceImpl implements TableService {
 					tableInfo.shortcut(), e.getMessage());
 			nonTransformableTables.add(tableInfo);
 			broker.post(Events.TABLEERROR_CHANGED, null);
-			throw new RuntimeException(e);
+			// Give empty table back
+			return createEmptyTable(tableInfo);
 		}
 
 		if (mainSessionTable == null) {
