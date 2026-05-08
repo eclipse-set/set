@@ -238,6 +238,11 @@ public final class ToolboxConstants {
 	public static final String TOOLBOX_DIRECTORY_NAME_TEMPORARY_INTEGRATION = "tempintegrationfile";
 
 	/**
+	 * The name for the temporary directory of a toolbox file used as a
+	 * mergeplanning.
+	 */
+	public static final String TOOLBOX_DIRECTORY_NAME_MERGE_PLANNING = "mergeplanning";
+	/**
 	 * The id of the validation part.
 	 */
 	public static final String VALIDATION_PART_ID = "org.eclipse.set.feature.validation.parts.ValidationPart";

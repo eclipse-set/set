@@ -320,6 +320,60 @@
           <version>${set-version}</version>
           <type>jar</type>
         </dependency>
+        <dependency>
+          <groupId>org.eclipse.set</groupId>
+          <artifactId>org.eclipse.set.feature.integration</artifactId>
+          <version>${set-version}</version>
+          <type>jar</type>
+        </dependency>
+        <dependency>
+          <groupId>org.eclipse.set</groupId>
+          <artifactId>org.eclipse.set.model.integrationview</artifactId>
+          <version>${set-version}</version>
+          <type>jar</type>
+        </dependency>
+        <dependency>
+          <groupId>org.eclipse.set</groupId>
+          <artifactId>org.eclipse.set.model.integrationview.edit</artifactId>
+          <version>${set-version}</version>
+          <type>jar</type>
+        </dependency>
+        <dependency>
+          <groupId>org.eclipse.set</groupId>
+          <artifactId>org.eclipse.set.model.simplemerge</artifactId>
+          <version>${set-version}</version>
+          <type>jar</type>
+        </dependency>
+        <dependency>
+          <groupId>org.eclipse.set</groupId>
+          <artifactId>org.eclipse.set.model.simplemerge.edit</artifactId>
+          <version>${set-version}</version>
+          <type>jar</type>
+        </dependency>
+        <dependency>
+          <groupId>org.eclipse.set</groupId>
+          <artifactId>org.eclipse.set.model.simplemerge.extensions</artifactId>
+          <version>${set-version}</version>
+          <type>jar</type>
+        </dependency>
+        <dependency>
+          <groupId>org.eclipse.set</groupId>
+          <artifactId>org.eclipse.set.model.temporaryintegration</artifactId>
+          <version>${set-version}</version>
+          <type>jar</type>
+        </dependency>
+        <dependency>
+          <groupId>org.eclipse.set</groupId>
+          <artifactId>org.eclipse.set.model.temporaryintegration.edit</artifactId>
+          <version>${set-version}</version>
+          <type>jar</type>
+        </dependency>
+        <dependency>
+          <groupId>org.eclipse.set</groupId>
+          <artifactId>org.eclipse.set.model.temporaryintegration.extensions</artifactId>
+          <version>${set-version}</version>
+          <type>jar</type>
+        </dependency>
       </dependencies>
       <repositories>
         <repository>
