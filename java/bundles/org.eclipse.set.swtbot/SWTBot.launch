@@ -574,7 +574,6 @@
         <setEntry value="org.eclipse.set.services@default:default"/>
         <setEntry value="org.eclipse.set.sessionservice@default:default"/>
         <setEntry value="org.eclipse.set.swtbot@default:default"/>
-        <setEntry value="org.eclipse.set.test@default:default"/>
         <setEntry value="org.eclipse.set.unittest.utils@default:default"/>
         <setEntry value="org.eclipse.set.utils.rcp@default:false"/>
         <setEntry value="org.eclipse.set.utils.table.test@default:false"/>
