@@ -28,7 +28,7 @@
 					<product>org.eclipse.set.application.set.product_set</product>
 					<application>org.eclipse.e4.ui.workbench.swt.E4Application</application>
 					<appArgLine>-nl de_DE_SET</appArgLine>
-					<argLine>-Duser.dir=${application-under-test} -Xmx4096M -Dtoolbox.detailversion=${application-version} -Dorg.eclipse.set.browser.locale=de-DE -Dtoolbox.development.mode=false -Dorg.eclipse.set.browser.user-agent-product="PlanPro Werkzeugkoffer (dbnetze.com/planpro)" -Dfile.encoding=UTF8 -javaagent:${org.mockito:mockito-core:jar}</argLine>
+					<argLine>-Duser.dir=${application-under-test} -Xmx4096M -Dtoolbox.detailversion=${application-version} -Dorg.eclipse.set.browser.locale=de-DE -Dtoolbox.development.mode=false -Dorg.eclipse.set.browser.user-agent-product="PlanPro Werkzeugkoffer (dbnetze.com/planpro)" -Dfile.encoding=UTF8</argLine>
 					<work>${application-under-test}</work>
 					<skipTests>${skip-test}</skipTests>
 				</configuration>

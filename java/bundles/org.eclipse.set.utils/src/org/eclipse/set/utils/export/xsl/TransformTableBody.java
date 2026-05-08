@@ -103,13 +103,14 @@ public class TransformTableBody {
 					"Missing first data row. Is the printing area configured correctly?"); //$NON-NLS-1$
 		}
 
-		for (int index = 0; index < getHeaderLastColumnIndex(sheet); index++) {
-			final Cell cell = Optional.ofNullable(firstDataRow.getCell(index))
-					.orElse(parentGroupLastIndex.contains(index)
+		for (int index = 0; index <= getHeaderLastColumnIndex(sheet); index++) {
+			final Cell cell = firstDataRow.getCell(index) == null
+					? parentGroupLastIndex.contains(index)
 							|| pageBreakAts.contains(index)
 							|| pageBreakAts.contains(index - 1)
 									? firstDataRow.createCell(index)
-									: null);
+									: null
+					: firstDataRow.getCell(index);
 			if (cell == null) {
 				continue;
 			}
@@ -123,7 +124,6 @@ public class TransformTableBody {
 				setExcelCellBorderStyle(cell, BorderDirection.LEFT,
 						BorderStyle.MEDIUM);
 			}
-
 			if (!isDefaultStyle(cell.getCellStyle())) {
 				Set<Cell> sameStyleGroup = result.stream()
 						.filter(cells -> cells.stream()
