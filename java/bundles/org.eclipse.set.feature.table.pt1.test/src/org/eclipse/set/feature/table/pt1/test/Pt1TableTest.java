@@ -29,6 +29,7 @@ import org.eclipse.set.basis.constants.ContainerType;
 import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.basis.files.ToolboxFile;
 import org.eclipse.set.basis.files.ToolboxFileRole;
+import org.eclipse.set.feature.table.pt1.test.utils.MockModelSession;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.eclipse.set.unittest.utils.AbstractToolboxTest;
@@ -64,12 +65,10 @@ public class Pt1TableTest extends AbstractToolboxTest {
 			modelSession = null;
 		}
 
-		modelSession = Mockito.mock(IModelSession.class);
 		final ToolboxFile mockToolboxFile = Mockito.mock(ToolboxFile.class);
 		when(mockToolboxFile.getRole()).thenReturn(ToolboxFileRole.SESSION);
-		when(modelSession.getPlanProSchnittstelle())
-				.thenReturn(planProSchnittstelle);
-		when(modelSession.getToolboxFile()).thenReturn(mockToolboxFile);
+		modelSession = new MockModelSession(planProSchnittstelle,
+				mockToolboxFile);
 		final Dictionary<String, Object> d = new Hashtable<>(2);
 		d.put(EventConstants.EVENT_TOPIC, Events.MODEL_CHANGED);
 		d.put(IEventBroker.DATA, modelSession);
