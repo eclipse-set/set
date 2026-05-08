@@ -12,11 +12,11 @@
     "test:e2e": "playwright test"
   },
   "dependencies": {
-    "@turf/boolean-disjoint": "^7.3.4",
-    "@turf/boolean-within": "^7.3.4",
-    "@turf/difference": "^7.3.4",
-    "@turf/helpers": "^7.3.4",
-    "@turf/intersect": "^7.3.4",
+    "@turf/boolean-disjoint": "^7.3.5",
+    "@turf/boolean-within": "^7.3.5",
+    "@turf/difference": "^7.3.5",
+    "@turf/helpers": "^7.3.5",
+    "@turf/intersect": "^7.3.5",
     "axios": "^1.15.0",
     "geojson": "^0.5.0",
     "material-design-icons": "^3.0.1",
