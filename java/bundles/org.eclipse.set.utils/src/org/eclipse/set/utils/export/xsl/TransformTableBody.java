@@ -29,6 +29,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -102,15 +103,22 @@ public class TransformTableBody {
 			throw new RuntimeException(
 					"Missing first data row. Is the printing area configured correctly?"); //$NON-NLS-1$
 		}
-
+		final BiFunction<Row, Integer, Cell> getDataCell = (dataRow,
+				colIndex) -> {
+			final Cell cell = dataRow.getCell(colIndex);
+			if (cell != null) {
+				return cell;
+			}
+			if (parentGroupLastIndex.contains(colIndex.intValue())
+					|| pageBreakAts.contains(colIndex.intValue())
+					|| pageBreakAts.contains(colIndex.intValue())) {
+				return dataRow.createCell(colIndex.intValue());
+			}
+			return null;
+		};
 		for (int index = 0; index <= getHeaderLastColumnIndex(sheet); index++) {
-			final Cell cell = firstDataRow.getCell(index) == null
-					? parentGroupLastIndex.contains(index)
-							|| pageBreakAts.contains(index)
-							|| pageBreakAts.contains(index - 1)
-									? firstDataRow.createCell(index)
-									: null
-					: firstDataRow.getCell(index);
+			final Cell cell = getDataCell.apply(firstDataRow,
+					Integer.valueOf(index));
 			if (cell == null) {
 				continue;
 			}

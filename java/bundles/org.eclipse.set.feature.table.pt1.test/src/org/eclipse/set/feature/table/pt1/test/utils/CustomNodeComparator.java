@@ -27,24 +27,28 @@ import org.dom4j.util.NodeComparator;
  * @author truong
  */
 public class CustomNodeComparator extends NodeComparator {
+	/**
+	 * Constructor
+	 */
 	public CustomNodeComparator() {
 		super();
 	}
 
 	@Override
-	public int compare(Element n1, Element n2) {
+	public int compare(final Element n1, final Element n2) {
 		int answer = compare(n1.getQName(), n2.getQName());
 
 		if (answer == 0) {
 			// lets compare attributes
-			int c1 = n1.attributeCount();
-			int c2 = n2.attributeCount();
+			final int c1 = n1.attributeCount();
+			final int c2 = n2.attributeCount();
 			answer = c1 - c2;
 
 			if (answer == 0) {
 				for (int i = 0; i < c1; i++) {
-					Attribute a1 = n1.attribute(i);
-					Attribute a2 = findRelevantAttribute(n2, a1.getQName());
+					final Attribute a1 = n1.attribute(i);
+					final Attribute a2 = findRelevantAttribute(n2,
+							a1.getQName());
 					if (a2 == null) {
 						return -1;
 					}
@@ -63,21 +67,30 @@ public class CustomNodeComparator extends NodeComparator {
 	}
 
 	@Override
-	public int compareContent(Branch b1, Branch b2) {
-		int c1 = b1.nodeCount();
-		int c2 = b2.nodeCount();
+	public int compareContent(final Branch b1, final Branch b2) {
+		final int c1 = b1.nodeCount();
+		final int c2 = b2.nodeCount();
 		int answer = c1 - c2;
-		Set<Node> alreadyCompare = new HashSet<>();
+		final Set<Node> alreadyCompare = new HashSet<>();
 		if (answer == 0) {
 			for (int i = 0; i < c1; i++) {
-				Node n1 = b1.node(i);
-				Node n2 = b2.node(i);
-				if (compare(n1, n2) != 0) {
-					answer = b2.content()
+				final Node n1 = b1.node(i);
+				final Node n2 = b2.node(i);
+				answer = compare(n1, n2);
+				if (answer != 0) {
+					final boolean isSame = b2.content()
 							.stream()
 							.filter(n -> n != n2 && !alreadyCompare.contains(n))
-							.anyMatch(node -> compare(n1, node) == 0) ? 0
-									: answer;
+							.anyMatch(node -> {
+								if (compare(n1, node) == 0) {
+									alreadyCompare.add(node);
+									return true;
+								}
+								return false;
+							});
+					if (isSame) {
+						answer = 0;
+					}
 				}
 
 				if (answer != 0) {
@@ -89,10 +102,11 @@ public class CustomNodeComparator extends NodeComparator {
 		return answer;
 	}
 
-	protected Attribute findRelevantAttribute(Element e, QName qName) {
-		Iterator<Attribute> attributeIterator = e.attributeIterator();
+	protected Attribute findRelevantAttribute(final Element e,
+			final QName qName) {
+		final Iterator<Attribute> attributeIterator = e.attributeIterator();
 		while (attributeIterator.hasNext()) {
-			Attribute next = attributeIterator.next();
+			final Attribute next = attributeIterator.next();
 			if (compare(next.getQName(), qName) == 0) {
 				return next;
 			}

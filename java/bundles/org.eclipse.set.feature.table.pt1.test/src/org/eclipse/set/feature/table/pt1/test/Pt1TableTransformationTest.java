@@ -53,7 +53,8 @@ import org.osgi.test.junit5.service.ServiceExtension;
 @ExtendWith(ServiceExtension.class)
 class Pt1TableTransformationTest extends Pt1TableTest {
 
-	private static String Ssks_Pagebreak_Column_Index = "27";
+	private static List<String> Ssks_Pagebreak_Column_Index = List.of("49",
+			"76");
 	private static String XSL_DIR = "res/xsl";
 
 	private static boolean compareXSLDoc(final Document actual,
@@ -106,8 +107,8 @@ class Pt1TableTransformationTest extends Pt1TableTest {
 				final org.w3c.dom.Document doc = service.getTableNameInfo()
 						.getShortName()
 						.equalsIgnoreCase("ssks")
-								? transformTable.transform(
-										List.of(Ssks_Pagebreak_Column_Index))
+								? transformTable
+										.transform(Ssks_Pagebreak_Column_Index)
 								: transformTable.transform();
 				final CustomDOMReader reader = new CustomDOMReader();
 				return reader.read(doc);
