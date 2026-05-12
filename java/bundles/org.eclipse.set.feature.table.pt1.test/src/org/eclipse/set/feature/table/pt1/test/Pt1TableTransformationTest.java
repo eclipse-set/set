@@ -70,7 +70,9 @@ class Pt1TableTransformationTest extends Pt1TableTest {
 			throw new IllegalArgumentException(
 					"File Not found: " + file.toString());
 		}
+
 		final SAXReader saxReader = new SAXReader();
+		saxReader.setMergeAdjacentText(true);
 		return saxReader.read(file);
 	}
 
