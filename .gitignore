@@ -68,5 +68,5 @@ org.sonarlint.eclipse.core.prefs
 **/res/toolbox
 
 # Temporary files for tycho pomless build
-.polyglot.META-INF
+.polyglot.*
 .pid
