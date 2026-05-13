@@ -41,6 +41,7 @@ import static extension org.eclipse.set.ppmodel.extensions.EObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 import static extension org.eclipse.set.utils.StringExtensions.*
+import org.eclipse.set.model.tablemodel.extensions.TableExtensions.FootnoteInfo
 
 /**
  * Extensions for {@link Table}.
@@ -485,6 +486,29 @@ class TableExtensions {
 	static def FootnoteInfo getFootnoteInfo(Table table,
 		Bearbeitungsvermerk bv) {
 		val allNotes = table.allFootnotes.toList
+		return allNotes.getFootnoteInfo(bv)
+	}
+
+	static def FootnoteInfo getFootnoteInfo(EObject tableContent, Footnote fn) {
+		return getFootnoteInfo(tableContent, fn.bearbeitungsvermerk)
+	}
+
+	static def FootnoteInfo getFootnoteInfo(EObject tableContent,
+		Bearbeitungsvermerk bv) {
+		var object = tableContent
+		while (!(object instanceof Table)) {
+			object = object.eContainer
+		}
+		return getFootnoteInfo(object as Table, bv)
+	}
+
+	static def FootnoteInfo getFootnoteInfo(Iterable<FootnoteInfo> allNotes,
+		Footnote fn) {
+		return getFootnoteInfo(allNotes, fn.bearbeitungsvermerk)
+	}
+
+	static def FootnoteInfo getFootnoteInfo(Iterable<FootnoteInfo> allNotes,
+		Bearbeitungsvermerk bv) {
 		val sameId = allNotes.filter [
 			bearbeitungsvermerk?.identitaet?.wert == bv.identitaet?.wert
 		]
@@ -504,19 +528,6 @@ class TableExtensions {
 			]
 		}
 		return sameId.firstOrNull
-	}
-
-	static def FootnoteInfo getFootnoteInfo(EObject tableContent, Footnote fn) {
-		return getFootnoteInfo(tableContent, fn.bearbeitungsvermerk)
-	}
-
-	static def FootnoteInfo getFootnoteInfo(EObject tableContent,
-		Bearbeitungsvermerk bv) {
-		var object = tableContent
-		while (!(object instanceof Table)) {
-			object = object.eContainer
-		}
-		return getFootnoteInfo(object as Table, bv)
 	}
 
 	static def boolean isTableEmpty(Table table) {
