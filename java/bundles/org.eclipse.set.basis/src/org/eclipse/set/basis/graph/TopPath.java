@@ -108,15 +108,18 @@ public class TopPath {
 			}
 			final TOP_Knoten connectTopKnoten = getConnectTopKnoten(firstEdge,
 					edges.get(1));
-			final BigDecimal connectTopKnotenDistance = connectTopKnoten == firstEdge
-					.getIDTOPKnotenA()
-					.getValue() ? BigDecimal.ZERO : edgeLength;
+			final boolean isTopKnotenA = firstEdge.getIDTOPKnotenA()
+					.getValue() == connectTopKnoten;
+			final BigDecimal connectTopKnotenDistance = isTopKnotenA
+					? BigDecimal.ZERO
+					: edgeLength;
 			// When the start node lie at TOP_Knoten_A or TOP_Knoten_B, then the
 			// first edge length is ZERO
 			if (startNode.distance().compareTo(connectTopKnotenDistance) == 0) {
 				return BigDecimal.ZERO;
 			}
-			return edgeLength.subtract(startNode.distance());
+			return isTopKnotenA ? startNode.distance()
+					: edgeLength.subtract(startNode.distance());
 		} catch (final Exception e) {
 			throw new IllegalArgumentException(
 					"Can\'t find first edge length of TopPath"); //$NON-NLS-1$

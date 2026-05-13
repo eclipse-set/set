@@ -191,7 +191,7 @@ class PunktObjektExtensions extends BasisObjektExtensions {
 			cache.set(poGuid, #[])
 			return #[]
 		}
-		
+
 		val getStreckeFunc = [ Punkt_Objekt_Strecke_AttributeGroup pos |
 			pos.IDStrecke?.value?.bezeichnung?.bezeichnungStrecke?.wert ?: ""
 		]
@@ -213,13 +213,13 @@ class PunktObjektExtensions extends BasisObjektExtensions {
 			cache.set(poGuid, result)
 			return result
 		}
-		
+
 		if (!isFindGeometryComplete) {
 			return po.punktObjektStrecke.map [ pos |
 				getStreckeFunc.apply(pos) -> #[]
 			].toList
 		}
-		
+
 		val routeThroughBereichObjekt = po.singlePoint.
 			streckenThroughBereichObjekt
 
@@ -234,6 +234,9 @@ class PunktObjektExtensions extends BasisObjektExtensions {
 
 	def static List<String> getStreckeKm(Punkt_Objekt po,
 		List<Strecke> routeThroughBereichObjekt) {
+		if (po === null || routeThroughBereichObjekt.isNullOrEmpty) {
+			return emptyList
+		}
 		val cache = po.getCache(po.container.cacheString,
 			ToolboxConstants.CacheId.POINT_OBJECT_ROUTE_KM)
 		val poGuid = po.identitaet.wert
@@ -242,11 +245,18 @@ class PunktObjektExtensions extends BasisObjektExtensions {
 				poGuid) as List<Pair<String, List<String>>>
 			return cachedValue.flatMap[value].toList
 		}
+		val poRoute = po.punktObjektStrecke.first?.IDStrecke?.value
+		if (po.punktObjektStrecke.size == 1 && poRoute !== null &&
+			routeThroughBereichObjekt.contains(poRoute)) {
+			return #[po.punktObjektStrecke.first.streckeKm.wert]
+		}
 
 		val kmMassgebend = po.punktObjektStrecke.filter [
 			kmMassgebend?.wert === true
 		]
-		if (!kmMassgebend.nullOrEmpty) {
+		if (!kmMassgebend.nullOrEmpty &&
+			routeThroughBereichObjekt.contains(
+				po.punktObjektStrecke.first.IDStrecke.value)) {
 			return kmMassgebend.map[streckeKm.wert].toList
 		}
 
@@ -257,7 +267,7 @@ class PunktObjektExtensions extends BasisObjektExtensions {
 		val result = routeThroughBereichObjekt.map [ route |
 			try {
 				return route ->
-					po.singlePoint.getStreckeKmThroughProjection(route).
+					po?.singlePoints?.first?.getStreckeKmThroughProjection(route)?.
 						toTableDecimal(3)
 			} catch (Exception e) {
 				logger.error(

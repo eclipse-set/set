@@ -238,6 +238,11 @@ public final class ToolboxConstants {
 	public static final String TOOLBOX_DIRECTORY_NAME_TEMPORARY_INTEGRATION = "tempintegrationfile";
 
 	/**
+	 * The name for the temporary directory of a toolbox file used as a
+	 * mergeplanning.
+	 */
+	public static final String TOOLBOX_DIRECTORY_NAME_MERGE_PLANNING = "mergeplanning";
+	/**
 	 * The id of the validation part.
 	 */
 	public static final String VALIDATION_PART_ID = "org.eclipse.set.feature.validation.parts.ValidationPart";
@@ -389,6 +394,11 @@ public final class ToolboxConstants {
 	 * length, which belong to this TOP_Kante (in Meter)
 	 */
 	public static final double TOP_GEO_LENGTH_TOLERANCE = 0.01;
+
+	/**
+	 * The separator for supported PlanPro, Signalbegriffe_Ril301 versions
+	 */
+	public static final String VERSION_SEPARATOR = ", ";
 
 	/**
 	 * The tolerance value between the Begrenzungen of a Teilbereich and its

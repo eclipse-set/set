@@ -208,8 +208,8 @@ public class StellBereichExtensions {
 	 */
 	public static boolean isInControlArea(final List<Stell_Bereich> areas,
 			final Ur_Objekt ele) {
-		return ele != null
-				&& areas.stream().anyMatch(area -> isInControlArea(area, ele));
+		return ele != null && (areas.isEmpty()
+				|| areas.stream().anyMatch(area -> isInControlArea(area, ele)));
 	}
 
 	/**

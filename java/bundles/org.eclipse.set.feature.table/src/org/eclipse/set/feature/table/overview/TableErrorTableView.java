@@ -107,7 +107,7 @@ public class TableErrorTableView extends AbstractSortByColumnTables {
 		final Table table = service.transform(tableErrors);
 
 		ECollections.sort(table.getTablecontent().getRowgroups(),
-				service.getRowGroupComparator());
+				service.getRowGroupComparator(null));
 		return table;
 	}
 

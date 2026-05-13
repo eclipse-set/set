@@ -10,6 +10,8 @@
  */
 package org.eclipse.set.feature.table.pt1.sskx;
 
+import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.*;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +37,7 @@ import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Ne35str;
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.OzBk;
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Ra12;
 import org.eclipse.set.model.planpro.Signalbegriffe_Struktur.Signalbegriff_ID_TypeClass;
+import org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt;
 import org.eclipse.set.model.planpro.Signale.ENUMBeleuchtet;
 import org.eclipse.set.model.planpro.Signale.ENUMGeltungsbereich;
 import org.eclipse.set.model.planpro.Signale.Signal;
@@ -249,6 +252,22 @@ public class SskxTransformator extends AbstractSignalTableTransform {
 		// do nothing
 	}
 
+	@Override
+	protected List<ENUMBefestigungArt> getSideDistanceMastType() {
+		return List.of(ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_MAST_HOCH,
+				ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_MAST_NIEDRIG,
+				ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_SONSTIGE_HOCH,
+				ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_SONSTIGE_NIEDRIG,
+				ENUM_BEFESTIGUNG_ART_SONDERANORDNUNG_MAST_HOCH,
+				ENUM_BEFESTIGUNG_ART_SONDERANORDNUNG_MAST_NIEDRIG,
+				ENUM_BEFESTIGUNG_ART_PFOSTEN_HOCH,
+				ENUM_BEFESTIGUNG_ART_PFOSTEN_NIEDRIG,
+				ENUM_BEFESTIGUNG_ART_ARBEITSBUEHNE,
+				ENUM_BEFESTIGUNG_ART_OL_MAST, ENUM_BEFESTIGUNG_ART_WAND,
+				ENUM_BEFESTIGUNG_ART_DACH_DECKE,
+				ENUM_BEFESTIGUNG_ART_SCHIENENFUSS);
+	}
+
 	private List<String> transformSignalbegriffeBezeichnung(
 			final Signal signal) {
 		final List<ENUMGeltungsbereich> geltungsbereich = signal.getSignalReal()
@@ -313,6 +332,11 @@ public class SskxTransformator extends AbstractSignalTableTransform {
 						final String bezeichnung = function
 								.apply(signalBegriffe);
 						if (bezeichnung != null && !bezeichnung.isEmpty()) {
+							if (signalBegriffe.getSymbol() != null
+									&& !signalBegriffe.getSymbol().isEmpty()) {
+								return String.format("%s (%s)", bezeichnung, //$NON-NLS-1$
+										signalBegriffe.getSymbol());
+							}
 							return bezeichnung;
 						}
 					}
