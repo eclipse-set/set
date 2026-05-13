@@ -438,9 +438,6 @@
         <setEntry value="org.eclipse.osgi@1:true"/>
         <setEntry value="org.eclipse.pde.junit.runtime.nl_de@default:false"/>
         <setEntry value="org.eclipse.pde.junit.runtime@default:default"/>
-        <setEntry value="org.eclipse.set.browser.cef.win32@default:default"/>
-        <setEntry value="org.eclipse.set.browser.lib@default:default"/>
-        <setEntry value="org.eclipse.set.browser@default:default"/>
         <setEntry value="org.eclipse.set.model.planpro.edit@default:default"/>
         <setEntry value="org.eclipse.set.model.planpro@default:default"/>
         <setEntry value="org.eclipse.swt.nl_de@default:false"/>
@@ -524,6 +521,9 @@
         <setEntry value="org.eclipse.set.application@default:default"/>
         <setEntry value="org.eclipse.set.basis.test@default:false"/>
         <setEntry value="org.eclipse.set.basis@default:default"/>
+        <setEntry value="org.eclipse.set.browser.cef.win32@default:default"/>
+        <setEntry value="org.eclipse.set.browser.lib@default:default"/>
+        <setEntry value="org.eclipse.set.browser@default:default"/>
         <setEntry value="org.eclipse.set.core.services@default:default"/>
         <setEntry value="org.eclipse.set.core.test@default:false"/>
         <setEntry value="org.eclipse.set.core@default:default"/>
@@ -537,6 +537,7 @@
         <setEntry value="org.eclipse.set.feature.projectdata@default:default"/>
         <setEntry value="org.eclipse.set.feature.siteplan.test@default:false"/>
         <setEntry value="org.eclipse.set.feature.siteplan@default:default"/>
+        <setEntry value="org.eclipse.set.feature.table.pt1.test@default:default"/>
         <setEntry value="org.eclipse.set.feature.table.pt1@default:default"/>
         <setEntry value="org.eclipse.set.feature.table.test@default:false"/>
         <setEntry value="org.eclipse.set.feature.table@default:default"/>
