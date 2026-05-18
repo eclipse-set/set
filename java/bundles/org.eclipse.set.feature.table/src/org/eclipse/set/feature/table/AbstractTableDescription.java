@@ -29,7 +29,7 @@ public abstract class AbstractTableDescription
 				getOptionalTableId().orElse(String.format("%s.%s", //$NON-NLS-1$
 						getTableIdPrefix(), getTableShortcut().toLowerCase())),
 				// contributionURI
-				"bundleclass://org.eclipse.set.feature.table/org.eclipse.set.feature.table.ToolboxTableView", //$NON-NLS-1$
+				getContributionURI(),
 				// toolboxViewName
 				getToolboxViewName(),
 				// toolboxViewToolTip
@@ -70,4 +70,9 @@ public abstract class AbstractTableDescription
 	protected abstract String getTableIdPrefix();
 
 	protected abstract String getTableShortcut();
+
+	@SuppressWarnings("static-method")
+	protected String getContributionURI() {
+		return "bundleclass://org.eclipse.set.feature.table/org.eclipse.set.feature.table.ToolboxTableView"; //$NON-NLS-1$
+	}
 }

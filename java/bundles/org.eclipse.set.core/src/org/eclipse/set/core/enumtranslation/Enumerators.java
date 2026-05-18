@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2025 DB InfraGO AG and others
+ * Copyright (c) 2026 DB InfraGO AG and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v2.0 which is available at
@@ -3179,7 +3179,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBlock_Bauform_sonstige_Alternative;
 
 	/**
-	 * ESTW-Zb mit Sb-Abschluss SBS59
+	 * Zentralblock ZbS600
 	 */
 	public String ENUMBlock_Bauform_Zentralblock_ZBS600_Presentation;
 
@@ -3189,12 +3189,12 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBlock_Bauform_Zentralblock_ZBS600_Sorting;
 
 	/**
-	 * ESTW-Zb - SBS59
+	 * ZbS600
 	 */
 	public String ENUMBlock_Bauform_Zentralblock_ZBS600_Alternative;
 
 	/**
-	 * Zb ZSB2000
+	 * Zentralblock ZbS65
 	 */
 	public String ENUMBlock_Bauform_Zentralblock_ZBS65_Presentation;
 
@@ -3204,12 +3204,12 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBlock_Bauform_Zentralblock_ZBS65_Sorting;
 
 	/**
-	 * Zb ZSB2000
+	 * ZbS65
 	 */
 	public String ENUMBlock_Bauform_Zentralblock_ZBS65_Alternative;
 
 	/**
-	 * ESTW-Zb mit Sb-Abschluss SBL60
+	 * Zentralblock ZSB 2000
 	 */
 	public String ENUMBlock_Bauform_Zentralblock_ZSB2000_Presentation;
 
@@ -3219,7 +3219,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBlock_Bauform_Zentralblock_ZSB2000_Sorting;
 
 	/**
-	 * ESTW-Zb - SBL60
+	 * Zb ZSB 2000
 	 */
 	public String ENUMBlock_Bauform_Zentralblock_ZSB2000_Alternative;
 
@@ -4209,7 +4209,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBUE_Technik_keine_Sorting;
 
 	/**
-	 * nichttechnisch gesichert
+	 * ntg
 	 */
 	public String ENUMBUE_Technik_keine_Alternative;
 
@@ -21714,7 +21714,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTunnelsignal_ohne_Dauernachtschaltung_Sorting;
 
 	/**
-	 * o
+	 * □
 	 */
 	public String ENUMTunnelsignal_ohne_Dauernachtschaltung_Alternative;
 

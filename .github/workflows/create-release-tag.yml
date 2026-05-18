@@ -22,3 +22,4 @@ jobs:
     with:
       version: ${{ inputs.version }}
       target: "java/bundles/org.eclipse.set.releng.target/org.eclipse.set.releng.target.target"
+      pom: "java/pom.xml"

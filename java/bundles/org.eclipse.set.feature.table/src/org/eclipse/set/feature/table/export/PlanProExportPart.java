@@ -174,8 +174,10 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 		}
 	}
 
+	@Override
 	@PreDestroy
-	private void preDestroy() {
+	protected void preDestroy() {
+		super.preDestroy();
 		logger.trace("preDestroy"); //$NON-NLS-1$ LOG
 		ToolboxEvents.unsubscribe(getBroker(), selectionControlAreaHandler);
 	}
@@ -271,9 +273,8 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 					this::getAttachmentPath);
 			updateTitlebox(titlebox);
 			final PlanProToFreeFieldTransformation planProToFreeField = PlanProToFreeFieldTransformation
-					.create();
-			final FreeFieldInfo freeFieldInfo = planProToFreeField
-					.transform(modelSession);
+					.create(getSessionService());
+			final FreeFieldInfo freeFieldInfo = planProToFreeField.transform();
 			getExportService().exportPdf(tables, getExportType(), titlebox,
 					freeFieldInfo, id, getSelectedDirectory().toString(),
 					modelSession.getToolboxPaths(), getTableType(),

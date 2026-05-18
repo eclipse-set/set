@@ -563,14 +563,14 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 		// The teilbereich have same TOP_Kante with the point
 		if (sameTopKante) {
 			val clone = EcoreUtil.copy(teilbereich)
-			if (teilbereich.begrenzungA.wert !== BigDecimal.ZERO) {
+			if (teilbereich.begrenzungA.wert.compareTo(BigDecimal.ZERO) != 0) {
 				val tolerantLimitA = teilbereich.begrenzungA.wert -
 					tolerantBigDecimal
 				clone.begrenzungA.wert = tolerantLimitA <=
 					BigDecimal.ZERO ? BigDecimal.ZERO : tolerantLimitA
 			}
 
-			if (teilbereich.begrenzungB.wert !== teilBereichTopKante.laenge) {
+			if (teilbereich.begrenzungB.wert.compareTo(teilBereichTopKante.laenge) != 0) {
 				val tolerantLimitB = teilbereich.begrenzungB.wert +
 					tolerantBigDecimal
 				clone.begrenzungB.wert = tolerantLimitB >=
@@ -580,8 +580,8 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 			}
 
 			val isContains = clone.contains(singlePoint)
-			if (clone.begrenzungA.wert === BigDecimal.ZERO &&
-				clone.begrenzungB.wert === teilBereichTopKante.laenge &&
+			if (clone.begrenzungA.wert.compareTo(BigDecimal.ZERO) === 0 &&
+				clone.begrenzungB.wert.compareTo(teilBereichTopKante.laenge) == 0 &&
 				!isContains) {
 				throw new IllegalArgumentException('''The TOP_Kante: «teilbereich.IDTOPKante.wert» should contain the Punkt_Objekt: «singlePoint.identitaet»''')
 			}

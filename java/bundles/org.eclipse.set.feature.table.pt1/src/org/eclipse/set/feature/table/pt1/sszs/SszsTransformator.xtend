@@ -83,6 +83,9 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 			IDSignal?.value
 		].filterNull.toMap([it], [signalbegriffIds])
 		for (etcsSignal : container.ETCSSignal) {
+			if (Thread.currentThread.isInterrupted) {
+				return null
+			}
 			val refSignal = etcsSignal.IDSignal?.value
 			val row = factory.newTableRow(etcsSignal)
 
@@ -501,9 +504,9 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 						return ""
 					}
 					val distanceValue = distance.get
-					return distanceValue <= 5 || distanceValue >= -3
-						? "0"
-						: AgateRounding.roundUp(distanceValue).toString
+					return distanceValue <= 5 ||
+						distanceValue >= -3 ? "0" : AgateRounding.roundUp(
+						distanceValue).toString
 				]
 			)
 
@@ -546,7 +549,7 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 					return fstrNichtHaltfall.map [ fstr |
 						fstr.FMAKomponentOnFstr.map[fma|distanceToSignal(fma)].
 							max
-					].filterNull.toSet.map[toString]
+					].filterNull.toSet.map[toTableDecimal]
 				],
 				ToolboxConstants.NUMERIC_COMPARATOR,
 				[
@@ -634,8 +637,9 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 				cols.getColumn(Stellbereich),
 				refSignal,
 				[
-					container.stellBereich.filter [ area |
-						area.isInControlArea(stellelement)
+					container.stellBereich.filterNull.filter [ area |
+						area.aussenElementAnsteuerung ==
+							stellelement?.IDInformation?.value
 					].map [
 						aussenElementAnsteuerung.oertlichkeitNamensgebend.
 							bezeichnung?.oertlichkeitAbkuerzung?.wert
@@ -779,9 +783,9 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 			if (distances.compareTo(BigDecimal.ZERO) == 0) {
 				return fma -> 0.0
 			}
-			return topGraphService.isInWirkrichtungOfSignal(signal, fma)
-				? fma -> distances.doubleValue
-				: fma -> -distances.doubleValue
+			return topGraphService.
+				isInWirkrichtungOfSignal(signal, fma) ? fma ->
+				distances.doubleValue : fma -> -distances.doubleValue
 		].filterNull
 		if (distanceToSignal.empty) {
 			return Optional.empty

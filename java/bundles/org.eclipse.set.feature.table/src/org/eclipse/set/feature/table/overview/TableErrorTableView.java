@@ -14,7 +14,6 @@ import java.util.Collection;
 import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.nebula.widgets.nattable.NatTable;
 import org.eclipse.nebula.widgets.nattable.layer.cell.ILayerCell;
-import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.basis.files.ToolboxFile;
 import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
@@ -108,7 +107,7 @@ public class TableErrorTableView extends AbstractSortByColumnTables {
 		final Table table = service.transform(tableErrors);
 
 		ECollections.sort(table.getTablecontent().getRowgroups(),
-				service.getRowGroupComparator());
+				service.getRowGroupComparator(null));
 		return table;
 	}
 
@@ -148,13 +147,9 @@ public class TableErrorTableView extends AbstractSortByColumnTables {
 
 			@Override
 			public String getTableCategory() {
-				if (part.getToolboxPart()
-						.getElementId()
-						.startsWith(
-								ToolboxConstants.ESTW_TABLE_PART_ID_PREFIX)) {
-					return Pt1TableCategory.ESTW.getId();
-				}
-				return Pt1TableCategory.ETCS.getId();
+				final String elementId = part.getToolboxPart().getElementId();
+				return Pt1TableCategory.getCategoryFromPartId(elementId)
+						.getId();
 			}
 		};
 	}

@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.set.model.tablemodel.CellContent;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.CompareStateCellContent;
+import org.eclipse.set.model.tablemodel.CompareTableCellContent;
 import org.eclipse.set.model.tablemodel.RowMergeMode;
 import org.eclipse.set.model.tablemodel.StringCellContent;
 import org.eclipse.set.model.tablemodel.TableRow;
@@ -139,6 +140,24 @@ public class TableSpanUtils {
 											compareCellContentB.getOldValue()));
 				}
 				yield true;
+			}
+			case final CompareTableCellContent compareTableCellContentA -> {
+				if (compareTableCellContentA.getMainPlanCellContent() == null) {
+					yield false;
+				}
+				yield switch (cellContentB) {
+					case final CompareTableCellContent compareTableCellContentB -> compareTableCellContentB
+							.getMainPlanCellContent() != null
+							&& shouldReplaceValue(
+									compareTableCellContentA
+											.getMainPlanCellContent(),
+									compareTableCellContentB
+											.getMainPlanCellContent());
+
+					default -> shouldReplaceValue(
+							compareTableCellContentA.getMainPlanCellContent(),
+							cellContentB);
+				};
 			}
 			default -> false;
 		};

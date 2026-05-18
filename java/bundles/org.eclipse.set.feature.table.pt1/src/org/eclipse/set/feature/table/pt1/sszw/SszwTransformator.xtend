@@ -55,6 +55,7 @@ import static extension org.eclipse.set.ppmodel.extensions.WKrAnlageExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspElementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
+import org.eclipse.set.model.tablemodel.TableRow
 
 /**
  * Table transformation for ETCS Melde- und Kommandoanschaltung Weichen (Sszw)
@@ -86,15 +87,16 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 			if (Thread.currentThread.interrupted) {
 				return
 			}
+			val rowgroup = factory.newRowGroup(it)
 			IDWKrAnlage?.value.WKrGspElemente.forEach [ gspElement |
-				transform(gspElement)
+				val row = rowgroup.newTableRow
+				row.transform(it, gspElement)
 			]
 		]
 		return
 	}
 
-	private def transform(ETCS_W_Kr etcsWkr, W_Kr_Gsp_Element wKrGspElement) {
-		val row = factory.newTableRow(etcsWkr)
+	private def transform(TableRow row, ETCS_W_Kr etcsWkr, W_Kr_Gsp_Element wKrGspElement) {
 		val refWKrAnlage = etcsWkr.IDWKrAnlage?.value
 		// A: Sszw.W_Kr.Bezeichnung
 		fill(
@@ -163,13 +165,14 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 			wKrGspElement,
 			[isSimpleTrackSwitch],
 			[
-				val potk = punktObjektTOPKante.firstOrNull
-				return (potk.abstand.wert === BigDecimal.ZERO &&
-					potk.topKante.TOPAnschlussA ===
-						ENUMTOPAnschluss.ENUMTOP_ANSCHLUSS_LINKS) ||
-					(potk.abstand.wert !== BigDecimal.ZERO &&
-						potk.topKante.TOPAnschlussB ===
-							ENUMTOPAnschluss.ENUMTOP_ANSCHLUSS_RECHTS)
+				punktObjektTOPKante.exists [ potk |
+					(potk.abstand.wert.compareTo(BigDecimal.ZERO) === 0 &&
+						potk.topKante.TOPAnschlussA ===
+							ENUMTOPAnschluss.ENUMTOP_ANSCHLUSS_LINKS) ||
+						(potk.abstand.wert.compareTo(BigDecimal.ZERO) !== 0 &&
+							potk.topKante.TOPAnschlussB ===
+								ENUMTOPAnschluss.ENUMTOP_ANSCHLUSS_LINKS)
+				]
 			]
 		)
 
@@ -177,13 +180,16 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 			wKrGspElement,
 			[isSimpleTrackSwitch],
 			[
-				val potk = punktObjektTOPKante.firstOrNull
-				return (potk.abstand.wert === BigDecimal.ZERO &&
-					potk.topKante.TOPAnschlussA ===
-						ENUMTOPAnschluss.ENUMTOP_ANSCHLUSS_RECHTS) ||
-					(potk.abstand.wert !== BigDecimal.ZERO &&
-						potk.topKante.TOPAnschlussB ===
-							ENUMTOPAnschluss.ENUMTOP_ANSCHLUSS_LINKS)
+				punktObjektTOPKante.exists [ potk |
+					(potk.abstand.wert.compareTo(BigDecimal.ZERO) === 0 &&
+						potk.topKante.TOPAnschlussA ===
+							ENUMTOPAnschluss.ENUMTOP_ANSCHLUSS_RECHTS) ||
+						(potk.abstand.wert.compareTo(BigDecimal.ZERO) !== 0 &&
+							potk.topKante.TOPAnschlussB ===
+								ENUMTOPAnschluss.ENUMTOP_ANSCHLUSS_RECHTS)
+
+				]
+
 			]
 		)
 
@@ -271,7 +277,7 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 		// J: Sszw.Zulaessige_Geschwindigkeit.Kreuzung.li
 		fill(
 			row,
-			cols.getColumn(Geschwindigkeit_W_L),
+			cols.getColumn(Geschwindigkeit_Kr_L),
 			refWKrAnlage,
 			[
 				getWKrGeschwindigkeit(
@@ -327,9 +333,9 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 					IDAussenelementansteuerung?.value === outsideControl
 				]) {
 					return #[
-						outsideControl.oertlichkeitNamensgebend.bezeichnung?.
+						outsideControl?.oertlichkeitNamensgebend?.bezeichnung?.
 							oertlichkeitAbkuerzung?.wert ?:
-							outsideControl.bezeichnung?.bezeichnungAEA?.wert]
+							outsideControl?.bezeichnung?.bezeichnungAEA?.wert]
 				}
 				return #[stellbereich?.oertlichkeitBezeichnung].filterNull
 			],
@@ -433,9 +439,8 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 		val distance = gspKomponente.map[new TopPoint(it)].map [ gspPoint |
 			topGraphService.findShortestDistance(signalTopPoint, gspPoint)
 		].map[orElse(null)].filterNull
-		return distance.nullOrEmpty
-			? ""
-			: AgateRounding.roundDown(distance.min.doubleValue).toString
+		return distance.nullOrEmpty ? "" : AgateRounding.roundDown(
+			distance.min.doubleValue).toString
 	}
 
 	private def String getWKrGeschwindigkeit(
@@ -454,10 +459,13 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 		switch (type) {
 			case ENUMW_KR_ART_DKW,
 			case ENUMW_KR_ART_EKW: {
-				val gspKomponent = gspElement.WKrGspKomponenten.findFirst [
+				val gspKomponent = gspElement?.WKrGspKomponenten?.findFirst [
 					zungenpaar?.kreuzungsgleis?.wert === leftRightCross
 				]
-				return allowSpeedEKW_DKW.apply(gspKomponent)?.toString ?: ""
+				if (gspKomponent === null) {
+					return "";
+				}
+				return allowSpeedEKW_DKW?.apply(gspKomponent)?.toString ?: ""
 			}
 			case ENUMW_KR_ART_ABW,
 			case ENUMW_KR_ART_DW,
@@ -468,8 +476,11 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 			case ENUMW_KR_ART_FLACHKREUZUNG,
 			case ENUMW_KR_ART_KR,
 			case ENUMW_KR_ART_SONSTIGE: {
-				val gspKomponent = gspElement.WKrGspKomponenten.firstOrNull
-				return allowSpeed.apply(gspKomponent)?.toString ?: ""
+				val gspKomponent = gspElement?.WKrGspKomponenten?.firstOrNull
+				if (gspKomponent === null) {
+					return "";
+				}
+				return allowSpeed?.apply(gspKomponent)?.toString ?: ""
 			}
 			default:
 				""

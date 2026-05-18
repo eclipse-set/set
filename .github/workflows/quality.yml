@@ -23,8 +23,15 @@ jobs:
       - name: Setup Java
         uses: eclipse-set/build/.github/actions/setup-java@main
 
+      - name: Cache Eclipse
+        uses: actions/cache@v5
+        with:
+          path: ./tmp/eclipse.tar.gz
+          key: ${{ runner.os }}-eclipse-2025-12
+          restore-keys: ${{ runner.os }}-eclipse-2025-12
+
       - name: Get eclipse
-        run: mkdir ./tmp && wget -O ./tmp/eclipse.tar.gz https://archive.eclipse.org/technology/epp/downloads/release/2024-06/R/eclipse-java-2024-06-R-linux-gtk-x86_64.tar.gz
+        run: mkdir ./tmp && wget -O ./tmp/eclipse.tar.gz https://archive.eclipse.org/technology/epp/downloads/release/2025-12/RC1/eclipse-java-2025-12-RC1-linux-gtk-x86_64.tar.gz
 
       - name: Unzip eclipse
         run: tar -xf ./tmp/eclipse.tar.gz -C ./tmp
@@ -51,10 +58,12 @@ jobs:
           node-version: 20
 
       - name: Install dependencies
-        run: cd web/siteplan && npm install
+        run: npm ci
+        working-directory: web/siteplan
 
       - name: Eslint
-        run: cd web/siteplan && npm run lint
+        run: npm run lint
+        working-directory: web/siteplan
 
   lint-textviewer:
     runs-on: ubuntu-latest

@@ -38,8 +38,8 @@ import static extension org.eclipse.set.model.tablemodel.extensions.RowGroupExte
 import static extension org.eclipse.set.model.tablemodel.extensions.TableContentExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.TableRowExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.EObjectExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 import static extension org.eclipse.set.utils.StringExtensions.*
 
 /**
@@ -472,7 +472,7 @@ class TableExtensions {
 		// sort new and common together by text, then append old entries
 		val footnotes = (common + newF).sortBy[toText] + old.sortBy[toText]
 
-		return footnotes.distinctBy[toText -> bearbeitungsvermerk].indexed.map [
+		return footnotes.distinctBy[toText].indexed.map [
 			value.index = key + 1
 			return value
 		]
@@ -484,7 +484,26 @@ class TableExtensions {
 
 	static def FootnoteInfo getFootnoteInfo(Table table,
 		Bearbeitungsvermerk bv) {
-		return table.allFootnotes.findFirst[bearbeitungsvermerk == bv]
+		val allNotes = table.allFootnotes.toList
+		val sameId = allNotes.filter [
+			bearbeitungsvermerk?.identitaet?.wert == bv.identitaet?.wert
+		]
+		// The footnote with same text was filtered,
+		// therefore it can given't footnote with same id,
+		// then find the footnote with text
+		if (sameId.nullOrEmpty) {
+			return allNotes.findFirst [
+				bv.bearbeitungsvermerkAllg?.kommentar?.wert == toText
+			]
+		}
+
+		// A footnote can have different prefix, therefore find here exactly text
+		if (sameId.distinctBy[toText].size > 1) {
+			return sameId.findFirst [
+				bv.bearbeitungsvermerkAllg?.kommentar?.wert == toText
+			]
+		}
+		return sameId.firstOrNull
 	}
 
 	static def FootnoteInfo getFootnoteInfo(EObject tableContent, Footnote fn) {

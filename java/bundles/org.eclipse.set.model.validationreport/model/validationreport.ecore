@@ -38,8 +38,10 @@
     <eLiterals name="SUCCESS" value="2" literal="SUCCESS"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="VersionInfo">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="planPro" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="signals" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="planProVersions" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="signalbegriffeVersions"
+        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="ObjectScope">
     <eLiterals name="Layout" value="4" literal="Layout"/>

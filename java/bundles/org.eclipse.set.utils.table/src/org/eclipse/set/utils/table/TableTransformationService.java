@@ -11,6 +11,7 @@ package org.eclipse.set.utils.table;
 import java.util.Collection;
 import java.util.Comparator;
 
+import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.model.tablemodel.Table;
 
@@ -33,9 +34,12 @@ public interface TableTransformationService<T> {
 	void format(Table table);
 
 	/**
+	 * @param tableType
+	 *            the table type for which the comparator is requested
+	 * 
 	 * @return the comparator for sorting row groups
 	 */
-	Comparator<RowGroup> getRowGroupComparator();
+	Comparator<RowGroup> getRowGroupComparator(TableType tableType);
 
 	/**
 	 * Transforms a model to a table model.

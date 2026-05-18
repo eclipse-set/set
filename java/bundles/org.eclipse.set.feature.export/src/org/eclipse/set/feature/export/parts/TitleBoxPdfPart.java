@@ -78,8 +78,10 @@ public class TitleBoxPdfPart extends BasePart implements SaveListener {
 		getBroker().subscribe(Events.SUBWORK_CHANGED, subworkChangedHandler);
 	}
 
+	@Override
 	@PreDestroy
-	private void preDestroy() {
+	protected void preDestroy() {
+		super.preDestroy();
 		getBroker().unsubscribe(subworkChangedHandler);
 	}
 

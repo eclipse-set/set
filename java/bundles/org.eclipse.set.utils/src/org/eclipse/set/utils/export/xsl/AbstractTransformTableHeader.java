@@ -163,12 +163,13 @@ public abstract class AbstractTransformTableHeader {
 	private Set<Element> transformColumns() {
 		final LinkedHashSet<Element> cols = new LinkedHashSet<>();
 		float sumWidth = 0f;
-		for (int i = 0, columNumber = 1; i <= getHeaderLastColumnIndex(
-				sheet); i++, columNumber++) {
+		int columNumber = 1;
+		for (int i = 0; i <= getHeaderLastColumnIndex(sheet); i++) {
 			final Pair<Integer, Float> pair = transformColumn(cols, sumWidth, i,
 					columNumber);
 			columNumber = pair.getKey().intValue();
 			sumWidth = pair.getValue().floatValue();
+			columNumber++;
 		}
 
 		// Fill remaining page width
@@ -218,10 +219,12 @@ public abstract class AbstractTransformTableHeader {
 		final int headerLastRowIndex = getHeaderLastRowIndex(sheet);
 		final int rowNum = row.getRowNum();
 		cells.add(transformFirstColumnCell(row));
-		for (int i = 1; i <= headerLastColumnIndex; i++) {
+		int i = 1;
+		while (i <= headerLastColumnIndex) {
 			final Optional<Cell> excelCell = getCellAt(sheet, rowNum, i);
 			if (rowNum == headerLastRowIndex || excelCell.isEmpty()) {
 				addCell(cells, rowNum, createTableCell(excelCell), i);
+				i++;
 				continue;
 			}
 			final Optional<CellRangeAddress> rowSpanRangeAt = getRowSpanRangeAt(
@@ -234,6 +237,7 @@ public abstract class AbstractTransformTableHeader {
 				i += transformSpanCell(cell, excelCell);
 				addCell(cells, rowNum, cell, i);
 			}
+			i++;
 		}
 
 		// Avoid hide empty row
@@ -258,8 +262,15 @@ public abstract class AbstractTransformTableHeader {
 		if (spanColumnRange > 0) {
 			cell.setAttribute(NUMBER_COLUMNS_SPANNED,
 					String.valueOf(spanColumnRange));
+			final Optional<Cell> lastSpanCell = getCellAt(sheet,
+					excelCell.get().getRowIndex(),
+					columnIndex + spanColumnRange - 1);
+			if (lastSpanCell.isEmpty()) {
+				throw new IllegalArgumentException(
+						"Span column range not plausible"); //$NON-NLS-1$
+			}
 			// Set border style for last cell in column span
-			setBorderStyle(excelCell, cell, BorderDirection.RIGHT);
+			setBorderStyle(lastSpanCell, cell, BorderDirection.RIGHT);
 			spanCount = spanColumnRange - 1;
 		}
 

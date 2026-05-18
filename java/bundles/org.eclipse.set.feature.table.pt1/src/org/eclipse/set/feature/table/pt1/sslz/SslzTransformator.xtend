@@ -715,6 +715,6 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 			return ""
 		}
 		return '''«signalBegriff.signalbegriffID?.symbol»«
-		»«IF (signalBegriff.hasSignalbegriffID(typeof(Zs3)) || signalBegriff.hasSignalbegriffID(typeof(Zs3v))) && !signalBegriff.signalSignalbegriffAllg?.geschaltet?.wert»F«ENDIF»'''
+		»«IF !signalBegriff.signalSignalbegriffAllg?.geschaltet?.wert»F«ENDIF»'''
 	}
 }

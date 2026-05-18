@@ -40,4 +40,8 @@ public class SxxxDescriptionService extends AbstractSupplementTableDesciption {
 		return messages.ToolboxTableNameSxxxShort;
 	}
 
+	@Override
+	protected String getContributionURI() {
+		return "bundleclass://org.eclipse.set.feature.table/org.eclipse.set.feature.table.SxxxTableView"; //$NON-NLS-1$
+	}
 }

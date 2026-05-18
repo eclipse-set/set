@@ -123,6 +123,17 @@ public class Messages {
 	public String ToolboxTableView_ExportTable;
 
 	/**
+	 * Diese Tabelle ist unvollständig, da noch nicht alle anderen Tabellen
+	 * generiert wurden.
+	 */
+	public String ToolboxTableView_TableIncompleteHint;
+
+	/**
+	 * Tabellen berechnen
+	 */
+	public String ToolboxTableView_CalculateTables;
+
+	/**
 	 * Tabellenexport
 	 */
 	public String TableExportPart_TaskMsg;
@@ -180,5 +191,11 @@ public class Messages {
 	 * nur die Tabelle der Originalplanung angezeigt.
 	 */
 	public String TableTransform_ComparePlanError_Msg;
+
+	/**
+	 * Es gibt Fehler bei der Tabellengenerierung. Die Table kann nicht
+	 * vollständig darstellen
+	 */
+	public String TableTransform_Error_Msg;
 
 }

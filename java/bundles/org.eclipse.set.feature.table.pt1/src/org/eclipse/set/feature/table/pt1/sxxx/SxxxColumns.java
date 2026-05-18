@@ -16,17 +16,22 @@ package org.eclipse.set.feature.table.pt1.sxxx;
 @SuppressWarnings("nls")
 public class SxxxColumns {
 	/**
-	 * A: Inhalt Bearbeitungsvermerk
+	 * A: Bearbeitungsvermerk.Kurztext
 	 */
-	public static final String Text_Content = "A";
+	public static final String Kurztext_Content = "A";
 
 	/**
-	 * B: Referenziert von Objekt
+	 * B: Inhalt Bearbeitungsvermerk
 	 */
-	public static final String Reference_Object = "B";
+	public static final String Text_Content = "B";
 
 	/**
-	 * C: Ausgabe in Plan
+	 * C: Referenziert von Objekt
 	 */
-	public static final String Visualation_In_Table = "C";
+	public static final String Reference_Object = "C";
+
+	/**
+	 * D: Ausgabe in Plan
+	 */
+	public static final String Visualation_In_Table = "D";
 }

@@ -114,9 +114,9 @@ public class ExportSiteplanBrowserFunction
 			exportImages.add(bufferedImage);
 			if (exportImages.size() >= sheetcutcount) {
 				final PlanProToFreeFieldTransformation planProToFreeField = PlanProToFreeFieldTransformation
-						.create();
+						.create(sessionService);
 				final FreeFieldInfo freeFieldInfo = planProToFreeField
-						.transform(modelSession);
+						.transform();
 				dialogService.showProgressUISync(shell,
 						message.WebSiteplanPart_Export, () -> {
 							exportService.exportSiteplanPdf(exportImages,

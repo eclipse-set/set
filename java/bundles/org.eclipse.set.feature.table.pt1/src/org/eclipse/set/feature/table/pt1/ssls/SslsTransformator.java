@@ -56,7 +56,13 @@ public class SslsTransformator extends AbstractPlanPro2TableModelTransformator {
 			final TMFactory factory) {
 		final Set<Signal> startSignals = getFstrZugStartSignal(container);
 		signalingSections = new ArrayList<>();
-		startSignals.forEach(this::determineSignalingSections);
+		for (final Signal start : startSignals) {
+			if (Thread.currentThread().isInterrupted()) {
+				return null;
+			}
+			determineSignalingSections(start);
+		}
+
 		signalingSections.forEach(section -> transform(factory, section));
 		return factory.getTable();
 	}

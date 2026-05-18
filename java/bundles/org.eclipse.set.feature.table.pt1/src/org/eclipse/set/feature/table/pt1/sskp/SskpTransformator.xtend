@@ -574,7 +574,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 
 						throw new IllegalArgumentException('''The value: «value.toString»  isn't match the pattern: «GUEMessstreckePattern»''')
 					}
-					return value.toString
+					return value.toTableDecimal(2, 2)
 				]
 			)
 
@@ -645,7 +645,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	static dispatch def String fillBezugsElement(Signal object) {
-		return object.signalReal.signalFunktion.wert ===
+		return object?.signalReal?.signalFunktion?.wert ===
 			ENUMSignalFunktion.ENUM_SIGNAL_FUNKTION_BUE_UEBERWACHUNGSSIGNAL
 			? '''BÜ-K «object?.bezeichnung?.bezeichnungTabelle?.wert»'''
 			: object?.bezeichnung?.bezeichnungTabelle?.wert

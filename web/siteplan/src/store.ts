@@ -170,6 +170,7 @@ export const store = createStore<State>({
       state.map.getLayers().forEach(layer => layer.changed())
     },
     setLoading (state, payload: boolean) {
+      console.info('Set loading flag. New: ', payload, ' Old: ', state.loading)
       state.loading = payload
       if (PlanProToolbox.inPPT() && state.planproModelType === PlanProModelType.SITEPLAN) {
         PlanProToolbox.setSiteplanLoadingState(payload)

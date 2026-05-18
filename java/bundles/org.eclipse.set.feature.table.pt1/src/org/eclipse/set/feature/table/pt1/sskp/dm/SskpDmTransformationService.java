@@ -56,7 +56,8 @@ public final class SskpDmTransformationService
 	public TableNameInfo getTableNameInfo() {
 		return new TableNameInfo(messages.ToolboxTableNameSskpLong,
 				messages.ToolboxTableNameSskpPlanningNumber,
-				messages.ToolboxTableNameSskpDmShort);
+				messages.ToolboxTableNameSskpDmShort,
+				messages.ToolboxTableNameSskpRil);
 	}
 
 	@Override

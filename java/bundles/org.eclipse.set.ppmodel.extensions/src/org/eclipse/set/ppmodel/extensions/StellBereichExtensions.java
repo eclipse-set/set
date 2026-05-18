@@ -31,6 +31,7 @@ import org.eclipse.set.model.planpro.Ansteuerung_Element.Uebertragungsweg;
 import org.eclipse.set.model.planpro.Bahnuebergang.BUE_Anlage;
 import org.eclipse.set.model.planpro.Bahnuebergang.BUE_Kante;
 import org.eclipse.set.model.planpro.Basisobjekte.Bereich_Objekt;
+import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt;
 import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
 import org.eclipse.set.model.planpro.Bedienung.Bedien_Bezirk;
 import org.eclipse.set.model.planpro.Bedienung.Bedien_Einrichtung_Oertlich;
@@ -51,7 +52,6 @@ import org.eclipse.set.model.planpro.Ortung.FMA_Komponente;
 import org.eclipse.set.model.planpro.Ortung.Zugeinwirkung;
 import org.eclipse.set.model.planpro.PZB.PZB_Element;
 import org.eclipse.set.model.planpro.Schluesselabhaengigkeiten.Schloss;
-import org.eclipse.set.model.planpro.Signale.Signal;
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element;
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Komponente;
 import org.eclipse.set.model.planpro.Zugnummernmeldeanlage.ZN_ZBS;
@@ -208,8 +208,8 @@ public class StellBereichExtensions {
 	 */
 	public static boolean isInControlArea(final List<Stell_Bereich> areas,
 			final Ur_Objekt ele) {
-		return ele != null
-				&& areas.stream().anyMatch(area -> isInControlArea(area, ele));
+		return ele != null && (areas.isEmpty()
+				|| areas.stream().anyMatch(area -> isInControlArea(area, ele)));
 	}
 
 	/**
@@ -219,6 +219,7 @@ public class StellBereichExtensions {
 	 *            the element
 	 * @return true, if the element belong to the area
 	 */
+	@SuppressWarnings("nls")
 	public static boolean isInControlArea(final Stell_Bereich area,
 			final Ur_Objekt object) {
 		if (object == null) {
@@ -239,8 +240,6 @@ public class StellBereichExtensions {
 					.isBelongToControlArea(zugeinwirkung, area);
 			case final PZB_Element pzb -> PZBElementExtensions
 					.isBelongToControlArea(pzb, area);
-			case final Signal signal -> SignalExtensions
-					.isBelongToControlArea(signal, area);
 			case final Technik_Standort standort -> TechnikStandortExtensions
 					.isBelongToControlArea(standort, area);
 			case final Bedien_Standort standort -> BedienStandortExtensions
@@ -287,6 +286,8 @@ public class StellBereichExtensions {
 					.intersects(area, bueAnlage);
 			case final Schloss schloss -> SchlossExtensions
 					.isBelongToControlArea(area, schloss);
+			case final Punkt_Objekt po -> BereichObjektExtensions.contains(area,
+					po, 1);
 			default -> throw new IllegalArgumentException(
 					"Unsupported object " + object.toString());
 		};

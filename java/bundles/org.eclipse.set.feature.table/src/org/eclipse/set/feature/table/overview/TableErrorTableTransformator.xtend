@@ -30,7 +30,7 @@ class TableErrorTableTransformator extends AbstractTableModelTransformator<Colle
 		TMFactory factory) {
 		val Comparator<TableError> comparator = Comparator.comparing [ TableError it |
 			source
-		].thenComparing[TableError it | containerType].thenComparing[TableError it|rowNumber]
+		].thenComparing[TableError it | containerType]
 		errors.sortWith(comparator).forEach [ error, index |
 			val instance = factory.newTableRow(error)
 			fill(instance, columns.Index, index, [(index + 1).toString])
@@ -38,7 +38,6 @@ class TableErrorTableTransformator extends AbstractTableModelTransformator<Colle
 			fill(instance, columns.TableType, error, [
 				enumTranslationService.translate(error.containerType).presentation
 			])
-			fill(instance, columns.RowNumber, error, [error.rowNumber])
 			fill(instance, columns.LeadingObject, error, [error.getErrorIdentifier])
 			fill(instance, columns.Message, error, [error.message])
 		]

@@ -9,7 +9,6 @@
 package org.eclipse.set.feature.table.pt1.ssld
 
 import java.math.BigDecimal
-import java.math.RoundingMode
 import java.util.Set
 import org.eclipse.set.basis.graph.TopPath
 import org.eclipse.set.basis.graph.TopPoint
@@ -216,8 +215,7 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 				cols.getColumn(massgebende_Neigung),
 				dweg,
 				[
-					fstrDWegAllg.massgebendeNeigung?.wert?.setScale(1,
-						RoundingMode.FLOOR)?.toString
+					fstrDWegAllg.massgebendeNeigung?.wert?.toTableDecimal(1, 1)
 				]
 			)
 

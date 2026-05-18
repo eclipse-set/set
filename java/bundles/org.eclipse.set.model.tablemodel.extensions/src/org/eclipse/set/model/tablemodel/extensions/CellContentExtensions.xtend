@@ -10,6 +10,7 @@ package org.eclipse.set.model.tablemodel.extensions
 
 import com.google.common.base.Strings
 import com.google.common.html.HtmlEscapers
+import java.util.List
 import java.util.function.BiFunction
 import java.util.function.Function
 import org.eclipse.set.model.planpro.Basisobjekte.Bearbeitungsvermerk
@@ -31,7 +32,6 @@ import static org.eclipse.set.model.tablemodel.extensions.Utils.*
 
 import static extension org.eclipse.set.model.tablemodel.extensions.TableCellExtensions.*
 import static extension org.eclipse.set.utils.StringExtensions.*
-import java.util.List
 
 /**
  * Extensions for {@link CellContent}.
@@ -125,7 +125,12 @@ class CellContentExtensions {
 	static def dispatch String getRichTextValueWithFootnotes(
 		StringCellContent content, SimpleFootnoteContainer fc) {
 		val footnoteText = fc.footnotes.map [
-			'''*«getFootnoteNumber(content, it.bearbeitungsvermerk)»'''
+			getFootnoteNumber(content, it.bearbeitungsvermerk)
+		].toSet.sort.map [
+			if (it == -1) {
+				return WARNING_MARK_BLACK
+			}
+			return '''*«it»'''
 		].iterableToString(FOOTNOTE_SEPARATOR)
 
 		if (footnoteText != "")
@@ -150,11 +155,14 @@ class CellContentExtensions {
 			[WARNING_MARK_BLACK],
 			[WARNING_MARK_RED],
 			[ text, mark |
-				getCompareValueFormat(
-					mark, '''*«getFootnoteNumber(content, text)»''')
+				val fnNummer = getFootnoteNumber(content, text)
+				if (fnNummer == -1) {
+					return getCompareValueFormat(mark,
+						"Error: Can't find footnote number")
+				}
+				return getCompareValueFormat(mark, '''*«fnNummer»''')
 			]
-		)
-
+		).toSet
 		result = result + #[footnotes.iterableToString(FOOTNOTE_SEPARATOR)]
 
 		return '''<p style="text-align:«content.textAlign»">«
@@ -189,7 +197,12 @@ class CellContentExtensions {
 
 	static def dispatch String getPlainStringValue(
 		CompareStateCellContent content) {
-		return '''«content.oldValue.stringValueIterable»/«content.newValue.stringValueIterable»'''
+		val oldValue = content?.oldValue?.stringValueIterable
+		val newValue = content?.newValue?.stringValueIterable
+		if (oldValue.isNullOrEmpty && newValue.nullOrEmpty) {
+			return ""
+		}
+		return '''«oldValue»/«newValue»'''
 	}
 
 	static def dispatch String getPlainStringValue(
@@ -218,7 +231,9 @@ class CellContentExtensions {
 
 	static def dispatch Iterable<String> getStringValueIterable(
 		StringCellContent content) {
-		return content.value
+		return content?.value?.filterNull?.map[trim]?.filter [
+			!blank && !nullOrEmpty
+		] ?: #[]
 	}
 
 	static def List<String> getStringValueList(CellContent content) {
@@ -337,13 +352,15 @@ class CellContentExtensions {
 		BiFunction<Bearbeitungsvermerk, T, U> postFormatter
 	) {
 		formatCompareContent(
-			(content.oldFootnotes.footnotes + content.unchangedFootnotes.footnotes).map[bearbeitungsvermerk],
-			(content.newFootnotes.footnotes + content.unchangedFootnotes.footnotes).map[bearbeitungsvermerk],
+			(content.oldFootnotes.footnotes +
+				content.unchangedFootnotes.footnotes).map[bearbeitungsvermerk],
+			(content.newFootnotes.footnotes +
+				content.unchangedFootnotes.footnotes).map[bearbeitungsvermerk],
 			oldFormatter,
 			commonFormatter,
 			newFormatter,
 			postFormatter,
-			[it?.bearbeitungsvermerkAllg?.kommentar?.wert]
+			[getFootnoteNumber(content, it)]
 		)
 	}
 
@@ -384,8 +401,9 @@ class CellContentExtensions {
 
 	private static def String getMultiColorFormat(MultiColorContent content) {
 		if (Strings.isNullOrEmpty(content.multiColorValue)) {
-			return Strings.isNullOrEmpty(content.stringFormat) ? "" : content.
-				stringFormat.htmlString
+			return Strings.isNullOrEmpty(content.stringFormat)
+				? ""
+				: content.stringFormat.htmlString
 		}
 
 		if (content.isDisableMultiColor) {
