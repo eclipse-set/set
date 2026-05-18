@@ -281,7 +281,7 @@ public final class TableServiceImpl implements TableService {
 			final IModelSession modelSession, final Set<String> controlAreaIds,
 			final Pt1TableCategory tableCategory) {
 		final HashMap<TableInfo, Collection<TableError>> result = new HashMap<>();
-		tablesStatus.forEach((tableInfo, tableStatus) -> {
+		getAvailableTables().forEach(tableInfo -> {
 			if (tableCategory == null
 					|| tableInfo.category().equals(tableCategory)) {
 				final List<TableError> tableErrors = TableServiceUtils
