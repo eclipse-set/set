@@ -107,7 +107,7 @@ public interface TableService {
 	 * @param tableCategory
 	 * @return the tables, which throw Exception during transformation
 	 */
-	Set<TableInfo> getNonTransformableTables(Pt1TableCategory tableCategory);
+	Map<TableInfo, TableStatus> getTablesStatus(Pt1TableCategory tableCategory);
 
 	/**
 	 * Transform the selected container to a string with CSV format.
@@ -273,4 +273,5 @@ public interface TableService {
 	 */
 	void fillDelayCells(List<TableRow> tableRow,
 			List<Pt1TableChangeProperties> changedDatas, TableType tableType);
+
 }
