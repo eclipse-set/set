@@ -272,9 +272,9 @@ public class TableServiceUtils {
 		}
 	}
 
-	protected static Table filterRowGroupBelongToControlArea(
-			final Table table, final TableType tableType,
-			final TableInfo tableInfo, final IModelSession modelsession,
+	protected static Table filterRowGroupBelongToControlArea(final Table table,
+			final TableType tableType, final TableInfo tableInfo,
+			final IModelSession modelsession,
 			final PlanPro2TableTransformationService transformationService,
 			final Set<String> controlAreaIds) {
 		// Worknotes table need only regard on table state
