@@ -272,27 +272,26 @@ public class TableServiceUtils {
 		}
 	}
 
-	protected static Table filterRequestValue(final Table table,
-			final TableType tableType, final TableInfo tableInfo,
-			final IModelSession modelsession,
+	protected static Table filterRowGroupBelongToControlArea(
+			final Table table, final TableType tableType,
+			final TableInfo tableInfo, final IModelSession modelsession,
 			final PlanPro2TableTransformationService transformationService,
 			final Set<String> controlAreaIds) {
-		final Table result = filterTableByState(table, tableType);
 		// Worknotes table need only regard on table state
 		if (tableInfo.shortcut()
 				.equalsIgnoreCase(ToolboxConstants.WORKNOTES_TABLE_SHORTCUT)) {
-			return result;
+			return table;
 		}
 		if (tableType == TableType.DIFF) {
-			filterRowGroupBelongToControlAreaByDiffState(result, modelsession,
+			filterRowGroupBelongToControlAreaByDiffState(table, modelsession,
 					transformationService, controlAreaIds);
-			result.getTablecontent()
+			table.getTablecontent()
 					.getRowgroups()
 					.removeIf(group -> !UrObjectExtensions
 							.isPlanningObject(group.getLeadingObject()));
-			return result;
+			return table;
 		}
-		result.getTablecontent().getRowgroups().removeIf(group -> {
+		table.getTablecontent().getRowgroups().removeIf(group -> {
 			final UrObjektEachContainer objectEachContanier = UrObjektEachContainer
 					.createInstance(group.getLeadingObject(), modelsession);
 			final Ur_Objekt leadingObj = objectEachContanier
@@ -308,10 +307,17 @@ public class TableServiceUtils {
 							.isObjectBelongToRendereArea(leadingObj, areas);
 
 		});
-		return result;
+		return table;
 	}
 
-	private static Table filterTableByState(final Table table,
+	/**
+	 * @param table
+	 *            the table
+	 * @param tableType
+	 *            the table type
+	 * @return the table with content, which belong to the table type
+	 */
+	public static Table filterTableByState(final Table table,
 			final TableType tableType) {
 		if (tableType == TableType.DIFF || tableType == TableType.SINGLE) {
 			return table;
