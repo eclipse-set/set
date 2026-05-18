@@ -44,91 +44,89 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import FeatureSearch from '@/components/development/FeatureSearch.vue'
 import Configuration from '@/util/Configuration'
-import { Options, Vue } from 'vue-class-component'
-import { SubscribeOptions } from 'vuex'
+import { onMounted, ref, watch } from 'vue'
+import { useRouter } from 'vue-router'
 
 /**
  * Lageplan Toolbar
  * @author Truong
  */
-@Options({
-  props: {
-    model: Object
-  },
-  components: {
-    FeatureSearch
-  },
-  watch: {
-    $route () {
-      this.resetBtnColor()
-      const currentpath = this.$router.currentRoute.value.path
-      switch (currentpath) {
-        case '/':
-          this.homebtncolor = this.onSelectBtnColor
-          break
-        case '/svg':
-          this.symbolbtncolor = this.onSelectBtnColor
-          break
-        default:
-          break
-      }
-    }
-  },
-  emits: ['show-menu']
+defineProps({
+  model:
+  {
+    type: Object,
+    default: null
+  }
 })
-export default class Toolbar extends Vue {
-  developmentOptions = false
-  homeBtnColor = ''
-  symbolBtnColor = ''
-  menuBtnColor = ''
-  onSelectBtnColor = '#848484'
-  unsubscribe: SubscribeOptions | undefined
-  mounted (): void {
-    this.developmentOptions = Configuration.developmentMode()
-  }
 
-  toSvgCatalog (): void {
-    this.$emit('show-menu', false)
-    this.menuBtnColor = ''
-    this.$router.push({
-      path: '/svg',
-      query: {
-        mode: 'katalog'
-      }
-    })
-  }
+const emit = defineEmits(['show-menu'])
 
-  isCatalogPage (): boolean {
-    const currentpath = this.$router.currentRoute.value.path
-    return currentpath === '/svg'
-  }
+const router = useRouter()
+const developmentOptions = ref(false)
+const homeBtnColor = ref('')
+const symbolBtnColor = ref('')
+const menuBtnColor = ref('')
+const onSelectBtnColor = ref('#848484')
 
-  goHome (): void {
-    this.$emit('showMenu', false)
-    this.menuBtnColor = ''
-    this.$router.push('/')
-  }
+onMounted(() => {
+  developmentOptions.value = Configuration.developmentMode()
+})
 
-  resetBtnColor (): void {
-    this.homeBtnColor = ''
-    this.symbolBtnColor = ''
+watch(router.currentRoute, currentRoute => {
+  resetBtnColor()
+  switch (currentRoute.path) {
+    case '/':
+      homeBtnColor.value = onSelectBtnColor.value
+      break
+    case '/svg':
+      symbolBtnColor.value = onSelectBtnColor.value
+      break
+    default:
+      break
   }
+})
 
-  onMenuClick (): void {
-    if (this.menuBtnColor !== this.onSelectBtnColor) {
-      this.menuBtnColor = this.onSelectBtnColor
-      this.$emit('showMenu', true)
-    } else {
-      this.menuBtnColor = ''
-      this.$emit('showMenu', false)
+function toSvgCatalog (): void {
+  emit('show-menu', false)
+  menuBtnColor.value = ''
+  router.push({
+    path: '/svg',
+    query: {
+      mode: 'katalog'
     }
+  })
+}
+
+function isCatalogPage (): boolean {
+  const currentpath = router.currentRoute.value.path
+  return currentpath === '/svg'
+}
+
+function goHome (): void {
+  emit('show-menu', false)
+  menuBtnColor.value = ''
+  router.push('/')
+}
+
+function resetBtnColor (): void {
+  homeBtnColor.value = ''
+  symbolBtnColor.value = ''
+}
+
+function onMenuClick (): void {
+  if (menuBtnColor.value !== onSelectBtnColor.value) {
+    menuBtnColor.value = onSelectBtnColor.value
+    emit('show-menu', true)
+  } else {
+    menuBtnColor.value = ''
+    emit('show-menu', false)
   }
 }
 </script>
-<style scope>
+<style scoped>
 .toolbarItem {
   cursor: pointer;
   display: flex;

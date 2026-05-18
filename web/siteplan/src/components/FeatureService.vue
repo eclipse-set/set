@@ -19,7 +19,7 @@
     />
   </div>
 </template>
-<script lang="ts">
+<script setup lang="ts">
 import CollisionFeature from '@/collision/CollisionFeature'
 import JumpToGuid from '@/components/development/JumpToGuid.vue'
 import FeatureInfoPopup from '@/components/FeatureInfoPopup.vue'
@@ -59,12 +59,9 @@ import axios from 'axios'
 import { Feature } from 'ol'
 import Geometry from 'ol/geom/Geometry'
 import Map from 'ol/Map'
-import { nextTick } from 'vue'
-import { Options, Vue } from 'vue-class-component'
-import { SubscribeOptions } from 'vuex'
+import { nextTick, onBeforeUnmount, onMounted, onUnmounted, ref, shallowRef, watch } from 'vue'
 import CollisionService from '../collision/CollisionService'
 import SiteplanModel, { SiteplanColorValue } from '../model/SiteplanModel'
-import SvgService from '../service/SvgService'
 import Configuration from '../util/Configuration'
 import CenterMainRouteControl from '../util/Controls/CenterMainRouteControl'
 import ExtentControl from '../util/Controls/ExtentControl'
@@ -75,327 +72,315 @@ import NamedFeatureLayer from '../util/NamedFeatureLayer'
  *
  * @author Stuecker
  */
-@Options({
-  created () {
-    this.registerFeature(store.state.map)
-    this.unsubscribe = store.subscribe(m => {
-      if (m.type === 'setRouteVisible') {
-        this.featureLayers.forEach((layer: NamedFeatureLayer) => {
-          if (layer.getLayerType() === FeatureLayerType.Route) {
-            layer.changed()
-          }
-        })
-      } else if (m.type === 'setSessionState') {
-        this.onModelChange(this.model)
+const map: Map = store.state.map
+const featureLayers = shallowRef<NamedFeatureLayer[]>([])
+const model = ref<SiteplanModel | null>(null)
+const listFeature: ILageplanFeature[] = []
+const collisionService = new CollisionService(map)
+let unsubscribeRouteAndSession: (() => void) | undefined
+let unsubscribeSheetCut: (() => void) | undefined
+
+registerFeature()
+
+unsubscribeRouteAndSession = store.subscribe(m => {
+  if (m.type === 'setRouteVisible') {
+    featureLayers.value.forEach(layer => {
+      if (layer.getLayerType() === FeatureLayerType.Route) {
+        layer.changed()
       }
     })
-  },
-  components: {
-    JumpToGuid,
-    RouteFeature,
-    FeatureInfoPopup
-  },
-  watch: {
-    model (newmodel) {
-      this.onModelChange(newmodel)
-    }
-  },
-
-  beforeUnmount () {
-    store.commit('setRouteVisible', false)
-    this.unsubscribe()
+  } else if (m.type === 'setSessionState' && model.value !== null) {
+    onModelChange(model.value)
   }
 })
-export default class FeatureService extends Vue {
-  static readonly COLOR_UNCHANGED_VIEW = [140, 150, 157]
-  static readonly COLOR_UNCHANGED_PLANNING = [0, 0, 0]
-  static readonly COLOR_ADDED = [179, 40, 33] // RAL3016
-  static readonly COLOR_REMOVED = [241, 221, 56] // RAL1016
 
-  featureLayers: NamedFeatureLayer[] = []
-  unsubscribe: SubscribeOptions | undefined
-  map: Map = store.state.map
-  model: SiteplanModel | null = null
-  svgService: SvgService = new SvgService()
-  listFeature: ILageplanFeature[] = []
-  inLODView = false
-  collisionService = new CollisionService(this.map)
-
-  mounted (): void {
-    this.createLayers()
-    this.loadModel()
-    store.subscribe((m, s) => {
-      if (m.type === 'setSheetCutCRS') {
-        PlanProToolbox.changeLayoutCRS(s.sheetCutCRS)
-        store.commit('setLoading', true)
-        this.loadModel()
-      }
-    })
+watch(model, newModel => {
+  if (newModel !== null) {
+    onModelChange(newModel)
   }
+})
 
-  private loadModel () {
-    // Download the current model
-    const modelType = store.state.planproModelType
-    axios
-      .get<SiteplanModel>(`/${modelType}.json`)
-      .then(response => {
-        this.modelLoaded(response.data)
-        store.commit('setLoading', false)
-      })
-      .catch(e => {
-        console.error(`Could not load ${modelType}.json`)
-        console.error(e)
-        store.commit('setLoading', false)
-        store.commit('setError', {
-          iserror: true,
-          msg: `Could not load ${modelType}.json`
-        })
-      })
-  }
+onMounted(() => {
+  createLayers()
+  loadModel()
 
-  unmounted (): void {
-    // Reset stored Map
-    store.commit('resetMap')
-  }
-
-  onModelChange (newValue: SiteplanModel) {
-    try {
-      // Remove all existing features
-      this.featureLayers.forEach(layer => layer.getSource()?.clear())
-      this.collisionService.reset()
-
-      if (newValue.layoutInfo !== undefined && newValue.layoutInfo !== null && newValue.layoutInfo.length > 0) {
-        store.commit('setSheetCutAvaiable', true)
-      }
-
-      // Load features
-      this.listFeature
-        .flatMap(feature => {
-          if (feature instanceof LayoutInfoFeature) {
-            return feature.getLayoutFeatures(newValue.layoutInfo)
-          }
-
-          return this.loadFeatureType(newValue, feature)
-        })
-        .groupBy(c => getFeatureLayer(c))
-        .forEach((features, layerIndex) => {
-          const layer = this.featureLayers.find(
-            c => c.getLayerType() === layerIndex
-          )
-          layer?.getSource()?.addFeatures(features)
-        })
-
-      this.listFeature
-        .sort((a, b) => a.getDelayedFeatureOrder() - b.getDelayedFeatureOrder())
-        .flatMap(feature => this.loadDelayedFeatureType(newValue, feature))
-        .groupBy(c => getFeatureLayer(c))
-        .forEach((features, index) => {
-          const layer = this.featureLayers.find(
-            c => c.getLayerType() === index
-          )
-          layer?.getSource()?.addFeatures(features)
-        })
-
-      // Create bounding boxes
-      CollisionFeature.addCollisionFeatures(this.featureLayers)
-      // Start collision detection
-      this.collisionService.processCollisions(this.featureLayers)
-    } catch (exception) {
-      console.error('Siteplan model update failed')
-      console.error(exception)
+  unsubscribeSheetCut = store.subscribe((m, s) => {
+    if (m.type === 'setSheetCutCRS') {
+      PlanProToolbox.changeLayoutCRS(s.sheetCutCRS)
+      store.commit('setLoading', true)
+      loadModel()
     }
-  }
+  })
+})
 
-  private loadFeatureType (
-    model: SiteplanModel,
-    featureClass: ILageplanFeature
-  ): Feature<Geometry>[] {
-    try {
-      // eslint-disable-next-line default-case
-      switch (store.state.sessionState) {
-        case TableType.INITIAL:
-          return [
-            model.commonState,
-            model.initialState,
-            model.changedInitialState
-          ]
-            .map(state => featureClass.getFeatures(state))
-            .flat()
-            .map(feature => featureClass.setFeatureColor(feature))
-        case TableType.FINAL:
-          return [
-            model.commonState,
-            model.finalState,
-            model.changedFinalState
-          ]
-            .map(state => featureClass.getFeatures(state))
-            .flat()
-            .map(feature => featureClass.setFeatureColor(feature))
-        case TableType.DIFF:{
-          const compareState = featureClass.compareChangedState(
-            model.changedInitialState,
-            model.changedFinalState
-          )
-          return [
-            featureClass
-              .getFeatures(model.commonState)
-              .map(feature => featureClass.setFeatureColor(feature)),
-            compareState,
-            featureClass
-              .getFeatures(model.finalState)
-              .map(feature =>
-                featureClass.setFeatureColor(
-                  feature,
-                  SiteplanColorValue.COLOR_ADDED
-                )),
-            featureClass
-              .getFeatures(model.initialState)
-              .map(feature =>
-                featureClass.setFeatureColor(
-                  feature,
-                  SiteplanColorValue.COLOR_REMOVED
-                ))
-          ].flat()
+onBeforeUnmount(() => {
+  store.commit('setRouteVisible', false)
+  unsubscribeRouteAndSession?.()
+  unsubscribeSheetCut?.()
+})
+
+onUnmounted(() => {
+  // Reset stored Map
+  store.commit('resetMap')
+})
+
+function loadModel () {
+  // Download the current model
+  const modelType = store.state.planproModelType
+  axios
+    .get<SiteplanModel>(`/${modelType}.json`)
+    .then(response => {
+      modelLoaded(response.data)
+      store.commit('setLoading', false)
+    })
+    .catch(e => {
+      console.error(`Could not load ${modelType}.json`)
+      console.error(e)
+      store.commit('setLoading', false)
+      store.commit('setError', {
+        iserror: true,
+        msg: `Could not load ${modelType}.json`
+      })
+    })
+}
+
+function onModelChange (newValue: SiteplanModel) {
+  try {
+    // Remove all existing features
+    featureLayers.value.forEach(layer => layer.getSource()?.clear())
+    collisionService.reset()
+
+    if (newValue.layoutInfo !== undefined && newValue.layoutInfo !== null && newValue.layoutInfo.length > 0) {
+      store.commit('setSheetCutAvaiable', true)
+    }
+
+    // Load features
+    listFeature
+      .flatMap(feature => {
+        if (feature instanceof LayoutInfoFeature) {
+          return feature.getLayoutFeatures(newValue.layoutInfo)
         }
-      }
-    } catch (e) {
-      console.error(e)
-      console.error('Cannot load feature ' + featureClass.constructor.name)
-      store.commit('setLoading', false)
-      store.commit('setError', {
-        iserror: true,
-        msg: 'Cannot load ' + featureClass.constructor.name
+
+        return loadFeatureType(newValue, feature)
       })
-    }
-    return []
-  }
-
-  private loadDelayedFeatureType (
-    model: SiteplanModel,
-    featureClass: ILageplanFeature
-  ): Feature<Geometry>[] {
-    try {
-      if (featureClass != null) {
-        return featureClass
-          .getDelayedFeatures(model.commonState, this.featureLayers)
-          .map(feature => featureClass.setFeatureColor(feature))
-      }
-    } catch (e) {
-      console.error(e)
-      console.error('Cannot load feature')
-      store.commit('setLoading', false)
-      store.commit('setError', {
-        iserror: true,
-        msg: 'Cannot load feature'
-      })
-    }
-    return []
-  }
-
-  private createLayers (): void {
-    const baseIndex = 2
-    this.featureLayers = Object.values(FeatureLayerType)
-      .filter(x => isNaN(Number(x)))
-      .map((key, index) => new NamedFeatureLayer(baseIndex + index, index))
-    this.featureLayers.forEach(layer => {
-      this.map.addLayer(layer)
-      if (layer.getLayerType() === FeatureLayerType.SheetCut && !Configuration.developmentMode()) {
-        layer.setVisible(false)
-      }
-    })
-    store.state.featureLayers = this.featureLayers
-    store.commit('setFeatureLayers', this.featureLayers)
-  }
-
-  private registerFeature () {
-    this.listFeature.push(new ErrorFeature(this.map))
-    this.listFeature.push(new FMAFeature(this.map))
-    this.listFeature.push(new PlatformFeature(this.map))
-    this.listFeature.push(new PZBFeature(this.map))
-    this.listFeature.push(new PZBGUFeature(this.map))
-    this.listFeature.push(new RouteFeature(this.map))
-    this.listFeature.push(new RouteMarkerFeature(this.map))
-    this.listFeature.push(new SignalFeature(this.map))
-    this.listFeature.push(new SignalRouteMarkerFeature(this.map))
-    this.listFeature.push(new StationFeature(this.map))
-    this.listFeature.push(new TrackDesignationMarkerFeature(this.map))
-    this.listFeature.push(new TrackFeature(this.map))
-    this.listFeature.push(new TrackLockFeature(this.map))
-    this.listFeature.push(new TrackSectionMarkerFeature(this.map))
-    this.listFeature.push(new TrackSwitchEndMarkerFeature(this.map))
-    this.listFeature.push(new TrackSwitchFeature(this.map))
-    this.listFeature.push(new TrackCloseFeature(this.map))
-    this.listFeature.push(new ExternalElementControlFeature(this.map))
-    this.listFeature.push(new LockKeyFeature(this.map))
-    this.listFeature.push(new LayoutInfoFeature(this.map))
-    this.listFeature.push(new CantFeature(this.map))
-    this.listFeature.push(new CantLineFeature(this.map))
-    this.listFeature.push(new UnknownObjectFeature(this.map))
-    this.listFeature.push(new TrackDirectionFeature(this.map))
-  }
-
-  private modelLoaded (model: SiteplanModel) {
-    this.model = model
-    // console.log(JSON.stringify(model))
-    store.commit('setModel', this.model)
-
-    // Refresh the vector layer (including features) when the map is rotated
-    const view = this.map.getView()
-    view.on('change:rotation', () => {
-      this.featureLayers.forEach(layer => layer.changed())
-    })
-
-    // Once the map is loaded, set up LOD limits
-    // This cannot be applied immediately, as a view with a center is required
-    this.map.once('rendercomplete', () => {
-      const lodScale = Configuration.getLodScale()
-      const lodResolution = getResolutionForScale(this.map.getView(), lodScale)
-      const lodZoom = this.map.getView().getZoomForResolution(lodResolution)
-      if (!lodZoom) {
-        return
-      }
-
-      this.featureLayers
-        .filter(
-          c =>
-            c.getLayerType() !== FeatureLayerType.Track &&
-            c.getLayerType() !== FeatureLayerType.Collision &&
-            c.getLayerType() !== FeatureLayerType.SheetCut
+      .groupBy(c => getFeatureLayer(c))
+      .forEach((features, layerIndex) => {
+        const layer = featureLayers.value.find(
+          c => c.getLayerType() === layerIndex
         )
-        .forEach(c => {
-          c.setMinZoom(lodZoom)
-        })
-    })
+        layer?.getSource()?.addFeatures(features)
+      })
 
-    // Move the map view to show all features and add the control for it
-    // Avoid doing this during hot reloads
-    if (
-      !this.map
-        .getControls()
-        .getArray()
-        .find(c => c instanceof ExtentControl)
-    ) {
-      const extentControl = new ExtentControl(view, this.featureLayers)
-      this.map.addControl(extentControl)
+    listFeature
+      .sort((a, b) => a.getDelayedFeatureOrder() - b.getDelayedFeatureOrder())
+      .flatMap(feature => loadDelayedFeatureType(newValue, feature))
+      .groupBy(c => getFeatureLayer(c))
+      .forEach((features, index) => {
+        const layer = featureLayers.value.find(
+          c => c.getLayerType() === index
+        )
+        layer?.getSource()?.addFeatures(features)
+      })
 
-      const centerControl = new CenterMainRouteControl(view, model)
-      this.map.addControl(centerControl)
+    // Create bounding boxes
+    CollisionFeature.addCollisionFeatures(featureLayers.value)
+    // Start collision detection
+    collisionService.processCollisions(featureLayers.value)
+  } catch (exception) {
+    console.error('Siteplan model update failed')
+    console.error(exception)
+  }
+}
 
-      this.map.addControl(new MeasureControl(this.map))
-
-      // If a center position is available, apply it. Otherwise zoom to fit
-      if (this.model.centerPosition === undefined) {
-        nextTick(() => {
-          extentControl.fit()
-        })
-      } else {
-        nextTick(() => {
-          centerControl.centerView()
-        })
+function loadFeatureType (
+  loadedModel: SiteplanModel,
+  featureClass: ILageplanFeature
+): Feature<Geometry>[] {
+  try {
+    // eslint-disable-next-line default-case
+    switch (store.state.sessionState) {
+      case TableType.INITIAL:
+        return [
+          loadedModel.commonState,
+          loadedModel.initialState,
+          loadedModel.changedInitialState
+        ]
+          .map(state => featureClass.getFeatures(state))
+          .flat()
+          .map(feature => featureClass.setFeatureColor(feature))
+      case TableType.FINAL:
+        return [
+          loadedModel.commonState,
+          loadedModel.finalState,
+          loadedModel.changedFinalState
+        ]
+          .map(state => featureClass.getFeatures(state))
+          .flat()
+          .map(feature => featureClass.setFeatureColor(feature))
+      case TableType.DIFF: {
+        const compareState = featureClass.compareChangedState(
+          loadedModel.changedInitialState,
+          loadedModel.changedFinalState
+        )
+        return [
+          featureClass
+            .getFeatures(loadedModel.commonState)
+            .map(feature => featureClass.setFeatureColor(feature)),
+          compareState,
+          featureClass
+            .getFeatures(loadedModel.finalState)
+            .map(feature =>
+              featureClass.setFeatureColor(
+                feature,
+                SiteplanColorValue.COLOR_ADDED
+              )),
+          featureClass
+            .getFeatures(loadedModel.initialState)
+            .map(feature =>
+              featureClass.setFeatureColor(
+                feature,
+                SiteplanColorValue.COLOR_REMOVED
+              ))
+        ].flat()
       }
-
-      this.map.addInteraction(new FeatureClickInteraction())
     }
+  } catch (e) {
+    console.error(e)
+    console.error('Cannot load feature ' + featureClass.constructor.name)
+    store.commit('setLoading', false)
+    store.commit('setError', {
+      iserror: true,
+      msg: 'Cannot load ' + featureClass.constructor.name
+    })
+  }
+  return []
+}
+
+function loadDelayedFeatureType (
+  loadedModel: SiteplanModel,
+  featureClass: ILageplanFeature
+): Feature<Geometry>[] {
+  try {
+    if (featureClass != null) {
+      return featureClass
+        .getDelayedFeatures(loadedModel.commonState, featureLayers.value)
+        .map(feature => featureClass.setFeatureColor(feature))
+    }
+  } catch (e) {
+    console.error(e)
+    console.error('Cannot load feature')
+    store.commit('setLoading', false)
+    store.commit('setError', {
+      iserror: true,
+      msg: 'Cannot load feature'
+    })
+  }
+  return []
+}
+
+function createLayers (): void {
+  const baseIndex = 2
+  featureLayers.value = Object.values(FeatureLayerType)
+    .filter(x => isNaN(Number(x)))
+    .map((key, index) => new NamedFeatureLayer(baseIndex + index, index))
+  featureLayers.value.forEach(layer => {
+    map.addLayer(layer)
+    if (layer.getLayerType() === FeatureLayerType.SheetCut && !Configuration.developmentMode()) {
+      layer.setVisible(false)
+    }
+  })
+  store.state.featureLayers = featureLayers.value
+  store.commit('setFeatureLayers', featureLayers.value)
+}
+
+function registerFeature () {
+  listFeature.push(new ErrorFeature(map))
+  listFeature.push(new FMAFeature(map))
+  listFeature.push(new PlatformFeature(map))
+  listFeature.push(new PZBFeature(map))
+  listFeature.push(new PZBGUFeature(map))
+  listFeature.push(new RouteFeature(map))
+  listFeature.push(new RouteMarkerFeature(map))
+  listFeature.push(new SignalFeature(map))
+  listFeature.push(new SignalRouteMarkerFeature(map))
+  listFeature.push(new StationFeature(map))
+  listFeature.push(new TrackDesignationMarkerFeature(map))
+  listFeature.push(new TrackFeature(map))
+  listFeature.push(new TrackLockFeature(map))
+  listFeature.push(new TrackSectionMarkerFeature(map))
+  listFeature.push(new TrackSwitchEndMarkerFeature(map))
+  listFeature.push(new TrackSwitchFeature(map))
+  listFeature.push(new TrackCloseFeature(map))
+  listFeature.push(new ExternalElementControlFeature(map))
+  listFeature.push(new LockKeyFeature(map))
+  listFeature.push(new LayoutInfoFeature(map))
+  listFeature.push(new CantFeature(map))
+  listFeature.push(new CantLineFeature(map))
+  listFeature.push(new UnknownObjectFeature(map))
+  listFeature.push(new TrackDirectionFeature(map))
+}
+
+function modelLoaded (loadedModel: SiteplanModel) {
+  model.value = loadedModel
+  // console.log(JSON.stringify(model))
+  store.commit('setModel', loadedModel)
+
+  // Refresh the vector layer (including features) when the map is rotated
+  const view = map.getView()
+  view.on('change:rotation', () => {
+    featureLayers.value.forEach(layer => layer.changed())
+  })
+
+  // Once the map is loaded, set up LOD limits
+  // This cannot be applied immediately, as a view with a center is required
+  map.once('rendercomplete', () => {
+    const lodScale = Configuration.getLodScale()
+    const lodResolution = getResolutionForScale(map.getView(), lodScale)
+    const lodZoom = map.getView().getZoomForResolution(lodResolution)
+    if (!lodZoom) {
+      return
+    }
+
+    featureLayers.value
+      .filter(
+        c =>
+          c.getLayerType() !== FeatureLayerType.Track &&
+          c.getLayerType() !== FeatureLayerType.Collision &&
+          c.getLayerType() !== FeatureLayerType.SheetCut
+      )
+      .forEach(c => {
+        c.setMinZoom(lodZoom)
+      })
+  })
+
+  // Move the map view to show all features and add the control for it
+  // Avoid doing this during hot reloads
+  if (
+    !map
+      .getControls()
+      .getArray()
+      .find(c => c instanceof ExtentControl)
+  ) {
+    const extentControl = new ExtentControl(view, featureLayers.value)
+    map.addControl(extentControl)
+
+    const centerControl = new CenterMainRouteControl(view, loadedModel)
+    map.addControl(centerControl)
+
+    map.addControl(new MeasureControl(map))
+
+    // If a center position is available, apply it. Otherwise zoom to fit
+    if (model.value?.centerPosition === undefined) {
+      nextTick(() => {
+        extentControl.fit()
+      })
+    } else {
+      nextTick(() => {
+        centerControl.centerView()
+      })
+    }
+
+    map.addInteraction(new FeatureClickInteraction())
   }
 }
 </script>

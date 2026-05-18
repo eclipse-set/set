@@ -51,7 +51,7 @@
   </SideInfoControl>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import SideInfoControl from '@/components/SideInfoControl.vue'
 import { store } from '@/store'
 import 'material-design-icons/iconfont/material-icons.css'
@@ -59,7 +59,7 @@ import TileLayer from 'ol/layer/Tile'
 import VectorTileLayer from 'ol/layer/VectorTile'
 import OlMap from 'ol/Map'
 import TileSource from 'ol/source/Tile'
-import { Options, Vue } from 'vue-class-component'
+import { onMounted, ref, watch } from 'vue'
 import { MapSource, MapSourceType } from '../util/MapSource'
 import ArcGisSatellite from '../util/MapSources/ArcGisSatellite'
 import DigitalOrthophotosExtern from '../util/MapSources/DigitalOrthophotosExtern'
@@ -74,78 +74,65 @@ import OpenStreetMap from '../util/MapSources/OpenStreetMap'
 import Sentinel2DE from '../util/MapSources/Sentinel2DE'
 import TopPlusOpen from '../util/MapSources/TopPlusOpen'
 
-/**
- * Selector for a tile layer with multiple sources
- *
- * @author Stuecker
- */
-@Options({
-  components: {
-    SideInfoControl
-  },
-  watch: {
-    selected (selectedMap: string) {
-      const source = this.options.filter(
-        (x: MapSource) => x.getIdentifier() === selectedMap
-      )[0]
-      this.imageLayer.setSource(null)
-      this.vectorLayer.setSource(null)
-      source.setAsSource(this.imageLayer, this.vectorLayer)
-    }
-  }
+const map: OlMap = store.state.map
+const emptyMap: EmptyMap = new EmptyMap()
+const selected = ref(store.state.selectedSourceMap)
+const vectorLayer: VectorTileLayer = new VectorTileLayer()
+const imageLayer: TileLayer<TileSource> = new TileLayer()
+
+const options: MapSource[] = [
+  emptyMap,
+  new OpenStreetMap(),
+  new OpenRailwayMap(),
+  new TopPlusOpen(),
+  new MapboxTop(),
+  new HereMapsTop(),
+  new ArcGisSatellite(),
+  new Sentinel2DE(),
+  new DigitalOrthophotosIntern(),
+  new DigitalOrthophotosExtern(),
+  new MapboxSat(),
+  new HereMapsSat()
+].filter(x => x.isEnabled())
+
+watch(selected, (selectedMap: string) => {
+  const source = options.filter(
+    (x: MapSource) => x.getIdentifier() === selectedMap
+  )[0]
+  imageLayer.setSource(null)
+  vectorLayer.setSource(null)
+  source.setAsSource(imageLayer, vectorLayer)
 })
-export default class MapSourceSelection extends Vue {
-  map: OlMap = store.state.map
-  emptyMap: EmptyMap = new EmptyMap()
-  selected: string = store.state.selectedSourceMap
-  vectorLayer: VectorTileLayer = new VectorTileLayer()
-  imageLayer: TileLayer<TileSource> = new TileLayer()
-  isOpenMenu!: boolean
-  options: MapSource[] = [
-    this.emptyMap,
-    new OpenStreetMap(),
-    new OpenRailwayMap(),
-    new TopPlusOpen(),
-    new MapboxTop(),
-    new HereMapsTop(),
-    new ArcGisSatellite(),
-    new Sentinel2DE(),
-    new DigitalOrthophotosIntern(),
-    new DigitalOrthophotosExtern(),
-    new MapboxSat(),
-    new HereMapsSat()
-  ].filter(x => x.isEnabled())
 
-  mounted (): void {
-    this.vectorLayer.setZIndex(0)
-    this.imageLayer.setZIndex(0)
-    this.map.addLayer(this.vectorLayer)
-    this.map.addLayer(this.imageLayer)
-    store.subscribe(m => {
-      if (m.type === 'setSourceMap') {
-        this.selected = m.payload
-      }
-    })
-  }
-
-  getDisplayName (option: MapSource): string {
-    return option.getName() ? option.getName() : option.getType()
-  }
-
-  getOptionIcon (option: MapSource): string {
-    switch (option.getType()) {
-      case MapSourceType.Topological:
-        return 'public'
-      case MapSourceType.Satellite:
-        return 'satellite'
-      default:
-        return 'block'
+onMounted((): void => {
+  vectorLayer.setZIndex(0)
+  imageLayer.setZIndex(0)
+  map.addLayer(vectorLayer)
+  map.addLayer(imageLayer)
+  store.subscribe(m => {
+    if (m.type === 'setSourceMap') {
+      selected.value = m.payload
     }
-  }
+  })
+})
 
-  selectedMap (option: MapSource): void {
-    this.selected = option.getIdentifier()
+function getDisplayName (option: MapSource): string {
+  return option.getName() ? option.getName() : option.getType()
+}
+
+function getOptionIcon (option: MapSource): string {
+  switch (option.getType()) {
+    case MapSourceType.Topological:
+      return 'public'
+    case MapSourceType.Satellite:
+      return 'satellite'
+    default:
+      return 'block'
   }
+}
+
+function selectedMap (option: MapSource): void {
+  selected.value = option.getIdentifier()
 }
 </script>
 
