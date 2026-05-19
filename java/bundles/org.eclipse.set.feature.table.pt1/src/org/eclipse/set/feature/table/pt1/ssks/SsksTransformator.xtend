@@ -641,6 +641,9 @@ class SsksTransformator extends AbstractSignalTableTransform {
 	}
 
 	private static def boolean isSsksSignal(Signal signal) {
+		if (signal.identitaet.wert == "D44C4E86-8AA4-450E-913D-F30BF9398364") {
+			println("TEST")
+		}
 		if (signal?.signalFiktiv !== null &&
 			!signal?.signalFiktiv?.fiktivesSignalFunktion.exists [
 				inRelevantFiktivFunktion.contains(it)
@@ -653,7 +656,7 @@ class SsksTransformator extends AbstractSignalTableTransform {
 		val signalFunktion = signalReal?.signalFunktion?.wert
 
 		return (signalArt !== null && signalArt != ENUM_SIGNAL_ART_ANDERE) ||
-			(signalFunktion !== null &&
+			(signalReal.signalRealAktiv !== null && signalFunktion !== null &&
 				signalFunktion ==
 					ENUM_SIGNAL_FUNKTION_ALLEINSTEHENDES_ZUSATZSIGNAL) ||
 			isETCSMarker(signal)
@@ -1243,19 +1246,18 @@ class SsksTransformator extends AbstractSignalTableTransform {
 			[throw new RuntimeException(e)]
 		)
 	}
-	
+
 	override protected getSideDistanceMastType() {
 		return List.of(ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_MAST_HOCH,
-				ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_MAST_NIEDRIG,
-				ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_SONSTIGE_HOCH,
-				ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_SONSTIGE_NIEDRIG,
-				ENUM_BEFESTIGUNG_ART_SONDERANORDNUNG_MAST_HOCH,
-				ENUM_BEFESTIGUNG_ART_SONDERANORDNUNG_MAST_NIEDRIG,
-				ENUM_BEFESTIGUNG_ART_PFOSTEN_HOCH,
-				ENUM_BEFESTIGUNG_ART_PFOSTEN_NIEDRIG,
-				ENUM_BEFESTIGUNG_ART_ARBEITSBUEHNE,
-				ENUM_BEFESTIGUNG_ART_OL_MAST, ENUM_BEFESTIGUNG_ART_WAND,
-				ENUM_BEFESTIGUNG_ART_DACH_DECKE);
+			ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_MAST_NIEDRIG,
+			ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_SONSTIGE_HOCH,
+			ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_SONSTIGE_NIEDRIG,
+			ENUM_BEFESTIGUNG_ART_SONDERANORDNUNG_MAST_HOCH,
+			ENUM_BEFESTIGUNG_ART_SONDERANORDNUNG_MAST_NIEDRIG,
+			ENUM_BEFESTIGUNG_ART_PFOSTEN_HOCH,
+			ENUM_BEFESTIGUNG_ART_PFOSTEN_NIEDRIG,
+			ENUM_BEFESTIGUNG_ART_ARBEITSBUEHNE, ENUM_BEFESTIGUNG_ART_OL_MAST,
+			ENUM_BEFESTIGUNG_ART_WAND, ENUM_BEFESTIGUNG_ART_DACH_DECKE);
 	}
 
 }
