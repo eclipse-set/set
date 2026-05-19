@@ -641,9 +641,6 @@ class SsksTransformator extends AbstractSignalTableTransform {
 	}
 
 	private static def boolean isSsksSignal(Signal signal) {
-		if (signal.identitaet.wert == "D44C4E86-8AA4-450E-913D-F30BF9398364") {
-			println("TEST")
-		}
 		if (signal?.signalFiktiv !== null &&
 			!signal?.signalFiktiv?.fiktivesSignalFunktion.exists [
 				inRelevantFiktivFunktion.contains(it)
