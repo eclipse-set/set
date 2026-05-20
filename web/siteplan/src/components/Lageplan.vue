@@ -23,52 +23,48 @@
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
 import { store } from '@/store'
 import 'material-design-icons/iconfont/material-icons.css'
-import FeatureService from './FeatureService'
-import MapContainer from './MapContainer'
+import FeatureService from './FeatureService.vue'
+import MapContainer from './MapContainer.vue'
+import { onBeforeUnmount, ref } from 'vue'
 
-export default {
-  name: 'Lageplan',
-  components: {
-    MapContainer,
-    FeatureService
-  },
-  data: () => ({
-    loading: true,
-    error: {
-      iserror: false,
-      msg: ''
-    },
-    unsubscribe: undefined
-  }),
-  created () {
-    this.unsubscribe = store.subscribe((m, s) => {
-      if (m.type === 'setLoading') {
-        this.loading = s.loading
-      }
+const loading = ref(true)
 
-      if (m.type === 'setError') {
-        this.error = s.error
-      }
-    })
-  },
-  beforeUnmount () {
-    this.unsubscribe()
-  },
-  methods: {
-    alertBox () {
-      alert(this.error.msg)
-    },
-    loadingIndicatorState () {
-      return this.loading ? 'visible' : 'hidden'
-    },
-    loadingIndicatorAnimationState () {
-      return this.loading ? 'running' : 'paused'
-    }
+const error = ref({
+  iserror: false,
+  msg: ''
+})
+
+let unsubscribe: (() => void) | undefined
+
+unsubscribe = store.subscribe((m, s) => {
+  if (m.type === 'setLoading') {
+    loading.value = s.loading
   }
+
+  if (m.type === 'setError') {
+    error.value = s.error
+  }
+})
+
+onBeforeUnmount(() => {
+  unsubscribe?.()
+})
+
+function alertBox () {
+  alert(error.value.msg)
 }
+
+function loadingIndicatorState () {
+  return loading.value ? 'visible' : 'hidden'
+}
+
+function loadingIndicatorAnimationState () {
+  return loading.value ? 'running' : 'paused'
+}
+
 </script>
 <style>
 #lageplan {

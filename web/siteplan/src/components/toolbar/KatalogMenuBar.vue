@@ -11,7 +11,7 @@
     <ul id="katalogMenu">
       <li
         id="katalog"
-        tabIndex="1"
+        tabindex="1"
         class="menuItem"
         @click="onSelected('katalog')"
       >
@@ -19,7 +19,7 @@
       </li>
       <li
         id="einzeln"
-        tabIndex="2"
+        tabindex="2"
         class="menuItem"
         @click="onSelected('einzeln')"
       >
@@ -27,7 +27,7 @@
       </li>
       <li
         id="bruecke"
-        tabIndex="3"
+        tabindex="3"
         class="menuItem"
         @click="onSelected('bruecke')"
       >
@@ -36,30 +36,33 @@
     </ul>
   </div>
 </template>
-<script lang="ts">
+<script setup lang="ts">
 /**
  * Menu of Catalog Page
  * @author Truong
  */
-import { Vue } from 'vue-class-component'
 
-export default class KatalogMenuBar extends Vue {
-  mounted (): void {
-    const mode = this.$router.currentRoute.value.query.mode
-    if (mode) {
-      const ele = document.getElementById(mode.toString())
-      ele?.focus()
+import { onMounted } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+
+const route = useRoute()
+const router = useRouter()
+
+onMounted(() => {
+  const mode = route.query.mode
+  if (mode) {
+    const ele = document.getElementById(mode.toString())
+    ele?.focus()
+  }
+})
+
+function onSelected (value: string): void {
+  router.push({
+    path: '/svg',
+    query: {
+      mode: value
     }
-  }
-
-  onSelected (value: string): void {
-    this.$router.push({
-      path: '/svg',
-      query: {
-        mode: value
-      }
-    })
-  }
+  })
 }
 </script>
 <style scoped>
