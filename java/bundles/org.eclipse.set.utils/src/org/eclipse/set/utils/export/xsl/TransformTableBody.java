@@ -10,7 +10,8 @@
  */
 package org.eclipse.set.utils.export.xsl;
 
-import static org.eclipse.set.utils.excel.ExcelWorkbookExtension.*;
+import static org.eclipse.set.utils.excel.ExcelWorkbookExtension.getHeaderLastColumnIndex;
+import static org.eclipse.set.utils.excel.ExcelWorkbookExtension.getHeaderLastRowIndex;
 import static org.eclipse.set.utils.export.xsl.TransformStyle.setExcelCellBorderStyle;
 import static org.eclipse.set.utils.export.xsl.TransformStyle.transformBorderStyle;
 import static org.eclipse.set.utils.export.xsl.XMLDocumentExtensions.createXMLElementWithAttr;
@@ -101,8 +102,18 @@ public class TransformTableBody {
 			throw new RuntimeException(
 					"Missing first data row. Is the printing area configured correctly?"); //$NON-NLS-1$
 		}
-		getFirstDataRow(sheet).forEach(cell -> {
-			final int index = cell.getColumnIndex();
+
+		for (int index = 0; index < getHeaderLastColumnIndex(sheet); index++) {
+			final Cell cell = Optional.ofNullable(firstDataRow.getCell(index))
+					.orElse(parentGroupLastIndex.contains(index)
+							|| pageBreakAts.contains(index)
+							|| pageBreakAts.contains(index - 1)
+									? firstDataRow.createCell(index)
+									: null);
+			if (cell == null) {
+				continue;
+			}
+
 			if (parentGroupLastIndex.contains(index)
 					|| pageBreakAts.contains(index)) {
 				setExcelCellBorderStyle(cell, BorderDirection.RIGHT,
@@ -128,14 +139,14 @@ public class TransformTableBody {
 				}
 				sameStyleGroup.add(cell);
 			}
-		});
+		}
 
 		return result;
 	}
 
 	@SuppressWarnings("boxing")
 	private Set<Integer> getColumnWithWideBorderRight() {
-		final Row headerRow = sheet.getRow(1);
+		final Row headerRow = sheet.getRow(getHeaderLastRowIndex(sheet));
 		final Set<Integer> result = new HashSet<>();
 		// Start at 1 to skip empty column 0
 		for (var i = 1; i <= getHeaderLastColumnIndex(sheet); i++) {
