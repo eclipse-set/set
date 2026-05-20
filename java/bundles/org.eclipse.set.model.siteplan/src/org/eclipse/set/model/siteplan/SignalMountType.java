@@ -122,17 +122,7 @@ public enum SignalMountType implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	SIGNALAUSLEGER_LINKS(9, "SignalauslegerLinks", "SignalauslegerLinks"),
-
-	/**
-	 * The '<em><b>Signalausleger Mitte</b></em>' literal object. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @see #SIGNALAUSLEGER_MITTE_VALUE
-	 * @generated
-	 * @ordered
-	 */
-	SIGNALAUSLEGER_MITTE(10, "SignalauslegerMitte", "SignalauslegerMitte"),
+	SIGNALAUSLEGER(9, "Signalausleger", "Signalausleger"),
 
 	/**
 	 * The '<em><b>Signalbruecke</b></em>' literal object. <!-- begin-user-doc
@@ -262,18 +252,7 @@ public enum SignalMountType implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int SIGNALAUSLEGER_LINKS_VALUE = 9;
-
-	/**
-	 * The '<em><b>Signalausleger Mitte</b></em>' literal value. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @see #SIGNALAUSLEGER_MITTE
-	 * @model name="SignalauslegerMitte"
-	 * @generated
-	 * @ordered
-	 */
-	public static final int SIGNALAUSLEGER_MITTE_VALUE = 10;
+	public static final int SIGNALAUSLEGER_VALUE = 9;
 
 	/**
 	 * The '<em><b>Signalbruecke</b></em>' literal value. <!-- begin-user-doc
@@ -306,8 +285,7 @@ public enum SignalMountType implements Enumerator {
 	private static final SignalMountType[] VALUES_ARRAY = new SignalMountType[] {
 			MAST, MEHRERE_MASTEN, PFOSTEN, SCHIENENFUSS, GLEISABSCHLUSS,
 			MAST_NIEDRIG, PFOSTEN_NIEDRIG, DECKENKONSTRUKTION, WANDKONSTRUKTION,
-			SIGNALAUSLEGER_LINKS, SIGNALAUSLEGER_MITTE, SIGNALBRUECKE,
-			SONDERKONSTRUKTION, };
+			SIGNALAUSLEGER, SIGNALBRUECKE, SONDERKONSTRUKTION, };
 
 	/**
 	 * A public read-only list of all the '<em><b>Signal Mount Type</b></em>'
@@ -385,10 +363,8 @@ public enum SignalMountType implements Enumerator {
 				return DECKENKONSTRUKTION;
 			case WANDKONSTRUKTION_VALUE:
 				return WANDKONSTRUKTION;
-			case SIGNALAUSLEGER_LINKS_VALUE:
-				return SIGNALAUSLEGER_LINKS;
-			case SIGNALAUSLEGER_MITTE_VALUE:
-				return SIGNALAUSLEGER_MITTE;
+			case SIGNALAUSLEGER_VALUE:
+				return SIGNALAUSLEGER;
 			case SIGNALBRUECKE_VALUE:
 				return SIGNALBRUECKE;
 			case SONDERKONSTRUKTION_VALUE:

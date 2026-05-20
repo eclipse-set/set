@@ -25,7 +25,7 @@ export default class SvgDrawTrackClose extends AbstractDrawSVG {
   SVG_LABEL_OFFSET_X = 20
   LABEL_FONT_SIZE = 14
 
-  public drawSVG<T extends object> (data: T, label?: Label | undefined): ISvgElement {
+  public drawSVG<T extends object> (data: T, label?: Label | undefined): ISvgElement | null {
     const trackclose = data as TrackClose
     const svg = this.getSvgFromCatalog(data)
     if (svg === null) {
