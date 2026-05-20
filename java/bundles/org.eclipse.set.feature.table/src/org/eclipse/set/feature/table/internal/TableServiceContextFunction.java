@@ -202,10 +202,14 @@ public class TableServiceContextFunction extends ContextFunction
 					.getCacheService()
 					.getCache(schnitstelle,
 							ToolboxConstants.CacheId.DIRECTED_EDGE_TO_SUBPATH));
-			if (event.getTopic().equals(Events.MODEL_CHANGED)
-					&& tableService != null) {
-				tableService.clearInstance();
-			}
+		}
+
+		if (tableService == null) {
+			return;
+		}
+
+		if (event.getTopic().equals(Events.MODEL_CHANGED)) {
+			tableService.clearInstance();
 		}
 
 		if (event.getTopic().equals(Events.CLOSE_SESSION)) {
@@ -220,17 +224,16 @@ public class TableServiceContextFunction extends ContextFunction
 
 		if (event.getTopic().equals(TableDataChangeEvent.TOPIC)) {
 			final Object data = event.getProperty(IEventBroker.DATA);
-			if (data instanceof final TableDataChangeEvent changedEvent) {
-				if (!changedEvent.getProperties().isEmpty() && changedEvent
-						.getProperties()
-						.getFirst() instanceof Pt1TableChangeProperties) {
-					tableService.addChangedTableData(
-							changedEvent.getTableShortcut(),
-							changedEvent.getProperties()
-									.stream()
-									.map(Pt1TableChangeProperties.class::cast)
-									.toList());
-				}
+			if (data instanceof final TableDataChangeEvent changedEvent
+					&& !changedEvent.getProperties().isEmpty()
+					&& changedEvent.getProperties()
+							.getFirst() instanceof Pt1TableChangeProperties) {
+				tableService.addChangedTableData(
+						changedEvent.getTableShortcut(),
+						changedEvent.getProperties()
+								.stream()
+								.map(Pt1TableChangeProperties.class::cast)
+								.toList());
 			}
 
 		}
