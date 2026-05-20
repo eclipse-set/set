@@ -228,8 +228,8 @@ public class ExcelExportBuilder implements TableExport {
 					continue;
 				}
 
-				sheet.addMergedRegion(new CellRangeAddress(sheetRowIndex + row,
-						sheetRowIndex + row + spanDown, column, column));
+				sheet.addMergedRegion(new CellRangeAddress(sheetRowIndex,
+						sheetRowIndex + spanDown, column, column));
 			}
 
 			sheetRowIndex++;
