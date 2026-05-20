@@ -247,10 +247,12 @@ http://www.eclipse.org/legal/epl-v20.html
 	</xsl:template>
 
 	<xsl:template match="Footnotes[Footnote]">
-		<fo:block page-break-before="always" xsl:use-attribute-sets="title-footnotes-style">
-			<xsl:text>Bemerkungen</xsl:text>
-		</fo:block>
-		<xsl:apply-templates select="Footnote" />
+		<fo:block-container keep-together.within-page="always" border-before-style="solid" border-before-width="0.5mm" margin-top="5mm">
+			<fo:block xsl:use-attribute-sets="title-footnotes-style">
+				<xsl:text>Bemerkungen</xsl:text>
+			</fo:block>
+			<xsl:apply-templates select="Footnote" />
+		</fo:block-container>
 	</xsl:template>
 
 	<xsl:template match="Footnote">
