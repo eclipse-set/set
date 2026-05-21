@@ -148,6 +148,15 @@ http://www.eclipse.org/legal/epl-v20.html
 		<xsl:attribute name="text-align">center</xsl:attribute>
 		<xsl:attribute name="linefeed-treatment">preserve</xsl:attribute>
 	</xsl:attribute-set>
+	<xsl:attribute-set name="footnotes-container-style">
+		<xsl:attribute name="border">
+			<xsl:value-of select="$wide-border-style" />
+		</xsl:attribute>
+		<xsl:attribute name="padding">5mm</xsl:attribute>
+		<xsl:attribute name="margin">0mm</xsl:attribute>
+		<xsl:attribute name="margin-top">5mm</xsl:attribute>
+		<xsl:attribute name="keep-together.within-page">always</xsl:attribute>
+	</xsl:attribute-set>
 	<xsl:attribute-set name="title-footnotes-style">
 		<xsl:attribute name="font-size">16pt</xsl:attribute>
 		<xsl:attribute name="font-weight">bold</xsl:attribute>
@@ -247,7 +256,7 @@ http://www.eclipse.org/legal/epl-v20.html
 	</xsl:template>
 
 	<xsl:template match="Footnotes[Footnote]">
-		<fo:block-container keep-together.within-page="always" border-before-style="solid" border-before-width="0.5mm" margin-top="5mm">
+		<fo:block-container xsl:use-attribute-sets="footnotes-container-style">
 			<fo:block xsl:use-attribute-sets="title-footnotes-style">
 				<xsl:text>Bemerkungen</xsl:text>
 			</fo:block>
