@@ -24,7 +24,7 @@ jobs:
         uses: eclipse-set/build/.github/actions/setup-java@main
 
       - name: Cache Eclipse
-        uses: actions/cache/restore@v5
+        uses: actions/cache@v5
         with:
           path: ./tmp/eclipse-2025-12.tar.gz
           key: ${{ runner.os }}-eclipse-2025-12
@@ -32,12 +32,6 @@ jobs:
       - name: Get eclipse
         if: ${{ hashFiles('./tmp/eclipse-2025-12.tar.gz') == '' }}
         run: mkdir ./tmp && wget -O ./tmp/eclipse-2025-12.tar.gz https://archive.eclipse.org/technology/epp/downloads/release/2025-12/RC1/eclipse-java-2025-12-RC1-linux-gtk-x86_64.tar.gz
-
-      - name: Save to Cache
-        uses: actions/cache/save@v5
-        with:
-          path: ./tmp/eclipse-2025-12.tar.gz
-          key: ${{ runner.os }}-eclipse-2025-12
           
       - name: Unzip eclipse
         run: tar -xf ./tmp/eclipse-2025-12.tar.gz -C ./tmp
@@ -47,9 +41,6 @@ jobs:
 
       - name: Run eclipse formatter
         run: ./tmp/eclipse/eclipse -noSplash -vm "$JAVA_HOME/bin/java" -data ./tmp/workspace -application org.eclipse.jdt.core.JavaCodeFormatter -config ./releng/eclipse/java-formatter.epf .
-
-      - name: Cleanup eclipse
-        run: rm -R ./tmp
       
       - name: Print diffs
         run: git --no-pager diff --exit-code
