@@ -152,10 +152,10 @@ http://www.eclipse.org/legal/epl-v20.html
 		<xsl:attribute name="border">
 			<xsl:value-of select="$wide-border-style" />
 		</xsl:attribute>
+		<xsl:attribute name="border-after-width.conditionality">retain</xsl:attribute>
 		<xsl:attribute name="padding">5mm</xsl:attribute>
 		<xsl:attribute name="margin">0mm</xsl:attribute>
 		<xsl:attribute name="margin-top">5mm</xsl:attribute>
-		<xsl:attribute name="keep-together.within-page">always</xsl:attribute>
 	</xsl:attribute-set>
 	<xsl:attribute-set name="title-footnotes-style">
 		<xsl:attribute name="font-size">16pt</xsl:attribute>
