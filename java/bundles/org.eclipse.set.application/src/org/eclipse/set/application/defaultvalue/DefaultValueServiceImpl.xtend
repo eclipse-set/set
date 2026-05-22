@@ -8,10 +8,12 @@
  */
 package org.eclipse.set.application.defaultvalue
 
-import jakarta.inject.Inject
 import org.eclipse.core.runtime.Assert
 import org.eclipse.set.core.services.defaultvalue.DefaultValueService
-import org.eclipse.set.core.services.version.PlanProVersionService
+import org.eclipse.set.model.planpro.PlanPro.ENUMUntergewerkArt
+import org.eclipse.set.model.planpro.PlanPro.PlanProFactory
+import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle
+import org.eclipse.set.ppmodel.extensions.PlanProPackageExtensions
 import org.eclipse.set.model.planpro.PlanPro.ENUMUntergewerkArt
 import org.eclipse.set.model.planpro.PlanPro.PlanProFactory
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle
@@ -26,9 +28,6 @@ import static extension org.eclipse.set.ppmodel.extensions.PlanungProjektExtensi
  * @author Schaefer
  */
 class DefaultValueServiceImpl implements DefaultValueService {
-
-	@Inject
-	PlanProVersionService versionService
 
 	override setDefaultValues(PlanPro_Schnittstelle planProSchnittstelle) {
 		Assert.isNotNull(planProSchnittstelle)
@@ -94,8 +93,7 @@ class DefaultValueServiceImpl implements DefaultValueService {
 		}
 
 		if (planungGAllg.planProXSDVersion.wert === null) {
-			val versionInfo = versionService.getCurrentVersion()
-			planungGAllg.planProXSDVersion.wert = versionInfo.planProVersions.head
+			planungGAllg.planProXSDVersion.wert = PlanProPackageExtensions.modelVersion
 		}
 
 		if (planungGAllg.untergewerkArt === null) {

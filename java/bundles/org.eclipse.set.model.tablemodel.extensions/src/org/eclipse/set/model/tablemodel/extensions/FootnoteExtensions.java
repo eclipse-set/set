@@ -163,7 +163,7 @@ public class FootnoteExtensions {
 	 * @param extractTableShortName
 	 *            extract table name form footnotesPerTable key value
 	 */
-	public static void fillSxxxTableColumnC(final Table sxxxTable,
+	public static void fillSxxxTableColumnD(final Table sxxxTable,
 			final Map<String, Set<Footnote>> footnotesPerTable,
 			final boolean allTablesGenerated,
 			final UnaryOperator<String> extractTableShortName) {
@@ -193,12 +193,13 @@ public class FootnoteExtensions {
 	}
 
 	private static void fillValue(final TableRow row, final String value) {
-		final CellContent content = row.getCells().get(2).getContent();
+		// IMPROVE: the get row cell is hard code
+		final CellContent content = row.getCells().get(3).getContent();
 		if (content == null) {
 			final StringCellContent cellContent = TablemodelFactory.eINSTANCE
 					.createStringCellContent();
 			cellContent.getValue().add(value);
-			row.getCells().get(2).setContent(cellContent);
+			row.getCells().get(3).setContent(cellContent);
 		} else if (content instanceof final StringCellContent stringCellContent) {
 			stringCellContent.getValue().add(value);
 			stringCellContent.getValue().removeIf(String::isEmpty);

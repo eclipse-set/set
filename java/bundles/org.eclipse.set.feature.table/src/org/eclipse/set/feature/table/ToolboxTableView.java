@@ -135,7 +135,7 @@ import jakarta.inject.Inject;
 /**
  * View class for all toolbox table views. This class is responsible for
  * creating the actual nattable with all its layers.
- *
+ * 
  * @author rumpf
  */
 public class ToolboxTableView extends BasePart {
@@ -349,10 +349,10 @@ public class ToolboxTableView extends BasePart {
 
 	/**
 	 * transform the current planpro model to the specific view table model.
-	 *
+	 * 
 	 * @param elementId
 	 *            the element id of the part
-	 *
+	 * 
 	 * @return the table view model
 	 */
 	protected Table transformToTableModel() {
@@ -402,6 +402,12 @@ public class ToolboxTableView extends BasePart {
 			return;
 		}
 		subcribeTriggerResortEvent();
+		if (tableService.getNonTransformableTables(tableInfo.category())
+				.contains(tableInfo)) {
+			getDialogService().error(getToolboxShell(),
+					messages.TableTransform_Error_Msg);
+		}
+
 		final ColumnDescriptor rootColumnDescriptor = table
 				.getColumndescriptors()
 				.get(0);

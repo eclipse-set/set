@@ -127,5 +127,6 @@ public class ToolboxTableFootnoteView extends StyledText {
 		}
 		// Default weight value nattable - 8, footnote - 2
 		sashForm.setWeights(8, 2);
+		sashForm.getParent().layout();
 	}
 }

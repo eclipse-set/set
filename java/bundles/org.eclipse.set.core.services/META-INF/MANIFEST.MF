@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Toolbox Core Services
 Bundle-SymbolicName: org.eclipse.set.core.services;singleton:=true
-Bundle-Version: 2.6.0.qualifier
+Bundle-Version: 2.7.0.qualifier
 Automatic-Module-Name: org.eclipse.set.core.services
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Bundle-Vendor: Eclipse Signalling Engineering Toolbox
@@ -77,6 +77,7 @@ Import-Package: com.fasterxml.jackson.databind,
  org.eclipse.set.basis.ui,
  org.eclipse.set.basis.viewgroups,
  org.eclipse.set.model.siteplan,
+ org.eclipse.set.model.temporaryintegration,
  org.eclipse.set.model.validationreport,
  org.eclipse.set.ppmodel.extensions.container,
  org.locationtech.jts.geom;version="1.19.0"

@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.eclipse.set</groupId>
 	<artifactId>org.eclipse.set.releng.parent</artifactId>
-	<version>2.6.0-SNAPSHOT</version>
+	<version>2.7.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<properties>
@@ -49,9 +49,11 @@
 		<module>bundles/org.eclipse.set.emfforms</module>
 
 		<module>bundles/org.eclipse.set.feature.table</module>
-		<module>bundles/org.eclipse.set.feature.table.pt1</module>
 		<module>bundles/org.eclipse.set.feature.table.test</module>
+		<module>bundles/org.eclipse.set.feature.table.pt1</module>
+		<module>bundles/org.eclipse.set.feature.table.pt1.test</module>
 		<module>bundles/org.eclipse.set.feature.export</module>
+		<module>bundles/org.eclipse.set.feature.integration</module>
 		<!-- Currently given't test in this package -->
 		<!-- <module>bundles/org.eclipse.set.feature.export.test</module> -->
 		<module>bundles/org.eclipse.set.feature.validation</module>
@@ -80,6 +82,14 @@
 		<module>bundles/org.eclipse.set.model.plazmodel</module>
 		<module>bundles/org.eclipse.set.model.plazmodel.edit</module>
 		<module>bundles/org.eclipse.set.model.siteplan</module>
+		<module>bundles/org.eclipse.set.model.integrationview</module>
+		<module>bundles/org.eclipse.set.model.integrationview.edit</module>
+		<module>bundles/org.eclipse.set.model.simplemerge</module>
+		<module>bundles/org.eclipse.set.model.simplemerge.edit</module>
+		<module>bundles/org.eclipse.set.model.simplemerge.extensions</module>
+		<module>bundles/org.eclipse.set.model.temporaryintegration</module>
+		<module>bundles/org.eclipse.set.model.temporaryintegration.edit</module>
+		<module>bundles/org.eclipse.set.model.temporaryintegration.extensions</module>
 
 		<module>bundles/org.eclipse.set.nattable.utils</module>
 		<module>bundles/org.eclipse.set.pdf.utils</module>
