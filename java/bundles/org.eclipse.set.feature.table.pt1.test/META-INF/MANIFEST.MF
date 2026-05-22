@@ -3,7 +3,8 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Pt1 Table Test
 Bundle-SymbolicName: org.eclipse.set.feature.table.pt1.test
 Bundle-Vendor: Eclipse Signalling Engineering Toolbox
-Bundle-Version: 2.6.0.qualifier
+Bundle-Version: 2.7.0.qualifier
+Fragment-Host: org.eclipse.set.feature.table.pt1;bundle-version="0.1.0"
 Automatic-Module-Name: org.eclipse.set.feature.table.pt1.test
 Bundle-Activator: org.eclipse.set.feature.table.pt1.test.Activator
 Bundle-ActivationPolicy: lazy
