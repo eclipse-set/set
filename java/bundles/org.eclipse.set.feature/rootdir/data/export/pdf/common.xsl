@@ -148,7 +148,7 @@ http://www.eclipse.org/legal/epl-v20.html
 		<xsl:attribute name="text-align">center</xsl:attribute>
 		<xsl:attribute name="linefeed-treatment">preserve</xsl:attribute>
 	</xsl:attribute-set>
-	<xsl:attribute-set name="footnotes-container-style">
+	<xsl:attribute-set name="footnotes-block-style">
 		<xsl:attribute name="border">
 			<xsl:value-of select="$wide-border-style" />
 		</xsl:attribute>
@@ -256,12 +256,12 @@ http://www.eclipse.org/legal/epl-v20.html
 	</xsl:template>
 
 	<xsl:template match="Footnotes[Footnote]">
-		<fo:block-container xsl:use-attribute-sets="footnotes-container-style">
+		<fo:block xsl:use-attribute-sets="footnotes-block-style">
 			<fo:block xsl:use-attribute-sets="title-footnotes-style">
 				<xsl:text>Bemerkungen</xsl:text>
 			</fo:block>
 			<xsl:apply-templates select="Footnote" />
-		</fo:block-container>
+		</fo:block>
 	</xsl:template>
 
 	<xsl:template match="Footnote">
