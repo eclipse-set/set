@@ -26,24 +26,21 @@ jobs:
       - name: Cache Eclipse
         uses: actions/cache@v5
         with:
-          path: ./tmp/eclipse.tar.gz
+          path: ./tmp/eclipse-2025-12.tar.gz
           key: ${{ runner.os }}-eclipse-2025-12
-          restore-keys: ${{ runner.os }}-eclipse-2025-12
 
       - name: Get eclipse
-        run: mkdir ./tmp && wget -O ./tmp/eclipse.tar.gz https://archive.eclipse.org/technology/epp/downloads/release/2025-12/RC1/eclipse-java-2025-12-RC1-linux-gtk-x86_64.tar.gz
-
+        if: ${{ hashFiles('./tmp/eclipse-2025-12.tar.gz') == '' }}
+        run: mkdir ./tmp && wget -O ./tmp/eclipse-2025-12.tar.gz https://archive.eclipse.org/technology/epp/downloads/release/2025-12/RC1/eclipse-java-2025-12-RC1-linux-gtk-x86_64.tar.gz
+          
       - name: Unzip eclipse
-        run: tar -xf ./tmp/eclipse.tar.gz -C ./tmp
+        run: tar -xf ./tmp/eclipse-2025-12.tar.gz -C ./tmp
 
       - name: Test
         run: ls -la $JAVA_HOME/bin
 
       - name: Run eclipse formatter
         run: ./tmp/eclipse/eclipse -noSplash -vm "$JAVA_HOME/bin/java" -data ./tmp/workspace -application org.eclipse.jdt.core.JavaCodeFormatter -config ./releng/eclipse/java-formatter.epf .
-
-      - name: Cleanup eclipse
-        run: rm -R ./tmp
       
       - name: Print diffs
         run: git --no-pager diff --exit-code
