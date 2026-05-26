@@ -154,6 +154,9 @@ http://www.eclipse.org/legal/epl-v20.html
 		</xsl:attribute>
 		<xsl:attribute name="border-after-width.conditionality">retain</xsl:attribute>
 		<xsl:attribute name="padding">5mm</xsl:attribute>
+		<!-- Need to set/use padding-after to keep padding before page breaks -->
+		<xsl:attribute name="padding-after">5mm</xsl:attribute>
+		<xsl:attribute name="padding-after.conditionality">retain</xsl:attribute>
 		<xsl:attribute name="margin">0mm</xsl:attribute>
 		<xsl:attribute name="margin-top">5mm</xsl:attribute>
 	</xsl:attribute-set>
