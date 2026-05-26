@@ -486,5 +486,15 @@ DynamicImport-Package: *
 				</dependency>
 			</dependencies>
 		</location>
+		<location includeDependencyDepth="infinite" includeDependencyScopes="compile"  includeSource="true" label="OSGi Testing" missingManifest="generate" type="Maven">
+			<dependencies>
+				<dependency>
+					<groupId>org.osgi</groupId>
+					<artifactId>org.osgi.test.junit5</artifactId>
+					<version>1.3.0</version>
+					<type>jar</type>
+				</dependency>
+			</dependencies>
+		</location>
 	</locations>
 </target>
