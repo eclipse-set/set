@@ -229,7 +229,7 @@ jobs:
           goal="verify"
           if [[ ${{github.ref}} == "refs/heads/main" || "${{github.ref}}" == refs/tags/* ]]; then
             m2RepoPath="set-github::https://maven.pkg.github.com/${{ github.repository }}"
-            goal="deploy
+            goal="deploy"
           fi
           mvn -T 1.5C -B -f java/pom.xml $goal checkstyle:checkstyle --settings .github/settings.xml -DaltDeploymentRepository="$m2RepoPath"
         env:
