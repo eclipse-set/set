@@ -213,21 +213,25 @@ jobs:
           name: news-artifact
           path: web/news/public
       
-      - name: Cache m2repo
+      - name: Cache Tycho p2 + m2
         uses: actions/cache@v5
         with:
           enableCrossOsArchive: true
-          path: ~/.m2/repository/
-          key: ${{ runner.os }}-m2repo-${{ hashFiles('**/java/bundles/org.eclipse.set.releng.target/org.eclipse.set.releng.target.target', 'java/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2repo-
+          path: |
+            ~/.m2/repository/
+            ~/.cache/tycho/
+          key: ${{ runner.os }}-tycho-${{ hashFiles('**/java/bundles/org.eclipse.set.releng.target/org.eclipse.set.releng.target.target', '**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-tyho-
 
       - name: Build
         run: |
           m2RepoPath="local::file://${{ env.DEPLOY_DIR }}"
+          goal="verify"
           if [[ ${{github.ref}} == "refs/heads/main" || "${{github.ref}}" == refs/tags/* ]]; then
             m2RepoPath="set-github::https://maven.pkg.github.com/${{ github.repository }}"
+            goal="deploy
           fi
-          mvn -T 1.5C -U -B -f java/pom.xml clean deploy checkstyle:checkstyle --settings .github/settings.xml -DaltDeploymentRepository="$m2RepoPath"
+          mvn -T 1.5C -B -f java/pom.xml $goal checkstyle:checkstyle --settings .github/settings.xml -DaltDeploymentRepository="$m2RepoPath"
         env:
           GITHUB_TOKEN: ${{ github.token }}
       
