@@ -4,8 +4,8 @@ Bundle-Name: Pt1 Table Test
 Bundle-SymbolicName: org.eclipse.set.feature.table.pt1.test
 Bundle-Vendor: Eclipse Signalling Engineering Toolbox
 Bundle-Version: 2.7.0.qualifier
-Fragment-Host: org.eclipse.set.feature.table.pt1;bundle-version="0.1.0"
 Automatic-Module-Name: org.eclipse.set.feature.table.pt1.test
+Bundle-Activator: org.eclipse.set.feature.table.pt1.test.Activator
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Import-Package: com.google.common.util.concurrent,
@@ -15,16 +15,41 @@ Import-Package: com.google.common.util.concurrent,
  org.apache.commons.collections4,
  org.apache.commons.lang3,
  org.apache.commons.lang3.reflect,
+ org.dom4j,
+ org.dom4j.io,
+ org.dom4j.util,
+ org.eclipse.e4.core.services.events,
+ org.eclipse.emf.edit.domain;version="[2.23.0,3.0.0)",
  org.eclipse.set.application.cacheservice,
  org.eclipse.set.application.geometry,
  org.eclipse.set.application.graph,
+ org.eclipse.set.core,
+ org.eclipse.set.core.services.cache,
+ org.eclipse.set.core.services.enumtranslation,
+ org.eclipse.set.core.services.geometry,
+ org.eclipse.set.model.tablemodel,
+ org.eclipse.set.model.temporaryintegration,
+ org.eclipse.set.ppmodel.extensions.container,
+ org.eclipse.set.ppmodel.extensions.utils,
  org.eclipse.set.unittest.utils,
  org.eclipse.set.utils,
+ org.eclipse.set.utils.export.xsl,
+ org.eclipse.set.utils.table,
  org.eclipse.swt.widgets,
  org.jgrapht.graph,
  org.jheaps.tree,
  org.junit.jupiter.api,
+ org.junit.jupiter.api.extension;version="[5.12.0,6.0.0)",
  org.junit.jupiter.api.function,
  org.junit.jupiter.params,
- org.junit.jupiter.params.provider
-Require-Bundle: org.mockito.mockito-core
+ org.junit.jupiter.params.provider,
+ org.osgi.framework,
+ org.osgi.service.event,
+ org.osgi.test.common.annotation,
+ org.osgi.test.junit5.service;version="[1.2.0,2.0.0)"
+Require-Bundle: org.mockito.mockito-core,
+ org.eclipse.set.feature.table,
+ org.eclipse.set.feature.table.pt1,
+ org.eclipse.set.model.planpro,
+ org.eclipse.set.ppmodel.extensions,
+ org.eclipse.set.basis
