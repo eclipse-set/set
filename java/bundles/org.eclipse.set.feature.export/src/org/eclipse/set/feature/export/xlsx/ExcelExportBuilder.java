@@ -41,6 +41,8 @@ import org.eclipse.set.basis.constants.ExportType;
 import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.basis.exceptions.FileExportException;
 import org.eclipse.set.feature.export.pdf.TableToTableDocument;
+import org.eclipse.set.model.tablemodel.CompareFootnoteContainer;
+import org.eclipse.set.model.tablemodel.Footnote;
 import org.eclipse.set.model.tablemodel.FootnoteContainer;
 import org.eclipse.set.model.tablemodel.SimpleFootnoteContainer;
 import org.eclipse.set.model.tablemodel.Table;
@@ -220,11 +222,6 @@ public class ExcelExportBuilder implements TableExport {
 					? sheet.getRow(contentRowIndex)
 					: createNewRow(sheet, contentRowIndex, columnCount);
 			final FootnoteContainer footnotes = row.getFootnotes();
-			// Currently export only FINAL-Table to excel, therefore the
-			// FootnoteContainer should be SimpleFootnoteContainer
-			if (!(footnotes instanceof SimpleFootnoteContainer)) {
-				throw new IllegalArgumentException();
-			}
 			for (int i = 0; i < columnCount; i++) {
 				final String content = TableRowExtensions
 						.getPlainStringValue(row, i);
@@ -233,10 +230,9 @@ public class ExcelExportBuilder implements TableExport {
 				if (cell == null) {
 					cell = sheetRow.createCell(i + 1);
 				}
-				if (i == columnCount - 1
-						&& footnotes instanceof final SimpleFootnoteContainer simpleContainer) {
-					fillFootnoteCell(cell, content, allFootnotes,
-							simpleContainer, inlineFootnote);
+				if (i == columnCount - 1) {
+					fillFootnoteCell(cell, content, allFootnotes, footnotes,
+							inlineFootnote);
 					continue;
 				}
 				cell.setCellValue(content);
@@ -249,10 +245,16 @@ public class ExcelExportBuilder implements TableExport {
 
 	private static void fillFootnoteCell(final Cell cell,
 			final String cellContent, final List<FootnoteInfo> allFootnotes,
-			final SimpleFootnoteContainer fnContainer,
-			final boolean inlineFootnote) {
-		final List<FootnoteInfo> fnInfo = fnContainer.getFootnotes()
-				.stream()
+			final FootnoteContainer fnContainer, final boolean inlineFootnote) {
+		final List<Footnote> footnotes = switch (fnContainer) {
+			case final SimpleFootnoteContainer simpleContainer -> simpleContainer
+					.getFootnotes();
+			case final CompareFootnoteContainer compareContainer -> compareContainer
+					.getUnchangedFootnotes()
+					.getFootnotes();
+			default -> throw new IllegalArgumentException();
+		};
+		final List<FootnoteInfo> fnInfo = footnotes.stream()
 				.map(fn -> TableExtensions.getFootnoteInfo(allFootnotes, fn))
 				.filter(Objects::nonNull)
 				.toList();

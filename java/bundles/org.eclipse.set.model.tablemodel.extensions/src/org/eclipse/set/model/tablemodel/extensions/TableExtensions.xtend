@@ -449,21 +449,26 @@ class TableExtensions {
 	}
 
 	static def Iterable<FootnoteInfo> getAllFootnotes(Table table) {
-		val common = (table.eAllContents.filter(SimpleFootnoteContainer).map [
+		val simpleFootnoteContainer = table.eAllContents.filter(
+			SimpleFootnoteContainer).toList
+		val compareFootnoteContainer = table.eAllContents.filter(
+			CompareFootnoteContainer).toList
+
+		val common = (simpleFootnoteContainer.map [
 			footnotes.map[new FootnoteInfo(it, FootnoteType.COMMON_FOOTNOTE)]
-		] + table.eAllContents.filter(CompareFootnoteContainer).map [
+		] + compareFootnoteContainer.map [
 			unchangedFootnotes.footnotes.map [
 				new FootnoteInfo(it, FootnoteType.COMMON_FOOTNOTE)
 			]
 		]).toList.flatten
 
-		val old = table.eAllContents.filter(CompareFootnoteContainer).map [
+		val old = compareFootnoteContainer.map [
 			oldFootnotes.footnotes.map [
 				new FootnoteInfo(it, FootnoteType.OLD_FOOTNOTE)
 			]
 		].toList.flatten
 
-		val newF = table.eAllContents.filter(CompareFootnoteContainer).map [
+		val newF = compareFootnoteContainer.map [
 
 			newFootnotes.footnotes.map [
 				new FootnoteInfo(it, FootnoteType.NEW_FOOTNOTE)
