@@ -24,11 +24,11 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Options, Vue } from 'vue-class-component'
-import TrackSwitch from '@/model/TrackSwitch'
+<script setup lang="ts">
+import { computed } from 'vue'
 import { Feature } from 'ol'
 import Geometry from 'ol/geom/Geometry'
+import TrackSwitch from '@/model/TrackSwitch'
 import TrackSwitchComponent, {
   TurnoutOperatingMode
 } from '@/model/TrackSwitchComponent'
@@ -46,65 +46,52 @@ import { isPlanningObject } from '@/model/SiteplanModel'
  *
  * @author Stuecker
  */
-@Options({
-  components: {
-    RouteInfo
-  },
-  props: {
-    // As TrackSwitch is an interface, we cannot bind to the intended type
-    feature: Object
-  },
-  computed: {
-    trackSwitch: function () {
-      return this.getData()?.trackSwitch
-    },
-    trackSwitchComponent: function () {
-      return this.getData()?.component
-    },
-    planningObject: function () {
-      return isPlanningObject(getFeatureGUID(this.feature))
-        ? 'Ja'
-        : 'Nein'
-    },
-    trackSwitchLabel: function () {
-      return getFeatureLabel(this.feature)
-    }
-  }
+const props = defineProps<{
+  feature: Feature<Geometry>
+}>()
+
+const getData = (): TrackSwitchFeatureData | undefined => {
+  return getFeatureData(props.feature) as TrackSwitchFeatureData | undefined
+}
+
+const trackSwitch = computed<TrackSwitch>(() => {
+  return getData()?.trackSwitch as TrackSwitch
 })
-export default class TrackSwitchPopup extends Vue {
-  feature!: Feature<Geometry>
-  trackSwitch!: TrackSwitch
-  trackSwitchComponent!: TrackSwitchComponent
-  planningObject!: string
-  trackSwitchLabel!: string
 
-  private getData (): TrackSwitchFeatureData | undefined {
-    return getFeatureData(this.feature)
-  }
+const trackSwitchComponent = computed<TrackSwitchComponent>(() => {
+  return getData()?.component as TrackSwitchComponent
+})
 
-  operatingModeToText (): string {
-    switch (this.trackSwitchComponent.operatingMode) {
-      case TurnoutOperatingMode.ElectricRemote:
-        return 'elektrisch ferngestellt'
-      case TurnoutOperatingMode.ElectricLocal:
-        return 'elektrisch ortsgestellt'
-      case TurnoutOperatingMode.MechanicalRemote:
-        return 'mechanisch ferngestellt'
-      case TurnoutOperatingMode.MechanicalLocal:
-        return 'mechanisch ortsgestellt'
-      case TurnoutOperatingMode.NonOperational:
-        return 'stillgelegt'
-      case TurnoutOperatingMode.Trailable:
-        return 'Rückfallweiche'
-      case TurnoutOperatingMode.Other:
-        return 'sonstige'
-      case TurnoutOperatingMode.DeadLeft:
-        return 'stillgelegt links'
-      case TurnoutOperatingMode.DeadRight:
-        return 'stillgelegt rechts'
-      default:
-        return 'Unbestimmt'
-    }
+const planningObject = computed(() => {
+  return isPlanningObject(getFeatureGUID(props.feature)) ? 'Ja' : 'Nein'
+})
+
+const trackSwitchLabel = computed(() => {
+  return getFeatureLabel(props.feature)
+})
+
+const operatingModeToText = (): string => {
+  switch (trackSwitchComponent.value.operatingMode) {
+    case TurnoutOperatingMode.ElectricRemote:
+      return 'elektrisch ferngestellt'
+    case TurnoutOperatingMode.ElectricLocal:
+      return 'elektrisch ortsgestellt'
+    case TurnoutOperatingMode.MechanicalRemote:
+      return 'mechanisch ferngestellt'
+    case TurnoutOperatingMode.MechanicalLocal:
+      return 'mechanisch ortsgestellt'
+    case TurnoutOperatingMode.NonOperational:
+      return 'stillgelegt'
+    case TurnoutOperatingMode.Trailable:
+      return 'Rückfallweiche'
+    case TurnoutOperatingMode.Other:
+      return 'sonstige'
+    case TurnoutOperatingMode.DeadLeft:
+      return 'stillgelegt links'
+    case TurnoutOperatingMode.DeadRight:
+      return 'stillgelegt rechts'
+    default:
+      return 'Unbestimmt'
   }
 }
 </script>

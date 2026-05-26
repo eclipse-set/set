@@ -19,13 +19,13 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Options, Vue } from 'vue-class-component'
+<script setup lang="ts">
+import { computed } from 'vue'
+import { Feature } from 'ol'
+import { Geometry } from 'ol/geom'
 import { PZB, PZBElement, PZBType } from '@/model/PZB'
 import RouteInfo from '@/components/popup/RouteInfo.vue'
-import {
-  getFeatureData, getFeatureGUID
-} from '@/feature/FeatureInfo'
+import { getFeatureData, getFeatureGUID } from '@/feature/FeatureInfo'
 import { isPlanningObject } from '@/model/SiteplanModel'
 
 /**
@@ -33,54 +33,41 @@ import { isPlanningObject } from '@/model/SiteplanModel'
  *
  * @author Stuecker
  */
-@Options({
-  components: {
-    RouteInfo
-  },
-  props: {
-    feature: Object
-  },
-  computed: {
-    pzb: function () {
-      return getFeatureData(this.feature)
-    },
 
-    planningObject: function () {
-      return isPlanningObject(getFeatureGUID(this.feature))
-        ? 'Ja'
-        : 'Nein'
-    }
-  }
-})
-export default class TrackSectionPopup extends Vue {
-  pzb!: PZB
-  planningObject!: string
-  pzbArtText (): string {
-    switch (this.pzb.element) {
-      case PZBElement.F500Hz:
-        return '500Hz'
-      case PZBElement.F1000Hz:
-        return '1000Hz'
-      case PZBElement.F2000Hz:
-        return '2000Hz'
-      case PZBElement.F1000Hz2000Hz:
-        return '1000Hz & 2000Hz'
-      default:
-        return 'Unbekannt'
-    }
-  }
+const props = defineProps<{
+  feature: Feature<Geometry>
+}>()
 
-  pzbTypText (): string {
-    switch (this.pzb.type) {
-      case PZBType.GM:
-        return 'Gleismagnet'
-      case PZBType.GUE_GSA:
-        return 'Ausschaltmagnet'
-      case PZBType.GUE_GSE:
-        return 'Einschaltmagnet'
-      default:
-        return 'Unbekannt'
-    }
+const pzb = computed<PZB>(() => getFeatureData(props.feature))
+
+const planningObject = computed(() =>
+  isPlanningObject(getFeatureGUID(props.feature)) ? 'Ja' : 'Nein')
+
+const pzbArtText = (): string => {
+  switch (pzb.value.element) {
+    case PZBElement.F500Hz:
+      return '500Hz'
+    case PZBElement.F1000Hz:
+      return '1000Hz'
+    case PZBElement.F2000Hz:
+      return '2000Hz'
+    case PZBElement.F1000Hz2000Hz:
+      return '1000Hz & 2000Hz'
+    default:
+      return 'Unbekannt'
+  }
+}
+
+const pzbTypText = (): string => {
+  switch (pzb.value.type) {
+    case PZBType.GM:
+      return 'Gleismagnet'
+    case PZBType.GUE_GSA:
+      return 'Ausschaltmagnet'
+    case PZBType.GUE_GSE:
+      return 'Einschaltmagnet'
+    default:
+      return 'Unbekannt'
   }
 }
 </script>

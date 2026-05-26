@@ -23,73 +23,56 @@
     <span>{{ draw() }}</span>
   </div>
 </template>
-<script lang="ts">
+<script setup lang="ts">
 import { MountDirection } from '@/model/Signal'
 import { SignalMountType } from '@/model/SignalMount'
 import { ISvgElement, SvgBridgeSignal } from '@/model/SvgElement'
 import SvgService from '@/service/SvgService'
 import SvgDrawBridge, { SignalBridgePart } from '@/util/SVG/Draw/SvgDrawBridge'
-import {
-  HauptVorSignalGroup,
-  SignalBrueckeudAusleger
-} from '@/util/SVG/SvgEnum'
-import { Vue, Options } from 'vue-class-component'
+import { HauptVorSignalGroup } from '@/util/SVG/SvgEnum'
+import { ref } from 'vue'
 
-@Options({
-  props: {
-    svgService: Object
-  },
-  watch: {
-    selectedMast (value: SignalBrueckeudAusleger): SignalBrueckeudAusleger {
-      return value
-    }
-  }
-})
 /**
  * Draw Signal Bruecker with random count of Signal and Type of Signal
  * @author Truong
  */
-export default class SignalBruecke extends Vue {
-  svgService!: SvgService
-  listMast = [
-    SignalMountType.SignalauslegerLinks,
-    SignalMountType.SignalauslegerMitte,
-    SignalMountType.Signalbruecke
-  ]
 
-  selectedMast = SignalMountType.SignalauslegerLinks
-  private randomSelectSchirm (): ISvgElement[] {
-    const result = new Array<ISvgElement>()
-    const listschirm = this.svgService.getSvgElementInGroup(
-      HauptVorSignalGroup.KsSys
-    )
-    if (listschirm) {
-      const count = Math.floor(Math.random() * 5) + 2
-      for (let i = 0; i < count; i++) {
-        const schirmIndex = Math.floor(Math.random() * (listschirm.length - 1))
-        result.push(listschirm[schirmIndex])
-      }
+const props = defineProps<{
+  svgService: SvgService
+}>()
+
+const listMast = [
+  SignalMountType.SignalauslegerLinks,
+  SignalMountType.SignalauslegerMitte,
+  SignalMountType.Signalbruecke
+]
+
+const selectedMast = ref<SignalMountType>(SignalMountType.SignalauslegerLinks)
+
+const randomSelectSchirm = (): ISvgElement[] => {
+  const result = new Array<ISvgElement>()
+  const listschirm = props.svgService.getSvgElementInGroup(HauptVorSignalGroup.KsSys)
+  if (listschirm) {
+    const count = Math.floor(Math.random() * 5) + 2
+    for (let i = 0; i < count; i++) {
+      const schirmIndex = Math.floor(Math.random() * (listschirm.length - 1))
+      result.push(listschirm[schirmIndex])
     }
-
-    return result
   }
 
-  public draw (): string | null {
-    const listSchirm = this.randomSelectSchirm()
-    const bridgeScreen: SignalBridgePart[] = []
-    listSchirm.forEach(screen => {
-      bridgeScreen.push({
-        guid: '',
-        signal: SvgBridgeSignal.fromSvgElement(
-          screen,
-          5,
-          MountDirection.Down,
-          null
-        )
-      })
+  return result
+}
+
+const draw = (): string | null => {
+  const listSchirm = randomSelectSchirm()
+  const bridgeScreen: SignalBridgePart[] = []
+  listSchirm.forEach(screen => {
+    bridgeScreen.push({
+      guid: '',
+      signal: SvgBridgeSignal.fromSvgElement(screen, 5, MountDirection.Down, undefined)
     })
-    const result = SvgDrawBridge.draw(bridgeScreen, this.selectedMast)
-    return result.content.outerHTML
-  }
+  })
+  const result = SvgDrawBridge.draw('', bridgeScreen, selectedMast.value)
+  return result.content.outerHTML
 }
 </script>

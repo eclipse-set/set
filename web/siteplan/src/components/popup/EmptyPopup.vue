@@ -14,18 +14,17 @@
     </ul>
   </div>
 </template>
-<script lang="ts">
-import { Options, Vue } from 'vue-class-component'
+<script setup lang="ts">
+import { Feature } from 'ol'
+import { Geometry } from 'ol/geom'
 
 /**
  * Popup contents for signal features
  *
  * @author Stuecker
  */
-@Options({
-  props: {
-    feature: Object
-  }
-})
-export default class SignalPopup extends Vue { }
+
+defineProps<{
+  feature: Feature<Geometry>
+}>()
 </script>

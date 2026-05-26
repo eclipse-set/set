@@ -20,7 +20,7 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { getFeatureData, getFeatureLabel } from '@/feature/FeatureInfo'
 import { TrackSectionFeatureData } from '@/feature/TrackFeature'
 import TrackSection, { TrackShape } from '@/model/TrackSection'
@@ -28,99 +28,93 @@ import TrackSegment, { TrackType } from '@/model/TrackSegment'
 import Configuration from '@/util/Configuration'
 import { Feature } from 'ol'
 import Geometry from 'ol/geom/Geometry'
-import { Options, Vue } from 'vue-class-component'
+import { computed } from 'vue'
 
 /**
  * Popup contents for track features
  *
  * @author Peters
  */
-@Options({
-  props: {
-    // As TrackSection is an interface, we cannot bind to the intended type
-    feature: Object
-  },
-  computed: {
-    trackSection: function () {
-      return this.getData()?.section
-    },
-    trackSegment: function () {
-      return this.getData()?.segment
-    },
-    trackLabel: function () {
-      return getFeatureLabel(this.feature)
-    },
-    trackGuid: function () {
-      return this.getData()?.guid
-    }
-  }
+
+const props = defineProps<{
+  feature: Feature<Geometry>
+}>()
+
+const getData = (): TrackSectionFeatureData | undefined => {
+  return getFeatureData(props.feature) as TrackSectionFeatureData | undefined
+}
+
+const trackSection = computed<TrackSection>(() => {
+  return getData()?.section as TrackSection
 })
-export default class TrackSectionPopup extends Vue {
-  trackSection!: TrackSection
-  trackSegment!: TrackSegment
-  feature!: Feature<Geometry>
-  trackLabel!: string
-  trackGuid!: string
-  isDevelopmentMode: boolean = Configuration.developmentMode()
 
-  private getData (): TrackSectionFeatureData | undefined {
-    return getFeatureData(this.feature)
-  }
+const trackSegment = computed<TrackSegment>(() => {
+  return getData()?.segment as TrackSegment
+})
 
-  trackTrackShapeToText (): string {
-    switch (this.trackSection.shape) {
-      case TrackShape.Straight:
-        return 'Gerade'
-      case TrackShape.Curve:
-        return 'Bogen'
-      case TrackShape.Clothoid:
-        return 'Klothoide'
-      case TrackShape.Blosscurve:
-        return 'Blosskurve'
-      case TrackShape.BlossCurvedSimple:
-        return 'Bloss einfach geschwungen'
-      case TrackShape.Other:
-        return 'Sonstige'
-      case TrackShape.DirectionalStraightKinkEnd:
-        return 'Richtgerade Knick am Ende 200 gon'
-      case TrackShape.KmJump:
-        return 'Kilometersprung'
-      case TrackShape.TransitionCurveSForm:
-        return 'Übergangsbogen S-Form (nicht implementiert)'
-      case TrackShape.SFormSimpleCurved:
-        return 'S-Form einfach geschwungen (nicht implementiert)'
-      default:
-        return 'Unbekannt'
-    }
-  }
+const trackLabel = computed(() => {
+  return getFeatureLabel(props.feature)
+})
 
-  trackType (): string {
-    if (this.trackSegment.type.length === 0) {
+const trackGuid = computed(() => {
+  return getData()?.guid as string
+})
+
+const isDevelopmentMode = Configuration.developmentMode()
+
+const trackTrackShapeToText = (): string => {
+  switch (trackSection.value.shape) {
+    case TrackShape.Straight:
+      return 'Gerade'
+    case TrackShape.Curve:
+      return 'Bogen'
+    case TrackShape.Clothoid:
+      return 'Klothoide'
+    case TrackShape.Blosscurve:
+      return 'Blosskurve'
+    case TrackShape.BlossCurvedSimple:
+      return 'Bloss einfach geschwungen'
+    case TrackShape.Other:
+      return 'Sonstige'
+    case TrackShape.DirectionalStraightKinkEnd:
+      return 'Richtgerade Knick am Ende 200 gon'
+    case TrackShape.KmJump:
+      return 'Kilometersprung'
+    case TrackShape.TransitionCurveSForm:
+      return 'Übergangsbogen S-Form (nicht implementiert)'
+    case TrackShape.SFormSimpleCurved:
+      return 'S-Form einfach geschwungen (nicht implementiert)'
+    default:
       return 'Unbekannt'
-    } else {
-      return this.trackSegment.type
-        .map(type => this.trackTypeToText(type))
-        .join(', ')
-    }
+  }
+}
+
+const trackTypeToText = (type: TrackType): string => {
+  switch (type) {
+    case TrackType.Other:
+      return 'Sonstige'
+    case TrackType.SideTrack:
+      return 'Nebengleis'
+    case TrackType.ConnectingTrack:
+      return 'Anschlussgleis'
+    case TrackType.MainTrack:
+      return 'Hauptgleis'
+    case TrackType.PassingMainTrack:
+      return 'Durchgehendes Hauptgleis'
+    case TrackType.RouteTrack:
+      return 'Streckengleis'
+    default:
+      return 'Unbekannt'
+  }
+}
+
+const trackType = (): string => {
+  if (trackSegment.value.type.length === 0) {
+    return 'Unbekannt'
   }
 
-  trackTypeToText (type: TrackType): string {
-    switch (type) {
-      case TrackType.Other:
-        return 'Sonstige'
-      case TrackType.SideTrack:
-        return 'Nebengleis'
-      case TrackType.ConnectingTrack:
-        return 'Anschlussgleis'
-      case TrackType.MainTrack:
-        return 'Hauptgleis'
-      case TrackType.PassingMainTrack:
-        return 'Durchgehendes Hauptgleis'
-      case TrackType.RouteTrack:
-        return 'Streckengleis'
-      default:
-        return 'Unbekannt'
-    }
-  }
+  return trackSegment.value.type
+    .map(type => trackTypeToText(type))
+    .join(', ')
 }
 </script>

@@ -119,148 +119,148 @@
   </SideInfoControl>
 </template>
 
-<script lang="ts">
-/**
- * Temporary widget for experimentation with different track widths
- * @author Stuecker
- */
+<script setup lang="ts">
 import SideInfoControl from '@/components/SideInfoControl.vue'
 import { DBRef } from '@/model/Position'
 import { store, TableType } from '@/store'
 import Configuration from '@/util/Configuration'
-import { Options, Vue } from 'vue-class-component'
-import { SubscribeOptions } from 'vuex'
+import { onBeforeUnmount, ref, watch } from 'vue'
 
-@Options({
-  components: {
-    SideInfoControl
-  },
-  created () {
-    this.unsubscribe = store.subscribe((m, s) => {
-      if (m.type === 'defaultTrackWidth') {
-        this.mainTrackWidth = s.mainTrackWidth
-        this.sideTrackWidth = s.sideTrackWidth
-        this.otherTrackWidth = s.otherTrackWidth
-        this.trackOutlineWidth = s.trackOutlineWidth
-      }
+/**
+ * Temporary widget for experimentation with different track widths
+ * @author Stuecker
+ */
 
-      if (m.type === 'setSheetCutCRS') {
-        this.sheetCutCRS = s.sheetCutCRS
-      }
+const mainTrackWidth = ref(store.state.mainTrackWidth)
+const sideTrackWidth = ref(store.state.sideTrackWidth)
+const otherTrackWidth = ref(store.state.otherTrackWidth)
+const trackOutlineWidth = ref(store.state.trackOutlineWidth)
+const boundingBoxScale = ref(store.state.boundingBoxScaleFactor)
+const viewState = ref(store.state.sessionState)
+const collisionEnabled = ref(store.state.collisionEnabled)
+const sheetCutCRS = ref(store.state.sheetCutCRS)
+const ppm = ref(store.state.customPpm)
+const trackWidth = Configuration.getTrackWidth()
+const maxPpm = Configuration.MAX_EXPORT_PPM
+const minPpm = Configuration.MIN_EXPORT_PPM
 
-      if (m.type === 'setCustomPpm') {
-        this.ppm = s.customPpm
-      }
-    })
-  },
-  beforeUnmount () {
-    this.unsubscribe()
-  },
-  watch: {
-    viewState (value: TableType) {
-      store.commit('setSessionState', value)
-    },
-    mainTrackWidth (value: number) {
-      store.commit('setMainTrackWidth', value)
-    },
-    sideTrackWidth (value: number) {
-      store.commit('setSideTrackWidth', value)
-    },
-    otherTrackWidth (value: number) {
-      store.commit('setOtherTrackWidth', value)
-    },
-    trackOutlineWidth (value: number) {
-      store.commit('setTrackOutlineWidth', value)
-    },
-    boundingBoxScale (value: number) {
-      if (value >= 1) {
-        store.commit('setBoundingBoxScaleFactor', value)
-      }
-    },
-    collisionEnabled (value: boolean) {
-      store.commit('setCollisionEnabled', value)
-    },
-    sheetCutCRS (value: DBRef) {
-      store.commit('setSheetCutCRS', value)
-    },
-    ppm (value: number) {
-      if (value > Configuration.MAX_EXPORT_PPM) {
-        value = Configuration.MAX_EXPORT_PPM
-      } else if (value < Configuration.MIN_EXPORT_PPM) {
-        value = Configuration.MIN_EXPORT_PPM
-      }
+const unsubscribe = store.subscribe((m, s) => {
+  if (m.type === 'defaultTrackWidth') {
+    mainTrackWidth.value = s.mainTrackWidth
+    sideTrackWidth.value = s.sideTrackWidth
+    otherTrackWidth.value = s.otherTrackWidth
+    trackOutlineWidth.value = s.trackOutlineWidth
+  }
 
-      this.ppm = value
-      store.commit('setCustomPpm', value)
-    }
+  if (m.type === 'setSheetCutCRS') {
+    sheetCutCRS.value = s.sheetCutCRS
+  }
+
+  if (m.type === 'setCustomPpm') {
+    ppm.value = s.customPpm
   }
 })
-export default class SettingEditor extends Vue {
-  mainTrackWidth = store.state.mainTrackWidth
-  sideTrackWidth = store.state.sideTrackWidth
-  otherTrackWidth = store.state.otherTrackWidth
-  trackOutlineWidth = store.state.trackOutlineWidth
-  boundingBoxScale = store.state.boundingBoxScaleFactor
-  viewState = store.state.sessionState
-  collisionEnabled = store.state.collisionEnabled
-  sheetCutCRS = store.state.sheetCutCRS
-  ppm = store.state.customPpm
-  trackWidth = Configuration.getTrackWidth()
-  unsubscribe: SubscribeOptions | undefined
-  maxPpm = Configuration.MAX_EXPORT_PPM
-  minPpm = Configuration.MIN_EXPORT_PPM
 
-  reset (): void {
-    store.commit('defaultTrackWidth', this.trackWidth)
-    this.boundingBoxScale = 90
-    store.commit('setBoundingBoxScaleFactor', this.boundingBoxScale)
-    store.commit('setSessionState', TableType.DIFF)
-    store.commit('setCollisionEnabled', true)
+onBeforeUnmount(() => {
+  unsubscribe()
+})
+
+watch(viewState, (value: TableType) => {
+  store.commit('setSessionState', value)
+})
+
+watch(mainTrackWidth, (value: number) => {
+  store.commit('setMainTrackWidth', value)
+})
+
+watch(sideTrackWidth, (value: number) => {
+  store.commit('setSideTrackWidth', value)
+})
+
+watch(otherTrackWidth, (value: number) => {
+  store.commit('setOtherTrackWidth', value)
+})
+
+watch(trackOutlineWidth, (value: number) => {
+  store.commit('setTrackOutlineWidth', value)
+})
+
+watch(boundingBoxScale, (value: number) => {
+  if (value >= 1) {
+    store.commit('setBoundingBoxScaleFactor', value)
+  }
+})
+
+watch(collisionEnabled, (value: boolean) => {
+  store.commit('setCollisionEnabled', value)
+})
+
+watch(sheetCutCRS, (value: DBRef) => {
+  store.commit('setSheetCutCRS', value)
+})
+
+watch(ppm, (value: number) => {
+  if (value > Configuration.MAX_EXPORT_PPM) {
+    value = Configuration.MAX_EXPORT_PPM
+  } else if (value < Configuration.MIN_EXPORT_PPM) {
+    value = Configuration.MIN_EXPORT_PPM
   }
 
-  getMaxValue (track: string): number {
-    switch (track) {
-      case 'Main':
-        return this.trackWidth.intervall_main.max
-      case 'Side':
-        return this.trackWidth.intervall_side.max
-      case 'Other':
-        return this.trackWidth.intervall_other.max
-      case 'Outline':
-        return this.trackWidth.intervall_outline.max
-      default:
-        return 0
-    }
-  }
+  ppm.value = value
+  store.commit('setCustomPpm', value)
+})
 
-  getMinValue (track: string): number {
-    switch (track) {
-      case 'Main':
-        return this.trackWidth.intervall_main.min
-      case 'Side':
-        return this.trackWidth.intervall_side.min
-      case 'Other':
-        return this.trackWidth.intervall_other.min
-      case 'Outline':
-        return this.trackWidth.intervall_outline.min
-      default:
-        return 0
-    }
-  }
+const reset = (): void => {
+  store.commit('defaultTrackWidth', trackWidth)
+  boundingBoxScale.value = 90
+  store.commit('setBoundingBoxScaleFactor', boundingBoxScale.value)
+  store.commit('setSessionState', TableType.DIFF)
+  store.commit('setCollisionEnabled', true)
+}
 
-  getCRSList () {
-    return Object.values(DBRef)
-  }
-
-  isSheetCutAvaiable () {
-    return store.state.isSheetCutAvaiable
-  }
-
-  isDevelopmentMode () {
-    return Configuration.developmentMode()
+const getMaxValue = (track: string): number => {
+  switch (track) {
+    case 'Main':
+      return trackWidth.intervall_main.max
+    case 'Side':
+      return trackWidth.intervall_side.max
+    case 'Other':
+      return trackWidth.intervall_other.max
+    case 'Outline':
+      return trackWidth.intervall_outline.max
+    default:
+      return 0
   }
 }
+
+const getMinValue = (track: string): number => {
+  switch (track) {
+    case 'Main':
+      return trackWidth.intervall_main.min
+    case 'Side':
+      return trackWidth.intervall_side.min
+    case 'Other':
+      return trackWidth.intervall_other.min
+    case 'Outline':
+      return trackWidth.intervall_outline.min
+    default:
+      return 0
+  }
+}
+
+const getCRSList = () => {
+  return Object.values(DBRef)
+}
+
+const isSheetCutAvaiable = () => {
+  return store.state.isSheetCutAvaiable
+}
+
+const isDevelopmentMode = () => {
+  return Configuration.developmentMode()
+}
 </script>
+
 <style scoped>
 #resetButton {
   float: right;

@@ -38,94 +38,88 @@
     </teleport>
   </div>
 </template>
-<script lang="ts">
+
+<script setup lang="ts">
+import { store } from '@/store'
+import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
+
 /**
  * Search Result Viewer
  * @author Peters
  */
-import { Options, Vue } from 'vue-class-component'
-import { store } from '@/store'
-import JumpToGuid from '@/components/development/JumpToGuid.vue'
 
-@Options({
-  components: {
-    JumpToGuid
-  },
-  watch: {
-    searchInput (value) {
-      this.updateSearchInput(value)
-    }
-  },
-  created () {
-    this.unsubscribe = store.subscribe((m, s) => {
-      if (m.type === 'setMatchingCount') {
-        this.matchingCount = s.matchingFeatures
-      }
-    })
-  },
-  beforeUnmount () {
-    this.unsubscribe()
+const posTop = ref('0px')
+const posLeft = ref('0px')
+const suggestionsVisible = ref(false)
+const searchInput = ref('')
+const lastSearchInput = ref('')
+const matchingCount = ref(0)
+const selectedFeatureOffset = ref(0)
+const elements = ref<string[]>([])
+
+const unsubscribe = store.subscribe((m, s) => {
+  if (m.type === 'setMatchingCount') {
+    matchingCount.value = s.matchingFeatures
   }
 })
-export default class FeatureSearch extends Vue {
-  posTop = '0px'
-  posLeft = '0px'
-  suggestionsVisible = false
-  searchInput = ''
-  lastSearchInput = ''
-  matchingCount = 0
-  selectedFeatureOffset = 0
-  elements: string[] = []
 
-  mounted (): void {
-    this.setPosition()
+onBeforeUnmount(() => {
+  unsubscribe()
+})
+
+const setPosition = (): void => {
+  const elementSearch = document.getElementById('searchInput')
+  if (!elementSearch) {
+    console.warn('no searchInput found')
+    return
   }
 
-  searchSubmit (): void {
-    this.suggestionsVisible = false
-    if (this.searchInput === this.lastSearchInput) {
-      this.selectedFeatureOffset++
-    }
+  const box = elementSearch.getBoundingClientRect()
+  posLeft.value = Math.ceil(box.left) + 'px'
+  posTop.value = Math.ceil(box.bottom) + 'px'
+}
 
-    store.commit('setSelectFeatureOffset', this.selectedFeatureOffset)
-    store.commit('selectFeature', this.searchInput)
-    this.lastSearchInput = this.searchInput
+onMounted(() => {
+  setPosition()
+})
+
+const searchSubmit = (): void => {
+  suggestionsVisible.value = false
+  if (searchInput.value === lastSearchInput.value) {
+    selectedFeatureOffset.value++
   }
 
-  setPosition (): void {
-    const elementSearch = document.getElementById('searchInput')
-    if (!elementSearch) {
-      console.warn('no searchInput found')
-      return
-    }
+  store.commit('setSelectFeatureOffset', selectedFeatureOffset.value)
+  store.commit('selectFeature', searchInput.value)
+  lastSearchInput.value = searchInput.value
+}
 
-    const box = elementSearch.getBoundingClientRect()
-    this.posLeft = Math.ceil(box.left) + 'px'
-    this.posTop = Math.ceil(box.bottom) + 'px'
-  }
-
-  updateSearchInput (value: string): void {
-    this.selectedFeatureOffset = 0
-    if (!value) {
-      this.suggestionsVisible = false
-    }
-  }
-
-  getResultText (): string {
-    if (this.matchingCount === 0) {
-      return '0 Treffer'
-    } else {
-      return (
-        (this.selectedFeatureOffset % this.matchingCount) +
-        1 +
-        ' von ' +
-        this.matchingCount +
-        ' Treffern'
-      )
-    }
+const updateSearchInput = (value: string): void => {
+  selectedFeatureOffset.value = 0
+  if (!value) {
+    suggestionsVisible.value = false
   }
 }
+
+const getResultText = (): string => {
+  if (matchingCount.value === 0) {
+    return '0 Treffer'
+  } else {
+    return (
+      (selectedFeatureOffset.value % matchingCount.value) +
+      1 +
+      ' von ' +
+      matchingCount.value +
+      ' Treffern'
+    )
+  }
+}
+
+watch(searchInput, value => {
+  updateSearchInput(value)
+})
 </script>
+
 <style scoped>
 #searchSuggestionContainer {
   background: #e0edff;

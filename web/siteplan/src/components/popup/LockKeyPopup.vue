@@ -19,13 +19,13 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Options, Vue } from 'vue-class-component'
+<script setup lang="ts">
+import { computed } from 'vue'
+import { Feature } from 'ol'
+import { Geometry } from 'ol/geom'
 import RouteInfo from '@/components/popup/RouteInfo.vue'
 import LockKey, { LockKeyType } from '@/model/LockKey'
-import {
-  getFeatureData, getFeatureGUID, getFeatureLabel
-} from '@/feature/FeatureInfo'
+import { getFeatureData, getFeatureGUID, getFeatureLabel } from '@/feature/FeatureInfo'
 import { isPlanningObject } from '@/model/SiteplanModel'
 
 /**
@@ -33,42 +33,26 @@ import { isPlanningObject } from '@/model/SiteplanModel'
  *
  * @author Truong
  */
-@Options({
-  components: {
-    RouteInfo
-  },
-  props: {
-    feature: Object
-  },
-  computed: {
-    lockkey: function () {
-      return getFeatureData(this.feature)
-    },
 
-    planningObject: function () {
-      return isPlanningObject(getFeatureGUID(this.feature))
-        ? 'Ja'
-        : 'Nein'
-    },
+const props = defineProps<{
+  feature: Feature<Geometry>
+}>()
 
-    lockKeyLabel: function () {
-      return getFeatureLabel(this.feature)
-    }
-  }
-})
-export default class LockKeyPopup extends Vue {
-  lockkey!: LockKey
-  planningObject!: string
-  lockKeyLabel!: string
-  getType (lockkey: LockKey) {
-    switch (lockkey.type) {
-      case LockKeyType.Inside:
-        return 'innen'
-      case LockKeyType.Outside:
-        return 'aussen'
-      default:
-        return ''
-    }
+const lockkey = computed<LockKey>(() => getFeatureData(props.feature))
+
+const planningObject = computed(() =>
+  isPlanningObject(getFeatureGUID(props.feature)) ? 'Ja' : 'Nein')
+
+const lockKeyLabel = computed(() => getFeatureLabel(props.feature))
+
+const getType = (lockkey: LockKey) => {
+  switch (lockkey.type) {
+    case LockKeyType.Inside:
+      return 'innen'
+    case LockKeyType.Outside:
+      return 'aussen'
+    default:
+      return ''
   }
 }
 </script>
