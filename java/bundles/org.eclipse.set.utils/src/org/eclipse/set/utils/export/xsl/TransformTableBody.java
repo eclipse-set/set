@@ -6,7 +6,7 @@
  * https://www.eclipse.org/legal/epl-2.0.
  *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  */
 package org.eclipse.set.utils.export.xsl;
 
@@ -29,6 +29,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -47,16 +48,17 @@ import org.w3c.dom.Element;
 
 /**
  * Transform excel table body style
- * 
+ *
  * @author Truong
  */
 public class TransformTableBody {
+
 	final Document doc;
 	final Sheet sheet;
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param doc
 	 *            the XSL document
 	 * @param sheet
@@ -103,13 +105,23 @@ public class TransformTableBody {
 					"Missing first data row. Is the printing area configured correctly?"); //$NON-NLS-1$
 		}
 
-		for (int index = 0; index < getHeaderLastColumnIndex(sheet); index++) {
-			final Cell cell = Optional.ofNullable(firstDataRow.getCell(index))
-					.orElse(parentGroupLastIndex.contains(index)
-							|| pageBreakAts.contains(index)
-							|| pageBreakAts.contains(index - 1)
-									? firstDataRow.createCell(index)
-									: null);
+		final BiFunction<Row, Integer, Cell> getDataCell = (dataRow,
+				colIndex) -> {
+			final Cell cell = dataRow.getCell(colIndex);
+			if (cell != null) {
+				return cell;
+			}
+
+			if (parentGroupLastIndex.contains(colIndex.intValue())
+					|| pageBreakAts.contains(colIndex.intValue())
+					|| pageBreakAts.contains(colIndex.intValue() - 1)) {
+				return dataRow.createCell(colIndex.intValue());
+			}
+			return null;
+		};
+
+		for (int index = 0; index <= getHeaderLastColumnIndex(sheet); index++) {
+			final Cell cell = getDataCell.apply(firstDataRow, index);
 			if (cell == null) {
 				continue;
 			}
@@ -123,7 +135,6 @@ public class TransformTableBody {
 				setExcelCellBorderStyle(cell, BorderDirection.LEFT,
 						BorderStyle.MEDIUM);
 			}
-
 			if (!isDefaultStyle(cell.getCellStyle())) {
 				Set<Cell> sameStyleGroup = result.stream()
 						.filter(cells -> cells.stream()
