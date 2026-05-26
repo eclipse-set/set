@@ -71,7 +71,7 @@ public class ExcelExportBuilder implements TableExport {
 			.getLogger(ExcelExportBuilder.class);
 
 	private static final String TEMPLATE_DIR = "./data/export/excel"; //$NON-NLS-1$
-	private static final String FOONOTE_SHEET_NAME = "Bermerkungen"; //$NON-NLS-1$
+	private static final String FOOTNOTE_SHEET_NAME = "Bemerkungen"; //$NON-NLS-1$
 
 	private static int getFirstRowForContent(final Sheet sheet) {
 		return getHeaderLastRowIndex(sheet) + 1;
@@ -150,7 +150,7 @@ public class ExcelExportBuilder implements TableExport {
 
 			if (!isInlineFootnote) {
 				final Sheet footnoteSheet = workbook
-						.createSheet(FOONOTE_SHEET_NAME);
+						.createSheet(FOOTNOTE_SHEET_NAME);
 				fillFootnoteSheet(footnoteSheet, table);
 			}
 
