@@ -161,18 +161,6 @@ jobs:
       security-events: write
     steps:
       - uses: actions/checkout@v6
-
-      - name: Initialize CodeQL
-        uses: github/codeql-action/init@v4
-        if: github.ref == 'refs/heads/main'
-        with:
-          languages: java, javascript
-          config: |
-            paths-ignore: 
-              - '**/dist/**'
-              - '**/target/**'
-              - '**/siteplan/assets/**'
-              - '**/monaco/vs/**'
       
       - name: Setup Java
         uses: eclipse-set/build/.github/actions/setup-java@main
@@ -221,17 +209,15 @@ jobs:
             ~/.m2/repository/
             ~/.cache/tycho/
           key: ${{ runner.os }}-tycho-${{ hashFiles('**/java/bundles/org.eclipse.set.releng.target/org.eclipse.set.releng.target.target', '**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-tyho-
+          restore-keys: ${{ runner.os }}-tycho-
 
       - name: Build
         run: |
           m2RepoPath="local::file://${{ env.DEPLOY_DIR }}"
-          goal="install"
           if [[ ${{github.ref}} == "refs/heads/main" || "${{github.ref}}" == refs/tags/* ]]; then
             m2RepoPath="set-github::https://maven.pkg.github.com/${{ github.repository }}"
-            goal="deploy"
           fi
-          mvn -T 1.5C -B -f java/pom.xml $goal checkstyle:checkstyle --settings .github/settings.xml -DaltDeploymentRepository="$m2RepoPath"
+          mvn -T 1.5C -B -f java/pom.xml deploy checkstyle:checkstyle --settings .github/settings.xml -DaltDeploymentRepository="$m2RepoPath" -DskipTests
         env:
           GITHUB_TOKEN: ${{ github.token }}
       
@@ -263,12 +249,54 @@ jobs:
         with: 
           files: java/bundles/org.eclipse.set.releng.set.product/target/products/unsigned-Eclipse-SET-*.zip
           
+  tests:
+    runs-on: ubuntu-latest
+    needs:
+      - java
+    steps:
+      - uses: actions/checkout@v6
+      
+      - name: Setup Java
+        uses: eclipse-set/build/.github/actions/setup-java@main
+
+      - name: Cache Tycho p2 + m2
+        uses: actions/cache@v5
+        with:
+          enableCrossOsArchive: true
+          path: |
+            ~/.m2/repository/
+            ~/.cache/tycho/
+          key: ${{ runner.os }}-tycho-${{ hashFiles('**/java/bundles/org.eclipse.set.releng.target/org.eclipse.set.releng.target.target', '**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-tycho-
+
+      - name: Run Tests
+        run: mvn -T 1.5C -B -f java/pom.xml verify --settings ./.github/settings.xml
+      
       - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action@c950f6fb443cb5af20a377fd0dfaa78838901040 # v2.23.0
         if: always()
         with:
           files: |
             ${{ github.workspace }}/**/surefire-reports/*.xml
+
+  codeql:
+    runs-on: ubuntu-latest
+    needs:
+      - java
+    steps:
+      - uses: actions/checkout@v6
+      
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v4
+        if: github.ref == 'refs/heads/main'
+        with:
+          languages: java, javascript
+          config: |
+            paths-ignore: 
+              - '**/dist/**'
+              - '**/target/**'
+              - '**/siteplan/assets/**'
+              - '**/monaco/vs/**'
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v4
