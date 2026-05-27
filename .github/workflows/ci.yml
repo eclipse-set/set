@@ -226,7 +226,7 @@ jobs:
       - name: Build
         run: |
           m2RepoPath="local::file://${{ env.DEPLOY_DIR }}"
-          goal="verify"
+          goal="install"
           if [[ ${{github.ref}} == "refs/heads/main" || "${{github.ref}}" == refs/tags/* ]]; then
             m2RepoPath="set-github::https://maven.pkg.github.com/${{ github.repository }}"
             goal="deploy"
