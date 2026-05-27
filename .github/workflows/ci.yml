@@ -23,7 +23,7 @@ env:
   DEPLOY_DIR: ${{ github.workspace }}/java/java-test/m2deploy
   DIFF_DIR: java/java-test/diff
   TEST_APPLICATION_DIR: ${{ github.workspace }}/java/java-test/application-under-test
-  MVN_FLAGS: -Xmx4g -XX:+UseG1GC -Dorg.slf4j.simpleLogger.showDateTime=true -T 1.5C -B --settings ./.github/settings.xml -Dtycho.localArtifacts=ignore --no-transfer-progress 
+  MVN_FLAGS: -T 1.5C -B --settings ./.github/settings.xml --no-transfer-progress 
 
 jobs:
   docs:
