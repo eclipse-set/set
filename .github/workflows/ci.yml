@@ -23,6 +23,7 @@ env:
   DEPLOY_DIR: ${{ github.workspace }}/java/java-test/m2deploy
   DIFF_DIR: java/java-test/diff
   TEST_APPLICATION_DIR: ${{ github.workspace }}/java/java-test/application-under-test
+  MVN_FLAGS: -Xmx4g -XX:+UseG1GC -Dorg.slf4j.simpleLogger.showDateTime=true -T 1.5C -B --settings ./.github/settings.xml -Dtycho.localArtifacts=ignore --no-transfer-progress 
 
 jobs:
   docs:
@@ -217,7 +218,7 @@ jobs:
           if [[ ${{github.ref}} == "refs/heads/main" || "${{github.ref}}" == refs/tags/* ]]; then
             m2RepoPath="set-github::https://maven.pkg.github.com/${{ github.repository }}"
           fi
-          mvn -T 1.5C -B -f java/pom.xml deploy checkstyle:checkstyle --settings .github/settings.xml -DaltDeploymentRepository="$m2RepoPath" -DskipTests
+          mvn {{ env.MVN_FLAGS }} -f java/pom.xml deploy checkstyle:checkstyle -DaltDeploymentRepository="$m2RepoPath" -DskipTests
         env:
           GITHUB_TOKEN: ${{ github.token }}
       
@@ -270,7 +271,7 @@ jobs:
           restore-keys: ${{ runner.os }}-tycho-
 
       - name: Run Tests
-        run: mvn -T 1.5C -B -f java/pom.xml verify --settings ./.github/settings.xml
+        run: mvn ${{ env.MVN_FLAGS }} -f java/pom.xml verify
       
       - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action@c950f6fb443cb5af20a377fd0dfaa78838901040 # v2.23.0
@@ -285,7 +286,7 @@ jobs:
       - java
     steps:
       - uses: actions/checkout@v6
-      
+
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v4
         if: github.ref == 'refs/heads/main'
@@ -354,8 +355,7 @@ jobs:
           if [[ "${{ github.event_name }}" == "pull_request" || "${{github.ref}}" == refs/heads/release/* ]]; then
             m2RepoPath="file://${{ env.DEPLOY_DIR }}"
           fi
-          mvn -T 1.5C -U -B -f java/java-test/pom.xml clean verify  \
-            --settings ./.github/settings.xml \
+          mvn {{ env.MVN_FLAGS }} -f java/java-test/pom.xml verify  \
             -Dskip-test=false \
             -Dm2-repo-path="$m2RepoPath" \
             -Dapplication-under-test="${{ env.TEST_APPLICATION_DIR }}" \
