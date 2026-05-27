@@ -23,7 +23,7 @@ env:
   DEPLOY_DIR: ${{ github.workspace }}/java/java-test/m2deploy
   DIFF_DIR: java/java-test/diff
   TEST_APPLICATION_DIR: ${{ github.workspace }}/java/java-test/application-under-test
-  MVN_FLAGS: -T 1.5C -B --settings ./.github/settings.xml --no-transfer-progress 
+  MVN_FLAGS: -T 1.5C -B --settings ./.github/settings.xml --no-transfer-progress -Dtycho.localArtifacts=ignore -Dtycho.equinox.resolver.uses=ignore -Dtycho.disableP2Mirrors=true
 
 jobs:
   docs:
@@ -314,7 +314,10 @@ jobs:
           restore-keys: ${{ runner.os }}-tycho-
 
       - name: Run Tests
-        run: mvn ${{ env.MVN_FLAGS }} -f java/pom.xml verify
+        run: mvn ${{ env.MVN_FLAGS }} -f java/pom.xml verify \
+          -Dtycho.source.skip=true \
+          -DskipP2Metadata=true \
+          -Dmaven.javadoc.skip=true
       
       - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action@c950f6fb443cb5af20a377fd0dfaa78838901040 # v2.23.0
@@ -463,6 +466,9 @@ jobs:
             -Dskip-test=false \
             -Dm2-repo-path="$m2RepoPath" \
             -Dapplication-under-test="${{ env.TEST_APPLICATION_DIR }}" \
+            -Dtycho.source.skip=true \
+            -DskipP2Metadata=true \
+            -Dmaven.javadoc.skip=true
       
       - name: Upload csv files
         if: failure() && steps.test-steps.outcome == 'failure'
