@@ -375,13 +375,15 @@ jobs:
           repo: ${{ github.repository }}
         continue-on-error: true
 
-      - name: Cache m2repo
+      - name: Cache Tycho p2 + m2
         uses: actions/cache@v5
         with:
           enableCrossOsArchive: true
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-m2repo-${{ hashFiles('**/java/bundles/org.eclipse.set.releng.target/org.eclipse.set.releng.target.target', 'java/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2repo-
+          path: |
+            ~/.m2/repository/
+            ~/.cache/tycho/
+          key: ${{ runner.os }}-tycho-${{ hashFiles('**/java/bundles/org.eclipse.set.releng.target/org.eclipse.set.releng.target.target', '**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-tycho-
 
       - name: Run Test
         id: test-steps
