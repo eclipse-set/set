@@ -218,7 +218,7 @@ jobs:
           if [[ ${{github.ref}} == "refs/heads/main" || "${{github.ref}}" == refs/tags/* ]]; then
             m2RepoPath="set-github::https://maven.pkg.github.com/${{ github.repository }}"
           fi
-          mvn {{ env.MVN_FLAGS }} -f java/pom.xml deploy checkstyle:checkstyle -DaltDeploymentRepository="$m2RepoPath" -DskipTests
+          mvn ${{ env.MVN_FLAGS }} -f java/pom.xml deploy checkstyle:checkstyle -DaltDeploymentRepository="$m2RepoPath" -DskipTests
         env:
           GITHUB_TOKEN: ${{ github.token }}
       
@@ -391,7 +391,7 @@ jobs:
           if [[ "${{ github.event_name }}" == "pull_request" || "${{github.ref}}" == refs/heads/release/* ]]; then
             m2RepoPath="file://${{ env.DEPLOY_DIR }}"
           fi
-          mvn {{ env.MVN_FLAGS }} -f java/java-test/pom.xml verify  \
+          mvn ${{ env.MVN_FLAGS }} -f java/java-test/pom.xml verify  \
             -Dskip-test=false \
             -Dm2-repo-path="$m2RepoPath" \
             -Dapplication-under-test="${{ env.TEST_APPLICATION_DIR }}" \
