@@ -329,7 +329,7 @@ jobs:
       - news
     permissions:
       security-events: write
-    # if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main'
     steps:
       - uses: actions/checkout@v6
 
