@@ -159,7 +159,6 @@ jobs:
       checks: write
       pull-requests: write
       actions: read
-      security-events: write
     steps:
       - uses: actions/checkout@v6
       
@@ -322,25 +321,84 @@ jobs:
   codeql:
     runs-on: ubuntu-latest
     needs:
-      - java
+      - docs
+      - textviewer
+      - pdfviewer
+      - siteplan
+      - developerhelp
+      - news
+    permissions:
+      security-events: write
+    # if: github.ref == 'refs/heads/main'
     steps:
       - uses: actions/checkout@v6
 
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v4
-        # if: github.ref == 'refs/heads/main'
         with:
           languages: java, javascript
           config: |
             paths-ignore: 
               - '**/dist/**'
               - '**/target/**'
+              - '**/xtend-gen/**'
               - '**/siteplan/assets/**'
               - '**/monaco/vs/**'
 
+      - name: Setup Java
+        uses: eclipse-set/build/.github/actions/setup-java@main
+      
+      - name: Fetch pdf viewer
+        uses: actions/download-artifact@v8
+        with:
+          name: pdfviewer-artifact
+          path: web/pdf/dist
+      
+      - name: Fetch text viewer
+        uses: actions/download-artifact@v8
+        with:
+          name: textviewer-artifact
+          path: web/textviewer/dist
+      
+      - name: Fetch about
+        uses: actions/download-artifact@v8
+        with:
+          name: about-artifact
+          path: web/about/dist   
+
+      - name: Fetch siteplan
+        uses: actions/download-artifact@v8
+        with:
+          name: siteplan-artifact
+          path: web/siteplan/dist
+
+      - name: Fetch developerhelp
+        uses: actions/download-artifact@v8
+        with:
+          name: developerhelp-artifact
+          path: web/developerhelp/dist
+
+      - name: Fetch news
+        uses: actions/download-artifact@v8
+        with:
+          name: news-artifact
+          path: web/news/public
+
+      - name: Cache Tycho p2 + m2
+        uses: actions/cache@v5
+        with:
+          enableCrossOsArchive: true
+          path: |
+            ~/.m2/repository/
+            ~/.cache/tycho/
+          key: ${{ runner.os }}-tycho-${{ hashFiles('**/java/bundles/org.eclipse.set.releng.target/org.eclipse.set.releng.target.target', '**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-tycho-
+
+      - name: Trace compilation
+        run: mvn ${{ env.MVN_FLAGS }} -f java/pom.xml compile
+
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v4
-        # if: github.ref == 'refs/heads/main'
 
   swtbot:
     runs-on: windows-latest
