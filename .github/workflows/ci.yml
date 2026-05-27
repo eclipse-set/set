@@ -254,6 +254,9 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - java
+    permissions:
+      checks: write
+      pull-requests: write
     steps:
       - uses: actions/checkout@v6
       
