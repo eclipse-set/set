@@ -138,6 +138,8 @@ public class ExcelExportBuilder implements TableExport {
 
 			// es gibt nur einen
 			final Sheet sheet = workbook.getSheetAt(0);
+			workbook.setSheetName(0, shortcut.substring(0, 1).toUpperCase()
+					+ shortcut.substring(1));
 			// dummy-Header erzeugen für die Transformation
 			final String[] headers = getColumnHeaders(sheet);
 			final int columnCount = headers.length;
