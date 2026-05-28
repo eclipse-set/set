@@ -23,7 +23,7 @@ env:
   DEPLOY_DIR: ${{ github.workspace }}/java/java-test/m2deploy
   DIFF_DIR: java/java-test/diff
   TEST_APPLICATION_DIR: ${{ github.workspace }}/java/java-test/application-under-test
-  MVN_FLAGS: -T 1.5C -B --settings ./.github/settings.xml --no-transfer-progress -Dtycho.localArtifacts=ignore -Dtycho.equinox.resolver.uses=ignore -Dtycho.disableP2Mirrors=true
+  MVN_FLAGS: -T 1.5C -B --settings ./.github/settings.xml --no-transfer-progress
 
 jobs:
   docs:
