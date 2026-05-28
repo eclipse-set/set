@@ -102,8 +102,8 @@
             <input
               v-model="ppm"
               type="number"
-              max:="maxPpm"
-              min:="minPpm"
+              :max="maxPpm"
+              :min="minPpm"
               step="0.5"
             >
           </li>
