@@ -11,7 +11,6 @@
     <JumpToGuid
       :map="map"
       :feature-layers="featureLayers"
-      :model="model"
     />
     <FeatureInfoPopup
       :map="map"

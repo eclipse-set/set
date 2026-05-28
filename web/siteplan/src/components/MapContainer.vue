@@ -43,6 +43,12 @@ import 'ol/ol.css'
 import OlView from 'ol/View'
 import { computed, onMounted, ref } from 'vue'
 
+/**
+ * Container for the open layers map
+ *
+ * @author Stuecker
+ */
+
 const isDevelopmentMode = Configuration.developmentMode()
 const map: OlMap = store.state.map
 const mapRoot = ref<HTMLDivElement | null>(null)

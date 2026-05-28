@@ -38,7 +38,6 @@ import { onBeforeUnmount, ref } from 'vue'
 const props = defineProps<{
   map: Map
   featureLayers: NamedFeatureLayer[]
-  model: object
 }>()
 
 const selectFeatureOffset = ref(0)
@@ -86,7 +85,9 @@ const featureHasGuid = (
     return false
   }
 
-  const guids = getFeatureGUIDs(feat).map(g => g?.toUpperCase())
+  const guids = getFeatureGUIDs(feat)
+    .filter((g): g is string => !!g)
+    .map(g => g.toUpperCase())
   const upperSearchGuid = searchGuid?.toUpperCase()
   return guids.some(g => g.search(upperSearchGuid) !== -1)
 }

@@ -54,14 +54,6 @@ import { useRouter } from 'vue-router'
  * Lageplan Toolbar
  * @author Truong
  */
-defineProps({
-  model:
-  {
-    type: Object,
-    default: null
-  }
-})
-
 const emit = defineEmits(['show-menu'])
 
 const router = useRouter()

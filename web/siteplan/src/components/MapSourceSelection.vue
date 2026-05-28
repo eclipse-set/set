@@ -74,6 +74,12 @@ import OpenStreetMap from '../util/MapSources/OpenStreetMap'
 import Sentinel2DE from '../util/MapSources/Sentinel2DE'
 import TopPlusOpen from '../util/MapSources/TopPlusOpen'
 
+/**
+ * Selector for a tile layer with multiple sources
+ *
+ * @author Stuecker
+ */
+
 const map: OlMap = store.state.map
 const emptyMap: EmptyMap = new EmptyMap()
 const selected = ref(store.state.selectedSourceMap)
