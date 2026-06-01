@@ -23,6 +23,7 @@ env:
   DEPLOY_DIR: ${{ github.workspace }}/java/java-test/m2deploy
   DIFF_DIR: java/java-test/diff
   TEST_APPLICATION_DIR: ${{ github.workspace }}/java/java-test/application-under-test
+  MVN_FLAGS: -T 1.5C -B --settings ./.github/settings.xml --no-transfer-progress
 
 jobs:
   docs:
@@ -158,21 +159,8 @@ jobs:
       checks: write
       pull-requests: write
       actions: read
-      security-events: write
     steps:
       - uses: actions/checkout@v6
-
-      - name: Initialize CodeQL
-        uses: github/codeql-action/init@v4
-        if: github.ref == 'refs/heads/main'
-        with:
-          languages: java, javascript
-          config: |
-            paths-ignore: 
-              - '**/dist/**'
-              - '**/target/**'
-              - '**/siteplan/assets/**'
-              - '**/monaco/vs/**'
       
       - name: Setup Java
         uses: eclipse-set/build/.github/actions/setup-java@main
@@ -213,13 +201,15 @@ jobs:
           name: news-artifact
           path: web/news/public
       
-      - name: Cache m2repo
+      - name: Cache Tycho p2 + m2
         uses: actions/cache@v5
         with:
           enableCrossOsArchive: true
-          path: ~/.m2/repository/
-          key: ${{ runner.os }}-m2repo-${{ hashFiles('**/java/bundles/org.eclipse.set.releng.target/org.eclipse.set.releng.target.target', 'java/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2repo-
+          path: |
+            ~/.m2/repository/
+            ~/.cache/tycho/
+          key: ${{ runner.os }}-tycho-${{ hashFiles('**/java/bundles/org.eclipse.set.releng.target/org.eclipse.set.releng.target.target', '**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-tycho-
 
       - name: Build
         run: |
@@ -227,7 +217,7 @@ jobs:
           if [[ ${{github.ref}} == "refs/heads/main" || "${{github.ref}}" == refs/tags/* ]]; then
             m2RepoPath="set-github::https://maven.pkg.github.com/${{ github.repository }}"
           fi
-          mvn -T 1.5C -U -B -f java/pom.xml clean deploy checkstyle:checkstyle --settings .github/settings.xml -DaltDeploymentRepository="$m2RepoPath"
+          mvn ${{ env.MVN_FLAGS }} -f java/pom.xml deploy checkstyle:checkstyle -DaltDeploymentRepository="$m2RepoPath" -DskipTests
         env:
           GITHUB_TOKEN: ${{ github.token }}
       
@@ -259,6 +249,77 @@ jobs:
         with: 
           files: java/bundles/org.eclipse.set.releng.set.product/target/products/unsigned-Eclipse-SET-*.zip
           
+  tests:
+    runs-on: ubuntu-latest
+    needs:
+      - docs
+      - textviewer
+      - pdfviewer
+      - siteplan
+      - developerhelp
+      - news
+    permissions:
+      checks: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v6
+      
+      - name: Setup Java
+        uses: eclipse-set/build/.github/actions/setup-java@main
+      
+      - name: Fetch pdf viewer
+        uses: actions/download-artifact@v8
+        with:
+          name: pdfviewer-artifact
+          path: web/pdf/dist
+      
+      - name: Fetch text viewer
+        uses: actions/download-artifact@v8
+        with:
+          name: textviewer-artifact
+          path: web/textviewer/dist
+      
+      - name: Fetch about
+        uses: actions/download-artifact@v8
+        with:
+          name: about-artifact
+          path: web/about/dist   
+
+      - name: Fetch siteplan
+        uses: actions/download-artifact@v8
+        with:
+          name: siteplan-artifact
+          path: web/siteplan/dist
+
+      - name: Fetch developerhelp
+        uses: actions/download-artifact@v8
+        with:
+          name: developerhelp-artifact
+          path: web/developerhelp/dist
+
+      - name: Fetch news
+        uses: actions/download-artifact@v8
+        with:
+          name: news-artifact
+          path: web/news/public
+
+      - name: Cache Tycho p2 + m2
+        uses: actions/cache@v5
+        with:
+          enableCrossOsArchive: true
+          path: |
+            ~/.m2/repository/
+            ~/.cache/tycho/
+          key: ${{ runner.os }}-tycho-${{ hashFiles('**/java/bundles/org.eclipse.set.releng.target/org.eclipse.set.releng.target.target', '**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-tycho-
+
+      - name: Run Tests
+        run: | 
+          mvn ${{ env.MVN_FLAGS }} -f java/pom.xml verify \
+            -Dtycho.source.skip=true \
+            -DskipP2Metadata=true \
+            -Dmaven.javadoc.skip=true
+      
       - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action@c950f6fb443cb5af20a377fd0dfaa78838901040 # v2.23.0
         if: always()
@@ -266,9 +327,87 @@ jobs:
           files: |
             ${{ github.workspace }}/**/surefire-reports/*.xml
 
+  codeql:
+    runs-on: ubuntu-latest
+    needs:
+      - docs
+      - textviewer
+      - pdfviewer
+      - siteplan
+      - developerhelp
+      - news
+    permissions:
+      security-events: write
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v4
+        with:
+          languages: java, javascript
+          config: |
+            paths-ignore: 
+              - '**/dist/**'
+              - '**/target/**'
+              - '**/xtend-gen/**'
+              - '**/siteplan/assets/**'
+              - '**/monaco/vs/**'
+
+      - name: Setup Java
+        uses: eclipse-set/build/.github/actions/setup-java@main
+      
+      - name: Fetch pdf viewer
+        uses: actions/download-artifact@v8
+        with:
+          name: pdfviewer-artifact
+          path: web/pdf/dist
+      
+      - name: Fetch text viewer
+        uses: actions/download-artifact@v8
+        with:
+          name: textviewer-artifact
+          path: web/textviewer/dist
+      
+      - name: Fetch about
+        uses: actions/download-artifact@v8
+        with:
+          name: about-artifact
+          path: web/about/dist   
+
+      - name: Fetch siteplan
+        uses: actions/download-artifact@v8
+        with:
+          name: siteplan-artifact
+          path: web/siteplan/dist
+
+      - name: Fetch developerhelp
+        uses: actions/download-artifact@v8
+        with:
+          name: developerhelp-artifact
+          path: web/developerhelp/dist
+
+      - name: Fetch news
+        uses: actions/download-artifact@v8
+        with:
+          name: news-artifact
+          path: web/news/public
+
+      - name: Cache Tycho p2 + m2
+        uses: actions/cache@v5
+        with:
+          enableCrossOsArchive: true
+          path: |
+            ~/.m2/repository/
+            ~/.cache/tycho/
+          key: ${{ runner.os }}-tycho-${{ hashFiles('**/java/bundles/org.eclipse.set.releng.target/org.eclipse.set.releng.target.target', '**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-tycho-
+
+      - name: Trace compilation
+        run: mvn ${{ env.MVN_FLAGS }} -f java/pom.xml compile
+
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v4
-        if: github.ref == 'refs/heads/main'
 
   swtbot:
     runs-on: windows-latest
@@ -306,13 +445,15 @@ jobs:
           repo: ${{ github.repository }}
         continue-on-error: true
 
-      - name: Cache m2repo
+      - name: Cache Tycho p2 + m2
         uses: actions/cache@v5
         with:
           enableCrossOsArchive: true
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-m2repo-${{ hashFiles('**/java/bundles/org.eclipse.set.releng.target/org.eclipse.set.releng.target.target', 'java/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2repo-
+          path: |
+            ~/.m2/repository/
+            ~/.cache/tycho/
+          key: ${{ runner.os }}-tycho-${{ hashFiles('**/java/bundles/org.eclipse.set.releng.target/org.eclipse.set.releng.target.target', '**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-tycho-
 
       - name: Run Test
         id: test-steps
@@ -322,11 +463,13 @@ jobs:
           if [[ "${{ github.event_name }}" == "pull_request" || "${{github.ref}}" == refs/heads/release/* ]]; then
             m2RepoPath="file://${{ env.DEPLOY_DIR }}"
           fi
-          mvn -T 1.5C -U -B -f java/java-test/pom.xml clean verify  \
-            --settings ./.github/settings.xml \
+          mvn ${{ env.MVN_FLAGS }} -f java/java-test/pom.xml verify  \
             -Dskip-test=false \
             -Dm2-repo-path="$m2RepoPath" \
             -Dapplication-under-test="${{ env.TEST_APPLICATION_DIR }}" \
+            -Dtycho.source.skip=true \
+            -DskipP2Metadata=true \
+            -Dmaven.javadoc.skip=true
       
       - name: Upload csv files
         if: failure() && steps.test-steps.outcome == 'failure'
