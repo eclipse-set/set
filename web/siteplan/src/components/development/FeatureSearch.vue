@@ -67,7 +67,7 @@ onBeforeUnmount(() => {
   unsubscribe()
 })
 
-const setPosition = (): void => {
+function setPosition (): void {
   const elementSearch = document.getElementById('searchInput')
   if (!elementSearch) {
     console.warn('no searchInput found')
@@ -83,7 +83,7 @@ onMounted(() => {
   setPosition()
 })
 
-const searchSubmit = (): void => {
+function searchSubmit (): void {
   suggestionsVisible.value = false
   if (searchInput.value === lastSearchInput.value) {
     selectedFeatureOffset.value++
@@ -94,14 +94,14 @@ const searchSubmit = (): void => {
   lastSearchInput.value = searchInput.value
 }
 
-const updateSearchInput = (value: string): void => {
+function updateSearchInput (value: string): void {
   selectedFeatureOffset.value = 0
   if (!value) {
     suggestionsVisible.value = false
   }
 }
 
-const getResultText = (): string => {
+function getResultText (): string {
   if (matchingCount.value === 0) {
     return '0 Treffer'
   } else {

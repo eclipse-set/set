@@ -53,7 +53,7 @@ const schirmList = ref<ISvgElement[]>([])
 
 const route = useRoute()
 
-const getSvgList = (signalGroup: HauptVorSignalGroup | AndereSignalGroup): void => {
+function getSvgList (signalGroup: HauptVorSignalGroup | AndereSignalGroup): void {
   schirmList.value = svgService.getSvgElementInGroup(signalGroup) ?? []
   const hauptVotSignalGroup: (HauptVorSignalGroup | AndereSignalGroup)[] = Object.values(HauptVorSignalGroup)
   const andereSignalGroup: (HauptVorSignalGroup | AndereSignalGroup)[] = Object.values(AndereSignalGroup)
@@ -66,15 +66,15 @@ const getSvgList = (signalGroup: HauptVorSignalGroup | AndereSignalGroup): void 
   }
 }
 
-const getZusatzSignal = (): ZusatzSignal[] => {
+function getZusatzSignal (): ZusatzSignal[] {
   return (svgService.getSvgElementInGroup(AndereSignalGroup.ZusatzSignale) ?? []) as ZusatzSignal[]
 }
 
-const getShortMast = (): void => {
+function getShortMast (): void {
   mastList.value = svgService.getSvgElementInGroup(SVGMast.ShortMount) ?? []
 }
 
-const setMode = (): void => {
+function setMode (): void {
   const m = route.query.mode
   if (m) {
     mode.value = m.toString()

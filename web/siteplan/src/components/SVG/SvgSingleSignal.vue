@@ -113,7 +113,7 @@ watch(() => props.mastList, (value: ISvgElement[]): void => {
   }
 })
 
-const drawEinzelnSignal = (): string | null => {
+function drawEinzelnSignal (): string | null {
   return SvgDraw.drawSignal(
     seletecSignalSchirm.value,
     selectedMast.value,

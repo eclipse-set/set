@@ -53,15 +53,15 @@ const FLASH_CIRCLE_RADIUS_MIN = 5
 const FLASH_CIRCLE_RADIUS_MAX = 25
 const FLASH_COLOR = 'rgba(255, 0, 0, {})'
 
-const setSelectFeatureOffset = (offset: number): void => {
+function setSelectFeatureOffset (offset: number): void {
   selectFeatureOffset.value = offset
 }
 
-const isDeselected = (guid: string): boolean => {
+function isDeselected (guid: string): boolean {
   return guid === '' || guid === 'DESELECTED'
 }
 
-const deselected = () => {
+function deselected () {
   try {
     if (listernerKey) {
       unByKey(listernerKey)
@@ -77,10 +77,10 @@ const deselected = () => {
   }
 }
 
-const featureHasGuid = (
+function featureHasGuid (
   feat: Feature<Geometry>,
   searchGuid: string | null
-): boolean => {
+): boolean {
   if (!searchGuid) {
     return false
   }
@@ -92,7 +92,7 @@ const featureHasGuid = (
   return guids.some(g => g.search(upperSearchGuid) !== -1)
 }
 
-const activeLayer = (feat: Feature<Geometry>) => {
+function activeLayer (feat: Feature<Geometry>) {
   const featureType = getFeatureType(feat)
   const layerType = getFeatureLayerByType(featureType)
   const matchLayer = props.featureLayers.find(layer => layer.getLayerType() === layerType)
@@ -103,7 +103,7 @@ const activeLayer = (feat: Feature<Geometry>) => {
   matchLayer.setVisible(true)
 }
 
-const createFlashFeature = (originalFeature: Feature<Geometry>) => {
+function createFlashFeature (originalFeature: Feature<Geometry>) {
   const geometryType = originalFeature.getGeometry()?.getType()
   const featureData: FlashFeatureData = {
     guid: guid.value,
@@ -119,7 +119,7 @@ const createFlashFeature = (originalFeature: Feature<Geometry>) => {
   return createFeature(FeatureType.Flash, featureData, originalFeature.getGeometry())
 }
 
-const createFlashStyle = (feat: Feature<Geometry>, elapsedRatio: number, resolution: number) => {
+function createFlashStyle (feat: Feature<Geometry>, elapsedRatio: number, resolution: number) {
   const type = feat.getGeometry()?.getType()
   switch (type) {
     case 'Point':{
@@ -161,7 +161,7 @@ const createFlashStyle = (feat: Feature<Geometry>, elapsedRatio: number, resolut
   }
 }
 
-const flash = (feat: Feature<Geometry>) => {
+function flash (feat: Feature<Geometry>) {
   const flashLayer = props.featureLayers.find(
     layer => layer.getLayerType() === FeatureLayerType.Flash
   )
@@ -198,7 +198,7 @@ const flash = (feat: Feature<Geometry>) => {
   })
 }
 
-const jumpToFeature = (searchGuid: string): void => {
+function jumpToFeature (searchGuid: string): void {
   if (isDeselected(searchGuid)) {
     deselected()
     guid.value = ''

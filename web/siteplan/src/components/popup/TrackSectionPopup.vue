@@ -40,7 +40,7 @@ const props = defineProps<{
   feature: Feature<Geometry>
 }>()
 
-const getData = (): TrackSectionFeatureData | undefined => {
+function getData (): TrackSectionFeatureData | undefined {
   return getFeatureData(props.feature) as TrackSectionFeatureData | undefined
 }
 
@@ -62,7 +62,7 @@ const trackGuid = computed(() => {
 
 const isDevelopmentMode = Configuration.developmentMode()
 
-const trackTrackShapeToText = (): string => {
+function trackTrackShapeToText (): string {
   switch (trackSection.value.shape) {
     case TrackShape.Straight:
       return 'Gerade'
@@ -89,7 +89,7 @@ const trackTrackShapeToText = (): string => {
   }
 }
 
-const trackTypeToText = (type: TrackType): string => {
+function trackTypeToText (type: TrackType): string {
   switch (type) {
     case TrackType.Other:
       return 'Sonstige'
@@ -108,7 +108,7 @@ const trackTypeToText = (type: TrackType): string => {
   }
 }
 
-const trackType = (): string => {
+function trackType (): string {
   if (trackSegment.value.type.length === 0) {
     return 'Unbekannt'
   }

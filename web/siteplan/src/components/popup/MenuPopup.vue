@@ -134,7 +134,7 @@ const selectedPopup = computed(() => {
   return emit('removePopup')
 })
 
-const getFeatures = (): Feature<Geometry>[] => {
+function getFeatures (): Feature<Geometry>[] {
   if (props.features === null || !props.features) {
     return []
   }
@@ -159,15 +159,15 @@ const getFeatures = (): Feature<Geometry>[] => {
   })
 }
 
-const getFeatureName = (feature: Feature<Geometry>): string => {
+function getFeatureName (feature: Feature<Geometry>): string {
   return getFeatureNameOfType(getFeatureType(feature))
 }
 
-const getLabel = (feature: Feature<Geometry>): string => {
+function getLabel (feature: Feature<Geometry>): string {
   return getFeatureLabel(feature)
 }
 
-const isMultiFeature = (): boolean => {
+function isMultiFeature (): boolean {
   const selectedFeatures = getFeatures()
   if (selectedFeatures.length > 1) {
     return true
@@ -177,11 +177,11 @@ const isMultiFeature = (): boolean => {
   return false
 }
 
-const backToMenu = () => {
+function backToMenu () {
   selectedFeature.value = null
 }
 
-const selectedItem = (feature: Feature<Geometry>) => {
+function selectedItem (feature: Feature<Geometry>) {
   selectedFeature.value = feature
 }
 

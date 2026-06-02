@@ -57,7 +57,7 @@ const trackLockLabel = computed(() => {
   return getFeatureLabel(props.feature)
 })
 
-const operatingModeToText = (): string => {
+function operatingModeToText (): string {
   if (!tracklock.value) {
     return 'Unbestimmt'
   }

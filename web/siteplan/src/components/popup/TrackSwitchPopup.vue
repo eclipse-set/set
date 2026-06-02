@@ -50,7 +50,7 @@ const props = defineProps<{
   feature: Feature<Geometry>
 }>()
 
-const getData = (): TrackSwitchFeatureData | undefined => {
+function getData (): TrackSwitchFeatureData | undefined {
   return getFeatureData(props.feature) as TrackSwitchFeatureData | undefined
 }
 
@@ -70,7 +70,7 @@ const trackSwitchLabel = computed(() => {
   return getFeatureLabel(props.feature)
 })
 
-const operatingModeToText = (): string => {
+function operatingModeToText (): string {
   switch (trackSwitchComponent.value.operatingMode) {
     case TurnoutOperatingMode.ElectricRemote:
       return 'elektrisch ferngestellt'

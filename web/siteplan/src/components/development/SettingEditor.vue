@@ -210,7 +210,7 @@ watch(ppm, (value: number) => {
   store.commit('setCustomPpm', value)
 })
 
-const reset = (): void => {
+function reset (): void {
   store.commit('defaultTrackWidth', trackWidth)
   boundingBoxScale.value = 90
   store.commit('setBoundingBoxScaleFactor', boundingBoxScale.value)
@@ -218,7 +218,7 @@ const reset = (): void => {
   store.commit('setCollisionEnabled', true)
 }
 
-const getMaxValue = (track: string): number => {
+function getMaxValue (track: string): number {
   switch (track) {
     case 'Main':
       return trackWidth.intervall_main.max
@@ -233,7 +233,7 @@ const getMaxValue = (track: string): number => {
   }
 }
 
-const getMinValue = (track: string): number => {
+function getMinValue (track: string): number {
   switch (track) {
     case 'Main':
       return trackWidth.intervall_main.min
@@ -248,15 +248,15 @@ const getMinValue = (track: string): number => {
   }
 }
 
-const getCRSList = () => {
+function getCRSList () {
   return Object.values(DBRef)
 }
 
-const isSheetCutAvaiable = () => {
+function isSheetCutAvaiable () {
   return store.state.isSheetCutAvaiable
 }
 
-const isDevelopmentMode = () => {
+function isDevelopmentMode () {
   return Configuration.developmentMode()
 }
 </script>

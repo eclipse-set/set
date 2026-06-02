@@ -49,7 +49,7 @@ const listMast = [
 
 const selectedMast = ref<SignalMountType>(SignalMountType.SignalauslegerLinks)
 
-const randomSelectSchirm = (): ISvgElement[] => {
+function randomSelectSchirm (): ISvgElement[] {
   const result = new Array<ISvgElement>()
   const listschirm = props.svgService.getSvgElementInGroup(HauptVorSignalGroup.KsSys)
   if (listschirm) {
@@ -63,7 +63,7 @@ const randomSelectSchirm = (): ISvgElement[] => {
   return result
 }
 
-const draw = (): string | null => {
+function draw (): string | null {
   const listSchirm = randomSelectSchirm()
   const bridgeScreen: SignalBridgePart[] = []
   listSchirm.forEach(screen => {

@@ -45,7 +45,7 @@ const planningObject = computed(() =>
 
 const lockKeyLabel = computed(() => getFeatureLabel(props.feature))
 
-const getType = (lockkey: LockKey) => {
+function getType (lockkey: LockKey) {
   switch (lockkey.type) {
     case LockKeyType.Inside:
       return 'innen'

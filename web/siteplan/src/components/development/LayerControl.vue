@@ -101,7 +101,7 @@ onBeforeUnmount(() => {
   unsubscribe()
 })
 
-const getEditableLayers = (): NamedFeatureLayer[] => {
+function getEditableLayers (): NamedFeatureLayer[] {
   // Do not allow to disable/edit the Layer for highlighting features
   const layers = featureLayers.value.filter(
     layer => layer.getLayerType() !== FeatureLayerType.Flash
@@ -111,15 +111,15 @@ const getEditableLayers = (): NamedFeatureLayer[] => {
   return sorted
 }
 
-const toggleShowLayer = (layer: NamedFeatureLayer): void => {
+function toggleShowLayer (layer: NamedFeatureLayer): void {
   layer.setVisible(!layer.getVisible())
 }
 
-const getLayerIndex = (layer: NamedFeatureLayer): number => {
+function getLayerIndex (layer: NamedFeatureLayer): number {
   return getEditableLayers().findIndex(l => l === layer)
 }
 
-const dragStart = (evt: DragEvent, layer: NamedFeatureLayer): void => {
+function dragStart (evt: DragEvent, layer: NamedFeatureLayer): void {
   draggedLayer.value = layer
   if (evt.dataTransfer) {
     evt.dataTransfer.dropEffect = 'move'
@@ -127,12 +127,12 @@ const dragStart = (evt: DragEvent, layer: NamedFeatureLayer): void => {
   }
 }
 
-const dragEnd = (): void => {
+function dragEnd (): void {
   dragTargetLayer.value = null
   draggedLayer.value = null
 }
 
-const dragOver = (evt: DragEvent, layer: NamedFeatureLayer): void => {
+function dragOver (evt: DragEvent, layer: NamedFeatureLayer): void {
   if (draggedLayer.value === layer || !draggedLayer.value) {
     // The element cannot be dropped onto itself
     return
@@ -159,7 +159,7 @@ const dragOver = (evt: DragEvent, layer: NamedFeatureLayer): void => {
   evt.preventDefault()
 }
 
-const moveLayer = (source: NamedFeatureLayer, offset: number): void => {
+function moveLayer (source: NamedFeatureLayer, offset: number): void {
   if (offset === 0) {
     return
   }
@@ -183,7 +183,7 @@ const moveLayer = (source: NamedFeatureLayer, offset: number): void => {
   collision?.dispatchEvent('changeIndex')
 }
 
-const dragDrop = (): void => {
+function dragDrop (): void {
   if (!dragTargetLayer.value || !draggedLayer.value) {
     return
   }

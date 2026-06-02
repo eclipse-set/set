@@ -43,7 +43,7 @@ const pzb = computed<PZB>(() => getFeatureData(props.feature))
 const planningObject = computed(() =>
   isPlanningObject(getFeatureGUID(props.feature)) ? 'Ja' : 'Nein')
 
-const pzbArtText = (): string => {
+function pzbArtText (): string {
   switch (pzb.value.element) {
     case PZBElement.F500Hz:
       return '500Hz'
@@ -58,7 +58,7 @@ const pzbArtText = (): string => {
   }
 }
 
-const pzbTypText = (): string => {
+function pzbTypText (): string {
   switch (pzb.value.type) {
     case PZBType.GM:
       return 'Gleismagnet'

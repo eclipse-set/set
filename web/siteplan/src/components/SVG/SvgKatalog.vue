@@ -63,7 +63,7 @@ const listSignalwithoutMast = [
   AndereSignalGroup.Zuordnungstafel.toString()
 ]
 
-const isWithoutMast = (value: string): boolean => {
+function isWithoutMast (value: string): boolean {
   return listSignalwithoutMast.includes(value)
 }
 
@@ -77,7 +77,7 @@ watch(selectedSignalGroup, (value: string): void => {
   }
 })
 
-const drawElementInGroup = (): string | null => {
+function drawElementInGroup (): string | null {
   if (!props.listSchirm) {
     return null
   }

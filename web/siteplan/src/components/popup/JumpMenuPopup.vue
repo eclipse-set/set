@@ -41,7 +41,7 @@ const guid = computed(() => getFeatureGUIDs(props.feature)[0])
 const elementType = computed(() => getFeatureName(getFeatureType(props.feature)))
 const elementLabel = computed(() => getFeatureLabel(props.feature))
 
-const jumpToTextSicht = () => {
+function jumpToTextSicht () {
   PlanProToolbox.jumpToTextView(guid.value)
 }
 </script>
