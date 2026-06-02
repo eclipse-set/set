@@ -245,11 +245,11 @@ function loadFeatureType (
     }
   } catch (e) {
     console.error(e)
-    console.error('Cannot load feature ' + featureClass.constructor.name)
+    console.error(`Cannot load feature ${featureClass.constructor.name}`)
     store.commit('setLoading', false)
     store.commit('setError', {
       iserror: true,
-      msg: 'Cannot load ' + featureClass.constructor.name
+      msg: `Cannot load ${featureClass.constructor.name}`
     })
   }
   return []
