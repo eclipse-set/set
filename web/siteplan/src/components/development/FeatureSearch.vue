@@ -105,13 +105,7 @@ function getResultText (): string {
   if (matchingCount.value === 0) {
     return '0 Treffer'
   } else {
-    return (
-      (selectedFeatureOffset.value % matchingCount.value) +
-      1 +
-      ' von ' +
-      matchingCount.value +
-      ' Treffern'
-    )
+    return `${(selectedFeatureOffset.value % matchingCount.value) + 1} von ${matchingCount.value} Treffern`
   }
 }
 
