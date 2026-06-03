@@ -6,6 +6,9 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v20.html
  -->
+
+<!-- eslint-disable vue/no-v-html -->
+
 <template>
   <div style="margin: 5px">
     <div>
@@ -20,7 +23,7 @@
         </option>
       </select>
     </div>
-    <span>{{ draw() }}</span>
+    <span v-html="draw()" />
   </div>
 </template>
 <script setup lang="ts">

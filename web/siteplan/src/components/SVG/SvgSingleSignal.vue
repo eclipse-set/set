@@ -6,6 +6,9 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v20.html
  -->
+
+<!-- eslint-disable vue/no-v-html -->
+
 <template>
   <div style="margin: 5px">
     <div>
@@ -63,7 +66,7 @@
         </div>
       </div>
     </div>
-    <span>{{ drawEinzelnSignal() }}</span>
+    <span v-html="drawEinzelnSignal()" />
   </div>
 </template>
 
