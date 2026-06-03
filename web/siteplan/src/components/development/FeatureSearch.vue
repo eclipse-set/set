@@ -8,7 +8,10 @@
  -->
 <template>
   <div>
-    <div id="searchInput">
+    <div
+      id="searchInput"
+      ref="searchInputContainer"
+    >
       <form
         autocomplete="off"
         @submit.prevent="searchSubmit"
@@ -41,7 +44,7 @@
 
 <script setup lang="ts">
 import { store } from '@/store'
-import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { onBeforeUnmount, onMounted, ref, useTemplateRef, watch } from 'vue'
 
 /**
  * Search Result Viewer
@@ -56,6 +59,7 @@ const lastSearchInput = ref('')
 const matchingCount = ref(0)
 const selectedFeatureOffset = ref(0)
 const elements = ref<string[]>([])
+const searchInputContainer = useTemplateRef('searchInputContainer')
 
 const unsubscribe = store.subscribe((m, s) => {
   if (m.type === 'setMatchingCount') {
@@ -68,7 +72,7 @@ onBeforeUnmount(() => {
 })
 
 function setPosition (): void {
-  const elementSearch = document.getElementById('searchInput')
+  const elementSearch = searchInputContainer.value
   if (!elementSearch) {
     console.warn('no searchInput found')
     return

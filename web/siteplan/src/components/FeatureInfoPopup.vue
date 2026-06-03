@@ -8,7 +8,10 @@
  -->
 <template>
   <teleport to="body">
-    <div id="featureInfoPopup">
+    <div
+      id="featureInfoPopup"
+      ref="featureInfoPopup"
+    >
       <span
         class="popup-close"
         @click="resetSelection"
@@ -34,7 +37,7 @@ import Geometry from 'ol/geom/Geometry'
 import Select, { SelectEvent } from 'ol/interaction/Select'
 import Map from 'ol/Map'
 import Overlay from 'ol/Overlay'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, useTemplateRef } from 'vue'
 /**
  * Container for feature info popups
  *
@@ -67,6 +70,7 @@ const existPopupFeature = [
   FeatureType.CantLine,
   FeatureType.Unknown
 ]
+const featureInfoPopup = useTemplateRef('featureInfoPopup')
 
 onMounted(() => {
   // Allow feature selection
@@ -85,7 +89,7 @@ onMounted(() => {
     }
   })
   // Add info window overlay
-  const element = document.getElementById('featureInfoPopup')
+  const element = featureInfoPopup.value
   if (element === null) {
     return
   }
