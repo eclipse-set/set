@@ -66,7 +66,7 @@ class TableToTableDocument {
 
 	public static val String FOOTNOTE_INLINE_TEXT_SEPARATOR = String.
 		format("%n")
-	static val String FOOTNOTE_MARK_SEPRATOR = ", "
+	public static val String FOOTNOTE_MARK_SEPRATOR = ", "
 
 	val Document doc
 	var String tablename
