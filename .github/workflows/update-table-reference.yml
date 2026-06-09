@@ -91,4 +91,4 @@ jobs:
           git push origin --delete update-table-reference 2>/dev/null || echo "Branch existiert nicht"
           git push --set-upstream origin update-table-reference
           git status
-          gh pr create --base main --title "Update table reference"
+          gh pr create --base main --title "Update table reference" --body "Updating table reference according to issue #${{ github.event.issue.number }}"
