@@ -89,6 +89,16 @@ function trackTrackShapeToText (): string {
   }
 }
 
+function trackType (): string {
+  if (trackSegment.value.type.length === 0) {
+    return 'Unbekannt'
+  }
+
+  return trackSegment.value.type
+    .map(type => trackTypeToText(type))
+    .join(', ')
+}
+
 function trackTypeToText (type: TrackType): string {
   switch (type) {
     case TrackType.Other:
@@ -106,15 +116,5 @@ function trackTypeToText (type: TrackType): string {
     default:
       return 'Unbekannt'
   }
-}
-
-function trackType (): string {
-  if (trackSegment.value.type.length === 0) {
-    return 'Unbekannt'
-  }
-
-  return trackSegment.value.type
-    .map(type => trackTypeToText(type))
-    .join(', ')
 }
 </script>

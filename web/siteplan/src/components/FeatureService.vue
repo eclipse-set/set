@@ -99,6 +99,12 @@ watch(model, newModel => {
   }
 })
 
+onBeforeUnmount(() => {
+  store.commit('setRouteVisible', false)
+  unsubscribeRouteAndSession?.()
+  unsubscribeSheetCut?.()
+})
+
 onMounted(() => {
   createLayers()
   loadModel()
@@ -110,12 +116,6 @@ onMounted(() => {
       loadModel()
     }
   })
-})
-
-onBeforeUnmount(() => {
-  store.commit('setRouteVisible', false)
-  unsubscribeRouteAndSession?.()
-  unsubscribeSheetCut?.()
 })
 
 onUnmounted(() => {

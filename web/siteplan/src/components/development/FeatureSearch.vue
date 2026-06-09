@@ -67,21 +67,13 @@ const unsubscribe = store.subscribe((m, s) => {
   }
 })
 
+watch(searchInput, value => {
+  updateSearchInput(value)
+})
+
 onBeforeUnmount(() => {
   unsubscribe()
 })
-
-function setPosition (): void {
-  const elementSearch = searchInputContainer.value
-  if (!elementSearch) {
-    console.warn('no searchInput found')
-    return
-  }
-
-  const box = elementSearch.getBoundingClientRect()
-  posLeft.value = Math.ceil(box.left) + 'px'
-  posTop.value = Math.ceil(box.bottom) + 'px'
-}
 
 onMounted(() => {
   setPosition()
@@ -98,6 +90,18 @@ function searchSubmit (): void {
   lastSearchInput.value = searchInput.value
 }
 
+function setPosition (): void {
+  const elementSearch = searchInputContainer.value
+  if (!elementSearch) {
+    console.warn('no searchInput found')
+    return
+  }
+
+  const box = elementSearch.getBoundingClientRect()
+  posLeft.value = Math.ceil(box.left) + 'px'
+  posTop.value = Math.ceil(box.bottom) + 'px'
+}
+
 function updateSearchInput (value: string): void {
   selectedFeatureOffset.value = 0
   if (!value) {
@@ -112,10 +116,6 @@ function getResultText (): string {
     return `${(selectedFeatureOffset.value % matchingCount.value) + 1} von ${matchingCount.value} Treffern`
   }
 }
-
-watch(searchInput, value => {
-  updateSearchInput(value)
-})
 </script>
 
 <style scoped>

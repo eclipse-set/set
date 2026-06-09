@@ -57,50 +57,48 @@ function setSelectFeatureOffset (offset: number): void {
   selectFeatureOffset.value = offset
 }
 
-function isDeselected (guid: string): boolean {
-  return guid === '' || guid === 'DESELECTED'
-}
-
-function deselected () {
-  try {
-    if (listernerKey) {
-      unByKey(listernerKey)
-      const flashLayer = props.featureLayers.find(
-        layer => layer.getLayerType() === FeatureLayerType.Flash
-      )
-      if (flashLayer && flashLayer.getSource()?.hasFeature(feature)) {
-        flashLayer.getSource()?.removeFeature(feature)
-      }
-    }
-  } catch (e) {
-    console.error(e)
-  }
-}
-
-function featureHasGuid (
-  feat: Feature<Geometry>,
-  searchGuid: string | null
-): boolean {
-  if (!searchGuid) {
-    return false
-  }
-
-  const guids = getFeatureGUIDs(feat)
-    .filter((g): g is string => !!g)
-    .map(g => g.toUpperCase())
-  const upperSearchGuid = searchGuid?.toUpperCase()
-  return guids.some(g => g.search(upperSearchGuid) !== -1)
-}
-
-function activeLayer (feat: Feature<Geometry>) {
-  const featureType = getFeatureType(feat)
-  const layerType = getFeatureLayerByType(featureType)
-  const matchLayer = props.featureLayers.find(layer => layer.getLayerType() === layerType)
-  if (!matchLayer || matchLayer.isVisible()) {
+function jumpToFeature (searchGuid: string): void {
+  if (isDeselected(searchGuid)) {
+    deselected()
+    guid.value = ''
     return
   }
 
-  matchLayer.setVisible(true)
+  if (guid.value === searchGuid && selectFeatureOffset.value === 0) {
+    return
+  }
+
+  if (guid.value !== searchGuid || selectFeatureOffset.value > 0) {
+    deselected()
+    guid.value = searchGuid
+  }
+
+  const matchingFeatures: Feature<Geometry>[] = []
+  props.featureLayers.filter(layer => layer.getLayerType() !== FeatureLayerType.Collision)
+    .map(layer =>
+      layer
+        .getSource()
+        ?.getFeatures()
+        .filter(c => featureHasGuid(c, searchGuid)))
+    .forEach(list =>
+      list?.forEach(f => matchingFeatures.push(f)))
+  const matchingCount = matchingFeatures.length
+  store.commit('setMatchingCount', matchingCount)
+  if (matchingCount > 0) {
+    const offset = selectFeatureOffset.value % matchingCount
+    const matchFeature = matchingFeatures[offset]
+
+    const flashFeature = createFlashFeature(matchFeature)
+    if (flashFeature !== null) {
+      const extent = flashFeature.getGeometry()?.getExtent() as Extent
+      activeLayer(matchFeature)
+      props.map.getView().setCenter(getCenter(extent))
+      feature = flashFeature
+      flash(flashFeature)
+    }
+  } else {
+    alert('Das ausgewählte Element exsistiert nicht im Lageplan.')
+  }
 }
 
 function createFlashFeature (originalFeature: Feature<Geometry>) {
@@ -117,6 +115,58 @@ function createFlashFeature (originalFeature: Feature<Geometry>) {
   }
 
   return createFeature(FeatureType.Flash, featureData, originalFeature.getGeometry())
+}
+
+function activeLayer (feat: Feature<Geometry>) {
+  const featureType = getFeatureType(feat)
+  const layerType = getFeatureLayerByType(featureType)
+  const matchLayer = props.featureLayers.find(layer => layer.getLayerType() === layerType)
+  if (!matchLayer || matchLayer.isVisible()) {
+    return
+  }
+
+  matchLayer.setVisible(true)
+}
+
+function isDeselected (guid: string): boolean {
+  return guid === '' || guid === 'DESELECTED'
+}
+
+function flash (feat: Feature<Geometry>) {
+  const flashLayer = props.featureLayers.find(
+    layer => layer.getLayerType() === FeatureLayerType.Flash
+  )
+  if (!flashLayer) {
+    console.warn('Flashing layer missing')
+    return
+  }
+
+  flashLayer.getSource()?.addFeature(feat)
+  let elapsed = 0
+  let now = new Date().getTime()
+
+  listernerKey = flashLayer.on('postrender', e => {
+    const framState = e.frameState ?? null
+    if (framState === null) {
+      return
+    }
+
+    elapsed = framState.time - now
+    if (elapsed >= FLASH_DURATION || elapsed === 0) {
+      now = new Date().getTime()
+    }
+
+    const elapsedRatio = elapsed / FLASH_DURATION
+    if (isDeselected(guid.value)) {
+      unByKey(listernerKey)
+      flashLayer.getSource()?.removeFeature(feat)
+    }
+
+    feat.setStyle((_, resolution) => {
+      const style = createFlashStyle(feat, elapsedRatio, resolution)
+      return style != null ? style : []
+    })
+  })
 }
 
 function createFlashStyle (feat: Feature<Geometry>, elapsedRatio: number, resolution: number) {
@@ -161,84 +211,34 @@ function createFlashStyle (feat: Feature<Geometry>, elapsedRatio: number, resolu
   }
 }
 
-function flash (feat: Feature<Geometry>) {
-  const flashLayer = props.featureLayers.find(
-    layer => layer.getLayerType() === FeatureLayerType.Flash
-  )
-  if (!flashLayer) {
-    console.warn('Flashing layer missing')
-    return
+function featureHasGuid (
+  feat: Feature<Geometry>,
+  searchGuid: string | null
+): boolean {
+  if (!searchGuid) {
+    return false
   }
 
-  flashLayer.getSource()?.addFeature(feat)
-  let elapsed = 0
-  let now = new Date().getTime()
-
-  listernerKey = flashLayer.on('postrender', e => {
-    const framState = e.frameState ?? null
-    if (framState === null) {
-      return
-    }
-
-    elapsed = framState.time - now
-    if (elapsed >= FLASH_DURATION || elapsed === 0) {
-      now = new Date().getTime()
-    }
-
-    const elapsedRatio = elapsed / FLASH_DURATION
-    if (isDeselected(guid.value)) {
-      unByKey(listernerKey)
-      flashLayer.getSource()?.removeFeature(feat)
-    }
-
-    feat.setStyle((_, resolution) => {
-      const style = createFlashStyle(feat, elapsedRatio, resolution)
-      return style != null ? style : []
-    })
-  })
+  const guids = getFeatureGUIDs(feat)
+    .filter((g): g is string => !!g)
+    .map(g => g.toUpperCase())
+  const upperSearchGuid = searchGuid?.toUpperCase()
+  return guids.some(g => g.search(upperSearchGuid) !== -1)
 }
 
-function jumpToFeature (searchGuid: string): void {
-  if (isDeselected(searchGuid)) {
-    deselected()
-    guid.value = ''
-    return
-  }
-
-  if (guid.value === searchGuid && selectFeatureOffset.value === 0) {
-    return
-  }
-
-  if (guid.value !== searchGuid || selectFeatureOffset.value > 0) {
-    deselected()
-    guid.value = searchGuid
-  }
-
-  const matchingFeatures: Feature<Geometry>[] = []
-  props.featureLayers.filter(layer => layer.getLayerType() !== FeatureLayerType.Collision)
-    .map(layer =>
-      layer
-        .getSource()
-        ?.getFeatures()
-        .filter(c => featureHasGuid(c, searchGuid)))
-    .forEach(list =>
-      list?.forEach(f => matchingFeatures.push(f)))
-  const matchingCount = matchingFeatures.length
-  store.commit('setMatchingCount', matchingCount)
-  if (matchingCount > 0) {
-    const offset = selectFeatureOffset.value % matchingCount
-    const matchFeature = matchingFeatures[offset]
-
-    const flashFeature = createFlashFeature(matchFeature)
-    if (flashFeature !== null) {
-      const extent = flashFeature.getGeometry()?.getExtent() as Extent
-      activeLayer(matchFeature)
-      props.map.getView().setCenter(getCenter(extent))
-      feature = flashFeature
-      flash(flashFeature)
+function deselected () {
+  try {
+    if (listernerKey) {
+      unByKey(listernerKey)
+      const flashLayer = props.featureLayers.find(
+        layer => layer.getLayerType() === FeatureLayerType.Flash
+      )
+      if (flashLayer && flashLayer.getSource()?.hasFeature(feature)) {
+        flashLayer.getSource()?.removeFeature(feature)
+      }
     }
-  } else {
-    alert('Das ausgewählte Element exsistiert nicht im Lageplan.')
+  } catch (e) {
+    console.error(e)
   }
 }
 

@@ -159,6 +159,23 @@ function dragOver (evt: DragEvent, layer: NamedFeatureLayer): void {
   evt.preventDefault()
 }
 
+function dragDrop (): void {
+  if (!dragTargetLayer.value || !draggedLayer.value) {
+    return
+  }
+
+  const targetIndex = getLayerIndex(dragTargetLayer.value)
+  const sourceIndex = getLayerIndex(draggedLayer.value)
+  let offset = targetIndex - sourceIndex
+  if (sourceIndex < targetIndex && dragInsertBefore.value) {
+    offset -= 1
+  } else if (sourceIndex > targetIndex && !dragInsertBefore.value) {
+    offset += 1
+  }
+
+  moveLayer(draggedLayer.value, offset)
+}
+
 function moveLayer (source: NamedFeatureLayer, offset: number): void {
   if (offset === 0) {
     return
@@ -181,23 +198,6 @@ function moveLayer (source: NamedFeatureLayer, offset: number): void {
     ele => ele.getLayerType() === FeatureLayerType.Collision
   )
   collision?.dispatchEvent('changeIndex')
-}
-
-function dragDrop (): void {
-  if (!dragTargetLayer.value || !draggedLayer.value) {
-    return
-  }
-
-  const targetIndex = getLayerIndex(dragTargetLayer.value)
-  const sourceIndex = getLayerIndex(draggedLayer.value)
-  let offset = targetIndex - sourceIndex
-  if (sourceIndex < targetIndex && dragInsertBefore.value) {
-    offset -= 1
-  } else if (sourceIndex > targetIndex && !dragInsertBefore.value) {
-    offset += 1
-  }
-
-  moveLayer(draggedLayer.value, offset)
 }
 </script>
 

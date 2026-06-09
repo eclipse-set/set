@@ -63,10 +63,6 @@ const listSignalwithoutMast = [
   AndereSignalGroup.Zuordnungstafel.toString()
 ]
 
-function isWithoutMast (value: string): boolean {
-  return listSignalwithoutMast.includes(value)
-}
-
 watch(selectedSignalGroup, (value: string): void => {
   emit('select-signal-group', value)
   withMast.value = false
@@ -89,4 +85,7 @@ function drawElementInGroup (): string | null {
   return SvgDrawSignal.drawAllElementInGroup(props.listSchirm).outerHTML
 }
 
+function isWithoutMast (value: string): boolean {
+  return listSignalwithoutMast.includes(value)
+}
 </script>

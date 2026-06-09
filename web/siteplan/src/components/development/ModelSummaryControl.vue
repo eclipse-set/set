@@ -87,13 +87,7 @@ onBeforeMount(() => {
   })
 })
 
-onBeforeUnmount(() => {
-  if (unsubscribe) {
-    unsubscribe()
-  }
-})
-
-watch(routeVisible, (value:boolean) => {
+watch(routeVisible, (value: boolean) => {
   store.commit('setRouteVisible', value)
 })
 
@@ -117,6 +111,12 @@ watch(trackColorVisible, (value: boolean) => {
 
 watch(trackOutlineVisible, (value: boolean) => {
   store.commit('setTrackOutlineVisible', value)
+})
+
+onBeforeUnmount(() => {
+  if (unsubscribe) {
+    unsubscribe()
+  }
 })
 
 const isSiteplan = computed(() => {

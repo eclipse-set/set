@@ -63,10 +63,6 @@ const symbolBtnColor = ref('')
 const menuBtnColor = ref('')
 const onSelectBtnColor = ref('#848484')
 
-onMounted(() => {
-  developmentOptions.value = Configuration.developmentMode()
-})
-
 watch(router.currentRoute, currentRoute => {
   resetBtnColor()
   switch (currentRoute.path) {
@@ -79,6 +75,10 @@ watch(router.currentRoute, currentRoute => {
     default:
       break
   }
+})
+
+onMounted(() => {
+  developmentOptions.value = Configuration.developmentMode()
 })
 
 function toSvgCatalog (): void {
