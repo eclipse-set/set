@@ -148,6 +148,18 @@ http://www.eclipse.org/legal/epl-v20.html
 		<xsl:attribute name="text-align">center</xsl:attribute>
 		<xsl:attribute name="linefeed-treatment">preserve</xsl:attribute>
 	</xsl:attribute-set>
+	<xsl:attribute-set name="footnotes-block-style">
+		<xsl:attribute name="border">
+			<xsl:value-of select="$wide-border-style" />
+		</xsl:attribute>
+		<xsl:attribute name="border-after-width.conditionality">retain</xsl:attribute>
+		<xsl:attribute name="padding">5mm</xsl:attribute>
+		<!-- Need to set/use padding-after to keep padding before page breaks -->
+		<xsl:attribute name="padding-after">5mm</xsl:attribute>
+		<xsl:attribute name="padding-after.conditionality">retain</xsl:attribute>
+		<xsl:attribute name="margin">0mm</xsl:attribute>
+		<xsl:attribute name="margin-top">5mm</xsl:attribute>
+	</xsl:attribute-set>
 	<xsl:attribute-set name="title-footnotes-style">
 		<xsl:attribute name="font-size">16pt</xsl:attribute>
 		<xsl:attribute name="font-weight">bold</xsl:attribute>
@@ -247,10 +259,12 @@ http://www.eclipse.org/legal/epl-v20.html
 	</xsl:template>
 
 	<xsl:template match="Footnotes[Footnote]">
-		<fo:block page-break-before="always" xsl:use-attribute-sets="title-footnotes-style">
-			<xsl:text>Bemerkungen</xsl:text>
+		<fo:block xsl:use-attribute-sets="footnotes-block-style">
+			<fo:block xsl:use-attribute-sets="title-footnotes-style">
+				<xsl:text>Bemerkungen</xsl:text>
+			</fo:block>
+			<xsl:apply-templates select="Footnote" />
 		</fo:block>
-		<xsl:apply-templates select="Footnote" />
 	</xsl:template>
 
 	<xsl:template match="Footnote">
