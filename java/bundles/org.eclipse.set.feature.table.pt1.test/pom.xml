@@ -3,10 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-
-	<groupId>org.eclipse.set</groupId>
 	<artifactId>org.eclipse.set.feature.table.pt1.test</artifactId>
-	<version>2.7.0-SNAPSHOT</version>
 	<packaging>eclipse-test-plugin</packaging>
 
 	<parent>
@@ -15,41 +12,27 @@
 		<artifactId>org.eclipse.set.releng.parent</artifactId>
 		<version>2.7.0-SNAPSHOT</version>
 	</parent>
-
 	<build>
+		<!-- Use mockito as java agent 
+		https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3 -->
 		<plugins>
 			<plugin>
-				<artifactId>maven-resources-plugin</artifactId>
-				<version>3.5.0</version>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
 				<executions>
 					<execution>
-						<id>copy-news</id>
-						<phase>prepare-package</phase>
 						<goals>
-							<goal>copy-resources</goal>
+							<goal>properties</goal>
 						</goals>
-						<configuration>
-							<outputDirectory>${basedir}/data/export/excel</outputDirectory>
-							<resources>
-								<resource>
-									<directory>${basedir}/../org.eclipse.set.feature/rootdir/data/export/excel</directory>
-								</resource>
-							</resources>
-						</configuration>
 					</execution>
 				</executions>
 			</plugin>
-
 			<plugin>
-				<artifactId>maven-clean-plugin</artifactId>
-				<version>3.5.0</version>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-surefire-plugin</artifactId>
+				<version>${tycho-version}</version>
 				<configuration>
-					<filesets>
-						<fileset>
-							<directory>data</directory>
-							<followSymlinks>false</followSymlinks>
-						</fileset>
-					</filesets>
+					<argLine>-javaagent:${org.mockito:mockito-core:jar}</argLine>
 				</configuration>
 			</plugin>
 		</plugins>
