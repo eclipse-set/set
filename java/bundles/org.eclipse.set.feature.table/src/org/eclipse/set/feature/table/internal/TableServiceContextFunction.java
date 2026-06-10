@@ -212,7 +212,8 @@ public class TableServiceContextFunction extends ContextFunction
 			tableService.clearInstance();
 		}
 
-		if (event.getTopic().equals(Events.CLOSE_SESSION)) {
+		if (event.getTopic().equals(Events.CLOSE_SESSION)
+				&& tableService != null) {
 			final ToolboxFileRole closeSession = (ToolboxFileRole) event
 					.getProperty(IEventBroker.DATA);
 			final IModelSession loadedSession = sessionService
@@ -222,7 +223,8 @@ public class TableServiceContextFunction extends ContextFunction
 			tableService.clearInstance();
 		}
 
-		if (event.getTopic().equals(TableDataChangeEvent.TOPIC)) {
+		if (event.getTopic().equals(TableDataChangeEvent.TOPIC)
+				&& tableService != null) {
 			final Object data = event.getProperty(IEventBroker.DATA);
 			if (data instanceof final TableDataChangeEvent changedEvent
 					&& !changedEvent.getProperties().isEmpty()

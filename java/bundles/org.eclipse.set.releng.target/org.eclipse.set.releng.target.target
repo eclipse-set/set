@@ -202,19 +202,19 @@
 				<dependency>
 					<groupId>org.eclipse.set</groupId>
 					<artifactId>org.eclipse.set.browser.cef.win32</artifactId>
-					<version>2.6.0-SNAPSHOT</version>
+					<version>2.7.0-SNAPSHOT</version>
 					<type>jar</type>
 				</dependency>
 				<dependency>
 					<groupId>org.eclipse.set</groupId>
 					<artifactId>org.eclipse.set.browser.lib</artifactId>
-					<version>2.6.0-SNAPSHOT</version>
+					<version>2.7.0-SNAPSHOT</version>
 					<type>jar</type>
 				</dependency>
 				<dependency>
 					<groupId>org.eclipse.set</groupId>
 					<artifactId>org.eclipse.set.browser</artifactId>
-					<version>2.6.0-SNAPSHOT</version>
+					<version>2.7.0-SNAPSHOT</version>
 					<type>jar</type>
 				</dependency>
 			</dependencies>
@@ -384,19 +384,19 @@ DynamicImport-Package: *
 				<dependency>
 					<groupId>org.eclipse.set</groupId>
 					<artifactId>org.eclipse.set.model.planpro.edit</artifactId>
-					<version>2.6.0-SNAPSHOT</version>
+					<version>2.7.0-SNAPSHOT</version>
 					<type>jar</type>
 				</dependency>
 				<dependency>
 					<groupId>org.eclipse.set</groupId>
 					<artifactId>org.eclipse.set.model.planpro.editor</artifactId>
-					<version>2.6.0-SNAPSHOT</version>
+					<version>2.7.0-SNAPSHOT</version>
 					<type>jar</type>
 				</dependency>
 				<dependency>
 					<groupId>org.eclipse.set</groupId>
 					<artifactId>org.eclipse.set.model.planpro</artifactId>
-					<version>2.6.0-SNAPSHOT</version>
+					<version>2.7.0-SNAPSHOT</version>
 					<type>jar</type>
 				</dependency>
 			</dependencies>
@@ -482,6 +482,16 @@ DynamicImport-Package: *
 					<groupId>net.bytebuddy</groupId>
 					<artifactId>byte-buddy</artifactId>
 					<version>1.17.7</version>
+					<type>jar</type>
+				</dependency>
+			</dependencies>
+		</location>
+		<location includeDependencyDepth="infinite" includeDependencyScopes="compile"  includeSource="true" label="OSGi Testing" missingManifest="generate" type="Maven">
+			<dependencies>
+				<dependency>
+					<groupId>org.osgi</groupId>
+					<artifactId>org.osgi.test.junit5</artifactId>
+					<version>1.3.0</version>
 					<type>jar</type>
 				</dependency>
 			</dependencies>

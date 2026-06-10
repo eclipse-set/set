@@ -19,7 +19,9 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.poi.ss.usermodel.BorderStyle;
@@ -38,9 +40,15 @@ import org.eclipse.set.basis.ToolboxPaths.ExportPathExtension;
 import org.eclipse.set.basis.constants.ExportType;
 import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.basis.exceptions.FileExportException;
+import org.eclipse.set.feature.export.pdf.TableToTableDocument;
+import org.eclipse.set.model.tablemodel.CompareFootnoteContainer;
+import org.eclipse.set.model.tablemodel.Footnote;
+import org.eclipse.set.model.tablemodel.FootnoteContainer;
+import org.eclipse.set.model.tablemodel.SimpleFootnoteContainer;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.TableRow;
 import org.eclipse.set.model.tablemodel.extensions.TableExtensions;
+import org.eclipse.set.model.tablemodel.extensions.TableExtensions.FootnoteInfo;
 import org.eclipse.set.model.tablemodel.extensions.TableRowExtensions;
 import org.eclipse.set.model.titlebox.Titlebox;
 import org.eclipse.set.services.export.TableExport;
@@ -48,6 +56,8 @@ import org.eclipse.set.utils.table.TableSpanUtils;
 import org.osgi.service.component.annotations.Component;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.common.collect.Streams;
 
 /**
  * {@link TableExport} implementation for Excel with template files.
@@ -63,6 +73,7 @@ public class ExcelExportBuilder implements TableExport {
 			.getLogger(ExcelExportBuilder.class);
 
 	private static final String TEMPLATE_DIR = "./data/export/excel"; //$NON-NLS-1$
+	private static final String FOOTNOTE_SHEET_NAME = "Bemerkungen"; //$NON-NLS-1$
 
 	private static int getFirstRowForContent(final Sheet sheet) {
 		return getHeaderLastRowIndex(sheet) + 1;
@@ -104,6 +115,8 @@ public class ExcelExportBuilder implements TableExport {
 			final OverwriteHandling overwriteHandling)
 			throws FileExportException {
 		final Table table = getTableToBeExported(tables);
+		final boolean isInlineFootnote = TableExtensions
+				.isInlineFootnote(table);
 		// IMPROVE: this is only a temporary situation for the table
 		// Sskp_dm
 		final String tableShortcut = shortcut.equals("sskp_dm") ? "sskp" //$NON-NLS-1$//$NON-NLS-2$
@@ -125,6 +138,8 @@ public class ExcelExportBuilder implements TableExport {
 
 			// es gibt nur einen
 			final Sheet sheet = workbook.getSheetAt(0);
+			workbook.setSheetName(0, shortcut.substring(0, 1).toUpperCase()
+					+ shortcut.substring(1));
 			// dummy-Header erzeugen für die Transformation
 			final String[] headers = getColumnHeaders(sheet);
 			final int columnCount = headers.length;
@@ -135,7 +150,13 @@ public class ExcelExportBuilder implements TableExport {
 			final List<TableRow> rows = TableExtensions.getTableRows(table);
 
 			// Fill sheet
-			fillSheet(sheet, rows, rowIndex, columnCount);
+			fillSheet(sheet, rows, rowIndex, columnCount, isInlineFootnote);
+
+			if (!isInlineFootnote) {
+				final Sheet footnoteSheet = workbook
+						.createSheet(FOOTNOTE_SHEET_NAME);
+				fillFootnoteSheet(footnoteSheet, table);
+			}
 
 			// Create spans
 			addTableSpans(sheet, rows, rowIndex, columnCount);
@@ -160,13 +181,49 @@ public class ExcelExportBuilder implements TableExport {
 		}
 	}
 
+	@SuppressWarnings("boxing")
+	private static void fillFootnoteSheet(final Sheet footnoteSheet,
+			final Table table) {
+		final List<FootnoteInfo> allFootnotes = new ArrayList<>(
+				Streams.stream(TableExtensions.getAllFootnotes(table))
+						.toList());
+		if (allFootnotes.isEmpty()) {
+			return;
+		}
+		footnoteSheet.autoSizeColumn(1);
+		allFootnotes.sort(
+				(first, second) -> Integer.compare(first.index, second.index));
+		for (int i = 0; i < allFootnotes.size(); i++) {
+			final Row row = footnoteSheet.createRow(i + 1);
+			final Cell fnIndexCell = row.createCell(0);
+			final FootnoteInfo footnoteInfo = allFootnotes.get(i);
+			// Currently export only the FINAL-State table to excel, therefore
+			// no need to handle cell style
+			fnIndexCell.setCellValue(String.format("*%d", footnoteInfo.index) //$NON-NLS-1$
+			);
+			final Cell fnContentCell = row.createCell(1);
+			fnContentCell.setCellValue(footnoteInfo.toText());
+
+		}
+	}
+
 	private static void fillSheet(final Sheet sheet, final List<TableRow> rows,
-			final int rowIndex, final int columnCount) {
+			final int rowIndex, final int columnCount,
+			final boolean inlineFootnote) {
+		if (rows.isEmpty()) {
+			return;
+		}
+		final Table table = TableRowExtensions.getTable(rows.getFirst());
+		final List<FootnoteInfo> allFootnotes = Streams
+				.stream(TableExtensions.getAllFootnotes(table))
+				.toList();
 		int contentRowIndex = rowIndex;
+
 		for (final TableRow row : rows) {
 			final Row sheetRow = contentRowIndex == rowIndex
 					? sheet.getRow(contentRowIndex)
 					: createNewRow(sheet, contentRowIndex, columnCount);
+			final FootnoteContainer footnotes = row.getFootnotes();
 			for (int i = 0; i < columnCount; i++) {
 				final String content = TableRowExtensions
 						.getPlainStringValue(row, i);
@@ -175,13 +232,49 @@ public class ExcelExportBuilder implements TableExport {
 				if (cell == null) {
 					cell = sheetRow.createCell(i + 1);
 				}
-
+				if (i == columnCount - 1) {
+					fillFootnoteCell(cell, content, allFootnotes, footnotes,
+							inlineFootnote);
+					continue;
+				}
 				cell.setCellValue(content);
 			}
 			// Auto adjust row height
 			sheetRow.setHeight((short) -1);
 			contentRowIndex++;
 		}
+	}
+
+	private static void fillFootnoteCell(final Cell cell,
+			final String cellContent, final List<FootnoteInfo> allFootnotes,
+			final FootnoteContainer fnContainer, final boolean inlineFootnote) {
+		final List<Footnote> footnotes = switch (fnContainer) {
+			case final SimpleFootnoteContainer simpleContainer -> simpleContainer
+					.getFootnotes();
+			case final CompareFootnoteContainer compareContainer -> compareContainer
+					.getUnchangedFootnotes()
+					.getFootnotes();
+			default -> throw new IllegalArgumentException();
+		};
+		final List<FootnoteInfo> fnInfo = footnotes.stream()
+				.map(fn -> TableExtensions.getFootnoteInfo(allFootnotes, fn))
+				.filter(Objects::nonNull)
+				.toList();
+		final StringBuilder builder = new StringBuilder();
+		if (!cellContent.isEmpty() && !cellContent.isBlank()) {
+			builder.append(cellContent);
+			builder.append(TableToTableDocument.FOOTNOTE_INLINE_TEXT_SEPARATOR);
+		}
+		final String footnoteValue = inlineFootnote ? fnInfo.stream()
+				.map(FootnoteInfo::toText)
+				.collect(Collectors.joining(
+						TableToTableDocument.FOOTNOTE_INLINE_TEXT_SEPARATOR))
+				: fnInfo.stream()
+						.map(fn -> "*" + fn.index) //$NON-NLS-1$
+						.collect(Collectors.joining(
+								TableToTableDocument.FOOTNOTE_MARK_SEPRATOR));
+		builder.append(footnoteValue);
+		cell.setCellValue(builder.toString());
 	}
 
 	@SuppressWarnings("resource")
@@ -228,8 +321,8 @@ public class ExcelExportBuilder implements TableExport {
 					continue;
 				}
 
-				sheet.addMergedRegion(new CellRangeAddress(sheetRowIndex + row,
-						sheetRowIndex + row + spanDown, column, column));
+				sheet.addMergedRegion(new CellRangeAddress(sheetRowIndex,
+						sheetRowIndex + spanDown, column, column));
 			}
 
 			sheetRowIndex++;

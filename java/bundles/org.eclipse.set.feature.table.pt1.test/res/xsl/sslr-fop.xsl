@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><!--
+Copyright (c) 2023 DB Netz AG and others.
+
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v2.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v20.html
+--><xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:fox="http://xmlgraphics.apache.org/fop/extensions" exclude-result-prefixes="fo" version="2.0">
+
+    <xsl:include href="data/export/pdf/common.xsl"/>
+    <xsl:include href="data/export/pdf/titlebox.xsl"/>
+    <xsl:include href="data/export/pdf/cells.xsl"/>
+    <xsl:include href="data/export/pdf/folding-marks.xsl"/>
+    <xsl:include href="data/export/pdf/content.xsl"/>
+    <xsl:variable name="water-mark-content"/>
+    <!-- CUSTOMIZE: Adjust the following defaults only if needed -->
+    <xsl:attribute-set name="table-master-style">
+        <!-- Page layout -->
+        <xsl:attribute name="margin-left">20mm</xsl:attribute>
+        <xsl:attribute name="margin-right">10mm</xsl:attribute>
+        <xsl:attribute name="margin-top">0mm</xsl:attribute>
+        <xsl:attribute name="margin-bottom">0mm</xsl:attribute>
+        <xsl:attribute name="page-height">297mm</xsl:attribute>
+        <xsl:attribute name="page-width">420mm</xsl:attribute>
+    </xsl:attribute-set>
+    
+    <xsl:attribute-set name="table-header-style">
+        <xsl:attribute name="text-align">center</xsl:attribute>
+        <xsl:attribute name="display-align">center</xsl:attribute>
+        <xsl:attribute name="border">
+            <xsl:value-of select="$small-border-style"/>
+        </xsl:attribute>
+    </xsl:attribute-set>
+    <xsl:attribute-set name="no-border-style">
+        <xsl:attribute name="border">none</xsl:attribute>
+    </xsl:attribute-set>
+    <xsl:attribute-set name="thin-border-style">
+        <xsl:attribute name="border">
+            <xsl:value-of select="$small-border-style"/>
+        </xsl:attribute>
+    </xsl:attribute-set>
+    <xsl:attribute-set name="wide-border-style">
+        <xsl:attribute name="border">
+            <xsl:value-of select="$wide-border-style"/>
+        </xsl:attribute>
+    </xsl:attribute-set>
+
+    <!-- Main page layout -->
+    <xsl:template match="/" name="MainPage">
+        <fo:root language="de" linefeed-treatment="preserve" xsl:use-attribute-sets="default-font">
+            <fo:layout-master-set>
+                <fo:simple-page-master master-name="table-master" xsl:use-attribute-sets="table-master-style">
+                    <fo:region-body xsl:use-attribute-sets="region-body-style"/>
+                    <fo:region-before region-name="folding-mark-region" xsl:use-attribute-sets="folding-mark-region-style"/>
+                    <fo:region-after region-name="title-box-region" xsl:use-attribute-sets="title-box-region-style"/>
+                </fo:simple-page-master>
+                <fo:simple-page-master master-name="table-master-last" xsl:use-attribute-sets="table-master-style">
+                    <fo:region-body xsl:use-attribute-sets="region-body-style"/>
+                    <fo:region-before region-name="folding-mark-region" xsl:use-attribute-sets="folding-mark-region-style"/>
+                    <fo:region-after region-name="title-box-region-last" xsl:use-attribute-sets="title-box-region-style"/>
+                </fo:simple-page-master>
+                <fo:page-sequence-master master-name="page-sequence-master">
+                    <fo:repeatable-page-master-alternatives>
+                        <fo:conditional-page-master-reference master-reference="table-master-last" page-position="last"/>
+                        <fo:conditional-page-master-reference master-reference="table-master"/>
+                    </fo:repeatable-page-master-alternatives>
+                </fo:page-sequence-master>
+            </fo:layout-master-set>
+            <fo:page-sequence master-reference="page-sequence-master">
+                <fo:static-content flow-name="folding-mark-region">
+                    <xsl:call-template name="FoldingMarksTop"/>
+                    <xsl:call-template name="WaterMark"/>
+                </fo:static-content>
+                <fo:static-content flow-name="title-box-region">
+                    <xsl:call-template name="TitleboxRegion">
+                        <xsl:with-param name="pagePostfix" select="'+'"/>
+                    </xsl:call-template>
+                    <xsl:call-template name="FoldingMarksBottom"/>
+                </fo:static-content>
+                <fo:static-content flow-name="title-box-region-last">
+                    <xsl:call-template name="TitleboxRegion">
+                        <xsl:with-param name="pagePostfix" select="'-'"/>
+                    </xsl:call-template>
+                    <xsl:call-template name="FoldingMarksBottom"/>
+                </fo:static-content>
+                <fo:flow flow-name="xsl-region-body">
+                    <xsl:apply-templates/>
+                </fo:flow>
+            </fo:page-sequence>
+        </fo:root>
+    </xsl:template>
+
+    <xsl:template name="WaterMark">
+        <fo:block-container absolute-position="absolute" fox:transform="rotate(30)" top="-3.5cm" width="47cm">
+            <fo:block color="#f5f5f5" font-size="200pt" font-weight="bold" text-align="center">
+                <xsl:value-of select="$water-mark-content"/>
+            </fo:block>
+        </fo:block-container>
+    </xsl:template>
+<xsl:template match="Table[Rows/Row]"><fo:table table-layout="fixed" width="100%"><fo:table-column column-number="1" column-width="0.56cm"/><fo:table-column column-number="2" column-width="2.73cm"/><fo:table-column column-number="3" column-width="1.14cm"/><fo:table-column column-number="4" column-width="1.14cm"/><fo:table-column column-number="5" column-width="0.56cm"/><fo:table-column column-number="6" column-width="2.75cm"/><fo:table-column column-number="7" column-width="0.63cm"/><fo:table-column column-number="8" column-width="1.75cm"/><fo:table-column column-number="9" column-width="1.43cm"/><fo:table-column column-number="10" column-width="1.64cm"/><fo:table-column column-number="11" column-width="1.72cm"/><fo:table-column column-number="12" column-width="1.43cm"/><fo:table-column column-number="13" column-width="2.33cm"/><fo:table-column column-number="14" column-width="2.35cm"/><fo:table-column column-number="15" column-width="1.51cm"/><fo:table-column column-number="16" column-width="1.32cm"/><fo:table-column column-number="17" column-width="2.33cm"/><fo:table-column column-number="18" column-width="11.669999122619629cm"/><fo:table-header xsl:use-attribute-sets="table-header-style"><fo:table-row><fo:table-cell border-left="{$small-border-style}" text-align="center"><fo:block start-indent="0mm"/></fo:table-cell><fo:table-cell border-left="{$small-border-style}" border-right="{$small-border-style}" border-top="{$small-border-style}" text-align="center"><fo:block start-indent="0mm">A</fo:block></fo:table-cell><fo:table-cell border-left="{$small-border-style}" border-right="{$small-border-style}" border-top="{$small-border-style}" text-align="center"><fo:block start-indent="0mm">B</fo:block></fo:table-cell><fo:table-cell border-left="{$small-border-style}" border-right="{$small-border-style}" border-top="{$small-border-style}" text-align="center"><fo:block start-indent="0mm">C</fo:block></fo:table-cell><fo:table-cell border-left="{$small-border-style}" border-right="{$small-border-style}" border-top="{$small-border-style}" text-align="center"><fo:block start-indent="0mm">D</fo:block></fo:table-cell><fo:table-cell border-left="{$small-border-style}" border-right="{$small-border-style}" border-top="{$small-border-style}" text-align="center"><fo:block start-indent="0mm">E</fo:block></fo:table-cell><fo:table-cell text-align="center"><fo:block start-indent="0mm">F</fo:block></fo:table-cell><fo:table-cell border-left="{$small-border-style}" border-right="{$small-border-style}" border-top="{$small-border-style}" text-align="center"><fo:block start-indent="0mm">G</fo:block></fo:table-cell><fo:table-cell border-left="{$small-border-style}" border-right="{$small-border-style}" border-top="{$small-border-style}" text-align="center"><fo:block start-indent="0mm">H</fo:block></fo:table-cell><fo:table-cell border-left="{$small-border-style}" border-right="{$small-border-style}" border-top="{$small-border-style}" text-align="center"><fo:block start-indent="0mm">I</fo:block></fo:table-cell><fo:table-cell border-left="{$small-border-style}" border-right="{$small-border-style}" border-top="{$small-border-style}" text-align="center"><fo:block start-indent="0mm">J</fo:block></fo:table-cell><fo:table-cell border-left="{$small-border-style}" border-right="{$small-border-style}" border-top="{$small-border-style}" text-align="center"><fo:block start-indent="0mm">K</fo:block></fo:table-cell><fo:table-cell border-left="{$small-border-style}" border-right="{$small-border-style}" border-top="{$small-border-style}" text-align="center"><fo:block start-indent="0mm">L</fo:block></fo:table-cell><fo:table-cell border-left="{$small-border-style}" border-right="{$small-border-style}" border-top="{$small-border-style}" text-align="center"><fo:block start-indent="0mm">M</fo:block></fo:table-cell><fo:table-cell border-left="{$small-border-style}" border-right="{$small-border-style}" border-top="{$small-border-style}" text-align="center"><fo:block start-indent="0mm">N</fo:block></fo:table-cell><fo:table-cell border-left="{$small-border-style}" border-right="{$small-border-style}" border-top="{$small-border-style}" text-align="center"><fo:block start-indent="0mm">O</fo:block></fo:table-cell><fo:table-cell border-left="{$small-border-style}" border-right="{$small-border-style}" border-top="{$small-border-style}" text-align="center"><fo:block start-indent="0mm">P</fo:block></fo:table-cell><fo:table-cell text-align="center"><fo:block start-indent="0mm">Q</fo:block></fo:table-cell></fo:table-row><fo:table-row><fo:table-cell border-left="{$small-border-style}" text-align="center"><fo:block start-indent="0mm"/></fo:table-cell><fo:table-cell border-bottom="{$small-border-style}" border-left="{$wide-border-style}" border-right="{$wide-border-style}" border-top="{$wide-border-style}" font-weight="blod" number-columns-spanned="6" text-align="center"><fo:block start-indent="0mm">Grundsatzangaben</fo:block></fo:table-cell><fo:table-cell border-bottom="{$small-border-style}" border-left="{$wide-border-style}" border-right="{$wide-border-style}" border-top="{$wide-border-style}" font-weight="blod" number-columns-spanned="2" text-align="center"><fo:block start-indent="0mm">Einstellung</fo:block></fo:table-cell><fo:table-cell border-bottom="{$small-border-style}" border-left="{$wide-border-style}" border-right="{$wide-border-style}" border-top="{$wide-border-style}" font-weight="blod" number-columns-spanned="8" text-align="center"><fo:block start-indent="0mm">Abhängigkeiten</fo:block></fo:table-cell><fo:table-cell border-right="{$wide-border-style}" border-top="{$wide-border-style}" font-weight="blod" number-rows-spanned="3" text-align="center"><fo:block start-indent="0mm">Bemerkung</fo:block></fo:table-cell></fo:table-row><fo:table-row><fo:table-cell border-left="{$small-border-style}" text-align="center"><fo:block start-indent="0mm"/></fo:table-cell><fo:table-cell border-left="{$wide-border-style}" border-right="{$small-border-style}" number-rows-spanned="2" text-align="center"><fo:block start-indent="0mm">Bezeichnung</fo:block></fo:table-cell><fo:table-cell border-left="{$small-border-style}" border-right="{$small-border-style}" number-columns-spanned="4" text-align="center"><fo:block start-indent="0mm">Fahrweg</fo:block></fo:table-cell><fo:table-cell border-left="{$small-border-style}" border-right="{$wide-border-style}" number-rows-spanned="2" text-align="center"><fo:block start-indent="0mm">Art</fo:block></fo:table-cell><fo:table-cell border-left="{$wide-border-style}" border-right="{$small-border-style}" number-rows-spanned="2" text-align="center"><fo:block start-indent="0mm">Autom.
+Einstellung</fo:block></fo:table-cell><fo:table-cell border-left="{$small-border-style}" border-right="{$wide-border-style}" number-rows-spanned="2" text-align="center"><fo:block start-indent="0mm">F-
+Bedienung</fo:block></fo:table-cell><fo:table-cell border-left="{$wide-border-style}" border-right="{$small-border-style}" number-columns-spanned="2" text-align="center"><fo:block start-indent="0mm">Inselgleis</fo:block></fo:table-cell><fo:table-cell border-left="{$small-border-style}" border-right="{$small-border-style}" number-rows-spanned="2" text-align="center"><fo:block start-indent="0mm">Gleisfrei-
+meldung</fo:block></fo:table-cell><fo:table-cell border-left="{$small-border-style}" border-right="{$small-border-style}" number-rows-spanned="2" text-align="center"><fo:block start-indent="0mm">Fahrwegweichen
+mit Flankenschutz</fo:block></fo:table-cell><fo:table-cell border-left="{$small-border-style}" border-right="{$small-border-style}" number-rows-spanned="2" text-align="center"><fo:block start-indent="0mm">Überwachte Ssp (Auflösung Zielgleis)</fo:block></fo:table-cell><fo:table-cell border-left="{$small-border-style}" border-right="{$small-border-style}" number-rows-spanned="2" text-align="center"><fo:block start-indent="0mm">Abhängiger
+BÜ</fo:block></fo:table-cell><fo:table-cell border-left="{$small-border-style}" border-right="{$small-border-style}" number-rows-spanned="2" text-align="center"><fo:block start-indent="0mm">Ziel
+erlaubnis-
+abhängig</fo:block></fo:table-cell><fo:table-cell border-left="{$small-border-style}" border-right="{$wide-border-style}" number-rows-spanned="2" text-align="center"><fo:block start-indent="0mm">Auflösung
+nicht angefahrener
+Fahrstraßen</fo:block></fo:table-cell></fo:table-row><fo:table-row><fo:table-cell border-left="{$small-border-style}" text-align="center"><fo:block start-indent="0mm"/></fo:table-cell><fo:table-cell border-left="{$small-border-style}" border-right="{$small-border-style}" text-align="center"><fo:block start-indent="0mm">Start</fo:block></fo:table-cell><fo:table-cell border-left="{$small-border-style}" border-right="{$small-border-style}" text-align="center"><fo:block start-indent="0mm">Ziel</fo:block></fo:table-cell><fo:table-cell border-left="{$small-border-style}" border-right="{$small-border-style}" text-align="center"><fo:block start-indent="0mm">Nr.</fo:block></fo:table-cell><fo:table-cell border-left="{$small-border-style}" border-right="{$small-border-style}" text-align="center"><fo:block start-indent="0mm">Entscheidungsweiche
+mit Stellung</fo:block></fo:table-cell><fo:table-cell border-left="{$wide-border-style}" border-right="{$small-border-style}" text-align="center"><fo:block start-indent="0mm">Bezeichnung</fo:block></fo:table-cell><fo:table-cell border-left="{$small-border-style}" border-right="{$small-border-style}" text-align="center"><fo:block start-indent="0mm">Gegenfahrt-
+ausschluss</fo:block></fo:table-cell></fo:table-row><fo:table-row><fo:table-cell border-left="{$small-border-style}" text-align="center"><fo:block start-indent="0mm"/></fo:table-cell><fo:table-cell border-bottom="{$wide-border-style}" border-left="{$wide-border-style}" border-right="{$small-border-style}" text-align="left"><fo:block color="white" start-indent="0mm">.</fo:block></fo:table-cell><fo:table-cell border-bottom="{$wide-border-style}" border-left="{$small-border-style}" border-right="{$small-border-style}" text-align="center"><fo:block start-indent="0mm"/></fo:table-cell><fo:table-cell border-bottom="{$wide-border-style}" border-left="{$small-border-style}" border-right="{$small-border-style}" text-align="center"><fo:block start-indent="0mm"/></fo:table-cell><fo:table-cell border-bottom="{$wide-border-style}" border-left="{$small-border-style}" border-right="{$small-border-style}" text-align="center"><fo:block start-indent="0mm"/></fo:table-cell><fo:table-cell border-bottom="{$wide-border-style}" border-left="{$small-border-style}" border-right="{$small-border-style}" text-align="center"><fo:block start-indent="0mm"/></fo:table-cell><fo:table-cell border-bottom="{$wide-border-style}" border-left="{$small-border-style}" border-right="{$wide-border-style}" text-align="center"><fo:block start-indent="0mm"/></fo:table-cell><fo:table-cell border-bottom="{$wide-border-style}" border-left="{$wide-border-style}" border-right="{$small-border-style}" text-align="center"><fo:block start-indent="0mm"/></fo:table-cell><fo:table-cell border-bottom="{$wide-border-style}" border-left="{$small-border-style}" border-right="{$wide-border-style}" text-align="center"><fo:block start-indent="0mm"/></fo:table-cell><fo:table-cell border-bottom="{$wide-border-style}" border-left="{$wide-border-style}" border-right="{$small-border-style}" text-align="center"><fo:block start-indent="0mm"/></fo:table-cell><fo:table-cell border-bottom="{$wide-border-style}" border-left="{$small-border-style}" border-right="{$small-border-style}" text-align="center"><fo:block start-indent="0mm"/></fo:table-cell><fo:table-cell border-bottom="{$wide-border-style}" border-left="{$small-border-style}" border-right="{$small-border-style}" text-align="center"><fo:block start-indent="0mm"/></fo:table-cell><fo:table-cell border-bottom="{$wide-border-style}" border-left="{$small-border-style}" border-right="{$small-border-style}" text-align="center"><fo:block start-indent="0mm"/></fo:table-cell><fo:table-cell border-bottom="{$wide-border-style}" border-left="{$small-border-style}" border-right="{$small-border-style}" text-align="center"><fo:block start-indent="0mm"/></fo:table-cell><fo:table-cell border-bottom="{$wide-border-style}" border-left="{$small-border-style}" border-right="{$small-border-style}" text-align="center"><fo:block start-indent="0mm"/></fo:table-cell><fo:table-cell border-bottom="{$wide-border-style}" border-left="{$small-border-style}" border-right="{$small-border-style}" text-align="center"><fo:block start-indent="0mm"/></fo:table-cell><fo:table-cell border-bottom="{$wide-border-style}" border-left="{$small-border-style}" border-right="{$wide-border-style}" text-align="center"><fo:block start-indent="0mm"/></fo:table-cell><fo:table-cell border-bottom="{$wide-border-style}" border-right="{$wide-border-style}" text-align="left"><fo:block start-indent="0mm"/></fo:table-cell></fo:table-row></fo:table-header><fo:table-body start-indent="0mm"><xsl:apply-templates select="Rows/Row"/></fo:table-body></fo:table><xsl:apply-templates select="Footnotes"/></xsl:template><xsl:template match="Table[not(Rows/Row)]"><fo:block>Die Tabelle ist leer</fo:block></xsl:template><xsl:template match="Cell[contains(' 17 ', concat(' ', @column-number, ' ')) and ../@group-number = count(/Table/Rows/Row)]"><fo:table-cell border-right="{$wide-border-style}" number-rows-spanned="{@number-rows-spanned}" text-align="left" xsl:use-attribute-sets="last-row-cell-style"><xsl:call-template name="CompareCellContentStyle"/><xsl:apply-templates/></fo:table-cell></xsl:template><xsl:template match="Cell[contains(' 17 ', concat(' ', @column-number, ' ')) and ../@group-number != count(/Table/Rows/Row)]"><fo:table-cell border-right="{$wide-border-style}" number-rows-spanned="{@number-rows-spanned}" text-align="left" xsl:use-attribute-sets="default-cell-style"><xsl:call-template name="CompareCellContentStyle"/><xsl:apply-templates/></fo:table-cell></xsl:template><xsl:template match="Cell[contains(' 6 8 16 ', concat(' ', @column-number, ' ')) and ../@group-number != count(/Table/Rows/Row)]"><fo:table-cell border-right="{$wide-border-style}" number-rows-spanned="{@number-rows-spanned}" text-align="center" xsl:use-attribute-sets="default-cell-style"><xsl:call-template name="CompareCellContentStyle"/><xsl:apply-templates/></fo:table-cell></xsl:template><xsl:template match="Cell[contains(' 2 3 ', concat(' ', @column-number, ' ')) and ../@group-number != count(/Table/Rows/Row)]"><fo:table-cell number-rows-spanned="{@number-rows-spanned}" text-align="left" xsl:use-attribute-sets="default-cell-style"><xsl:call-template name="CompareCellContentStyle"/><xsl:apply-templates/></fo:table-cell></xsl:template><xsl:template match="Cell[contains(' 2 3 ', concat(' ', @column-number, ' ')) and ../@group-number = count(/Table/Rows/Row)]"><fo:table-cell number-rows-spanned="{@number-rows-spanned}" text-align="left" xsl:use-attribute-sets="last-row-cell-style"><xsl:call-template name="CompareCellContentStyle"/><xsl:apply-templates/></fo:table-cell></xsl:template><xsl:template match="Cell[contains(' 6 8 16 ', concat(' ', @column-number, ' ')) and ../@group-number = count(/Table/Rows/Row)]"><fo:table-cell border-right="{$wide-border-style}" number-rows-spanned="{@number-rows-spanned}" text-align="center" xsl:use-attribute-sets="last-row-cell-style"><xsl:call-template name="CompareCellContentStyle"/><xsl:apply-templates/></fo:table-cell></xsl:template></xsl:stylesheet>

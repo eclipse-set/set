@@ -6,11 +6,12 @@
  * https://www.eclipse.org/legal/epl-2.0.
  *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  */
 package org.eclipse.set.utils.export.xsl;
 
-import static org.eclipse.set.utils.excel.ExcelWorkbookExtension.*;
+import static org.eclipse.set.utils.excel.ExcelWorkbookExtension.getHeaderLastColumnIndex;
+import static org.eclipse.set.utils.excel.ExcelWorkbookExtension.getHeaderLastRowIndex;
 import static org.eclipse.set.utils.export.xsl.TransformStyle.setExcelCellBorderStyle;
 import static org.eclipse.set.utils.export.xsl.TransformStyle.transformBorderStyle;
 import static org.eclipse.set.utils.export.xsl.XMLDocumentExtensions.createXMLElementWithAttr;
@@ -28,6 +29,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -46,16 +48,17 @@ import org.w3c.dom.Element;
 
 /**
  * Transform excel table body style
- * 
+ *
  * @author Truong
  */
 public class TransformTableBody {
+
 	final Document doc;
 	final Sheet sheet;
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param doc
 	 *            the XSL document
 	 * @param sheet
@@ -101,8 +104,28 @@ public class TransformTableBody {
 			throw new RuntimeException(
 					"Missing first data row. Is the printing area configured correctly?"); //$NON-NLS-1$
 		}
-		getFirstDataRow(sheet).forEach(cell -> {
-			final int index = cell.getColumnIndex();
+
+		final BiFunction<Row, Integer, Cell> getDataCell = (dataRow,
+				colIndex) -> {
+			final Cell cell = dataRow.getCell(colIndex);
+			if (cell != null) {
+				return cell;
+			}
+
+			if (parentGroupLastIndex.contains(colIndex.intValue())
+					|| pageBreakAts.contains(colIndex.intValue())
+					|| pageBreakAts.contains(colIndex.intValue() - 1)) {
+				return dataRow.createCell(colIndex.intValue());
+			}
+			return null;
+		};
+
+		for (int index = 0; index <= getHeaderLastColumnIndex(sheet); index++) {
+			final Cell cell = getDataCell.apply(firstDataRow, index);
+			if (cell == null) {
+				continue;
+			}
+
 			if (parentGroupLastIndex.contains(index)
 					|| pageBreakAts.contains(index)) {
 				setExcelCellBorderStyle(cell, BorderDirection.RIGHT,
@@ -112,7 +135,6 @@ public class TransformTableBody {
 				setExcelCellBorderStyle(cell, BorderDirection.LEFT,
 						BorderStyle.MEDIUM);
 			}
-
 			if (!isDefaultStyle(cell.getCellStyle())) {
 				Set<Cell> sameStyleGroup = result.stream()
 						.filter(cells -> cells.stream()
@@ -128,14 +150,14 @@ public class TransformTableBody {
 				}
 				sameStyleGroup.add(cell);
 			}
-		});
+		}
 
 		return result;
 	}
 
 	@SuppressWarnings("boxing")
 	private Set<Integer> getColumnWithWideBorderRight() {
-		final Row headerRow = sheet.getRow(1);
+		final Row headerRow = sheet.getRow(getHeaderLastRowIndex(sheet));
 		final Set<Integer> result = new HashSet<>();
 		// Start at 1 to skip empty column 0
 		for (var i = 1; i <= getHeaderLastColumnIndex(sheet); i++) {

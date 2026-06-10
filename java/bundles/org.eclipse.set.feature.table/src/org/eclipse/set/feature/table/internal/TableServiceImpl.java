@@ -447,15 +447,18 @@ public final class TableServiceImpl implements TableService {
 								area))) {
 			return createEmptyTable(tableInfo);
 		}
-		final Table resultTable = TableServiceUtils.filterRequestValue(
-				EcoreUtil.copy((Table) table), tableType, tableInfo,
-				modelSession, getModelService(tableInfo), controlAreaIds);
-		final TableStatus status = tablesStatus.computeIfAbsent(tableInfo,
-				k -> new TableStatus());
-		TableServiceUtils.clearEmptyRow(resultTable);
-		getModelService(tableInfo).addAdditionRow((Table) table, resultTable);
+		// Filter the table row, which belong to current table state
+		final Table stateTable = TableServiceUtils
+				.filterTableByState(EcoreUtil.copy((Table) table), tableType);
+		// Filter the table row, which belong to current control area
+		final Table resultTable = TableServiceUtils
+				.filterRowGroupBelongToControlArea(EcoreUtil.copy(stateTable),
+						tableType, tableInfo, modelSession,
+						getModelService(tableInfo), controlAreaIds);
 		if (modelSession.getToolboxFile()
 				.getRole() == ToolboxFileRole.SESSION) {
+			final TableStatus status = tablesStatus.computeIfAbsent(tableInfo,
+					k -> new TableStatus());
 			status.setContainsStateChanged(
 					TableServiceUtils.isTableExistChangedCompareContent(
 							resultTable, CompareStateCellContent.class));
