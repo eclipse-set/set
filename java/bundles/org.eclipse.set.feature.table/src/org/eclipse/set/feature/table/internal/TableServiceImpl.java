@@ -455,6 +455,8 @@ public final class TableServiceImpl implements TableService {
 				.filterRowGroupBelongToControlArea(EcoreUtil.copy(stateTable),
 						tableType, tableInfo, modelSession,
 						getModelService(tableInfo), controlAreaIds);
+		TableServiceUtils.clearEmptyRow(resultTable);
+		getModelService(tableInfo).addAdditionRow(stateTable, resultTable);
 		if (modelSession.getToolboxFile()
 				.getRole() == ToolboxFileRole.SESSION) {
 			final TableStatus status = tablesStatus.computeIfAbsent(tableInfo,
