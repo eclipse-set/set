@@ -108,17 +108,17 @@ public class Messages {
 	public String TableOverviewPart_WithErrorsDesc;
 
 	/**
-	 * Enthalten Zustandsänderungen
+	 * Enthalten Zustandsänderungen:
 	 */
 	public String TableOverviewPart_WithStateChanges;
 
 	/**
-	 * Enthalten Plansänderungen
+	 * Enthalten Planänderungen:
 	 */
 	public String TableOverviewPart_WithPlanChanges;
 
 	/**
-	 * Leere Tabellen
+	 * Leere Tabellen:
 	 */
 	public String TableOverviewPart_EmptyTable;
 
