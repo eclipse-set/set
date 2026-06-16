@@ -436,11 +436,16 @@ public final class TableServiceImpl implements TableService {
 								area))) {
 			return createEmptyTable(tableInfo);
 		}
-		final Table resultTable = TableServiceUtils.filterRequestValue(
-				EcoreUtil.copy((Table) table), tableType, tableInfo,
-				modelSession, getModelService(tableInfo), controlAreaIds);
+		// Filter the table row, which belong to current table state
+		final Table stateTable = TableServiceUtils
+				.filterTableByState(EcoreUtil.copy((Table) table), tableType);
+		// Filter the table row, which belong to current control area
+		final Table resultTable = TableServiceUtils
+				.filterRowGroupBelongToControlArea(EcoreUtil.copy(stateTable),
+						tableType, tableInfo, modelSession,
+						getModelService(tableInfo), controlAreaIds);
 		TableServiceUtils.clearEmptyRow(resultTable);
-		getModelService(tableInfo).addAdditionRow((Table) table, resultTable);
+		getModelService(tableInfo).addAdditionRow(stateTable, resultTable);
 		sortTable(resultTable, tableInfo, tableType);
 		return resultTable;
 	}
