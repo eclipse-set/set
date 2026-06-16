@@ -41,7 +41,7 @@ import { getPixelProMeterAtScale, setMapScale } from '@/util/MapScale'
 import OlMap from 'ol/Map'
 import 'ol/ol.css'
 import OlView from 'ol/View'
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, useTemplateRef } from 'vue'
 
 /**
  * Container for the open layers map
@@ -51,7 +51,7 @@ import { computed, onMounted, ref } from 'vue'
 
 const isDevelopmentMode = Configuration.developmentMode()
 const map: OlMap = store.state.map
-const mapRoot = ref<HTMLDivElement | null>(null)
+const mapRoot = useTemplateRef<HTMLDivElement>('mapRoot')
 
 const scaleLocked = ref(0)
 let scaleLine: ScaleBarControl | undefined
@@ -64,10 +64,12 @@ function getMapScale (): number {
 }
 
 onMounted((): void => {
+  // Initialize view
   const view = new OlView()
   view.setConstrainResolution(false)
   view.setRotation(0)
 
+  // Allow clicking the scale bar to force a 1:1000 scale
   if (store.state.planproModelType === PlanProModelType.SITEPLAN) {
     scaleLine = new ScaleBarControl(() => {
       scaleLocked.value = Configuration.getInternalDefaultLodScale()
@@ -81,7 +83,9 @@ onMounted((): void => {
 
     map.addControl(scaleLine)
 
+    // Reapply zoom level after moving
     map.on('rendercomplete', () => {
+      // Allow a minimal offset to avoid constant rescaling
       const ALLOWED_OFFSET = 0.01
 
       if (!scaleLocked.value) {
@@ -99,6 +103,8 @@ onMounted((): void => {
   }
 
   map.once('rendercomplete', () => {
+    // the export to image should have high resolution
+    // than scale value to avoid blurred symbols.
     const scaleValue = Configuration.getExportScaleValue() / 4
     if (store.state.pixelPerMeterAtScale.has(scaleValue)) {
       return
@@ -113,6 +119,7 @@ onMounted((): void => {
         return
       }
 
+      // Set the pixel per meter value in the store
       store.commit('setPixelProMeter', {
         scaleValue: Configuration.getExportScaleValue() / 4,
         ppm: Math.round(pixelProMeter)
@@ -122,6 +129,7 @@ onMounted((): void => {
     })
   })
 
+  // Disable locked scale after manually zooming
   map.on('movestart', e => {
     const previousZoom = e.frameState?.viewState.zoom
     const currentZoom = map.getView().getZoom()

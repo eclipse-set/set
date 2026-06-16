@@ -23,7 +23,7 @@
           :key="feature.getId()"
           @click="selectedItem(feature)"
         >
-          {{ getFeatureName(feature) }}: {{ getLabel(feature) }}
+          {{ getFeatureName(getFeatureType(feature)) }}: {{ getFeatureLabel(feature) }}
         </li>
       </ul>
     </div>
@@ -59,7 +59,7 @@ import {
   FlashFeatureData,
   getFeatureData,
   getFeatureLabel,
-  getFeatureName as getFeatureNameOfType,
+  getFeatureName,
   getFeatureType
 } from '@/feature/FeatureInfo'
 import { SignalMount } from '@/model/SignalMount'
@@ -157,14 +157,6 @@ function getFeatures (): Feature<Geometry>[] {
 
     return ele
   })
-}
-
-function getFeatureName (feature: Feature<Geometry>): string {
-  return getFeatureNameOfType(getFeatureType(feature))
-}
-
-function getLabel (feature: Feature<Geometry>): string {
-  return getFeatureLabel(feature)
 }
 
 function isMultiFeature (): boolean {

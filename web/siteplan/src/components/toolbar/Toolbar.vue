@@ -48,14 +48,15 @@
 import FeatureSearch from '@/components/development/FeatureSearch.vue'
 import Configuration from '@/util/Configuration'
 import { onMounted, ref, watch } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
 /**
  * Lageplan Toolbar
  * @author Truong
  */
-const emit = defineEmits(['show-menu'])
+const emit = defineEmits<{ 'show-menu': [value: boolean], }>()
 
+const route = useRoute()
 const router = useRouter()
 const developmentOptions = ref(false)
 const homeBtnColor = ref('')
@@ -63,7 +64,7 @@ const symbolBtnColor = ref('')
 const menuBtnColor = ref('')
 const onSelectBtnColor = ref('#848484')
 
-watch(router.currentRoute, currentRoute => {
+watch(route, currentRoute => {
   resetBtnColor()
   switch (currentRoute.path) {
     case '/':
@@ -93,7 +94,7 @@ function toSvgCatalog (): void {
 }
 
 function isCatalogPage (): boolean {
-  const currentpath = router.currentRoute.value.path
+  const currentpath = route.path
   return currentpath === '/svg'
 }
 
