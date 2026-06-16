@@ -9,6 +9,7 @@
 package org.eclipse.set.feature.table.pt1.ssks;
 
 import static org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum.ASC;
+import static org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum.DESC;
 import static org.eclipse.set.feature.table.pt1.ssks.SsksColumns.*;
 import static org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparatorType.EMPTY_LAST;
 import static org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparatorType.LEXICOGRAPHICAL;
@@ -116,8 +117,7 @@ public final class SsksTransformationService extends
 	public Comparator<RowGroup> getRowGroupComparator(
 			final TableType tableType) {
 		return TableRowGroupComparator.builder(tableType)
-				.sort(Reales_Signal, EMPTY_LAST, ASC)
-				.sort(Fiktives_Signal, EMPTY_LAST, ASC)
+				.sort(Fiktives_Signal, EMPTY_LAST, DESC)
 				// It can be directly compare by Column E/F but for consistent
 				// with another table the CompareRouteAndKm will be used.
 				.sortByRouteAndKm(obj -> {
