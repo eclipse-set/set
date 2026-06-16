@@ -21,7 +21,6 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.eclipse.set.basis.graph.TopPoint;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
@@ -37,7 +36,6 @@ import org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt;
 import org.eclipse.set.model.planpro.Signale.Signal;
 import org.eclipse.set.model.planpro.Signale.Signal_Befestigung;
 import org.eclipse.set.model.planpro.Signale.Signal_Rahmen;
-import org.eclipse.set.model.planpro.Verweise.ID_Regelzeichnung_TypeClass;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.TableRow;
@@ -50,6 +48,7 @@ import org.eclipse.set.ppmodel.extensions.SignalRahmenExtensions;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.eclipse.set.ppmodel.extensions.geometry.GEOKanteGeometryExtensions;
 import org.eclipse.set.utils.math.BigDecimalExtensions;
+import org.eclipse.set.utils.table.AbstractTableModelTransformator;
 import org.eclipse.set.utils.table.RowFactory;
 import org.eclipse.set.utils.table.TMFactory;
 import org.eclipse.xtext.xbase.lib.Pair;
@@ -259,18 +258,7 @@ public abstract class AbstractSignalTableTransform
 
 		// konstruktive_Merkmale.Anordnung.Regelzeichnung
 		fillIterable(row, getRegelzeichnungColumn(), signalRahmen,
-				rahmen -> rahmen.stream().flatMap(r -> {
-					final Signal_Befestigung signalBefestigung = SignalRahmenExtensions
-							.getSignalBefestigung(r);
-					if (signalBefestigung == null) {
-						return Stream.empty();
-					}
-					return signalBefestigung.getIDRegelzeichnung()
-							.stream()
-							.map(ID_Regelzeichnung_TypeClass::getValue)
-							.filter(Objects::nonNull)
-							.map(z -> fillRegelzeichnung(z));
-				}).toList(), null);
+				rahmen -> transformRegelzeichnung(row, rahmen), null);
 
 		// konstruktive_Merkmale.Fundament.Art_Regelzeichnung
 		fillIterable(row, getArtRegelzeichnungColumn(), signalRahmen,
@@ -290,6 +278,40 @@ public abstract class AbstractSignalTableTransform
 						.toList(),
 				null,
 				value -> BigDecimalExtensions.toTableInteger(value, 1000));
+	}
+
+	protected Iterable<String> transformRegelzeichnung(final TableRow row,
+			final List<Signal_Rahmen> rahmen) {
+		// transform all regelzeichnungen of the signal befestigungen until the
+		// fundament
+		final List<String> regelzeichnungen = rahmen.stream().flatMap(r -> {
+			final List<Signal_Befestigung> befestigungen = new ArrayList<>();
+			befestigungen.add(SignalRahmenExtensions.getSignalBefestigung(r));
+			befestigungen.addAll(
+					SignalRahmenExtensions.getBefestigungUntilFundament(r));
+			return befestigungen.stream();
+		})
+				.flatMap(b -> b.getIDRegelzeichnung().stream())
+				.map(r -> EObjectExtensions
+						.getNullableObject(r, e -> e.getValue())
+						.orElse(null))
+				.filter(Objects::nonNull)
+				.map(AbstractTableModelTransformator::fillRegelzeichnung)
+				.toList();
+		// transform all regelzeichnungen of the signal rahmen itself
+		final List<String> rahmenRegelzeichungen = rahmen.stream()
+				.map(r -> EObjectExtensions
+						.getNullableObject(r,
+								e -> e.getIDRegelzeichnung().getValue())
+						.orElse(null))
+				.filter(Objects::nonNull)
+				.map(AbstractTableModelTransformator::fillRegelzeichnung)
+				.toList();
+		// collect them
+		final Set<String> result = new HashSet<>();
+		result.addAll(regelzeichnungen);
+		result.addAll(rahmenRegelzeichungen);
+		return result;
 	}
 
 	protected Iterable<String> transformRegelzeichnungArt(final TableRow row,
