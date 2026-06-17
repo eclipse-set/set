@@ -29,7 +29,7 @@
 			<unit id="org.apache.batik.constants" version="1.19.0.v20250506-1400"/>
 			<unit id="org.apache.batik.util" version="1.19.0.v20250506-1400"/>
 			<unit id="org.apache.batik.css" version="1.19.0.v20250506-1400"/>
-      		<unit id="org.apache.batik.i18n" version="1.19.0.v20250506-1400"/>
+			<unit id="org.apache.batik.i18n" version="1.19.0.v20250506-1400"/>
 			<unit id="org.apache.commons.codec" version="1.14.0.v20221112-0806"/>
 			<unit id="org.apache.commons.commons-collections4" version="4.5.0"/>
 			<unit id="org.apache.commons.commons-io" version="2.21.0"/>
@@ -59,10 +59,10 @@
 			<unit id="jakarta.servlet-api" version="6.1.0"/>
 			<unit id="javax.activation" version="1.2.2.v20221203-1659"/>
 			<unit id="slf4j.api" version="2.0.17"/>
-      		<unit id="org.eclipse.emf.ecore.feature.group" version="2.42.0.v20251025-0946"/>
-      <repository location="https://download.eclipse.org/releases/2025-12/"/>
+			<unit id="org.eclipse.emf.ecore.feature.group" version="2.42.0.v20251025-0946"/>
+			<repository location="https://download.eclipse.org/releases/2025-12/"/>
 		</location>
-    <!-- Needed for Eclipse EMF ECP-->
+		<!-- Needed for Eclipse EMF ECP-->
 		<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="slicer" includeSource="true" type="InstallableUnit">
 			<unit id="javax.inject" version="0.0.0"/>
 			<repository location="https://download.eclipse.org/releases/2023-09/"/>
@@ -81,7 +81,7 @@
 			<unit id="junit-platform-suite-api" version="1.14.1"/>
 			<unit id="junit-platform-suite-commons" version="1.14.1"/>
 			<unit id="junit-platform-suite-engine" version="1.14.1"/>
-	      	<unit id="junit-vintage-engine" version="5.14.1"/>
+			<unit id="junit-vintage-engine" version="5.14.1"/>
 			<unit id="org.apiguardian.api" version="1.1.2"/>
 			<unit id="org.junit" version="4.13.2.v20240929-1000"/>
 			<unit id="org.opentest4j" version="1.3.0"/>
@@ -102,8 +102,8 @@
 			<unit id="org.eclipse.ui.views.log" version="1.4.1000.v20251030-0811"/>
 			<unit id="org.mockito.mockito-core" version="5.20.0"/>
 			<unit id="org.objenesis" version="3.4.0"/>
-      		<unit id="org.tukaani.xz" version="1.11.0"/>
-      		<repository location="https://download.eclipse.org/eclipse/updates/4.38/"/>
+			<unit id="org.tukaani.xz" version="1.11.0"/>
+			<repository location="https://download.eclipse.org/eclipse/updates/4.38/"/>
 		</location>
 		<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="slicer" includeSource="true" type="InstallableUnit">
 			<unit id="org.eclipse.babel.nls_eclipse_de.feature.group" version="0.0.0"/>
