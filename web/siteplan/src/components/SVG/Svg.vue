@@ -48,8 +48,8 @@ import { useRoute } from 'vue-router'
 const svgService = new SvgService()
 const mode = ref('')
 const listSignalGroup = ref<string[]>([])
-const mastList = ref<ISvgElement[]>([])
-const schirmList = ref<ISvgElement[]>([])
+const mastList = ref<ISvgElement[] | null | undefined>([])
+const schirmList = ref<ISvgElement[] | null | undefined>([])
 
 const route = useRoute()
 
@@ -81,11 +81,9 @@ function setMode (): void {
   }
 }
 
-setMode()
-
 watch(route, () => {
   setMode()
-})
+}, { immediate: true })
 
 watch(mode, value => {
   mastList.value = []
