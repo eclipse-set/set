@@ -11,8 +11,8 @@
     <h2>PZB Element</h2>
     <ul>
       <li>GUID: {{ pzb.guid }}</li>
-      <li>Typ: {{ pzbTypText() }}</li>
-      <li>Art: {{ pzbArtText() }}</li>
+      <li>Typ: {{ pzbTypText }}</li>
+      <li>Art: {{ pzbArtText }}</li>
       <RouteInfo :feature="pzb" />
       <li>Planungsbereich: {{ planningObject }}</li>
     </ul>
@@ -43,7 +43,7 @@ const pzb = computed<PZB>(() => getFeatureData(props.feature))
 const planningObject = computed(() =>
   isPlanningObject(getFeatureGUID(props.feature)) ? 'Ja' : 'Nein')
 
-function pzbArtText (): string {
+const pzbArtText = computed<string>(() => {
   switch (pzb.value.element) {
     case PZBElement.F500Hz:
       return '500Hz'
@@ -56,9 +56,9 @@ function pzbArtText (): string {
     default:
       return 'Unbekannt'
   }
-}
+})
 
-function pzbTypText (): string {
+const pzbTypText = computed<string>(() => {
   switch (pzb.value.type) {
     case PZBType.GM:
       return 'Gleismagnet'
@@ -69,5 +69,5 @@ function pzbTypText (): string {
     default:
       return 'Unbekannt'
   }
-}
+})
 </script>
