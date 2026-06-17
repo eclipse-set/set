@@ -1,11 +1,11 @@
 <!--
- * Copyright (c) 2021 DB Netz AG and others.
- *
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v2.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v20.html
- -->
+* Copyright (c) 2021 DB Netz AG and others.
+*
+* All rights reserved. This program and the accompanying materials
+* are made available under the terms of the Eclipse Public License v2.0
+* which accompanies this distribution, and is available at
+* http://www.eclipse.org/legal/epl-v20.html
+-->
 <template>
   <div>
     <ul id="katalogMenu">
@@ -13,6 +13,7 @@
         id="katalog"
         tabindex="1"
         class="menuItem"
+        :class="{ active: mode === 'katalog' }"
         @click="onSelected('katalog')"
       >
         <a>Katalog</a>
@@ -21,6 +22,7 @@
         id="einzeln"
         tabindex="2"
         class="menuItem"
+        :class="{ active: mode === 'einzeln' }"
         @click="onSelected('einzeln')"
       >
         <a>Einzelnes Signal</a>
@@ -29,6 +31,7 @@
         id="bruecke"
         tabindex="3"
         class="menuItem"
+        :class="{ active: mode === 'bruecke' }"
         @click="onSelected('bruecke')"
       >
         <a>Signalbrücke und -ausleger</a>
@@ -38,23 +41,17 @@
 </template>
 <script setup lang="ts">
 /**
- * Menu of Catalog Page
- * @author Truong
- */
+* Menu of Catalog Page
+* @author Truong
+*/
 
-import { onMounted } from 'vue'
+import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 const route = useRoute()
 const router = useRouter()
 
-onMounted(() => {
-  const mode = route.query.mode
-  if (mode) {
-    const ele = document.getElementById(mode.toString())
-    ele?.focus()
-  }
-})
+const mode = computed(() => route.query.mode)
 
 function onSelected (value: string): void {
   router.push({
@@ -86,7 +83,8 @@ function onSelected (value: string): void {
   background: #4a4a48;
 }
 
-.menuItem:focus {
+.menuItem:focus,
+.menuItem.active {
   background: #7a7a79;
 }
 
