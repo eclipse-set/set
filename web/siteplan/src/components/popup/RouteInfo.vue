@@ -33,8 +33,7 @@ import { RouteObject } from '@/model/RouteObject'
  */
 
 const props = defineProps<{
-  feature: object
+  feature: RouteObject
 }>()
-
-const entries = computed(() => (props.feature as RouteObject).routeLocations)
+const entries = computed(() => props.feature.routeLocations)
 </script>
