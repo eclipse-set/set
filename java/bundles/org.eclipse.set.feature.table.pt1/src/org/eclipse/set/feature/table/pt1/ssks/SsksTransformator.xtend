@@ -134,7 +134,7 @@ class SsksTransformator extends AbstractSignalTableTransform {
 
 	static val SIGNALBEGRIFF_COMPARATOR = new MixedStringComparator(
 		"(?<letters1>[A-Za-z]*)(?<number>[0-9]*)(?<letters2>[A-Za-z]*)")
-	static val inRelevantFiktivFunktion = #[
+	static val irrelevantFiktivFunktion = #[
 		ENUM_FIKTIVES_SIGNAL_FUNKTION_ZUG_START_ZIEL_BK_MIT_ZS_1,
 		ENUM_FIKTIVES_SIGNAL_FUNKTION_ZUG_START_ZIEL_BK_MIT_ZS_7,
 		ENUM_FIKTIVES_SIGNAL_FUNKTION_ZUG_START_ZIEL_NE_14_MIT_ZS_1,
@@ -643,7 +643,7 @@ class SsksTransformator extends AbstractSignalTableTransform {
 	private static def boolean isSsksSignal(Signal signal) {
 		if (signal?.signalFiktiv !== null &&
 			!signal?.signalFiktiv?.fiktivesSignalFunktion.exists [
-				inRelevantFiktivFunktion.contains(it)
+				irrelevantFiktivFunktion.contains(it)
 			]) {
 			return true
 		}
