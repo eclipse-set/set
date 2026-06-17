@@ -86,10 +86,10 @@ import type { Ref } from 'vue'
  * @author Peters
  */
 
-const featureLayers = ref([]) as Ref<NamedFeatureLayer[]>
-const dragTargetLayer = ref(null) as Ref<NamedFeatureLayer | null>
+const featureLayers: Ref<NamedFeatureLayer[]> = ref([])
+const dragTargetLayer: Ref<NamedFeatureLayer | null> = ref(null)
 const dragInsertBefore = ref(false)
-const draggedLayer = ref(null) as Ref<NamedFeatureLayer | null>
+const draggedLayer: Ref<NamedFeatureLayer | null> = ref(null)
 
 const unsubscribe = store.subscribe((m, s) => {
   if (m.type === 'setFeatureLayers') {
