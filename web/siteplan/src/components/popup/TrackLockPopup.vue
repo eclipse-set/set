@@ -15,7 +15,7 @@
       <li v-if="tracklockType">
         Typ: {{ tracklockType }}
       </li>
-      <li>Stellart: {{ operatingModeToText() }}</li>
+      <li>Stellart: {{ operatingModeToText }}</li>
       <RouteInfo :feature="tracklock" />
       <li>Planungsbereich: {{ planningObject }}</li>
     </ul>
@@ -57,7 +57,7 @@ const trackLockLabel = computed(() => {
   return getFeatureLabel(props.feature)
 })
 
-function operatingModeToText (): string {
+const operatingModeToText = computed<string>(() => {
   if (!tracklock.value) {
     return 'Unbestimmt'
   }
@@ -72,5 +72,5 @@ function operatingModeToText (): string {
     default:
       return 'Unbestimmt'
   }
-}
+})
 </script>

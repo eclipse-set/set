@@ -13,7 +13,7 @@
       <li>GUID (Anlage): {{ trackSwitch.guid }}</li>
       <li>GUID (Element): {{ trackSwitchComponent.guid }}</li>
       <li>Bezeichnung: {{ trackSwitchComponent.label.text }}</li>
-      <li>Stellart: {{ operatingModeToText() }}</li>
+      <li>Stellart: {{ operatingModeToText }}</li>
       <li>
         Anzahl Zungenprüfkontakte: {{ trackSwitchComponent.pointDetectorCount }}
       </li>
@@ -50,16 +50,16 @@ const props = defineProps<{
   feature: Feature<Geometry>
 }>()
 
-function getData (): TrackSwitchFeatureData | undefined {
+const data = computed<TrackSwitchFeatureData | undefined>(() => {
   return getFeatureData(props.feature) as TrackSwitchFeatureData | undefined
-}
+})
 
 const trackSwitch = computed<TrackSwitch>(() => {
-  return getData()?.trackSwitch as TrackSwitch
+  return data.value?.trackSwitch as TrackSwitch
 })
 
 const trackSwitchComponent = computed<TrackSwitchComponent>(() => {
-  return getData()?.component as TrackSwitchComponent
+  return data.value?.component as TrackSwitchComponent
 })
 
 const planningObject = computed(() => {
@@ -70,7 +70,7 @@ const trackSwitchLabel = computed(() => {
   return getFeatureLabel(props.feature)
 })
 
-function operatingModeToText (): string {
+const operatingModeToText = computed<string>(() => {
   switch (trackSwitchComponent.value.operatingMode) {
     case TurnoutOperatingMode.ElectricRemote:
       return 'elektrisch ferngestellt'
@@ -93,5 +93,5 @@ function operatingModeToText (): string {
     default:
       return 'Unbestimmt'
   }
-}
+})
 </script>

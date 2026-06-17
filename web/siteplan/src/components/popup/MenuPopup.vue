@@ -9,12 +9,12 @@
 <template>
   <div>
     <span
-      v-if="isMultiFeature() && selectedFeature"
+      v-if="isMultiFeature && selectedFeature"
       id="popup-back"
       class="material-icons"
       @click="backToMenu"
     >arrow_back</span>
-    <div v-if="isMultiFeature() &&!selectedFeature">
+    <div v-if="isMultiFeature &&!selectedFeature">
       <h2>Bitte ein Objekt auswählen</h2>
       <ul>
         <li
@@ -159,15 +159,15 @@ const features = computed(() => {
   })
 })
 
-function isMultiFeature (): boolean {
-  const selectedFeatures = features.value
-  if (selectedFeatures.length > 1) {
-    return true
-  }
+const isMultiFeature = computed(() => {
+  return features.value.length > 1
+})
 
-  selectedFeature.value = selectedFeatures[0]
-  return false
-}
+watch(features, () => {
+  if (features.value.length === 1) {
+    selectedFeature.value = features.value[0]
+  }
+})
 
 function backToMenu () {
   selectedFeature.value = null

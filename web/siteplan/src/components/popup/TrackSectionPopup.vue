@@ -14,8 +14,8 @@
         TOP_Kante: {{ trackGuid }}
       </li>
       <li>GUID: {{ trackSection.guid }}</li>
-      <li>Form: {{ trackTrackShapeToText() }}</li>
-      <li>Gleisart: {{ trackType() }}</li>
+      <li>Form: {{ trackTrackShapeToText }}</li>
+      <li>Gleisart: {{ trackType }}</li>
     </ul>
   </div>
 </template>
@@ -40,16 +40,16 @@ const props = defineProps<{
   feature: Feature<Geometry>
 }>()
 
-function getData (): TrackSectionFeatureData | undefined {
+const data = computed<TrackSectionFeatureData | undefined>(() => {
   return getFeatureData(props.feature) as TrackSectionFeatureData | undefined
-}
+})
 
 const trackSection = computed<TrackSection>(() => {
-  return getData()?.section as TrackSection
+  return data.value?.section as TrackSection
 })
 
 const trackSegment = computed<TrackSegment>(() => {
-  return getData()?.segment as TrackSegment
+  return data.value?.segment as TrackSegment
 })
 
 const trackLabel = computed(() => {
@@ -57,12 +57,12 @@ const trackLabel = computed(() => {
 })
 
 const trackGuid = computed(() => {
-  return getData()?.guid as string
+  return data.value?.guid as string
 })
 
 const isDevelopmentMode = Configuration.developmentMode()
 
-function trackTrackShapeToText (): string {
+const trackTrackShapeToText = computed<string>(() => {
   switch (trackSection.value.shape) {
     case TrackShape.Straight:
       return 'Gerade'
@@ -87,9 +87,9 @@ function trackTrackShapeToText (): string {
     default:
       return 'Unbekannt'
   }
-}
+})
 
-function trackType (): string {
+const trackType = computed<string>(() => {
   if (trackSegment.value.type.length === 0) {
     return 'Unbekannt'
   }
@@ -97,7 +97,7 @@ function trackType (): string {
   return trackSegment.value.type
     .map(type => trackTypeToText(type))
     .join(', ')
-}
+})
 
 function trackTypeToText (type: TrackType): string {
   switch (type) {
