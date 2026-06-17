@@ -18,7 +18,7 @@
       <h2>Bitte ein Objekt auswählen</h2>
       <ul>
         <li
-          v-for="feature in getFeatures()"
+          v-for="feature in features"
           id="menuItem"
           :key="feature.getId()"
           @click="selectedItem(feature)"
@@ -134,7 +134,7 @@ const selectedPopup = computed(() => {
   return emit('removePopup')
 })
 
-function getFeatures (): Feature<Geometry>[] {
+const features = computed(() => {
   if (props.features === null || !props.features) {
     return []
   }
@@ -157,10 +157,10 @@ function getFeatures (): Feature<Geometry>[] {
 
     return ele
   })
-}
+})
 
 function isMultiFeature (): boolean {
-  const selectedFeatures = getFeatures()
+  const selectedFeatures = features.value
   if (selectedFeatures.length > 1) {
     return true
   }
