@@ -32,7 +32,7 @@
       </div>
     </div>
 
-    <span v-html="drawElementInGroup()" />
+    <span v-html="html" />
   </div>
 </template>
 
@@ -40,7 +40,7 @@
 import { ISvgElement } from '@/model/SvgElement'
 import SvgDrawSignal from '@/util/SVG/Draw/SvgDrawSingleSignal'
 import { AndereSignalGroup } from '@/util/SVG/SvgEnum'
-import { ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 
 /**
  * Draw selected Signal Katalog with or without Mast
@@ -54,6 +54,8 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits(['select-signal-group'])
+
+const html = computed(() => drawElementInGroup())
 
 const selectedSignalGroup = ref('')
 const withMast = ref(false)

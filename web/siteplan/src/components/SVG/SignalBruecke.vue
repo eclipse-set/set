@@ -23,7 +23,7 @@
         </option>
       </select>
     </div>
-    <span v-html="draw()" />
+    <span v-html="html" />
   </div>
 </template>
 <script setup lang="ts">
@@ -33,7 +33,7 @@ import { ISvgElement, SvgBridgeSignal } from '@/model/SvgElement'
 import SvgService from '@/service/SvgService'
 import SvgDrawBridge, { SignalBridgePart } from '@/util/SVG/Draw/SvgDrawBridge'
 import { HauptVorSignalGroup } from '@/util/SVG/SvgEnum'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 
 /**
  * Draw Signal Bruecker with random count of Signal and Type of Signal
@@ -43,6 +43,8 @@ import { ref } from 'vue'
 const props = defineProps<{
   svgService: SvgService
 }>()
+
+const html = computed(() => draw())
 
 const listMast = [
   SignalMountType.SignalauslegerLinks,
@@ -78,4 +80,5 @@ function draw (): string | null {
   const result = SvgDrawBridge.draw('', bridgeScreen, selectedMast.value)
   return result.content.outerHTML
 }
+
 </script>
