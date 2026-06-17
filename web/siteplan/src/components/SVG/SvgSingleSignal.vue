@@ -66,7 +66,7 @@
         </div>
       </div>
     </div>
-    <span v-html="drawEinzelnSignal()" />
+    <span v-html="html" />
   </div>
 </template>
 
@@ -74,7 +74,7 @@
 import { ISvgElement, ZusatzSignal } from '@/model/SvgElement'
 import SvgDraw from '@/util/SVG/Draw/SvgDrawSingleSignal'
 import { ZusatzSignalBottom } from '@/util/SVG/SvgEnum'
-import { ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 
 /**
  * Draw Signal with selected Schirm, Mast and ZusatzSignal
@@ -83,12 +83,15 @@ import { ref, watch } from 'vue'
 
 const props = defineProps<{
   listsignalGroup: Array<string>
-  mastList: Array<ISvgElement>
-  listSchirm: Array<ISvgElement>
+  mastList: Array<ISvgElement> | null | undefined
+  listSchirm: Array<ISvgElement> | null | undefined
   zusatzSignal: Array<ZusatzSignal>
 }>()
 
-const emit = defineEmits(['select-signal-group', 'get-short-mast'])
+const emit = defineEmits<{
+  'select-signal-group': [value: string]
+  'get-short-mast': [value: string]
+}>()
 
 const selectedSignalGroup = ref('')
 const seletecSignalSchirm = ref<ISvgElement | null>(null)
@@ -110,8 +113,8 @@ watch(selectedZusatzSignal, (value: ISvgElement[]): void => {
   }
 })
 
-watch(() => props.mastList, (value: ISvgElement[]): void => {
-  if (selectedMast.value) {
+watch(() => props.mastList, (value: ISvgElement[] | null | undefined): void => {
+  if (selectedMast.value && value) {
     selectedMast.value = value.find(ele => ele.id === selectedMast.value?.id) ?? null
   }
 })
@@ -123,4 +126,6 @@ function drawEinzelnSignal (): string | null {
     selectedZusatzSignal.value
   ).content.outerHTML
 }
+
+const html = computed(() => drawEinzelnSignal())
 </script>
