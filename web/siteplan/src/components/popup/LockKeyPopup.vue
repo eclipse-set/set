@@ -12,7 +12,7 @@
     <ul>
       <li>GUID: {{ lockkey.guid }}</li>
       <li>Bezeichnung: {{ lockkey.label?.text }}</li>
-      <li>Typ: {{ getType }}</li>
+      <li>Typ: {{ type }}</li>
       <RouteInfo :feature="lockkey" />
       <li>Planungsbereich: {{ planningObject }}</li>
     </ul>
@@ -45,7 +45,7 @@ const planningObject = computed(() =>
 
 const lockKeyLabel = computed(() => getFeatureLabel(props.feature))
 
-const getType = computed(() => {
+const type = computed(() => {
   switch (lockkey.value.type) {
     case LockKeyType.Inside:
       return 'innen'
