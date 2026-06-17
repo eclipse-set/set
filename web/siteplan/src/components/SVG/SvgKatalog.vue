@@ -49,8 +49,8 @@ import { computed, ref, watch } from 'vue'
 
 const props = defineProps<{
   listsignalGroup: Array<string>
-  mastList: Array<ISvgElement>
-  listSchirm: Array<ISvgElement>
+  mastList: Array<ISvgElement> | null | undefined
+  listSchirm: Array<ISvgElement> | null | undefined
 }>()
 
 const emit = defineEmits(['select-signal-group'])
