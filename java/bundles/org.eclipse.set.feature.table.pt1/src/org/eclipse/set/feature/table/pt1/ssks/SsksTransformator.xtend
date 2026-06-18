@@ -50,7 +50,6 @@ import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.MsWsGeWs
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.MsWsRtWs
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.MsWsSwWs
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Ne14
-import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Ne2
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.OzBk
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Sh1
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Vr0
@@ -91,6 +90,18 @@ import org.osgi.service.event.EventAdmin
 import static org.eclipse.set.feature.table.pt1.ssks.SsksColumns.*
 import static org.eclipse.set.model.planpro.Ansteuerung_Element.ENUMAussenelementansteuerungArt.*
 import static org.eclipse.set.model.planpro.Signale.ENUMAnschaltdauer.*
+import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_ARBEITSBUEHNE
+import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_DACH_DECKE
+import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_OL_MAST
+import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_PFOSTEN_HOCH
+import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_PFOSTEN_NIEDRIG
+import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_MAST_HOCH
+import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_MAST_NIEDRIG
+import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_SONSTIGE_HOCH
+import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_SONSTIGE_NIEDRIG
+import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_SONDERANORDNUNG_MAST_HOCH
+import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_SONDERANORDNUNG_MAST_NIEDRIG
+import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_WAND
 import static org.eclipse.set.model.planpro.Signale.ENUMBeleuchtet.*
 import static org.eclipse.set.model.planpro.Signale.ENUMFiktivesSignalFunktion.*
 import static org.eclipse.set.model.planpro.Signale.ENUMGeltungsbereich.*
@@ -112,18 +123,6 @@ import static extension org.eclipse.set.ppmodel.extensions.StellelementExtension
 import static extension org.eclipse.set.ppmodel.extensions.UnterbringungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
-import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_MAST_HOCH
-import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_PFOSTEN_HOCH
-import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_SONDERANORDNUNG_MAST_HOCH
-import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_DACH_DECKE
-import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_ARBEITSBUEHNE
-import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_MAST_NIEDRIG
-import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_WAND
-import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_SONSTIGE_HOCH
-import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_PFOSTEN_NIEDRIG
-import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_SONSTIGE_NIEDRIG
-import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_OL_MAST
-import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_SONDERANORDNUNG_MAST_NIEDRIG
 
 /**
  * Table transformation for a Signaltabelle (Ssks).
@@ -268,6 +267,10 @@ class SsksTransformator extends AbstractSignalTableTransform {
 				signalReal?.signalRealAktivSchirm?.richtpunkt?.wert
 			]
 		)
+
+		// R: Ssks.konstruktive_Merkmale.Anordnung.Regelzeichnung
+		fillIterable(row, cols.getColumn(Anordnung_Regelzeichnung),
+			signalRahmen, [transformRegelzeichnungen(row, it)], null);
 
 		// S: Ssks.konstruktive_Merkmale.Obere_Lichtpunkthoehe
 		fillIterable(
@@ -677,6 +680,22 @@ class SsksTransformator extends AbstractSignalTableTransform {
 			( signalFunktion !== null &&
 				signalFunktion ==
 					ENUM_SIGNAL_FUNKTION_ALLEINSTEHENDES_ZUSATZSIGNAL)
+	}
+
+	private static def Iterable<String> transformRegelzeichnungen(TableRow row,
+		List<Signal_Rahmen> rahmen) {
+		// transform all regelzeichnungen of the signal befestigungen until the
+		// fundament
+		val regelzeichnungen = rahmen.flatMap [
+			#[#[it.signalBefestigung], it.befestigungUntilFundament].flatten
+		].flatMap[IDRegelzeichnung].map[r|r?.value].filterNull.map [
+			fillRegelzeichnung
+		].toList();
+		// transform all regelzeichnungen of the signal rahmen itself
+		val rahmenRegelzeichnungen = rahmen.map[IDRegelzeichnung?.value].
+			filterNull.map[fillRegelzeichnung].toList();
+		// collect them
+		return #[regelzeichnungen, rahmenRegelzeichnungen].flatten
 	}
 
 	private static def boolean hasSchaltkastenSeparatBezeichnung(
@@ -1204,10 +1223,6 @@ class SsksTransformator extends AbstractSignalTableTransform {
 
 	override protected getLichtraumProfilColumn() {
 		return cols.getColumn(Lichtraumprofil)
-	}
-
-	override protected getRegelzeichnungColumn() {
-		return cols.getColumn(Anordnung_Regelzeichnung)
 	}
 
 	override protected getStreckeColumn() {
