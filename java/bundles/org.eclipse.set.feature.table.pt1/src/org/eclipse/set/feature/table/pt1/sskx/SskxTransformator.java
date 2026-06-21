@@ -10,7 +10,19 @@
  */
 package org.eclipse.set.feature.table.pt1.sskx;
 
-import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.*;
+import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_ARBEITSBUEHNE;
+import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_DACH_DECKE;
+import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_OL_MAST;
+import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_PFOSTEN_HOCH;
+import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_PFOSTEN_NIEDRIG;
+import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_MAST_HOCH;
+import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_MAST_NIEDRIG;
+import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_SONSTIGE_HOCH;
+import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_SONSTIGE_NIEDRIG;
+import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_SCHIENENFUSS;
+import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_SONDERANORDNUNG_MAST_HOCH;
+import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_SONDERANORDNUNG_MAST_NIEDRIG;
+import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_WAND;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -40,6 +52,7 @@ import org.eclipse.set.model.planpro.Signalbegriffe_Struktur.Signalbegriff_ID_Ty
 import org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt;
 import org.eclipse.set.model.planpro.Signale.ENUMBeleuchtet;
 import org.eclipse.set.model.planpro.Signale.ENUMGeltungsbereich;
+import org.eclipse.set.model.planpro.Signale.ENUMSignalFunktion;
 import org.eclipse.set.model.planpro.Signale.Signal;
 import org.eclipse.set.model.planpro.Signale.Signal_Rahmen;
 import org.eclipse.set.model.planpro.Signale.Signal_Signalbegriff;
@@ -100,6 +113,13 @@ public class SskxTransformator extends AbstractSignalTableTransform {
 			if (signal.getSignalReal().getSignalRealAktiv() != null
 					|| signal.getSignalReal()
 							.getSignalRealAktivSchirm() != null) {
+				return false;
+			}
+
+			if (signal.getSignalReal().getSignalFunktion() != null && signal
+					.getSignalReal()
+					.getSignalFunktion()
+					.getWert() == ENUMSignalFunktion.ENUM_SIGNAL_FUNKTION_ALLEINSTEHENDES_ZUSATZSIGNAL) {
 				return false;
 			}
 
