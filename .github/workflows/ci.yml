@@ -217,7 +217,7 @@ jobs:
           if [[ ${{github.ref}} == "refs/heads/main" || "${{github.ref}}" == refs/tags/* ]]; then
             m2RepoPath="set-github::https://maven.pkg.github.com/${{ github.repository }}"
           fi
-          mvn ${{ env.MVN_FLAGS }} -f java/pom.xml deploy checkstyle:checkstyle -DaltDeploymentRepository="$m2RepoPath" -DskipTests
+          mvn -U ${{ env.MVN_FLAGS }} -f java/pom.xml deploy checkstyle:checkstyle -DaltDeploymentRepository="$m2RepoPath" -DskipTests
         env:
           GITHUB_TOKEN: ${{ github.token }}
       

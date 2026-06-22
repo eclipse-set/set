@@ -70,36 +70,31 @@ public class SsksTablePdfExportBuilder extends FopPdfExportBuilder {
 	@Override
 	public List<String> getPageBreakRowsIndex(final Table table) {
 		final List<String> result = new ArrayList<>();
-		List.of(SsksColumns.Fiktives_Signal, SsksColumns.Reales_Signal)
-				.forEach(columnPosition -> {
-					final ColumnDescriptor col = TableExtensions
-							.getColumns(table)
-							.stream()
-							.filter(column -> column.getColumnPosition()
-									.equals(columnPosition))
-							.findFirst()
-							.orElse(null);
-					final Optional<Integer> lastRowIndex = getLastRowIndex(
-							table, col);
-					if (lastRowIndex.isPresent()) {
-						result.add(lastRowIndex.get().toString());
-					}
-				});
+		List.of(SsksColumns.Fiktives_Signal).forEach(columnPosition -> {
+			final ColumnDescriptor col = TableExtensions.getColumns(table)
+					.stream()
+					.filter(column -> column.getColumnPosition()
+							.equals(columnPosition))
+					.findFirst()
+					.orElse(null);
+			final Optional<Integer> firstRowIndex = getFirstRowIndex(table,
+					col);
+			if (firstRowIndex.isPresent()) {
+				result.add(firstRowIndex.get().toString());
+			}
+		});
 		return result;
 	}
 
-	private static Optional<Integer> getLastRowIndex(final Table table,
+	private static Optional<Integer> getFirstRowIndex(final Table table,
 			final ColumnDescriptor column) {
 		final List<Entry<Integer, TableRow>> signalEntries = getSignalEntries(
 				table, column);
-		final Optional<Entry<Integer, TableRow>> collect = signalEntries
-				.stream()
+		final Optional<Integer> collect = signalEntries.stream()
+				.map(Map.Entry::getKey)
 				.collect(Collectors
-						.maxBy(Comparator.comparingInt(Map.Entry::getKey)));
-		if (collect.isPresent()) {
-			return Optional.of(collect.get().getKey());
-		}
-		return Optional.empty();
+						.minBy(Comparator.comparingInt((i) -> i.intValue())));
+		return collect;
 	}
 
 	private static List<Entry<Integer, TableRow>> getSignalEntries(
@@ -110,7 +105,7 @@ public class SsksTablePdfExportBuilder extends FopPdfExportBuilder {
 		final List<TableRow> tableRows = TableExtensions.getTableRows(table);
 		return tableRows.stream()
 				.collect(Collectors.toMap(
-						e -> Integer.valueOf(tableRows.indexOf(e) + 1),
+						e -> Integer.valueOf(tableRows.indexOf(e)),
 						Function.identity()))
 				.entrySet()
 				.parallelStream()
