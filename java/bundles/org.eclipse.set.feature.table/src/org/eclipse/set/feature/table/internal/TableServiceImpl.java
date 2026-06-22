@@ -697,6 +697,7 @@ public final class TableServiceImpl implements TableService {
 		Table mainSessionTable = null;
 		final TableStatus tableStatus = tablesStatus.computeIfAbsent(tableInfo,
 				k -> new TableStatus());
+		tableStatus.reset();
 		try {
 			mainSessionTable = transformToTable(tableInfo, tableType,
 					sessionService.getLoadedSession(ToolboxFileRole.SESSION),
@@ -721,6 +722,8 @@ public final class TableServiceImpl implements TableService {
 			broker.post(Events.TABLEERROR_CHANGED, null);
 			// Give empty table back
 			return createEmptyTable(tableInfo);
+		} finally {
+			broker.post(Events.TABLEERROR_CHANGED, null);
 		}
 
 		if (mainSessionTable == null) {
@@ -751,6 +754,8 @@ public final class TableServiceImpl implements TableService {
 			tableStatus
 					.setEmpty(TableExtensions.isTableEmpty(mainSessionTable));
 			return mainSessionTable;
+		} finally {
+			broker.post(Events.TABLEERROR_CHANGED, null);
 		}
 	}
 

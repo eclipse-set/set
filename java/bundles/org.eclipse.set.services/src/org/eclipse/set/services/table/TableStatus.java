@@ -26,6 +26,13 @@ public class TableStatus {
 	 * 
 	 */
 	public TableStatus() {
+		reset();
+	}
+
+	/**
+	 * Resets the table status flag to their initial values
+	 */
+	public void reset() {
 		containsErrors = false;
 		containsPlanChanged = false;
 		containsStateChanged = false;
