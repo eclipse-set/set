@@ -77,7 +77,7 @@ import { computed, shallowRef, watch } from 'vue'
 
 const props = defineProps<{
   features: Feature<Geometry>[]
-  mouseButton: string
+  mouseButton: LeftRight | null
 }>()
 
 const emit = defineEmits(['removePopup'])
