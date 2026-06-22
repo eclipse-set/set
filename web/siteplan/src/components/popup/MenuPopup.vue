@@ -80,7 +80,7 @@ const props = defineProps<{
   mouseButton: LeftRight | null
 }>()
 
-const emit = defineEmits(['removePopup'])
+const emit = defineEmits<{ removePopup: [], }>()
 
 const selectedFeature = shallowRef<Feature<Geometry> | null>(null)
 

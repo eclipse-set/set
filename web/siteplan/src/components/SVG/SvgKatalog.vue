@@ -53,7 +53,7 @@ const props = defineProps<{
   listSchirm: Array<ISvgElement> | null | undefined
 }>()
 
-const emit = defineEmits(['select-signal-group'])
+const emit = defineEmits<{ 'select-signal-group': [value: string], }>()
 
 const html = computed(() => drawElementInGroup())
 
