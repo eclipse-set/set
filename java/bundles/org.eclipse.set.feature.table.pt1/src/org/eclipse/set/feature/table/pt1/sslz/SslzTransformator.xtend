@@ -97,7 +97,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 				return null
 			}
 			val instance = factory.newTableRow(fstrZugRangier)
-			val nextBlockFstr = fstrZugRangier.nextBlockFstrZugRangier
+			val nextBlockFstr = fstrZugRangier.recursiveNextBlockFstrZugRangier
 
 			// A: Sslz.Grundsatzangaben.Bezeichnung
 			fill(
@@ -113,13 +113,11 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 			])
 
 			// C: Sslz.Grundsatzangaben.Fahrweg.Ziel
-			fillConditional(
+			fill(
 				instance,
 				cols.getColumn(Ziel),
 				fstrZugRangier,
-				[nextBlockFstr.nullOrEmpty],
-				[fahrwegZiel],
-				[fahrwegZielBlock(nextBlockFstr)]
+				[followBlocks([fahrwegZiel], nextBlockFstr)]
 			)
 
 			// D: Sslz.Grundsatzangaben.Fahrweg.Nummer
@@ -163,13 +161,15 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 				instance,
 				cols.getColumn(Art),
 				fstrZugRangier,
-				[fstrZugArt]
+				[followBlocks([fstrZugArt], nextBlockFstr)]
 			)
 
 			// H: Sslz.Einstellung.Autom_Einstellung
 			fill(instance, cols.getColumn(Autom_Einstellung), fstrZugRangier, [
-				fstrZugRangier?.fstrZug?.automatischeEinstellung?.
-					translate ?: ""
+				followBlocks([
+					fstrZugRangier?.fstrZug?.automatischeEinstellung?.
+						translate ?: ""
+				], nextBlockFstr)
 			])
 
 			// I: Sslz.Einstellung.F_Bedienung
@@ -178,8 +178,10 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 				cols.getColumn(F_Bedienung),
 				fstrZugRangier,
 				[
-					fstrZugRangier?.fstrZugRangierAllg?.FBedienung?.wert?.
-						translate ?: ""
+					followBlocks([
+						fstrZugRangier?.fstrZugRangierAllg?.FBedienung?.wert?.
+							translate ?: ""
+					], nextBlockFstr)
 				]
 			)
 
@@ -583,17 +585,14 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 			bezeichnungTabelle?.wert
 	}
 
-	private def String fahrwegZielBlock(
-		Fstr_Zug_Rangier fstrZugRangier,
-		Iterable<Fstr_Zug_Rangier> nextBlockFstr
-	) {
-		val ziel = fstrZugRangier?.IDFstrFahrweg?.value?.IDZiel?.value as Signal
-		val blockSignale = nextBlockFstr.map [
-			(IDFstrFahrweg?.value?.IDZiel?.value as Signal)?.bezeichnung?.
-				bezeichnungTabelle?.wert
+	private def followBlocks(Fstr_Zug_Rangier fstrZugRangier,
+		(Fstr_Zug_Rangier)=>String fn,
+		Iterable<Fstr_Zug_Rangier> nextBlockFstr) {
+		val rootContent = fn.apply(fstrZugRangier)
+		val blockContent = nextBlockFstr.map [
+			fn.apply(it)
 		].filterNull.join(" ")
-
-		return '''«ziel?.bezeichnung?.bezeichnungTabelle?.wert» [«blockSignale»]'''
+		return '''«rootContent»«IF !blockContent.empty» [«blockContent»]«ENDIF»'''
 	}
 
 	private def String fahrwegNummer(
