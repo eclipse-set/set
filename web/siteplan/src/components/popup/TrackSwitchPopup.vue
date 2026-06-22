@@ -12,7 +12,7 @@
     <ul>
       <li>GUID (Anlage): {{ trackSwitch.guid }}</li>
       <li>GUID (Element): {{ trackSwitchComponent.guid }}</li>
-      <li>Bezeichnung: {{ trackSwitchComponent.label.text }}</li>
+      <li>Bezeichnung: {{ trackSwitchComponent.label?.text }}</li>
       <li>Stellart: {{ operatingModeToText }}</li>
       <li>
         Anzahl Zungenprüfkontakte: {{ trackSwitchComponent.pointDetectorCount }}
