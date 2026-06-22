@@ -30,6 +30,7 @@ import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.set.basis.Pair;
 import org.eclipse.set.basis.constants.Events;
+import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.core.services.part.ToolboxPartService;
 import org.eclipse.set.feature.table.internal.TableServiceUtils;
@@ -113,12 +114,19 @@ public class TableOverviewPart extends BasePart {
 	private EventHandler comparePlaningLoadedHandler;
 	private boolean ignoreChangeEvent = false;
 	private Set<String> controlAreaIds = new HashSet<>();
+	private TableType tableType = null;
+
+	@Override
+	public TableType getTableType() {
+		return tableType;
+	}
 
 	@PostConstruct
 	void postConstruct() {
 		selectionControlAreaHandler = new DefaultToolboxEventHandler<>() {
 			@Override
 			public void accept(final SelectedControlAreaChangedEvent t) {
+				tableType = t.getTableType();
 				controlAreaIds = t.getControlAreas()
 						.stream()
 						.map(ControlAreaValue::areaId)
@@ -161,6 +169,9 @@ public class TableOverviewPart extends BasePart {
 
 	@Override
 	protected void createView(final Composite parent) {
+		// initialize table type
+		tableType = getModelSession().getTableType();
+
 		controlAreaIds = getModelSession().getSelectedControlAreas()
 				.stream()
 				.map(Pair::getSecond)
