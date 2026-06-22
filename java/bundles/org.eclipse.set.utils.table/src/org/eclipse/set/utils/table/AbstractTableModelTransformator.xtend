@@ -225,9 +225,10 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 				fill(row, column, object, [content.get(0)])
 			} else {
 				fillIterable(row, column, object, [content],
-					switchCase.comparator, [it], switchCase.seperator === null
-						? ITERABLE_FILLING_SEPARATOR
-						: switchCase.seperator)
+					switchCase.comparator, [it],
+					switchCase.seperator ===
+						null ? ITERABLE_FILLING_SEPARATOR : switchCase.
+						seperator)
 			}
 		} catch (Exception e) {
 			handleFillingException(e, row, column)
@@ -297,10 +298,11 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 		S object,
 		(S)=>Iterable<String> sequence
 	) {
-		row.fillIterableWithSeparatorConditional(column, object, [true], sequence,
-			null, [it], [], ITERABLE_FILLING_SEPARATOR, true)
+		row.
+			fillIterableWithSeparatorConditional(column, object, [true],
+				sequence, null, [it], [], ITERABLE_FILLING_SEPARATOR, true)
 	}
-	
+
 	/**
 	 * Fill a row with a sequence of string values and handle exceptions.
 	 * 
@@ -479,13 +481,14 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 		(T)=>String elementFilling,
 		(S)=>String fillingIfFalse,
 		String separator,
-		boolean disableSorting 
+		boolean disableSorting
 	) {
 		try {
 			if (condition.apply(object).booleanValue) {
 				val list = sequenceIfTrue.apply(object).filterNull
-				val sortedList = disableSorting ? list : list.sortWith(
-					comparator)
+				val sortedList = disableSorting
+						? list
+						: list.sortWith(comparator)
 				val result = sortedList.map(elementFilling).filterNull
 				row.set(column, result, separator)
 			} else {
