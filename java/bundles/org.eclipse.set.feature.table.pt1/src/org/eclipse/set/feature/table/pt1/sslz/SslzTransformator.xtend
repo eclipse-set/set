@@ -113,7 +113,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 			])
 
 			// C: Sslz.Grundsatzangaben.Fahrweg.Ziel
-			fill(
+			fillIterable(
 				instance,
 				cols.getColumn(Ziel),
 				fstrZugRangier,
@@ -157,7 +157,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 				])
 
 			// G: Sslz.Grundsatzangaben.Art
-			fill(
+			fillIterable(
 				instance,
 				cols.getColumn(Art),
 				fstrZugRangier,
@@ -165,15 +165,16 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 			)
 
 			// H: Sslz.Einstellung.Autom_Einstellung
-			fill(instance, cols.getColumn(Autom_Einstellung), fstrZugRangier, [
-				followBlocks([
-					fstrZugRangier?.fstrZug?.automatischeEinstellung?.
-						translate ?: ""
-				], nextBlockFstr)
-			])
+			fillIterable(instance, cols.getColumn(Autom_Einstellung),
+				fstrZugRangier, [
+					followBlocks([
+						fstrZugRangier?.fstrZug?.automatischeEinstellung?.
+							translate ?: ""
+					], nextBlockFstr)
+				])
 
 			// I: Sslz.Einstellung.F_Bedienung
-			fill(
+			fillIterable(
 				instance,
 				cols.getColumn(F_Bedienung),
 				fstrZugRangier,
@@ -590,9 +591,13 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 		Iterable<Fstr_Zug_Rangier> nextBlockFstr) {
 		val rootContent = fn.apply(fstrZugRangier)
 		val blockContent = nextBlockFstr.map [
-			fn.apply(it)
-		].filterNull.join(" ")
-		return '''«rootContent»«IF !blockContent.empty» [«blockContent»]«ENDIF»'''
+			val content = fn.apply(it)
+			if (content === null || content.trim.length === 0) {
+				return null;
+			}
+			return '''[«content.trim»]'''
+		].filterNull
+		return #[ #[rootContent], blockContent].flatten
 	}
 
 	private def String fahrwegNummer(
