@@ -108,12 +108,12 @@ public class Messages {
 	public String TableOverviewPart_WithErrorsDesc;
 
 	/**
-	 * Enthalten Zustandsänderungen:
+	 * Enthalten Rot-/Gelb-Einträge:
 	 */
 	public String TableOverviewPart_WithStateChanges;
 
 	/**
-	 * Enthalten Planänderungen:
+	 * Enthalten besondere Änderungsmarkierungen:
 	 */
 	public String TableOverviewPart_WithPlanChanges;
 
