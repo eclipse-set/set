@@ -19,12 +19,14 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.UnaryOperator;
+import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -781,7 +783,12 @@ public final class TableServiceImpl implements TableService {
 	@Override
 	public Map<TableInfo, TableStatus> getTablesStatus(
 			final Pt1TableCategory tableCategory) {
-		return tablesStatus;
+		return tablesStatus.entrySet()
+				.stream()
+				.filter(entry -> entry.getKey()
+						.category()
+						.equals(tableCategory))
+				.collect(Collectors.toMap(Entry::getKey, Entry::getValue));
 	}
 
 	void clearInstance() {
