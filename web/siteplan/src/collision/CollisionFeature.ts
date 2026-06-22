@@ -35,7 +35,7 @@ export interface CollisionFeatureData {
 export default class CollisionFeature {
   public static addCollisionFeatures (layers: NamedFeatureLayer[]) {
     const features = layers.map(layer => layer.getSource())
-      .filter((c): c is VectorSource<Geometry> => c != null)
+      .filter((c): c is VectorSource => c != null)
       .flatMap(c => c.getFeatures())
 
     const layer = layers.find(c => c.getLayerType() === FeatureLayerType.Collision)
