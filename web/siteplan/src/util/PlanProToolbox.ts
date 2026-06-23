@@ -133,7 +133,7 @@ export default abstract class PlanProToolbox {
         clearInterval(intervalId)
       }
     }
-    intervalId = setInterval(jumpEvent, 200)
+    intervalId = window.setInterval(jumpEvent, 200)
   }
 
   /**
