@@ -193,6 +193,19 @@ public class SskxTransformator extends AbstractSignalTableTransform {
 				MIXED_STRING_COMPARATOR, s -> s,
 				SIGNAL_BEGRIFFE_BEZEICHNUNG_SEPERATOR);
 
+		// N: Sskx.Signalisierung.Signalbegriffe.Regelzeichnung
+		fillIterable(row,
+				getColumn(cols, SskxColumns.Signalbegriffe_Regelzeichnung),
+				signalRahmen, rahmen -> {
+					return rahmen.stream().map(r -> {
+						if (r.getIDRegelzeichnung() == null) {
+							return null;
+						}
+						return fillRegelzeichnung(
+								r.getIDRegelzeichnung().getValue());
+					}).filter(Objects::nonNull).toList();
+				});
+
 		// Sskx.Bermerkung
 		fillFootnotes(row, signal);
 		fillIterable(row, getColumn(cols, SskxColumns.Bemerkung), signalRahmen,
