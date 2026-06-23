@@ -108,6 +108,21 @@ public class Messages {
 	public String TableOverviewPart_WithErrorsDesc;
 
 	/**
+	 * Enthalten Rot-/Gelb-Einträge:
+	 */
+	public String TableOverviewPart_WithStateChanges;
+
+	/**
+	 * Enthalten besondere Änderungsmarkierungen:
+	 */
+	public String TableOverviewPart_WithPlanChanges;
+
+	/**
+	 * Leere Tabellen:
+	 */
+	public String TableOverviewPart_EmptyTable;
+
+	/**
 	 * Debug-Mode: Tabellen können immer wieder neu überprüft werden
 	 */
 	public String TableOverviewPart_DebugModeHint;
@@ -197,5 +212,4 @@ public class Messages {
 	 * vollständig darstellen
 	 */
 	public String TableTransform_Error_Msg;
-
 }

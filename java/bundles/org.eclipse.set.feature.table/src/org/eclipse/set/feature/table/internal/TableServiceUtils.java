@@ -20,7 +20,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Optional;
@@ -50,6 +49,7 @@ import org.eclipse.set.model.tablemodel.CellContent;
 import org.eclipse.set.model.tablemodel.CompareFootnoteContainer;
 import org.eclipse.set.model.tablemodel.CompareStateCellContent;
 import org.eclipse.set.model.tablemodel.CompareTableCellContent;
+import org.eclipse.set.model.tablemodel.PlanCompareRow;
 import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.model.tablemodel.SimpleFootnoteContainer;
 import org.eclipse.set.model.tablemodel.StringCellContent;
@@ -195,8 +195,7 @@ public class TableServiceUtils {
 			final TableService tableService, final IModelSession modelSession,
 			final Set<String> controlAreaIds,
 			final Pt1TableCategory tableCategory) {
-		final Map<TableInfo, Collection<TableError>> computedErrors = tableService
-				.getTableErrors(modelSession, controlAreaIds, tableCategory);
+
 		final Collection<TableInfo> allTableInfos = tableService
 				.getAvailableTables()
 				.stream()
@@ -209,8 +208,10 @@ public class TableServiceUtils {
 		if (!ToolboxConfiguration.isDebugMode()) {
 			// in debug mode we want to be able to recompute the errors
 			// that's why we mark all as missing
-			missingTables
-					.removeIf(info -> computedErrors.keySet().contains(info));
+			missingTables.removeIf(
+					info -> tableService.getTablesStatus(tableCategory)
+							.keySet()
+							.contains(info));
 		}
 		return missingTables;
 	}
@@ -716,4 +717,31 @@ public class TableServiceUtils {
 				&& oldValues.stream().allMatch(newValues::contains);
 	}
 
+	/**
+	 * @param table
+	 *            the table
+	 * @param cellContentClass
+	 *            the compare cell content class {@link CompareStateCellContent}
+	 *            or {@link CompareTableCellContent}
+	 * @return true, if exist compare cell
+	 */
+	public static boolean isTableExistChangedCompareContent(final Table table,
+			final Class<? extends CellContent> cellContentClass) {
+		if (cellContentClass != CompareTableCellContent.class
+				&& cellContentClass != CompareStateCellContent.class) {
+			throw new IllegalArgumentException(
+					"CellContent isn't CompareCellContent"); //$NON-NLS-1$
+		}
+		final List<TableRow> tableRows = TableExtensions.getTableRows(table);
+		if (cellContentClass == CompareTableCellContent.class
+				&& tableRows.stream()
+						.anyMatch(PlanCompareRow.class::isInstance)) {
+			return true;
+		}
+		return tableRows.stream()
+				.flatMap(row -> row.getCells().stream())
+				.filter(Objects::nonNull)
+				.anyMatch(cell -> cell.getContent() != null
+						&& cellContentClass.isInstance(cell.getContent()));
+	}
 }

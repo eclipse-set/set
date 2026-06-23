@@ -98,6 +98,7 @@ import org.eclipse.set.services.export.ExportService;
 import org.eclipse.set.services.export.TableCompileService;
 import org.eclipse.set.services.table.TableService;
 import org.eclipse.set.services.table.TableService.TableRendererUtil;
+import org.eclipse.set.services.table.TableStatus;
 import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.RefreshAction;
 import org.eclipse.set.utils.SelectableAction;
@@ -193,7 +194,7 @@ public class ToolboxTableView extends BasePart {
 
 	private TableModelInstanceBodyDataProvider bodyDataProvider;
 
-	private EventHandler secondaryPlanningLoadedHanlder;
+	private EventHandler secondaryPlanningLoadedHandler;
 	protected TableInfo tableInfo;
 
 	/**
@@ -307,9 +308,9 @@ public class ToolboxTableView extends BasePart {
 				SelectedControlAreaChangedEvent.class,
 				selectionControlAreaHandler);
 
-		secondaryPlanningLoadedHanlder = this::comparePlaningLoadedHandler;
+		secondaryPlanningLoadedHandler = this::comparePlaningLoadedHandler;
 		getBroker().subscribe(Events.COMPARE_MODEL_LOADED,
-				secondaryPlanningLoadedHanlder);
+				secondaryPlanningLoadedHandler);
 	}
 
 	protected void comparePlaningLoadedHandler(final Event event) {
@@ -327,7 +328,7 @@ public class ToolboxTableView extends BasePart {
 		ToolboxEvents.unsubscribe(getBroker(), tableSelectRowHandler);
 		ToolboxEvents.unsubscribe(getBroker(), tableDataChangeHandler);
 		ToolboxEvents.unsubscribe(getBroker(), selectionControlAreaHandler);
-		getBroker().unsubscribe(secondaryPlanningLoadedHanlder);
+		getBroker().unsubscribe(secondaryPlanningLoadedHandler);
 		getBroker().send(Events.CLOSE_PART, extractShortcut());
 	}
 
@@ -362,7 +363,7 @@ public class ToolboxTableView extends BasePart {
 
 	private void updateTableView(final List<Pt1TableCategory> tableCategories) {
 		tableService.updateTable(this, tableCategories, new TableRendererUtil(
-				() -> transformToTableModel(), transformedTable -> {
+				this::transformToTableModel, transformedTable -> {
 					if (transformedTable == null) {
 						return;
 					}
@@ -402,8 +403,10 @@ public class ToolboxTableView extends BasePart {
 			return;
 		}
 		subcribeTriggerResortEvent();
-		if (tableService.getNonTransformableTables(tableInfo.category())
-				.contains(tableInfo)) {
+		final TableStatus status = tableService
+				.getTablesStatus(tableInfo.category())
+				.getOrDefault(tableInfo, null);
+		if (status == null || status.isNonTransformable()) {
 			getDialogService().error(getToolboxShell(),
 					messages.TableTransform_Error_Msg);
 		}
