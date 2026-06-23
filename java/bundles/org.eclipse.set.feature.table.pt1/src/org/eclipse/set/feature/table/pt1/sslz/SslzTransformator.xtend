@@ -63,6 +63,7 @@ import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalRahmenExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalbegriffExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.Debug.*
+import java.util.Comparator
 
 /**
  * Table transformation for a Zugstraßentabelle (SSLZ).
@@ -97,7 +98,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 				return null
 			}
 			val instance = factory.newTableRow(fstrZugRangier)
-			val nextBlockFstr = fstrZugRangier.nextBlockFstrZugRangier
+			val nextBlockFstr = fstrZugRangier.recursiveNextBlockFstrZugRangier
 
 			// A: Sslz.Grundsatzangaben.Bezeichnung
 			fill(
@@ -113,13 +114,11 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 			])
 
 			// C: Sslz.Grundsatzangaben.Fahrweg.Ziel
-			fillConditional(
+			fillIterable(
 				instance,
 				cols.getColumn(Ziel),
 				fstrZugRangier,
-				[nextBlockFstr.nullOrEmpty],
-				[fahrwegZiel],
-				[fahrwegZielBlock(nextBlockFstr)]
+				[followBlocks([fahrwegZiel], nextBlockFstr)]
 			)
 
 			// D: Sslz.Grundsatzangaben.Fahrweg.Nummer
@@ -159,27 +158,30 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 				])
 
 			// G: Sslz.Grundsatzangaben.Art
-			fill(
+			fillIterable(
 				instance,
 				cols.getColumn(Art),
 				fstrZugRangier,
-				[fstrZugArt]
+				[followBlocks([fstrZugArt], nextBlockFstr)]
 			)
 
 			// H: Sslz.Einstellung.Autom_Einstellung
-			fill(instance, cols.getColumn(Autom_Einstellung), fstrZugRangier, [
-				fstrZugRangier?.fstrZug?.automatischeEinstellung?.
-					translate ?: ""
-			])
+			fillIterable(instance, cols.getColumn(Autom_Einstellung),
+				fstrZugRangier, [
+					followBlocks([
+						fstrZug?.automatischeEinstellung?.translate ?: ""
+					], nextBlockFstr)
+				])
 
 			// I: Sslz.Einstellung.F_Bedienung
-			fill(
+			fillIterable(
 				instance,
 				cols.getColumn(F_Bedienung),
 				fstrZugRangier,
 				[
-					fstrZugRangier?.fstrZugRangierAllg?.FBedienung?.wert?.
-						translate ?: ""
+					followBlocks([
+						fstrZugRangierAllg?.FBedienung?.wert?.translate ?: ""
+					], nextBlockFstr)
 				]
 			)
 
@@ -187,10 +189,13 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 			fillIterable(
 				instance,
 				cols.getColumn(Inselgleis),
-				fstrZugRangier?.fstrFahrweg?.zielSignal?.
-					zgFahrtGleichzeitigVerbot ?: Collections.emptySet,
-				[fillInselgleis],
-				MIXED_STRING_COMPARATOR
+				fstrZugRangier,
+				[
+					followBlocksIterable([
+						fstrFahrweg?.zielSignal?.zgFahrtGleichzeitigVerbot?.
+							fillInselgleis
+					], nextBlockFstr)
+				]
 			)
 
 			// K: Sslz.Abhaengigkeiten.Ueberwachte_Ssp
@@ -199,11 +204,13 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 				cols.getColumn(Ueberwachte_Ssp),
 				fstrZugRangier,
 				[
-					fstrFahrweg?.abhaengigkeiten?.map [
-						schluesselsperre?.bezeichnung?.bezeichnungTabelle?.wert
-					]
-				],
-				MIXED_STRING_COMPARATOR
+					followBlocksIterable([
+						fstrFahrweg?.abhaengigkeiten?.map [
+							schluesselsperre?.bezeichnung?.bezeichnungTabelle?.
+								wert
+						]
+					], nextBlockFstr)
+				]
 			)
 
 			if (logger.debugEnabled) {
@@ -217,16 +224,19 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 				cols.getColumn(Abhaengiger_BUe),
 				fstrZugRangier,
 				[
-					(fstrFahrweg.BUes + fstrZugRangier.BUesImGefahrraum).filter [
-						!#{
-							ENUMBUE_SICHERUNGSART_P,
-							ENUMBUE_SICHERUNGSART_PUND_LF,
-							ENUMBUE_SICHERUNGSART_UE,
-							ENUMBUE_SICHERUNGSART_UE_UND_P
-						}.contains(BUEAnlageAllg?.BUESicherungsart?.wert)
-					].toSet.map[bezeichnung?.bezeichnungTabelle?.wert]
-				],
-				MIXED_STRING_COMPARATOR
+					followBlocksIterable([
+						(fstrFahrweg.BUes + BUesImGefahrraum).
+							filter [
+								!#{
+									ENUMBUE_SICHERUNGSART_P,
+									ENUMBUE_SICHERUNGSART_PUND_LF,
+									ENUMBUE_SICHERUNGSART_UE,
+									ENUMBUE_SICHERUNGSART_UE_UND_P
+								}.contains(
+									BUEAnlageAllg?.BUESicherungsart?.wert)
+							].toSet.map[bezeichnung?.bezeichnungTabelle?.wert]
+					], nextBlockFstr)
+				]
 			)
 
 			// M: Sslz.Abhaengigkeiten.Nichthaltfallabschnitt
@@ -235,23 +245,26 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 				cols.getColumn(Nichthaltfallabschnitt),
 				fstrZugRangier,
 				[
-					fstrNichthaltfall.map [
-						fmaAnlage?.IDGleisAbschnitt?.value?.bezeichnung?.
-							bezeichnungTabelle?.wert
-					]
-				],
-				MIXED_STRING_COMPARATOR
+					followBlocksIterable([
+						fstrNichthaltfall.map [
+							fmaAnlage?.IDGleisAbschnitt?.value?.bezeichnung?.
+								bezeichnungTabelle?.wert
+						]
+					], nextBlockFstr)
+				]
 			)
 
 			// N: Sslz.Abhaengigkeiten.Zweites_Haltfallkrit
-			fill(
+			fillIterable(
 				instance,
 				cols.getColumn(Zweites_Haltfallkrit),
 				fstrZugRangier,
 				[
-					(fstrFahrweg?.start?.zweitesHaltfallkriterium?.
-						schalter as Zugeinwirkung)?.bezeichnung?.
-						bezeichnungTabelle?.wert
+					followBlocks([
+						(fstrFahrweg?.start?.zweitesHaltfallkriterium?.
+							schalter as Zugeinwirkung)?.bezeichnung?.
+							bezeichnungTabelle?.wert
+					], nextBlockFstr)
 				]
 			)
 
@@ -259,68 +272,91 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 			val schaltmittel = new Wrapper<Set<Basis_Objekt>>
 			val gleisabschnitte = new Wrapper<Set<Gleis_Abschnitt>>
 			val zugeinwirkungen = new Wrapper<Set<String>>
-			fillSwitch(
+			fillIterable(
 				instance,
 				cols.getColumn(Anrueckverschluss),
 				fstrZugRangier,
-				new Case<Fstr_Zug_Rangier>(
-					[
-						schaltmittel.value = fstrFahrweg?.start?.
-							anrueckverschluss?.map[schalter]?.toSet ?:
-							Collections.emptySet
-						gleisabschnitte.value = schaltmittel.value.filter(
-							FMA_Anlage).map[IDGleisAbschnitt?.value].
-							filterNull.toSet
-						!gleisabschnitte.value.empty
-					],
-					[
-						gleisabschnitte.value.map [
-							bezeichnung?.bezeichnungTabelle?.wert
-						].filterNull
-					],
-					ITERABLE_FILLING_SEPARATOR,
-					MIXED_STRING_COMPARATOR
-				),
-				new Case<Fstr_Zug_Rangier>(
-					[
-						zugeinwirkungen.value = schaltmittel.value.filter(
-							Zugeinwirkung).map [
-							bezeichnung?.bezeichnungTabelle?.wert
-						].toSet
-						!zugeinwirkungen.value.empty
-					],
-					[
-						zugeinwirkungen.value
-					],
-					ITERABLE_FILLING_SEPARATOR,
-					MIXED_STRING_COMPARATOR
-				)
+				[
+					followBlocks([ b |
+						val switchCase = b.getSwitchCase(
+							new Case<Fstr_Zug_Rangier>(
+								[
+									schaltmittel.value = fstrFahrweg?.start?.
+										anrueckverschluss?.map[schalter]?.
+										toSet ?: Collections.emptySet
+									gleisabschnitte.value = schaltmittel.value.
+										filter(FMA_Anlage).map [
+											IDGleisAbschnitt?.value
+										].filterNull.toSet
+									!gleisabschnitte.value.empty
+								],
+								[
+									gleisabschnitte.value.map [
+										bezeichnung?.bezeichnungTabelle?.wert
+									].filterNull
+								],
+								", ",
+								MIXED_STRING_COMPARATOR
+							),
+							new Case<Fstr_Zug_Rangier>(
+								[
+									zugeinwirkungen.value = schaltmittel.value.
+										filter(Zugeinwirkung).map [
+											bezeichnung?.bezeichnungTabelle?.
+												wert
+										].toSet
+									!zugeinwirkungen.value.empty
+								],
+								[
+									zugeinwirkungen.value
+								],
+								", ",
+								MIXED_STRING_COMPARATOR
+							)
+						)
+						val content = switchCase?.filling?.apply(b)
+						return content?.filterNull?.sortWith(
+							switchCase?.comparator)?.join(
+							switchCase?.seperator === null
+								? ITERABLE_FILLING_SEPARATOR
+								: switchCase.seperator)
+					], nextBlockFstr)
+				]
 			)
 
 			// P: Sslz.Signalisierung.Geschwindigkeit_Startsignal.Hg
-			fill(instance, cols.getColumn(Hg), fstrZugRangier, [
-				fstrZugRangier?.fstrFahrweg?.fstrVHg?.wert?.toString
+			fillIterable(instance, cols.getColumn(Hg), fstrZugRangier, [
+				followBlocks([
+					fstrFahrweg?.fstrVHg?.wert?.toString
+				], nextBlockFstr)
 			])
 
 			// Q: Sslz.Signalisierung.Geschwindigkeit_Startsignal.Fahrweg
-			fill(
+			fillIterable(
 				instance,
 				cols.getColumn(Fahrweg),
 				fstrZugRangier,
 				[
-					fstrZugRangier.geschwindigkeit.orElse(null)?.toString ?: ""
+					followBlocks([
+						geschwindigkeit.orElse(null)?.toString ?:
+							""
+					], nextBlockFstr)
 				]
 			)
 
 			// R: Sslz.Signalisierung.Geschwindigkeit_Startsignal.DWeg
-			fill(instance, cols.getColumn(DWeg), fstrZugRangier, [
-				fstrZugRangier?.fstrDWeg?.fstrDWegSpezifisch?.DWegV?.wert?.
-					toString
+			fillIterable(instance, cols.getColumn(DWeg), fstrZugRangier, [
+				followBlocks([
+					fstrDWeg?.fstrDWegSpezifisch?.DWegV?.wert?.
+						toString
+				], nextBlockFstr)
 			])
 
 			// S: Sslz.Signalisierung.Geschwindigkeit_Startsignal.Besonders
-			fill(instance, cols.getColumn(Besonders), fstrZugRangier, [
-				fstrZugRangier?.fstrZugRangierAllg?.fstrV?.wert?.toString
+			fillIterable(instance, cols.getColumn(Besonders), fstrZugRangier, [
+				followBlocks([
+					fstrZugRangierAllg?.fstrV?.wert?.toString
+				], nextBlockFstr)
 			])
 
 			// T: Sslz.Signalisierung.Geschwindigkeit_Startsignal.Zs3
@@ -328,35 +364,40 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 				instance,
 				cols.getColumn(Geschwindigkeit_Startsignal_Zs3),
 				fstrZugRangier,
-				[signalBegriffZs3ByStartSignal],
-				SIGNALBEGRIFF_COMPARATOR
+				[
+					followBlocksIterable([signalBegriffZs3ByStartSignal],
+						nextBlockFstr, SIGNALBEGRIFF_COMPARATOR, ", ")
+				]
 			)
 
 			// U: Sslz.Signalisierung.Geschwindigkeit_Startsignal.Aufwertung_Mwtfstr
-			fill(
+			fillIterable(
 				instance,
 				cols.getColumn(Aufwertung_Mwtfstr),
 				fstrZugRangier,
 				[
-					fstrZugRangier?.fstrMittel?.fstrMittelVAufwertung?.wert?.
-						translate ?: ""
+					followBlocks([
+						fstrMittel?.fstrMittelVAufwertung?.
+							wert?.translate ?: ""
+					], nextBlockFstr)
 				]
 			)
 
 			// V: Sslz.Signalisierung.Sonstiges_Startsignal.Zusatzlicht
-			fillConditional(
+			fillIterable(
 				instance,
 				cols.getColumn(Zusatzlicht),
 				fstrZugRangier,
-				[ r |
-					r.fstrFahrweg.start.signalbegriffe.exists [
-						hasSignalbegriffID(typeof(ZlO)) &&
-							r.fstrSignalisierung.map [
-								signalSignalbegriff
-							].toList.contains(it)
-					]
-				],
-				["x"]
+				[
+					followBlocks([ fstr |
+						fstr.fstrFahrweg.start.signalbegriffe.exists [
+							hasSignalbegriffID(typeof(ZlO)) &&
+								fstr.fstrSignalisierung.map [
+									signalSignalbegriff
+								].toList.contains(it)
+						] ? "x" : null
+					], nextBlockFstr)
+				]
 			)
 
 			// W: Sslz.Signalisierung.Sonstiges_Startsignal.Zs3v
@@ -365,11 +406,11 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 				cols.getColumn(Zs3v),
 				fstrZugRangier,
 				[
-
-					getRelevantSignalBegriffAtSignal(fstrFahrweg.start,
-						typeof(Zs3v)).map[signalBegriffSymbol]
-				],
-				SIGNALBEGRIFF_COMPARATOR
+					followBlocksIterable([
+						getRelevantSignalBegriffAtSignal(fstrFahrweg.start,
+							typeof(Zs3v)).map[signalBegriffSymbol]
+					], nextBlockFstr, SIGNALBEGRIFF_COMPARATOR, ", ")
+				]
 			)
 
 			// X: Sslz.Signalisierung.Sonstiges_Startsignal.Zs2
@@ -378,9 +419,11 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 				cols.getColumn(Zs2),
 				fstrZugRangier,
 				[
-					fstrSignalisierung.getFstrSignalisierungSymbol(typeof(Zs2))
-				],
-				SIGNALBEGRIFF_COMPARATOR
+					followBlocksIterable([
+						fstrSignalisierung.
+							getFstrSignalisierungSymbol(typeof(Zs2))
+					], nextBlockFstr, SIGNALBEGRIFF_COMPARATOR, ", ")
+				]
 			)
 
 			// Y: Sslz.Signalisierung.Sonstiges_Startsignal.Zs2v*
@@ -389,47 +432,53 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 				cols.getColumn(Zs2v),
 				fstrZugRangier,
 				[
-					getRelevantSignalBegriffAtSignal(fstrFahrweg.start,
-						typeof(Zs2v)).map [
-						signalbegriffID.symbol
-					]
-				],
-				SIGNALBEGRIFF_COMPARATOR
+					followBlocksIterable([
+						getRelevantSignalBegriffAtSignal(fstrFahrweg.start,
+							typeof(Zs2v)).map [
+							signalbegriffID.symbol
+						]
+					], nextBlockFstr, SIGNALBEGRIFF_COMPARATOR, ", ")
+				]
 			)
 
 			// Z: Sslz.Signalisierung.Sonstiges_Startsignal.Zs6
-			fillConditional(
+			fillIterable(
 				instance,
 				cols.getColumn(Sonstiges_Startsignal_Zs6),
 				fstrZugRangier,
 				[
-					fstrFahrweg.start.signalbegriffe.exists [
-						hasSignalbegriffID(typeof(Zs6))
-					]
-				],
-				[
-					val zs6Begriffes = fstrFahrweg.start.signalbegriffe.filter [
-						hasSignalbegriffID(typeof(Zs6))
-					]
-					fstrSignalisierung.map[signalSignalbegriff].exists [
-						zs6Begriffes.contains(it)
-					].translate
+					followBlocks([
+						if (fstrFahrweg.start.signalbegriffe.exists [
+							hasSignalbegriffID(typeof(Zs6))
+						]) {
+							val zs6Begriffes = fstrFahrweg.start.signalbegriffe.
+								filter [
+									hasSignalbegriffID(typeof(Zs6))
+								]
+							fstrSignalisierung.map[signalSignalbegriff].exists [
+								zs6Begriffes.contains(it)
+							].translate
+						} else {
+							return null
+						}
+					], nextBlockFstr)
 				]
 			)
 
 			// AA: Sslz.Signalisierung.Sonstiges_Startsignal.Zs13
-			fillConditional(
+			fillIterable(
 				instance,
 				cols.getColumn(Zs13),
 				fstrZugRangier,
 				[
-					fstrSignalisierung.map [
-						signalSignalbegriff
-					].exists [
-						signalbegriffID instanceof Zs13
-					]
-				],
-				["x"]
+					followBlocks([
+						fstrSignalisierung.map [
+							signalSignalbegriff
+						].exists [
+							signalbegriffID instanceof Zs13
+						] ? "x" : null
+					], nextBlockFstr)
+				]
 			)
 
 			// AB: Sslz.Signalisierung.Im_Fahrweg.Zs3
@@ -438,26 +487,25 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 				cols.getColumn(Im_Fahrweg_Zs3),
 				fstrZugRangier,
 				[
-					val zs3NichtStartZiel = fstrZugRangier.fstrSignalisierung.
-						filter [
-							signalSignalbegriff !== null &&
-								signalSignalbegriff.
-									hasSignalbegriffID(typeof(Zs3)) &&
-								signalSignalbegriff.signalRahmen.signal !==
-									fstrZugRangier.fstrFahrweg.start &&
-								signalSignalbegriff.signalRahmen.signal !==
-									fstrZugRangier.fstrFahrweg.zielSignal
-						].sortBy [
-							signalSignalbegriff?.signalbegriffID?.symbol
-						]
-					zs3NichtStartZiel.map [
-						'''«signalSignalbegriff?.signalRahmen?.signal?.bezeichnung?.bezeichnungTabelle?.wert»«
+					followBlocksIterable([ fstr | 
+						val zs3NichtStartZiel = 
+							fstr.fstrSignalisierung.filter [
+								signalSignalbegriff !== null &&
+									signalSignalbegriff.
+										hasSignalbegriffID(typeof(Zs3)) &&
+									signalSignalbegriff.signalRahmen.signal !==
+										fstr.fstrFahrweg.start &&
+									signalSignalbegriff.signalRahmen.signal !==
+										fstr.fstrFahrweg.zielSignal
+							].sortBy [
+								signalSignalbegriff?.signalbegriffID?.symbol
+							]
+						zs3NichtStartZiel.map [
+							'''«signalSignalbegriff?.signalRahmen?.signal?.bezeichnung?.bezeichnungTabelle?.wert»«
 						»(«signalSignalbegriff?.signalBegriffSymbol»)'''
-					]
-				],
-				null,
-				[it],
-				ITERABLE_FILLING_SEPARATOR
+						]
+					], nextBlockFstr, null, ", ")
+				]
 			)
 
 			// Analysis: Sslz.Signalisierung.Im_Fahrweg.Zs6
@@ -472,18 +520,20 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 				}
 			}
 			// AC: Sslz.Signalisierung.Im_Fahrweg.Zs6
-			fill(
+			fillIterable(
 				instance,
 				cols.getColumn(Im_Fahrweg_Zs6),
 				fstrZugRangier,
 				[
-					fstrFahrweg.signalbegriffeImFahrweg.findFirst [ b1 |
-						b1.hasSignalbegriffID(typeof(Zs6)) &&
-							fstrZugRangier.fstrSignalisierung.exists [ b2 |
-								b2.signalSignalbegriff === b1
-							]
-					]?.signalRahmen?.signal?.bezeichnung?.
-						bezeichnungTabelle?.wert
+					followBlocks([
+						fstrFahrweg.signalbegriffeImFahrweg.findFirst [ b1 |
+							b1.hasSignalbegriffID(typeof(Zs6)) &&
+								fstrSignalisierung.exists [ b2 |
+									b2.signalSignalbegriff === b1
+								]
+						]?.signalRahmen?.signal?.bezeichnung?.
+							bezeichnungTabelle?.wert
+					], nextBlockFstr)
 				]
 			)
 
@@ -493,12 +543,14 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 				cols.getColumn(Kennlicht),
 				fstrZugRangier,
 				[
-					fstrSignalisierung.getSignalberiffsWithType(typeof(Kl)).map [
-						signalRahmen.signal?.bezeichnung?.
-							bezeichnungTabelle?.wert
-					]
-				],
-				MIXED_STRING_COMPARATOR
+					followBlocksIterable([
+						fstrSignalisierung.getSignalberiffsWithType(typeof(Kl)).
+							map [
+								signalRahmen.signal?.bezeichnung?.
+									bezeichnungTabelle?.wert
+							]
+					], nextBlockFstr)
+				]
 			)
 
 			// AE: Sslz.Signalisierung.Im_Fahrweg.Vorsignalisierung
@@ -507,42 +559,58 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 				cols.getColumn(Vorsignalisierung),
 				fstrZugRangier,
 				[
-					vorsignalisierung.map [ vorsignal |
-						getVorsignalBezeichnung(vorsignal)
-					]
-				],
-				MIXED_STRING_COMPARATOR
+					followBlocksIterable([
+						vorsignalisierung.map [ vorsignal |
+							getVorsignalBezeichnung(vorsignal)
+						]
+					], nextBlockFstr)
+				]
 			)
 
 			// AF: Sslz.Bemerkung
-			fillSwitch(
+			fillIterable(
 				instance,
 				cols.getColumn(Bemerkung),
 				fstrZugRangier,
-				new Case<Fstr_Zug_Rangier>([
-					fstrZugRangier.container.fstrAbhaengigkeit.map [
-						IDBedienAnzeigeElement?.value?.bedienAnzeigeElementAllg
-					].filterNull.findFirst [
-						it?.taste !== null || it?.schalter !== null
-					] !== null
-				], [
-					val bedAnzeigeElemente = fstrFahrweg?.abhaengigkeiten?.map [
-						bedienAnzeigeElement
-					]?.filterNull ?: Collections.emptyList
+				[
+					followBlocks([ fstr |
+						val switchCase = fstr.getSwitchCase(
+							new Case<Fstr_Zug_Rangier>([
+								it.container.fstrAbhaengigkeit.map [
+									IDBedienAnzeigeElement?.value?.
+										bedienAnzeigeElementAllg
+								].filterNull.findFirst [
+									it?.taste !== null || it?.schalter !== null
+								] !== null
+							], [
+								val bedAnzeigeElemente = fstrFahrweg?.
+									abhaengigkeiten?.map [
+										bedienAnzeigeElement
+									]?.filterNull ?: Collections.emptyList
 
-					'''«FOR bae : bedAnzeigeElemente»«bae.comment[translate]»«bae» «ENDFOR»'''.
-						toString.trim
-				]),
-				new Case<Fstr_Zug_Rangier>([
-					!IDFstrAusschlussBesonders.empty
-				], [
-					val fstrAusschlussBesonders = IDFstrAusschlussBesonders.map [
-						value?.getZugFstrBezeichnung([art|isZ(art)])
-					]
+								'''«FOR bae : bedAnzeigeElemente»«bae.comment[translate]»«bae» «ENDFOR»'''.
+									toString.trim
+							]), new Case<Fstr_Zug_Rangier>([
+								!IDFstrAusschlussBesonders.empty
+							], [
+								val fstrAusschlussBesonders = IDFstrAusschlussBesonders.
+									map [
+										value?.getZugFstrBezeichnung([ art |
+											isZ(art)
+										])
+									]
 
-					'''«FOR fstr : fstrAusschlussBesonders»«fstr» «ENDFOR»'''.
-						toString.trim
-				])
+								'''«FOR s : fstrAusschlussBesonders»«s» «ENDFOR»'''.
+									toString.trim
+							]))
+						val content = switchCase?.filling?.apply(fstr)
+						return content?.filterNull?.sortWith(
+							switchCase?.comparator)?.join(
+							switchCase?.seperator === null
+								? ITERABLE_FILLING_SEPARATOR
+								: switchCase.seperator)
+					], nextBlockFstr)
+				]
 			)
 
 			fillFootnotes(instance, fstrZugRangier)
@@ -583,17 +651,35 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 			bezeichnungTabelle?.wert
 	}
 
-	private def String fahrwegZielBlock(
-		Fstr_Zug_Rangier fstrZugRangier,
-		Iterable<Fstr_Zug_Rangier> nextBlockFstr
-	) {
-		val ziel = fstrZugRangier?.IDFstrFahrweg?.value?.IDZiel?.value as Signal
-		val blockSignale = nextBlockFstr.map [
-			(IDFstrFahrweg?.value?.IDZiel?.value as Signal)?.bezeichnung?.
-				bezeichnungTabelle?.wert
-		].filterNull.join(" ")
+	private def followBlocks(Fstr_Zug_Rangier fstrZugRangier,
+		(Fstr_Zug_Rangier)=>String fn,
+		Iterable<Fstr_Zug_Rangier> nextBlockFstr) {
+		val rootContent = fn.apply(fstrZugRangier)
+		val blockContent = nextBlockFstr.map [
+			val content = fn.apply(it)
+			if (content === null || content.trim.length === 0) {
+				return null;
+			}
+			return '''[«content.trim»]'''
+		].filterNull
+		val contentList = #[#[rootContent], blockContent].flatten.toList
+		return contentList
+	}
 
-		return '''«ziel?.bezeichnung?.bezeichnungTabelle?.wert» [«blockSignale»]'''
+	private def followBlocksIterable(Fstr_Zug_Rangier fstrZugRangier,
+		(Fstr_Zug_Rangier)=>Iterable<String> fn,
+		Iterable<Fstr_Zug_Rangier> nextBlockFstr) {
+		return fstrZugRangier.followBlocksIterable(fn, nextBlockFstr,
+			MIXED_STRING_COMPARATOR, ", ")
+	}
+
+	private def followBlocksIterable(Fstr_Zug_Rangier fstrZugRangier,
+		(Fstr_Zug_Rangier)=>Iterable<String> fn,
+		Iterable<Fstr_Zug_Rangier> nextBlockFstr, Comparator<String> comparator,
+		String separator) {
+		return fstrZugRangier.followBlocks([
+			fn.apply(it)?.filterNull?.sortWith(comparator)?.join(separator)
+		], nextBlockFstr)
 	}
 
 	private def String fahrwegNummer(
