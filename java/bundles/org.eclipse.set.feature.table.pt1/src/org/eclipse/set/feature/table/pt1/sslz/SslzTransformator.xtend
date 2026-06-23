@@ -169,8 +169,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 			fillIterable(instance, cols.getColumn(Autom_Einstellung),
 				fstrZugRangier, [
 					followBlocks([
-						fstrZugRangier?.fstrZug?.automatischeEinstellung?.
-							translate ?: ""
+						fstrZug?.automatischeEinstellung?.translate ?: ""
 					], nextBlockFstr)
 				])
 
@@ -181,8 +180,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 				fstrZugRangier,
 				[
 					followBlocks([
-						fstrZugRangier?.fstrZugRangierAllg?.FBedienung?.wert?.
-							translate ?: ""
+						fstrZugRangierAllg?.FBedienung?.wert?.translate ?: ""
 					], nextBlockFstr)
 				]
 			)
@@ -227,7 +225,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 				fstrZugRangier,
 				[
 					followBlocksIterable([
-						(fstrFahrweg.BUes + fstrZugRangier.BUesImGefahrraum).
+						(fstrFahrweg.BUes + BUesImGefahrraum).
 							filter [
 								!#{
 									ENUMBUE_SICHERUNGSART_P,
@@ -319,9 +317,9 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 						val content = switchCase?.filling?.apply(b)
 						return content?.filterNull?.sortWith(
 							switchCase?.comparator)?.join(
-							switchCase?.seperator ===
-								null ? ITERABLE_FILLING_SEPARATOR : switchCase.
-								seperator)
+							switchCase?.seperator === null
+								? ITERABLE_FILLING_SEPARATOR
+								: switchCase.seperator)
 					], nextBlockFstr)
 				]
 			)
@@ -329,7 +327,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 			// P: Sslz.Signalisierung.Geschwindigkeit_Startsignal.Hg
 			fillIterable(instance, cols.getColumn(Hg), fstrZugRangier, [
 				followBlocks([
-					fstrZugRangier?.fstrFahrweg?.fstrVHg?.wert?.toString
+					fstrFahrweg?.fstrVHg?.wert?.toString
 				], nextBlockFstr)
 			])
 
@@ -340,7 +338,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 				fstrZugRangier,
 				[
 					followBlocks([
-						fstrZugRangier.geschwindigkeit.orElse(null)?.toString ?:
+						geschwindigkeit.orElse(null)?.toString ?:
 							""
 					], nextBlockFstr)
 				]
@@ -349,7 +347,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 			// R: Sslz.Signalisierung.Geschwindigkeit_Startsignal.DWeg
 			fillIterable(instance, cols.getColumn(DWeg), fstrZugRangier, [
 				followBlocks([
-					fstrZugRangier?.fstrDWeg?.fstrDWegSpezifisch?.DWegV?.wert?.
+					fstrDWeg?.fstrDWegSpezifisch?.DWegV?.wert?.
 						toString
 				], nextBlockFstr)
 			])
@@ -357,7 +355,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 			// S: Sslz.Signalisierung.Geschwindigkeit_Startsignal.Besonders
 			fillIterable(instance, cols.getColumn(Besonders), fstrZugRangier, [
 				followBlocks([
-					fstrZugRangier?.fstrZugRangierAllg?.fstrV?.wert?.toString
+					fstrZugRangierAllg?.fstrV?.wert?.toString
 				], nextBlockFstr)
 			])
 
@@ -379,7 +377,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 				fstrZugRangier,
 				[
 					followBlocks([
-						fstrZugRangier?.fstrMittel?.fstrMittelVAufwertung?.
+						fstrMittel?.fstrMittelVAufwertung?.
 							wert?.translate ?: ""
 					], nextBlockFstr)
 				]
@@ -391,10 +389,10 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 				cols.getColumn(Zusatzlicht),
 				fstrZugRangier,
 				[
-					followBlocks([ r |
-						r.fstrFahrweg.start.signalbegriffe.exists [
+					followBlocks([ fstr |
+						fstr.fstrFahrweg.start.signalbegriffe.exists [
 							hasSignalbegriffID(typeof(ZlO)) &&
-								r.fstrSignalisierung.map [
+								fstr.fstrSignalisierung.map [
 									signalSignalbegriff
 								].toList.contains(it)
 						] ? "x" : null
@@ -489,16 +487,16 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 				cols.getColumn(Im_Fahrweg_Zs3),
 				fstrZugRangier,
 				[
-					followBlocksIterable([
-						val zs3NichtStartZiel = fstrZugRangier.
-							fstrSignalisierung.filter [
+					followBlocksIterable([ fstr | 
+						val zs3NichtStartZiel = 
+							fstr.fstrSignalisierung.filter [
 								signalSignalbegriff !== null &&
 									signalSignalbegriff.
 										hasSignalbegriffID(typeof(Zs3)) &&
 									signalSignalbegriff.signalRahmen.signal !==
-										fstrZugRangier.fstrFahrweg.start &&
+										fstr.fstrFahrweg.start &&
 									signalSignalbegriff.signalRahmen.signal !==
-										fstrZugRangier.fstrFahrweg.zielSignal
+										fstr.fstrFahrweg.zielSignal
 							].sortBy [
 								signalSignalbegriff?.signalbegriffID?.symbol
 							]
@@ -530,7 +528,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 					followBlocks([
 						fstrFahrweg.signalbegriffeImFahrweg.findFirst [ b1 |
 							b1.hasSignalbegriffID(typeof(Zs6)) &&
-								fstrZugRangier.fstrSignalisierung.exists [ b2 |
+								fstrSignalisierung.exists [ b2 |
 									b2.signalSignalbegriff === b1
 								]
 						]?.signalRahmen?.signal?.bezeichnung?.
@@ -575,10 +573,10 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 				cols.getColumn(Bemerkung),
 				fstrZugRangier,
 				[
-					followBlocks([ b |
-						val switchCase = b.getSwitchCase(
+					followBlocks([ fstr |
+						val switchCase = fstr.getSwitchCase(
 							new Case<Fstr_Zug_Rangier>([
-								fstrZugRangier.container.fstrAbhaengigkeit.map [
+								it.container.fstrAbhaengigkeit.map [
 									IDBedienAnzeigeElement?.value?.
 										bedienAnzeigeElementAllg
 								].filterNull.findFirst [
@@ -602,15 +600,15 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 										])
 									]
 
-								'''«FOR fstr : fstrAusschlussBesonders»«fstr» «ENDFOR»'''.
+								'''«FOR s : fstrAusschlussBesonders»«s» «ENDFOR»'''.
 									toString.trim
 							]))
-						val content = switchCase?.filling?.apply(b)
+						val content = switchCase?.filling?.apply(fstr)
 						return content?.filterNull?.sortWith(
 							switchCase?.comparator)?.join(
-							switchCase?.seperator ===
-								null ? ITERABLE_FILLING_SEPARATOR : switchCase.
-								seperator)
+							switchCase?.seperator === null
+								? ITERABLE_FILLING_SEPARATOR
+								: switchCase.seperator)
 					], nextBlockFstr)
 				]
 			)
@@ -664,7 +662,8 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 			}
 			return '''[«content.trim»]'''
 		].filterNull
-		return #[#[rootContent], blockContent].flatten
+		val contentList = #[#[rootContent], blockContent].flatten.toList
+		return contentList
 	}
 
 	private def followBlocksIterable(Fstr_Zug_Rangier fstrZugRangier,
