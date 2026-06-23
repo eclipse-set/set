@@ -79,6 +79,13 @@ public record TableInfo(Pt1TableCategory category, String shortcut,
 		}
 
 		/**
+		 * @return the table part prefix of this category
+		 */
+		public String getTablePartPrefix() {
+			return getTablePartPrefix(this);
+		}
+
+		/**
 		 * Get Pt1Category enumerator from category id
 		 * 
 		 * @param categoryId
@@ -138,6 +145,15 @@ public record TableInfo(Pt1TableCategory category, String shortcut,
 			}
 			throw new IllegalArgumentException();
 		}
+	}
+
+	/**
+	 * @return the table part id
+	 */
+	public String getTablePartId() {
+		return String.format("%s.%s", //$NON-NLS-1$
+				Pt1TableCategory.getTablePartPrefix(category),
+				shortcut().toLowerCase());
 	}
 
 	/**
