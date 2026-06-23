@@ -45,7 +45,7 @@ export default class LockKeyFeature extends LageplanFeature<LockKey> {
       FeatureType.LockKey,
       lockKey,
       new OlPoint([lockKey.position.x, lockKey.position.y]),
-      lockKey.label.text
+      lockKey.label?.text
     )
     const svg = this.getObjectSvg(lockKey, lockKey.label)
 
