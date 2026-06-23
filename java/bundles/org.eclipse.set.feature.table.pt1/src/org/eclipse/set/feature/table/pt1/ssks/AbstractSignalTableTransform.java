@@ -10,7 +10,12 @@
  */
 package org.eclipse.set.feature.table.pt1.ssks;
 
-import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.*;
+import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_MAST_HOCH;
+import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_MAST_NIEDRIG;
+import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_SONSTIGE_HOCH;
+import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_SONSTIGE_NIEDRIG;
+import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_SONDERANORDNUNG_MAST_HOCH;
+import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_SONDERANORDNUNG_MAST_NIEDRIG;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -21,7 +26,6 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.eclipse.set.basis.graph.TopPoint;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
@@ -37,7 +41,6 @@ import org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt;
 import org.eclipse.set.model.planpro.Signale.Signal;
 import org.eclipse.set.model.planpro.Signale.Signal_Befestigung;
 import org.eclipse.set.model.planpro.Signale.Signal_Rahmen;
-import org.eclipse.set.model.planpro.Verweise.ID_Regelzeichnung_TypeClass;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.TableRow;
@@ -257,21 +260,6 @@ public abstract class AbstractSignalTableTransform
 						.collect(Collectors.toSet()),
 				null);
 
-		// konstruktive_Merkmale.Anordnung.Regelzeichnung
-		fillIterable(row, getRegelzeichnungColumn(), signalRahmen,
-				rahmen -> rahmen.stream().flatMap(r -> {
-					final Signal_Befestigung signalBefestigung = SignalRahmenExtensions
-							.getSignalBefestigung(r);
-					if (signalBefestigung == null) {
-						return Stream.empty();
-					}
-					return signalBefestigung.getIDRegelzeichnung()
-							.stream()
-							.map(ID_Regelzeichnung_TypeClass::getValue)
-							.filter(Objects::nonNull)
-							.map(z -> fillRegelzeichnung(z));
-				}).toList(), null);
-
 		// konstruktive_Merkmale.Fundament.Art_Regelzeichnung
 		fillIterable(row, getArtRegelzeichnungColumn(), signalRahmen,
 				rahmen -> transformRegelzeichnungArt(row, rahmen),
@@ -361,8 +349,6 @@ public abstract class AbstractSignalTableTransform
 	protected abstract ColumnDescriptor getFundamentHoeheColumn();
 
 	protected abstract ColumnDescriptor getArtRegelzeichnungColumn();
-
-	protected abstract ColumnDescriptor getRegelzeichnungColumn();
 
 	protected abstract ColumnDescriptor getBefestigungColumn();
 
