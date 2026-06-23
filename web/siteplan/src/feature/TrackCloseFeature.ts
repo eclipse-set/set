@@ -58,9 +58,9 @@ export default class TrackCloseFeature extends LageplanFeature<TrackClose> {
       updateLabelOrientation(trackCloseLabel, trackClose.position.rotation, this.map)
       updateLabelColor(trackCloseLabel, getLabelColor(trackClose))
       const style = this.svgService.getFeatureStyle(trackClose, FeatureType.TrackClose, trackCloseLabel ?? undefined)
-      style.getImage().setScale(scale)
+      style.getImage()?.setScale(scale)
 
-      style.getImage().setRotation((trackClose.position.rotation * Math.PI) / 180)
+      style.getImage()?.setRotation((trackClose.position.rotation * Math.PI) / 180)
       return style
     })
 
