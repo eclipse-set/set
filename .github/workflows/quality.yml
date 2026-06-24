@@ -24,7 +24,7 @@ jobs:
         uses: eclipse-set/build/.github/actions/setup-java@main
 
       - name: Cache Eclipse
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           path: ./tmp/eclipse-2025-12.tar.gz
           key: ${{ runner.os }}-eclipse-2025-12
