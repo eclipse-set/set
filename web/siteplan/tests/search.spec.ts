@@ -21,7 +21,6 @@ test('find search results', async ({ page }) => {
 
   await searchBar.press('Enter')
   await expect(page).toHaveScreenshot('search-result-one-again.png')
-  // await expect(page).toHaveScreenshot('search-result-one.png')
 
   await searchBar.press('Enter')
   await expect(page).toHaveScreenshot('search-result-two.png')
