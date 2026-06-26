@@ -358,7 +358,7 @@ public class ToolboxTableView extends BasePart {
 	 */
 	protected Table transformToTableModel() {
 		return tableService.createDiffTable(tableInfo, tableType,
-				controlAreaIds);
+				controlAreaIds, true);
 	}
 
 	private void updateTableView(final List<Pt1TableCategory> tableCategories) {
