@@ -295,7 +295,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 										bezeichnung?.bezeichnungTabelle?.wert
 									].filterNull
 								],
-								", ",
+								ITERABLE_FILLING_SEPARATOR,
 								MIXED_STRING_COMPARATOR
 							),
 							new Case<Fstr_Zug_Rangier>(
@@ -310,7 +310,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 								[
 									zugeinwirkungen.value
 								],
-								", ",
+								ITERABLE_FILLING_SEPARATOR,
 								MIXED_STRING_COMPARATOR
 							)
 						)
@@ -366,7 +366,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 				fstrZugRangier,
 				[
 					followBlocksIterable([signalBegriffZs3ByStartSignal],
-						nextBlockFstr, SIGNALBEGRIFF_COMPARATOR, ", ")
+						nextBlockFstr, SIGNALBEGRIFF_COMPARATOR)
 				]
 			)
 
@@ -409,7 +409,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 					followBlocksIterable([
 						getRelevantSignalBegriffAtSignal(fstrFahrweg.start,
 							typeof(Zs3v)).map[signalBegriffSymbol]
-					], nextBlockFstr, SIGNALBEGRIFF_COMPARATOR, ", ")
+					], nextBlockFstr, SIGNALBEGRIFF_COMPARATOR)
 				]
 			)
 
@@ -422,7 +422,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 					followBlocksIterable([
 						fstrSignalisierung.
 							getFstrSignalisierungSymbol(typeof(Zs2))
-					], nextBlockFstr, SIGNALBEGRIFF_COMPARATOR, ", ")
+					], nextBlockFstr, SIGNALBEGRIFF_COMPARATOR)
 				]
 			)
 
@@ -437,7 +437,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 							typeof(Zs2v)).map [
 							signalbegriffID.symbol
 						]
-					], nextBlockFstr, SIGNALBEGRIFF_COMPARATOR, ", ")
+					], nextBlockFstr, SIGNALBEGRIFF_COMPARATOR)
 				]
 			)
 
@@ -504,7 +504,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 							'''«signalSignalbegriff?.signalRahmen?.signal?.bezeichnung?.bezeichnungTabelle?.wert»«
 						»(«signalSignalbegriff?.signalBegriffSymbol»)'''
 						]
-					], nextBlockFstr, null, ", ")
+					], nextBlockFstr)
 				]
 			)
 
@@ -670,16 +670,23 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 		(Fstr_Zug_Rangier)=>Iterable<String> fn,
 		Iterable<Fstr_Zug_Rangier> nextBlockFstr) {
 		return fstrZugRangier.followBlocksIterable(fn, nextBlockFstr,
-			MIXED_STRING_COMPARATOR, ", ")
+			MIXED_STRING_COMPARATOR)
 	}
 
 	private def followBlocksIterable(Fstr_Zug_Rangier fstrZugRangier,
 		(Fstr_Zug_Rangier)=>Iterable<String> fn,
-		Iterable<Fstr_Zug_Rangier> nextBlockFstr, Comparator<String> comparator,
-		String separator) {
-		return fstrZugRangier.followBlocks([
-			fn.apply(it)?.filterNull?.sortWith(comparator)?.join(separator)
-		], nextBlockFstr)
+		Iterable<Fstr_Zug_Rangier> nextBlockFstr, Comparator<String> comparator) {
+		val rootContent = fn.apply(fstrZugRangier)
+		val blockContent = nextBlockFstr.flatMap [ 
+			fn.apply(it)?.filterNull?.sortWith(comparator)
+		].map [
+			if (it === null || it.trim.length === 0) {
+				return null;
+			}
+			return '''[«it.trim»]'''
+		].filterNull
+		val contentList = #[rootContent, blockContent].flatten.toList
+		return contentList
 	}
 
 	private def String fahrwegNummer(
