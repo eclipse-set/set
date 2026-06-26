@@ -137,11 +137,14 @@ public interface TableService {
 	 *            the model session
 	 * @param controlAreaIds
 	 *            the list of {@link Stell_Bereich} and the belonging container
+	 * @param tableStatus
+	 *            the table status to update when transforming the table
 	 * 
 	 * @return the table
 	 */
 	Table transformToTable(final TableInfo tableInfo, TableType tableType,
-			final IModelSession modelSession, Set<String> controlAreaIds);
+			final IModelSession modelSession, Set<String> controlAreaIds,
+			final TableStatus tableStatus);
 
 	/**
 	 * Transform the selected container and control area to tables model.
@@ -220,10 +223,12 @@ public interface TableService {
 	 *            the table type
 	 * @param controlAreaIds
 	 *            the list of {@link Stell_Bereich} and the belonging container
+	 * @param updateTableStatus
+	 *            whether to update the table status or not
 	 * @return the compare table
 	 */
 	Table createDiffTable(TableInfo tableInfo, TableType tableType,
-			Set<String> controlAreaIds);
+			Set<String> controlAreaIds, boolean updateTableStatus);
 
 	/**
 	 * Sort the table after transformation.
