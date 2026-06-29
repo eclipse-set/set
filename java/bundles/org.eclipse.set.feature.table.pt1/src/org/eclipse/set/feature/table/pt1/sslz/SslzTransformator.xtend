@@ -10,6 +10,7 @@ package org.eclipse.set.feature.table.pt1.sslz
 
 import java.util.Collection
 import java.util.Collections
+import java.util.Comparator
 import java.util.List
 import java.util.Set
 import org.eclipse.set.basis.MixedStringComparator
@@ -63,7 +64,6 @@ import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalRahmenExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalbegriffExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.Debug.*
-import java.util.Comparator
 
 /**
  * Table transformation for a Zugstraßentabelle (SSLZ).
@@ -671,10 +671,11 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 		(Fstr_Zug_Rangier)=>Iterable<String> fn,
 		Iterable<Fstr_Zug_Rangier> nextBlockFstr,
 		Comparator<String> comparator) {
-		val rootContent = fn.apply(fstrZugRangier)
+		val rootContent = fn.apply(fstrZugRangier).filterNull.sortWith(
+			comparator)
 		val blockContent = nextBlockFstr.flatMap [
-			fn.apply(it)?.filterNull?.sortWith(comparator)
-		].map [
+			fn.apply(it)
+		].filterNull.sortWith(comparator).map [
 			if (it === null || it.trim.length === 0) {
 				return null;
 			}
