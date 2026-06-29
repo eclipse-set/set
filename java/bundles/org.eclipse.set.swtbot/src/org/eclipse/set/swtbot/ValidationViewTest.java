@@ -49,7 +49,8 @@ public class ValidationViewTest extends AbstractTableTest {
 			.<Pair<String, String>> asList(new Pair<>("Geladene Datei", "MD5"),
 					new Pair<>("Geladene Datei", "GUID"),
 					new Pair<>("Verwendetes XML-Schema (in Datei)", "PlanPro"),
-					new Pair<>("Verwendetes XML-Schema (in Datei)", "Signalbegriffe"),
+					new Pair<>("Verwendetes XML-Schema (in Datei)",
+							"Signalbegriffe"),
 					new Pair<>("Unterstütztes XML-Schema", "PlanPro"),
 					new Pair<>("Unterstütztes XML-Schema", "Signalbegriffe"),
 					new Pair<>("Gültigkeit", "XSD-Gültigkeit"),
@@ -57,7 +58,7 @@ public class ValidationViewTest extends AbstractTableTest {
 					new Pair<>("Gültigkeit", "Verarbeitbar"),
 					new Pair<>("PlanPro-Container", "Enthalten"),
 					new Pair<>("Untergewerke", "Enthalten"));
-	
+
 	private static class ValidationViewFailHandle extends TestFailHandle {
 		String csvHeader = "\"Item Group\";\"Item label\";\"Expect Value\""
 				+ System.lineSeparator();
