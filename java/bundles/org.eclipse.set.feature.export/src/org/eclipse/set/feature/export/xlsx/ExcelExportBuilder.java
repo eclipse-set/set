@@ -8,7 +8,10 @@
  */
 package org.eclipse.set.feature.export.xlsx;
 
-import static org.eclipse.set.utils.excel.ExcelWorkbookExtension.*;
+import static org.eclipse.set.utils.excel.ExcelWorkbookExtension.getCellAt;
+import static org.eclipse.set.utils.excel.ExcelWorkbookExtension.getCellStringValue;
+import static org.eclipse.set.utils.excel.ExcelWorkbookExtension.getHeaderLastColumnIndex;
+import static org.eclipse.set.utils.excel.ExcelWorkbookExtension.getHeaderLastRowIndex;
 
 import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
@@ -306,6 +309,7 @@ public class ExcelExportBuilder implements TableExport {
 				if (!spanUtils.isMergeAllowed(column, row)) {
 					continue;
 				}
+				final int sheetColumn = column + 1;
 
 				final int spanUp = spanUtils.getRowSpanUp(column, row);
 				final int spanDown = spanUtils.getRowSpanDown(column, row);
@@ -322,7 +326,7 @@ public class ExcelExportBuilder implements TableExport {
 				}
 
 				sheet.addMergedRegion(new CellRangeAddress(sheetRowIndex,
-						sheetRowIndex + spanDown, column, column));
+						sheetRowIndex + spanDown, sheetColumn, sheetColumn));
 			}
 
 			sheetRowIndex++;
