@@ -153,7 +153,8 @@ public class ExcelExportBuilder implements TableExport {
 			final List<TableRow> rows = TableExtensions.getTableRows(table);
 
 			// Fill sheet
-			fillSheet(sheet, rows, rowIndex, columnCount, isInlineFootnote);
+			fillSheet(workbook, sheet, rows, rowIndex, columnCount,
+					isInlineFootnote);
 
 			if (!isInlineFootnote) {
 				final Sheet footnoteSheet = workbook
@@ -210,9 +211,9 @@ public class ExcelExportBuilder implements TableExport {
 		}
 	}
 
-	private static void fillSheet(final Sheet sheet, final List<TableRow> rows,
-			final int rowIndex, final int columnCount,
-			final boolean inlineFootnote) {
+	private static void fillSheet(final Workbook workbook, final Sheet sheet,
+			final List<TableRow> rows, final int rowIndex,
+			final int columnCount, final boolean inlineFootnote) {
 		if (rows.isEmpty()) {
 			return;
 		}
@@ -234,6 +235,11 @@ public class ExcelExportBuilder implements TableExport {
 
 				if (cell == null) {
 					cell = sheetRow.createCell(i + 1);
+					cell.getCellStyle()
+							.setFont(workbook.getFontAt(sheet.getRow(0)
+									.getCell(1)
+									.getCellStyle()
+									.getFontIndex()));
 				}
 				if (i == columnCount - 1) {
 					fillFootnoteCell(cell, content, allFootnotes, footnotes,
