@@ -5,6 +5,11 @@ updates:
   schedule:
     interval: daily
   rebase-strategy: disabled
+- package-ecosystem: maven
+  directory: "/java/.mvn"
+  schedule:
+    interval: daily
+  rebase-strategy: disabled
 - package-ecosystem: github-actions
   directory: "/"
   schedule:
