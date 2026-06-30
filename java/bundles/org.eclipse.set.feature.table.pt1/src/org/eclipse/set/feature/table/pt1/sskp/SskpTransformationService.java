@@ -176,10 +176,8 @@ public class SskpTransformationService
 				SskpColumns.GeschwindigkeitsKlasse, //
 				SskpColumns.PZB_Schutzstrecke_Soll, //
 				SskpColumns.PZB_Schutzstrecke_Ist)
-				.forEach(it -> cols.forEach(col -> {
-					if (it.equals(col.getColumnPosition())) {
-						col.setMergeCommonValues(RowMergeMode.DISABLED);
-					}
+				.forEach(it -> getColumnDescriptor(it).ifPresent(col -> {
+					col.setMergeCommonValues(RowMergeMode.DISABLED);
 				}));
 
 		return cd;

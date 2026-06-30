@@ -97,7 +97,7 @@ public class SxxxTransformationService
 		// only merge on column A
 		cd.setMergeCommonValues(RowMergeMode.ENABLED);
 		List.of(SxxxColumns.Reference_Object, SxxxColumns.Visualation_In_Table)
-				.forEach(it -> getColDescriptor(it).ifPresent(col -> {
+				.forEach(it -> getColumnDescriptor(it).ifPresent(col -> {
 					col.setMergeCommonValues(RowMergeMode.DISABLED);
 				}));
 

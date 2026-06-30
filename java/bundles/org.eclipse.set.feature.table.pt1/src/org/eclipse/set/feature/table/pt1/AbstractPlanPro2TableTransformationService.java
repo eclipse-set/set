@@ -100,13 +100,13 @@ public abstract class AbstractPlanPro2TableTransformationService
 		}
 		cols = getColumnsListe(root.getGroupRoot());
 
-		getColDescriptor(getRemarkColumnPosition())
+		getColumnDescriptor(getRemarkColumnPosition())
 				.ifPresent(col -> col.setIsRemarkColumn(true));
 
 		return root.getGroupRoot();
 	}
 
-	protected Optional<ColumnDescriptor> getColDescriptor(
+	protected Optional<ColumnDescriptor> getColumnDescriptor(
 			final String position) {
 		if (position == null) {
 			return Optional.empty();
