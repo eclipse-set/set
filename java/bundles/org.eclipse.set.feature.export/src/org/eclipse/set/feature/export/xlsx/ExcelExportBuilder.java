@@ -22,7 +22,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -241,7 +240,8 @@ public class ExcelExportBuilder implements TableExport {
 									.getCellStyle()
 									.getFontIndex()));
 				}
-				if (i == columnCount - 1) {
+				if (TableToTableDocument
+						.isRemarkColumn(row.getCells().get(i))) {
 					fillFootnoteCell(cell, content, allFootnotes, footnotes,
 							inlineFootnote);
 					continue;
@@ -265,23 +265,22 @@ public class ExcelExportBuilder implements TableExport {
 					.getFootnotes();
 			default -> throw new IllegalArgumentException();
 		};
-		final List<FootnoteInfo> fnInfo = footnotes.stream()
-				.map(fn -> TableExtensions.getFootnoteInfo(allFootnotes, fn))
-				.filter(Objects::nonNull)
-				.toList();
+		final List<FootnoteInfo> fnInfo = TableToTableDocument
+				.processFootnotes(footnotes.stream()
+						.map(fn -> TableExtensions.getFootnoteInfo(allFootnotes,
+								fn))
+						.toList());
 		final StringBuilder builder = new StringBuilder();
 		if (!cellContent.isEmpty() && !cellContent.isBlank()) {
 			builder.append(cellContent);
 			builder.append(TableToTableDocument.FOOTNOTE_INLINE_TEXT_SEPARATOR);
 		}
-		final String footnoteValue = inlineFootnote ? fnInfo.stream()
-				.map(FootnoteInfo::toText)
-				.collect(Collectors.joining(
-						TableToTableDocument.FOOTNOTE_INLINE_TEXT_SEPARATOR))
-				: fnInfo.stream()
-						.map(fn -> "*" + fn.index) //$NON-NLS-1$
-						.collect(Collectors.joining(
-								TableToTableDocument.FOOTNOTE_MARK_SEPRATOR));
+		final String footnoteValue = fnInfo.stream()
+				.map(inlineFootnote ? FootnoteInfo::toText
+						: FootnoteInfo::toShorthand)
+				.collect(Collectors.joining(inlineFootnote
+						? TableToTableDocument.FOOTNOTE_INLINE_TEXT_SEPARATOR
+						: TableToTableDocument.FOOTNOTE_MARK_SEPRATOR));
 		builder.append(footnoteValue);
 		cell.setCellValue(builder.toString());
 	}

@@ -213,7 +213,7 @@ class TableToTableDocument {
 
 		cells.indexed.forEach [
 			logger.debug('''column=«key»''')
-			val isRemarkColumn = value.isRemarkColumn(cells)
+			val isRemarkColumn = value.isRemarkColumn
 
 			// Check for required span merges
 			var rowSpan = 1
@@ -277,13 +277,15 @@ class TableToTableDocument {
 		return cellElement
 	}
 
-	private def boolean isRemarkColumn(CellContent content,
-		List<CellContent> rowContent) {
-		return isRemarkColumn(
-			(content.eContainer as TableCell).columndescriptor)
+	static def boolean isRemarkColumn(CellContent content) {
+		return isRemarkColumn((content.eContainer as TableCell))
 	}
 
-	private def boolean isRemarkColumn(ColumnDescriptor columnDescriptor) {
+	static def boolean isRemarkColumn(TableCell cell) {
+		return isRemarkColumn(cell.columndescriptor)
+	}
+
+	static def boolean isRemarkColumn(ColumnDescriptor columnDescriptor) {
 		if (columnDescriptor === null) {
 			return false;
 		}
@@ -445,17 +447,15 @@ class TableToTableDocument {
 		if (!remarkTextInlnie) {
 			element.setAttribute("keep-inline", "true")
 			// Sort unchanged & new footnotes together, then the old foonotes
-			#[unchangedFootnotes, newFootnotes].flatten.distinctBy[toShorthand].
-				sortBy[index].forEach [
-					val remark = unchangedFootnotes.exists [ unchanged |
-							unchanged.bearbeitungsvermerk ===
-								bearbeitungsvermerk &&
-								toShorthand == toShorthand
-						] ? WARNING_MARK_BLACK : WARNING_MARK_RED
-					element.addFootnoteChild(toShorthand, remark, columnNumber,
-						isRemarkColumn)
-				]
-			oldFootnotes.distinctBy[toShorthand].sortBy[index].forEach [
+			#[unchangedFootnotes, newFootnotes].flatten.processFootnotes.forEach [
+				val remark = unchangedFootnotes.exists [ unchanged |
+						unchanged.bearbeitungsvermerk === bearbeitungsvermerk &&
+							toShorthand == toShorthand
+					] ? WARNING_MARK_BLACK : WARNING_MARK_RED
+				element.addFootnoteChild(toShorthand, remark, columnNumber,
+					isRemarkColumn)
+			]
+			oldFootnotes.processFootnotes.forEach [
 				element.addFootnoteChild(toShorthand, WARNING_MARK_YELLOW,
 					columnNumber, isRemarkColumn)
 			]
@@ -476,11 +476,17 @@ class TableToTableDocument {
 			isRemarkColumn)
 	}
 
+	static def List<FootnoteInfo> processFootnotes(Iterable<FootnoteInfo> fn) {
+		return fn.filterNull.distinctBy[toShorthand].sortBy [
+			index
+		].toList
+	}
+
 	private def String footnotesToString(Iterable<FootnoteInfo> fn) {
 		val separator = remarkTextInlnie ? FOOTNOTE_INLINE_TEXT_SEPARATOR : FOOTNOTE_MARK_SEPRATOR
-		return fn.filterNull.sortBy[index].map [
+		return fn.processFootnotes.map [
 			remarkTextInlnie ? toText : toShorthand
-		].toSet.iterableToString(separator)
+		].iterableToString(separator)
 	}
 
 	private def Element createMultiColorElement(MultiColorContent content,
