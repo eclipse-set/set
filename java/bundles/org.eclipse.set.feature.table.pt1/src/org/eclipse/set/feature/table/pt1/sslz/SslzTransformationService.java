@@ -133,6 +133,11 @@ public final class SslzTransformationService
 	}
 
 	@Override
+	protected String getRemarkColumnPosition() {
+		return SslzColumns.Bemerkung;
+	}
+
+	@Override
 	protected Map<Class<?>, String> getFootnotesColumnReferences() {
 		return Collections.emptyMap();
 	}

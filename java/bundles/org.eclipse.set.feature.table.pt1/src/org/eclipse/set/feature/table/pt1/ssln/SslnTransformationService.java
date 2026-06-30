@@ -87,6 +87,11 @@ public class SslnTransformationService
 	}
 
 	@Override
+	protected String getRemarkColumnPosition() {
+		return SslnColumns.Bemerkung;
+	}
+
+	@Override
 	protected Map<Class<?>, String> getFootnotesColumnReferences() {
 		return Collections.emptyMap();
 	}

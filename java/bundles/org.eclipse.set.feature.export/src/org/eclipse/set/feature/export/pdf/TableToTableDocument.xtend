@@ -53,6 +53,7 @@ import static extension org.eclipse.set.model.tablemodel.extensions.TableRowExte
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 import static extension org.eclipse.set.utils.StringExtensions.*
 import static extension org.eclipse.set.utils.export.xsl.siteplan.SiteplanXSL.pxToMilimeter
+import org.eclipse.set.model.tablemodel.TableCell
 
 /**
  * Transformation from {@link Table} to TableDocument {@link Document}.
@@ -277,7 +278,7 @@ class TableToTableDocument {
 
 	private def boolean isRemarkColumn(CellContent content,
 		List<CellContent> rowContent) {
-		return rowContent.last === content
+		return (content.eContainer as TableCell).columndescriptor.isIsRemarkColumn
 	}
 
 	private def Attr create doc.createAttribute("group-number") transformToGroupNumber(
@@ -512,9 +513,8 @@ class TableToTableDocument {
 	private def Element addContentToElement(String content, Element element,
 		int columnNumber, boolean isRemarkColumn) {
 		val checkOutput = content.checkForTestOutput(columnNumber)
-		element.textContent = isRemarkColumn
-			? checkOutput
-			: checkOutput.intersperseWithZeroSpacesSC
+		element.textContent = isRemarkColumn ? checkOutput : checkOutput.
+			intersperseWithZeroSpacesSC
 		return element
 	}
 
@@ -577,19 +577,23 @@ class TableToTableDocument {
 
 	private def Element create doc.createElement("SignificantInformation") transformToSignificantInformation(
 		SignificantInformation significantInformation) {
-		appendChild(transformLoadedPlanInformation("MainPlan", significantInformation.mainPlan))
+		appendChild(
+			transformLoadedPlanInformation("MainPlan",
+				significantInformation.mainPlan))
 		if (significantInformation.comparePlan !== null) {
-			appendChild(transformLoadedPlanInformation("ComparePlan", significantInformation.comparePlan))
+			appendChild(
+				transformLoadedPlanInformation("ComparePlan",
+					significantInformation.comparePlan))
 		}
 	}
-	
-	private def Element create doc.createElement("LoadedPlan") transformLoadedPlanInformation(String id, LoadedPlanInformation info) {
+
+	private def Element create doc.createElement("LoadedPlan") transformLoadedPlanInformation(
+		String id, LoadedPlanInformation info) {
 		val idAttr = doc.createAttribute("id")
 		idAttr.value = id
 		attributeNode = idAttr
 		textContent = '''«info.name» «info.timestamp» MD5: «info.checksum»'''
 	}
-	
 
 	private def Element create doc.createElement("Footnotes")
 	transformToFootnotes(Table table) {

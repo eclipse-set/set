@@ -22,6 +22,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -98,7 +99,21 @@ public abstract class AbstractPlanPro2TableTransformationService
 			throw new RuntimeException(e);
 		}
 		cols = getColumnsListe(root.getGroupRoot());
+
+		getColDescriptor(getRemarkColumnPosition())
+				.ifPresent(col -> col.setIsRemarkColumn(true));
+
 		return root.getGroupRoot();
+	}
+
+	protected Optional<ColumnDescriptor> getColDescriptor(
+			final String position) {
+		if (position == null) {
+			return Optional.empty();
+		}
+		return cols.stream()
+				.filter(col -> position.equals(col.getColumnPosition()))
+				.findFirst();
 	}
 
 	@Override
@@ -168,6 +183,15 @@ public abstract class AbstractPlanPro2TableTransformationService
 	protected abstract String getShortcut();
 
 	protected abstract List<String> getTopologicalColumnPosition();
+
+	/**
+	 * @return the column position of the remark column or null if the table has
+	 *         no remark column
+	 */
+	@SuppressWarnings("static-method")
+	protected String getRemarkColumnPosition() {
+		return null;
+	}
 
 	protected abstract Map<Class<?>, String> getFootnotesColumnReferences();
 
