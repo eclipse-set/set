@@ -29,7 +29,7 @@ jobs:
   docs:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Install Asciidoctor & Hugo
         uses: eclipse-set/build/.github/actions/setup-asciidoctor@main
@@ -48,7 +48,7 @@ jobs:
   developerhelp:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Install Asciidoctor & Hugo
         uses: eclipse-set/build/.github/actions/setup-asciidoctor@main
@@ -67,7 +67,7 @@ jobs:
   textviewer:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Build
         run: |
           npm ci
@@ -83,7 +83,7 @@ jobs:
   pdfviewer:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Build
         run: |
           wget --no-verbose -O pdfjs.zip https://github.com/mozilla/pdf.js/releases/download/v$(node getVersion.js)/pdfjs-$(node getVersion.js)-dist.zip
@@ -100,7 +100,7 @@ jobs:
   siteplan:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       
       - name: Cache node_modules
         uses: actions/cache@v5
@@ -126,7 +126,7 @@ jobs:
   news:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Setup Java
         uses: eclipse-set/build/.github/actions/setup-java@main
 
@@ -160,7 +160,7 @@ jobs:
       pull-requests: write
       actions: read
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       
       - name: Setup Java
         uses: eclipse-set/build/.github/actions/setup-java@main
@@ -262,7 +262,7 @@ jobs:
       checks: write
       pull-requests: write
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       
       - name: Setup Java
         uses: eclipse-set/build/.github/actions/setup-java@main
@@ -340,7 +340,7 @@ jobs:
       security-events: write
     if: github.ref == 'refs/heads/main'
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v4
@@ -419,7 +419,7 @@ jobs:
       pull-requests: write
       actions: read
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       
       - name: Setup Java
         uses: eclipse-set/build/.github/actions/setup-java@main
