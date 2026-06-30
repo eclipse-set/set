@@ -21,6 +21,7 @@ import org.eclipse.set.basis.FreeFieldInfo.LoadedPlanInformation
 import org.eclipse.set.basis.FreeFieldInfo.SignificantInformation
 import org.eclipse.set.basis.constants.ToolboxConstants
 import org.eclipse.set.model.tablemodel.CellContent
+import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.model.tablemodel.CompareFootnoteContainer
 import org.eclipse.set.model.tablemodel.CompareStateCellContent
 import org.eclipse.set.model.tablemodel.CompareTableCellContent
@@ -31,6 +32,7 @@ import org.eclipse.set.model.tablemodel.MultiColorContent
 import org.eclipse.set.model.tablemodel.PlanCompareRow
 import org.eclipse.set.model.tablemodel.SimpleFootnoteContainer
 import org.eclipse.set.model.tablemodel.Table
+import org.eclipse.set.model.tablemodel.TableCell
 import org.eclipse.set.model.tablemodel.TableContent
 import org.eclipse.set.model.tablemodel.TableRow
 import org.eclipse.set.model.tablemodel.extensions.TableExtensions.FootnoteInfo
@@ -53,7 +55,6 @@ import static extension org.eclipse.set.model.tablemodel.extensions.TableRowExte
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 import static extension org.eclipse.set.utils.StringExtensions.*
 import static extension org.eclipse.set.utils.export.xsl.siteplan.SiteplanXSL.pxToMilimeter
-import org.eclipse.set.model.tablemodel.TableCell
 
 /**
  * Transformation from {@link Table} to TableDocument {@link Document}.
@@ -278,7 +279,18 @@ class TableToTableDocument {
 
 	private def boolean isRemarkColumn(CellContent content,
 		List<CellContent> rowContent) {
-		return (content.eContainer as TableCell).columndescriptor.isIsRemarkColumn
+		return isRemarkColumn(
+			(content.eContainer as TableCell).columndescriptor)
+	}
+
+	private def boolean isRemarkColumn(ColumnDescriptor columnDescriptor) {
+		if (columnDescriptor === null) {
+			return false;
+		}
+		if (columnDescriptor.isRemarkColumn) {
+			return true;
+		}
+		return isRemarkColumn(columnDescriptor.parent)
 	}
 
 	private def Attr create doc.createAttribute("group-number") transformToGroupNumber(
