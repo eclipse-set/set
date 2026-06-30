@@ -29,7 +29,7 @@ jobs:
   docs:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Install Asciidoctor & Hugo
         uses: eclipse-set/build/.github/actions/setup-asciidoctor@main
@@ -48,7 +48,7 @@ jobs:
   developerhelp:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Install Asciidoctor & Hugo
         uses: eclipse-set/build/.github/actions/setup-asciidoctor@main
@@ -67,7 +67,7 @@ jobs:
   textviewer:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Build
         run: |
           npm ci
@@ -83,7 +83,7 @@ jobs:
   pdfviewer:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Build
         run: |
           wget --no-verbose -O pdfjs.zip https://github.com/mozilla/pdf.js/releases/download/v$(node getVersion.js)/pdfjs-$(node getVersion.js)-dist.zip
@@ -100,10 +100,10 @@ jobs:
   siteplan:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       
       - name: Cache node_modules
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           enableCrossOsArchive: true
           path: ${{ github.workspace }}/web/siteplan/node_modules/
@@ -126,7 +126,7 @@ jobs:
   news:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Setup Java
         uses: eclipse-set/build/.github/actions/setup-java@main
 
@@ -160,7 +160,7 @@ jobs:
       pull-requests: write
       actions: read
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       
       - name: Setup Java
         uses: eclipse-set/build/.github/actions/setup-java@main
@@ -202,7 +202,7 @@ jobs:
           path: web/news/public
       
       - name: Cache Tycho p2 + m2
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           enableCrossOsArchive: true
           path: |
@@ -245,7 +245,7 @@ jobs:
 
       - name: Upload release asset
         if: startsWith(github.ref, 'refs/tags/')
-        uses: softprops/action-gh-release@b4309332981a82ec1c5618f44dd2e27cc8bfbfda # v3.0.0
+        uses: softprops/action-gh-release@718ea10b132b3b2eba29c1007bb80653f286566b # v3.0.1
         with: 
           files: java/bundles/org.eclipse.set.releng.set.product/target/products/unsigned-Eclipse-SET-*.zip
           
@@ -262,7 +262,7 @@ jobs:
       checks: write
       pull-requests: write
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       
       - name: Setup Java
         uses: eclipse-set/build/.github/actions/setup-java@main
@@ -304,7 +304,7 @@ jobs:
           path: web/news/public
 
       - name: Cache Tycho p2 + m2
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           enableCrossOsArchive: true
           path: |
@@ -321,7 +321,7 @@ jobs:
             -Dmaven.javadoc.skip=true
       
       - name: Publish Test Results
-        uses: EnricoMi/publish-unit-test-result-action@c950f6fb443cb5af20a377fd0dfaa78838901040 # v2.23.0
+        uses: EnricoMi/publish-unit-test-result-action@d0a4676d0e0b938bc201470d88276b7c74c712b3 # v2.24.0
         if: always()
         with:
           files: |
@@ -340,7 +340,7 @@ jobs:
       security-events: write
     if: github.ref == 'refs/heads/main'
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v4
@@ -394,7 +394,7 @@ jobs:
           path: web/news/public
 
       - name: Cache Tycho p2 + m2
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           enableCrossOsArchive: true
           path: |
@@ -419,7 +419,7 @@ jobs:
       pull-requests: write
       actions: read
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       
       - name: Setup Java
         uses: eclipse-set/build/.github/actions/setup-java@main
@@ -446,7 +446,7 @@ jobs:
         continue-on-error: true
 
       - name: Cache Tycho p2 + m2
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           enableCrossOsArchive: true
           path: |

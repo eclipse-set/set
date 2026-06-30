@@ -302,7 +302,8 @@ public final class TableServiceImpl implements TableService {
 
 	private void saveTableError(final TableInfo tableInfo,
 			final IModelSession modelSession,
-			final Collection<TableError> errors) {
+			final Collection<TableError> errors,
+			final TableStatus tableStatus) {
 		final String shortName = getTableNameInfo(tableInfo).getShortName();
 		final String shortCut = tableInfo.shortcut();
 
@@ -311,8 +312,6 @@ public final class TableServiceImpl implements TableService {
 		// Only considered table in main session
 		if (modelSession.getToolboxFile()
 				.getRole() == ToolboxFileRole.SESSION) {
-			final TableStatus tableStatus = tablesStatus
-					.computeIfAbsent(tableInfo, k -> new TableStatus());
 			tableStatus.setContainsErrors(!errors.isEmpty());
 		}
 
@@ -324,7 +323,8 @@ public final class TableServiceImpl implements TableService {
 	}
 
 	private Object loadTransform(final TableInfo tableInfo,
-			final IModelSession modelSession, final TableType tableType) {
+			final IModelSession modelSession, final TableType tableType,
+			final TableStatus tableStatus) {
 		final PlanPro2TableTransformationService modelService = getModelService(
 				tableInfo);
 
@@ -346,7 +346,8 @@ public final class TableServiceImpl implements TableService {
 
 		// sorting
 		sortTable(transformedTable, tableInfo, tableType);
-		saveTableToCache(transformedTable, modelSession, tableInfo);
+		saveTableToCache(transformedTable, modelSession, tableInfo,
+				tableStatus);
 		return transformedTable;
 	}
 
@@ -378,7 +379,7 @@ public final class TableServiceImpl implements TableService {
 			final TableType tableType, final IModelSession modelSession,
 			final Set<String> controlAreas) {
 		final Table table = transformToTable(tableInfo, tableType, modelSession,
-				controlAreas);
+				controlAreas, new TableStatus());
 		return transformToCsv(table);
 	}
 
@@ -423,13 +424,13 @@ public final class TableServiceImpl implements TableService {
 	@Override
 	public Table transformToTable(final TableInfo tableInfo,
 			final TableType tableType, final IModelSession modelSession,
-			final Set<String> controlAreaIds) {
+			final Set<String> controlAreaIds, final TableStatus tableStatus) {
 		final Cache cache = getCacheService().getCache(
 				modelSession.getPlanProSchnittstelle(),
 				ToolboxConstants.SHORTCUT_TO_TABLE_CACHE_ID);
 		final Object table = cache.get(tableInfo.shortcut(), () -> {
 			final Object transformed = loadTransform(tableInfo, modelSession,
-					tableType);
+					tableType, tableStatus);
 			if (transformed != null
 					&& transformed instanceof final Table transformedTable) {
 				return transformedTable;
@@ -461,9 +462,7 @@ public final class TableServiceImpl implements TableService {
 		getModelService(tableInfo).addAdditionRow(stateTable, resultTable);
 		if (modelSession.getToolboxFile()
 				.getRole() == ToolboxFileRole.SESSION) {
-			final TableStatus status = tablesStatus.computeIfAbsent(tableInfo,
-					k -> new TableStatus());
-			status.setContainsStateChanged(
+			tableStatus.setContainsStateChanged(
 					TableServiceUtils.isTableExistChangedCompareContent(
 							resultTable, CompareStateCellContent.class));
 		}
@@ -515,7 +514,8 @@ public final class TableServiceImpl implements TableService {
 	}
 
 	private void saveTableToCache(final Table table,
-			final IModelSession modelSession, final TableInfo tableInfo) {
+			final IModelSession modelSession, final TableInfo tableInfo,
+			final TableStatus tableStatus) {
 		final String threadName = String.format("%s/saveCache", //$NON-NLS-1$
 				tableInfo.shortcut());
 		final PlanPro2TableTransformationService modelService = getModelService(
@@ -541,7 +541,7 @@ public final class TableServiceImpl implements TableService {
 				});
 
 				cache.set(tableInfo.shortcut(), table);
-				saveTableError(tableInfo, modelSession, errors);
+				saveTableError(tableInfo, modelSession, errors, tableStatus);
 			};
 
 			if (TableService.isTransformComplete(tableInfo,
@@ -679,7 +679,7 @@ public final class TableServiceImpl implements TableService {
 				monitor.subTask(nameInfo.getFullDisplayName());
 
 				final Table table = createDiffTable(tableInfo, tableType,
-						controlAreaIds);
+						controlAreaIds, true);
 				while (!TableService.isTransformComplete(tableInfo, null)) {
 					Thread.sleep(2000);
 				}
@@ -695,15 +695,17 @@ public final class TableServiceImpl implements TableService {
 
 	@Override
 	public Table createDiffTable(final TableInfo tableInfo,
-			final TableType tableType, final Set<String> controlAreaIds) {
+			final TableType tableType, final Set<String> controlAreaIds,
+			final boolean updateTableStatus) {
 		Table mainSessionTable = null;
-		final TableStatus tableStatus = tablesStatus.computeIfAbsent(tableInfo,
-				k -> new TableStatus());
-		tableStatus.reset();
+		final TableStatus tableStatus = updateTableStatus
+				? tablesStatus.computeIfAbsent(tableInfo,
+						k -> new TableStatus())
+				: new TableStatus();
 		try {
 			mainSessionTable = transformToTable(tableInfo, tableType,
 					sessionService.getLoadedSession(ToolboxFileRole.SESSION),
-					controlAreaIds);
+					controlAreaIds, tableStatus);
 			storageFootnotes(ToolboxFileRole.SESSION, tableInfo,
 					mainSessionTable);
 			if (sessionService.getLoadedSession(
@@ -737,7 +739,7 @@ public final class TableServiceImpl implements TableService {
 			final IModelSession compareSession = sessionService
 					.getLoadedSession(ToolboxFileRole.COMPARE_PLANNING);
 			final Table compareSessionTable = transformToTable(tableInfo,
-					tableType, compareSession, controlAreaIds);
+					tableType, compareSession, controlAreaIds, tableStatus);
 			storageFootnotes(ToolboxFileRole.COMPARE_PLANNING, tableInfo,
 					compareSessionTable);
 			final Table compareTable = diffServiceMap

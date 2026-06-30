@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -44,6 +45,7 @@ import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.basis.exceptions.FileExportException;
 import org.eclipse.set.feature.export.pdf.TableToTableDocument;
 import org.eclipse.set.model.tablemodel.CompareFootnoteContainer;
+import org.eclipse.set.model.tablemodel.CompareTableFootnoteContainer;
 import org.eclipse.set.model.tablemodel.Footnote;
 import org.eclipse.set.model.tablemodel.FootnoteContainer;
 import org.eclipse.set.model.tablemodel.SimpleFootnoteContainer;
@@ -254,17 +256,27 @@ public class ExcelExportBuilder implements TableExport {
 		}
 	}
 
-	private static void fillFootnoteCell(final Cell cell,
-			final String cellContent, final List<FootnoteInfo> allFootnotes,
-			final FootnoteContainer fnContainer, final boolean inlineFootnote) {
-		final List<Footnote> footnotes = switch (fnContainer) {
+	private static List<Footnote> getFootnotes(
+			final FootnoteContainer fnContainer) {
+		if (fnContainer == null) {
+			return Collections.emptyList();
+		}
+		return switch (fnContainer) {
 			case final SimpleFootnoteContainer simpleContainer -> simpleContainer
 					.getFootnotes();
 			case final CompareFootnoteContainer compareContainer -> compareContainer
 					.getUnchangedFootnotes()
 					.getFootnotes();
-			default -> throw new IllegalArgumentException();
+			case final CompareTableFootnoteContainer compareContainer -> getFootnotes(
+					compareContainer.getMainPlanFootnoteContainer());
+			default -> Collections.emptyList();
 		};
+	}
+
+	private static void fillFootnoteCell(final Cell cell,
+			final String cellContent, final List<FootnoteInfo> allFootnotes,
+			final FootnoteContainer fnContainer, final boolean inlineFootnote) {
+		final List<Footnote> footnotes = getFootnotes(fnContainer);
 		final List<FootnoteInfo> fnInfo = TableToTableDocument
 				.processFootnotes(footnotes.stream()
 						.map(fn -> TableExtensions.getFootnoteInfo(allFootnotes,
