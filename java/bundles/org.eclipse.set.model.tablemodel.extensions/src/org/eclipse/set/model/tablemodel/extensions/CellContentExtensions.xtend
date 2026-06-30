@@ -216,8 +216,13 @@ class CellContentExtensions {
 		if (content.mainPlanCellContent === null) {
 			return content.mainPlanCellContent.plainStringValue
 		}
-
-		return '''«content.mainPlanCellContent.plainStringValue»/«content.comparePlanCellContent.plainStringValue»'''
+		
+		val mainContent = content.mainPlanCellContent.plainStringValue
+		val compareContent = content.comparePlanCellContent.plainStringValue
+		if (mainContent.isNullOrEmpty && compareContent.nullOrEmpty) {
+			return ""
+		}
+		return '''«mainContent»/«compareContent»'''
 	}
 
 	static def dispatch Iterable<String> getStringValueIterable(Void content) {
