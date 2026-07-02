@@ -419,14 +419,17 @@ class TableExtensions {
 	}
 
 	static class FootnoteInfo {
-		new(Footnote fn, FootnoteType ft) {
-			this(fn.bearbeitungsvermerk, ft, fn.referenceColumn)
+		new(Footnote fn, FootnoteType ft, boolean changedInCompare) {
+			this(fn.bearbeitungsvermerk, ft, fn.referenceColumn,
+				changedInCompare)
 		}
 
-		new(Bearbeitungsvermerk bv, FootnoteType ft, String refCol) {
+		new(Bearbeitungsvermerk bv, FootnoteType ft, String refCol,
+			boolean changedInCompare) {
 			this.bearbeitungsvermerk = bv
 			this.type = ft
 			this.referenceColumn = refCol
+			this.changedInCompare = changedInCompare
 		}
 
 		def String toShorthand() {
@@ -442,43 +445,122 @@ class TableExtensions {
 			»«bearbeitungsvermerk?.bearbeitungsvermerkAllg?.kommentar?.wert»'''
 		}
 
+		def boolean sameBv(FootnoteInfo other) {
+			return toText == other.toText
+		}
+
+		override String toString() {
+			return '''«toReferenceText» («type» #«bearbeitungsvermerk.identitaet.wert»)'''
+		}
+
 		public Bearbeitungsvermerk bearbeitungsvermerk;
 		public int index;
 		public FootnoteType type;
-		public String referenceColumn
+		public String referenceColumn;
+		public boolean changedInCompare;
 	}
 
-	static def Iterable<FootnoteInfo> getAllFootnotes(Table table) {
-		val simpleFootnoteContainer = table.eAllContents.filter(
-			SimpleFootnoteContainer).toList
-		val compareFootnoteContainer = table.eAllContents.filter(
-			CompareFootnoteContainer).toList
+	static def Iterable<FootnoteInfo> getFootnoteInfos(
+		FootnoteContainer fnContainer) {
+		return switch (fnContainer) {
+			SimpleFootnoteContainer: fnContainer.footnoteInfos
+			CompareFootnoteContainer: fnContainer.footnoteInfos
+			default: #[]
+		}
+	}
 
-		val common = (simpleFootnoteContainer.map [
-			footnotes.map[new FootnoteInfo(it, FootnoteType.COMMON_FOOTNOTE)]
-		] + compareFootnoteContainer.map [
-			unchangedFootnotes.footnotes.map [
-				new FootnoteInfo(it, FootnoteType.COMMON_FOOTNOTE)
-			]
-		]).toList.flatten
+	static def Iterable<FootnoteInfo> getFootnoteInfos(
+		SimpleFootnoteContainer fnContainer) {
+		val common = fnContainer.footnotes.map [
+			new FootnoteInfo(it, FootnoteType.COMMON_FOOTNOTE, false)
+		].toList
 
-		val old = compareFootnoteContainer.map [
-			oldFootnotes.footnotes.map [
-				new FootnoteInfo(it, FootnoteType.OLD_FOOTNOTE)
-			]
-		].toList.flatten
+		return common.sortBy[toText]
+	}
 
-		val newF = compareFootnoteContainer.map [
+	static def Iterable<FootnoteInfo> getFootnoteInfos(
+		CompareFootnoteContainer fnContainer) {
 
-			newFootnotes.footnotes.map [
-				new FootnoteInfo(it, FootnoteType.NEW_FOOTNOTE)
-			]
-		].toList.flatten
+		val common = fnContainer.unchangedFootnotes.footnotes.map [
+			new FootnoteInfo(it, FootnoteType.COMMON_FOOTNOTE, false)
+		].toList
+
+		val old = fnContainer.oldFootnotes.footnotes.map [
+			new FootnoteInfo(it, FootnoteType.OLD_FOOTNOTE, false)
+		].toList
+
+		val newF = fnContainer.newFootnotes.footnotes.map [
+			new FootnoteInfo(it, FootnoteType.NEW_FOOTNOTE, false)
+		].toList
 
 		// sort new and common together by text, then append old entries
 		val footnotes = (common + newF).sortBy[toText] + old.sortBy[toText]
+		return footnotes
+	}
 
-		return footnotes.distinctBy[toText].indexed.map [
+	static def Iterable<FootnoteInfo> getAllFootnotes(Table table) {
+		// collect all FootnoteContainer in table
+		val allSimpleFootnoteContainer = table.eAllContents.filter(
+			SimpleFootnoteContainer).toList
+		val allCompareFootnoteContainer = table.eAllContents.filter(
+			CompareFootnoteContainer).toList
+		val compareTableFootnoteContainer = table.eAllContents.filter(
+			CompareTableFootnoteContainer).toList
+
+		val subCompareTableContainer = compareTableFootnoteContainer.map [
+			#[mainPlanFootnoteContainer, comparePlanFootnoteContainer]
+		].flatten;
+
+		// retrieve only those CompareFootnoteContainer that are not used inside CompareTableFootnoteContainer
+		val nestedCompareFootnoteContainer = subCompareTableContainer.filter(
+			CompareFootnoteContainer).toList;
+		val compareFootnoteContainer = allCompareFootnoteContainer.filter [
+			!nestedCompareFootnoteContainer.contains(it)
+		]
+
+		// retrieve only those SimpleFootnoteContainer that are not used inside any other FootnoteContainer
+		val nestedSimpleFootnoteContainer = (subCompareTableContainer.filter(
+			SimpleFootnoteContainer) + compareFootnoteContainer.map [
+			#[newFootnotes, oldFootnotes, unchangedFootnotes]
+		].flatten);
+		val simpleFootnoteContainer = allSimpleFootnoteContainer.filter [
+			!nestedSimpleFootnoteContainer.contains(it)
+		];
+
+		// collect and sort all footnotes and keep only unique ones of main planning
+		val normalFootnotes = (simpleFootnoteContainer +
+			compareFootnoteContainer).map [
+			footnoteInfos
+		].flatten.distinctBy[toText]
+		val mainTableFootnotes = compareTableFootnoteContainer.map [
+			mainPlanFootnoteContainer.footnoteInfos
+		].flatten.distinctBy[toText]
+		val unsortedFootnotes = normalFootnotes + mainTableFootnotes
+		val footnotes = (unsortedFootnotes.filter [
+			type != FootnoteType.OLD_FOOTNOTE
+		].sortBy[toText] + unsortedFootnotes.filter [
+			type == FootnoteType.OLD_FOOTNOTE
+		]).distinctBy[toText]
+
+		// flag changes between main and compare table if necessary
+		if (compareTableFootnoteContainer.size > 0) {
+			val compareTableFootnotes = compareTableFootnoteContainer.map [
+				comparePlanFootnoteContainer.footnoteInfos
+			].flatten.distinctBy[toText]
+
+			// a footnote only changed if it is not existing in any compare table container
+			// and was not used in some other (not changed) row 
+			mainTableFootnotes.filter [ mF |
+				val compareFootnote = compareTableFootnotes.findFirst [ cF |
+					cF.sameBv(mF)
+				]
+				val existsAsNormalFootnote = normalFootnotes.
+						empty ? false : normalFootnotes.exists[nF|nF.sameBv(mF)]
+				compareFootnote === null && !existsAsNormalFootnote
+			].forEach[changedInCompare = true]
+		}
+
+		return footnotes.indexed.map [
 			value.index = key + 1
 			return value
 		]
