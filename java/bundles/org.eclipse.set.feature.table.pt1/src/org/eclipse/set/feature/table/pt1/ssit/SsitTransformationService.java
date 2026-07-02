@@ -72,6 +72,11 @@ public class SsitTransformationService
 	}
 
 	@Override
+	protected String getRemarkColumnPosition() {
+		return SsitColumns.Bemerkung;
+	}
+
+	@Override
 	protected Map<Class<?>, String> getFootnotesColumnReferences() {
 		return Map.of(ID_Strecke_TypeClass.class,
 				SsitColumns.Befestigung_Strecke, Strecke_Km_TypeClass.class,

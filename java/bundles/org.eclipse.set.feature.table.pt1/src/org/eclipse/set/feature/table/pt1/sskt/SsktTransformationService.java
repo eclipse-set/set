@@ -93,10 +93,8 @@ public class SsktTransformationService
 		List.of(SsktColumns.IP_Teilsystem_Art, //
 				SsktColumns.Teilsystem_TS_Blau, //
 				SsktColumns.Teilsystem_TS_Grau)
-				.forEach(it -> cols.forEach(col -> {
-					if (it.equals(col.getColumnPosition())) {
-						col.setMergeCommonValues(RowMergeMode.DISABLED);
-					}
+				.forEach(it -> getColumnDescriptor(it).ifPresent(col -> {
+					col.setMergeCommonValues(RowMergeMode.DISABLED);
 				}));
 
 		return cd;
@@ -110,6 +108,11 @@ public class SsktTransformationService
 	@Override
 	protected List<String> getTopologicalColumnPosition() {
 		return Collections.emptyList();
+	}
+
+	@Override
+	protected String getRemarkColumnPosition() {
+		return SsktColumns.Bemerkung;
 	}
 
 	@Override

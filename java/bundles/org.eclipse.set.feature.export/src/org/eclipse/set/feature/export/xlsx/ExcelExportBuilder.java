@@ -8,7 +8,10 @@
  */
 package org.eclipse.set.feature.export.xlsx;
 
-import static org.eclipse.set.utils.excel.ExcelWorkbookExtension.*;
+import static org.eclipse.set.utils.excel.ExcelWorkbookExtension.getCellAt;
+import static org.eclipse.set.utils.excel.ExcelWorkbookExtension.getCellStringValue;
+import static org.eclipse.set.utils.excel.ExcelWorkbookExtension.getHeaderLastColumnIndex;
+import static org.eclipse.set.utils.excel.ExcelWorkbookExtension.getHeaderLastRowIndex;
 
 import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
@@ -20,7 +23,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -152,7 +154,8 @@ public class ExcelExportBuilder implements TableExport {
 			final List<TableRow> rows = TableExtensions.getTableRows(table);
 
 			// Fill sheet
-			fillSheet(sheet, rows, rowIndex, columnCount, isInlineFootnote);
+			fillSheet(workbook, sheet, rows, rowIndex, columnCount,
+					isInlineFootnote);
 
 			if (!isInlineFootnote) {
 				final Sheet footnoteSheet = workbook
@@ -209,9 +212,9 @@ public class ExcelExportBuilder implements TableExport {
 		}
 	}
 
-	private static void fillSheet(final Sheet sheet, final List<TableRow> rows,
-			final int rowIndex, final int columnCount,
-			final boolean inlineFootnote) {
+	private static void fillSheet(final Workbook workbook, final Sheet sheet,
+			final List<TableRow> rows, final int rowIndex,
+			final int columnCount, final boolean inlineFootnote) {
 		if (rows.isEmpty()) {
 			return;
 		}
@@ -233,8 +236,14 @@ public class ExcelExportBuilder implements TableExport {
 
 				if (cell == null) {
 					cell = sheetRow.createCell(i + 1);
+					cell.getCellStyle()
+							.setFont(workbook.getFontAt(sheet.getRow(0)
+									.getCell(1)
+									.getCellStyle()
+									.getFontIndex()));
 				}
-				if (i == columnCount - 1) {
+				if (TableToTableDocument
+						.isRemarkColumn(row.getCells().get(i))) {
 					fillFootnoteCell(cell, content, allFootnotes, footnotes,
 							inlineFootnote);
 					continue;
@@ -268,23 +277,22 @@ public class ExcelExportBuilder implements TableExport {
 			final String cellContent, final List<FootnoteInfo> allFootnotes,
 			final FootnoteContainer fnContainer, final boolean inlineFootnote) {
 		final List<Footnote> footnotes = getFootnotes(fnContainer);
-		final List<FootnoteInfo> fnInfo = footnotes.stream()
-				.map(fn -> TableExtensions.getFootnoteInfo(allFootnotes, fn))
-				.filter(Objects::nonNull)
-				.toList();
+		final List<FootnoteInfo> fnInfo = TableToTableDocument
+				.processFootnotes(footnotes.stream()
+						.map(fn -> TableExtensions.getFootnoteInfo(allFootnotes,
+								fn))
+						.toList());
 		final StringBuilder builder = new StringBuilder();
 		if (!cellContent.isEmpty() && !cellContent.isBlank()) {
 			builder.append(cellContent);
 			builder.append(TableToTableDocument.FOOTNOTE_INLINE_TEXT_SEPARATOR);
 		}
-		final String footnoteValue = inlineFootnote ? fnInfo.stream()
-				.map(FootnoteInfo::toText)
-				.collect(Collectors.joining(
-						TableToTableDocument.FOOTNOTE_INLINE_TEXT_SEPARATOR))
-				: fnInfo.stream()
-						.map(fn -> "*" + fn.index) //$NON-NLS-1$
-						.collect(Collectors.joining(
-								TableToTableDocument.FOOTNOTE_MARK_SEPRATOR));
+		final String footnoteValue = fnInfo.stream()
+				.map(inlineFootnote ? FootnoteInfo::toText
+						: FootnoteInfo::toShorthand)
+				.collect(Collectors.joining(inlineFootnote
+						? TableToTableDocument.FOOTNOTE_INLINE_TEXT_SEPARATOR
+						: TableToTableDocument.FOOTNOTE_MARK_SEPRATOR));
 		builder.append(footnoteValue);
 		cell.setCellValue(builder.toString());
 	}
@@ -318,6 +326,7 @@ public class ExcelExportBuilder implements TableExport {
 				if (!spanUtils.isMergeAllowed(column, row)) {
 					continue;
 				}
+				final int sheetColumn = column + 1;
 
 				final int spanUp = spanUtils.getRowSpanUp(column, row);
 				final int spanDown = spanUtils.getRowSpanDown(column, row);
@@ -334,7 +343,7 @@ public class ExcelExportBuilder implements TableExport {
 				}
 
 				sheet.addMergedRegion(new CellRangeAddress(sheetRowIndex,
-						sheetRowIndex + spanDown, column, column));
+						sheetRowIndex + spanDown, sheetColumn, sheetColumn));
 			}
 
 			sheetRowIndex++;

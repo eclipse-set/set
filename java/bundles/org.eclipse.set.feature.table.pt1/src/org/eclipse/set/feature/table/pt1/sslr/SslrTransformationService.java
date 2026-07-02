@@ -103,6 +103,11 @@ public class SslrTransformationService
 	}
 
 	@Override
+	protected String getRemarkColumnPosition() {
+		return SslrColumns.Bemerkung;
+	}
+
+	@Override
 	protected Map<Class<?>, String> getFootnotesColumnReferences() {
 		return Collections.emptyMap();
 	}

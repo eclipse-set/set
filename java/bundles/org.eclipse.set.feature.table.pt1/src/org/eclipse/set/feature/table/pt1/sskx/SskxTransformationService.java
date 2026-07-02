@@ -119,6 +119,11 @@ public class SskxTransformationService extends
 	}
 
 	@Override
+	protected String getRemarkColumnPosition() {
+		return SskxColumns.Bemerkung;
+	}
+
+	@Override
 	protected Map<Class<?>, String> getFootnotesColumnReferences() {
 		return Collections.emptyMap();
 	}

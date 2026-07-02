@@ -21,6 +21,7 @@ import org.eclipse.set.basis.FreeFieldInfo.LoadedPlanInformation
 import org.eclipse.set.basis.FreeFieldInfo.SignificantInformation
 import org.eclipse.set.basis.constants.ToolboxConstants
 import org.eclipse.set.model.tablemodel.CellContent
+import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.model.tablemodel.CompareFootnoteContainer
 import org.eclipse.set.model.tablemodel.CompareStateCellContent
 import org.eclipse.set.model.tablemodel.CompareTableCellContent
@@ -31,6 +32,7 @@ import org.eclipse.set.model.tablemodel.MultiColorContent
 import org.eclipse.set.model.tablemodel.PlanCompareRow
 import org.eclipse.set.model.tablemodel.SimpleFootnoteContainer
 import org.eclipse.set.model.tablemodel.Table
+import org.eclipse.set.model.tablemodel.TableCell
 import org.eclipse.set.model.tablemodel.TableContent
 import org.eclipse.set.model.tablemodel.TableRow
 import org.eclipse.set.model.tablemodel.extensions.TableExtensions.FootnoteInfo
@@ -211,7 +213,7 @@ class TableToTableDocument {
 
 		cells.indexed.forEach [
 			logger.debug('''column=«key»''')
-			val isRemarkColumn = value.isRemarkColumn(cells)
+			val isRemarkColumn = value.isRemarkColumn
 
 			// Check for required span merges
 			var rowSpan = 1
@@ -275,9 +277,22 @@ class TableToTableDocument {
 		return cellElement
 	}
 
-	private def boolean isRemarkColumn(CellContent content,
-		List<CellContent> rowContent) {
-		return rowContent.last === content
+	static def boolean isRemarkColumn(CellContent content) {
+		return isRemarkColumn((content.eContainer as TableCell))
+	}
+
+	static def boolean isRemarkColumn(TableCell cell) {
+		return isRemarkColumn(cell.columndescriptor)
+	}
+
+	static def boolean isRemarkColumn(ColumnDescriptor columnDescriptor) {
+		if (columnDescriptor === null) {
+			return false;
+		}
+		if (columnDescriptor.isRemarkColumn) {
+			return true;
+		}
+		return isRemarkColumn(columnDescriptor.parent)
 	}
 
 	private def Attr create doc.createAttribute("group-number") transformToGroupNumber(
@@ -432,17 +447,15 @@ class TableToTableDocument {
 		if (!remarkTextInlnie) {
 			element.setAttribute("keep-inline", "true")
 			// Sort unchanged & new footnotes together, then the old foonotes
-			#[unchangedFootnotes, newFootnotes].flatten.distinctBy[toShorthand].
-				sortBy[index].forEach [
-					val remark = unchangedFootnotes.exists [ unchanged |
-							unchanged.bearbeitungsvermerk ===
-								bearbeitungsvermerk &&
-								toShorthand == toShorthand
-						] ? WARNING_MARK_BLACK : WARNING_MARK_RED
-					element.addFootnoteChild(toShorthand, remark, columnNumber,
-						isRemarkColumn)
-				]
-			oldFootnotes.distinctBy[toShorthand].sortBy[index].forEach [
+			#[unchangedFootnotes, newFootnotes].flatten.processFootnotes.forEach [
+				val remark = unchangedFootnotes.exists [ unchanged |
+						unchanged.bearbeitungsvermerk === bearbeitungsvermerk &&
+							toShorthand == toShorthand
+					] ? WARNING_MARK_BLACK : WARNING_MARK_RED
+				element.addFootnoteChild(toShorthand, remark, columnNumber,
+					isRemarkColumn)
+			]
+			oldFootnotes.processFootnotes.forEach [
 				element.addFootnoteChild(toShorthand, WARNING_MARK_YELLOW,
 					columnNumber, isRemarkColumn)
 			]
@@ -463,11 +476,17 @@ class TableToTableDocument {
 			isRemarkColumn)
 	}
 
+	static def List<FootnoteInfo> processFootnotes(Iterable<FootnoteInfo> fn) {
+		return fn.filterNull.distinctBy[toShorthand].sortBy [
+			index
+		].toList
+	}
+
 	private def String footnotesToString(Iterable<FootnoteInfo> fn) {
 		val separator = remarkTextInlnie ? FOOTNOTE_INLINE_TEXT_SEPARATOR : FOOTNOTE_MARK_SEPRATOR
-		return fn.filterNull.sortBy[index].map [
+		return fn.processFootnotes.map [
 			remarkTextInlnie ? toText : toShorthand
-		].toSet.iterableToString(separator)
+		].iterableToString(separator)
 	}
 
 	private def Element createMultiColorElement(MultiColorContent content,
@@ -512,9 +531,8 @@ class TableToTableDocument {
 	private def Element addContentToElement(String content, Element element,
 		int columnNumber, boolean isRemarkColumn) {
 		val checkOutput = content.checkForTestOutput(columnNumber)
-		element.textContent = isRemarkColumn
-			? checkOutput
-			: checkOutput.intersperseWithZeroSpacesSC
+		element.textContent = isRemarkColumn ? checkOutput : checkOutput.
+			intersperseWithZeroSpacesSC
 		return element
 	}
 
@@ -577,19 +595,23 @@ class TableToTableDocument {
 
 	private def Element create doc.createElement("SignificantInformation") transformToSignificantInformation(
 		SignificantInformation significantInformation) {
-		appendChild(transformLoadedPlanInformation("MainPlan", significantInformation.mainPlan))
+		appendChild(
+			transformLoadedPlanInformation("MainPlan",
+				significantInformation.mainPlan))
 		if (significantInformation.comparePlan !== null) {
-			appendChild(transformLoadedPlanInformation("ComparePlan", significantInformation.comparePlan))
+			appendChild(
+				transformLoadedPlanInformation("ComparePlan",
+					significantInformation.comparePlan))
 		}
 	}
-	
-	private def Element create doc.createElement("LoadedPlan") transformLoadedPlanInformation(String id, LoadedPlanInformation info) {
+
+	private def Element create doc.createElement("LoadedPlan") transformLoadedPlanInformation(
+		String id, LoadedPlanInformation info) {
 		val idAttr = doc.createAttribute("id")
 		idAttr.value = id
 		attributeNode = idAttr
 		textContent = '''«info.name» «info.timestamp» MD5: «info.checksum»'''
 	}
-	
 
 	private def Element create doc.createElement("Footnotes")
 	transformToFootnotes(Table table) {
