@@ -45,7 +45,7 @@ export default class LockKeyFeature extends LageplanFeature<LockKey> {
       FeatureType.LockKey,
       lockKey,
       new OlPoint([lockKey.position.x, lockKey.position.y]),
-      lockKey.label.text
+      lockKey.label?.text
     )
     const svg = this.getObjectSvg(lockKey, lockKey.label)
 
@@ -64,8 +64,8 @@ export default class LockKeyFeature extends LageplanFeature<LockKey> {
       updateLabelOrientation(lockKey.label, rotation, this.map)
       updateLabelColor(lockKey.label, getLabelColor(lockKey))
       const style = this.svgService.getFeatureStyle(lockKey, FeatureType.LockKey, lockKey.label)
-      style.getImage().setScale(scale)
-      style.getImage().setRotation((rotation * Math.PI) / 180)
+      style.getImage()?.setScale(scale)
+      style.getImage()?.setRotation((rotation * Math.PI) / 180)
       return style
     })
     return feature

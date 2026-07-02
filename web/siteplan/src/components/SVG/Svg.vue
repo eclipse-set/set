@@ -31,7 +31,7 @@
     </div>
   </div>
 </template>
-<script lang="ts">
+<script setup lang="ts">
 import {
   AndereSignalGroup,
   HauptVorSignalGroup,
@@ -41,73 +41,61 @@ import SvgKatalog from './SvgKatalog.vue'
 import SvgSingleSignal from './SvgSingleSignal.vue'
 import SvgService from '@/service/SvgService'
 import SignalBruecker from './SignalBruecke.vue'
-import { Options, Vue } from 'vue-class-component'
-import { ISvgElement } from '@/model/SvgElement'
+import { ISvgElement, ZusatzSignal } from '@/model/SvgElement'
+import { ref, watch } from 'vue'
+import { useRoute } from 'vue-router'
 
-@Options({
-  components: {
-    SvgKatalog,
-    SvgSingleSignal,
-    SignalBruecker
-  },
-  created () {
-    this.setMode()
-  },
-  watch: {
-    $route () {
-      this.setMode()
-    },
-    mode (value: string): void {
-      this.mastList = []
-      this.schirmList = []
-      this.listSignalGroup = []
-      if (value === 'katalog') {
-        this.listSignalGroup = Object.assign(
-          {},
-          HauptVorSignalGroup,
-          AndereSignalGroup
-        )
-      } else if (value === 'einzeln') {
-        this.listSignalGroup = Object.values(HauptVorSignalGroup)
-      }
-    }
-  }
-})
-export default class Svg extends Vue {
-  svgService = new SvgService()
-  mode = ''
-  listSignalGroup = []
-  mastList: ISvgElement[] | null | undefined = []
-  schirmList: ISvgElement[] | null | undefined = []
+const svgService = new SvgService()
+const mode = ref('')
+const listSignalGroup = ref<string[]>([])
+const mastList = ref<ISvgElement[] | null | undefined>([])
+const schirmList = ref<ISvgElement[] | null | undefined>([])
 
-  getSvgList (signalGroup: HauptVorSignalGroup & AndereSignalGroup): void {
-    this.schirmList = this.svgService.getSvgElementInGroup(signalGroup)
-    const hauptVotSignalGroup = Object.values(HauptVorSignalGroup)
-    const andereSignalGroup = Object.values(AndereSignalGroup)
-    if (hauptVotSignalGroup.includes(signalGroup)) {
-      this.mastList = this.svgService.getSvgElementInGroup(SVGMast.LongMount)
-    }
+const route = useRoute()
 
-    if (andereSignalGroup.includes(signalGroup)) {
-      this.mastList = this.svgService.getSvgElementInGroup(SVGMast.ShortMount)
-    }
+function getSvgList (signalGroup: string): void {
+  schirmList.value = svgService.getSvgElementInGroup(signalGroup) ?? []
+  const hauptVotSignalGroup: string[] = Object.values(HauptVorSignalGroup)
+  const andereSignalGroup: string[] = Object.values(AndereSignalGroup)
+  if (hauptVotSignalGroup.includes(signalGroup)) {
+    mastList.value = svgService.getSvgElementInGroup(SVGMast.LongMount) ?? []
   }
 
-  getZusatzSignal (): ISvgElement[] | null | undefined {
-    return this.svgService.getSvgElementInGroup(AndereSignalGroup.ZusatzSignale)
-  }
-
-  getShortMast (): void {
-    this.mastList = this.svgService.getSvgElementInGroup(SVGMast.ShortMount)
-  }
-
-  setMode (): void {
-    const mode = this.$router.currentRoute.value.query.mode
-    if (mode) {
-      this.mode = mode.toString()
-    }
+  if (andereSignalGroup.includes(signalGroup)) {
+    mastList.value = svgService.getSvgElementInGroup(SVGMast.ShortMount) ?? []
   }
 }
+
+function getZusatzSignal (): ZusatzSignal[] {
+  return (svgService.getSvgElementInGroup(AndereSignalGroup.ZusatzSignale) ?? []) as ZusatzSignal[]
+}
+
+function getShortMast (): void {
+  mastList.value = svgService.getSvgElementInGroup(SVGMast.ShortMount) ?? []
+}
+
+function setMode (): void {
+  const m = route.query.mode
+  if (m) {
+    mode.value = m.toString()
+  }
+}
+
+watch(route, () => {
+  setMode()
+}, { immediate: true })
+
+watch(mode, value => {
+  mastList.value = []
+  schirmList.value = []
+  listSignalGroup.value = []
+  if (value === 'katalog') {
+    listSignalGroup.value = Object.values({ ...HauptVorSignalGroup, ...AndereSignalGroup })
+  } else if (value === 'einzeln') {
+    listSignalGroup.value = Object.values(HauptVorSignalGroup)
+  }
+})
+
 </script>
 <style scoped>
 .btn {

@@ -10,13 +10,13 @@
   <div class="map-container">
     <div
       id="map-root"
-      ref="map-root"
+      ref="mapRoot"
     >
       <div class="custom-control-container">
-        <MapSourceSelection v-if="isSiteplan()" />
-        <LayerControl v-if="isDevelopmentMode && isSiteplan()" />
+        <MapSourceSelection v-if="isSiteplan" />
+        <LayerControl v-if="isDevelopmentMode && isSiteplan" />
         <ModelSummaryControl v-if="isDevelopmentMode" />
-        <SettingEditor v-if="isSiteplan()" />
+        <SettingEditor v-if="isSiteplan" />
       </div>
     </div>
     <div
@@ -27,7 +27,7 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import LayerControl from '@/components/development/LayerControl.vue'
 import ModelSummaryControl from '@/components/development/ModelSummaryControl.vue'
 import SettingEditor from '@/components/development/SettingEditor.vue'
@@ -41,122 +41,116 @@ import { getPixelProMeterAtScale, setMapScale } from '@/util/MapScale'
 import OlMap from 'ol/Map'
 import 'ol/ol.css'
 import OlView from 'ol/View'
-import { Options, Vue } from 'vue-class-component'
+import { computed, onMounted, ref, useTemplateRef } from 'vue'
 
 /**
  * Container for the open layers map
  *
  * @author Stuecker
  */
-@Options({
-  props: {},
-  components: {
-    MapSourceSelection,
-    LayerControl,
-    ModelSummaryControl,
-    SettingEditor
-  }
-})
-export default class MapContainer extends Vue {
-  isDevelopmentMode = Configuration.developmentMode()
-  map: OlMap = store.state.map
-  $refs!: {
-    [ 'map-root' ]: HTMLInputElement
-  }
 
-  scaleLocked = 0
-  scaleLine!: ScaleBarControl
+const isDevelopmentMode = Configuration.developmentMode()
+const map: OlMap = store.state.map
+const mapRoot = useTemplateRef<HTMLDivElement>('mapRoot')
 
-  mounted (): void {
-    // Initialize view
-    const view = new OlView()
-    view.setConstrainResolution(false)
-    view.setRotation(0)
+const scaleLocked = ref(0)
+let scaleLine: ScaleBarControl | undefined
 
-    // Allow clicking the scale bar to force a 1:1000 scale
-    if (store.state.planproModelType === PlanProModelType.SITEPLAN) {
-      this.scaleLine = new ScaleBarControl(() => {
-        this.scaleLocked = Configuration.getInternalDefaultLodScale()
-        setMapScale(this.map.getView(), this.scaleLocked)
-        getPixelProMeterAtScale(
-          this.map,
-          this.map.getView(),
-          100
-        )
-      })
-      this.map.addControl(this.scaleLine)
-      // Reapply zoom level after moving
-      this.map.on('rendercomplete', () => {
+const isSiteplan = computed(() =>
+  store.state.planproModelType === PlanProModelType.SITEPLAN)
+
+function getMapScale (): number {
+  return scaleLine!.getScaleForResolution()
+}
+
+onMounted((): void => {
+  // Initialize view
+  const view = new OlView()
+  view.setConstrainResolution(false)
+  view.setRotation(0)
+
+  // Allow clicking the scale bar to force a 1:1000 scale
+  if (store.state.planproModelType === PlanProModelType.SITEPLAN) {
+    scaleLine = new ScaleBarControl(() => {
+      scaleLocked.value = Configuration.getInternalDefaultLodScale()
+      setMapScale(map.getView(), scaleLocked.value)
+      getPixelProMeterAtScale(
+        map,
+        map.getView(),
+        100
+      )
+    })
+
+    map.addControl(scaleLine)
+
+    // Reapply zoom level after moving
+    map.on('rendercomplete', () => {
       // Allow a minimal offset to avoid constant rescaling
-        const ALLOWED_OFFSET = 0.01
-        if (!this.scaleLocked) {
-          return
-        }
+      const ALLOWED_OFFSET = 0.01
 
-        const scale = this.getMapScale()
-        if (
-          scale > this.scaleLocked + ALLOWED_OFFSET ||
-        scale < this.scaleLocked - ALLOWED_OFFSET
-        ) {
-          setMapScale(this.map.getView(), this.scaleLocked)
-        }
-      })
-    }
-
-    this.map.once('rendercomplete', () => {
-      // the export to image should have high resolution
-      // than scale value to avoid blurred symbols.
-      const scaleValue = Configuration.getExportScaleValue() / 4
-      if (store.state.pixelPerMeterAtScale.has(scaleValue)) {
+      if (!scaleLocked.value) {
         return
       }
 
-      getPixelProMeterAtScale(
-        this.map,
-        this.map.getView(),
-        scaleValue
-      ).then(pixelProMeter => {
-        if (pixelProMeter === undefined) {
-          return
-        }
-
-        // Set the pixel pro meter value in the store
-        store.commit('setPixelProMeter', {
-          scaleValue: Configuration.getExportScaleValue() / 4,
-          ppm: Math.round(pixelProMeter)
-        })
-        console.log(pixelProMeter)
-        store.commit('setCustomPpm', Math.round(pixelProMeter))
-      })
-    })
-
-    // Disable locked scale after manually zooming
-    this.map.on('movestart', e => {
-      const previousZoom = e.frameState?.viewState.zoom
-      const currentZoom = this.map.getView().getZoom()
-      if (previousZoom !== currentZoom) {
-        this.scaleLocked = 0
+      const scale = getMapScale()
+      if (
+        scale > scaleLocked.value + ALLOWED_OFFSET ||
+        scale < scaleLocked.value - ALLOWED_OFFSET
+      ) {
+        setMapScale(map.getView(), scaleLocked.value)
       }
     })
-    const rotateLeftControl = new RotateViewControl(false, 30, view)
-    const rotateRightControl = new RotateViewControl(true, -30, view)
-
-    this.map.addControl(rotateLeftControl)
-    this.map.addControl(rotateRightControl)
-    this.map.addControl(new ExportControl(this.map))
-
-    this.map.setTarget(this.$refs['map-root'])
-    this.map.setView(view)
   }
 
-  getMapScale (): number {
-    return this.scaleLine.getScaleForResolution()
+  map.once('rendercomplete', () => {
+    // the export to image should have high resolution
+    // than scale value to avoid blurred symbols.
+    const scaleValue = Configuration.getExportScaleValue() / 4
+    if (store.state.pixelPerMeterAtScale.has(scaleValue)) {
+      return
+    }
+
+    getPixelProMeterAtScale(
+      map,
+      map.getView(),
+      scaleValue
+    ).then(pixelProMeter => {
+      if (pixelProMeter === undefined) {
+        return
+      }
+
+      // Set the pixel per meter value in the store
+      store.commit('setPixelProMeter', {
+        scaleValue: Configuration.getExportScaleValue() / 4,
+        ppm: Math.round(pixelProMeter)
+      })
+      console.log(pixelProMeter)
+      store.commit('setCustomPpm', Math.round(pixelProMeter))
+    })
+  })
+
+  // Disable locked scale after manually zooming
+  map.on('movestart', e => {
+    const previousZoom = e.frameState?.viewState.zoom
+    const currentZoom = map.getView().getZoom()
+    if (previousZoom !== currentZoom) {
+      scaleLocked.value = 0
+    }
+  })
+
+  const rotateLeftControl = new RotateViewControl(false, 30, view)
+  const rotateRightControl = new RotateViewControl(true, -30, view)
+
+  map.addControl(rotateLeftControl)
+  map.addControl(rotateRightControl)
+  map.addControl(new ExportControl(map))
+
+  if (mapRoot.value) {
+    map.setTarget(mapRoot.value)
   }
 
-  isSiteplan () {
-    return store.state.planproModelType === PlanProModelType.SITEPLAN
-  }
-}
+  map.setView(view)
+})
 </script>
 
 <style>

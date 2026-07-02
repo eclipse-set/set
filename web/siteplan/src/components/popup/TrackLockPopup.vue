@@ -11,82 +11,66 @@
     <h2>Gleissperre: {{ trackLockLabel }}</h2>
     <ul>
       <li>GUID: {{ tracklock.guid }}</li>
-      <li>Bezeichung: {{ tracklock.label.text }}</li>
+      <li>Bezeichung: {{ tracklock.label?.text }}</li>
       <li v-if="tracklockType">
         Typ: {{ tracklockType }}
       </li>
-      <li>Stellart: {{ operatingModeToText() }}</li>
+      <li>Stellart: {{ operatingModeToText }}</li>
       <RouteInfo :feature="tracklock" />
       <li>Planungsbereich: {{ planningObject }}</li>
     </ul>
   </div>
 </template>
-<script lang="ts">
+
+<script setup lang="ts">
+import { computed } from 'vue'
+import { Feature } from 'ol'
+import { Geometry } from 'ol/geom'
 import RouteInfo from '@/components/popup/RouteInfo.vue'
-import {
-  getFeatureData,
-  getFeatureGUID,
-  getFeatureLabel
-} from '@/feature/FeatureInfo'
+import { getFeatureData, getFeatureGUID, getFeatureLabel } from '@/feature/FeatureInfo'
 import { isPlanningObject } from '@/model/SiteplanModel'
 import TrackLock from '@/model/TrackLock'
 import { TurnoutOperatingMode } from '@/model/TrackSwitchComponent'
-import { Options, Vue } from 'vue-class-component'
 
 /**
  * Popup contents for track lock features
  *
  * @author Truong
  */
-@Options({
-  components: {
-    RouteInfo
-  },
-  props: {
-    feature: Object
-  },
-  computed: {
-    tracklock: function () {
-      return getFeatureData(this.feature)
-    },
+const props = defineProps<{
+  feature: Feature<Geometry>
+}>()
 
-    planningObject: function () {
-      return isPlanningObject(getFeatureGUID(this.feature))
-        ? 'Ja'
-        : 'Nein'
-    },
+const tracklock = computed(() => {
+  return getFeatureData(props.feature) as TrackLock
+})
 
-    tracklockType: function () {
-      return (getFeatureData(this.feature) as TrackLock).components[0].trackLockSignal
-    },
+const planningObject = computed(() => {
+  return isPlanningObject(getFeatureGUID(props.feature)) ? 'Ja' : 'Nein'
+})
 
-    trackLockLabel: function () {
-      return getFeatureLabel(this.feature)
-    }
+const tracklockType = computed(() => {
+  return tracklock.value.components[0].trackLockSignal
+})
 
+const trackLockLabel = computed(() => {
+  return getFeatureLabel(props.feature)
+})
+
+const operatingModeToText = computed<string>(() => {
+  if (!tracklock.value) {
+    return 'Unbestimmt'
+  }
+
+  switch (tracklock.value.operatingMode) {
+    case TurnoutOperatingMode.ElectricRemote:
+    case TurnoutOperatingMode.MechanicalRemote:
+      return 'ferngestellt'
+    case TurnoutOperatingMode.ElectricLocal:
+    case TurnoutOperatingMode.MechanicalLocal:
+      return 'ortsgestellt'
+    default:
+      return 'Unbestimmt'
   }
 })
-export default class TrackLockPopup extends Vue {
-  tracklock!: TrackLock
-  planningObject!: boolean
-  tracklockType!: string
-  trackLockLabel!: string
-
-  operatingModeToText (): string {
-    if (!this.tracklock) {
-      return 'Unbestimmt'
-    }
-
-    switch (this.tracklock.operatingMode) {
-      case TurnoutOperatingMode.ElectricRemote:
-      case TurnoutOperatingMode.MechanicalRemote:
-        return 'ferngestellt'
-      case TurnoutOperatingMode.ElectricLocal:
-      case TurnoutOperatingMode.MechanicalLocal:
-        return 'ortsgestellt'
-      default:
-        return 'Unbestimmt'
-    }
-  }
-}
 </script>

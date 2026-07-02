@@ -8,7 +8,10 @@
  -->
 <template>
   <teleport to="body">
-    <div id="featureInfoPopup">
+    <div
+      id="featureInfoPopup"
+      ref="featureInfoPopup"
+    >
       <span
         class="popup-close"
         @click="resetSelection"
@@ -22,181 +25,171 @@
     </div>
   </teleport>
 </template>
-<script lang="ts">
+<script setup lang="ts">
 import MenuPopup from '@/components/popup/MenuPopup.vue'
 import { FeatureType, getFeatureData, getFeatureType } from '@/feature/FeatureInfo'
 import { LeftRight } from '@/model/SiteplanModel'
 import { store } from '@/store'
 import { getFeatureGUIDs } from '@/util/FeatureExtensions'
-import NamedFeatureLayer from '@/util/NamedFeatureLayer'
 import { compare } from '@/util/ObjectExtension'
 import { Collection, Feature, MapBrowserEvent } from 'ol'
 import Geometry from 'ol/geom/Geometry'
 import Select, { SelectEvent } from 'ol/interaction/Select'
 import Map from 'ol/Map'
 import Overlay from 'ol/Overlay'
-import { Options, Vue } from 'vue-class-component'
-
+import { onMounted, ref, useTemplateRef } from 'vue'
 /**
  * Container for feature info popups
  *
  * @author Stuecker
  */
-@Options({
-  components: {
-    MenuPopup
-  },
-  props: {
-    map: Map,
-    featureLayers: Object
+
+const props = defineProps<{
+  map: Map
+}>()
+
+const mouseDownButton = ref<LeftRight | null>(null)
+const infoPopup = ref<Overlay | null>(null)
+const selectedFeatures = new Collection<Feature<Geometry>>()
+const featureSelectionKey = ref(0)
+const existPopupFeature = [
+  FeatureType.Signal,
+  FeatureType.PZB,
+  FeatureType.PZBGU,
+  FeatureType.TrackDesignationMarker,
+  FeatureType.TrackSectionMarker,
+  FeatureType.Track,
+  FeatureType.TrackOutline,
+  FeatureType.TrackSwitchEndMarker,
+  FeatureType.TrackSwitch,
+  FeatureType.Error,
+  FeatureType.TrackLock,
+  FeatureType.LockKey,
+  FeatureType.ExternalElementControl,
+  FeatureType.Cant,
+  FeatureType.CantLine,
+  FeatureType.Unknown
+]
+const featureInfoPopup = useTemplateRef('featureInfoPopup')
+
+onMounted(() => {
+  // Allow feature selection
+  const select = new Select({
+    style: null,
+    condition: onFeatureClick,
+    hitTolerance: 10,
+    multi: true,
+    features: selectedFeatures
+  })
+  props.map.addInteraction(select)
+  select.on('select', onFeatureSelect)
+  store.subscribe(m => {
+    if (m.type === 'setMeasureEnable') {
+      select.setActive(!m.payload)
+    }
+  })
+  // Add info window overlay
+  const element = featureInfoPopup.value
+  if (element === null) {
+    return
   }
+
+  const overlay = new Overlay({
+    element
+  })
+  infoPopup.value = overlay
+  props.map.addOverlay(overlay)
 })
-export default class FeatureInfoPopup extends Vue {
-  map!: Map
-  featureLayers!: NamedFeatureLayer[]
-  mouseDownButton: LeftRight | null = null
-  infoPopup: Overlay | null = null
-  selectedFeatures: Collection<Feature<Geometry>> = new Collection()
-  featureSelectionKey = 0
-  readonly existPopupFeature = [
-    FeatureType.Signal,
-    FeatureType.PZB,
-    FeatureType.PZBGU,
-    FeatureType.TrackDesignationMarker,
-    FeatureType.TrackSectionMarker,
-    FeatureType.Track,
-    FeatureType.TrackOutline,
-    FeatureType.TrackSwitchEndMarker,
-    FeatureType.TrackSwitch,
-    FeatureType.Error,
-    FeatureType.TrackLock,
-    FeatureType.LockKey,
-    FeatureType.ExternalElementControl,
-    FeatureType.Cant,
-    FeatureType.CantLine,
-    FeatureType.Unknown
-  ]
 
-  mounted (): void {
-    // Allow feature selection
-    const select = new Select({
-      style: null,
-      condition: this.onFeatureClick,
-      hitTolerance: 10,
-      multi: true,
-      features: this.selectedFeatures
-    })
-    this.map.addInteraction(select)
-    select.on('select', this.onFeatureSelect)
-    store.subscribe(m => {
-      if (m.type === 'setMeasureEnable') {
-        select.setActive(!m.payload)
-      }
-    })
-    // Add info window overlay
-    const element = document.getElementById('featureInfoPopup')
-    if (element === null) {
+function getPopupAvaibleFeatures () {
+  const popupAvavaibleFeatures = selectedFeatures.getArray().filter(feature => hasPopup(feature))
+  const uniqueFeatures = filterSameFeature(popupAvavaibleFeatures)
+
+  if (uniqueFeatures.length == 0) {
+    resetSelection()
+    return []
+  }
+
+  return uniqueFeatures
+}
+
+function filterSameFeature (features: Feature<Geometry>[]): Array<Feature<Geometry>> {
+  const result: Feature<Geometry>[] = []
+  features.forEach(feature => {
+    const featureType = getFeatureType(feature)
+    const featuresSameType = result.filter(ele =>
+      getFeatureType(ele) === featureType)
+
+    if (featuresSameType.length === 0) {
+      result.push(feature)
       return
     }
 
-    this.infoPopup = new Overlay({
-      element
-    })
-    this.map.addOverlay(this.infoPopup)
+    const isAlreadyAdded = !featuresSameType.every(ele => compare(getFeatureData(feature), getFeatureData(ele)))
+    if (!isAlreadyAdded) {
+      result.push(feature)
+    }
+  })
+  return result
+}
+
+function hasPopup (feature: Feature<Geometry>): boolean {
+  const existInfoPop = mouseDownButton.value === LeftRight.LEFT &&
+    existPopupFeature.includes(getFeatureType(feature))
+  const existGUID = mouseDownButton.value === LeftRight.RIGHT &&
+    getFeatureGUIDs(feature).length > 0
+  return existInfoPop || existGUID
+}
+
+function resetSelection (): void {
+  if (infoPopup.value == null) {
+    return
   }
 
-  getPopupAvaibleFeatures () {
-    if (this.selectedFeatures === undefined) {
-      this.resetSelection()
-      return []
-    }
+  selectedFeatures.clear()
+  infoPopup.value.setPosition(undefined)
+}
 
-    const popupAvavaibleFeatures = this.selectedFeatures.getArray().filter(feature => this.hasPopup(feature))
-    const uniqueFeatures = this.filterSameFeature(popupAvavaibleFeatures)
-
-    if (uniqueFeatures.length == 0) {
-      this.resetSelection()
-      return []
-    }
-
-    return uniqueFeatures
+function onFeatureSelect (event: SelectEvent): void {
+  // Update popup
+  featureSelectionKey.value++
+  // Reset state if no features are selected
+  const features = event.selected
+  if (!features || features.length === 0) {
+    resetSelection()
+    return
   }
 
-  filterSameFeature (features: Feature<Geometry>[]): Array<Feature<Geometry>> {
-    const result: Feature<Geometry>[] = []
-    features.forEach(feature => {
-      const featureType = getFeatureType(feature)
-      const featuresSameType = result.filter(ele =>
-        getFeatureType(ele) === featureType)
+  infoPopup.value?.setPosition(event.mapBrowserEvent.coordinate)
+}
 
-      if (featuresSameType.length === 0) {
-        result.push(feature)
-        return
+function onFeatureClick (event: MapBrowserEvent): boolean {
+  if (event.originalEvent instanceof PointerEvent &&
+    event.originalEvent.type === 'pointerdown'
+  ) {
+    switch (event.originalEvent.buttons) {
+      case 1: {
+        mouseDownButton.value = LeftRight.LEFT
+        break
       }
-
-      const isAlreadyAdded = !featuresSameType.every(ele => compare(getFeatureData(feature), getFeatureData(ele)))
-      if (!isAlreadyAdded) {
-        result.push(feature)
+      case 2: {
+        mouseDownButton.value = LeftRight.RIGHT
+        break
       }
-    })
-    return result
-  }
-
-  hasPopup (feature: Feature<Geometry>): boolean {
-    const existInfoPop = this.mouseDownButton === LeftRight.LEFT &&
-      this.existPopupFeature.includes(getFeatureType(feature))
-    const existGUID = this.mouseDownButton === LeftRight.RIGHT &&
-      getFeatureGUIDs(feature).length > 0
-    return existInfoPop || existGUID
-  }
-
-  resetSelection (): void {
-    if (this.infoPopup == null) {
-      return
-    }
-
-    this.selectedFeatures.clear()
-    this.infoPopup.setPosition(undefined)
-  }
-
-  onFeatureSelect (event: SelectEvent): void {
-    // Update popup
-    this.featureSelectionKey++
-    // Reset state if no features are selected
-    const features = event.selected
-    if (!features || features.length === 0) {
-      this.resetSelection()
-      return
-    }
-
-    this.infoPopup?.setPosition(event.mapBrowserEvent.coordinate)
-  }
-
-  onFeatureClick (event: MapBrowserEvent<PointerEvent>): boolean {
-    if (event.originalEvent.type === 'pointerdown') {
-      switch (event.originalEvent.buttons) {
-        case 1: {
-          this.mouseDownButton = LeftRight.LEFT
-          break
-        }
-        case 2: {
-          this.mouseDownButton = LeftRight.RIGHT
-          break
-        }
-        default: {
-          this.mouseDownButton = null
-        }
+      default: {
+        mouseDownButton.value = null
       }
     }
-
-    return (
-      event.originalEvent.type === 'pointerdown' &&
-        (
-          this.mouseDownButton === LeftRight.LEFT ||
-          this.mouseDownButton === LeftRight.RIGHT
-        )
-    )
   }
+
+  return (
+    event.originalEvent instanceof PointerEvent &&
+    event.originalEvent.type === 'pointerdown' &&
+      (
+        mouseDownButton.value === LeftRight.LEFT ||
+        mouseDownButton.value === LeftRight.RIGHT
+      )
+  )
 }
 </script>
 

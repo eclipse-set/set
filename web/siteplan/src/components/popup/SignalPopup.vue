@@ -16,49 +16,29 @@
     </ul>
   </div>
 </template>
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
+import { Feature } from 'ol'
+import { Geometry } from 'ol/geom'
 import RouteInfo from '@/components/popup/RouteInfo.vue'
-import {
-  getFeatureData,
-  getFeatureGUID,
-  getFeatureLabel
-} from '@/feature/FeatureInfo'
+import { getFeatureData, getFeatureGUID, getFeatureLabel } from '@/feature/FeatureInfo'
 import { Signal } from '@/model/Signal'
 import { isPlanningObject } from '@/model/SiteplanModel'
-import { Options, Vue } from 'vue-class-component'
 
 /**
  * Popup contents for signal features
  *
  * @author Stuecker
  */
-@Options({
-  components: {
-    RouteInfo
-  },
-  props: {
-    feature: Object
-  },
-  computed: {
-    signal: function () {
-      return getFeatureData(this.feature)
-    },
 
-    planningObject: function () {
-      return isPlanningObject(getFeatureGUID(this.feature))
-        ? 'Ja'
-        : 'Nein'
-    },
+const props = defineProps<{
+  feature: Feature<Geometry>
+}>()
 
-    signalLabel: function () {
-      return getFeatureLabel(this.feature)
-    }
-  }
-})
-export default class SignalPopup extends Vue {
-  static SIGNAL_TABLE = 'org.eclipse.set.feature.table.ssks'
-  signal!: Signal
-  planningObject!: string
-  signalLabel!: string
-}
+const signal = computed<Signal>(() => getFeatureData(props.feature))
+
+const planningObject = computed(() =>
+  isPlanningObject(getFeatureGUID(props.feature)) ? 'Ja' : 'Nein')
+
+const signalLabel = computed(() => getFeatureLabel(props.feature))
 </script>
