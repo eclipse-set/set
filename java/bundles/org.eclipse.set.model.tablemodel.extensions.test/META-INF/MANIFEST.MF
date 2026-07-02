@@ -5,8 +5,12 @@ Bundle-SymbolicName: org.eclipse.set.model.tablemodel.extensions.test
 Bundle-Version: 2.7.0.qualifier
 Fragment-Host: org.eclipse.set.model.tablemodel.extensions;bundle-version="0.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-21
-Require-Bundle: org.hamcrest.core
-Import-Package: org.junit.jupiter.api,
+Require-Bundle: org.hamcrest.core,
+ org.mockito.mockito-core
+Import-Package: net.bytebuddy,
+ net.bytebuddy.agent,
+ org.eclipse.emf.ecore,
+ org.junit.jupiter.api,
  org.junit.jupiter.api.function,
  org.junit.jupiter.params,
  org.junit.jupiter.params.provider
