@@ -6,9 +6,9 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v20.html
  */
-import { MountDirection } from './Signal'
-import { Label } from './Label'
 import { Extent } from 'ol/extent'
+import { Label } from './Label'
+import { MountDirection } from './Signal'
 
 export interface ISvgPoint {
   id: string
@@ -80,38 +80,39 @@ export class ZusatzSignal extends SvgElement {
 }
 export const MAX_BRIDGE_DIRECTION_OFFSET = 15.0
 export class SvgBridgeSignal extends SvgElement {
-  mountOffset: number
+  /** right = positive, left = negative */
+  mountSignedOffset: number
   mountDirection: MountDirection
-  label?: Label
+  label: Label | null
 
   constructor (
     id: string,
     element: Element,
     anchor: ISvgPoint[],
     nullpunkt: ISvgPoint | null,
-    mountOffset: number,
+    mountSignedOffset: number,
     mountDirection: MountDirection,
-    signalLabel: Label | undefined,
+    signalLabel: Label | null,
     boundingBox: Extent[]
   ) {
     super(id, element, anchor, nullpunkt, boundingBox)
-    this.mountOffset = mountOffset
-    this.mountDirection = mountDirection
+    this.mountSignedOffset = mountSignedOffset
     this.label = signalLabel
+    this.mountDirection = mountDirection
   }
 
   static fromSvgElement (
     element: ISvgElement,
-    mountOffset: number,
+    signedOffset: number,
     mountDirection: MountDirection,
-    signalLabel?: Label
+    signalLabel: Label | null
   ): SvgBridgeSignal {
     return new SvgBridgeSignal(
       element.id,
       element.content,
       element.anchor,
       element.nullpunkt,
-      mountOffset,
+      signedOffset,
       mountDirection,
       signalLabel,
       element.boundingBox
