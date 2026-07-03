@@ -236,6 +236,11 @@ public class ExcelExportBuilder implements TableExport {
 
 				if (cell == null) {
 					cell = sheetRow.createCell(i + 1);
+					// in the excel template it might be the case that a certain
+					// cell is was never defined/styled.
+					// If that is the case we take at least the font from the
+					// definitely defined first cell from the header so that all
+					// the cells are using the same font.
 					cell.getCellStyle()
 							.setFont(sheet.getWorkbook()
 									.getFontAt(sheet.getRow(0)
