@@ -97,7 +97,7 @@ public class ToolboxTableFootnoteView extends StyledText {
 			}
 			if (footnote.changedInCompare) {
 				styleRange.borderStyle = SWT.BORDER_SOLID;
-				styleRange.borderColor = new Color(0, 0, 255)
+				styleRange.borderColor = new Color(0, 0, 255);
 			}
 			styles.add(styleRange);
 			startOffset += text.length() + 1;
