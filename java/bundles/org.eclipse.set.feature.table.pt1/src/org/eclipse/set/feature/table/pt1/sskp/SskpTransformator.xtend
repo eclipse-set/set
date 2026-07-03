@@ -73,8 +73,8 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 		TMFactory factory) {
 
 		for (PZB_Element pzb : container.PZBElement.filter [
-				PZBElementGUE?.IDPZBElementMitnutzung?.value === null
-			]) {
+			PZBElementGUE?.IDPZBElementMitnutzung?.value === null
+		]) {
 
 			if (Thread.currentThread.interrupted) {
 				return null
@@ -103,11 +103,11 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	private def fillRowGroupContent(TableRow instance, PZB_Element pzb,
 		Fstr_DWeg dweg) {
-			
+
 		val pzbGUEs = (pzb.container.PZBElement.map[PZBElementGUE].filterNull.
 			filter[IDPZBElementMitnutzung?.value === pzb] +
 			#[pzb.PZBElementGUE]).filterNull
-			
+
 		// A: Sskp.Bezug.BezugsElement
 		fillIterable(
 			instance,
@@ -122,7 +122,9 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 			instance,
 			cols.getColumn(Wirkfrequenz),
 			pzb,
-			['''«PZBArt?.translate»«IF !pzbGUEs.nullOrEmpty» «GUE_ADDITION»«ENDIF»''']
+			[
+				'''«PZBArt?.translate»«IF !pzbGUEs.nullOrEmpty» «GUE_ADDITION»«ENDIF»'''
+			]
 		)
 
 		val isPZB2000 = pzb.PZBArt?.wert === ENUMPZBArt.ENUMPZB_ART_2000_HZ ||
@@ -385,18 +387,22 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				INAGefahrstelle
 			].flatten
 
-			val isGefahrstelle = inaGefahrstelles.exists [
+			val gefahrstelle = inaGefahrstelles.filter [
 				prioritaetGefahrstelle?.wert.intValue === 1
-			] && !inaGefahrstelles.map[IDMarkanterPunkt].empty
+			].toSet
 			val scaleValue = pzb.distanceScale
 			// K: Sskp.Ina.Gef_Stelle
 			fillIterableWithConditional(
 				instance,
 				cols.getColumn(Gef_Stelle),
 				pzb,
-				[isGefahrstelle],
 				[
-					inaGefahrstelles.map [
+					!gefahrstelle.nullOrEmpty && !inaGefahrstelles.map [
+						IDMarkanterPunkt
+					].empty
+				],
+				[
+					gefahrstelle.map [
 						IDMarkanterPunkt?.value?.bezeichnung?.
 							bezeichnungMarkanterPunkt?.wert
 					]
@@ -406,19 +412,26 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 			)
 
 			// L: Sskp.Ina.Gef_Stelle_abstand
-			fillConditional(
+			fillIterableWithConditional(
 				instance,
 				cols.getColumn(Gef_Stelle_Abstand),
 				pzb,
-				[isGefahrstelle],
 				[
-					val markanteStelle = inaGefahrstelles.map [
+					!gefahrstelle.nullOrEmpty && !inaGefahrstelles.map [
+						IDMarkanterPunkt
+					].empty
+				],
+				[
+					val markanteStelle = gefahrstelle.map [
 						IDMarkanterPunkt?.value?.IDMarkanteStelle?.value
 					].filter(Punkt_Objekt)
-					return AgateRounding.roundDown(
-						getDistanceOfPoints(markanteStelle, it), scaleValue).
-						toTableDecimal(scaleValue)
-				]
+					return markanteStelle.map [ ms |
+						AgateRounding.roundDown(getPointsDistance(ms, it).min,
+							scaleValue).toTableDecimal(scaleValue)
+					]
+				],
+				MIXED_STRING_COMPARATOR,
+				ITERABLE_FILLING_SEPARATOR
 			)
 
 			val bahnSteigKantes = pzb?.PZBElementZuordnungBP?.map [
@@ -647,8 +660,8 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 	static dispatch def String fillBezugsElement(Signal object) {
 		return object?.signalReal?.signalFunktion?.wert ===
 			ENUMSignalFunktion.ENUM_SIGNAL_FUNKTION_BUE_UEBERWACHUNGSSIGNAL
-			? '''BÜ-K «object?.bezeichnung?.bezeichnungTabelle?.wert»'''
-			: object?.bezeichnung?.bezeichnungTabelle?.wert
+			? '''BÜ-K «object?.bezeichnung?.bezeichnungTabelle?.wert»''' : object?.
+			bezeichnung?.bezeichnungTabelle?.wert
 	}
 
 	private dispatch def String getDistanceSignalTrackSwitch(PZB_Element pzb,
@@ -664,9 +677,9 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				getPointsDistance(pzb, signal).min, scaleValue)
 			val directionSign = topGraphService.
 					isInWirkrichtungOfSignal(signal, pzb) ? "+" : "-"
-			return distance == 0.0
-				? distance.toTableDecimal(scaleValue)
-				: '''«directionSign»«distance.toTableDecimal(scaleValue)»'''
+			return distance == 0.0 ? distance.
+				toTableDecimal(
+					scaleValue) : '''«directionSign»«distance.toTableDecimal(scaleValue)»'''
 		}
 
 		val bueSpezifischesSignal = signal.container.BUESpezifischesSignal.
