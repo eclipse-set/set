@@ -188,10 +188,7 @@ public abstract class AbstractPlanPro2TableTransformationService
 	 * @return the column position of the remark column or null if the table has
 	 *         no remark column
 	 */
-	@SuppressWarnings("static-method")
-	protected String getRemarkColumnPosition() {
-		return null;
-	}
+	protected abstract String getRemarkColumnPosition();
 
 	protected abstract Map<Class<?>, String> getFootnotesColumnReferences();
 

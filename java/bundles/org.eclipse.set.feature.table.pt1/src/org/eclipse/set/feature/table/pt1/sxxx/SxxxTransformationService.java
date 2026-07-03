@@ -110,6 +110,12 @@ public class SxxxTransformationService
 	}
 
 	@Override
+	protected String getRemarkColumnPosition() {
+		// Sxxx does not have a remark column
+		return null;
+	}
+
+	@Override
 	protected Map<Class<?>, String> getFootnotesColumnReferences() {
 		return Collections.emptyMap();
 	}
