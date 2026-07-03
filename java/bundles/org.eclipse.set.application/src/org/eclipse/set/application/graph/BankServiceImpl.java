@@ -599,18 +599,18 @@ public class BankServiceImpl implements BankService, EventHandler {
 	/**
 	 * BankingIntervall S-Form to Bloss
 	 * 
-	 * When x <= L / 2, then: u = (3 * U / L^2) * x^2 - (2 * U / L^3) * x^3
-	 * else: u = U / L * x* with: U: the height between banking start and
-	 * banking end L: the length of banking x: distance form start of banking to
-	 * point
+	 * From: u = (3 * U / L^2) * x^2 - (2 * U / L^3) * x^3
+	 * 
+	 * @param h_between
+	 *            the height between start and end banking - U value
+	 * @param h_between
+	 * @param distanceFromLeft
+	 *            distance from start of banking to point - x value
+	 * @param length
+	 *            length of banking line - L value
 	 */
 	private static BigDecimal bankingOfRampeBloss(final BigDecimal h_between,
 			final BigDecimal distanceFromLeft, final BigDecimal length) {
-		if (distanceFromLeft.compareTo(length.divide(BigDecimal.valueOf(2),
-				ToolboxConstants.ROUNDING_TO_PLACE,
-				RoundingMode.HALF_UP)) > 0) {
-			return bankingDefault(h_between, distanceFromLeft, length);
-		}
 		final BigDecimal a = h_between.multiply(BigDecimal.valueOf(3))
 				.multiply(distanceFromLeft.pow(2))
 				.divide(length.pow(2), ToolboxConstants.ROUNDING_TO_PLACE,
@@ -623,11 +623,17 @@ public class BankServiceImpl implements BankService, EventHandler {
 	}
 
 	/**
-	 * BankingIntervall S-Form to Rampe 1. Case: when x =< L/2 => u = 2 * U *
-	 * x^2 / L^2 2. Case: when x > L/2 => u = U - 2 * U * z^2 / L^2 with: U: the
-	 * height between banking start and banking end L: the length of banking x:
-	 * distance form start of banking to point z: distance from end of banking
-	 * to point
+	 * Caculate bankingIntervall S-Form to \n Rampe 1. Case: when x =< L/2 => u
+	 * = 2 * U * x^2 / L^2 2. Case: when x > L/2 => u = U - 2 * U * z^2 / L^2
+	 * 
+	 * @param h_between
+	 *            the height between start and end banking - U value
+	 * @param distanceFromLeft
+	 *            the distance form start of banking to point - x value
+	 * @param distanceFromRight
+	 *            the distance from end of banking to point - z value
+	 * @param length
+	 *            the banking line length - L value
 	 */
 	private static BigDecimal bankingOfRampeS(final BigDecimal h_between,
 			final BigDecimal distanceFromLeft,
