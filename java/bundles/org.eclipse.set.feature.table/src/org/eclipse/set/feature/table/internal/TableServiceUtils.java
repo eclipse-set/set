@@ -579,6 +579,9 @@ public class TableServiceUtils {
 	private static CellContent getNewContent(final CellContent oldContent,
 			final Pt1TableChangeProperties properties,
 			final SessionService sessionService) {
+		if (oldContent == null) {
+			throw new IllegalArgumentException();
+		}
 		return switch (oldContent) {
 			case final StringCellContent stringContent -> getNewContent(
 					stringContent, properties);

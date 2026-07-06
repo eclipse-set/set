@@ -13,6 +13,7 @@ import static org.eclipse.set.feature.table.abstracttableview.ToolboxTableModelT
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -317,7 +318,7 @@ public class ToolboxTableView extends BasePart {
 		if (!event.getTopic().equalsIgnoreCase(Events.COMPARE_MODEL_LOADED)) {
 			return;
 		}
-		updateModel(getToolboxPart(), transformToTableModel());
+		updateTableView(Arrays.asList(Pt1TableCategory.values()));
 	}
 
 	@Override

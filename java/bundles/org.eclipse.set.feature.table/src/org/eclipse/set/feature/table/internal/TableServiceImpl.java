@@ -795,6 +795,7 @@ public final class TableServiceImpl implements TableService {
 
 	void clearInstance() {
 		transformTableThreads.clear();
+		tableChangedData.clear();
 		footnotesPerTable.clear();
 		modelServiceMap.values()
 				.forEach(transformService -> transformService.getTableErrors()
