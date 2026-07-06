@@ -11,6 +11,7 @@ package org.eclipse.set.model.tablemodel.extensions;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.collection.IsIterableWithSize.iterableWithSize;
 import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.IsNull.nullValue;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -153,13 +154,14 @@ public class TableExtensionsTest {
 			final Iterable<FootnoteInfo> footnotes = TableExtensions
 					.getAllFootnotes(table);
 
-			assertThat(footnotes, is(iterableWithSize(2)));
+			assertThat(footnotes, is(iterableWithSize(3)));
 
 			final Iterator<FootnoteInfo> infoIt = footnotes.iterator();
 			assertFootnoteInfo(infoIt.next(), bv1, 1,
 					FootnoteType.COMMON_FOOTNOTE);
 			assertFootnoteInfo(infoIt.next(), bv2, 2,
 					FootnoteType.COMMON_FOOTNOTE, true);
+			assertRemovedCompareFootnoteInfo(infoIt.next(), 3);
 		}
 	}
 
@@ -445,10 +447,31 @@ public class TableExtensionsTest {
 		assertThat("Footnote has wrong type", info.type, is(type));
 		assertThat("Footnote has wrong flag changedInCompare",
 				info.changedInCompare, is(changedInCompare));
+		assertThat("Footnote has wrong flag removedInMain", info.removedInMain,
+				is(false));
 		assertThat("Footnote has wrong shorthand", info.toShorthand(),
 				is("*" + index));
 		assertThat("Footnote has wrong text", info.toText(), is(kommentar));
 		assertThat("Footnote has wrong reference text", info.toReferenceText(),
 				is("*" + index + ": " + kommentar));
+	}
+
+	private static final String REMOVED_FOOTNOTE_TEXT = "                                      ";
+
+	private static void assertRemovedCompareFootnoteInfo(
+			final FootnoteInfo info, final int index) {
+		assertThat("Footnote must have no Bearbeitungsvermerk",
+				info.bearbeitungsvermerk, is(nullValue()));
+		assertThat("Removed compare footnotes are handled as COMMON_FOOTNOTE",
+				info.type, is(FootnoteType.COMMON_FOOTNOTE));
+		assertThat("Footnote has wrong flag changedInCompare",
+				info.changedInCompare, is(true));
+		assertThat("Footnote has wrong flag removedInMain", info.removedInMain,
+				is(true));
+		assertThat("Footnote has wrong shorthand", info.toShorthand(),
+				is("*" + index));
+		assertThat("Footnote has wrong text", info.toText(), is(""));
+		assertThat("Footnote has wrong reference text", info.toReferenceText(),
+				is(REMOVED_FOOTNOTE_TEXT));
 	}
 }
