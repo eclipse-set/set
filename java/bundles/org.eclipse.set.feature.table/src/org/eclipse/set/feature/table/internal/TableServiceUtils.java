@@ -546,7 +546,6 @@ public class TableServiceUtils {
 			});
 			return;
 		}
-
 		final List<Pair<TableRow, Pt1TableChangeProperties>> changedDataRow = changedDatas
 				.stream()
 				.map(data -> {
@@ -697,8 +696,9 @@ public class TableServiceUtils {
 				.filter(value -> value != null && !value.trim().isEmpty())
 				.collect(Collectors.toSet());
 		return mainPlanCellValues.equals(comparePlanCellValues)
-				? clone.getMainPlanCellContent()
-				: clone;
+				&& clone.getMainPlanCellContent() != null
+						? clone.getMainPlanCellContent()
+						: clone;
 	}
 
 	private static CompareStateCellContent createCompareCellContent(
