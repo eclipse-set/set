@@ -470,16 +470,11 @@ class TableExtensions {
 		public boolean removedInMain;
 	}
 
-	static def Iterable<FootnoteInfo> getFootnoteInfos(
-		FootnoteContainer fnContainer) {
-		return switch (fnContainer) {
-			SimpleFootnoteContainer: fnContainer.footnoteInfos
-			CompareFootnoteContainer: fnContainer.footnoteInfos
-			default: #[]
-		}
+	static def dispatch Iterable<FootnoteInfo> getFootnoteInfos(FootnoteContainer fnContainer) {
+		return #[]
 	}
 
-	static def Iterable<FootnoteInfo> getFootnoteInfos(
+	static def dispatch Iterable<FootnoteInfo> getFootnoteInfos(
 		SimpleFootnoteContainer fnContainer) {
 		val common = fnContainer.footnotes.map [
 			new FootnoteInfo(it, FootnoteType.COMMON_FOOTNOTE, false)
@@ -488,7 +483,7 @@ class TableExtensions {
 		return common.sortBy[toText]
 	}
 
-	static def Iterable<FootnoteInfo> getFootnoteInfos(
+	static def dispatch Iterable<FootnoteInfo> getFootnoteInfos(
 		CompareFootnoteContainer fnContainer) {
 
 		val common = fnContainer.unchangedFootnotes.footnotes.map [
