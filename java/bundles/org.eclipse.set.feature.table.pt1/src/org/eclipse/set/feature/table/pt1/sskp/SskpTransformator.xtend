@@ -279,7 +279,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				],
 				[
 					PZBElementZuordnungFstr.map [ pzbZuordnung |
-						val wirksamKeit = pzbZuordnung.wirksamkeitFstr?.
+						val wirksamKeit = pzbZuordnung?.wirksamkeitFstr?.
 							translate
 						val fstrZugRangier = pzbZuordnung.IDFstrZugRangier?.
 							value?.fstrZugRangierBezeichnung
@@ -297,12 +297,11 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 					]
 				],
 				[
-					IDPZBElementZuordnung?.value?.PZBElementZuordnungFstr.
-						flatMap [
-							wirksamkeitFstr?.IDBearbeitungsvermerk
-						].map [
-							value?.bearbeitungsvermerkAllg?.kurztext?.wert
-						].filterNull
+					PZBElementZuordnungFstr.flatMap [
+						wirksamkeitFstr?.IDBearbeitungsvermerk
+					].map [
+						value?.bearbeitungsvermerkAllg?.kurztext?.wert
+					].filterNull
 				],
 				ITERABLE_FILLING_SEPARATOR,
 				MIXED_STRING_COMPARATOR
@@ -541,7 +540,10 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				pzb,
 				[pzbGUEs],
 				null,
-				[pruefgeschwindigkeit?.wert.intValue.toString]
+				[
+					val wert = pruefgeschwindigkeit?.wert
+					return wert !== null ? wert.intValue.toString : ""
+				]
 			)
 
 			// S: Sskp.Gue.Pruefzeit
@@ -660,8 +662,8 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 	static dispatch def String fillBezugsElement(Signal object) {
 		return object?.signalReal?.signalFunktion?.wert ===
 			ENUMSignalFunktion.ENUM_SIGNAL_FUNKTION_BUE_UEBERWACHUNGSSIGNAL
-			? '''BÜ-K «object?.bezeichnung?.bezeichnungTabelle?.wert»''' : object?.
-			bezeichnung?.bezeichnungTabelle?.wert
+			? '''BÜ-K «object?.bezeichnung?.bezeichnungTabelle?.wert»'''
+			: object?.bezeichnung?.bezeichnungTabelle?.wert
 	}
 
 	private dispatch def String getDistanceSignalTrackSwitch(PZB_Element pzb,
@@ -677,9 +679,9 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				getPointsDistance(pzb, signal).min, scaleValue)
 			val directionSign = topGraphService.
 					isInWirkrichtungOfSignal(signal, pzb) ? "+" : "-"
-			return distance == 0.0 ? distance.
-				toTableDecimal(
-					scaleValue) : '''«directionSign»«distance.toTableDecimal(scaleValue)»'''
+			return distance == 0.0
+				? distance.toTableDecimal(scaleValue)
+				: '''«directionSign»«distance.toTableDecimal(scaleValue)»'''
 		}
 
 		val bueSpezifischesSignal = signal.container.BUESpezifischesSignal.
