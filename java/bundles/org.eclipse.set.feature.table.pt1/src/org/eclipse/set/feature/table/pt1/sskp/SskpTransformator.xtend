@@ -626,8 +626,8 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 	static dispatch def String fillBezugsElement(Signal object) {
 		return object?.signalReal?.signalFunktion?.wert ===
 			ENUMSignalFunktion.ENUM_SIGNAL_FUNKTION_BUE_UEBERWACHUNGSSIGNAL
-			? '''BÜ-K «object?.bezeichnung?.bezeichnungTabelle?.wert»''' : object?.
-			bezeichnung?.bezeichnungTabelle?.wert
+			? '''BÜ-K «object?.bezeichnung?.bezeichnungTabelle?.wert»'''
+			: object?.bezeichnung?.bezeichnungTabelle?.wert
 	}
 
 	private dispatch def String getDistanceSignalTrackSwitch(PZB_Element pzb,
@@ -643,9 +643,9 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				getPointsDistance(pzb, signal).min, scaleValue)
 			val directionSign = topGraphService.
 					isInWirkrichtungOfSignal(signal, pzb) ? "+" : "-"
-			return distance == 0.0 ? distance.
-				toTableDecimal(
-					scaleValue) : '''«directionSign»«distance.toTableDecimal(scaleValue)»'''
+			return distance == 0.0
+				? distance.toTableDecimal(scaleValue)
+				: '''«directionSign»«distance.toTableDecimal(scaleValue)»'''
 		}
 
 		val bueSpezifischesSignal = signal.container.BUESpezifischesSignal.
@@ -714,6 +714,9 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 		if (pzb.PZBArt?.wert === ENUMPZBArt.ENUMPZB_ART_2000_HZ) {
 			return #[]
 		}
+		if (pzb.identitaet.wert == "C25202C2-1C60-473D-AD9F-67E7DF6287D1") {
+			println("TEST")
+		}
 		val pzbGM2000 = pzb.container.PZBElement.filter [ pzbEle |
 			pzbEle !== pzb &&
 				(pzbEle.PZBArt?.wert === ENUMPZBArt.ENUMPZB_ART_2000_HZ ||
@@ -739,18 +742,12 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 		].map [ pair |
 			val distance = AgateRounding.roundDown(pair.value,
 				pzb.distanceScale).toTableDecimal(pzb.distanceScale)
-			val prefix = bezugspunktSignals.map [ signal |
-				topGraphService.isInWirkrichtungOfSignal(signal,
-					pair.key) ? "+" : "-"
-			]
-			if (pzb.PZBArt?.wert === ENUMPZBArt.ENUMPZB_ART_500_HZ) {
-				return prefix.map [ directionSign |
-					'''«IF distance != 0»«directionSign»«ENDIF»«distance»'''
-				]
-			}
 			pair.key.PZBElementBezugspunkt.filter(Signal).filterNull.map [ signal |
 				val directionSign = topGraphService.
-					isInWirkrichtungOfSignal(signal, pzb) ? "+" : "-"
+						isInWirkrichtungOfSignal(signal, pzb) ? "+" : "-"
+				if (pzb.PZBArt?.wert === ENUMPZBArt.ENUMPZB_ART_500_HZ) {
+					return '''«IF distance != 0»«directionSign»«ENDIF»«distance»'''
+				}
 				return '''«IF distance != 0»«directionSign»«ENDIF»«distance» «
 							»(«signal.bezeichnung?.bezeichnungTabelle?.wert»)'''
 			]
