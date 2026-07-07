@@ -84,9 +84,9 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	private def Table create factory.table transform(
-		MultiContainer_AttributeGroup contanier) {
+		MultiContainer_AttributeGroup container) {
 		val schnittStelle = container.planProSchnittstelle
-		contanier.ETCSWKr.forEach [
+		container.ETCSWKr.forEach [
 			if (Thread.currentThread.interrupted) {
 				return
 			}
@@ -129,7 +129,6 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 
 		// D: Sszw.W_Kr.Standort.Strecke
 		try {
-
 			val streckeInfos = etcsWkr.getStreckeInfo(schnittStelle)
 			fillIterable(
 				row,
