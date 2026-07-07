@@ -281,7 +281,7 @@ public class ExcelExportBuilder implements TableExport {
 						compareCell.getMainPlanCellContent());
 			}
 			return content;
-		}).collect(Collectors.toList());
+		}).toList();
 	}
 
 	private static List<Footnote> getFootnotes(
