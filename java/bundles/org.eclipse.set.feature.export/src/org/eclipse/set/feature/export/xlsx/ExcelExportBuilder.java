@@ -45,12 +45,15 @@ import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.basis.exceptions.FileExportException;
 import org.eclipse.set.feature.export.pdf.TableToTableDocument;
 import org.eclipse.set.model.tablemodel.CompareFootnoteContainer;
+import org.eclipse.set.model.tablemodel.CompareTableCellContent;
 import org.eclipse.set.model.tablemodel.CompareTableFootnoteContainer;
 import org.eclipse.set.model.tablemodel.Footnote;
 import org.eclipse.set.model.tablemodel.FootnoteContainer;
 import org.eclipse.set.model.tablemodel.SimpleFootnoteContainer;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.TableRow;
+import org.eclipse.set.model.tablemodel.extensions.CellContentExtensions;
+import org.eclipse.set.model.tablemodel.extensions.TableCellExtensions;
 import org.eclipse.set.model.tablemodel.extensions.TableExtensions;
 import org.eclipse.set.model.tablemodel.extensions.TableExtensions.FootnoteInfo;
 import org.eclipse.set.model.tablemodel.extensions.TableRowExtensions;
@@ -225,16 +228,16 @@ public class ExcelExportBuilder implements TableExport {
 		int contentRowIndex = rowIndex;
 
 		for (final TableRow row : rows) {
-			if (TableRowExtensions.isMainEmpty(row)) {
+			if (isRowEmpty(row)) {
 				continue;
 			}
 			final Row sheetRow = contentRowIndex == rowIndex
 					? sheet.getRow(contentRowIndex)
 					: createNewRow(sheet, contentRowIndex, columnCount);
 			final FootnoteContainer footnotes = row.getFootnotes();
+			final List<String> contents = getCellContents(row);
 			for (int i = 0; i < columnCount; i++) {
-				final String content = TableRowExtensions
-						.getMainStringValue(row, i);
+				final String content = contents.get(i);
 				Cell cell = sheetRow.getCell(i + 1);
 
 				if (cell == null) {
@@ -263,6 +266,22 @@ public class ExcelExportBuilder implements TableExport {
 			sheetRow.setHeight((short) -1);
 			contentRowIndex++;
 		}
+	}
+
+	private static boolean isRowEmpty(final TableRow row) {
+		return getCellContents(row).stream()
+				.allMatch(s -> s == null || s.trim().isEmpty());
+	}
+
+	private static List<String> getCellContents(final TableRow row) {
+		return row.getCells().stream().map(cell -> {
+			String content = TableCellExtensions.getPlainStringValue(cell);
+			if (cell instanceof final CompareTableCellContent compareCell) {
+				content = CellContentExtensions.getPlainStringValue(
+						compareCell.getMainPlanCellContent());
+			}
+			return content;
+		}).collect(Collectors.toList());
 	}
 
 	private static List<Footnote> getFootnotes(
