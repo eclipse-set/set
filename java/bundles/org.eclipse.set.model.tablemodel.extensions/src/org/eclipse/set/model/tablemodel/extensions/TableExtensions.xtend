@@ -421,7 +421,7 @@ class TableExtensions {
 
 	static class FootnoteInfo {
 		static val REMOVED_FOOTNOTE_TEXT = StringUtils.leftPad("", 40)
-		
+
 		new(Footnote fn, FootnoteType ft, boolean changedInCompare) {
 			this(fn.bearbeitungsvermerk, ft, fn.referenceColumn,
 				changedInCompare, false)
@@ -471,7 +471,8 @@ class TableExtensions {
 		public boolean removedInMain;
 	}
 
-	static def dispatch Iterable<FootnoteInfo> getFootnoteInfos(FootnoteContainer fnContainer) {
+	static def dispatch Iterable<FootnoteInfo> getFootnoteInfos(
+		FootnoteContainer fnContainer) {
 		return #[]
 	}
 
@@ -506,32 +507,17 @@ class TableExtensions {
 
 	static def Iterable<FootnoteInfo> getAllFootnotes(Table table) {
 		// collect all FootnoteContainer in table
-		val allSimpleFootnoteContainer = table.eAllContents.filter(
-			SimpleFootnoteContainer).toList
-		val allCompareFootnoteContainer = table.eAllContents.filter(
-			CompareFootnoteContainer).toList
+		val simpleFootnoteContainer = table.eAllContents.filter(
+			SimpleFootnoteContainer).filter [
+			!(eContainer instanceof CompareFootnoteContainer) &&
+				!(eContainer instanceof CompareTableFootnoteContainer)
+		].toList
+		val compareFootnoteContainer = table.eAllContents.filter(
+			CompareFootnoteContainer).filter [
+			!(eContainer instanceof CompareTableFootnoteContainer)
+		].toList
 		val compareTableFootnoteContainer = table.eAllContents.filter(
 			CompareTableFootnoteContainer).toList
-
-		val subCompareTableContainer = compareTableFootnoteContainer.map [
-			#[mainPlanFootnoteContainer, comparePlanFootnoteContainer]
-		].flatten;
-
-		// retrieve only those CompareFootnoteContainer that are not used inside CompareTableFootnoteContainer
-		val nestedCompareFootnoteContainer = subCompareTableContainer.filter(
-			CompareFootnoteContainer);
-		val compareFootnoteContainer = allCompareFootnoteContainer.filter [
-			!nestedCompareFootnoteContainer.contains(it)
-		]
-
-		// retrieve only those SimpleFootnoteContainer that are not used inside any other FootnoteContainer
-		val nestedSimpleFootnoteContainer = (subCompareTableContainer.filter(
-			SimpleFootnoteContainer) + compareFootnoteContainer.map [
-			#[newFootnotes, oldFootnotes, unchangedFootnotes]
-		].flatten);
-		val simpleFootnoteContainer = allSimpleFootnoteContainer.filter [
-			!nestedSimpleFootnoteContainer.contains(it)
-		];
 
 		// collect and sort all footnotes and keep only unique ones of main planning
 		val normalFootnotes = (simpleFootnoteContainer +
