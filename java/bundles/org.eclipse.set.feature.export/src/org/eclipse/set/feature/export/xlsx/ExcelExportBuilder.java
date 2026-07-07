@@ -225,13 +225,16 @@ public class ExcelExportBuilder implements TableExport {
 		int contentRowIndex = rowIndex;
 
 		for (final TableRow row : rows) {
+			if (TableRowExtensions.isMainEmpty(row)) {
+				continue;
+			}
 			final Row sheetRow = contentRowIndex == rowIndex
 					? sheet.getRow(contentRowIndex)
 					: createNewRow(sheet, contentRowIndex, columnCount);
 			final FootnoteContainer footnotes = row.getFootnotes();
 			for (int i = 0; i < columnCount; i++) {
 				final String content = TableRowExtensions
-						.getPlainStringValue(row, i);
+						.getMainStringValue(row, i);
 				Cell cell = sheetRow.getCell(i + 1);
 
 				if (cell == null) {

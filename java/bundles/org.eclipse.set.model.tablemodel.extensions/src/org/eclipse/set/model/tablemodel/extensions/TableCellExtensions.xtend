@@ -54,6 +54,19 @@ class TableCellExtensions {
 		}
 		return plainString
 	}
+	
+	/**
+	 * @param cell this cell
+	 * 
+	 * @return the content as a string
+	 */
+	static def String getMainStringValue(TableCell cell) {
+		val plainString = cell.content.mainStringValue
+		if (plainString === null || plainString.trim.empty) {
+			return ""
+		}
+		return plainString
+	}
 
 	static def Set<String> getIterableStringValue(TableCell cell) {
 		return cell.content.stringValueIterable.filter [
