@@ -503,9 +503,7 @@ public class TableServiceUtils {
 								.stream()
 								.allMatch(cell -> cell.getContent() == null
 										|| CellContentExtensions
-												.getPlainStringValue(
-														cell.getContent())
-												.isEmpty())));
+												.isEmpty(cell.getContent()))));
 		table.getTablecontent()
 				.getRowgroups()
 				.removeIf(group -> group.getRows().isEmpty());

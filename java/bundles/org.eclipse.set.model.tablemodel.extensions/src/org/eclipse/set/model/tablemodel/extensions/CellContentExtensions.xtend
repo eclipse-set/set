@@ -197,12 +197,7 @@ class CellContentExtensions {
 
 	static def dispatch String getPlainStringValue(
 		CompareStateCellContent content) {
-		val oldValue = content?.oldValue?.stringValueIterable
-		val newValue = content?.newValue?.stringValueIterable
-		if (oldValue.isNullOrEmpty && newValue.nullOrEmpty) {
-			return ""
-		}
-		return '''«oldValue»/«newValue»'''
+		return content?.newValue?.plainStringValue;
 	}
 
 	static def dispatch String getPlainStringValue(
@@ -213,16 +208,38 @@ class CellContentExtensions {
 
 	static def dispatch String getPlainStringValue(
 		CompareTableCellContent content) {
-		if (content.mainPlanCellContent === null) {
-			return content.mainPlanCellContent.plainStringValue
-		}
-		
-		val mainContent = content.mainPlanCellContent.plainStringValue
-		val compareContent = content.comparePlanCellContent.plainStringValue
-		if (mainContent.isNullOrEmpty && compareContent.nullOrEmpty) {
-			return ""
-		}
-		return '''«mainContent»/«compareContent»'''
+		return content.mainPlanCellContent?.plainStringValue
+	}
+
+	/**
+	 * @param content this cell content
+	 * 
+	 * @return true if the provided cell content is empty
+	 */
+	static def dispatch boolean isEmpty(CellContent content) {
+		return false
+	}
+
+	static def dispatch boolean isEmpty(Void content) {
+		return true
+	}
+
+	static def dispatch boolean isEmpty(StringCellContent content) {
+		return content.value.size > 0
+	}
+
+	static def dispatch boolean isEmpty(CompareStateCellContent content) {
+		return content?.newValue?.stringValueIterable.isNullOrEmpty &&
+			content?.oldValue?.stringValueIterable.isNullOrEmpty
+	}
+
+	static def dispatch boolean isEmpty(MultiColorCellContent content) {
+		return content.value.size > 0
+	}
+
+	static def dispatch boolean isEmpty(CompareTableCellContent content) {
+		return content.mainPlanCellContent?.plainStringValue.isNullOrEmpty ||
+			content.comparePlanCellContent?.plainStringValue.isNullOrEmpty
 	}
 
 	static def dispatch Iterable<String> getStringValueIterable(Void content) {
@@ -450,6 +467,9 @@ class CellContentExtensions {
 		Iterable<String> sequence,
 		String separator
 	) {
+		if (sequence === null) {
+			return ""
+		}
 		return '''«FOR element : sequence SEPARATOR separator === null ? "\n" : separator»«element»«ENDFOR»'''
 	}
 
