@@ -21,6 +21,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.set.model.planpro.Basisobjekte.BasisobjekteFactory;
@@ -456,7 +457,8 @@ public class TableExtensionsTest {
 				is("*" + index + ": " + kommentar));
 	}
 
-	private static final String REMOVED_FOOTNOTE_TEXT = "                                      ";
+	private static final String REMOVED_FOOTNOTE_TEXT = StringUtils.leftPad("",
+			40);
 
 	private static void assertRemovedCompareFootnoteInfo(
 			final FootnoteInfo info, final int index) {

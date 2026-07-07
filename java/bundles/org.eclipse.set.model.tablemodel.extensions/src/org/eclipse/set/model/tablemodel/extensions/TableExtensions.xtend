@@ -42,6 +42,7 @@ import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 import static extension org.eclipse.set.utils.StringExtensions.*
 import org.eclipse.set.model.tablemodel.extensions.TableExtensions.FootnoteInfo
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Extensions for {@link Table}.
@@ -419,7 +420,7 @@ class TableExtensions {
 	}
 
 	static class FootnoteInfo {
-		static val REMOVED_FOOTNOTE_TEXT = "                                      "
+		static val REMOVED_FOOTNOTE_TEXT = StringUtils.leftPad("", 40)
 		
 		new(Footnote fn, FootnoteType ft, boolean changedInCompare) {
 			this(fn.bearbeitungsvermerk, ft, fn.referenceColumn,
