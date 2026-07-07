@@ -38,7 +38,6 @@ import org.eclipse.set.application.geometry.GeoKanteGeometrySessionData;
 import org.eclipse.set.application.geometry.PointObjectPositionServiceImpl;
 import org.eclipse.set.basis.Pair;
 import org.eclipse.set.basis.constants.ContainerType;
-import org.eclipse.set.basis.geometry.GEOKanteMetadata;
 import org.eclipse.set.feature.plazmodel.check.GeoCoordinateValid;
 import org.eclipse.set.feature.plazmodel.export.TopologicalCoordinate;
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt;
@@ -63,20 +62,7 @@ import org.locationtech.jts.geom.Coordinate;
  */
 public class CalculateTopologicalCoordinateTest extends AbstractToolboxTest {
 
-	/**
-	 * @return the reference files
-	 */
-	protected static Stream<Arguments> getReferenceFiles() {
-		return Stream.of(Arguments
-				.of(new Pair<>("pphn", PPHN_1_10_0_3_20220517_PLANPRO)));
-	}
-
-	List<CSVRecord> csvRecords;
-	GeoKanteGeometryServiceImpl geometryService;
-	GeoCoordinateValid testee;
-	List<TopologicalCoordinate> topologicalCoordinates;
-
-	private String[] getCoordinateString(final Coordinate coord) {
+	private static String[] getCoordinateString(final Coordinate coord) {
 		if (coord == null) {
 			return new String[] { "Fehler bei der Berechnung",
 					"Fehler bei der Berechnung" };
@@ -87,12 +73,36 @@ public class CalculateTopologicalCoordinateTest extends AbstractToolboxTest {
 				toStringFunc.apply(Double.valueOf(coord.y)) };
 	}
 
+	@SuppressWarnings("boxing")
+	private static boolean isSame(final CSVRecord entry,
+			final Map<Integer, String> valueToCompare) {
+		return valueToCompare.keySet()
+				.stream()
+				.allMatch(index -> entry.get(index)
+						.equals(valueToCompare.get(index)));
+	}
+
+	/**
+	 * @return the reference files
+	 */
+	protected static Stream<Arguments> getReferenceFiles() {
+		return Stream.of(Arguments
+				.of(new Pair<>("pphn", PPHN_1_10_0_3_20220517_PLANPRO)));
+	}
+
+	List<CSVRecord> csvRecords;
+	GeoKanteGeometryServiceImpl geometryService;
+
+	GeoCoordinateValid testee;
+
+	List<TopologicalCoordinate> topologicalCoordinates;
+
 	private void givenGeoCoordinateValid() throws IllegalAccessException {
 		testee = new GeoCoordinateValid();
 		FieldUtils.writeField(testee, "topologicalCoordinates",
 				Optional.empty(), true);
-		FieldUtils.writeField(testee, "alreadyFoundMetaData",
-				new ArrayList<>(), true);
+		FieldUtils.writeField(testee, "alreadyFoundMetaData", new ArrayList<>(),
+				true);
 		FieldUtils.writeField(testee, "pointObjectPositionService",
 				new PointObjectPositionServiceImpl(), true);
 	}
@@ -136,14 +146,7 @@ public class CalculateTopologicalCoordinateTest extends AbstractToolboxTest {
 		}
 	}
 
-	private boolean isSame(final CSVRecord entry,
-			final Map<Integer, String> valueToCompare) {
-		return valueToCompare.keySet()
-				.stream()
-				.allMatch(index -> entry.get(index)
-						.equals(valueToCompare.get(index)));
-	}
-
+	@SuppressWarnings("boxing")
 	private void thenExpectAllCoordinateAreEqualReference() {
 		assertEquals(csvRecords.size(), topologicalCoordinates.size());
 		topologicalCoordinates.forEach(coord -> {
@@ -180,9 +183,10 @@ public class CalculateTopologicalCoordinateTest extends AbstractToolboxTest {
 
 	private void whenCalculateCoordinate()
 			throws NoSuchMethodException, SecurityException {
-		final Method calculatedMethode = GeoCoordinateValid.class.getDeclaredMethod(
-				"calculateCoordinate", ContainerType.class, Punkt_Objekt.class,
-				Punkt_Objekt_TOP_Kante_AttributeGroup.class);
+		final Method calculatedMethode = GeoCoordinateValid.class
+				.getDeclaredMethod("calculateCoordinate", ContainerType.class,
+						Punkt_Objekt.class,
+						Punkt_Objekt_TOP_Kante_AttributeGroup.class);
 		calculatedMethode.setAccessible(true);
 		List.of(ContainerType.INITIAL, ContainerType.FINAL)
 				.stream()
@@ -212,8 +216,8 @@ public class CalculateTopologicalCoordinateTest extends AbstractToolboxTest {
 
 	@ParameterizedTest
 	@MethodSource("getReferenceFiles")
-	void testTopologischeCoordinateCalculate(final Pair<String, String> testFile)
-			throws Exception {
+	void testTopologischeCoordinateCalculate(
+			final Pair<String, String> testFile) throws Exception {
 		givenGeoKanteGeometryService();
 		givenGeoCoordinateValid();
 		givenTopologicalCoordinaten(testFile.getFirst());
