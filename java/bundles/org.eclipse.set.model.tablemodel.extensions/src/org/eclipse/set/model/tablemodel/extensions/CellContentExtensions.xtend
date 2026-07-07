@@ -214,7 +214,7 @@ class CellContentExtensions {
 	/**
 	 * @param content this cell content
 	 * 
-	 * @return true if the provided cell content is empty
+	 * @return true if the "main" content of the provided cell content is empty
 	 */
 	static def dispatch boolean isEmpty(CellContent content) {
 		return false
@@ -225,21 +225,19 @@ class CellContentExtensions {
 	}
 
 	static def dispatch boolean isEmpty(StringCellContent content) {
-		return content.value.size > 0
+		return content.value.empty
 	}
 
 	static def dispatch boolean isEmpty(CompareStateCellContent content) {
-		return content?.newValue?.stringValueIterable.isNullOrEmpty &&
-			content?.oldValue?.stringValueIterable.isNullOrEmpty
+		return content?.newValue?.stringValueIterable.isNullOrEmpty
 	}
 
 	static def dispatch boolean isEmpty(MultiColorCellContent content) {
-		return content.value.size > 0
+		return content.value.empty
 	}
 
 	static def dispatch boolean isEmpty(CompareTableCellContent content) {
-		return content.mainPlanCellContent?.plainStringValue.isNullOrEmpty ||
-			content.comparePlanCellContent?.plainStringValue.isNullOrEmpty
+		return content.mainPlanCellContent?.plainStringValue.isNullOrEmpty
 	}
 
 	static def dispatch Iterable<String> getStringValueIterable(Void content) {
