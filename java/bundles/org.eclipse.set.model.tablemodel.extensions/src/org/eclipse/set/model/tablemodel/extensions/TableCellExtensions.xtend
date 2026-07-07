@@ -98,7 +98,7 @@ class TableCellExtensions {
 		TextAlignment textAlignment) {
 		cell.format.textAlignment = textAlignment
 	}
-
+	
 	def static void setTopologicalCalcultation(TableCell cell, boolean isTopologicalCalculation) {
 		cell.format.topologicalCalculation = isTopologicalCalculation
 	}
