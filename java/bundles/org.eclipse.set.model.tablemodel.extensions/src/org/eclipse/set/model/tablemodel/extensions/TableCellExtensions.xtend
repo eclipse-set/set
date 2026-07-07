@@ -17,7 +17,6 @@ import org.eclipse.set.model.tablemodel.format.TextAlignment
 
 import static extension org.eclipse.set.model.tablemodel.extensions.CellContentExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.ColumnDescriptorExtensions.*
-import org.eclipse.set.model.tablemodel.CompareTableCellContent
 
 /**
  * Extensions for {@link TableCell}.
@@ -50,23 +49,6 @@ class TableCellExtensions {
 	 */
 	static def String getPlainStringValue(TableCell cell) {
 		val plainString = cell.content.plainStringValue
-		if (plainString === null || plainString.trim.empty) {
-			return ""
-		}
-		return plainString
-	}
-
-	/**
-	 * @param cell this cell
-	 * 
-	 * @return the content as a string
-	 */
-	static def String getMainStringValue(TableCell cell) {
-		var content = cell.content
-		if (content instanceof CompareTableCellContent) {
-			content = content.mainPlanCellContent
-		}
-		val plainString = content.plainStringValue
 		if (plainString === null || plainString.trim.empty) {
 			return ""
 		}
@@ -117,8 +99,7 @@ class TableCellExtensions {
 		cell.format.textAlignment = textAlignment
 	}
 
-	def static void setTopologicalCalcultation(TableCell cell,
-		boolean isTopologicalCalculation) {
+	def static void setTopologicalCalcultation(TableCell cell, boolean isTopologicalCalculation) {
 		cell.format.topologicalCalculation = isTopologicalCalculation
 	}
 

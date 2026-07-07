@@ -216,7 +216,7 @@ class CellContentExtensions {
 		if (content.mainPlanCellContent === null) {
 			return content.mainPlanCellContent.plainStringValue
 		}
-
+		
 		val mainContent = content.mainPlanCellContent.plainStringValue
 		val compareContent = content.comparePlanCellContent.plainStringValue
 		if (mainContent.isNullOrEmpty && compareContent.nullOrEmpty) {
@@ -406,8 +406,9 @@ class CellContentExtensions {
 
 	private static def String getMultiColorFormat(MultiColorContent content) {
 		if (Strings.isNullOrEmpty(content.multiColorValue)) {
-			return Strings.isNullOrEmpty(content.stringFormat) ? "" : content.
-				stringFormat.htmlString
+			return Strings.isNullOrEmpty(content.stringFormat)
+				? ""
+				: content.stringFormat.htmlString
 		}
 
 		if (content.isDisableMultiColor) {

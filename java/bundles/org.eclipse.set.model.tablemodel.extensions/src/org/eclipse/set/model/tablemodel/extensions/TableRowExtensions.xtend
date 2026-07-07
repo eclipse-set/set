@@ -98,26 +98,6 @@ class TableRowExtensions {
 		return tableCell.plainStringValue
 	}
 
-	/** 
-	 * @param row the table row.
-	 * @param columnIndex the column index
-	 * 
-	 * @return the main string column content
-	 */
-	def static String getMainStringValue(TableRow row, int columnIndex) {
-		val tableCell = row.cells.get(columnIndex)
-		if (tableCell === null || tableCell.content === null) {
-			return null
-		}
-		return tableCell.mainStringValue
-	}
-
-	def static boolean isMainEmpty(TableRow row) {
-		return row.cells.empty || !row.cells.exists [
-			!mainStringValue.nullOrEmpty
-		]
-	}
-
 	/**
 	 * @param row this table row
 	 * @param column the descriptor for the column
