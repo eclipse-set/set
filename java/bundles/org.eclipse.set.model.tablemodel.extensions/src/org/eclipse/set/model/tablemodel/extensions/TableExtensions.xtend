@@ -545,7 +545,7 @@ class TableExtensions {
 			CompareTableFootnoteContainer).toList
 
 		if (compareTableFootnoteContainer.size === 0) {
-			return footnotes
+			return #[]
 		}
 
 		val mainTableFootnotes = compareTableFootnoteContainer.map [
