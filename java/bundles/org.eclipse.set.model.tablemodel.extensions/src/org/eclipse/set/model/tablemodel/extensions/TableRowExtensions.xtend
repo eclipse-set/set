@@ -97,8 +97,8 @@ class TableRowExtensions {
 		}
 		return tableCell.plainStringValue
 	}
-		
-		/** 
+
+	/** 
 	 * @param row the table row.
 	 * @param columnIndex the column index
 	 * 
@@ -111,9 +111,11 @@ class TableRowExtensions {
 		}
 		return tableCell.mainStringValue
 	}
-	
+
 	def static boolean isMainEmpty(TableRow row) {
-		return row.cells.empty || !row.cells.exists[ !mainStringValue.nullOrEmpty ]
+		return row.cells.empty || !row.cells.exists [
+			!mainStringValue.nullOrEmpty
+		]
 	}
 
 	/**

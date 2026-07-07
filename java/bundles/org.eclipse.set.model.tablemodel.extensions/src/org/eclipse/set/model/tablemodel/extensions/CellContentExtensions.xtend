@@ -225,39 +225,6 @@ class CellContentExtensions {
 		return '''«mainContent»/«compareContent»'''
 	}
 
-	/**
-	 * @param content this cell content
-	 * 
-	 * @return an unformatted string representation intended for rendering as simple text
-	 */
-	static def dispatch String getMainStringValue(CellContent content) {
-		return '''Content «content.class.simpleName» not supported.'''
-	}
-
-	static def dispatch String getMainStringValue(Void content) {
-		return ""
-	}
-
-	static def dispatch String getMainStringValue(StringCellContent content) {
-		return content.value.iterableToString(content.separator)
-	}
-
-	static def dispatch String getMainStringValue(
-		CompareStateCellContent content) {
-		return content?.newValue?.mainStringValue
-	}
-
-	static def dispatch String getMainStringValue(
-		MultiColorCellContent content) {
-		return '''«FOR value : content.value SEPARATOR content.separator»«
-		»«String.format(value.stringFormat, value.multiColorValue)»«ENDFOR»'''
-	}
-
-	static def dispatch String getMainStringValue(
-		CompareTableCellContent content) {
-		return content.mainPlanCellContent?.mainStringValue
-	}
-
 	static def dispatch Iterable<String> getStringValueIterable(Void content) {
 		return #[]
 	}
