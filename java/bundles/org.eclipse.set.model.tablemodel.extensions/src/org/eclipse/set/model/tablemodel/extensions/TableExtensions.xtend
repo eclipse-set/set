@@ -516,61 +516,73 @@ class TableExtensions {
 			CompareFootnoteContainer).filter [
 			!(eContainer instanceof CompareTableFootnoteContainer)
 		].toList
-		val compareTableFootnoteContainer = table.eAllContents.filter(
-			CompareTableFootnoteContainer).toList
 
-		// collect and sort all footnotes and keep only unique ones of main planning
 		val normalFootnotes = (simpleFootnoteContainer +
 			compareFootnoteContainer).map [
 			footnoteInfos
 		].flatten.distinctBy[toText].toList
-		val mainTableFootnotes = compareTableFootnoteContainer.map [
-			mainPlanFootnoteContainer.footnoteInfos
-		].flatten.distinctBy[toText].toList
-		val unsortedFootnotes = normalFootnotes + mainTableFootnotes
-		var footnotes = (unsortedFootnotes.filter [
-			type != FootnoteType.OLD_FOOTNOTE
-		].sortBy[toText] + unsortedFootnotes.filter [
-			type == FootnoteType.OLD_FOOTNOTE
-		]).distinctBy[toText]
 
-		// flag changes between main and compare table if necessary
-		if (compareTableFootnoteContainer.size > 0) {
-			val compareTableFootnotes = compareTableFootnoteContainer.map [
-				comparePlanFootnoteContainer.footnoteInfos
-			].flatten.distinctBy[toText].toList
+		val allFootnotes = normalFootnotes +
+			table.getCompareTableFootnotes(normalFootnotes)
 
-			// a footnote only changed if it is not existing in any compare table container
-			// and was not used in some other (not changed) row 
-			mainTableFootnotes.filter [ mF |
-				val compareFootnote = compareTableFootnotes.findFirst [ cF |
-					cF.sameBv(mF)
-				]
-				val existsAsNormalFootnote = normalFootnotes.
-						empty ? false : normalFootnotes.exists[nF|nF.sameBv(mF)]
-				compareFootnote === null && !existsAsNormalFootnote
-			].forEach[changedInCompare = true]
-
-			// a compare table footnote that is not existing in any table container
-			// is a removed footnote
-			val removedFootnotes = compareTableFootnotes.filter [ cF |
-				val compareFootnote = mainTableFootnotes.findFirst [ mF |
-					mF.sameBv(cF)
-				]
-				val existsAsNormalFootnote = normalFootnotes.
-						empty ? false : normalFootnotes.exists[nF|nF.sameBv(cF)]
-				compareFootnote === null && !existsAsNormalFootnote
-			].map [
-				new FootnoteInfo(null, FootnoteType.COMMON_FOOTNOTE, null, true,
-					true)
-			]
-			footnotes = footnotes + removedFootnotes
-		}
+		// collect and sort all footnotes and keep only unique ones
+		// except the ones removedInMain which should be appended at the end
+		var footnotes = (allFootnotes.filter [
+			type != FootnoteType.OLD_FOOTNOTE && !removedInMain
+		].sortBy[toText] + allFootnotes.filter [
+			type == FootnoteType.OLD_FOOTNOTE && !removedInMain
+		]).distinctBy[toText] + allFootnotes.filter[removedInMain]
 
 		return footnotes.indexed.map [
 			value.index = key + 1
 			return value
 		].toList
+	}
+
+	private static def getCompareTableFootnotes(Table table,
+		Iterable<FootnoteInfo> footnotes) {
+		val compareTableFootnoteContainer = table.eAllContents.filter(
+			CompareTableFootnoteContainer).toList
+
+		if (compareTableFootnoteContainer.size === 0) {
+			return footnotes
+		}
+
+		val mainTableFootnotes = compareTableFootnoteContainer.map [
+			mainPlanFootnoteContainer.footnoteInfos
+		].flatten.distinctBy[toText].toList
+
+		val compareTableFootnotes = compareTableFootnoteContainer.map [
+			comparePlanFootnoteContainer.footnoteInfos
+		].flatten.distinctBy[toText].toList
+
+		// a footnote only changed if it is not existing in any compare table container
+		// and was not used in some other (not changed) row 
+		mainTableFootnotes.filter [ mF |
+			val compareFootnote = compareTableFootnotes.findFirst [ cF |
+				cF.sameBv(mF)
+			]
+			val existsAsNormalFootnote = footnotes.empty
+					? false
+					: footnotes.exists[nF|nF.sameBv(mF)]
+			compareFootnote === null && !existsAsNormalFootnote
+		].forEach[changedInCompare = true]
+
+		// a compare table footnote that is not existing in any table container
+		// is a removed footnote
+		val removedFootnotes = compareTableFootnotes.filter [ cF |
+			val compareFootnote = mainTableFootnotes.findFirst [ mF |
+				mF.sameBv(cF)
+			]
+			val existsAsNormalFootnote = footnotes.empty
+					? false
+					: footnotes.exists[nF|nF.sameBv(cF)]
+			compareFootnote === null && !existsAsNormalFootnote
+		].map [
+			new FootnoteInfo(null, FootnoteType.COMMON_FOOTNOTE, null, true,
+				true)
+		]
+		return mainTableFootnotes + removedFootnotes
 	}
 
 	static def FootnoteInfo getFootnoteInfo(Table table, Footnote fn) {
