@@ -338,54 +338,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 			instance,
 			cols.getColumn(Abstand_GM_2000),
 			pzb,
-			[
-				if (PZBArt?.wert === ENUMPZBArt.ENUMPZB_ART_2000_HZ) {
-					return #[]
-				}
-				val pzbGM2000 = container.PZBElement.filter [ pzbEle |
-					pzbEle !== it &&
-						(pzbEle.PZBArt?.wert ===
-							ENUMPZBArt.ENUMPZB_ART_2000_HZ ||
-							pzbEle.PZBArt?.wert ===
-								ENUMPZBArt.ENUMPZB_ART_1000_2000_HZ) &&
-						pzbEle?.PZBElementGM !== null
-				].toList
-				val bezugspunktSignals = PZBElementBezugspunkt.filter(Signal)
-				pzbGM2000.filter [ pzbEle |
-					if (PZBArt?.wert === ENUMPZBArt.ENUMPZB_ART_500_HZ) {
-						return pzbEle.PZBElementBezugspunkt.filter(Signal).
-							exists[signal|bezugspunktSignals.contains(signal)]
-					}
-
-					return pzbEle.PZBZuordnungSignal.map[IDSignal?.value].
-						filterNull.exists [ signal |
-							bezugspunktSignals.contains(signal)
-						]
-				].filterNull.map [ pzbEle |
-					pzbEle -> getPointsDistance(it, pzbEle).min
-				].map [ pair |
-					val distance = AgateRounding.roundDown(pair.value,
-						distanceScale).toTableDecimal(distanceScale)
-					val prefix = bezugspunktSignals.map [ signal |
-						topGraphService.
-							isInWirkrichtungOfSignal(signal,
-								pair.key) ? "+" : "-"
-					]
-					if (PZBArt?.wert === ENUMPZBArt.ENUMPZB_ART_500_HZ) {
-						return prefix.map [ directionSign |
-							'''«IF distance != 0»«directionSign»«ENDIF»«distance»'''
-						]
-					}
-					pair.key.PZBElementBezugspunkt.filter(Signal).filterNull.map [ signal |
-						prefix.map [ directionSign |
-							'''«IF distance != 0»«directionSign»«ENDIF»«distance» «
-							»(«signal.bezeichnung?.bezeichnungTabelle?.wert»)'''
-						]
-					].flatten
-
-//					return #['''«distance» «IF signal !== null»(«signal.bezeichnung?.bezeichnungTabelle?.wert»)«ENDIF»''']
-				].flatten
-			],
+			[distanceToPZB2000],
 			MIXED_STRING_COMPARATOR
 		)
 
@@ -755,5 +708,52 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	protected def int getDistanceScale(PZB_Element pzb) {
 		return 0;
+	}
+
+	private def Iterable<String> distanceToPZB2000(PZB_Element pzb) {
+		if (pzb.PZBArt?.wert === ENUMPZBArt.ENUMPZB_ART_2000_HZ) {
+			return #[]
+		}
+		val pzbGM2000 = pzb.container.PZBElement.filter [ pzbEle |
+			pzbEle !== pzb &&
+				(pzbEle.PZBArt?.wert === ENUMPZBArt.ENUMPZB_ART_2000_HZ ||
+					pzbEle.PZBArt?.wert ===
+						ENUMPZBArt.ENUMPZB_ART_1000_2000_HZ) &&
+				pzbEle?.PZBElementGM !== null
+		].toList
+		val bezugspunktSignals = pzb.PZBElementBezugspunkt.filter(Signal)
+		val relevantPZB2000 = pzbGM2000.filter [ pzbEle |
+			if (pzb.PZBArt?.wert === ENUMPZBArt.ENUMPZB_ART_500_HZ) {
+				return pzbEle.PZBElementBezugspunkt.filter(Signal).exists [ signal |
+					bezugspunktSignals.contains(signal)
+				]
+			}
+
+			return pzbEle.PZBZuordnungSignal.map[IDSignal?.value].filterNull.
+				exists [ signal |
+					bezugspunktSignals.contains(signal)
+				]
+		].filterNull
+		return relevantPZB2000.map [ pzbEle |
+			pzbEle -> getPointsDistance(pzb, pzbEle).min
+		].map [ pair |
+			val distance = AgateRounding.roundDown(pair.value,
+				pzb.distanceScale).toTableDecimal(pzb.distanceScale)
+			val prefix = bezugspunktSignals.map [ signal |
+				topGraphService.isInWirkrichtungOfSignal(signal,
+					pair.key) ? "+" : "-"
+			]
+			if (pzb.PZBArt?.wert === ENUMPZBArt.ENUMPZB_ART_500_HZ) {
+				return prefix.map [ directionSign |
+					'''«IF distance != 0»«directionSign»«ENDIF»«distance»'''
+				]
+			}
+			pair.key.PZBElementBezugspunkt.filter(Signal).filterNull.map [ signal |
+				prefix.map [ directionSign |
+					'''«IF distance != 0»«directionSign»«ENDIF»«distance» «
+							»(«signal.bezeichnung?.bezeichnungTabelle?.wert»)'''
+				]
+			].flatten
+		].flatten
 	}
 }
