@@ -626,8 +626,8 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 	static dispatch def String fillBezugsElement(Signal object) {
 		return object?.signalReal?.signalFunktion?.wert ===
 			ENUMSignalFunktion.ENUM_SIGNAL_FUNKTION_BUE_UEBERWACHUNGSSIGNAL
-			? '''BÜ-K «object?.bezeichnung?.bezeichnungTabelle?.wert»'''
-			: object?.bezeichnung?.bezeichnungTabelle?.wert
+			? '''BÜ-K «object?.bezeichnung?.bezeichnungTabelle?.wert»''' : object?.
+			bezeichnung?.bezeichnungTabelle?.wert
 	}
 
 	private dispatch def String getDistanceSignalTrackSwitch(PZB_Element pzb,
@@ -643,9 +643,9 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				getPointsDistance(pzb, signal).min, scaleValue)
 			val directionSign = topGraphService.
 					isInWirkrichtungOfSignal(signal, pzb) ? "+" : "-"
-			return distance == 0.0
-				? distance.toTableDecimal(scaleValue)
-				: '''«directionSign»«distance.toTableDecimal(scaleValue)»'''
+			return distance == 0.0 ? distance.
+				toTableDecimal(
+					scaleValue) : '''«directionSign»«distance.toTableDecimal(scaleValue)»'''
 		}
 
 		val bueSpezifischesSignal = signal.container.BUESpezifischesSignal.
@@ -749,11 +749,11 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				]
 			}
 			pair.key.PZBElementBezugspunkt.filter(Signal).filterNull.map [ signal |
-				prefix.map [ directionSign |
-					'''«IF distance != 0»«directionSign»«ENDIF»«distance» «
+				val directionSign = topGraphService.
+					isInWirkrichtungOfSignal(signal, pzb) ? "+" : "-"
+				return '''«IF distance != 0»«directionSign»«ENDIF»«distance» «
 							»(«signal.bezeichnung?.bezeichnungTabelle?.wert»)'''
-				]
-			].flatten
+			]
 		].flatten
 	}
 }
