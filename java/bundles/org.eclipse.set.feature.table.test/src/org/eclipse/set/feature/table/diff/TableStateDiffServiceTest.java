@@ -69,8 +69,7 @@ public class TableStateDiffServiceTest {
 		System.out.println(TableExtensions.toDebugString(ziel, 10));
 		final Table diffTable = service.createDiffTable(start, ziel);
 		System.out.println(TableExtensions.toDebugString(diffTable, 10));
-		assertEquals("[43]/[]",
-				TableExtensions.getPlainStringValue(diffTable, 44, 0));
+		assertEquals("", TableExtensions.getPlainStringValue(diffTable, 44, 0));
 	}
 
 	/**
@@ -106,9 +105,9 @@ public class TableStateDiffServiceTest {
 				TableExtensions.getPlainStringValue(diffTable, 2, "B"));
 		assertEquals("14",
 				TableExtensions.getPlainStringValue(diffTable, 4, "C"));
-		assertEquals("[5]/[]",
+		assertEquals("",
 				TableExtensions.getPlainStringValue(diffTable, 1, "C"));
-		assertEquals("[9]/[]",
+		assertEquals("",
 				TableExtensions.getPlainStringValue(diffTable, 3, "A"));
 	}
 
@@ -208,15 +207,15 @@ public class TableStateDiffServiceTest {
 
 		assertEquals("0",
 				TableExtensions.getPlainStringValue(diffTable, 0, "A"));
-		assertEquals("[]/[1]",
+		assertEquals("1",
 				TableExtensions.getPlainStringValue(diffTable, 5, "B"));
 		assertEquals("7",
 				TableExtensions.getPlainStringValue(diffTable, 2, "B"));
 		assertEquals("14",
 				TableExtensions.getPlainStringValue(diffTable, 4, "C"));
-		assertEquals("[5]/[]",
+		assertEquals("",
 				TableExtensions.getPlainStringValue(diffTable, 1, "C"));
-		assertEquals("[9]/[]",
+		assertEquals("",
 				TableExtensions.getPlainStringValue(diffTable, 3, "A"));
 	}
 
@@ -235,9 +234,8 @@ public class TableStateDiffServiceTest {
 		System.out.println(TableExtensions.toDebugString(diffTable, 10));
 		assertTrue(TableExtensions.getPlainStringValue(diffTable, 18, 4)
 				.isEmpty());
-		assertEquals("[x]/[]",
-				TableExtensions.getPlainStringValue(diffTable, 0, 7));
-		assertEquals("[]/[o]",
+		assertEquals("", TableExtensions.getPlainStringValue(diffTable, 0, 7));
+		assertEquals("o",
 				TableExtensions.getPlainStringValue(diffTable, 18, 7));
 	}
 
@@ -256,8 +254,7 @@ public class TableStateDiffServiceTest {
 		System.out.println(TableExtensions.toDebugString(diffTable, 10));
 		assertTrue(
 				TableExtensions.getPlainStringValue(diffTable, 5, 0).isEmpty());
-		assertEquals("[]/[x]",
-				TableExtensions.getPlainStringValue(diffTable, 5, 2));
+		assertEquals("x", TableExtensions.getPlainStringValue(diffTable, 5, 2));
 	}
 
 	/**
@@ -285,13 +282,13 @@ public class TableStateDiffServiceTest {
 				TableExtensions.getPlainStringValue(diffTable, 1, "B"));
 		assertEquals("2",
 				TableExtensions.getPlainStringValue(diffTable, 2, "C"));
-		assertEquals("[]/[3]",
+		assertEquals("3",
 				TableExtensions.getPlainStringValue(diffTable, 3, "A"));
-		assertEquals("[]/[3]",
+		assertEquals("3",
 				TableExtensions.getPlainStringValue(diffTable, 3, "B"));
-		assertEquals("[]/[3]",
+		assertEquals("3",
 				TableExtensions.getPlainStringValue(diffTable, 3, "C"));
-		assertEquals("[]/[4]",
+		assertEquals("4",
 				TableExtensions.getPlainStringValue(diffTable, 4, "B"));
 	}
 
@@ -324,13 +321,13 @@ public class TableStateDiffServiceTest {
 				TableExtensions.getPlainStringValue(diffTable, 1, "B"));
 		assertEquals("2",
 				TableExtensions.getPlainStringValue(diffTable, 2, "C"));
-		assertEquals("[]/[3]",
+		assertEquals("3",
 				TableExtensions.getPlainStringValue(diffTable, 3, "A"));
-		assertEquals("[]/[3]",
+		assertEquals("3",
 				TableExtensions.getPlainStringValue(diffTable, 3, "B"));
-		assertEquals("[]/[3]",
+		assertEquals("3",
 				TableExtensions.getPlainStringValue(diffTable, 3, "C"));
-		assertEquals("[]/[4]",
+		assertEquals("4",
 				TableExtensions.getPlainStringValue(diffTable, 4, "B"));
 	}
 
@@ -359,11 +356,11 @@ public class TableStateDiffServiceTest {
 				TableExtensions.getPlainStringValue(newTable, 0, "A"));
 		assertEquals("B",
 				TableExtensions.getPlainStringValue(newTable, 1, "B"));
-		assertEquals("[0]/[A]",
+		assertEquals("A",
 				TableExtensions.getPlainStringValue(diffTable, 0, "A"));
 		assertEquals("0",
 				TableExtensions.getPlainStringValue(diffTable, 0, "B"));
-		assertEquals("[1]/[B]",
+		assertEquals("B",
 				TableExtensions.getPlainStringValue(diffTable, 1, "B"));
 	}
 }
