@@ -8,10 +8,7 @@
  */
 package org.eclipse.set.feature.export.xlsx;
 
-import static org.eclipse.set.utils.excel.ExcelWorkbookExtension.getCellAt;
-import static org.eclipse.set.utils.excel.ExcelWorkbookExtension.getCellStringValue;
-import static org.eclipse.set.utils.excel.ExcelWorkbookExtension.getHeaderLastColumnIndex;
-import static org.eclipse.set.utils.excel.ExcelWorkbookExtension.getHeaderLastRowIndex;
+import static org.eclipse.set.utils.excel.ExcelWorkbookExtension.*;
 
 import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
@@ -276,7 +273,7 @@ public class ExcelExportBuilder implements TableExport {
 	private static List<String> getCellContents(final TableRow row) {
 		return row.getCells().stream().map(cell -> {
 			String content = TableCellExtensions.getPlainStringValue(cell);
-			if (cell instanceof final CompareTableCellContent compareCell) {
+			if (cell.getContent() instanceof final CompareTableCellContent compareCell) {
 				content = CellContentExtensions.getPlainStringValue(
 						compareCell.getMainPlanCellContent());
 			}
