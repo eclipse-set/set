@@ -602,16 +602,28 @@ class TableToTableDocument {
 
 	private def Element transform(FootnoteInfo footnote) {
 		val it = doc.createElement("Footnote")
-		val footNoteType = doc.createElement(footnote.type.toString)
-		footNoteType.attributeNode = createFootnoteAttribute(footnote.index)
+		val footNoteType = doc.createElement(
+			footnote.changedInCompare &&
+				footnote.removedInMain ? 'REMOVED_COMPARE_FOOTNOTE' : footnote.
+				type.toString)
+		footNoteType.attributeNode = createFootnoteNumberAttribute(
+			footnote.index)
+		if (footnote.changedInCompare) {
+			it.attributeNode = createFootnoteCompareAttribute()
+		}
 		footNoteType.textContent = footnote.toText
 		appendChild(footNoteType)
 		return it
 	}
 
-	private def Attr createFootnoteAttribute(Integer number) {
+	private def Attr createFootnoteNumberAttribute(Integer number) {
 		val footnoteAttr = doc.createAttribute("footnote-number")
 		footnoteAttr.value = Integer.toString(number)
+		return footnoteAttr
+	}
+
+	private def Attr createFootnoteCompareAttribute() {
+		val footnoteAttr = doc.createAttribute("footnote-changed-in-compare")
 		return footnoteAttr
 	}
 }

@@ -268,37 +268,45 @@ http://www.eclipse.org/legal/epl-v20.html
 	</xsl:template>
 
 	<xsl:template match="Footnote">
-		<xsl:apply-templates />
+		<fo:block text-align="left">
+			<xsl:if test="boolean(@footnote-changed-in-compare)">
+				<xsl:attribute name="margin-top">0.5mm</xsl:attribute>
+				<xsl:attribute name="margin-bottom">0.5mm</xsl:attribute>
+				<xsl:attribute name="border">
+					<xsl:value-of select="$compare-content-border-style" />
+				</xsl:attribute>
+				<xsl:attribute name="padding">0.5mm</xsl:attribute>
+			</xsl:if>
+			<xsl:apply-templates />
+		</fo:block>
 	</xsl:template>
 
 	<xsl:template match="COMMON_FOOTNOTE">
-		<fo:block text-align="left">
+		<xsl:text>*</xsl:text>
+		<xsl:value-of select="@footnote-number" />
+		<xsl:text>: </xsl:text>
+		<xsl:value-of select="." />
+	</xsl:template>
+	<xsl:template match="NEW_FOOTNOTE">
+		<fo:inline color="#cd0000">
 			<xsl:text>*</xsl:text>
 			<xsl:value-of select="@footnote-number" />
 			<xsl:text>: </xsl:text>
 			<xsl:value-of select="." />
-		</fo:block>
-	</xsl:template>
-	<xsl:template match="NEW_FOOTNOTE">
-		<fo:block text-align="left">
-			<fo:inline color="#cd0000">
-				<xsl:text>*</xsl:text>
-				<xsl:value-of select="@footnote-number" />
-				<xsl:text>: </xsl:text>
-				<xsl:value-of select="." />
-			</fo:inline>
-		</fo:block>
+		</fo:inline>
 	</xsl:template>
 
 	<xsl:template match="OLD_FOOTNOTE">
-		<fo:block text-align="left">
-			<fo:inline background-color="yellow" text-decoration="line-through">
-				<xsl:text>*</xsl:text>
-				<xsl:value-of select="@footnote-number" />
-				<xsl:text>: </xsl:text>
-				<xsl:value-of select="." />
-			</fo:inline>
-		</fo:block>
+		<fo:inline background-color="yellow" text-decoration="line-through">
+			<xsl:text>*</xsl:text>
+			<xsl:value-of select="@footnote-number" />
+			<xsl:text>: </xsl:text>
+			<xsl:value-of select="." />
+		</fo:inline>
+	</xsl:template>
+
+	<xsl:template match="REMOVED_COMPARE_FOOTNOTE">
+		<fo:character character="&#160;"/>
 	</xsl:template>
 
 	<xsl:variable name="compare-content-border-style" select="'0.5mm solid #0066FF'" />
