@@ -711,13 +711,16 @@ class TopKanteExtensions extends BasisObjektExtensions {
 
 		return switch (anschlussOrigin) {
 			case ENUMTOP_ANSCHLUSS_LINKS,
-			case ENUMTOP_ANSCHLUSS_RECHTS: anschlussDestination.point
-			case ENUMTOP_ANSCHLUSS_SPITZE: anschlussDestination.branch
-			case ENUMTOP_ANSCHLUSS_MERIDIANSPRUNG: anschlussDestination ===
-				ENUMTOP_ANSCHLUSS_MERIDIANSPRUNG
-			case ENUMTOP_ANSCHLUSS_VERBINDUNG: anschlussDestination ===
-				ENUMTOP_ANSCHLUSS_VERBINDUNG
-			default: false
+			case ENUMTOP_ANSCHLUSS_RECHTS:
+				anschlussDestination.point
+			case ENUMTOP_ANSCHLUSS_SPITZE:
+				anschlussDestination.branch
+			case ENUMTOP_ANSCHLUSS_MERIDIANSPRUNG,
+			case ENUMTOP_ANSCHLUSS_VERBINDUNG,
+			case ENUMTOP_ANSCHLUSS_STRECKENWECHSEL:
+				anschlussDestination === anschlussOrigin
+			default:
+				false
 		}
 	}
 
