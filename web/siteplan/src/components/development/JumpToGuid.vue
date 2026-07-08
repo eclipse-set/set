@@ -236,7 +236,8 @@ export default class JumpToGuid extends Vue {
       return false
     }
 
-    const guids = getFeatureGUIDs(feature).map(guid => guid?.toUpperCase())
+    const guids = getFeatureGUIDs(feature).filter(g => g && g !== null)
+      .map(g => g?.toUpperCase())
     const searchGuid = guid?.toUpperCase()
     return guids.some(guid => guid.search(searchGuid) !== -1)
   }
