@@ -714,9 +714,6 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 		if (pzb.PZBArt?.wert === ENUMPZBArt.ENUMPZB_ART_2000_HZ) {
 			return #[]
 		}
-		if (pzb.identitaet.wert == "C25202C2-1C60-473D-AD9F-67E7DF6287D1") {
-			println("TEST")
-		}
 		val pzbGM2000 = pzb.container.PZBElement.filter [ pzbEle |
 			pzbEle !== pzb &&
 				(pzbEle.PZBArt?.wert === ENUMPZBArt.ENUMPZB_ART_2000_HZ ||
