@@ -18,6 +18,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -345,7 +346,10 @@ public class TableOverviewPart extends BasePart {
 				TableStatus::isNonTransformable);
 
 		final ArrayList<TableError> allErrors = new ArrayList<>();
-		getTableErrors().values().forEach(allErrors::addAll);
+		getTableErrors().values()
+				.stream()
+				.filter(Objects::nonNull)
+				.forEach(allErrors::addAll);
 		tableErrorTableView.updateView(allErrors);
 	}
 

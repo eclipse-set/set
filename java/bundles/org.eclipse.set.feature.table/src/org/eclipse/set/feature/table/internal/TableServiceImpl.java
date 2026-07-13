@@ -139,7 +139,7 @@ public final class TableServiceImpl implements TableService {
 	private static final Queue<Pair<BasePart, TableRendererUtil>> transformTableThreads = new LinkedList<>();
 	private final Map<String, Set<Footnote>> footnotesPerTable = new ConcurrentHashMap<>();
 	private static final Map<TableInfo, List<Pt1TableChangeProperties>> tableChangedData = new ConcurrentHashMap<>();
-	private static final Map<TableInfo, TableStatus> tablesStatus = new HashMap<>();
+	private static final Map<TableInfo, TableStatus> tablesStatus = new ConcurrentHashMap<>();
 
 	private CacheService getCacheService() {
 		return ToolboxConfiguration.isDebugMode() ? Services.getNoCacheService()
@@ -465,8 +465,15 @@ public final class TableServiceImpl implements TableService {
 			tableStatus.setContainsStateChanged(
 					TableServiceUtils.isTableExistChangedCompareContent(
 							resultTable, CompareStateCellContent.class));
+			tableStatus
+					.setContainsErrors(!TableServiceUtils
+							.getCachedTableError(getCacheService(), tableInfo,
+									modelSession, getModelService(tableInfo),
+									controlAreaIds)
+							.isEmpty());
 		}
 		sortTable(resultTable, tableInfo, tableType);
+
 		return resultTable;
 	}
 
@@ -787,9 +794,8 @@ public final class TableServiceImpl implements TableService {
 			final Pt1TableCategory tableCategory) {
 		return tablesStatus.entrySet()
 				.stream()
-				.filter(entry -> entry.getKey()
-						.category()
-						.equals(tableCategory))
+				.filter(entry -> tableCategory == null
+						|| entry.getKey().category().equals(tableCategory))
 				.collect(Collectors.toMap(Entry::getKey, Entry::getValue));
 	}
 
