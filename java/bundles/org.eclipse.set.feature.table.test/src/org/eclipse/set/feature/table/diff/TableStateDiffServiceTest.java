@@ -13,11 +13,18 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
+import org.eclipse.set.model.tablemodel.MultiColorCellContent;
+import org.eclipse.set.model.tablemodel.MultiColorContent;
 import org.eclipse.set.model.tablemodel.Table;
+import org.eclipse.set.model.tablemodel.TableCell;
+import org.eclipse.set.model.tablemodel.TableRow;
+import org.eclipse.set.model.tablemodel.TablemodelFactory;
 import org.eclipse.set.model.tablemodel.extensions.TableExtensions;
+import org.eclipse.set.model.tablemodel.extensions.TableRowExtensions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -366,4 +373,94 @@ public class TableStateDiffServiceTest {
 		assertEquals("[1]/[B]",
 				TableExtensions.getPlainStringValue(diffTable, 1, "B"));
 	}
+
+	@Test
+	void testMultiColorCellSimpleChange() {
+		final Table oldTable = TableExtensions.create("oldTable", "A");
+		TableExtensions.addRow(LEADING_OBJECT, 0, oldTable,
+				createMultiColorTableCell("1", "%s (R)", true));
+		TableExtensions.addRow(LEADING_OBJECT, 1, oldTable, "");
+
+		final Table newTable = EcoreUtil.copy(oldTable);
+		final List<TableRow> tableRows = TableExtensions.getTableRows(newTable);
+		TableRowExtensions.set(tableRows.get(0),
+				TableExtensions.getColumns(newTable).getFirst(), "");
+		final MultiColorContent multiColorContent = createMultiColorContent("1",
+				"%s (L)", true);
+		TableRowExtensions.set(tableRows.get(1),
+				TableExtensions.getColumns(newTable).getFirst(),
+				List.of(multiColorContent), "/n");
+		final Table diffTable = service.createDiffTable(oldTable, newTable);
+		System.out.println(TableExtensions.toDebugString(oldTable, 1));
+		System.out.println(TableExtensions.toDebugString(newTable, 1));
+		System.out.println(TableExtensions.toDebugString(diffTable, 10));
+		final List<TableRow> diffRows = TableExtensions.getTableRows(diffTable);
+		assertEquals(
+				"<p style=\"text-align:center\"><span style=\"background-color:rgb(255,255, 0)\"><s>1 ​(R)​</s></span></p>",
+				TableRowExtensions.getRichTextValue(diffRows.get(0), 0));
+		assertEquals(
+				"<p style=\"text-align:center\"><span style=\"color:rgb(255, 0, 0)\">1 ​(L)​</span></p>",
+				TableRowExtensions.getRichTextValue(diffRows.get(1), 0));
+	}
+
+	@Test
+	void testMultiColorCellChange() {
+		final Table oldTable = TableExtensions.create("oldTable", "A");
+		TableExtensions.addRow(LEADING_OBJECT, 0, oldTable,
+				createMultiColorTableCell("1", "%s (R)", true));
+		TableExtensions.addRow(LEADING_OBJECT, 1, oldTable,
+				createMultiColorTableCell("2", "%s (R)", true));
+
+		final Table newTable = EcoreUtil.copy(oldTable);
+		final List<TableRow> newTableRows = TableExtensions.getTableRows(newTable);
+		for (int i = 0; i < newTableRows.size(); i++) {
+			final MultiColorContent multiColorContent = createMultiColorContent(
+					String.valueOf(i + 2), "%s (L)", false);
+			TableRowExtensions.set(newTableRows.get(i),
+					TableExtensions.getColumns(newTable).getFirst(),
+					List.of(multiColorContent), "/n");
+		}
+		// Test multi color cell in FINAL state
+		assertEquals(
+				"<p style=\"text-align:center\"><span><span style=\"background-color:rgb(255,255, 0)\">2</span><span style=\"color:rgb(255, 0, 0)\">2</span> (L)</span></p>",
+				TableRowExtensions.getRichTextValue(newTableRows.getFirst(), 0));
+		final Table diffTable = service.createDiffTable(oldTable, newTable);
+		System.out.println(TableExtensions.toDebugString(oldTable, 1));
+		System.out.println(TableExtensions.toDebugString(newTable, 1));
+		System.out.println(TableExtensions.toDebugString(diffTable, 10));
+		final List<TableRow> diffRows = TableExtensions.getTableRows(diffTable);
+		assertEquals(
+				"<p style=\"text-align:center\"><span style=\"color:rgb(255, 0, 0)\">2 ​(L)​</span><br></br><span style=\"background-color:rgb(255,255, 0)\"><s>1 ​(R)​</s></span></p>",
+				TableRowExtensions.getRichTextValue(diffRows.get(0), 0));
+		assertEquals(
+				"<p style=\"text-align:center\"><span style=\"color:rgb(255, 0, 0)\">3 ​(L)​</span><br></br><span style=\"background-color:rgb(255,255, 0)\"><s>2 ​(R)​</s></span></p>",
+				TableRowExtensions.getRichTextValue(diffRows.get(1), 0));
+	}
+
+	private static TableCell createMultiColorTableCell(
+			final String multiColorValue, final String stringFormat,
+			final boolean disableMultiColor) {
+		final MultiColorCellContent multiColorCellContent = TablemodelFactory.eINSTANCE
+				.createMultiColorCellContent();
+		multiColorCellContent.getValue()
+				.add(createMultiColorContent(multiColorValue, stringFormat,
+						disableMultiColor));
+		final TableCell tableCell = TablemodelFactory.eINSTANCE
+				.createTableCell();
+		tableCell.setContent(multiColorCellContent);
+		return tableCell;
+	}
+
+	private static MultiColorContent createMultiColorContent(
+			final String multiColorValue, final String stringFormat,
+			final boolean disableMultiColor) {
+		final MultiColorContent multiColorContent = TablemodelFactory.eINSTANCE
+				.createMultiColorContent();
+		multiColorContent.setMultiColorValue(multiColorValue);
+		multiColorContent.setStringFormat(stringFormat);
+		multiColorContent.setDisableMultiColor(disableMultiColor);
+		return multiColorContent;
+
+	}
+
 }
