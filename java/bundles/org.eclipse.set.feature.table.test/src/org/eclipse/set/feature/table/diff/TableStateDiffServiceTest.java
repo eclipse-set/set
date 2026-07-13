@@ -412,7 +412,8 @@ public class TableStateDiffServiceTest {
 				createMultiColorTableCell("2", "%s (R)", true));
 
 		final Table newTable = EcoreUtil.copy(oldTable);
-		final List<TableRow> newTableRows = TableExtensions.getTableRows(newTable);
+		final List<TableRow> newTableRows = TableExtensions
+				.getTableRows(newTable);
 		for (int i = 0; i < newTableRows.size(); i++) {
 			final MultiColorContent multiColorContent = createMultiColorContent(
 					String.valueOf(i + 2), "%s (L)", false);
@@ -423,7 +424,8 @@ public class TableStateDiffServiceTest {
 		// Test multi color cell in FINAL state
 		assertEquals(
 				"<p style=\"text-align:center\"><span><span style=\"background-color:rgb(255,255, 0)\">2</span><span style=\"color:rgb(255, 0, 0)\">2</span> (L)</span></p>",
-				TableRowExtensions.getRichTextValue(newTableRows.getFirst(), 0));
+				TableRowExtensions.getRichTextValue(newTableRows.getFirst(),
+						0));
 		final Table diffTable = service.createDiffTable(oldTable, newTable);
 		System.out.println(TableExtensions.toDebugString(oldTable, 1));
 		System.out.println(TableExtensions.toDebugString(newTable, 1));
