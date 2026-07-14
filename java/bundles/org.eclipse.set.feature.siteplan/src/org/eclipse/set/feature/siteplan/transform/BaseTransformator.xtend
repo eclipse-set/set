@@ -40,11 +40,11 @@ abstract class BaseTransformator<T extends Ur_Objekt> implements Transformator {
 		this.container = container
 		
 		initializeTransform()
-		val transformObjects = container.contents.filter[classT.isInstance(it)]
+		val transformObjects = container.contents.filter[classT.isInstance(it)].toList
+		val size = transformObjects.size
 		var i = 0
-		while(!Thread.currentThread.isInterrupted && i < transformObjects.size) {
+		while(!Thread.currentThread.isInterrupted && i < size) {
 			try {
-				transform(transformObjects.get(i) as T)	
 			} catch (Exception e) {
 				recordError((transformObjects.get(i) as T).identitaet?.wert, e.toString)
 			}
