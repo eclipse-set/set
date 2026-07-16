@@ -16,10 +16,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.eclipse.set.feature.table.messages.Messages;
 import org.eclipse.set.services.table.TableService;
@@ -36,20 +38,25 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
 /**
+ * Group view for tables status
  * 
+ * @author truong
  */
-public class TableStatusGroup {
+public class TableStatusGroupView {
 	protected class TableSectionControl {
 		Label label;
 		Text text;
 		Button openAllButton;
 		Button exportAllButton;
+
+		Button calculateMissingTableButton;
 
 		public Button getCalculateMissingTableButton() {
 			return calculateMissingTableButton;
@@ -59,8 +66,6 @@ public class TableStatusGroup {
 				final Button calculateMissingTableButton) {
 			this.calculateMissingTableButton = calculateMissingTableButton;
 		}
-
-		Button calculateMissingTableButton;
 
 		public Button getOpenAllButton() {
 			return openAllButton;
@@ -91,6 +96,18 @@ public class TableStatusGroup {
 			this.text = text;
 		}
 
+		public void addSpace(final Composite section) {
+			final long buttonCount = Stream
+					.of(calculateMissingTableButton, exportAllButton,
+							openAllButton)
+					.filter(Objects::nonNull)
+					.count();
+			for (long i = buttonCount; i < 2; i++) {
+				final Composite space = new Composite(section, SWT.NONE);
+				space.setLayout(new GridLayout());
+			}
+		}
+
 	}
 
 	Composite parent;
@@ -118,7 +135,7 @@ public class TableStatusGroup {
 	 * @param messages
 	 *            the {@link Messages}
 	 */
-	public TableStatusGroup(final Composite parent,
+	public TableStatusGroupView(final Composite parent,
 			final TableService tableService,
 			final Pt1TableCategory tableCategory, final Messages messages) {
 		this.parent = parent;
@@ -174,6 +191,42 @@ public class TableStatusGroup {
 				false);
 	}
 
+	private TableSectionControl createSectionControl(final Composite section,
+			final String labelText,
+			final boolean withCalculateMissingTableButton,
+			final boolean withOpenAllButton,
+			final boolean withExportAllButton) {
+		final Label label = new Label(section, SWT.NONE);
+		label.setText(labelText);
+
+		final Text text = new Text(section, SWT.BORDER);
+		text.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		text.setEnabled(false);
+		final TableSectionControl tableSectionControl = new TableSectionControl(
+				label, text);
+		if (withCalculateMissingTableButton) {
+			final Button calculateMissingTableButton = new Button(section,
+					SWT.NONE);
+			calculateMissingTableButton
+					.setText(messages.TableOverviewPart_CalculateMissing);
+			tableSectionControl.setCalculateMissingTableButton(
+					calculateMissingTableButton);
+		}
+		if (withOpenAllButton) {
+			final Button openAllButton = new Button(section, SWT.NONE);
+			openAllButton.setText(messages.TableOverviewPart_OpenAllWithErrors);
+			tableSectionControl.setOpenAllButton(openAllButton);
+		}
+		if (withExportAllButton) {
+			final Button exportAllButton = new Button(section, SWT.NONE);
+			exportAllButton.setText(messages.TableOverviewPart_Export_All);
+			tableSectionControl.setExportAllButton(exportAllButton);
+		}
+
+		tableSectionControl.addSpace(section);
+		return tableSectionControl;
+	}
+
 	/**
 	 * @param control
 	 *            the button
@@ -190,7 +243,7 @@ public class TableStatusGroup {
 			button.addSelectionListener(new SelectionListener() {
 				@Override
 				public void widgetDefaultSelected(final SelectionEvent e) {
-					action.run();
+					Display.getCurrent().asyncExec(action);
 				}
 
 				@Override
@@ -243,6 +296,9 @@ public class TableStatusGroup {
 		return emptyTablesControl;
 	}
 
+	/**
+	 * @return the tables with data control
+	 */
 	public TableSectionControl getTableWithDatasControl() {
 		return tableWithDataControl;
 	}
@@ -252,46 +308,6 @@ public class TableStatusGroup {
 	 */
 	public Label getCompletenessHint() {
 		return completenessHint;
-	}
-
-	private TableSectionControl createSectionControl(final Composite section,
-			final String labelText,
-			final boolean withCalculateMissingTableButton,
-			final boolean withOpenAllButton,
-			final boolean withExportAllButton) {
-		final Label label = new Label(section, SWT.NONE);
-		label.setText(labelText);
-
-		final Text text = new Text(section, SWT.BORDER);
-		text.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		text.setEnabled(false);
-		final TableSectionControl tableSectionControl = new TableSectionControl(
-				label, text);
-		if (withCalculateMissingTableButton) {
-			final Button calculateMissingTableButton = new Button(section,
-					SWT.NONE);
-			calculateMissingTableButton
-					.setText(messages.TableOverviewPart_CalculateMissing);
-			tableSectionControl.setCalculateMissingTableButton(
-					calculateMissingTableButton);
-		}
-		if (withOpenAllButton) {
-			final Button openAllButton = new Button(section, SWT.NONE);
-			openAllButton.setText(messages.TableOverviewPart_OpenAllWithErrors);
-			tableSectionControl.setOpenAllButton(openAllButton);
-		}
-		if (withExportAllButton) {
-			final Button exportAllButton = new Button(section, SWT.NONE);
-			exportAllButton.setText(messages.TableOverviewPart_Export_All);
-			tableSectionControl.setExportAllButton(exportAllButton);
-		}
-		if (!withOpenAllButton && !withExportAllButton
-				&& !withCalculateMissingTableButton) {
-			final Composite space = new Composite(section, SWT.NONE);
-			space.setLayout(new GridLayout());
-
-		}
-		return tableSectionControl;
 	}
 
 	/**
@@ -353,8 +369,7 @@ public class TableStatusGroup {
 			return messages.TableOverviewPart_EmptyListText;
 		}
 		final List<String> shortNames = new ArrayList<>(tables.stream()
-				.map(tableInfo -> tableService.getTableNameInfo(tableInfo)
-						.getShortName())
+				.map(tableInfo -> tableInfo.nameInfo().getShortName())
 				.toList());
 		Collections.sort(shortNames);
 		return shortNames.stream().collect(Collectors.joining(", ")); //$NON-NLS-1$

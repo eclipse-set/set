@@ -44,7 +44,7 @@ import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.core.services.part.ToolboxPartService;
 import org.eclipse.set.feature.table.internal.TableServiceUtils;
 import org.eclipse.set.feature.table.messages.Messages;
-import org.eclipse.set.feature.table.overview.TableStatusGroup.TableSectionControl;
+import org.eclipse.set.feature.table.overview.TableStatusGroupView.TableSectionControl;
 import org.eclipse.set.model.planpro.PlanPro.Container_AttributeGroup;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.titlebox.Titlebox;
@@ -119,7 +119,7 @@ public class TableOverviewPart extends BasePart {
 	private Set<String> controlAreaIds = new HashSet<>();
 	private TableType tableType = null;
 
-	private TableStatusGroup tableStatusGroup;
+	private TableStatusGroupView tableStatusGroup;
 
 	@Override
 	public TableType getTableType() {
@@ -196,40 +196,54 @@ public class TableOverviewPart extends BasePart {
 	}
 
 	private void createTableStatusGroup(final Composite parent) {
-		tableStatusGroup = new TableStatusGroup(parent, tableService,
+		tableStatusGroup = new TableStatusGroupView(parent, tableService,
 				getTableCategory(), messages);
 		tableStatusGroup.createView();
-		TableStatusGroup.addButtonAction(
+		// Not transformed tables control
+		TableStatusGroupView.addButtonAction(
 				tableStatusGroup.getMissingTablesControl(),
 				TableSectionControl::getCalculateMissingTableButton,
 				() -> calculateAllMissingTablesEvent(
 						this::calculateAllMissingTables));
 
-		TableStatusGroup.addButtonAction(
+		// Table with errors control
+		TableStatusGroupView.addButtonAction(
 				tableStatusGroup.getContainErrorTablesControl(),
 				TableSectionControl::getOpenAllButton,
 				() -> openAllRelevantTable(TableStatus::isContainsErrors));
-		TableStatusGroup.addButtonAction(
+		TableStatusGroupView.addButtonAction(
 				tableStatusGroup.getContainErrorTablesControl(),
 				TableSectionControl::getExportAllButton,
 				() -> exportAllRelevantTable(TableStatus::isContainsErrors));
 
-		TableStatusGroup.addButtonAction(
+		// Not empty table control
+		TableStatusGroupView.addButtonAction(
+				tableStatusGroup.getTableWithDatasControl(),
+				TableSectionControl::getOpenAllButton,
+				() -> openAllRelevantTable(s -> !s.isEmpty()));
+		TableStatusGroupView.addButtonAction(
+				tableStatusGroup.getTableWithDatasControl(),
+				TableSectionControl::getExportAllButton,
+				() -> exportAllRelevantTable(s -> !s.isEmpty()));
+
+		// Table with states changed data control
+		TableStatusGroupView.addButtonAction(
 				tableStatusGroup.getContainsStatesChangeTablesControl(),
 				TableSectionControl::getOpenAllButton,
 				() -> openAllRelevantTable(
 						TableStatus::isContainsStateChanged));
-		TableStatusGroup.addButtonAction(
+		TableStatusGroupView.addButtonAction(
 				tableStatusGroup.getContainsStatesChangeTablesControl(),
 				TableSectionControl::getExportAllButton,
 				() -> exportAllRelevantTable(
 						TableStatus::isContainsStateChanged));
 
-		TableStatusGroup.addButtonAction(
+		// Table with plan changed control
+		TableStatusGroupView.addButtonAction(
 				tableStatusGroup.getContainsPlanChangeTablesControl(),
 				TableSectionControl::getOpenAllButton,
 				() -> openAllRelevantTable(TableStatus::isContainsPlanChanged));
-		TableStatusGroup.addButtonAction(
+		TableStatusGroupView.addButtonAction(
 				tableStatusGroup.getContainsPlanChangeTablesControl(),
 				TableSectionControl::getExportAllButton,
 				() -> exportAllRelevantTable(
@@ -296,6 +310,7 @@ public class TableOverviewPart extends BasePart {
 		if (optionalOutputDir.isEmpty()) {
 			return;
 		}
+
 		final IRunnableWithProgress exportThread = new IRunnableWithProgress() {
 
 			@Override
@@ -306,7 +321,9 @@ public class TableOverviewPart extends BasePart {
 				Threads.stopCurrentOnCancel(monitor);
 				tablesStatus.forEach((k, v) -> {
 					if (tableWithStatus.test(v)) {
+						monitor.subTask(k.nameInfo().getFullDisplayName());
 						export(k, optionalOutputDir.get());
+						monitor.worked(1);
 					}
 				});
 				monitor.done();
@@ -336,9 +353,8 @@ public class TableOverviewPart extends BasePart {
 				getModelSession(), controlAreaIds);
 		final PlanProToTitleboxTransformation planProToTitleBox = new PlanProToTitleboxTransformation(
 				getSessionService());
-		final Titlebox titleBox = planProToTitleBox.transform(
-				tableService.getTableNameInfo(tableInfo),
-				this::getAttachmentPath);
+		final Titlebox titleBox = planProToTitleBox
+				.transform(tableInfo.nameInfo(), this::getAttachmentPath);
 
 		final PlanProToFreeFieldTransformation planProToFreeField = PlanProToFreeFieldTransformation
 				.create(getSessionService());
