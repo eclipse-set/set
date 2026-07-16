@@ -25,7 +25,6 @@ import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
 import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.TableRow;
-import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
 import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.table.Pt1TableChangeProperties;
 import org.eclipse.set.utils.table.TableError;
@@ -71,14 +70,6 @@ public interface TableService {
 	 * @return the shortcut
 	 */
 	String extractShortcut(String elementId);
-
-	/**
-	 * @param tableInfo
-	 *            the {@link TableInfo}
-	 * 
-	 * @return the name info
-	 */
-	TableNameInfo getTableNameInfo(TableInfo tableInfo);
 
 	/**
 	 * Gets information about all available tables.

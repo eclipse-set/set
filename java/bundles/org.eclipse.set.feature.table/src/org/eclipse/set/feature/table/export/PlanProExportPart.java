@@ -189,8 +189,7 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 				.getAvailableTables();
 
 		availableTables.forEach(tableInfo -> {
-			final TableNameInfo nameInfo = tableService
-					.getTableNameInfo(tableInfo);
+			final TableNameInfo nameInfo = tableInfo.nameInfo();
 			CheckBoxTreeElement parentElement = elements.stream()
 					.filter(ele -> ele.getId()
 							.equals(tableInfo.category().getId()))
@@ -268,9 +267,8 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 							.collect(Collectors.toSet()));
 			final PlanProToTitleboxTransformation planProToTitlebox = new PlanProToTitleboxTransformation(
 					getSessionService());
-			final Titlebox titlebox = planProToTitlebox.transform(
-					tableService.getTableNameInfo(tableInfo),
-					this::getAttachmentPath);
+			final Titlebox titlebox = planProToTitlebox
+					.transform(tableInfo.nameInfo(), this::getAttachmentPath);
 			updateTitlebox(titlebox);
 			final PlanProToFreeFieldTransformation planProToFreeField = PlanProToFreeFieldTransformation
 					.create(getSessionService());

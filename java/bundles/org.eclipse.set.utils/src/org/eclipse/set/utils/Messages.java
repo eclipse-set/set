@@ -96,6 +96,11 @@ public class Messages {
 	public String Dialogs_confirmOverwriteTitle;
 
 	/**
+	 * Bitte wählen Sie die vorhandene Dateine, die überschreiben soll
+	 */
+	public String Dialogs_confirmOverwrite_Multi;
+
+	/**
 	 * Kopiere die Metadaten aus der ersten Planung
 	 */
 	public String MergeDialog_CheckFirstLabelText;

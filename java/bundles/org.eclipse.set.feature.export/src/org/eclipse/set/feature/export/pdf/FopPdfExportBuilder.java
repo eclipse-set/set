@@ -184,17 +184,32 @@ public class FopPdfExportBuilder implements TableExport {
 			final OverwriteHandling overwriteHandling)
 			throws FileExportException {
 		logger.info("Exporting {}", shortcut); //$NON-NLS-1$
+		final Path outputPath = toolboxPaths.getTableExportPath(shortcut,
+				Paths.get(outputDir), exportType,
+				ExportPathExtension.TABLE_PDF_EXPORT_EXTENSION);
+		export(tables, exportType, titlebox, freeFieldInfo, shortcut, tableType,
+				outputPath, overwriteHandling);
+
+	}
+
+	@Override
+	public void export(final Map<TableType, Table> tables,
+			final ExportType exportType, final Titlebox titlebox,
+			final FreeFieldInfo freeFieldInfo, final String shortcut,
+			final TableType tableType, final Path outputPath,
+			final OverwriteHandling overwriteHandling)
+			throws FileExportException {
+		logger.info("Exporting {}", shortcut); //$NON-NLS-1$
 		final Table table = tables.get(tableType);
 
 		final List<String> pageBreakRowsIndex = getPageBreakRowsIndex(table);
 		Assert.isNotNull(table);
-		final Path outputPath = toolboxPaths.getTableExportPath(shortcut,
-				Paths.get(outputDir), exportType,
-				ExportPathExtension.TABLE_PDF_EXPORT_EXTENSION);
+
 		try {
 			final String tableDocumentText = createTableDocumentText(table,
 					titlebox, freeFieldInfo);
 			if (ToolboxConfiguration.isDebugMode()) {
+				final String outputDir = outputPath.getParent().toString();
 				exportTableDocument(
 						Paths.get(outputDir, getFilename(shortcut, "xml")), //$NON-NLS-1$
 						tableDocumentText);
@@ -208,6 +223,7 @@ public class FopPdfExportBuilder implements TableExport {
 		} catch (final UserAbortion e) {
 			// do nothing
 		}
+
 	}
 
 	protected void createTablePdf(final String tableDocumentText,
@@ -496,5 +512,4 @@ public class FopPdfExportBuilder implements TableExport {
 	public ExportFormat getExportFormat() {
 		return ExportFormat.PDF;
 	}
-
 }

@@ -228,8 +228,7 @@ public class ToolboxTableView extends BasePart {
 	private Titlebox getTitlebox() {
 		final PlanProToTitleboxTransformation planProToTitlebox = new PlanProToTitleboxTransformation(
 				getSessionService());
-		return planProToTitlebox.transform(
-				tableService.getTableNameInfo(tableInfo),
+		return planProToTitlebox.transform(tableInfo.nameInfo(),
 				this::getAttachmentPath);
 	}
 

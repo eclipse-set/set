@@ -9,22 +9,33 @@
 package org.eclipse.set.feature.export.exportservice;
 
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Consumer;
+import java.util.stream.Stream;
 
 import org.eclipse.set.basis.FreeFieldInfo;
+import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.OverwriteHandling;
 import org.eclipse.set.basis.ToolboxPaths;
+import org.eclipse.set.basis.ToolboxPaths.ExportPathExtension;
 import org.eclipse.set.basis.constants.ExportType;
 import org.eclipse.set.basis.constants.TableType;
+import org.eclipse.set.core.services.dialog.DialogService;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.titlebox.Titlebox;
 import org.eclipse.set.services.export.ExportService;
+import org.eclipse.set.services.export.TableCompileService;
 import org.eclipse.set.services.export.TableExport;
 import org.eclipse.set.services.export.TableExport.ExportFormat;
+import org.eclipse.set.utils.table.TableInfo;
+import org.eclipse.swt.widgets.Shell;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ReferenceCardinality;
@@ -43,6 +54,34 @@ import org.slf4j.LoggerFactory;
 @Component(immediate = true)
 public class ExportServiceImpl implements ExportService {
 
+	private record TableToExport(TableInfo tableInfo, Path pdfPath,
+			Path excelPath) {
+		private List<String> getExportFilesName() {
+			return List.of(pdfPath.getFileName().toString(),
+					excelPath.getFileName().toString());
+		}
+
+		private static TableToExport createInstance(final TableInfo tableInfo,
+				final IModelSession modelSession, final ExportType exportType,
+				final Path outdir) {
+			final Path pdfExportPath = modelSession.getToolboxPaths()
+					.getTableExportPath(tableInfo.shortcut(), outdir,
+							exportType,
+							ExportPathExtension.TABLE_PDF_EXPORT_EXTENSION);
+			final Path excelExportPath = modelSession.getToolboxPaths()
+					.getTableExportPath(tableInfo.shortcut(), outdir,
+							exportType,
+							ExportPathExtension.TABLE_XLSX_EXPORT_EXTENSION);
+			return new TableToExport(tableInfo, pdfExportPath, excelExportPath);
+		}
+	}
+
+	@Reference
+	TableCompileService compileService;
+
+	@Reference
+	DialogService dialogService;
+
 	private static final Logger logger = LoggerFactory
 			.getLogger(ExportServiceImpl.class);
 
@@ -55,6 +94,61 @@ public class ExportServiceImpl implements ExportService {
 	@Reference(cardinality = ReferenceCardinality.MULTIPLE, policy = ReferencePolicy.DYNAMIC)
 	public void addTableExportBuilder(final TableExport builder) {
 		builders.add(builder);
+	}
+
+	public void exportMultiTable(final ExportType exportType,
+			final List<TableInfo> tableInfos, final IModelSession modelSession,
+			final Set<String> controlAreaIds, final String outputDir,
+			final Shell shell, final Consumer<Exception> errorHandler) {
+		if (builders.isEmpty()) {
+			logger.warn(
+					"There are no builders registered at the export service."); //$NON-NLS-1$
+		}
+		try {
+			final Path outdir = Paths.get(outputDir);
+			final List<TableToExport> tablesToExport = tableInfos.stream()
+					.map(info -> TableToExport.createInstance(info,
+							modelSession, exportType, outdir))
+					.toList();
+
+			final List<TableToExport> confirmOverwriteTables = filterConfirmOverwriteTable(
+					tablesToExport, shell, outputDir);
+			confirmOverwriteTables.forEach(tableToExport -> {
+
+			});
+		} catch (final Exception e) {
+			errorHandler.accept(e);
+		}
+	}
+
+	private List<TableToExport> filterConfirmOverwriteTable(
+			final List<TableToExport> tablesToExport, final Shell shell,
+			final String outputDir) throws IOException {
+		final List<String> exportFilesName = tablesToExport.stream()
+				.flatMap(t -> t.getExportFilesName().stream())
+				.toList();
+		if (!alreadyExistAnyFile(exportFilesName, outputDir)) {
+			return tablesToExport;
+		}
+		final List<String> confirmedOverwirteFiles = dialogService
+				.confirmOverwriteMultiFile(shell, exportFilesName);
+		return tablesToExport.stream()
+				.filter(table -> confirmedOverwirteFiles.stream()
+						.anyMatch(file -> table.getExportFilesName()
+								.contains(file)))
+				.toList();
+	}
+
+	private static boolean alreadyExistAnyFile(final List<String> filesName,
+			final String outputDir) throws IOException {
+		final Path outDir = Path.of(outputDir);
+		if (!Files.exists(outDir) || !Files.isDirectory(outDir)) {
+			throw new IllegalArgumentException("outputDir should be Directory"); //$NON-NLS-1$
+		}
+		try (Stream<Path> filesPath = Files.walk(Path.of(outputDir))) {
+			return filesPath.anyMatch(
+					p -> filesName.contains(p.getFileName().toString()));
+		}
 	}
 
 	@Override
