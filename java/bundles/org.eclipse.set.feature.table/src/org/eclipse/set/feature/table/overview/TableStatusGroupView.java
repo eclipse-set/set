@@ -369,7 +369,8 @@ public class TableStatusGroupView {
 			return messages.TableOverviewPart_EmptyListText;
 		}
 		final List<String> shortNames = new ArrayList<>(tables.stream()
-				.map(tableInfo -> tableInfo.nameInfo().getShortName())
+				.map(tableInfo -> tableService.getTableNameInfo(tableInfo)
+						.getShortName())
 				.toList());
 		Collections.sort(shortNames);
 		return shortNames.stream().collect(Collectors.joining(", ")); //$NON-NLS-1$

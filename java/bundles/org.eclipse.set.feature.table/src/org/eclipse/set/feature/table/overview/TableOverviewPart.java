@@ -321,7 +321,8 @@ public class TableOverviewPart extends BasePart {
 				Threads.stopCurrentOnCancel(monitor);
 				tablesStatus.forEach((k, v) -> {
 					if (tableWithStatus.test(v)) {
-						monitor.subTask(k.nameInfo().getFullDisplayName());
+						monitor.subTask(tableService.getTableNameInfo(k)
+								.getFullDisplayName());
 						export(k, optionalOutputDir.get());
 						monitor.worked(1);
 					}
@@ -353,8 +354,9 @@ public class TableOverviewPart extends BasePart {
 				getModelSession(), controlAreaIds);
 		final PlanProToTitleboxTransformation planProToTitleBox = new PlanProToTitleboxTransformation(
 				getSessionService());
-		final Titlebox titleBox = planProToTitleBox
-				.transform(tableInfo.nameInfo(), this::getAttachmentPath);
+		final Titlebox titleBox = planProToTitleBox.transform(
+				tableService.getTableNameInfo(tableInfo),
+				this::getAttachmentPath);
 
 		final PlanProToFreeFieldTransformation planProToFreeField = PlanProToFreeFieldTransformation
 				.create(getSessionService());
