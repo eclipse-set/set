@@ -30,14 +30,10 @@ import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
-import org.eclipse.set.basis.FreeFieldInfo;
-import org.eclipse.set.basis.OverwriteHandling;
 import org.eclipse.set.basis.Pair;
 import org.eclipse.set.basis.constants.Events;
-import org.eclipse.set.basis.constants.ExportType;
 import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.basis.extensions.Exceptions;
-import org.eclipse.set.basis.guid.Guid;
 import org.eclipse.set.basis.threads.Threads;
 import org.eclipse.set.core.services.configurationservice.UserConfigurationService;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
@@ -46,10 +42,6 @@ import org.eclipse.set.feature.table.internal.TableServiceUtils;
 import org.eclipse.set.feature.table.messages.Messages;
 import org.eclipse.set.feature.table.overview.TableStatusGroupView.TableSectionControl;
 import org.eclipse.set.model.planpro.PlanPro.Container_AttributeGroup;
-import org.eclipse.set.model.tablemodel.Table;
-import org.eclipse.set.model.titlebox.Titlebox;
-import org.eclipse.set.ppmodel.extensions.utils.PlanProToFreeFieldTransformation;
-import org.eclipse.set.ppmodel.extensions.utils.PlanProToTitleboxTransformation;
 import org.eclipse.set.services.export.ExportService;
 import org.eclipse.set.services.export.TableCompileService;
 import org.eclipse.set.services.table.TableService;
@@ -62,7 +54,6 @@ import org.eclipse.set.utils.events.SelectedControlAreaChangedEvent;
 import org.eclipse.set.utils.events.SelectedControlAreaChangedEvent.ControlAreaValue;
 import org.eclipse.set.utils.events.ToolboxEventHandler;
 import org.eclipse.set.utils.events.ToolboxEvents;
-import org.eclipse.set.utils.exception.ExceptionHandler;
 import org.eclipse.set.utils.table.TableError;
 import org.eclipse.set.utils.table.TableInfo;
 import org.eclipse.set.utils.table.TableInfo.Pt1TableCategory;
@@ -319,14 +310,7 @@ public class TableOverviewPart extends BasePart {
 				monitor.beginTask(messages.TableExportPart_TaskMsg,
 						tablesStatus.size());
 				Threads.stopCurrentOnCancel(monitor);
-				tablesStatus.forEach((k, v) -> {
-					if (tableWithStatus.test(v)) {
-						monitor.subTask(tableService.getTableNameInfo(k)
-								.getFullDisplayName());
-						export(k, optionalOutputDir.get());
-						monitor.worked(1);
-					}
-				});
+				// TODO
 				monitor.done();
 			}
 		};
@@ -346,36 +330,6 @@ public class TableOverviewPart extends BasePart {
 					Path.of(optionalOutputDir.get()));
 			userConfigService
 					.setLastExportPath(Path.of(optionalOutputDir.get()));
-		}
-	}
-
-	private void export(final TableInfo tableInfo, final String outDir) {
-		final Map<TableType, Table> tables = compileService.compile(tableInfo,
-				getModelSession(), controlAreaIds);
-		final PlanProToTitleboxTransformation planProToTitleBox = new PlanProToTitleboxTransformation(
-				getSessionService());
-		final Titlebox titleBox = planProToTitleBox.transform(
-				tableService.getTableNameInfo(tableInfo),
-				this::getAttachmentPath);
-
-		final PlanProToFreeFieldTransformation planProToFreeField = PlanProToFreeFieldTransformation
-				.create(getSessionService());
-		final FreeFieldInfo freeFeild = planProToFreeField.transform();
-		exportService.exportPdf(tables, ExportType.PLANNING_RECORDS, titleBox,
-				freeFeild, tableInfo.shortcut(), outDir,
-				getModelSession().getToolboxPaths(), tableType,
-				OverwriteHandling.forUserConfirmation(
-						path -> Boolean.valueOf(getDialogService()
-								.confirmOverwrite(getToolboxShell(), path))),
-				new ExceptionHandler(getToolboxShell(), getDialogService()));
-	}
-
-	private Path getAttachmentPath(final String guid) {
-		try {
-			return getModelSession().getToolboxFile()
-					.getMediaPath(Guid.create(guid));
-		} catch (final UnsupportedOperationException e) {
-			return null; // .ppxml-Files do not support attachments
 		}
 	}
 
