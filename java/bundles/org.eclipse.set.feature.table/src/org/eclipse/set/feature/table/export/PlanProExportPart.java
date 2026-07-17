@@ -8,7 +8,6 @@
  */
 package org.eclipse.set.feature.table.export;
 
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -29,7 +28,6 @@ import org.eclipse.set.basis.constants.ExportType;
 import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.basis.export.CheckBoxTreeElement;
 import org.eclipse.set.basis.export.CheckboxModelElement;
-import org.eclipse.set.basis.guid.Guid;
 import org.eclipse.set.core.services.export.AdditionalExportService;
 import org.eclipse.set.core.services.part.ToolboxPartService;
 import org.eclipse.set.feature.export.checkboxmodel.CheckboxTreeModel;
@@ -224,21 +222,11 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 						.forEach(ele -> ele.deselect()));
 	}
 
-	private Path getAttachmentPath(final String guid) {
-		try {
-			return getModelSession().getToolboxFile()
-					.getMediaPath(Guid.create(guid));
-		} catch (final UnsupportedOperationException e) {
-			return null; // .ppxml-Files do not support attachments
-		}
-	}
-
 	@Override
 	protected void export(final List<CheckboxModelElement> elements,
 			final IModelSession modelSession,
 			final OverwriteHandling overwriteHandling,
 			final IProgressMonitor monitor) {
-		if (additionalExportService != null
 		final List<TableInfo> tablesToExport = new ArrayList<>();
 		elements.stream()
 				.filter(ele -> TableInfo.Pt1TableCategory
