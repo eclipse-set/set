@@ -12,16 +12,23 @@ import java.awt.image.BufferedImage;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Consumer;
 
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.set.basis.FreeFieldInfo;
+import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.OverwriteHandling;
 import org.eclipse.set.basis.ToolboxPaths;
 import org.eclipse.set.basis.constants.ExportType;
 import org.eclipse.set.basis.constants.TableType;
+import org.eclipse.set.core.services.dialog.DialogService;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.titlebox.Titlebox;
+import org.eclipse.set.services.export.TableExport.ExportFormat;
 import org.eclipse.set.utils.ToolboxConfiguration;
+import org.eclipse.set.utils.table.TableInfo;
+import org.eclipse.swt.widgets.Shell;
 
 /**
  * Support for exporting tables.
@@ -56,7 +63,7 @@ public interface ExportService {
 	 * @param errorHandler
 	 *            the error handler
 	 */
-	void exportPdf(Map<TableType, Table> tables, ExportType exportType,
+	void exportTable(Map<TableType, Table> tables, ExportType exportType,
 			Titlebox titlebox, FreeFieldInfo freeFieldInfo, String shortcut,
 			String outputDir, ToolboxPaths toolboxPaths, TableType tableTye,
 			OverwriteHandling overwriteHandling,
@@ -120,6 +127,43 @@ public interface ExportService {
 	void exportSiteplanPdf(List<BufferedImage> imagesData, Titlebox titleBox,
 			FreeFieldInfo freeFieldInfo, double ppm, String outputDir,
 			ToolboxPaths toolboxPaths, TableType tableType,
+			OverwriteHandling overwriteHandling,
+			Consumer<Exception> errorHandler);
+
+	/**
+	 * Export tables to pdf and excel
+	 * 
+	 * @param exportType
+	 *            the {@link ExportType}
+	 * @param tableInfos
+	 *            the tables to export
+	 * @param modelSession
+	 *            the {@link IModelSession}
+	 * @param compileService
+	 *            the {@link TableCompileService}
+	 * @param dialogService
+	 *            the {@link DialogService}
+	 * @param tableType
+	 *            the {@link TableType}
+	 * @param controlAreaIds
+	 *            the selected control area
+	 * @param exportFormate
+	 * @param outputDir
+	 *            the output directory
+	 * @param monitor
+	 *            the {@link IProgressMonitor}
+	 * @param shell
+	 *            the {@link Shell}
+	 * @param overwriteHandling
+	 *            the {@link OverwriteHandling}
+	 * @param errorHandler
+	 *            the error handler
+	 */
+	void exportMultiTable(ExportType exportType, List<TableInfo> tableInfos,
+			IModelSession modelSession, TableCompileService compileService,
+			DialogService dialogService, TableType tableType,
+			Set<String> controlAreaIds, List<ExportFormat> exportFormate,
+			String outputDir, IProgressMonitor monitor, Shell shell,
 			OverwriteHandling overwriteHandling,
 			Consumer<Exception> errorHandler);
 }
