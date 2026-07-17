@@ -1,11 +1,8 @@
 import { expect, test } from '@playwright/test'
-import { loadSiteplan } from './utils'
-import configuration from '../public/configuration.json' with { type: 'json' }
+import { loadSiteplan, setDevelopmentMode } from './utils'
 
 test('show map selection', async ({ page }) => {
-  await page.route('*/**/configuration.json', async route => {
-    await route.fulfill({ json: { ...configuration, developmentMode: true } })
-  })
+  await setDevelopmentMode(page, true)
   await loadSiteplan(page)
 
   await page.getByTitle('Kartenquelle').click()
@@ -14,9 +11,7 @@ test('show map selection', async ({ page }) => {
 })
 
 test('show layer control', async ({ page }) => {
-  await page.route('*/**/configuration.json', async route => {
-    await route.fulfill({ json: { ...configuration, developmentMode: true } })
-  })
+  await setDevelopmentMode(page, true)
   await loadSiteplan(page)
 
   await page.getByTitle('Ebenen verwalten').click()
@@ -25,9 +20,7 @@ test('show layer control', async ({ page }) => {
 })
 
 test('show model summary control', async ({ page }) => {
-  await page.route('*/**/configuration.json', async route => {
-    await route.fulfill({ json: { ...configuration, developmentMode: true } })
-  })
+  await setDevelopmentMode(page, true)
   await loadSiteplan(page)
 
   await page.getByTitle('Zusammenfassung').click()
@@ -37,13 +30,10 @@ test('show model summary control', async ({ page }) => {
 })
 
 test('show settings control', async ({ page }) => {
-  await page.route('*/**/configuration.json', async route => {
-    await route.fulfill({ json: { ...configuration, developmentMode: true } })
-  })
+  await setDevelopmentMode(page, true)
   await loadSiteplan(page)
 
   await page.getByRole('button', { name: 'settings' }).click()
 
   await expect(page.getByText('Einstellungen')).toBeVisible()
 })
-

@@ -1,6 +1,5 @@
 import { expect, Page, test } from '@playwright/test'
-import configuration from '../public/configuration.json' with { type: 'json' }
-import { loadSiteplan } from './utils'
+import { loadSiteplan, setDevelopmentMode } from './utils'
 
 const screenshotOptions = (page: Page) => ({
   mask: [page.locator('.rotate-control-container, .center-route-control-container')]
@@ -25,9 +24,7 @@ test('total view displaying', async ({ page }) => {
 })
 
 test('no development mode', async ({ page }) => {
-  await page.route('*/**/configuration.json', async route => {
-    await route.fulfill({ json: { ...configuration, developmentMode: false } })
-  })
+  await setDevelopmentMode(page, false)
 
   await loadSiteplan(page)
 

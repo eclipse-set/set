@@ -1,5 +1,12 @@
 import { Page } from '@playwright/test'
+import configuration from '../public/configuration.json' with { type: 'json' }
 import pphn from './data/PPHN_1.10.0.3_01-02_Ibn-Z._-_2._AeM_2022-05-17_13-44_tg3.json' with { type: 'json' }
+
+export async function setDevelopmentMode (page: Page, developmentMode: boolean) {
+  await page.route('*/**/configuration.json', async route => {
+    await route.fulfill({ json: { ...configuration, developmentMode } })
+  })
+}
 
 export async function loadSiteplan (page: Page) {
   await page.route('*/**/siteplan.json', async route => {
