@@ -9,7 +9,8 @@
     "build": "vite build --mode development",
     "build-prod": "vite build --mode production",
     "lint": "eslint src",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "test:e2e:update": "docker run --rm -v .:/app -v /app/node_modules -w /app mcr.microsoft.com/playwright:v1.61.1-noble bash -c 'npm ci && npm run test:e2e -- -u'"
   },
   "dependencies": {
     "@turf/boolean-disjoint": "^7.3.5",
