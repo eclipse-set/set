@@ -12,7 +12,7 @@ test('show map selection', async ({ page }) => {
   await page.getByTitle('Kartenquelle').click()
 
   await expect(page.locator('.map-container')).toBeVisible()
-  expectScreenshot(page, 'map-container')
+  await expectScreenshot(page, 'map-container')
 })
 
 test('show layer control', async ({ page }) => {
@@ -22,7 +22,7 @@ test('show layer control', async ({ page }) => {
   await page.getByTitle('Ebenen verwalten').click()
 
   await expect(page.getByRole('heading', { name: 'Hinweis:' })).toBeVisible()
-  expectScreenshot(page, 'layer-control')
+  await expectScreenshot(page, 'layer-control')
 })
 
 test('show model summary control', async ({ page }) => {
@@ -33,7 +33,7 @@ test('show model summary control', async ({ page }) => {
 
   await expect(page.getByText('[Hinzugefügt, Unverändert, Entfernt, Geändert')).toBeVisible()
   await expect(page.getByText('Bahnsteige:')).toBeVisible()
-  expectScreenshot(page, 'model-summary')
+  await expectScreenshot(page, 'model-summary')
 })
 
 test('show settings control', async ({ page }) => {
@@ -43,5 +43,5 @@ test('show settings control', async ({ page }) => {
   await page.getByRole('button', { name: 'settings' }).click()
 
   await expect(page.getByText('Einstellungen')).toBeVisible()
-  expectScreenshot(page, 'settings')
+  await expectScreenshot(page, 'settings')
 })
