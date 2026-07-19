@@ -20,6 +20,10 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
+      - name: Check Ubuntu version
+        run: lsb_release -a
+        working-directory: web/siteplan
+        
       - name: Install dependencies
         run: npm ci
         working-directory: web/siteplan
