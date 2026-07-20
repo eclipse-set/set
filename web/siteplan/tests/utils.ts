@@ -15,7 +15,7 @@ export async function loadSiteplan (page: Page) {
 
   await page.goto('/')
   // ensure that .loading shows up and disappears again
-  await page.locator('.loading').waitFor({ state: 'visible', timeout: 60_000 })
+  await page.locator('.loading').waitFor({ state: 'visible', timeout: 10_000 })
 
-  await page.locator('.loading').waitFor({ state: 'hidden', timeout: 60_000 })
+  await page.locator('.loading').waitFor({ state: 'hidden', timeout: 10_000 })
 }
