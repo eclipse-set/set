@@ -10,8 +10,9 @@
     "build-prod": "vite build --mode production",
     "lint": "eslint src",
     "test:e2e": "playwright test",
-    "test:e2e:docker": "docker run --rm --ipc=host -v .:/app -v /app/node_modules -w /app mcr.microsoft.com/playwright:v1.61.1-noble bash -c 'npm ci && npm run test:e2e'",
-    "test:e2e:update": "docker run --rm --ipc=host -v .:/app -v /app/node_modules -w /app mcr.microsoft.com/playwright:v1.61.1-noble bash -c 'npm ci && npm run test:e2e -- -u'"
+    "test:e2e:docker": "docker run --rm --ipc=host -v .:/app -v /app/node_modules -w /app mcr.microsoft.com/playwright:v1.61.1-noble",
+    "test:e2e:run":  "npm run test:e2e:docker -- bash -c 'npm ci && npm run test:e2e'",
+    "test:e2e:update": "npm run test:e2e:docker -- bash -c 'npm ci && npm run test:e2e -- -u'"
   },
   "dependencies": {
     "@turf/boolean-disjoint": "^7.3.5",
