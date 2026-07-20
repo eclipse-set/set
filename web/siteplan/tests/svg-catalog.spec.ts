@@ -14,3 +14,5 @@ test('show svg katalog', async ({ page }) => {
 
   await expect(page.getByText('Symbolgruppe auswählen')).not.toBeVisible()
 })
+
+// TODO: Test all the symbols and signal constellations
