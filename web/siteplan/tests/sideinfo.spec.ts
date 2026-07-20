@@ -2,7 +2,7 @@ import { expect, Page, test } from '@playwright/test'
 import { loadSiteplan, setDevelopmentMode } from './utils'
 
 async function expectScreenshot (page: Page, name: string) {
-  await expect(page.locator('#side-info-container')).toHaveScreenshot(`${name}-side-info.png`, { })
+  await expect(page.locator('#side-info-container')).toHaveScreenshot(`${name}-side-info.png`)
 }
 
 test('show map selection', async ({ page }) => {
