@@ -296,6 +296,11 @@ http://www.eclipse.org/legal/epl-v20.html
 					<xsl:value-of select="$compare-content-border-style" />
 				</xsl:attribute>
 				<xsl:attribute name="padding">0.5mm</xsl:attribute>
+				<fo:marker marker-class-name="ComparePageText">
+					<fo:inline border-width="0.2mm" border-style="solid" border-color="#0066FF" color="#0066FF" padding="2px">
+						<xsl:text>Änderung gegenüber vorheriger Ausgabe</xsl:text>
+					</fo:inline>
+				</fo:marker>
 			</xsl:if>
 			<xsl:apply-templates />
 		</fo:block>
