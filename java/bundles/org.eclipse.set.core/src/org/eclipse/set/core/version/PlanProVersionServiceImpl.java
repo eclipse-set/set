@@ -42,6 +42,7 @@ public class PlanProVersionServiceImpl implements PlanProVersionService {
 	private static final String KEY_VALUE_PATTERN = ".*xmlns:.*=\\s*[\'\"](%s[^\'\" ]+)[\'\"].*"; //$NON-NLS-1$
 	private static final String PLAN_PRO_KEY = "http://www.plan-pro.org/modell/PlanPro/"; //$NON-NLS-1$
 	private static final String SIGNALS_KEY = "http://www.plan-pro.org/modell/Signalbegriffe_Ril_301/"; //$NON-NLS-1$
+	private static final String LAYOUT_KEY = "http://www.plan-pro.org/modell/Layoutinformationen/"; //$NON-NLS-1$
 	private static final int VALUE_GROUP = 1;
 
 	@Activate
@@ -146,7 +147,7 @@ public class PlanProVersionServiceImpl implements PlanProVersionService {
 	public boolean isSupportedVersion(final String uri) {
 		final VersionInfo supportedVersions = getSupportedVersions();
 		final String loadedVersion = uri.substring(uri.lastIndexOf("/") + 1); //$NON-NLS-1$
-		if (uri.startsWith(PLAN_PRO_KEY)) {
+		if (uri.startsWith(PLAN_PRO_KEY) || uri.startsWith(LAYOUT_KEY)) {
 			return supportedVersions.getPlanProVersions()
 					.contains(loadedVersion);
 		}
