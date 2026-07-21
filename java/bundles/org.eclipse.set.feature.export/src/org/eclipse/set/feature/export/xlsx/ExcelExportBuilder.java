@@ -118,19 +118,31 @@ public class ExcelExportBuilder implements TableExport {
 			final TableType tableType,
 			final OverwriteHandling overwriteHandling)
 			throws FileExportException {
-		final Table table = getTableToBeExported(tables);
-		final boolean isInlineFootnote = TableExtensions
-				.isInlineFootnote(table);
+
 		// IMPROVE: this is only a temporary situation for the table
 		// Sskp_dm
 		final String tableShortcut = shortcut.equals("sskp_dm") ? "sskp" //$NON-NLS-1$//$NON-NLS-2$
 				: shortcut;
-		final Path templatePath = Paths.get(TEMPLATE_DIR,
-				tableShortcut + "_vorlage.xlsx"); //$NON-NLS-1$
 		final Path outputPath = toolboxPaths.getTableExportPath(shortcut,
 				Paths.get(outputDir), exportType,
 				ExportPathExtension.TABLE_XLSX_EXPORT_EXTENSION);
+		export(tables, exportType, titlebox, freeFieldInfo, tableShortcut,
+				tableType, outputPath, overwriteHandling);
 
+	}
+
+	@Override
+	public void export(final Map<TableType, Table> tables,
+			final ExportType exportType, final Titlebox titleBox,
+			final FreeFieldInfo freeFieldInfo, final String shortcut,
+			final TableType tableType, final Path outputPath,
+			final OverwriteHandling overwriteHandling)
+			throws FileExportException {
+		final Table table = getTableToBeExported(tables);
+		final boolean isInlineFootnote = TableExtensions
+				.isInlineFootnote(table);
+		final Path templatePath = Paths.get(TEMPLATE_DIR,
+				shortcut + "_vorlage.xlsx"); //$NON-NLS-1$
 		try (final FileInputStream inputStream = new FileInputStream(
 				templatePath.toFile());
 				final Workbook workbook = new XSSFWorkbook(inputStream)) {

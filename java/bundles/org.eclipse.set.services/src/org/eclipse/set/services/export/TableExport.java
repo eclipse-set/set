@@ -69,6 +69,22 @@ public interface TableExport {
 			OverwriteHandling overwriteHandling) throws FileExportException;
 
 	/**
+	 * @param tables
+	 * @param exportType
+	 * @param titleBox
+	 * @param freeFieldInfo
+	 * @param shortcut
+	 * @param tableType
+	 * @param outPath
+	 * @param overwriteHandling
+	 * @throws FileExportException
+	 */
+	void export(Map<TableType, Table> tables, ExportType exportType,
+			Titlebox titleBox, FreeFieldInfo freeFieldInfo, String shortcut,
+			TableType tableType, Path outPath,
+			OverwriteHandling overwriteHandling) throws FileExportException;
+
+	/**
 	 * Export the titlebox as an image. An individual implementation may do
 	 * nothing if the implemented export technique is not appropriate for this
 	 * task. Actually exactly one implementation should to the image export.

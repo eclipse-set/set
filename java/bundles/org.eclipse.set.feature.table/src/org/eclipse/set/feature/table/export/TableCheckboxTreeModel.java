@@ -66,7 +66,7 @@ public class TableCheckboxTreeModel extends CheckboxTreeModel {
 					category.toString());
 			addElement(parent);
 		}
-		final TableNameInfo nameInfo = tableService.getTableNameInfo(info);
+		final TableNameInfo nameInfo = info.nameInfo();
 		final CheckBoxTreeElement newElement = new CheckBoxTreeElement(
 				nameInfo.getShortName().toLowerCase(),
 				nameInfo.getFullDisplayName());

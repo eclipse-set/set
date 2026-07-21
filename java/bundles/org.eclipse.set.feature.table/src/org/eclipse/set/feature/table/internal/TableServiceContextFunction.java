@@ -26,6 +26,7 @@ import org.eclipse.set.basis.graph.Digraphs;
 import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.session.SessionService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
+import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
 import org.eclipse.set.services.table.TableDiffService;
 import org.eclipse.set.services.table.TableDiffService.TableCompareType;
 import org.eclipse.set.services.table.TableService;
@@ -64,21 +65,23 @@ public class TableServiceContextFunction extends ContextFunction
 	/**
 	 * @param properties
 	 *            the properties
+	 * @param nameInfo
+	 *            the {@link TableNameInfo}
 	 * 
 	 * @return the element id
 	 * 
 	 * @throws IllegalAccessException
 	 *             if the properties to not contain the table shortcut
 	 */
-	public static TableInfo getTableInfo(final Map<String, Object> properties)
-			throws IllegalAccessException {
+	public static TableInfo getTableInfo(final Map<String, Object> properties,
+			final TableNameInfo nameInfo) throws IllegalAccessException {
 		final Object idObject = properties.get("table.shortcut"); //$NON-NLS-1$
 		final Object categoryObject = properties.get("table.category"); //$NON-NLS-1$
 		final Object isInDevMode = properties.get("table.devMode"); //$NON-NLS-1$
 
 		if (idObject != null && categoryObject != null) {
 			return new TableInfo(categoryObject.toString(), idObject.toString(),
-					Boolean.parseBoolean(isInDevMode == null ? "false" //$NON-NLS-1$
+					nameInfo, Boolean.parseBoolean(isInDevMode == null ? "false" //$NON-NLS-1$
 							: isInDevMode.toString()));
 		}
 		throw new IllegalAccessException(
@@ -106,7 +109,8 @@ public class TableServiceContextFunction extends ContextFunction
 			final PlanPro2TableTransformationService service,
 			final Map<String, Object> properties)
 			throws IllegalAccessException {
-		final TableInfo tableInfo = getTableInfo(properties);
+		final TableInfo tableInfo = getTableInfo(properties,
+				service.getTableNameInfo());
 		if (tableInfo.isDevMode()
 				&& !ToolboxConfiguration.isDevelopmentMode()) {
 			return;
@@ -132,13 +136,14 @@ public class TableServiceContextFunction extends ContextFunction
 			final PlanPro2TableTransformationService service,
 			final Map<String, Object> properties)
 			throws IllegalAccessException {
-		final TableInfo tableInfo = getTableInfo(properties);
+		final TableInfo tableInfo = getTableInfo(properties,
+				service.getTableNameInfo());
 		if (tableInfo.isDevMode()
 				&& !ToolboxConfiguration.isDevelopmentMode()) {
 			return;
 		}
 		if (tableService != null) {
-			tableService.removeModelService(properties);
+			tableService.removeModelService(properties, service);
 		} else {
 			modelServiceMap.remove(tableInfo);
 		}

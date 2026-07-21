@@ -228,8 +228,7 @@ public class ToolboxTableView extends BasePart {
 	private Titlebox getTitlebox() {
 		final PlanProToTitleboxTransformation planProToTitlebox = new PlanProToTitleboxTransformation(
 				getSessionService());
-		return planProToTitlebox.transform(
-				tableService.getTableNameInfo(tableInfo),
+		return planProToTitlebox.transform(tableInfo.nameInfo(),
 				this::getAttachmentPath);
 	}
 
@@ -784,7 +783,7 @@ public class ToolboxTableView extends BasePart {
 					monitor -> optionalOutputDir.ifPresent(outputDir -> {
 						monitor.beginTask(messages.ToolboxTableView_ExportTable,
 								IProgressMonitor.UNKNOWN);
-						exportService.exportPdf(tables,
+						exportService.exportTable(tables,
 								ExportType.PLANNING_RECORDS, getTitlebox(),
 								getFreeFieldInfo(), extractShortcut(),
 								outputDir, getModelSession().getToolboxPaths(),
