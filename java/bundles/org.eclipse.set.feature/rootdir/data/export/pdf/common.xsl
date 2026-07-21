@@ -208,7 +208,27 @@ http://www.eclipse.org/legal/epl-v20.html
 			<fo:table-body start-indent="{$WB + $WB + $WB + $WB}mm" end-indent="{- $WB - $WB - $WB - $WB}mm">
 				<fo:table-row>
 					<fo:table-cell min-height="70mm">
-						<fo:block></fo:block>
+						<fo:table table-layout="fixed"
+											width="100%"
+											height="100%">
+							<fo:table-column column-width="100%"/>
+							<fo:table-body>
+								<fo:table-row height="65mm">
+									<fo:table-cell>
+										<fo:block/>
+									</fo:table-cell>
+								</fo:table-row>
+								<fo:table-row height="10mm">
+									<fo:table-cell display-align="after">
+										<fo:block xsl:use-attribute-sets="significant-information-style">
+											<fo:retrieve-marker retrieve-class-name="ComparePageText"
+																					retrieve-boundary="page"
+																					retrieve-position="first-starting-within-page"/>
+										</fo:block>
+									</fo:table-cell>
+								</fo:table-row>
+							</fo:table-body>
+						</fo:table>
 					</fo:table-cell>
 					<fo:table-cell column-number="2" padding-top="5mm" number-rows-spanned="2">
 						<fo:table table-layout="fixed" width="100%">
@@ -276,6 +296,11 @@ http://www.eclipse.org/legal/epl-v20.html
 					<xsl:value-of select="$compare-content-border-style" />
 				</xsl:attribute>
 				<xsl:attribute name="padding">0.5mm</xsl:attribute>
+				<fo:marker marker-class-name="ComparePageText">
+					<fo:inline border-width="0.2mm" border-style="solid" border-color="#0066FF" color="#0066FF" padding="2px">
+						<xsl:text>Änderung gegenüber vorheriger Ausgabe</xsl:text>
+					</fo:inline>
+				</fo:marker>
 			</xsl:if>
 			<xsl:apply-templates />
 		</fo:block>

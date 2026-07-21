@@ -98,7 +98,7 @@ public class Messages {
 	public String TableOverviewPart_OpenAllWithErrors;
 
 	/**
-	 * Tabellen
+	 * Tabellen Zustand
 	 */
 	public String TableOverviewPart_TableSectionHeader;
 
@@ -123,9 +123,19 @@ public class Messages {
 	public String TableOverviewPart_EmptyTable;
 
 	/**
+	 * Enthalten Daten
+	 */
+	public String TableOverviewPart_TablesWithData;
+
+	/**
 	 * Debug-Mode: Tabellen können immer wieder neu überprüft werden
 	 */
 	public String TableOverviewPart_DebugModeHint;
+
+	/**
+	 * Export All
+	 */
+	public String TableOverviewPart_Export_All;
 
 	/**
 	 * Exportieren
@@ -212,4 +222,5 @@ public class Messages {
 	 * vollständig darstellen
 	 */
 	public String TableTransform_Error_Msg;
+
 }

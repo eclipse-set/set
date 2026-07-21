@@ -24,6 +24,7 @@ public class PlanProXMLHelper extends XMLHelperImpl {
 
 	private static final String PLANPRO_URI_PREFIX = "http://www.plan-pro.org/modell/PlanPro"; //$NON-NLS-1$
 	private static final String SIGNALBEGRIFF_RIL_URI_PREFIX = "http://www.plan-pro.org/modell/Signalbegriffe_Ril_301"; //$NON-NLS-1$
+	private static final String LAYOUT_INFORMATIONEN_URI_PREFIX = "http://www.plan-pro.org/modell/Layoutinformationen"; //$NON-NLS-1$
 	private final PlanProVersionService versionService;
 
 	private static String parseVersion(final String uri) {
@@ -54,7 +55,8 @@ public class PlanProXMLHelper extends XMLHelperImpl {
 		final VersionInfo currentVersion = versionService.getCurrentVersion();
 		String newUri = uri;
 		final String loadedVersion = parseVersion(uri);
-		if (uri.startsWith(PLANPRO_URI_PREFIX)) {
+		if (uri.startsWith(PLANPRO_URI_PREFIX)
+				|| uri.startsWith(LAYOUT_INFORMATIONEN_URI_PREFIX)) {
 			newUri = uri.replace(loadedVersion,
 					currentVersion.getPlanProVersions().getFirst());
 		} else if (uri.startsWith(SIGNALBEGRIFF_RIL_URI_PREFIX)) {
