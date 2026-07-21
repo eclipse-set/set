@@ -87,6 +87,7 @@ class Pt1TableTransformationTest extends Pt1TableTest {
 
 	@InjectService
 	EventAdmin eventAdmin;
+
 	@InjectService
 	List<PlanPro2TableTransformationService> transformationServices;
 
@@ -97,9 +98,12 @@ class Pt1TableTransformationTest extends Pt1TableTest {
 	void testPDFExportStyle() throws Exception {
 		givenPlanProFile(PPHN_1_10_0_3_20220517_PLANPRO);
 		setupTransformationService(eventAdmin);
+		System.out
+				.println("pdfExportStylteTest: Injected TransformationService");
+		transformationServices.stream()
+				.map(service -> service.getTableNameInfo().getShortName())
+				.forEach(name -> System.out.print(name));
 		for (final PlanPro2TableTransformationService service : transformationServices) {
-			System.out.println("Test PDFExportStyle: "
-					+ service.getTableNameInfo().getShortName());
 			final TransformTable transformTable = new TransformTable(
 					ExportType.INVENTORY_RECORDS,
 					service.getTableNameInfo().getShortName().toLowerCase(),
@@ -132,6 +136,10 @@ class Pt1TableTransformationTest extends Pt1TableTest {
 		setupTransformationService(eventAdmin);
 		System.setProperty(ToolboxProperties.DEVELOPMENT_MODE,
 				Boolean.FALSE.toString());
+		System.out.println("transformatorTest: Injected TransformationService");
+		transformationServices.stream()
+				.map(service -> service.getTableNameInfo().getShortName())
+				.forEach(name -> System.out.print(name));
 		for (final PlanPro2TableTransformationService transformationService : transformationServices) {
 			for (final MultiContainer_AttributeGroup container : getLSTContainer()) {
 				// Test transformation table
