@@ -20,6 +20,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -139,7 +140,7 @@ public final class TableServiceImpl implements TableService {
 	private static final Queue<Pair<BasePart, TableRendererUtil>> transformTableThreads = new LinkedList<>();
 	private final Map<String, Set<Footnote>> footnotesPerTable = new ConcurrentHashMap<>();
 	private static final Map<TableInfo, List<Pt1TableChangeProperties>> tableChangedData = new ConcurrentHashMap<>();
-	private static final Map<TableInfo, TableStatus> tablesStatus = new HashMap<>();
+	private static final Map<TableInfo, TableStatus> tablesStatus = new ConcurrentHashMap<>();
 
 	private CacheService getCacheService() {
 		return ToolboxConfiguration.isDebugMode() ? Services.getNoCacheService()
@@ -281,13 +282,13 @@ public final class TableServiceImpl implements TableService {
 		getAvailableTables().forEach(tableInfo -> {
 			if (tableCategory == null
 					|| tableInfo.category().equals(tableCategory)) {
-				final List<TableError> tableErrors = TableServiceUtils
+				final Optional<List<TableError>> tableErrors = TableServiceUtils
 						.getCachedTableError(getCacheService(), tableInfo,
 								modelSession, getModelService(tableInfo),
 								controlAreaIds);
-				if (tableErrors != null
+				if (tableErrors.isPresent()
 						|| !TableService.isTransformComplete(tableInfo, null)) {
-					result.put(tableInfo, tableErrors);
+					result.put(tableInfo, tableErrors.orElse(null));
 				}
 			}
 		});
@@ -463,8 +464,15 @@ public final class TableServiceImpl implements TableService {
 			tableStatus.setContainsStateChanged(
 					TableServiceUtils.isTableExistChangedCompareContent(
 							resultTable, CompareStateCellContent.class));
+			tableStatus.setContainsErrors(!TableServiceUtils
+					.getCachedTableError(getCacheService(), tableInfo,
+							modelSession, getModelService(tableInfo),
+							controlAreaIds)
+					.orElse(Collections.emptyList())
+					.isEmpty());
 		}
 		sortTable(resultTable, tableInfo, tableType);
+
 		return resultTable;
 	}
 
@@ -785,9 +793,8 @@ public final class TableServiceImpl implements TableService {
 			final Pt1TableCategory tableCategory) {
 		return tablesStatus.entrySet()
 				.stream()
-				.filter(entry -> entry.getKey()
-						.category()
-						.equals(tableCategory))
+				.filter(entry -> tableCategory == null
+						|| entry.getKey().category().equals(tableCategory))
 				.collect(Collectors.toMap(Entry::getKey, Entry::getValue));
 	}
 
