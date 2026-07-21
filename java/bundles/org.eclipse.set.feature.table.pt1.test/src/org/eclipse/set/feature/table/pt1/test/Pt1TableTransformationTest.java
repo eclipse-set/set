@@ -88,17 +88,17 @@ class Pt1TableTransformationTest extends Pt1TableTest {
 				Arguments.of(SINGLE_STATE_PLAN, "zustandpphn"));
 	}
 
-	@InjectService
+	@InjectService(timeout = 5000)
 	BankService bankService;
 
 	@InjectService
 	EventAdmin eventAdmin;
-
-	@InjectService
+	@InjectService(timeout = 5000)
 	GeoKanteGeometryService geometryService;
 
-	@InjectService
+	@InjectService(timeout = 5000)
 	TopologicalGraphService topgrahpService;
+
 	@InjectService
 	List<PlanPro2TableTransformationService> transformationServices;
 
