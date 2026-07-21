@@ -20,6 +20,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -286,13 +287,13 @@ public final class TableServiceImpl implements TableService {
 		getAvailableTables().forEach(tableInfo -> {
 			if (tableCategory == null
 					|| tableInfo.category().equals(tableCategory)) {
-				final List<TableError> tableErrors = TableServiceUtils
+				final Optional<List<TableError>> tableErrors = TableServiceUtils
 						.getCachedTableError(getCacheService(), tableInfo,
 								modelSession, getModelService(tableInfo),
 								controlAreaIds);
-				if (tableErrors != null
+				if (tableErrors.isPresent()
 						|| !TableService.isTransformComplete(tableInfo, null)) {
-					result.put(tableInfo, tableErrors);
+					result.put(tableInfo, tableErrors.orElse(null));
 				}
 			}
 		});
@@ -465,12 +466,12 @@ public final class TableServiceImpl implements TableService {
 			tableStatus.setContainsStateChanged(
 					TableServiceUtils.isTableExistChangedCompareContent(
 							resultTable, CompareStateCellContent.class));
-			tableStatus
-					.setContainsErrors(!TableServiceUtils
-							.getCachedTableError(getCacheService(), tableInfo,
-									modelSession, getModelService(tableInfo),
-									controlAreaIds)
-							.isEmpty());
+			tableStatus.setContainsErrors(!TableServiceUtils
+					.getCachedTableError(getCacheService(), tableInfo,
+							modelSession, getModelService(tableInfo),
+							controlAreaIds)
+					.orElse(Collections.emptyList())
+					.isEmpty());
 		}
 		sortTable(resultTable, tableInfo, tableType);
 
