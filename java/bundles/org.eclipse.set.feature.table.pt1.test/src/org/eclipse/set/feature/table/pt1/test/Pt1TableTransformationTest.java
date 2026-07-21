@@ -43,6 +43,8 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.osgi.service.event.EventAdmin;
 import org.osgi.test.common.annotation.InjectService;
 import org.osgi.test.junit5.service.ServiceExtension;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Test Pt1 Table transformation
@@ -52,9 +54,9 @@ import org.osgi.test.junit5.service.ServiceExtension;
 @TestInstance(Lifecycle.PER_CLASS)
 @ExtendWith(ServiceExtension.class)
 class Pt1TableTransformationTest extends Pt1TableTest {
-
 	private static List<String> Ssks_Pagebreak_Column_Index = List.of("49",
 			"76");
+
 	private static String XSL_DIR = "res/xsl";
 
 	private static boolean compareXSLDoc(final Document actual,
@@ -87,7 +89,7 @@ class Pt1TableTransformationTest extends Pt1TableTest {
 
 	@InjectService
 	EventAdmin eventAdmin;
-
+	Logger LOGGER = LoggerFactory.getLogger(Pt1TableTransformationTest.class);
 	@InjectService
 	List<PlanPro2TableTransformationService> transformationServices;
 
@@ -99,6 +101,8 @@ class Pt1TableTransformationTest extends Pt1TableTest {
 		givenPlanProFile(PPHN_1_10_0_3_20220517_PLANPRO);
 		setupTransformationService(eventAdmin);
 		for (final PlanPro2TableTransformationService service : transformationServices) {
+			System.out.println("Test PDFExportStyle: "
+					+ service.getTableNameInfo().getShortName());
 			final TransformTable transformTable = new TransformTable(
 					ExportType.INVENTORY_RECORDS,
 					service.getTableNameInfo().getShortName().toLowerCase(),
