@@ -43,8 +43,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.osgi.service.event.EventAdmin;
 import org.osgi.test.common.annotation.InjectService;
 import org.osgi.test.junit5.service.ServiceExtension;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Test Pt1 Table transformation
@@ -89,7 +87,6 @@ class Pt1TableTransformationTest extends Pt1TableTest {
 
 	@InjectService
 	EventAdmin eventAdmin;
-	Logger LOGGER = LoggerFactory.getLogger(Pt1TableTransformationTest.class);
 	@InjectService
 	List<PlanPro2TableTransformationService> transformationServices;
 
