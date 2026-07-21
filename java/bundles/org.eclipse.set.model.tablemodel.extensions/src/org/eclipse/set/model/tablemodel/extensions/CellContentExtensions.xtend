@@ -240,10 +240,17 @@ class CellContentExtensions {
 			!blank && !nullOrEmpty
 		] ?: #[]
 	}
+	
+	static def dispatch Iterable<String> getStringValueIterable(MultiColorCellContent content) {
+		return content?.value?.filterNull?.map[v |
+			String.format(v.stringFormat, v.multiColorValue).trim
+		]?.filter[!blank && !nullOrEmpty]
+	}
 
 	static def List<String> getStringValueList(CellContent content) {
 		return content.stringValueIterable.toList
 	}
+	
 
 	/**
 	 * @param text the text

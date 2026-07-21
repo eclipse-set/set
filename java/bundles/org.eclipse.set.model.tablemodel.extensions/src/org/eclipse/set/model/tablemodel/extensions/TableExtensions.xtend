@@ -12,6 +12,7 @@ import java.io.IOException
 import java.nio.file.Path
 import java.util.Collections
 import java.util.List
+import org.apache.commons.lang3.StringUtils
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.resource.Resource
@@ -28,6 +29,7 @@ import org.eclipse.set.model.tablemodel.FootnoteContainer
 import org.eclipse.set.model.tablemodel.RowGroup
 import org.eclipse.set.model.tablemodel.SimpleFootnoteContainer
 import org.eclipse.set.model.tablemodel.Table
+import org.eclipse.set.model.tablemodel.TableCell
 import org.eclipse.set.model.tablemodel.TableRow
 import org.eclipse.set.model.tablemodel.TablemodelFactory
 import org.eclipse.set.model.tablemodel.TablemodelPackage
@@ -35,14 +37,13 @@ import org.eclipse.set.model.tablemodel.format.TextAlignment
 
 import static extension org.eclipse.set.model.tablemodel.extensions.ColumnDescriptorExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.RowGroupExtensions.*
+import static extension org.eclipse.set.model.tablemodel.extensions.TableCellExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.TableContentExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.TableRowExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.EObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 import static extension org.eclipse.set.utils.StringExtensions.*
-import org.eclipse.set.model.tablemodel.extensions.TableExtensions.FootnoteInfo
-import org.apache.commons.lang3.StringUtils;
 
 /**
  * Extensions for {@link Table}.
@@ -157,14 +158,28 @@ class TableExtensions {
 	 */
 	static def TableRow addRow(Ur_Objekt leadingObject, int leadingObjectIndex,
 		Table table, String... values) {
+
+		val cells = table.columns.indexed.map [
+			val cell = value.createTableCell
+			cell.addContents(values.get(key))
+			return cell
+		]
+		return addRow(leadingObject, leadingObjectIndex, table, cells)
+	}
+
+	static def TableRow addRow(Ur_Objekt leadingObject, int leadingObjectIndex,
+		Table table, TableCell... cells) {
 		val newRowGroup = TablemodelFactory.eINSTANCE.createRowGroup
 		val newRow = TablemodelFactory.eINSTANCE.createTableRow
 		newRowGroup.rows.add(newRow)
 		newRowGroup.leadingObject = leadingObject
 		newRowGroup.leadingObjectIndex = leadingObjectIndex
 		table.tablecontent.rowgroups.add(newRowGroup)
-		table.columns.forEach[newRow.cells.add(createTableCell)]
-		values.indexed.forEach[newRow.set(key, value)]
+		cells.indexed.forEach [
+			val col = table.columns.get(key)
+			value.columndescriptor = col
+		]
+		newRow.cells.addAll(cells)
 		return newRow
 	}
 
@@ -562,9 +577,8 @@ class TableExtensions {
 			val compareFootnote = compareTableFootnotes.findFirst [ cF |
 				cF.sameBv(mF)
 			]
-			val existsAsNormalFootnote = footnotes.empty
-					? false
-					: footnotes.exists[nF|nF.sameBv(mF)]
+			val existsAsNormalFootnote = footnotes.empty ? false : footnotes.
+					exists[nF|nF.sameBv(mF)]
 			compareFootnote === null && !existsAsNormalFootnote
 		].forEach[changedInCompare = true]
 
@@ -574,9 +588,8 @@ class TableExtensions {
 			val compareFootnote = mainTableFootnotes.findFirst [ mF |
 				mF.sameBv(cF)
 			]
-			val existsAsNormalFootnote = footnotes.empty
-					? false
-					: footnotes.exists[nF|nF.sameBv(cF)]
+			val existsAsNormalFootnote = footnotes.empty ? false : footnotes.
+					exists[nF|nF.sameBv(cF)]
 			compareFootnote === null && !existsAsNormalFootnote
 		].map [
 			new FootnoteInfo(null, FootnoteType.COMMON_FOOTNOTE, null, true,
