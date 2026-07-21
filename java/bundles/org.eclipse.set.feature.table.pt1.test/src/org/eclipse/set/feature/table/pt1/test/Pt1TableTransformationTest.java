@@ -25,6 +25,9 @@ import org.eclipse.set.basis.ToolboxProperties;
 import org.eclipse.set.basis.constants.ExportType;
 import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
+import org.eclipse.set.core.services.geometry.GeoKanteGeometryService;
+import org.eclipse.set.core.services.graph.BankService;
+import org.eclipse.set.core.services.graph.TopologicalGraphService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.test.utils.CustomDOMReader;
 import org.eclipse.set.feature.table.pt1.test.utils.CustomNodeComparator;
@@ -86,8 +89,16 @@ class Pt1TableTransformationTest extends Pt1TableTest {
 	}
 
 	@InjectService
+	BankService bankService;
+
+	@InjectService
 	EventAdmin eventAdmin;
 
+	@InjectService
+	GeoKanteGeometryService geometryService;
+
+	@InjectService
+	TopologicalGraphService topgrahpService;
 	@InjectService
 	List<PlanPro2TableTransformationService> transformationServices;
 
@@ -102,7 +113,7 @@ class Pt1TableTransformationTest extends Pt1TableTest {
 				.println("pdfExportStylteTest: Injected TransformationService");
 		transformationServices.stream()
 				.map(service -> service.getTableNameInfo().getShortName())
-				.forEach(name -> System.out.print(name));
+				.forEach(System.out::println);
 		for (final PlanPro2TableTransformationService service : transformationServices) {
 			final TransformTable transformTable = new TransformTable(
 					ExportType.INVENTORY_RECORDS,
@@ -139,7 +150,7 @@ class Pt1TableTransformationTest extends Pt1TableTest {
 		System.out.println("transformatorTest: Injected TransformationService");
 		transformationServices.stream()
 				.map(service -> service.getTableNameInfo().getShortName())
-				.forEach(name -> System.out.print(name));
+				.forEach(System.out::println);
 		for (final PlanPro2TableTransformationService transformationService : transformationServices) {
 			for (final MultiContainer_AttributeGroup container : getLSTContainer()) {
 				// Test transformation table
