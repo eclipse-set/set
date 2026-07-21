@@ -96,7 +96,7 @@ public class Messages {
 	public String Dialogs_confirmOverwriteTitle;
 
 	/**
-	 * Bitte wählen Sie die vorhandene Dateine, die überschreiben soll
+	 * Bitte wählen Sie die Dateien, welche überschrieben werden sollen
 	 */
 	public String Dialogs_confirmOverwrite_Multi;
 
