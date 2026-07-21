@@ -17,15 +17,14 @@ on:
 jobs:
   test-siteplan:
     runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v1.61.1-noble
+      options: --ipc=host
     steps:
       - uses: actions/checkout@v7
 
       - name: Install dependencies
         run: npm ci
-        working-directory: web/siteplan
-
-      - name: Install Playwright Browsers
-        run: npm exec playwright install --with-deps
         working-directory: web/siteplan
 
       - name: Run Playwright tests
