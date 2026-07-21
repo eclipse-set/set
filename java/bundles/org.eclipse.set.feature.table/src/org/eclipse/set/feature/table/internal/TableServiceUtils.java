@@ -115,7 +115,7 @@ public class TableServiceUtils {
 
 	}
 
-	protected static List<TableError> getCachedTableError(
+	protected static Optional<List<TableError>> getCachedTableError(
 			final CacheService cachService, final TableInfo tableInfo,
 			final IModelSession modelSession,
 			final PlanPro2TableTransformationService transformationService,
@@ -124,12 +124,12 @@ public class TableServiceUtils {
 				modelSession.getPlanProSchnittstelle(),
 				ToolboxConstants.CacheId.TABLE_ERRORS);
 		if (!cache.contains(tableInfo.shortcut())) {
-			return null;
+			return Optional.empty();
 		}
 		final List<TableError> cachedErrors = cache.get(tableInfo.shortcut(),
 				Collections::emptyList);
 		if (cachedErrors.isEmpty()) {
-			return cachedErrors;
+			return Optional.of(Collections.emptyList());
 		}
 		final TableType tableType = modelSession.getTableType();
 		final List<TableError> errorsByCurrentTableState = cachedErrors.stream()
@@ -139,10 +139,10 @@ public class TableServiceUtils {
 								.getDefaultTableType())
 				.toList();
 		if (controlAreaIds.isEmpty()) {
-			return errorsByCurrentTableState.stream()
+			return Optional.ofNullable(errorsByCurrentTableState.stream()
 					.filter(error -> UrObjectExtensions
 							.isPlanningObject(error.getLeadingObject()))
-					.toList();
+					.toList());
 		}
 		final Function<TableError, UrObjektEachContainer> getObj = error -> switch (error
 				.getContainerType()) {
@@ -154,9 +154,9 @@ public class TableServiceUtils {
 					error.getLeadingObject());
 			default -> throw new IllegalArgumentException();
 		};
-		return filterElementBelongToControlArea(errorsByCurrentTableState,
-				getObj, controlAreaIds, modelSession, transformationService,
-				null);
+		return Optional.ofNullable(filterElementBelongToControlArea(
+				errorsByCurrentTableState, getObj, controlAreaIds, modelSession,
+				transformationService, null));
 	}
 
 	/**

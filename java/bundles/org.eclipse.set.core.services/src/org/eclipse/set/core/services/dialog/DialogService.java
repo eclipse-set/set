@@ -79,6 +79,15 @@ public interface DialogService {
 	/**
 	 * @param shell
 	 *            the shell for the dialog
+	 * @param paths
+	 *            the files to overwrite
+	 * @return the files, which the user has confirmed to overwrite
+	 */
+	List<String> confirmOverwriteMultiFile(Shell shell, List<String> paths);
+
+	/**
+	 * @param shell
+	 *            the shell for the dialog
 	 * 
 	 * @return whether the user has confirmed to overwrite the operational data
 	 */
