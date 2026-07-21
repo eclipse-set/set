@@ -25,8 +25,6 @@ import org.eclipse.set.basis.ToolboxProperties;
 import org.eclipse.set.basis.constants.ExportType;
 import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
-import org.eclipse.set.core.services.geometry.GeoKanteGeometryService;
-import org.eclipse.set.core.services.graph.BankService;
 import org.eclipse.set.core.services.graph.TopologicalGraphService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.test.utils.CustomDOMReader;
@@ -88,13 +86,8 @@ class Pt1TableTransformationTest extends Pt1TableTest {
 				Arguments.of(SINGLE_STATE_PLAN, "zustandpphn"));
 	}
 
-	@InjectService(timeout = 5000)
-	BankService bankService;
-
 	@InjectService
 	EventAdmin eventAdmin;
-	@InjectService(timeout = 5000)
-	GeoKanteGeometryService geometryService;
 
 	@InjectService(timeout = 5000)
 	TopologicalGraphService topgrahpService;
