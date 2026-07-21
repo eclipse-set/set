@@ -106,12 +106,12 @@ public class UnicodeCharactersValid implements PlazCheck {
 
 	@Override
 	public String getDescription() {
-		return "Es gibt keine ungültig Sonderzeichen"; //$NON-NLS-1$
+		return "Es gibt keine ungültigen Sonderzeichen"; //$NON-NLS-1$
 	}
 
 	@Override
 	public String getGeneralErrMsg() {
-		return "Es gibt Objekte mit ungültige Sonderzeichen"; //$NON-NLS-1$
+		return "Es gibt Objekte mit ungültigen Sonderzeichen"; //$NON-NLS-1$
 	}
 
 	private PlazError createFontError() {
