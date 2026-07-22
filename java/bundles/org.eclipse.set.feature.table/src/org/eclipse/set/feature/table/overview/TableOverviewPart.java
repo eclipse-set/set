@@ -17,8 +17,9 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
+import java.util.Map.Entry;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -33,6 +34,7 @@ import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.set.basis.Pair;
 import org.eclipse.set.basis.constants.Events;
+import org.eclipse.set.basis.constants.ExportType;
 import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.basis.extensions.Exceptions;
 import org.eclipse.set.basis.threads.Threads;
@@ -45,6 +47,7 @@ import org.eclipse.set.feature.table.overview.TableStatusGroupView.TableSectionC
 import org.eclipse.set.model.planpro.PlanPro.Container_AttributeGroup;
 import org.eclipse.set.services.export.ExportService;
 import org.eclipse.set.services.export.TableCompileService;
+import org.eclipse.set.services.export.TableExport.ExportFormat;
 import org.eclipse.set.services.table.TableService;
 import org.eclipse.set.services.table.TableStatus;
 import org.eclipse.set.utils.BasePart;
@@ -55,6 +58,7 @@ import org.eclipse.set.utils.events.SelectedControlAreaChangedEvent;
 import org.eclipse.set.utils.events.SelectedControlAreaChangedEvent.ControlAreaValue;
 import org.eclipse.set.utils.events.ToolboxEventHandler;
 import org.eclipse.set.utils.events.ToolboxEvents;
+import org.eclipse.set.utils.exception.ExceptionHandler;
 import org.eclipse.set.utils.table.TableError;
 import org.eclipse.set.utils.table.TableInfo;
 import org.eclipse.set.utils.table.TableInfo.Pt1TableCategory;
@@ -302,16 +306,26 @@ public class TableOverviewPart extends BasePart {
 		if (optionalOutputDir.isEmpty()) {
 			return;
 		}
-
+		final String outputDir = optionalOutputDir.get();
+		final List<TableInfo> tableToExport = tablesStatus.entrySet()
+				.stream()
+				.filter(entry -> tableWithStatus.test(entry.getValue()))
+				.map(Entry::getKey)
+				.toList();
 		final IRunnableWithProgress exportThread = new IRunnableWithProgress() {
-
 			@Override
 			public void run(final IProgressMonitor monitor)
 					throws InvocationTargetException, InterruptedException {
 				monitor.beginTask(messages.TableExportPart_TaskMsg,
 						tablesStatus.size());
 				Threads.stopCurrentOnCancel(monitor);
-				// TODO
+				exportService.exportMultiTable(ExportType.INVENTORY_RECORDS,
+						tableToExport, getModelSession(), compileService,
+						getDialogService(), tableType, controlAreaIds,
+						List.of(ExportFormat.PDF, ExportFormat.EXCEL),
+						outputDir, monitor, getToolboxShell(), null,
+						new ExceptionHandler(getToolboxShell(),
+								getDialogService()));
 				monitor.done();
 			}
 		};

@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +23,7 @@ import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.set.basis.FreeFieldInfo;
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.OverwriteHandling;
@@ -42,6 +44,7 @@ import org.eclipse.set.services.export.TableCompileService;
 import org.eclipse.set.services.export.TableExport;
 import org.eclipse.set.services.export.TableExport.ExportFormat;
 import org.eclipse.set.utils.table.TableInfo;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -129,9 +132,19 @@ public class ExportServiceImpl implements ExportService {
 					.map(info -> TableToExport.createInstance(info,
 							modelSession, exportType, outdir, exportFormate))
 					.toList();
-			final List<TableToExport> confirmOverwriteTables = filterConfirmOverwriteTable(
-					tablesToExport, shell, dialogService, overwriteHandling,
-					outputDir);
+			final List<TableToExport> confirmOverwriteTables = new ArrayList<>();
+			monitor.setBlocked(Status.info("Warte..."));
+			Display.getDefault().asyncExec(() -> {
+				try {
+					confirmOverwriteTables.addAll(filterConfirmOverwriteTable(
+							tablesToExport,
+							Display.getDefault().getActiveShell(),
+							dialogService, overwriteHandling, outputDir));
+					monitor.clearBlocked();
+				} catch (final IOException e) {
+					e.printStackTrace();
+				}
+			});
 			confirmOverwriteTables.forEach(tableToExport -> {
 				monitor.subTask(tableToExport.tableInfo()
 						.nameInfo()
