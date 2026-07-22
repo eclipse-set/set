@@ -63,7 +63,7 @@ public class UnicodeCharactersValid implements PlazCheck {
 					.map(pair -> createError(pair.getFirst(), pair.getSecond()))
 					.toList();
 		} catch (IOException | FontFormatException e) {
-			return List.of(createFontError());
+			return List.of(createFontError(e));
 		}
 	}
 
@@ -114,11 +114,11 @@ public class UnicodeCharactersValid implements PlazCheck {
 		return "Es gibt Objekte mit ungültigen Sonderzeichen"; //$NON-NLS-1$
 	}
 
-	private PlazError createFontError() {
+	private PlazError createFontError(final Exception e) {
 		final PlazError plazError = PlazFactory.eINSTANCE.createPlazError();
 		plazError.setType(checkType());
 		plazError.setSeverity(ValidationSeverity.ERROR);
-		plazError.setMessage("Can't load fop fonts"); //$NON-NLS-1$
+		plazError.setMessage("Can't load fop fonts: " + e.getMessage()); //$NON-NLS-1$
 		return plazError;
 	}
 }
