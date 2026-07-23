@@ -10,8 +10,11 @@ package org.eclipse.set.feature.table.overview;
 
 import static org.eclipse.set.basis.constants.ToolboxConstants.*;
 
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -24,6 +27,7 @@ import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.e4.core.services.events.IEventBroker;
@@ -32,6 +36,7 @@ import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
+import org.eclipse.set.basis.OverwriteHandling;
 import org.eclipse.set.basis.Pair;
 import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.basis.constants.ExportType;
@@ -39,6 +44,7 @@ import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.basis.extensions.Exceptions;
 import org.eclipse.set.basis.threads.Threads;
 import org.eclipse.set.core.services.configurationservice.UserConfigurationService;
+import org.eclipse.set.core.services.dialog.DialogService;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.core.services.part.ToolboxPartService;
 import org.eclipse.set.feature.table.internal.TableServiceUtils;
@@ -46,6 +52,7 @@ import org.eclipse.set.feature.table.messages.Messages;
 import org.eclipse.set.feature.table.overview.TableStatusGroupView.TableSectionControl;
 import org.eclipse.set.model.planpro.PlanPro.Container_AttributeGroup;
 import org.eclipse.set.services.export.ExportService;
+import org.eclipse.set.services.export.ExportService.TableToExportPath;
 import org.eclipse.set.services.export.TableCompileService;
 import org.eclipse.set.services.export.TableExport.ExportFormat;
 import org.eclipse.set.services.table.TableService;
@@ -64,6 +71,7 @@ import org.eclipse.set.utils.table.TableInfo;
 import org.eclipse.set.utils.table.TableInfo.Pt1TableCategory;
 import org.eclipse.set.utils.table.menu.TableMenuService;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Shell;
 import org.osgi.service.event.EventHandler;
 
 import jakarta.annotation.PostConstruct;
@@ -298,6 +306,7 @@ public class TableOverviewPart extends BasePart {
 
 	private void exportAllRelevantTable(
 			final Predicate<TableStatus> tableWithStatus) {
+
 		final Map<TableInfo, TableStatus> tablesStatus = tableService
 				.getTablesStatus(getTableCategory());
 		final Optional<String> optionalOutputDir = getDialogService()
@@ -307,45 +316,109 @@ public class TableOverviewPart extends BasePart {
 			return;
 		}
 		final String outputDir = optionalOutputDir.get();
-		final List<TableInfo> tableToExport = tablesStatus.entrySet()
+		final List<TableToExportPath> tablesToExport = tablesStatus.entrySet()
 				.stream()
 				.filter(entry -> tableWithStatus.test(entry.getValue()))
 				.map(Entry::getKey)
+				.map(tableInfo -> TableToExportPath.createInstance(tableInfo,
+						getModelSession(), ExportType.INVENTORY_RECORDS,
+						Paths.get(outputDir),
+						List.of(ExportFormat.EXCEL, ExportFormat.PDF)))
 				.toList();
-		final IRunnableWithProgress exportThread = new IRunnableWithProgress() {
-			@Override
-			public void run(final IProgressMonitor monitor)
-					throws InvocationTargetException, InterruptedException {
-				monitor.beginTask(messages.TableExportPart_TaskMsg,
-						tablesStatus.size());
-				Threads.stopCurrentOnCancel(monitor);
-				exportService.exportMultiTable(ExportType.INVENTORY_RECORDS,
-						tableToExport, getModelSession(), compileService,
-						getDialogService(), tableType, controlAreaIds,
-						List.of(ExportFormat.PDF, ExportFormat.EXCEL),
-						outputDir, monitor, getToolboxShell(), null,
-						new ExceptionHandler(getToolboxShell(),
-								getDialogService()));
-				monitor.done();
-			}
-		};
-
-		final ProgressMonitorDialog progressMonitorDialog = new ProgressMonitorDialog(
-				getToolboxShell());
 		try {
+			final List<TableToExportPath> filterConfirmOverwriteTable = filterConfirmOverwriteTable(
+					tablesToExport, getToolboxShell(), getDialogService(),
+					outputDir);
+			final IRunnableWithProgress exportThread = new IRunnableWithProgress() {
+				@Override
+				public void run(final IProgressMonitor monitor)
+						throws InvocationTargetException, InterruptedException {
+					monitor.beginTask(messages.TableExportPart_TaskMsg,
+							filterConfirmOverwriteTable.size());
+					Threads.stopCurrentOnCancel(monitor);
+					exportService.exportMultiTable(ExportType.INVENTORY_RECORDS,
+							filterConfirmOverwriteTable, getModelSession(),
+							compileService, getDialogService(), tableType,
+							controlAreaIds, monitor,
+							OverwriteHandling.forCheckbox(true),
+							new ExceptionHandler(getToolboxShell(),
+									getDialogService()));
+					monitor.done();
+				}
+			};
+
+			final ProgressMonitorDialog progressMonitorDialog = new ProgressMonitorDialog(
+					getToolboxShell());
 			progressMonitorDialog.run(true, true, exportThread);
+
+			if (!progressMonitorDialog.getProgressMonitor().isCanceled()) {
+				// export finished
+				getDialogService().openDirectoryAfterExport(getToolboxShell(),
+						Path.of(optionalOutputDir.get()));
+				userConfigService
+						.setLastExportPath(Path.of(optionalOutputDir.get()));
+			}
 		} catch (final Exception e) {
 			if (!Exceptions.isCausedByThreadDeath(e)) {
 				getDialogService().error(getToolboxShell(), e);
+			} else {
+				Thread.currentThread().interrupt();
 			}
 		}
-		if (!progressMonitorDialog.getProgressMonitor().isCanceled()) {
-			// export finished
-			getDialogService().openDirectoryAfterExport(getToolboxShell(),
-					Path.of(optionalOutputDir.get()));
-			userConfigService
-					.setLastExportPath(Path.of(optionalOutputDir.get()));
+	}
+
+	private static List<TableToExportPath> filterConfirmOverwriteTable(
+			final List<TableToExportPath> tablesToExport, final Shell shell,
+			final DialogService dialogService, final String outputDir)
+			throws IOException {
+		final Set<TableToExportPath> alreadyExistExport = getAlreadyExistExport(
+				tablesToExport, outputDir);
+		if (alreadyExistExport.isEmpty()) {
+			return tablesToExport;
 		}
+		final List<TableToExportPath> result = new ArrayList<>(tablesToExport);
+		result.removeIf(t -> alreadyExistExport.stream()
+				.anyMatch(exported -> exported.tableInfo()
+						.shortcut()
+						.equals(t.tableInfo().shortcut())));
+		final List<String> selectItems = alreadyExistExport.stream()
+
+				.map(t -> t.tableInfo().nameInfo().getFullDisplayName())
+				.sorted()
+				.toList();
+		final List<String> confirmedOverwirteFiles = dialogService
+				.confirmOverwriteMultiFile(shell, selectItems);
+		final List<TableToExportPath> confirmOverwrite = alreadyExistExport
+				.stream()
+				.filter(table -> confirmedOverwirteFiles.contains(
+						table.tableInfo().nameInfo().getFullDisplayName()))
+				.toList();
+		result.addAll(confirmOverwrite);
+		return result;
+	}
+
+	private static Set<TableToExportPath> getAlreadyExistExport(
+			final List<TableToExportPath> tablesToExport,
+			final String outputDir) throws IOException {
+		final Path outDir = Path.of(outputDir);
+		if (!Files.exists(outDir) || !Files.isDirectory(outDir)) {
+			throw new IllegalArgumentException("outputDir should be Directory"); //$NON-NLS-1$
+		}
+		final Set<TableToExportPath> alreadyExistExportTable = new HashSet<>();
+		try (Stream<Path> filesPath = Files.walk(Path.of(outputDir))) {
+			filesPath.forEach(p -> {
+				final String exportedFileName = p.getFileName().toString();
+				final Optional<TableToExportPath> exportedTable = tablesToExport
+						.stream()
+						.filter(t -> t.getExportFilesName()
+								.contains(exportedFileName))
+						.findFirst();
+				if (exportedTable.isPresent()) {
+					alreadyExistExportTable.add(exportedTable.get());
+				}
+			});
+		}
+		return alreadyExistExportTable;
 	}
 
 	private Pt1TableCategory getTableCategory() {
