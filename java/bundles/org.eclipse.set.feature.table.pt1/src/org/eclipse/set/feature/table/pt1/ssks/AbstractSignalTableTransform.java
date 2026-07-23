@@ -18,10 +18,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.set.basis.graph.TopPoint;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.core.services.graph.BankService;
@@ -37,6 +40,7 @@ import org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt;
 import org.eclipse.set.model.planpro.Signale.Signal;
 import org.eclipse.set.model.planpro.Signale.Signal_Befestigung;
 import org.eclipse.set.model.planpro.Signale.Signal_Rahmen;
+import org.eclipse.set.model.planpro.Verweise.ID_Regelzeichnung_TypeClass;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.TableRow;
@@ -50,6 +54,7 @@ import org.eclipse.set.ppmodel.extensions.SignalRahmenExtensions;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.eclipse.set.ppmodel.extensions.geometry.GEOKanteGeometryExtensions;
 import org.eclipse.set.utils.math.BigDecimalExtensions;
+import org.eclipse.set.utils.table.AbstractTableModelTransformator;
 import org.eclipse.set.utils.table.RowFactory;
 import org.eclipse.set.utils.table.TMFactory;
 import org.eclipse.xtext.xbase.lib.Pair;
@@ -266,6 +271,10 @@ public abstract class AbstractSignalTableTransform
 				rahmen -> transformRegelzeichnungArt(row, rahmen),
 				MIXED_STRING_COMPARATOR);
 
+		// konstruktive_Merkmale.Anordnung.Regelzeichnung
+		fillIterable(row, getAnordnungRegelzeichnungColumn(), signalRahmen,
+				rahmen -> transformRegelzeichnungArt(row, rahmen));
+
 		// konstruktive_Merkmale.Fundament.Hoehe
 		fillIterable(row, getFundamentHoeheColumn(), signalRahmen,
 				rahmen -> rahmen.stream()
@@ -368,6 +377,8 @@ public abstract class AbstractSignalTableTransform
 
 	protected abstract ColumnDescriptor getBezeichnungColumn();
 
+	protected abstract ColumnDescriptor getAnordnungRegelzeichnungColumn();
+
 	protected abstract void handledThrowException(TMFactory row, Signal signal,
 			Exception e);
 
@@ -405,6 +416,49 @@ public abstract class AbstractSignalTableTransform
 											.getBefestigungArt())
 							.orElse(null));
 		};
+	}
+
+	@SuppressWarnings("static-method")
+	protected Iterable<String> transformRegelZeichnungen(final TableRow row,
+			final List<Signal_Rahmen> rahmen) {
+		final List<String> befestigungRegelzeichnungen = rahmen.stream()
+				.flatMap(r -> {
+					final List<Signal_Befestigung> result = new ArrayList<>();
+
+					final List<Signal_Befestigung> befestigungUtilFundament = SignalRahmenExtensions
+							.getBefestigungUntilFundament(r);
+					result.addAll(befestigungUtilFundament);
+					final Signal_Befestigung signalBefestigung = SignalRahmenExtensions
+							.getSignalBefestigung(r);
+					result.add(signalBefestigung);
+					return result.stream();
+				})
+				.flatMap(befesitung -> {
+					final Optional<EList<ID_Regelzeichnung_TypeClass>> nullableObject = EObjectExtensions
+							.getNullableObject(befesitung,
+									b -> b.getIDRegelzeichnung());
+					if (nullableObject.isPresent()) {
+						return nullableObject.get().stream();
+					}
+					return Stream.empty();
+				})
+				.map(id -> id.getValue())
+				.filter(Objects::nonNull)
+				.map(AbstractTableModelTransformator::fillRegelzeichnung)
+				.toList();
+		final List<String> rahmenRegelzeichnungen = rahmen.stream()
+				.map(Signal_Rahmen::getIDRegelzeichnung)
+				.map(id -> EObjectExtensions
+						.getNullableObject(id, i -> i.getValue())
+						.orElse(null))
+				.filter(Objects::nonNull)
+				.map(AbstractTableModelTransformator::fillRegelzeichnung)
+				.toList();
+
+		return Stream
+				.concat(befestigungRegelzeichnungen.stream(),
+						rahmenRegelzeichnungen.stream())
+				.toList();
 	}
 
 }
