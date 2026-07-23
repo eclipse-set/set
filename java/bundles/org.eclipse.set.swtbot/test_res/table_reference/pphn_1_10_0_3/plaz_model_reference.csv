@@ -1,6 +1,6 @@
 ﻿PlaZ Modell-Prüfung
 Datei: plaz_model_current.csv
-Prüfungszeit: 2026-04-21 12:28:21
+Prüfungszeit: 2026-07-22 13:54:10
 Werkzeugkofferversion: ${application-version}
 
 
@@ -704,8 +704,9 @@ Werkzeugkofferversion: ${application-version}
 "679";"Erfolg";"Mehrfache Teilbereiche";"";"";"";"Fachdaten";"";"Teilbereichsgrenzen der LST-Objekte sind einzigartig."
 "680";"Erfolg";"Punktobjektabstand";"";"";"";"Fachdaten";"";"Der Punktobjektabstand aller LST-Objekte ist gültig."
 "681";"Erfolg";"Signalbefestigungsketten";"";"";"";"Fachdaten";"";"Die Verweisketten der Signalbefestigungen sind pausibel"
-"682";"Erfolg";"TOP_Kante";"";"";"";"Fachdaten";"";"TOP_Kanten haben eindeutige Endknoten."
-"683";"Erfolg";"TOP_Kante";"";"";"";"Fachdaten";"";"TOP_Kanten und GEO_Kanten haben übereinstimmende Längen."
-"684";"Erfolg";"Untergewerk Art";"";"";"";"Fachdaten";"";"Jedes Untergewerk ist eindeutig und passt zu der zugehörigen Planung_Gruppe"
-"685";"Erfolg";"Überhöhungslinie";"";"";"";"Fachdaten";"";"Topologische Pfade konnten für Überhöhungslinien gefunden werden."
-"686";"Erfolg";"Überlappende Teilbereiche";"";"";"";"Fachdaten";"";"Teilbereichsgrenzen der LST-Objekte sind plausibel"
+"682";"Erfolg";"Sonderzeichen";"";"";"";"Fachdaten";"";"Es gibt keine ungültigen Sonderzeichen"
+"683";"Erfolg";"TOP_Kante";"";"";"";"Fachdaten";"";"TOP_Kanten haben eindeutige Endknoten."
+"684";"Erfolg";"TOP_Kante";"";"";"";"Fachdaten";"";"TOP_Kanten und GEO_Kanten haben übereinstimmende Längen."
+"685";"Erfolg";"Untergewerk Art";"";"";"";"Fachdaten";"";"Jedes Untergewerk ist eindeutig und passt zu der zugehörigen Planung_Gruppe"
+"686";"Erfolg";"Überhöhungslinie";"";"";"";"Fachdaten";"";"Topologische Pfade konnten für Überhöhungslinien gefunden werden."
+"687";"Erfolg";"Überlappende Teilbereiche";"";"";"";"Fachdaten";"";"Teilbereichsgrenzen der LST-Objekte sind plausibel"
