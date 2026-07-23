@@ -418,7 +418,6 @@ public abstract class AbstractSignalTableTransform
 		};
 	}
 
-	@SuppressWarnings("static-method")
 	protected Iterable<String> transformRegelZeichnungen(
 			final List<Signal_Rahmen> rahmen) {
 		final List<String> befestigungRegelzeichnungen = rahmen.stream()
