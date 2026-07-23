@@ -273,7 +273,7 @@ public abstract class AbstractSignalTableTransform
 
 		// konstruktive_Merkmale.Anordnung.Regelzeichnung
 		fillIterable(row, getAnordnungRegelzeichnungColumn(), signalRahmen,
-				rahmen -> transformRegelzeichnungArt(row, rahmen));
+				this::transformRegelZeichnungen);
 
 		// konstruktive_Merkmale.Fundament.Hoehe
 		fillIterable(row, getFundamentHoeheColumn(), signalRahmen,
@@ -419,7 +419,7 @@ public abstract class AbstractSignalTableTransform
 	}
 
 	@SuppressWarnings("static-method")
-	protected Iterable<String> transformRegelZeichnungen(final TableRow row,
+	protected Iterable<String> transformRegelZeichnungen(
 			final List<Signal_Rahmen> rahmen) {
 		final List<String> befestigungRegelzeichnungen = rahmen.stream()
 				.flatMap(r -> {
