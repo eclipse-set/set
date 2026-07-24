@@ -25,6 +25,7 @@ class ValidationTableColumns extends AbstractColumns {
 	public final ColumnDescriptor ProblemType;
 	public final ColumnDescriptor LineNumber;
 	public final ColumnDescriptor ObjectType;
+	public final ColumnDescriptor ObjectDesignation;
 	public final ColumnDescriptor AttributeGroup;
 	public final ColumnDescriptor ObjectScope;
 	public final ColumnDescriptor ObjectState;
@@ -42,6 +43,7 @@ class ValidationTableColumns extends AbstractColumns {
 		ObjectType = createNew(messages.ValidationTableColumns_ObjectType)
 		AttributeGroup = createNew(
 			messages.ValidationTableColumns_AttributeGroup)
+			ObjectDesignation = createNew(messages.ValidationTableColumns_ObjectDesignation)
 		ObjectScope = createNew(messages.ValidationTableColumns_ObjectScope)
 		ObjectState = createNew(messages.ValidationTableColumns_ObjectState)
 		Message = createNew(messages.ValidationTableColumns_Message)
@@ -50,15 +52,16 @@ class ValidationTableColumns extends AbstractColumns {
 	def ColumnDescriptor fillHeaderDescriptions(
 		ColumnDescriptorModelBuilder builder) {
 		val GroupBuilder root = builder.createRootColumn()
-		root.add(RowIndex).width(1.25f)
-		root.add(Severity).width(2.1f)
-		root.add(ProblemType).width(3.5f)
-		root.add(LineNumber).width(2.2f)
-		root.add(ObjectType).width(3)
-		root.add(AttributeGroup).width(3)
-		root.add(ObjectScope).width(2)
-		root.add(ObjectState).width(1.5f)
-		root.add(Message).width(8f)
+		root.add(RowIndex).widthPercent(5)
+		root.add(Severity).widthPercent(5)
+		root.add(ProblemType).widthPercent(8)
+		root.add(LineNumber).widthPercent(5)
+		root.add(ObjectType).widthPercent(8)
+		root.add(ObjectDesignation).widthPercent(10)
+		root.add(AttributeGroup).widthPercent(8)
+		root.add(ObjectScope).widthPercent(5)
+		root.add(ObjectState).widthPercent(4)
+		root.add(Message).widthPercent(20)
 		return root.getGroupRoot()
 	}
 }

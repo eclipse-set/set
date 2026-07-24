@@ -24,7 +24,10 @@ import org.eclipse.set.model.validationreport.ObjectScope;
 public class NodeObjectScopeProvider {
 	private static final String NODE_AUSGABE_FACHDATEN = "Ausgabe_Fachdaten"; //$NON-NLS-1$
 
-	private static final String NODE_CONTAINER = "Container"; //$NON-NLS-1$
+	/**
+	 * Container node name
+	 */
+	public static final String NODE_CONTAINER = "Container"; //$NON-NLS-1$
 
 	private static final String XPATH_PLANUNGSBEREICH = "//LST_Planung_Gruppe/LST_Planung_Einzel/LST_Objekte_Planungsbereich/ID_LST_Objekt_Planungsbereich/Wert"; //$NON-NLS-1$
 

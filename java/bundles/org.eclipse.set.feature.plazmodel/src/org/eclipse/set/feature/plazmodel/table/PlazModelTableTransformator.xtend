@@ -33,7 +33,7 @@ class PlazModelTableTransformator extends AbstractValidationProblemTransformator
 		this.columns = columns
 		this.enumTranslationService = enumTranslationService
 		excludeColumns = newArrayList(columns.RowIndex, columns.Message,
-			columns.LineNumber)
+			columns.LineNumber, columns.ObjectDesignation)
 	}
 
 	 override fillProblem(TableRow instance, ValidationProblem problem) {

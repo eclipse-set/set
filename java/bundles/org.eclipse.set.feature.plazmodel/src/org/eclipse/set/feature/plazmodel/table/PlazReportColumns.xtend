@@ -51,16 +51,16 @@ class PlazReportColumns extends AbstractColumns {
 	def ColumnDescriptor fillHeaderDescriptions(
 		ColumnDescriptorModelBuilder builder) {
 		val GroupBuilder root = builder.createRootColumn()
-		root.add(RowIndex).width(1.25f)
-		root.add(Severity).width(2.1f)
-		root.add(ProblemType).width(2.5f)
-		root.add(LineNumber).width(1.7f)
-		root.add(ObjectType).width(2)
-		root.add(ObjectDesignation).width(4)
-		root.add(AttributeGroup).width(3.5f)
-		root.add(ObjectScope).width(2)
-		root.add(ObjectState).width(1.5f)
-		root.add(Message).width(6.5f)
+		root.add(RowIndex).widthPercent(5)
+		root.add(Severity).widthPercent(5)
+		root.add(ProblemType).widthPercent(8)
+		root.add(LineNumber).widthPercent(5)
+		root.add(ObjectType).widthPercent(8)
+		root.add(ObjectDesignation).widthPercent(10)
+		root.add(AttributeGroup).widthPercent(8)
+		root.add(ObjectScope).widthPercent(5)
+		root.add(ObjectState).widthPercent(4)
+		root.add(Message).widthPercent(20)
 		return root.getGroupRoot()
 	}
 }

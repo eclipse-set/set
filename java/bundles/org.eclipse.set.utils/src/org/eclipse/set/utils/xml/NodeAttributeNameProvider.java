@@ -21,10 +21,16 @@ import org.eclipse.set.basis.PlanProXMLNode;
 public class NodeAttributeNameProvider {
 	private static final String TEXT_NODE = "#text"; //$NON-NLS-1$
 	private static final String DOCUMENT_NODE = "#document"; //$NON-NLS-1$
-	private static final String CONTAINER_NODE = "Container"; //$NON-NLS-1$
+	/**
+	 * The container node name
+	 */
+	public static final String CONTAINER_NODE = "Container"; //$NON-NLS-1$
 
 	private static final String IDENTITY_ATTRIBUTE_NAME = "Identitaet"; //$NON-NLS-1$
-	private static final String VALUE_ATTRIBUTE_NAME = "Wert"; //$NON-NLS-1$
+	/**
+	 * value node name
+	 */
+	public static final String VALUE_ATTRIBUTE_NAME = "Wert"; //$NON-NLS-1$
 
 	/**
 	 * @param node

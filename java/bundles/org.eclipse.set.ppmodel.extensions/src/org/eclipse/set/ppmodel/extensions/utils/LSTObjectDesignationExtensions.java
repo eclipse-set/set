@@ -64,7 +64,11 @@ public class LSTObjectDesignationExtensions {
 	 * @return the object designation
 	 */
 	public static String getLSTObjectDesignation(final EObject obj) {
-		return switch (obj) {
+		final EObject lstObjectFromChild = getLSTObjectFromChild(obj);
+		if (lstObjectFromChild == null) {
+			return ""; //$NON-NLS-1$
+		}
+		return switch (lstObjectFromChild) {
 			case final Aussenelementansteuerung aea -> getLSTObjectDesignation(
 					aea);
 			case final Bedien_Einrichtung_Oertlich beo -> getLSTObjectDesignation(
@@ -102,7 +106,7 @@ public class LSTObjectDesignationExtensions {
 			case final W_Kr_Gsp_Komponente gspKomponent -> getLSTObjectDesignation(
 					gspKomponent);
 			case final Zugeinwirkung ein -> getLSTObjectDesignation(ein);
-			default -> getLSTObjectDesignation(getLSTObjectFromChild(obj));
+			default -> ""; //$NON-NLS-1$
 		};
 	}
 
@@ -362,6 +366,9 @@ public class LSTObjectDesignationExtensions {
 	}
 
 	private static EObject getLSTObjectFromChild(final EObject child) {
+		if (child == null) {
+			return null;
+		}
 		if (child.eContainer() instanceof Container_AttributeGroup) {
 			return child;
 		}
