@@ -3,7 +3,13 @@ let currentIndex = -1
 
 document.addEventListener("keydown", (ev) => {
     if (ev.ctrlKey && ev.key === "f") {
-        document.body.appendChild(createSearchFeld())
+        if (document.getElementById("searchFeld") !== null) {
+            close()
+        } else {
+            document.body.appendChild(createSearchFeld())
+            document.getElementById("searchInput").focus()
+        }
+        
     }
 
     if (ev.key.toLowerCase() === "enter" && document.activeElement.parentElement === searchFeld) {
@@ -19,6 +25,7 @@ function createSearchFeld() {
     searchFeld.id = "searchFeld"
     searchFeld.textContent = "\u{1F50D}"
     const input = document.createElement("input")
+    input.setAttribute("id", "searchInput")
     input.type = "text"
     input.oninput = (ev) => {
         onSearch(input.value)
