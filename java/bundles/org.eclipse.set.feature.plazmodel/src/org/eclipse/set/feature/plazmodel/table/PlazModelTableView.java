@@ -10,6 +10,7 @@ package org.eclipse.set.feature.plazmodel.table;
 
 import java.nio.file.Path;
 
+import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.nebula.widgets.nattable.NatTable;
 import org.eclipse.set.basis.extensions.PathExtensions;
 import org.eclipse.set.basis.files.ToolboxFile;
@@ -39,7 +40,7 @@ public class PlazModelTableView extends AbstractTreeLayerTable {
 			Werkzeugkofferversion: %s
 
 
-			"Lfd. Nr.";"Schweregrad";"Problemart";"Zeilennummer";"Objektart";"Attribut/-gruppe";"Bereich";"Zustand";"Meldung"
+			"Lfd. Nr.";"Schweregrad";"Problemart";"Zeilennummer";"Objektart";"Objekbezeichnung";"Attribut/-gruppe";"Bereich";"Zustand";"Meldung"
 			""";
 
 	private final Messages messages;
@@ -95,7 +96,7 @@ public class PlazModelTableView extends AbstractTreeLayerTable {
 		tableMenuService.addMenuItem(createJumpToTextViewMenuItem(part));
 		tableMenuService.addMenuItem(createJumpToSiteplanMenuItem());
 		natTable = createTable(parent, table);
-
+		GridDataFactory.fillDefaults().grab(true, true).applyTo(natTable);
 		return natTable;
 	}
 

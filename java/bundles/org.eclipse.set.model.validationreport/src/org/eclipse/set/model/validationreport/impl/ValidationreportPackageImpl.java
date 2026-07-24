@@ -375,7 +375,7 @@ public class ValidationreportPackageImpl extends EPackageImpl
 	 * @generated
 	 */
 	@Override
-	public EAttribute getValidationProblem_AttributeName() {
+	public EAttribute getValidationProblem_ObjectDesignation() {
 		return (EAttribute) validationProblemEClass.getEStructuralFeatures()
 				.get(7);
 	}
@@ -386,7 +386,7 @@ public class ValidationreportPackageImpl extends EPackageImpl
 	 * @generated
 	 */
 	@Override
-	public EAttribute getValidationProblem_ObjectScope() {
+	public EAttribute getValidationProblem_AttributeName() {
 		return (EAttribute) validationProblemEClass.getEStructuralFeatures()
 				.get(8);
 	}
@@ -397,7 +397,7 @@ public class ValidationreportPackageImpl extends EPackageImpl
 	 * @generated
 	 */
 	@Override
-	public EAttribute getValidationProblem_ObjectState() {
+	public EAttribute getValidationProblem_ObjectScope() {
 		return (EAttribute) validationProblemEClass.getEStructuralFeatures()
 				.get(9);
 	}
@@ -408,9 +408,20 @@ public class ValidationreportPackageImpl extends EPackageImpl
 	 * @generated
 	 */
 	@Override
-	public EAttribute getValidationProblem_GeneralMsg() {
+	public EAttribute getValidationProblem_ObjectState() {
 		return (EAttribute) validationProblemEClass.getEStructuralFeatures()
 				.get(10);
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
+	public EAttribute getValidationProblem_GeneralMsg() {
+		return (EAttribute) validationProblemEClass.getEStructuralFeatures()
+				.get(11);
 	}
 
 	/**
@@ -612,6 +623,8 @@ public class ValidationreportPackageImpl extends EPackageImpl
 		createEAttribute(validationProblemEClass,
 				VALIDATION_PROBLEM__OBJECT_ART);
 		createEAttribute(validationProblemEClass,
+				VALIDATION_PROBLEM__OBJECT_DESIGNATION);
+		createEAttribute(validationProblemEClass,
 				VALIDATION_PROBLEM__ATTRIBUTE_NAME);
 		createEAttribute(validationProblemEClass,
 				VALIDATION_PROBLEM__OBJECT_SCOPE);
@@ -756,6 +769,11 @@ public class ValidationreportPackageImpl extends EPackageImpl
 				IS_ORDERED);
 		initEAttribute(getValidationProblem_ObjectArt(),
 				ecorePackage.getEString(), "objectArt", null, 0, 1,
+				ValidationProblem.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED,
+				IS_ORDERED);
+		initEAttribute(getValidationProblem_ObjectDesignation(),
+				ecorePackage.getEString(), "objectDesignation", null, 0, 1,
 				ValidationProblem.class, !IS_TRANSIENT, !IS_VOLATILE,
 				IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED,
 				IS_ORDERED);

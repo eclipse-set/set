@@ -25,6 +25,7 @@ import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element
 import static extension org.eclipse.set.ppmodel.extensions.AussenelementansteuerungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FstrFahrwegExtensions.getFstrDweg
+import org.eclipse.set.model.planpro.Signale.ENUMSignalFunktion
 
 /**
  * Extensions for {@link PZB_Element}.
@@ -96,6 +97,30 @@ class PZBElementExtensions extends BasisObjektExtensions {
 
 	def static Iterable<Stellelement> getStellelements(PZB_Element pzb) {
 		return pzb?.PZBElementBezugspunkt?.map[stellelement]
+	}
+
+	def static Iterable<String> getBezugsElementBezeichnungen(PZB_Element pzb) {
+		return pzb?.PZBElementBezugspunkt.filterNull.map [
+			getBezugElementBezeichnung
+		]
+	}
+
+	static dispatch def String getBezugElementBezeichnung(
+		Basis_Objekt object) {
+		throw new IllegalArgumentException(object.class.simpleName)
+	}
+
+	static dispatch def String getBezugElementBezeichnung(
+		W_Kr_Gsp_Element object) {
+		return object?.bezeichnung?.bezeichnungTabelle?.wert
+	}
+
+	static dispatch def String getBezugElementBezeichnung(
+		Signal object) {
+		return object?.signalReal?.signalFunktion?.wert ===
+			ENUMSignalFunktion.ENUM_SIGNAL_FUNKTION_BUE_UEBERWACHUNGSSIGNAL
+			? '''BÜ-K «object?.bezeichnung?.bezeichnungTabelle?.wert»''' : object?.
+			bezeichnung?.bezeichnungTabelle?.wert
 	}
 
 	private def static dispatch Stellelement getStellelement(

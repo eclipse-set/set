@@ -68,6 +68,7 @@ public class ValidationProblemItemProvider extends ItemProviderAdapter
 			addLineNumberPropertyDescriptor(object);
 			addMessagePropertyDescriptor(object);
 			addObjectArtPropertyDescriptor(object);
+			addObjectDesignationPropertyDescriptor(object);
 			addAttributeNamePropertyDescriptor(object);
 			addObjectScopePropertyDescriptor(object);
 			addObjectStatePropertyDescriptor(object);
@@ -217,6 +218,26 @@ public class ValidationProblemItemProvider extends ItemProviderAdapter
 	}
 
 	/**
+	 * This adds a property descriptor for the Object Designation feature. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	protected void addObjectDesignationPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add(createItemPropertyDescriptor(
+				((ComposeableAdapterFactory) adapterFactory)
+						.getRootAdapterFactory(),
+				getResourceLocator(),
+				getString("_UI_ValidationProblem_objectDesignation_feature"),
+				getString("_UI_PropertyDescriptor_description",
+						"_UI_ValidationProblem_objectDesignation_feature",
+						"_UI_ValidationProblem_type"),
+				ValidationreportPackage.Literals.VALIDATION_PROBLEM__OBJECT_DESIGNATION,
+				true, false, false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				null, null));
+	}
+
+	/**
 	 * This adds a property descriptor for the Attribute Name feature. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
@@ -341,6 +362,7 @@ public class ValidationProblemItemProvider extends ItemProviderAdapter
 			case ValidationreportPackage.VALIDATION_PROBLEM__LINE_NUMBER:
 			case ValidationreportPackage.VALIDATION_PROBLEM__MESSAGE:
 			case ValidationreportPackage.VALIDATION_PROBLEM__OBJECT_ART:
+			case ValidationreportPackage.VALIDATION_PROBLEM__OBJECT_DESIGNATION:
 			case ValidationreportPackage.VALIDATION_PROBLEM__ATTRIBUTE_NAME:
 			case ValidationreportPackage.VALIDATION_PROBLEM__OBJECT_SCOPE:
 			case ValidationreportPackage.VALIDATION_PROBLEM__OBJECT_STATE:

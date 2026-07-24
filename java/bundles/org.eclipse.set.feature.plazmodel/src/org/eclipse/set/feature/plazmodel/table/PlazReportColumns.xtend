@@ -29,6 +29,7 @@ class PlazReportColumns extends AbstractColumns {
 	public final ColumnDescriptor ObjectScope;
 	public final ColumnDescriptor ObjectState;
 	public final ColumnDescriptor Message;
+	public final ColumnDescriptor ObjectDesignation;
 
 	/** 
 	 * @param messages the messages
@@ -40,6 +41,7 @@ class PlazReportColumns extends AbstractColumns {
 		ProblemType = createNew(messages.PlazReportColumns_ProblemType)
 		LineNumber = createNew(messages.PlazReportColumns_LineNumber)
 		ObjectType = createNew(messages.PlazReportColumns_ObjectType)
+		ObjectDesignation = createNew(messages.PlazReportColumns_ObjectDesignation)
 		AttributeGroup = createNew(messages.PlazReportColumns_AttributeGroup)
 		ObjectScope = createNew(messages.PlazReportColumns_ObjectScope)
 		ObjectState = createNew(messages.PlazReportColumns_ObjectState)
@@ -51,13 +53,14 @@ class PlazReportColumns extends AbstractColumns {
 		val GroupBuilder root = builder.createRootColumn()
 		root.add(RowIndex).width(1.25f)
 		root.add(Severity).width(2.1f)
-		root.add(ProblemType).width(3.5f)
-		root.add(LineNumber).width(2.2f)
-		root.add(ObjectType).width(3)
-		root.add(AttributeGroup).width(3)
+		root.add(ProblemType).width(2.5f)
+		root.add(LineNumber).width(1.7f)
+		root.add(ObjectType).width(2)
+		root.add(ObjectDesignation).width(4)
+		root.add(AttributeGroup).width(3.5f)
 		root.add(ObjectScope).width(2)
 		root.add(ObjectState).width(1.5f)
-		root.add(Message).width(8.5f)
+		root.add(Message).width(6.5f)
 		return root.getGroupRoot()
 	}
 }
