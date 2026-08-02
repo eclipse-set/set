@@ -95,7 +95,7 @@ public class UnicodeCharactersValid implements PlazCheck {
 		plazError.setSeverity(ValidationSeverity.ERROR);
 		plazError.setObject(obj);
 		plazError.setMessage(String
-				.format("Der Wert: %s enthält ungültig sonderzeichen", value)); //$NON-NLS-1$
+				.format("Der Wert: %s enthält ungültige Sonderzeichen", value)); //$NON-NLS-1$
 		return plazError;
 	}
 
