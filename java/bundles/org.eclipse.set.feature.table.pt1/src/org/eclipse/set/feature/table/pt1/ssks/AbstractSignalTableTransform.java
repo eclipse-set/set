@@ -424,12 +424,13 @@ public abstract class AbstractSignalTableTransform
 				.flatMap(r -> {
 					final List<Signal_Befestigung> result = new ArrayList<>();
 
-					final List<Signal_Befestigung> befestigungUtilFundament = SignalRahmenExtensions
-							.getBefestigungUntilFundament(r);
-					result.addAll(befestigungUtilFundament);
 					final Signal_Befestigung signalBefestigung = SignalRahmenExtensions
 							.getSignalBefestigung(r);
 					result.add(signalBefestigung);
+					
+					final List<Signal_Befestigung> befestigungUtilFundament = SignalRahmenExtensions
+							.getBefestigungUntilFundament(r);
+					result.addAll(befestigungUtilFundament);
 					return result.stream();
 				})
 				.flatMap(befesitung -> {
