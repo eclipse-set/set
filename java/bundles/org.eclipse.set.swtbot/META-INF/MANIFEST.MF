@@ -52,5 +52,7 @@ Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .,
  test_res/table_reference/,
  test_res/test_file/,
+ test_res/test_font/
  test_res/
-Service-Component: OSGI-INF/org.eclipse.set.swtbot.utils.MockDialogServiceContextFunction.xml
+Service-Component: OSGI-INF/org.eclipse.set.swtbot.utils.MockDialogServiceContextFunction.xml,
+ OSGI-INF/org.eclipse.set.swtbot.utils.MockFontService.xml
