@@ -427,7 +427,7 @@ public abstract class AbstractSignalTableTransform
 					final Signal_Befestigung signalBefestigung = SignalRahmenExtensions
 							.getSignalBefestigung(r);
 					result.add(signalBefestigung);
-					
+
 					final List<Signal_Befestigung> befestigungUtilFundament = SignalRahmenExtensions
 							.getBefestigungUntilFundament(r);
 					result.addAll(befestigungUtilFundament);
