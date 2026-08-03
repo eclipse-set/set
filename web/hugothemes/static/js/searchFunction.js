@@ -3,8 +3,8 @@ let currentIndex = -1
 
 document.addEventListener("keydown", (ev) => {
     if (ev.ctrlKey && ev.key === "f") {
-        if (document.getElementById("searchFeld") !== null) {
-            close()
+        if (document.getElementById("searchInput") !== null) {
+            document.getElementById("searchInput").focus()
         } else {
             document.body.appendChild(createSearchFeld())
             document.getElementById("searchInput").focus()
