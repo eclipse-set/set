@@ -10,6 +10,8 @@
  */
 package org.eclipse.set.services.table;
 
+import java.util.Optional;
+
 /**
  * The status of the Pt1 table by each table state/control area
  * 
@@ -19,7 +21,7 @@ public class TableStatus {
 	private boolean containsErrors;
 	private boolean containsStateChanged;
 	private boolean containsPlanChanged;
-	private boolean nonTransformable;
+	private Optional<String> errorMessages;
 	private boolean isEmpty;
 
 	/**
@@ -36,7 +38,7 @@ public class TableStatus {
 		containsErrors = false;
 		containsPlanChanged = false;
 		containsStateChanged = false;
-		nonTransformable = false;
+		errorMessages = Optional.empty();
 		isEmpty = false;
 	}
 
@@ -89,15 +91,15 @@ public class TableStatus {
 	 * @return true, if table non transformable
 	 */
 	public boolean isNonTransformable() {
-		return nonTransformable;
+		return errorMessages.isPresent();
 	}
 
 	/**
-	 * @param nonTransformable
-	 *            true, if table non transformable
+	 * @param errorMessages
+	 *            the error messages by table transformation
 	 */
-	public void setNonTransformable(final boolean nonTransformable) {
-		this.nonTransformable = nonTransformable;
+	public void setErrorMessages(final String errorMessages) {
+		this.errorMessages = Optional.ofNullable(errorMessages);
 	}
 
 	/**
