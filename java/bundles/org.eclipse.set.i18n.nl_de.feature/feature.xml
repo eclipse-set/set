@@ -338,10 +338,6 @@
          version="0.0.0"/>
 
    <plugin
-         id="org.eclipse.ui.win32.nl_de"
-         version="0.0.0"/>
-
-   <plugin
          id="org.eclipse.ui.workbench.nl_de"
          version="0.0.0"/>
 
@@ -375,6 +371,10 @@
 
    <plugin
          id="org.eclipse.core.filesystem.win32.x86_64.nl_de"
+         version="0.0.0"/>
+
+   <plugin
+         id="org.eclipse.ui.win32.nl_de"
          version="0.0.0"/>
 
 </feature>
