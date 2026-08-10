@@ -40,9 +40,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.osgi.framework.Bundle;
-import org.osgi.framework.BundleContext;
-import org.osgi.framework.ServiceReference;
 import org.osgi.service.event.EventAdmin;
 import org.osgi.test.common.annotation.InjectService;
 import org.osgi.test.junit5.service.ServiceExtension;
@@ -89,9 +86,6 @@ class Pt1TableTransformationTest extends Pt1TableTest {
 	}
 
 	@InjectService
-	BundleContext context;
-
-	@InjectService
 	EventAdmin eventAdmin;
 
 	@InjectService
@@ -104,12 +98,6 @@ class Pt1TableTransformationTest extends Pt1TableTest {
 	void testPDFExportStyle() throws Exception {
 		givenPlanProFile(PPHN_1_10_0_3_20220517_PLANPRO);
 		setupTransformationService(eventAdmin);
-		for (final Bundle b : context.getBundles()) {
-			System.out.println(b.getSymbolicName() + " -> " + b.getState());
-		}
-		final ServiceReference<?>[] refs = context.getServiceReferences((String) null,
-				null);
-		System.out.println("Registered services: " + refs.length);
 		System.out
 				.println("pdfExportStylteTest: Injected TransformationService");
 		transformationServices.stream()
