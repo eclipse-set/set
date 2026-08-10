@@ -73,6 +73,25 @@ public class UserConfigurationServiceImpl implements UserConfigurationService {
 		@JsonAnyGetter
 		@JsonAnySetter
 		private final Map<String, Object> extraValues = new LinkedHashMap<>();
+
+		private void cleanOldPaths() {
+			if (lastOpenFiles != null) {
+				lastOpenFiles.removeIf(p -> !p.toFile().exists());
+			}
+			if (lastOpenCompareFiles != null) {
+				lastOpenCompareFiles.removeIf(p -> !p.toFile().exists());
+			}
+
+			if (lastFileOpenPath != null
+					&& !lastFileOpenPath.toFile().exists()) {
+				lastFileOpenPath = null;
+			}
+
+			if (lastFileExportPath != null
+					&& !lastFileExportPath.toFile().exists()) {
+				lastFileExportPath = null;
+			}
+		}
 	}
 
 	protected final ObjectMapper mapper = new ObjectMapper();
@@ -113,17 +132,7 @@ public class UserConfigurationServiceImpl implements UserConfigurationService {
 						/* */});
 			configuration = (UserConfiguration) objectReader
 					.readValue(configurationFile);
- 			if (configuration.lastOpenFiles != null
-					&& !configuration.lastOpenFiles.isEmpty()) {
-				configuration.lastOpenFiles.removeIf(p -> !p.toFile().exists());
-			}
-
-			if (configuration.lastOpenCompareFiles != null
-					&& !configuration.lastOpenCompareFiles.isEmpty()) {
-				configuration.lastOpenCompareFiles
-						.removeIf(p -> !p.toFile().exists());
-			}
-
+			configuration.cleanOldPaths();
 			saveConfiguration();
 		} catch (final IOException e) {
 			// If the configuration isn't valid, create a new one

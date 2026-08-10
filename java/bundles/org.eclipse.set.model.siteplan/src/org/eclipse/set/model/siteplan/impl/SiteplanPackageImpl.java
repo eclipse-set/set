@@ -1380,6 +1380,16 @@ public class SiteplanPackageImpl extends EPackageImpl
 	 * @generated
 	 */
 	@Override
+	public EReference getTrack_StartCoordinate() {
+		return (EReference) trackEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
 	public EClass getTrackSection() {
 		return trackSectionEClass;
 	}
@@ -2609,6 +2619,7 @@ public class SiteplanPackageImpl extends EPackageImpl
 		trackEClass = createEClass(TRACK);
 		createEReference(trackEClass, TRACK__SECTIONS);
 		createEReference(trackEClass, TRACK__DESIGNATIONS);
+		createEReference(trackEClass, TRACK__START_COORDINATE);
 
 		trackSectionEClass = createEClass(TRACK_SECTION);
 		createEAttribute(trackSectionEClass, TRACK_SECTION__SHAPE);
@@ -3140,6 +3151,10 @@ public class SiteplanPackageImpl extends EPackageImpl
 				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getTrack_Designations(), this.getTrackDesignation(),
 				null, "designations", null, 0, -1, Track.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getTrack_StartCoordinate(), this.getCoordinate(), null,
+				"startCoordinate", null, 0, 1, Track.class, !IS_TRANSIENT,
 				!IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
 				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 

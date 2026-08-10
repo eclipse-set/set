@@ -9,15 +9,14 @@
 package org.eclipse.set.ppmodel.extensions
 
 import com.google.common.collect.Sets
+import java.util.Iterator
+import java.util.NoSuchElementException
+import java.util.Set
 import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
 import org.eclipse.set.model.planpro.Signale.Signal
 import org.eclipse.set.model.planpro.Signale.Signal_Befestigung
 import org.eclipse.set.model.planpro.Signale.Signal_Rahmen
 import org.eclipse.set.model.planpro.Signale.Signal_Signalbegriff
-import java.util.Iterator
-import java.util.List
-import java.util.NoSuchElementException
-import java.util.Set
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -25,6 +24,7 @@ import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.*
 
 import static extension org.eclipse.set.ppmodel.extensions.SignalBefestigungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalbegriffExtensions.*
+import java.util.List
 
 /**
  * This class extends {@link Signal_Rahmen}.
@@ -98,12 +98,12 @@ class SignalRahmenExtensions extends BasisObjektExtensions {
 	 * 
 	 * @returns list of Signalbegriffe
 	 */
-	def static List<Signal_Signalbegriff> getSignalbegriffe(
+	def static Iterable<Signal_Signalbegriff> getSignalbegriffe(
 		Signal_Rahmen signalRahmen
 	) {
 		return signalRahmen.container.signalSignalbegriff.filter [ b |
-			b.signalRahmen == signalRahmen
-		].toList
+			b.signalRahmen === signalRahmen
+		]
 	}
 
 	/**
@@ -157,5 +157,19 @@ class SignalRahmenExtensions extends BasisObjektExtensions {
 	def static Iterator<Signal_Befestigung> getSignalBefestigungIterator(
 		Signal_Rahmen signalRahmen) {
 		return new SignalBefestigungIterator(signalRahmen)
+	}
+	
+	/**
+	 * @param signalRahmen this Signalrahmen
+	 * 
+	 * @returns chain of Signalbefestigungen until the fundament. The chain is excluding the fundament.
+	 */
+	def static List<Signal_Befestigung> getBefestigungUntilFundament(Signal_Rahmen signalRahmen) {
+		val befestigungen = signalRahmen?.signalBefestigungIterator?.takeWhile[
+			signalBefestigungAllg?.befestigungArt?.wert !=
+				ENUM_BEFESTIGUNG_ART_FUNDAMENT
+		].toList
+		return befestigungen;
+		
 	}
 }

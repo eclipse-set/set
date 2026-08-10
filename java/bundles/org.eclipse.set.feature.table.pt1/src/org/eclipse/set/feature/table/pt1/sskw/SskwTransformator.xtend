@@ -18,7 +18,6 @@ import org.eclipse.set.basis.constants.ToolboxConstants
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.core.services.session.SessionService
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
-import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.BasisTypen.ENUMLinksRechts
 import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung
 import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
@@ -56,10 +55,10 @@ import static extension org.eclipse.set.ppmodel.extensions.GleisAbschnittExtensi
 import static extension org.eclipse.set.ppmodel.extensions.MultiContainer_AttributeGroupExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalbegriffExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspElementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspKomponenteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.ENUMWKrGspStellart
 
 /**
  * Table transformation for a Weichentabelle (SSKW).
@@ -102,10 +101,15 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
-		TMFactory factory, Stell_Bereich controlArea) {
+		TMFactory factory) {
 		xmlFinder = createEObjetXMLFinder(container)
-		val weichen = container.WKrGspElement.filter[isPlanningObject].
-			filterObjectsInControlArea(controlArea)
+		val weichen = container.WKrGspElement.filter [
+			val stellArt = WKrGspElementAllg?.WKrGspStellart?.wert
+			return stellArt !==
+				ENUMWKrGspStellart.ENUMW_KR_GSP_STELLART_STILLGELEGT_LINKS &&
+				stellArt !==
+					ENUMWKrGspStellart.ENUMW_KR_GSP_STELLART_STILLGELEGT_RECHTS
+		]
 
 		for (element : weichen) {
 			if (Thread.currentThread.interrupted) {
@@ -650,12 +654,19 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 			)
 
 			// W: Sskw.Sonstiges.Regelzeichnung_Nr
-			fillIterable(
+			fill(
 				instance,
 				cols.getColumn(Sonstiges_Regelzeichnung_Nr),
 				element,
-				[element.regelzeichnungen.map[fillRegelzeichnung]],
-				null
+				[
+					val regelZeichnung = element.regelzeichnungen.map [
+						fillRegelzeichnung
+					]
+					val anhangDWS = WKrAnlage?.IDAnhangDWS?.value?.anhangAllg?.
+						dateiname?.wert
+					return '''«regelZeichnung.join(ITERABLE_FILLING_SEPARATOR)»«
+						»«IF anhangDWS !== null»«ITERABLE_FILLING_SEPARATOR»«anhangDWS»«ENDIF»'''
+				]
 			)
 
 			// X: Sskw.Sonstiges.DWs
@@ -665,7 +676,7 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 				element,
 				[IDWKrAnlage === null],
 				[""],
-				[(WKrAnlage.IDAnhangDWS !== null).translate]
+				[(WKrAnlage.IDAnhangDWS?.value !== null).translate]
 			)
 
 			// Y: Sskw.Sonderanlage.Art

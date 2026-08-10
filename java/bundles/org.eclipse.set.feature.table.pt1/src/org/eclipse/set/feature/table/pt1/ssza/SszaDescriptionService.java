@@ -34,4 +34,9 @@ public class SszaDescriptionService extends AbstractETCSTableDescription {
 	protected String getToolboxViewTooltip() {
 		return messages.SszaDescriptionService_ViewTooltip;
 	}
+
+	@Override
+	protected String getTableShortcut() {
+		return messages.ToolboxTableNameSszaShort;
+	}
 }

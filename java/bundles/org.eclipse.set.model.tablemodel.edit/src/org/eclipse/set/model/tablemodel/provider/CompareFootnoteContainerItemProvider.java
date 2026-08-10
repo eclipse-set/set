@@ -19,10 +19,8 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
-
-import org.eclipse.set.model.planpro.Basisobjekte.BasisobjekteFactory;
-
 import org.eclipse.set.model.tablemodel.CompareFootnoteContainer;
+import org.eclipse.set.model.tablemodel.TablemodelFactory;
 import org.eclipse.set.model.tablemodel.TablemodelPackage;
 
 /**
@@ -180,11 +178,11 @@ public class CompareFootnoteContainerItemProvider
 
 		newChildDescriptors.add(createChildParameter(
 				TablemodelPackage.Literals.COMPARE_FOOTNOTE_CONTAINER__OLD_FOOTNOTES,
-				BasisobjekteFactory.eINSTANCE.createBearbeitungsvermerk()));
+				TablemodelFactory.eINSTANCE.createSimpleFootnoteContainer()));
 
 		newChildDescriptors.add(createChildParameter(
 				TablemodelPackage.Literals.COMPARE_FOOTNOTE_CONTAINER__NEW_FOOTNOTES,
-				BasisobjekteFactory.eINSTANCE.createBearbeitungsvermerk()));
+				TablemodelFactory.eINSTANCE.createSimpleFootnoteContainer()));
 	}
 
 	/**

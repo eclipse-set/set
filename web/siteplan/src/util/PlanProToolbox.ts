@@ -67,6 +67,7 @@ export default abstract class PlanProToolbox {
   }
 
   static jumpToTextView (guid: string): void {
+    console.log('Jump to text view called for guid:', guid)
     if (!this.inPPT()) {
       console.warn('PlanProToolbox.jumpToTextView called outside PPT')
       return

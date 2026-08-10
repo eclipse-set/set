@@ -429,7 +429,7 @@ public class ValidationreportPackageImpl extends EPackageImpl
 	 * @generated
 	 */
 	@Override
-	public EAttribute getVersionInfo_PlanPro() {
+	public EAttribute getVersionInfo_PlanProVersions() {
 		return (EAttribute) versionInfoEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -439,7 +439,7 @@ public class ValidationreportPackageImpl extends EPackageImpl
 	 * @generated
 	 */
 	@Override
-	public EAttribute getVersionInfo_Signals() {
+	public EAttribute getVersionInfo_SignalbegriffeVersions() {
 		return (EAttribute) versionInfoEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -621,8 +621,9 @@ public class ValidationreportPackageImpl extends EPackageImpl
 				VALIDATION_PROBLEM__GENERAL_MSG);
 
 		versionInfoEClass = createEClass(VERSION_INFO);
-		createEAttribute(versionInfoEClass, VERSION_INFO__PLAN_PRO);
-		createEAttribute(versionInfoEClass, VERSION_INFO__SIGNALS);
+		createEAttribute(versionInfoEClass, VERSION_INFO__PLAN_PRO_VERSIONS);
+		createEAttribute(versionInfoEClass,
+				VERSION_INFO__SIGNALBEGRIFFE_VERSIONS);
 
 		fileInfoEClass = createEClass(FILE_INFO);
 		createEAttribute(fileInfoEClass, FILE_INFO__FILE_NAME);
@@ -781,14 +782,15 @@ public class ValidationreportPackageImpl extends EPackageImpl
 
 		initEClass(versionInfoEClass, VersionInfo.class, "VersionInfo",
 				!IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getVersionInfo_PlanPro(), ecorePackage.getEString(),
-				"planPro", null, 0, 1, VersionInfo.class, !IS_TRANSIENT,
-				!IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
-				!IS_DERIVED, IS_ORDERED);
-		initEAttribute(getVersionInfo_Signals(), ecorePackage.getEString(),
-				"signals", null, 0, 1, VersionInfo.class, !IS_TRANSIENT,
-				!IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
-				!IS_DERIVED, IS_ORDERED);
+		initEAttribute(getVersionInfo_PlanProVersions(),
+				ecorePackage.getEString(), "planProVersions", null, 0, -1,
+				VersionInfo.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
+				!IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getVersionInfo_SignalbegriffeVersions(),
+				ecorePackage.getEString(), "signalbegriffeVersions", null, 0,
+				-1, VersionInfo.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED,
+				IS_ORDERED);
 
 		initEClass(fileInfoEClass, FileInfo.class, "FileInfo", !IS_ABSTRACT,
 				!IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);

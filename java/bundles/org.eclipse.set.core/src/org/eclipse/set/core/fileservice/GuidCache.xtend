@@ -12,11 +12,10 @@ import java.util.HashMap
 import java.util.Map
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt
+import org.eclipse.set.model.planpro.Layoutinformationen.PlanPro_Layoutinfo
 import org.eclipse.set.model.planpro.PlanPro.Ausgabe_Fachdaten
 import org.eclipse.set.model.planpro.PlanPro.Container_AttributeGroup
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle
-import org.eclipse.set.core.fileservice.GuidCache.ContainerType
-import org.eclipse.set.model.planpro.Layoutinformationen.PlanPro_Layoutinfo
 
 /**
  * Guid to Object cache for faster lookups

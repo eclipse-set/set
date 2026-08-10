@@ -9,19 +9,24 @@
 package org.eclipse.set.services.table;
 
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.basis.part.PartDescription;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
+import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.model.tablemodel.Table;
-import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
+import org.eclipse.set.model.tablemodel.TableRow;
 import org.eclipse.set.utils.BasePart;
+import org.eclipse.set.utils.table.Pt1TableChangeProperties;
 import org.eclipse.set.utils.table.TableError;
 import org.eclipse.set.utils.table.TableInfo;
 import org.eclipse.set.utils.table.TableInfo.Pt1TableCategory;
@@ -32,6 +37,20 @@ import org.eclipse.set.utils.table.TableInfo.Pt1TableCategory;
  * @author rumpf
  */
 public interface TableService {
+
+	/**
+	 * Helper class for transform and reload table
+	 * 
+	 * @param transformTableAction
+	 *            create table from PlanPro model data
+	 * @param updateTableUIAction
+	 *            update table ui
+	 */
+	public static record TableRendererUtil(Supplier<Table> transformTableAction,
+			Consumer<Table> updateTableUIAction) {
+
+	}
+
 	/**
 	 * Extract the shortcut from an configuration element.
 	 * 
@@ -53,14 +72,6 @@ public interface TableService {
 	String extractShortcut(String elementId);
 
 	/**
-	 * @param shortcut
-	 *            the shortcut
-	 * 
-	 * @return the name info
-	 */
-	TableNameInfo getTableNameInfo(String shortcut);
-
-	/**
 	 * Gets information about all available tables.
 	 * 
 	 * @return the table information
@@ -79,15 +90,21 @@ public interface TableService {
 	 * 
 	 * @return collected table errors
 	 */
-	Map<String, Collection<TableError>> getTableErrors(
+	Map<TableInfo, Collection<TableError>> getTableErrors(
 			IModelSession modelSession, Set<String> controlAreaIds,
 			Pt1TableCategory tableCategory);
 
 	/**
+	 * @param tableCategory
+	 * @return the tables, which throw Exception during transformation
+	 */
+	Map<TableInfo, TableStatus> getTablesStatus(Pt1TableCategory tableCategory);
+
+	/**
 	 * Transform the selected container to a string with CSV format.
 	 * 
-	 * @param elementId
-	 *            the elementId
+	 * @param tableInfo
+	 *            the tableInfo
 	 * @param tableType
 	 *            the table type
 	 * @param modelSession
@@ -97,33 +114,34 @@ public interface TableService {
 	 *            container type
 	 * @return the table
 	 */
-	String transformToCsv(final String elementId, TableType tableType,
+	String transformToCsv(final TableInfo tableInfo, TableType tableType,
 			final IModelSession modelSession, Set<String> controlAreaIds);
 
 	/**
 	 * Transform the selected container and control area to a table model.
 	 * 
-	 * @param elementId
-	 *            the elementId
+	 * @param tableInfo
+	 *            the {@link TableInfo}
 	 * @param tableType
 	 *            the table type
 	 * @param modelSession
 	 *            the model session
 	 * @param controlAreaIds
 	 *            the list of {@link Stell_Bereich} and the belonging container
+	 * @param tableStatus
+	 *            the table status to update when transforming the table
 	 * 
 	 * @return the table
 	 */
-	Table transformToTable(final String elementId, TableType tableType,
-			final IModelSession modelSession, Set<String> controlAreaIds);
+	Table transformToTable(final TableInfo tableInfo, TableType tableType,
+			final IModelSession modelSession, Set<String> controlAreaIds,
+			final TableStatus tableStatus);
 
 	/**
 	 * Transform the selected container and control area to tables model.
 	 * 
 	 * @param monitor
 	 *            the {@link IProgressMonitor}
-	 * @param modelSession
-	 *            the {@link IModelSession}
 	 * @param tablesToTransfrom
 	 *            the list of tables need transform
 	 * @param tableType
@@ -133,8 +151,8 @@ public interface TableService {
 	 * @return the tables
 	 */
 	Map<TableInfo, Table> transformTables(IProgressMonitor monitor,
-			IModelSession modelSession, Set<TableInfo> tablesToTransfrom,
-			TableType tableType, Set<String> controlAreaIds);
+			Set<TableInfo> tablesToTransfrom, TableType tableType,
+			Set<String> controlAreaIds);
 
 	/**
 	 * @param part
@@ -142,33 +160,40 @@ public interface TableService {
 	 * @param tableCategories
 	 *            the list of table category. when the list is empty, then
 	 *            update all table
-	 * @param updateTableHandler
-	 *            the update table handler
-	 * @param clearInstance
-	 *            the clear table instance handler
+	 * @param rendereUtil
+	 *            the {@link TableRendererUtil}
 	 */
 	void updateTable(BasePart part, List<Pt1TableCategory> tableCategories,
-			Runnable updateTableHandler, Runnable clearInstance);
+			TableRendererUtil rendereUtil);
 
 	/**
 	 * Get fixed columns
 	 * 
-	 * @param elementID
+	 * @param tableInfo
+	 *            {@link TableInfo}
 	 * @return position of fixed columns
 	 */
-	Set<Integer> getFixedColumns(final String elementID);
+	Set<Integer> getFixedColumns(final TableInfo tableInfo);
+
+	/**
+	 * 
+	 * @param tableInfo
+	 *            {@link TableInfo}
+	 * @return whether filtering should be enabled for the table or not
+	 */
+	boolean enableFiltering(final TableInfo tableInfo);
 
 	/**
 	 * Check the running threads, if exists thread name start with table short
 	 * cut
 	 * 
-	 * @param shortcut
-	 *            the table shortcut
+	 * @param tableInfo
+	 *            the {@link TableInfo}
 	 * @param supplementCondition
 	 *            the additional condition for thread name
 	 * @return true if the table completely transform
 	 */
-	public static boolean isTransformComplete(final String shortcut,
+	public static boolean isTransformComplete(final TableInfo tableInfo,
 			final Predicate<String> supplementCondition) {
 		return Thread.getAllStackTraces()
 				.keySet()
@@ -176,30 +201,73 @@ public interface TableService {
 				.map(t -> t.getName().toLowerCase())
 				.filter(t -> supplementCondition == null
 						|| supplementCondition.test(t))
-				.noneMatch(name -> name.startsWith(shortcut.toLowerCase()));
+				.noneMatch(name -> name
+						.startsWith(tableInfo.shortcut().toLowerCase()));
 	}
 
 	/**
 	 * Compare table between two project
 	 * 
-	 * @param elementId
-	 *            the element id
+	 * @param tableInfo
+	 *            the {@link TableInfo}
 	 * @param tableType
 	 *            the table type
 	 * @param controlAreaIds
 	 *            the list of {@link Stell_Bereich} and the belonging container
+	 * @param updateTableStatus
+	 *            whether to update the table status or not
 	 * @return the compare table
 	 */
-	Table createDiffTable(String elementId, TableType tableType,
-			Set<String> controlAreaIds);
+	Table createDiffTable(TableInfo tableInfo, TableType tableType,
+			Set<String> controlAreaIds, boolean updateTableStatus);
 
 	/**
 	 * Sort the table after transformation.
 	 * 
 	 * @param table
 	 *            the table
+	 * @param tableInfo
+	 *            the {@link TableInfo}
+	 * @param tableType
+	 *            the table type for which the table shall be sorted
+	 */
+	void sortTable(Table table, TableInfo tableInfo, final TableType tableType);
+
+	/**
+	 * @param tableInfo
+	 *            the {@link TableInfo}
+	 * @param tableType
+	 *            the table type for which the comparator is requested
+	 * @return the row group comparator
+	 */
+	Comparator<RowGroup> getRowGroupComparator(TableInfo tableInfo,
+			final TableType tableType);
+
+	/**
+	 * @param part
+	 *            the toolbox part
+	 * @return the {@link TableInfo} belong to the part
+	 */
+	TableInfo getTableInfo(BasePart part);
+
+	/**
 	 * @param shortcut
 	 *            the table shortcut
+	 * @return the {@link TableInfo}
 	 */
-	void sortTable(Table table, String shortcut);
+	TableInfo getTableInfo(String shortcut);
+
+	/**
+	 * Fill table cell after table complete renderer
+	 * 
+	 * @param tableRow
+	 *            the row with delay cells
+	 * @param changedDatas
+	 *            the {@link Pt1TableChangeProperties}
+	 * @param tableType
+	 *            the table type
+	 */
+	void fillDelayCells(List<TableRow> tableRow,
+			List<Pt1TableChangeProperties> changedDatas, TableType tableType);
+
 }

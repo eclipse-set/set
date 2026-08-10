@@ -38,15 +38,13 @@ public interface CacheService {
 	 *            the {@link PlanPro_Schnittstelle}
 	 * @param cacheId
 	 *            the id for the cache
-	 * @param containerCacheId
-	 *            the id for the container to consider
 	 * @return the container cache
 	 * 
 	 * @throws IllegalArgumentException
 	 *             if no cache for the given id is found
 	 */
-	public Cache getCache(PlanPro_Schnittstelle schnittstelle, String cacheId,
-			String containerCacheId) throws IllegalArgumentException;
+	public Cache getCache(PlanPro_Schnittstelle schnittstelle,
+			String... cacheId) throws IllegalArgumentException;
 
 	/**
 	 * check if already storage cache
@@ -80,15 +78,13 @@ public interface CacheService {
 	 *            {@link ToolboxFileRole}
 	 * @param cacheId
 	 *            the id for the cache
-	 * @param containerCacheId
-	 *            the id for the container to consider
 	 * @return the container cache
 	 * 
 	 * @throws IllegalArgumentException
 	 *             if no cache for the given id is found
 	 */
-	public Cache getCache(ToolboxFileRole role, String cacheId,
-			String containerCacheId) throws IllegalArgumentException;
+	public Cache getCache(ToolboxFileRole role, String... cacheId)
+			throws IllegalArgumentException;
 
 	/**
 	 * check if already storage cache

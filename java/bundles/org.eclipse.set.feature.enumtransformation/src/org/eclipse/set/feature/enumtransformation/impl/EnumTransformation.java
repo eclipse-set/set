@@ -52,7 +52,7 @@ public class EnumTransformation {
 		final TranslationCode translationCode = new TranslationCode();
 		translations.keySet()
 				.stream()
-				.sorted((a, b) -> a.compareToIgnoreCase(b))
+				.sorted(String::compareToIgnoreCase)
 				.forEach(key -> translationCode.add(translations.get(key)));
 		return translationCode;
 	}
@@ -125,7 +125,7 @@ public class EnumTransformation {
 	static String transformToAlternative(final HSSFRow row) {
 		final String alternative = transform(
 				row.getCell(COLUMN_ALTERNATIVE_VALUE));
-		if (alternative != null) {
+		if (alternative != null && !alternative.isBlank()) {
 			return alternative;
 		}
 		return transformToPresentation(row);

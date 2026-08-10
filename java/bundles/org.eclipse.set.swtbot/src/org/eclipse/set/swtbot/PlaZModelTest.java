@@ -28,7 +28,7 @@ public class PlaZModelTest extends AbstractTableTest {
 	private static final String RICHTEXT_REPLACE_REGEX = "<[^>]+>";
 
 	@Override
-	public String getTestTableName() {
+	public String getTestTableReferenceName() {
 		return PLAZ_MODEL_TABLE;
 	}
 
@@ -86,6 +86,6 @@ public class PlaZModelTest extends AbstractTableTest {
 		givenReferenceCSV();
 		whenOpeningPlaZModelNatTable();
 		thenRowAndColumnCountEqualReferenceCSV();
-		thenTableDataEqualReferenceCSV();
+		thenExpectTableDataEqualReferenceCSV();
 	}
 }

@@ -18,6 +18,7 @@ import Menubar from '@/components/toolbar/Menubar.vue'
 import Toolbar from '@/components/toolbar/Toolbar.vue'
 import axios from 'axios'
 import { Options, Vue } from 'vue-class-component'
+import SvgCatalogService from './service/SvgCatalogService'
 import { store } from './store'
 import Configuration from './util/Configuration'
 import PlanProToolboxTest from './util/PlanProToolboxTest'
@@ -48,7 +49,8 @@ import { ToolboxConfiguration } from './util/ToolboxConfiguration'
       .catch(() => {
         console.warn('Siteplan Font not available')
       })
-
+    // Wait until the svg catalog service is ready
+    await SvgCatalogService.getInstance().isReady()
     // Download the toolbox configuration
     await axios
       .get<ToolboxConfiguration>('/configuration.json')

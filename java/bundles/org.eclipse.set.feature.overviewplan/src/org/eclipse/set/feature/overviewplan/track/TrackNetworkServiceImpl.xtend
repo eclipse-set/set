@@ -52,7 +52,7 @@ class TrackNetworkServiceImpl implements TrackNetworkService {
 	}
 
 	override getTOPKanteMetaData(TOP_Knoten topKnoten) {
-		return topKnoten.topKanten.map[TOPKanteMetaData]
+		return topKnoten.topKanten.map[TOPKanteMetaData].toList
 	}
 
 	override setupTrackNet(MultiContainer_AttributeGroup container) {

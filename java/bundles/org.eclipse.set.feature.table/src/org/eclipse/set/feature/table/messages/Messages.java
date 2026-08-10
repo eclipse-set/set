@@ -98,7 +98,7 @@ public class Messages {
 	public String TableOverviewPart_OpenAllWithErrors;
 
 	/**
-	 * Tabellen
+	 * Tabellen Zustand
 	 */
 	public String TableOverviewPart_TableSectionHeader;
 
@@ -108,9 +108,34 @@ public class Messages {
 	public String TableOverviewPart_WithErrorsDesc;
 
 	/**
+	 * Enthalten Rot-/Gelb-Einträge:
+	 */
+	public String TableOverviewPart_WithStateChanges;
+
+	/**
+	 * Enthalten besondere Änderungsmarkierungen:
+	 */
+	public String TableOverviewPart_WithPlanChanges;
+
+	/**
+	 * Leere Tabellen:
+	 */
+	public String TableOverviewPart_EmptyTable;
+
+	/**
+	 * Enthalten Daten
+	 */
+	public String TableOverviewPart_TablesWithData;
+
+	/**
 	 * Debug-Mode: Tabellen können immer wieder neu überprüft werden
 	 */
 	public String TableOverviewPart_DebugModeHint;
+
+	/**
+	 * Export All
+	 */
+	public String TableOverviewPart_Export_All;
 
 	/**
 	 * Exportieren
@@ -121,6 +146,17 @@ public class Messages {
 	 * Export der Einzeltabelle
 	 */
 	public String ToolboxTableView_ExportTable;
+
+	/**
+	 * Diese Tabelle ist unvollständig, da noch nicht alle anderen Tabellen
+	 * generiert wurden.
+	 */
+	public String ToolboxTableView_TableIncompleteHint;
+
+	/**
+	 * Tabellen berechnen
+	 */
+	public String ToolboxTableView_CalculateTables;
 
 	/**
 	 * Tabellenexport
@@ -164,5 +200,27 @@ public class Messages {
 	 * Dokumentensatz erstellen
 	 */
 	public String TableExportPart_ExportPlanningRecordsDescriptionService_ViewName;
+
+	/**
+	 * Nicht generierbar:
+	 */
+	public String TableOverviewPart_NonTransformableTable;
+
+	/**
+	 * Fehler bei Tabellengenerierung
+	 */
+	public String TableTransform_Error;
+
+	/**
+	 * Es gibt Fehler bei der Tabellengenerierung der Vergleichsplanung. Es wird
+	 * nur die Tabelle der Originalplanung angezeigt.
+	 */
+	public String TableTransform_ComparePlanError_Msg;
+
+	/**
+	 * Es gibt Fehler bei der Tabellengenerierung. Die Table kann nicht
+	 * vollständig darstellen
+	 */
+	public String TableTransform_Error_Msg;
 
 }

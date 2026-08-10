@@ -14,7 +14,9 @@ import static org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparat
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
+import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator;
@@ -22,6 +24,7 @@ import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableTransformationServ
 import org.eclipse.set.feature.table.pt1.messages.Messages;
 import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
+import org.eclipse.set.utils.table.TableInfo.Pt1TableCategory;
 import org.eclipse.set.utils.table.sorting.TableRowGroupComparator;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -60,8 +63,9 @@ public final class SslfTransformationService
 	}
 
 	@Override
-	public Comparator<RowGroup> getRowGroupComparator() {
-		return TableRowGroupComparator.builder()
+	public Comparator<RowGroup> getRowGroupComparator(
+			final TableType tableType) {
+		return TableRowGroupComparator.builder(tableType)
 				.sort("A", MIXED_STRING, ASC) //$NON-NLS-1$
 				.sort("B", MIXED_STRING, ASC) //$NON-NLS-1$
 				.build();
@@ -71,7 +75,8 @@ public final class SslfTransformationService
 	public TableNameInfo getTableNameInfo() {
 		return new TableNameInfo(messages.ToolboxTableNameSslfLong,
 				messages.ToolboxTableNameSslfPlanningNumber,
-				messages.ToolboxTableNameSslfShort);
+				messages.ToolboxTableNameSslfShort,
+				messages.ToolboxTableNameSslfRil);
 	}
 
 	@Override
@@ -89,4 +94,18 @@ public final class SslfTransformationService
 		return Collections.emptyList();
 	}
 
+	@Override
+	protected String getRemarkColumnPosition() {
+		return SslfColumns.Bemerkung;
+	}
+
+	@Override
+	protected Map<Class<?>, String> getFootnotesColumnReferences() {
+		return Collections.emptyMap();
+	}
+
+	@Override
+	protected Pt1TableCategory getTableCategory() {
+		return Pt1TableCategory.ESTW;
+	}
 }

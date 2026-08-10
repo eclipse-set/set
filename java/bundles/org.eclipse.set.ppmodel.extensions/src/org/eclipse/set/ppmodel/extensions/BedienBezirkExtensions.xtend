@@ -13,6 +13,7 @@ import org.eclipse.set.model.planpro.Bedienung.Bedien_Bezirk
 import org.eclipse.set.model.planpro.Bedienung.Bedien_Zentrale
 
 import static extension org.eclipse.set.ppmodel.extensions.ESTW_ZentraleinheitExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.StellBereichExtensions.*
 
 /**
  * Extensions for {@link Bedien_Bezirk}.
@@ -34,6 +35,6 @@ class BedienBezirkExtensions extends BasisObjektExtensions {
 		return bedienBezirk.container.ESTWZentraleinheit.filterNull.filter [
 			bedienBezirkVirtuell === bedienBezirk ||
 				bedienBezirkZentral === bedienBezirk
-		].exists[StellBereichExtensions.isInControlArea(controlArea, it)]
+		].exists[isInControlArea(controlArea, it)]
 	}
 }

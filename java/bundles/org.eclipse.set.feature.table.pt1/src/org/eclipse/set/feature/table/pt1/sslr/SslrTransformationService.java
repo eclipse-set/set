@@ -9,12 +9,19 @@
 package org.eclipse.set.feature.table.pt1.sslr;
 
 import static org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum.ASC;
-import static org.eclipse.set.feature.table.pt1.sslr.SslrColumns.*;
+import static org.eclipse.set.feature.table.pt1.sslr.SslrColumns.Abhaengiger_BUe;
+import static org.eclipse.set.feature.table.pt1.sslr.SslrColumns.Fahrweg_Entscheidungsweiche;
+import static org.eclipse.set.feature.table.pt1.sslr.SslrColumns.Fahrweg_Nummer;
+import static org.eclipse.set.feature.table.pt1.sslr.SslrColumns.Fahrweg_Start;
+import static org.eclipse.set.feature.table.pt1.sslr.SslrColumns.Fahrweg_Ziel;
 import static org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparatorType.MIXED_STRING;
 
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
+import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator;
@@ -25,6 +32,7 @@ import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.ppmodel.extensions.FahrwegExtensions;
 import org.eclipse.set.ppmodel.extensions.FstrZugRangierExtensions;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
+import org.eclipse.set.utils.table.TableInfo.Pt1TableCategory;
 import org.eclipse.set.utils.table.sorting.TableRowGroupComparator;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -55,14 +63,16 @@ public class SslrTransformationService
 	}
 
 	@Override
-	public Comparator<RowGroup> getRowGroupComparator() {
-		return TableRowGroupComparator.builder().sortByRouteAndKm(obj -> {
-			if (obj instanceof final Fstr_Zug_Rangier fstr) {
-				return FahrwegExtensions.getStart(
-						FstrZugRangierExtensions.getFstrFahrweg(fstr));
-			}
-			return null;
-		})
+	public Comparator<RowGroup> getRowGroupComparator(
+			final TableType tableType) {
+		return TableRowGroupComparator.builder(tableType)
+				.sortByRouteAndKm(obj -> {
+					if (obj instanceof final Fstr_Zug_Rangier fstr) {
+						return FahrwegExtensions.getStart(
+								FstrZugRangierExtensions.getFstrFahrweg(fstr));
+					}
+					return null;
+				})
 				.sort(Fahrweg_Start, MIXED_STRING, ASC)
 				.sort(Fahrweg_Ziel, MIXED_STRING, ASC)
 				.sort(Fahrweg_Nummer, MIXED_STRING, ASC)
@@ -73,7 +83,8 @@ public class SslrTransformationService
 	public TableNameInfo getTableNameInfo() {
 		return new TableNameInfo(messages.ToolboxTableNameSslrLong,
 				messages.ToolboxTableNameSslrPlanningNumber,
-				messages.ToolboxTableNameSslrShort);
+				messages.ToolboxTableNameSslrShort,
+				messages.ToolboxTableNameSslrRil);
 	}
 
 	@Override
@@ -89,5 +100,20 @@ public class SslrTransformationService
 	@Override
 	protected List<String> getTopologicalColumnPosition() {
 		return List.of(Fahrweg_Entscheidungsweiche, Abhaengiger_BUe);
+	}
+
+	@Override
+	protected String getRemarkColumnPosition() {
+		return SslrColumns.Bemerkung;
+	}
+
+	@Override
+	protected Map<Class<?>, String> getFootnotesColumnReferences() {
+		return Collections.emptyMap();
+	}
+
+	@Override
+	protected Pt1TableCategory getTableCategory() {
+		return Pt1TableCategory.ESTW;
 	}
 }

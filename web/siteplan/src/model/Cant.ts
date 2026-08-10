@@ -7,14 +7,13 @@
  * http://www.eclipse.org/legal/epl-v20.html
  */
 import { checkInstance } from '@/util/ObjectExtension'
-import SiteplanObject, { defaultObjectColorObj } from './SiteplanObject'
 import PositionedObject, { defaultPositionedObj } from './PositionedObject'
+import SiteplanObject, { defaultObjectColorObj } from './SiteplanObject'
 
 export interface CantPoint extends PositionedObject
 {
   height: number
   // Not part of Java API
-  // eslint-disable-next-line no-use-before-define
   cants: Set<Cant>
 }
 

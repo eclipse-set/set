@@ -196,11 +196,6 @@ class PunktObjektExtensions extends BasisObjektExtensions {
 			pos.IDStrecke?.value?.bezeichnung?.bezeichnungStrecke?.wert ?: ""
 		]
 
-		if (!isFindGeometryComplete) {
-			return po.punktObjektStrecke.map [ pos |
-				getStreckeFunc.apply(pos) -> #[]
-			].toList
-		}
 		if (po.punktObjektStrecke.size === 1) {
 			val result = #[getStreckeFunc.apply(po.punktObjektStrecke.first) ->
 				#[po.punktObjektStrecke.first.streckeKm.wert]]
@@ -219,6 +214,12 @@ class PunktObjektExtensions extends BasisObjektExtensions {
 			return result
 		}
 
+		if (!isFindGeometryComplete(po.planProSchnittstelle)) {
+			return po.punktObjektStrecke.map [ pos |
+				getStreckeFunc.apply(pos) -> #[]
+			].toList
+		}
+
 		val routeThroughBereichObjekt = po.singlePoint.
 			streckenThroughBereichObjekt
 
@@ -233,6 +234,9 @@ class PunktObjektExtensions extends BasisObjektExtensions {
 
 	def static List<String> getStreckeKm(Punkt_Objekt po,
 		List<Strecke> routeThroughBereichObjekt) {
+		if (po === null || routeThroughBereichObjekt.isNullOrEmpty) {
+			return emptyList
+		}
 		val cache = po.getCache(po.container.cacheString,
 			ToolboxConstants.CacheId.POINT_OBJECT_ROUTE_KM)
 		val poGuid = po.identitaet.wert
@@ -241,23 +245,30 @@ class PunktObjektExtensions extends BasisObjektExtensions {
 				poGuid) as List<Pair<String, List<String>>>
 			return cachedValue.flatMap[value].toList
 		}
+		val poRoute = po.punktObjektStrecke.first?.IDStrecke?.value
+		if (po.punktObjektStrecke.size == 1 && poRoute !== null &&
+			routeThroughBereichObjekt.contains(poRoute)) {
+			return #[po.punktObjektStrecke.first.streckeKm.wert]
+		}
 
 		val kmMassgebend = po.punktObjektStrecke.filter [
 			kmMassgebend?.wert === true
 		]
-		if (!kmMassgebend.nullOrEmpty) {
+		if (!kmMassgebend.nullOrEmpty &&
+			routeThroughBereichObjekt.contains(
+				po.punktObjektStrecke.first.IDStrecke.value)) {
 			return kmMassgebend.map[streckeKm.wert].toList
 		}
 
-		if (!isFindGeometryComplete) {
+		if (!isFindGeometryComplete(po.planProSchnittstelle)) {
 			return null
 		}
 
 		val result = routeThroughBereichObjekt.map [ route |
 			try {
 				return route ->
-					po.singlePoint.getStreckeKmThroughProjection(route).
-						toTableDecimal
+					po?.singlePoints?.first?.getStreckeKmThroughProjection(route)?.
+						toTableDecimal(3)
 			} catch (Exception e) {
 				logger.error(
 					"Can't find the Signal route km through projection point on route",

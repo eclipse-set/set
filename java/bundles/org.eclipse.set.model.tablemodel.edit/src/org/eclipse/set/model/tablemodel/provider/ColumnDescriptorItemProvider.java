@@ -71,6 +71,7 @@ public class ColumnDescriptorItemProvider extends ItemProviderAdapter
 			addHeightPropertyDescriptor(object);
 			addMergeCommonValuesPropertyDescriptor(object);
 			addColumnPositionPropertyDescriptor(object);
+			addIsRemarkColumnPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -273,6 +274,26 @@ public class ColumnDescriptorItemProvider extends ItemProviderAdapter
 	}
 
 	/**
+	 * This adds a property descriptor for the Is Remark Column feature. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	protected void addIsRemarkColumnPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add(createItemPropertyDescriptor(
+				((ComposeableAdapterFactory) adapterFactory)
+						.getRootAdapterFactory(),
+				getResourceLocator(),
+				getString("_UI_ColumnDescriptor_isRemarkColumn_feature"),
+				getString("_UI_PropertyDescriptor_description",
+						"_UI_ColumnDescriptor_isRemarkColumn_feature",
+						"_UI_ColumnDescriptor_type"),
+				TablemodelPackage.Literals.COLUMN_DESCRIPTOR__IS_REMARK_COLUMN,
+				true, false, false, ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+				null, null));
+	}
+
+	/**
 	 * This returns ColumnDescriptor.gif. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
 	 * 
@@ -320,6 +341,7 @@ public class ColumnDescriptorItemProvider extends ItemProviderAdapter
 			case TablemodelPackage.COLUMN_DESCRIPTOR__HEIGHT:
 			case TablemodelPackage.COLUMN_DESCRIPTOR__MERGE_COMMON_VALUES:
 			case TablemodelPackage.COLUMN_DESCRIPTOR__COLUMN_POSITION:
+			case TablemodelPackage.COLUMN_DESCRIPTOR__IS_REMARK_COLUMN:
 				fireNotifyChanged(new ViewerNotification(notification,
 						notification.getNotifier(), false, true));
 				return;

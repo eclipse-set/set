@@ -52,7 +52,7 @@ class PZBElementExtensions extends BasisObjektExtensions {
 	def static List<Basis_Objekt> getPZBElementBezugspunkt(PZB_Element pzb) {
 		return pzb.IDPZBElementZuordnung?.value?.PZBElementZuordnungBP?.map [
 			IDPZBElementBezugspunkt?.value
-		]
+		] ?: emptyList
 	}
 
 	def static Iterable<Fstr_DWeg> getFstrDWegs(PZB_Element pzb) {
@@ -67,12 +67,14 @@ class PZBElementExtensions extends BasisObjektExtensions {
 
 	def static Iterable<PZB_Element_Zuordnung_BP_AttributeGroup> getPZBElementZuordnungBP(
 		PZB_Element pzb) {
-		return pzb.IDPZBElementZuordnung?.value?.PZBElementZuordnungBP
+		return pzb.IDPZBElementZuordnung?.value?.PZBElementZuordnungBP?.
+			filterNull ?: #[]
 	}
 
 	def static Iterable<PZB_Element_Zuordnung_Fstr_AttributeGroup> getPZBElementZuordnungFstr(
 		PZB_Element pzb) {
-		return pzb.IDPZBElementZuordnung?.value?.PZBElementZuordnungFstr
+		return pzb.IDPZBElementZuordnung?.value?.PZBElementZuordnungFstr?.
+			filterNull ?: #[]
 	}
 
 	def static Iterable<PZB_Zuordnung_Signal> getPZBZuordnungSignal(

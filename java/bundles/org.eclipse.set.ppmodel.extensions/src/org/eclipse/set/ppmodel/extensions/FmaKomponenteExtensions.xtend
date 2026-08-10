@@ -10,8 +10,6 @@ package org.eclipse.set.ppmodel.extensions
 
 import java.util.List
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
-import org.eclipse.set.model.planpro.Bahnuebergang.BUE_Anlage
-import org.eclipse.set.model.planpro.Bahnuebergang.BUE_Kante
 import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
 import org.eclipse.set.model.planpro.Fahrstrasse.Markanter_Punkt
@@ -59,12 +57,9 @@ class FmaKomponenteExtensions extends BasisObjektExtensions {
 	def static dispatch Punkt_Objekt getBezugsPunkt(Basis_Objekt object) {
 		return null
 	}
-	def static dispatch Punkt_Objekt getBezugsPunkt(BUE_Anlage bueAnlage) {
-		return bueAnlage.bezugsPunkt
-	}
 	
-	def static dispatch Punkt_Objekt getBezugsPunkt(BUE_Kante bueKante) {
-		return bueKante.bezugsPunkt
+	def static dispatch Punkt_Objekt getBezugsPunkt(Punkt_Objekt po) {
+		return po
 	}
 	
 	def static dispatch Punkt_Objekt getBezugsPunkt(Markanter_Punkt markanter) {

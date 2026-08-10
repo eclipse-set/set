@@ -61,50 +61,50 @@ public class VersionInfoItemProvider extends ItemProviderAdapter
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addPlanProPropertyDescriptor(object);
-			addSignalsPropertyDescriptor(object);
+			addPlanProVersionsPropertyDescriptor(object);
+			addSignalbegriffeVersionsPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
 
 	/**
-	 * This adds a property descriptor for the Plan Pro feature. <!--
+	 * This adds a property descriptor for the Plan Pro Versions feature. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @generated
 	 */
-	protected void addPlanProPropertyDescriptor(Object object) {
+	protected void addPlanProVersionsPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add(createItemPropertyDescriptor(
 				((ComposeableAdapterFactory) adapterFactory)
 						.getRootAdapterFactory(),
 				getResourceLocator(),
-				getString("_UI_VersionInfo_planPro_feature"),
+				getString("_UI_VersionInfo_planProVersions_feature"),
 				getString("_UI_PropertyDescriptor_description",
-						"_UI_VersionInfo_planPro_feature",
+						"_UI_VersionInfo_planProVersions_feature",
 						"_UI_VersionInfo_type"),
-				ValidationreportPackage.Literals.VERSION_INFO__PLAN_PRO, true,
-				false, false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null,
-				null));
+				ValidationreportPackage.Literals.VERSION_INFO__PLAN_PRO_VERSIONS,
+				true, false, false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				null, null));
 	}
 
 	/**
-	 * This adds a property descriptor for the Signals feature. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
+	 * This adds a property descriptor for the Signalbegriffe Versions feature.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @generated
 	 */
-	protected void addSignalsPropertyDescriptor(Object object) {
+	protected void addSignalbegriffeVersionsPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add(createItemPropertyDescriptor(
 				((ComposeableAdapterFactory) adapterFactory)
 						.getRootAdapterFactory(),
 				getResourceLocator(),
-				getString("_UI_VersionInfo_signals_feature"),
+				getString("_UI_VersionInfo_signalbegriffeVersions_feature"),
 				getString("_UI_PropertyDescriptor_description",
-						"_UI_VersionInfo_signals_feature",
+						"_UI_VersionInfo_signalbegriffeVersions_feature",
 						"_UI_VersionInfo_type"),
-				ValidationreportPackage.Literals.VERSION_INFO__SIGNALS, true,
-				false, false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null,
-				null));
+				ValidationreportPackage.Literals.VERSION_INFO__SIGNALBEGRIFFE_VERSIONS,
+				true, false, false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				null, null));
 	}
 
 	/**
@@ -127,10 +127,7 @@ public class VersionInfoItemProvider extends ItemProviderAdapter
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((VersionInfo) object).getPlanPro();
-		return label == null || label.length() == 0
-				? getString("_UI_VersionInfo_type")
-				: getString("_UI_VersionInfo_type") + " " + label;
+		return getString("_UI_VersionInfo_type");
 	}
 
 	/**
@@ -146,8 +143,8 @@ public class VersionInfoItemProvider extends ItemProviderAdapter
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(VersionInfo.class)) {
-			case ValidationreportPackage.VERSION_INFO__PLAN_PRO:
-			case ValidationreportPackage.VERSION_INFO__SIGNALS:
+			case ValidationreportPackage.VERSION_INFO__PLAN_PRO_VERSIONS:
+			case ValidationreportPackage.VERSION_INFO__SIGNALBEGRIFFE_VERSIONS:
 				fireNotifyChanged(new ViewerNotification(notification,
 						notification.getNotifier(), false, true));
 				return;

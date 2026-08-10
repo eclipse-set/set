@@ -34,18 +34,16 @@ class SignalInfo {
 	public Set<Signal_Befestigung> mounts;
 
 	/**
-	 * Returns the base mount. The base mount is a mount which is not attached
-	 * to any other mounts
+	 * the first mount with no parent, coming from the mount with a frame
+	 * "Schirm" attached to it. If there are multiple Schirme, behaviour is
+	 * unspecified (See SignalTransformator)
+	 * 
+	 * rootMount is not updated, when signals or mounts are changed
 	 */
-	protected Signal_Befestigung getBaseMount() {
-		return mounts.stream()
-				.filter(sb -> sb.getIDSignalBefestigung() == null)
-				.findFirst()
-				.orElse(null);
-	}
+	public Signal_Befestigung baseMount;
 
 	protected String getSignalGuid() {
-		final Signal_Befestigung base = this.getBaseMount();
+		final Signal_Befestigung base = this.baseMount;
 		if (base != null) {
 			return base.getIdentitaet().getWert();
 		}

@@ -10,7 +10,9 @@
  */
 package org.eclipse.set.feature.table.pt1.sskz;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.set.basis.constants.Events;
@@ -21,6 +23,7 @@ import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableTransformationServ
 import org.eclipse.set.feature.table.pt1.messages.Messages;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
+import org.eclipse.set.utils.table.TableInfo.Pt1TableCategory;
 import org.eclipse.set.utils.table.TableModelTransformator;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -69,7 +72,8 @@ public class SskzTransformationService extends
 	public TableNameInfo getTableNameInfo() {
 		return new TableNameInfo(messages.ToolboxTableNameSskzLong,
 				messages.ToolboxTableNameSskzPlanningNumber,
-				messages.ToolboxTableNameSskzShort);
+				messages.ToolboxTableNameSskzShort,
+				messages.ToolboxTableNameSskzRil);
 	}
 
 	@Override
@@ -102,5 +106,20 @@ public class SskzTransformationService extends
 	@Override
 	protected List<String> getTopologicalColumnPosition() {
 		return List.of(SskzColumns.Ueberhoehung);
+	}
+
+	@Override
+	protected String getRemarkColumnPosition() {
+		return SskzColumns.Bemerkung;
+	}
+
+	@Override
+	protected Map<Class<?>, String> getFootnotesColumnReferences() {
+		return Collections.emptyMap();
+	}
+
+	@Override
+	protected Pt1TableCategory getTableCategory() {
+		return Pt1TableCategory.ESTW_SUPPLEMENT;
 	}
 }

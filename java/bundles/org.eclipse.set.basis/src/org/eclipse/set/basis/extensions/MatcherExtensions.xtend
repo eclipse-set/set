@@ -10,6 +10,7 @@ package org.eclipse.set.basis.extensions
 
 import com.google.common.collect.Lists
 import java.util.List
+import java.util.Optional
 import java.util.regex.Matcher
 import org.eclipse.jface.text.IRegion
 import org.eclipse.jface.text.Region
@@ -39,5 +40,17 @@ class MatcherExtensions {
 			)
 		}
 		return result
+	}
+	
+	static def Optional<String> getGroup(Matcher matcher, String groupName) {
+		try {
+			if (!matcher.matches) {
+				return Optional.empty
+			}
+			val value = matcher.group(groupName);
+			return Optional.ofNullable(value);
+		} catch (IllegalStateException e) {
+			return Optional.empty
+		}
 	}
 }

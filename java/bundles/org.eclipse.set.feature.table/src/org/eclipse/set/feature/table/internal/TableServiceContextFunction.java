@@ -26,9 +26,13 @@ import org.eclipse.set.basis.graph.Digraphs;
 import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.session.SessionService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
+import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
 import org.eclipse.set.services.table.TableDiffService;
 import org.eclipse.set.services.table.TableDiffService.TableCompareType;
 import org.eclipse.set.services.table.TableService;
+import org.eclipse.set.utils.ToolboxConfiguration;
+import org.eclipse.set.utils.events.TableDataChangeEvent;
+import org.eclipse.set.utils.table.Pt1TableChangeProperties;
 import org.eclipse.set.utils.table.TableInfo;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -49,8 +53,9 @@ import org.osgi.service.event.EventHandler;
 		EventHandler.class }, property = {
 				"service.context.key:String=org.eclipse.set.services.table.TableService",
 				EventConstants.EVENT_TOPIC + "=" + Events.MODEL_CHANGED,
-				EventConstants.EVENT_TOPIC + "="
-						+ Events.COMPARE_MODEL_LOADED })
+				EventConstants.EVENT_TOPIC + "=" + Events.COMPARE_MODEL_LOADED,
+				EventConstants.EVENT_TOPIC + "=" + Events.CLOSE_SESSION,
+				EventConstants.EVENT_TOPIC + "=" + TableDataChangeEvent.TOPIC })
 public class TableServiceContextFunction extends ContextFunction
 		implements EventHandler {
 
@@ -60,19 +65,24 @@ public class TableServiceContextFunction extends ContextFunction
 	/**
 	 * @param properties
 	 *            the properties
+	 * @param nameInfo
+	 *            the {@link TableNameInfo}
 	 * 
 	 * @return the element id
 	 * 
 	 * @throws IllegalAccessException
 	 *             if the properties to not contain the table shortcut
 	 */
-	public static TableInfo getTableInfo(final Map<String, Object> properties)
-			throws IllegalAccessException {
+	public static TableInfo getTableInfo(final Map<String, Object> properties,
+			final TableNameInfo nameInfo) throws IllegalAccessException {
 		final Object idObject = properties.get("table.shortcut"); //$NON-NLS-1$
 		final Object categoryObject = properties.get("table.category"); //$NON-NLS-1$
+		final Object isInDevMode = properties.get("table.devMode"); //$NON-NLS-1$
+
 		if (idObject != null && categoryObject != null) {
-			return new TableInfo(categoryObject.toString(),
-					idObject.toString());
+			return new TableInfo(categoryObject.toString(), idObject.toString(),
+					nameInfo, Boolean.parseBoolean(isInDevMode == null ? "false" //$NON-NLS-1$
+							: isInDevMode.toString()));
 		}
 		throw new IllegalAccessException(
 				"table.shortcut or table.category missing in properties"); //$NON-NLS-1$
@@ -99,7 +109,12 @@ public class TableServiceContextFunction extends ContextFunction
 			final PlanPro2TableTransformationService service,
 			final Map<String, Object> properties)
 			throws IllegalAccessException {
-		final TableInfo tableInfo = getTableInfo(properties);
+		final TableInfo tableInfo = getTableInfo(properties,
+				service.getTableNameInfo());
+		if (tableInfo.isDevMode()
+				&& !ToolboxConfiguration.isDevelopmentMode()) {
+			return;
+		}
 		if (tableService != null) {
 			tableService.addModelService(service, properties);
 		} else {
@@ -121,9 +136,14 @@ public class TableServiceContextFunction extends ContextFunction
 			final PlanPro2TableTransformationService service,
 			final Map<String, Object> properties)
 			throws IllegalAccessException {
-		final TableInfo tableInfo = getTableInfo(properties);
+		final TableInfo tableInfo = getTableInfo(properties,
+				service.getTableNameInfo());
+		if (tableInfo.isDevMode()
+				&& !ToolboxConfiguration.isDevelopmentMode()) {
+			return;
+		}
 		if (tableService != null) {
-			tableService.removeModelService(properties);
+			tableService.removeModelService(properties, service);
 		} else {
 			modelServiceMap.remove(tableInfo);
 		}
@@ -189,13 +209,40 @@ public class TableServiceContextFunction extends ContextFunction
 							ToolboxConstants.CacheId.DIRECTED_EDGE_TO_SUBPATH));
 		}
 
-		if (event.getTopic().equals(Events.CLOSE_SESSION)) {
+		if (tableService == null) {
+			return;
+		}
+
+		if (event.getTopic().equals(Events.MODEL_CHANGED)) {
+			tableService.clearInstance();
+		}
+
+		if (event.getTopic().equals(Events.CLOSE_SESSION)
+				&& tableService != null) {
 			final ToolboxFileRole closeSession = (ToolboxFileRole) event
 					.getProperty(IEventBroker.DATA);
 			final IModelSession loadedSession = sessionService
 					.getLoadedSession(closeSession);
 			EdgeToPointsCacheProxy.clearCacheInstance(
 					loadedSession.getPlanProSchnittstelle());
+			tableService.clearInstance();
+		}
+
+		if (event.getTopic().equals(TableDataChangeEvent.TOPIC)
+				&& tableService != null) {
+			final Object data = event.getProperty(IEventBroker.DATA);
+			if (data instanceof final TableDataChangeEvent changedEvent
+					&& !changedEvent.getProperties().isEmpty()
+					&& changedEvent.getProperties()
+							.getFirst() instanceof Pt1TableChangeProperties) {
+				tableService.addChangedTableData(
+						changedEvent.getTableShortcut(),
+						changedEvent.getProperties()
+								.stream()
+								.map(Pt1TableChangeProperties.class::cast)
+								.toList());
+			}
+
 		}
 	}
 }

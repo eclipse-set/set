@@ -33,16 +33,18 @@
           </children>
           <children xsi:type="org.eclipse.emf.ecp.view.group.model:Group" xmi:id="_YtfgsF07Eeq_crrvnIYcyQ" name="%ValidationReport.Used.Version">
             <children xsi:type="org.eclipse.emf.ecp.view.vertical.model:VerticalLayout" xmi:id="_cNk8QF07Eeq_crrvnIYcyQ">
-              <children xsi:type="org.eclipse.emf.ecp.view.model:Control" xmi:id="_dxx58F07Eeq_crrvnIYcyQ" readonly="true">
-                <domainModelReference xsi:type="org.eclipse.emf.ecp.view.model:FeaturePathDomainModelReference" xmi:id="_0C2MQLONEe2hEMMQcOi7TA">
-                  <domainModelEFeature xsi:type="ecore:EAttribute" href="tag:scheidt-bachmann-st.de,2018-09-06:planpro/vr#//VersionInfo/planPro"/>
+              <children xsi:type="org.eclipse.emf.ecp.view.model:Control" xmi:id="_dxx58F07Eeq_crrvnIYcyQ" name="%ValidationInformation_PlanPro_Versions_Label" readonly="true">
+                <attachments xsi:type="org.eclipse.emfforms.view.annotation.model:Annotation" xmi:id="_F_jTQEMAEfGsLMo7wSgrbQ" key="VersionInfoRenderer" value="true"/>
+                <domainModelReference xsi:type="org.eclipse.emf.ecp.view.model:FeaturePathDomainModelReference" xmi:id="_d-v6gEMEEfGsLMo7wSgrbQ">
+                  <domainModelEFeature xsi:type="ecore:EAttribute" href="tag:scheidt-bachmann-st.de,2018-09-06:planpro/vr#//VersionInfo/planProVersions"/>
                   <domainModelEReferencePath href="tag:scheidt-bachmann-st.de,2018-09-06:planpro/vr#//ValidationReport/fileInfo"/>
                   <domainModelEReferencePath href="tag:scheidt-bachmann-st.de,2018-09-06:planpro/vr#//FileInfo/usedVersion"/>
                 </domainModelReference>
               </children>
-              <children xsi:type="org.eclipse.emf.ecp.view.model:Control" xmi:id="_eEQKAF07Eeq_crrvnIYcyQ" readonly="true">
-                <domainModelReference xsi:type="org.eclipse.emf.ecp.view.model:FeaturePathDomainModelReference" xmi:id="_1LfPULONEe2hEMMQcOi7TA">
-                  <domainModelEFeature xsi:type="ecore:EAttribute" href="tag:scheidt-bachmann-st.de,2018-09-06:planpro/vr#//VersionInfo/signals"/>
+              <children xsi:type="org.eclipse.emf.ecp.view.model:Control" xmi:id="_eEQKAF07Eeq_crrvnIYcyQ" name="%ValidationInformation_Signalbegriff_Ril301_Versions_Label" readonly="true">
+                <attachments xsi:type="org.eclipse.emfforms.view.annotation.model:Annotation" xmi:id="_dLDUEEMBEfGsLMo7wSgrbQ" key="VersionInfoRenderer" value="true"/>
+                <domainModelReference xsi:type="org.eclipse.emf.ecp.view.model:FeaturePathDomainModelReference" xmi:id="_fP7OgEMEEfGsLMo7wSgrbQ">
+                  <domainModelEFeature xsi:type="ecore:EAttribute" href="tag:scheidt-bachmann-st.de,2018-09-06:planpro/vr#//VersionInfo/signalbegriffeVersions"/>
                   <domainModelEReferencePath href="tag:scheidt-bachmann-st.de,2018-09-06:planpro/vr#//ValidationReport/fileInfo"/>
                   <domainModelEReferencePath href="tag:scheidt-bachmann-st.de,2018-09-06:planpro/vr#//FileInfo/usedVersion"/>
                 </domainModelReference>
@@ -71,15 +73,17 @@
           <children xsi:type="org.eclipse.emf.ecp.view.label.model:Label" xmi:id="_J2trwLOPEe2hEMMQcOi7TA" style="H1"/>
           <children xsi:type="org.eclipse.emf.ecp.view.group.model:Group" xmi:id="_GuGi8F07Eeq_crrvnIYcyQ" name="%ValidationReport.Supported.Version">
             <children xsi:type="org.eclipse.emf.ecp.view.vertical.model:VerticalLayout" xmi:id="_Jfr5wF07Eeq_crrvnIYcyQ">
-              <children xsi:type="org.eclipse.emf.ecp.view.model:Control" xmi:id="_KcUhIF07Eeq_crrvnIYcyQ" readonly="true">
-                <domainModelReference xsi:type="org.eclipse.emf.ecp.view.model:FeaturePathDomainModelReference" xmi:id="_OQUXMF07Eeq_crrvnIYcyQ">
-                  <domainModelEFeature xsi:type="ecore:EAttribute" href="tag:scheidt-bachmann-st.de,2018-09-06:planpro/vr#//VersionInfo/planPro"/>
+              <children xsi:type="org.eclipse.emf.ecp.view.model:Control" xmi:id="_KcUhIF07Eeq_crrvnIYcyQ" name="%ValidationInformation_PlanPro_Versions_Label" readonly="true">
+                <attachments xsi:type="org.eclipse.emfforms.view.annotation.model:Annotation" xmi:id="_k6z1EEMBEfGsLMo7wSgrbQ" key="VersionInfoRenderer" value="true"/>
+                <domainModelReference xsi:type="org.eclipse.emf.ecp.view.model:FeaturePathDomainModelReference" xmi:id="_cAVGAEMEEfGsLMo7wSgrbQ">
+                  <domainModelEFeature xsi:type="ecore:EAttribute" href="tag:scheidt-bachmann-st.de,2018-09-06:planpro/vr#//VersionInfo/planProVersions"/>
                   <domainModelEReferencePath href="tag:scheidt-bachmann-st.de,2018-09-06:planpro/vr#//ValidationReport/supportedVersion"/>
                 </domainModelReference>
               </children>
-              <children xsi:type="org.eclipse.emf.ecp.view.model:Control" xmi:id="_PAyx4F07Eeq_crrvnIYcyQ" readonly="true">
-                <domainModelReference xsi:type="org.eclipse.emf.ecp.view.model:FeaturePathDomainModelReference" xmi:id="_TtP58F07Eeq_crrvnIYcyQ">
-                  <domainModelEFeature xsi:type="ecore:EAttribute" href="tag:scheidt-bachmann-st.de,2018-09-06:planpro/vr#//VersionInfo/signals"/>
+              <children xsi:type="org.eclipse.emf.ecp.view.model:Control" xmi:id="_PAyx4F07Eeq_crrvnIYcyQ" name="%ValidationInformation_Signalbegriff_Ril301_Versions_Label" readonly="true">
+                <attachments xsi:type="org.eclipse.emfforms.view.annotation.model:Annotation" xmi:id="_lX4yoEMBEfGsLMo7wSgrbQ" key="VersionInfoRenderer" value="true"/>
+                <domainModelReference xsi:type="org.eclipse.emf.ecp.view.model:FeaturePathDomainModelReference" xmi:id="_dDPz4DNTEfG_fMskyAC4ow">
+                  <domainModelEFeature xsi:type="ecore:EAttribute" href="tag:scheidt-bachmann-st.de,2018-09-06:planpro/vr#//VersionInfo/signalbegriffeVersions"/>
                   <domainModelEReferencePath href="tag:scheidt-bachmann-st.de,2018-09-06:planpro/vr#//ValidationReport/supportedVersion"/>
                 </domainModelReference>
               </children>

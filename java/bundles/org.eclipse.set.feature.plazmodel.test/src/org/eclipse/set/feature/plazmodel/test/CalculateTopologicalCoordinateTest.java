@@ -10,9 +10,9 @@
  */
 package org.eclipse.set.feature.plazmodel.test;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -34,11 +34,10 @@ import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.eclipse.set.application.geometry.GeoKanteGeometryServiceImpl;
+import org.eclipse.set.application.geometry.GeoKanteGeometrySessionData;
 import org.eclipse.set.application.geometry.PointObjectPositionServiceImpl;
-import org.eclipse.set.application.geometry.GeoKanteGeometryServiceImpl.GeoKanteGeometrySessionData;
 import org.eclipse.set.basis.Pair;
 import org.eclipse.set.basis.constants.ContainerType;
-import org.eclipse.set.basis.geometry.GEOKanteMetadata;
 import org.eclipse.set.feature.plazmodel.check.GeoCoordinateValid;
 import org.eclipse.set.feature.plazmodel.export.TopologicalCoordinate;
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt;
@@ -63,6 +62,26 @@ import org.locationtech.jts.geom.Coordinate;
  */
 public class CalculateTopologicalCoordinateTest extends AbstractToolboxTest {
 
+	private static String[] getCoordinateString(final Coordinate coord) {
+		if (coord == null) {
+			return new String[] { "Fehler bei der Berechnung",
+					"Fehler bei der Berechnung" };
+		}
+		final Function<Double, String> toStringFunc = value -> value.toString()
+				.replace(".", ",");
+		return new String[] { toStringFunc.apply(Double.valueOf(coord.x)),
+				toStringFunc.apply(Double.valueOf(coord.y)) };
+	}
+
+	@SuppressWarnings("boxing")
+	private static boolean isSame(final CSVRecord entry,
+			final Map<Integer, String> valueToCompare) {
+		return valueToCompare.keySet()
+				.stream()
+				.allMatch(index -> entry.get(index)
+						.equals(valueToCompare.get(index)));
+	}
+
 	/**
 	 * @return the reference files
 	 */
@@ -71,85 +90,108 @@ public class CalculateTopologicalCoordinateTest extends AbstractToolboxTest {
 				.of(new Pair<>("pphn", PPHN_1_10_0_3_20220517_PLANPRO)));
 	}
 
-	GeoCoordinateValid testee;
 	List<CSVRecord> csvRecords;
-	List<TopologicalCoordinate> topologicalCoordinates;
 	GeoKanteGeometryServiceImpl geometryService;
 
-	@ParameterizedTest
-	@MethodSource("getReferenceFiles")
-	void testTopologischeCoordinateCalculate(Pair<String, String> testFile)
-			throws Exception {
-		givenGeoKanteGeometryService();
-		givenGeoCoordinateValid();
-		givenTopologicalCoordinaten(testFile.getFirst());
-		givenPlanProFile(testFile.getSecond());
-		whenCalculateCoordinate();
-		thenExpectAllCoordinateAreEqualReference();
+	GeoCoordinateValid testee;
+
+	List<TopologicalCoordinate> topologicalCoordinates;
+
+	private void givenGeoCoordinateValid() throws IllegalAccessException {
+		testee = new GeoCoordinateValid();
+		FieldUtils.writeField(testee, "topologicalCoordinates",
+				Optional.empty(), true);
+		FieldUtils.writeField(testee, "alreadyFoundMetaData", new ArrayList<>(),
+				true);
+		FieldUtils.writeField(testee, "pointObjectPositionService",
+				new PointObjectPositionServiceImpl(), true);
+	}
+
+	private void givenGeoKanteGeometryService() throws Exception {
+		geometryService = new GeoKanteGeometryServiceImpl();
+		final Map<PlanPro_Schnittstelle, GeoKanteGeometrySessionData> sessionesData = new HashMap<>();
+		final GeoKanteGeometrySessionData geoKanteGeometrySessionData = new GeoKanteGeometrySessionData();
+		sessionesData.put(planProSchnittstelle, geoKanteGeometrySessionData);
+		FieldUtils.writeField(geometryService, "sessionesData", sessionesData,
+				true);
+		final Method declaredMethod = geometryService.getClass()
+				.getDeclaredMethod("findGeoKanteGeometry",
+						GeoKanteGeometrySessionData.class,
+						MultiContainer_AttributeGroup.class);
+		declaredMethod.setAccessible(true);
+		declaredMethod.invoke(geometryService, geoKanteGeometrySessionData,
+				PlanProSchnittstelleExtensions.getContainer(
+						planProSchnittstelle, ContainerType.INITIAL));
+		declaredMethod.invoke(geometryService, geoKanteGeometrySessionData,
+				PlanProSchnittstelleExtensions.getContainer(
+						planProSchnittstelle, ContainerType.FINAL));
 
 	}
 
+	private void givenTopologicalCoordinaten(final String testFile)
+			throws IOException {
+		final String fileName = testFile + "_topological_coordinate.csv";
+
+		final Builder builder = CSVFormat.Builder.create(CSVFormat.DEFAULT);
+		builder.setDelimiter(";");
+		try (InputStream refResource = CalculateTopologicalCoordinateTest.class
+				.getClassLoader()
+				.getResourceAsStream(fileName);
+				final Reader reader = new InputStreamReader(refResource);
+				final CSVParser parser = new CSVParser(reader,
+						builder.build())) {
+			csvRecords = parser.getRecords();
+			// Remove CSV header info
+			csvRecords = csvRecords.subList(4, csvRecords.size());
+		}
+	}
+
+	@SuppressWarnings("boxing")
 	private void thenExpectAllCoordinateAreEqualReference() {
 		assertEquals(csvRecords.size(), topologicalCoordinates.size());
 		topologicalCoordinates.forEach(coord -> {
-			String state = switch (coord.state()) {
+			final String state = switch (coord.state()) {
 				case FINAL -> "Ziel";
 				case INITIAL -> "Start";
 				default -> "Alleinstehend";
 			};
-			String guid = coord.po().getIdentitaet().getWert();
-			List<CSVRecord> csvEntries = csvRecords.stream()
-					.filter(entry -> entry.get(3).equals(guid)
-							&& entry.get(1).equals(state))
+			final String poGuid = coord.po().getIdentitaet().getWert();
+			final String topKanteGuid = coord.potk().getIDTOPKante().getWert();
+			final List<CSVRecord> csvEntries = csvRecords.stream()
+					.filter(entry -> entry.get(1).equals(state))
+					.filter(entry -> entry.get(3).equals(poGuid))
+					.filter(entry -> entry.get(4).equals(topKanteGuid))
 					.toList();
 			assertFalse(csvEntries.isEmpty());
 			assertEquals(1, csvEntries.size());
-			CSVRecord csvEntry = csvEntries.getFirst();
-			String[] coordStrArry = getCoordinateString(EObjectExtensions
+			final CSVRecord csvEntry = csvEntries.getFirst();
+			final String[] coordStrArry = getCoordinateString(EObjectExtensions
 					.getNullableObject(coord,
 							c -> coord.coordinate().getCoordinate())
 					.orElse(null));
-			String crs = EObjectExtensions
+			final String crs = EObjectExtensions
 					.getNullableObject(coord,
 							c -> coord.coordinate().getCRS().getLiteral())
 					.orElse("Fehler bei der Berechnung");
 
 			// No need to compare State and GUID here. It is already valid
-			Map<Integer, String> valueToCompare = Map.of(4, crs, 5,
-					coordStrArry[0], 6, coordStrArry[1]);
+			final Map<Integer, String> valueToCompare = Map.of(5, crs, 6,
+					coordStrArry[0], 7, coordStrArry[1]);
 			assertTrue(isSame(csvEntry, valueToCompare));
 		});
 	}
 
-	private boolean isSame(CSVRecord entry,
-			Map<Integer, String> valueToCompare) {
-		return valueToCompare.keySet()
-				.stream()
-				.allMatch(index -> entry.get(index)
-						.equals(valueToCompare.get(index)));
-	}
-
-	private String[] getCoordinateString(Coordinate coord) {
-		if (coord == null) {
-			return new String[] { "Fehler bei der Berechnung",
-					"Fehler bei der Berechnung" };
-		}
-		Function<Double, String> toStringFunc = value -> value.toString()
-				.replace(".", ",");
-		return new String[] { toStringFunc.apply(Double.valueOf(coord.x)),
-				toStringFunc.apply(Double.valueOf(coord.y)) };
-	}
-
 	private void whenCalculateCoordinate()
 			throws NoSuchMethodException, SecurityException {
-		Method calculatedMethode = GeoCoordinateValid.class.getDeclaredMethod(
-				"calculateCoordinate", ContainerType.class, Punkt_Objekt.class,
-				Punkt_Objekt_TOP_Kante_AttributeGroup.class);
+		final Method calculatedMethode = GeoCoordinateValid.class
+				.getDeclaredMethod("calculateCoordinate", ContainerType.class,
+						Punkt_Objekt.class,
+						Punkt_Objekt_TOP_Kante_AttributeGroup.class);
 		calculatedMethode.setAccessible(true);
 		List.of(ContainerType.INITIAL, ContainerType.FINAL)
 				.stream()
 				.forEach(type -> {
-					MultiContainer_AttributeGroup container = PlanProSchnittstelleExtensions
+					final MultiContainer_AttributeGroup container = PlanProSchnittstelleExtensions
 							.getContainer(planProSchnittstelle, type);
 					StreamSupport
 							.stream(container.getPunktObjekts().spliterator(),
@@ -163,7 +205,7 @@ public class CalculateTopologicalCoordinateTest extends AbstractToolboxTest {
 										try {
 											calculatedMethode.invoke(testee,
 													type, po, potk);
-										} catch (Exception e) {
+										} catch (final Exception e) {
 											throw new RuntimeException(e);
 										}
 
@@ -172,54 +214,16 @@ public class CalculateTopologicalCoordinateTest extends AbstractToolboxTest {
 		topologicalCoordinates = testee.getTopologischeCoordinaten();
 	}
 
-	private void givenTopologicalCoordinaten(String testFile)
-			throws IOException {
-		String fileName = testFile + "_topological_coordinate.csv";
-
-		Builder builder = CSVFormat.Builder.create(CSVFormat.DEFAULT);
-		builder.setDelimiter(";");
-		try (InputStream refResource = CalculateTopologicalCoordinateTest.class
-				.getClassLoader()
-				.getResourceAsStream(fileName);
-				final Reader reader = new InputStreamReader(refResource);
-				final CSVParser parser = new CSVParser(reader,
-						builder.build())) {
-			csvRecords = parser.getRecords();
-			// Remove CSV header info
-			csvRecords = csvRecords.subList(5, csvRecords.size());
-		}
-	}
-
-	private void givenGeoCoordinateValid() throws IllegalAccessException {
-		testee = new GeoCoordinateValid();
-		FieldUtils.writeField(testee, "topologischeCoordinaten",
-				Optional.empty(), true);
-		FieldUtils.writeField(testee, "alreadyFoundMetaData",
-				new ArrayList<GEOKanteMetadata>(), true);
-		FieldUtils.writeField(testee, "pointObjectPositionService",
-				new PointObjectPositionServiceImpl(), true);
-		FieldUtils.writeField(testee, "geometryService", geometryService, true);
-	}
-
-	private void givenGeoKanteGeometryService() throws Exception {
-		geometryService = new GeoKanteGeometryServiceImpl();
-		final Map<PlanPro_Schnittstelle, GeoKanteGeometrySessionData> sessionesData = new HashMap<>();
-		GeoKanteGeometrySessionData geoKanteGeometrySessionData = new GeoKanteGeometrySessionData();
-		sessionesData.put(planProSchnittstelle, geoKanteGeometrySessionData);
-		FieldUtils.writeField(geometryService, "sessionesData", sessionesData,
-				true);
-		Method declaredMethod = geometryService.getClass()
-				.getDeclaredMethod("findGeoKanteGeometry",
-						GeoKanteGeometrySessionData.class,
-						MultiContainer_AttributeGroup.class);
-		declaredMethod.setAccessible(true);
-		declaredMethod.invoke(geometryService, geoKanteGeometrySessionData,
-				PlanProSchnittstelleExtensions.getContainer(
-						planProSchnittstelle, ContainerType.INITIAL));
-		declaredMethod.invoke(geometryService, geoKanteGeometrySessionData,
-				PlanProSchnittstelleExtensions.getContainer(
-						planProSchnittstelle, ContainerType.FINAL));
-		FieldUtils.writeField(geometryService, "isProcessComplete", true, true);
+	@ParameterizedTest
+	@MethodSource("getReferenceFiles")
+	void testTopologischeCoordinateCalculate(
+			final Pair<String, String> testFile) throws Exception {
+		givenGeoKanteGeometryService();
+		givenGeoCoordinateValid();
+		givenTopologicalCoordinaten(testFile.getFirst());
+		givenPlanProFile(testFile.getSecond());
+		whenCalculateCoordinate();
+		thenExpectAllCoordinateAreEqualReference();
 
 	}
 

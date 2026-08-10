@@ -11,7 +11,6 @@ package org.eclipse.set.feature.table.pt1.sslf
 import java.util.Set
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
-import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
 import org.eclipse.set.model.planpro.Flankenschutz.Fla_Schutz
 import org.eclipse.set.model.planpro.Nahbedienung.NB_Zone_Grenze
@@ -27,7 +26,6 @@ import static org.eclipse.set.model.planpro.Flankenschutz.ENUMFahrtUeber.*
 
 import static extension org.eclipse.set.ppmodel.extensions.FlaFreimeldeZuordnungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FlaSchutzExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrAnlageExtensions.*
 
 /**
@@ -44,11 +42,9 @@ class SslfTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	override transformTableContent(
 		MultiContainer_AttributeGroup container,
-		TMFactory factory,
-		Stell_Bereich controlArea
+		TMFactory factory
 	) {
-		val flaSchutzList = container.flaSchutz.filter[isPlanningObject].
-			filterObjectsInControlArea(controlArea).filter[generalbedingung].
+		val flaSchutzList = container.flaSchutz.filter[generalbedingung].
 			sortBy[wLageNbGrenze]
 
 		for (flaSchutz : flaSchutzList) {

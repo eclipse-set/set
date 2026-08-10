@@ -19,6 +19,7 @@ import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
 import org.eclipse.set.services.export.TableCompileService;
 import org.eclipse.set.services.table.TableService;
+import org.eclipse.set.utils.table.TableInfo;
 
 import jakarta.inject.Inject;
 
@@ -33,22 +34,24 @@ public class TableCompileServiceImpl implements TableCompileService {
 	TableService tableService;
 
 	@Override
-	public Map<TableType, Table> compile(final String shortcut,
+	public Map<TableType, Table> compile(final TableInfo tableInfo,
 			final IModelSession modelSession,
 			final Set<String> controlAreaIds) {
 		final Map<TableType, Table> result = new EnumMap<>(TableType.class);
+		// always recreate tables here (e.g. for exports) but don't update table
+		// status here as this transformation is only temporary
 		if (PlanProSchnittstelleExtensions
 				.isPlanning(modelSession.getPlanProSchnittstelle())) {
 			Arrays.stream(TableType.values())
 					.filter(type -> type != TableType.SINGLE)
 					.forEach(type -> {
 						final Table table = tableService.createDiffTable(
-								shortcut, type, controlAreaIds);
+								tableInfo, type, controlAreaIds, false);
 						result.put(type, table);
 					});
 		} else {
-			final Table single = tableService.createDiffTable(shortcut,
-					TableType.SINGLE, controlAreaIds);
+			final Table single = tableService.createDiffTable(tableInfo,
+					TableType.SINGLE, controlAreaIds, false);
 			result.put(TableType.SINGLE, single);
 		}
 

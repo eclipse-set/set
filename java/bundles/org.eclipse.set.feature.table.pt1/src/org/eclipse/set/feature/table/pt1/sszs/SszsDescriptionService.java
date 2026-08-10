@@ -34,4 +34,9 @@ public class SszsDescriptionService extends AbstractETCSTableDescription {
 	protected String getToolboxViewTooltip() {
 		return messages.SszsDescriptionService_ViewTooltip;
 	}
+
+	@Override
+	protected String getTableShortcut() {
+		return messages.ToolboxTableNameSszsShort;
+	}
 }

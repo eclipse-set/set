@@ -8,12 +8,8 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
-import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_DWeg
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_DWeg_W_Kr
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element
-
-import static extension org.eclipse.set.ppmodel.extensions.StellBereichExtensions.*
 
 /**
  * Diese Klasse erweitert {@link Fstr_DWeg_W_Kr}.
@@ -27,11 +23,5 @@ class FstrDWegWKrExtensions extends BasisObjektExtensions {
 	 */
 	def static W_Kr_Gsp_Element getWKrGspElement(Fstr_DWeg_W_Kr z) {
 		return z.IDWKrGspElement?.value
-	}
-
-	def static boolean isBelongToControlArea(Fstr_DWeg fstrDWeg,
-		Stell_Bereich controlArea) {
-		return controlArea.
-			isInControlArea(fstrDWeg.IDFstrFahrweg?.value?.IDStart?.value)
 	}
 }

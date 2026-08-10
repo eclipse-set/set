@@ -41,7 +41,6 @@ import SvgKatalog from './SvgKatalog.vue'
 import SvgSingleSignal from './SvgSingleSignal.vue'
 import SvgService from '@/service/SvgService'
 import SignalBruecker from './SignalBruecke.vue'
-import axios from 'axios'
 import { Options, Vue } from 'vue-class-component'
 import { ISvgElement } from '@/model/SvgElement'
 
@@ -75,7 +74,7 @@ import { ISvgElement } from '@/model/SvgElement'
   }
 })
 export default class Svg extends Vue {
-  svgService = new SvgService(axios)
+  svgService = new SvgService()
   mode = ''
   listSignalGroup = []
   mastList: ISvgElement[] | null | undefined = []

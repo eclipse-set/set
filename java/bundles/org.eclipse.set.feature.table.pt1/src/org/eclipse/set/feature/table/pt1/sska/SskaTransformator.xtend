@@ -17,7 +17,6 @@ import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Aussenelementansteuerung
 import org.eclipse.set.model.planpro.Ansteuerung_Element.ESTW_Zentraleinheit
-import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Technik_Standort
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Unterbringung
 import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
@@ -36,7 +35,6 @@ import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensio
 import static extension org.eclipse.set.ppmodel.extensions.BedienBezirkExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.ESTW_ZentraleinheitExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.UnterbringungExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.CollectionExtensions.*
 
 /**
@@ -52,7 +50,7 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
-		TMFactory factory, Stell_Bereich controlArea) {
+		TMFactory factory) {
 
 		val aussenelementansteuerungList = container.aussenelementansteuerung
 		val estwzentraleinheitList = container.ESTWZentraleinheit
@@ -61,8 +59,7 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 		elementList.addAll(estwzentraleinheitList);
 		elementList.addAll(aussenelementansteuerungList);
 		// Basis_Objekt
-		for (element : elementList.filter[isPlanningObject].
-			filterObjectsInControlArea(controlArea)) {
+		for (element : elementList) {
 			if (Thread.currentThread.interrupted) {
 				return null
 			}

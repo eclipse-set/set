@@ -13,9 +13,7 @@ import java.util.Set
 import org.eclipse.set.basis.Pair
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
-import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
-import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
 import org.eclipse.set.model.planpro.Nahbedienung.ENUMNBGrenzeArt
 import org.eclipse.set.model.planpro.Nahbedienung.NB_Zone
 import org.eclipse.set.model.planpro.Nahbedienung.NB_Zone_Element
@@ -42,7 +40,6 @@ import static extension org.eclipse.set.ppmodel.extensions.NbExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.NbZoneElementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.NbZoneExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.NbZoneGrenzeExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspKomponenteExtensions.*
 
 /**
@@ -60,20 +57,19 @@ class SslnTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
-		TMFactory factory, Stell_Bereich controlArea) {
+		TMFactory factory) {
 		this.factory = factory
-		return container.transform(controlArea)
+		return container.transform
 	}
 
 	private def Table create factory.table transform(
-		MultiContainer_AttributeGroup container, Stell_Bereich controlArea) {
-		container.NBZone.filter[isPlanningObject].
-			filterObjectsInControlArea(controlArea).forEach [ it |
-				if (Thread.currentThread.interrupted) {
-					return
-				}
-				it.transform
-			]
+		MultiContainer_AttributeGroup container) {
+		container.NBZone.forEach [ it |
+			if (Thread.currentThread.interrupted) {
+				return
+			}
+			it.transform
+		]
 		return
 	}
 
@@ -313,14 +309,7 @@ class SslnTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	private static dispatch def String toBezeichnungGrenze(
-		Punkt_Objekt markanteStelle,
-		NB_Zone_Grenze grenze
-	) {
-		return null
-	}
-
-	private static dispatch def String toBezeichnungGrenze(
-		Void markanteStelle,
+		Basis_Objekt markanteStelle,
 		NB_Zone_Grenze grenze
 	) {
 		return null
@@ -335,6 +324,32 @@ class SslnTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	private static dispatch def String toBezeichnungGrenze(
 		FMA_Komponente markanteStelle,
+		NB_Zone_Grenze grenze
+	) {
+		val bezeichnung = grenze?.markanterPunkt?.bezeichnung?.
+			bezeichnungMarkanterPunkt?.wert
+		val flaSchutz = grenze.flaSchutz
+		val nbElemente = grenze.container.NBZoneElement.map[nbElement].filter(
+			W_Kr_Gsp_Element)
+		val innen = flaSchutz.map[weicheGleissperreElement].filterNull.filter [ gsp |
+			nbElemente.exists[it === gsp]
+		]
+		val aussen = flaSchutz.map[weicheGleissperreElement].filterNull.filter [ gsp |
+			!innen.exists[it === gsp]
+		]
+		val toString = [Iterable<W_Kr_Gsp_Element> gsps |
+			if (gsps.nullOrEmpty) {
+				return "-"
+			}
+			val gspBezeichnungen = gsps.filterNull.map[it.bezeichnung?.bezeichnungTabelle?.wert].filterNull
+			return gspBezeichnungen.getIterableFilling(MIXED_STRING_COMPARATOR, " ")
+		]
+		
+		return '''«bezeichnung» («toString.apply(innen)», «toString.apply(aussen)»)'''
+	}
+
+	private static dispatch def String toBezeichnungGrenze(
+		W_Kr_Gsp_Komponente markanteStelle,
 		NB_Zone_Grenze grenze
 	) {
 		return grenze.toBezeichnungGrenze
@@ -352,7 +367,8 @@ class SslnTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	private static def String flaSchutzElemente(NB_Zone_Grenze grenze) {
 		val elemente = grenze.flaSchutz.map [
-			weicheGleissperreElement?.bezeichnung?.bezeichnungTabelle?.wert ?: ""
+			weicheGleissperreElement?.bezeichnung?.bezeichnungTabelle?.wert ?:
+				""
 		]
 		return if (elemente.empty) {
 			"-"

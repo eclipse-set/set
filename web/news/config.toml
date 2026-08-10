@@ -44,3 +44,8 @@ themesDir = "../hugothemes/themes"
 [security]
   [security.exec]
     allow = ['asciidoctor']
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true

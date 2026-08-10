@@ -25,6 +25,17 @@ import org.eclipse.set.model.planpro.PlanPro.Planung_Projekt;
 public interface PlanningAccessService {
 
 	/**
+	 * @return the selected Subwork type
+	 */
+	public ENUMUntergewerkArt getCurrentUntergewerkArt();
+
+	/**
+	 * @param untergewerkArt
+	 *            the selected Subwork type
+	 */
+	public void setCurrentUntergewerkArt(ENUMUntergewerkArt untergewerkArt);
+
+	/**
 	 * @param planProIterface
 	 *            the PlanPro Schnittstelle
 	 * 

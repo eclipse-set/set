@@ -323,22 +323,22 @@ public interface ValidationreportPackage extends EPackage {
 	int VERSION_INFO = 2;
 
 	/**
-	 * The feature id for the '<em><b>Plan Pro</b></em>' attribute. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
+	 * The feature id for the '<em><b>Plan Pro Versions</b></em>' attribute
+	 * list. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @generated
 	 * @ordered
 	 */
-	int VERSION_INFO__PLAN_PRO = 0;
+	int VERSION_INFO__PLAN_PRO_VERSIONS = 0;
 
 	/**
-	 * The feature id for the '<em><b>Signals</b></em>' attribute. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
+	 * The feature id for the '<em><b>Signalbegriffe Versions</b></em>'
+	 * attribute list. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @generated
 	 * @ordered
 	 */
-	int VERSION_INFO__SIGNALS = 1;
+	int VERSION_INFO__SIGNALBEGRIFFE_VERSIONS = 1;
 
 	/**
 	 * The number of structural features of the '<em>Version Info</em>' class.
@@ -779,28 +779,32 @@ public interface ValidationreportPackage extends EPackage {
 	EClass getVersionInfo();
 
 	/**
-	 * Returns the meta object for the attribute
-	 * '{@link org.eclipse.set.model.validationreport.VersionInfo#getPlanPro
-	 * <em>Plan Pro</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * Returns the meta object for the attribute list
+	 * '{@link org.eclipse.set.model.validationreport.VersionInfo#getPlanProVersions
+	 * <em>Plan Pro Versions</em>}'. <!-- begin-user-doc --> <!-- end-user-doc
+	 * -->
 	 * 
-	 * @return the meta object for the attribute '<em>Plan Pro</em>'.
-	 * @see org.eclipse.set.model.validationreport.VersionInfo#getPlanPro()
+	 * @return the meta object for the attribute list '<em>Plan Pro
+	 *         Versions</em>'.
+	 * @see org.eclipse.set.model.validationreport.VersionInfo#getPlanProVersions()
 	 * @see #getVersionInfo()
 	 * @generated
 	 */
-	EAttribute getVersionInfo_PlanPro();
+	EAttribute getVersionInfo_PlanProVersions();
 
 	/**
-	 * Returns the meta object for the attribute
-	 * '{@link org.eclipse.set.model.validationreport.VersionInfo#getSignals
-	 * <em>Signals</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * Returns the meta object for the attribute list
+	 * '{@link org.eclipse.set.model.validationreport.VersionInfo#getSignalbegriffeVersions
+	 * <em>Signalbegriffe Versions</em>}'. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
 	 * 
-	 * @return the meta object for the attribute '<em>Signals</em>'.
-	 * @see org.eclipse.set.model.validationreport.VersionInfo#getSignals()
+	 * @return the meta object for the attribute list '<em>Signalbegriffe
+	 *         Versions</em>'.
+	 * @see org.eclipse.set.model.validationreport.VersionInfo#getSignalbegriffeVersions()
 	 * @see #getVersionInfo()
 	 * @generated
 	 */
-	EAttribute getVersionInfo_Signals();
+	EAttribute getVersionInfo_SignalbegriffeVersions();
 
 	/**
 	 * Returns the meta object for class
@@ -1185,20 +1189,23 @@ public interface ValidationreportPackage extends EPackage {
 		EClass VERSION_INFO = eINSTANCE.getVersionInfo();
 
 		/**
-		 * The meta object literal for the '<em><b>Plan Pro</b></em>' attribute
-		 * feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * The meta object literal for the '<em><b>Plan Pro Versions</b></em>'
+		 * attribute list feature. <!-- begin-user-doc --> <!-- end-user-doc -->
 		 * 
 		 * @generated
 		 */
-		EAttribute VERSION_INFO__PLAN_PRO = eINSTANCE.getVersionInfo_PlanPro();
+		EAttribute VERSION_INFO__PLAN_PRO_VERSIONS = eINSTANCE
+				.getVersionInfo_PlanProVersions();
 
 		/**
-		 * The meta object literal for the '<em><b>Signals</b></em>' attribute
-		 * feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * The meta object literal for the '<em><b>Signalbegriffe
+		 * Versions</b></em>' attribute list feature. <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
 		 * 
 		 * @generated
 		 */
-		EAttribute VERSION_INFO__SIGNALS = eINSTANCE.getVersionInfo_Signals();
+		EAttribute VERSION_INFO__SIGNALBEGRIFFE_VERSIONS = eINSTANCE
+				.getVersionInfo_SignalbegriffeVersions();
 
 		/**
 		 * The meta object literal for the

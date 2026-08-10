@@ -17,6 +17,7 @@ import org.eclipse.set.basis.graph.DirectedEdgePoint
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.Bahnuebergang.BUE_Anlage
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
+import org.eclipse.set.model.planpro.Fahrstrasse.ENUMFstrZugArt
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_DWeg
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Fahrweg
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Nichthaltfall
@@ -51,11 +52,10 @@ import static extension org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteEx
 import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalRahmenExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalbegriffExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.StellBereichExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspKomponenteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 import static extension org.eclipse.set.utils.math.BigIntegerExtensions.*
-import java.util.Collections
+import java.util.Iterator
 
 /**
  * This class extends {@link Fstr_Zug_Rangier}.
@@ -446,7 +446,7 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 			return false
 		}
 		val startSignal = fstrZugRangier?.IDFstrFahrweg?.value?.IDStart?.value
-		return controlArea.isInControlArea(startSignal)
+		return startSignal.isSsksSignalBelongToArea(controlArea)
 	}
 
 	private def static boolean isZugStrBelongToControlArea(
@@ -462,6 +462,69 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 		}
 		// TODO: 2. Condition for target signal isn't clearly 
 		return startSignal !== null &&
-			startSignal.isBelongToControlArea(controlArea)
+			startSignal.isSsksSignalBelongToArea(controlArea)
+	}
+
+	def static Signal getStartSignal(Fstr_Zug_Rangier fstrZug) {
+		return fstrZug?.fstrFahrweg?.start
+	}
+
+	def static Signal getZielSignal(Fstr_Zug_Rangier fstrZug) {
+		return fstrZug?.fstrFahrweg?.zielSignal
+	}
+
+	def static Iterable<Fstr_Zug_Rangier> getNextBlockFstrZugRangier(
+		Fstr_Zug_Rangier it) {
+		val zielSignal = IDFstrFahrweg?.value.IDZiel?.value
+		return zielSignal.container.fstrZugRangier.filter [
+			IDFstrFahrweg?.value?.IDStart?.value == zielSignal &&
+				fstrZug?.fstrZugArt?.wert === ENUMFstrZugArt.ENUM_FSTR_ZUG_ART_B
+		]
+	}
+
+	def static Iterable<Fstr_Zug_Rangier> getRecursiveNextBlockFstrZugRangier(
+		Fstr_Zug_Rangier it) {
+		val it = new Iterator<Fstr_Zug_Rangier>() {
+			var Fstr_Zug_Rangier next = it
+
+			override hasNext() {
+				val nextFstrZugRangier = getNextBlockFstrZugRangier(next)
+				next = nextFstrZugRangier?.firstOrNull // clarify if there be multiple blocks at the same signal
+				return next !== null
+			}
+
+			override next() {
+				next
+			}
+		}
+		return it.toList
+	}
+
+	/**
+	 * Return ENUmFstrZugArt
+	 */
+	def static String getFstrZugArt(Fstr_Zug_Rangier fstrZugRangier) {
+		if (!fstrZugRangier.isZ) {
+			return ""
+		}
+		val fstrZug = fstrZugRangier.fstrZug
+		val fstrZugArt = fstrZug?.fstrZugArt?.wert?.literal
+		if (!fstrZugRangier.nextBlockFstrZugRangier.nullOrEmpty) {
+			return '''«fstrZugArt.substring(1) ?: ""»B'''
+		}
+
+		if (fstrZug?.IDSignalGruppenausfahrt !== null) {
+			return '''G«fstrZugArt.substring(1) ?: ""»'''
+		}
+
+		if (fstrZugArt !== null) {
+			return fstrZugArt.substring(1)
+		}
+
+		if (fstrZugRangier.fstrMittel?.fstrMittelArt?.wert !== null) {
+			return fstrZugRangier.fstrMittel?.fstrMittelArt?.wert.literal.
+				substring(1);
+		}
+		return ""
 	}
 }

@@ -11,6 +11,7 @@ package org.eclipse.set.basis;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -27,6 +28,7 @@ import org.eclipse.set.basis.exceptions.UserAbortion;
 import org.eclipse.set.basis.files.ToolboxFile;
 import org.eclipse.set.model.planpro.Layoutinformationen.PlanPro_Layoutinfo;
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
+import org.eclipse.set.model.temporaryintegration.TemporaryIntegration;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.eclipse.swt.widgets.Shell;
 
@@ -332,4 +334,10 @@ public interface IModelSession {
 	 * @return the applied level of save fixes from the last save
 	 */
 	SaveFixResult getSaveFixResult();
+
+	Optional<TemporaryIntegration> getTemporaryIntegration();
+
+	void switchToMergeMode(TemporaryIntegration newTemporaryIntegration,
+			String mergeDir, Shell shell, ToolboxFile temporaryToolboxFile)
+			throws IOException, UserAbortion;
 }

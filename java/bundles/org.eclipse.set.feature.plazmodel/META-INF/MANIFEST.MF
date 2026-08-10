@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Toolbox Feature PlaZ
 Bundle-SymbolicName: org.eclipse.set.feature.plazmodel;singleton:=true
-Bundle-Version: 2.6.0.qualifier
+Bundle-Version: 2.7.0.qualifier
 Bundle-Vendor: Eclipse Signalling Engineering Toolbox
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Require-Bundle: com.google.guava,
@@ -93,7 +93,6 @@ Service-Component: OSGI-INF/org.eclipse.set.feature.plazmodel.PlazModelDescripti
  OSGI-INF/org.eclipse.set.feature.plazmodel.check.GuidStateUnique.xml,
  OSGI-INF/org.eclipse.set.feature.plazmodel.check.GuidUnique.xml,
  OSGI-INF/org.eclipse.set.feature.plazmodel.check.MeridianBetweenGEOKante.xml,
- OSGI-INF/org.eclipse.set.feature.plazmodel.check.MultiCRSCheck.xml,
  OSGI-INF/org.eclipse.set.feature.plazmodel.check.PlanungsBereichValid.xml,
  OSGI-INF/org.eclipse.set.feature.plazmodel.check.PunktObjektTOPKante.xml,
  OSGI-INF/org.eclipse.set.feature.plazmodel.check.SignalBefestigungReferencenValid.xml,
@@ -105,6 +104,8 @@ Service-Component: OSGI-INF/org.eclipse.set.feature.plazmodel.PlazModelDescripti
  OSGI-INF/org.eclipse.set.feature.plazmodel.check.TeilbereichTOPKanteLength.xml,
  OSGI-INF/org.eclipse.set.feature.plazmodel.check.TeilbereicheUnique.xml,
  OSGI-INF/org.eclipse.set.feature.plazmodel.check.TopGeoCoverage.xml,
+ OSGI-INF/org.eclipse.set.feature.plazmodel.check.UnicodeCharactersValid.xml,
  OSGI-INF/org.eclipse.set.feature.plazmodel.check.UniqueTopKanteBereichObject.xml,
+ OSGI-INF/org.eclipse.set.feature.plazmodel.check.UnusedBearbeitungsvermerke.xml,
  OSGI-INF/org.eclipse.set.feature.plazmodel.export.ExportTopologicalCoordinateDescriptionService.xml,
  OSGI-INF/org.eclipse.set.feature.plazmodel.service.PlazModelServiceImpl.xml

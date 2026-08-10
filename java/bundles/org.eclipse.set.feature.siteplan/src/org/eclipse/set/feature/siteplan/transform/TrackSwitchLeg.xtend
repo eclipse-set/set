@@ -233,7 +233,7 @@ class TrackSwitchLeg {
 			}
 		}
 
-		if (length === null || length === BigDecimal.ZERO) {
+		if (length === null || length.compareTo(BigDecimal.ZERO) === 0) {
 			length = DEFAULT_TRACKSWITCH_LEG_LENGTH
 		}
 	}

@@ -48,10 +48,10 @@ class TopKantePath extends AbstractDirectedEdgePath<TOP_Kante, TOP_Knoten, Punkt
 		Punkt_Objekt_TOP_Kante_AttributeGroup start,
 		Punkt_Objekt_TOP_Kante_AttributeGroup end
 	) {
-		this(sortEdges(bereich.topKanten, start, end), start, end)
+		this(bereich.topKanten, start, end)
 		// test if all edges are consumed
 		val mySet = edgeIterator.map[element].toSet
-
+		
 		if (!bereich.topKanten.equals(mySet)) {
 			throw new IllegalArgumentException('''sort top edges failed, bereich=«bereich.debugString»''')
 		}
@@ -73,13 +73,29 @@ class TopKantePath extends AbstractDirectedEdgePath<TOP_Kante, TOP_Knoten, Punkt
 	 * @param end the ending single point
 	 */
 	new(
+		Set<TOP_Kante> topKanten,
+		Punkt_Objekt_TOP_Kante_AttributeGroup start,
+		Punkt_Objekt_TOP_Kante_AttributeGroup end
+	) {
+		super(sortEdges(topKanten, start, end), start, end)
+	}
+
+	/**
+	 * Constructs a path from a list of directed TOP-Kanten. The TOP-Kanten are
+	 * assumed to be in the correct order.
+	 *  
+	 * @param topKanten the list of TOP-Kanten this path is constructed of
+	 * @param start the starting single point
+	 * @param end the ending single point
+	 */
+	new(
 		List<DirectedEdge<TOP_Kante, TOP_Knoten, Punkt_Objekt_TOP_Kante_AttributeGroup>> topKanten,
 		Punkt_Objekt_TOP_Kante_AttributeGroup start,
 		Punkt_Objekt_TOP_Kante_AttributeGroup end
 	) {
 		super(topKanten, start, end)
 	}
-
+	
 	/**
 	 * Constructs an empty path.
 	 */
@@ -87,7 +103,7 @@ class TopKantePath extends AbstractDirectedEdgePath<TOP_Kante, TOP_Knoten, Punkt
 		super(null, null, null)
 	}
 
-	private static def List<DirectedEdge<TOP_Kante, TOP_Knoten, Punkt_Objekt_TOP_Kante_AttributeGroup>> sortEdges(
+	static def List<DirectedEdge<TOP_Kante, TOP_Knoten, Punkt_Objekt_TOP_Kante_AttributeGroup>> sortEdges(
 		Set<TOP_Kante> topKanten,
 		Punkt_Objekt_TOP_Kante_AttributeGroup start,
 		Punkt_Objekt_TOP_Kante_AttributeGroup end
@@ -160,7 +176,7 @@ class TopKantePath extends AbstractDirectedEdgePath<TOP_Kante, TOP_Knoten, Punkt
 	) {
 		// Is the point directly located on a TOP_Kante?
 		for (topKante : topKanten) {
-			if (connection.IDTOPKante === topKante) {
+			if (connection.IDTOPKante.value === topKante) {
 				return topKante
 			}
 		}

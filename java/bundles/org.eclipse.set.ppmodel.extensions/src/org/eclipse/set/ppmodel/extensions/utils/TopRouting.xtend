@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2016 DB Netz AG and others.
- *
+ * 
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -27,9 +27,12 @@ import static extension org.eclipse.set.ppmodel.extensions.TopKnotenExtensions.*
  * @author Schaefer
  */
 class TopRouting extends AbstractRouting<TOP_Kante, TOP_Knoten, Punkt_Objekt_TOP_Kante_AttributeGroup> {
+	new() {
+		super()
+	}
 
 	override getEdges(TOP_Knoten node) {
-		return node.topKanten.toSet
+		return edgesOfNode.computeIfAbsent(node, [topKanten.toSet])
 	}
 
 	override getHeadEdge(TOP_Knoten head, TOP_Kante edge) {
@@ -58,9 +61,9 @@ class TopRouting extends AbstractRouting<TOP_Kante, TOP_Knoten, Punkt_Objekt_TOP
 	override getEmptyPath() {
 		return new TopKantePath
 	}
-	
+
 	override getCacheKey() {
 		return "TopRouting"
 	}
-	
+
 }

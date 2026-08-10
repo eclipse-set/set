@@ -11,8 +11,14 @@ package org.eclipse.set.basis;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Optional;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Strings;
 
@@ -26,7 +32,7 @@ import com.google.common.base.Strings;
  */
 @SuppressWarnings("nls")
 public class MixedStringComparator implements Comparator<String> {
-
+	Logger logger = LoggerFactory.getLogger(MixedStringComparator.class);
 	private static final String NUMBER = "number";
 
 	private static String transform(final String text) {
@@ -85,16 +91,26 @@ public class MixedStringComparator implements Comparator<String> {
 
 		final Matcher matcher1 = pattern.matcher(o1);
 		final Matcher matcher2 = pattern.matcher(o2);
+		final Optional<Integer> patternCompare = compareNullableValue(matcher1,
+				matcher2, m -> {
+					if (!m.matches()) {
+						logger.error("pattern= {} - input= {}", pattern,
+								m == matcher1 ? o1 : o2);
+						return true;
+					}
+					return false;
+				});
+		if (patternCompare.isPresent()) {
+			return patternCompare.get().intValue();
+		}
 
-		if (!matcher1.matches()) {
-			throw new IllegalArgumentException(
-					"pattern=" + pattern.toString() + " input=" + o1);
-		}
-		if (!matcher2.matches()) {
-			throw new IllegalArgumentException(
-					"pattern=" + pattern.toString() + " input=" + o2);
-		}
 		for (final String groupName : groups) {
+			final Optional<Integer> compareExistGroup = compareNullableValue(
+					matcher1, matcher2,
+					m -> tryCatchFalse(m, o -> o.group(groupName)));
+			if (compareExistGroup.isPresent()) {
+				return compareExistGroup.get().intValue();
+			}
 			final String groupO1 = matcher1.group(groupName);
 			final String groupO2 = matcher2.group(groupName);
 			if (groupName.startsWith(NUMBER)) {
@@ -117,23 +133,56 @@ public class MixedStringComparator implements Comparator<String> {
 
 	private static int compareNumber(final String groupName,
 			final String groupO1, final String groupO2) {
-		if (groupName.endsWith("Prefix")) {
-			final String value1 = groupO1 == null ? "" : groupO1;
-			final String value2 = groupO2 == null ? "" : groupO2;
-			if (value1.equals("-") && !value2.equals("-")) {
-				return -1;
-			}
-
-			if (!value1.equals("-") && value2.equals("-")) {
-				return 1;
-			}
-			return 0;
+		if (groupName.startsWith("numberD")) {
+			final String value1 = groupO1 == null ? "0.0" : "0." + groupO1;
+			final String value2 = groupO2 == null ? "0.0" : "0." + groupO2;
+			return Double.valueOf(value1).compareTo(Double.valueOf(value2));
 		}
-		final int value1 = Strings.isNullOrEmpty(groupO1) ? 0
-				: Integer.parseInt(groupO1);
-		final int value2 = Strings.isNullOrEmpty(groupO2) ? 0
-				: Integer.parseInt(groupO2);
+		final double value1 = Strings.isNullOrEmpty(groupO1) ? 0
+				: Double.parseDouble(groupO1);
+		final double value2 = Strings.isNullOrEmpty(groupO2) ? 0
+				: Double.parseDouble(groupO2);
 
-		return Integer.compare(value1, value2);
+		return Double.compare(value1, value2);
+	}
+
+	/**
+	 * Compare nullable/ not available objects
+	 * 
+	 * @param <T>
+	 *            the compare type
+	 * @param first
+	 *            the first value
+	 * @param second
+	 *            the second value
+	 * @param checkNullable
+	 *            checkNullable predicate
+	 * @return the optional empty, when both of the values are available
+	 */
+	public static <T> Optional<Integer> compareNullableValue(final T first,
+			final T second, final Predicate<T> checkNullable) {
+		if (checkNullable.test(first) && first == second) {
+			return Optional.of(Integer.valueOf(0));
+		}
+
+		if (checkNullable.test(first)) {
+			return Optional.of(Integer.valueOf(-1));
+		}
+
+		if (checkNullable.test(second)) {
+			return Optional.of(Integer.valueOf(1));
+		}
+
+		return Optional.empty();
+	}
+
+	private static <T, U> boolean tryCatchFalse(final T obj,
+			final Function<T, U> function) {
+		try {
+			function.apply(obj);
+			return false;
+		} catch (final Exception e) {
+			return true;
+		}
 	}
 }

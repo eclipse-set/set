@@ -86,6 +86,18 @@ public interface TopologicalGraphService {
 	Optional<TopPath> findShortestPath(final TopPoint from, final TopPoint to);
 
 	/**
+	 * @param from
+	 *            starting point to search from
+	 * @param to
+	 *            end point to search toward
+	 * @param inTopDirection
+	 *            is in topological direction
+	 * @return the optional of {@link TopPath} in direction of start point
+	 */
+	Optional<TopPath> findShortestPathInDirection(TopPoint from, TopPoint to,
+			boolean inTopDirection);
+
+	/**
 	 * Finds the closest point of a set
 	 * 
 	 * @param from

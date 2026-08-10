@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.Callable;
@@ -158,6 +160,21 @@ public class DialogServiceImpl implements DialogService {
 			result.setValue(Boolean.valueOf(confirmDialog.confirmed()));
 		});
 		return result.getValue().booleanValue();
+	}
+
+	@Override
+	public List<String> confirmOverwriteMultiFile(final Shell shell,
+			final List<String> filesName) {
+		final SelectValueDialog dialog = new SelectValueDialog(shell,
+				utilMessages.Dialogs_confirmOverwriteTitle,
+				utilMessages.Dialogs_confirmOverwrite_Multi, filesName);
+		dialog.open();
+		final Collection<String> result = dialog.getResult();
+
+		if (result.isEmpty()) {
+			return Collections.emptyList();
+		}
+		return filesName.stream().filter(result::contains).toList();
 	}
 
 	@Override

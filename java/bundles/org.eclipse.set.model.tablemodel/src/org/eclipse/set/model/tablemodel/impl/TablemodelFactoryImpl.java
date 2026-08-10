@@ -78,8 +78,8 @@ public class TablemodelFactoryImpl extends EFactoryImpl
 				return createTableCell();
 			case TablemodelPackage.STRING_CELL_CONTENT:
 				return createStringCellContent();
-			case TablemodelPackage.COMPARE_CELL_CONTENT:
-				return createCompareCellContent();
+			case TablemodelPackage.COMPARE_STATE_CELL_CONTENT:
+				return createCompareStateCellContent();
 			case TablemodelPackage.CELL_ANNOTATION:
 				return createCellAnnotation();
 			case TablemodelPackage.MULTI_COLOR_CELL_CONTENT:
@@ -96,6 +96,8 @@ public class TablemodelFactoryImpl extends EFactoryImpl
 				return createCompareTableFootnoteContainer();
 			case TablemodelPackage.PLAN_COMPARE_ROW:
 				return createPlanCompareRow();
+			case TablemodelPackage.FOOTNOTE:
+				return createFootnote();
 			default:
 				throw new IllegalArgumentException("The class '"
 						+ eClass.getName() + "' is not a valid classifier");
@@ -227,9 +229,9 @@ public class TablemodelFactoryImpl extends EFactoryImpl
 	 * @generated
 	 */
 	@Override
-	public CompareCellContent createCompareCellContent() {
-		CompareCellContentImpl compareCellContent = new CompareCellContentImpl();
-		return compareCellContent;
+	public CompareStateCellContent createCompareStateCellContent() {
+		CompareStateCellContentImpl compareStateCellContent = new CompareStateCellContentImpl();
+		return compareStateCellContent;
 	}
 
 	/**
@@ -318,6 +320,17 @@ public class TablemodelFactoryImpl extends EFactoryImpl
 	public PlanCompareRow createPlanCompareRow() {
 		PlanCompareRowImpl planCompareRow = new PlanCompareRowImpl();
 		return planCompareRow;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
+	public Footnote createFootnote() {
+		FootnoteImpl footnote = new FootnoteImpl();
+		return footnote;
 	}
 
 	/**

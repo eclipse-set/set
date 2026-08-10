@@ -17,15 +17,22 @@ import javax.imageio.ImageIO
 import javax.xml.parsers.DocumentBuilderFactory
 import javax.xml.parsers.ParserConfigurationException
 import org.eclipse.set.basis.FreeFieldInfo
+import org.eclipse.set.basis.FreeFieldInfo.LoadedPlanInformation
+import org.eclipse.set.basis.FreeFieldInfo.SignificantInformation
+import org.eclipse.set.basis.constants.ToolboxConstants
 import org.eclipse.set.model.tablemodel.CellContent
-import org.eclipse.set.model.tablemodel.CompareCellContent
+import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.model.tablemodel.CompareFootnoteContainer
+import org.eclipse.set.model.tablemodel.CompareStateCellContent
 import org.eclipse.set.model.tablemodel.CompareTableCellContent
+import org.eclipse.set.model.tablemodel.CompareTableFootnoteContainer
 import org.eclipse.set.model.tablemodel.FootnoteContainer
 import org.eclipse.set.model.tablemodel.MultiColorCellContent
 import org.eclipse.set.model.tablemodel.MultiColorContent
+import org.eclipse.set.model.tablemodel.PlanCompareRow
 import org.eclipse.set.model.tablemodel.SimpleFootnoteContainer
 import org.eclipse.set.model.tablemodel.Table
+import org.eclipse.set.model.tablemodel.TableCell
 import org.eclipse.set.model.tablemodel.TableContent
 import org.eclipse.set.model.tablemodel.TableRow
 import org.eclipse.set.model.tablemodel.extensions.TableExtensions.FootnoteInfo
@@ -41,15 +48,13 @@ import org.w3c.dom.Document
 import org.w3c.dom.Element
 
 import static extension org.eclipse.set.model.tablemodel.extensions.CellContentExtensions.*
+import static extension org.eclipse.set.model.tablemodel.extensions.TableCellExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.TableContentExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensions.*
-import static extension org.eclipse.set.model.tablemodel.extensions.TableCellExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.TableRowExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 import static extension org.eclipse.set.utils.StringExtensions.*
 import static extension org.eclipse.set.utils.export.xsl.siteplan.SiteplanXSL.pxToMilimeter
-import org.eclipse.set.basis.constants.ToolboxConstants
-import org.eclipse.set.model.tablemodel.PlanCompareRow
-import org.eclipse.set.model.tablemodel.CompareTableFootnoteContainer
 
 /**
  * Transformation from {@link Table} to TableDocument {@link Document}.
@@ -63,7 +68,7 @@ class TableToTableDocument {
 
 	public static val String FOOTNOTE_INLINE_TEXT_SEPARATOR = String.
 		format("%n")
-	private static val String FOOTNOTE_MARK_SEPRATOR = "; "
+	public static val String FOOTNOTE_MARK_SEPRATOR = ", "
 
 	val Document doc
 	var String tablename
@@ -208,7 +213,7 @@ class TableToTableDocument {
 
 		cells.indexed.forEach [
 			logger.debug('''column=«key»''')
-			val isRemarkColumn = value.isRemarkColumn(cells)
+			val isRemarkColumn = value.isRemarkColumn
 
 			// Check for required span merges
 			var rowSpan = 1
@@ -272,9 +277,22 @@ class TableToTableDocument {
 		return cellElement
 	}
 
-	private def boolean isRemarkColumn(CellContent content,
-		List<CellContent> rowContent) {
-		return rowContent.last === content
+	static def boolean isRemarkColumn(CellContent content) {
+		return isRemarkColumn((content.eContainer as TableCell))
+	}
+
+	static def boolean isRemarkColumn(TableCell cell) {
+		return isRemarkColumn(cell.columndescriptor)
+	}
+
+	static def boolean isRemarkColumn(ColumnDescriptor columnDescriptor) {
+		if (columnDescriptor === null) {
+			return false;
+		}
+		if (columnDescriptor.isRemarkColumn) {
+			return true;
+		}
+		return isRemarkColumn(columnDescriptor.parent)
 	}
 
 	private def Attr create doc.createAttribute("group-number") transformToGroupNumber(
@@ -343,12 +361,12 @@ class TableToTableDocument {
 		}
 	}
 
-	private def dispatch Element createContent(CompareCellContent content,
+	private def dispatch Element createContent(CompareStateCellContent content,
 		FootnoteContainer fc, int columnNumber, boolean isRemarkColumn) {
 		val element = doc.createElement("DiffContent")
 		formatCompareContent(
-			content.oldValue,
-			content.newValue,
+			content.oldValue.stringValueIterable,
+			content.newValue.stringValueIterable,
 			[doc.createElement("OldValue")],
 			[doc.createElement("UnchangedValue")],
 			[doc.createElement("NewValue")],
@@ -396,6 +414,7 @@ class TableToTableDocument {
 	private def void addFootnoteChild(Element element, String content,
 		String mark, int columnNumber, boolean isRemarkColumn) {
 		val child = createCompareValueElement(mark, content)
+		child.setAttribute("isFootNote", "true")
 		element.appendChild(
 			content.addContentToElement(child, columnNumber, isRemarkColumn))
 	}
@@ -408,34 +427,46 @@ class TableToTableDocument {
 	private dispatch def void addFootnoteContent(Element element,
 		SimpleFootnoteContainer fc, int columnNumber, boolean isRemarkColumn) {
 		val footNotesInfo = fc.footnotes.map[getFootnoteInfo(fc, it)].filterNull
-		val separator = remarkTextInlnie ? FOOTNOTE_INLINE_TEXT_SEPARATOR : FOOTNOTE_MARK_SEPRATOR
-		val footnotes = footNotesInfo.map [
-			remarkTextInlnie ? toText : toShorthand
-		].iterableToString(separator)
-		element.addFootnoteChild(footnotes, WARNING_MARK_BLACK, columnNumber,
-			isRemarkColumn)
+		element.addFootnoteChild(footNotesInfo.footnotesToString,
+			WARNING_MARK_BLACK, columnNumber, isRemarkColumn)
 	}
 
 	private dispatch def void addFootnoteContent(Element element,
 		CompareFootnoteContainer fc, int columnNumber, boolean isRemarkColumn) {
-		val separator = remarkTextInlnie ? FOOTNOTE_INLINE_TEXT_SEPARATOR : FOOTNOTE_MARK_SEPRATOR
-		val oldFootnotes = fc.oldFootnotes.map[getFootnoteInfo(fc, it)].map [
-			remarkTextInlnie ? toText : toShorthand
-		].iterableToString(separator)
-		val newFootnotes = fc.newFootnotes.map[getFootnoteInfo(fc, it)].map [
-			remarkTextInlnie ? toText : toShorthand
-		].iterableToString(separator)
-		val unchangedFootnotes = fc.unchangedFootnotes.map [
+		val oldFootnotes = fc.oldFootnotes.footnotes.map [
 			getFootnoteInfo(fc, it)
-		].map[remarkTextInlnie ? toText : toShorthand].
-			iterableToString(separator)
+		]
+		val newFootnotes = fc.newFootnotes.footnotes.map [
+			getFootnoteInfo(fc, it)
+		]
+		val unchangedFootnotes = fc.unchangedFootnotes.footnotes.map [
+			getFootnoteInfo(fc, it)
+		]
 
-		element.addFootnoteChild(oldFootnotes, WARNING_MARK_YELLOW,
-			columnNumber, isRemarkColumn)
-		element.addFootnoteChild(unchangedFootnotes, WARNING_MARK_BLACK,
-			columnNumber, isRemarkColumn)
-		element.addFootnoteChild(newFootnotes, WARNING_MARK_RED, columnNumber,
-			isRemarkColumn)
+		// When the Footnote aren't inline rendere, then keep the reference number in one line
+		if (!remarkTextInlnie) {
+			element.setAttribute("keep-inline", "true")
+			// Sort unchanged & new footnotes together, then the old foonotes
+			#[unchangedFootnotes, newFootnotes].flatten.processFootnotes.forEach [
+				val remark = unchangedFootnotes.exists [ unchanged |
+						unchanged.bearbeitungsvermerk === bearbeitungsvermerk &&
+							toShorthand == toShorthand
+					] ? WARNING_MARK_BLACK : WARNING_MARK_RED
+				element.addFootnoteChild(toShorthand, remark, columnNumber,
+					isRemarkColumn)
+			]
+			oldFootnotes.processFootnotes.forEach [
+				element.addFootnoteChild(toShorthand, WARNING_MARK_YELLOW,
+					columnNumber, isRemarkColumn)
+			]
+		} else {
+			element.addFootnoteChild(unchangedFootnotes.footnotesToString,
+				WARNING_MARK_BLACK, columnNumber, isRemarkColumn)
+			element.addFootnoteChild(newFootnotes.footnotesToString,
+				WARNING_MARK_RED, columnNumber, isRemarkColumn)
+			element.addFootnoteChild(oldFootnotes.footnotesToString,
+				WARNING_MARK_YELLOW, columnNumber, isRemarkColumn)
+		}
 	}
 
 	private dispatch def void addFootnoteContent(Element element,
@@ -443,6 +474,19 @@ class TableToTableDocument {
 		boolean isRemarkColumn) {
 		element.addFootnoteContent(fc.mainPlanFootnoteContainer, columnNumber,
 			isRemarkColumn)
+	}
+
+	static def List<FootnoteInfo> processFootnotes(Iterable<FootnoteInfo> fn) {
+		return fn.filterNull.distinctBy[toShorthand].sortBy [
+			index
+		].toList
+	}
+
+	private def String footnotesToString(Iterable<FootnoteInfo> fn) {
+		val separator = remarkTextInlnie ? FOOTNOTE_INLINE_TEXT_SEPARATOR : FOOTNOTE_MARK_SEPRATOR
+		return fn.processFootnotes.map [
+			remarkTextInlnie ? toText : toShorthand
+		].iterableToString(separator)
 	}
 
 	private def Element createMultiColorElement(MultiColorContent content,
@@ -550,9 +594,23 @@ class TableToTableDocument {
 	}
 
 	private def Element create doc.createElement("SignificantInformation") transformToSignificantInformation(
-		String significantInformation) {
-		textContent = significantInformation
-		return
+		SignificantInformation significantInformation) {
+		appendChild(
+			transformLoadedPlanInformation("MainPlan",
+				significantInformation.mainPlan))
+		if (significantInformation.comparePlan !== null) {
+			appendChild(
+				transformLoadedPlanInformation("ComparePlan",
+					significantInformation.comparePlan))
+		}
+	}
+
+	private def Element create doc.createElement("LoadedPlan") transformLoadedPlanInformation(
+		String id, LoadedPlanInformation info) {
+		val idAttr = doc.createAttribute("id")
+		idAttr.value = id
+		attributeNode = idAttr
+		textContent = '''«info.name» «info.timestamp» MD5: «info.checksum»'''
 	}
 
 	private def Element create doc.createElement("Footnotes")
@@ -566,16 +624,28 @@ class TableToTableDocument {
 
 	private def Element transform(FootnoteInfo footnote) {
 		val it = doc.createElement("Footnote")
-		val footNoteType = doc.createElement(footnote.type.toString)
-		footNoteType.attributeNode = createFootnoteAttribute(footnote.index)
+		val footNoteType = doc.createElement(
+			footnote.changedInCompare &&
+				footnote.removedInMain ? 'REMOVED_COMPARE_FOOTNOTE' : footnote.
+				type.toString)
+		footNoteType.attributeNode = createFootnoteNumberAttribute(
+			footnote.index)
+		if (footnote.changedInCompare) {
+			it.attributeNode = createFootnoteCompareAttribute()
+		}
 		footNoteType.textContent = footnote.toText
 		appendChild(footNoteType)
 		return it
 	}
 
-	private def Attr createFootnoteAttribute(Integer number) {
+	private def Attr createFootnoteNumberAttribute(Integer number) {
 		val footnoteAttr = doc.createAttribute("footnote-number")
 		footnoteAttr.value = Integer.toString(number)
+		return footnoteAttr
+	}
+
+	private def Attr createFootnoteCompareAttribute() {
+		val footnoteAttr = doc.createAttribute("footnote-changed-in-compare")
 		return footnoteAttr
 	}
 }

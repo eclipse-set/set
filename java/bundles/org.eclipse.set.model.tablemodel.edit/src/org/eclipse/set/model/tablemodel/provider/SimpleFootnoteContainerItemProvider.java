@@ -18,10 +18,8 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
-
-import org.eclipse.set.model.planpro.Basisobjekte.BasisobjekteFactory;
-
 import org.eclipse.set.model.tablemodel.SimpleFootnoteContainer;
+import org.eclipse.set.model.tablemodel.TablemodelFactory;
 import org.eclipse.set.model.tablemodel.TablemodelPackage;
 
 /**
@@ -151,7 +149,7 @@ public class SimpleFootnoteContainerItemProvider
 
 		newChildDescriptors.add(createChildParameter(
 				TablemodelPackage.Literals.SIMPLE_FOOTNOTE_CONTAINER__FOOTNOTES,
-				BasisobjekteFactory.eINSTANCE.createBearbeitungsvermerk()));
+				TablemodelFactory.eINSTANCE.createFootnote()));
 	}
 
 }

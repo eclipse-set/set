@@ -23,7 +23,6 @@ import SvgDrawPZB from '@/util/SVG/Draw/SvgDrawPZB'
 import SvgDrawTrackClose from '@/util/SVG/Draw/SvgDrawTrackClose'
 import SvgDrawTracklock from '@/util/SVG/Draw/SvgDrawTracklock'
 import SvgDrawTrackSwitch from '@/util/SVG/Draw/SvgDrawTrackSwitch'
-import { AxiosStatic } from 'axios'
 import OlIcon from 'ol/style/Icon'
 import OlStyle from 'ol/style/Style'
 import AbstractDrawSVG from '../util/SVG/Draw/AbstractDrawSVG'
@@ -43,14 +42,12 @@ export interface DrawSVGData<T> {
  *  is constructed only once.
 */
 export default class SvgService {
-  private catalog: Map<string, ISvgElement[]>
   private featureStyleCache: Map<string, OlStyle> = new Map<string, OlStyle>()
   private featureSvgElementCache: Map<string, ISvgElement> = new Map<string, ISvgElement>()
   private drawFeatureClass: AbstractDrawSVG[] = []
   private catalogService: SvgCatalogService
-  constructor (axios: AxiosStatic) {
-    this.catalogService = new SvgCatalogService(axios)
-    this.catalog = this.catalogService.getCatalog()
+  constructor () {
+    this.catalogService = SvgCatalogService.getInstance()
     this.registerDrawFeatureSvg()
   }
 
@@ -148,7 +145,7 @@ export default class SvgService {
   }
 
   public getSvgElementInGroup (groupName: string): ISvgElement[] | null | undefined {
-    return this.catalog.get(groupName)
+    return this.catalogService.getCatalog().get(groupName)
   }
 
   public drawFeatureSVG<T extends object> (data: T, featureType: FeatureType, label?: Label): ISvgElement {

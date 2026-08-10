@@ -15,7 +15,7 @@ Other operating systems or processor architectures may work, but are generally n
 - A Java Development Kit 21
 - node.js 22
 - Maven (3.9.9) 
-- Eclipse IDE (2025-03)
+- Eclipse IDE (2025-12)
 - [hugo](https://gohugo.io/) (v0.101.0+)
   - should be available in your $PATH as `hugo`
 - [asciidoctor](https://docs.asciidoctor.org/)

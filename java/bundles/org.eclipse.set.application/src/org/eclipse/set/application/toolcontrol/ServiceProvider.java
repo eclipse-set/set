@@ -17,6 +17,7 @@ import org.eclipse.set.application.Messages;
 import org.eclipse.set.core.services.dialog.DialogService;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.core.services.part.ToolboxPartService;
+import org.eclipse.set.core.services.planningaccess.PlanningAccessService;
 
 import jakarta.inject.Inject;
 
@@ -44,4 +45,7 @@ public class ServiceProvider {
 
 	@Inject
 	public DialogService dialogService;
+
+	@Inject
+	public PlanningAccessService planningAccessService;
 }

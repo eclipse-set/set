@@ -10,6 +10,7 @@ package org.eclipse.set.model.siteplan.impl;
 
 import java.util.Collection;
 
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.common.util.EList;
@@ -17,9 +18,11 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
+import org.eclipse.set.model.siteplan.Coordinate;
 import org.eclipse.set.model.siteplan.SiteplanPackage;
 import org.eclipse.set.model.siteplan.Track;
 import org.eclipse.set.model.siteplan.TrackDesignation;
@@ -36,6 +39,8 @@ import org.eclipse.set.model.siteplan.TrackSection;
  * <em>Sections</em>}</li>
  * <li>{@link org.eclipse.set.model.siteplan.impl.TrackImpl#getDesignations
  * <em>Designations</em>}</li>
+ * <li>{@link org.eclipse.set.model.siteplan.impl.TrackImpl#getStartCoordinate
+ * <em>Start Coordinate</em>}</li>
  * </ul>
  *
  * @generated
@@ -61,6 +66,17 @@ public class TrackImpl extends SiteplanObjectImpl implements Track {
 	 * @ordered
 	 */
 	protected EList<TrackDesignation> designations;
+
+	/**
+	 * The cached value of the '{@link #getStartCoordinate() <em>Start
+	 * Coordinate</em>}' containment reference. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
+	 * @see #getStartCoordinate()
+	 * @generated
+	 * @ordered
+	 */
+	protected Coordinate startCoordinate;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -116,6 +132,65 @@ public class TrackImpl extends SiteplanObjectImpl implements Track {
 	 * @generated
 	 */
 	@Override
+	public Coordinate getStartCoordinate() {
+		return startCoordinate;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	public NotificationChain basicSetStartCoordinate(
+			Coordinate newStartCoordinate, NotificationChain msgs) {
+		Coordinate oldStartCoordinate = startCoordinate;
+		startCoordinate = newStartCoordinate;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET, SiteplanPackage.TRACK__START_COORDINATE,
+					oldStartCoordinate, newStartCoordinate);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
+	public void setStartCoordinate(Coordinate newStartCoordinate) {
+		if (newStartCoordinate != startCoordinate) {
+			NotificationChain msgs = null;
+			if (startCoordinate != null)
+				msgs = ((InternalEObject) startCoordinate).eInverseRemove(this,
+						EOPPOSITE_FEATURE_BASE
+								- SiteplanPackage.TRACK__START_COORDINATE,
+						null, msgs);
+			if (newStartCoordinate != null)
+				msgs = ((InternalEObject) newStartCoordinate).eInverseAdd(this,
+						EOPPOSITE_FEATURE_BASE
+								- SiteplanPackage.TRACK__START_COORDINATE,
+						null, msgs);
+			msgs = basicSetStartCoordinate(newStartCoordinate, msgs);
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					SiteplanPackage.TRACK__START_COORDINATE, newStartCoordinate,
+					newStartCoordinate));
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd,
 			int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -125,6 +200,8 @@ public class TrackImpl extends SiteplanObjectImpl implements Track {
 			case SiteplanPackage.TRACK__DESIGNATIONS:
 				return ((InternalEList<?>) getDesignations())
 						.basicRemove(otherEnd, msgs);
+			case SiteplanPackage.TRACK__START_COORDINATE:
+				return basicSetStartCoordinate(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -141,6 +218,8 @@ public class TrackImpl extends SiteplanObjectImpl implements Track {
 				return getSections();
 			case SiteplanPackage.TRACK__DESIGNATIONS:
 				return getDesignations();
+			case SiteplanPackage.TRACK__START_COORDINATE:
+				return getStartCoordinate();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -164,6 +243,9 @@ public class TrackImpl extends SiteplanObjectImpl implements Track {
 				getDesignations().addAll(
 						(Collection<? extends TrackDesignation>) newValue);
 				return;
+			case SiteplanPackage.TRACK__START_COORDINATE:
+				setStartCoordinate((Coordinate) newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -182,6 +264,9 @@ public class TrackImpl extends SiteplanObjectImpl implements Track {
 			case SiteplanPackage.TRACK__DESIGNATIONS:
 				getDesignations().clear();
 				return;
+			case SiteplanPackage.TRACK__START_COORDINATE:
+				setStartCoordinate((Coordinate) null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -198,6 +283,8 @@ public class TrackImpl extends SiteplanObjectImpl implements Track {
 				return sections != null && !sections.isEmpty();
 			case SiteplanPackage.TRACK__DESIGNATIONS:
 				return designations != null && !designations.isEmpty();
+			case SiteplanPackage.TRACK__START_COORDINATE:
+				return startCoordinate != null;
 		}
 		return super.eIsSet(featureID);
 	}

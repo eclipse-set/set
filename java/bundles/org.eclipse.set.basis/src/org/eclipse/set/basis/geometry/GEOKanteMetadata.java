@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.function.Function;
 
 import org.eclipse.set.model.planpro.Basisobjekte.Bereich_Objekt;
+import org.eclipse.set.model.planpro.Geodaten.ENUMGEOKoordinatensystem;
 import org.eclipse.set.model.planpro.Geodaten.GEO_Kante;
 import org.eclipse.set.model.planpro.Geodaten.GEO_Knoten;
 import org.eclipse.set.model.planpro.Geodaten.TOP_Kante;
@@ -56,6 +57,18 @@ public class GEOKanteMetadata {
 	 * Length of the GEO_Kante on the TOP_Kante
 	 */
 	final BigDecimal length;
+
+	/**
+	 * The coordinate system
+	 */
+	final ENUMGEOKoordinatensystem geoCRS;
+
+	/**
+	 * @return the geometry coordinate system
+	 */
+	public ENUMGEOKoordinatensystem getGeoCRS() {
+		return geoCRS;
+	}
 
 	/**
 	 * @return the GEO_Kante
@@ -121,17 +134,20 @@ public class GEOKanteMetadata {
 	 *            the start {@link GEO_Knoten} of this GEO_Kante
 	 * @param geometry
 	 *            the geometry of this GEO_Kante
+	 * @param geoCRS
+	 *            the geometry coordinate system
 	 * 
 	 */
 	public GEOKanteMetadata(final GEO_Kante geoKante, final BigDecimal start,
 			final BigDecimal length, final List<Bereich_Objekt> bereichObjekt,
 			final TOP_Kante topKante, final GEO_Knoten geoKnoten,
-			final LineString geometry) {
+			final LineString geometry, final ENUMGEOKoordinatensystem geoCRS) {
 		this.geoKante = geoKante;
 		this.start = start;
 		this.length = length;
 		this.geometry = geometry;
 		this.geoKnoten = geoKnoten;
+		this.geoCRS = geoCRS;
 		determineSegments(topKante, bereichObjekt);
 	}
 
@@ -144,14 +160,18 @@ public class GEOKanteMetadata {
 	 *            the start {@link GEO_Knoten} of this GEO_Kante
 	 * @param geometry
 	 *            the geometry of this GEO_Kante
+	 * @param geoCRS
+	 *            the geometry coordinate system
 	 */
 	public GEOKanteMetadata(final GEO_Kante geoKante, final BigDecimal start,
-			final GEO_Knoten geoKnoten, final LineString geometry) {
+			final GEO_Knoten geoKnoten, final LineString geometry,
+			final ENUMGEOKoordinatensystem geoCRS) {
 		this.geoKante = geoKante;
 		this.start = start;
 		this.length = dermineLength().apply(geoKante);
 		this.geometry = geometry;
 		this.geoKnoten = geoKnoten;
+		this.geoCRS = geoCRS;
 		// As there is final no segmenting information, only use one segment
 		segments.add(new GEOKanteSegment(start, length));
 

@@ -8,38 +8,19 @@
  */
 package org.eclipse.set.utils.table;
 
-import static org.eclipse.set.model.tablemodel.extensions.CellContentExtensions.HOURGLASS_ICON;
-import static org.eclipse.set.model.tablemodel.extensions.CellContentExtensions.getStringValueIterable;
-
+import java.util.HashMap;
 import java.util.List;
-import java.util.Map.Entry;
-import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
+import java.util.Map;
+import java.util.function.Consumer;
 
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.nebula.widgets.nattable.data.ISpanningDataProvider;
 import org.eclipse.nebula.widgets.nattable.layer.cell.DataCell;
-import org.eclipse.set.basis.IModelSession;
-import org.eclipse.set.basis.constants.ContainerType;
-import org.eclipse.set.basis.constants.TableType;
-import org.eclipse.set.basis.files.ToolboxFileRole;
-import org.eclipse.set.core.services.session.SessionService;
-import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.set.model.tablemodel.CellContent;
-import org.eclipse.set.model.tablemodel.CompareCellContent;
-import org.eclipse.set.model.tablemodel.CompareTableCellContent;
-import org.eclipse.set.model.tablemodel.StringCellContent;
-import org.eclipse.set.model.tablemodel.TableCell;
 import org.eclipse.set.model.tablemodel.TableRow;
-import org.eclipse.set.model.tablemodel.TablemodelFactory;
 import org.eclipse.set.model.tablemodel.extensions.CellContentExtensions;
 import org.eclipse.set.model.tablemodel.extensions.TableRowExtensions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.google.common.collect.Streams;
 
 /**
  * Provides data from the table model.
@@ -53,27 +34,25 @@ public class TableModelInstanceBodyDataProvider
 			.getLogger(TableModelInstanceBodyDataProvider.class);
 
 	private static final String NULL_VALUE = ""; //$NON-NLS-1$
+	private static final String EXCULDE_FILTER_SIGN = "-"; //$NON-NLS-1$
 
 	private final List<TableRow> instances;
+	private List<TableRow> filteredInstances;
 	private final int propertyCount;
-	private final TableSpanUtils spanUtils;
-	private final SessionService sessionService;
+	private TableSpanUtils spanUtils;
+	private Map<Integer, Object> filters = new HashMap<>();
 
 	/**
 	 * @param propertyCount
 	 *            the number of columns
 	 * @param instances
 	 *            the table model
-	 * @param sessionService
-	 *            the sessionService
 	 */
 	public TableModelInstanceBodyDataProvider(final int propertyCount,
-			final List<TableRow> instances,
-			final SessionService sessionService) {
+			final List<TableRow> instances) {
 		this.instances = instances;
 		this.propertyCount = propertyCount;
-		this.spanUtils = new TableSpanUtils(instances);
-		this.sessionService = sessionService;
+		this.refresh();
 	}
 
 	@Override
@@ -84,7 +63,7 @@ public class TableModelInstanceBodyDataProvider
 	@Override
 	public Object getDataValue(final int columnIndex, final int rowIndex) {
 		final String value = TableRowExtensions
-				.getRichTextValue(instances.get(rowIndex), columnIndex);
+				.getRichTextValue(filteredInstances.get(rowIndex), columnIndex);
 		if (value == null) {
 			logger.debug("column={} row={} is empty", //$NON-NLS-1$
 					Integer.valueOf(columnIndex), Integer.valueOf(rowIndex));
@@ -95,7 +74,7 @@ public class TableModelInstanceBodyDataProvider
 
 	@Override
 	public int getRowCount() {
-		return instances.size();
+		return filteredInstances.size();
 	}
 
 	@Override
@@ -121,185 +100,62 @@ public class TableModelInstanceBodyDataProvider
 	}
 
 	/**
+	 * Applies a set of filters to the table
+	 * 
+	 * @param filterIndexToObjectMap
+	 *            A map<columnIndex, filterValue> of filters to apply
+	 */
+	public void applyFilter(final Map<Integer, Object> filterIndexToObjectMap) {
+		this.filters = filterIndexToObjectMap;
+		this.refresh();
+	}
+
+	/**
+	 * Refreshes the internal state e.g. when the instances changed.
+	 */
+	public void refresh() {
+		this.filteredInstances = this.instances.stream()
+				.filter(this::filterMatch)
+				.toList();
+		this.spanUtils = new TableSpanUtils(this.filteredInstances);
+	}
+
+	private boolean filterMatch(final TableRow row) {
+		final List<CellContent> contents = row.getCells()
+				.stream()
+				.map(cell -> cell.getContent())
+				.toList();
+		for (int i = 0; i < this.getColumnCount(); i++) {
+			if (filters.containsKey(Integer.valueOf(i))) {
+				final String content = CellContentExtensions
+						.getPlainStringValue(contents.get(i))
+						.toLowerCase();
+				String filterValue = filters.get(Integer.valueOf(i))
+						.toString()
+						.toLowerCase();
+				final boolean isExcludeFilter = filterValue.substring(0, 1)
+						.equals(EXCULDE_FILTER_SIGN);
+				filterValue = isExcludeFilter ? filterValue.substring(1)
+						: filterValue;
+
+				// Equivalence logic
+				if (isExcludeFilter == content.contains(filterValue)) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
+	/**
 	 * Update table value
 	 * 
-	 * @param tableType
-	 *            the table type
-	 * @param properties
-	 *            update value event
+	 * @param updateFunc
+	 *            the update function
 	 */
-	public void updateContent(final TableType tableType,
-			final Pt1TableChangeProperties properties) {
-		if (tableType != TableType.DIFF) {
-			if (tableType.getContainerForTable() == properties
-					.getContainerType()) {
-				final Optional<TableRow> first = instances.stream()
-						.filter(e -> e.equals(properties.getRow()))
-						.findFirst();
-				if (first.isEmpty()) {
-					return;
-				}
-				TableRowExtensions.set(first.get(),
-						properties.getChangeDataColumn(),
-						properties.getNewValues(), properties.getSeparator());
-			}
-			return;
-		}
-
-		// Find relevant row
-		final List<TableRow> filterRows = instances.stream()
-				.filter(e -> TableRowExtensions.getLeadingObjectGuid(e)
-						.equals(TableRowExtensions
-								.getLeadingObjectGuid(properties.getRow())))
-				.filter(e -> {
-					final Optional<String> cellContent = Optional.ofNullable(
-							TableRowExtensions.getPlainStringValue(e,
-									properties.getChangeDataColumn()));
-					return !cellContent.isEmpty()
-							&& !cellContent.get().isBlank()
-							&& !cellContent.get().isEmpty();
-				})
-				.toList();
-		if (filterRows.isEmpty()) {
-			return;
-		}
-		filterRows.forEach(row -> {
-			final TableCell cell = TableRowExtensions.getCell(row,
-					properties.getChangeDataColumn());
-			final CellContent newContent = getNewContent(cell.getContent(),
-					properties);
-			cell.setContent(newContent);
-		});
+	public void updateContent(final Consumer<List<TableRow>> updateFunc) {
+		updateFunc.accept(instances);
+		this.refresh();
 	}
 
-	private CellContent getNewContent(final CellContent oldContent,
-			final Pt1TableChangeProperties properties) {
-		return switch (oldContent) {
-			case final StringCellContent stringContent -> getNewContent(
-					stringContent, properties);
-			case final CompareCellContent compareContent -> getNewContent(
-					compareContent, properties);
-			case final CompareTableCellContent compareTableContent -> getNewContent(
-					compareTableContent, properties);
-			default -> throw new UnsupportedOperationException();
-		};
-	}
-
-	private static CellContent getNewContent(final StringCellContent oldContent,
-			final Pt1TableChangeProperties properties) {
-		final List<String> currentValues = StreamSupport
-				.stream(getStringValueIterable(oldContent).spliterator(), false)
-				.toList();
-		if (currentValues.size() == 1
-				&& currentValues.getFirst().equals(HOURGLASS_ICON)) {
-			final StringCellContent newContent = TablemodelFactory.eINSTANCE
-					.createStringCellContent();
-			newContent.getValue().addAll(properties.getNewValues());
-			newContent.setSeparator(properties.getSeparator());
-			return newContent;
-		}
-
-		if (!equalsValues(currentValues, properties.getNewValues())) {
-			if (properties.getContainerType() == ContainerType.INITIAL) {
-				return createCompareCellContent(properties.getNewValues(),
-						currentValues, oldContent.getSeparator());
-			}
-			return createCompareCellContent(currentValues,
-					properties.getNewValues(), oldContent.getSeparator());
-		}
-
-		return oldContent;
-	}
-
-	private static CellContent getNewContent(
-			final CompareCellContent oldContent,
-			final Pt1TableChangeProperties properties) {
-		final ContainerType containerType = properties.getContainerType();
-		switch (containerType) {
-			case FINAL:
-				if (!equalsValues(oldContent.getNewValue(),
-						properties.getNewValues())) {
-					return createCompareCellContent(oldContent.getOldValue(),
-							properties.getNewValues(),
-							oldContent.getSeparator());
-				}
-				break;
-			case INITIAL:
-				if (!equalsValues(oldContent.getOldValue(),
-						properties.getNewValues())) {
-					return createCompareCellContent(properties.getNewValues(),
-							oldContent.getNewValue(),
-							oldContent.getSeparator());
-				}
-				break;
-			default:
-				throw new IllegalArgumentException(
-						"SingelState can't have compare cell content"); //$NON-NLS-1$
-		}
-		return null;
-	}
-
-	private CellContent getNewContent(final CompareTableCellContent oldContent,
-			final Pt1TableChangeProperties properties) {
-		final PlanPro_Schnittstelle planProSchnittstelle = properties
-				.getPlanProSchnittstelle();
-
-		final Optional<Entry<ToolboxFileRole, IModelSession>> targetSession = sessionService
-				.getLoadedSessions()
-				.entrySet()
-				.stream()
-				.filter(entry -> entry.getValue()
-						.getPlanProSchnittstelle()
-						.equals(planProSchnittstelle))
-				.findFirst();
-		if (targetSession.isEmpty()) {
-			return null;
-		}
-		final CompareTableCellContent clone = EcoreUtil.copy(oldContent);
-		switch (targetSession.get().getKey()) {
-			case SESSION: {
-				clone.setMainPlanCellContent(getNewContent(
-						oldContent.getMainPlanCellContent(), properties));
-				break;
-			}
-			case COMPARE_PLANNING: {
-				clone.setComparePlanCellContent(getNewContent(
-						oldContent.getComparePlanCellContent(), properties));
-				break;
-			}
-			default:
-				return null;
-		}
-
-		final Set<String> mainPlanCellValues = Streams
-				.stream(CellContentExtensions
-						.getStringValueIterable(clone.getMainPlanCellContent()))
-				.filter(value -> value != null && !value.trim().isEmpty())
-				.collect(Collectors.toSet());
-		final Set<String> comparePlanCellValues = Streams
-				.stream(CellContentExtensions.getStringValueIterable(
-						clone.getComparePlanCellContent()))
-				.filter(value -> value != null && !value.trim().isEmpty())
-				.collect(Collectors.toSet());
-		return mainPlanCellValues.equals(comparePlanCellValues)
-				? clone.getMainPlanCellContent()
-				: clone;
-	}
-
-	private static CompareCellContent createCompareCellContent(
-			final List<String> oldValues, final List<String> newValues,
-			final String separator) {
-		final CompareCellContent compareContent = TablemodelFactory.eINSTANCE
-				.createCompareCellContent();
-		compareContent.getOldValue().addAll(oldValues);
-		compareContent.getNewValue().addAll(newValues);
-		compareContent.setSeparator(separator);
-		return compareContent;
-	}
-
-	private static boolean equalsValues(final List<String> oldValues,
-			final List<String> newValues) {
-		return oldValues.size() == newValues.size()
-				&& oldValues.stream().allMatch(newValues::contains);
-	}
 }

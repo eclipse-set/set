@@ -24,6 +24,8 @@ import org.slf4j.LoggerFactory
 
 import static extension com.google.common.base.Throwables.*
 import static extension org.eclipse.set.model.tablemodel.extensions.TableRowExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.MultiContainer_AttributeGroupExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.Debug.*
 
 /**
@@ -283,6 +285,26 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 
 	/**
 	 * Fill a row with a sequence of string values and handle exceptions.
+	 * The filling preserves the order of the sequence.
+	 * 
+	 * @param row the row
+	 * @param column the column
+	 * @param object the object to be transformed
+	 * @param sequence the sequence
+	 */
+	def <S, T> void fillIterable(
+		TableRow row,
+		ColumnDescriptor column,
+		S object,
+		(S)=>Iterable<String> sequence
+	) {
+		row.
+			fillIterableWithSeparatorConditional(column, object, [true],
+				sequence, null, [it], [], ITERABLE_FILLING_SEPARATOR, true)
+	}
+
+	/**
+	 * Fill a row with a sequence of string values and handle exceptions.
 	 * 
 	 * @param row the row
 	 * @param column the column
@@ -379,7 +401,7 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 		String separator
 	) {
 		row.fillIterableWithSeparatorConditional(column, object, [true],
-			sequence, comparator, elementFilling, [], separator)
+			sequence, comparator, elementFilling, [], separator, false)
 	}
 
 	/**
@@ -431,7 +453,7 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 		String separator
 	) {
 		row.fillIterableWithSeparatorConditional(column, object, condition,
-			sequenceIfTrue, comparator, [it], fillingIfFalse, separator)
+			sequenceIfTrue, comparator, [it], fillingIfFalse, separator, false)
 	}
 
 	/**
@@ -458,13 +480,17 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 		Comparator<T> comparator,
 		(T)=>String elementFilling,
 		(S)=>String fillingIfFalse,
-		String separator
+		String separator,
+		boolean disableSorting
 	) {
 		try {
 			if (condition.apply(object).booleanValue) {
-				val list = sequenceIfTrue.apply(object).filterNull.sortWith(
-					comparator).map(elementFilling).filterNull
-				row.set(column, list, separator)
+				val list = sequenceIfTrue.apply(object).filterNull
+				val sortedList = disableSorting
+						? list
+						: list.sortWith(comparator)
+				val result = sortedList.map(elementFilling).filterNull
+				row.set(column, result, separator)
 			} else {
 				fill(row, column, object, fillingIfFalse)
 			}
@@ -472,8 +498,6 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 			handleFillingException(e, row, column)
 		}
 	}
-
-
 
 	def static String fillRegelzeichnung(Regelzeichnung regelzeichnung) {
 		val bild = regelzeichnung?.regelzeichnungAllg?.bild
@@ -548,14 +572,16 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 		TableRow row,
 		ColumnDescriptor column
 	) {
-		var guid = row.group.leadingObject?.identitaet?.wert
-		var leadingObject = getLeadingObjectIdentifier(row, guid)
+		var leadingObject = row.group.leadingObject
+		var errorIdentiefer = getLeadingObjectIdentifier(row,
+			leadingObject?.identitaet?.wert)
 		var errorMsg = e.createErrorMsg(row)
-
-		tableErrors.add(new TableError(guid, leadingObject, "", errorMsg, row))
+		val error = new TableError(leadingObject, errorIdentiefer, "", errorMsg,
+			row, leadingObject.container.containerType)
+		tableErrors.add(error)
 		row.set(column, '''«ERROR_PREFIX»«errorMsg»''')
 		logger.
-			error('''«e.class.simpleName» in column "«column.debugString»" for leading object "«leadingObject»" («guid»). «e.message»«System.lineSeparator»«e.stackTraceAsString»''')
+			error('''«e.class.simpleName» in column "«column.debugString»" for leading object "«leadingObject»" («leadingObject?.identitaet?.wert»). «e.message»«System.lineSeparator»«e.stackTraceAsString»''')
 	}
 
 	def String createErrorMsg(

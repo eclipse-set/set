@@ -47,6 +47,9 @@ public record EnumTranslationImpl(String keyBasis, String presentation,
 
 	@Override
 	public String getSorting() {
+		if (sorting == null || sorting.isEmpty() || sorting.isBlank()) {
+			return null;
+		}
 		return sorting;
 	}
 }

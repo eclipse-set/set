@@ -12,16 +12,23 @@ package org.eclipse.set.swtbot;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.LinkOption;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.commons.csv.CSVRecord;
 import org.eclipse.nebula.widgets.nattable.layer.ILayer;
+import org.eclipse.set.basis.Pair;
 import org.eclipse.set.swtbot.table.AbstractTableTest;
 import org.eclipse.set.swtbot.table.TestFailHandle;
+import org.eclipse.set.swtbot.utils.AbstractSWTBotTest;
 import org.eclipse.set.swtbot.utils.SWTBotUtils;
-import org.eclipse.swtbot.nebula.nattable.finder.widgets.SWTBotNatTable;
+import org.eclipse.set.utils.table.export.ExportToCSV;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotText;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,6 +36,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.extension.ExtensionContext;
 
 /**
  * Test for changes in Validation View
@@ -37,9 +45,69 @@ import org.junit.jupiter.api.extension.ExtendWith;
  */
 @TestInstance(Lifecycle.PER_CLASS)
 public class ValidationViewTest extends AbstractTableTest {
+	static List<Pair<String, String>> widgetItems = Arrays
+			.<Pair<String, String>> asList(new Pair<>("Geladene Datei", "MD5"),
+					new Pair<>("Geladene Datei", "GUID"),
+					new Pair<>("Verwendetes XML-Schema (in Datei)", "PlanPro"),
+					new Pair<>("Verwendetes XML-Schema (in Datei)",
+							"Signalbegriffe"),
+					new Pair<>("Unterstütztes XML-Schema", "PlanPro"),
+					new Pair<>("Unterstütztes XML-Schema", "Signalbegriffe"),
+					new Pair<>("Gültigkeit", "XSD-Gültigkeit"),
+					new Pair<>("Gültigkeit", "EMF-Gültigkeit"),
+					new Pair<>("Gültigkeit", "Verarbeitbar"),
+					new Pair<>("PlanPro-Container", "Enthalten"),
+					new Pair<>("Untergewerke", "Enthalten"));
+
+	private static class ValidationViewFailHandle extends TestFailHandle {
+		String csvHeader = "\"Item Group\";\"Item label\";\"Expect Value\""
+				+ System.lineSeparator();
+
+		@Override
+		public void testFailed(final ExtensionContext context,
+				final Throwable cause) {
+			final Optional<Object> testInstance = context.getTestInstance();
+			if (testInstance.isPresent() && testInstance
+					.get() instanceof final ValidationViewTest tableTest) {
+				tableTest.tableName = VALIDATION_INFORMATION_CSV;
+				exportWidgeValue(tableTest);
+				exportReferenceCSV(tableTest);
+				tableTest.tableName = VALIDATION_TABLE_NAME;
+			}
+		}
+
+		private void exportWidgeValue(final ValidationViewTest testInstance) {
+
+			final List<String> currentValues = new ArrayList<>();
+			for (int i = 0; i < widgetItems.size(); i++) {
+				final String itemGroup = widgetItems.get(i).getFirst();
+				final String itemLabel = widgetItems.get(i).getSecond();
+				final SWTBotText currentValue = AbstractSWTBotTest.bot
+						.textWithLabelInGroup(itemLabel, itemGroup);
+				final String csvEntry = String.format("\"%s\";\"%s\";\"%s\"",
+						itemGroup, itemLabel, currentValue.getText())
+						+ System.lineSeparator();
+
+				currentValues.add(csvEntry);
+			}
+			final ExportToCSV<String> exportToCSV = new ExportToCSV<>(
+					csvHeader);
+			final File file = getExportFile(testInstance, "_current.csv");
+			if (!file.getParentFile().exists()) {
+				file.getParentFile().mkdirs();
+			}
+			exportToCSV.exportToCSV(Optional.of(file.toPath()), currentValues);
+			SWTBotUtils.botWaitUntil(AbstractSWTBotTest.bot,
+					() -> Boolean.valueOf(Files.exists(file.toPath(),
+							LinkOption.NOFOLLOW_LINKS)));
+		}
+	}
+
 	protected static final String RICHTEXT_REPLACE_REGEX = "<[^>]+>";
 	protected static final String VALIDATION_INFORMATION_CSV = "validation_information";
 	protected static final String VALIDATION_TABLE_NAME = "validation_view";
+
+	private String tableName = VALIDATION_TABLE_NAME;
 
 	private static List<String> splitString(final String text,
 			final String regex) {
@@ -47,7 +115,7 @@ public class ValidationViewTest extends AbstractTableTest {
 		return asList.stream().map(e -> e.replaceAll(" ", "")).toList();
 	}
 
-	private List<CSVRecord> informationReference;
+	protected List<CSVRecord> informationReference;
 
 	@BeforeEach
 	@Override
@@ -56,8 +124,8 @@ public class ValidationViewTest extends AbstractTableTest {
 	}
 
 	@Override
-	public String getTestTableName() {
-		return VALIDATION_TABLE_NAME;
+	public String getTestTableReferenceName() {
+		return tableName;
 	}
 
 	@Override
@@ -116,6 +184,7 @@ public class ValidationViewTest extends AbstractTableTest {
 	}
 
 	@Test
+	@ExtendWith(ValidationViewFailHandle.class)
 	protected void testInformation() throws Exception {
 		whenOpeningValidateView();
 		loadCsvResources();
@@ -123,17 +192,16 @@ public class ValidationViewTest extends AbstractTableTest {
 	}
 
 	protected void thenExpectModelInformationEquals() {
-		for (int i = 1; i < informationReference.size(); i++) {
-			final String group = informationReference.get(i).get(0);
-			final String item = informationReference.get(i).get(1);
-			final String value = informationReference.get(i).get(2);
+		for (int i = 0; i < widgetItems.size(); i++) {
+			final String group = widgetItems.get(i).getFirst();
+			final String item = widgetItems.get(i).getSecond();
+			final String value = informationReference.get(i + 1).get(2);
 			expectTextWidgetAreSame(value, item, group);
 		}
 	}
 
 	protected void whenOpeningValidateView() {
-		final SWTBotNatTable nattableBot = SWTBotUtils.waitForNattable(bot,
-				30000);
+		nattableBot = SWTBotUtils.waitForNattable(bot, 30000);
 		layers = SWTBotUtils.getNattableLayers(nattableBot);
 	}
 
@@ -150,6 +218,6 @@ public class ValidationViewTest extends AbstractTableTest {
 		whenOpeningValidateView();
 		bot.button("Alle ausklappen").click();
 		thenRowAndColumnCountEqualReferenceCSV();
-		thenTableDataEqualReferenceCSV();
+		thenExpectTableDataEqualReferenceCSV();
 	}
 }

@@ -17,10 +17,12 @@ import org.eclipse.emf.common.util.Enumerator;
 import org.eclipse.set.basis.Translateable;
 import org.eclipse.set.basis.exceptions.NoEnumTranslationFound;
 import org.eclipse.set.core.Messages;
+import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslation;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.model.planpro.BasisTypen.BasisAttribut_AttributeGroup;
 import org.eclipse.set.utils.enums.EnumTranslationUtils;
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
@@ -39,6 +41,11 @@ public class EnumTranslationServiceImpl implements EnumTranslationService {
 
 	@Reference
 	Messages messages;
+
+	@Activate
+	private void active() {
+		Services.setEnumTranslationServie(this);
+	}
 
 	protected static Field[] getDeclaredFields() {
 		return Enumerators.class.getDeclaredFields();

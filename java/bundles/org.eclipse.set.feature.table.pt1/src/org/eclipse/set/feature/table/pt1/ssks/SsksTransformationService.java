@@ -9,24 +9,33 @@
 package org.eclipse.set.feature.table.pt1.ssks;
 
 import static org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum.ASC;
+import static org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum.DESC;
 import static org.eclipse.set.feature.table.pt1.ssks.SsksColumns.*;
 import static org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparatorType.EMPTY_LAST;
 import static org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparatorType.LEXICOGRAPHICAL;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.set.basis.constants.Events;
+import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.core.services.graph.BankService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.messages.Messages;
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
+import org.eclipse.set.model.planpro.Basisobjekte.Strecke_Km_TypeClass;
+import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
 import org.eclipse.set.model.planpro.Signale.Signal;
+import org.eclipse.set.model.planpro.Verweise.ID_Strecke_TypeClass;
 import org.eclipse.set.model.tablemodel.RowGroup;
+import org.eclipse.set.ppmodel.extensions.SignalExtensions;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
+import org.eclipse.set.utils.table.TableInfo.Pt1TableCategory;
 import org.eclipse.set.utils.table.sorting.TableRowGroupComparator;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -77,7 +86,8 @@ public final class SsksTransformationService extends
 	public TableNameInfo getTableNameInfo() {
 		return new TableNameInfo(messages.ToolboxTableNameSsksLong,
 				messages.ToolboxTableNameSsksPlanningNumber,
-				messages.ToolboxTableNameSsksShort);
+				messages.ToolboxTableNameSsksShort,
+				messages.ToolboxTableNameSsksRil);
 	}
 
 	@Override
@@ -104,10 +114,10 @@ public final class SsksTransformationService extends
 	}
 
 	@Override
-	public Comparator<RowGroup> getRowGroupComparator() {
-		return TableRowGroupComparator.builder()
-				.sort(Reales_Signal, EMPTY_LAST, ASC)
-				.sort(Fiktives_Signal, EMPTY_LAST, ASC)
+	public Comparator<RowGroup> getRowGroupComparator(
+			final TableType tableType) {
+		return TableRowGroupComparator.builder(tableType)
+				.sort(Fiktives_Signal, EMPTY_LAST, DESC)
 				// It can be directly compare by Column E/F but for consistent
 				// with another table the CompareRouteAndKm will be used.
 				.sortByRouteAndKm(obj -> {
@@ -128,5 +138,36 @@ public final class SsksTransformationService extends
 	@Override
 	protected List<String> getTopologicalColumnPosition() {
 		return List.of(Schaltkasten_Entfernung, Lichtraumprofil, Ueberhoehung);
+	}
+
+	@Override
+	protected String getRemarkColumnPosition() {
+		return SsksColumns.Bemerkung;
+	}
+
+	@Override
+	protected Map<Class<?>, String> getFootnotesColumnReferences() {
+		return Map.of(ID_Strecke_TypeClass.class, SsksColumns.Strecke,
+				Strecke_Km_TypeClass.class, SsksColumns.Km);
+	}
+
+	@Override
+	protected Pt1TableCategory getTableCategory() {
+		return Pt1TableCategory.ESTW;
+	}
+
+	@Override
+	public boolean isObjectBelongToRendereArea(final Ur_Objekt obj,
+			final List<Stell_Bereich> areas) {
+		if (areas.isEmpty()) {
+			return true;
+		}
+		if (obj instanceof final Signal signal) {
+			return areas.stream()
+					.anyMatch(area -> SignalExtensions
+							.isSsksSignalBelongToArea(signal, area));
+		}
+
+		return false;
 	}
 }

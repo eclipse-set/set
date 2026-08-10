@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="temporaryintegration" nsURI="tag:scheidt-bachmann-st.de,2026-03-11:planpro/temporaryintegration/1.10.0.3"
+    nsPrefix="ppixml">
+  <eClassifiers xsi:type="ecore:EClass" name="TemporaryIntegration">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="primaryPlanning" lowerBound="1"
+        eType="ecore:EClass ../../org.eclipse.set.model.planpro/model/PlanPro.ecore#//PlanPro_Schnittstelle"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="primaryPlanningFilename"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="primaryLayout" eType="ecore:EClass ../../org.eclipse.set.model.planpro/model/Layoutinformationen.ecore#//PlanPro_Layoutinfo"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="primaryPlanningWasValid"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="secondaryPlanning" lowerBound="1"
+        eType="ecore:EClass ../../org.eclipse.set.model.planpro/model/PlanPro.ecore#//PlanPro_Schnittstelle"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="secondaryLayout" eType="ecore:EClass ../../org.eclipse.set.model.planpro/model/Layoutinformationen.ecore#//PlanPro_Layoutinfo"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="secondaryPlanningFilename"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="secondaryPlanningWasValid"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="compositePlanning" lowerBound="1"
+        eType="ecore:EClass ../../org.eclipse.set.model.planpro/model/PlanPro.ecore#//PlanPro_Schnittstelle"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="compositeyout" eType="ecore:EClass ../../org.eclipse.set.model.planpro/model/Layoutinformationen.ecore#//PlanPro_Layoutinfo"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="integrationDirectory" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="comparisonInitialState"
+        eType="ecore:EClass ../../org.eclipse.set.model.simplemerge/model/simplemerge.ecore#//SComparison"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="comparisonFinalState" eType="ecore:EClass ../../org.eclipse.set.model.simplemerge/model/simplemerge.ecore#//SComparison"
+        containment="true"/>
+  </eClassifiers>
+</ecore:EPackage>

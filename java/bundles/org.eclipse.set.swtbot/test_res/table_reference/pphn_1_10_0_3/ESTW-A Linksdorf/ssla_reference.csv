@@ -1,0 +1,14 @@
+Row;A;B;C;D;E;F;G
+;Grundsatzangaben;Grundsatzangaben;Grundsatzangaben;Grundsatzangaben;Grundsatzangaben;"Unterwegssignal
+(bei Zugstraßen mit D-Weg)​​​​​";Bemerkung​​​​​​
+;Bezeichnung;Fahrweg​;Fahrweg​;"D-Weg
+Ziel​​​";Art​​​​;"Unterwegssignal
+(bei Zugstraßen mit D-Weg)​​​​​";Bemerkung​​​​​​
+;Bezeichnung;Start​;Ziel​​;"D-Weg
+Ziel​​​";Art​​​​;"Unterwegssignal
+(bei Zugstraßen mit D-Weg)​​​​​";Bemerkung​​​​​​
+;;;;;;;
+1;"<p style=""text-align:left""><span>60A/​60G220X</span></p>";"<p style=""text-align:left""><span>60A</span></p>";"<p style=""text-align:left""><span>60G220X</span></p>";"<p style=""text-align:center""><span></span></p>";"<p style=""text-align:center""><span>Z</span></p>";"<p style=""text-align:left""><span>60ZR1(D1)​</span></p>";"<p style=""text-align:left""></p>"
+2;"<p style=""text-align:left""><span>60A/​60L123X ​(D1)​</span></p>";"<p style=""text-align:left""><span>60A</span></p>";"<p style=""text-align:left""><span>60L123X</span></p>";"<p style=""text-align:center""><span>D1</span></p>";"<p style=""text-align:center""><span>Z</span></p>";"<p style=""text-align:left""><span>60ZR3(D1)​</span></p>";"<p style=""text-align:left""></p>"
+3;"<p style=""text-align:left""><span>60A/​60N21 ​(D1)​</span></p>";"<p style=""text-align:left""><span>60A</span></p>";"<p style=""text-align:left""><span>60N21</span></p>";"<p style=""text-align:center""><span>D1</span></p>";"<p style=""text-align:center""><span>Z</span></p>";"<p style=""text-align:left""><span>60ZR1(D1)​</span></p>";"<p style=""text-align:left""></p>"
+4;"<p style=""text-align:left""><span>60A/​60RE</span></p>";"<p style=""text-align:left""><span>60A</span></p>";"<p style=""text-align:left""><span>60RE</span></p>";"<p style=""text-align:center""><span></span></p>";"<p style=""text-align:center""><span>Z</span></p>";"<p style=""text-align:left""><span>60ZR1(D1)​ ​-​ ​60N21(D1)​</span></p>";"<p style=""text-align:left""></p>"

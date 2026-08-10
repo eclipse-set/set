@@ -16,7 +16,6 @@ import org.eclipse.set.basis.graph.TopPoint
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.core.services.graph.TopologicalGraphService
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
-import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung
 import org.eclipse.set.model.planpro.Block.Block_Element
 import org.eclipse.set.model.planpro.Block.ENUMBetriebsfuehrung
@@ -40,7 +39,6 @@ import static extension org.eclipse.set.ppmodel.extensions.BlockAnlageExtensions
 import static extension org.eclipse.set.ppmodel.extensions.BlockElementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BlockStreckeExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FmaAnlageExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 
 /**
  * Table transformation for a Inselgleistabelle (Sslb).
@@ -62,16 +60,15 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
-		TMFactory factory, Stell_Bereich controlArea) {
+		TMFactory factory) {
 		this.factory = factory
-		return container.transform(controlArea)
+		return container.transform
 	}
 
 	private def Table create factory.table transform(
-		MultiContainer_AttributeGroup container, Stell_Bereich controlArea) {
+		MultiContainer_AttributeGroup container) {
 
-		val validObjects = container.blockElement.filter[isPlanningObject].
-			filterObjectsInControlArea(controlArea).filterNull
+		val validObjects = container.blockElement.filterNull
 		val fmaLookupCache = getFMALookupCache(container)
 		validObjects.flatMap[findRelevantBlockElements].filterNull.forEach [ it |
 			if (Thread.currentThread.interrupted) {
@@ -190,12 +187,10 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 		)
 
 		// D: Sslb.Strecke.Streckenziel_Start
-		fillConditional(
+		fill(
 			cols.getColumn(Streckenziel_Start),
 			blockElement,
-			[isPlanningObject],
-			[IDSignal?.value?.bezeichnung?.bezeichnungTabelle?.wert],
-			['''(«IDSignal?.value?.bezeichnung?.bezeichnungTabelle?.wert»)''']
+			[IDSignal?.value?.bezeichnung?.bezeichnungTabelle?.wert]
 		)
 
 		// E: Sslb.Strecke.Betriebsfuehrung

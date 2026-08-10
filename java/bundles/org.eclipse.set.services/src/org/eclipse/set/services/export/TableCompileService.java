@@ -14,6 +14,7 @@ import java.util.Set;
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.model.tablemodel.Table;
+import org.eclipse.set.utils.table.TableInfo;
 
 /**
  * Compile tables.
@@ -23,8 +24,8 @@ import org.eclipse.set.model.tablemodel.Table;
 public interface TableCompileService {
 
 	/**
-	 * @param shortcut
-	 *            the table shortcut
+	 * @param tableInfo
+	 *            the {@link TableInfo}
 	 * @param modelSession
 	 *            the model session
 	 * @param controlAreaIds
@@ -32,6 +33,6 @@ public interface TableCompileService {
 	 * 
 	 * @return a mapping of possible tables
 	 */
-	Map<TableType, Table> compile(String shortcut, IModelSession modelSession,
-			Set<String> controlAreaIds);
+	Map<TableType, Table> compile(TableInfo tableInfo,
+			IModelSession modelSession, Set<String> controlAreaIds);
 }
