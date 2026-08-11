@@ -49,7 +49,7 @@ class AttachmentReferenced implements PlazCheck {
 	}
 
 	override getDescription() {
-		return "Anhänge in der .planpro-Datei werden referenziert."
+		return "Alle Anhänge in der .planpro-Datei werden referenziert."
 	}
 
 	override getGeneralErrMsg() {
