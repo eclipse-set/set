@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.set.basis.Pair;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Aussenelementansteuerung;
@@ -116,12 +117,17 @@ public class SxxxTransformator extends AbstractPlanPro2TableModelTransformator {
 				row.setRowObject(referencedBy);
 
 				fillBearbeitungsvermerkContent(row, bv);
+				final Pair<String, String> refObjInfo = getReferenceObjDesignation(
+						referencedBy);
+				// C: Referenziert von Objects Art
+				fill(row, getColumn(cols, Reference_Object_Art), bv,
+						note -> refObjInfo.getFirst());
 
-				// C: Referenziert von Objects
-				fill(row, getColumn(cols, Reference_Object), bv,
-						note -> getReferenceObjDesignation(referencedBy));
+				// D: Referenziert von Objects Bezeichnung
+				fill(row, getColumn(cols, Reference_Object_Bezeichnung), bv,
+						note -> refObjInfo.getSecond());
 
-				// D: Ausgabe in Plan
+				// E: Ausgabe in Plan
 				// Will fill later in TableService
 
 			}
@@ -153,7 +159,8 @@ public class SxxxTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	@SuppressWarnings("nls")
-	private static String getReferenceObjDesignation(final EObject refObj) {
+	private static Pair<String, String> getReferenceObjDesignation(
+			final EObject refObj) {
 		final String typeName = UrObjectExtensions.getTypeName(refObj)
 				.replace("_TypeClass", "");
 		final String objDesignation = switch (refObj) {
@@ -183,8 +190,8 @@ public class SxxxTransformator extends AbstractPlanPro2TableModelTransformator {
 			default -> "";
 		};
 		if (objDesignation != null && !objDesignation.isEmpty()) {
-			return typeName + " " + objDesignation;
+			return new Pair<>(typeName, objDesignation);
 		}
-		return typeName;
+		return new Pair<>(typeName, "");
 	}
 }
