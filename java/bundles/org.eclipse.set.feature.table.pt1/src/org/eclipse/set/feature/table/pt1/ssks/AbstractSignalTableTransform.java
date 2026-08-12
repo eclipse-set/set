@@ -348,7 +348,7 @@ public abstract class AbstractSignalTableTransform
 
 									if (distances.stream()
 											.anyMatch(v -> v
-													.getDistanceToNeighborTrack() > 0)) {
+													.getDistanceToNeighborTrack() != null)) {
 										addTopologicalCell(row, column);
 									}
 									return distances.stream()
