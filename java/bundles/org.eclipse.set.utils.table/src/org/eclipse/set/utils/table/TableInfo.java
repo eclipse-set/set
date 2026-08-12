@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.set.basis.constants.ToolboxConstants;
+import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
 import org.eclipse.set.utils.viewgroups.SetViewGroups;
 
 /**
@@ -21,11 +22,13 @@ import org.eclipse.set.utils.viewgroups.SetViewGroups;
  *            the table area (ESTW or ETCS)
  * @param shortcut
  *            the table shortcut
+ * @param nameInfo
+ *            the {@link TableNameInfo}
  * @param isDevMode
  *            table is available only in development mode
  */
 public record TableInfo(Pt1TableCategory category, String shortcut,
-		boolean isDevMode) {
+		TableNameInfo nameInfo, boolean isDevMode) {
 	/**
 	 * The table category enum
 	 */
@@ -161,11 +164,14 @@ public record TableInfo(Pt1TableCategory category, String shortcut,
 	 *            the category id
 	 * @param shortcut
 	 *            the table shortcut
+	 * @param nameInfo
+	 *            the {@link TableNameInfo}
 	 * @param isDevMode
 	 *            should the table only in development mode available
 	 */
 	public TableInfo(final String categoryId, final String shortcut,
-			final boolean isDevMode) {
-		this(Pt1TableCategory.getCategoryEnum(categoryId), shortcut, isDevMode);
+			final TableNameInfo nameInfo, final boolean isDevMode) {
+		this(Pt1TableCategory.getCategoryEnum(categoryId), shortcut, nameInfo,
+				isDevMode);
 	}
 }

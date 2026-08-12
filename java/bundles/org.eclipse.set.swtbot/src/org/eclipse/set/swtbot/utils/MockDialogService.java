@@ -301,4 +301,10 @@ public class MockDialogService implements DialogService {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
+	public List<String> confirmOverwriteMultiFile(Shell shell,
+			List<String> paths) {
+		throw new UnsupportedOperationException();
+	}
+
 }

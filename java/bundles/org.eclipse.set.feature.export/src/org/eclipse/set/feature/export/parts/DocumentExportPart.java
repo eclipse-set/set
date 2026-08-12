@@ -11,6 +11,8 @@ package org.eclipse.set.feature.export.parts;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.List;
 import java.util.function.Consumer;
 
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -327,12 +329,13 @@ public abstract class DocumentExportPart extends BasePart {
 
 				// listen to cancel
 				Threads.stopCurrentOnCancel(monitor);
-
-				for (final Object entry : checkedElements) {
-					final CheckboxModelElement ele = (CheckboxModelElement) entry;
-					export(ele, modelSession, overwriteHandling, monitor);
-				}
-
+				final List<CheckboxModelElement> checkboxElements = Arrays
+						.stream(checkedElements)
+						.filter(CheckboxModelElement.class::isInstance)
+						.map(CheckboxModelElement.class::cast)
+						.toList();
+				export(checkboxElements, modelSession, overwriteHandling,
+						monitor);
 				// stop progress
 				monitor.done();
 			}
@@ -354,6 +357,10 @@ public abstract class DocumentExportPart extends BasePart {
 			userConfigService.setLastExportPath(getSelectedDirectory());
 		}
 	}
+
+	protected abstract void export(List<CheckboxModelElement> element,
+			IModelSession modelSession, OverwriteHandling overwriteHandling,
+			IProgressMonitor monitor);
 
 	protected abstract CheckboxTreeModel createTreeModelData();
 
@@ -388,10 +395,6 @@ public abstract class DocumentExportPart extends BasePart {
 		validateExportButton();
 		setOutdated(getModelSession().isDirty());
 	}
-
-	protected abstract void export(CheckboxModelElement element,
-			IModelSession modelSession, OverwriteHandling overwriteHandling,
-			IProgressMonitor monitor);
 
 	protected abstract String getDescription();
 

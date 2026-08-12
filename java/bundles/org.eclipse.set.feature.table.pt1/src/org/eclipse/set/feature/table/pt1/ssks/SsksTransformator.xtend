@@ -1022,7 +1022,8 @@ class SsksTransformator extends AbstractSignalTableTransform {
 		}
 		return sameMastSignal.filter[!signalRahmen.nullOrEmpty].flatMap [ s |
 			s.signalRahmen.map[IDRegelzeichnung?.value].filterNull.map [
-				'''«fillRegelzeichnung» («s.bezeichnung?.bezeichnungTabelle?.wert ?: ""»)'''
+				'''«fillRegelzeichnung»
+				(«s.bezeichnung?.bezeichnungTabelle?.wert ?: ""»)'''
 			]
 		].filterNull.toList
 	}

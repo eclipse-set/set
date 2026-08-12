@@ -22,6 +22,7 @@ jobs:
     uses: eclipse-set/build/.github/workflows/dash.yml@main
     with:
       pom: "java/pom.xml"
+      repo: ${{ github.repository }}
     permissions:
       contents: write
       issues: write

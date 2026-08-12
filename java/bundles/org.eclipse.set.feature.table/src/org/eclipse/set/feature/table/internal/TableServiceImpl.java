@@ -20,6 +20,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -139,7 +140,7 @@ public final class TableServiceImpl implements TableService {
 	private static final Queue<Pair<BasePart, TableRendererUtil>> transformTableThreads = new LinkedList<>();
 	private final Map<String, Set<Footnote>> footnotesPerTable = new ConcurrentHashMap<>();
 	private static final Map<TableInfo, List<Pt1TableChangeProperties>> tableChangedData = new ConcurrentHashMap<>();
-	private static final Map<TableInfo, TableStatus> tablesStatus = new HashMap<>();
+	private static final Map<TableInfo, TableStatus> tablesStatus = new ConcurrentHashMap<>();
 
 	private CacheService getCacheService() {
 		return ToolboxConfiguration.isDebugMode() ? Services.getNoCacheService()
@@ -161,7 +162,7 @@ public final class TableServiceImpl implements TableService {
 			final Map<String, Object> properties)
 			throws IllegalAccessException {
 		final TableInfo tableInfo = TableServiceContextFunction
-				.getTableInfo(properties);
+				.getTableInfo(properties, service.getTableNameInfo());
 		modelServiceMap.put(tableInfo, service);
 	}
 
@@ -255,11 +256,6 @@ public final class TableServiceImpl implements TableService {
 	}
 
 	@Override
-	public TableNameInfo getTableNameInfo(final TableInfo tableInfo) {
-		return getModelService(tableInfo).getTableNameInfo();
-	}
-
-	@Override
 	public Collection<TableInfo> getAvailableTables() {
 		return modelServiceMap.keySet()
 				.stream()
@@ -286,13 +282,13 @@ public final class TableServiceImpl implements TableService {
 		getAvailableTables().forEach(tableInfo -> {
 			if (tableCategory == null
 					|| tableInfo.category().equals(tableCategory)) {
-				final List<TableError> tableErrors = TableServiceUtils
+				final Optional<List<TableError>> tableErrors = TableServiceUtils
 						.getCachedTableError(getCacheService(), tableInfo,
 								modelSession, getModelService(tableInfo),
 								controlAreaIds);
-				if (tableErrors != null
+				if (tableErrors.isPresent()
 						|| !TableService.isTransformComplete(tableInfo, null)) {
-					result.put(tableInfo, tableErrors);
+					result.put(tableInfo, tableErrors.orElse(null));
 				}
 			}
 		});
@@ -304,7 +300,7 @@ public final class TableServiceImpl implements TableService {
 			final IModelSession modelSession,
 			final Collection<TableError> errors,
 			final TableStatus tableStatus) {
-		final String shortName = getTableNameInfo(tableInfo).getShortName();
+		final String shortName = tableInfo.nameInfo().getShortName();
 		final String shortCut = tableInfo.shortcut();
 
 		errors.forEach(error -> error.setSource(shortName));
@@ -364,13 +360,16 @@ public final class TableServiceImpl implements TableService {
 	 * 
 	 * @param properties
 	 *            the service properties
+	 * @param service
+	 *            the {@link PlanPro2TableTransformationService}
 	 * @throws IllegalAccessException
 	 *             if the table.shortcut property is not set
 	 */
-	public void removeModelService(final Map<String, Object> properties)
+	public void removeModelService(final Map<String, Object> properties,
+			final PlanPro2TableTransformationService service)
 			throws IllegalAccessException {
 		final TableInfo tableInfo = TableServiceContextFunction
-				.getTableInfo(properties);
+				.getTableInfo(properties, service.getTableNameInfo());
 		modelServiceMap.remove(tableInfo);
 	}
 
@@ -465,8 +464,15 @@ public final class TableServiceImpl implements TableService {
 			tableStatus.setContainsStateChanged(
 					TableServiceUtils.isTableExistChangedCompareContent(
 							resultTable, CompareStateCellContent.class));
+			tableStatus.setContainsErrors(!TableServiceUtils
+					.getCachedTableError(getCacheService(), tableInfo,
+							modelSession, getModelService(tableInfo),
+							controlAreaIds)
+					.orElse(Collections.emptyList())
+					.isEmpty());
 		}
 		sortTable(resultTable, tableInfo, tableType);
+
 		return resultTable;
 	}
 
@@ -484,7 +490,7 @@ public final class TableServiceImpl implements TableService {
 			return;
 		}
 		final Function<TableInfo, String> createKeyValue = info -> {
-			final TableNameInfo nameInfo = getTableNameInfo(info);
+			final TableNameInfo nameInfo = info.nameInfo();
 			return sessionRole.toString() + "/" + nameInfo.getShortName(); //$NON-NLS-1$
 		};
 		final UnaryOperator<String> extractShortName = key -> key
@@ -636,7 +642,7 @@ public final class TableServiceImpl implements TableService {
 					.poll()) != null;) {
 				final TableInfo tableInfo = getTableInfo(
 						transformThread.getKey());
-				final TableNameInfo tableNameInfo = getTableNameInfo(tableInfo);
+				final TableNameInfo tableNameInfo = tableInfo.nameInfo();
 				final BasePart tablePart = transformThread.getKey();
 				final Consumer<Table> updateTableUIAction = transformThread
 						.getValue()
@@ -675,7 +681,7 @@ public final class TableServiceImpl implements TableService {
 
 		for (final TableInfo tableInfo : tablesToTransfrom) {
 			try {
-				final TableNameInfo nameInfo = getTableNameInfo(tableInfo);
+				final TableNameInfo nameInfo = tableInfo.nameInfo();
 				monitor.subTask(nameInfo.getFullDisplayName());
 
 				final Table table = createDiffTable(tableInfo, tableType,
@@ -787,9 +793,8 @@ public final class TableServiceImpl implements TableService {
 			final Pt1TableCategory tableCategory) {
 		return tablesStatus.entrySet()
 				.stream()
-				.filter(entry -> entry.getKey()
-						.category()
-						.equals(tableCategory))
+				.filter(entry -> tableCategory == null
+						|| entry.getKey().category().equals(tableCategory))
 				.collect(Collectors.toMap(Entry::getKey, Entry::getValue));
 	}
 
