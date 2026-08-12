@@ -273,7 +273,7 @@ public abstract class AbstractSignalTableTransform
 
 		// konstruktive_Merkmale.Anordnung.Regelzeichnung
 		fillIterable(row, getAnordnungRegelzeichnungColumn(), signalRahmen,
-				this::transformRegelZeichnungen);
+				this::transformRegelZeichnungen, null);
 
 		// konstruktive_Merkmale.Fundament.Hoehe
 		fillIterable(row, getFundamentHoeheColumn(), signalRahmen,
