@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.set.basis.Pair;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator;
 import org.eclipse.set.model.planpro.BasisTypen.BasisAttribut_AttributeGroup;
@@ -107,12 +108,20 @@ public class SxxxTransformator extends AbstractPlanPro2TableModelTransformator {
 				row.setRowObject(referencedBy);
 
 				fillBearbeitungsvermerkContent(row, bv);
+				final Pair<String, String> refObjInfo = getReferenceObjDesignation(
+						referencedBy);
+				// C: Referenziert von Objects Art
+				fill(row, getColumn(cols, Reference_Object_Art), bv,
+						note -> refObjInfo.getFirst());
 
 				// C: Referenziert von Objects
 				fill(row, getColumn(cols, Reference_Object), bv,
 						note -> getLSTObjectDesignation(referencedBy));
+				// D: Referenziert von Objects Bezeichnung
+				fill(row, getColumn(cols, Reference_Object_Bezeichnung), bv,
+						note -> refObjInfo.getSecond());
 
-				// D: Ausgabe in Plan
+				// E: Ausgabe in Plan
 				// Will fill later in TableService
 
 			}
@@ -141,5 +150,42 @@ public class SxxxTransformator extends AbstractPlanPro2TableModelTransformator {
 										.getKommentar()
 										.getWert())
 						.orElse("")); //$NON-NLS-1$
+	}
+
+	@SuppressWarnings("nls")
+	private static Pair<String, String> getReferenceObjDesignation(
+			final EObject refObj) {
+		final String typeName = UrObjectExtensions.getTypeName(refObj)
+				.replace("_TypeClass", "");
+		final String objDesignation = switch (refObj) {
+			case final Aussenelementansteuerung aussenelement -> AussenelementansteuerungExtensions
+					.getElementBezeichnung(aussenelement);
+			case final Bedien_Einrichtung_Oertlich beo -> getNullableObject(beo,
+					e -> e.getBezeichnung()
+							.getBedienEinrichtOertlBez()
+							.getWert()).orElse("");
+			case final ESTW_Zentraleinheit estwZentral -> AussenelementansteuerungExtensions
+					.getElementBezeichnung(estwZentral);
+			case final FMA_Anlage fmaAnlage -> getNullableObject(fmaAnlage,
+					fma -> fma.getFMAAnlageKaskade()
+							.getFMAKaskadeBezeichnung()
+							.getWert()).orElse("");
+			case final FMA_Komponente fmaKomponent -> getNullableObject(
+					fmaKomponent,
+					fma -> fma.getBezeichnung()
+							.getBezeichnungTabelle()
+							.getWert()).orElse("");
+			case final Signal signal -> getNullableObject(signal,
+					s -> s.getBezeichnung().getBezeichnungTabelle().getWert())
+							.orElse("");
+			case final Zugeinwirkung ein -> getNullableObject(ein,
+					e -> e.getBezeichnung().getBezeichnungTabelle().getWert())
+							.orElse("");
+			default -> "";
+		};
+		if (objDesignation != null && !objDesignation.isEmpty()) {
+			return new Pair<>(typeName, objDesignation);
+		}
+		return new Pair<>(typeName, "");
 	}
 }

@@ -194,7 +194,7 @@ public class FootnoteExtensions {
 
 	private static void fillValue(final TableRow row, final String value) {
 		// IMPROVE: the get row cell is hard code
-		final CellContent content = row.getCells().get(3).getContent();
+		final CellContent content = row.getCells().get(4).getContent();
 		if (content == null) {
 			final StringCellContent cellContent = TablemodelFactory.eINSTANCE
 					.createStringCellContent();
