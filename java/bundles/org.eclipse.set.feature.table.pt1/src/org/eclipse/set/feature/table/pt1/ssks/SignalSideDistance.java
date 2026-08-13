@@ -107,7 +107,8 @@ public class SignalSideDistance {
 					: "x");
 			if (distanceToNeighborTrack.isPresent()
 					&& distanceToNeighborTrack.get().doubleValue() > 0) {
-				builder.append(" (");
+				builder.append(System.lineSeparator());
+				builder.append("(");
 				builder.append(DoubleExtensions.toTableDecimal(
 						distanceToNeighborTrack.get().doubleValue()));
 				builder.append(")");
