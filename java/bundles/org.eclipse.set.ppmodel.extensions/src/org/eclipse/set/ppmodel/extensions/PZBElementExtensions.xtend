@@ -86,12 +86,16 @@ class PZBElementExtensions extends BasisObjektExtensions {
 
 	def static boolean isBelongToControlArea(PZB_Element pzb,
 		Stell_Bereich controlArea) {
+		val relevantStellelement = pzb?.stellelements?.filterNull?.filter [
+			IDInformation?.value.isBelongToControlArea(controlArea)
+		]
+		if (!relevantStellelement.isNullOrEmpty) {
+			return true
+		}
 		val signals = pzb?.PZBElementBezugspunkt?.filter(Signal)?.filter [
 			signalReal !== null && signalReal.signalRealAktiv === null
 		]
-		return !signals.nullOrEmpty && !pzb?.stellelements?.filterNull?.filter [
-			IDInformation?.value.isBelongToControlArea(controlArea)
-		].nullOrEmpty && signals.exists[controlArea.contains(it)]
+		return !signals.nullOrEmpty && signals.exists[controlArea.contains(it)]
 	}
 
 	def static Iterable<Stellelement> getStellelements(PZB_Element pzb) {
