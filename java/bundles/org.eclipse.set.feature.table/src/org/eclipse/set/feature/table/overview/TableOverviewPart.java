@@ -34,6 +34,7 @@ import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.e4.core.services.nls.Translation;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.set.basis.OverwriteHandling;
@@ -387,7 +388,8 @@ public class TableOverviewPart extends BasePart {
 				.sorted()
 				.toList();
 		final List<String> confirmedOverwirteFiles = dialogService
-				.confirmOverwriteMultiFile(shell, selectItems);
+				.confirmOverwriteMultiFile(shell, selectItems,
+						IDialogConstants.OK_LABEL, null);
 		final List<TableToExportPath> confirmOverwrite = alreadyExistExport
 				.stream()
 				.filter(table -> confirmedOverwirteFiles.contains(

@@ -44,6 +44,9 @@ public class SelectionMultiValueDialog extends AbstractSelectionDialog<String> {
 	String deselectAllButtonLabel;
 	List<String> items;
 
+	String okButtonLabel;
+	String cancelButtonLabel;
+
 	/**
 	 * @param parentShell
 	 *            the shell
@@ -62,14 +65,43 @@ public class SelectionMultiValueDialog extends AbstractSelectionDialog<String> {
 			final String dialogTitle, final String dialogMessage,
 			final String selectAllButtonLabel,
 			final String deselectAllButtonLabel, final List<String> items) {
+		this(parentShell, dialogTitle, dialogMessage, selectAllButtonLabel,
+				deselectAllButtonLabel, IDialogConstants.OK_LABEL,
+				IDialogConstants.CANCEL_LABEL, items);
+	}
+
+	/**
+	 * @param parentShell
+	 *            the shell
+	 * @param dialogTitle
+	 *            the dialog title
+	 * @param dialogMessage
+	 *            the dialog message
+	 * @param selectAllButtonLabel
+	 *            the select all button label
+	 * @param deselectAllButtonLabel
+	 *            the deselect all button label
+	 * @param okButtonLabel
+	 *            the ok button
+	 * @param cancelButtonLabel
+	 *            the cancel button
+	 * @param items
+	 *            the items to selection
+	 */
+	public SelectionMultiValueDialog(final Shell parentShell,
+			final String dialogTitle, final String dialogMessage,
+			final String selectAllButtonLabel,
+			final String deselectAllButtonLabel, final String okButtonLabel,
+			final String cancelButtonLabel, final List<String> items) {
 		super(parentShell);
 		setTitle(dialogTitle);
 		setMessage(dialogMessage);
 		this.selectAllButtonLabel = selectAllButtonLabel;
 		this.deselectAllButtonLabel = deselectAllButtonLabel;
 		this.items = items;
+		this.okButtonLabel = okButtonLabel;
+		this.cancelButtonLabel = cancelButtonLabel;
 		setInitialSelection(items);
-
 	}
 
 	@Override
@@ -148,8 +180,13 @@ public class SelectionMultiValueDialog extends AbstractSelectionDialog<String> {
 
 	@Override
 	protected void createButtonsForButtonBar(final Composite parent) {
-		super.createButtonsForButtonBar(parent);
-		getButton(IDialogConstants.OK_ID).setEnabled(false);
+		createButton(parent, IDialogConstants.OK_ID, okButtonLabel, true);
+		if (cancelButtonLabel != null) {
+			createButton(parent, IDialogConstants.CANCEL_ID, cancelButtonLabel,
+					false);
+
+		}
+		getButton(IDialogConstants.OK_ID).setEnabled(cancelButtonLabel == null);
 	}
 
 	@Override
@@ -171,7 +208,6 @@ public class SelectionMultiValueDialog extends AbstractSelectionDialog<String> {
 
 	@Override
 	protected void okPressed() {
-
 		// Get the input children.
 		final Object[] checkedItems = listView.getCheckedElements();
 		final List<String> result = new ArrayList<>();

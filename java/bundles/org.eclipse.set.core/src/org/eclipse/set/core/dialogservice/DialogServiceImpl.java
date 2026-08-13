@@ -163,12 +163,21 @@ public class DialogServiceImpl implements DialogService {
 	@Override
 	public List<String> confirmOverwriteMultiFile(final Shell shell,
 			final List<String> filesName) {
+		return confirmOverwriteMultiFile(shell, filesName,
+				IDialogConstants.OK_LABEL, IDialogConstants.CANCEL_LABEL);
+	}
+
+	@Override
+	public List<String> confirmOverwriteMultiFile(final Shell shell,
+			final List<String> filesName, final String okButtonLabel,
+			final String cancelButtonLabel) {
 
 		final SelectionMultiValueDialog dialog = new SelectionMultiValueDialog(
 				shell, utilMessages.Dialogs_confirmOverwriteTitle,
 				utilMessages.Dialogs_confirmOverwrite_Multi,
 				messages.DialogService_selectAll,
-				messages.DialogService_deselectAll, filesName);
+				messages.DialogService_deselectAll, okButtonLabel,
+				cancelButtonLabel, filesName);
 		dialog.open();
 		final Collection<String> result = dialog.getResult();
 
