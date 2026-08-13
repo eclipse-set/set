@@ -19,11 +19,12 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.eclipse.set.basis.Pair;
 import org.eclipse.set.basis.geometry.GeoPosition;
+import org.eclipse.set.model.planpro.BasisTypen.ENUMLinksRechts;
 import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung;
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup;
 import org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt;
@@ -34,6 +35,7 @@ import org.eclipse.set.ppmodel.extensions.PunktObjektExtensions;
 import org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteExtensions;
 import org.eclipse.set.ppmodel.extensions.SignalRahmenExtensions;
 import org.eclipse.set.ppmodel.extensions.geometry.GEOKanteGeometryExtensions;
+import org.eclipse.set.utils.math.DoubleExtensions;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.GeometryFactory;
@@ -51,51 +53,72 @@ public class SignalSideDistance {
 	 * Helper class for determine side distance
 	 */
 	public static class SideDistance {
-		long distanceToMainTrack;
+		Optional<Long> distanceToMainTrack;
+		Optional<Long> distanceToNeighborTrack;
+		Optional<ENUMLinksRechts> position;
 
 		/**
 		 * @return the distance from signal to main track
 		 */
-		public double getDistanceToMainTrack() {
-			return distanceToMainTrack;
+		public Double getDistanceToMainTrack() {
+			if (distanceToMainTrack.isPresent()) {
+				return Double.valueOf(
+						Math.abs(distanceToMainTrack.get().doubleValue()));
+			}
+			return null;
 		}
 
 		/**
 		 * @return the distance from signal to neighbor track
 		 */
-		public double getDistanceToNeighborTrack() {
-			return distanceToNeighborTrack;
+		public Double getDistanceToNeighborTrack() {
+			if (distanceToNeighborTrack.isEmpty()) {
+				return null;
+			}
+			return Double.valueOf(distanceToNeighborTrack.get().doubleValue());
 		}
-
-		long distanceToNeighborTrack;
 
 		/**
 		 * @param distanceToMainTrack
 		 *            the distance from signal to main track
 		 * @param distanceToNeighborTrack
 		 *            the distance from main track to neighbor track
+		 * @param position
+		 *            the position of signal
 		 */
-		public SideDistance(final long distanceToMainTrack,
-				final long distanceToNeighborTrack) {
+		public SideDistance(final Optional<Long> distanceToMainTrack,
+				final Optional<Long> distanceToNeighborTrack,
+				final Optional<ENUMLinksRechts> position) {
 			this.distanceToMainTrack = distanceToMainTrack;
 			this.distanceToNeighborTrack = distanceToNeighborTrack;
+			this.position = position;
 		}
 
+		@SuppressWarnings({ "nls", "boxing" })
 		@Override
 		public String toString() {
-			if (distanceToNeighborTrack > 0) {
-				return String.format("%s (%s)", //$NON-NLS-1$
-						String.valueOf(distanceToMainTrack),
-						String.valueOf(distanceToNeighborTrack));
+			if (distanceToMainTrack.isEmpty() && position.isEmpty()) {
+				return "";
 			}
-			return String.valueOf(distanceToMainTrack);
+			final StringBuilder builder = new StringBuilder();
+			builder.append(distanceToMainTrack.isPresent()
+					? DoubleExtensions.toTableDecimal(
+							Math.abs(distanceToMainTrack.get().doubleValue()))
+					: "x");
+			if (distanceToNeighborTrack.isPresent()
+					&& distanceToNeighborTrack.get().doubleValue() > 0) {
+				builder.append(System.lineSeparator());
+				builder.append("(");
+				builder.append(DoubleExtensions.toTableDecimal(
+						distanceToNeighborTrack.get().doubleValue()));
+				builder.append(")");
+			}
+			return builder.toString();
 		}
 	}
 
 	final Signal signal;
-	private final Set<SideDistance> sideDistancesRight = new HashSet<>();
-
-	private final Set<SideDistance> sideDistancesLeft = new HashSet<>();
+	private final Set<SideDistance> sideDistances = new HashSet<>();
 	private final List<ENUMBefestigungArt> relevantMastType;
 
 	/**
@@ -120,14 +143,20 @@ public class SignalSideDistance {
 	 * @return distances of the signal to tracks on right side
 	 */
 	public Set<SideDistance> getSideDistancesRight() {
-		return sideDistancesRight;
+		return sideDistances.stream()
+				.filter(e -> e.position.isPresent() && e.position
+						.get() == ENUMLinksRechts.ENUM_LINKS_RECHTS_RECHTS)
+				.collect(Collectors.toSet());
 	}
 
 	/**
 	 * @return distances of the signal to tracks on left side
 	 */
 	public Set<SideDistance> getSideDistancesLeft() {
-		return sideDistancesLeft;
+		return sideDistances.stream()
+				.filter(e -> e.position.isPresent() && e.position
+						.get() == ENUMLinksRechts.ENUM_LINKS_RECHTS_LINKS)
+				.collect(Collectors.toSet());
 	}
 
 	/**
@@ -141,7 +170,6 @@ public class SignalSideDistance {
 	 *             the {@link RuntimeException}
 	 * 
 	 */
-	@SuppressWarnings("boxing")
 	private void getSideDistance() throws IllegalArgumentException,
 			NullPointerException, RuntimeException {
 		final Set<Signal_Befestigung> signalBefestigung = getSignalBefestigung();
@@ -158,13 +186,13 @@ public class SignalSideDistance {
 					.getWert();
 			final double signalRotation = PunktObjektExtensions
 					.rotation(signal);
-			final Pair<Long, Long> result = getSideDistance(potk, direction,
-					signalRotation);
+			final SideDistance result = determinSideDistanceValue(potk,
+					direction, signalRotation);
 			if (result == null) {
 				return;
 			}
 
-			setSideDistances(result.getFirst(), direction, result.getSecond());
+			dertermineSignalPosition(result, direction);
 		});
 	}
 
@@ -181,39 +209,43 @@ public class SignalSideDistance {
 	 * @return <SideDistance, DistanceBetweenTrack>
 	 */
 	@SuppressWarnings("boxing")
-	public static Pair<Long, Long> getSideDistance(
+	public static SideDistance determinSideDistanceValue(
 			final Punkt_Objekt_TOP_Kante_AttributeGroup potk,
 			final ENUMWirkrichtung direction, final double rotation) {
-		final Long sideDistance = getNullableObject(potk, p -> Math
-				.round(p.getSeitlicherAbstand().getWert().doubleValue() * 1000))
-						.orElse(null);
-		if (sideDistance == null) {
-			return null;
+		final Optional<Long> sideDistance = getNullableObject(potk,
+				p -> Math.round(p.getSeitlicherAbstand().getWert().doubleValue()
+						* 1000));
+		final Optional<ENUMLinksRechts> position = getNullableObject(potk,
+				p -> p.getSeitlicheLage().getWert());
+		if (sideDistance.isEmpty() && position.isEmpty()) {
+			return new SideDistance(Optional.empty(), Optional.empty(),
+					Optional.empty());
 		}
-
 		final long distanceFromPoint = MAX_DISTANCE_TO_NEIGHBOR
-				- Math.abs(sideDistance);
+				- Math.abs(sideDistance.orElse((long) 0));
 		final int perpendicularRotation = getPerpendicularRotation(sideDistance,
-				direction);
+				direction, position);
 
 		if (distanceFromPoint <= 0) {
-			return new Pair<>(sideDistance, (long) 0);
+			return new SideDistance(sideDistance, Optional.empty(), position);
 		}
 
 		double opposideDistance = 0.0;
-		final GeoPosition position = PunktObjektTopKanteExtensions
+		final GeoPosition geoPosition = PunktObjektTopKanteExtensions
 				.getCoordinate(potk);
 		try {
-			opposideDistance = getOpposideDistance(potk, position,
+			opposideDistance = getOpposideDistance(potk, geoPosition,
 					rotation + perpendicularRotation,
 					distanceFromPoint / 1000.0f);
 		} catch (final Exception e) {
 			throw new RuntimeException(e);
 		}
 		final long distanceBetweenTrack = opposideDistance > 0
-				? Math.abs(sideDistance) + Math.round(opposideDistance * 1000)
+				? Math.abs(sideDistance.orElse((long) 0))
+						+ Math.round(opposideDistance * 1000)
 				: 0;
-		return new Pair<>(sideDistance, distanceBetweenTrack);
+		return new SideDistance(sideDistance, Optional.of(distanceBetweenTrack),
+				position);
 	}
 
 	private Set<Signal_Befestigung> getSignalBefestigung() {
@@ -235,14 +267,36 @@ public class SignalSideDistance {
 		}).filter(Objects::nonNull).collect(Collectors.toSet());
 	}
 
-	private static int getPerpendicularRotation(final long sideDistance,
-			final ENUMWirkrichtung direction) throws IllegalArgumentException {
-		final boolean isPositiveSideDistance = sideDistance >= 0;
+	private static int getPerpendicularRotation(
+			final Optional<Long> sideDistance, final ENUMWirkrichtung direction,
+			final Optional<ENUMLinksRechts> position)
+			throws IllegalArgumentException {
+		final Optional<Boolean> isPositiveSideDistance = sideDistance
+				.isPresent()
+						? Optional.of(Boolean
+								.valueOf(sideDistance.get().doubleValue() >= 0))
+						: Optional.empty();
+		if (isPositiveSideDistance.isEmpty() && position.isEmpty()) {
+			throw new IllegalArgumentException(
+					"The Punkt_Objekt haven't either side distcane or side position"); //$NON-NLS-1$
+		}
 		switch (direction) {
 			case ENUM_WIRKRICHTUNG_IN:
-				return isPositiveSideDistance ? 90 : -90;
+				if (isPositiveSideDistance.isPresent()
+						&& isPositiveSideDistance.get().booleanValue()
+						|| position.isPresent() && position
+								.get() == ENUMLinksRechts.ENUM_LINKS_RECHTS_RECHTS) {
+					return 90;
+				}
+				return -90;
 			case ENUM_WIRKRICHTUNG_GEGEN:
-				return isPositiveSideDistance ? -90 : 90;
+				if (isPositiveSideDistance.isPresent()
+						&& isPositiveSideDistance.get().booleanValue()
+						|| position.isPresent() && position
+								.get() == ENUMLinksRechts.ENUM_LINKS_RECHTS_LINKS) {
+					return -90;
+				}
+				return 90;
 			default: {
 				throw new IllegalArgumentException(
 						"The Punkt_Objekt have Illegal Wirkrichtung: " //$NON-NLS-1$
@@ -311,36 +365,42 @@ public class SignalSideDistance {
 				.orElse(Double.valueOf(0));
 	}
 
-	private void setSideDistances(final long sideDistance,
-			final ENUMWirkrichtung direction, final long distanceBetweenTracks)
-			throws IllegalArgumentException {
-		final boolean isPositiveSideDistance = sideDistance >= 0;
-		final long positiveSideDistance = Math.abs(sideDistance);
-		switch (direction) {
+	private void dertermineSignalPosition(final SideDistance sideDistance,
+			final ENUMWirkrichtung direction) throws IllegalArgumentException {
+		final Optional<Boolean> isPositiveSideDistance = sideDistance.distanceToMainTrack
+				.isPresent()
+						? Optional.of(Boolean
+								.valueOf(sideDistance.distanceToMainTrack.get()
+										.doubleValue() >= 0))
+						: Optional.empty();
+		final ENUMLinksRechts signalPosition = switch (direction) {
 			case ENUM_WIRKRICHTUNG_IN: {
-				if (isPositiveSideDistance) {
-					sideDistancesLeft.add(new SideDistance(positiveSideDistance,
-							distanceBetweenTracks));
-				} else {
-					sideDistancesRight.add(new SideDistance(
-							positiveSideDistance, distanceBetweenTracks));
+				if (isPositiveSideDistance.isPresent()
+						&& isPositiveSideDistance.get().booleanValue()
+						|| sideDistance.position.isPresent()
+								&& sideDistance.position
+										.get() == ENUMLinksRechts.ENUM_LINKS_RECHTS_RECHTS) {
+					yield ENUMLinksRechts.ENUM_LINKS_RECHTS_LINKS;
 				}
-				break;
+				yield ENUMLinksRechts.ENUM_LINKS_RECHTS_RECHTS;
 			}
 			case ENUM_WIRKRICHTUNG_GEGEN: {
-				if (!isPositiveSideDistance) {
-					sideDistancesLeft.add(new SideDistance(positiveSideDistance,
-							distanceBetweenTracks));
-				} else {
-					sideDistancesRight.add(new SideDistance(
-							positiveSideDistance, distanceBetweenTracks));
+				if (isPositiveSideDistance.isPresent()
+						&& isPositiveSideDistance.get().booleanValue()
+						|| sideDistance.position.isPresent()
+								&& sideDistance.position
+										.get() == ENUMLinksRechts.ENUM_LINKS_RECHTS_LINKS) {
+					yield ENUMLinksRechts.ENUM_LINKS_RECHTS_RECHTS;
 				}
-				break;
+				yield ENUMLinksRechts.ENUM_LINKS_RECHTS_LINKS;
 			}
 			default:
 				throw new IllegalArgumentException(
 						"The Signal_Befestigung have Illegal Wirkrichtung: " //$NON-NLS-1$
 								+ direction);
-		}
+		};
+		sideDistances.add(new SideDistance(sideDistance.distanceToMainTrack,
+				sideDistance.distanceToNeighborTrack,
+				Optional.of(signalPosition)));
 	}
 }
