@@ -11,13 +11,14 @@
 package org.eclipse.set.ppmodel.extensions.utils;
 
 import java.util.Objects;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.set.core.services.Services;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Aussenelementansteuerung;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.ESTW_Zentraleinheit;
-import org.eclipse.set.model.planpro.Ansteuerung_Element.Stellelement;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Technik_Standort;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Uebertragungsweg;
 import org.eclipse.set.model.planpro.Bedienung.Bedien_Einrichtung_Oertlich;
@@ -33,6 +34,7 @@ import org.eclipse.set.model.planpro.Nahbedienung.NB_Zone;
 import org.eclipse.set.model.planpro.Ortung.FMA_Anlage;
 import org.eclipse.set.model.planpro.Ortung.FMA_Komponente;
 import org.eclipse.set.model.planpro.Ortung.Zugeinwirkung;
+import org.eclipse.set.model.planpro.PZB.ENUMPZBArt;
 import org.eclipse.set.model.planpro.PZB.PZB_Element;
 import org.eclipse.set.model.planpro.PlanPro.Container_AttributeGroup;
 import org.eclipse.set.model.planpro.Schluesselabhaengigkeiten.Schloss;
@@ -44,6 +46,7 @@ import org.eclipse.set.ppmodel.extensions.AussenelementansteuerungExtensions;
 import org.eclipse.set.ppmodel.extensions.DwegExtensions;
 import org.eclipse.set.ppmodel.extensions.EObjectExtensions;
 import org.eclipse.set.ppmodel.extensions.FahrwegExtensions;
+import org.eclipse.set.ppmodel.extensions.FmaAnlageExtensions;
 import org.eclipse.set.ppmodel.extensions.FstrAneinanderExtensions;
 import org.eclipse.set.ppmodel.extensions.FstrZugRangierExtensions;
 import org.eclipse.set.ppmodel.extensions.NbZoneExtensions;
@@ -77,7 +80,8 @@ public class LSTObjectDesignationExtensions {
 					blockElement);
 			case final ESTW_Zentraleinheit estw -> getLSTObjectDesignation(
 					estw);
-			case final FMA_Anlage anlage -> getLSTObjectDesignation(anlage);
+			case final FMA_Anlage anlage -> FmaAnlageExtensions
+					.getBzBezeichner(anlage);
 			case final FMA_Komponente fmaKomponent -> getLSTObjectDesignation(
 					fmaKomponent);
 			case final Fla_Zwieschutz fla -> getLSTObjectDesignation(fla);
@@ -95,8 +99,6 @@ public class LSTObjectDesignationExtensions {
 			case final Signal signal -> getLSTObjectDesignation(signal);
 			case final Signal_Signalbegriff signalbegriff -> getLSTObjectDesignation(
 					signalbegriff);
-			case final Stellelement stellelement -> getLSTObjectDesignation(
-					stellelement);
 			case final Technik_Standort ts -> getLSTObjectDesignation(ts);
 			case final Uebertragungsweg uebertragungsweg -> getLSTObjectDesignation(
 					uebertragungsweg);
@@ -153,18 +155,6 @@ public class LSTObjectDesignationExtensions {
 	}
 
 	/**
-	 * @param anlage
-	 *            the {@link FMA_Anlage}
-	 * @return the object designation
-	 */
-	public static String getLSTObjectDesignation(final FMA_Anlage anlage) {
-		return getEmptyStringWhenNull(anlage,
-				a -> a.getFMAAnlageKaskade()
-						.getFMAKaskadeBezeichnung()
-						.getWert());
-	}
-
-	/**
 	 * @param fmaKomponent
 	 *            the {@link FMA_Komponente}
 	 * @return the object designation
@@ -204,11 +194,12 @@ public class LSTObjectDesignationExtensions {
 		final Fstr_Fahrweg fstrFahrweg = DwegExtensions.getFstrFahrweg(dweg);
 		final String startBezeichnung = getLSTObjectDesignation(
 				FahrwegExtensions.getStart(fstrFahrweg));
-		final String zielBezeichnung = getLSTObjectDesignation(
-				FahrwegExtensions.getZielPunkt(fstrFahrweg));
+		final String dwegDesignation = EObjectExtensions.getNullableObject(dweg,
+				f -> f.getBezeichnung().getBezeichnungFstrDWeg().getWert())
+				.orElse(""); //$NON-NLS-1$
 
-		if (!startBezeichnung.isEmpty() && !zielBezeichnung.isEmpty()) {
-			return startBezeichnung + "/" + zielBezeichnung; //$NON-NLS-1$
+		if (!startBezeichnung.isEmpty()) {
+			return startBezeichnung + " " + dwegDesignation; //$NON-NLS-1$
 		}
 		return ""; //$NON-NLS-1$
 	}
@@ -290,17 +281,6 @@ public class LSTObjectDesignationExtensions {
 	}
 
 	/**
-	 * @param stellelement
-	 *            the {@link Stellelement}
-	 * @return the designation of the {@link Stellelement#getIDInformation()}
-	 */
-	public static String getLSTObjectDesignation(
-			final Stellelement stellelement) {
-		return getEmptyStringWhenNull(stellelement,
-				s -> getLSTObjectDesignation(s.getIDInformation().getValue()));
-	}
-
-	/**
 	 * @param ts
 	 *            the {@link Technik_Standort}
 	 * @return the object designation
@@ -324,12 +304,23 @@ public class LSTObjectDesignationExtensions {
 	/**
 	 * @param pzb
 	 *            the {@link PZB_Element}
-	 * @return the designation of the PZB Bezugspunkte
+	 * @return the designation of the PZB Bezugspunkte and the pzb frequenz
 	 */
 	public static String getLSTObjectDesignation(final PZB_Element pzb) {
 		return Streams
 				.stream(PZBElementExtensions.getBezugsElementBezeichnungen(pzb))
 				.filter(Objects::nonNull)
+				.map(designation -> {
+					final Optional<ENUMPZBArt> pzbArt = EObjectExtensions
+							.getNullableObject(pzb,
+									p -> p.getPZBArt().getWert());
+					if (pzbArt.isEmpty()) {
+						return designation;
+					}
+					return String.format("%s %s", designation, //$NON-NLS-1$
+							Services.getEnumTranslationService()
+									.translate(pzbArt.get()));
+				})
 				.collect(Collectors.joining(System.lineSeparator()));
 	}
 
