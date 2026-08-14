@@ -319,7 +319,8 @@ public class LSTObjectDesignationExtensions {
 					}
 					return String.format("%s %s", designation, //$NON-NLS-1$
 							Services.getEnumTranslationService()
-									.translate(pzbArt.get()));
+									.translate(pzbArt.get())
+									.getAlternative());
 				})
 				.collect(Collectors.joining(System.lineSeparator()));
 	}
