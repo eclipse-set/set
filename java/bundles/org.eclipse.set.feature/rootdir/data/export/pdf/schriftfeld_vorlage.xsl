@@ -18,7 +18,7 @@ http://www.eclipse.org/legal/epl-v20.html
 	<xsl:variable name="wide-border-style">0.5mm solid black</xsl:variable>
 	<xsl:variable name="SB">0.125</xsl:variable>
  	<xsl:variable name="WB">0.25</xsl:variable>
-	<xsl:attribute-set name="default-font">
+	<xsl:attribute-set name="default">
 		<xsl:attribute name="font-family">Open Sans Condensed</xsl:attribute>
 		<xsl:attribute name="font-size">8</xsl:attribute>
 		<xsl:attribute name="font-style">normal</xsl:attribute>
@@ -64,7 +64,7 @@ http://www.eclipse.org/legal/epl-v20.html
 
 	<!-- Main page layout -->
 	<xsl:template match="/">
-		<fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:fox="http://xmlgraphics.apache.org/fop/extensions" language="de" linefeed-treatment="preserve" xsl:use-attribute-sets="default-font">
+		<fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:fox="http://xmlgraphics.apache.org/fop/extensions" language="de" linefeed-treatment="preserve" xsl:use-attribute-sets="default">
 			<fo:layout-master-set>
 				<fo:simple-page-master xsl:use-attribute-sets="table-master-style"
 					master-name="table-master">
@@ -77,6 +77,7 @@ http://www.eclipse.org/legal/epl-v20.html
 				</fo:flow>
 			</fo:page-sequence>
 		</fo:root>
+		<fo:declarations xsl:use-attribute-sets="default" />
 	</xsl:template>
 	
 </xsl:stylesheet>

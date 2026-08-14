@@ -82,9 +82,16 @@ public interface ToolboxProperties {
 	public static final String TMP_BASE_DIR = "toolbox.tmpdir";
 
 	/**
-	 * Property key for the default directory of the toolbox application.
+	 * Property key for the default directory of the toolbox application on
+	 * windows.
 	 */
-	public static final String TOOLBOX_DEFAULT_DIRECTORY = "toolbox.defaultdir";
+	public static final String TOOLBOX_DEFAULT_DIRECTORY_WIN = "toolbox.defaultdir.win";
+
+	/**
+	 * Property key for the default directory of the toolbox application on
+	 * linux.
+	 */
+	public static final String TOOLBOX_DEFAULT_DIRECTORY_LINUX = "toolbox.defaultdir.linux";
 
 	/**
 	 * Property key for the default NatTable line height.
