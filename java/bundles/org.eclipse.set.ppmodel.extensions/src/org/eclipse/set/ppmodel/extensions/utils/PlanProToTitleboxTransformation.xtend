@@ -396,8 +396,8 @@ class PlanProToTitleboxTransformation {
 		Planung_G_Schriftfeld_AttributeGroup schriftfeld,
 		TableNameInfo tableName) {
 		return '''
-			«schriftfeld?.bezeichnungAnlage?.wert»
-			«schriftfeld?.bezeichnungUnteranlage?.wert»
+			«schriftfeld?.bezeichnungAnlage?.wert ?: "<Anlage>"»
+			«schriftfeld?.bezeichnungUnteranlage?.wert ?: "<Unteranlage>"»
 			«tableName?.getFullDisplayName ?: "<Planzeichen> – <Planart>"»
 		'''
 	}
