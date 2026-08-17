@@ -177,7 +177,8 @@ public class SxxxTableView extends ToolboxTableView {
 	}
 
 	private void updateCalculateMissingTablesPanel() {
-		if (calculateMissingTablesPanel == null) {
+		if (calculateMissingTablesPanel == null
+				|| calculateMissingTablesPanel.isDisposed()) {
 			return;
 		}
 		if (getMissingTables().isEmpty()) {
@@ -185,7 +186,7 @@ public class SxxxTableView extends ToolboxTableView {
 			calculateMissingTablesPanel.dispose();
 			parent.layout(true, true);
 			parent.update();
-			calculateMissingTablesPanel = null;
+
 		}
 	}
 

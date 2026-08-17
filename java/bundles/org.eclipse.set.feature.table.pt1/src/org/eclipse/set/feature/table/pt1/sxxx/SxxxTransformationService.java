@@ -86,7 +86,7 @@ public class SxxxTransformationService
 			final TableType tableType) {
 		return TableRowGroupComparator.builder(tableType)
 				.sort(SxxxColumns.Text_Content, LEXICOGRAPHICAL, ASC)
-				.sort(SxxxColumns.Reference_Object, LEXICOGRAPHICAL, ASC)
+				.sort(SxxxColumns.Reference_Object_Art, LEXICOGRAPHICAL, ASC)
 				.build();
 	}
 
@@ -96,12 +96,11 @@ public class SxxxTransformationService
 		final ColumnDescriptor cd = super.fillHeaderDescriptions(builder);
 		// only merge on column A
 		cd.setMergeCommonValues(RowMergeMode.ENABLED);
-		List.of(SxxxColumns.Reference_Object, SxxxColumns.Visualation_In_Table)
-				.forEach(it -> cols.forEach(col -> {
-					if (it.equals(col.getColumnPosition())) {
-						col.setMergeCommonValues(RowMergeMode.DISABLED);
-					}
-				}));
+		List.of(SxxxColumns.Reference_Object_Art,
+				SxxxColumns.Reference_Object_Bezeichnung,
+				SxxxColumns.Visualation_In_Table)
+				.forEach(it -> getColumnDescriptor(it).ifPresent(col -> col
+						.setMergeCommonValues(RowMergeMode.DISABLED)));
 
 		return cd;
 	}
@@ -109,6 +108,12 @@ public class SxxxTransformationService
 	@Override
 	public boolean enableFiltering() {
 		return true;
+	}
+
+	@Override
+	protected String getRemarkColumnPosition() {
+		// Sxxx does not have a remark column
+		return null;
 	}
 
 	@Override

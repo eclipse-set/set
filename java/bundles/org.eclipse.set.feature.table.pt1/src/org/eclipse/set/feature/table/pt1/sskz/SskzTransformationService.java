@@ -109,6 +109,11 @@ public class SskzTransformationService extends
 	}
 
 	@Override
+	protected String getRemarkColumnPosition() {
+		return SskzColumns.Bemerkung;
+	}
+
+	@Override
 	protected Map<Class<?>, String> getFootnotesColumnReferences() {
 		return Collections.emptyMap();
 	}

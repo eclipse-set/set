@@ -15,8 +15,9 @@
 		</fo:block>
 	</xsl:template>
 
+	<!-- Switch to Arial if content contains □ because OpenSans does not know this glyphe -->
 	<xsl:template
-		match="StringContent[starts-with(.,'&#x25a1;')]">
+		match="StringContent[contains(.,'&#x25a1;')]">
 		<fo:block hyphenate="true" language="de" font-family="Arial">
 			<xsl:value-of select="." />
 		</fo:block>
@@ -92,7 +93,8 @@
 		</fo:inline>
 	</xsl:template>
 
-	<xsl:template match="OldValue[starts-with(.,'&#x25a1;')]">
+	<!-- Switch to Arial if content contains □ because OpenSans does not know this glyphe -->
+	<xsl:template match="OldValue[contains(.,'&#x25a1;')]">
 		<fo:inline font-family="Arial" background-color="yellow"
 			text-decoration="line-through">
 			<xsl:value-of select="." />
@@ -126,7 +128,8 @@
 		</fo:inline>
 	</xsl:template>
 
-	<xsl:template match="NewValue[starts-with(.,'&#x25a1;')]">
+	<!-- Switch to Arial if content contains □ because OpenSans does not know this glyphe -->
+	<xsl:template match="NewValue[contains(.,'&#x25a1;')]">
 		<fo:inline font-family="Arial" color="#cd0000">
 			<xsl:value-of select="." />
 		</fo:inline>
@@ -197,6 +200,11 @@
 
 	<xsl:template match="CompareProjectContent">
 		<fo:block>
+			<fo:marker marker-class-name="ComparePageText">
+				<fo:inline border-width="0.2mm" border-style="solid" border-color="#0066FF" color="#0066FF" padding="2px">
+						<xsl:text>Änderung gegenüber vorheriger Ausgabe</xsl:text>
+				</fo:inline>
+			</fo:marker>
 			<fo:inline>
 				<xsl:if test="../../@compareType='CHANGED_GUID_ROW'">
 					<xsl:attribute name="text-decoration">line-through</xsl:attribute>

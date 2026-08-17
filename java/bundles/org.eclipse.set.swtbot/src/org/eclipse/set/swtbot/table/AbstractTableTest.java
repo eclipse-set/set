@@ -17,6 +17,7 @@ import java.util.stream.Stream;
 
 import org.apache.commons.csv.CSVRecord;
 import org.eclipse.nebula.widgets.nattable.layer.ILayer;
+import org.eclipse.nebula.widgets.nattable.layer.cell.ILayerCell;
 import org.eclipse.set.swtbot.utils.AbstractPPHNTest;
 import org.eclipse.set.swtbot.utils.SWTBotUtils;
 import org.eclipse.set.swtbot.utils.SWTBotUtils.NattableLayers;
@@ -76,8 +77,9 @@ public abstract class AbstractTableTest extends AbstractPPHNTest {
 		for (int rowIndex = 0; rowIndex < endRow; rowIndex++) {
 			for (int columnIndex = 0; columnIndex < layers.selectionLayer()
 					.getPreferredColumnCount(); columnIndex++) {
-				final String cellValue = nattableLayer
-						.getDataValueByPosition(columnIndex, rowIndex)
+				final ILayerCell dataCell = nattableLayer
+						.getCellByPosition(columnIndex, rowIndex);
+				final String cellValue = dataCell.getDataValue()
 						.toString()
 						.replaceAll(CELL_VALUE_REPLACE_REGEX, "");
 				final String referenceValue = referenceData

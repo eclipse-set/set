@@ -55,6 +55,7 @@ import static extension org.eclipse.set.ppmodel.extensions.SignalbegriffExtensio
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspKomponenteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 import static extension org.eclipse.set.utils.math.BigIntegerExtensions.*
+import java.util.Iterator
 
 /**
  * This class extends {@link Fstr_Zug_Rangier}.
@@ -479,6 +480,24 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 			IDFstrFahrweg?.value?.IDStart?.value == zielSignal &&
 				fstrZug?.fstrZugArt?.wert === ENUMFstrZugArt.ENUM_FSTR_ZUG_ART_B
 		]
+	}
+
+	def static Iterable<Fstr_Zug_Rangier> getRecursiveNextBlockFstrZugRangier(
+		Fstr_Zug_Rangier it) {
+		val it = new Iterator<Fstr_Zug_Rangier>() {
+			var Fstr_Zug_Rangier next = it
+
+			override hasNext() {
+				val nextFstrZugRangier = getNextBlockFstrZugRangier(next)
+				next = nextFstrZugRangier?.firstOrNull // clarify if there be multiple blocks at the same signal
+				return next !== null
+			}
+
+			override next() {
+				next
+			}
+		}
+		return it.toList
 	}
 
 	/**

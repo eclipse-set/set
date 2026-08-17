@@ -91,6 +91,11 @@ public class SsliTransformationService
 	}
 
 	@Override
+	protected String getRemarkColumnPosition() {
+		return SsliColumns.Bemerkung;
+	}
+
+	@Override
 	protected Map<Class<?>, String> getFootnotesColumnReferences() {
 		return Collections.emptyMap();
 	}

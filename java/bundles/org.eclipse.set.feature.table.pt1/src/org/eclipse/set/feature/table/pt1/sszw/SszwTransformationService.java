@@ -86,6 +86,11 @@ public final class SszwTransformationService
 	}
 
 	@Override
+	protected String getRemarkColumnPosition() {
+		return SszwColumns.Bemerkung;
+	}
+
+	@Override
 	protected Map<Class<?>, String> getFootnotesColumnReferences() {
 		return Map.of(ID_Strecke_TypeClass.class, SszwColumns.Strecke,
 				Strecke_Km_TypeClass.class, SszwColumns.km);

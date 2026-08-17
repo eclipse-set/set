@@ -487,6 +487,17 @@ public class TablemodelPackageImpl extends EPackageImpl
 	 * @generated
 	 */
 	@Override
+	public EAttribute getColumnDescriptor_IsRemarkColumn() {
+		return (EAttribute) columnDescriptorEClass.getEStructuralFeatures()
+				.get(10);
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
 	public EClass getTableContent() {
 		return tableContentEClass;
 	}
@@ -1064,6 +1075,8 @@ public class TablemodelPackageImpl extends EPackageImpl
 				COLUMN_DESCRIPTOR__MERGE_COMMON_VALUES);
 		createEAttribute(columnDescriptorEClass,
 				COLUMN_DESCRIPTOR__COLUMN_POSITION);
+		createEAttribute(columnDescriptorEClass,
+				COLUMN_DESCRIPTOR__IS_REMARK_COLUMN);
 
 		tableContentEClass = createEClass(TABLE_CONTENT);
 		createEReference(tableContentEClass, TABLE_CONTENT__ROWGROUPS);
@@ -1179,10 +1192,10 @@ public class TablemodelPackageImpl extends EPackageImpl
 		setNsURI(eNS_URI);
 
 		// Obtain other dependent packages
-		BasisobjektePackage theBasisobjektePackage = (BasisobjektePackage) EPackage.Registry.INSTANCE
-				.getEPackage(BasisobjektePackage.eNS_URI);
 		XMLTypePackage theXMLTypePackage = (XMLTypePackage) EPackage.Registry.INSTANCE
 				.getEPackage(XMLTypePackage.eNS_URI);
+		BasisobjektePackage theBasisobjektePackage = (BasisobjektePackage) EPackage.Registry.INSTANCE
+				.getEPackage(BasisobjektePackage.eNS_URI);
 
 		// Create type parameters
 
@@ -1262,6 +1275,11 @@ public class TablemodelPackageImpl extends EPackageImpl
 				IS_ORDERED);
 		initEAttribute(getColumnDescriptor_ColumnPosition(),
 				ecorePackage.getEString(), "columnPosition", null, 0, 1,
+				ColumnDescriptor.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED,
+				IS_ORDERED);
+		initEAttribute(getColumnDescriptor_IsRemarkColumn(),
+				theXMLTypePackage.getBoolean(), "isRemarkColumn", "false", 0, 1,
 				ColumnDescriptor.class, !IS_TRANSIENT, !IS_VOLATILE,
 				IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED,
 				IS_ORDERED);

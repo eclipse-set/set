@@ -25,7 +25,6 @@ import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
 import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.TableRow;
-import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
 import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.table.Pt1TableChangeProperties;
 import org.eclipse.set.utils.table.TableError;
@@ -73,14 +72,6 @@ public interface TableService {
 	String extractShortcut(String elementId);
 
 	/**
-	 * @param tableInfo
-	 *            the {@link TableInfo}
-	 * 
-	 * @return the name info
-	 */
-	TableNameInfo getTableNameInfo(TableInfo tableInfo);
-
-	/**
 	 * Gets information about all available tables.
 	 * 
 	 * @return the table information
@@ -107,7 +98,7 @@ public interface TableService {
 	 * @param tableCategory
 	 * @return the tables, which throw Exception during transformation
 	 */
-	Set<TableInfo> getNonTransformableTables(Pt1TableCategory tableCategory);
+	Map<TableInfo, TableStatus> getTablesStatus(Pt1TableCategory tableCategory);
 
 	/**
 	 * Transform the selected container to a string with CSV format.
@@ -137,11 +128,14 @@ public interface TableService {
 	 *            the model session
 	 * @param controlAreaIds
 	 *            the list of {@link Stell_Bereich} and the belonging container
+	 * @param tableStatus
+	 *            the table status to update when transforming the table
 	 * 
 	 * @return the table
 	 */
 	Table transformToTable(final TableInfo tableInfo, TableType tableType,
-			final IModelSession modelSession, Set<String> controlAreaIds);
+			final IModelSession modelSession, Set<String> controlAreaIds,
+			final TableStatus tableStatus);
 
 	/**
 	 * Transform the selected container and control area to tables model.
@@ -220,10 +214,12 @@ public interface TableService {
 	 *            the table type
 	 * @param controlAreaIds
 	 *            the list of {@link Stell_Bereich} and the belonging container
+	 * @param updateTableStatus
+	 *            whether to update the table status or not
 	 * @return the compare table
 	 */
 	Table createDiffTable(TableInfo tableInfo, TableType tableType,
-			Set<String> controlAreaIds);
+			Set<String> controlAreaIds, boolean updateTableStatus);
 
 	/**
 	 * Sort the table after transformation.
@@ -273,4 +269,5 @@ public interface TableService {
 	 */
 	void fillDelayCells(List<TableRow> tableRow,
 			List<Pt1TableChangeProperties> changedDatas, TableType tableType);
+
 }

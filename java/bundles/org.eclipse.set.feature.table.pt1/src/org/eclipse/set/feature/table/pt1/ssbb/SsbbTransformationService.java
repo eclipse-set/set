@@ -80,6 +80,11 @@ public class SsbbTransformationService
 	}
 
 	@Override
+	protected String getRemarkColumnPosition() {
+		return SsbbColumns.Bemerkung;
+	}
+
+	@Override
 	protected Map<Class<?>, String> getFootnotesColumnReferences() {
 		return Map.of(ID_Strecke_TypeClass.class,
 				SsbbColumns.Befestigung_Strecke, Strecke_Km_TypeClass.class,

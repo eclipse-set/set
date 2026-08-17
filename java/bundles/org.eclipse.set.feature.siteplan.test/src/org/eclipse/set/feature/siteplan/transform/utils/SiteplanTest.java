@@ -148,7 +148,6 @@ public class SiteplanTest extends AbstractToolboxTest {
 		declaredMethod.invoke(geometryService, geometrySessionData,
 				PlanProSchnittstelleExtensions.getContainer(
 						planProSchnittstelle, ContainerType.FINAL));
-		FieldUtils.writeField(geometryService, "isProcessComplete", true, true);
 	}
 
 }

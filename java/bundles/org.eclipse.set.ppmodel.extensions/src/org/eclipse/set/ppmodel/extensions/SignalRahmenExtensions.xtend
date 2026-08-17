@@ -24,6 +24,7 @@ import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.*
 
 import static extension org.eclipse.set.ppmodel.extensions.SignalBefestigungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalbegriffExtensions.*
+import java.util.List
 
 /**
  * This class extends {@link Signal_Rahmen}.
@@ -156,5 +157,19 @@ class SignalRahmenExtensions extends BasisObjektExtensions {
 	def static Iterator<Signal_Befestigung> getSignalBefestigungIterator(
 		Signal_Rahmen signalRahmen) {
 		return new SignalBefestigungIterator(signalRahmen)
+	}
+	
+	/**
+	 * @param signalRahmen this Signalrahmen
+	 * 
+	 * @returns chain of Signalbefestigungen until the fundament. The chain is excluding the fundament.
+	 */
+	def static List<Signal_Befestigung> getBefestigungUntilFundament(Signal_Rahmen signalRahmen) {
+		val befestigungen = signalRahmen?.signalBefestigungIterator?.takeWhile[
+			signalBefestigungAllg?.befestigungArt?.wert !=
+				ENUM_BEFESTIGUNG_ART_FUNDAMENT
+		].toList
+		return befestigungen;
+		
 	}
 }

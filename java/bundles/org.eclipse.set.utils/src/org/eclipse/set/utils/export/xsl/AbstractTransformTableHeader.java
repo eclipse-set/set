@@ -139,6 +139,7 @@ public abstract class AbstractTransformTableHeader {
 		final Element table = doc.createElement(FO_TABLE);
 		table.setAttribute(TABLE_LAYOUT, LAYOUT_FIXED);
 		table.setAttribute(TABLE_WIDTH, "100%"); //$NON-NLS-1$
+		table.setAttribute("border-collapse", "separate");
 		final Set<Element> tableColumns = transformColumns();
 		tableColumns.forEach(table::appendChild);
 

@@ -117,6 +117,11 @@ public final class SsldTransformationService
 	}
 
 	@Override
+	protected String getRemarkColumnPosition() {
+		return SsldColumns.Bemerkung;
+	}
+
+	@Override
 	protected Map<Class<?>, String> getFootnotesColumnReferences() {
 		return Collections.emptyMap();
 	}

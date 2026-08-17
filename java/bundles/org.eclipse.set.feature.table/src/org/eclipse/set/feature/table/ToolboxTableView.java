@@ -13,6 +13,7 @@ import static org.eclipse.set.feature.table.abstracttableview.ToolboxTableModelT
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -98,6 +99,7 @@ import org.eclipse.set.services.export.ExportService;
 import org.eclipse.set.services.export.TableCompileService;
 import org.eclipse.set.services.table.TableService;
 import org.eclipse.set.services.table.TableService.TableRendererUtil;
+import org.eclipse.set.services.table.TableStatus;
 import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.RefreshAction;
 import org.eclipse.set.utils.SelectableAction;
@@ -193,7 +195,7 @@ public class ToolboxTableView extends BasePart {
 
 	private TableModelInstanceBodyDataProvider bodyDataProvider;
 
-	private EventHandler secondaryPlanningLoadedHanlder;
+	private EventHandler secondaryPlanningLoadedHandler;
 	protected TableInfo tableInfo;
 
 	/**
@@ -226,8 +228,7 @@ public class ToolboxTableView extends BasePart {
 	private Titlebox getTitlebox() {
 		final PlanProToTitleboxTransformation planProToTitlebox = new PlanProToTitleboxTransformation(
 				getSessionService());
-		return planProToTitlebox.transform(
-				tableService.getTableNameInfo(tableInfo),
+		return planProToTitlebox.transform(tableInfo.nameInfo(),
 				this::getAttachmentPath);
 	}
 
@@ -307,16 +308,16 @@ public class ToolboxTableView extends BasePart {
 				SelectedControlAreaChangedEvent.class,
 				selectionControlAreaHandler);
 
-		secondaryPlanningLoadedHanlder = this::comparePlaningLoadedHandler;
+		secondaryPlanningLoadedHandler = this::comparePlaningLoadedHandler;
 		getBroker().subscribe(Events.COMPARE_MODEL_LOADED,
-				secondaryPlanningLoadedHanlder);
+				secondaryPlanningLoadedHandler);
 	}
 
 	protected void comparePlaningLoadedHandler(final Event event) {
 		if (!event.getTopic().equalsIgnoreCase(Events.COMPARE_MODEL_LOADED)) {
 			return;
 		}
-		updateModel(getToolboxPart(), transformToTableModel());
+		updateTableView(Arrays.asList(Pt1TableCategory.values()));
 	}
 
 	@Override
@@ -327,7 +328,7 @@ public class ToolboxTableView extends BasePart {
 		ToolboxEvents.unsubscribe(getBroker(), tableSelectRowHandler);
 		ToolboxEvents.unsubscribe(getBroker(), tableDataChangeHandler);
 		ToolboxEvents.unsubscribe(getBroker(), selectionControlAreaHandler);
-		getBroker().unsubscribe(secondaryPlanningLoadedHanlder);
+		getBroker().unsubscribe(secondaryPlanningLoadedHandler);
 		getBroker().send(Events.CLOSE_PART, extractShortcut());
 	}
 
@@ -357,12 +358,12 @@ public class ToolboxTableView extends BasePart {
 	 */
 	protected Table transformToTableModel() {
 		return tableService.createDiffTable(tableInfo, tableType,
-				controlAreaIds);
+				controlAreaIds, true);
 	}
 
 	private void updateTableView(final List<Pt1TableCategory> tableCategories) {
 		tableService.updateTable(this, tableCategories, new TableRendererUtil(
-				() -> transformToTableModel(), transformedTable -> {
+				this::transformToTableModel, transformedTable -> {
 					if (transformedTable == null) {
 						return;
 					}
@@ -402,8 +403,10 @@ public class ToolboxTableView extends BasePart {
 			return;
 		}
 		subcribeTriggerResortEvent();
-		if (tableService.getNonTransformableTables(tableInfo.category())
-				.contains(tableInfo)) {
+		final TableStatus status = tableService
+				.getTablesStatus(tableInfo.category())
+				.getOrDefault(tableInfo, null);
+		if (status == null || status.isNonTransformable()) {
 			getDialogService().error(getToolboxShell(),
 					messages.TableTransform_Error_Msg);
 		}
@@ -780,7 +783,7 @@ public class ToolboxTableView extends BasePart {
 					monitor -> optionalOutputDir.ifPresent(outputDir -> {
 						monitor.beginTask(messages.ToolboxTableView_ExportTable,
 								IProgressMonitor.UNKNOWN);
-						exportService.exportPdf(tables,
+						exportService.exportTable(tables,
 								ExportType.PLANNING_RECORDS, getTitlebox(),
 								getFreeFieldInfo(), extractShortcut(),
 								outputDir, getModelSession().getToolboxPaths(),

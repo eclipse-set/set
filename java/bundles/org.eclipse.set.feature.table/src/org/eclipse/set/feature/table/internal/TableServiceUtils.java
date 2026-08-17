@@ -20,7 +20,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Optional;
@@ -50,6 +49,7 @@ import org.eclipse.set.model.tablemodel.CellContent;
 import org.eclipse.set.model.tablemodel.CompareFootnoteContainer;
 import org.eclipse.set.model.tablemodel.CompareStateCellContent;
 import org.eclipse.set.model.tablemodel.CompareTableCellContent;
+import org.eclipse.set.model.tablemodel.PlanCompareRow;
 import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.model.tablemodel.SimpleFootnoteContainer;
 import org.eclipse.set.model.tablemodel.StringCellContent;
@@ -115,7 +115,7 @@ public class TableServiceUtils {
 
 	}
 
-	protected static List<TableError> getCachedTableError(
+	protected static Optional<List<TableError>> getCachedTableError(
 			final CacheService cachService, final TableInfo tableInfo,
 			final IModelSession modelSession,
 			final PlanPro2TableTransformationService transformationService,
@@ -124,12 +124,12 @@ public class TableServiceUtils {
 				modelSession.getPlanProSchnittstelle(),
 				ToolboxConstants.CacheId.TABLE_ERRORS);
 		if (!cache.contains(tableInfo.shortcut())) {
-			return null;
+			return Optional.empty();
 		}
 		final List<TableError> cachedErrors = cache.get(tableInfo.shortcut(),
 				Collections::emptyList);
 		if (cachedErrors.isEmpty()) {
-			return cachedErrors;
+			return Optional.of(Collections.emptyList());
 		}
 		final TableType tableType = modelSession.getTableType();
 		final List<TableError> errorsByCurrentTableState = cachedErrors.stream()
@@ -139,10 +139,10 @@ public class TableServiceUtils {
 								.getDefaultTableType())
 				.toList();
 		if (controlAreaIds.isEmpty()) {
-			return errorsByCurrentTableState.stream()
+			return Optional.ofNullable(errorsByCurrentTableState.stream()
 					.filter(error -> UrObjectExtensions
 							.isPlanningObject(error.getLeadingObject()))
-					.toList();
+					.toList());
 		}
 		final Function<TableError, UrObjektEachContainer> getObj = error -> switch (error
 				.getContainerType()) {
@@ -154,9 +154,9 @@ public class TableServiceUtils {
 					error.getLeadingObject());
 			default -> throw new IllegalArgumentException();
 		};
-		return filterElementBelongToControlArea(errorsByCurrentTableState,
-				getObj, controlAreaIds, modelSession, transformationService,
-				null);
+		return Optional.ofNullable(filterElementBelongToControlArea(
+				errorsByCurrentTableState, getObj, controlAreaIds, modelSession,
+				transformationService, null));
 	}
 
 	/**
@@ -195,8 +195,7 @@ public class TableServiceUtils {
 			final TableService tableService, final IModelSession modelSession,
 			final Set<String> controlAreaIds,
 			final Pt1TableCategory tableCategory) {
-		final Map<TableInfo, Collection<TableError>> computedErrors = tableService
-				.getTableErrors(modelSession, controlAreaIds, tableCategory);
+
 		final Collection<TableInfo> allTableInfos = tableService
 				.getAvailableTables()
 				.stream()
@@ -209,8 +208,10 @@ public class TableServiceUtils {
 		if (!ToolboxConfiguration.isDebugMode()) {
 			// in debug mode we want to be able to recompute the errors
 			// that's why we mark all as missing
-			missingTables
-					.removeIf(info -> computedErrors.keySet().contains(info));
+			missingTables.removeIf(
+					info -> tableService.getTablesStatus(tableCategory)
+							.keySet()
+							.contains(info));
 		}
 		return missingTables;
 	}
@@ -545,7 +546,6 @@ public class TableServiceUtils {
 			});
 			return;
 		}
-
 		final List<Pair<TableRow, Pt1TableChangeProperties>> changedDataRow = changedDatas
 				.stream()
 				.map(data -> {
@@ -578,6 +578,9 @@ public class TableServiceUtils {
 	private static CellContent getNewContent(final CellContent oldContent,
 			final Pt1TableChangeProperties properties,
 			final SessionService sessionService) {
+		if (oldContent == null) {
+			throw new IllegalArgumentException();
+		}
 		return switch (oldContent) {
 			case final StringCellContent stringContent -> getNewContent(
 					stringContent, properties);
@@ -693,8 +696,9 @@ public class TableServiceUtils {
 				.filter(value -> value != null && !value.trim().isEmpty())
 				.collect(Collectors.toSet());
 		return mainPlanCellValues.equals(comparePlanCellValues)
-				? clone.getMainPlanCellContent()
-				: clone;
+				&& clone.getMainPlanCellContent() != null
+						? clone.getMainPlanCellContent()
+						: clone;
 	}
 
 	private static CompareStateCellContent createCompareCellContent(
@@ -716,4 +720,31 @@ public class TableServiceUtils {
 				&& oldValues.stream().allMatch(newValues::contains);
 	}
 
+	/**
+	 * @param table
+	 *            the table
+	 * @param cellContentClass
+	 *            the compare cell content class {@link CompareStateCellContent}
+	 *            or {@link CompareTableCellContent}
+	 * @return true, if exist compare cell
+	 */
+	public static boolean isTableExistChangedCompareContent(final Table table,
+			final Class<? extends CellContent> cellContentClass) {
+		if (cellContentClass != CompareTableCellContent.class
+				&& cellContentClass != CompareStateCellContent.class) {
+			throw new IllegalArgumentException(
+					"CellContent isn't CompareCellContent"); //$NON-NLS-1$
+		}
+		final List<TableRow> tableRows = TableExtensions.getTableRows(table);
+		if (cellContentClass == CompareTableCellContent.class
+				&& tableRows.stream()
+						.anyMatch(PlanCompareRow.class::isInstance)) {
+			return true;
+		}
+		return tableRows.stream()
+				.flatMap(row -> row.getCells().stream())
+				.filter(Objects::nonNull)
+				.anyMatch(cell -> cell.getContent() != null
+						&& cellContentClass.isInstance(cell.getContent()));
+	}
 }

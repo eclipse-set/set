@@ -94,6 +94,11 @@ public final class SskfTransformationService
 	}
 
 	@Override
+	protected String getRemarkColumnPosition() {
+		return SskfColumns.Bemerkung;
+	}
+
+	@Override
 	protected Map<Class<?>, String> getFootnotesColumnReferences() {
 		return Map.of();
 	}

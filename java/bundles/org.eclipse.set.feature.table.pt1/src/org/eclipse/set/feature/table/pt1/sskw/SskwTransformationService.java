@@ -100,6 +100,11 @@ public final class SskwTransformationService
 	}
 
 	@Override
+	protected String getRemarkColumnPosition() {
+		return SskwColumns.Bemerkung;
+	}
+
+	@Override
 	protected Map<Class<?>, String> getFootnotesColumnReferences() {
 		return Collections.emptyMap();
 	}

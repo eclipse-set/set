@@ -26,6 +26,7 @@ import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.Balisentechnik_ETCS.ETCS_W_Kr
 import org.eclipse.set.model.planpro.BasisTypen.ENUMLinksRechts
 import org.eclipse.set.model.planpro.Geodaten.ENUMTOPAnschluss
+import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.ENUMWKrArt
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.ENUMWKrGspStellart
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Anlage
@@ -33,6 +34,7 @@ import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Komponente
 import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.model.tablemodel.Table
+import org.eclipse.set.model.tablemodel.TableRow
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.ppmodel.extensions.utils.Case
 import org.eclipse.set.utils.math.AgateRounding
@@ -48,6 +50,7 @@ import static extension org.eclipse.set.ppmodel.extensions.Aussenelementansteuer
 import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.ESTW_ZentraleinheitExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.ETCSWKrExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.MultiContainer_AttributeGroupExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.StellBereichExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
@@ -55,7 +58,6 @@ import static extension org.eclipse.set.ppmodel.extensions.WKrAnlageExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspElementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
-import org.eclipse.set.model.tablemodel.TableRow
 
 /**
  * Table transformation for ETCS Melde- und Kommandoanschaltung Weichen (Sszw)
@@ -82,21 +84,22 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	private def Table create factory.table transform(
-		MultiContainer_AttributeGroup contanier) {
-		contanier.ETCSWKr.forEach [
+		MultiContainer_AttributeGroup container) {
+		val schnittStelle = container.planProSchnittstelle
+		container.ETCSWKr.forEach [
 			if (Thread.currentThread.interrupted) {
 				return
 			}
 			val rowgroup = factory.newRowGroup(it)
 			IDWKrAnlage?.value.WKrGspElemente.forEach [ gspElement |
 				val row = rowgroup.newTableRow
-				row.transform(it, gspElement)
+				row.transform(it, gspElement,schnittStelle)
 			]
 		]
 		return
 	}
 
-	private def transform(TableRow row, ETCS_W_Kr etcsWkr, W_Kr_Gsp_Element wKrGspElement) {
+	private def transform(TableRow row, ETCS_W_Kr etcsWkr, W_Kr_Gsp_Element wKrGspElement, PlanPro_Schnittstelle schnittStelle) {
 		val refWKrAnlage = etcsWkr.IDWKrAnlage?.value
 		// A: Sszw.W_Kr.Bezeichnung
 		fill(
@@ -126,8 +129,7 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 
 		// D: Sszw.W_Kr.Standort.Strecke
 		try {
-
-			val streckeInfos = etcsWkr.streckeInfo
+			val streckeInfos = etcsWkr.getStreckeInfo(schnittStelle)
 			fillIterable(
 				row,
 				cols.getColumn(Strecke),
@@ -142,7 +144,7 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 				cols.getColumn(km),
 				etcsWkr,
 				[
-					isFindGeometryComplete || streckeInfos.map[value].exists [
+					isFindGeometryComplete(schnittStelle) || streckeInfos.map[value].exists [
 						isPresent
 					]
 				],
@@ -368,7 +370,7 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	private def List<Pair<String, Optional<String>>> getStreckeInfo(
-		ETCS_W_Kr etcsWKr) {
+		ETCS_W_Kr etcsWKr, PlanPro_Schnittstelle schnittStelle) {
 		switch (etcsWKr.IDWKrAnlage?.value?.WKrAnlageArt) {
 			case ENUMW_KR_ART_EW,
 			case ENUMW_KR_ART_IBW,
@@ -389,7 +391,7 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 			case ENUMW_KR_ART_EKW,
 			case ENUMW_KR_ART_FLACHKREUZUNG,
 			case ENUMW_KR_ART_KR: {
-				return etcsWKr.getStreckeInfoOfCrossSwitch
+				return etcsWKr.getStreckeInfoOfCrossSwitch(schnittStelle)
 			}
 			default:
 				return null
@@ -397,7 +399,7 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	private def List<Pair<String, Optional<String>>> getStreckeInfoOfCrossSwitch(
-		ETCS_W_Kr etcsWKr) {
+		ETCS_W_Kr etcsWKr, PlanPro_Schnittstelle schnittStelle) {
 		if (etcsWKr?.IDWKrAnlage?.value === null ||
 			!etcsWKr.IDWKrAnlage?.value.isCrossSwitch) {
 			return #[]
@@ -405,7 +407,7 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 		return etcsWKr.punktsObjektTopKante.flatMap [ potk |
 			potk.streckenThroughBereichObjekt.map [ route |
 				var Optional<String> routeKm = Optional.empty
-				if (isFindGeometryComplete) {
+				if (isFindGeometryComplete(schnittStelle)) {
 					routeKm = Optional.ofNullable(
 						potk.getStreckeKmThroughProjection(route)?.
 							toTableDecimal)

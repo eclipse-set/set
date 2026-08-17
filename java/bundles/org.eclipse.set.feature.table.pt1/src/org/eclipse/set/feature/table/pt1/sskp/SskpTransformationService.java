@@ -176,10 +176,8 @@ public class SskpTransformationService
 				SskpColumns.GeschwindigkeitsKlasse, //
 				SskpColumns.PZB_Schutzstrecke_Soll, //
 				SskpColumns.PZB_Schutzstrecke_Ist)
-				.forEach(it -> cols.forEach(col -> {
-					if (it.equals(col.getColumnPosition())) {
-						col.setMergeCommonValues(RowMergeMode.DISABLED);
-					}
+				.forEach(it -> getColumnDescriptor(it).ifPresent(col -> {
+					col.setMergeCommonValues(RowMergeMode.DISABLED);
 				}));
 
 		return cd;
@@ -197,6 +195,11 @@ public class SskpTransformationService
 				Abstand_GM_2000_Bahnsteig_Anfang,
 				Abstand_GM_2000_Bahnsteig_Ende, H_Tafel_Abstand,
 				Abstand_vorsignalWdh_GM_2000);
+	}
+
+	@Override
+	protected String getRemarkColumnPosition() {
+		return SskpColumns.Bemerkung;
 	}
 
 	@Override

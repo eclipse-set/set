@@ -55,6 +55,7 @@ import static org.eclipse.set.ppmodel.extensions.geometry.GEOKanteGeometryExtens
 import static extension org.eclipse.set.ppmodel.extensions.AussenelementansteuerungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FstrNichthaltfallExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.MultiContainer_AttributeGroupExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
@@ -79,6 +80,7 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
 		TMFactory factory) {
+		val schnittStelle = container.planProSchnittstelle
 		val etcsRefSignalWithSignalBegriffe = container.ETCSSignal.map [
 			IDSignal?.value
 		].filterNull.toMap([it], [signalbegriffIds])
@@ -213,7 +215,7 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 				cols.getColumn(Standort_Km),
 				refSignal,
 				[
-					isFindGeometryComplete ||
+					isFindGeometryComplete(schnittStelle) ||
 						!streckeAndKm.flatMap[value].filter[!nullOrEmpty].
 							nullOrEmpty
 				],

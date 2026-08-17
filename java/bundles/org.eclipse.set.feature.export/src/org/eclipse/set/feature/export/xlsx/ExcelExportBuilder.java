@@ -17,9 +17,9 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -42,11 +42,15 @@ import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.basis.exceptions.FileExportException;
 import org.eclipse.set.feature.export.pdf.TableToTableDocument;
 import org.eclipse.set.model.tablemodel.CompareFootnoteContainer;
+import org.eclipse.set.model.tablemodel.CompareTableCellContent;
+import org.eclipse.set.model.tablemodel.CompareTableFootnoteContainer;
 import org.eclipse.set.model.tablemodel.Footnote;
 import org.eclipse.set.model.tablemodel.FootnoteContainer;
 import org.eclipse.set.model.tablemodel.SimpleFootnoteContainer;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.TableRow;
+import org.eclipse.set.model.tablemodel.extensions.CellContentExtensions;
+import org.eclipse.set.model.tablemodel.extensions.TableCellExtensions;
 import org.eclipse.set.model.tablemodel.extensions.TableExtensions;
 import org.eclipse.set.model.tablemodel.extensions.TableExtensions.FootnoteInfo;
 import org.eclipse.set.model.tablemodel.extensions.TableRowExtensions;
@@ -114,19 +118,31 @@ public class ExcelExportBuilder implements TableExport {
 			final TableType tableType,
 			final OverwriteHandling overwriteHandling)
 			throws FileExportException {
-		final Table table = getTableToBeExported(tables);
-		final boolean isInlineFootnote = TableExtensions
-				.isInlineFootnote(table);
+
 		// IMPROVE: this is only a temporary situation for the table
 		// Sskp_dm
 		final String tableShortcut = shortcut.equals("sskp_dm") ? "sskp" //$NON-NLS-1$//$NON-NLS-2$
 				: shortcut;
-		final Path templatePath = Paths.get(TEMPLATE_DIR,
-				tableShortcut + "_vorlage.xlsx"); //$NON-NLS-1$
 		final Path outputPath = toolboxPaths.getTableExportPath(shortcut,
 				Paths.get(outputDir), exportType,
 				ExportPathExtension.TABLE_XLSX_EXPORT_EXTENSION);
+		export(tables, exportType, titlebox, freeFieldInfo, tableShortcut,
+				tableType, outputPath, overwriteHandling);
 
+	}
+
+	@Override
+	public void export(final Map<TableType, Table> tables,
+			final ExportType exportType, final Titlebox titleBox,
+			final FreeFieldInfo freeFieldInfo, final String shortcut,
+			final TableType tableType, final Path outputPath,
+			final OverwriteHandling overwriteHandling)
+			throws FileExportException {
+		final Table table = getTableToBeExported(tables);
+		final boolean isInlineFootnote = TableExtensions
+				.isInlineFootnote(table);
+		final Path templatePath = Paths.get(TEMPLATE_DIR,
+				shortcut + "_vorlage.xlsx"); //$NON-NLS-1$
 		try (final FileInputStream inputStream = new FileInputStream(
 				templatePath.toFile());
 				final Workbook workbook = new XSSFWorkbook(inputStream)) {
@@ -207,6 +223,7 @@ public class ExcelExportBuilder implements TableExport {
 		}
 	}
 
+	@SuppressWarnings("resource")
 	private static void fillSheet(final Sheet sheet, final List<TableRow> rows,
 			final int rowIndex, final int columnCount,
 			final boolean inlineFootnote) {
@@ -220,19 +237,34 @@ public class ExcelExportBuilder implements TableExport {
 		int contentRowIndex = rowIndex;
 
 		for (final TableRow row : rows) {
+			if (isRowEmpty(row)) {
+				continue;
+			}
 			final Row sheetRow = contentRowIndex == rowIndex
 					? sheet.getRow(contentRowIndex)
 					: createNewRow(sheet, contentRowIndex, columnCount);
 			final FootnoteContainer footnotes = row.getFootnotes();
+			final List<String> contents = getCellContents(row);
 			for (int i = 0; i < columnCount; i++) {
-				final String content = TableRowExtensions
-						.getPlainStringValue(row, i);
+				final String content = contents.get(i);
 				Cell cell = sheetRow.getCell(i + 1);
 
 				if (cell == null) {
 					cell = sheetRow.createCell(i + 1);
+					// in the excel template it might be the case that a certain
+					// cell is was never defined/styled.
+					// If that is the case we take at least the font from the
+					// definitely defined first cell from the header so that all
+					// the cells are using the same font.
+					cell.getCellStyle()
+							.setFont(sheet.getWorkbook()
+									.getFontAt(sheet.getRow(0)
+											.getCell(1)
+											.getCellStyle()
+											.getFontIndex()));
 				}
-				if (i == columnCount - 1) {
+				if (TableToTableDocument
+						.isRemarkColumn(row.getCells().get(i))) {
 					fillFootnoteCell(cell, content, allFootnotes, footnotes,
 							inlineFootnote);
 					continue;
@@ -245,34 +277,59 @@ public class ExcelExportBuilder implements TableExport {
 		}
 	}
 
-	private static void fillFootnoteCell(final Cell cell,
-			final String cellContent, final List<FootnoteInfo> allFootnotes,
-			final FootnoteContainer fnContainer, final boolean inlineFootnote) {
-		final List<Footnote> footnotes = switch (fnContainer) {
+	private static boolean isRowEmpty(final TableRow row) {
+		return getCellContents(row).stream()
+				.allMatch(s -> s == null || s.trim().isEmpty());
+	}
+
+	private static List<String> getCellContents(final TableRow row) {
+		return row.getCells().stream().map(cell -> {
+			String content = TableCellExtensions.getPlainStringValue(cell);
+			if (cell.getContent() instanceof final CompareTableCellContent compareCell) {
+				content = CellContentExtensions.getPlainStringValue(
+						compareCell.getMainPlanCellContent());
+			}
+			return content;
+		}).toList();
+	}
+
+	private static List<Footnote> getFootnotes(
+			final FootnoteContainer fnContainer) {
+		if (fnContainer == null) {
+			return Collections.emptyList();
+		}
+		return switch (fnContainer) {
 			case final SimpleFootnoteContainer simpleContainer -> simpleContainer
 					.getFootnotes();
 			case final CompareFootnoteContainer compareContainer -> compareContainer
 					.getUnchangedFootnotes()
 					.getFootnotes();
-			default -> throw new IllegalArgumentException();
+			case final CompareTableFootnoteContainer compareContainer -> getFootnotes(
+					compareContainer.getMainPlanFootnoteContainer());
+			default -> Collections.emptyList();
 		};
-		final List<FootnoteInfo> fnInfo = footnotes.stream()
-				.map(fn -> TableExtensions.getFootnoteInfo(allFootnotes, fn))
-				.filter(Objects::nonNull)
-				.toList();
+	}
+
+	private static void fillFootnoteCell(final Cell cell,
+			final String cellContent, final List<FootnoteInfo> allFootnotes,
+			final FootnoteContainer fnContainer, final boolean inlineFootnote) {
+		final List<Footnote> footnotes = getFootnotes(fnContainer);
+		final List<FootnoteInfo> fnInfo = TableToTableDocument
+				.processFootnotes(footnotes.stream()
+						.map(fn -> TableExtensions.getFootnoteInfo(allFootnotes,
+								fn))
+						.toList());
 		final StringBuilder builder = new StringBuilder();
 		if (!cellContent.isEmpty() && !cellContent.isBlank()) {
 			builder.append(cellContent);
 			builder.append(TableToTableDocument.FOOTNOTE_INLINE_TEXT_SEPARATOR);
 		}
-		final String footnoteValue = inlineFootnote ? fnInfo.stream()
-				.map(FootnoteInfo::toText)
-				.collect(Collectors.joining(
-						TableToTableDocument.FOOTNOTE_INLINE_TEXT_SEPARATOR))
-				: fnInfo.stream()
-						.map(fn -> "*" + fn.index) //$NON-NLS-1$
-						.collect(Collectors.joining(
-								TableToTableDocument.FOOTNOTE_MARK_SEPRATOR));
+		final String footnoteValue = fnInfo.stream()
+				.map(inlineFootnote ? FootnoteInfo::toText
+						: FootnoteInfo::toShorthand)
+				.collect(Collectors.joining(inlineFootnote
+						? TableToTableDocument.FOOTNOTE_INLINE_TEXT_SEPARATOR
+						: TableToTableDocument.FOOTNOTE_MARK_SEPRATOR));
 		builder.append(footnoteValue);
 		cell.setCellValue(builder.toString());
 	}
@@ -306,6 +363,7 @@ public class ExcelExportBuilder implements TableExport {
 				if (!spanUtils.isMergeAllowed(column, row)) {
 					continue;
 				}
+				final int sheetColumn = column + 1;
 
 				final int spanUp = spanUtils.getRowSpanUp(column, row);
 				final int spanDown = spanUtils.getRowSpanDown(column, row);
@@ -322,7 +380,7 @@ public class ExcelExportBuilder implements TableExport {
 				}
 
 				sheet.addMergedRegion(new CellRangeAddress(sheetRowIndex,
-						sheetRowIndex + spanDown, column, column));
+						sheetRowIndex + spanDown, sheetColumn, sheetColumn));
 			}
 
 			sheetRowIndex++;

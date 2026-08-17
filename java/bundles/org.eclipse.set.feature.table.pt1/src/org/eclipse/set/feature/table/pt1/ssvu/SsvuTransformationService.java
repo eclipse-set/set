@@ -94,6 +94,11 @@ public final class SsvuTransformationService
 	}
 
 	@Override
+	protected String getRemarkColumnPosition() {
+		return SsvuColumns.Bemerkung;
+	}
+
+	@Override
 	protected Map<Class<?>, String> getFootnotesColumnReferences() {
 		return Collections.emptyMap();
 	}

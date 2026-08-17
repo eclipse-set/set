@@ -112,6 +112,11 @@ public final class SslaTransformationService
 	}
 
 	@Override
+	protected String getRemarkColumnPosition() {
+		return SslaColumns.Bemerkung;
+	}
+
+	@Override
 	protected Map<Class<?>, String> getFootnotesColumnReferences() {
 		return Collections.emptyMap();
 	}

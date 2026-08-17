@@ -42,6 +42,8 @@ import org.eclipse.emf.ecore.EObject;
  * <em>Merge Common Values</em>}</li>
  * <li>{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#getColumnPosition
  * <em>Column Position</em>}</li>
+ * <li>{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#isIsRemarkColumn
+ * <em>Is Remark Column</em>}</li>
  * </ul>
  *
  * @see org.eclipse.set.model.tablemodel.TablemodelPackage#getColumnDescriptor()
@@ -305,5 +307,31 @@ public interface ColumnDescriptor extends EObject {
 	 * @generated
 	 */
 	void setColumnPosition(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Is Remark Column</b></em>' attribute.
+	 * The default value is <code>"false"</code>. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
+	 * @return the value of the '<em>Is Remark Column</em>' attribute.
+	 * @see #setIsRemarkColumn(boolean)
+	 * @see org.eclipse.set.model.tablemodel.TablemodelPackage#getColumnDescriptor_IsRemarkColumn()
+	 * @model default="false" dataType="org.eclipse.emf.ecore.xml.type.Boolean"
+	 * @generated
+	 */
+	boolean isIsRemarkColumn();
+
+	/**
+	 * Sets the value of the
+	 * '{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#isIsRemarkColumn
+	 * <em>Is Remark Column</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
+	 * @param value
+	 *            the new value of the '<em>Is Remark Column</em>' attribute.
+	 * @see #isIsRemarkColumn()
+	 * @generated
+	 */
+	void setIsRemarkColumn(boolean value);
 
 } // ColumnDescriptor

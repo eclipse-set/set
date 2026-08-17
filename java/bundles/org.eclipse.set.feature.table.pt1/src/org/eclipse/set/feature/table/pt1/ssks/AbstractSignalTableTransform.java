@@ -21,7 +21,6 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.eclipse.set.basis.graph.TopPoint;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
@@ -33,16 +32,17 @@ import org.eclipse.set.model.planpro.BasisTypen.ID_Bearbeitungsvermerk_TypeClass
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup;
 import org.eclipse.set.model.planpro.Geodaten.Strecke;
 import org.eclipse.set.model.planpro.Gleis.Gleis_Lichtraum;
+import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt;
 import org.eclipse.set.model.planpro.Signale.Signal;
 import org.eclipse.set.model.planpro.Signale.Signal_Befestigung;
 import org.eclipse.set.model.planpro.Signale.Signal_Rahmen;
-import org.eclipse.set.model.planpro.Verweise.ID_Regelzeichnung_TypeClass;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.TableRow;
 import org.eclipse.set.ppmodel.extensions.BereichObjektExtensions;
 import org.eclipse.set.ppmodel.extensions.EObjectExtensions;
+import org.eclipse.set.ppmodel.extensions.MultiContainer_AttributeGroupExtensions;
 import org.eclipse.set.ppmodel.extensions.PunktObjektExtensions;
 import org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteExtensions;
 import org.eclipse.set.ppmodel.extensions.SignalExtensions;
@@ -109,6 +109,8 @@ public abstract class AbstractSignalTableTransform
 			final MultiContainer_AttributeGroup container,
 			final Signal signal) {
 		try {
+			final PlanPro_Schnittstelle schnittStelle = MultiContainer_AttributeGroupExtensions
+					.getPlanProSchnittstelle(container);
 			final RowFactory newRowGroup = factory.newRowGroup(signal);
 			final List<List<Signal_Befestigung>> befestigungsgruppen = SignalExtensions
 					.getBefestigungsgruppen(signal,
@@ -122,7 +124,7 @@ public abstract class AbstractSignalTableTransform
 							.signalRahmenForBefestigung(signal, gruppe);
 					final TableRow row = newRowGroup.newTableRow();
 					fillGenerallyColumns(row, container, signal,
-							isHauptbefestigung, signalRahmen);
+							isHauptbefestigung, signalRahmen, schnittStelle);
 					fillSpecifyColumns(row, container, signal,
 							isHauptbefestigung, signalRahmen);
 				}
@@ -165,7 +167,8 @@ public abstract class AbstractSignalTableTransform
 	protected void fillGenerallyColumns(final TableRow row,
 			final MultiContainer_AttributeGroup container, final Signal signal,
 			final boolean isHauptBefestigung,
-			final List<Signal_Rahmen> signalRahmen) {
+			final List<Signal_Rahmen> signalRahmen,
+			final PlanPro_Schnittstelle schnittStelle) {
 		// Bezeichnung.Signal
 		fillConditional(row, getBezeichnungColumn(), signal,
 				s -> isHauptBefestigung, SignalExtensions::getTableBezeichnung,
@@ -189,7 +192,8 @@ public abstract class AbstractSignalTableTransform
 
 		// Standortmerkmale.Standort.km
 		fillIterableSingleCellWhenAllowed(row, getKmColumn(), signal,
-				() -> GEOKanteGeometryExtensions.isFindGeometryComplete()
+				() -> GEOKanteGeometryExtensions
+						.isFindGeometryComplete(schnittStelle)
 						|| streckeAndKm.stream()
 								.flatMap(p -> p.getValue().stream())
 								.anyMatch(s -> s != null && !s.isEmpty()),
@@ -247,7 +251,7 @@ public abstract class AbstractSignalTableTransform
 
 		// Standortmerkmale.Abstand_Mastmitte.links
 		// Standortmerkmale.Abstand_Mastmitte.rechts
-		fillAbstandMastMitte(row, signal);
+		fillAbstandMastMitte(row, signal, schnittStelle);
 
 		// konstruktive_Merkmale.Anordnung.Befestigung
 		fillIterable(row, getBefestigungColumn(), signalRahmen,
@@ -256,21 +260,6 @@ public abstract class AbstractSignalTableTransform
 								SignalRahmenExtensions.getSignalBefestigung(r)))
 						.collect(Collectors.toSet()),
 				null);
-
-		// konstruktive_Merkmale.Anordnung.Regelzeichnung
-		fillIterable(row, getRegelzeichnungColumn(), signalRahmen,
-				rahmen -> rahmen.stream().flatMap(r -> {
-					final Signal_Befestigung signalBefestigung = SignalRahmenExtensions
-							.getSignalBefestigung(r);
-					if (signalBefestigung == null) {
-						return Stream.empty();
-					}
-					return signalBefestigung.getIDRegelzeichnung()
-							.stream()
-							.map(ID_Regelzeichnung_TypeClass::getValue)
-							.filter(Objects::nonNull)
-							.map(z -> fillRegelzeichnung(z));
-				}).toList(), null);
 
 		// konstruktive_Merkmale.Fundament.Art_Regelzeichnung
 		fillIterable(row, getArtRegelzeichnungColumn(), signalRahmen,
@@ -326,34 +315,37 @@ public abstract class AbstractSignalTableTransform
 		return result;
 	}
 
-	protected void fillAbstandMastMitte(final TableRow row,
-			final Signal signal) {
+	protected void fillAbstandMastMitte(final TableRow row, final Signal signal,
+			final PlanPro_Schnittstelle schnittStelle) {
 
-		getAbstandMastMitteColumn().forEach(
-				(linksrechts, column) -> fillIterableMultiCellWhenAllow(row,
-						column, signal,
-						GEOKanteGeometryExtensions::isFindGeometryComplete,
-						s -> {
-							final SignalSideDistance signalSideDistances = sideDistancesSignal
-									.computeIfAbsent(signal,
-											ele -> new SignalSideDistance(ele,
-													getSideDistanceMastType()));
-							final Set<SideDistance> distances = switch (linksrechts) {
-								case ENUM_LINKS_RECHTS_LINKS -> signalSideDistances
-										.getSideDistancesLeft();
-								case ENUM_LINKS_RECHTS_RECHTS -> signalSideDistances
-										.getSideDistancesRight();
-							};
+		getAbstandMastMitteColumn()
+				.forEach(
+						(linksrechts, column) -> fillIterableMultiCellWhenAllow(
+								row, column, signal,
+								() -> Boolean.valueOf(GEOKanteGeometryExtensions
+										.isFindGeometryComplete(schnittStelle)),
+								s -> {
+									final SignalSideDistance signalSideDistances = sideDistancesSignal
+											.computeIfAbsent(signal,
+													ele -> new SignalSideDistance(
+															ele,
+															getSideDistanceMastType()));
+									final Set<SideDistance> distances = switch (linksrechts) {
+										case ENUM_LINKS_RECHTS_LINKS -> signalSideDistances
+												.getSideDistancesLeft();
+										case ENUM_LINKS_RECHTS_RECHTS -> signalSideDistances
+												.getSideDistancesRight();
+									};
 
-							if (distances.stream()
-									.anyMatch(v -> v
-											.getDistanceToNeighborTrack() > 0)) {
-								addTopologicalCell(row, column);
-							}
-							return distances.stream()
-									.map(SideDistance::toString)
-									.toList();
-						}, null, ITERABLE_FILLING_SEPARATOR));
+									if (distances.stream()
+											.anyMatch(v -> v
+													.getDistanceToNeighborTrack() != null)) {
+										addTopologicalCell(row, column);
+									}
+									return distances.stream()
+											.map(SideDistance::toString)
+											.toList();
+								}, null, ITERABLE_FILLING_SEPARATOR));
 	}
 
 	protected abstract List<ENUMBefestigungArt> getSideDistanceMastType();
@@ -361,8 +353,6 @@ public abstract class AbstractSignalTableTransform
 	protected abstract ColumnDescriptor getFundamentHoeheColumn();
 
 	protected abstract ColumnDescriptor getArtRegelzeichnungColumn();
-
-	protected abstract ColumnDescriptor getRegelzeichnungColumn();
 
 	protected abstract ColumnDescriptor getBefestigungColumn();
 

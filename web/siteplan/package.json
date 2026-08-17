@@ -10,7 +10,10 @@
     "build-prod": "vite build --mode production",
     "lint": "eslint src",
     "test:e2e": "playwright test",
-    "typecheck": "vue-tsc --noEmit"
+    "typecheck": "vue-tsc --noEmit",
+    "test:e2e:docker": "docker run --rm --ipc=host -v .:/app -v /app/node_modules -w /app mcr.microsoft.com/playwright:v1.61.1-noble",
+    "test:e2e:run":  "npm run test:e2e:docker -- bash -c 'npm ci && npm run test:e2e'",
+    "test:e2e:update": "npm run test:e2e:docker -- bash -c 'npm ci && npm run test:e2e -- -u'"
   },
   "dependencies": {
     "@turf/boolean-disjoint": "^7.3.5",
@@ -18,32 +21,32 @@
     "@turf/difference": "^7.3.5",
     "@turf/helpers": "^7.3.5",
     "@turf/intersect": "^7.3.5",
-    "axios": "^1.16.0",
+    "axios": "^1.18.1",
     "geojson": "^0.5.0",
     "material-design-icons": "^3.0.1",
     "ol": "^10.9.0",
     "ol-mapbox-style": "^13.4.1",
-    "vue": "^3.5.32",
+    "vue": "^3.5.40",
     "vue-class-component": "^8.0.0-1",
-    "vue-router": "^5.0.3",
+    "vue-router": "^5.2.0",
     "vuex": "^4.1.0"
   },
   "devDependencies": {
-    "@playwright/test": "^1.57.0",
+    "@playwright/test": "^1.61.1",
     "@stylistic/eslint-plugin": "5.10.0",
     "@types/geojson": "^7946.0.15",
-    "@typescript-eslint/eslint-plugin": "^8.59.3",
+    "@typescript-eslint/eslint-plugin": "^8.66.0",
     "@typescript-eslint/parser": "^8.32.1",
-    "@vitejs/plugin-vue": "^6.0.6",
+    "@vitejs/plugin-vue": "^6.0.8",
     "dotenv": "^17.4.2",
     "eslint": "^9.39.2",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^7.3.0",
-    "eslint-plugin-vue": "^10.8.0",
+    "eslint-plugin-vue": "^10.10.0",
     "tslib": "^2.8.1",
     "typescript": "^6.0.3",
-    "vite": "^8.0.8",
+    "vite": "^8.1.5",
     "vue-tsc": "^3.3.4"
   }
 }

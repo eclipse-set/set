@@ -76,6 +76,12 @@ public class SslsTransformationService
 	}
 
 	@Override
+	protected String getRemarkColumnPosition() {
+		// Ssls does not have a remark column
+		return null;
+	}
+
+	@Override
 	protected Map<Class<?>, String> getFootnotesColumnReferences() {
 		return Collections.emptyMap();
 	}

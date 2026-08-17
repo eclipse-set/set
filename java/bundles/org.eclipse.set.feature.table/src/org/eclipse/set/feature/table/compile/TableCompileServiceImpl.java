@@ -38,18 +38,20 @@ public class TableCompileServiceImpl implements TableCompileService {
 			final IModelSession modelSession,
 			final Set<String> controlAreaIds) {
 		final Map<TableType, Table> result = new EnumMap<>(TableType.class);
+		// always recreate tables here (e.g. for exports) but don't update table
+		// status here as this transformation is only temporary
 		if (PlanProSchnittstelleExtensions
 				.isPlanning(modelSession.getPlanProSchnittstelle())) {
 			Arrays.stream(TableType.values())
 					.filter(type -> type != TableType.SINGLE)
 					.forEach(type -> {
 						final Table table = tableService.createDiffTable(
-								tableInfo, type, controlAreaIds);
+								tableInfo, type, controlAreaIds, false);
 						result.put(type, table);
 					});
 		} else {
 			final Table single = tableService.createDiffTable(tableInfo,
-					TableType.SINGLE, controlAreaIds);
+					TableType.SINGLE, controlAreaIds, false);
 			result.put(TableType.SINGLE, single);
 		}
 

@@ -99,6 +99,11 @@ public final class SskaTransformationService
 	}
 
 	@Override
+	protected String getRemarkColumnPosition() {
+		return SskaColumns.Bemerkung;
+	}
+
+	@Override
 	protected Map<Class<?>, String> getFootnotesColumnReferences() {
 		return Map.of(ID_Strecke_TypeClass.class,
 				SskaColumns.Unterbringung_Strecke, Strecke_Km_TypeClass.class,

@@ -80,23 +80,30 @@ public class ToolboxTableFootnoteView extends StyledText {
 			final String text = footnote.toReferenceText();
 			lines.add(text);
 
+			final StyleRange styleRange = new StyleRange(startOffset,
+					text.length(), null, null);
 			switch (footnote.type) {
 				case NEW_FOOTNOTE:
-					styles.add(new StyleRange(startOffset, text.length(),
-							new Color(255, 0, 0), null));
+					styleRange.foreground = new Color(255, 0, 0);
 					break;
 				case OLD_FOOTNOTE:
-					final StyleRange styleRange = new StyleRange(startOffset,
-							text.length(), null, new Color(255, 255, 0));
+					styleRange.background = new Color(255, 255, 0);
 					styleRange.strikeout = true;
-					styles.add(styleRange);
 
 					break;
 				case COMMON_FOOTNOTE:
 				default:
 					break;
 			}
-			startOffset += text.length() + 1;
+			if (footnote.changedInCompare) {
+				styleRange.borderStyle = SWT.BORDER_SOLID;
+				styleRange.borderColor = new Color(0, 0, 255);
+				// add some artificial padding to left and right border of
+				lines.set(lines.size() - 1, " " + text + " "); //$NON-NLS-1$ //$NON-NLS-2$
+				styleRange.length += 2;
+			}
+			styles.add(styleRange);
+			startOffset += styleRange.length + 1;
 
 		}
 		setVisible(!lines.isEmpty());

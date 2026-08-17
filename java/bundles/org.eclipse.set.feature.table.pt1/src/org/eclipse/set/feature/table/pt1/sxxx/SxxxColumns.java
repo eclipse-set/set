@@ -26,12 +26,17 @@ public class SxxxColumns {
 	public static final String Text_Content = "B";
 
 	/**
-	 * C: Referenziert von Objekt
+	 * C: Referenziert von Objekt Art
 	 */
-	public static final String Reference_Object = "C";
+	public static final String Reference_Object_Art = "C";
 
 	/**
-	 * D: Ausgabe in Plan
+	 * D: Referenziert von Objekt Bezeichnung
 	 */
-	public static final String Visualation_In_Table = "D";
+	public static final String Reference_Object_Bezeichnung = "D";
+
+	/**
+	 * E: Ausgabe in Plan
+	 */
+	public static final String Visualation_In_Table = "E";
 }

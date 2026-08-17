@@ -216,8 +216,13 @@ class CellContentExtensions {
 		if (content.mainPlanCellContent === null) {
 			return content.mainPlanCellContent.plainStringValue
 		}
-
-		return '''«content.mainPlanCellContent.plainStringValue»/«content.comparePlanCellContent.plainStringValue»'''
+		
+		val mainContent = content.mainPlanCellContent.plainStringValue
+		val compareContent = content.comparePlanCellContent.plainStringValue
+		if (mainContent.isNullOrEmpty && compareContent.nullOrEmpty) {
+			return ""
+		}
+		return '''«mainContent»/«compareContent»'''
 	}
 
 	static def dispatch Iterable<String> getStringValueIterable(Void content) {
@@ -235,10 +240,17 @@ class CellContentExtensions {
 			!blank && !nullOrEmpty
 		] ?: #[]
 	}
+	
+	static def dispatch Iterable<String> getStringValueIterable(MultiColorCellContent content) {
+		return content?.value?.filterNull?.map[v |
+			String.format(v.stringFormat, v.multiColorValue).trim
+		]?.filter[!blank && !nullOrEmpty]
+	}
 
 	static def List<String> getStringValueList(CellContent content) {
 		return content.stringValueIterable.toList
 	}
+	
 
 	/**
 	 * @param text the text

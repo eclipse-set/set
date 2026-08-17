@@ -214,7 +214,7 @@ class PunktObjektExtensions extends BasisObjektExtensions {
 			return result
 		}
 
-		if (!isFindGeometryComplete) {
+		if (!isFindGeometryComplete(po.planProSchnittstelle)) {
 			return po.punktObjektStrecke.map [ pos |
 				getStreckeFunc.apply(pos) -> #[]
 			].toList
@@ -260,7 +260,7 @@ class PunktObjektExtensions extends BasisObjektExtensions {
 			return kmMassgebend.map[streckeKm.wert].toList
 		}
 
-		if (!isFindGeometryComplete) {
+		if (!isFindGeometryComplete(po.planProSchnittstelle)) {
 			return null
 		}
 

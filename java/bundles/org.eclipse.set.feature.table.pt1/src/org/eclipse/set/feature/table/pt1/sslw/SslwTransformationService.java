@@ -94,6 +94,11 @@ public final class SslwTransformationService
 	}
 
 	@Override
+	protected String getRemarkColumnPosition() {
+		return SslwColumns.Bemerkung;
+	}
+
+	@Override
 	protected Map<Class<?>, String> getFootnotesColumnReferences() {
 		return Collections.emptyMap();
 	}

@@ -98,7 +98,7 @@ public class Messages {
 	public String TableOverviewPart_OpenAllWithErrors;
 
 	/**
-	 * Tabellen
+	 * Tabellen Zustand
 	 */
 	public String TableOverviewPart_TableSectionHeader;
 
@@ -108,9 +108,34 @@ public class Messages {
 	public String TableOverviewPart_WithErrorsDesc;
 
 	/**
+	 * Enthalten Rot-/Gelb-Einträge:
+	 */
+	public String TableOverviewPart_WithStateChanges;
+
+	/**
+	 * Enthalten besondere Änderungsmarkierungen:
+	 */
+	public String TableOverviewPart_WithPlanChanges;
+
+	/**
+	 * Leere Tabellen:
+	 */
+	public String TableOverviewPart_EmptyTable;
+
+	/**
+	 * Enthalten Daten
+	 */
+	public String TableOverviewPart_TablesWithData;
+
+	/**
 	 * Debug-Mode: Tabellen können immer wieder neu überprüft werden
 	 */
 	public String TableOverviewPart_DebugModeHint;
+
+	/**
+	 * Export All
+	 */
+	public String TableOverviewPart_Export_All;
 
 	/**
 	 * Exportieren

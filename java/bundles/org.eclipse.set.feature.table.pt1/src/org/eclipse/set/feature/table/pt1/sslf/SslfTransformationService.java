@@ -95,6 +95,11 @@ public final class SslfTransformationService
 	}
 
 	@Override
+	protected String getRemarkColumnPosition() {
+		return SslfColumns.Bemerkung;
+	}
+
+	@Override
 	protected Map<Class<?>, String> getFootnotesColumnReferences() {
 		return Collections.emptyMap();
 	}

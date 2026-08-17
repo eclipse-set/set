@@ -11,30 +11,43 @@ package org.eclipse.set.feature.table.overview;
 import static org.eclipse.set.basis.constants.ToolboxConstants.*;
 
 import java.lang.reflect.InvocationTargetException;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
+import java.util.Optional;
+import java.util.Objects;
 import java.util.Set;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.e4.core.services.nls.Translation;
+import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.jface.dialogs.ProgressMonitorDialog;
+import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.set.basis.Pair;
 import org.eclipse.set.basis.constants.Events;
+import org.eclipse.set.basis.constants.TableType;
+import org.eclipse.set.basis.extensions.Exceptions;
+import org.eclipse.set.basis.threads.Threads;
+import org.eclipse.set.core.services.configurationservice.UserConfigurationService;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.core.services.part.ToolboxPartService;
 import org.eclipse.set.feature.table.internal.TableServiceUtils;
 import org.eclipse.set.feature.table.messages.Messages;
+import org.eclipse.set.feature.table.overview.TableStatusGroupView.TableSectionControl;
 import org.eclipse.set.model.planpro.PlanPro.Container_AttributeGroup;
+import org.eclipse.set.services.export.ExportService;
+import org.eclipse.set.services.export.TableCompileService;
 import org.eclipse.set.services.table.TableService;
+import org.eclipse.set.services.table.TableStatus;
 import org.eclipse.set.utils.BasePart;
-import org.eclipse.set.utils.ToolboxConfiguration;
 import org.eclipse.set.utils.events.ContainerDataChanged;
 import org.eclipse.set.utils.events.DefaultToolboxEventHandler;
 import org.eclipse.set.utils.events.ProjectDataChanged;
@@ -46,19 +59,10 @@ import org.eclipse.set.utils.table.TableError;
 import org.eclipse.set.utils.table.TableInfo;
 import org.eclipse.set.utils.table.TableInfo.Pt1TableCategory;
 import org.eclipse.set.utils.table.menu.TableMenuService;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Text;
 import org.osgi.service.event.EventHandler;
 
+import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import jakarta.inject.Inject;
 
@@ -69,10 +73,6 @@ import jakarta.inject.Inject;
  *
  */
 public class TableOverviewPart extends BasePart {
-
-	private record TableSectionControl(Label label, Text text, Button button) {
-
-	}
 
 	@Inject
 	@Translation
@@ -93,83 +93,52 @@ public class TableOverviewPart extends BasePart {
 	@Inject
 	private TableMenuService tableMenuService;
 
-	private TableSectionControl missingTablesControl;
-	private TableSectionControl containErrorTablesControl;
-	private TableSectionControl nonTransformableTablesControl;
-	private Label completenessHint;
+	@Inject
+	UserConfigurationService userConfigService;
+
+	@Inject
+	private TableCompileService compileService;
+
+	@Inject
+	private ExportService exportService;
 
 	private TableErrorTableView tableErrorTableView;
 
 	private final EventHandler tableErrorsChangeEventHandler = event -> onTableErrorsChange();
 	private ToolboxEventHandler<SelectedControlAreaChangedEvent> selectionControlAreaHandler;
+	private EventHandler comparePlaningLoadedHandler;
 	private boolean ignoreChangeEvent = false;
 	private Set<String> controlAreaIds = new HashSet<>();
+	private TableType tableType = null;
+
+	private TableStatusGroupView tableStatusGroup;
 
 	@Override
-	protected void createView(final Composite parent) {
-		controlAreaIds = getModelSession().getSelectedControlAreas()
-				.stream()
-				.map(Pair::getSecond)
-				.collect(Collectors.toSet());
+	public TableType getTableType() {
+		return tableType;
+	}
 
-		completenessHint = new Label(parent, SWT.NONE);
-		completenessHint.setText(messages.TableOverviewPart_CompletenessHint);
-		final Color red = new Color(parent.getDisplay(), 255, 0, 0);
-		completenessHint.addDisposeListener(e -> red.dispose());
-		completenessHint.setForeground(red);
-
-		final Group section = new Group(parent, SWT.SHADOW_ETCHED_IN);
-		section.setText(messages.TableOverviewPart_TableSectionHeader);
-		section.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
-		section.setLayout(new GridLayout(3, false));
-
-		missingTablesControl = createSectionControl(section,
-				messages.TableOverviewPart_MissingTablesDesc,
-				messages.TableOverviewPart_CalculateMissing,
-				new SelectionListener() {
-					@Override
-					public void widgetDefaultSelected(final SelectionEvent e) {
-						calculateAllMissingTablesEvent();
-					}
-
-					@Override
-					public void widgetSelected(final SelectionEvent e) {
-						widgetDefaultSelected(e);
-					}
-				});
-
-		containErrorTablesControl = createSectionControl(section,
-				messages.TableOverviewPart_WithErrorsDesc,
-				messages.TableOverviewPart_OpenAllWithErrors,
-				new SelectionListener() {
-					@Override
-					public void widgetDefaultSelected(final SelectionEvent e) {
-						openAllTablesWithErrors();
-					}
-
-					@Override
-					public void widgetSelected(final SelectionEvent e) {
-						widgetDefaultSelected(e);
-					}
-				});
-
-		nonTransformableTablesControl = createSectionControl(section,
-				messages.TableOverviewPart_NonTransformableTable, null, null);
-		// Create table problem table view
-		tableErrorTableView = new TableErrorTableView(messages, this,
-				enumTranslationService, tableMenuService);
-		tableErrorTableView.create(parent);
-
-		getBroker().subscribe(Events.TABLEERROR_CHANGED,
-				tableErrorsChangeEventHandler);
-
+	@PostConstruct
+	void postConstruct() {
 		selectionControlAreaHandler = new DefaultToolboxEventHandler<>() {
 			@Override
 			public void accept(final SelectedControlAreaChangedEvent t) {
+				tableType = t.getTableType();
 				controlAreaIds = t.getControlAreas()
 						.stream()
 						.map(ControlAreaValue::areaId)
 						.collect(Collectors.toSet());
+				// When all table already transformation, that mean the
+				// calculate all table button is disable, therefore need to
+				// reload the
+				// tables here for update table status
+				if (getMissingTables().isEmpty()) {
+					final Set<TableInfo> needToTransformTable = getTableToReTransform();
+					calculateAllMissingTablesEvent(
+							monitor -> tableService.transformTables(monitor,
+									needToTransformTable, t.getTableType(),
+									controlAreaIds));
+				}
 				update();
 			}
 		};
@@ -178,26 +147,99 @@ public class TableOverviewPart extends BasePart {
 				SelectedControlAreaChangedEvent.class,
 				selectionControlAreaHandler);
 
+		comparePlaningLoadedHandler = event -> {
+			// When all table already transformation, that mean the calculate
+			// all table button is disable, therefore need to reload the tables
+			// here for update table status
+			if (getMissingTables().isEmpty()) {
+				final Set<TableInfo> needToTransformTable = getTableToReTransform();
+				calculateAllMissingTablesEvent(
+						monitor -> tableService.transformTables(monitor,
+								needToTransformTable, getTableType(),
+								controlAreaIds));
+			}
+			update();
+		};
+		getBroker().subscribe(Events.COMPARE_MODEL_LOADED,
+				comparePlaningLoadedHandler);
+	}
+
+	@Override
+	protected void createView(final Composite parent) {
+		// initialize table type
+		tableType = getModelSession().getTableType();
+
+		controlAreaIds = getModelSession().getSelectedControlAreas()
+				.stream()
+				.map(Pair::getSecond)
+				.collect(Collectors.toSet());
+
+		createTableStatusGroup(parent);
+
+		// Create table problem table view
+		tableErrorTableView = new TableErrorTableView(messages, this,
+				enumTranslationService, tableMenuService);
+		tableErrorTableView.create(parent);
+
+		getBroker().subscribe(Events.TABLEERROR_CHANGED,
+				tableErrorsChangeEventHandler);
+
 		update();
 	}
 
-	private static TableSectionControl createSectionControl(final Group section,
-			final String labelText, final String buttonText,
-			final SelectionListener buttonAction) {
-		final Label label = new Label(section, SWT.NONE);
-		label.setText(labelText);
+	private void createTableStatusGroup(final Composite parent) {
+		tableStatusGroup = new TableStatusGroupView(parent, tableService,
+				getTableCategory(), messages);
+		tableStatusGroup.createView();
+		// Not transformed tables control
+		TableStatusGroupView.addButtonAction(
+				tableStatusGroup.getMissingTablesControl(),
+				TableSectionControl::getCalculateMissingTableButton,
+				() -> calculateAllMissingTablesEvent(
+						this::calculateAllMissingTables));
 
-		final Text text = new Text(section, SWT.BORDER);
-		text.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		text.setEnabled(false);
-		if (buttonText == null && buttonAction == null) {
-			return new TableSectionControl(label, text, null);
+		// Table with errors control
+		TableStatusGroupView.addButtonAction(
+				tableStatusGroup.getContainErrorTablesControl(),
+				TableSectionControl::getOpenAllButton,
+				() -> openAllRelevantTable(TableStatus::isContainsErrors));
+		TableStatusGroupView.addButtonAction(
+				tableStatusGroup.getContainErrorTablesControl(),
+				TableSectionControl::getExportAllButton,
+				() -> exportAllRelevantTable(TableStatus::isContainsErrors));
 
-		}
-		final Button button = new Button(section, SWT.NONE);
-		button.setText(buttonText);
-		button.addSelectionListener(buttonAction);
-		return new TableSectionControl(label, text, button);
+		// Not empty table control
+		TableStatusGroupView.addButtonAction(
+				tableStatusGroup.getTableWithDatasControl(),
+				TableSectionControl::getOpenAllButton,
+				() -> openAllRelevantTable(s -> !s.isEmpty()));
+		TableStatusGroupView.addButtonAction(
+				tableStatusGroup.getTableWithDatasControl(),
+				TableSectionControl::getExportAllButton,
+				() -> exportAllRelevantTable(s -> !s.isEmpty()));
+
+		// Table with states changed data control
+		TableStatusGroupView.addButtonAction(
+				tableStatusGroup.getContainsStatesChangeTablesControl(),
+				TableSectionControl::getOpenAllButton,
+				() -> openAllRelevantTable(
+						TableStatus::isContainsStateChanged));
+		TableStatusGroupView.addButtonAction(
+				tableStatusGroup.getContainsStatesChangeTablesControl(),
+				TableSectionControl::getExportAllButton,
+				() -> exportAllRelevantTable(
+						TableStatus::isContainsStateChanged));
+
+		// Table with plan changed control
+		TableStatusGroupView.addButtonAction(
+				tableStatusGroup.getContainsPlanChangeTablesControl(),
+				TableSectionControl::getOpenAllButton,
+				() -> openAllRelevantTable(TableStatus::isContainsPlanChanged));
+		TableStatusGroupView.addButtonAction(
+				tableStatusGroup.getContainsPlanChangeTablesControl(),
+				TableSectionControl::getExportAllButton,
+				() -> exportAllRelevantTable(
+						TableStatus::isContainsPlanChanged));
 	}
 
 	private void onTableErrorsChange() {
@@ -206,11 +248,12 @@ public class TableOverviewPart extends BasePart {
 		}
 	}
 
-	private void calculateAllMissingTablesEvent() {
+	private void calculateAllMissingTablesEvent(
+			final Consumer<IProgressMonitor> calculateEvent) {
 		ignoreChangeEvent = true;
 		try {
 			getDialogService().showProgress(getToolboxShell(),
-					this::calculateAllMissingTables);
+					calculateEvent::accept);
 		} catch (InvocationTargetException | InterruptedException e) {
 			getDialogService().error(getToolboxShell(), e);
 		}
@@ -224,9 +267,16 @@ public class TableOverviewPart extends BasePart {
 				messages);
 	}
 
-	private void openAllTablesWithErrors() {
-		final Collection<TableInfo> tablesWithErrors = getTablesContainingErrors();
-		for (final TableInfo tableInfo : tablesWithErrors) {
+	private Map<TableInfo, Collection<TableError>> getTableErrors() {
+		return tableService.getTableErrors(getModelSession(), controlAreaIds,
+				getTableCategory());
+	}
+
+	private void openAllRelevantTable(
+			final Predicate<TableStatus> tableWithStatus) {
+		final Map<TableInfo, TableStatus> tablesStatus = tableService
+				.getTablesStatus(getTableCategory());
+		tablesStatus.forEach((k, v) -> {
 			final String tablePartIdPrefix = switch (getTableCategory()) {
 				case ESTW -> ESTW_TABLE_PART_ID_PREFIX;
 				case ETCS -> ETCS_TABLE_PART_ID_PREFIX;
@@ -234,14 +284,54 @@ public class TableOverviewPart extends BasePart {
 				default -> throw new IllegalArgumentException(
 						"Unexpected value: " + getTableCategory()); //$NON-NLS-1$
 			};
-			toolboxPartService.showPart(String.format("%s.%s", //$NON-NLS-1$
-					tablePartIdPrefix, tableInfo.shortcut()));
-		}
+
+			if (tableWithStatus.test(v)) {
+				toolboxPartService.showPart(String.format("%s.%s", //$NON-NLS-1$
+						tablePartIdPrefix, k.shortcut()));
+			}
+		});
 	}
 
-	private Map<TableInfo, Collection<TableError>> getTableErrors() {
-		return tableService.getTableErrors(getModelSession(), controlAreaIds,
-				getTableCategory());
+	private void exportAllRelevantTable(
+			final Predicate<TableStatus> tableWithStatus) {
+		final Map<TableInfo, TableStatus> tablesStatus = tableService
+				.getTablesStatus(getTableCategory());
+		final Optional<String> optionalOutputDir = getDialogService()
+				.selectDirectory(getToolboxShell(),
+						userConfigService.getLastExportPath().toString());
+		if (optionalOutputDir.isEmpty()) {
+			return;
+		}
+
+		final IRunnableWithProgress exportThread = new IRunnableWithProgress() {
+
+			@Override
+			public void run(final IProgressMonitor monitor)
+					throws InvocationTargetException, InterruptedException {
+				monitor.beginTask(messages.TableExportPart_TaskMsg,
+						tablesStatus.size());
+				Threads.stopCurrentOnCancel(monitor);
+				// TODO
+				monitor.done();
+			}
+		};
+
+		final ProgressMonitorDialog progressMonitorDialog = new ProgressMonitorDialog(
+				getToolboxShell());
+		try {
+			progressMonitorDialog.run(true, true, exportThread);
+		} catch (final Exception e) {
+			if (!Exceptions.isCausedByThreadDeath(e)) {
+				getDialogService().error(getToolboxShell(), e);
+			}
+		}
+		if (!progressMonitorDialog.getProgressMonitor().isCanceled()) {
+			// export finished
+			getDialogService().openDirectoryAfterExport(getToolboxShell(),
+					Path.of(optionalOutputDir.get()));
+			userConfigService
+					.setLastExportPath(Path.of(optionalOutputDir.get()));
+		}
 	}
 
 	private Pt1TableCategory getTableCategory() {
@@ -257,31 +347,12 @@ public class TableOverviewPart extends BasePart {
 	}
 
 	private void update() {
-		final Collection<TableInfo> missingTables = getMissingTables();
-
-		if (!ToolboxConfiguration.isDebugMode()) {
-			completenessHint.setVisible(!missingTables.isEmpty());
-			missingTablesControl.text()
-					.setText(tableList2DisplayString(missingTables));
-			missingTablesControl.button.setEnabled(!missingTables.isEmpty());
-		} else {
-			missingTablesControl.text()
-					.setText(messages.TableOverviewPart_DebugModeHint);
-			completenessHint.setVisible(false);
-		}
-
-		final Collection<TableInfo> tablesWithErrors = getTablesContainingErrors();
-		containErrorTablesControl.text()
-				.setText(tableList2DisplayString(tablesWithErrors));
-		containErrorTablesControl.button()
-				.setEnabled(!tablesWithErrors.isEmpty());
-
-		final Set<TableInfo> nonTransformableTables = tableService
-				.getNonTransformableTables(getTableCategory());
-		nonTransformableTablesControl.text()
-				.setText(tableList2DisplayString(nonTransformableTables));
+		tableStatusGroup.updateControlText(getMissingTables());
 		final ArrayList<TableError> allErrors = new ArrayList<>();
-		getTableErrors().values().forEach(allErrors::addAll);
+		getTableErrors().values()
+				.stream()
+				.filter(Objects::nonNull)
+				.forEach(allErrors::addAll);
 		tableErrorTableView.updateView(allErrors);
 	}
 
@@ -290,35 +361,33 @@ public class TableOverviewPart extends BasePart {
 				getModelSession(), controlAreaIds, getTableCategory());
 	}
 
-	private Collection<TableInfo> getTablesContainingErrors() {
-		final Map<TableInfo, Collection<TableError>> computedErrors = getTableErrors();
-
-		final ArrayList<TableInfo> tablesWithErrors = new ArrayList<>();
-		for (final Entry<TableInfo, Collection<TableError>> entry : computedErrors
-				.entrySet()) {
-			if (!entry.getValue().isEmpty()) {
-				tablesWithErrors.add(entry.getKey());
-			}
-		}
-		return tablesWithErrors;
-	}
-
-	private String tableList2DisplayString(final Collection<TableInfo> tables) {
-		if (tables.isEmpty()) {
-			return messages.TableOverviewPart_EmptyListText;
-		}
-		final List<String> shortNames = new ArrayList<>(tables.stream()
-				.map(tableInfo -> tableService.getTableNameInfo(tableInfo)
-						.getShortName())
-				.toList());
-		Collections.sort(shortNames);
-		return shortNames.stream().collect(Collectors.joining(", ")); //$NON-NLS-1$
-	}
-
 	@PreDestroy
 	private void unsubscribe() {
 		broker.unsubscribe(tableErrorsChangeEventHandler);
+		broker.unsubscribe(comparePlaningLoadedHandler);
 		ToolboxEvents.unsubscribe(broker, selectionControlAreaHandler);
+	}
+
+	private Set<TableInfo> getTableToReTransform() {
+		final List<String> activeTablePart = getActiveTablePart();
+		return tableService.getAvailableTables()
+				.stream()
+				.filter(info -> info.category() == getTableCategory())
+				.filter(info -> activeTablePart.stream()
+						.noneMatch(
+								partId -> partId.equals(info.getTablePartId())))
+				.collect(Collectors.toSet());
+	}
+
+	private List<String> getActiveTablePart() {
+		final String tablePartPrefix = getTableCategory().getTablePartPrefix();
+		return toolboxPartService.getOpenParts()
+				.stream()
+				.filter(part -> part.getElementId().startsWith(tablePartPrefix)
+						&& !part.getElementId()
+								.equals(getToolboxPart().getElementId()))
+				.map(MPart::getElementId)
+				.toList();
 	}
 
 	/**
