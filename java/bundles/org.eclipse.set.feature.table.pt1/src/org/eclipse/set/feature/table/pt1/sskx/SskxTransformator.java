@@ -10,19 +10,8 @@
  */
 package org.eclipse.set.feature.table.pt1.sskx;
 
-import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_ARBEITSBUEHNE;
-import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_DACH_DECKE;
-import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_OL_MAST;
-import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_PFOSTEN_HOCH;
-import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_PFOSTEN_NIEDRIG;
-import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_MAST_HOCH;
-import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_MAST_NIEDRIG;
-import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_SONSTIGE_HOCH;
-import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_SONSTIGE_NIEDRIG;
-import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_SCHIENENFUSS;
-import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_SONDERANORDNUNG_MAST_HOCH;
-import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_SONDERANORDNUNG_MAST_NIEDRIG;
-import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_WAND;
+import static org.eclipse.set.feature.table.pt1.sskx.SskxColumns.Regelzeichnung;
+import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.*;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -54,10 +43,8 @@ import org.eclipse.set.model.planpro.Signale.ENUMBeleuchtet;
 import org.eclipse.set.model.planpro.Signale.ENUMGeltungsbereich;
 import org.eclipse.set.model.planpro.Signale.ENUMSignalFunktion;
 import org.eclipse.set.model.planpro.Signale.Signal;
-import org.eclipse.set.model.planpro.Signale.Signal_Befestigung;
 import org.eclipse.set.model.planpro.Signale.Signal_Rahmen;
 import org.eclipse.set.model.planpro.Signale.Signal_Signalbegriff;
-import org.eclipse.set.model.planpro.Verweise.ID_Regelzeichnung_TypeClass;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.TableRow;
 import org.eclipse.set.model.tablemodel.extensions.FootnoteExtensions;
@@ -171,21 +158,6 @@ public class SskxTransformator extends AbstractSignalTableTransform {
 						.toList(),
 				MIXED_STRING_COMPARATOR);
 
-		// J: Sskx.konstruktive_Merkmale.Anordnung.Regelzeichnung
-		fillIterable(row, getColumn(cols, SskxColumns.Regelzeichnung),
-				signalRahmen, rahmen -> rahmen.stream().flatMap(r -> {
-					final Signal_Befestigung signalBefestigung = SignalRahmenExtensions
-							.getSignalBefestigung(r);
-					if (signalBefestigung == null) {
-						return Stream.empty();
-					}
-					return signalBefestigung.getIDRegelzeichnung()
-							.stream()
-							.map(ID_Regelzeichnung_TypeClass::getValue)
-							.filter(Objects::nonNull)
-							.map(z -> fillRegelzeichnung(z));
-				}).toList(), null);
-
 		// M: Sskx.Signalisierung.Signalbegriffe.Bezeichnung
 		fillIterable(row,
 				getColumn(cols, SskxColumns.Signalbegriffe_Bezeichnung), signal,
@@ -289,6 +261,11 @@ public class SskxTransformator extends AbstractSignalTableTransform {
 	@Override
 	protected ColumnDescriptor getBezeichnungColumn() {
 		return getColumn(cols, SskxColumns.Bezeichnung_Signal);
+	}
+
+	@Override
+	protected ColumnDescriptor getAnordnungRegelzeichnungColumn() {
+		return getColumn(cols, Regelzeichnung);
 	}
 
 	@Override
