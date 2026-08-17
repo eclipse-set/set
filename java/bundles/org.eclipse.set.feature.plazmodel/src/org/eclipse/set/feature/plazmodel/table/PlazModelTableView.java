@@ -136,7 +136,7 @@ public class PlazModelTableView extends AbstractTreeLayerTable {
 		final String exportFileName = part.getModelSession()
 				.getToolboxPaths()
 				.getTableExportPath(messages.PlazModellPart_ExportCsvFileName,
-						location, ExportType.INVENTORY_RECORDS,
+						location, ExportType.PLANNING_RECORDS,
 						ExportPathExtension.TABLE_CSV_EXPORT_EXTENSION)
 				.getFileName()
 				.toString();
