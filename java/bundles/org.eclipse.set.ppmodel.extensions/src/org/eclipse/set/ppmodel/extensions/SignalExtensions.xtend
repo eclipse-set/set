@@ -476,7 +476,8 @@ class SignalExtensions extends PunktObjektExtensions {
 
 		if ((signal.signalReal !== null &&
 			signal.signalReal.signalRealAktiv === null) ||
-			(!existsFiktivesSignalFAPStart && !existsFiktivesSignalFAPZiel)) {
+			(signal.signalFiktiv !== null && !existsFiktivesSignalFAPStart &&
+				!existsFiktivesSignalFAPZiel)) {
 			return signal.punktObjektTOPKante.exists [
 				controlArea.contains(it, tolerantDistance)
 			]
