@@ -222,6 +222,9 @@ public class CompareRouteAndKmCriterion
 	}
 
 	private boolean kmPatternCheck(final String km) {
+		if (km == null) {
+			return true;
+		}
 		final Matcher matcher = PunktObjektStreckeExtensions.KILOMETRIERUNG_PATTERN
 				.matcher(km);
 		if (!matcher.matches()) {
