@@ -111,7 +111,7 @@ export default class StationFeature extends LageplanFeature<Station> {
   compareChangedState (initial: SiteplanState, final: SiteplanState): Feature<Geometry>[] {
     const compareProps = [
       {
-        prop: getpropertypeName(defaultStationObj(), x => x.label),
+        prop: getpropertypeName(defaultStationObj(), x => x.label!),
         partID: 'label'
       },
       {

@@ -1,34 +1,37 @@
 <!--
- * Copyright (c) 2021 DB Netz AG and others.
- *
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v2.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v20.html
- -->
+* Copyright (c) 2021 DB Netz AG and others.
+*
+* All rights reserved. This program and the accompanying materials
+* are made available under the terms of the Eclipse Public License v2.0
+* which accompanies this distribution, and is available at
+* http://www.eclipse.org/legal/epl-v20.html
+-->
 <template>
   <div>
     <ul id="katalogMenu">
       <li
         id="katalog"
-        tabIndex="1"
+        tabindex="1"
         class="menuItem"
+        :class="{ active: mode === 'katalog' }"
         @click="onSelected('katalog')"
       >
         <a>Katalog</a>
       </li>
       <li
         id="einzeln"
-        tabIndex="2"
+        tabindex="2"
         class="menuItem"
+        :class="{ active: mode === 'einzeln' }"
         @click="onSelected('einzeln')"
       >
         <a>Einzelnes Signal</a>
       </li>
       <li
         id="bruecke"
-        tabIndex="3"
+        tabindex="3"
         class="menuItem"
+        :class="{ active: mode === 'bruecke' }"
         @click="onSelected('bruecke')"
       >
         <a>Signalbrücke und -ausleger</a>
@@ -36,30 +39,27 @@
     </ul>
   </div>
 </template>
-<script lang="ts">
+<script setup lang="ts">
 /**
- * Menu of Catalog Page
- * @author Truong
- */
-import { Vue } from 'vue-class-component'
+* Menu of Catalog Page
+* @author Truong
+*/
 
-export default class KatalogMenuBar extends Vue {
-  mounted (): void {
-    const mode = this.$router.currentRoute.value.query.mode
-    if (mode) {
-      const ele = document.getElementById(mode.toString())
-      ele?.focus()
+import { computed } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+
+const route = useRoute()
+const router = useRouter()
+
+const mode = computed(() => route.query.mode)
+
+function onSelected (value: string): void {
+  router.push({
+    path: '/svg',
+    query: {
+      mode: value
     }
-  }
-
-  onSelected (value: string): void {
-    this.$router.push({
-      path: '/svg',
-      query: {
-        mode: value
-      }
-    })
-  }
+  })
 }
 </script>
 <style scoped>
@@ -83,7 +83,8 @@ export default class KatalogMenuBar extends Vue {
   background: #4a4a48;
 }
 
-.menuItem:focus {
+.menuItem:focus,
+.menuItem.active {
   background: #7a7a79;
 }
 

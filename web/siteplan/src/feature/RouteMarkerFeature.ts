@@ -62,10 +62,10 @@ export default class RouteMarkerFeature extends LageplanFeature<Route> {
       // to keep a constant size
       style
         .getImage()
-        .setScale(scale)
+        ?.setScale(scale)
 
       // Rotate the feature
-      style.getImage().setRotation(((marker.position.rotation) * Math.PI) / 180)
+      style.getImage()?.setRotation(((marker.position.rotation) * Math.PI) / 180)
 
       return style
     })

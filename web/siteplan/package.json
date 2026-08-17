@@ -10,6 +10,7 @@
     "build-prod": "vite build --mode production",
     "lint": "eslint src",
     "test:e2e": "playwright test",
+    "typecheck": "vue-tsc --noEmit",
     "test:e2e:docker": "docker run --rm --ipc=host -v .:/app -v /app/node_modules -w /app mcr.microsoft.com/playwright:v1.61.1-noble",
     "test:e2e:run":  "npm run test:e2e:docker -- bash -c 'npm ci && npm run test:e2e'",
     "test:e2e:update": "npm run test:e2e:docker -- bash -c 'npm ci && npm run test:e2e -- -u'"
@@ -45,6 +46,7 @@
     "eslint-plugin-vue": "^10.10.0",
     "tslib": "^2.8.1",
     "typescript": "^6.0.3",
-    "vite": "^8.1.5"
+    "vite": "^8.1.5",
+    "vue-tsc": "^3.3.4"
   }
 }

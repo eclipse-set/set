@@ -48,49 +48,43 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 /**
  * Map control that shows information information in a box besides the map
  * @author Peters
  */
 import { store } from '@/store'
-import { Options, Vue } from 'vue-class-component'
-import { SubscribeOptions } from 'vuex'
+import { ref } from 'vue'
 
-@Options({
-  props: {
-    title: String
+defineProps<{
+  title?: string
+}>()
+
+const collapsed = ref(true)
+
+function setCollapsed (val: boolean): void {
+  const contentContainer = document.getElementById('side-info-container')
+  if (!contentContainer) {
+    console.warn('side-info-container not found')
+    return
   }
-})
-export default class SideInfoControl extends Vue {
-  unsubscribe: SubscribeOptions | undefined
-  collapsed = true
-  title!: string
 
-  setCollapsed (val: boolean) {
-    const contentContainer = document.getElementById('side-info-container')
-    if (!contentContainer) {
-      console.warn('side-info-container not found')
-      return
+  if (!val) {
+    // make sure other SideInfoControls are closed before displaying own content
+    const closeButton = contentContainer.getElementsByClassName(
+      'side-info-close'
+    )[0] as HTMLElement
+    if (closeButton) {
+      closeButton.click()
     }
-
-    if (!val) {
-      // make sure other SideInfoControls are closed before displaying own content
-      const closeButton = contentContainer.getElementsByClassName(
-        'side-info-close'
-      )[0] as HTMLElement
-      if (closeButton) {
-        closeButton.click()
-      }
-    }
-
-    this.collapsed = val
-    contentContainer.setAttribute(
-      'class',
-      this.collapsed ? 'side-info-container-closed' : 'side-info-container'
-    )
-    store.state.map.updateSize()
   }
+
+  collapsed.value = val
+  contentContainer.setAttribute(
+    'class',
+    collapsed.value ? 'side-info-container-closed' : 'side-info-container'
+  )
+  store.state.map.updateSize()
 }
 </script>
 

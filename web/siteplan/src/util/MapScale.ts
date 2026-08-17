@@ -68,7 +68,7 @@ export function getMapScale (view: View): number {
     throw Error('No view center')
   }
 
-  const resolutionScaleFactor = view.getProjection().getPointResolutionFunc()(1, center)
+  const resolutionScaleFactor = view.getProjection().getPointResolutionFunc()?.(1, center)
   if (!resolutionScaleFactor) {
     throw Error('No resolutionScaleFactor')
   }
@@ -90,7 +90,7 @@ export function getResolutionForScale (view: View, scale: number): number {
     throw Error('No view center')
   }
 
-  const resolutionScaleFactor = view.getProjection().getPointResolutionFunc()(1, center)
+  const resolutionScaleFactor = view.getProjection().getPointResolutionFunc()?.(1, center)
   if (!resolutionScaleFactor) {
     throw Error('No resolutionScaleFactor')
   }
@@ -128,7 +128,7 @@ export function getScaleForPpm (view: View, ppm: number): number {
     throw Error('No view center')
   }
 
-  const resolutionScaleFactor = view.getProjection().getPointResolutionFunc()(1, center)
+  const resolutionScaleFactor = view.getProjection().getPointResolutionFunc()?.(1, center)
   if (!resolutionScaleFactor) {
     throw Error('No resolutionScaleFactor')
   }
