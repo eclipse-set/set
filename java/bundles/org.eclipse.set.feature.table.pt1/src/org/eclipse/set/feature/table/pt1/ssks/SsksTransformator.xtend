@@ -268,10 +268,6 @@ class SsksTransformator extends AbstractSignalTableTransform {
 			]
 		)
 
-		// R: Ssks.konstruktive_Merkmale.Anordnung.Regelzeichnung
-		fillIterable(row, cols.getColumn(Anordnung_Regelzeichnung),
-			signalRahmen, [transformRegelzeichnungen(row, it)], null);
-
 		// S: Ssks.konstruktive_Merkmale.Obere_Lichtpunkthoehe
 		fillIterable(
 			row,
@@ -680,22 +676,6 @@ class SsksTransformator extends AbstractSignalTableTransform {
 			( signalFunktion !== null &&
 				signalFunktion ==
 					ENUM_SIGNAL_FUNKTION_ALLEINSTEHENDES_ZUSATZSIGNAL)
-	}
-
-	private static def Iterable<String> transformRegelzeichnungen(TableRow row,
-		List<Signal_Rahmen> rahmen) {
-		// transform all regelzeichnungen of the signal befestigungen until the
-		// fundament
-		val regelzeichnungen = rahmen.flatMap [
-			#[#[it.signalBefestigung], it.befestigungUntilFundament].flatten
-		].flatMap[IDRegelzeichnung].map[r|r?.value].filterNull.map [
-			fillRegelzeichnung
-		].toList();
-		// transform all regelzeichnungen of the signal rahmen itself
-		val rahmenRegelzeichnungen = rahmen.map[IDRegelzeichnung?.value].
-			filterNull.map[fillRegelzeichnung].toList();
-		// collect them
-		return #[regelzeichnungen, rahmenRegelzeichnungen].flatten
 	}
 
 	private static def boolean hasSchaltkastenSeparatBezeichnung(
@@ -1232,6 +1212,10 @@ class SsksTransformator extends AbstractSignalTableTransform {
 
 	override protected getUeberhoehungColumn() {
 		return cols.getColumn(Ueberhoehung)
+	}
+
+	override protected getAnordnungRegelzeichnungColumn() {
+		return cols.getColumn(Anordnung_Regelzeichnung)
 	}
 
 	override protected handledThrowException(TMFactory factory, Signal signal,

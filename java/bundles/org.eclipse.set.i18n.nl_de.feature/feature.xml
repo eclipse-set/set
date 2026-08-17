@@ -135,489 +135,238 @@
 
    <plugin
          id="org.eclipse.compare.core.nl_de"
-         download-size="2462"
-         install-size="2462"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.core.commands.nl_de"
-         download-size="1382"
-         install-size="1382"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.core.contenttype.nl_de"
-         download-size="2649"
-         install-size="2649"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.core.databinding.beans.nl_de"
-         download-size="1410"
-         install-size="1410"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.core.databinding.nl_de"
-         download-size="2757"
-         install-size="2757"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.core.databinding.observable.nl_de"
-         download-size="1416"
-         install-size="1416"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.core.databinding.property.nl_de"
-         download-size="1408"
-         install-size="1408"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.core.expressions.nl_de"
-         download-size="3041"
-         install-size="3041"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.core.filebuffers.nl_de"
-         download-size="4138"
-         install-size="4138"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.core.filesystem.nl_de"
-         download-size="3012"
-         install-size="3012"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.core.filesystem.win32.x86_64.nl_de"
-         download-size="1466"
-         install-size="1466"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.core.jobs.nl_de"
-         download-size="2452"
-         install-size="2452"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.core.resources.nl_de"
-         download-size="10100"
-         install-size="10100"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.core.runtime.nl_de"
-         download-size="3858"
-         install-size="3858"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.e4.core.commands.nl_de"
-         download-size="1395"
-         install-size="1395"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.e4.core.contexts.nl_de"
-         download-size="1389"
-         install-size="1389"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.e4.core.di.annotations.nl_de"
-         download-size="1598"
-         install-size="1598"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.e4.core.di.extensions.nl_de"
-         download-size="1417"
-         install-size="1417"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.e4.core.di.extensions.supplier.nl_de"
-         download-size="1604"
-         install-size="1604"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.e4.core.di.nl_de"
-         download-size="1400"
-         install-size="1400"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.e4.core.services.nl_de"
-         download-size="1392"
-         install-size="1392"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.e4.emf.xpath.nl_de"
-         download-size="1594"
-         install-size="1594"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.e4.ui.bindings.nl_de"
-         download-size="1401"
-         install-size="1401"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.e4.ui.css.core.nl_de"
-         download-size="1451"
-         install-size="1451"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.e4.ui.css.swt.nl_de"
-         download-size="1402"
-         install-size="1402"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.e4.ui.css.swt.theme.nl_de"
-         download-size="1428"
-         install-size="1428"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.e4.ui.di.nl_de"
-         download-size="1400"
-         install-size="1400"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.e4.ui.model.workbench.nl_de"
-         download-size="1440"
-         install-size="1440"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.e4.ui.services.nl_de"
-         download-size="1396"
-         install-size="1396"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.e4.ui.widgets.nl_de"
-         download-size="1396"
-         install-size="1396"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.e4.ui.workbench.addons.swt.nl_de"
-         download-size="2762"
-         install-size="2762"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.e4.ui.workbench.nl_de"
-         download-size="1462"
-         install-size="1462"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.e4.ui.workbench.renderers.swt.nl_de"
-         download-size="3714"
-         install-size="3714"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.e4.ui.workbench.swt.nl_de"
-         download-size="3465"
-         install-size="3465"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.e4.ui.workbench3.nl_de"
-         download-size="1425"
-         install-size="1425"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.equinox.p2.core.nl_de"
-         download-size="2739"
-         install-size="2739"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.equinox.p2.engine.nl_de"
-         download-size="2906"
-         install-size="2906"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.equinox.p2.metadata.nl_de"
-         download-size="2857"
-         install-size="2857"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.equinox.p2.metadata.repository.nl_de"
-         download-size="2662"
-         install-size="2662"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.equinox.p2.repository.nl_de"
-         download-size="4273"
-         install-size="4273"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.equinox.simpleconfigurator.nl_de"
-         download-size="1404"
-         install-size="1404"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.help.nl_de"
-         download-size="1513"
-         install-size="1513"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.jface.databinding.nl_de"
-         download-size="1413"
-         install-size="1413"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.jface.nl_de"
-         download-size="6434"
-         install-size="6434"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.jface.text.nl_de"
-         download-size="12557"
-         install-size="12557"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.swt.nl_de"
-         download-size="3643"
-         install-size="3643"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.text.nl_de"
-         download-size="4286"
-         install-size="4286"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.ui.editors.nl_de"
-         download-size="14557"
-         install-size="14557"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.ui.forms.nl_de"
-         download-size="2368"
-         install-size="2368"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.ui.ide.nl_de"
-         download-size="38360"
-         install-size="38360"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.ui.nl_de"
-         download-size="6200"
-         install-size="6200"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.ui.views.nl_de"
-         download-size="3309"
-         install-size="3309"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.ui.win32.nl_de"
-         download-size="2739"
-         install-size="2739"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.ui.workbench.nl_de"
-         download-size="29261"
-         install-size="29261"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.ui.workbench.texteditor.nl_de"
-         download-size="14282"
-         install-size="14282"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.set.i18n.ecore.nl_de"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.set.i18n.ecp.categorization.nl_de"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.set.i18n.ecp.core.nl_de"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.set.i18n.ecp.table.nl_de"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.set.i18n.model.nl_de"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.set.i18n.validationreport.nl_de"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
+         version="0.0.0"/>
+
 </feature>
