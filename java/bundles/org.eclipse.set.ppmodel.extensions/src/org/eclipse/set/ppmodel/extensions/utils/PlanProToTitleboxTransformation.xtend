@@ -90,9 +90,11 @@ class PlanProToTitleboxTransformation {
 		val lastQualitaetPruefung = planungEinzel?.planungEHandlung?.
 			planungEQualitaetspruefung?.lastOrNull
 		it.set(88,
-			lastQualitaetPruefung?.datum?.wert?.toString(DATE_FORMAT_LONG) ?: "")
+			lastQualitaetPruefung?.datum?.wert?.toString(DATE_FORMAT_LONG) ?:
+				"")
 		it.set(89,
-			lastQualitaetPruefung?.handelnder?.akteurAllg?.nameAkteur?.wert ?: "")
+			lastQualitaetPruefung?.handelnder?.akteurAllg?.nameAkteur?.wert ?:
+				"")
 
 		val lastPlanungFreigabe = planungEinzel?.planungEHandlung?.
 			planungEFreigabe?.lastOrNull
@@ -122,8 +124,8 @@ class PlanProToTitleboxTransformation {
 				lastQualitaetPruefung?.handelnder?.akteurAllg?.
 					nameAkteur5?.wert ?: "")
 			it.set(44,
-				lastQualitaetPruefung?.datum?.wert?.toString(DATE_FORMAT_SHORT) ?:
-					"")
+				lastQualitaetPruefung?.datum?.wert?.toString(
+					DATE_FORMAT_SHORT) ?: "")
 			it.set(38,
 				lastPlanungAbnahme?.handelnder?.akteurAllg?.nameAkteur5?.wert ?:
 					"")
@@ -150,12 +152,11 @@ class PlanProToTitleboxTransformation {
 				"")
 		it.set(70, lastPlanungEErstellung?.datum?.wert?.toString(DATE_FORMAT) ?:
 			"")
-		val lastPlanPruefung = planungEinzel?.planungEHandlung?.planungEPruefung?.lastOrNull
+		val lastPlanPruefung = planungEinzel?.planungEHandlung?.
+			planungEPruefung?.lastOrNull
 		it.set(59,
-			lastPlanPruefung?.handelnder?.akteurAllg?.nameAkteur5?.wert ?:
-				"")
-		it.set(71,
-			lastPlanPruefung?.datum?.wert?.toString(DATE_FORMAT) ?: "")
+			lastPlanPruefung?.handelnder?.akteurAllg?.nameAkteur5?.wert ?: "")
+		it.set(71, lastPlanPruefung?.datum?.wert?.toString(DATE_FORMAT) ?: "")
 		it.set(60,
 			lastPlanungAbnahme?.handelnder?.akteurAllg?.nameAkteur5?.wert ?: "")
 		it.set(72, lastPlanungAbnahme?.datum?.wert?.toString(DATE_FORMAT) ?: "")
@@ -167,14 +168,14 @@ class PlanProToTitleboxTransformation {
 
 		it.set(
 			74, '''«mainSchnittstelle.oertlichkeit»«tableName?.planningNumber ?: EMPTY_PLANNING_NUMBER»''')
-		
+
 		it.set(40, tableName?.rilNumber ?: "")
 		it.set(99, planungAllgemein.buildLastEditionNumber)
 		if (compareSchnittstelle !== null) {
 			// Fille compare plan information
 			val comparePlanungAllgemein = compareSchnittstelle?.planungAllgemein
-			val compareLastPlanungEErstellung = compareSchnittstelle?.planungEinzel?.
-				planungEHandlung?.planungEErstellung?.lastOrNull
+			val compareLastPlanungEErstellung = compareSchnittstelle?.
+				planungEinzel?.planungEHandlung?.planungEErstellung?.lastOrNull
 			it.set(48, comparePlanungAllgemein?.buildLastEditionNumber)
 			it.set(62,
 				compareLastPlanungEErstellung?.datum.wert?.toString(
@@ -262,7 +263,8 @@ class PlanProToTitleboxTransformation {
 	}
 
 	def Planung_Einzel getPlanungEinzel(PlanPro_Schnittstelle schnittstelle) {
-		return schnittstelle?.LSTPlanungProjekt?.leadingPlanungGruppe?.LSTPlanungEinzel
+		return schnittstelle?.LSTPlanungProjekt?.leadingPlanungGruppe?.
+			LSTPlanungEinzel
 	}
 
 	private def void addFieldsFrom(Titlebox titlebox,
@@ -396,8 +398,8 @@ class PlanProToTitleboxTransformation {
 		Planung_G_Schriftfeld_AttributeGroup schriftfeld,
 		TableNameInfo tableName) {
 		return '''
-			«schriftfeld?.bezeichnungAnlage?.wert ?: "<Anlage>"»
-			«schriftfeld?.bezeichnungUnteranlage?.wert ?: "<Unteranlage>"»
+			«IF schriftfeld?.bezeichnungAnlage?.wert.nullOrEmpty»<Anlage>«ELSE»«schriftfeld?.bezeichnungAnlage?.wert»«ENDIF»
+			«IF schriftfeld?.bezeichnungUnteranlage?.wert.nullOrEmpty»<Unteranlage>«ELSE»«schriftfeld?.bezeichnungUnteranlage?.wert»«ENDIF»
 			«tableName?.getFullDisplayName ?: "<Planzeichen> – <Planart>"»
 		'''
 	}
