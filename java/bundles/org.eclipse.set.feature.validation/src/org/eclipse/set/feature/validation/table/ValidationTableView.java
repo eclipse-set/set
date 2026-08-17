@@ -11,7 +11,8 @@ package org.eclipse.set.feature.validation.table;
 import java.nio.file.Path;
 
 import org.eclipse.nebula.widgets.nattable.NatTable;
-import org.eclipse.set.basis.extensions.PathExtensions;
+import org.eclipse.set.basis.ToolboxPaths.ExportPathExtension;
+import org.eclipse.set.basis.constants.ExportType;
 import org.eclipse.set.basis.files.ToolboxFile;
 import org.eclipse.set.feature.validation.Messages;
 import org.eclipse.set.model.tablemodel.Table;
@@ -122,10 +123,17 @@ public class ValidationTableView extends AbstractTreeLayerTable {
 	@Override
 	public void exportCsv() {
 		final Shell shell = part.getToolboxShell();
-		final Path location = part.getModelSession().getToolboxFile().getPath();
-		final String defaultFileName = String.format(messages.ExportFilePattern,
-				PathExtensions.getBaseFileName(location));
+		final Path location = part.getModelSession()
+				.getToolboxFile()
+				.getModelPath();
+		final String exportFileName = part.getModelSession()
+				.getToolboxPaths()
+				.getTableExportPath(messages.ExportFileName, location,
+						ExportType.PLANNING_RECORDS,
+						ExportPathExtension.TABLE_CSV_EXPORT_EXTENSION)
+				.getFileName()
+				.toString();
 		exportCsv(shell, part.getDialogService(),
-				messages.ExportValidationTitleMsg, defaultFileName);
+				messages.ExportValidationTitleMsg, exportFileName);
 	}
 }
