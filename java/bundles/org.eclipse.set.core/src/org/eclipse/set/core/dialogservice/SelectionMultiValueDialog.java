@@ -175,7 +175,8 @@ public class SelectionMultiValueDialog extends AbstractSelectionDialog<String> {
 				.setEnabled(selectedCount < totalCount);
 		getButton(IDialogConstants.DESELECT_ALL_ID)
 				.setEnabled(selectedCount > 0);
-		getButton(IDialogConstants.OK_ID).setEnabled(selectedCount > 0);
+		getButton(IDialogConstants.OK_ID)
+				.setEnabled(cancelButtonLabel == null || selectedCount > 0);
 	}
 
 	@Override
