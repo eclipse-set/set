@@ -171,8 +171,7 @@ public class LSTObjectDesignationExtensions {
 	 * @return the object designation
 	 */
 	public static String getLSTObjectDesignation(final Fla_Zwieschutz fla) {
-		// TODO
-		return ""; //$NON-NLS-1$
+		return getLSTObjectDesignation(fla.getIDWElement().getValue());
 	}
 
 	/**
@@ -222,8 +221,8 @@ public class LSTObjectDesignationExtensions {
 	 */
 	public static String getLSTObjectDesignation(
 			final Gleis_Bezeichnung gleis) {
-		// TODO
-		return ""; //$NON-NLS-1$
+		return getEmptyStringWhenNull(gleis,
+				g -> gleis.getBezeichnung().getBezGleisBezeichnung().getWert());
 	}
 
 	/**
@@ -343,8 +342,8 @@ public class LSTObjectDesignationExtensions {
 	 */
 	public static String getLSTObjectDesignation(
 			final W_Kr_Gsp_Komponente gspKomponent) {
-		// TODO
-		return ""; //$NON-NLS-1$
+		return getLSTObjectDesignation(
+				gspKomponent.getIDWKrGspElement().getValue());
 	}
 
 	/**
