@@ -14,8 +14,6 @@ import java.util.LinkedList
 import java.util.List
 import java.util.Set
 import java.util.function.Predicate
-import org.eclipse.core.runtime.Assert
-import org.eclipse.set.basis.graph.Digraphs
 import org.eclipse.set.basis.graph.TopPoint
 import org.eclipse.set.core.services.graph.TopologicalGraphService
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Aussenelementansteuerung
@@ -39,12 +37,9 @@ import org.eclipse.set.model.planpro.Signale.Signal_Befestigung
 import org.eclipse.set.model.planpro.Signale.Signal_Rahmen
 import org.eclipse.set.model.planpro.Signale.Signal_Signalbegriff
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element
-import org.eclipse.set.ppmodel.extensions.utils.DirectedTopKante
-import org.eclipse.set.ppmodel.extensions.utils.TopRouting
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-import static org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung.*
 import static org.eclipse.set.model.planpro.Signale.ENUMFiktivesSignalFunktion.*
 import static org.eclipse.set.model.planpro.Signale.ENUMSignalFunktion.*
 
@@ -58,7 +53,6 @@ import static extension org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteEx
 import static extension org.eclipse.set.ppmodel.extensions.SignalRahmenExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalbegriffExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.CollectionExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.utils.Debug.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 
 /**
@@ -67,8 +61,6 @@ import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensi
 class SignalExtensions extends PunktObjektExtensions {
 
 	static val Logger logger = LoggerFactory.getLogger(typeof(SignalExtensions))
-
-	static val BigDecimal ABSTAND_VORSIGNALBAKE = BigDecimal.valueOf(260)
 
 	static val String PREFIX_VORSIGNALBAKE = "Ne3"
 
@@ -217,35 +209,6 @@ class SignalExtensions extends PunktObjektExtensions {
 	def static double rotation(Signal signal) {
 		// we ignore all coordinates but the first
 		return signal.singlePoints.get(0).coordinate.getEffectiveRotation
-	}
-
-	/**
-	 * @param signal this Signal
-	 * 
-	 * @returns the Vorsignalbaken of this signal
-	 */
-	def static List<Signal> getVorsignalbaken(Signal signal) {
-		val topKanten = signal.topKanten
-		Assert.isTrue(topKanten.size == 1)
-		val topKante = topKanten.get(0)
-		val wirkrichtung = signal.getWirkrichtung(topKante)
-		val isForward = wirkrichtung == ENUM_WIRKRICHTUNG_GEGEN
-		val DirectedTopKante start = new DirectedTopKante(topKante, isForward)
-		val paths = Digraphs.getPaths(start, new TopRouting,
-			ABSTAND_VORSIGNALBAKE)
-		paths.forEach[start = signal.singlePoint]
-		if (logger.debugEnabled) {
-			val bezeichnung = signal?.bezeichnung?.bezeichnungTabelle?.wert
-			logger.debug('''Searchpaths for Vorsignalbaken of «bezeichnung»:''')
-			logger.debug(paths.debugString)
-		}
-		return paths.map [
-			val itsPath = it
-			pointIterator.map[punktObjekt].filter(Signal).filter [
-				itsPath.distance(signal.singlePoint, singlePoint) <
-					ABSTAND_VORSIGNALBAKE
-			].filter[vorsignalbake].toList
-		].flatten.toList
 	}
 
 	/**
