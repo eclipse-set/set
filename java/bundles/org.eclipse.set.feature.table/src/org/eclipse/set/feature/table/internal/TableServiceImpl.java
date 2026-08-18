@@ -728,7 +728,7 @@ public final class TableServiceImpl implements TableService {
 		} catch (final Exception e) {
 			logger.error("Transformation Error: {} : {}", //$NON-NLS-1$
 					tableInfo.shortcut(), e.getMessage());
-			tableStatus.setNonTransformable(true);
+			tableStatus.setErrorMessages(e.getMessage());
 			broker.post(Events.TABLEERROR_CHANGED, null);
 			// Give empty table back
 			return createEmptyTable(tableInfo);

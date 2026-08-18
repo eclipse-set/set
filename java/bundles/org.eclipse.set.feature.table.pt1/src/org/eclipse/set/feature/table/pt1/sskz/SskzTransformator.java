@@ -24,18 +24,17 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-import org.eclipse.set.basis.Pair;
 import org.eclipse.set.basis.graph.TopPoint;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.core.services.graph.BankService;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator;
 import org.eclipse.set.feature.table.pt1.ssks.SignalSideDistance;
+import org.eclipse.set.feature.table.pt1.ssks.SignalSideDistance.SideDistance;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Aussenelementansteuerung;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.ENUMAussenelementansteuerungArt;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stellelement;
@@ -253,19 +252,13 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 		fillIterableMultiCellWhenAllowed(row,
 				getColumn(cols, Abstand_FEAx_Gleismitte), control,
 				() -> isFindGeometryComplete(schnittStelle), ele -> {
-					final Pair<Long, Long> sideDistance = getSideDistance(potk);
-					if (sideDistance != null) {
-						final String trackDistance = sideDistance.getSecond()
-								.longValue() > 0 ? String.format("(%d)", //$NON-NLS-1$
-										sideDistance.getSecond()) : ""; //$NON-NLS-1$
-						if (!trackDistance.isEmpty()) {
+					final SideDistance sideDistance = getSideDistance(potk);
+					if (sideDistance.getDistanceToMainTrack() != null) {
+						if (sideDistance.getDistanceToNeighborTrack() != null) {
 							addTopologicalCell(row, getColumn(cols,
 									SskzColumns.Abstand_FEAx_Gleismitte));
 						}
-						return String.format("%s%s", //$NON-NLS-1$
-								Math.abs(sideDistance.getFirst()),
-								trackDistance.isEmpty() ? "" //$NON-NLS-1$
-										: " " + trackDistance); //$NON-NLS-1$
+						return sideDistance.toString();
 					}
 					return ""; //$NON-NLS-1$
 				});
@@ -433,7 +426,7 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 				.toList();
 	}
 
-	private static Pair<Long, Long> getSideDistance(
+	private static SideDistance getSideDistance(
 			final Punkt_Objekt_TOP_Kante_AttributeGroup potk) {
 		final double rotation = PunktObjektTopKanteExtensions
 				.getCoordinate(potk)
@@ -443,14 +436,16 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 		// Find neighbor track in two side
 		if (direction == null
 				|| direction == ENUMWirkrichtung.ENUM_WIRKRICHTUNG_BEIDE) {
-			return Optional
-					.ofNullable(SignalSideDistance.getSideDistance(potk,
-							ENUMWirkrichtung.ENUM_WIRKRICHTUNG_IN, rotation))
-					.orElse(SignalSideDistance.getSideDistance(potk,
-							ENUMWirkrichtung.ENUM_WIRKRICHTUNG_GEGEN,
-							rotation));
+			final SideDistance sideDistanceInDirection = SignalSideDistance
+					.determinSideDistanceValue(potk,
+							ENUMWirkrichtung.ENUM_WIRKRICHTUNG_IN, rotation);
+			if (sideDistanceInDirection.getDistanceToNeighborTrack() != null) {
+				return sideDistanceInDirection;
+			}
+			return SignalSideDistance.determinSideDistanceValue(potk,
+					ENUMWirkrichtung.ENUM_WIRKRICHTUNG_GEGEN, rotation);
 		}
-		return SignalSideDistance.getSideDistance(potk,
+		return SignalSideDistance.determinSideDistanceValue(potk,
 				potk.getWirkrichtung().getWert(), rotation);
 
 	}
