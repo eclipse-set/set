@@ -440,15 +440,12 @@ public class Digraphs {
 			final Set<DirectedEdge<E, N, P>> successors = routing
 					.getDirectSuccessors(edge);
 			logger.debug("start={} path={}", edge, edgeWithPath.getSecond()); //$NON-NLS-1$
-			if (edgeWithPath.getSecond()
-					.getLength()
-					.compareTo(maxDistance) >= 0) {
+			if (edgeWithPath.getSecond().getLength().compareTo(maxDistance) >= 0
+					|| successors.isEmpty()) {
+				result.add(edgeWithPath.getSecond());
 				continue;
 			}
 
-			if (successors.isEmpty()) {
-				result.add(edgeWithPath.getSecond());
-			}
 			for (final DirectedEdge<E, N, P> successor : successors) {
 				final DirectedEdgePath<E, N, P> successorPath = edgeWithPath
 						.getSecond()
