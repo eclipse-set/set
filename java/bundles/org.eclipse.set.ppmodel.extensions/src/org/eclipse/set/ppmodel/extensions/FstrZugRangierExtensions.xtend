@@ -135,9 +135,7 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 	def static List<GestellteWeiche> getEntscheidungsweichen(
 		Fstr_Zug_Rangier fstrZugRangier, List<ENUMGleisart> notUsable) {
 		val fstrFahrweg = fstrZugRangier.fstrFahrweg
-		if (fstrZugRangier.identitaet.wert == "56DFF1CA-2137-4FB3-8483-05CE72A708FA") {
-			println("TEST")
-		}
+
 		val path = fstrFahrweg.path
 		val fwSinglePoints = path.pointIterator.toList
 		val wKomponenten = fwSinglePoints.map[punktObjekt].filter(

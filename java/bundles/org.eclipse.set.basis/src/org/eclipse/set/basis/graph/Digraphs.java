@@ -10,6 +10,7 @@ package org.eclipse.set.basis.graph;
 
 import java.math.BigDecimal;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Deque;
 import java.util.HashSet;
@@ -160,9 +161,27 @@ public class Digraphs {
 	public static <E, N, P> Set<DirectedEdgePath<E, N, P>> getPaths(
 			final DirectedEdge<E, N, P> start, final Routing<E, N, P> routing,
 			final BigDecimal minDistance, final BigDecimal maxDistance) {
-		return getCache(start).get(getPathCacheKey(start, routing, minDistance),
-				() -> calculateSubPaths(start, routing, minDistance,
-						maxDistance));
+		final String pathCacheKey = getPathCacheKey(start, routing,
+				minDistance);
+		final Cache cache = getCache(start);
+
+		if (!cache.contains(pathCacheKey)) {
+			return cache.get(pathCacheKey, () -> calculateSubPaths(start,
+					routing, minDistance, maxDistance));
+		}
+
+		// Expand the cached path when the maximal distance increase
+		final Set<DirectedEdgePath<E, N, P>> paths = cache.get(pathCacheKey,
+				Collections::emptySet);
+
+		if (paths.stream()
+				.anyMatch(p -> p.getLength().compareTo(maxDistance) > 0)) {
+			return paths;
+		}
+		final Set<DirectedEdgePath<E, N, P>> expandedPaths = calculateSubPaths(
+				start, routing, minDistance, maxDistance);
+		cache.set(pathCacheKey, expandedPaths);
+		return expandedPaths;
 	}
 
 	private static <E, N, P> String getPathCacheKey(
@@ -317,7 +336,8 @@ public class Digraphs {
 			final Set<DirectedEdgePath<E, N, P>> paths) {
 		final StringBuilder builder = new StringBuilder();
 		for (final DirectedEdgePath<E, N, P> path : paths) {
-			builder.append(prettyString(path) + "\n"); //$NON-NLS-1$
+			builder.append(prettyString(path));
+			builder.append("\n"); //$NON-NLS-1$
 		}
 		return builder.toString();
 	}
