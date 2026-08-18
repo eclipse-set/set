@@ -47,9 +47,9 @@ public class Messages {
 	public String ErrorMsg;
 
 	/**
-	 * %s_Validierungsmeldungen.csv
+	 * Validierungsmeldungen
 	 */
-	public String ExportFilePattern;
+	public String ExportFileName;
 
 	/**
 	 * Export als CSV

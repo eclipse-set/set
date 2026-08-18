@@ -20,9 +20,9 @@ public class Messages {
 	public String PlazModelDescriptionService_ViewName;
 
 	/**
-	 * %s_PlaZ-Modell.csv
+	 * PlaZ-Modell
 	 */
-	public String PlazModellPart_ExportCsvFilePattern;
+	public String PlazModellPart_ExportCsvFileName;
 
 	/**
 	 * Export als CSV
