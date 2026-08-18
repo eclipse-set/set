@@ -40,7 +40,7 @@ public class PlazModelTableView extends AbstractTreeLayerTable {
 			Werkzeugkofferversion: %s
 
 
-			"Lfd. Nr.";"Schweregrad";"Problemart";"Zeilennummer";"Objektart";"Attribut/-gruppe";"Bereich";"Zustand";"Meldung"
+			"Lfd. Nr.";"Schweregrad";"Problemart";"Zeilennummer";"Objektart";"Objekbezeichnung";"Attribut/-gruppe";"Bereich";"Zustand";"Meldung"
 			""";
 
 	private final Messages messages;
@@ -96,7 +96,6 @@ public class PlazModelTableView extends AbstractTreeLayerTable {
 		tableMenuService.addMenuItem(createJumpToTextViewMenuItem(part));
 		tableMenuService.addMenuItem(createJumpToSiteplanMenuItem());
 		natTable = createTable(parent, table);
-
 		return natTable;
 	}
 

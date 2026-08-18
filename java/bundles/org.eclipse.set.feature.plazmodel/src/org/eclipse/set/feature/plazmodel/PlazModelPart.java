@@ -43,6 +43,7 @@ import org.eclipse.set.utils.emfforms.AbstractEmfFormsPart;
 import org.eclipse.set.utils.events.ContainerDataChanged;
 import org.eclipse.set.utils.events.ProjectDataChanged;
 import org.eclipse.set.utils.table.menu.TableMenuService;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
@@ -139,6 +140,7 @@ public class PlazModelPart extends AbstractEmfFormsPart {
 		if (getModelSession().isDirty()) {
 			setOutdated(true);
 		}
+		parent.addListener(SWT.RESIZE, e -> parent.layout(true));
 
 		// export action
 		getBanderole().setEnableExport(true);

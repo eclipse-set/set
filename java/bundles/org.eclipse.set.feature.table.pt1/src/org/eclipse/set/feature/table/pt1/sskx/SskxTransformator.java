@@ -47,12 +47,12 @@ import org.eclipse.set.model.planpro.Signale.Signal_Rahmen;
 import org.eclipse.set.model.planpro.Signale.Signal_Signalbegriff;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.TableRow;
-import org.eclipse.set.model.tablemodel.extensions.FootnoteExtensions;
 import org.eclipse.set.ppmodel.extensions.BasisAttributExtensions;
 import org.eclipse.set.ppmodel.extensions.BereichObjektExtensions;
 import org.eclipse.set.ppmodel.extensions.EObjectExtensions;
 import org.eclipse.set.ppmodel.extensions.SignalExtensions;
 import org.eclipse.set.ppmodel.extensions.SignalRahmenExtensions;
+import org.eclipse.set.ppmodel.extensions.SignalbegriffExtensions;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.eclipse.set.utils.table.TMFactory;
 import org.osgi.service.event.EventAdmin;
@@ -334,7 +334,8 @@ public class SskxTransformator extends AbstractSignalTableTransform {
 
 		selectBezeichnungFuncs
 				.add(Signalbegriff_ID_TypeClass::getLangbezeichnung);
-		selectBezeichnungFuncs.add(FootnoteExtensions::getSignalBregiffIDName);
+		selectBezeichnungFuncs
+				.add(SignalbegriffExtensions::getSignalBegriffIDName);
 		return selectBezeichnungFuncs;
 	}
 
@@ -347,8 +348,8 @@ public class SskxTransformator extends AbstractSignalTableTransform {
 				.map(signalBegriffe -> {
 					if (SPEICAL_BEZEICHNUNG_HANDLE_BEGRIFFE.stream()
 							.anyMatch(c -> c.isInstance(signalBegriffe))) {
-						return FootnoteExtensions
-								.getSignalBregiffIDName(signalBegriffe);
+						return SignalbegriffExtensions
+								.getSignalBegriffIDName(signalBegriffe);
 					}
 					for (final Function<Signalbegriff_ID_TypeClass, String> function : selectBezeichnungFunc) {
 						final String bezeichnung = function

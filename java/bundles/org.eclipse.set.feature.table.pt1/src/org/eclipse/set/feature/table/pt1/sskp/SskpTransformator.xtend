@@ -113,7 +113,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 			instance,
 			cols.getColumn(Bezugselement),
 			pzb,
-			[PZBElementBezugspunkt.filterNull.map[fillBezugsElement]],
+			[bezugsElementBezeichnungen],
 			MIXED_STRING_COMPARATOR
 		)
 
@@ -613,21 +613,6 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 
 		fillFootnotes(instance, pzb)
 
-	}
-
-	static dispatch def String fillBezugsElement(Basis_Objekt object) {
-		throw new IllegalArgumentException(object.class.simpleName)
-	}
-
-	static dispatch def String fillBezugsElement(W_Kr_Gsp_Element object) {
-		return object?.bezeichnung?.bezeichnungTabelle?.wert
-	}
-
-	static dispatch def String fillBezugsElement(Signal object) {
-		return object?.signalReal?.signalFunktion?.wert ===
-			ENUMSignalFunktion.ENUM_SIGNAL_FUNKTION_BUE_UEBERWACHUNGSSIGNAL
-			? '''BÜ-K «object?.bezeichnung?.bezeichnungTabelle?.wert»'''
-			: object?.bezeichnung?.bezeichnungTabelle?.wert
 	}
 
 	private dispatch def String getDistanceSignalTrackSwitch(PZB_Element pzb,

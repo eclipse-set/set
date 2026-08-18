@@ -197,6 +197,11 @@ public class Messages {
 	public String ValidationTableColumns_ObjectType;
 
 	/**
+	 * Objectbezeichnung
+	 */
+	public String ValidationTableColumns_ObjectDesignation;
+
+	/**
 	 * Attribut/-gruppe
 	 */
 	public String ValidationTableColumns_AttributeGroup;

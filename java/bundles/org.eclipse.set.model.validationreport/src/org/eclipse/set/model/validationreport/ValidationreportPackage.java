@@ -257,13 +257,22 @@ public interface ValidationreportPackage extends EPackage {
 	int VALIDATION_PROBLEM__OBJECT_ART = 6;
 
 	/**
+	 * The feature id for the '<em><b>Object Designation</b></em>' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 * @ordered
+	 */
+	int VALIDATION_PROBLEM__OBJECT_DESIGNATION = 7;
+
+	/**
 	 * The feature id for the '<em><b>Attribute Name</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @generated
 	 * @ordered
 	 */
-	int VALIDATION_PROBLEM__ATTRIBUTE_NAME = 7;
+	int VALIDATION_PROBLEM__ATTRIBUTE_NAME = 8;
 
 	/**
 	 * The feature id for the '<em><b>Object Scope</b></em>' attribute. <!--
@@ -272,7 +281,7 @@ public interface ValidationreportPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int VALIDATION_PROBLEM__OBJECT_SCOPE = 8;
+	int VALIDATION_PROBLEM__OBJECT_SCOPE = 9;
 
 	/**
 	 * The feature id for the '<em><b>Object State</b></em>' attribute. <!--
@@ -281,7 +290,7 @@ public interface ValidationreportPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int VALIDATION_PROBLEM__OBJECT_STATE = 9;
+	int VALIDATION_PROBLEM__OBJECT_STATE = 10;
 
 	/**
 	 * The feature id for the '<em><b>General Msg</b></em>' attribute. <!--
@@ -290,7 +299,7 @@ public interface ValidationreportPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int VALIDATION_PROBLEM__GENERAL_MSG = 10;
+	int VALIDATION_PROBLEM__GENERAL_MSG = 11;
 
 	/**
 	 * The number of structural features of the '<em>Validation Problem</em>'
@@ -299,7 +308,7 @@ public interface ValidationreportPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int VALIDATION_PROBLEM_FEATURE_COUNT = 11;
+	int VALIDATION_PROBLEM_FEATURE_COUNT = 12;
 
 	/**
 	 * The number of operations of the '<em>Validation Problem</em>' class. <!--
@@ -721,6 +730,19 @@ public interface ValidationreportPackage extends EPackage {
 
 	/**
 	 * Returns the meta object for the attribute
+	 * '{@link org.eclipse.set.model.validationreport.ValidationProblem#getObjectDesignation
+	 * <em>Object Designation</em>}'. <!-- begin-user-doc --> <!-- end-user-doc
+	 * -->
+	 * 
+	 * @return the meta object for the attribute '<em>Object Designation</em>'.
+	 * @see org.eclipse.set.model.validationreport.ValidationProblem#getObjectDesignation()
+	 * @see #getValidationProblem()
+	 * @generated
+	 */
+	EAttribute getValidationProblem_ObjectDesignation();
+
+	/**
+	 * Returns the meta object for the attribute
 	 * '{@link org.eclipse.set.model.validationreport.ValidationProblem#getAttributeName
 	 * <em>Attribute Name</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
@@ -1139,6 +1161,15 @@ public interface ValidationreportPackage extends EPackage {
 		 */
 		EAttribute VALIDATION_PROBLEM__OBJECT_ART = eINSTANCE
 				.getValidationProblem_ObjectArt();
+
+		/**
+		 * The meta object literal for the '<em><b>Object Designation</b></em>'
+		 * attribute feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * 
+		 * @generated
+		 */
+		EAttribute VALIDATION_PROBLEM__OBJECT_DESIGNATION = eINSTANCE
+				.getValidationProblem_ObjectDesignation();
 
 		/**
 		 * The meta object literal for the '<em><b>Attribute Name</b></em>'
