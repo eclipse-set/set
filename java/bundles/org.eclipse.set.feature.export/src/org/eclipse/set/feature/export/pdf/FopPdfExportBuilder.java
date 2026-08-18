@@ -42,6 +42,7 @@ import org.apache.pdfbox.pdmodel.common.PDMetadata;
 import org.apache.pdfbox.pdmodel.graphics.color.PDOutputIntent;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.eclipse.core.runtime.Assert;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.set.basis.FreeFieldInfo;
 import org.eclipse.set.basis.OverwriteHandling;
 import org.eclipse.set.basis.ToolboxPaths;
@@ -206,8 +207,16 @@ public class FopPdfExportBuilder implements TableExport {
 		Assert.isNotNull(table);
 
 		try {
+			final Titlebox clone = EcoreUtil.copy(titlebox);
+			String fieldValue = clone.getField(84);
+			// By export we don't need rendere place holder for "Unteranlage"
+			if (fieldValue.contains("<Unteranlage>")) { //$NON-NLS-1$
+				fieldValue = fieldValue.replace("<Unteranlage>\r\n", ""); //$NON-NLS-1$ //$NON-NLS-2$
+				clone.setField(84, fieldValue);
+			}
+
 			final String tableDocumentText = createTableDocumentText(table,
-					titlebox, freeFieldInfo);
+					clone, freeFieldInfo);
 			if (ToolboxConfiguration.isDebugMode()) {
 				final String outputDir = outputPath.getParent().toString();
 				exportTableDocument(
