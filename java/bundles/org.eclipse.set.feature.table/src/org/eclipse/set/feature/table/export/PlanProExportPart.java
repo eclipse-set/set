@@ -38,6 +38,7 @@ import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.extensions.TableExtensions;
 import org.eclipse.set.model.titlebox.Titlebox;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
+import org.eclipse.set.services.export.ExportService.TableToExportPath;
 import org.eclipse.set.services.export.TableCompileService;
 import org.eclipse.set.services.export.TableExport.ExportFormat;
 import org.eclipse.set.services.table.TableService;
@@ -227,7 +228,7 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 			final IModelSession modelSession,
 			final OverwriteHandling overwriteHandling,
 			final IProgressMonitor monitor) {
-		final List<TableInfo> tablesToExport = new ArrayList<>();
+		final List<TableToExportPath> tablesToExport = new ArrayList<>();
 		elements.stream()
 				.filter(ele -> TableInfo.Pt1TableCategory
 						.getCategoryEnum(ele.getId()) == null)
@@ -240,14 +241,17 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 								modelSession, monitor, getSelectedDirectory(),
 								getExportType(), overwriteHandling);
 					} else if (ele instanceof final CheckBoxTreeElement treeElement
-							&& getTreeDataModel() instanceof TableCheckboxTreeModel) {
-						final TableInfo tableInfo = ((TableCheckboxTreeModel) getTreeDataModel())
+							&& getTreeDataModel() instanceof final TableCheckboxTreeModel tableCheckboxTreeModel) {
+						final TableInfo tableInfo = tableCheckboxTreeModel
 								.getTableInfo(treeElement)
 								.orElse(null);
 						if (tableInfo == null) {
 							return;
 						}
-						tablesToExport.add(tableInfo);
+						tablesToExport.add(TableToExportPath.createInstance(
+								tableInfo, modelSession, getExportType(),
+								getSelectedDirectory(),
+								List.of(ExportFormat.PDF)));
 					}
 				});
 		getExportService().exportMultiTable(getExportType(), tablesToExport,
@@ -257,8 +261,7 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 						.stream()
 						.map(Pair::getSecond)
 						.collect(Collectors.toSet()),
-				List.of(ExportFormat.PDF), getSelectedDirectory().toString(),
-				monitor, getToolboxShell(), overwriteHandling,
+				monitor, overwriteHandling,
 				new ExceptionHandler(getToolboxShell(), getDialogService()));
 	}
 

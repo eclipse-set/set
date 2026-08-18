@@ -73,6 +73,19 @@ public class MockDialogService implements DialogService {
 	}
 
 	@Override
+	public List<String> confirmOverwriteMultiFile(final Shell shell,
+			final List<String> paths) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public List<String> confirmOverwriteMultiFile(final Shell shell,
+			final List<String> filenames, final String okButtonLabel,
+			final String cancelButtonLabel) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
 	public boolean confirmOverwriteOperationalData(final Shell shell) {
 		return true;
 	}
@@ -300,11 +313,4 @@ public class MockDialogService implements DialogService {
 	public boolean sitePlanError(final Shell shell, final String filename) {
 		throw new UnsupportedOperationException();
 	}
-
-	@Override
-	public List<String> confirmOverwriteMultiFile(Shell shell,
-			List<String> paths) {
-		throw new UnsupportedOperationException();
-	}
-
 }
