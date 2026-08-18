@@ -141,14 +141,15 @@ public class TopologicalGraphServiceImpl
 
 	@Override
 	public List<TopPath> findAllPathsBetween(final TopPoint from,
-			final TopPoint to, final int limit) {
+			final TopPoint to, final int limit,
+			final boolean includeIncompletePath) {
 		final MultiContainer_AttributeGroup container = getContainer(
 				from.edge());
 		final PlanPro_Schnittstelle planProSchnittstelle = getPlanProSchnittstelle(
 				container);
 		return AsDirectedTopGraph.getAllPaths(
 				new AsSplitTopGraph(getTopGraphBase(planProSchnittstelle)),
-				from, to, limit);
+				from, to, limit, includeIncompletePath);
 	}
 
 	@Override
@@ -214,7 +215,6 @@ public class TopologicalGraphServiceImpl
 				container);
 		final AsSplitTopGraph graphView = new AsSplitTopGraph(
 				getTopGraphBase(planProSchnittstelle));
-
 		final Node fromNode = graphView.splitGraphAt(from,
 				Boolean.valueOf(inTopDirection));
 		final Node toNode = graphView.splitGraphAt(to);
@@ -312,4 +312,5 @@ public class TopologicalGraphServiceImpl
 
 		return minPoint;
 	}
+
 }

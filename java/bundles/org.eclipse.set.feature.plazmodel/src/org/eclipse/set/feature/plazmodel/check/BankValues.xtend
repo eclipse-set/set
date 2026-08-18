@@ -67,7 +67,7 @@ class BankValues extends AbstractPlazContainerCheck implements PlazCheck, EventH
 			val end = new TopPoint(IDUeberhoehungB.value)
 			val paths = topologicalService.findAllPathsBetween(begin, end,
 				(bankLength.doubleValue +
-					ToolboxConfiguration.bankLineTopOffsetLimit + 1) as int)
+					ToolboxConfiguration.bankLineTopOffsetLimit + 1) as int, true)
 			if (paths.isEmpty) {
 				return createError(
 					"Es konnte kein topologischer Pfad für die Überhöhungslinie {GUID} gefunden werden.",
