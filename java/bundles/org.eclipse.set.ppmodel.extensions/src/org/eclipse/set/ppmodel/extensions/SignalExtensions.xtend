@@ -408,11 +408,13 @@ class SignalExtensions extends PunktObjektExtensions {
 				isBelongToControlArea(controlArea)) {
 			return true
 		}
+
 		val existsFiktivesSignalFAPStart = signal.signalFiktiv !== null &&
 			signal.signalFiktiv.fiktivesSignalFunktion.exists [
 				wert === ENUM_FIKTIVES_SIGNAL_FUNKTION_FAP_START ||
 					wert === ENUM_FIKTIVES_SIGNAL_FUNKTION_ZENTRALBLOCK_START
 			]
+
 		if (existsFiktivesSignalFAPStart) {
 			val fstrFahrwegs = signal.container.fstrZugRangier.map [
 				IDFstrFahrweg.value
@@ -435,12 +437,15 @@ class SignalExtensions extends PunktObjektExtensions {
 				exists[controlArea.contains(it)]
 		}
 
-		if (signal.signalReal !== null ||
-			(!existsFiktivesSignalFAPStart && !existsFiktivesSignalFAPZiel)) {
+		if ((signal.signalReal !== null &&
+			signal.signalReal.signalRealAktiv === null) ||
+			(signal.signalFiktiv !== null && !existsFiktivesSignalFAPStart &&
+				!existsFiktivesSignalFAPZiel)) {
 			return signal.punktObjektTOPKante.exists [
 				controlArea.contains(it, tolerantDistance)
 			]
 		}
+
 		return false
 	}
 
