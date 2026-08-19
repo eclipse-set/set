@@ -15,11 +15,11 @@
     "test:e2e:update": "npm run test:e2e:docker -- bash -c 'npm ci && npm run test:e2e -- -u'"
   },
   "dependencies": {
-    "@turf/boolean-disjoint": "^7.3.5",
-    "@turf/boolean-within": "^7.3.5",
-    "@turf/difference": "^7.3.5",
-    "@turf/helpers": "^7.3.5",
-    "@turf/intersect": "^7.3.5",
+    "@turf/boolean-disjoint": "^7.4.0",
+    "@turf/boolean-within": "^7.4.0",
+    "@turf/difference": "^7.4.0",
+    "@turf/helpers": "^7.4.0",
+    "@turf/intersect": "^7.4.0",
     "axios": "^1.18.1",
     "geojson": "^0.5.0",
     "material-design-icons": "^3.0.1",
