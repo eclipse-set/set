@@ -250,8 +250,7 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 						}
 						tablesToExport.add(TableToExportPath.createInstance(
 								tableInfo, modelSession, getExportType(),
-								getSelectedDirectory(),
-								List.of(ExportFormat.PDF)));
+								getSelectedDirectory(), getExportFormats()));
 					}
 				});
 		getExportService().exportMultiTable(getExportType(), tablesToExport,
@@ -271,6 +270,8 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 	protected SelectableAction getOutdatedAction() {
 		return new SaveAndRefreshAction(this);
 	}
+
+	protected abstract List<ExportFormat> getExportFormats();
 
 	@Override
 	protected String getTaskMessage() {

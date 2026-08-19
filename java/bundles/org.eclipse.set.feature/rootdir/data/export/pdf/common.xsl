@@ -207,19 +207,19 @@ http://www.eclipse.org/legal/epl-v20.html
 			<fo:table-column column-width="{180 + $WB + $WB + $WB + $WB}mm" />
 			<fo:table-body start-indent="{$WB + $WB + $WB + $WB}mm" end-indent="{- $WB - $WB - $WB - $WB}mm">
 				<fo:table-row>
-					<fo:table-cell min-height="70mm">
+					<fo:table-cell height="70mm">
 						<fo:table table-layout="fixed"
 											width="100%"
 											height="100%">
 							<fo:table-column column-width="100%"/>
 							<fo:table-body>
-								<fo:table-row height="65mm">
+								<fo:table-row height="60mm">
 									<fo:table-cell>
 										<fo:block/>
 									</fo:table-cell>
 								</fo:table-row>
 								<fo:table-row height="10mm">
-									<fo:table-cell display-align="after">
+									<fo:table-cell display-align="after" >
 										<fo:block xsl:use-attribute-sets="significant-information-style">
 											<fo:retrieve-marker retrieve-class-name="ComparePageText"
 																					retrieve-boundary="page"

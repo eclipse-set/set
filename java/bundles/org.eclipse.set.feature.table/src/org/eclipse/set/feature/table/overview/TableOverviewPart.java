@@ -322,7 +322,7 @@ public class TableOverviewPart extends BasePart {
 				.filter(entry -> tableWithStatus.test(entry.getValue()))
 				.map(Entry::getKey)
 				.map(tableInfo -> TableToExportPath.createInstance(tableInfo,
-						getModelSession(), ExportType.INVENTORY_RECORDS,
+						getModelSession(), ExportType.PLANNING_RECORDS,
 						Paths.get(outputDir),
 						List.of(ExportFormat.EXCEL, ExportFormat.PDF)))
 				.toList();
