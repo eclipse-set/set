@@ -197,7 +197,7 @@ public class Messages {
 	public String ValidationTableColumns_ObjectType;
 
 	/**
-	 * Objectbezeichnung
+	 * Objektbezeichnung
 	 */
 	public String ValidationTableColumns_ObjectDesignation;
 

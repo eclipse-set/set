@@ -38,6 +38,8 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.extension.ExtensionContext;
 
+import com.google.common.html.HtmlEscapers;
+
 /**
  * Test for changes in Validation View
  * 
@@ -45,20 +47,6 @@ import org.junit.jupiter.api.extension.ExtensionContext;
  */
 @TestInstance(Lifecycle.PER_CLASS)
 public class ValidationViewTest extends AbstractTableTest {
-	static List<Pair<String, String>> widgetItems = Arrays
-			.<Pair<String, String>> asList(new Pair<>("Geladene Datei", "MD5"),
-					new Pair<>("Geladene Datei", "GUID"),
-					new Pair<>("Verwendetes XML-Schema (in Datei)", "PlanPro"),
-					new Pair<>("Verwendetes XML-Schema (in Datei)",
-							"Signalbegriffe"),
-					new Pair<>("Unterstütztes XML-Schema", "PlanPro"),
-					new Pair<>("Unterstütztes XML-Schema", "Signalbegriffe"),
-					new Pair<>("Gültigkeit", "XSD-Gültigkeit"),
-					new Pair<>("Gültigkeit", "EMF-Gültigkeit"),
-					new Pair<>("Gültigkeit", "Verarbeitbar"),
-					new Pair<>("PlanPro-Container", "Enthalten"),
-					new Pair<>("Untergewerke", "Enthalten"));
-
 	private static class ValidationViewFailHandle extends TestFailHandle {
 		String csvHeader = "\"Item Group\";\"Item label\";\"Expect Value\""
 				+ System.lineSeparator();
@@ -104,16 +92,30 @@ public class ValidationViewTest extends AbstractTableTest {
 	}
 
 	protected static final String RICHTEXT_REPLACE_REGEX = "<[^>]+>";
+
 	protected static final String VALIDATION_INFORMATION_CSV = "validation_information";
 	protected static final String VALIDATION_TABLE_NAME = "validation_view";
-
-	private String tableName = VALIDATION_TABLE_NAME;
+	static List<Pair<String, String>> widgetItems = Arrays
+			.<Pair<String, String>> asList(new Pair<>("Geladene Datei", "MD5"),
+					new Pair<>("Geladene Datei", "GUID"),
+					new Pair<>("Verwendetes XML-Schema (in Datei)", "PlanPro"),
+					new Pair<>("Verwendetes XML-Schema (in Datei)",
+							"Signalbegriffe"),
+					new Pair<>("Unterstütztes XML-Schema", "PlanPro"),
+					new Pair<>("Unterstütztes XML-Schema", "Signalbegriffe"),
+					new Pair<>("Gültigkeit", "XSD-Gültigkeit"),
+					new Pair<>("Gültigkeit", "EMF-Gültigkeit"),
+					new Pair<>("Gültigkeit", "Verarbeitbar"),
+					new Pair<>("PlanPro-Container", "Enthalten"),
+					new Pair<>("Untergewerke", "Enthalten"));
 
 	private static List<String> splitString(final String text,
 			final String regex) {
 		final List<String> asList = Arrays.asList(text.split(regex));
 		return asList.stream().map(e -> e.replaceAll(" ", "")).toList();
 	}
+
+	private String tableName = VALIDATION_TABLE_NAME;
 
 	protected List<CSVRecord> informationReference;
 
@@ -148,7 +150,13 @@ public class ValidationViewTest extends AbstractTableTest {
 						.get(columnIndex)
 						.replaceAll(CELL_VALUE_REPLACE_REGEX, "")
 						.replaceAll(ZERO_WIDTH_SPACE, "");
-				assertEquals(referenceValue, cellValue);
+				final String toHtmlString = HtmlEscapers.htmlEscaper()
+						.escape(referenceValue);
+				assertTrue(
+						referenceValue.equals(cellValue)
+								|| toHtmlString.equals(cellValue),
+						getErrorMessage(columnIndex, rowIndex, referenceValue,
+								toHtmlString));
 			}
 		}
 	}

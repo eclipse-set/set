@@ -1,9 +1,9 @@
 ﻿Validierungsmeldungen
 Datei: validation_view_current.csv
-Validierung: 2026-08-18 12:00:05
+Validierung: 2026-08-19 08:59:33
 Werkzeugkofferversion: ${application-version}
 
-"Lfd. Nr.";"Schweregrad";"Problemart";"Zeilennummer";"Objektart";"Attribut/-gruppe";"Bereich";"Zustand";"Meldung"
+"Lfd. Nr.";"Schweregrad";"Problemart";"Zeilennummer";"Objektart";"Objekbezeichnung";"Attribut/-gruppe";"Bereich";"Zustand";"Meldung"
 "1";"Warnung";"Fachliche Vollständigkeit";"533";"Aussenelementansteuerung";"ESTW-A P-Hausen";"Datum_Regelwerk";"Planung";"Start";"Die nach Datenmodell erforderliche Angabe ist nicht vorhanden."
 "2";"Warnung";"Fachliche Vollständigkeit";"610";"Aussenelementansteuerung";"P-Hausen Achszählrechner";"Datum_Regelwerk";"Planung";"Start";"Die nach Datenmodell erforderliche Angabe ist nicht vorhanden."
 "3";"Warnung";"Fachliche Vollständigkeit";"647";"Aussenelementansteuerung";"ESTW-A Linksdorf";"Datum_Regelwerk";"Planung";"Start";"Die nach Datenmodell erforderliche Angabe ist nicht vorhanden."

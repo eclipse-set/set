@@ -27,6 +27,8 @@ import org.eclipse.swtbot.swt.finder.widgets.SWTBotExpandItem;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.provider.Arguments;
 
+import com.google.common.html.HtmlEscapers;
+
 /**
  * Abstract class for table test
  * 
@@ -90,8 +92,13 @@ public abstract class AbstractTableTest extends AbstractPPHNTest {
 						// richtext
 						// value
 						.replace("\"\"", "\"");
-				assertEquals(referenceValue, cellValue, getErrorMessage(
-						columnIndex, rowIndex, referenceValue, cellValue));
+				final String toHtmlString = HtmlEscapers.htmlEscaper()
+						.escape(referenceValue);
+				assertTrue(
+						referenceValue.equals(cellValue)
+								|| toHtmlString.equals(cellValue),
+						getErrorMessage(columnIndex, rowIndex, referenceValue,
+								toHtmlString));
 			}
 		}
 	}
