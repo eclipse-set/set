@@ -39,7 +39,7 @@ public class ValidationTableView extends AbstractTreeLayerTable {
 			Validierung: %s
 			Werkzeugkofferversion: %s
 
-			"Lfd. Nr.";"Schweregrad";"Problemart";"Zeilennummer";"Objektart";"Attribut/-gruppe";"Bereich";"Zustand";"Meldung"
+			"Lfd. Nr.";"Schweregrad";"Problemart";"Zeilennummer";"Objektart";"Objekbezeichnung";"Attribut/-gruppe";"Bereich";"Zustand";"Meldung"
 			""";
 	private final Messages messages;
 	private final BasePart part;

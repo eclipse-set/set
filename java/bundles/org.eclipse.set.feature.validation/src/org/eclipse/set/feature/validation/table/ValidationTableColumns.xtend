@@ -41,9 +41,8 @@ class ValidationTableColumns extends AbstractColumns {
 		ProblemType = createNew(messages.ValidationTableColumns_ProblemType)
 		LineNumber = createNew(messages.ValidationTableColumns_LineNumber)
 		ObjectType = createNew(messages.ValidationTableColumns_ObjectType)
-		AttributeGroup = createNew(
-			messages.ValidationTableColumns_AttributeGroup)
-			ObjectDesignation = createNew(messages.ValidationTableColumns_ObjectDesignation)
+		AttributeGroup = createNew(messages.ValidationTableColumns_AttributeGroup)
+		ObjectDesignation = createNew(messages.ValidationTableColumns_ObjectDesignation)
 		ObjectScope = createNew(messages.ValidationTableColumns_ObjectScope)
 		ObjectState = createNew(messages.ValidationTableColumns_ObjectState)
 		Message = createNew(messages.ValidationTableColumns_Message)
