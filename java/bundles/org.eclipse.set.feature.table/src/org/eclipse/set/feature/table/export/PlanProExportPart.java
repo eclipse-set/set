@@ -8,12 +8,15 @@
  */
 package org.eclipse.set.feature.table.export;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -21,13 +24,13 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.core.services.nls.Translation;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.OverwriteHandling;
 import org.eclipse.set.basis.Pair;
 import org.eclipse.set.basis.constants.ExportType;
 import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.basis.export.CheckBoxTreeElement;
-import org.eclipse.set.basis.export.CheckboxModelElement;
 import org.eclipse.set.core.services.export.AdditionalExportService;
 import org.eclipse.set.core.services.part.ToolboxPartService;
 import org.eclipse.set.feature.export.checkboxmodel.CheckboxTreeModel;
@@ -67,6 +70,11 @@ import jakarta.inject.Inject;
  * @author rumpf
  */
 public abstract class PlanProExportPart extends DocumentExportPart {
+
+	private record TreeElementWithExportPaths(CheckBoxTreeElement treeElement,
+			List<Path> exportFilePaths) {
+
+	}
 
 	protected static final Logger logger = LoggerFactory
 			.getLogger(PlanProExportPart.class);
@@ -184,7 +192,6 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 		final List<CheckBoxTreeElement> elements = new ArrayList<>();
 		final Collection<TableInfo> availableTables = tableService
 				.getAvailableTables();
-
 		availableTables.forEach(tableInfo -> {
 			final TableNameInfo nameInfo = tableInfo.nameInfo();
 			CheckBoxTreeElement parentElement = elements.stream()
@@ -224,35 +231,18 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 	}
 
 	@Override
-	protected void export(final List<CheckboxModelElement> elements,
-			final IModelSession modelSession,
-			final OverwriteHandling overwriteHandling,
-			final IProgressMonitor monitor) {
-		final List<TableToExportPath> tablesToExport = new ArrayList<>();
-		elements.stream()
-				.filter(ele -> TableInfo.Pt1TableCategory
-						.getCategoryEnum(ele.getId()) == null)
-				.forEach(ele -> {
-					final String id = ele.getId();
-					if (additionalExportService != null
-							&& additionalExportService
-									.isAdditionalExportId(id)) {
-						additionalExportService.createAdditionalExport(id,
-								modelSession, monitor, getSelectedDirectory(),
-								getExportType(), overwriteHandling);
-					} else if (ele instanceof final CheckBoxTreeElement treeElement
-							&& getTreeDataModel() instanceof final TableCheckboxTreeModel tableCheckboxTreeModel) {
-						final TableInfo tableInfo = tableCheckboxTreeModel
-								.getTableInfo(treeElement)
-								.orElse(null);
-						if (tableInfo == null) {
-							return;
-						}
-						tablesToExport.add(TableToExportPath.createInstance(
-								tableInfo, modelSession, getExportType(),
-								getSelectedDirectory(), getExportFormats()));
-					}
-				});
+	protected void export(final List<CheckBoxTreeElement> elements,
+			final IModelSession modelSession, final IProgressMonitor monitor) {
+		if (additionalExportService != null && elements.stream()
+				.anyMatch(ele -> additionalExportService
+						.isAdditionalExportId(ele.getId()))) {
+			additionalExportService.createAdditionalExport(modelSession,
+					monitor, getSelectedDirectory(), getExportType(),
+					OverwriteHandling.forCheckbox(true));
+		}
+		final List<TableToExportPath> tablesToExport = getTablesToExport(
+				elements, modelSession);
+		monitor.setTaskName(getTaskMessage());
 		getExportService().exportMultiTable(getExportType(), tablesToExport,
 				modelSession, compileService, getDialogService(),
 				getTableType(),
@@ -260,8 +250,87 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 						.stream()
 						.map(Pair::getSecond)
 						.collect(Collectors.toSet()),
-				monitor, overwriteHandling,
+				monitor, OverwriteHandling.forCheckbox(true),
 				new ExceptionHandler(getToolboxShell(), getDialogService()));
+	}
+
+	@Override
+	protected List<CheckBoxTreeElement> filterOverwriteConfirmationFiles(
+			final Object[] checkedElements) {
+		final List<TreeElementWithExportPaths> treeElementWIthExportPaths = toTreeElementWithExportPaths(
+				checkedElements);
+		final Map<Path, String> pathsAndDisplayName = treeElementWIthExportPaths
+				.stream()
+				.flatMap(ele -> ele.exportFilePaths.stream()
+						.map(p -> Map.entry(p, ele.treeElement.getName())))
+				.collect(Collectors.toMap(Entry::getKey, Entry::getValue));
+		final Set<Entry<Path, String>> confirmationOverwriteFiles = getExportService()
+				.getConfirmationOverwriteFiles(pathsAndDisplayName,
+						getToolboxShell(),
+						files -> getDialogService().confirmOverwriteMultiFile(
+								getToolboxShell(), files,
+								IDialogConstants.OK_LABEL, null))
+				.entrySet();
+
+		return treeElementWIthExportPaths.stream()
+				.filter(ele -> confirmationOverwriteFiles.stream()
+						.anyMatch(file -> file.getValue()
+								.equals(ele.treeElement.getName())))
+				.map(TreeElementWithExportPaths::treeElement)
+				.toList();
+	}
+
+	private List<TreeElementWithExportPaths> toTreeElementWithExportPaths(
+			final Object[] elements) {
+		return Arrays.stream(elements)
+				.filter(CheckBoxTreeElement.class::isInstance)
+				.map(CheckBoxTreeElement.class::cast)
+				.map(treeElement -> {
+					if (additionalExportService != null
+							&& additionalExportService.isAdditionalExportId(
+									treeElement.getId())) {
+						return new TreeElementWithExportPaths(treeElement,
+								additionalExportService.getExportPaths());
+					}
+					if (getTreeDataModel() instanceof final TableCheckboxTreeModel tableCheckboxTreeModel) {
+						final TableInfo tableInfo = tableCheckboxTreeModel
+								.getTableInfo(treeElement)
+								.orElse(null);
+						if (tableInfo != null) {
+							final TableToExportPath instance = TableToExportPath
+									.createInstance(tableInfo,
+											getModelSession(), getExportType(),
+											getSelectedDirectory(),
+											getExportFormats());
+							return new TreeElementWithExportPaths(treeElement,
+									List.copyOf(
+											instance.getExportFormatAndPaths()
+													.values()));
+						}
+					}
+					return null;
+				})
+				.filter(Objects::nonNull)
+				.toList();
+	}
+
+	private List<TableToExportPath> getTablesToExport(
+			final List<CheckBoxTreeElement> elements,
+			final IModelSession modelSession) {
+		return elements.stream().map(treeElement -> {
+			if (getTreeDataModel() instanceof final TableCheckboxTreeModel tableCheckboxTreeModel) {
+				final TableInfo tableInfo = tableCheckboxTreeModel
+						.getTableInfo(treeElement)
+						.orElse(null);
+				if (tableInfo == null) {
+					return null;
+				}
+				return TableToExportPath.createInstance(tableInfo, modelSession,
+						getExportType(), getSelectedDirectory(),
+						getExportFormats());
+			}
+			return null;
+		}).filter(Objects::nonNull).toList();
 	}
 
 	protected abstract ExportType getExportType();
