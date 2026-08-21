@@ -200,11 +200,6 @@
 
 	<xsl:template match="CompareProjectContent">
 		<fo:block>
-			<fo:marker marker-class-name="ComparePageText">
-				<fo:inline border-width="0.2mm" border-style="solid" border-color="#0066FF" color="#0066FF" padding="2px">
-						<xsl:text>Änderung gegenüber vorheriger Ausgabe</xsl:text>
-				</fo:inline>
-			</fo:marker>
 			<fo:inline>
 				<xsl:if test="../../@compareType='CHANGED_GUID_ROW'">
 					<xsl:attribute name="text-decoration">line-through</xsl:attribute>
