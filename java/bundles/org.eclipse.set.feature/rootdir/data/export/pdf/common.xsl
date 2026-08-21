@@ -196,7 +196,7 @@ http://www.eclipse.org/legal/epl-v20.html
 	</xsl:template>
 
 	<xsl:template match="Row[not(Cell[@column-number = '1'])]">
-		<fo:table-row xsl:use-attribute-sets="body-row-style" keep-with-previous.within-page="always">
+		<fo:table-row xsl:use-attribute-sets="body-row-style" keep-with-previous.within-page="always" keep-together.within-page="always">
 			<fo:table-cell xsl:use-attribute-sets="body-row-cell-style">
 				<fo:block>
 					<xsl:value-of select="@group-number" />
