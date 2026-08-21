@@ -14,6 +14,7 @@ import { store } from '@/store'
 import Configuration from '@/util/Configuration'
 import { getFirstValue } from '@/util/ObjectExtension'
 import SvgDraw from '@/util/SVG/Draw/SvgDraw'
+import SvgDrawBridge from '@/util/SVG/Draw/SvgDrawBridge'
 import SvgDrawCant from '@/util/SVG/Draw/SvgDrawCant'
 import SvgDrawExternalElementControl from '@/util/SVG/Draw/SvgDrawExternalElementControl'
 import SvgDrawFMAComponent from '@/util/SVG/Draw/SvgDrawFMAComponent'
@@ -52,6 +53,7 @@ export default class SvgService {
   }
 
   public registerDrawFeatureSvg () {
+    this.drawFeatureClass.push(new SvgDrawBridge(this.catalogService))
     this.drawFeatureClass.push(new SvgDrawSignal(this.catalogService))
     this.drawFeatureClass.push(new SvgDrawFMAComponent(this.catalogService))
     this.drawFeatureClass.push(new SvgDrawPZB(this.catalogService))
