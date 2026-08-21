@@ -11,11 +11,15 @@ package org.eclipse.set.services.export;
 import java.awt.image.BufferedImage;
 import java.nio.file.Path;
 import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Set;
 import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -78,6 +82,16 @@ public interface ExportService {
 		}
 
 		/**
+		 * @return get export file paths and display name
+		 */
+		public Map<Path, String> toPathAndDisplayName() {
+			return Stream.of(pdfPath, excelPath)
+					.filter(Objects::nonNull)
+					.collect(Collectors.toMap(p -> p,
+							p -> tableInfo().nameInfo().getFullDisplayName()));
+		}
+
+		/**
 		 * @param tableInfo
 		 *            the {@link TableInfo}
 		 * @param modelSession
@@ -112,6 +126,46 @@ public interface ExportService {
 			return new TableToExportPath(tableInfo, pdfExportPath,
 					excelExportPath);
 		}
+	}
+
+	/**
+	 * @param pathsWithDisplayName
+	 *            the file path and display name
+	 * @param shell
+	 *            the shell
+	 * @param overwriteConfirmation
+	 *            overwrite confirmation function
+	 * @return the confirmed overwrite files
+	 */
+	default Map<Path, String> getConfirmationOverwriteFiles(
+			final Map<Path, String> pathsWithDisplayName, final Shell shell,
+			final Function<List<String>, List<String>> overwriteConfirmation) {
+		final Map<Path, String> needOverwriteConfirmationFiles = new HashMap<>();
+		final Map<Path, String> result = new HashMap<>();
+		pathsWithDisplayName.forEach((path, displayName) -> {
+			if (path.toFile().exists()) {
+				needOverwriteConfirmationFiles.put(path, displayName);
+			} else {
+				result.put(path, displayName);
+			}
+		});
+		if (needOverwriteConfirmationFiles.isEmpty()) {
+			return pathsWithDisplayName;
+		}
+		final Set<String> filesDisplayName = needOverwriteConfirmationFiles
+				.entrySet()
+				.stream()
+				.map(Entry::getValue)
+				.collect(Collectors.toSet());
+
+		final List<String> confirmOverwriteFiles = overwriteConfirmation
+				.apply(List.copyOf(filesDisplayName));
+		needOverwriteConfirmationFiles.forEach((path, displayName) -> {
+			if (confirmOverwriteFiles.contains(displayName)) {
+				result.put(path, displayName);
+			}
+		});
+		return result;
 	}
 
 	/**

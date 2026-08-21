@@ -36,8 +36,6 @@ public interface AdditionalExportService<T extends CheckboxModelElement> {
 	/**
 	 * Create an additional export.
 	 * 
-	 * @param id
-	 *            the id for the export
 	 * @param modelSession
 	 *            the model session
 	 * @param monitor
@@ -49,9 +47,9 @@ public interface AdditionalExportService<T extends CheckboxModelElement> {
 	 * @param overwriteHandling
 	 *            what to do when overwriting files
 	 */
-	public void createAdditionalExport(String id,
-			final IModelSession modelSession, final IProgressMonitor monitor,
-			final Path exportDirectory, final ExportType exportType,
+	public void createAdditionalExport(final IModelSession modelSession,
+			final IProgressMonitor monitor, final Path exportDirectory,
+			final ExportType exportType,
 			final OverwriteHandling overwriteHandling);
 
 	/**
@@ -61,4 +59,9 @@ public interface AdditionalExportService<T extends CheckboxModelElement> {
 	 * @return whether the given ID is an additional export ID
 	 */
 	public boolean isAdditionalExportId(String id);
+
+	/**
+	 * @return the export path
+	 */
+	public List<Path> getExportPaths();
 }
