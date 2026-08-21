@@ -104,13 +104,8 @@ class PlanungsBereichValid extends AbstractPlazContainerCheck implements PlazChe
 
 		return falsyReferences.map [
 			val err = PlazFactory.eINSTANCE.createPlazError
-			err.message = transformErrorMsg(
-				Map.of("GUID", guid, //
-				"TYP", source.eClass.name, //
-				"REF_TYP", it.key.eClass.name, //
-				"REF_GUID", it.key.identitaet?.wert)
-			)
-			err.type = "Planungs-/Betrachtungsbereich"
+			err.message = '''Das Objekt «it.key.eClass.name» «it.key.identitaet?.wert» verweist auf das zugehörige Objekt «source.eClass.name» «guid», die Objekte liegen aber uneinheitlich in Planungs- und Betrachtungsbereich.'''
+			err.type = checkType
 			err.object = it.value
 			err.severity = ValidationSeverity.WARNING
 			return err
@@ -131,7 +126,7 @@ class PlanungsBereichValid extends AbstractPlazContainerCheck implements PlazChe
 	}
 
 	override getGeneralErrMsg() {
-		return "Das Objekt {REF_TYP} {REF_GUID} verweist auf das zugehörige Objekt {TYP} {GUID}, die Objekte liegen aber uneinheitlich in Planungs- und Betrachtungsbereich."
+		return "Objekte und zugehörige, referenzierte Objekt liegen uneinheitlich in Planungs- und Betrachtungsbereich."
 	}
 
 	override handleEvent(Event event) {
