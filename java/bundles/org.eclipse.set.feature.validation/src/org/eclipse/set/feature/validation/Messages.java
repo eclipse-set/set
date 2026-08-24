@@ -255,4 +255,100 @@ public class Messages {
 	 * Speichern PlanPro Daten
 	 */
 	public String SaveToolboxFile;
+
+	/**
+	 * Modellinformationen
+	 */
+	public String ValidationReport_ModelInfo;
+
+	/**
+	 * Fachliche Modellinformationen
+	 */
+	public String ValidationReport_FunctionalModelInfo;
+
+	/**
+	 * Gültigkeit
+	 */
+	public String ValidationReport_Validity;
+
+	/**
+	 * XSD-Gültigkeit
+	 */
+	public String ValidationReport_Validity_XSD_VALID;
+
+	/**
+	 * EMF-Gültigkeit
+	 */
+	public String ValidationReport_Validity_EMF_VALID;
+
+	/**
+	 * Verarbeitbar
+	 */
+	public String ValidationReport_Validity_ModelLoaded;
+
+	/**
+	 * Validierungsmeldungen
+	 */
+	public String ValidationReport_Messages;
+
+	/**
+	 * Untergewerke
+	 */
+	public String ValidationReport_Subworks;
+
+	/**
+	 * Enthalten
+	 */
+	public String ValidationReport_Subwork_Model_Content;
+
+	/**
+	 * Geladene Datei
+	 */
+	public String ValidationReport_GeladeneDatei;
+
+	/**
+	 * Dateiname
+	 */
+	public String ValidationReport_GeladeneDatei_DateiName;
+
+	/**
+	 * Zeitstempel
+	 */
+	public String ValidationReport_GeladeneDatei_TimeStamp;
+
+	/**
+	 * MD5
+	 */
+	public String ValidationReport_GeladeneDatei_MD5;
+
+	/**
+	 * GUID
+	 */
+	public String ValidationReport_GeladeneDatei_GUID;
+
+	/**
+	 * PlanPro-Container
+	 */
+	public String ValidationReport_ContainerContents;
+
+	/**
+	 * PlanPro
+	 */
+	public String ValidationReport_Version_PlanPro;
+
+	/**
+	 * Signalbegriffe
+	 */
+	public String ValidationReport_Version_Signalbegriffe;
+
+	/**
+	 * Verwendetes XML-Schema (in Datei)
+	 */
+	public String ValidationReport_Used_Version;
+
+	/**
+	 * Unterstütztes XML-Schema
+	 */
+	public String ValidationReport_Supported_Version;
+
 }
