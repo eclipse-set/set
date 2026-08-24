@@ -37,18 +37,21 @@ import org.eclipse.set.model.planpro.PlanPro.Container_AttributeGroup;
 import org.eclipse.set.model.validationreport.ValidationReport;
 import org.eclipse.set.model.validationreport.ValidationSeverity;
 import org.eclipse.set.utils.BasePart;
+import org.eclipse.set.utils.Fonts;
 import org.eclipse.set.utils.SaveAndRefreshAction;
 import org.eclipse.set.utils.SelectableAction;
 import org.eclipse.set.utils.events.ContainerDataChanged;
 import org.eclipse.set.utils.events.ProjectDataChanged;
 import org.eclipse.set.utils.table.menu.TableMenuService;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 
@@ -188,6 +191,11 @@ public class ValidationPart extends BasePart {
 	}
 
 	protected Control createInjectedTable(final Composite innerParent) {
+		final Label validationReportLabel = new Label(innerParent, SWT.LEFT);
+		final Font font = localResourceManager.create(Fonts.TABLE_HEADING);
+		validationReportLabel.setFont(font);
+		validationReportLabel.setText(messages.ValidationReport_Report_Title);
+
 		final Composite composite = new Composite(innerParent, SWT.NONE);
 		GridLayoutFactory.swtDefaults().numColumns(3).applyTo(composite);
 		GridDataFactory.swtDefaults()
