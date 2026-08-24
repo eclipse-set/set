@@ -351,4 +351,9 @@ public class Messages {
 	 */
 	public String ValidationReport_Supported_Version;
 
+	/**
+	 * Validierungsmeldungen
+	 */
+	public String ValidationReport_Report_Title;
+
 }
