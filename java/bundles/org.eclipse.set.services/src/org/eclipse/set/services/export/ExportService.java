@@ -18,7 +18,7 @@ import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Set;
 import java.util.function.Consumer;
-import java.util.function.Function;
+import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -139,7 +139,7 @@ public interface ExportService {
 	 */
 	default Map<Path, String> getConfirmationOverwriteFiles(
 			final Map<Path, String> pathsWithDisplayName, final Shell shell,
-			final Function<List<String>, List<String>> overwriteConfirmation) {
+			final UnaryOperator<List<String>> overwriteConfirmation) {
 		final Map<Path, String> needOverwriteConfirmationFiles = new HashMap<>();
 		final Map<Path, String> result = new HashMap<>();
 		pathsWithDisplayName.forEach((path, displayName) -> {
@@ -291,8 +291,8 @@ public interface ExportService {
 	 */
 	void exportMultiTable(ExportType exportType,
 			List<TableToExportPath> tablesToExport, IModelSession modelSession,
-			TableCompileService compileService, DialogService dialogService,
-			TableType tableType, Set<String> controlAreaIds,
-			IProgressMonitor monitor, OverwriteHandling overwriteHandling,
+			TableCompileService compileService, TableType tableType,
+			Set<String> controlAreaIds, IProgressMonitor monitor,
+			OverwriteHandling overwriteHandling,
 			Consumer<Exception> errorHandler);
 }

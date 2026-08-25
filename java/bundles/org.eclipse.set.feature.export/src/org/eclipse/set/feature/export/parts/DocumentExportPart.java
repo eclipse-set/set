@@ -309,6 +309,8 @@ public abstract class DocumentExportPart extends BasePart {
 		final List<CheckBoxTreeElement> filterOverwriteConfirmationFiles = filterOverwriteConfirmationFiles(
 				checkedElements);
 		if (filterOverwriteConfirmationFiles.isEmpty()) {
+			getDialogService().openInformation(getToolboxShell(),
+					getTaskMessage(), messages.DocumentExportPart_NoDocument);
 			return;
 		}
 		// runnable for the transformation
@@ -317,7 +319,8 @@ public abstract class DocumentExportPart extends BasePart {
 			public void run(final IProgressMonitor monitor)
 					throws InvocationTargetException, InterruptedException {
 				// start a single task with unknown timeframe
-				monitor.beginTask(getTaskMessage(), IProgressMonitor.UNKNOWN);
+				monitor.beginTask(getTaskMessage(),
+						filterOverwriteConfirmationFiles.size());
 
 				// listen to cancel
 				Threads.stopCurrentOnCancel(monitor);

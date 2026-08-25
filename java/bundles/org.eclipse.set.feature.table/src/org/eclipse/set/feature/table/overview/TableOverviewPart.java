@@ -326,6 +326,12 @@ public class TableOverviewPart extends BasePart {
 		try {
 			final List<TableToExportPath> filterConfirmOverwriteTable = filterConfirmOverwriteTable(
 					tablesToExport, getToolboxShell(), getDialogService());
+			if (filterConfirmOverwriteTable.isEmpty()) {
+				getDialogService().openInformation(getToolboxShell(),
+						messages.TableExportPart_TaskMsg,
+						messages.TableExportPart_NoTable);
+				return;
+			}
 			final IRunnableWithProgress exportThread = new IRunnableWithProgress() {
 				@Override
 				public void run(final IProgressMonitor monitor)
@@ -335,8 +341,7 @@ public class TableOverviewPart extends BasePart {
 					Threads.stopCurrentOnCancel(monitor);
 					exportService.exportMultiTable(ExportType.INVENTORY_RECORDS,
 							filterConfirmOverwriteTable, getModelSession(),
-							compileService, getDialogService(), tableType,
-							controlAreaIds, monitor,
+							compileService, tableType, controlAreaIds, monitor,
 							OverwriteHandling.forCheckbox(true),
 							new ExceptionHandler(getToolboxShell(),
 									getDialogService()));

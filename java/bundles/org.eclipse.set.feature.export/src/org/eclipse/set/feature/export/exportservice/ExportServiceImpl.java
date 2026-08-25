@@ -24,7 +24,6 @@ import org.eclipse.set.basis.ToolboxPaths;
 import org.eclipse.set.basis.constants.ExportType;
 import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.basis.guid.Guid;
-import org.eclipse.set.core.services.dialog.DialogService;
 import org.eclipse.set.core.services.session.SessionService;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.titlebox.Titlebox;
@@ -73,8 +72,7 @@ public class ExportServiceImpl implements ExportService {
 	public void exportMultiTable(final ExportType exportType,
 			final List<TableToExportPath> tablesToExport,
 			final IModelSession modelSession,
-			final TableCompileService compileService,
-			final DialogService dialogService, final TableType tableType,
+			final TableCompileService compileService, final TableType tableType,
 			final Set<String> controlAreaIds, final IProgressMonitor monitor,
 			final OverwriteHandling overwriteHandling,
 			final Consumer<Exception> errorHandler) {

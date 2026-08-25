@@ -244,8 +244,7 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 				elements, modelSession);
 		monitor.setTaskName(getTaskMessage());
 		getExportService().exportMultiTable(getExportType(), tablesToExport,
-				modelSession, compileService, getDialogService(),
-				getTableType(),
+				modelSession, compileService, getTableType(),
 				modelSession.getSelectedControlAreas()
 						.stream()
 						.map(Pair::getSecond)
