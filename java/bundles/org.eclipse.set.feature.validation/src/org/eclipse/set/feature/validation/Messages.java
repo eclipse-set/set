@@ -356,4 +356,14 @@ public class Messages {
 	 */
 	public String ValidationReport_Report_Title;
 
+	/**
+	 * Meldungen in Planungsbereich
+	 */
+	public String ValidationReport_Report_PlaningRegion;
+
+	/**
+	 * Meldungen in Betrachstungsbereich
+	 */
+	public String ValidationReport_Report_ViewRegion;
+
 }

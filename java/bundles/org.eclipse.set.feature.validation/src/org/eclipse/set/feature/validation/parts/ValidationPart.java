@@ -161,9 +161,13 @@ public class ValidationPart extends BasePart {
 			validationView.createModelInformationGroup(validationReport);
 			validationView.createFunctionalInformationenGroup(validationReport);
 
-			createInjectedTable(parent);
-			// initial update of button states
-			updateButtonStates();
+			final ValidationReportOverview validationReportOverview = new ValidationReportOverview(
+					parent, validationReport, toolboxPartService, messages);
+			// createInjectedTable(parent);
+			// // initial update of button states
+			// updateButtonStates();
+			validationReportOverview
+					.createValidationReportOverviewGroup(validationReport);
 
 			// Resize the EMF Forms view according to the outside area to
 			// update

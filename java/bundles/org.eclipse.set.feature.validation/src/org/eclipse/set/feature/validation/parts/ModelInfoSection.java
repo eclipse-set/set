@@ -76,8 +76,8 @@ public class ModelInfoSection {
 		}
 	}
 
-	Messages messages;
-	Composite parent;
+	protected Messages messages;
+	protected Composite parent;
 
 	/**
 	 * @param parent
@@ -159,7 +159,7 @@ public class ModelInfoSection {
 				validationReport.getFileInfo().getContainerContents());
 	}
 
-	private Composite createExpandedSecion(final String sectionTitle) {
+	protected Composite createExpandedSecion(final String sectionTitle) {
 		final Composite container = new Composite(parent, SWT.NONE);
 		container.setLayout(new FillLayout());
 		container.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
