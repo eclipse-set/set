@@ -257,9 +257,9 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 	@Override
 	protected List<CheckBoxTreeElement> filterOverwriteConfirmationFiles(
 			final Object[] checkedElements) {
-		final List<TreeElementWithExportPaths> treeElementWIthExportPaths = toTreeElementWithExportPaths(
+		final List<TreeElementWithExportPaths> treeElementWithExportPaths = toTreeElementWithExportPaths(
 				checkedElements);
-		final Map<Path, String> pathsAndDisplayName = treeElementWIthExportPaths
+		final Map<Path, String> pathsAndDisplayName = treeElementWithExportPaths
 				.stream()
 				.flatMap(ele -> ele.exportFilePaths.stream()
 						.map(p -> Map.entry(p, ele.treeElement.getName())))
@@ -272,7 +272,7 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 								IDialogConstants.OK_LABEL, null))
 				.entrySet();
 
-		return treeElementWIthExportPaths.stream()
+		return treeElementWithExportPaths.stream()
 				.filter(ele -> confirmationOverwriteFiles.stream()
 						.anyMatch(file -> file.getValue()
 								.equals(ele.treeElement.getName())))
