@@ -46,7 +46,9 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
+import org.osgi.service.event.EventHandler;
 
+import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import jakarta.inject.Inject;
 
@@ -86,6 +88,20 @@ public class ValidationPart extends BasePart {
 
 	private Listener resizeListener;
 	private Composite resizeListenerObject;
+	private EventHandler subworkChangeHandler;
+
+	private ValidationViewModelInfo validationView;
+
+	@PostConstruct
+	void postConstrct() {
+		subworkChangeHandler = event -> {
+			if (!event.getTopic().equalsIgnoreCase(Events.SUBWORK_CHANGED)) {
+				return;
+			}
+			validationView.update();
+		};
+		getBroker().subscribe(Events.SUBWORK_CHANGED, subworkChangeHandler);
+	}
 
 	/**
 	 * Create the part.
@@ -125,8 +141,8 @@ public class ValidationPart extends BasePart {
 			sc1.setLayout(new GridLayout());
 			GridDataFactory.fillDefaults().grab(true, true).applyTo(sc1);
 
-			final ValidationViewModelInfo validationView = new ValidationViewModelInfo(
-					sc1, messages, validationReport);
+			validationView = new ValidationViewModelInfo(sc1, messages,
+					validationReport);
 
 			validationView.createView(getModelSession(), toolboxPartService);
 			sc1.setContent(validationView);

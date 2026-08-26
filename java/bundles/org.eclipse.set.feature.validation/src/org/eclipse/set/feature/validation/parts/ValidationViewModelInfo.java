@@ -12,17 +12,22 @@ package org.eclipse.set.feature.validation.parts;
 
 import static org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions.*;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.function.ToLongFunction;
 import java.util.stream.Collectors;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 
+import org.eclipse.core.databinding.DataBindingContext;
+import org.eclipse.jface.databinding.swt.typed.WidgetProperties;
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.constants.ToolboxConstants;
+import org.eclipse.set.basis.observable.SupplierObservableValue;
 import org.eclipse.set.core.services.part.ToolboxPartService;
 import org.eclipse.set.feature.validation.Messages;
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
@@ -75,6 +80,23 @@ public class ValidationViewModelInfo extends Composite {
 			textFieldWithLabelControl.createControl();
 			return this;
 		}
+
+		public GroupSectionControl addObservableTextControl(
+				final String labelText, final Supplier<String> getTextFunc) {
+			final Label label = new Label(group, SWT.NONE);
+			label.setText(labelText);
+
+			final Text textField = new Text(group, SWT.BORDER);
+			textField.setLayoutData(
+					new GridData(SWT.FILL, SWT.CENTER, true, false));
+			textField.setEnabled(false);
+			final SupplierObservableValue<String> text = new SupplierObservableValue<>(
+					getTextFunc, String.class);
+			observableValues.add(text);
+			final DataBindingContext ctx = new DataBindingContext();
+			ctx.bindValue(WidgetProperties.text().observe(textField), text);
+			return this;
+		}
 	}
 
 	protected record TextFieldWithLabelControl(Composite parent,
@@ -94,6 +116,7 @@ public class ValidationViewModelInfo extends Composite {
 	protected Messages messages;
 	protected ValidationReport validationReport;
 	FormToolkit formToolkit;
+	private final List<SupplierObservableValue<String>> observableValues;
 
 	/**
 	 * @param parent
@@ -111,6 +134,7 @@ public class ValidationViewModelInfo extends Composite {
 		formToolkit = new FormToolkit(getDisplay());
 		this.messages = messages;
 		this.validationReport = validationReport;
+		this.observableValues = new ArrayList<>();
 	}
 
 	/**
@@ -203,33 +227,40 @@ public class ValidationViewModelInfo extends Composite {
 				.getPlanProSchnittstelle();
 		final GroupSectionControl groupSectionControl = new GroupSectionControl(
 				expandedSecion, "");
-		final Optional<XMLGregorianCalendar> datumAbschlussGruppe = getDatumAbschlussGruppe(
-				planProSchnittstelle);
-		final String dateString = datumAbschlussGruppe.isPresent() //
-				? datumAbschlussGruppe.get().toString() //
-				: "";
+
 		groupSectionControl
-				.addTextControl(messages.ValidationReport_Metadata_Location,
-						getFuehrendeOertlichkeit(planProSchnittstelle)
+				.addObservableTextControl(
+						messages.ValidationReport_Metadata_Location,
+						() -> getFuehrendeOertlichkeit(planProSchnittstelle)
 								.orElse(""))
-				.addTextControl(messages.ValidationReport_Metadata_Route,
-						getStreckeAbschnitt(planProSchnittstelle).orElse(""))
-				.addTextControl(
+				.addObservableTextControl(
+						messages.ValidationReport_Metadata_Route,
+						() -> getStreckeAbschnitt(planProSchnittstelle)
+								.orElse(""))
+				.addObservableTextControl(
 						messages.ValidationReport_Metadata_BuildDesignation,
-						getBauzustandKurzbezeichnung(planProSchnittstelle)
+						() -> getBauzustandKurzbezeichnung(planProSchnittstelle)
 								.orElse(""));
 
 		final GroupSectionControl secondGroup = new GroupSectionControl(
 				expandedSecion, "");
 		secondGroup
-				.addTextControl(messages.ValidationReport_Metadata_Index,
-						getIndexAusgabe(planProSchnittstelle).orElse(""))
-				.addTextControl(messages.ValidationReport_Metadata_LfdNr,
-						getLaufendeNummerAusgabe(planProSchnittstelle)
+				.addObservableTextControl(
+						messages.ValidationReport_Metadata_Index,
+						() -> getIndexAusgabe(planProSchnittstelle).orElse(""))
+				.addObservableTextControl(
+						messages.ValidationReport_Metadata_LfdNr,
+						() -> getLaufendeNummerAusgabe(planProSchnittstelle)
 								.orElse(""))
-				.addTextControl(
+				.addObservableTextControl(
 						messages.ValidationReport_GeladeneDatei_TimeStamp,
-						dateString);
+						() -> {
+							final Optional<XMLGregorianCalendar> datumAbschlussGruppe = getDatumAbschlussGruppe(
+									planProSchnittstelle);
+							return datumAbschlussGruppe.isPresent() //
+									? datumAbschlussGruppe.get().toString() //
+									: "";
+						});
 	}
 
 	private void createValidationReportOverviewGroup(
@@ -309,5 +340,11 @@ public class ValidationViewModelInfo extends Composite {
 				.collect(Collectors.joining(", ")); //$NON-NLS-1$
 		return new Pair<>(toString.apply(versionInfo.getPlanProVersions()),
 				toString.apply(versionInfo.getSignalbegriffeVersions()));
+	}
+
+	@Override
+	public void update() {
+		super.update();
+		observableValues.forEach(SupplierObservableValue::calculate);
 	}
 }

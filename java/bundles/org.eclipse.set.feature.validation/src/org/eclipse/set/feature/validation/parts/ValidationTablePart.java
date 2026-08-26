@@ -9,10 +9,6 @@
 package org.eclipse.set.feature.validation.parts;
 
 import org.eclipse.e4.core.services.nls.Translation;
-import org.eclipse.set.basis.cache.Cache;
-import org.eclipse.set.basis.constants.ToolboxConstants;
-import org.eclipse.set.basis.files.ToolboxFileRole;
-import org.eclipse.set.core.services.cache.CacheService;
 import org.eclipse.set.core.services.configurationservice.UserConfigurationService;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.core.services.version.PlanProVersionService;
@@ -49,9 +45,6 @@ public class ValidationTablePart extends BasePart {
 	@Inject
 	UserConfigurationService userConfigService;
 
-	@Inject
-	CacheService cacheService;
-
 	private ValidationTableView tableView;
 
 	/**
@@ -65,14 +58,10 @@ public class ValidationTablePart extends BasePart {
 	@Override
 	protected void createView(final Composite parent) {
 		// create validation report
-		final Cache cache = cacheService.getCache(ToolboxFileRole.SESSION,
-				ToolboxConstants.CacheId.PROBLEM_MESSAGE);
-		final ValidationReport validationReport = cache
-				.get(ValidationPart.VIEW_VALIDATION_REPORT, () -> {
-					final SessionToValidationReportTransformation transformation = new SessionToValidationReportTransformation(
-							messages, versionService, enumTranslationService);
-					return transformation.transform(getModelSession());
-				});
+		final SessionToValidationReportTransformation transformation = new SessionToValidationReportTransformation(
+				messages, versionService, enumTranslationService);
+		final ValidationReport validationReport = transformation
+				.transform(getModelSession());
 
 		// export action
 		getBanderole().setExportAction(new SelectableAction() {
