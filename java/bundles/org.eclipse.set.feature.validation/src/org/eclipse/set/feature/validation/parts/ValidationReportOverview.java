@@ -32,6 +32,16 @@ public class ValidationReportOverview extends ModelInfoSection {
 	private final ValidationReport validationReport;
 	private final ToolboxPartService toolboxPartservice;
 
+	/**
+	 * @param parent
+	 *            the parent composite
+	 * @param validationReport
+	 *            the {@link ValidationReport}
+	 * @param toolboxPartservice
+	 *            the {@link ToolboxPartService}
+	 * @param messages
+	 *            the {@link Messages}
+	 */
 	public ValidationReportOverview(final Composite parent,
 			final ValidationReport validationReport,
 			final ToolboxPartService toolboxPartservice,
@@ -41,8 +51,7 @@ public class ValidationReportOverview extends ModelInfoSection {
 		this.toolboxPartservice = toolboxPartservice;
 	}
 
-	protected void createValidationReportOverviewGroup(
-			final ValidationReport validationReport) {
+	protected void createValidationReportOverviewGroup() {
 		final Composite expandedSecion = createExpandedSecion(
 				messages.ValidationReport_Report_Title);
 		createReportInfoGroup(expandedSecion,

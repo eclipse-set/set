@@ -12,11 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.e4.core.services.nls.Translation;
-import org.eclipse.e4.ui.di.UISynchronize;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.jface.layout.GridDataFactory;
-import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.set.basis.ProblemMessage;
 import org.eclipse.set.basis.cache.Cache;
 import org.eclipse.set.basis.constants.Events;
@@ -25,10 +22,10 @@ import org.eclipse.set.basis.constants.ToolboxViewState;
 import org.eclipse.set.basis.extensions.MApplicationElementExtensions;
 import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.eclipse.set.core.services.cache.CacheService;
-import org.eclipse.set.core.services.configurationservice.UserConfigurationService;
 import org.eclipse.set.core.services.dialog.DialogService;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.core.services.part.ToolboxPartService;
+import org.eclipse.set.core.services.planningaccess.PlanningAccessService;
 import org.eclipse.set.core.services.version.PlanProVersionService;
 import org.eclipse.set.feature.validation.Messages;
 import org.eclipse.set.feature.validation.report.SessionToValidationReportTransformation;
@@ -37,25 +34,18 @@ import org.eclipse.set.model.planpro.PlanPro.Container_AttributeGroup;
 import org.eclipse.set.model.validationreport.ValidationReport;
 import org.eclipse.set.model.validationreport.ValidationSeverity;
 import org.eclipse.set.utils.BasePart;
-import org.eclipse.set.utils.Fonts;
 import org.eclipse.set.utils.SaveAndRefreshAction;
 import org.eclipse.set.utils.SelectableAction;
 import org.eclipse.set.utils.events.ContainerDataChanged;
 import org.eclipse.set.utils.events.ProjectDataChanged;
-import org.eclipse.set.utils.table.menu.TableMenuService;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 
-import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import jakarta.inject.Inject;
 
@@ -67,17 +57,12 @@ import jakarta.inject.Inject;
  */
 public class ValidationPart extends BasePart {
 
-	private static final int BUTTON_WIDTH_EXPORT_VALIDATION = 30;
-
-	private static final String VIEW_VALIDATION_REPORT = "validationReport"; //$NON-NLS-1$
+	protected static final String VIEW_VALIDATION_REPORT = "validationReport"; //$NON-NLS-1$
 
 	private Exception createException;
 
 	@Inject
 	private ToolboxPartService toolboxPartService;
-
-	@Inject
-	private TableMenuService tableMenuService;
 
 	private SessionToValidationReportTransformation transformation;
 
@@ -85,10 +70,11 @@ public class ValidationPart extends BasePart {
 
 	private ValidationTableView tableView;
 
-	private Button exportValidationButton;
-
 	@Inject
 	private PlanProVersionService versionService;
+
+	@Inject
+	private PlanningAccessService planingAccessService;
 
 	@Inject
 	EnumTranslationService enumTranslationService;
@@ -98,23 +84,10 @@ public class ValidationPart extends BasePart {
 	Messages messages;
 
 	@Inject
-	UISynchronize sync;
-
-	@Inject
 	CacheService cacheService;
-
-	@Inject
-	UserConfigurationService userConfigService;
 
 	private Listener resizeListener;
 	private Composite resizeListenerObject;
-
-	@PostConstruct
-	void postConstruct() {
-		// getBroker().subscribe(Events.CLOSE_SESSION, event -> {
-		// modelService.put(INJECT_VIEW_VALIDATION_NATTABLE, null);
-		// });
-	}
 
 	/**
 	 * Create the part.
@@ -144,6 +117,9 @@ public class ValidationPart extends BasePart {
 
 	protected void create(final Composite parent) {
 		try {
+			final ScrolledComposite scrolledComposite = new ScrolledComposite(parent,
+					SWT.V_SCROLL);
+
 			// create validation report
 			transformation = new SessionToValidationReportTransformation(
 					messages, versionService, enumTranslationService);
@@ -151,23 +127,16 @@ public class ValidationPart extends BasePart {
 
 			storageReport();
 
-			// Register nattable injector
-			tableView = new ValidationTableView(this, messages,
-					tableMenuService);
-
 			final ModelInfoSection validationView = new ModelInfoSection(parent,
 					messages);
 
 			validationView.createModelInformationGroup(validationReport);
 			validationView.createFunctionalInformationenGroup(validationReport);
+			validationView.createMetadataInformationenGroup(getModelSession());
 
 			final ValidationReportOverview validationReportOverview = new ValidationReportOverview(
 					parent, validationReport, toolboxPartService, messages);
-			// createInjectedTable(parent);
-			// // initial update of button states
-			// updateButtonStates();
-			validationReportOverview
-					.createValidationReportOverviewGroup(validationReport);
+			validationReportOverview.createValidationReportOverviewGroup();
 
 			// Resize the EMF Forms view according to the outside area to
 			// update
@@ -192,65 +161,6 @@ public class ValidationPart extends BasePart {
 		} catch (final Exception e) {
 			createException = e;
 		}
-	}
-
-	protected Control createInjectedTable(final Composite innerParent) {
-		final Label validationReportLabel = new Label(innerParent, SWT.LEFT);
-		final Font font = localResourceManager.create(Fonts.TABLE_HEADING);
-		validationReportLabel.setFont(font);
-		validationReportLabel.setText(messages.ValidationReport_Report_Title);
-
-		final Composite composite = new Composite(innerParent, SWT.NONE);
-		GridLayoutFactory.swtDefaults().numColumns(3).applyTo(composite);
-		GridDataFactory.swtDefaults()
-				.align(SWT.FILL, SWT.FILL)
-				.grab(true, false)
-				.applyTo(composite);
-
-		final Control natTable = tableView.create(innerParent,
-				validationReport);
-		// create the open view button
-		final Button showTableButton = new Button(composite, SWT.PUSH);
-		GridDataFactory.swtDefaults()
-				.align(SWT.LEFT, SWT.FILL)
-				.grab(false, false)
-				.applyTo(showTableButton);
-
-		showTableButton.setText(messages.ShowValidationTableMsg);
-		showTableButton.addListener(SWT.Selection,
-				event -> showValidationTable());
-		showTableButton.setSize(BUTTON_WIDTH_EXPORT_VALIDATION, 0);
-
-		// create the toggle collapsed button
-		final Button collapseAllButton = tableView
-				.createExpandCollapseAllButton(composite,
-						messages.ValidationTable_ExpandAllGroup,
-						messages.ValidationTable_CollapseAllGroup);
-
-		exportValidationButton = new Button(composite, SWT.PUSH);
-		GridDataFactory.swtDefaults()
-				.align(SWT.RIGHT, SWT.FILL)
-				.grab(true, false)
-				.applyTo(exportValidationButton);
-		exportValidationButton.setText(messages.ExportValidationMsg);
-		exportValidationButton.addListener(SWT.Selection,
-				event -> tableView.exportCsv());
-		exportValidationButton.setSize(BUTTON_WIDTH_EXPORT_VALIDATION, 0);
-
-		// Setup layout
-		showTableButton
-				.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, true));
-		collapseAllButton
-				.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, true));
-		exportValidationButton
-				.setLayoutData(new GridData(SWT.RIGHT, SWT.TOP, true, true));
-
-		GridDataFactory.swtDefaults()
-				.align(SWT.FILL, SWT.FILL)
-				.grab(true, true)
-				.hint(SWT.DEFAULT, 600)
-				.applyTo(natTable);
-		return natTable;
 	}
 
 	private void storageReport() {
@@ -278,10 +188,6 @@ public class ValidationPart extends BasePart {
 		getBroker().post(Events.PROBLEMS_CHANGED, null);
 	}
 
-	void showValidationTable() {
-		toolboxPartService.showPart(ToolboxConstants.VALIDATION_TABLE_PART_ID);
-	}
-
 	@Override
 	protected void updateViewContainerDataChanged(
 			final List<Container_AttributeGroup> container) {
@@ -305,17 +211,9 @@ public class ValidationPart extends BasePart {
 			// reset outdated mark
 			setOutdated(false);
 
-			// update buttons
-			updateButtonStates();
-
 			// update table
 			tableView.updateView(validationReport);
 		}
-	}
-
-	private void updateButtonStates() {
-		exportValidationButton
-				.setEnabled(!validationReport.getProblems().isEmpty());
 	}
 
 	@Override

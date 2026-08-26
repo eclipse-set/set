@@ -366,4 +366,33 @@ public class Messages {
 	 */
 	public String ValidationReport_Report_ViewRegion;
 
+	/**
+	 * führende Örtlichkeit
+	 */
+	public String ValidationReport_Metadata_Location;
+
+	/**
+	 * führende Strecke
+	 */
+	public String ValidationReport_Metadata_Route;
+
+	/**
+	 * Bauzustand Kurzbezeichnung
+	 */
+	public String ValidationReport_Metadata_BuildDesignation;
+
+	/**
+	 * Index
+	 */
+	public String ValidationReport_Metadata_Index;
+
+	/**
+	 * Laufende Nummer
+	 */
+	public String ValidationReport_Metadata_LfdNr;
+
+	/**
+	 * Wesentliche Planungsmetadaten
+	 */
+	public String ValidationReport_Metadata;
 }

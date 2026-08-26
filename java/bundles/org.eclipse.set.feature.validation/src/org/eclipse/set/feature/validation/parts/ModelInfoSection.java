@@ -10,11 +10,18 @@
  */
 package org.eclipse.set.feature.validation.parts;
 
+import static org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions.*;
+
 import java.util.Collection;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import javax.xml.datatype.XMLGregorianCalendar;
+
+import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.feature.validation.Messages;
+import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.set.model.validationreport.ValidationReport;
 import org.eclipse.set.model.validationreport.VersionInfo;
 import org.eclipse.swt.SWT;
@@ -157,6 +164,40 @@ public class ModelInfoSection {
 		containerContentsGroup.addTextControl(
 				messages.ValidationReport_Subwork_Model_Content,
 				validationReport.getFileInfo().getContainerContents());
+	}
+
+	@SuppressWarnings("nls")
+	protected void createMetadataInformationenGroup(
+			final IModelSession modelSession) {
+		final Composite expandedSecion = createExpandedSecion(
+				messages.ValidationReport_Metadata);
+		final PlanPro_Schnittstelle planProSchnittstelle = modelSession
+				.getPlanProSchnittstelle();
+		final GroupSectionControl groupSectionControl = new GroupSectionControl(
+				expandedSecion, "");
+		final Optional<XMLGregorianCalendar> datumAbschlussGruppe = getDatumAbschlussGruppe(
+				planProSchnittstelle);
+		final String dateString = datumAbschlussGruppe.isPresent() //
+				? datumAbschlussGruppe.get().toString() //
+				: "";
+		groupSectionControl
+				.addTextControl(messages.ValidationReport_Metadata_Location,
+						getFuehrendeOertlichkeit(planProSchnittstelle)
+								.orElse(""))
+				.addTextControl(messages.ValidationReport_Metadata_Route,
+						getStreckeAbschnitt(planProSchnittstelle).orElse(""))
+				.addTextControl(
+						messages.ValidationReport_Metadata_BuildDesignation,
+						getBauzustandKurzbezeichnung(planProSchnittstelle)
+								.orElse(""))
+				.addTextControl(messages.ValidationReport_Metadata_Index,
+						getIndexAusgabe(planProSchnittstelle).orElse(""))
+				.addTextControl(messages.ValidationReport_Metadata_LfdNr,
+						getLaufendeNummerAusgabe(planProSchnittstelle)
+								.orElse(""))
+				.addTextControl(
+						messages.ValidationReport_GeladeneDatei_TimeStamp,
+						dateString);
 	}
 
 	protected Composite createExpandedSecion(final String sectionTitle) {
