@@ -14,6 +14,7 @@ import java.util.List;
 import org.eclipse.e4.core.services.nls.Translation;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.set.basis.ProblemMessage;
 import org.eclipse.set.basis.cache.Cache;
 import org.eclipse.set.basis.constants.Events;
@@ -25,7 +26,6 @@ import org.eclipse.set.core.services.cache.CacheService;
 import org.eclipse.set.core.services.dialog.DialogService;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.core.services.part.ToolboxPartService;
-import org.eclipse.set.core.services.planningaccess.PlanningAccessService;
 import org.eclipse.set.core.services.version.PlanProVersionService;
 import org.eclipse.set.feature.validation.Messages;
 import org.eclipse.set.feature.validation.report.SessionToValidationReportTransformation;
@@ -42,6 +42,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
@@ -72,9 +73,6 @@ public class ValidationPart extends BasePart {
 
 	@Inject
 	private PlanProVersionService versionService;
-
-	@Inject
-	private PlanningAccessService planingAccessService;
 
 	@Inject
 	EnumTranslationService enumTranslationService;
@@ -117,33 +115,25 @@ public class ValidationPart extends BasePart {
 
 	protected void create(final Composite parent) {
 		try {
-			final ScrolledComposite scrolledComposite = new ScrolledComposite(parent,
-					SWT.V_SCROLL);
-
 			// create validation report
 			transformation = new SessionToValidationReportTransformation(
 					messages, versionService, enumTranslationService);
 			validationReport = transformation.transform(getModelSession());
-
 			storageReport();
+			final ScrolledComposite sc1 = new ScrolledComposite(parent,
+					SWT.V_SCROLL);
+			sc1.setLayout(new GridLayout());
+			GridDataFactory.fillDefaults().grab(true, true).applyTo(sc1);
 
-			final ModelInfoSection validationView = new ModelInfoSection(parent,
-					messages);
+			final ValidationViewModelInfo validationView = new ValidationViewModelInfo(
+					sc1, messages, validationReport);
 
-			validationView.createModelInformationGroup(validationReport);
-			validationView.createFunctionalInformationenGroup(validationReport);
-			validationView.createMetadataInformationenGroup(getModelSession());
-
-			final ValidationReportOverview validationReportOverview = new ValidationReportOverview(
-					parent, validationReport, toolboxPartService, messages);
-			validationReportOverview.createValidationReportOverviewGroup();
-
-			// Resize the EMF Forms view according to the outside area to
-			// update
-			// the scroll view size when the window is resized
+			validationView.createView(getModelSession(), toolboxPartService);
+			sc1.setContent(validationView);
 			resizeListenerObject = parent;
 			resizeListener = event -> {
-				final Point size = parent.computeSize(SWT.DEFAULT, SWT.DEFAULT);
+				final Point size = validationView.computeSize(SWT.DEFAULT,
+						SWT.DEFAULT);
 				final Rectangle bounds = parent.getBounds();
 				// No offset from parent
 				bounds.x = 0;
@@ -153,7 +143,7 @@ public class ValidationPart extends BasePart {
 				// Use internal height or the parent height
 				bounds.height = (int) Math.max(bounds.height - 25.0,
 						size.y * 0.9);
-
+				validationView.setBounds(bounds);
 			};
 			parent.addListener(SWT.Resize, resizeListener);
 

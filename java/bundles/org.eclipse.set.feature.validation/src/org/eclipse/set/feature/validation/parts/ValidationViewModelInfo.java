@@ -13,21 +13,29 @@ package org.eclipse.set.feature.validation.parts;
 import static org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions.*;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.function.ToLongFunction;
 import java.util.stream.Collectors;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.eclipse.set.basis.IModelSession;
+import org.eclipse.set.basis.constants.ToolboxConstants;
+import org.eclipse.set.core.services.part.ToolboxPartService;
 import org.eclipse.set.feature.validation.Messages;
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
+import org.eclipse.set.model.validationreport.ObjectScope;
+import org.eclipse.set.model.validationreport.ValidationProblem;
 import org.eclipse.set.model.validationreport.ValidationReport;
+import org.eclipse.set.model.validationreport.ValidationSeverity;
 import org.eclipse.set.model.validationreport.VersionInfo;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
@@ -41,7 +49,7 @@ import org.eclipse.xtext.xbase.lib.Pair;
  * 
  * @author truong
  */
-public class ModelInfoSection {
+public class ValidationViewModelInfo extends Composite {
 
 	protected class GroupSectionControl {
 		Composite viewSection;
@@ -84,21 +92,42 @@ public class ModelInfoSection {
 	}
 
 	protected Messages messages;
-	protected Composite parent;
+	protected ValidationReport validationReport;
+	FormToolkit formToolkit;
 
 	/**
 	 * @param parent
 	 *            the parent composite
 	 * @param messages
 	 *            the {@link Messages}
+	 * @param validationReport
+	 *            the {@link ValidationReport}
 	 */
-	public ModelInfoSection(final Composite parent, final Messages messages) {
+	public ValidationViewModelInfo(final Composite parent,
+			final Messages messages, final ValidationReport validationReport) {
+		super(parent, SWT.NONE);
+		setLayout(new GridLayout());
+		setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		formToolkit = new FormToolkit(getDisplay());
 		this.messages = messages;
-		this.parent = parent;
+		this.validationReport = validationReport;
 	}
 
-	protected void createModelInformationGroup(
-			final ValidationReport validationReport) {
+	/**
+	 * @param modelSession
+	 *            the {@link IModelSession}
+	 * @param toolboxPartService
+	 *            the {@link ToolboxPartService}
+	 */
+	public void createView(final IModelSession modelSession,
+			final ToolboxPartService toolboxPartService) {
+		createModelInformationGroup();
+		createFunctionalInformationenGroup();
+		createMetadataInformationenGroup(modelSession);
+		createValidationReportOverviewGroup(toolboxPartService);
+	}
+
+	private void createModelInformationGroup() {
 		final Composite section = createExpandedSecion(
 				messages.ValidationReport_ModelInfo);
 
@@ -149,8 +178,7 @@ public class ModelInfoSection {
 						supportedVersions.getValue());
 	}
 
-	protected void createFunctionalInformationenGroup(
-			final ValidationReport validationReport) {
+	private void createFunctionalInformationenGroup() {
 		final Composite expandedSecion = createExpandedSecion(
 				messages.ValidationReport_FunctionalModelInfo);
 		final GroupSectionControl subworkGroup = new GroupSectionControl(
@@ -167,7 +195,7 @@ public class ModelInfoSection {
 	}
 
 	@SuppressWarnings("nls")
-	protected void createMetadataInformationenGroup(
+	private void createMetadataInformationenGroup(
 			final IModelSession modelSession) {
 		final Composite expandedSecion = createExpandedSecion(
 				messages.ValidationReport_Metadata);
@@ -189,7 +217,11 @@ public class ModelInfoSection {
 				.addTextControl(
 						messages.ValidationReport_Metadata_BuildDesignation,
 						getBauzustandKurzbezeichnung(planProSchnittstelle)
-								.orElse(""))
+								.orElse(""));
+
+		final GroupSectionControl secondGroup = new GroupSectionControl(
+				expandedSecion, "");
+		secondGroup
 				.addTextControl(messages.ValidationReport_Metadata_Index,
 						getIndexAusgabe(planProSchnittstelle).orElse(""))
 				.addTextControl(messages.ValidationReport_Metadata_LfdNr,
@@ -200,17 +232,68 @@ public class ModelInfoSection {
 						dateString);
 	}
 
-	protected Composite createExpandedSecion(final String sectionTitle) {
-		final Composite container = new Composite(parent, SWT.NONE);
+	private void createValidationReportOverviewGroup(
+			final ToolboxPartService toolboxPartService) {
+		final Composite expandedSecion = createExpandedSecion(
+				messages.ValidationReport_Report_Title);
+		createReportInfoGroup(expandedSecion,
+				messages.ValidationReport_Report_PlaningRegion,
+				ObjectScope.PLAN);
+
+		createReportInfoGroup(expandedSecion,
+				messages.ValidationReport_Report_ViewRegion,
+				ObjectScope.BETRACHTUNG);
+
+		final Button showTableButton = new Button(expandedSecion, SWT.PUSH);
+		showTableButton.setText(messages.ShowValidationTableMsg);
+		showTableButton.addListener(SWT.Selection, event -> toolboxPartService
+				.showPart(ToolboxConstants.VALIDATION_TABLE_PART_ID));
+		showTableButton
+				.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, true, true));
+
+	}
+
+	private void createReportInfoGroup(final Composite expandedSection,
+			final String groupTitle, final ObjectScope scope) {
+		final List<ValidationProblem> reportInRegion = validationReport
+				.getProblems()
+				.stream()
+				.filter(report -> report.getObjectScope().equals(scope))
+				.toList();
+		final ToLongFunction<ValidationSeverity> getSeverityCount = severity -> reportInRegion
+				.stream()
+				.filter(report -> report.getSeverity().equals(severity))
+				.count();
+
+		final GroupSectionControl regionGroup = new GroupSectionControl(
+				expandedSection, groupTitle);
+
+		final long errorCount = getSeverityCount
+				.applyAsLong(ValidationSeverity.ERROR);
+		regionGroup.addTextControl(messages.ErrorMsg,
+				String.valueOf(errorCount));
+
+		final long warningCount = getSeverityCount
+				.applyAsLong(ValidationSeverity.WARNING);
+		regionGroup.addTextControl(messages.WarningMsg,
+				String.valueOf(warningCount));
+
+		final long successCount = getSeverityCount
+				.applyAsLong(ValidationSeverity.SUCCESS);
+		regionGroup.addTextControl(messages.SuccessMsg,
+				String.valueOf(successCount));
+	}
+
+	private Composite createExpandedSecion(final String sectionTitle) {
+		final Composite container = new Composite(this, SWT.NONE);
 		container.setLayout(new FillLayout());
 		container.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
-		final FormToolkit formToolkit = new FormToolkit(parent.getDisplay());
 		final ExpandableComposite ec = formToolkit
 				.createExpandableComposite(container,
 						ExpandableComposite.TWISTIE
 								| ExpandableComposite.TITLE_BAR
 								| ExpandableComposite.EXPANDED);
-		ec.setBackground(parent.getBackground());
+		ec.setBackground(getBackground());
 		ec.setText(sectionTitle);
 		final Composite section = new Composite(ec, SWT.NONE);
 		section.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
