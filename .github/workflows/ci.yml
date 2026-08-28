@@ -224,11 +224,22 @@ jobs:
       - name: Unpack SWT Native fragment
         shell: bash
         run: |
+          # Unpack SWT Native fragment to avoid extract *.dll files from SWT jar file during runtime,
+          # which needs write permission to the temp folder and fails in some environments
           cd java/bundles/org.eclipse.set.releng.set.product/target/products/SET/win32/win32/x86_64/plugins
           for jar_file in org.eclipse.swt.win32.win32.x86_64_*.jar; do
             jar -xf $jar_file -C ${jar_file%.jar}
             rm $jar_file
           done
+          
+          # Update bundles.info to point to the unpacked SWT Native fragment instead of the original SWT jar file
+          BUNDLES_INFO="java/bundles/org.eclipse.set.releng.set.product/target/products/SET/win32/win32/x86_64/configuration/org.eclipse.equinox.simpleconfigurator/bundles.info"
+          if [ -f "$BUNDLES_INFO" ]; then
+            sed -i -E \
+            's#(org\.eclipse\.swt\.win32\.win32\.x86_64,[0-9][^,]*,)plugins/(org\.eclipse\.swt\.win32\.win32\.x86_64_[^,]*)\.jar#\1plugins/\2#'  \
+            "$BUNDLES_INFO"
+          fi
+
       
       - name: Upload artifact
         uses: actions/upload-artifact@v7
