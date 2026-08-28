@@ -229,7 +229,11 @@ jobs:
           cd java/bundles/org.eclipse.set.releng.set.product/target/products/SET/win32/win32/x86_64/plugins
           for jar_file in org.eclipse.swt.win32.win32.x86_64_*.jar; do
             echo "${jar_file}"
-            jar -xf $jar_file -C ${jar_file%.jar}
+            mkdir -p ${jar_file%.jar}
+            (
+              cd ${jar_file%.jar}
+              jar -xf "../$(basename "$jar_file")"
+            )
             rm $jar_file
           done
           
