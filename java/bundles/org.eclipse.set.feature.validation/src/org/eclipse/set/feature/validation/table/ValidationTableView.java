@@ -128,7 +128,7 @@ public class ValidationTableView extends AbstractTreeLayerTable {
 				.getModelPath();
 		final String exportFileName = part.getModelSession()
 				.getToolboxPaths()
-				.getTableExportPath(messages.ExportFileName, location,
+				.getTableExportPath(messages.ValidationReport_ExportFileName, location,
 						ExportType.PLANNING_RECORDS,
 						ExportPathExtension.TABLE_CSV_EXPORT_EXTENSION)
 				.getFileName()
