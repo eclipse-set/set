@@ -49,7 +49,7 @@ public class Messages {
 	/**
 	 * Validierungsmeldungen
 	 */
-	public String ExportFileName;
+	public String ValidationReport_ExportFileName;
 
 	/**
 	 * Export als CSV
