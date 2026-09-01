@@ -16,7 +16,7 @@
     "monaco-editor": "^0.56.0"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^8.67.0",
+    "@typescript-eslint/eslint-plugin": "^8.68.0",
     "@typescript-eslint/parser": "^8.32.1",
     "@stylistic/eslint-plugin": "5.10.0",
     "copy-webpack-plugin": "^14.0.0",
