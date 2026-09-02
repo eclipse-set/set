@@ -9,6 +9,7 @@
 
 package org.eclipse.set.utils.table.tree;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.function.UnaryOperator;
 
@@ -50,6 +51,9 @@ public abstract class AbstractTreeLayerTable
 	 */
 	protected TreeLayer treeLayer;
 
+	private boolean activeDefaultFilter = true;
+	protected IFilterStrategy<Object> treeFilterStrategy;
+
 	@Override
 	protected void createTableBodyData(final Table table,
 			final UnaryOperator<Integer> getSourceLine) {
@@ -84,6 +88,7 @@ public abstract class AbstractTreeLayerTable
 			}
 		};
 		// Collapse all group by default
+		bodyDataProvider.applyFilter(getDefaultFilterValue());
 		treeLayer.doCommand(new TreeCollapseAllCommand());
 	}
 
@@ -117,8 +122,34 @@ public abstract class AbstractTreeLayerTable
 			// The hidden rows list in {@link TreeDataProvider} will not be
 			// change by direct call expland-collapse function
 			layer.expandAll();
-			treeDataProvider.applyFilter(filterIndexToObjectMap);
+
+			treeDataProvider
+					.applyFilter(getFilterObjectMap(filterIndexToObjectMap));
 			treeLayer.doCommand(new TreeCollapseAllCommand());
+		}
+
+		private Map<Integer, Object> getFilterObjectMap(
+				final Map<Integer, Object> filterIndexToObjectMap) {
+			final HashMap<Integer, Object> result = new HashMap<>(
+					filterIndexToObjectMap);
+			if (activeDefaultFilter) {
+				getDefaultFilterValue()
+						.forEach((key, value) -> result.compute(key, (k, v) -> {
+							if (v == null) {
+								return value;
+							}
+							return v.toString() + "," + value.toString(); //$NON-NLS-1$
+						}));
+			} else {
+				getDefaultFilterValue().forEach((key, value) -> {
+					final Object restFilter = result.computeIfPresent(key, (k,
+							v) -> v.toString().replace(value.toString(), "")); //$NON-NLS-1$
+					if (restFilter.toString().isEmpty()) {
+						result.remove(key);
+					}
+				});
+			}
+			return result;
 		}
 
 	}
@@ -129,8 +160,9 @@ public abstract class AbstractTreeLayerTable
 			final DataLayer columnHeaderDataLayer,
 			final ConfigRegistry configRegistry) {
 		if (bodyDataProvider instanceof final TreeDataProvider treeDataProvider) {
-			return new FilterRowHeaderComposite<>(
-					new TreeFilterStrategy<>(treeLayer, treeDataProvider),
+			treeFilterStrategy = new TreeFilterStrategy<>(treeLayer,
+					treeDataProvider);
+			return new FilterRowHeaderComposite<>(treeFilterStrategy,
 					sortHeaderLayer, columnHeaderDataLayer.getDataProvider(),
 					configRegistry);
 		}
@@ -140,7 +172,7 @@ public abstract class AbstractTreeLayerTable
 	}
 
 	/**
-	 * Creat button to toogle expand and collapse all group
+	 * Create button to toggle expand and collapse all group
 	 * 
 	 * @param parent
 	 *            the parent
@@ -197,4 +229,19 @@ public abstract class AbstractTreeLayerTable
 			button.setText(expandAllLabel);
 		}
 	}
+
+	protected abstract Map<Integer, Object> getDefaultFilterValue();
+
+	/**
+	 * @param state
+	 *            should active filter for default value
+	 */
+	public void setDefaultFilterState(final boolean state) {
+		activeDefaultFilter = state;
+		if (treeFilterStrategy != null) {
+			treeFilterStrategy
+					.applyFilter(bodyDataProvider.getCurrentFilters());
+		}
+	}
+
 }
