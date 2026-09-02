@@ -402,13 +402,29 @@ public class ToolboxTableView extends BasePart {
 		if (table == null) {
 			return;
 		}
-		subcribeTriggerResortEvent();
 		final TableStatus status = tableService
 				.getTablesStatus(tableInfo.category())
 				.getOrDefault(tableInfo, null);
+		subcribeTriggerResortEvent();
+
 		if (status == null || status.isNonTransformable()) {
-			getDialogService().error(getToolboxShell(),
-					messages.TableTransform_Error_Msg);
+			if (status != null) {
+				if (status.getTransformException().isPresent()) {
+					getDialogService().error(getToolboxShell(),
+							messages.TableTransform_Error,
+							messages.TableTransform_Error_Msg,
+							status.getTransformException().get());
+				} else if (status.getSortException().isPresent()) {
+					getDialogService().error(getToolboxShell(),
+							messages.TableTransform_Error,
+							messages.TableTransform_Sort_Error,
+							status.getTransformException().get());
+				}
+
+			} else {
+				getDialogService().error(getToolboxShell(),
+						messages.TableTransform_Error_Msg);
+			}
 		}
 
 		final ColumnDescriptor rootColumnDescriptor = table
@@ -897,46 +913,55 @@ public class ToolboxTableView extends BasePart {
 	 * the needed event and trigger resort, when all event was triggered
 	 */
 	private void subcribeTriggerResortEvent() {
-		final Comparator<RowGroup> comparator = tableService
-				.getRowGroupComparator(tableInfo, tableType);
-		if (table != null
-				&& comparator instanceof final TableRowGroupComparator rowGroupComparator) {
-			// This is new instance of Comparator, therefore need call sort here
-			// to determine the waiting on another service criterion
-			ECollections.sort(table.getTablecontent().getRowgroups(),
-					rowGroupComparator);
-			final List<String> triggerComparisonEvent = rowGroupComparator
-					.getCriteria()
-					.stream()
-					.filter(AbstractCompareWithDependencyOnServiceCriterion.class::isInstance)
-					.map(criterion -> (AbstractCompareWithDependencyOnServiceCriterion<TableRow>) criterion)
-					.filter(criterion -> !criterion
-							.getTriggerComparisonEventTopic()
-							.isEmpty())
-					.map(AbstractCompareWithDependencyOnServiceCriterion::getTriggerComparisonEventTopic)
-					.toList();
-			if (triggerComparisonEvent.isEmpty()) {
-				return;
-			}
-			final List<String> triggeredEvents = new ArrayList<>();
-			triggerComparisonEvent.forEach(triggerEvent -> getBroker()
-					.subscribe(triggerEvent, event -> {
-						triggeredEvents.add(triggerEvent);
-						if (triggeredEvents.size() == triggerComparisonEvent
-								.size()
-								&& triggeredEvents
-										.containsAll(triggerComparisonEvent)) {
-							tableService.sortTable(table, tableInfo, tableType);
-							tableInstances.clear();
-							tableInstances.addAll(
-									TableExtensions.getTableRows(table));
-							if (bodyDataProvider != null) {
-								bodyDataProvider.refresh();
+		try {
+			final Comparator<RowGroup> comparator = tableService
+					.getRowGroupComparator(tableInfo, tableType);
+			if (table != null
+					&& comparator instanceof final TableRowGroupComparator rowGroupComparator) {
+				// This is new instance of Comparator, therefore need call sort
+				// here
+				// to determine the waiting on another service criterion
+				ECollections.sort(table.getTablecontent().getRowgroups(),
+						rowGroupComparator);
+				final List<String> triggerComparisonEvent = rowGroupComparator
+						.getCriteria()
+						.stream()
+						.filter(AbstractCompareWithDependencyOnServiceCriterion.class::isInstance)
+						.map(criterion -> (AbstractCompareWithDependencyOnServiceCriterion<TableRow>) criterion)
+						.filter(criterion -> !criterion
+								.getTriggerComparisonEventTopic()
+								.isEmpty())
+						.map(AbstractCompareWithDependencyOnServiceCriterion::getTriggerComparisonEventTopic)
+						.toList();
+				if (triggerComparisonEvent.isEmpty()) {
+					return;
+				}
+				final List<String> triggeredEvents = new ArrayList<>();
+				triggerComparisonEvent.forEach(triggerEvent -> getBroker()
+						.subscribe(triggerEvent, event -> {
+							triggeredEvents.add(triggerEvent);
+							if (triggeredEvents.size() == triggerComparisonEvent
+									.size()
+									&& triggeredEvents.containsAll(
+											triggerComparisonEvent)) {
+								tableService.sortTable(table, tableInfo,
+										tableType);
+								tableInstances.clear();
+								tableInstances.addAll(
+										TableExtensions.getTableRows(table));
+								if (bodyDataProvider != null) {
+									bodyDataProvider.refresh();
+								}
+								natTable.refresh();
 							}
-							natTable.refresh();
-						}
-					}));
+						}));
+			}
+		} catch (final Exception e) {
+			getDialogService().error(getToolboxShell(),
+					messages.TableTransform_Error,
+					messages.TableTransform_Sort_Error, e);
 		}
+
 	}
 
 }

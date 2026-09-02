@@ -212,6 +212,11 @@ public class Messages {
 	public String TableTransform_Error;
 
 	/**
+	 * Es gibt Fehler bei der Sortierung der Tabelle
+	 */
+	public String TableTransform_Sort_Error;
+
+	/**
 	 * Es gibt Fehler bei der Tabellengenerierung der Vergleichsplanung. Es wird
 	 * nur die Tabelle der Originalplanung angezeigt.
 	 */
