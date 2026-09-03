@@ -212,7 +212,7 @@ public class Messages {
 	public String TableTransform_Error;
 
 	/**
-	 * Es gibt Fehler bei der Sortierung der Tabelle
+	 * Die Sortierung der Tabelle ist nicht erfolgreich
 	 */
 	public String TableTransform_Sort_Error;
 

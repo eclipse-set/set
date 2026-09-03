@@ -623,8 +623,9 @@ public final class TableServiceImpl implements TableService {
 				transformTableThreads.stream()
 						.map(t -> getTableInfo(t.getKey()))
 						.filter(tableInfo -> {
-							final TableStatus status = tablesStatus.get(tableInfo);
-							return status.getSortException().isPresent()
+							final TableStatus status = tablesStatus
+									.get(tableInfo);
+							return !status.isSortSuccess()
 									|| status.getTransformException()
 											.isPresent();
 						});
@@ -779,15 +780,13 @@ public final class TableServiceImpl implements TableService {
 	@Override
 	public void sortTable(final Table table, final TableInfo tableInfo,
 			final TableType tableTypes) {
-		try {
-			final Comparator<RowGroup> comparator = getModelService(tableInfo)
-					.getRowGroupComparator(tableTypes);
-			ECollections.sort(table.getTablecontent().getRowgroups(),
-					comparator);
-		} catch (final Exception e) {
-			tablesStatus.get(tableInfo).setSortException(e);
-		}
-
+		final TableRowGroupComparator rowGroupComparator = getRowGroupComparator(
+				tableInfo, tableTypes);
+		ECollections.sort(table.getTablecontent().getRowgroups(),
+				rowGroupComparator);
+		tablesStatus.get(tableInfo)
+				.setSortSuccess(
+						rowGroupComparator.getCriterionsException().isEmpty());
 	}
 
 	@Override

@@ -23,8 +23,7 @@ public class TableStatus {
 	private boolean containsPlanChanged;
 	private Optional<Exception> transformException;
 	private boolean isEmpty;
-
-	private Optional<Exception> sortException;
+	private boolean sortSuccess;
 
 	/**
 	 * 
@@ -129,15 +128,15 @@ public class TableStatus {
 	/**
 	 * @return the sort exception
 	 */
-	public Optional<Exception> getSortException() {
-		return sortException;
+	public boolean isSortSuccess() {
+		return sortSuccess;
 	}
 
 	/**
-	 * @param sortException
-	 *            the sort exception
+	 * @param sortSuccess
+	 *            the sort
 	 */
-	public void setSortException(final Exception sortException) {
-		this.sortException = Optional.ofNullable(sortException);
+	public void setSortSuccess(final boolean sortSuccess) {
+		this.sortSuccess = sortSuccess;
 	}
 }
