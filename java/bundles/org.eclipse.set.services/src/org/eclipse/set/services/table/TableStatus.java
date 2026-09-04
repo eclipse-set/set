@@ -21,8 +21,9 @@ public class TableStatus {
 	private boolean containsErrors;
 	private boolean containsStateChanged;
 	private boolean containsPlanChanged;
-	private Optional<String> errorMessages;
+	private Optional<Exception> transformException;
 	private boolean isEmpty;
+	private boolean sortSuccess;
 
 	/**
 	 * 
@@ -38,7 +39,7 @@ public class TableStatus {
 		containsErrors = false;
 		containsPlanChanged = false;
 		containsStateChanged = false;
-		errorMessages = Optional.empty();
+		transformException = Optional.empty();
 		isEmpty = false;
 	}
 
@@ -91,15 +92,22 @@ public class TableStatus {
 	 * @return true, if table non transformable
 	 */
 	public boolean isNonTransformable() {
-		return errorMessages.isPresent();
+		return transformException.isPresent();
 	}
 
 	/**
-	 * @param errorMessages
-	 *            the error messages by table transformation
+	 * @param e
+	 *            the exception by table transformation
 	 */
-	public void setErrorMessages(final String errorMessages) {
-		this.errorMessages = Optional.ofNullable(errorMessages);
+	public void setTransformException(final Exception e) {
+		this.transformException = Optional.ofNullable(e);
+	}
+
+	/**
+	 * @return the exception by table transformation
+	 */
+	public Optional<Exception> getTransformException() {
+		return transformException;
 	}
 
 	/**
@@ -115,5 +123,20 @@ public class TableStatus {
 	 */
 	public void setEmpty(final boolean value) {
 		isEmpty = value;
+	}
+
+	/**
+	 * @return the sort exception
+	 */
+	public boolean isSortSuccess() {
+		return sortSuccess;
+	}
+
+	/**
+	 * @param sortSuccess
+	 *            the sort
+	 */
+	public void setSortSuccess(final boolean sortSuccess) {
+		this.sortSuccess = sortSuccess;
 	}
 }
