@@ -98,7 +98,7 @@ public class SelectionMultiValueDialog extends AbstractSelectionDialog<String> {
 		setMessage(dialogMessage);
 		this.selectAllButtonLabel = selectAllButtonLabel;
 		this.deselectAllButtonLabel = deselectAllButtonLabel;
-		this.items = items;
+		this.items = items.stream().sorted(String::compareTo).toList();
 		this.okButtonLabel = okButtonLabel;
 		this.cancelButtonLabel = cancelButtonLabel;
 		setInitialSelection(items);

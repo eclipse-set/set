@@ -10,9 +10,7 @@ package org.eclipse.set.feature.table.overview;
 
 import static org.eclipse.set.basis.constants.ToolboxConstants.*;
 
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -27,7 +25,6 @@ import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.e4.core.services.events.IEventBroker;
@@ -328,8 +325,13 @@ public class TableOverviewPart extends BasePart {
 				.toList();
 		try {
 			final List<TableToExportPath> filterConfirmOverwriteTable = filterConfirmOverwriteTable(
-					tablesToExport, getToolboxShell(), getDialogService(),
-					outputDir);
+					tablesToExport, getToolboxShell(), getDialogService());
+			if (filterConfirmOverwriteTable.isEmpty()) {
+				getDialogService().openInformation(getToolboxShell(),
+						messages.TableExportPart_TaskMsg,
+						messages.TableExportPart_NoTable);
+				return;
+			}
 			final IRunnableWithProgress exportThread = new IRunnableWithProgress() {
 				@Override
 				public void run(final IProgressMonitor monitor)
@@ -339,8 +341,7 @@ public class TableOverviewPart extends BasePart {
 					Threads.stopCurrentOnCancel(monitor);
 					exportService.exportMultiTable(ExportType.INVENTORY_RECORDS,
 							filterConfirmOverwriteTable, getModelSession(),
-							compileService, getDialogService(), tableType,
-							controlAreaIds, monitor,
+							compileService, tableType, controlAreaIds, monitor,
 							OverwriteHandling.forCheckbox(true),
 							new ExceptionHandler(getToolboxShell(),
 									getDialogService()));
@@ -368,59 +369,25 @@ public class TableOverviewPart extends BasePart {
 		}
 	}
 
-	private static List<TableToExportPath> filterConfirmOverwriteTable(
+	private List<TableToExportPath> filterConfirmOverwriteTable(
 			final List<TableToExportPath> tablesToExport, final Shell shell,
-			final DialogService dialogService, final String outputDir)
-			throws IOException {
-		final Set<TableToExportPath> alreadyExistExport = getAlreadyExistExport(
-				tablesToExport, outputDir);
-		if (alreadyExistExport.isEmpty()) {
-			return tablesToExport;
-		}
-		final List<TableToExportPath> result = new ArrayList<>(tablesToExport);
-		result.removeIf(t -> alreadyExistExport.stream()
-				.anyMatch(exported -> exported.tableInfo()
-						.shortcut()
-						.equals(t.tableInfo().shortcut())));
-		final List<String> selectItems = alreadyExistExport.stream()
+			final DialogService dialogService) {
+		final Map<Path, String> collect = tablesToExport.stream()
+				.flatMap(t -> t.toPathAndDisplayName().entrySet().stream())
+				.collect(Collectors.toMap(Entry::getKey, Entry::getValue));
+		final Collection<String> confirmationOverwriteFiles = exportService
+				.getConfirmationOverwriteFiles(collect, shell,
+						files -> dialogService.confirmOverwriteMultiFile(shell,
+								files, IDialogConstants.OK_LABEL, null))
+				.values();
 
-				.map(t -> t.tableInfo().nameInfo().getFullDisplayName())
-				.sorted()
+		return tablesToExport.stream()
+				.filter(t -> confirmationOverwriteFiles.stream()
+						.anyMatch(name -> t.tableInfo()
+								.nameInfo()
+								.getFullDisplayName()
+								.equals(name)))
 				.toList();
-		final List<String> confirmedOverwirteFiles = dialogService
-				.confirmOverwriteMultiFile(shell, selectItems,
-						IDialogConstants.OK_LABEL, null);
-		final List<TableToExportPath> confirmOverwrite = alreadyExistExport
-				.stream()
-				.filter(table -> confirmedOverwirteFiles.contains(
-						table.tableInfo().nameInfo().getFullDisplayName()))
-				.toList();
-		result.addAll(confirmOverwrite);
-		return result;
-	}
-
-	private static Set<TableToExportPath> getAlreadyExistExport(
-			final List<TableToExportPath> tablesToExport,
-			final String outputDir) throws IOException {
-		final Path outDir = Path.of(outputDir);
-		if (!Files.exists(outDir) || !Files.isDirectory(outDir)) {
-			throw new IllegalArgumentException("outputDir should be Directory"); //$NON-NLS-1$
-		}
-		final Set<TableToExportPath> alreadyExistExportTable = new HashSet<>();
-		try (Stream<Path> filesPath = Files.walk(Path.of(outputDir))) {
-			filesPath.forEach(p -> {
-				final String exportedFileName = p.getFileName().toString();
-				final Optional<TableToExportPath> exportedTable = tablesToExport
-						.stream()
-						.filter(t -> t.getExportFilesName()
-								.contains(exportedFileName))
-						.findFirst();
-				if (exportedTable.isPresent()) {
-					alreadyExistExportTable.add(exportedTable.get());
-				}
-			});
-		}
-		return alreadyExistExportTable;
 	}
 
 	private Pt1TableCategory getTableCategory() {
