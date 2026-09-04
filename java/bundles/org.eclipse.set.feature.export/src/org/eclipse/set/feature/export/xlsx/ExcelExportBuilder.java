@@ -22,15 +22,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.xssf.usermodel.XSSFRichTextString;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.set.basis.FreeFieldInfo;
@@ -41,13 +45,18 @@ import org.eclipse.set.basis.constants.ExportType;
 import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.basis.exceptions.FileExportException;
 import org.eclipse.set.feature.export.pdf.TableToTableDocument;
+import org.eclipse.set.model.tablemodel.CellContent;
 import org.eclipse.set.model.tablemodel.CompareFootnoteContainer;
+import org.eclipse.set.model.tablemodel.CompareStateCellContent;
 import org.eclipse.set.model.tablemodel.CompareTableCellContent;
 import org.eclipse.set.model.tablemodel.CompareTableFootnoteContainer;
 import org.eclipse.set.model.tablemodel.Footnote;
 import org.eclipse.set.model.tablemodel.FootnoteContainer;
+import org.eclipse.set.model.tablemodel.PlanCompareRow;
 import org.eclipse.set.model.tablemodel.SimpleFootnoteContainer;
+import org.eclipse.set.model.tablemodel.StringCellContent;
 import org.eclipse.set.model.tablemodel.Table;
+import org.eclipse.set.model.tablemodel.TableCell;
 import org.eclipse.set.model.tablemodel.TableRow;
 import org.eclipse.set.model.tablemodel.extensions.CellContentExtensions;
 import org.eclipse.set.model.tablemodel.extensions.TableCellExtensions;
@@ -79,19 +88,17 @@ public class ExcelExportBuilder implements TableExport {
 	private static final String TEMPLATE_DIR = "./data/export/excel"; //$NON-NLS-1$
 	private static final String FOOTNOTE_SHEET_NAME = "Bemerkungen"; //$NON-NLS-1$
 
+	private static Font cellNewValueFont;
+	private static Font cellOldValueFont;
+	private static CellStyle compareTableRowStyle;
+	private static CellStyle compareTableCellStyle;
+
+	private static CellStyle compareTableRowStyleFirstCell;
+
+	private static CellStyle compareTableRowStyleLastCell;
+
 	private static int getFirstRowForContent(final Sheet sheet) {
 		return getHeaderLastRowIndex(sheet) + 1;
-	}
-
-	private static Table getTableToBeExported(
-			final Map<TableType, Table> tables) {
-		final Table invTable = tables.get(TableType.FINAL);
-		if (invTable != null) {
-			return invTable;
-		}
-		// if we do not have a final table we export the table of the single
-		// container of a state
-		return tables.get(TableType.SINGLE);
 	}
 
 	static String[] getColumnHeaders(final Sheet sheet) {
@@ -138,7 +145,7 @@ public class ExcelExportBuilder implements TableExport {
 			final TableType tableType, final Path outputPath,
 			final OverwriteHandling overwriteHandling)
 			throws FileExportException {
-		final Table table = getTableToBeExported(tables);
+		final Table table = tables.get(tableType);
 		final boolean isInlineFootnote = TableExtensions
 				.isInlineFootnote(table);
 		// IMPROVE: this is only a temporary situation for the table
@@ -160,6 +167,7 @@ public class ExcelExportBuilder implements TableExport {
 			final Sheet sheet = workbook.getSheetAt(0);
 			workbook.setSheetName(0, shortcut.substring(0, 1).toUpperCase()
 					+ shortcut.substring(1));
+			createCustomCellAndFont(workbook);
 			// dummy-Header erzeugen für die Transformation
 			final String[] headers = getColumnHeaders(sheet);
 			final int columnCount = headers.length;
@@ -246,11 +254,18 @@ public class ExcelExportBuilder implements TableExport {
 			}
 			final Row sheetRow = contentRowIndex == rowIndex
 					? sheet.getRow(contentRowIndex)
-					: createNewRow(sheet, contentRowIndex, columnCount);
+					: sheet.createRow(contentRowIndex);
+			if (contentRowIndex != rowIndex) {
+				final Cell firstCell = sheetRow.createCell(0);
+				firstCell.getCellStyle().setBorderBottom(BorderStyle.NONE);
+				firstCell.getCellStyle().setBorderTop(BorderStyle.NONE);
+
+			}
 			final FootnoteContainer footnotes = row.getFootnotes();
-			final List<String> contents = getCellContents(row);
 			for (int i = 0; i < columnCount; i++) {
-				final String content = contents.get(i);
+				final TableCell tableCell = row.getCells().get(i);
+				final XSSFRichTextString richTextCell = createRichTextCell(
+						tableCell.getContent());
 				Cell cell = sheetRow.getCell(i + 1);
 
 				if (cell == null) {
@@ -260,20 +275,33 @@ public class ExcelExportBuilder implements TableExport {
 					// If that is the case we take at least the font from the
 					// definitely defined first cell from the header so that all
 					// the cells are using the same font.
-					cell.getCellStyle()
-							.setFont(sheet.getWorkbook()
-									.getFontAt(sheet.getRow(0)
-											.getCell(1)
-											.getCellStyle()
-											.getFontIndex()));
+					if (tableCell.getContent() instanceof StringCellContent) {
+						cell.getCellStyle()
+								.setFont(getDefaultFont(sheet.getWorkbook()));
+					}
+
 				}
 				if (TableToTableDocument
 						.isRemarkColumn(row.getCells().get(i))) {
-					fillFootnoteCell(cell, content, allFootnotes, footnotes,
-							inlineFootnote);
+					fillFootnoteCell(cell, richTextCell, allFootnotes,
+							footnotes, inlineFootnote);
 					continue;
 				}
-				cell.setCellValue(content);
+
+				if (tableCell.getContent() instanceof CompareTableCellContent) {
+					if (row instanceof PlanCompareRow) {
+						if (i == 0) {
+							cell.setCellStyle(compareTableRowStyleFirstCell);
+						} else if (i == columnCount) {
+							cell.setCellStyle(compareTableRowStyleLastCell);
+						} else {
+							cell.setCellStyle(compareTableRowStyle);
+						}
+					} else {
+						cell.setCellStyle(compareTableCellStyle);
+					}
+				}
+				cell.setCellValue(richTextCell);
 			}
 			// Auto adjust row height
 			sheetRow.setHeight((short) -1);
@@ -297,6 +325,46 @@ public class ExcelExportBuilder implements TableExport {
 		}).toList();
 	}
 
+	private static XSSFRichTextString createRichTextCell(
+			final CellContent content) {
+		return switch (content) {
+			case final StringCellContent stringContent -> new XSSFRichTextString(
+					CellContentExtensions.getPlainStringValue(stringContent));
+			case final CompareTableCellContent compareTableContent -> createRichTextCell(
+					compareTableContent.getMainPlanCellContent());
+			case final CompareStateCellContent compareStateContent -> createRichTextCell(
+					compareStateContent);
+			default -> throw new IllegalArgumentException(
+					"Unexpected value: " + content);
+		};
+	}
+
+	private static XSSFRichTextString createRichTextCell(
+			final CompareStateCellContent compareStateContent) {
+		final Iterable<String> newValues = CellContentExtensions
+				.getStringValueIterable(compareStateContent.getNewValue());
+		final Iterable<String> oldValues = CellContentExtensions
+				.getStringValueIterable(compareStateContent.getOldValue());
+		final String newValuesStr = Streams.stream(newValues)
+				.collect(Collectors.joining(System.lineSeparator()));
+		final String oldValuesStr = Streams.stream(oldValues)
+				.collect(Collectors.joining(System.lineSeparator()));
+		final String textValue = Stream.of(newValuesStr, oldValuesStr)
+				.collect(Collectors.joining(System.lineSeparator()));
+		final XSSFRichTextString richtText = new XSSFRichTextString(textValue);
+		if (newValuesStr.isEmpty()) {
+			richtText.applyFont(0, textValue.length(), cellOldValueFont);
+		} else if (oldValuesStr.isEmpty()) {
+			richtText.applyFont(0, textValue.length(), cellNewValueFont);
+		} else {
+			richtText.applyFont(0, newValuesStr.length(), cellNewValueFont);
+			richtText.applyFont(newValuesStr.length() + 1, textValue.length(),
+					cellOldValueFont);
+		}
+
+		return richtText;
+	}
+
 	private static List<Footnote> getFootnotes(
 			final FootnoteContainer fnContainer) {
 		if (fnContainer == null) {
@@ -315,7 +383,8 @@ public class ExcelExportBuilder implements TableExport {
 	}
 
 	private static void fillFootnoteCell(final Cell cell,
-			final String cellContent, final List<FootnoteInfo> allFootnotes,
+			final XSSFRichTextString richText,
+			final List<FootnoteInfo> allFootnotes,
 			final FootnoteContainer fnContainer, final boolean inlineFootnote) {
 		final List<Footnote> footnotes = getFootnotes(fnContainer);
 		final List<FootnoteInfo> fnInfo = TableToTableDocument
@@ -324,6 +393,7 @@ public class ExcelExportBuilder implements TableExport {
 								fn))
 						.toList());
 		final StringBuilder builder = new StringBuilder();
+		final String cellContent = richText.getString();
 		if (!cellContent.isEmpty() && !cellContent.isBlank()) {
 			builder.append(cellContent);
 			builder.append(TableToTableDocument.FOOTNOTE_INLINE_TEXT_SEPARATOR);
@@ -335,26 +405,8 @@ public class ExcelExportBuilder implements TableExport {
 						? TableToTableDocument.FOOTNOTE_INLINE_TEXT_SEPARATOR
 						: TableToTableDocument.FOOTNOTE_MARK_SEPRATOR));
 		builder.append(footnoteValue);
-		cell.setCellValue(builder.toString());
-	}
-
-	@SuppressWarnings("resource")
-	private static Row createNewRow(final Sheet sheet, final int rowIndex,
-			final int maxColIndex) {
-		final Row cloneRow = sheet.createRow(rowIndex);
-		final Workbook workbook = sheet.getWorkbook();
-		for (int i = 0; i <= maxColIndex; i++) {
-			final Optional<Cell> cellAt = getCellAt(sheet, rowIndex - 1, i);
-			final Cell newCell = cloneRow.createCell(i);
-			if (cellAt.isPresent()) {
-				final CellStyle cloneStyle = workbook.createCellStyle();
-				cloneStyle.cloneStyleFrom(cellAt.get().getCellStyle());
-				cloneStyle.setBorderTop(BorderStyle.NONE);
-				cloneStyle.setBorderBottom(BorderStyle.NONE);
-				newCell.setCellStyle(cloneStyle);
-			}
-		}
-		return cloneRow;
+		richText.setString(builder.toString());
+		cell.setCellValue(richText);
 	}
 
 	private static void addTableSpans(final Sheet sheet,
@@ -392,6 +444,122 @@ public class ExcelExportBuilder implements TableExport {
 
 	}
 
+	private static void createCustomCellAndFont(final Workbook workbook) {
+		createCellNewValueFont(workbook);
+		createCellOldValueFont(workbook);
+		createCompareTableCellStyle(workbook);
+		createCompareTableRowStyle(workbook);
+		createCompareTableRowStyleFirstCell(workbook);
+		createCompareTableRowStyleLastCell(workbook);
+	}
+
+	private static void createCellNewValueFont(final Workbook workbook) {
+		if (cellNewValueFont != null) {
+			return;
+		}
+		final Font defaultFont = getDefaultFont(workbook);
+		cellNewValueFont = workbook.createFont();
+
+		cellNewValueFont.setFontName(defaultFont.getFontName());
+		cellNewValueFont
+				.setFontHeightInPoints(defaultFont.getFontHeightInPoints());
+		cellNewValueFont.setColor(IndexedColors.RED.getIndex());
+	}
+
+	private static void createCellOldValueFont(final Workbook workbook) {
+		if (cellOldValueFont != null) {
+			return;
+		}
+		final Font defaultFont = getDefaultFont(workbook);
+		cellOldValueFont = workbook.createFont();
+		cellOldValueFont.setFontName(defaultFont.getFontName());
+		cellOldValueFont
+				.setFontHeightInPoints(defaultFont.getFontHeightInPoints());
+		cellOldValueFont.setColor(IndexedColors.YELLOW.getIndex());
+		cellOldValueFont.setStrikeout(true);
+	}
+
+	private static Font getDefaultFont(final Workbook workbook) {
+		return workbook.getFontAt(workbook.getSheetAt(0)
+				.getRow(0)
+				.getCell(1)
+				.getCellStyle()
+				.getFontIndex());
+	}
+
+	private static void createCompareTableCellStyle(final Workbook workbook) {
+		if (compareTableCellStyle != null) {
+			return;
+		}
+		compareTableCellStyle = workbook.createCellStyle();
+		compareTableCellStyle.setBorderBottom(BorderStyle.MEDIUM);
+		compareTableCellStyle
+				.setBottomBorderColor(IndexedColors.BLUE.getIndex());
+
+		compareTableCellStyle.setBorderTop(BorderStyle.MEDIUM);
+		compareTableCellStyle.setTopBorderColor(IndexedColors.BLUE.getIndex());
+
+		compareTableCellStyle.setBorderLeft(BorderStyle.MEDIUM);
+		compareTableCellStyle.setLeftBorderColor(IndexedColors.BLUE.getIndex());
+
+		compareTableCellStyle.setBorderRight(BorderStyle.MEDIUM);
+		compareTableCellStyle
+				.setRightBorderColor(IndexedColors.BLUE.getIndex());
+	}
+
+	private static void createCompareTableRowStyle(final Workbook workbook) {
+		if (compareTableRowStyle != null) {
+			return;
+		}
+		compareTableRowStyle = workbook.createCellStyle();
+		compareTableRowStyle.setBorderBottom(BorderStyle.MEDIUM);
+		compareTableRowStyle
+				.setBottomBorderColor(IndexedColors.BLUE.getIndex());
+
+		compareTableRowStyle.setBorderTop(BorderStyle.MEDIUM);
+		compareTableRowStyle.setTopBorderColor(IndexedColors.BLUE.getIndex());
+	}
+
+	private static void createCompareTableRowStyleFirstCell(
+			final Workbook workbook) {
+		if (compareTableRowStyleFirstCell != null) {
+			return;
+		}
+		compareTableRowStyleFirstCell = workbook.createCellStyle();
+
+		compareTableRowStyleFirstCell.setBorderBottom(BorderStyle.MEDIUM);
+		compareTableRowStyleFirstCell
+				.setBottomBorderColor(IndexedColors.BLUE.getIndex());
+
+		compareTableRowStyleFirstCell.setBorderTop(BorderStyle.MEDIUM);
+		compareTableRowStyleFirstCell
+				.setTopBorderColor(IndexedColors.BLUE.getIndex());
+
+		compareTableRowStyleFirstCell.setBorderLeft(BorderStyle.MEDIUM);
+		compareTableRowStyleFirstCell
+				.setLeftBorderColor(IndexedColors.BLUE.getIndex());
+	}
+
+	private static void createCompareTableRowStyleLastCell(
+			final Workbook workbook) {
+		if (compareTableRowStyleLastCell != null) {
+			return;
+		}
+		compareTableRowStyleLastCell = workbook.createCellStyle();
+
+		compareTableRowStyleLastCell.setBorderBottom(BorderStyle.MEDIUM);
+		compareTableRowStyleLastCell
+				.setBottomBorderColor(IndexedColors.BLUE.getIndex());
+
+		compareTableRowStyleLastCell.setBorderTop(BorderStyle.MEDIUM);
+		compareTableRowStyleLastCell
+				.setTopBorderColor(IndexedColors.BLUE.getIndex());
+
+		compareTableRowStyleLastCell.setBorderRight(BorderStyle.MEDIUM);
+		compareTableRowStyleLastCell
+				.setRightBorderColor(IndexedColors.BLUE.getIndex());
+	}
+
 	@Override
 	public void exportTitleboxImage(final Titlebox titlebox, final Path path,
 			final OverwriteHandling overwriteHandling) {
@@ -420,7 +588,7 @@ public class ExcelExportBuilder implements TableExport {
 			final double ppm, final String outputDir,
 			final ToolboxPaths toolboxPaths, final TableType tableType,
 			final OverwriteHandling overwriteHandling) {
-		// do nothing
-
+		// donothing
 	}
+
 }
