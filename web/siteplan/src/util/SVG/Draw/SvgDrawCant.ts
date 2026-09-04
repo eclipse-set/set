@@ -21,7 +21,7 @@ export default class SvgDrawCant extends AbstractDrawSVG{
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public drawSVG<T extends object> (data: T, _label?: Label | undefined): ISvgElement {
+  public drawSVG<T extends object> (data: T, _label?: Label | undefined): ISvgElement | null {
     const svgImage = this.getSvgFromCatalog(data)
     if (svgImage === null) {
       console.warn('Unsupported object')
