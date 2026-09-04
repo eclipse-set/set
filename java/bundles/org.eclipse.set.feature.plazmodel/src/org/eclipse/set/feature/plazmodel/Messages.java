@@ -109,4 +109,9 @@ public class Messages {
 	 */
 	public String PlazExport_ExportProcess_ErrorDialog_Message;
 
+	/**
+	 * Ausblenden technische Meldungen
+	 */
+	public String PlazModellPart_ActiveDefaultFilterCheckbox;
+
 }
