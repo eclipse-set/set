@@ -49,6 +49,7 @@ import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensi
 import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
 import static extension org.eclipse.set.utils.math.BigIntegerExtensions.*
 import static extension org.eclipse.set.utils.math.DoubleExtensions.*
+import org.eclipse.set.model.planpro.PZB.PZB_Element_Zuordnung_BP_AttributeGroup
 
 /**
  * Table transformation for a PZB-Tabelle (Sskp)
@@ -84,37 +85,40 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 			val isPZB2000 = pzb.PZBArt?.wert ===
 				ENUMPZBArt.ENUMPZB_ART_2000_HZ ||
 				pzb.PZBArt?.wert === ENUMPZBArt.ENUMPZB_ART_1000_2000_HZ
-			val fstrDwegs = pzb?.fstrDWegs
+			pzb.PZBElementZuordnungBP.forEach [
+				val fstrDwegs = pzb?.getFstrDWegs(
+					IDPZBElementBezugspunkt?.value).toList
 
-			if (!isPZB2000 || fstrDwegs.nullOrEmpty ||
-				pzb.PZBElementGM === null) {
-				val instance = rg.newTableRow()
-				fillRowGroupContent(instance, pzb, null)
-			} else {
-				pzb?.fstrDWegs?.forEach [
+				if (!isPZB2000 || fstrDwegs.nullOrEmpty ||
+					pzb.PZBElementGM === null) {
 					val instance = rg.newTableRow()
-					fillRowGroupContent(instance, pzb, it)
-				]
-			}
+					fillRowContent(instance, pzb, it, null)
+				} else {
+					fstrDwegs.forEach [ dweg |
+						val instance = rg.newTableRow()
+						fillRowContent(instance, pzb, it, dweg)
+					]
+				}
+			]
 		}
 
 		return factory.table
 	}
 
-	private def fillRowGroupContent(TableRow instance, PZB_Element pzb,
+	private def fillRowContent(TableRow instance, PZB_Element pzb,
+		PZB_Element_Zuordnung_BP_AttributeGroup pzbElementZuordnungBP,
 		Fstr_DWeg dweg) {
-
 		val pzbGUEs = (pzb.container.PZBElement.map[PZBElementGUE].filterNull.
 			filter[IDPZBElementMitnutzung?.value === pzb] +
 			#[pzb.PZBElementGUE]).filterNull
-
+		val bezugsElement = pzbElementZuordnungBP?.IDPZBElementBezugspunkt?.
+			value
 		// A: Sskp.Bezug.BezugsElement
-		fillIterable(
+		fill(
 			instance,
 			cols.getColumn(Bezugselement),
-			pzb,
-			[bezugsElementBezeichnungen],
-			MIXED_STRING_COMPARATOR
+			bezugsElement,
+			[bezugElementBezeichnung]
 		)
 
 		// B: Sskp.Bezug.Wirkfrequenz
@@ -129,7 +133,6 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 
 		val isPZB2000 = pzb.PZBArt?.wert === ENUMPZBArt.ENUMPZB_ART_2000_HZ ||
 			pzb.PZBArt?.wert === ENUMPZBArt.ENUMPZB_ART_1000_2000_HZ
-
 		if (isPZB2000 && dweg !== null && pzb.PZBElementGM !== null) {
 			// C: Sskp.PZB_Schutzstrecke.PZB_Schutzpunkt
 			fill(
@@ -229,56 +232,57 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 		}
 
 		// G: Sskp.Gleismagnete.Wirksamkeit
-		fillIterable(
+		fill(
 			instance,
 			cols.getColumn(Wirksamkeit),
-			pzb,
+			pzbElementZuordnungBP,
 			[
-				PZBElementZuordnungBP.map [ pzbZuordnungBp |
-					switch (pzbZuordnungBp.wirksamkeit?.wert) {
-						case ENUM_WIRKSAMKEIT_SCHALTBAR_VON_SIGNAL,
-						case ENUM_WIRKSAMKEIT_SONSTIGE: {
-							pzbZuordnungBp.wirksamkeit?.translate
-						}
-						case ENUM_WIRKSAMKEIT_STAENDIG_WIRKSAM: {
-							// IMPROVE: Special case due to model limitatations. A future model should introduce 
-							// separate values for STAENDING_WIRKSAM and STAENDING_AKTIV
-							if (pzb.PZBElementGUE !== null &&
-								pzb.PZBElementGUE.IDPZBElementMitnutzung ===
-									null) {
-								"stä. akt."
-							} else {
-								"stä. wirk."
-							}
+
+				switch (wirksamkeit?.wert) {
+					case ENUM_WIRKSAMKEIT_SCHALTBAR_VON_SIGNAL,
+					case ENUM_WIRKSAMKEIT_SONSTIGE: {
+						wirksamkeit?.translate
+					}
+					case ENUM_WIRKSAMKEIT_STAENDIG_WIRKSAM: {
+						// IMPROVE: Special case due to model limitatations. A future model should introduce 
+						// separate values for STAENDING_WIRKSAM and STAENDING_AKTIV
+						if (pzb.PZBElementGUE !== null &&
+							pzb.PZBElementGUE.IDPZBElementMitnutzung === null) {
+							"stä. akt."
+						} else {
+							"stä. wirk."
 						}
 					}
-				]
-			],
-			null
+				}
+			]
 		)
 
 		// H: Sskp.Gleismagnete.Wirksamkeit_Bedingung
-		val bueSpezifischeSignals = pzb.container.BUESpezifischesSignal.filter [
-			pzb.PZBElementBezugspunkt.filter(Signal).filter [
-				signalReal.signalFunktion.wert === ENUMSignalFunktion.
-					ENUM_SIGNAL_FUNKTION_BUE_UEBERWACHUNGSSIGNAL
-			].exists[signal|signal === IDSignal.value]
-		]
+		val bueSpezifischeSignals = bezugsElement instanceof Signal
+				? pzb.container.BUESpezifischesSignal.filter [
+				IDSignal?.value === bezugsElement &&
+					IDSignal?.value?.signalReal?.signalFunktion?.wert ===
+						ENUMSignalFunktion.
+							ENUM_SIGNAL_FUNKTION_BUE_UEBERWACHUNGSSIGNAL
+			]
+				: #[]
+
 		fillSwitch(
 			instance,
 			cols.getColumn(Wirksamkeit_Bedingung),
 			pzb,
 			new Case<PZB_Element>(
 				[
-					!PZBElementZuordnungFstr.map[IDFstrZugRangier?.value].
-						empty || (PZBElementGUE !== null &&
-						PZBElementZuordnungFstr.exists [
-							wirksamkeitFstr?.wert === ENUMWirksamkeitFstr.
-								ENUM_WIRKSAMKEIT_FSTR_STAENDIG_WIRKSAM_WENN_FAHRSTRASSE_EINGESTELLT
-						])
+					!pzb.PZBElementZuordnungFstr.map[IDFstrZugRangier?.value].
+						empty ||
+						(PZBElementGUE !== null &&
+							pzb.PZBElementZuordnungFstr.exists [
+								wirksamkeitFstr?.wert === ENUMWirksamkeitFstr.
+									ENUM_WIRKSAMKEIT_FSTR_STAENDIG_WIRKSAM_WENN_FAHRSTRASSE_EINGESTELLT
+							])
 				],
 				[
-					PZBElementZuordnungFstr.map [ pzbZuordnung |
+					pzb.PZBElementZuordnungFstr.map [ pzbZuordnung |
 						val wirksamKeit = pzbZuordnung?.wirksamkeitFstr?.
 							translate
 						val fstrZugRangier = pzbZuordnung.IDFstrZugRangier?.
@@ -291,13 +295,13 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 			),
 			new Case<PZB_Element>(
 				[
-					PZBElementZuordnungFstr.exists [
+					pzb.PZBElementZuordnungFstr.exists [
 						wirksamkeitFstr?.wert == ENUMWirksamkeitFstr.
 							ENUM_WIRKSAMKEIT_FSTR_SONSTIGE
 					]
 				],
 				[
-					PZBElementZuordnungFstr.flatMap [
+					pzb.PZBElementZuordnungFstr.flatMap [
 						wirksamkeitFstr?.IDBearbeitungsvermerk
 					].map [
 						value?.bearbeitungsvermerkAllg?.kurztext?.wert
@@ -310,8 +314,8 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				[!bueSpezifischeSignals.empty],
 				[
 					bueSpezifischeSignals.map [
-						IDBUEAnlage?.value?.bezeichnung?.bezeichnungTabelle?.
-							wert
+						IDBUEAnlage?.value?.bezeichnung?.
+							bezeichnungTabelle?.wert
 					]
 				],
 				ITERABLE_FILLING_SEPARATOR,
@@ -320,17 +324,14 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 		)
 
 		// I: Sskp.Gleismagnete.Abstand_Signal_Weiche
-		fillIterable(
+		fill(
 			instance,
 			cols.getColumn(Abstand_Signal_Weiche),
 			pzb,
 			[
-				PZBElementBezugspunkt.filterNull.map [ bezugpunkt |
-					getDistanceSignalTrackSwitch(it, bezugpunkt,
-						getDistanceScale)
-				]
-			],
-			null
+				getDistanceSignalTrackSwitch(it, bezugsElement,
+					getDistanceScale)
+			]
 		)
 
 		// J: Sskp.Gleismagnete.Abstand_GM_2000
@@ -338,17 +339,14 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 			instance,
 			cols.getColumn(Abstand_GM_2000),
 			pzb,
-			[distanceToPZB2000],
+			[distanceToPZB2000(bezugsElement)],
 			MIXED_STRING_COMPARATOR
 		)
 
-		if (pzb.PZBElementZuordnungBP !== null &&
-			pzb.PZBElementZuordnungBP.exists [
-				PZBElementZuordnungINA !== null
-			] && isPZB2000) {
-			val inaGefahrstelles = pzb.PZBElementZuordnungBP.map [
-				INAGefahrstelle
-			].flatten
+		if (pzbElementZuordnungBP !== null &&
+			pzbElementZuordnungBP.PZBElementZuordnungINA !== null &&
+			isPZB2000) {
+			val inaGefahrstelles = pzbElementZuordnungBP.INAGefahrstelle
 
 			val gefahrstelle = inaGefahrstelles.filter [
 				prioritaetGefahrstelle?.wert.intValue === 1
@@ -397,12 +395,12 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				ITERABLE_FILLING_SEPARATOR
 			)
 
-			val bahnSteigKantes = pzb?.PZBElementZuordnungBP?.map [
-				PZBElementZuordnungINA
-			]?.map[IDBahnsteigKante?.value].toList
+			val bahnSteigKante = pzbElementZuordnungBP.PZBElementZuordnungINA.
+				IDBahnsteigKante?.value
 
 			val bahnsteigDistance = SskpBahnsteigUtils.
-				getBahnsteigDistances(bahnSteigKantes, pzb)
+				getBahnsteigDistances(#[bahnSteigKante], pzb)
+
 			// M: Sskp.Ina.Abstand_GM_2000_Bahnsteig.Abstand_GM_2000_Bahnsteig_Anfang
 			fillConditional(
 				instance,
@@ -489,7 +487,6 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				pzb,
 				[""]
 			)
-
 		} else {
 			for (var i = 10; i < 17; i++) {
 				fillBlank(instance, i)
@@ -695,8 +692,10 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 		return 0;
 	}
 
-	private def Iterable<String> distanceToPZB2000(PZB_Element pzb) {
-		if (pzb.PZBArt?.wert === ENUMPZBArt.ENUMPZB_ART_2000_HZ) {
+	private def Iterable<String> distanceToPZB2000(PZB_Element pzb,
+		Basis_Objekt bezugsElement) {
+		if (pzb.PZBArt?.wert === ENUMPZBArt.ENUMPZB_ART_2000_HZ ||
+			!(bezugsElement instanceof Signal)) {
 			return #[]
 		}
 		val pzbGM2000 = pzb.container.PZBElement.filter [ pzbEle |
@@ -706,17 +705,16 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 						ENUMPZBArt.ENUMPZB_ART_1000_2000_HZ) &&
 				pzbEle?.PZBElementGM !== null
 		].toList
-		val bezugspunktSignals = pzb.PZBElementBezugspunkt.filter(Signal)
 		val relevantPZB2000 = pzbGM2000.filter [ pzbEle |
 			if (pzb.PZBArt?.wert === ENUMPZBArt.ENUMPZB_ART_500_HZ) {
 				return pzbEle.PZBElementBezugspunkt.filter(Signal).exists [ signal |
-					bezugspunktSignals.contains(signal)
+					signal === bezugsElement
 				]
 			}
 
 			return pzbEle.PZBZuordnungSignal.map[IDSignal?.value].filterNull.
 				exists [ signal |
-					bezugspunktSignals.contains(signal)
+					signal === bezugsElement
 				]
 		].filterNull
 		return relevantPZB2000.map [ pzbEle |
