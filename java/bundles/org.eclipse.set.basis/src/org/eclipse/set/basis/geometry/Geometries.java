@@ -235,7 +235,7 @@ public class Geometries {
 		// Avoid worst case distance == 0
 		if (distance.equals(BigDecimal.ZERO)) {
 			return new SegmentPosition(segments.getFirst().segment,
-					segments.getFirst().startDistance);
+					BigDecimal.ZERO);
 		}
 
 		// Avoid worst case distance == segment length
