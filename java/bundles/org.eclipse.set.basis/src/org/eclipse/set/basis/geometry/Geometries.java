@@ -248,7 +248,7 @@ public class Geometries {
 							RoundingMode.HALF_UP);
 			if (diff.compareTo(BigDecimal.ZERO) == 0) {
 				return new SegmentPosition(segments.getLast().segment,
-						segments.getLast().startDistance);
+						distance.subtract(segments.getLast().startDistance));
 			}
 			return null;
 		}
