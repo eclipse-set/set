@@ -20,6 +20,7 @@ import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_DWeg
 import org.eclipse.set.model.planpro.PZB.ENUMPZBArt
 import org.eclipse.set.model.planpro.PZB.ENUMWirksamkeitFstr
 import org.eclipse.set.model.planpro.PZB.PZB_Element
+import org.eclipse.set.model.planpro.PZB.PZB_Element_Zuordnung_BP_AttributeGroup
 import org.eclipse.set.model.planpro.PZB.util.PZBValidator
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Ne5
 import org.eclipse.set.model.planpro.Signale.ENUMSignalArt
@@ -38,6 +39,7 @@ import static org.eclipse.set.basis.constants.ToolboxConstants.NUMERIC_COMPARATO
 import static org.eclipse.set.feature.table.pt1.sskp.SskpColumns.*
 
 import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.FahrwegExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FstrZugRangierExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PZBElementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
@@ -49,7 +51,6 @@ import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensi
 import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
 import static extension org.eclipse.set.utils.math.BigIntegerExtensions.*
 import static extension org.eclipse.set.utils.math.DoubleExtensions.*
-import org.eclipse.set.model.planpro.PZB.PZB_Element_Zuordnung_BP_AttributeGroup
 
 /**
  * Table transformation for a PZB-Tabelle (Sskp)
@@ -266,23 +267,25 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 							ENUM_SIGNAL_FUNKTION_BUE_UEBERWACHUNGSSIGNAL
 			]
 				: #[]
-
+		val zuordnungFstr = pzb.PZBElementZuordnungFstr.filter [
+			!(bezugsElement instanceof Signal) ||
+				IDFstrZugRangier?.value?.fstrFahrweg.zielSignal ===
+					bezugsElement
+		]
 		fillSwitch(
 			instance,
 			cols.getColumn(Wirksamkeit_Bedingung),
 			pzb,
 			new Case<PZB_Element>(
 				[
-					!pzb.PZBElementZuordnungFstr.map[IDFstrZugRangier?.value].
-						empty ||
-						(PZBElementGUE !== null &&
-							pzb.PZBElementZuordnungFstr.exists [
-								wirksamkeitFstr?.wert === ENUMWirksamkeitFstr.
-									ENUM_WIRKSAMKEIT_FSTR_STAENDIG_WIRKSAM_WENN_FAHRSTRASSE_EINGESTELLT
-							])
+					!zuordnungFstr.empty || (PZBElementGUE !== null &&
+						zuordnungFstr.exists [
+							wirksamkeitFstr?.wert === ENUMWirksamkeitFstr.
+								ENUM_WIRKSAMKEIT_FSTR_STAENDIG_WIRKSAM_WENN_FAHRSTRASSE_EINGESTELLT
+						])
 				],
 				[
-					pzb.PZBElementZuordnungFstr.map [ pzbZuordnung |
+					zuordnungFstr.map [ pzbZuordnung |
 						val wirksamKeit = pzbZuordnung?.wirksamkeitFstr?.
 							translate
 						val fstrZugRangier = pzbZuordnung.IDFstrZugRangier?.
@@ -295,13 +298,13 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 			),
 			new Case<PZB_Element>(
 				[
-					pzb.PZBElementZuordnungFstr.exists [
+					zuordnungFstr.exists [
 						wirksamkeitFstr?.wert == ENUMWirksamkeitFstr.
 							ENUM_WIRKSAMKEIT_FSTR_SONSTIGE
 					]
 				],
 				[
-					pzb.PZBElementZuordnungFstr.flatMap [
+					zuordnungFstr.flatMap [
 						wirksamkeitFstr?.IDBearbeitungsvermerk
 					].map [
 						value?.bearbeitungsvermerkAllg?.kurztext?.wert
@@ -625,9 +628,9 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				getPointsDistance(pzb, signal).min, scaleValue)
 			val directionSign = topGraphService.
 					isInWirkrichtungOfSignal(signal, pzb) ? "+" : "-"
-			return distance == 0.0
-				? distance.toTableDecimal(scaleValue)
-				: '''«directionSign»«distance.toTableDecimal(scaleValue)»'''
+			return distance == 0.0 ? distance.
+				toTableDecimal(
+					scaleValue) : '''«directionSign»«distance.toTableDecimal(scaleValue)»'''
 		}
 
 		val bueSpezifischesSignal = signal.container.BUESpezifischesSignal.
