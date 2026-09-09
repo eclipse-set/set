@@ -367,6 +367,16 @@ public class Messages {
 	public String ValidationReport_Report_ViewRegion;
 
 	/**
+	 * Meldungen in Layoutdaten
+	 */
+	public String ValidationReport_Report_LayoutRegion;
+
+	/**
+	 * Generell Meldungen
+	 */
+	public String ValidationReport_Report_GeneralRegion;
+
+	/**
 	 * führende Örtlichkeit
 	 */
 	public String ValidationReport_Metadata_Location;

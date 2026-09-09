@@ -157,8 +157,7 @@ public class ValidationPart extends BasePart {
 				// Keep some width at the right side for the scroll bar
 				bounds.width = (int) (bounds.width * 0.98 - 25);
 				// Use internal height or the parent height
-				bounds.height = (int) Math.max(bounds.height - 25.0,
-						size.y * 0.9);
+				bounds.height = (int) Math.max(bounds.height - 25.0, size.y);
 				validationView.setBounds(bounds);
 			};
 			parent.addListener(SWT.Resize, resizeListener);

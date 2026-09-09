@@ -275,6 +275,13 @@ public class ValidationViewModelInfo extends Composite {
 				messages.ValidationReport_Report_ViewRegion,
 				ObjectScope.BETRACHTUNG);
 
+		createReportInfoGroup(expandedSecion,
+				messages.ValidationReport_Report_LayoutRegion,
+				ObjectScope.LAYOUT);
+
+		createReportInfoGroup(expandedSecion,
+				messages.ValidationReport_Report_GeneralRegion, null);
+
 		final Button showTableButton = new Button(expandedSecion, SWT.PUSH);
 		showTableButton.setText(messages.ShowValidationTableMsg);
 		showTableButton.addListener(SWT.Selection, event -> toolboxPartService
@@ -289,7 +296,15 @@ public class ValidationViewModelInfo extends Composite {
 		final List<ValidationProblem> reportInRegion = validationReport
 				.getProblems()
 				.stream()
-				.filter(report -> report.getObjectScope().equals(scope))
+				.filter(report -> {
+					if (scope != null) {
+						return report.getObjectScope() == scope;
+					}
+					return switch (report.getObjectScope()) {
+						case PLAN, BETRACHTUNG, LAYOUT -> false;
+						default -> true;
+					};
+				})
 				.toList();
 		final ToLongFunction<ValidationSeverity> getSeverityCount = severity -> reportInRegion
 				.stream()
