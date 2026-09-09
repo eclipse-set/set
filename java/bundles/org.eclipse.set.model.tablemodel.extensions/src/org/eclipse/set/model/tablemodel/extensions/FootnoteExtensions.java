@@ -19,7 +19,6 @@ import java.util.Set;
 import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 
-import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.model.planpro.BasisTypen.BasisTypenFactory;
@@ -42,6 +41,7 @@ import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.TableRow;
 import org.eclipse.set.model.tablemodel.TablemodelFactory;
 import org.eclipse.set.ppmodel.extensions.SignalRahmenExtensions;
+import org.eclipse.set.ppmodel.extensions.SignalbegriffExtensions;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.eclipse.xtext.xbase.lib.Pair;
 
@@ -299,29 +299,12 @@ public class FootnoteExtensions {
 		}
 		final Signalbegriff_ID_TypeClass signalBegriffId = signalBegriff
 				.getSignalbegriffID();
-		final String prefix = getSignalBregiffIDName(signalBegriffId);
+		final String prefix = SignalbegriffExtensions
+				.getSignalBegriffIDName(signalBegriffId);
 		if (withSymbol && signalBegriffId.getSymbol() != null) {
 			return new Pair<>(prefix, signalBegriffId.getSymbol());
 		}
 		return new Pair<>(prefix, null);
-	}
-
-	/**
-	 * @param signalBegriffId
-	 *            the {@link Signalbegriff_ID_TypeClass}
-	 * @return the name of this signalbegriff
-	 */
-	public static String getSignalBregiffIDName(
-			final Signalbegriff_ID_TypeClass signalBegriffId) {
-		try {
-			return signalBegriffId.eClass()
-					.getEAnnotation(ExtendedMetaData.ANNOTATION_URI)
-					.getDetails()
-					.get("name") //$NON-NLS-1$
-					.replace("_", " "); //$NON-NLS-1$ //$NON-NLS-2$
-		} catch (final Exception e) {
-			return signalBegriffId.eClass().getName();
-		}
 	}
 
 	/**

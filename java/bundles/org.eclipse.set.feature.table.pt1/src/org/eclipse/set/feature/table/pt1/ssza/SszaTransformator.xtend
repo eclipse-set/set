@@ -44,7 +44,6 @@ import org.eclipse.set.utils.table.RowFactory
 import org.eclipse.set.utils.table.TMFactory
 import org.osgi.service.event.EventAdmin
 
-import static org.eclipse.set.feature.table.pt1.sskp.SskpTransformator.*
 import static org.eclipse.set.feature.table.pt1.ssza.SszaColumns.*
 
 import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.*
@@ -54,6 +53,7 @@ import static extension org.eclipse.set.ppmodel.extensions.DatenpunktExtensions.
 import static extension org.eclipse.set.ppmodel.extensions.FmaAnlageExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.PZBElementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
@@ -173,7 +173,7 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 				bezugspunktCase(
 					PZB_Element,
 					[
-						'''GM «PZBArt?.translate» «IDPZBElementZuordnung?.value?.PZBElementZuordnungBP?.map[fillBezugsElement(IDPZBElementBezugspunkt?.value)].join»'''
+						'''GM «PZBArt?.translate» «IDPZBElementZuordnung?.value?.PZBElementZuordnungBP?.map[getBezugElementBezeichnung(IDPZBElementBezugspunkt?.value)].join»'''
 					]
 				),
 				bezugspunktCase(
@@ -578,7 +578,8 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 			topKante.isInRouteDirection(IDStrecke.value)
 		]
 		return isTopKanteRouteSameDirection ===
-			(direction === ENUMAusrichtung.ENUM_AUSRICHTUNG_IN) ? lange : "-" +
-			lange
+			(direction === ENUMAusrichtung.ENUM_AUSRICHTUNG_IN)
+			? lange
+			: "-" + lange
 	}
 }

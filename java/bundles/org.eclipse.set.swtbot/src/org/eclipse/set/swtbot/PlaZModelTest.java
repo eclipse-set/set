@@ -8,7 +8,7 @@
  */
 package org.eclipse.set.swtbot;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 
@@ -17,6 +17,8 @@ import org.eclipse.set.swtbot.table.AbstractTableTest;
 import org.eclipse.set.swtbot.table.TestFailHandle;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+
+import com.google.common.html.HtmlEscapers;
 
 /**
  * Test for changes in PlaZ Model
@@ -59,7 +61,13 @@ public class PlaZModelTest extends AbstractTableTest {
 						.get(columnIndex)
 						.replaceAll(CELL_VALUE_REPLACE_REGEX, "")
 						.replaceAll(ZERO_WIDTH_SPACE, "");
-				assertEquals(referenceValue, cellValue);
+				final String toHtmlString = HtmlEscapers.htmlEscaper()
+						.escape(referenceValue);
+				assertTrue(
+						referenceValue.equals(cellValue)
+								|| toHtmlString.equals(cellValue),
+						getErrorMessage(columnIndex, rowIndex, referenceValue,
+								toHtmlString));
 			}
 		}
 	}

@@ -534,4 +534,14 @@ public class Messages extends AbstractMessageService {
 	 * Lageplan schließen
 	 */
 	public String LoadInvalidCRSDialog_CloseLabel;
+
+	/**
+	 * Alle auswählen
+	 */
+	public String DialogService_selectAll;
+
+	/**
+	 * Auswahl aufheben
+	 */
+	public String DialogService_deselectAll;
 }

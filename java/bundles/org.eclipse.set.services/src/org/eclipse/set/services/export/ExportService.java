@@ -10,16 +10,24 @@ package org.eclipse.set.services.export;
 
 import java.awt.image.BufferedImage;
 import java.nio.file.Path;
+import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.Set;
 import java.util.function.Consumer;
+import java.util.function.UnaryOperator;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.set.basis.FreeFieldInfo;
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.OverwriteHandling;
 import org.eclipse.set.basis.ToolboxPaths;
+import org.eclipse.set.basis.ToolboxPaths.ExportPathExtension;
 import org.eclipse.set.basis.constants.ExportType;
 import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.core.services.dialog.DialogService;
@@ -36,6 +44,129 @@ import org.eclipse.swt.widgets.Shell;
  * @author Schaefer
  */
 public interface ExportService {
+	/**
+	 * @param tableInfo
+	 *            the {@link TableInfo}
+	 * @param pdfPath
+	 *            the path to export pdf file
+	 * @param excelPath
+	 *            the path to export excel file
+	 */
+	public record TableToExportPath(TableInfo tableInfo, Path pdfPath,
+			Path excelPath) {
+
+		/**
+		 * @return the export format with relevant path
+		 */
+		public Map<ExportFormat, Path> getExportFormatAndPaths() {
+			final EnumMap<ExportFormat, Path> hashMap = new EnumMap<>(
+					ExportFormat.class);
+			if (pdfPath != null) {
+				hashMap.put(ExportFormat.PDF, pdfPath);
+			}
+
+			if (excelPath != null) {
+				hashMap.put(ExportFormat.EXCEL, excelPath);
+			}
+			return hashMap;
+		}
+
+		/**
+		 * @return the export path of excel, pdf
+		 */
+		public List<String> getExportFilesName() {
+			return Stream.of(pdfPath, excelPath)
+					.filter(Objects::nonNull)
+					.map(p -> p.getFileName().toString())
+					.toList();
+		}
+
+		/**
+		 * @return get export file paths and display name
+		 */
+		public Map<Path, String> toPathAndDisplayName() {
+			return Stream.of(pdfPath, excelPath)
+					.filter(Objects::nonNull)
+					.collect(Collectors.toMap(p -> p,
+							p -> tableInfo().nameInfo().getFullDisplayName()));
+		}
+
+		/**
+		 * @param tableInfo
+		 *            the {@link TableInfo}
+		 * @param modelSession
+		 *            the {@link IModelSession}
+		 * @param exportType
+		 *            the {@link ExportType}
+		 * @param outdir
+		 *            the output directory
+		 * @param exportFormate
+		 *            the {@link ExportFormat}
+		 * @return the {@link TableToExportPath}
+		 */
+		public static TableToExportPath createInstance(
+				final TableInfo tableInfo, final IModelSession modelSession,
+				final ExportType exportType, final Path outdir,
+				final List<ExportFormat> exportFormate) {
+			Path pdfExportPath = null;
+			if (exportFormate.contains(ExportFormat.PDF)) {
+				pdfExportPath = modelSession.getToolboxPaths()
+						.getTableExportPath(tableInfo.shortcut(), outdir,
+								exportType,
+								ExportPathExtension.TABLE_PDF_EXPORT_EXTENSION);
+			}
+
+			Path excelExportPath = null;
+			if (exportFormate.contains(ExportFormat.EXCEL)) {
+				excelExportPath = modelSession.getToolboxPaths()
+						.getTableExportPath(tableInfo.shortcut(), outdir,
+								exportType,
+								ExportPathExtension.TABLE_XLSX_EXPORT_EXTENSION);
+			}
+			return new TableToExportPath(tableInfo, pdfExportPath,
+					excelExportPath);
+		}
+	}
+
+	/**
+	 * @param pathsWithDisplayName
+	 *            the file path and display name
+	 * @param shell
+	 *            the shell
+	 * @param overwriteConfirmation
+	 *            overwrite confirmation function
+	 * @return the confirmed overwrite files
+	 */
+	default Map<Path, String> getConfirmationOverwriteFiles(
+			final Map<Path, String> pathsWithDisplayName, final Shell shell,
+			final UnaryOperator<List<String>> overwriteConfirmation) {
+		final Map<Path, String> needOverwriteConfirmationFiles = new HashMap<>();
+		final Map<Path, String> result = new HashMap<>();
+		pathsWithDisplayName.forEach((path, displayName) -> {
+			if (path.toFile().exists()) {
+				needOverwriteConfirmationFiles.put(path, displayName);
+			} else {
+				result.put(path, displayName);
+			}
+		});
+		if (needOverwriteConfirmationFiles.isEmpty()) {
+			return pathsWithDisplayName;
+		}
+		final Set<String> filesDisplayName = needOverwriteConfirmationFiles
+				.entrySet()
+				.stream()
+				.map(Entry::getValue)
+				.collect(Collectors.toSet());
+
+		final List<String> confirmOverwriteFiles = overwriteConfirmation
+				.apply(List.copyOf(filesDisplayName));
+		needOverwriteConfirmationFiles.forEach((path, displayName) -> {
+			if (confirmOverwriteFiles.contains(displayName)) {
+				result.put(path, displayName);
+			}
+		});
+		return result;
+	}
 
 	/**
 	 * Whether an implementation exports all, none or some of the provided
@@ -135,7 +266,7 @@ public interface ExportService {
 	 * 
 	 * @param exportType
 	 *            the {@link ExportType}
-	 * @param tableInfos
+	 * @param tablesToExport
 	 *            the tables to export
 	 * @param modelSession
 	 *            the {@link IModelSession}
@@ -147,7 +278,6 @@ public interface ExportService {
 	 *            the {@link TableType}
 	 * @param controlAreaIds
 	 *            the selected control area
-	 * @param exportFormate
 	 * @param outputDir
 	 *            the output directory
 	 * @param monitor
@@ -159,11 +289,10 @@ public interface ExportService {
 	 * @param errorHandler
 	 *            the error handler
 	 */
-	void exportMultiTable(ExportType exportType, List<TableInfo> tableInfos,
-			IModelSession modelSession, TableCompileService compileService,
-			DialogService dialogService, TableType tableType,
-			Set<String> controlAreaIds, List<ExportFormat> exportFormate,
-			String outputDir, IProgressMonitor monitor, Shell shell,
+	void exportMultiTable(ExportType exportType,
+			List<TableToExportPath> tablesToExport, IModelSession modelSession,
+			TableCompileService compileService, TableType tableType,
+			Set<String> controlAreaIds, IProgressMonitor monitor,
 			OverwriteHandling overwriteHandling,
 			Consumer<Exception> errorHandler);
 }

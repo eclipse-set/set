@@ -11,7 +11,8 @@ package org.eclipse.set.feature.plazmodel.table;
 import java.nio.file.Path;
 
 import org.eclipse.nebula.widgets.nattable.NatTable;
-import org.eclipse.set.basis.extensions.PathExtensions;
+import org.eclipse.set.basis.ToolboxPaths.ExportPathExtension;
+import org.eclipse.set.basis.constants.ExportType;
 import org.eclipse.set.basis.files.ToolboxFile;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.feature.plazmodel.Messages;
@@ -39,7 +40,7 @@ public class PlazModelTableView extends AbstractTreeLayerTable {
 			Werkzeugkofferversion: %s
 
 
-			"Lfd. Nr.";"Schweregrad";"Problemart";"Zeilennummer";"Objektart";"Attribut/-gruppe";"Bereich";"Zustand";"Meldung"
+			"Lfd. Nr.";"Schweregrad";"Problemart";"Zeilennummer";"Objektart";"Objekbezeichnung";"Attribut/-gruppe";"Bereich";"Zustand";"Meldung"
 			""";
 
 	private final Messages messages;
@@ -95,7 +96,6 @@ public class PlazModelTableView extends AbstractTreeLayerTable {
 		tableMenuService.addMenuItem(createJumpToTextViewMenuItem(part));
 		tableMenuService.addMenuItem(createJumpToSiteplanMenuItem());
 		natTable = createTable(parent, table);
-
 		return natTable;
 	}
 
@@ -132,10 +132,14 @@ public class PlazModelTableView extends AbstractTreeLayerTable {
 	@Override
 	public void exportCsv() {
 		final Path location = part.getModelSession().getToolboxFile().getPath();
-		final String defaultFileName = String.format(
-				messages.PlazModellPart_ExportCsvFilePattern,
-				PathExtensions.getBaseFileName(location));
+		final String exportFileName = part.getModelSession()
+				.getToolboxPaths()
+				.getTableExportPath(messages.PlazModellPart_ExportCsvFileName,
+						location, ExportType.PLANNING_RECORDS,
+						ExportPathExtension.TABLE_CSV_EXPORT_EXTENSION)
+				.getFileName()
+				.toString();
 		exportCsv(part.getToolboxShell(), part.getDialogService(),
-				messages.PlazModellPart_ExportTitleMsg, defaultFileName);
+				messages.PlazModellPart_ExportTitleMsg, exportFileName);
 	}
 }

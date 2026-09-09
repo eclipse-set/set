@@ -32,6 +32,8 @@ import org.eclipse.emf.ecore.EObject;
  * <em>Message</em>}</li>
  * <li>{@link org.eclipse.set.model.validationreport.ValidationProblem#getObjectArt
  * <em>Object Art</em>}</li>
+ * <li>{@link org.eclipse.set.model.validationreport.ValidationProblem#getObjectDesignation
+ * <em>Object Designation</em>}</li>
  * <li>{@link org.eclipse.set.model.validationreport.ValidationProblem#getAttributeName
  * <em>Attribute Name</em>}</li>
  * <li>{@link org.eclipse.set.model.validationreport.ValidationProblem#getObjectScope
@@ -253,6 +255,31 @@ public interface ValidationProblem extends EObject {
 	 * @generated
 	 */
 	void setObjectArt(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Object Designation</b></em>' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @return the value of the '<em>Object Designation</em>' attribute.
+	 * @see #setObjectDesignation(String)
+	 * @see org.eclipse.set.model.validationreport.ValidationreportPackage#getValidationProblem_ObjectDesignation()
+	 * @model
+	 * @generated
+	 */
+	String getObjectDesignation();
+
+	/**
+	 * Sets the value of the
+	 * '{@link org.eclipse.set.model.validationreport.ValidationProblem#getObjectDesignation
+	 * <em>Object Designation</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
+	 * @param value
+	 *            the new value of the '<em>Object Designation</em>' attribute.
+	 * @see #getObjectDesignation()
+	 * @generated
+	 */
+	void setObjectDesignation(String value);
 
 	/**
 	 * Returns the value of the '<em><b>Attribute Name</b></em>' attribute. <!--

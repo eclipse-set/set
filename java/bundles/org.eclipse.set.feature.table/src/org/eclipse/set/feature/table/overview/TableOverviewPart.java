@@ -12,13 +12,15 @@ import static org.eclipse.set.basis.constants.ToolboxConstants.*;
 
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
+import java.util.Map.Entry;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -29,14 +31,18 @@ import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.e4.core.services.nls.Translation;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
+import org.eclipse.set.basis.OverwriteHandling;
 import org.eclipse.set.basis.Pair;
 import org.eclipse.set.basis.constants.Events;
+import org.eclipse.set.basis.constants.ExportType;
 import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.basis.extensions.Exceptions;
 import org.eclipse.set.basis.threads.Threads;
 import org.eclipse.set.core.services.configurationservice.UserConfigurationService;
+import org.eclipse.set.core.services.dialog.DialogService;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.core.services.part.ToolboxPartService;
 import org.eclipse.set.feature.table.internal.TableServiceUtils;
@@ -44,7 +50,9 @@ import org.eclipse.set.feature.table.messages.Messages;
 import org.eclipse.set.feature.table.overview.TableStatusGroupView.TableSectionControl;
 import org.eclipse.set.model.planpro.PlanPro.Container_AttributeGroup;
 import org.eclipse.set.services.export.ExportService;
+import org.eclipse.set.services.export.ExportService.TableToExportPath;
 import org.eclipse.set.services.export.TableCompileService;
+import org.eclipse.set.services.export.TableExport.ExportFormat;
 import org.eclipse.set.services.table.TableService;
 import org.eclipse.set.services.table.TableStatus;
 import org.eclipse.set.utils.BasePart;
@@ -55,11 +63,13 @@ import org.eclipse.set.utils.events.SelectedControlAreaChangedEvent;
 import org.eclipse.set.utils.events.SelectedControlAreaChangedEvent.ControlAreaValue;
 import org.eclipse.set.utils.events.ToolboxEventHandler;
 import org.eclipse.set.utils.events.ToolboxEvents;
+import org.eclipse.set.utils.exception.ExceptionHandler;
 import org.eclipse.set.utils.table.TableError;
 import org.eclipse.set.utils.table.TableInfo;
 import org.eclipse.set.utils.table.TableInfo.Pt1TableCategory;
 import org.eclipse.set.utils.table.menu.TableMenuService;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Shell;
 import org.osgi.service.event.EventHandler;
 
 import jakarta.annotation.PostConstruct;
@@ -294,6 +304,7 @@ public class TableOverviewPart extends BasePart {
 
 	private void exportAllRelevantTable(
 			final Predicate<TableStatus> tableWithStatus) {
+
 		final Map<TableInfo, TableStatus> tablesStatus = tableService
 				.getTablesStatus(getTableCategory());
 		final Optional<String> optionalOutputDir = getDialogService()
@@ -302,36 +313,81 @@ public class TableOverviewPart extends BasePart {
 		if (optionalOutputDir.isEmpty()) {
 			return;
 		}
-
-		final IRunnableWithProgress exportThread = new IRunnableWithProgress() {
-
-			@Override
-			public void run(final IProgressMonitor monitor)
-					throws InvocationTargetException, InterruptedException {
-				monitor.beginTask(messages.TableExportPart_TaskMsg,
-						tablesStatus.size());
-				Threads.stopCurrentOnCancel(monitor);
-				// TODO
-				monitor.done();
-			}
-		};
-
-		final ProgressMonitorDialog progressMonitorDialog = new ProgressMonitorDialog(
-				getToolboxShell());
+		final String outputDir = optionalOutputDir.get();
+		final List<TableToExportPath> tablesToExport = tablesStatus.entrySet()
+				.stream()
+				.filter(entry -> tableWithStatus.test(entry.getValue()))
+				.map(Entry::getKey)
+				.map(tableInfo -> TableToExportPath.createInstance(tableInfo,
+						getModelSession(), ExportType.PLANNING_RECORDS,
+						Paths.get(outputDir),
+						List.of(ExportFormat.EXCEL, ExportFormat.PDF)))
+				.toList();
 		try {
+			final List<TableToExportPath> filterConfirmOverwriteTable = filterConfirmOverwriteTable(
+					tablesToExport, getToolboxShell(), getDialogService());
+			if (filterConfirmOverwriteTable.isEmpty()) {
+				getDialogService().openInformation(getToolboxShell(),
+						messages.TableExportPart_TaskMsg,
+						messages.TableExportPart_NoTable);
+				return;
+			}
+			final IRunnableWithProgress exportThread = new IRunnableWithProgress() {
+				@Override
+				public void run(final IProgressMonitor monitor)
+						throws InvocationTargetException, InterruptedException {
+					monitor.beginTask(messages.TableExportPart_TaskMsg,
+							filterConfirmOverwriteTable.size());
+					Threads.stopCurrentOnCancel(monitor);
+					exportService.exportMultiTable(ExportType.INVENTORY_RECORDS,
+							filterConfirmOverwriteTable, getModelSession(),
+							compileService, tableType, controlAreaIds, monitor,
+							OverwriteHandling.forCheckbox(true),
+							new ExceptionHandler(getToolboxShell(),
+									getDialogService()));
+					monitor.done();
+				}
+			};
+
+			final ProgressMonitorDialog progressMonitorDialog = new ProgressMonitorDialog(
+					getToolboxShell());
 			progressMonitorDialog.run(true, true, exportThread);
+
+			if (!progressMonitorDialog.getProgressMonitor().isCanceled()) {
+				// export finished
+				getDialogService().openDirectoryAfterExport(getToolboxShell(),
+						Path.of(optionalOutputDir.get()));
+				userConfigService
+						.setLastExportPath(Path.of(optionalOutputDir.get()));
+			}
 		} catch (final Exception e) {
 			if (!Exceptions.isCausedByThreadDeath(e)) {
 				getDialogService().error(getToolboxShell(), e);
+			} else {
+				Thread.currentThread().interrupt();
 			}
 		}
-		if (!progressMonitorDialog.getProgressMonitor().isCanceled()) {
-			// export finished
-			getDialogService().openDirectoryAfterExport(getToolboxShell(),
-					Path.of(optionalOutputDir.get()));
-			userConfigService
-					.setLastExportPath(Path.of(optionalOutputDir.get()));
-		}
+	}
+
+	private List<TableToExportPath> filterConfirmOverwriteTable(
+			final List<TableToExportPath> tablesToExport, final Shell shell,
+			final DialogService dialogService) {
+		final Map<Path, String> collect = tablesToExport.stream()
+				.flatMap(t -> t.toPathAndDisplayName().entrySet().stream())
+				.collect(Collectors.toMap(Entry::getKey, Entry::getValue));
+		final Collection<String> confirmationOverwriteFiles = exportService
+				.getConfirmationOverwriteFiles(collect, shell,
+						files -> dialogService.confirmOverwriteMultiFile(shell,
+								files, IDialogConstants.OK_LABEL, null))
+				.values();
+
+		return tablesToExport.stream()
+				.filter(t -> confirmationOverwriteFiles.stream()
+						.anyMatch(name -> t.tableInfo()
+								.nameInfo()
+								.getFullDisplayName()
+								.equals(name)))
+				.toList();
 	}
 
 	private Pt1TableCategory getTableCategory() {

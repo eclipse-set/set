@@ -14,24 +14,30 @@ import java.util.Comparator
 import java.util.List
 import java.util.Set
 import org.eclipse.emf.common.util.Enumerator
+import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.xmi.XMIException
 import org.eclipse.set.basis.IModelSession
+import org.eclipse.set.basis.constants.ContainerType
 import org.eclipse.set.basis.constants.ValidationResult
 import org.eclipse.set.basis.constants.ValidationResult.Outcome
 import org.eclipse.set.basis.exceptions.CustomValidationProblem
 import org.eclipse.set.basis.files.ToolboxFile
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.core.services.version.PlanProVersionService
+import org.eclipse.set.feature.validation.LayoutInfoRequired
 import org.eclipse.set.feature.validation.Messages
 import org.eclipse.set.feature.validation.utils.FileInfoReader
 import org.eclipse.set.model.planpro.Layoutinformationen.PlanPro_Layoutinfo
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle
 import org.eclipse.set.model.validationreport.ObjectScope
+import org.eclipse.set.model.validationreport.ObjectState
 import org.eclipse.set.model.validationreport.ValidationProblem
 import org.eclipse.set.model.validationreport.ValidationReport
 import org.eclipse.set.model.validationreport.ValidationSeverity
 import org.eclipse.set.model.validationreport.ValidationreportFactory
+
 import org.eclipse.set.utils.ToolboxConfiguration
+import org.eclipse.set.utils.xml.NodeAttributeNameProvider
 import org.eclipse.set.utils.xml.XMLNodeFinder
 import org.xml.sax.SAXParseException
 
@@ -41,7 +47,11 @@ import static java.util.Comparator.nullsLast
 
 import static extension org.eclipse.set.basis.extensions.IModelSessionExtensions.*
 import static extension org.eclipse.set.utils.xml.ObjectMetadataXMLReader.*
-import org.eclipse.set.feature.validation.LayoutInfoRequired
+import static extension org.eclipse.set.utils.xml.XMLNodeFinder.*
+import static extension org.eclipse.set.ppmodel.extensions.MultiContainer_AttributeGroupExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.utils.LSTObjectDesignationExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions.*
+import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt
 
 /**
  * Transforms a {@link IModelSession} into a {@link ValidationReport}.
@@ -81,12 +91,13 @@ class SessionToValidationReportTransformation {
 		report.problems.clear
 		val problems = <ValidationProblem>newLinkedList
 		problems.addAll(
-			session.getValidationResult(PlanPro_Schnittstelle).transform(
-				session?.toolboxFile, session?.toolboxFile?.modelPath))
+			session.getValidationResult(PlanPro_Schnittstelle).
+				transform(session, session?.toolboxFile,
+					session?.toolboxFile?.modelPath))
 		val layoutValidation = session.getValidationResult(PlanPro_Layoutinfo)
 		if (layoutValidation !== null) {
 			problems.addAll(
-				layoutValidation.transform(session?.toolboxFile,
+				layoutValidation.transform(session, session?.toolboxFile,
 					session?.toolboxFile?.layoutPath).filter [
 					!problems.contains(it)
 				]
@@ -107,44 +118,44 @@ class SessionToValidationReportTransformation {
 	}
 
 	def Set<ValidationProblem> transform(ValidationResult validationResult,
-		ToolboxFile toolboxFile, Path sourcePath) {
+		IModelSession session, ToolboxFile toolboxFile, Path sourcePath) {
 		val problems = <ValidationProblem>newLinkedList
 		xmlNodeFinder = new XMLNodeFinder()
 		xmlNodeFinder.read(toolboxFile, sourcePath)
 		validationSourceClass = validationResult.validatedSourceClass
 		problems.addAll(
 			validationResult.xsdErrors.transform(messages.XsdProblemMsg,
-				ValidationSeverity.ERROR, messages.XsdErrorSuccessMsg))
+				session, ValidationSeverity.ERROR, messages.XsdErrorSuccessMsg))
 
 		// transform the XSD problems
 		problems.addAll(
 			validationResult.xsdWarnings.transform(messages.XsdWarningMsg,
-				ValidationSeverity.WARNING, messages.XsdSuccessMsg))
+				session, ValidationSeverity.WARNING, messages.XsdSuccessMsg))
 		problems.addAll(
-			validationResult.ioErrors.transform(messages.IoProblemMsg,
+			validationResult.ioErrors.transform(messages.IoProblemMsg, session,
 				ValidationSeverity.ERROR, messages.IoSuccessMsg))
 
 		// transform custom problems
 		validationResult.customProblems.forEach [
 			problems.add(
-				transform
+				it.transform(session)
 			)
 		]
 		return problems.toSet
 	}
 
 	private def <T extends Exception> List<ValidationProblem> transform(
-		List<T> errors, String type, ValidationSeverity severity,
-		String successMessage) {
+		List<T> errors, String type, IModelSession session,
+		ValidationSeverity severity, String successMessage) {
 		val result = <ValidationProblem>newLinkedList
 		if (errors.empty) {
 			result.add(
-				type.transform(successMessage)
+				type.transform(successMessage, session)
 			)
 		} else {
 			errors.forEach [
 				result.add(
-					transform(type, severity)
+					transform(type, session, severity)
 				)
 			]
 		}
@@ -191,23 +202,25 @@ class SessionToValidationReportTransformation {
 	private def ValidationProblem transform(
 		Exception exception,
 		String type,
+		IModelSession session,
 		ValidationSeverity severity
 	) {
 		val cause = exception.cause
 
 		if (cause instanceof XMIException) {
-			return cause.transformException(type, severity)
+			return cause.transformException(type, session, severity)
 		}
 		if (cause instanceof SAXParseException) {
-			return cause.transformException(type, severity)
+			return cause.transformException(type, session, severity)
 		}
-		return exception.transformException(type, severity)
+		return exception.transformException(type, session, severity)
 	}
 
 	private def dispatch ValidationProblem create ValidationreportFactory.eINSTANCE.createValidationProblem
 	transformException(
 		XMIException exception,
 		String type,
+		IModelSession session,
 		ValidationSeverity severity
 	) {
 		it.type = type
@@ -221,6 +234,10 @@ class SessionToValidationReportTransformation {
 			objectScope = xmlNode.objectScope
 			objectState = xmlNode.objectState
 			attributeName = xmlNode.attributeName
+			val guid = xmlNode.findNearestNodeGUID [
+				nodeName !== NodeAttributeNameProvider.CONTAINER_NODE
+			]
+			objectDesignation = session.getObjectDesignation(guid, objectState)
 		}
 
 		if (objectScope === null || objectScope === ObjectScope.UNKNOWN) {
@@ -237,6 +254,7 @@ class SessionToValidationReportTransformation {
 	transformException(
 		SAXParseException exception,
 		String type,
+		IModelSession session,
 		ValidationSeverity severity
 	) {
 		it.type = type
@@ -250,6 +268,10 @@ class SessionToValidationReportTransformation {
 			objectScope = xmlNode.objectScope
 			objectState = xmlNode.objectState
 			attributeName = xmlNode.attributeName
+			val guid = findNearestNodeGUID(xmlNode, [
+				nodeName != NodeAttributeNameProvider.CONTAINER_NODE
+			])
+			objectDesignation = session.getObjectDesignation(guid, objectState)
 		}
 
 		if (objectScope === null || objectScope === ObjectScope.UNKNOWN) {
@@ -266,6 +288,7 @@ class SessionToValidationReportTransformation {
 	transformException(
 		Exception exception,
 		String type,
+		IModelSession session,
 		ValidationSeverity severity
 	) {
 		it.type = type
@@ -275,6 +298,7 @@ class SessionToValidationReportTransformation {
 		message = exception.transformToMessage
 		objectArt = ""
 		attributeName = ""
+		objectDesignation = ""
 
 		if (validationSourceClass == PlanPro_Layoutinfo) {
 			objectScope = ObjectScope.LAYOUT
@@ -286,7 +310,8 @@ class SessionToValidationReportTransformation {
 
 	private def ValidationProblem create ValidationreportFactory.eINSTANCE.createValidationProblem
 	transform(
-		CustomValidationProblem problem
+		CustomValidationProblem problem,
+		IModelSession session
 	) {
 		type = problem.type
 		severity = problem.severity
@@ -297,6 +322,13 @@ class SessionToValidationReportTransformation {
 		objectScope = problem.objectScope
 		objectState = problem.objectState
 		attributeName = problem.attributeName
+		if (objectState !== ObjectState.NONE) {
+			val node = xmlNodeFinder.findNodeByLineNumber(lineNumber)
+			val guid = node.findNearestNodeGUID [
+				nodeName !== NodeAttributeNameProvider.CONTAINER_NODE
+			]
+			objectDesignation = session.getObjectDesignation(guid, objectState)
+		}
 
 		if (objectScope === null || objectScope === ObjectScope.UNKNOWN) {
 			if (validationSourceClass == PlanPro_Layoutinfo ||
@@ -311,7 +343,8 @@ class SessionToValidationReportTransformation {
 
 	private def ValidationProblem transform(
 		String errorType,
-		String message
+		String message,
+		IModelSession session
 	) {
 		val it = ValidationreportFactory.eINSTANCE.createValidationProblem
 		type = errorType
@@ -386,5 +419,21 @@ class SessionToValidationReportTransformation {
 			return null
 		}
 		return enumService.translate(enumerator).alternative
+	}
+
+	def static String getObjectDesignation(IModelSession session,
+		String objGuid, ObjectState objState) {
+		val containerType = switch (objState) {
+			case FINAL: ContainerType.FINAL
+			case INITIAL: ContainerType.INITIAL
+			case INFO: ContainerType.SINGLE
+			default: null
+		}
+		if (containerType === null || objGuid.nullOrEmpty) {
+			return ""
+		}
+		val container = session.planProSchnittstelle.getContainer(containerType)
+		val EObject obj = container.getObject(Ur_Objekt, objGuid)
+		return obj.getLSTObjectDesignation()
 	}
 }

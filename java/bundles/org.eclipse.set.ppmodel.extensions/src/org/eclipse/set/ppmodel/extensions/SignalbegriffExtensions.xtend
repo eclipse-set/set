@@ -12,6 +12,7 @@ import org.eclipse.set.model.planpro.Signalbegriffe_Struktur.Signalbegriff_ID_Ty
 import org.eclipse.set.model.planpro.Signale.Signal_Rahmen
 import org.eclipse.set.model.planpro.Signale.Signal_Signalbegriff
 import java.util.Collection
+import org.eclipse.emf.ecore.util.ExtendedMetaData
 
 /**
  * This class extends {@link Signal_Signalbegriff}.
@@ -48,5 +49,26 @@ class SignalbegriffExtensions extends BasisObjektExtensions {
 	def static <T extends Signalbegriff_ID_TypeClass> boolean containsSignalbegriffID(
 		Collection<Signal_Signalbegriff> signalBegriffe, Class<T> type) {
 		return signalBegriffe.exists[hasSignalbegriffID(type)]
+	}
+
+	def static String getSignalBegriffIDName(
+		Signal_Signalbegriff signalSignalBegriff) {
+			return signalSignalBegriff?.signalbegriffID?.signalBegriffIDName
+	}
+
+	/**
+	 * @param signalBegriffId
+	 *            the {@link Signalbegriff_ID_TypeClass}
+	 * @return the name of this signalbegriff
+	 */
+	def static String getSignalBegriffIDName(
+		Signalbegriff_ID_TypeClass signalBegriffID) {
+		try {
+			return signalBegriffID.eClass.getEAnnotation(
+				ExtendedMetaData.ANNOTATION_URI).details.get("name").
+				replace("_", " ")
+		} catch (Exception e) {
+			return signalBegriffID.eClass.name
+		}
 	}
 }

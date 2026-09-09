@@ -9,6 +9,7 @@
 package org.eclipse.set.ppmodel.extensions
 
 import java.math.BigInteger
+import java.util.Iterator
 import java.util.LinkedList
 import java.util.List
 import java.util.Optional
@@ -55,7 +56,6 @@ import static extension org.eclipse.set.ppmodel.extensions.SignalbegriffExtensio
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspKomponenteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 import static extension org.eclipse.set.utils.math.BigIntegerExtensions.*
-import java.util.Iterator
 
 /**
  * This class extends {@link Fstr_Zug_Rangier}.
@@ -134,7 +134,6 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 	 */
 	def static List<GestellteWeiche> getEntscheidungsweichen(
 		Fstr_Zug_Rangier fstrZugRangier, List<ENUMGleisart> notUsable) {
-
 		val fstrFahrweg = fstrZugRangier.fstrFahrweg
 
 		val path = fstrFahrweg.path

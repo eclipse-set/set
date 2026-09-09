@@ -11,6 +11,7 @@ package org.eclipse.set.utils.xml;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.function.Predicate;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -135,7 +136,20 @@ public class XMLNodeFinder {
 	 * @return guid of the object contain this node
 	 */
 	public static String findNearestNodeGUID(final PlanProXMLNode node) {
-		if (node == null) {
+		// Walk up the XML tree
+		return findNearestNodeGUID(node.getParent(), n -> true);
+	}
+
+	/**
+	 * @param node
+	 *            the node
+	 * @param predicate
+	 *            the predicate for relevant node
+	 * @return guid of the object contain this node
+	 */
+	public static String findNearestNodeGUID(final PlanProXMLNode node,
+			final Predicate<PlanProXMLNode> predicate) {
+		if (node == null || !predicate.test(node)) {
 			return null;
 		}
 		// Try to find <Identitaet><Wert>[GUID]</Identitaet></Wert>
@@ -152,7 +166,7 @@ public class XMLNodeFinder {
 		}
 
 		// Walk up the XML tree
-		return findNearestNodeGUID(node.getParent());
+		return findNearestNodeGUID(node.getParent(), predicate);
 	}
 
 	private static PlanProXMLNode getChildNodeByName(final PlanProXMLNode node,

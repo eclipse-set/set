@@ -30,11 +30,13 @@ public interface TopologicalGraphService {
 	 *            the target point
 	 * @param limit
 	 *            maximum path distance to consider
+	 * @param includeIncompletePath
+	 *            include incomplete path or not
 	 * @return a list of all possible not-self intersecting paths between the
 	 *         two points, include not complete path
 	 */
 	List<TopPath> findAllPathsBetween(final TopPoint from, final TopPoint to,
-			int limit);
+			int limit, boolean includeIncompletePath);
 
 	/**
 	 * @param from
