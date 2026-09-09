@@ -169,6 +169,13 @@ http://www.eclipse.org/legal/epl-v20.html
 	<xsl:template match="Row">
 		<fo:table-row xsl:use-attribute-sets="body-row-style" keep-together.within-page="always">
 			<fo:table-cell xsl:use-attribute-sets="body-row-cell-style">
+				<xsl:if test="Cell/CompareProjectContent">
+					<fo:marker marker-class-name="ComparePageText">
+						<fo:inline border-width="0.2mm" border-style="solid" border-color="#0066FF" color="#0066FF" padding="2px">
+								<xsl:text>Änderung gegenüber vorheriger Ausgabe</xsl:text>
+						</fo:inline>
+					</fo:marker>
+				</xsl:if>
 				<fo:block>
 					<xsl:value-of select="@group-number" />
 				</fo:block>
@@ -189,7 +196,7 @@ http://www.eclipse.org/legal/epl-v20.html
 	</xsl:template>
 
 	<xsl:template match="Row[not(Cell[@column-number = '1'])]">
-		<fo:table-row xsl:use-attribute-sets="body-row-style" keep-with-previous.within-page="always">
+		<fo:table-row xsl:use-attribute-sets="body-row-style" keep-with-previous.within-page="always" keep-together.within-page="always">
 			<fo:table-cell xsl:use-attribute-sets="body-row-cell-style">
 				<fo:block>
 					<xsl:value-of select="@group-number" />
@@ -209,16 +216,15 @@ http://www.eclipse.org/legal/epl-v20.html
 				<fo:table-row>
 					<fo:table-cell height="70mm">
 						<fo:table table-layout="fixed"
-											width="100%"
-											height="100%">
+											width="100%">
 							<fo:table-column column-width="100%"/>
 							<fo:table-body>
-								<fo:table-row height="60mm">
+								<fo:table-row height="65mm">
 									<fo:table-cell>
 										<fo:block/>
 									</fo:table-cell>
 								</fo:table-row>
-								<fo:table-row height="10mm">
+								<fo:table-row>
 									<fo:table-cell display-align="after" >
 										<fo:block xsl:use-attribute-sets="significant-information-style">
 											<fo:retrieve-marker retrieve-class-name="ComparePageText"

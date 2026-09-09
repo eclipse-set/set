@@ -211,7 +211,7 @@ public class FopPdfExportBuilder implements TableExport {
 			String fieldValue = clone.getField(84);
 			// By export we don't need rendere place holder for "Unteranlage"
 			if (fieldValue.contains("<Unteranlage>")) { //$NON-NLS-1$
-				fieldValue = fieldValue.replace("<Unteranlage>\r\n", ""); //$NON-NLS-1$ //$NON-NLS-2$
+				fieldValue = fieldValue.replace("<Unteranlage>", ""); //$NON-NLS-1$ //$NON-NLS-2$
 				clone.setField(84, fieldValue);
 			}
 
