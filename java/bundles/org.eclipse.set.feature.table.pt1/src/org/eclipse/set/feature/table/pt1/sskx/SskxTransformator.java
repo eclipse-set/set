@@ -50,10 +50,12 @@ import org.eclipse.set.model.tablemodel.TableRow;
 import org.eclipse.set.ppmodel.extensions.BasisAttributExtensions;
 import org.eclipse.set.ppmodel.extensions.BereichObjektExtensions;
 import org.eclipse.set.ppmodel.extensions.EObjectExtensions;
+import org.eclipse.set.ppmodel.extensions.SignalBefestigungExtensions;
 import org.eclipse.set.ppmodel.extensions.SignalExtensions;
 import org.eclipse.set.ppmodel.extensions.SignalRahmenExtensions;
 import org.eclipse.set.ppmodel.extensions.SignalbegriffExtensions;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
+import org.eclipse.set.utils.table.AbstractTableModelTransformator;
 import org.eclipse.set.utils.table.TMFactory;
 import org.osgi.service.event.EventAdmin;
 
@@ -165,18 +167,32 @@ public class SskxTransformator extends AbstractSignalTableTransform {
 				MIXED_STRING_COMPARATOR, s -> s,
 				SIGNAL_BEGRIFFE_BEZEICHNUNG_SEPERATOR);
 
+		final List<Signal> anotherSignals = signalRahmen.stream() //
+				.map(SignalRahmenExtensions::getSignalBefestigung) //
+				.flatMap(mount -> Streams.stream(
+						SignalBefestigungExtensions.getAttachmentSignal(mount)))
+				.filter(s -> !s.equals(signal))
+				.toList();
 		// N: Sskx.Signalisierung.Signalbegriffe.Regelzeichnung
-		fillIterable(row,
-				getColumn(cols, SskxColumns.Signalbegriffe_Regelzeichnung),
-				signalRahmen, rahmen -> {
-					return rahmen.stream().map(r -> {
-						if (r.getIDRegelzeichnung() == null) {
-							return null;
-						}
-						return fillRegelzeichnung(
-								r.getIDRegelzeichnung().getValue());
-					}).filter(Objects::nonNull).toList();
-				});
+		fillIterableWithConditional( //
+				row, //
+				getColumn(cols, SskxColumns.Signalbegriffe_Regelzeichnung), //
+				signalRahmen, //
+				rahmen -> Boolean.valueOf(!anotherSignals.isEmpty()), //
+				rahmen -> anotherSignals.stream()
+						.flatMap(s -> Streams
+								.stream(SignalExtensions.signalRahmen(s)))
+						.map(r -> EObjectExtensions
+								.getNullableObject(r,
+										e -> e.getIDRegelzeichnung().getValue())
+								.orElse(null))
+						.filter(Objects::nonNull)
+						.map(AbstractTableModelTransformator::fillRegelzeichnung)
+						.filter(Objects::nonNull)
+						.toList(), //
+				MIXED_STRING_COMPARATOR, //
+				ITERABLE_FILLING_SEPARATOR //
+		);
 
 		// Sskx.Bermerkung
 		fillFootnotes(row, signal);
