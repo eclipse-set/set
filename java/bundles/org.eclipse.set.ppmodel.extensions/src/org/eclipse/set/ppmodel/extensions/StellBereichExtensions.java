@@ -97,7 +97,8 @@ public class StellBereichExtensions {
 			return aussenElementAnsteuerung.getBezeichnung()
 					.getBezeichnungAEA()
 					.getWert();
-		}).orElse(null);
+		}).orElse(getNullableObject(area,
+				e -> e.getBezeichnungStellwerk().getWert()).orElse(null));
 	}
 
 	/**
