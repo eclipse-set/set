@@ -8,19 +8,17 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import java.util.Arrays
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.Bahnuebergang.BUE_Anlage
 import org.eclipse.set.model.planpro.Schluesselabhaengigkeiten.Schloss
 import org.eclipse.set.model.planpro.Schluesselabhaengigkeiten.Schlosskombination
 import org.eclipse.set.model.planpro.Schluesselabhaengigkeiten.Schluessel
 import org.eclipse.set.model.planpro.Schluesselabhaengigkeiten.Schluesselsperre
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element
-import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 
-import static extension org.eclipse.set.ppmodel.extensions.SchluesselExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SchlosskombinationExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.StellelementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.StellBereichExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.StellelementExtensions.*
 
 /**
  * Extensions for {@link Schloss}.
@@ -90,22 +88,22 @@ class SchlossExtensions extends BasisObjektExtensions {
 		return schloss?.schlossSonderanlage?.IDSonderanlage?.value
 	}
 
-
 	def static boolean isBelongToControlArea(Stell_Bereich controlArea,
 		Schloss schloss) {
-		if (schloss.schluesselsperre?.IDStellelement?.value.
-			isBelongToControlArea(controlArea)) {
-			return true;
-		}
 		val currentSchluessel = schloss.schluessel;
 		// When exist one Schloss, which has same Schluessel and this Stellelement belong to control area
-		if (schloss.container.schloss.filter[it !== schloss]. //
-		filter[schluessel === currentSchluessel]. //
-		exists [
+		if (schloss.container.schloss.filter[it !== schloss].filter [
+			schluessel === currentSchluessel
+		].exists [
 			schluesselsperre?.IDStellelement?.value.
 				isBelongToControlArea(controlArea)
 		]) {
 			return true
+		}
+
+		if (schloss.schluesselsperre?.IDStellelement?.value.
+			isBelongToControlArea(controlArea)) {
+			return true;
 		}
 
 		if (schloss.schlossSk?.hauptschloss?.wert === Boolean.TRUE) {
