@@ -6,6 +6,9 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v20.html
  -->
+
+<!-- eslint-disable vue/no-v-html -->
+
 <template>
   <div style="margin: 5px">
     <div>
@@ -63,68 +66,66 @@
         </div>
       </div>
     </div>
-    <span>{{ drawEinzelnSignal() }}</span>
+    <span v-html="html" />
   </div>
 </template>
-<script lang="ts">
+
+<script setup lang="ts">
 import { ISvgElement, ZusatzSignal } from '@/model/SvgElement'
 import SvgDraw from '@/util/SVG/Draw/SvgDrawSingleSignal'
 import { ZusatzSignalBottom } from '@/util/SVG/SvgEnum'
-import { Vue, Options } from 'vue-class-component'
-
-@Options({
-  props: {
-    listsignalGroup: Object,
-    mastList: Object,
-    listSchirm: Object,
-    zusatzSignal: Object
-  },
-  watch: {
-    selectedSignalGroup (value: string): void {
-      this.$emit('select-signal-group', value)
-    },
-
-    selectedZusatzSignal (value: ISvgElement[]): void {
-      this.selectedZusatzSignal = value
-      const isContainBottomSignal =
-        value.filter(ele =>
-          Object.values(ZusatzSignalBottom).includes(
-            ele.id as ZusatzSignalBottom
-          )).length > 0
-      if (isContainBottomSignal) {
-        this.$emit('get-short-mast', '')
-      }
-    },
-
-    mastList (value: ISvgElement[]): void {
-      if (this.selectedMast) {
-        this.selectedMast = value.find(ele => ele.id === this.selectedMast.id)
-      }
-    }
-  },
-  emits: ['select-signal-group', 'get-short-mast']
-})
+import { computed, ref, watch } from 'vue'
 
 /**
  * Draw Signal with selected Schirm, Mast and ZusatzSignal
  * @author Truong
  */
-export default class SvgSingleSignal extends Vue {
-  listsignalGroup!: Array<string>
-  mastList!: Array<ISvgElement>
-  listSchirm!: Array<ISvgElement>
-  zusatzSignal!: Array<ZusatzSignal>
-  selectedSignalGroup = ''
-  seletecSignalSchirm = null
-  selectedMast = null
-  selectedZusatzSignal: ZusatzSignal[] = []
 
-  public drawEinzelnSignal (): string | null {
-    return SvgDraw.drawSignal(
-      this.seletecSignalSchirm,
-      this.selectedMast,
-      this.selectedZusatzSignal
-    ).content.outerHTML
+const props = defineProps<{
+  listsignalGroup: Array<string>
+  mastList: Array<ISvgElement> | null | undefined
+  listSchirm: Array<ISvgElement> | null | undefined
+  zusatzSignal: Array<ZusatzSignal>
+}>()
+
+const emit = defineEmits<{
+  'select-signal-group': [value: string]
+  'get-short-mast': [value: string]
+}>()
+
+const selectedSignalGroup = ref('')
+const seletecSignalSchirm = ref<ISvgElement | null>(null)
+const selectedMast = ref<ISvgElement | null>(null)
+const selectedZusatzSignal = ref<ZusatzSignal[]>([])
+
+watch(selectedSignalGroup, (value: string): void => {
+  emit('select-signal-group', value)
+})
+
+watch(selectedZusatzSignal, (value: ISvgElement[]): void => {
+  const isContainBottomSignal =
+    value.filter(ele =>
+      Object.values(ZusatzSignalBottom).includes(
+        ele.id as ZusatzSignalBottom
+      )).length > 0
+  if (isContainBottomSignal) {
+    emit('get-short-mast', '')
   }
+})
+
+watch(() => props.mastList, (value: ISvgElement[] | null | undefined): void => {
+  if (selectedMast.value && value) {
+    selectedMast.value = value.find(ele => ele.id === selectedMast.value?.id) ?? null
+  }
+})
+
+function drawEinzelnSignal (): string | null {
+  return SvgDraw.drawSignal(
+    seletecSignalSchirm.value,
+    selectedMast.value,
+    selectedZusatzSignal.value
+  ).content.outerHTML
 }
+
+const html = computed(() => drawEinzelnSignal())
 </script>

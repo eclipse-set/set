@@ -19,13 +19,13 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Options, Vue } from 'vue-class-component'
+<script setup lang="ts">
+import { computed } from 'vue'
+import { Feature } from 'ol'
+import { Geometry } from 'ol/geom'
 import RouteInfo from '@/components/popup/RouteInfo.vue'
 import { ExternalElementControl } from '@/model/ExternalElementControl'
-import {
-  getFeatureData, getFeatureGUID, getFeatureLabel
-} from '@/feature/FeatureInfo'
+import { getFeatureData, getFeatureGUID, getFeatureLabel } from '@/feature/FeatureInfo'
 import { isPlanningObject } from '@/model/SiteplanModel'
 
 /**
@@ -33,32 +33,15 @@ import { isPlanningObject } from '@/model/SiteplanModel'
  *
  * @author Stuecker
  */
-@Options({
-  components: {
-    RouteInfo
-  },
-  props: {
-    feature: Object
-  },
-  computed: {
-    eec: function () {
-      return getFeatureData(this.feature)
-    },
 
-    planningObject: function () {
-      return isPlanningObject(getFeatureGUID(this.feature))
-        ? 'Ja'
-        : 'Nein'
-    },
+const props = defineProps<{
+  feature: Feature<Geometry>
+}>()
 
-    eccLabel: function () {
-      return getFeatureLabel(this.feature)
-    }
-  }
-})
-export default class EECPopup extends Vue {
-  eec!: ExternalElementControl
-  planningObject!: string
-  eccLabel!: string
-}
+const eec = computed<ExternalElementControl>(() => getFeatureData(props.feature))
+
+const planningObject = computed(() =>
+  isPlanningObject(getFeatureGUID(props.feature)) ? 'Ja' : 'Nein')
+
+const eccLabel = computed(() => getFeatureLabel(props.feature))
 </script>

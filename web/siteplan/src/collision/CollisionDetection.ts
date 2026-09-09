@@ -29,7 +29,7 @@ export default class CollisionDetection {
    * @returns a list of collisions between groups of features
    */
   public getCollisions (bboxFeatures: Feature<Geometry>[]): Collision[] {
-    const layer = new VectorSource<Geometry>()
+    const layer = new VectorSource()
     layer.addFeatures(bboxFeatures)
     const featuresIntersectExtent = new Array<Feature<Geometry>[]>()
     const collisions: Collision[] = []
@@ -86,7 +86,7 @@ export default class CollisionDetection {
    * @returns outer intersection features
    */
   private getIntersectFeaturesByExtent (
-    layer: VectorSource<Geometry>,
+    layer: VectorSource,
     feature: Feature<Geometry>
   ) : Feature<Geometry>[] {
     const overlapFeatures = new Array<Feature<Geometry>>()

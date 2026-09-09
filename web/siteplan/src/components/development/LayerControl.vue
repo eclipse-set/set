@@ -72,140 +72,135 @@
   </SideInfoControl>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import SideInfoControl from '@/components/SideInfoControl.vue'
 import { store } from '@/store'
 import 'material-design-icons/iconfont/material-icons.css'
+import { FeatureLayerType } from '@/feature/FeatureInfo'
+import NamedFeatureLayer from '@/util/NamedFeatureLayer'
+import { onBeforeUnmount, ref } from 'vue'
+import type { Ref } from 'vue'
 
 /**
  * Layer (de-)selection control
  * @author Peters
  */
-import { FeatureLayerType } from '@/feature/FeatureInfo'
-import NamedFeatureLayer from '@/util/NamedFeatureLayer'
-import { Options, Vue } from 'vue-class-component'
 
-@Options({
-  components: {
-    SideInfoControl
-  },
-  beforeCreate () {
-    this.unsubscribe = store.subscribe((m, s) => {
-      if (m.type === 'setFeatureLayers') {
-        this.featureLayers = s.featureLayers
-      }
-    })
-  },
-  beforeUnmount () {
-    this.unsubscribe()
+const featureLayers: Ref<NamedFeatureLayer[]> = ref([])
+const dragTargetLayer: Ref<NamedFeatureLayer | null> = ref(null)
+const dragInsertBefore = ref(false)
+const draggedLayer: Ref<NamedFeatureLayer | null> = ref(null)
+
+const unsubscribe = store.subscribe((m, s) => {
+  if (m.type === 'setFeatureLayers') {
+    featureLayers.value = s.featureLayers as NamedFeatureLayer[]
   }
 })
-export default class LayerControl extends Vue {
-  featureLayers: NamedFeatureLayer[] = []
-  dragTargetLayer: NamedFeatureLayer | null = null
-  dragInsertBefore = false
-  draggedLayer: NamedFeatureLayer | null = null
 
-  getEditableLayers (): NamedFeatureLayer[] {
-    // Do not allow to disable/edit the Layer for highlighting features
-    const layers = this.featureLayers.filter(
-      layer => layer.getLayerType() !== FeatureLayerType.Flash
-        && layer.getLayerType() !== FeatureLayerType.Measure
-    )
-    const sorted = layers.sort((a, b) => a.getZIndex() - b.getZIndex())
-    return sorted
-  }
+onBeforeUnmount(() => {
+  unsubscribe()
+})
 
-  toggleShowLayer (layer: NamedFeatureLayer): void {
-    layer.setVisible(!layer.getVisible())
-  }
+function getEditableLayers (): NamedFeatureLayer[] {
+  // Do not allow to disable/edit the Layer for highlighting features
+  const layers = featureLayers.value.filter(
+    layer => layer.getLayerType() !== FeatureLayerType.Flash
+      && layer.getLayerType() !== FeatureLayerType.Measure
+  )
+  const sorted = layers.sort((a, b) => (a.getZIndex() ?? 0) - (b.getZIndex() ?? 0))
+  return sorted
+}
 
-  getLayerIndex (layer: NamedFeatureLayer): number {
-    return this.getEditableLayers().findIndex(l => l === layer)
-  }
+function toggleShowLayer (layer: NamedFeatureLayer): void {
+  layer.setVisible(!layer.getVisible())
+}
 
-  dragStart (evt: DragEvent, layer: NamedFeatureLayer): void {
-    this.draggedLayer = layer
-    if (evt.dataTransfer) {
-      evt.dataTransfer.dropEffect = 'move'
-      evt.dataTransfer.effectAllowed = 'move'
-    }
-  }
+function getLayerIndex (layer: NamedFeatureLayer): number {
+  return getEditableLayers().findIndex(l => l === layer)
+}
 
-  dragEnd (): void {
-    this.dragTargetLayer = null
-    this.draggedLayer = null
-  }
-
-  dragOver (evt: DragEvent, layer: NamedFeatureLayer): void {
-    if (this.draggedLayer === layer || !this.draggedLayer) {
-      // The element cannot be dropped onto itself
-      return
-    }
-
-    if (this.dragTargetLayer !== layer) {
-      this.dragTargetLayer = layer
-    }
-
-    const target = evt.target as Element
-    const layerControl = target
-      ?.closest('.layer-drag-container')
-      ?.getElementsByClassName('layer-control')[0]
-    if (!target || !layerControl) {
-      // Element dragged over something that is not a valid drop zone
-      return
-    }
-
-    const targetY = target.getBoundingClientRect().top
-    const parentHeight = layerControl.getBoundingClientRect().height
-    const dropOffset = evt.clientY - targetY
-    this.dragInsertBefore = dropOffset <= parentHeight / 2
-
-    evt.preventDefault()
-  }
-
-  dragDrop (): void {
-    if (!this.dragTargetLayer || !this.draggedLayer) {
-      return
-    }
-
-    const targetIndex = this.getLayerIndex(this.dragTargetLayer)
-    const sourceIndex = this.getLayerIndex(this.draggedLayer)
-    let offset = targetIndex - sourceIndex
-    if (sourceIndex < targetIndex && this.dragInsertBefore) {
-      offset -= 1
-    } else if (sourceIndex > targetIndex && !this.dragInsertBefore) {
-      offset += 1
-    }
-
-    this.moveLayer(this.draggedLayer, offset)
-  }
-
-  moveLayer (source: NamedFeatureLayer, offset: number): void {
-    if (offset === 0) {
-      return
-    }
-
-    const layers = this.getEditableLayers()
-    if (offset < 0) {
-      layers.reverse()
-      offset = -offset
-    }
-
-    const sourceIndex = layers.findIndex(l => l === source)
-    const newSourceZIndex = layers[sourceIndex + offset].getZIndex()
-    for (let i = sourceIndex + offset; i > sourceIndex; i--) {
-      layers[i].setZIndex(layers[i - 1].getZIndex())
-    }
-
-    source.setZIndex(newSourceZIndex)
-    const collision = layers.find(
-      ele => ele.getLayerType() === FeatureLayerType.Collision
-    )
-    collision?.dispatchEvent('changeIndex')
+function dragStart (evt: DragEvent, layer: NamedFeatureLayer): void {
+  draggedLayer.value = layer
+  if (evt.dataTransfer) {
+    evt.dataTransfer.dropEffect = 'move'
+    evt.dataTransfer.effectAllowed = 'move'
   }
 }
+
+function dragEnd (): void {
+  dragTargetLayer.value = null
+  draggedLayer.value = null
+}
+
+function dragOver (evt: DragEvent, layer: NamedFeatureLayer): void {
+  if (draggedLayer.value === layer || !draggedLayer.value) {
+    // The element cannot be dropped onto itself
+    return
+  }
+
+  if (dragTargetLayer.value !== layer) {
+    dragTargetLayer.value = layer
+  }
+
+  const target = evt.target as Element
+  const layerControl = target
+    ?.closest('.layer-drag-container')
+    ?.getElementsByClassName('layer-control')[0]
+  if (!target || !layerControl) {
+    // Element dragged over something that is not a valid drop zone
+    return
+  }
+
+  const targetY = target.getBoundingClientRect().top
+  const parentHeight = layerControl.getBoundingClientRect().height
+  const dropOffset = evt.clientY - targetY
+  dragInsertBefore.value = dropOffset <= parentHeight / 2
+
+  evt.preventDefault()
+}
+
+function dragDrop (): void {
+  if (!dragTargetLayer.value || !draggedLayer.value) {
+    return
+  }
+
+  const targetIndex = getLayerIndex(dragTargetLayer.value)
+  const sourceIndex = getLayerIndex(draggedLayer.value)
+  let offset = targetIndex - sourceIndex
+  if (sourceIndex < targetIndex && dragInsertBefore.value) {
+    offset -= 1
+  } else if (sourceIndex > targetIndex && !dragInsertBefore.value) {
+    offset += 1
+  }
+
+  moveLayer(draggedLayer.value, offset)
+}
+
+function moveLayer (source: NamedFeatureLayer, offset: number): void {
+  if (offset === 0) {
+    return
+  }
+
+  const layers = getEditableLayers()
+  if (offset < 0) {
+    layers.reverse()
+    offset = -offset
+  }
+
+  const sourceIndex = layers.findIndex(l => l === source)
+  const newSourceZIndex = layers[sourceIndex + offset].getZIndex() ?? 0
+  for (let i = sourceIndex + offset; i > sourceIndex; i--) {
+    layers[i].setZIndex(layers[i - 1].getZIndex() ?? 0)
+  }
+
+  source.setZIndex(newSourceZIndex)
+  const collision = layers.find(
+    ele => ele.getLayerType() === FeatureLayerType.Collision
+  )
+  collision?.dispatchEvent('changeIndex')
+}
 </script>
+
 <style scoped>
 .layer-control-container {
   margin: 3px;
