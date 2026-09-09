@@ -144,7 +144,7 @@ public abstract class AbstractTreeLayerTable
 				getDefaultFilterValue().forEach((key, value) -> {
 					final Object restFilter = result.computeIfPresent(key, (k,
 							v) -> v.toString().replace(value.toString(), "")); //$NON-NLS-1$
-					if (restFilter.toString().isEmpty()) {
+					if (restFilter != null && restFilter.toString().isEmpty()) {
 						result.remove(key);
 					}
 				});
