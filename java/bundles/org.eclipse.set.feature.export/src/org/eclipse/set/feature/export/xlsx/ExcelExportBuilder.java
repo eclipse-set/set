@@ -17,21 +17,37 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.IntFunction;
+import java.util.function.ToIntFunction;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.xssf.model.StylesTable;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFColor;
+import org.apache.poi.xssf.usermodel.XSSFFont;
+import org.apache.poi.xssf.usermodel.XSSFRichTextString;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.xssf.usermodel.extensions.XSSFCellBorder;
+import org.apache.xmlbeans.XmlException;
+import org.apache.xmlbeans.XmlObject;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.set.basis.FreeFieldInfo;
 import org.eclipse.set.basis.OverwriteHandling;
@@ -40,24 +56,35 @@ import org.eclipse.set.basis.ToolboxPaths.ExportPathExtension;
 import org.eclipse.set.basis.constants.ExportType;
 import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.basis.exceptions.FileExportException;
+import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.feature.export.pdf.TableToTableDocument;
+import org.eclipse.set.model.tablemodel.CellContent;
 import org.eclipse.set.model.tablemodel.CompareFootnoteContainer;
+import org.eclipse.set.model.tablemodel.CompareStateCellContent;
 import org.eclipse.set.model.tablemodel.CompareTableCellContent;
 import org.eclipse.set.model.tablemodel.CompareTableFootnoteContainer;
-import org.eclipse.set.model.tablemodel.Footnote;
 import org.eclipse.set.model.tablemodel.FootnoteContainer;
+import org.eclipse.set.model.tablemodel.PlanCompareRow;
+import org.eclipse.set.model.tablemodel.PlanCompareRowType;
 import org.eclipse.set.model.tablemodel.SimpleFootnoteContainer;
+import org.eclipse.set.model.tablemodel.StringCellContent;
 import org.eclipse.set.model.tablemodel.Table;
+import org.eclipse.set.model.tablemodel.TableCell;
 import org.eclipse.set.model.tablemodel.TableRow;
 import org.eclipse.set.model.tablemodel.extensions.CellContentExtensions;
 import org.eclipse.set.model.tablemodel.extensions.TableCellExtensions;
 import org.eclipse.set.model.tablemodel.extensions.TableExtensions;
 import org.eclipse.set.model.tablemodel.extensions.TableExtensions.FootnoteInfo;
-import org.eclipse.set.model.tablemodel.extensions.TableRowExtensions;
 import org.eclipse.set.model.titlebox.Titlebox;
 import org.eclipse.set.services.export.TableExport;
 import org.eclipse.set.utils.table.TableSpanUtils;
+import org.openxmlformats.schemas.spreadsheetml.x2006.main.CTBorder;
+import org.openxmlformats.schemas.spreadsheetml.x2006.main.CTBorderPr;
+import org.openxmlformats.schemas.spreadsheetml.x2006.main.CTColor;
+import org.openxmlformats.schemas.spreadsheetml.x2006.main.CTXf;
+import org.openxmlformats.schemas.spreadsheetml.x2006.main.STBorderStyle;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -78,20 +105,15 @@ public class ExcelExportBuilder implements TableExport {
 
 	private static final String TEMPLATE_DIR = "./data/export/excel"; //$NON-NLS-1$
 	private static final String FOOTNOTE_SHEET_NAME = "Bemerkungen"; //$NON-NLS-1$
+	private static List<XSSFCellStyle> defaultCellStyleByColumn;
+	private static XSSFFont cellNewValueFont;
+	private static XSSFFont cellOldValueFont;
+
+	@Reference
+	EnumTranslationService enumTranslationService;
 
 	private static int getFirstRowForContent(final Sheet sheet) {
 		return getHeaderLastRowIndex(sheet) + 1;
-	}
-
-	private static Table getTableToBeExported(
-			final Map<TableType, Table> tables) {
-		final Table invTable = tables.get(TableType.FINAL);
-		if (invTable != null) {
-			return invTable;
-		}
-		// if we do not have a final table we export the table of the single
-		// container of a state
-		return tables.get(TableType.SINGLE);
 	}
 
 	static String[] getColumnHeaders(final Sheet sheet) {
@@ -138,7 +160,7 @@ public class ExcelExportBuilder implements TableExport {
 			final TableType tableType, final Path outputPath,
 			final OverwriteHandling overwriteHandling)
 			throws FileExportException {
-		final Table table = getTableToBeExported(tables);
+		final Table table = tables.get(tableType);
 		final boolean isInlineFootnote = TableExtensions
 				.isInlineFootnote(table);
 		// IMPROVE: this is only a temporary situation for the table
@@ -149,17 +171,24 @@ public class ExcelExportBuilder implements TableExport {
 				tableShortcut + "_vorlage.xlsx"); //$NON-NLS-1$
 		try (final FileInputStream inputStream = new FileInputStream(
 				templatePath.toFile());
-				final Workbook workbook = new XSSFWorkbook(inputStream)) {
-
+				final XSSFWorkbook workbook = new XSSFWorkbook(inputStream)) {
 			// check overwrite
 			if (!overwriteHandling.test(outputPath)) {
 				return;
 			}
-
+			createCellNewValueFont(workbook);
+			createCellOldValueFont(workbook);
 			// es gibt nur einen
-			final Sheet sheet = workbook.getSheetAt(0);
+			final XSSFSheet sheet = workbook.getSheetAt(0);
 			workbook.setSheetName(0, shortcut.substring(0, 1).toUpperCase()
 					+ shortcut.substring(1));
+			defaultCellStyleByColumn = getDefaultCellStyles(workbook, sheet);
+			if (tableType != TableType.DIFF
+					&& exportType != ExportType.INVENTORY_RECORDS) {
+				ExcelWaterMark.createWaterMark(sheet,
+						enumTranslationService.translate(tableType)
+								.getPresentation());
+			}
 			// dummy-Header erzeugen für die Transformation
 			final String[] headers = getColumnHeaders(sheet);
 			final int columnCount = headers.length;
@@ -170,10 +199,11 @@ public class ExcelExportBuilder implements TableExport {
 			final List<TableRow> rows = TableExtensions.getTableRows(table);
 
 			// Fill sheet
-			fillSheet(sheet, rows, rowIndex, columnCount, isInlineFootnote);
+			fillSheet(workbook, sheet, rows, rowIndex, columnCount,
+					isInlineFootnote);
 
 			if (!isInlineFootnote) {
-				final Sheet footnoteSheet = workbook
+				final XSSFSheet footnoteSheet = workbook
 						.createSheet(FOOTNOTE_SHEET_NAME);
 				fillFootnoteSheet(footnoteSheet, table);
 			}
@@ -190,7 +220,6 @@ public class ExcelExportBuilder implements TableExport {
 			Assert.isNotNull(outputDirPath);
 
 			FileUtils.forceMkdir(outputDirPath.toFile());
-
 			// ...und im Zielverzeichnis schreiben
 			try (final FileOutputStream fileOut = new FileOutputStream(
 					outputPath.toString())) {
@@ -201,8 +230,28 @@ public class ExcelExportBuilder implements TableExport {
 		}
 	}
 
+	private static List<XSSFCellStyle> getDefaultCellStyles(
+			final XSSFWorkbook workbook, final XSSFSheet sheet) {
+		final int headerLastRowIndex = getHeaderLastRowIndex(sheet);
+		final XSSFRow dataRow = sheet.getRow(headerLastRowIndex + 1);
+		final List<XSSFCellStyle> result = new LinkedList<>();
+		for (int i = 0; i <= getHeaderLastColumnIndex(sheet); i++) {
+			if (dataRow.getCell(i) == null) {
+				final XSSFCell cell = dataRow.createCell(i);
+				cell.getCellStyle().setFont(getDefaultFont(workbook));
+				cell.getCellStyle().setBorderBottom(BorderStyle.NONE);
+				cell.getCellStyle().setBorderTop(BorderStyle.NONE);
+				cell.getCellStyle().setBorderRight(BorderStyle.NONE);
+				cell.getCellStyle().setBorderLeft(BorderStyle.NONE);
+			}
+			result.add(dataRow.getCell(i).getCellStyle());
+
+		}
+		return result;
+	}
+
 	@SuppressWarnings("boxing")
-	private static void fillFootnoteSheet(final Sheet footnoteSheet,
+	private static void fillFootnoteSheet(final XSSFSheet footnoteSheet,
 			final Table table) {
 		final List<FootnoteInfo> allFootnotes = new ArrayList<>(
 				Streams.stream(TableExtensions.getAllFootnotes(table))
@@ -227,58 +276,58 @@ public class ExcelExportBuilder implements TableExport {
 		}
 	}
 
-	@SuppressWarnings("resource")
-	private static void fillSheet(final Sheet sheet, final List<TableRow> rows,
+	private static void fillSheet(final XSSFWorkbook workbook,
+			final XSSFSheet sheet, final List<TableRow> rows,
 			final int rowIndex, final int columnCount,
 			final boolean inlineFootnote) {
-		if (rows.isEmpty()) {
-			return;
-		}
-		final Table table = TableRowExtensions.getTable(rows.getFirst());
-		final List<FootnoteInfo> allFootnotes = Streams
-				.stream(TableExtensions.getAllFootnotes(table))
-				.toList();
 		int contentRowIndex = rowIndex;
-
 		for (final TableRow row : rows) {
-			if (isRowEmpty(row)) {
+			if (isRowEmpty(row) && !(row instanceof PlanCompareRow)) {
 				continue;
 			}
-			final Row sheetRow = contentRowIndex == rowIndex
+			final XSSFRow sheetRow = contentRowIndex == rowIndex
 					? sheet.getRow(contentRowIndex)
 					: createNewRow(sheet, contentRowIndex, columnCount);
-			final FootnoteContainer footnotes = row.getFootnotes();
-			final List<String> contents = getCellContents(row);
+			final FootnoteContainer footnoteContainer = row.getFootnotes();
 			for (int i = 0; i < columnCount; i++) {
-				final String content = contents.get(i);
-				Cell cell = sheetRow.getCell(i + 1);
-
-				if (cell == null) {
-					cell = sheetRow.createCell(i + 1);
-					// in the excel template it might be the case that a certain
-					// cell is was never defined/styled.
-					// If that is the case we take at least the font from the
-					// definitely defined first cell from the header so that all
-					// the cells are using the same font.
-					cell.getCellStyle()
-							.setFont(sheet.getWorkbook()
-									.getFontAt(sheet.getRow(0)
-											.getCell(1)
-											.getCellStyle()
-											.getFontIndex()));
+				final TableCell tableCell = row.getCells().get(i);
+				final XSSFRichTextString richTextCell = createRichTextCell(
+						tableCell.getContent());
+				final XSSFCell cell = sheetRow.getCell(i + 1);
+				if (tableCell.getContent() instanceof CompareTableCellContent) {
+					setCompareTableCellStyle(workbook, columnCount, row, i,
+							cell);
 				}
-				if (TableToTableDocument
-						.isRemarkColumn(row.getCells().get(i))) {
-					fillFootnoteCell(cell, content, allFootnotes, footnotes,
+				if (TableToTableDocument.isRemarkColumn(row.getCells().get(i))
+						&& footnoteContainer != null) {
+					fillFootnoteCell(richTextCell, footnoteContainer,
 							inlineFootnote);
-					continue;
 				}
-				cell.setCellValue(content);
+
+				cell.setCellValue(richTextCell);
 			}
 			// Auto adjust row height
 			sheetRow.setHeight((short) -1);
 			contentRowIndex++;
 		}
+	}
+
+	private static void setCompareTableCellStyle(final XSSFWorkbook workbook,
+			final int columnCount, final TableRow row, final int i,
+			final XSSFCell cell) {
+		final CTBorder cellBorder = switch (row) {
+			case final PlanCompareRow compareRow -> createCompareTableCellBorderStyle(
+					workbook, true, true, i == columnCount - 1, i == 0,
+					compareRow
+							.getRowType() == PlanCompareRowType.CHANGED_GUID_ROW
+									? STBorderStyle.MEDIUM_DASHED
+									: STBorderStyle.MEDIUM);
+			default -> createCompareTableCellBorderStyle(workbook, true, true,
+					true, true, STBorderStyle.MEDIUM);
+		};
+		final XSSFCellStyle compareTableCellStyle = getCompareTableCellStyle(
+				workbook, cell, cellBorder);
+		cell.setCellStyle(compareTableCellStyle);
 	}
 
 	private static boolean isRowEmpty(final TableRow row) {
@@ -297,62 +346,219 @@ public class ExcelExportBuilder implements TableExport {
 		}).toList();
 	}
 
-	private static List<Footnote> getFootnotes(
-			final FootnoteContainer fnContainer) {
-		if (fnContainer == null) {
-			return Collections.emptyList();
+	@SuppressWarnings("nls")
+	private static XSSFRichTextString createRichTextCell(
+			final CellContent content) {
+		if (content == null) {
+			return new XSSFRichTextString("");
 		}
-		return switch (fnContainer) {
-			case final SimpleFootnoteContainer simpleContainer -> simpleContainer
-					.getFootnotes();
-			case final CompareFootnoteContainer compareContainer -> compareContainer
-					.getUnchangedFootnotes()
-					.getFootnotes();
-			case final CompareTableFootnoteContainer compareContainer -> getFootnotes(
-					compareContainer.getMainPlanFootnoteContainer());
-			default -> Collections.emptyList();
+		return switch (content) {
+			case final StringCellContent stringContent -> new XSSFRichTextString(
+					CellContentExtensions.getPlainStringValue(stringContent));
+			case final CompareTableCellContent compareTableContent -> createRichTextCell(
+					compareTableContent.getMainPlanCellContent());
+			case final CompareStateCellContent compareStateContent -> createRichTextCell(
+					compareStateContent);
+			default -> throw new IllegalArgumentException(
+					"Unexpected value: " + content);
 		};
 	}
 
-	private static void fillFootnoteCell(final Cell cell,
-			final String cellContent, final List<FootnoteInfo> allFootnotes,
-			final FootnoteContainer fnContainer, final boolean inlineFootnote) {
-		final List<Footnote> footnotes = getFootnotes(fnContainer);
-		final List<FootnoteInfo> fnInfo = TableToTableDocument
-				.processFootnotes(footnotes.stream()
-						.map(fn -> TableExtensions.getFootnoteInfo(allFootnotes,
-								fn))
-						.toList());
-		final StringBuilder builder = new StringBuilder();
-		if (!cellContent.isEmpty() && !cellContent.isBlank()) {
-			builder.append(cellContent);
-			builder.append(TableToTableDocument.FOOTNOTE_INLINE_TEXT_SEPARATOR);
+	private static XSSFRichTextString createRichTextCell(
+			final CompareStateCellContent compareStateContent) {
+		final Iterable<String> newValues = CellContentExtensions
+				.getStringValueIterable(compareStateContent.getNewValue());
+		final Iterable<String> oldValues = CellContentExtensions
+				.getStringValueIterable(compareStateContent.getOldValue());
+		final String newValuesStr = Streams.stream(newValues)
+				.collect(Collectors.joining(System.lineSeparator()));
+		final String oldValuesStr = Streams.stream(oldValues)
+				.collect(Collectors.joining(System.lineSeparator()));
+
+		final XSSFRichTextString richtText = new XSSFRichTextString();
+		if (newValuesStr.isEmpty()) {
+			richtText.setString(oldValuesStr);
+			richtText.applyFont(0, oldValuesStr.length(), cellOldValueFont);
+		} else if (oldValuesStr.isEmpty()) {
+			richtText.setString(newValuesStr);
+			richtText.applyFont(0, newValuesStr.length(), cellNewValueFont);
+		} else {
+			final String textValue = Stream.of(newValuesStr, oldValuesStr)
+					.collect(Collectors.joining(System.lineSeparator()));
+			richtText.setString(textValue);
+			richtText.applyFont(0, newValuesStr.length(), cellNewValueFont);
+			richtText.applyFont(newValuesStr.length() + 1, textValue.length(),
+					cellOldValueFont);
 		}
-		final String footnoteValue = fnInfo.stream()
-				.map(inlineFootnote ? FootnoteInfo::toText
-						: FootnoteInfo::toShorthand)
-				.collect(Collectors.joining(inlineFootnote
-						? TableToTableDocument.FOOTNOTE_INLINE_TEXT_SEPARATOR
-						: TableToTableDocument.FOOTNOTE_MARK_SEPRATOR));
-		builder.append(footnoteValue);
-		cell.setCellValue(builder.toString());
+
+		return richtText;
 	}
 
-	@SuppressWarnings("resource")
-	private static Row createNewRow(final Sheet sheet, final int rowIndex,
-			final int maxColIndex) {
-		final Row cloneRow = sheet.createRow(rowIndex);
-		final Workbook workbook = sheet.getWorkbook();
-		for (int i = 0; i <= maxColIndex; i++) {
-			final Optional<Cell> cellAt = getCellAt(sheet, rowIndex - 1, i);
-			final Cell newCell = cloneRow.createCell(i);
-			if (cellAt.isPresent()) {
-				final CellStyle cloneStyle = workbook.createCellStyle();
-				cloneStyle.cloneStyleFrom(cellAt.get().getCellStyle());
-				cloneStyle.setBorderTop(BorderStyle.NONE);
-				cloneStyle.setBorderBottom(BorderStyle.NONE);
-				newCell.setCellStyle(cloneStyle);
+	private static XSSFCellStyle getCompareTableCellStyle(
+			final XSSFWorkbook workbook, final XSSFCell currentCell,
+			final CTBorder ctBorder) {
+		try {
+			final StylesTable stylesSource = workbook.getStylesSource();
+			final CTXf clone = cloneCellCTXf(workbook, currentCell);
+			// Create blue border for compare cell
+			// When the border already added to workbook, then get the index in
+			// styles source, else added to styles source
+			final int compareTableCellBorderIdx = getStyleSourceObjectIndex(
+					ctBorder, //
+					index -> stylesSource.getBorderAt(index).getCTBorder(),
+					newObj -> stylesSource.putBorder(
+							new XSSFCellBorder(newObj, workbook.getTheme(),
+									stylesSource.getIndexedColors())));
+			clone.setBorderId(compareTableCellBorderIdx);
+			clone.setApplyBorder(true);
+
+			// When the styles source exist the cell style like this, then give
+			// the index of back, else added
+			final int compareTableCellStyleIdx = getStyleSourceObjectIndex(
+					clone, //
+					stylesSource::getCellXfAt, //
+					newObj -> stylesSource.putCellXf(newObj) - 1);
+			return new XSSFCellStyle(compareTableCellStyleIdx, -1, stylesSource,
+					workbook.getTheme());
+		} catch (final Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	private static CTXf cloneCellCTXf(final XSSFWorkbook workbook,
+			final XSSFCell currentCell) throws XmlException {
+		final StylesTable stylesSource = workbook.getStylesSource();
+		// Get storage style index
+		final int currentStyleIdx = stylesSource
+				.putStyle(currentCell.getCellStyle());
+		// Get raw source of the style
+		final CTXf currentCellCTXf = stylesSource.getCellXfAt(currentStyleIdx);
+
+		return CTXf.Factory.parse(currentCellCTXf.xmlText());
+	}
+
+	private static CTBorder createCompareTableCellBorderStyle(
+			final XSSFWorkbook workbook, final boolean setTop,
+			final boolean setBottom, final boolean setRight,
+			final boolean setLeft, final STBorderStyle.Enum borderStyle) {
+		final CTBorder ctborder = CTBorder.Factory.newInstance();
+		final XSSFColor clr = XSSFColor.from(CTColor.Factory.newInstance(),
+				workbook.getStylesSource().getIndexedColors());
+		clr.setIndexed(IndexedColors.BLUE.getIndex());
+		if (setBottom) {
+			final CTBorderPr bottom = ctborder.isSetBottom()
+					? ctborder.getBottom()
+					: ctborder.addNewBottom();
+			bottom.setStyle(borderStyle);
+			bottom.setColor(clr.getCTColor());
+		}
+
+		if (setTop) {
+			final CTBorderPr top = ctborder.isSetTop() ? ctborder.getTop()
+					: ctborder.addNewTop();
+			top.setStyle(borderStyle);
+			top.setColor(clr.getCTColor());
+		}
+
+		if (setRight) {
+			final CTBorderPr right = ctborder.isSetRight() ? ctborder.getRight()
+					: ctborder.addNewRight();
+			right.setStyle(STBorderStyle.MEDIUM);
+			right.setColor(clr.getCTColor());
+
+		}
+
+		if (setLeft) {
+			final CTBorderPr left = ctborder.isSetLeft() ? ctborder.getLeft()
+					: ctborder.addNewLeft();
+			left.setStyle(STBorderStyle.MEDIUM);
+			left.setColor(clr.getCTColor());
+		}
+
+		return ctborder;
+	}
+
+	private static <T extends XmlObject> int getStyleSourceObjectIndex(
+			final T obj, final IntFunction<T> getAddedObjFunc,
+			final ToIntFunction<T> addNewObjFunc) {
+		try {
+			int i = 0;
+			while (true) {
+				final T addedObj = getAddedObjFunc.apply(i);
+				if (addedObj.xmlText().equals(obj.xmlText())) {
+					return i;
+				}
+				i++;
 			}
+		} catch (final IndexOutOfBoundsException e) {
+			return addNewObjFunc.applyAsInt(obj);
+		} catch (final Exception e) {
+			throw new RuntimeException(e);
+		}
+
+	}
+
+	private static void fillFootnoteCell(final XSSFRichTextString richText,
+			final FootnoteContainer fnContainer, final boolean inlineFootnote) {
+		switch (fnContainer) {
+			case final SimpleFootnoteContainer simpleContainer -> {
+				final Iterable<FootnoteInfo> fnsInfo = TableExtensions
+						.getFootnoteInfos(simpleContainer);
+				final String fnStr = getFootnoteString(fnsInfo, inlineFootnote);
+				richText.append(System.lineSeparator() + fnStr);
+
+			}
+			case final CompareFootnoteContainer compareContainer -> {
+				final Iterable<FootnoteInfo> commonFnInfos = TableExtensions
+						.getFootnoteInfos(
+								compareContainer.getUnchangedFootnotes());
+				final String commonFnStr = getFootnoteString(commonFnInfos,
+						inlineFootnote);
+				richText.append(System.lineSeparator() + commonFnStr);
+
+				final Iterable<FootnoteInfo> newFnInfos = TableExtensions
+						.getFootnoteInfos(compareContainer.getNewFootnotes());
+				final String newFnStr = getFootnoteString(newFnInfos,
+						inlineFootnote);
+				richText.append(System.lineSeparator() + newFnStr,
+						cellNewValueFont);
+
+				final Iterable<FootnoteInfo> oldFnInfos = TableExtensions
+						.getFootnoteInfos(compareContainer.getOldFootnotes());
+				final String oldFnStr = getFootnoteString(oldFnInfos,
+						inlineFootnote);
+				richText.append(System.lineSeparator() + oldFnStr,
+						cellNewValueFont);
+
+			}
+			case final CompareTableFootnoteContainer compareTableContainer -> fillFootnoteCell(
+					richText,
+					compareTableContainer.getMainPlanFootnoteContainer(),
+					inlineFootnote);
+			default -> throw new IllegalArgumentException(
+					fnContainer.getClass().getName());
+		}
+	}
+
+	private static String getFootnoteString(
+			final Iterable<FootnoteInfo> footnotesInfo,
+			final boolean inlineFootnote) {
+		return Streams.stream(footnotesInfo)
+				.map(inlineFootnote ? FootnoteInfo::toText
+						: FootnoteInfo::toShorthand)
+				.collect(Collectors
+						.joining(inlineFootnote ? System.lineSeparator()
+								: TableToTableDocument.FOOTNOTE_MARK_SEPRATOR));
+
+	}
+
+	private static XSSFRow createNewRow(final XSSFSheet sheet,
+			final int rowIndex, final int maxColIndex) {
+		final XSSFRow cloneRow = sheet.createRow(rowIndex);
+		for (int i = 0; i <= maxColIndex; i++) {
+			final Cell newCell = cloneRow.createCell(i);
+			// Default style is style from first data cell of this column
+			newCell.setCellStyle(defaultCellStyleByColumn.get(i));
 		}
 		return cloneRow;
 	}
@@ -371,7 +577,6 @@ public class ExcelExportBuilder implements TableExport {
 
 				final int spanUp = spanUtils.getRowSpanUp(column, row);
 				final int spanDown = spanUtils.getRowSpanDown(column, row);
-
 				// If spanUp > 0, we have already merged this span
 				// in a previous iteration
 				if (spanUp > 0) {
@@ -382,14 +587,59 @@ public class ExcelExportBuilder implements TableExport {
 				if (spanDown == 0) {
 					continue;
 				}
-
-				sheet.addMergedRegion(new CellRangeAddress(sheetRowIndex,
-						sheetRowIndex + spanDown, sheetColumn, sheetColumn));
+				final CellRangeAddress mergeRegion = new CellRangeAddress(
+						sheetRowIndex, sheetRowIndex + spanDown, sheetColumn,
+						sheetColumn);
+				sheet.addMergedRegion(mergeRegion);
+				setStyleForMergeRegion(sheet, mergeRegion);
 			}
 
 			sheetRowIndex++;
 		}
+	}
 
+	private static void setStyleForMergeRegion(final Sheet sheet,
+			final CellRangeAddress mergeRegion) {
+		if (mergeRegion.getFirstColumn() != mergeRegion.getLastColumn()) {
+			throw new IllegalArgumentException("Shoundn't merge vertical cell"); //$NON-NLS-1$
+		}
+		final Cell firstCell = sheet.getRow(mergeRegion.getFirstRow())
+				.getCell(mergeRegion.getFirstColumn());
+		final CellStyle firstCellStyle = firstCell.getCellStyle();
+		for (int i = mergeRegion.getFirstRow(); i <= mergeRegion
+				.getLastRow(); i++) {
+			final Cell cell = sheet.getRow(i)
+					.getCell(mergeRegion.getFirstColumn());
+			cell.setCellStyle(firstCellStyle);
+		}
+
+	}
+
+	private static void createCellNewValueFont(final XSSFWorkbook workbook) {
+		final Font defaultFont = getDefaultFont(workbook);
+		cellNewValueFont = workbook.createFont();
+		cellNewValueFont.setFontName(defaultFont.getFontName());
+		cellNewValueFont
+				.setFontHeightInPoints(defaultFont.getFontHeightInPoints());
+		cellNewValueFont.setColor(IndexedColors.RED.getIndex());
+	}
+
+	private static void createCellOldValueFont(final XSSFWorkbook workbook) {
+		final Font defaultFont = getDefaultFont(workbook);
+		cellOldValueFont = workbook.createFont();
+		cellOldValueFont.setFontName(defaultFont.getFontName());
+		cellOldValueFont
+				.setFontHeightInPoints(defaultFont.getFontHeightInPoints());
+		cellOldValueFont.setColor(IndexedColors.YELLOW.getIndex());
+		cellOldValueFont.setStrikeout(true);
+	}
+
+	private static Font getDefaultFont(final Workbook workbook) {
+		return workbook.getFontAt(workbook.getSheetAt(0)
+				.getRow(0)
+				.getCell(1)
+				.getCellStyle()
+				.getFontIndex());
 	}
 
 	@Override
@@ -421,6 +671,6 @@ public class ExcelExportBuilder implements TableExport {
 			final ToolboxPaths toolboxPaths, final TableType tableType,
 			final OverwriteHandling overwriteHandling) {
 		// do nothing
-
 	}
+
 }
