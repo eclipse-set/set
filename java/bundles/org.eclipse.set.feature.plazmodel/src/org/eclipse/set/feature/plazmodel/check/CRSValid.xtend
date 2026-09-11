@@ -26,7 +26,7 @@ class CRSValid extends AbstractPlazContainerCheck implements PlazCheck {
 		return inValidGEOPoint.map [
 			val error = PlazFactory.eINSTANCE.createPlazError
 			error.type = checkType
-			error.message = '''GEO_Punkt: «identitaet.wert» hat kein gültiges Koordinatensystem. Der sicherungstechnische Lageplan kann unvollständig sein.'''
+			error.message = '''Der GEO_Punkt «identitaet.wert» hat kein gültiges Koordinatensystem. Der sicherungstechnische Lageplan kann unvollständig sein.'''
 			if (GEOPunktAllg === null) {
 				error.object = it
 			} else if (GEOPunktAllg.GEOKoordinatensystem === null ||
@@ -42,11 +42,11 @@ class CRSValid extends AbstractPlazContainerCheck implements PlazCheck {
 	}
 
 	override getDescription() {
-		return "Instanzen von GEO_Punkt_Allg haben ein gültiges Koordinatensystem."
+		return "Alle Instanzen von GEO_Punkt haben ein gültiges Koordinatensystem."
 	}
 
 	override getGeneralErrMsg() {
-		return "Es gibt Objekte mit ungültigen Koordinatensystemen. Der sicherungstechnische Lageplan kann unvollständig sein"
+		return "Es gibt Objekte GEO_Punkt mit ungültigen Koordinatensystemen. Der sicherungstechnische Lageplan kann unvollständig sein."
 	}
 
 }

@@ -29,11 +29,11 @@ import org.eclipse.set.model.planpro.Geodaten.GEO_Kante
 class MeridianBetweenGEOKante extends AbstractPlazContainerCheck implements PlazCheck {
 
 	override checkType() {
-		return "Mehrfache Koordinatensystem"
+		return "Mehrfache Koordinatensysteme"
 	}
 
 	override getDescription() {
-		return "Instanzen von GEO_Kante haben ein konsistentes Koordinatensystem."
+		return "Alle Instanzen von GEO_Kante haben ein konsistentes Koordinatensystem."
 	}
 
 	override protected run(MultiContainer_AttributeGroup container) {
@@ -46,8 +46,7 @@ class MeridianBetweenGEOKante extends AbstractPlazContainerCheck implements Plaz
 		val errList = <PlazError>newArrayList
 		geoKantenWithMeridianSprung.forEach [
 			val err = PlazFactory.eINSTANCE.createPlazError
-			err.message = transformErrorMsg(
-				Map.of("GUID", identitaet?.wert ?: "[Keine GUID]"))
+			err.message = '''Die GEO_Kante «identitaet?.wert ?: "(ohne Identität)"» mit der Länge > 0 hat unterschiedliche Koordinatensysteme. Der sicherungstechnische Lageplan kann unvollständig sein.'''
 			err.type = checkType
 			err.object = it
 			errList.add(err)
@@ -77,6 +76,6 @@ class MeridianBetweenGEOKante extends AbstractPlazContainerCheck implements Plaz
 	}
 
 	override getGeneralErrMsg() {
-		return "Die GEO_Kante {GUID} mit der Länge > 0 hat unterschiedliche Koordinatensysteme. Der sicherungstechnische Lageplan kann unvollständig sein."
+		return "Es gibt GEO_Kanten mit einer Länge > 0 und unterschiedlichen Koordinatensystemen. Der sicherungstechnische Lageplan kann unvollständig sein."
 	}
 }
