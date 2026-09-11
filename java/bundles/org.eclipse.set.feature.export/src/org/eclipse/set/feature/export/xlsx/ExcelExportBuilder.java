@@ -56,6 +56,7 @@ import org.eclipse.set.basis.ToolboxPaths.ExportPathExtension;
 import org.eclipse.set.basis.constants.ExportType;
 import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.basis.exceptions.FileExportException;
+import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.feature.export.pdf.TableToTableDocument;
 import org.eclipse.set.model.tablemodel.CellContent;
 import org.eclipse.set.model.tablemodel.CompareFootnoteContainer;
@@ -83,6 +84,7 @@ import org.openxmlformats.schemas.spreadsheetml.x2006.main.CTColor;
 import org.openxmlformats.schemas.spreadsheetml.x2006.main.CTXf;
 import org.openxmlformats.schemas.spreadsheetml.x2006.main.STBorderStyle;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -106,6 +108,9 @@ public class ExcelExportBuilder implements TableExport {
 	private static List<XSSFCellStyle> defaultCellStyleByColumn;
 	private static XSSFFont cellNewValueFont;
 	private static XSSFFont cellOldValueFont;
+
+	@Reference
+	EnumTranslationService enumTranslationService;
 
 	private static int getFirstRowForContent(final Sheet sheet) {
 		return getHeaderLastRowIndex(sheet) + 1;
@@ -178,6 +183,12 @@ public class ExcelExportBuilder implements TableExport {
 			workbook.setSheetName(0, shortcut.substring(0, 1).toUpperCase()
 					+ shortcut.substring(1));
 			defaultCellStyleByColumn = getDefaultCellStyles(workbook, sheet);
+			if (tableType != TableType.DIFF
+					&& exportType != ExportType.INVENTORY_RECORDS) {
+				ExcelWaterMark.createWaterMark(sheet,
+						enumTranslationService.translate(tableType)
+								.getPresentation());
+			}
 			// dummy-Header erzeugen für die Transformation
 			final String[] headers = getColumnHeaders(sheet);
 			final int columnCount = headers.length;
