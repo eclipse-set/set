@@ -9,6 +9,8 @@
 package org.eclipse.set.feature.validation.table;
 
 import java.nio.file.Path;
+import java.util.Collections;
+import java.util.Map;
 
 import org.eclipse.nebula.widgets.nattable.NatTable;
 import org.eclipse.set.basis.ToolboxPaths.ExportPathExtension;
@@ -135,5 +137,10 @@ public class ValidationTableView extends AbstractTreeLayerTable {
 				.toString();
 		exportCsv(shell, part.getDialogService(),
 				messages.ExportValidationTitleMsg, exportFileName);
+	}
+
+	@Override
+	protected Map<Integer, Object> getDefaultFilterValue() {
+		return Collections.emptyMap();
 	}
 }

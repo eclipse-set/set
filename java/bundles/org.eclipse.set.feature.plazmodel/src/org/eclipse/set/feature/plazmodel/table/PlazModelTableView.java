@@ -9,6 +9,7 @@
 package org.eclipse.set.feature.plazmodel.table;
 
 import java.nio.file.Path;
+import java.util.Map;
 
 import org.eclipse.nebula.widgets.nattable.NatTable;
 import org.eclipse.set.basis.ToolboxPaths.ExportPathExtension;
@@ -22,8 +23,14 @@ import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.table.menu.TableMenuService;
 import org.eclipse.set.utils.table.tree.AbstractTreeLayerTable;
 import org.eclipse.set.utils.xml.XMLNodeFinder;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Label;
 
 /**
  * View for the validation table
@@ -141,5 +148,43 @@ public class PlazModelTableView extends AbstractTreeLayerTable {
 				.toString();
 		exportCsv(part.getToolboxShell(), part.getDialogService(),
 				messages.PlazModellPart_ExportTitleMsg, exportFileName);
+	}
+
+	@Override
+	protected Map<Integer, Object> getDefaultFilterValue() {
+		return Map.of(Integer.valueOf(2), "-GUID-Sortierung"); //$NON-NLS-1$
+	}
+
+	/**
+	 * IMPROVE: when reimplementation the filter to like excel then the check
+	 * box here can be removed
+	 * 
+	 * @param parent
+	 *            the parent composite
+	 */
+	public void createActiveDefaultFilterCheckBox(final Composite parent) {
+		final Composite composite = new Composite(parent, SWT.NONE);
+		// Empty
+		final Composite space = new Composite(parent, SWT.NONE);
+		space.setLayout(new GridLayout());
+		composite.setLayout(new GridLayout(2, false));
+		final Button checkDefaultFilterButton = new Button(composite,
+				SWT.CHECK);
+		checkDefaultFilterButton.setSelection(true);
+		final Label checkDefaultFilterLabel = new Label(composite, SWT.NONE);
+		checkDefaultFilterLabel
+				.setText(messages.PlazModellPart_ActiveDefaultFilterCheckbox);
+		checkDefaultFilterButton.addSelectionListener(new SelectionListener() {
+
+			@Override
+			public void widgetSelected(final SelectionEvent e) {
+				widgetDefaultSelected(e);
+			}
+
+			@Override
+			public void widgetDefaultSelected(final SelectionEvent e) {
+				setDefaultFilterState(checkDefaultFilterButton.getSelection());
+			}
+		});
 	}
 }
