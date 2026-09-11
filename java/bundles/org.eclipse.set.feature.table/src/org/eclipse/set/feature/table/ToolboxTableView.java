@@ -402,13 +402,21 @@ public class ToolboxTableView extends BasePart {
 		if (table == null) {
 			return;
 		}
-		subcribeTriggerResortEvent();
 		final TableStatus status = tableService
 				.getTablesStatus(tableInfo.category())
 				.getOrDefault(tableInfo, null);
-		if (status == null || status.isNonTransformable()) {
+		subcribeTriggerResortEvent();
+		if (status == null) {
 			getDialogService().error(getToolboxShell(),
 					messages.TableTransform_Error_Msg);
+		} else if (status.isNonTransformable()) {
+			getDialogService().error(getToolboxShell(),
+					messages.TableTransform_Error,
+					messages.TableTransform_Error_Msg,
+					status.getTransformException().get());
+		} else if (!status.isSortSuccess()) {
+			getDialogService().openInformation(getToolboxShell(),
+					getViewTitle(), messages.TableTransform_Sort_Error);
 		}
 
 		final ColumnDescriptor rootColumnDescriptor = table
@@ -901,7 +909,8 @@ public class ToolboxTableView extends BasePart {
 				.getRowGroupComparator(tableInfo, tableType);
 		if (table != null
 				&& comparator instanceof final TableRowGroupComparator rowGroupComparator) {
-			// This is new instance of Comparator, therefore need call sort here
+			// This is new instance of Comparator, therefore need call sort
+			// here
 			// to determine the waiting on another service criterion
 			ECollections.sort(table.getTablecontent().getRowgroups(),
 					rowGroupComparator);
@@ -936,6 +945,10 @@ public class ToolboxTableView extends BasePart {
 							natTable.refresh();
 						}
 					}));
+			if (!rowGroupComparator.getCriterionsException().isEmpty()) {
+				getDialogService().openInformation(getToolboxShell(),
+						getViewTitle(), messages.TableTransform_Sort_Error);
+			}
 		}
 	}
 
