@@ -7,13 +7,13 @@
  * http://www.eclipse.org/legal/epl-v20.html
  */
 
-import '@/util/ElementExtensions'
+import { FeatureType } from '@/feature/FeatureInfo'
+import { FMAComponent } from '@/model/FMAComponent'
 import { Label } from '@/model/Label'
 import { ISvgElement, ISvgPoint, SvgElement } from '@/model/SvgElement'
-import SvgDraw from './SvgDraw'
+import '@/util/ElementExtensions'
 import AbstractDrawSVG from '@/util/SVG/Draw/AbstractDrawSVG'
-import { FMAComponent } from '@/model/FMAComponent'
-import { FeatureType } from '@/feature/FeatureInfo'
+import SvgDraw from './SvgDraw'
 
 /**
  * Draw SVGs for FMA Components
@@ -42,7 +42,7 @@ export default class SvgDrawFMAComponent extends AbstractDrawSVG {
   SVG_INVERTED_LABEL_OFFSET_Y = 18
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public drawSVG<T extends object> (data: T, label?: Label | undefined): ISvgElement {
+  public drawSVG<T extends object> (data: T, label?: Label): ISvgElement | null {
     const fma = data as FMAComponent
     const svg = this.getSvgFromCatalog(data)
     if (svg === null) {

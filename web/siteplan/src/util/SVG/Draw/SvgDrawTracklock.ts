@@ -37,7 +37,7 @@ export default class SvgDrawTracklock extends AbstractDrawSVG {
   SVG_LABEL_OFFSET_Y = -60
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public drawSVG<T extends object> (data: T, label?: Label | undefined): ISvgElement {
+  public drawSVG<T extends object> (data: T, label?: Label | undefined): ISvgElement | null {
     const tracklock = data as TrackLock
     const svg = this.getSvgFromCatalog(data)
     if (svg === null) {
