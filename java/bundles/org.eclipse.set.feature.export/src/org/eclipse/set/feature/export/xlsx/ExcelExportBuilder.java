@@ -630,7 +630,7 @@ public class ExcelExportBuilder implements TableExport {
 		cellOldValueFont.setFontName(defaultFont.getFontName());
 		cellOldValueFont
 				.setFontHeightInPoints(defaultFont.getFontHeightInPoints());
-		cellOldValueFont.setColor(IndexedColors.YELLOW.getIndex());
+		cellOldValueFont.setColor(IndexedColors.ORANGE.getIndex());
 		cellOldValueFont.setStrikeout(true);
 	}
 
