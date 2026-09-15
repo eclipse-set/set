@@ -1,0 +1,10 @@
+Row;A;B;C;D;E;F;G;H;I;J;K;L;M;N;O
+;Datenpunkt (DP);Datenpunkt (DP);Datenpunkt (DP);Datenpunkt (DP);Datenpunkt (DP);Bezugspunkt (BP)​​​​​;Bezugspunkt (BP)​​​​​;Bezugspunkt (BP)​​​​​;DP-Standort (Balise a)​​​​​​​​;DP-Standort (Balise a)​​​​​​​​;DP-Standort (Balise a)​​​​​​​​;DP-Standort (Balise a)​​​​​​​​;DP-Standort (Balise a)​​​​​​​​;"Rel. Lage
+b zu a​​​​​​​​​​​​​";Bemerkung​​​​​​​​​​​​​​
+;Datenpunkt (DP);Datenpunkt (DP);Datenpunkt (DP);Datenpunkt (DP);Datenpunkt (DP);Bezeichnung​​​​​;Standort​​​​​​;Standort​​​​​​;DP-Standort (Balise a)​​​​​​​​;DP-Standort (Balise a)​​​​​​​​;DP-Standort (Balise a)​​​​​​​​;DP-Standort (Balise a)​​​​​​​​;DP-Standort (Balise a)​​​​​​​​;"Rel. Lage
+b zu a​​​​​​​​​​​​​";Bemerkung​​​​​​​​​​​​​​
+;NID_C;NID_BG​;Gesteuert​​;Anzahl Balisen​​​;Typ​​​​;Bezeichnung​​​​​;Strecke​​​​​​;Km​​​​​​​;"Rel. Lage 
+zu BP​​​​​​​​";"
+Stellbereich​​​​​​​​​";ETCS-Gleiskante​​​​​​​​​​;Strecke​​​​​​​​​​​;Km​​​​​​​​​​​​;"Rel. Lage
+b zu a​​​​​​​​​​​​​";Bemerkung​​​​​​​​​​​​​​
+;;;;;;;;;m;;;;;m;

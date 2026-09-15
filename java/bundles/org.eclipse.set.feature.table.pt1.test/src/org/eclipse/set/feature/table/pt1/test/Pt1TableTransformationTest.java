@@ -13,13 +13,18 @@ package org.eclipse.set.feature.table.pt1.test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.File;
+import java.lang.reflect.Field;
 import java.nio.file.Path;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import org.dom4j.Document;
 import org.dom4j.io.SAXReader;
+import org.eclipse.e4.core.contexts.EclipseContextFactory;
+import org.eclipse.e4.core.contexts.IContextFunction;
+import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.set.basis.ToolboxProperties;
 import org.eclipse.set.basis.constants.ExportType;
@@ -32,6 +37,7 @@ import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.ppmodel.extensions.MultiContainer_AttributeGroupExtensions;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
+import org.eclipse.set.services.table.TableService;
 import org.eclipse.set.utils.export.xsl.TransformTable;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -85,14 +91,91 @@ class Pt1TableTransformationTest extends Pt1TableTest {
 				Arguments.of(SINGLE_STATE_PLAN, "zustandpphn"));
 	}
 
+	private List<String> expectedTransformationServices;
+
+	@InjectService
+	List<IContextFunction> contextFunctions;
+
 	@InjectService
 	EventAdmin eventAdmin;
+
+	TableService tableService;
 
 	@InjectService
 	List<PlanPro2TableTransformationService> transformationServices;
 
 	@InjectService
 	EnumTranslationService translationService;
+
+	private void givenExpectedTransformationServices() {
+		expectedTransformationServices = List.of( //
+				"SsbbTransformationService", //
+				"SsitTransformationService", //
+				"SskaTransformationService", //
+				"SskfTransformationService", //
+				"SskgTransformationService", //
+				"SskoTransformationService", //
+				"SskpTransformationService", //
+				"SskpDmTransformationService", //
+				"SsksTransformationService", //
+				"SsktTransformationService", //
+				"SskwTransformationService", //
+				"SskxTransformationService", //
+				"SskzTransformationService", //
+				"SslaTransformationService", //
+				"SslbTransformationService", //
+				"SsldTransformationService", //
+				"SslfTransformationService", //
+				"SsliTransformationService", //
+				"SslnTransformationService", //
+				"SslrTransformationService", //
+				"SslsTransformationService", //
+				"SslwTransformationService", //
+				"SslzTransformationService", //
+				"SsvuTransformationService", //
+				"SszaTransformationService", //
+				"SszsTransformationService", //
+				"SszwTransformationService", //
+				"SxxxTransformationService" //
+
+		);
+	}
+
+	private void givenTableService()
+			throws NoSuchFieldException, SecurityException,
+			IllegalArgumentException, IllegalAccessException {
+		final IEclipseContext iEclipseContext = EclipseContextFactory.create();
+		final Optional<IContextFunction> tableServiceContextFunction = contextFunctions
+				.stream()
+				.filter(cf -> cf.getClass()
+						.getName()
+						.endsWith("TableServiceContextFunction"))
+				.findFirst();
+		if (tableServiceContextFunction.isEmpty()) {
+			throw new RuntimeException("Cant find TableServiceContextFunction");
+		}
+		tableServiceContextFunction.get()
+				.compute(iEclipseContext,
+						"org.eclipse.set.services.table.TableService");
+		final Class<? extends Optional> class1 = tableServiceContextFunction
+				.getClass();
+		final Field field = class1.getField("tableService");
+		field.setAccessible(true);
+		tableService = (TableService) field
+				.get(tableServiceContextFunction.get());
+	}
+
+	@Test
+	void testExistTableTransformService() {
+		givenExpectedTransformationServices();
+		assertEquals(expectedTransformationServices.size(),
+				transformationServices.size());
+		assertTrue(expectedTransformationServices.stream()
+				.allMatch(expect -> transformationServices.stream()
+						.anyMatch(actual -> actual.getClass()
+								.getName()
+								.endsWith(expect))));
+	}
 
 	@Test
 	void testPDFExportStyle() throws Exception {
@@ -122,6 +205,13 @@ class Pt1TableTransformationTest extends Pt1TableTest {
 					"The XSL isn't equal expected: "
 							+ service.getTableNameInfo().getShortName());
 		}
+	}
+
+	@ParameterizedTest
+	@MethodSource("getReferenceFiles")
+	void testTableData(final String file) throws Exception {
+		givenTableService();
+		givenPlanProFile(file);
 	}
 
 	@ParameterizedTest
