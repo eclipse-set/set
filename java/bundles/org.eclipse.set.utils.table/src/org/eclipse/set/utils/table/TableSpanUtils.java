@@ -11,8 +11,12 @@ package org.eclipse.set.utils.table;
 import static org.eclipse.set.model.tablemodel.extensions.CellContentExtensions.getStringValueIterable;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt;
+import org.eclipse.set.model.planpro.PZB.PZB_Element;
+import org.eclipse.set.model.planpro.Signale.Signal;
 import org.eclipse.set.model.tablemodel.CellContent;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.CompareStateCellContent;
@@ -22,6 +26,10 @@ import org.eclipse.set.model.tablemodel.StringCellContent;
 import org.eclipse.set.model.tablemodel.TableRow;
 import org.eclipse.set.model.tablemodel.extensions.CellContentExtensions;
 import org.eclipse.set.model.tablemodel.extensions.TableRowExtensions;
+import org.eclipse.set.ppmodel.extensions.EObjectExtensions;
+import org.eclipse.set.ppmodel.extensions.FahrwegExtensions;
+import org.eclipse.set.ppmodel.extensions.FstrZugRangierExtensions;
+import org.eclipse.set.ppmodel.extensions.PZBElementExtensions;
 
 import com.google.common.collect.Streams;
 
@@ -32,6 +40,10 @@ import com.google.common.collect.Streams;
  *
  */
 public class TableSpanUtils {
+	@SuppressWarnings("boxing")
+	private static final List<Integer> sskpSpecialHandlingColIndex = List.of(0,
+			7, 8, 9);
+
 	/**
 	 * @param rows
 	 *            the table rows
@@ -225,8 +237,16 @@ public class TableSpanUtils {
 	 *            the row
 	 * @return whether merging is allowed for a given column
 	 */
+	@SuppressWarnings("boxing")
 	public boolean isMergeAllowed(final int column, final int row) {
 		final TableRow tableRow = instances.get(row);
+		// By default BezugsElement designation column is allowed to merge
+		if (TableRowExtensions
+				.getLeadingObject(tableRow) instanceof final PZB_Element pzb
+				&& isSpecialHanldingPZB(pzb)
+				&& sskpSpecialHandlingColIndex.contains(column)) {
+			return false;
+		}
 		ColumnDescriptor cd = TableRowExtensions.getColumnDescriptors(tableRow)
 				.get(column);
 
@@ -240,6 +260,30 @@ public class TableSpanUtils {
 			}
 			return cd.getMergeCommonValues() == RowMergeMode.ENABLED;
 		}
+	}
+
+	private static boolean isSpecialHanldingPZB(final PZB_Element pzb) {
+		final List<Basis_Objekt> bezugsPunkts = PZBElementExtensions
+				.getPZBElementBezugspunkt(pzb)
+				.stream()
+				.filter(Signal.class::isInstance)
+				.toList();
+		if (bezugsPunkts.size() > 1) {
+			final long relevantFstrCount = Streams
+					.stream(PZBElementExtensions
+							.getPZBElementZuordnungFstr(pzb))
+					.map(zuordnungFstr -> EObjectExtensions.getNullableObject(
+							zuordnungFstr,
+							fstr -> FstrZugRangierExtensions.getFstrFahrweg(
+									fstr.getIDFstrZugRangier().getValue()))
+							.orElse(null))
+					.filter(Objects::nonNull)
+					.filter(fstr -> bezugsPunkts
+							.contains(FahrwegExtensions.getZielSignal(fstr)))
+					.count();
+			return relevantFstrCount == bezugsPunkts.size();
+		}
+		return false;
 	}
 
 	private static boolean isEmptyCellContentValue(
