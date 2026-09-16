@@ -29,6 +29,7 @@ class GuidUnique extends AbstractPlazContainerCheck implements PlazCheck {
 			if (guid !== null && knownGUIDs.contains(guid)) {
 				val err = PlazFactory.eINSTANCE.createPlazError
 				err.message = transformErrorMsg(Map.of("GUID", guid))
+				err.message = '''Die GUID «guid» ist nicht eindeutig.'''
 				err.type = checkType
 				err.object = identitaet
 				return err
@@ -48,6 +49,6 @@ class GuidUnique extends AbstractPlazContainerCheck implements PlazCheck {
 	}
 
 	override getGeneralErrMsg() {
-		return "Die GUID {GUID} ist nicht eindeutig!"
+		return "Nicht alle GUIDs sind eindeutig."
 	}
 }
