@@ -119,7 +119,7 @@ class FootnoteTransformation {
 			].filterNull
 			val footnotes = #[notes, objectStateNote].flatten
 
-			return footnotes.toList.withPrefix(sb.prefix)
+			return footnotes.toList.withPrefix(sb.prefix).filterNull
 		] ?: #[]
 	}
 
