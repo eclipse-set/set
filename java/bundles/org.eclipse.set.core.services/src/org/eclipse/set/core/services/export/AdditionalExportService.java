@@ -61,7 +61,14 @@ public interface AdditionalExportService<T extends CheckboxModelElement> {
 	public boolean isAdditionalExportId(String id);
 
 	/**
+	 * @param modelSession
+	 *            the model session
+	 * @param exportDirectory
+	 *            the export directory
+	 * @param exportType
+	 *            the export type
 	 * @return the export path
 	 */
-	public List<Path> getExportPaths();
+	public List<Path> getExportPaths(final IModelSession modelSession,
+			Path exportDirectory, ExportType exportType);
 }
