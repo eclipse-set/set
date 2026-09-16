@@ -9,7 +9,9 @@
 package org.eclipse.set.utils.table.sorting;
 
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 
 import org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum;
@@ -42,8 +44,18 @@ public final class TableRowGroupComparator implements Comparator<RowGroup> {
 	private final List<Comparator<TableRow>> criteria = Lists.newLinkedList();
 	private final TableType tableType;
 
+	private final Map<Comparator<TableRow>, Exception> criterionsException;
+
+	/**
+	 * @return the exception during comparator
+	 */
+	public Map<Comparator<TableRow>, Exception> getCriterionsException() {
+		return criterionsException;
+	}
+
 	private TableRowGroupComparator(final TableType tableType) {
 		this.tableType = tableType;
+		this.criterionsException = new HashMap<>();
 	}
 
 	/**
@@ -108,10 +120,16 @@ public final class TableRowGroupComparator implements Comparator<RowGroup> {
 	 */
 	public int compare(final TableRow row1, final TableRow row2) {
 		for (final Comparator<TableRow> criterion : criteria) {
-			final int result = criterion.compare(row1, row2);
-			if (result != 0) {
-				return result;
+			try {
+				final int result = criterion.compare(row1, row2);
+				if (result != 0) {
+					return result;
+				}
+			} catch (final Exception e) {
+				criterionsException.put(criterion, e);
+				continue;
 			}
+
 		}
 		return 0;
 	}
