@@ -165,7 +165,7 @@ const isMultiFeature = computed(() => {
 
 watch(features, () => {
   if (features.value.length === 1) {
-    selectedFeature.value = features.value[0]
+    selectedItem(features.value[0])
   }
 })
 
