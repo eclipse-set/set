@@ -161,7 +161,7 @@ watch(features, () => {
   if (features.value.length === 1) {
     selectedItem(features.value[0])
   }
-})
+}, { immediate: true })
 
 function backToMenu () {
   selectedFeature.value = null
