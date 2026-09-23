@@ -21,7 +21,7 @@
           v-for="feature in features"
           id="menuItem"
           :key="feature.getId()"
-          @click="selectedItem(feature)"
+          @click="selectFeature(feature)"
         >
           {{ getFeatureName(getFeatureType(feature)) }}: {{ getFeatureLabel(feature) }}
         </li>
@@ -159,7 +159,7 @@ const isMultiFeature = computed(() => {
 
 watch(features, () => {
   if (features.value.length === 1) {
-    selectedItem(features.value[0])
+    selectFeature(features.value[0])
   }
 }, { immediate: true })
 
@@ -167,7 +167,7 @@ function backToMenu () {
   selectedFeature.value = null
 }
 
-function selectedItem (feature: Feature<Geometry>) {
+function selectFeature (feature: Feature<Geometry>) {
   selectedFeature.value = getFeatureType(feature) === FeatureType.Flash
     ? (getFeatureData(feature) as FlashFeatureData).refFeature
     : feature
