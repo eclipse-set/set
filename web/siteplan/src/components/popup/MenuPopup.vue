@@ -84,12 +84,6 @@ const emit = defineEmits<{ removePopup: [], }>()
 
 const selectedFeature = shallowRef<Feature<Geometry> | null>(null)
 
-watch(selectedFeature, value => {
-  if (value && getFeatureType(value) === FeatureType.Flash) {
-    selectedFeature.value = (getFeatureData(value) as FlashFeatureData).refFeature
-  }
-}, { flush: 'sync' })
-
 const selectedPopup = computed(() => {
   if (selectedFeature.value == null) {
     return emit('removePopup')
@@ -174,7 +168,9 @@ function backToMenu () {
 }
 
 function selectedItem (feature: Feature<Geometry>) {
-  selectedFeature.value = feature
+  selectedFeature.value = getFeatureType(feature) === FeatureType.Flash
+    ? (getFeatureData(feature) as FlashFeatureData).refFeature
+    : feature
 }
 
 </script>
