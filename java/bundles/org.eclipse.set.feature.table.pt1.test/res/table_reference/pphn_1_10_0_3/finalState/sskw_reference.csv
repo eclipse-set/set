@@ -1,26 +1,4 @@
-Row;A;B;C;D;E;F;G;H;I;J;K;L;M;N;O;P;Q;R;S;T;U;V;W;X;Y;Z
-;Weiche/Kreuzung/Gleissperre/Sonderanlage;Weiche/Kreuzung/Gleissperre/Sonderanlage;Weiche/Kreuzung/Gleissperre/Sonderanlage;Freimeldung​​​;Freimeldung​​​;Freimeldung​​​;Freimeldung​​​;"Vorzugslage/
-Grundstellung​​​​​​​";"Vorzugslage/
-Grundstellung​​​​​​​";Weiche​​​​​​​​​;Weiche​​​​​​​​​;Weiche​​​​​​​​​;Weiche​​​​​​​​​;Weiche​​​​​​​​​;Weiche​​​​​​​​​;Kreuzung​​​​​​​​​​​​​​​;Kreuzung​​​​​​​​​​​​​​​;Herzstück​​​​​​​​​​​​​​​​​;Gleissperre​​​​​​​​​​​​​​​​​​;Gleissperre​​​​​​​​​​​​​​​​​​;Gleissperre​​​​​​​​​​​​​​​​​​;Gleissperre​​​​​​​​​​​​​​​​​​;Sonstiges​​​​​​​​​​​​​​​​​​​​​​;Sonstiges​​​​​​​​​​​​​​​​​​​​​​;Sonderanlage​​​​​​​​​​​​​​​​​​​​​​​​;Bemerkung​​​​​​​​​​​​​​​​​​​​​​​​​
-;Weiche/Kreuzung/Gleissperre/Sonderanlage;Weiche/Kreuzung/Gleissperre/Sonderanlage;Weiche/Kreuzung/Gleissperre/Sonderanlage;FMA​​​;nicht grenzzeichenfrei​​​​;nicht grenzzeichenfrei​​​​;Isolierfall​​​​​​;"Vorzugslage/
-Grundstellung​​​​​​​";"Vorzugslage/
-Grundstellung​​​​​​​";"Auffahr-
-ortung​​​​​​​​​";Anzahl (Lage) Antriebe​​​​​​​​​​;"Weichen-
-signal​​​​​​​​​​​";"Prüf-
-kontakte
-(Zprk)​​​​​​​​​​​​";zul. Geschwindigkeit​​​​​​​​​​​​​;zul. Geschwindigkeit​​​​​​​​​​​​​;zul. Geschwindigkeit​​​​​​​​​​​​​​​;zul. Geschwindigkeit​​​​​​​​​​​​​​​;Herzstück​​​​​​​​​​​​​​​​​;Gleissperre​​​​​​​​​​​​​​​​​​;Gleissperre​​​​​​​​​​​​​​​​​​;Gleissperre​​​​​​​​​​​​​​​​​​;Gleissperre​​​​​​​​​​​​​​​​​​;Sonstiges​​​​​​​​​​​​​​​​​​​​​​;Sonstiges​​​​​​​​​​​​​​​​​​​​​​;Sonderanlage​​​​​​​​​​​​​​​​​​​​​​​​;Bemerkung​​​​​​​​​​​​​​​​​​​​​​​​​
-;Bezeichnung;Art​;Form​​;FMA​​​;Links mit​​​​;Rechts mit​​​​​;Isolierfall​​​​​​;"Lage/
-Stellung​​​​​​​";"Auto-
-matik​​​​​​​​";"Auffahr-
-ortung​​​​​​​​​";Anzahl (Lage) Antriebe​​​​​​​​​​;"Weichen-
-signal​​​​​​​​​​​";"Prüf-
-kontakte
-(Zprk)​​​​​​​​​​​​";Links​​​​​​​​​​​​​;Rechts​​​​​​​​​​​​​​;Links​​​​​​​​​​​​​​​;Rechts​​​​​​​​​​​​​​​​;Anzahl (Lage) Antriebe​​​​​​​​​​​​​​​​​;Anzahl Antriebe​​​​​​​​​​​​​​​​​​;"Gsp-
-signal​​​​​​​​​​​​​​​​​​​";"Auswurf-
-richtung​​​​​​​​​​​​​​​​​​​​";"Schutz-
-schiene​​​​​​​​​​​​​​​​​​​​​";"Regelzeichnung
-Nr. (Bild)​​​​​​​​​​​​​​​​​​​​​​";DWS​​​​​​​​​​​​​​​​​​​​​​​;Art​​​​​​​​​​​​​​​​​​​​​​​​;Bemerkung​​​​​​​​​​​​​​​​​​​​​​​​​
-;;;;;;;;;;;St;;St;km/h;km/h;km/h;km/h;St;St;;;;;;;
+Lfd. Nr.;A;B;C;D;E;F;G;H;I;J;K;L;M;N;O;P;Q;R;S;T;U;V;W;X;Y;Z
 1;"<p style=""text-align:left""><span>W41</span></p>";"<p style=""text-align:left""><span>EW</span></p>";"<p style=""text-align:center""><span>EW ​54-​190-​1:9</span></p>";"<p style=""text-align:center""><span>60B114</span></p>";"<p style=""text-align:center""><span></span></p>";"<p style=""text-align:center""><span></span></p>";"<p style=""text-align:center""><span></span></p>";"<p style=""text-align:center""><span></span></p>";"<p style=""text-align:center""><span></span></p>";"<p style=""text-align:center""><span>□</span></p>";"<p style=""text-align:center""><span></span></p>";"<p style=""text-align:center""><span>reflekt.</span></p>";"<p style=""text-align:center""><span>0</span></p>";"<p style=""text-align:center""><span>40 ​</span></p>";"<p style=""text-align:center""><span>120 ​(pmax)​</span></p>";"<p style=""text-align:center""><span></span></p>";"<p style=""text-align:center""><span></span></p>";"<p style=""text-align:center""><span></span></p>";"<p style=""text-align:center""><span></span></p>";"<p style=""text-align:center""><span></span></p>";"<p style=""text-align:center""><span></span></p>";"<p style=""text-align:center""><span></span></p>";"<p style=""text-align:center""><span>Sw ​3101.0001 ​(1)​
 <br></br>WSK_​2018_​W41</span></p>";"<p style=""text-align:center""><span>x</span></p>";"<p style=""text-align:center""><span></span></p>";"<p style=""text-align:left""></p>"
 2;"<p style=""text-align:left""><span>W42</span></p>";"<p style=""text-align:left""><span>EW</span></p>";"<p style=""text-align:center""><span>EW ​54-​190-​1:9</span></p>";"<p style=""text-align:center""><span></span></p>";"<p style=""text-align:center""><span></span></p>";"<p style=""text-align:center""><span></span></p>";"<p style=""text-align:center""><span></span></p>";"<p style=""text-align:center""><span></span></p>";"<p style=""text-align:center""><span></span></p>";"<p style=""text-align:center""><span>□</span></p>";"<p style=""text-align:center""><span></span></p>";"<p style=""text-align:center""><span>reflekt.</span></p>";"<p style=""text-align:center""><span>0</span></p>";"<p style=""text-align:center""><span>40 ​</span></p>";"<p style=""text-align:center""><span>40 ​</span></p>";"<p style=""text-align:center""><span></span></p>";"<p style=""text-align:center""><span></span></p>";"<p style=""text-align:center""><span></span></p>";"<p style=""text-align:center""><span></span></p>";"<p style=""text-align:center""><span></span></p>";"<p style=""text-align:center""><span></span></p>";"<p style=""text-align:center""><span></span></p>";"<p style=""text-align:center""><span>Sw ​3101.0001 ​(1)​

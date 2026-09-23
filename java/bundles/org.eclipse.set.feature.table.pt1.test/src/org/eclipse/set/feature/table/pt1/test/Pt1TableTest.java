@@ -29,7 +29,7 @@ import org.eclipse.set.basis.constants.ContainerType;
 import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.basis.files.ToolboxFile;
 import org.eclipse.set.basis.files.ToolboxFileRole;
-import org.eclipse.set.feature.table.pt1.test.utils.MockModelSession;
+import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.eclipse.set.unittest.utils.AbstractToolboxTest;
@@ -45,34 +45,67 @@ import org.osgi.test.common.annotation.InjectService;
  * 
  * @author Truong
  */
-public class Pt1TableTest extends AbstractToolboxTest {
+public abstract class Pt1TableTest extends AbstractToolboxTest {
+	protected static final String TEST_RESOURCE_DIR = "res/";
+	protected List<String> expectedTransformationServices;
+	protected IModelSession modelSession;
+
 	protected String TEMPLATE_DIR = "../org.eclipse.set.feature/rootdir/data/export";
+
 	protected String TEMPLATE_LOCAL_DIR = "./data/export";
 
+	protected boolean assertInjectedAllTransformationService(
+			final List<PlanPro2TableTransformationService> transformationServices) {
+		givenExpectedTransformationServices();
+		return expectedTransformationServices.size() == transformationServices
+				.size()
+				&& expectedTransformationServices.stream()
+						.allMatch(expect -> transformationServices.stream()
+								.anyMatch(actual -> actual.getClass()
+										.getName()
+										.endsWith(expect)));
+	}
+
 	@BeforeAll
-	void beforeAll() throws Exception {
+	protected void beforeAll() throws Exception {
 		copyResource();
 	}
 
-	protected IModelSession modelSession;
-
-	/**
-	 * @param eventAdmin
-	 *            injection throw {@link InjectService}
-	 */
-	private void givenModelSession(final EventAdmin eventAdmin) {
-		if (planProSchnittstelle == null) {
-			modelSession = null;
+	protected void copyResource() throws Exception {
+		final Path source = Path.of(TEMPLATE_DIR);
+		final Path target = Path.of(TEMPLATE_LOCAL_DIR);
+		if (!Files.exists(Path.of(TEMPLATE_LOCAL_DIR))) {
+			Files.createDirectories(Path.of(TEMPLATE_LOCAL_DIR));
+		} else {
+			try (Stream<Path> stream = Files.walk(target)) {
+				stream.filter(path -> !path.equals(target))
+						.sorted(Comparator.reverseOrder())
+						.forEach(path -> {
+							try {
+								Files.delete(path);
+							} catch (final IOException e) {
+								throw new RuntimeException(e);
+							}
+						});
+			}
 		}
-
-		final ToolboxFile mockToolboxFile = Mockito.mock(ToolboxFile.class);
-		when(mockToolboxFile.getRole()).thenReturn(ToolboxFileRole.SESSION);
-		modelSession = new MockModelSession(planProSchnittstelle,
-				mockToolboxFile);
-		final Dictionary<String, Object> d = new Hashtable<>(2);
-		d.put(EventConstants.EVENT_TOPIC, Events.MODEL_CHANGED);
-		d.put(IEventBroker.DATA, modelSession);
-		eventAdmin.sendEvent(new Event(Events.MODEL_CHANGED, d));
+		try (Stream<Path> stream = Files.walk(source)) {
+			stream.forEach(path -> {
+				try {
+					final Path relative = source.relativize(path);
+					final Path targetPath = target.resolve(relative);
+					if (Files.isDirectory(path)) {
+						Files.createDirectories(targetPath);
+					} else {
+						Files.copy(path, targetPath,
+								StandardCopyOption.REPLACE_EXISTING,
+								StandardCopyOption.COPY_ATTRIBUTES);
+					}
+				} catch (final IOException e) {
+					throw new RuntimeException(e);
+				}
+			});
+		}
 	}
 
 	protected List<MultiContainer_AttributeGroup> getLSTContainer() {
@@ -86,45 +119,58 @@ public class Pt1TableTest extends AbstractToolboxTest {
 				.toList();
 	}
 
-	protected void setupTransformationService(final EventAdmin eventAdmin)
-			throws Exception {
-		givenModelSession(eventAdmin);
+	protected void givenExpectedTransformationServices() {
+		expectedTransformationServices = List.of( //
+				"SsbbTransformationService", //
+				"SsitTransformationService", //
+				"SskaTransformationService", //
+				"SskfTransformationService", //
+				"SskgTransformationService", //
+				"SskoTransformationService", //
+				"SskpTransformationService", //
+				"SskpDmTransformationService", //
+				"SsksTransformationService", //
+				"SsktTransformationService", //
+				"SskwTransformationService", //
+				"SskxTransformationService", //
+				"SskzTransformationService", //
+				"SslaTransformationService", //
+				"SslbTransformationService", //
+				"SsldTransformationService", //
+				"SslfTransformationService", //
+				"SsliTransformationService", //
+				"SslnTransformationService", //
+				"SslrTransformationService", //
+				"SslsTransformationService", //
+				"SslwTransformationService", //
+				"SslzTransformationService", //
+				"SsvuTransformationService", //
+				"SszaTransformationService", //
+				"SszsTransformationService", //
+				"SszwTransformationService", //
+				"SxxxTransformationService" //
+
+		);
 	}
 
-	protected void copyResource() throws Exception {
-		Path source = Path.of(TEMPLATE_DIR);
-		Path target = Path.of(TEMPLATE_LOCAL_DIR);
-		if (!Files.exists(Path.of(TEMPLATE_LOCAL_DIR))) {
-			Files.createDirectories(Path.of(TEMPLATE_LOCAL_DIR));
-		} else {
-			try (Stream<Path> stream = Files.walk(target)) {
-				stream.filter(path -> !path.equals(target))
-						.sorted(Comparator.reverseOrder())
-						.forEach(path -> {
-							try {
-								Files.delete(path);
-							} catch (IOException e) {
-								throw new RuntimeException(e);
-							}
-						});
-			}
+	/**
+	 * @param eventAdmin
+	 *            injection throw {@link InjectService}
+	 */
+	protected void setupModelSession(final EventAdmin eventAdmin) {
+		if (planProSchnittstelle == null) {
+			modelSession = null;
 		}
-		try (Stream<Path> stream = Files.walk(source)) {
-			stream.forEach(path -> {
-				try {
-					Path relative = source.relativize(path);
-					Path targetPath = target.resolve(relative);
-					if (Files.isDirectory(path)) {
-						Files.createDirectories(targetPath);
-					} else {
-						Files.copy(path, targetPath,
-								StandardCopyOption.REPLACE_EXISTING,
-								StandardCopyOption.COPY_ATTRIBUTES);
-					}
-				} catch (IOException e) {
-					throw new RuntimeException(e);
-				}
-			});
-		}
+
+		final ToolboxFile mockToolboxFile = Mockito.mock(ToolboxFile.class);
+		when(mockToolboxFile.getRole()).thenReturn(ToolboxFileRole.SESSION);
+		modelSession = Mockito.mock(IModelSession.class);
+		Mockito.when(modelSession.getPlanProSchnittstelle())
+				.thenReturn(planProSchnittstelle);
+		Mockito.when(modelSession.getToolboxFile()).thenReturn(mockToolboxFile);
+		final Dictionary<String, Object> d = new Hashtable<>(2);
+		d.put(EventConstants.EVENT_TOPIC, Events.MODEL_CHANGED);
+		d.put(IEventBroker.DATA, modelSession);
+		eventAdmin.sendEvent(new Event(Events.MODEL_CHANGED, d));
 	}
 }

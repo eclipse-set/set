@@ -1,26 +1,4 @@
-Row;A;B;C;D;E;F;G;H;I;J;K;L;M;N;O;P;Q
-;Grundsatzangaben;Grundsatzangaben;Grundsatzangaben;Grundsatzangaben;Grundsatzangaben;Grundsatzangaben;Einstellung​​​​​​;Einstellung​​​​​​;Abhängigkeiten​​​​​​​​;Abhängigkeiten​​​​​​​​;Abhängigkeiten​​​​​​​​;Abhängigkeiten​​​​​​​​;Abhängigkeiten​​​​​​​​;Abhängigkeiten​​​​​​​​;Abhängigkeiten​​​​​​​​;Abhängigkeiten​​​​​​​​;Bemerkung​​​​​​​​​​​​​​​​
-;Bezeichnung;Fahrweg​;Fahrweg​;Fahrweg​;Fahrweg​;Art​​​​​;Einstellung​​​​​​;Einstellung​​​​​​;Inselgleis​​​​​​​​;Inselgleis​​​​​​​​;"Gleisfrei-
-meldung​​​​​​​​​​";"Fahrwegweichen
-mit Flankenschutz​​​​​​​​​​​";Überwachte Ssp (Auflösung Zielgleis)​​​​​​​​​​​​;"Abhängiger
-BÜ​​​​​​​​​​​​​";"Ziel
-erlaubnis-
-abhängig​​​​​​​​​​​​​​";"Auflösung
-nicht angefahrener
-Fahrstraßen​​​​​​​​​​​​​​​";Bemerkung​​​​​​​​​​​​​​​​
-;Bezeichnung;Start​;Ziel​​;Nr.​​​;"Entscheidungsweiche
-mit Stellung​​​​";Art​​​​​;"Autom.
-Einstellung​​​​​​";"F-
-Bedienung​​​​​​​";Bezeichnung​​​​​​​​;"Gegenfahrt-
-ausschluss​​​​​​​​​";"Gleisfrei-
-meldung​​​​​​​​​​";"Fahrwegweichen
-mit Flankenschutz​​​​​​​​​​​";Überwachte Ssp (Auflösung Zielgleis)​​​​​​​​​​​​;"Abhängiger
-BÜ​​​​​​​​​​​​​";"Ziel
-erlaubnis-
-abhängig​​​​​​​​​​​​​​";"Auflösung
-nicht angefahrener
-Fahrstraßen​​​​​​​​​​​​​​​";Bemerkung​​​​​​​​​​​​​​​​
-;;;;;;;;;;;;;;;;;
+Lfd. Nr.;A;B;C;D;E;F;G;H;I;J;K;L;M;N;O;P;Q
 1;"<p style=""text-align:left""><span>60LW51X/​60L107X</span></p>";"<p style=""text-align:left""><span>60LW51X</span></p>";"<p style=""text-align:left""><span>60L107X</span></p>";"<p style=""text-align:center""><span></span></p>";"<p style=""text-align:center""><span></span></p>";"<p style=""text-align:center""><span>R</span></p>";"<p style=""text-align:center""><span></span></p>";"<p style=""text-align:center""><span>□</span></p>";"<p style=""text-align:center""><span>7</span></p>";"<p style=""text-align:center""><span>□</span></p>";"<p style=""text-align:center""><span>60W51</span></p>";"<p style=""text-align:center""><span></span></p>";"<p style=""text-align:center""><span></span></p>";"<p style=""text-align:center""><span></span></p>";"<p style=""text-align:center""><span>□</span></p>";"<p style=""text-align:center""><span>x</span></p>";"<p style=""text-align:left""></p>"
 2;"<p style=""text-align:left""><span>60LW51X/​60L108X</span></p>";"<p style=""text-align:left""><span>60LW51X</span></p>";"<p style=""text-align:left""><span>60L108X</span></p>";"<p style=""text-align:center""><span></span></p>";"<p style=""text-align:center""><span></span></p>";"<p style=""text-align:center""><span>R</span></p>";"<p style=""text-align:center""><span></span></p>";"<p style=""text-align:center""><span>□</span></p>";"<p style=""text-align:center""><span>8</span></p>";"<p style=""text-align:center""><span>□</span></p>";"<p style=""text-align:center""><span>60W51</span></p>";"<p style=""text-align:center""><span></span></p>";"<p style=""text-align:center""><span></span></p>";"<p style=""text-align:center""><span></span></p>";"<p style=""text-align:center""><span>□</span></p>";"<p style=""text-align:center""><span>x</span></p>";"<p style=""text-align:left""></p>"
 3;"<p style=""text-align:left""><span>60L211X/​60LW3X</span></p>";"<p style=""text-align:left""><span>60L211X</span></p>";"<p style=""text-align:left""><span>60LW3X</span></p>";"<p style=""text-align:center""><span></span></p>";"<p style=""text-align:center""><span></span></p>";"<p style=""text-align:center""><span>R</span></p>";"<p style=""text-align:center""><span></span></p>";"<p style=""text-align:center""><span>□</span></p>";"<p style=""text-align:center""><span></span></p>";"<p style=""text-align:center""><span></span></p>";"<p style=""text-align:center""><span>60W1</span></p>";"<p style=""text-align:center""><span>60W1

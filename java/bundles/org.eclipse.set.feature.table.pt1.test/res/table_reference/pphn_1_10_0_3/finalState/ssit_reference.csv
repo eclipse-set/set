@@ -1,12 +1,4 @@
-Row;A;B;C;D;E;F;G;H;I;J;K;L;M;N;O;P;Q;R
-;Grundsatzangaben;Grundsatzangaben;Grundsatzangaben;Grundsatzangaben;Grundsatzangaben;Grundsatzangaben;Bedien- und Anzeigeelemente​​​​​​;Bedien- und Anzeigeelemente​​​​​​;Bedien- und Anzeigeelemente​​​​​​;Bedien- und Anzeigeelemente​​​​​​;Bedien- und Anzeigeelemente​​​​​​;Bedien- und Anzeigeelemente​​​​​​;Bedien- und Anzeigeelemente​​​​​​;Bedien- und Anzeigeelemente​​​​​​;Bedien- und Anzeigeelemente​​​​​​;Bedien- und Anzeigeelemente​​​​​​;Bedien- und Anzeigeelemente​​​​​​;Bemerkung​​​​​​​​​​​​​​​​​
-;Bezeichnung;"Zugehörige Außenelement-
-ansteuerung​";Bauart​​;Befestigung​​​;Befestigung​​​;Befestigung​​​;Melder​​​​​​;Schalter​​​​​​​;Taste​​​​​​​​;Nahstellbereich​​​​​​​​​;Nahstellbereich​​​​​​​​​;Nahstellbereich​​​​​​​​​;Nahstellbereich​​​​​​​​​;Nahstellbereich​​​​​​​​​;Nahstellbereich​​​​​​​​​;Nahstellbereich​​​​​​​​​;Nahstellbereich​​​​​​​​​;Bemerkung​​​​​​​​​​​​​​​​​
-;Bezeichnung;"Zugehörige Außenelement-
-ansteuerung​";Bauart​​;Art​​​;Strecke​​​​;km​​​​​;Melder​​​​​​;Schalter​​​​​​​;Taste​​​​​​​​;Anforderung Nb​​​​​​​​​;"Fertig-
-meldung​​​​​​​​​​";"Weichen-
-gruppe​​​​​​​​​​​";Umstellung Weiche​​​​​​​​​​​​;Umstellung Gleissperre​​​​​​​​​​​​​;Umstellung Signal​​​​​​​​​​​​​​;Freigabe Schlüsselsperre​​​​​​​​​​​​​​​;Anschaltzeit Hupe​​​​​​​​​​​​​​​​;Bemerkung​​​​​​​​​​​​​​​​​
-;;;;;;;;;;;;;;;;;s;
+Lfd. Nr.;A;B;C;D;E;F;G;H;I;J;K;L;M;N;O;P;Q;R
 1;"<p style=""text-align:center""><span>60ZPZU20</span></p>";"<p style=""text-align:center""><span>ESTW-​A ​P-​Hausen</span></p>";"<p style=""text-align:center""><span>Bediensäule</span></p>";"<p style=""text-align:center""><span>Fundament</span></p>";"<p style=""text-align:center""><span>8980</span></p>";"<p style=""text-align:right""><span>120,501</span></p>";"<p style=""text-align:center""><span>Leuchtmelder ​Zp ​10
 <br></br>Leuchtmelder ​Zp ​9
 <br></br>Signalfahrtmelder</span></p>";"<p style=""text-align:center""><span>Schlüsselschalter ​Vierkant</span></p>";"<p style=""text-align:center""><span>Bedientaste ​Zp ​10
