@@ -94,7 +94,7 @@ watch(mode, value => {
   } else if (value === 'einzeln') {
     listSignalGroup.value = Object.values(HauptVorSignalGroup)
   }
-})
+}, { immediate: true })
 
 </script>
 <style scoped>
