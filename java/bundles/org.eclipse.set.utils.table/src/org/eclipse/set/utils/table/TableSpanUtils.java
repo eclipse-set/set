@@ -240,11 +240,15 @@ public class TableSpanUtils {
 	@SuppressWarnings("boxing")
 	public boolean isMergeAllowed(final int column, final int row) {
 		final TableRow tableRow = instances.get(row);
+		boolean isSpecialHandling = false;
 		// By default BezugsElement designation column is allowed to merge
 		if (TableRowExtensions
 				.getLeadingObject(tableRow) instanceof final PZB_Element pzb
-				&& isSpecialHanldingPZB(pzb)
-				&& sskpSpecialHandlingColIndex.contains(column)) {
+				&& isSpecialHanldingPZB(pzb)) {
+			isSpecialHandling = true;
+		}
+
+		if (isSpecialHandling && sskpSpecialHandlingColIndex.contains(column)) {
 			return false;
 		}
 		ColumnDescriptor cd = TableRowExtensions.getColumnDescriptors(tableRow)
@@ -258,7 +262,8 @@ public class TableSpanUtils {
 				cd = cd.getParent();
 				continue;
 			}
-			return cd.getMergeCommonValues() == RowMergeMode.ENABLED;
+			return cd.getMergeCommonValues() == RowMergeMode.ENABLED
+					|| isSpecialHandling;
 		}
 	}
 
