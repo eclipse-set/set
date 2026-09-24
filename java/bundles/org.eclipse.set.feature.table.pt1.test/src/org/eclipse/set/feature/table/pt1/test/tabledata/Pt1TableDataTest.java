@@ -126,7 +126,8 @@ public class Pt1TableDataTest extends AbstractPt1TableDataTest {
 	}
 
 	@Test
-	void testExistTableTransformService() {
+	void testExistTableTransformService() throws Exception {
+		givenTableService();
 		assertTrue(assertInjectedAllTransformationService(
 				modelServiceMap.values().stream().toList()));
 	}
