@@ -14,7 +14,9 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
+import org.apache.commons.lang3.reflect.FieldUtils;
 import org.eclipse.e4.core.contexts.IContextFunction;
 import org.eclipse.set.basis.constants.ContainerType;
 import org.eclipse.set.basis.constants.TableType;
@@ -25,6 +27,7 @@ import org.eclipse.set.core.services.graph.TopologicalGraphService;
 import org.eclipse.set.core.services.session.SessionService;
 import org.eclipse.set.feature.table.pt1.test.utils.PtTable;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
+import org.eclipse.set.utils.table.TableInfo;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
@@ -109,6 +112,22 @@ public class WorknotesTableDataTest extends AbstractPt1TableDataTest {
 	@Override
 	protected TopologicalGraphService getTopologicalGraphService() {
 		return topologicalService;
+	}
+
+	@Override
+	protected void givenTableService() throws SecurityException,
+			IllegalArgumentException, IllegalAccessException {
+		super.givenTableService();
+		final Optional<TableInfo> sslsInfo = modelServiceMap.keySet()
+				.stream()
+				.filter(info -> info.shortcut().equalsIgnoreCase("ssls"))
+				.findFirst();
+		if (sslsInfo.isEmpty()) {
+			return;
+		}
+		modelServiceMap.remove(sslsInfo.get());
+		FieldUtils.writeField(tableService, "modelServiceMap", modelServiceMap,
+				true);
 	}
 
 	@SuppressWarnings("boxing")
