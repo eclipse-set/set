@@ -61,8 +61,9 @@ jobs:
           ls
           python -u -m updatereference \
             --issueNumber=${{ github.event.issue.number }} \
-            --commentBody="${{ github.event.comment.body}}"
-          
+            --commentBody="${{ github.event.comment.body}}" \
+            --refPath="${{ env.REPO_LOCAL_PATH }}/java/bundles/org.eclipse.set.feature.table.pt1.test/res/table_reference"
+
       - name: Push
         shell: bash
         if: ${{ env.TARGET_BRANCH != 'main' }}
