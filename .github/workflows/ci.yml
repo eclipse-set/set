@@ -200,16 +200,6 @@ jobs:
         with:
           name: news-artifact
           path: web/news/public
-      
-      - name: Cache Tycho p2 + m2
-        uses: actions/cache@v6
-        with:
-          enableCrossOsArchive: true
-          path: |
-            ~/.m2/repository/
-            ~/.cache/tycho/
-          key: ${{ runner.os }}-tycho-${{ hashFiles('**/java/bundles/org.eclipse.set.releng.target/org.eclipse.set.releng.target.target', '**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-tycho-
 
       - name: Build
         run: |
@@ -303,16 +293,6 @@ jobs:
           name: news-artifact
           path: web/news/public
 
-      - name: Cache Tycho p2 + m2
-        uses: actions/cache@v6
-        with:
-          enableCrossOsArchive: true
-          path: |
-            ~/.m2/repository/
-            ~/.cache/tycho/
-          key: ${{ runner.os }}-tycho-${{ hashFiles('**/java/bundles/org.eclipse.set.releng.target/org.eclipse.set.releng.target.target', '**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-tycho-
-
       - name: Run Tests
         run: | 
           mvn ${{ env.MVN_FLAGS }} -f java/pom.xml verify \
@@ -393,16 +373,6 @@ jobs:
           name: news-artifact
           path: web/news/public
 
-      - name: Cache Tycho p2 + m2
-        uses: actions/cache@v6
-        with:
-          enableCrossOsArchive: true
-          path: |
-            ~/.m2/repository/
-            ~/.cache/tycho/
-          key: ${{ runner.os }}-tycho-${{ hashFiles('**/java/bundles/org.eclipse.set.releng.target/org.eclipse.set.releng.target.target', '**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-tycho-
-
       - name: Trace compilation
         run: mvn ${{ env.MVN_FLAGS }} -f java/pom.xml compile
 
@@ -444,16 +414,6 @@ jobs:
         with:
           repo: ${{ github.repository }}
         continue-on-error: true
-
-      - name: Cache Tycho p2 + m2
-        uses: actions/cache@v6
-        with:
-          enableCrossOsArchive: true
-          path: |
-            ~/.m2/repository/
-            ~/.cache/tycho/
-          key: ${{ runner.os }}-tycho-${{ hashFiles('**/java/bundles/org.eclipse.set.releng.target/org.eclipse.set.releng.target.target', '**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-tycho-
 
       - name: Run Test
         id: test-steps
