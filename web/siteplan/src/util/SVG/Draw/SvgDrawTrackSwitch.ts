@@ -45,7 +45,7 @@ export default class SvgDrawTrackSwitch extends AbstractDrawSVG {
   LABEL_FONT_SIZE = 25
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public drawSVG<T extends object> (data: T, label?: Label | undefined): ISvgElement {
+  public drawSVG<T extends object> (data: T, label?: Label | undefined): ISvgElement | null {
     const drawData = data as {featureData: TrackSwitchFeatureData, drawPart: TrackSwitchPart,}
     switch (drawData.drawPart) {
       case TrackSwitchPart.Main:

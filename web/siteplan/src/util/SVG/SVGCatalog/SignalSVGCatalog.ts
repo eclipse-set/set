@@ -11,6 +11,9 @@ import { Signal } from '@/model/Signal'
 import { ISvgElement } from '@/model/SvgElement'
 import AbstractSVGCatalog from './AbstractSVGCatalog'
 
+const notDrawnScreens: string[] = ['Zs1','Zs8']
+const onlyDrawnAlleinstehend: string[] = ['Ne14', 'Zs2', 'Zs3', 'Zs3v', 'Zs6']
+
 export default abstract class SignalSVGCatalog extends AbstractSVGCatalog {
   /**
      * Find Screen of the Signal
@@ -18,7 +21,14 @@ export default abstract class SignalSVGCatalog extends AbstractSVGCatalog {
      * @returns first screen of this signal
      */
   public getSignalScreen (signal: Signal): ISvgElement | null {
-    for (const screen of signal.screen) {
+    let drawnSignals = signal.screen.filter(s => !notDrawnScreens.includes(s.screen))
+
+    if (drawnSignals.length > 1) {
+      // don't draw alleinstehende screens
+      drawnSignals = drawnSignals.filter(s => !onlyDrawnAlleinstehend.includes(s.screen))
+    }
+
+    for (const screen of drawnSignals) {
       const result = this.getSVGFromCatalog(screen.screen)
       if (result !== null) {
         return result

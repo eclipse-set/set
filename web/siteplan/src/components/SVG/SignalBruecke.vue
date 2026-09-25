@@ -20,7 +20,7 @@
         </option>
       </select>
     </div>
-    <span>{{ draw() }}</span>
+    <div v-html="draw()" />
   </div>
 </template>
 <script lang="ts">
@@ -33,7 +33,7 @@ import {
   HauptVorSignalGroup,
   SignalBrueckeudAusleger
 } from '@/util/SVG/SvgEnum'
-import { Vue, Options } from 'vue-class-component'
+import { Options, Vue } from 'vue-class-component'
 
 @Options({
   props: {
@@ -52,12 +52,11 @@ import { Vue, Options } from 'vue-class-component'
 export default class SignalBruecke extends Vue {
   svgService!: SvgService
   listMast = [
-    SignalMountType.SignalauslegerLinks,
-    SignalMountType.SignalauslegerMitte,
+    SignalMountType.Signalausleger,
     SignalMountType.Signalbruecke
   ]
 
-  selectedMast = SignalMountType.SignalauslegerLinks
+  selectedMast = SignalMountType.Signalausleger
   private randomSelectSchirm (): ISvgElement[] {
     const result = new Array<ISvgElement>()
     const listschirm = this.svgService.getSvgElementInGroup(
@@ -88,7 +87,7 @@ export default class SignalBruecke extends Vue {
         )
       })
     })
-    const result = SvgDrawBridge.draw(bridgeScreen, this.selectedMast)
+    const result = SvgDrawBridge.drawParts('',bridgeScreen, this.selectedMast)
     return result.content.outerHTML
   }
 }
