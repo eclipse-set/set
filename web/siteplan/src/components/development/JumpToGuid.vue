@@ -151,16 +151,27 @@ function flash (feat: Feature<Geometry>) {
       return
     }
 
+    if (isDeselected(guid.value)) {
+      unByKey(listernerKey)
+      flashLayer.getSource()?.removeFeature(feat)
+      return
+    }
+
+    if (import.meta.env.VITE_NO_FLASHING) {
+      // when no flashing directly show fully colored style
+      feat.setStyle((_, resolution) => {
+        const style = createFlashStyle(feat, 0.5, resolution)
+        return style != null ? style : []
+      })
+      return
+    }
+
     elapsed = framState.time - now
     if (elapsed >= FLASH_DURATION || elapsed === 0) {
       now = new Date().getTime()
     }
 
     const elapsedRatio = elapsed / FLASH_DURATION
-    if (isDeselected(guid.value)) {
-      unByKey(listernerKey)
-      flashLayer.getSource()?.removeFeature(feat)
-    }
 
     feat.setStyle((_, resolution) => {
       const style = createFlashStyle(feat, elapsedRatio, resolution)
