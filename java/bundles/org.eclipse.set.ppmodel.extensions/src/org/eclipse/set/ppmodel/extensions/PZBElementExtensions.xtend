@@ -56,14 +56,13 @@ class PZBElementExtensions extends BasisObjektExtensions {
 		] ?: emptyList
 	}
 
-	def static Iterable<Fstr_DWeg> getFstrDWegs(PZB_Element pzb) {
-		val bezugspunkts = pzb.PZBElementBezugspunkt?.filter(Signal)
-		val fstrFahrwegs = pzb.container.fstrFahrweg.filter [ fstrFahrweg |
-			(bezugspunkts ?: #[]).filterNull.exists [
-				it === fstrFahrweg?.IDStart?.value
-			]
-		]
-		return fstrFahrwegs.map[fstrDweg].flatten
+	def static Iterable<Fstr_DWeg> getFstrDWegs(PZB_Element pzb,
+		Basis_Objekt bezugspunkt) {
+		if (bezugspunkt !== null && bezugspunkt instanceof Signal) {
+			return pzb.container.fstrFahrweg.filter[bezugspunkt === IDStart?.value].
+				filterNull.flatMap[fstrDweg]
+		}
+		return #[]
 	}
 
 	def static Iterable<PZB_Element_Zuordnung_BP_AttributeGroup> getPZBElementZuordnungBP(
@@ -109,8 +108,7 @@ class PZBElementExtensions extends BasisObjektExtensions {
 		]
 	}
 
-	static dispatch def String getBezugElementBezeichnung(
-		Basis_Objekt object) {
+	static dispatch def String getBezugElementBezeichnung(Basis_Objekt object) {
 		throw new IllegalArgumentException(object.class.simpleName)
 	}
 
@@ -119,12 +117,11 @@ class PZBElementExtensions extends BasisObjektExtensions {
 		return object?.bezeichnung?.bezeichnungTabelle?.wert
 	}
 
-	static dispatch def String getBezugElementBezeichnung(
-		Signal object) {
+	static dispatch def String getBezugElementBezeichnung(Signal object) {
 		return object?.signalReal?.signalFunktion?.wert ===
 			ENUMSignalFunktion.ENUM_SIGNAL_FUNKTION_BUE_UEBERWACHUNGSSIGNAL
-			? '''BÜ-K «object?.bezeichnung?.bezeichnungTabelle?.wert»''' : object?.
-			bezeichnung?.bezeichnungTabelle?.wert
+			? '''BÜ-K «object?.bezeichnung?.bezeichnungTabelle?.wert»'''
+			: object?.bezeichnung?.bezeichnungTabelle?.wert
 	}
 
 	private def static dispatch Stellelement getStellelement(
