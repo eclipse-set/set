@@ -13,6 +13,7 @@ import SiteplanObject, { defaultObjectColorObj } from './SiteplanObject'
 import { LeftRight } from './SiteplanModel'
 import { checkInstance } from '@/util/ObjectExtension'
 import { TurnoutOperatingMode } from './TrackSwitchComponent'
+import { RouteObject, defaultRouteLocationObj } from './RouteObject'
 
 export enum TrackLockSignal {
   bothside = 'beidseitig',
@@ -45,7 +46,7 @@ export function isInstanceOfTrackLockComponent (obj: any): boolean {
   return checkInstance(obj, defautTrackLockComponentObj())
 }
 
-export default interface TrackLock extends SiteplanObject {
+export default interface TrackLock extends RouteObject, SiteplanObject {
   label?: Label
   preferredLocation: TrackLockLocation
   operatingMode: TurnoutOperatingMode
@@ -59,7 +60,8 @@ export function defaultTrackLockObj (): TrackLock {
     preferredLocation: TrackLockLocation.onTrack,
     operatingMode: TurnoutOperatingMode.MechanicalLocal,
     components: [defautTrackLockComponentObj()],
-    objectColors: [defaultObjectColorObj()]
+    objectColors: [defaultObjectColorObj()],
+    routeLocations: [defaultRouteLocationObj()]
   }
 }
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

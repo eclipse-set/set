@@ -93,7 +93,7 @@ export default class SvgDrawTracklock extends AbstractDrawSVG {
     const isOntrack = trackLock.preferredLocation === TrackLockLocation.onTrack
     const offsetLabelX = getWidth(bboxContainer[0]) / 2 + 10
     svg.appendChild(SvgDraw.drawLabelAt(
-      trackLock.label,
+      trackLock.label ?? null,
       this.SVG_DRAWAREA_CENTER + (isOntrack ? -offsetLabelX : offsetLabelX),
       this.SVG_DRAWAREA_CENTER - getHeight(bboxContainer[0]) / 2 - 15,
       false,
