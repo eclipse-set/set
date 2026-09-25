@@ -117,7 +117,7 @@ export default class SvgDrawSignal extends AbstractDrawSVG {
             : MountDirection.Down
           bridgeParts.push({
             guid: signal.guid,
-            signal: SvgBridgeSignal.fromSvgElement(screen, offset, direction, signal.label ?? null)
+            signal: SvgBridgeSignal.fromSvgElement(screen, offset, direction, signal.label ?? undefined)
           })
         }
       }

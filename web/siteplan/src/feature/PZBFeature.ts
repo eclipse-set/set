@@ -65,10 +65,10 @@ export default class PZBFeature extends LageplanFeature<PZB> {
       // Rescale the feature according to the current zoom level to keep a constant size
       style
         .getImage()
-        .setScale(scale)
+        ?.setScale(scale)
 
       // Rotate the feature
-      style.getImage().setRotation((rotation * Math.PI) / 180)
+      style.getImage()?.setRotation((rotation * Math.PI) / 180)
 
       return style
     })

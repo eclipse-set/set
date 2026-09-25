@@ -56,8 +56,8 @@ export default class ExternalElementControlFeature extends LageplanFeature<Exter
       updateLabelOrientation(eec.label, eec.position.rotation, this.map)
       updateLabelColor(eec.label, getLabelColor(eec))
       const style = this.svgService.getFeatureStyle(eec, FeatureType.ExternalElementControl, eec.label)
-      style.getImage().setScale(scale)
-      style.getImage().setRotation((eec.position.rotation * Math.PI) / 180)
+      style.getImage()?.setScale(scale)
+      style.getImage()?.setRotation((eec.position.rotation * Math.PI) / 180)
       return style
     })
     return feature

@@ -56,12 +56,12 @@ const cantLines = computed(() => {
   }
 })
 
-const checked = (line: Cant) => {
+function checked (line: Cant) {
   return store.state.visibleCants[line.guid] ?? false
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const showCantLine = (line: Cant, event: any) => {
+function showCantLine (line: Cant, event: any) {
   if (event.target.checked) {
     store.commit('setCantVisible', line.guid)
   } else {
