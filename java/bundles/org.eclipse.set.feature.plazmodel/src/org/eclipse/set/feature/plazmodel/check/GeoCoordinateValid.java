@@ -187,7 +187,7 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 							|| getNullableObject(topCoordinate,
 									e -> e.getCoordinate()).isEmpty()) {
 						result.add(createGeoCoordinateError(po,
-								"Es gibt Fehler bei der Berechnung der topologischen Koordinate",
+								"Es gibt Fehler bei der Berechnung der topologischen Koordinaten.",
 								Map.of()));
 						return;
 					}
@@ -520,7 +520,7 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 			errObj = gp.getGEOPunktAllg().getGKY();
 		}
 		return createGeoCoordinateError(errObj,
-				"GEO_Punkt: {GUID} fehlt Koordinate",
+				"Für GEO_Punkt {GUID} fehlen Koordinaten.",
 				Map.of(gp.getIdentitaet().getWert(), "GUID"));
 	}
 
@@ -540,7 +540,7 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 					po.getIdentitaet().getWert()));
 		}
 		return createGeoCoordinateError(errorObject,
-				"Die Koordinaten des referenzierten GEO_Punkt: {GEO_PUNKT_ID} weichen mehr als {TOLERANT} cm von der topologisch definierten Position ab. (Differenz: {DIFF} cm)",
+				"Die Koordinaten des angegebenen GEO_Punkts {GEO_PUNKT_ID} weichen mehr als {TOLERANT} cm von der topologisch berechneten Position ab (Differenz: {DIFF} cm).",
 				Map.of("GEO_PUNKT_ID", errorObject.getWert(), "TOLERANT",
 						new DecimalFormat("0.00").format(TOLERANT * 100),
 						"DIFF", new DecimalFormat("0.00").format(diff * 100)));
@@ -564,12 +564,12 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 
 	@Override
 	public String getDescription() {
-		return "Die topologische Verortung der berechneten Geo-Koordinaten sind plausibilisiert";
+		return "Die angegebenen Geo-Koordinaten stimmen mit der topologischen Berechnung überein.";
 	}
 
 	@Override
 	public String getGeneralErrMsg() {
-		return "Die topologische Verortung des Punkt-Objekts stimmt nicht mit den berechneten Geo-Koordinaten überein.";
+		return "Die angegebenen Geo-Koordinaten stimmen nicht mit der topologischen Berechnung überein.";
 	}
 
 	/**

@@ -39,8 +39,7 @@ class GuidStateUnique implements PlazCheck {
 				].toSet.size > 1)
 			].values.flatten.map [
 				val err = PlazFactory.eINSTANCE.createPlazError
-				err.message = transformErrorMsg(
-					Map.of("GUID", identitaet?.wert))
+				err.message = '''Die GUID des Zustands «identitaet?.wert» ist nicht eindeutig.'''
 				err.type = checkType
 				err.object = identitaet
 				return err
@@ -58,6 +57,6 @@ class GuidStateUnique implements PlazCheck {
 	}
 
 	override getGeneralErrMsg() {
-		return "Die GUID des Zustands {GUID} ist nicht eindeutig!"
+		return "GUIDs der Zustände sind nicht eindeutig."
 	}
 }

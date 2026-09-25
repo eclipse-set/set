@@ -42,8 +42,7 @@ class TeilbereicheUnique extends AbstractPlazContainerCheck implements PlazCheck
 			if (identicals.size > 0) {
 				return identicals.map [
 					val err = PlazFactory.eINSTANCE.createPlazError
-					err.message = transformErrorMsg(
-						Map.of("GUID", object.identitaet?.wert))
+					err.message = '''Es gibt mehrere identische Teilbereiche in Objekt «object.identitaet?.wert».'''
 					err.type = checkType
 					err.object = it.firstOrNull
 					return err
@@ -58,10 +57,10 @@ class TeilbereicheUnique extends AbstractPlazContainerCheck implements PlazCheck
 	}
 
 	override getDescription() {
-		return "Teilbereichsgrenzen der LST-Objekte sind einzigartig."
+		return "Alle Teilbereiche der LST-Objekte sind eindeutig."
 	}
 
 	override getGeneralErrMsg() {
-		return "Es gibt mehrere identische Teilbereiche in Objekt {GUID}."
+		return "Es gibt LST-Objekte mit mehreren identischen Teilbereichen."
 	}
 }

@@ -43,7 +43,7 @@ public class TeilbereichOverlapCheck extends AbstractPlazContainerCheck
 
 	@Override
 	public String getDescription() {
-		return "Teilbereichsgrenzen der LST-Objekte sind plausibel"; //$NON-NLS-1$
+		return "Alle Teilbereichsgrenzen der LST-Objekte sind plausibel."; //$NON-NLS-1$
 	}
 
 	@Override
