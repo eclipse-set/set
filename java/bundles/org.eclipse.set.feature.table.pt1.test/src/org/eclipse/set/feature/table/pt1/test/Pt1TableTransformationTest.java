@@ -21,13 +21,13 @@ import java.util.stream.Stream;
 import org.dom4j.Document;
 import org.dom4j.io.SAXReader;
 import org.eclipse.emf.common.util.ECollections;
-import org.eclipse.set.basis.ToolboxProperties;
 import org.eclipse.set.basis.constants.ExportType;
 import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.test.utils.CustomDOMReader;
 import org.eclipse.set.feature.table.pt1.test.utils.CustomNodeComparator;
+import org.eclipse.set.feature.table.pt1.test.utils.TestFailHandle;
 import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.ppmodel.extensions.MultiContainer_AttributeGroupExtensions;
@@ -90,14 +90,19 @@ class Pt1TableTransformationTest extends Pt1TableTest {
 
 	@InjectService
 	List<PlanPro2TableTransformationService> transformationServices;
-
 	@InjectService
 	EnumTranslationService translationService;
 
 	@Test
+	void testExistTableTransformService() {
+		assertTrue(
+				assertInjectedAllTransformationService(transformationServices));
+	}
+
+	@Test
 	void testPDFExportStyle() throws Exception {
 		givenPlanProFile(PPHN_1_10_0_3_20220517_PLANPRO);
-		setupTransformationService(eventAdmin);
+		setupModelSession(eventAdmin);
 		for (final PlanPro2TableTransformationService service : transformationServices) {
 			final TransformTable transformTable = new TransformTable(
 					ExportType.INVENTORY_RECORDS,
@@ -126,11 +131,11 @@ class Pt1TableTransformationTest extends Pt1TableTest {
 
 	@ParameterizedTest
 	@MethodSource("getReferenceFiles")
+	@ExtendWith(TestFailHandle.class)
 	void testTransformator(final String file) throws Exception {
 		givenPlanProFile(file);
-		setupTransformationService(eventAdmin);
-		System.setProperty(ToolboxProperties.DEVELOPMENT_MODE,
-				Boolean.FALSE.toString());
+		setupModelSession(eventAdmin);
+
 		for (final PlanPro2TableTransformationService transformationService : transformationServices) {
 			for (final MultiContainer_AttributeGroup container : getLSTContainer()) {
 				// Test transformation table
@@ -154,4 +159,5 @@ class Pt1TableTransformationTest extends Pt1TableTest {
 			}
 		}
 	}
+
 }

@@ -456,7 +456,7 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 		val oertlichkeitAbk = oertlichkeit?.bezeichnung?.
 			oertlichkeitAbkuerzung?.wert
 		val oertlichkeitAwanst = oertlichkeit?.IDOertlichkeitAwanstBedient?.
-			value?.bezeichnung?.oertlichkeitAbkuerzung
+			value?.bezeichnung?.oertlichkeitAbkuerzung?.wert
 		return '''«oertlichkeitAbk» («oertlichkeitAwanst»)'''
 	}
 }

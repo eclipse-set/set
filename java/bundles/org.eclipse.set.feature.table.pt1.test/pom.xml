@@ -35,6 +35,33 @@
 					<argLine>-javaagent:${org.mockito:mockito-core:jar}</argLine>
 				</configuration>
 			</plugin>
+			<plugin>
+			  	<groupId>org.eclipse.tycho</groupId>
+			  	<artifactId>target-platform-configuration</artifactId>
+			  	<configuration>
+			    	<environments>
+			      		<environment>
+			      			<os>win32</os>
+			      			<ws>win32</ws>
+			      			<arch>x86_64</arch>
+			      		</environment>
+			      		<environment>
+			      			<os>linux</os>
+			      			<ws>gtk</ws>
+			      			<arch>x86_64</arch>
+			      		</environment>
+			    	</environments>
+			    	<dependency-resolution>
+			      		<extraRequirements>
+					        <requirement>
+					          	<type>eclipse-plugin</type>
+					         	<id>org.eclipse.swt</id>
+					          	<versionRange>0.0.0</versionRange>
+					        </requirement>
+					      </extraRequirements>
+				    </dependency-resolution>
+			  	</configuration>
+			</plugin>
 		</plugins>
 	</build>
 </project>
