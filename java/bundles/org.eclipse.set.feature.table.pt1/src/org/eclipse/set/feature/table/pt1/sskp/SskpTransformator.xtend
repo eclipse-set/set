@@ -267,11 +267,13 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 							ENUM_SIGNAL_FUNKTION_BUE_UEBERWACHUNGSSIGNAL
 			]
 				: #[]
-		val zuordnungFstr = pzb.PZBElementZuordnungFstr.filter [
-			!(bezugsElement instanceof Signal) ||
-				IDFstrZugRangier?.value?.fstrFahrweg.zielSignal ===
-					bezugsElement
-		]
+		val zuordnungFstr = pzb.PZBElementZuordnungFstr.size < 2 //
+				? pzb.PZBElementZuordnungFstr
+				: pzb.PZBElementZuordnungFstr.filter [
+					!(bezugsElement instanceof Signal) ||
+						IDFstrZugRangier?.value?.fstrFahrweg.zielSignal ===
+							bezugsElement
+				]
 		fillSwitch(
 			instance,
 			cols.getColumn(Wirksamkeit_Bedingung),
@@ -628,9 +630,9 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				getPointsDistance(pzb, signal).min, scaleValue)
 			val directionSign = topGraphService.
 					isInWirkrichtungOfSignal(signal, pzb) ? "+" : "-"
-			return distance == 0.0 ? distance.
-				toTableDecimal(
-					scaleValue) : '''«directionSign»«distance.toTableDecimal(scaleValue)»'''
+			return distance == 0.0
+				? distance.toTableDecimal(scaleValue)
+				: '''«directionSign»«distance.toTableDecimal(scaleValue)»'''
 		}
 
 		val bueSpezifischesSignal = signal.container.BUESpezifischesSignal.
