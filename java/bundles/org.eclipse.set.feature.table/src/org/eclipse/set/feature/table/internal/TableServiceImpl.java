@@ -142,7 +142,10 @@ public final class TableServiceImpl implements TableService {
 	private static final Map<TableInfo, List<Pt1TableChangeProperties>> tableChangedData = new ConcurrentHashMap<>();
 	private static final Map<TableInfo, TableStatus> tablesStatus = new ConcurrentHashMap<>();
 
-	private CacheService getCacheService() {
+	/**
+	 * @return the cach service
+	 */
+	public CacheService getCacheService() {
 		return ToolboxConfiguration.isDebugMode() ? Services.getNoCacheService()
 				: cacheService;
 	}

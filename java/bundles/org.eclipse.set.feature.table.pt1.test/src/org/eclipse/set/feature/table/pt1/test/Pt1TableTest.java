@@ -72,10 +72,10 @@ public abstract class Pt1TableTest extends AbstractToolboxTest {
 	}
 
 	protected void copyResource() throws Exception {
-		final Path source = Path.of(TEMPLATE_DIR);
-		final Path target = Path.of(TEMPLATE_LOCAL_DIR);
-		if (!Files.exists(Path.of(TEMPLATE_LOCAL_DIR))) {
-			Files.createDirectories(Path.of(TEMPLATE_LOCAL_DIR));
+		final Path source = Path.of(getTemplateDir());
+		final Path target = Path.of(getTemplateLocalDir());
+		if (!Files.exists(Path.of(getTemplateLocalDir()))) {
+			Files.createDirectories(Path.of(getTemplateLocalDir()));
 		} else {
 			try (Stream<Path> stream = Files.walk(target)) {
 				stream.filter(path -> !path.equals(target))
@@ -117,6 +117,14 @@ public abstract class Pt1TableTest extends AbstractToolboxTest {
 						.getContainer(planProSchnittstelle, containerType))
 				.filter(Objects::nonNull)
 				.toList();
+	}
+
+	protected String getTemplateDir() {
+		return TEMPLATE_DIR;
+	}
+
+	protected String getTemplateLocalDir() {
+		return TEMPLATE_LOCAL_DIR;
 	}
 
 	protected void givenExpectedTransformationServices() {

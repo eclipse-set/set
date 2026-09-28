@@ -23,6 +23,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.apache.commons.csv.CSVFormat;
@@ -35,6 +36,7 @@ import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.eclipse.set.core.services.Services;
+import org.eclipse.set.core.services.cache.CacheService;
 import org.eclipse.set.core.services.geometry.GeoKanteGeometryService;
 import org.eclipse.set.core.services.graph.TopologicalGraphService;
 import org.eclipse.set.core.services.session.SessionService;
@@ -46,6 +48,7 @@ import org.eclipse.set.feature.table.pt1.test.Pt1TableTest;
 import org.eclipse.set.feature.table.pt1.test.utils.Pt1TableTestFile;
 import org.eclipse.set.feature.table.pt1.test.utils.PtTable;
 import org.eclipse.set.feature.table.pt1.test.utils.TestFile;
+import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.TableCell;
 import org.eclipse.set.model.tablemodel.TableRow;
@@ -66,8 +69,6 @@ import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.osgi.service.event.EventAdmin;
 
-import com.google.common.html.HtmlEscapers;
-
 /**
  * 
  */
@@ -81,7 +82,20 @@ public abstract class AbstractPt1TableDataTest extends Pt1TableTest {
 	 * the index column designation
 	 */
 	public static final String ROW_INDEX_COL = "Lfd. Nr.";
-	protected static final String CELL_VALUE_REPLACE_REGEX = "[\\n\\r]";
+
+	/**
+	 * @param table
+	 *            the tested table
+	 * @return the minimal table header
+	 */
+	public static String getTableCSVHeader(final Table table) {
+		final List<ColumnDescriptor> columns = TableExtensions
+				.getColumns(table);
+		final String header = columns.stream()
+				.map(ColumnDescriptor::getColumnPosition)
+				.collect(Collectors.joining(CSV_DELIMITER));
+		return ROW_INDEX_COL + CSV_DELIMITER + header + System.lineSeparator();
+	}
 
 	protected static void mockToolboxConfigurationMethode(
 			final MockedStatic<ToolboxConfiguration> mockConfiguration) {
@@ -151,17 +165,6 @@ public abstract class AbstractPt1TableDataTest extends Pt1TableTest {
 		return isTableEmpty;
 	}
 
-	private int getHeaderRowCount() {
-		for (int i = 0; i < referenceData.size(); i++) {
-			final String nextCountNr = referenceData.get(i).get(0);
-			if (nextCountNr != null && !nextCountNr.isEmpty()
-					&& !nextCountNr.equalsIgnoreCase(ROW_INDEX_COL)) {
-				return i;
-			}
-		}
-		return referenceData.size();
-	}
-
 	private void givenToolboxViewModelService() {
 		toolboxViewModelService = Mockito.mock(ToolboxViewModelService.class);
 		Mockito.when(toolboxViewModelService.getSession())
@@ -173,8 +176,7 @@ public abstract class AbstractPt1TableDataTest extends Pt1TableTest {
 	@Override
 	protected void beforeAll() throws Exception {
 		super.beforeAll();
-		givenPlanProFile(
-				getTestFile().getModel(AbstractPt1TableDataTest.class));
+		givenPlanProFile(getTestFile().getModel(getTestResourceClass()));
 		setup();
 	}
 
@@ -186,26 +188,14 @@ public abstract class AbstractPt1TableDataTest extends Pt1TableTest {
 				final TableCell dataCell = TableRowExtensions.getCell(
 						rows.get(rowIndex),
 						TableExtensions.getColumns(testee).get(columnIndex));
-
 				final String cellValue = TableCellExtensions
-						.getRichTextValue(dataCell)
-						.replaceAll(CELL_VALUE_REPLACE_REGEX, "")
-						.replace("\"\"", "\"");
+						.getPlainStringValue(dataCell)
+						.replace(System.lineSeparator(), "");
 				final String referenceValue = referenceData
 						.get(rowIndex + startRow)
-						.get(columnIndex + 1)
-						.replaceAll(CELL_VALUE_REPLACE_REGEX, "")
-						// By Nattable 2.2.0 add to much double quote into
-						// richtext
-						// value
-						.replace("\"\"", "\"");
-				final String toHtmlString = HtmlEscapers.htmlEscaper()
-						.escape(referenceValue);
-				assertTrue(
-						referenceValue.equals(cellValue)
-								|| toHtmlString.equals(cellValue),
-						getErrorMessage(columnIndex, rowIndex, referenceValue,
-								cellValue));
+						.get(columnIndex + 1);
+				assertEquals(referenceValue, cellValue, getErrorMessage(
+						columnIndex, rowIndex, referenceValue, cellValue));
 			}
 		}
 	}
@@ -223,7 +213,7 @@ public abstract class AbstractPt1TableDataTest extends Pt1TableTest {
 		}
 	}
 
-	protected abstract Object getCacheService();
+	protected abstract CacheService getCacheService();
 
 	protected abstract List<IContextFunction> getContextFunctions();
 
@@ -263,7 +253,7 @@ public abstract class AbstractPt1TableDataTest extends Pt1TableTest {
 
 	protected void givenTableService() throws SecurityException,
 			IllegalArgumentException, IllegalAccessException {
-		tableService = new TableServiceImpl();
+		tableService = Mockito.spy(new TableServiceImpl());
 		FieldUtils.writeField(tableService, "modelServiceMap", modelServiceMap,
 				true);
 		FieldUtils.writeField(tableService, "diffServiceMap", diffServiceMap,
@@ -273,6 +263,10 @@ public abstract class AbstractPt1TableDataTest extends Pt1TableTest {
 		FieldUtils.writeField(tableService, "sessionService",
 				getSessionService(), true);
 		FieldUtils.writeField(tableService, "broker", broker, true);
+		Mockito.doReturn(getCacheService())
+				.when(tableService)
+				.getCacheService();
+
 	}
 
 	protected void givenTestTable(final PtTable table,
@@ -293,7 +287,9 @@ public abstract class AbstractPt1TableDataTest extends Pt1TableTest {
 	protected List<CSVRecord> loadReferenceFile(final String tableName) {
 		final String fileName = getReferenceDir() + tableName
 				+ "_reference.csv";
-		final Builder csvBuilder = CSVFormat.Builder.create(CSVFormat.DEFAULT);
+		final Builder csvBuilder = CSVFormat.Builder.create(CSVFormat.DEFAULT)
+				.setHeader(getTableCSVHeader(testee).split(CSV_DELIMITER))
+				.setSkipHeaderRecord(true);
 		csvBuilder.setDelimiter(CSV_DELIMITER);
 		final InputStream referenceResource = getTestResourceClass()
 				.getClassLoader()
@@ -361,9 +357,8 @@ public abstract class AbstractPt1TableDataTest extends Pt1TableTest {
 	}
 
 	protected void thenExpectTableDataEqualReferenceCSV() {
-		final int startRow = getHeaderRowCount();
-		assertDoesNotThrow(() -> compareValue(startRow,
-				TableExtensions.getTableRows(testee)));
+		assertDoesNotThrow(
+				() -> compareValue(0, TableExtensions.getTableRows(testee)));
 	}
 
 	protected void thenExpectTableStatusRelevant() {
@@ -394,10 +389,7 @@ public abstract class AbstractPt1TableDataTest extends Pt1TableTest {
 						getTestTableReferenceName(), referenceColumnCount,
 						nattableColumnCount));
 		final long nattableRowCount = getTableRowCount();
-		final long referenceRowCount = referenceData.stream()
-				.filter(r -> r.get(0) != null && !r.get(0).isEmpty()
-						&& !r.get(0).equalsIgnoreCase(ROW_INDEX_COL))
-				.count();
+		final long referenceRowCount = referenceData.size();
 		assertEquals(referenceRowCount, nattableRowCount,
 				() -> String.format("%s expected row count: %d but was: %d",
 						getTestTableReferenceName(), referenceRowCount,

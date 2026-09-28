@@ -11,7 +11,6 @@
 package org.eclipse.set.feature.table.pt1.test.utils;
 
 import static org.eclipse.set.feature.table.pt1.test.tabledata.AbstractPt1TableDataTest.CSV_DELIMITER;
-import static org.eclipse.set.feature.table.pt1.test.tabledata.AbstractPt1TableDataTest.ROW_INDEX_COL;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -20,12 +19,10 @@ import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Path;
-import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.eclipse.set.feature.table.pt1.test.tabledata.AbstractPt1TableDataTest;
-import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.TableRow;
 import org.eclipse.set.model.tablemodel.extensions.TableCellExtensions;
@@ -50,15 +47,6 @@ public class TestFailHandle implements TestWatcher {
 	private static final String DIFF_DIR = "diff";
 	private static final String REFERENCE_CSV_EXTENSIONS = "_reference.csv";
 
-	private static String getTableCSVHeader(final Table table) {
-		final List<ColumnDescriptor> columns = TableExtensions
-				.getColumns(table);
-		final String header = columns.stream()
-				.map(ColumnDescriptor::getColumnPosition)
-				.collect(Collectors.joining(CSV_DELIMITER));
-		return ROW_INDEX_COL + CSV_DELIMITER + header + System.lineSeparator();
-	}
-
 	protected static void exportCurrentCSV(
 			final AbstractPt1TableDataTest tableTest) {
 		final File file = getExportFile(tableTest, CURRENT_CSV_EXTENSIONS);
@@ -67,13 +55,15 @@ public class TestFailHandle implements TestWatcher {
 		}
 		final Table testTable = tableTest.getTestTable();
 		final ExportToCSV<Pair<Integer, TableRow>> exportToCSV = new ExportToCSV<>(
-				getTableCSVHeader(testTable));
+				AbstractPt1TableDataTest.getTableCSVHeader(testTable));
 		exportToCSV.exportToCSV(Optional.of(file.toPath()),
 				TableExtensions.getTableRowsWithIndex(testTable), row -> {
 					final String rowValue = row.getValue()
 							.getCells()
 							.stream()
-							.map(TableCellExtensions::getRichTextValue)
+							.map(TableCellExtensions::getPlainStringValue)
+							.map(value -> value.replace(System.lineSeparator(),
+									""))
 							.collect(Collectors.joining(CSV_DELIMITER));
 					return row.getKey().intValue() + 1 + CSV_DELIMITER
 							+ rowValue + System.lineSeparator();

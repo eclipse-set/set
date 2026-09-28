@@ -98,7 +98,7 @@ public class Pt1TableStateDataTest extends AbstractPt1TableDataTest {
 	}
 
 	@Override
-	protected Object getCacheService() {
+	protected CacheService getCacheService() {
 		return cacheService;
 	}
 

@@ -26,6 +26,7 @@ import org.eclipse.set.core.services.geometry.GeoKanteGeometryService;
 import org.eclipse.set.core.services.graph.TopologicalGraphService;
 import org.eclipse.set.core.services.session.SessionService;
 import org.eclipse.set.feature.table.pt1.test.utils.PtTable;
+import org.eclipse.set.feature.table.pt1.test.utils.TestFailHandle;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
 import org.eclipse.set.utils.table.TableInfo;
 import org.junit.jupiter.api.Test;
@@ -43,6 +44,7 @@ import org.osgi.test.junit5.service.ServiceExtension;
  */
 @TestInstance(Lifecycle.PER_CLASS)
 @ExtendWith(ServiceExtension.class)
+@ExtendWith(TestFailHandle.class)
 public class WorknotesTableDataTest extends AbstractPt1TableDataTest {
 
 	private PtTable tableToTest;
