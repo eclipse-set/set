@@ -297,6 +297,12 @@ public class ToolboxTableView extends BasePart {
 					t.getControlAreas()
 							.forEach(area -> controlAreaIds.add(area.areaId()));
 					tableType = t.getTableType();
+					final TableStatus tableStatus = tableService
+							.getTablesStatus(tableInfo.category())
+							.getOrDefault(tableInfo, null);
+					if (tableStatus != null) {
+						tableStatus.reset();
+					}
 					updateTableView(t.getControlAreas().isEmpty()
 							? Collections.emptyList()
 							: List.of(Pt1TableCategory.ESTW));
