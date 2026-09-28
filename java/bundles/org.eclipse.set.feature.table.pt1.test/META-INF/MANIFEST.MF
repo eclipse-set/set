@@ -4,6 +4,9 @@ Bundle-Name: Pt1 Table Test
 Bundle-SymbolicName: org.eclipse.set.feature.table.pt1.test
 Bundle-Vendor: Eclipse Signalling Engineering Toolbox
 Bundle-Version: 2.7.0.qualifier
+Export-Package: org.eclipse.set.feature.table.pt1.test,
+ org.eclipse.set.feature.table.pt1.test.tabledata,
+ org.eclipse.set.feature.table.pt1.test.utils
 Automatic-Module-Name: org.eclipse.set.feature.table.pt1.test
 Bundle-Activator: org.eclipse.set.feature.table.pt1.test.Activator
 Bundle-ClassPath: res/testfile/,

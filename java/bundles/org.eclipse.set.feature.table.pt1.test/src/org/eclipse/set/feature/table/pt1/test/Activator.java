@@ -3,6 +3,9 @@ package org.eclipse.set.feature.table.pt1.test;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
+/**
+ * 
+ */
 public class Activator implements BundleActivator {
 
 	private static BundleContext bundleContext;

@@ -45,29 +45,6 @@ import org.slf4j.LoggerFactory;
  */
 @Disabled
 public class TestFailHandle implements TestWatcher {
-	// /**
-	// * Special fail handle that reopens the table so that the current CSV can
-	// be
-	// * exported
-	// */
-	// public static class ReopenTableBeforeFailHandle extends TestFailHandle {
-	// @Override
-	// public void testFailed(final ExtensionContext context,
-	// final Throwable cause) {
-	// final Optional<Object> testInstance = context.getTestInstance();
-	// if (testInstance.isPresent() && testInstance
-	// .get() instanceof final AbstractTableTest tableTest) {
-	// tableTest.givenNattableBot(tableTest.tableToTest.tableName());
-	// super.testFailed(context, cause);
-	// final SWTBotCTabItem cTabItem = tableTest.bot
-	// .cTabItem(tableTest.tableToTest.tableName());
-	// UIThreadRunnable.syncExec(() -> {
-	// cTabItem.activate();
-	// cTabItem.close();
-	// });
-	// }
-	// }
-	// }
 
 	private static final String CURRENT_CSV_EXTENSIONS = "_current.csv";
 	private static final String DIFF_DIR = "diff";
