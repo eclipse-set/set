@@ -367,6 +367,16 @@ public class ToolboxTableView extends BasePart {
 					if (transformedTable == null) {
 						return;
 					}
+					final TableStatus status = tableService
+							.getTablesStatus(tableInfo.category())
+							.getOrDefault(tableInfo, null);
+					if (status == null || status.isNonTransformable()) {
+						getDialogService().error(getToolboxShell(),
+								messages.TableTransform_Error_Msg
+										+ (status == null ? ""
+												: ": " + status
+														.getErrorMessages()));
+					}
 					updateModel(getToolboxPart(), transformedTable);
 					natTable.doCommand(new RowHeightResetCommand());
 					natTable.refresh();
@@ -408,7 +418,8 @@ public class ToolboxTableView extends BasePart {
 				.getOrDefault(tableInfo, null);
 		if (status == null || status.isNonTransformable()) {
 			getDialogService().error(getToolboxShell(),
-					messages.TableTransform_Error_Msg);
+					messages.TableTransform_Error_Msg + (status == null ? ""
+							: ": " + status.getErrorMessages()));
 		}
 
 		final ColumnDescriptor rootColumnDescriptor = table

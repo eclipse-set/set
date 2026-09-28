@@ -103,6 +103,13 @@ public class TableStatus {
 	}
 
 	/**
+	 * @return the error messages if present otherwise null
+	 */
+	public String getErrorMessages() {
+		return errorMessages.orElse(null);
+	}
+
+	/**
 	 * @return true, if table is empty
 	 */
 	public boolean isEmpty() {
