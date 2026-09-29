@@ -93,12 +93,15 @@ public class PlanProRichTextCellPainter extends RichTextCellPainter {
 				final int availableLength) {
 			final StringBuilder result = new StringBuilder();
 			int lineWidth = 0;
-			final int space = gc.textExtent(" ").x; //$NON-NLS-1$
-			for (String word : text.split("[\\s_]+")) { //$NON-NLS-1$
+			final String[] split = text.split("[\\s_]"); //$NON-NLS-1$
+			for (String word : split) {
+				final String seperator = String
+						.valueOf(text.charAt(word.length()));
+				final int seperatorW = gc.textExtent(seperator).x;
 				int w = gc.textExtent(word).x;
-				if (lineWidth + space + w > availableLength) {
+				if (lineWidth + seperatorW + w > availableLength) {
 					final Pair<String, String> splitWord = splitWord(gc, word,
-							availableLength - lineWidth - space);
+							availableLength - lineWidth - seperatorW);
 					if (splitWord != null) {
 						result.append(splitWord.getFirst())
 								.append(HYPENATION_SEPRATOR)
@@ -108,11 +111,31 @@ public class PlanProRichTextCellPainter extends RichTextCellPainter {
 					lineWidth = 0;
 					w = gc.textExtent(word).x;
 				} else if (lineWidth > 0) {
-					lineWidth += space;
+					lineWidth += seperatorW;
 				}
 				result.append(word);
 				lineWidth += w;
 			}
+			// final int space = gc.textExtent(" ").x; //$NON-NLS-1$
+			// for (String word : text.split("[\\s_]+")) { //$NON-NLS-1$
+			// int w = gc.textExtent(word).x;
+			// if (lineWidth + space + w > availableLength) {
+			// final Pair<String, String> splitWord = splitWord(gc, word,
+			// availableLength - lineWidth - space);
+			// if (splitWord != null) {
+			// result.append(splitWord.getFirst())
+			// .append(HYPENATION_SEPRATOR)
+			// .append("<br></br>"); //$NON-NLS-1$
+			// word = splitWord.getSecond();
+			// }
+			// lineWidth = 0;
+			// w = gc.textExtent(word).x;
+			// } else if (lineWidth > 0) {
+			// lineWidth += space;
+			// }
+			// result.append(word);
+			// lineWidth += w;
+			// }
 			return result.toString();
 		}
 
