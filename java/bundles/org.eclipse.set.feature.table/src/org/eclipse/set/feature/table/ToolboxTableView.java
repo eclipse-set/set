@@ -373,16 +373,7 @@ public class ToolboxTableView extends BasePart {
 					if (transformedTable == null) {
 						return;
 					}
-					final TableStatus status = tableService
-							.getTablesStatus(tableInfo.category())
-							.getOrDefault(tableInfo, null);
-					if (status == null || status.isNonTransformable()) {
-						getDialogService().error(getToolboxShell(),
-								messages.TableTransform_Error_Msg
-										+ (status == null ? ""
-												: ": " + status
-														.getErrorMessages()));
-					}
+					validTableStatus();
 					updateModel(getToolboxPart(), transformedTable);
 					natTable.doCommand(new RowHeightResetCommand());
 					natTable.refresh();
@@ -418,15 +409,8 @@ public class ToolboxTableView extends BasePart {
 		if (table == null) {
 			return;
 		}
+		validTableStatus();
 		subcribeTriggerResortEvent();
-		final TableStatus status = tableService
-				.getTablesStatus(tableInfo.category())
-				.getOrDefault(tableInfo, null);
-		if (status == null || status.isNonTransformable()) {
-			getDialogService().error(getToolboxShell(),
-					messages.TableTransform_Error_Msg + (status == null ? ""
-							: ": " + status.getErrorMessages()));
-		}
 
 		final ColumnDescriptor rootColumnDescriptor = table
 				.getColumndescriptors()
@@ -953,6 +937,18 @@ public class ToolboxTableView extends BasePart {
 							natTable.refresh();
 						}
 					}));
+		}
+	}
+
+	private void validTableStatus() {
+		final TableStatus status = tableService
+				.getTablesStatus(tableInfo.category())
+				.getOrDefault(tableInfo, null);
+		if (status == null || status.isNonTransformable()) {
+			getDialogService().error(getToolboxShell(),
+					messages.TableTransform_Error_Msg + (status == null //
+							? "" //$NON-NLS-1$
+							: ": " + status.getErrorMessages())); //$NON-NLS-1$
 		}
 	}
 
