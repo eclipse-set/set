@@ -228,4 +228,9 @@ public class Messages {
 	 */
 	public String TableTransform_Error_Msg;
 
+	/**
+	 * Keine Tabelle wurde zum Exportieren ausgewählt.
+	 */
+	public String TableExportPart_NoTable;
+
 }

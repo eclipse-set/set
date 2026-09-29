@@ -99,4 +99,10 @@ public class Messages {
 	 * Erstelle Schriftfeld
 	 */
 	public String TitleBoxPdfPart_LoadTitlebox;
+
+	/**
+	 * Kein Dokument wurde zum Exportieren ausgewählt.
+	 */
+	public String DocumentExportPart_NoDocument;
+
 }
