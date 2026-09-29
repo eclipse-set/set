@@ -16,7 +16,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.function.Function;
+import java.util.function.ToIntFunction;
 
 import org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum;
 import org.eclipse.set.basis.constants.TableType;
@@ -153,16 +153,15 @@ public class SskpTransformationService
 
 	}
 
-	@SuppressWarnings("boxing")
 	private static Comparator<String> frequencyComparator() {
 		return (first, second) -> {
-			final Function<String, Integer> getPiority = value -> {
+			final ToIntFunction<String> getPiority = value -> {
 				return FREQUENCY_ODER.indexOf(
 						value.replace(SskpTransformator.GUE_ADDITION, "") //$NON-NLS-1$
 								.trim());
 			};
-			return Integer.compareUnsigned(getPiority.apply(first),
-					getPiority.apply(second));
+			return Integer.compareUnsigned(getPiority.applyAsInt(first),
+					getPiority.applyAsInt(second));
 		};
 	}
 
@@ -176,9 +175,8 @@ public class SskpTransformationService
 				SskpColumns.GeschwindigkeitsKlasse, //
 				SskpColumns.PZB_Schutzstrecke_Soll, //
 				SskpColumns.PZB_Schutzstrecke_Ist)
-				.forEach(it -> getColumnDescriptor(it).ifPresent(col -> {
-					col.setMergeCommonValues(RowMergeMode.DISABLED);
-				}));
+				.forEach(it -> getColumnDescriptor(it).ifPresent(col -> col
+						.setMergeCommonValues(RowMergeMode.DISABLED)));
 
 		return cd;
 	}
