@@ -19,41 +19,30 @@
     </ul>
   </div>
 </template>
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue'
+import { Feature } from 'ol'
+import { Geometry } from 'ol/geom'
 import { getFeatureLabel, getFeatureName, getFeatureType } from '@/feature/FeatureInfo'
 import { getFeatureGUIDs } from '@/util/FeatureExtensions'
 import PlanProToolbox from '@/util/PlanProToolbox'
-import { Options, Vue } from 'vue-class-component'
 
 /**
  * Popup contents for signal features
  *
  * @author Stuecker
  */
-@Options({
-  props: {
-    feature: Object
-  },
-  computed: {
-    guid: function () {
-      return getFeatureGUIDs(this.feature)[0]
-    },
-    elementType: function () {
-      return getFeatureName(getFeatureType(this.feature))
-    },
-    elementLabel: function () {
-      return getFeatureLabel(this.feature)
-    }
-  }
-})
-export default class JumpMenuPopup extends Vue {
-  guid!: string
-  elementType!: string
-  elementLabel!: string
 
-  jumpToTextSicht () {
-    PlanProToolbox.jumpToTextView(this.guid)
-  }
+const props = defineProps<{
+  feature: Feature<Geometry>
+}>()
+
+const guid = computed(() => getFeatureGUIDs(props.feature)[0])
+const elementType = computed(() => getFeatureName(getFeatureType(props.feature)))
+const elementLabel = computed(() => getFeatureLabel(props.feature))
+
+function jumpToTextSicht () {
+  PlanProToolbox.jumpToTextView(guid.value)
 }
 </script>
 <style scoped>

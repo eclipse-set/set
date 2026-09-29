@@ -16,8 +16,10 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Options, Vue } from 'vue-class-component'
+<script setup lang="ts">
+import { computed } from 'vue'
+import { Feature } from 'ol'
+import { Geometry } from 'ol/geom'
 import Error from '@/model/Error'
 import { getFeatureData } from '@/feature/FeatureInfo'
 
@@ -26,17 +28,10 @@ import { getFeatureData } from '@/feature/FeatureInfo'
  *
  * @author Stuecker
  */
-@Options({
-  props: {
-    feature: Object
-  },
-  computed: {
-    error: function () {
-      return getFeatureData(this.feature)
-    }
-  }
-})
-export default class ErrorPopup extends Vue {
-  error!: Error
-}
+
+const props = defineProps<{
+  feature: Feature<Geometry>
+}>()
+
+const error = computed<Error>(() => getFeatureData(props.feature))
 </script>
