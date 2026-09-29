@@ -30,7 +30,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Label;
 
 /**
  * View for the validation table
@@ -171,8 +170,7 @@ public class PlazModelTableView extends AbstractTreeLayerTable {
 		final Button checkDefaultFilterButton = new Button(composite,
 				SWT.CHECK);
 		checkDefaultFilterButton.setSelection(true);
-		final Label checkDefaultFilterLabel = new Label(composite, SWT.NONE);
-		checkDefaultFilterLabel
+		checkDefaultFilterButton
 				.setText(messages.PlazModellPart_ActiveDefaultFilterCheckbox);
 		checkDefaultFilterButton.addSelectionListener(new SelectionListener() {
 
