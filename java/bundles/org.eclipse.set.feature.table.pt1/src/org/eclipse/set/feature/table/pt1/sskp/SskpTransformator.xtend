@@ -267,7 +267,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 							ENUM_SIGNAL_FUNKTION_BUE_UEBERWACHUNGSSIGNAL
 			]
 				: #[]
-		val zuordnungFstr = pzb.PZBElementZuordnungFstr.size < 2 //
+		val zuordnungFstr = pzb.PZBElementBezugspunkt.size < 2 //
 				? pzb.PZBElementZuordnungFstr
 				: pzb.PZBElementZuordnungFstr.filter [
 					!(bezugsElement instanceof Signal) ||
