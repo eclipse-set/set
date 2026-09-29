@@ -107,7 +107,8 @@ public class SWTBotUtils {
 	 *            the nattable bot for the nattable
 	 * @return a record of commonly used layers
 	 */
-	public static NattableLayers getNattableLayers(final SWTBotNatTable nattableBot) {
+	public static NattableLayers getNattableLayers(
+			final SWTBotNatTable nattableBot) {
 		final NatTable natTable = nattableBot.widget;
 		final ILayer layer = natTable.getLayer();
 		assertInstanceOf(GridLayer.class, layer);
@@ -129,7 +130,8 @@ public class SWTBotUtils {
 	 *            Timeout for waiting
 	 * @return The SWTBotNatTable instance for accessing the nattable
 	 */
-	public static SWTBotNatTable waitForNattable(final SWTBot bot, final int timeout) {
+	public static SWTBotNatTable waitForNattable(final SWTBot bot,
+			final int timeout) {
 		final var condition = new DefaultCondition() {
 			SWTBotNatTable nattableBot = null;
 
