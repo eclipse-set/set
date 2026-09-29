@@ -15,6 +15,7 @@ import java.io.IOException;
 import org.eclipse.nebula.widgets.nattable.layer.ILayer;
 import org.eclipse.set.swtbot.table.AbstractTableTest;
 import org.eclipse.set.swtbot.table.TestFailHandle;
+import org.eclipse.set.swtbot.utils.SWTBotUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -36,6 +37,8 @@ public class PlaZModelTest extends AbstractTableTest {
 
 	private void whenOpeningPlaZModelNatTable() {
 		givenNattableBot("PlaZ Modell");
+		SWTBotUtils.checkBoxWithText(bot, "technische Meldungen ausblenden")
+				.click();
 		bot.button("Alle ausklappen").click();
 
 	}
