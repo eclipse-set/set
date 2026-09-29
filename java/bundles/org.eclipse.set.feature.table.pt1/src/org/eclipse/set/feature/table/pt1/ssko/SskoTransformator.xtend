@@ -99,7 +99,7 @@ class SskoTransformator extends AbstractPlanPro2TableModelTransformator {
 				instance,
 				cols.getColumn(Schluessel_Bezeichnung),
 				schloss,
-				[schluesel?.bezeichnung?.bezeichnungSchluessel?.wert]
+				[schluessel?.bezeichnung?.bezeichnungSchluessel?.wert]
 			)
 
 			// E: Ssko.Schluessel.Bartform
@@ -108,7 +108,7 @@ class SskoTransformator extends AbstractPlanPro2TableModelTransformator {
 				cols.getColumn(Schluessel_Bartform),
 				schloss,
 				[
-					schluesel?.schluesselAllg?.schluesselBartform?.translate
+					schluessel?.schluesselAllg?.schluesselBartform?.translate
 				]
 			)
 
@@ -118,7 +118,7 @@ class SskoTransformator extends AbstractPlanPro2TableModelTransformator {
 				cols.getColumn(Schluessel_Gruppe),
 				schloss,
 				[
-					schluesel?.schluesselAllg?.schluesselGruppe?.translate
+					schluessel?.schluesselAllg?.schluesselGruppe?.translate
 				]
 			)
 
