@@ -373,7 +373,7 @@ public class ToolboxTableView extends BasePart {
 					if (transformedTable == null) {
 						return;
 					}
-					validTableStatus();
+					showErroneousTableStatus();
 					updateModel(getToolboxPart(), transformedTable);
 					natTable.doCommand(new RowHeightResetCommand());
 					natTable.refresh();
@@ -409,7 +409,7 @@ public class ToolboxTableView extends BasePart {
 		if (table == null) {
 			return;
 		}
-		validTableStatus();
+		showErroneousTableStatus();
 		subcribeTriggerResortEvent();
 
 		final ColumnDescriptor rootColumnDescriptor = table
@@ -902,7 +902,8 @@ public class ToolboxTableView extends BasePart {
 				.getRowGroupComparator(tableInfo, tableType);
 		if (table != null
 				&& comparator instanceof final TableRowGroupComparator rowGroupComparator) {
-			// This is new instance of Comparator, therefore need call sort here
+			// This is new instance of Comparator, therefore need call sort
+			// here
 			// to determine the waiting on another service criterion
 			ECollections.sort(table.getTablecontent().getRowgroups(),
 					rowGroupComparator);
@@ -937,18 +938,28 @@ public class ToolboxTableView extends BasePart {
 							natTable.refresh();
 						}
 					}));
+			if (!rowGroupComparator.getCriterionsException().isEmpty()) {
+				getDialogService().openInformation(getToolboxShell(),
+						getViewTitle(), messages.TableTransform_Sort_Error);
+			}
 		}
 	}
 
-	private void validTableStatus() {
+	private void showErroneousTableStatus() {
 		final TableStatus status = tableService
 				.getTablesStatus(tableInfo.category())
 				.getOrDefault(tableInfo, null);
-		if (status == null || status.isNonTransformable()) {
+		if (status == null) {
 			getDialogService().error(getToolboxShell(),
-					messages.TableTransform_Error_Msg + (status == null //
-							? "" //$NON-NLS-1$
-							: ": " + status.getErrorMessages())); //$NON-NLS-1$
+					messages.TableTransform_Error_Msg);
+		} else if (status.isNonTransformable()) {
+			getDialogService().error(getToolboxShell(),
+					messages.TableTransform_Error,
+					messages.TableTransform_Error_Msg,
+					status.getTransformException().get());
+		} else if (!status.isSortSuccess()) {
+			getDialogService().openInformation(getToolboxShell(),
+					getViewTitle(), messages.TableTransform_Sort_Error);
 		}
 	}
 

@@ -157,6 +157,8 @@ public class PlazModelPart extends AbstractEmfFormsPart {
 			}
 		});
 
+		tableView.createActiveDefaultFilterCheckBox(
+				(Composite) getBanderole().getControl());
 		tableView.createExpandCollapseAllButton(
 				(Composite) getBanderole().getControl(),
 				messages.PlazModellPart_ExpandAllGroup,
