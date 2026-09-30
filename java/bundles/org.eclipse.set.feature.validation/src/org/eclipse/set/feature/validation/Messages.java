@@ -372,7 +372,7 @@ public class Messages {
 	public String ValidationReport_Report_LayoutRegion;
 
 	/**
-	 * Generell Meldungen
+	 * Meldungen allgemein
 	 */
 	public String ValidationReport_Report_GeneralRegion;
 
