@@ -30,11 +30,9 @@ import org.apache.commons.io.FileUtils;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.model.StylesTable;
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -112,12 +110,12 @@ public class ExcelExportBuilder implements TableExport {
 	@Reference
 	EnumTranslationService enumTranslationService;
 
-	private static int getFirstRowForContent(final Sheet sheet) {
+	private static int getFirstRowForContent(final XSSFSheet sheet) {
 		return getHeaderLastRowIndex(sheet) + 1;
 	}
 
-	static String[] getColumnHeaders(final Sheet sheet) {
-		final Row row = sheet.getRow(0);
+	static String[] getColumnHeaders(final XSSFSheet sheet) {
+		final XSSFRow row = sheet.getRow(0);
 		final int maxColIx = getHeaderLastColumnIndex(sheet);
 		final List<String> headers = new ArrayList<>();
 		for (int colIx = 1; colIx <= maxColIx; colIx++) {
@@ -183,12 +181,6 @@ public class ExcelExportBuilder implements TableExport {
 			workbook.setSheetName(0, shortcut.substring(0, 1).toUpperCase()
 					+ shortcut.substring(1));
 			defaultCellStyleByColumn = getDefaultCellStyles(workbook, sheet);
-			if (tableType != TableType.DIFF
-					&& exportType != ExportType.INVENTORY_RECORDS) {
-				ExcelWaterMark.createWaterMark(sheet,
-						enumTranslationService.translate(tableType)
-								.getPresentation());
-			}
 			// dummy-Header erzeugen für die Transformation
 			final String[] headers = getColumnHeaders(sheet);
 			final int columnCount = headers.length;
@@ -616,7 +608,7 @@ public class ExcelExportBuilder implements TableExport {
 	}
 
 	private static void createCellNewValueFont(final XSSFWorkbook workbook) {
-		final Font defaultFont = getDefaultFont(workbook);
+		final XSSFFont defaultFont = getDefaultFont(workbook);
 		cellNewValueFont = workbook.createFont();
 		cellNewValueFont.setFontName(defaultFont.getFontName());
 		cellNewValueFont
@@ -625,16 +617,16 @@ public class ExcelExportBuilder implements TableExport {
 	}
 
 	private static void createCellOldValueFont(final XSSFWorkbook workbook) {
-		final Font defaultFont = getDefaultFont(workbook);
+		final XSSFFont defaultFont = getDefaultFont(workbook);
 		cellOldValueFont = workbook.createFont();
 		cellOldValueFont.setFontName(defaultFont.getFontName());
 		cellOldValueFont
 				.setFontHeightInPoints(defaultFont.getFontHeightInPoints());
-		cellOldValueFont.setColor(IndexedColors.ORANGE.getIndex());
+		cellOldValueFont.setColor(IndexedColors.LIGHT_ORANGE.getIndex());
 		cellOldValueFont.setStrikeout(true);
 	}
 
-	private static Font getDefaultFont(final Workbook workbook) {
+	private static XSSFFont getDefaultFont(final XSSFWorkbook workbook) {
 		return workbook.getFontAt(workbook.getSheetAt(0)
 				.getRow(0)
 				.getCell(1)
