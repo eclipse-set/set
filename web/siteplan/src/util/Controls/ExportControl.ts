@@ -95,19 +95,14 @@ export default class ExportControl extends Control {
     const sheetCutFeatures = this.getSheetcutFeatures()
     const targetPpm = store.state.customPpm
     const exportImageScale = this.determineExportScale(targetPpm)
+    const exportCanvasData = await this.getExportCanvasData(sheetCutFeatures ?? [], exportImageScale)
     if (PlanProToolbox.inPPT()) {
       PlanProToolbox.exportSiteplan(
-        (folder: string | null) => {
-          if (folder === null)
-            return
-
-          this.exportSiteplan(sheetCutFeatures ?? [], exportImageScale)
-        },
-        sheetCutFeatures?.length?.toString() ?? '0',
-        targetPpm?.toString() ?? ''
+        targetPpm?.toString() ?? '',
+        exportCanvasData.map(c => c.canvas.toDataURL())
       )
     } else {
-      this.exportSiteplan(sheetCutFeatures ?? [], exportImageScale)
+      this.downloadExportCanvasData(exportCanvasData)
     }
   }
 
@@ -136,7 +131,10 @@ export default class ExportControl extends Control {
     return layoutInfoLayer?.getFeaturesByType(FeatureType.SheetCut)
   }
 
-  private async exportSiteplan (sheetCutFeatures: Feature<Geometry>[], scale: number) {
+  private async getExportCanvasData (
+    sheetCutFeatures: Feature<Geometry>[],
+    scale: number
+  ): Promise<ExportCanvasData[]> {
     this.lockMapDuringExport(true)
     const result: ExportCanvasData[] = []
     const originalRotation = this.map.getView().getRotation()
@@ -163,10 +161,14 @@ export default class ExportControl extends Control {
     this.map.getView().setCenter(originalViewCenter)
 
     result.push(...exportCanvases.filter(canvas => canvas !== null))
+    this.lockMapDuringExport(false)
+    return result
+  }
 
+  private async downloadExportCanvasData (exportCanvasData: ExportCanvasData[]) {
     const link = document.createElement('a')
     let index = 0
-    for (const c of result) {
+    for (const c of exportCanvasData) {
       link.setAttribute('download', `siteplan_sheetcut_${c.sheetCutName ?? index}`)
       console.log(`siteplan_sheetcut_${c.sheetCutName ?? index}`)
       if (link) {
@@ -177,7 +179,6 @@ export default class ExportControl extends Control {
       index++
       await new Promise(resolve => setTimeout(resolve, 500) )
     }
-    this.lockMapDuringExport(false)
   }
 
   private async getSiteplanSheetcutExportCanvas (
