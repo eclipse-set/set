@@ -22,7 +22,7 @@ import org.apache.fop.hyphenation.HyphenationTree;
 public class Hyphenator {
 	HyphenationTree hyphenation;
 
-	private Hyphenator(final HyphenationTree hyphenationTree) {
+	public Hyphenator(final HyphenationTree hyphenationTree) {
 		hyphenation = hyphenationTree;
 	}
 
