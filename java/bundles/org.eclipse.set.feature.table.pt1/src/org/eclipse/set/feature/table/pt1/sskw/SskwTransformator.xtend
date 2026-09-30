@@ -790,8 +790,9 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 			)
 		} else {
 			val actuatorCount = components.
-				map[actuatorNumberSelector.apply(it)].filterNull.map[intValue].
-				reduce[p1, p2|p1.intValue + p2.intValue]
+				map[actuatorNumberSelector.apply(it)].filterNull.reduce [ p1, p2 |
+					p1 + p2
+				]
 			val position = components.filter [
 				fillPositionSupplementCondition.apply(it)
 			].map [
@@ -799,7 +800,7 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 			].map[key.getPosition(value, actuatorPositionSelector)].filter [
 				!nullOrEmpty && !blank
 			].toSet.join(", ")
-			if (actuatorCount === null || actuatorCount === 0) {
+			if (actuatorCount === null) {
 				return
 			}
 			fill(row, column, element, [
