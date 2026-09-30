@@ -297,6 +297,12 @@ public class ToolboxTableView extends BasePart {
 					t.getControlAreas()
 							.forEach(area -> controlAreaIds.add(area.areaId()));
 					tableType = t.getTableType();
+					final TableStatus tableStatus = tableService
+							.getTablesStatus(tableInfo.category())
+							.getOrDefault(tableInfo, null);
+					if (tableStatus != null) {
+						tableStatus.reset();
+					}
 					updateTableView(t.getControlAreas().isEmpty()
 							? Collections.emptyList()
 							: List.of(Pt1TableCategory.ESTW));
@@ -367,6 +373,7 @@ public class ToolboxTableView extends BasePart {
 					if (transformedTable == null) {
 						return;
 					}
+					showErroneousTableStatus();
 					updateModel(getToolboxPart(), transformedTable);
 					natTable.doCommand(new RowHeightResetCommand());
 					natTable.refresh();
@@ -402,22 +409,8 @@ public class ToolboxTableView extends BasePart {
 		if (table == null) {
 			return;
 		}
-		final TableStatus status = tableService
-				.getTablesStatus(tableInfo.category())
-				.getOrDefault(tableInfo, null);
+		showErroneousTableStatus();
 		subcribeTriggerResortEvent();
-		if (status == null) {
-			getDialogService().error(getToolboxShell(),
-					messages.TableTransform_Error_Msg);
-		} else if (status.isNonTransformable()) {
-			getDialogService().error(getToolboxShell(),
-					messages.TableTransform_Error,
-					messages.TableTransform_Error_Msg,
-					status.getTransformException().get());
-		} else if (!status.isSortSuccess()) {
-			getDialogService().openInformation(getToolboxShell(),
-					getViewTitle(), messages.TableTransform_Sort_Error);
-		}
 
 		final ColumnDescriptor rootColumnDescriptor = table
 				.getColumndescriptors()
@@ -949,6 +942,24 @@ public class ToolboxTableView extends BasePart {
 				getDialogService().openInformation(getToolboxShell(),
 						getViewTitle(), messages.TableTransform_Sort_Error);
 			}
+		}
+	}
+
+	private void showErroneousTableStatus() {
+		final TableStatus status = tableService
+				.getTablesStatus(tableInfo.category())
+				.getOrDefault(tableInfo, null);
+		if (status == null) {
+			getDialogService().error(getToolboxShell(),
+					messages.TableTransform_Error_Msg);
+		} else if (status.isNonTransformable()) {
+			getDialogService().error(getToolboxShell(),
+					messages.TableTransform_Error,
+					messages.TableTransform_Error_Msg,
+					status.getTransformException().get());
+		} else if (!status.isSortSuccess()) {
+			getDialogService().openInformation(getToolboxShell(),
+					getViewTitle(), messages.TableTransform_Sort_Error);
 		}
 	}
 
