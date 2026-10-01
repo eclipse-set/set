@@ -16,7 +16,6 @@
   </parent>
   <modules>
     <module>../bundles/org.eclipse.set.swtbot</module>
-    <module>org.eclipse.set.nattable.utils.test</module>
   </modules>
   <properties>
     <set-version>${project.parent.version}</set-version>
