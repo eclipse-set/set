@@ -10,7 +10,6 @@
  */
 package org.eclipse.set.nattable.utils;
 
-import java.io.IOException;
 import java.io.ObjectInputStream;
 
 import org.apache.fop.hyphenation.Hyphenation;
@@ -22,6 +21,10 @@ import org.apache.fop.hyphenation.HyphenationTree;
 public class Hyphenator {
 	HyphenationTree hyphenation;
 
+	/**
+	 * @param hyphenationTree
+	 *            the {@link HyphenationTree}
+	 */
 	public Hyphenator(final HyphenationTree hyphenationTree) {
 		hyphenation = hyphenationTree;
 	}
@@ -55,21 +58,21 @@ public class Hyphenator {
 	}
 
 	/**
-	 * @return
-	 * @throws IOException
-	 * @throws ClassNotFoundException
+	 * @return the {@link Hyphenator}
 	 */
-	public static Hyphenator createInstance()
-			throws IOException, ClassNotFoundException {
+	public static Hyphenator createInstance() {
 		try (var inputStream = Hyphenator.class.getClassLoader()
-				.getResourceAsStream("hyph/de.hyp")) {
+				.getResourceAsStream("hyph/de.hyp")) { //$NON-NLS-1$
 			final ObjectInputStream objectInputStream = new ObjectInputStream(
 					inputStream);
 			if (objectInputStream
 					.readObject() instanceof final HyphenationTree hyphenationTree) {
 				return new Hyphenator(hyphenationTree);
 			}
+			throw new IllegalArgumentException("Can't create Hyphenator"); //$NON-NLS-1$
+		} catch (final Exception e) {
+			throw new IllegalArgumentException("Can't create Hyphenator"); //$NON-NLS-1$
 		}
-		return null;
+
 	}
 }

@@ -11,6 +11,7 @@
 package org.eclipse.set.nattable.utils.test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -24,6 +25,7 @@ import org.eclipse.set.nattable.utils.Hyphenator;
 import org.eclipse.set.nattable.utils.PlanProRichTextPainter;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Point;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -34,7 +36,14 @@ import org.mockito.Mockito;
 /**
  * 
  */
+@SuppressWarnings("boxing")
 public class PlanProRichTextPainterTest {
+
+	private static Stream<Arguments> getTestSpecialString() {
+		return Stream.of(Arguments.of("a  b\tc\n", "a  b\tc\n", 2),
+				Arguments.of("123456789", "123456789", 3));
+	}
+
 	private static Stream<Arguments> getTestStringWithOutSeparator() {
 		return Stream.of(
 				Arguments.of("Aussenelementansteuerung",
@@ -59,6 +68,7 @@ public class PlanProRichTextPainterTest {
 	}
 
 	GC gc;
+
 	String hyphenatedStr;
 
 	Hyphenator hyphenator;
@@ -87,7 +97,7 @@ public class PlanProRichTextPainterTest {
 
 	void givenHyphenator()
 			throws FileNotFoundException, IOException, ClassNotFoundException {
-		try (FileInputStream fileInputStream = new FileInputStream(
+		try (var fileInputStream = new FileInputStream(
 				new File("hyph/de.hyp"))) {
 			final ObjectInputStream objectInputStream = new ObjectInputStream(
 					fileInputStream);
@@ -100,6 +110,36 @@ public class PlanProRichTextPainterTest {
 
 	void givenPlanProRichTextPainter() {
 		testee = new PlanProRichTextPainter(false);
+	}
+
+	@ParameterizedTest
+	@MethodSource("getTestSpecialString")
+	void testHyphenationSpeicalText(final String origin, final String expect,
+			final int availableLength)
+			throws FileNotFoundException, ClassNotFoundException, IOException {
+		givenHyphenator();
+		try (MockedStatic<Hyphenator> mockStatic = Mockito
+				.mockStatic(Hyphenator.class)) {
+			mockStatic.when(Hyphenator::createInstance).thenReturn(hyphenator);
+			givenPlanProRichTextPainter();
+			givenGC();
+			whenHyphenateText(origin, availableLength);
+			thenExpectEqual(expect);
+		}
+	}
+
+	@Test
+	void testHyphenationTextDoesNotEmitEmptyFragmentWhenRestIsNegative()
+			throws FileNotFoundException, ClassNotFoundException, IOException {
+		givenHyphenator();
+		try (MockedStatic<Hyphenator> mockStatic = Mockito
+				.mockStatic(Hyphenator.class)) {
+			mockStatic.when(Hyphenator::createInstance).thenReturn(hyphenator);
+			givenPlanProRichTextPainter();
+			givenGC();
+			whenHyphenateText("foo_Aussenelementansteuerung", 4);
+			assertFalse(hyphenatedStr.startsWith("-<br></br>"));
+		}
 	}
 
 	@ParameterizedTest
