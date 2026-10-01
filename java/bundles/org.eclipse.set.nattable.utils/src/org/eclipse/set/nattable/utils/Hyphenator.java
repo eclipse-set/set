@@ -38,6 +38,23 @@ public class Hyphenator {
 	}
 
 	/**
+	 * @param word
+	 *            the word to hyphenate
+	 * @return the split words
+	 */
+	public String[] splitedWord(final String word) {
+		final int[] points = points(word);
+		final String[] splitWords = new String[points.length + 1];
+		int startIndex = 0;
+		for (int i = 0; i < points.length; i++) {
+			splitWords[i] = word.substring(startIndex, points[i]);
+			startIndex = points[i];
+		}
+		splitWords[points.length] = word.substring(startIndex, word.length());
+		return splitWords;
+	}
+
+	/**
 	 * @return
 	 * @throws IOException
 	 * @throws ClassNotFoundException

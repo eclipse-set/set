@@ -35,15 +35,27 @@ import org.mockito.Mockito;
  * 
  */
 public class PlanProRichTextPainterTest {
-	private static Stream<Arguments> getTestStringWithOutSeperator() {
-
+	private static Stream<Arguments> getTestStringWithOutSeparator() {
 		return Stream.of(
-				Arguments.of("Aussenelementasteuerung",
+				Arguments.of("Aussenelementansteuerung",
+						"Aussenelementansteuerung", 30),
+				Arguments.of("Aussenelementansteuerung",
 						"Aussenelement-<br></br>ansteuerung", 14),
-				Arguments.of("Aussenelementasteuerung",
-						"Aussen-<br></br>element-<br></br>ansteuerung", 12),
-				Arguments.of("Aussenelementasteuerung",
-						"Aussenelementansteuer-<br></br>ung", 23));
+				Arguments.of("Aussenelementansteuerung",
+						"Aussen-<br></br>element-<br></br>ansteue-<br></br>rung",
+						8),
+				Arguments.of("Aussenelementansteuerung",
+						"Aussenelementansteue-<br></br>rung", 22));
+	}
+
+	private static Stream<Arguments> getTestStringWithUnterlineSeparator() {
+		return Stream.of(
+				Arguments.of("Aus_sen_element_ansteue_rung",
+						"Aus_sen_element_<br></br>ansteue_rung", 17),
+				Arguments.of(
+						"Aussenelementansteuerung_Aussenelementansteuerung",
+						"Aussenelemen-<br></br>tansteuerung_<br></br>Aussenelement-<br></br>ansteuerung",
+						14));
 	}
 
 	GC gc;
@@ -91,8 +103,24 @@ public class PlanProRichTextPainterTest {
 	}
 
 	@ParameterizedTest
-	@MethodSource("getTestStringWithOutSeperator")
+	@MethodSource("getTestStringWithOutSeparator")
 	void testHyphenationTextWithoutSeperator(final String origin,
+			final String expect, final int avaiableLength)
+			throws FileNotFoundException, ClassNotFoundException, IOException {
+		givenHyphenator();
+		try (MockedStatic<Hyphenator> mockStatic = Mockito
+				.mockStatic(Hyphenator.class)) {
+			mockStatic.when(Hyphenator::createInstance).thenReturn(hyphenator);
+			givenPlanProRichTextPainter();
+			givenGC();
+			whenHyphenateText(origin, avaiableLength);
+			thenExpectEqual(expect);
+		}
+	}
+
+	@ParameterizedTest
+	@MethodSource("getTestStringWithUnterlineSeparator")
+	void testHyphenationTextWithUnterline(final String origin,
 			final String expect, final int avaiableLength)
 			throws FileNotFoundException, ClassNotFoundException, IOException {
 		givenHyphenator();
