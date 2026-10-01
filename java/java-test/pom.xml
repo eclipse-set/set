@@ -23,6 +23,15 @@
   </properties>
   <profiles>
     <profile>
+      <id>default</id>
+      <activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+      <modules>
+        <module>org.eclipse.set.nattable.utils.test</module>
+      </modules>
+    </profile>
+    <profile>
       <id>swtbot</id>
       <modules>
         <module>../bundles/org.eclipse.set.releng.target</module>
