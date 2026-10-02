@@ -96,7 +96,7 @@ public class SonstigeRequiresBearbeitungsvermerk implements PlazCheck {
 	@Override
 	public String getDescription() {
 		return String.format(
-				"Alles mit Referenz '%s' hat einen Bearbeitungsvermerk.", //$NON-NLS-1$
+				"Alle Angaben mit dem Wert '%s' haben einen Bearbeitungsvermerk.", //$NON-NLS-1$
 				EnumeratorExtensions.SONSTIGE_ENUM_WERT);
 	}
 
