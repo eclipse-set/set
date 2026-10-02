@@ -112,4 +112,15 @@ public interface TopologicalGraphService {
 	 */
 	Optional<TopPoint> findClosestPoint(final TopPoint from,
 			final List<TopPoint> points, final boolean searchInTopDirection);
+
+	/**
+	 * Finds the shortest path, which have plausible branch
+	 * 
+	 * @param from
+	 *            starting point to search from
+	 * @param to
+	 *            end point
+	 * @return the optional of {@link TopPath}
+	 */
+	Optional<TopPath> findTopologicalShortesPath(TopPoint from, TopPoint to);
 }
