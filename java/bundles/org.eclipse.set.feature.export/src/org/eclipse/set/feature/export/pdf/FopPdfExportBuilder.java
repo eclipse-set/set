@@ -144,33 +144,6 @@ public class FopPdfExportBuilder implements TableExport {
 		return shortcut + "-fop." + extension; //$NON-NLS-1$
 	}
 
-	protected static Table getTableToBeExported(
-			final Map<TableType, Table> tables, final ExportType exportType) {
-		switch (exportType) {
-			case INVENTORY_RECORDS:
-				final Table invTable = tables.get(TableType.FINAL);
-				if (invTable != null) {
-					return invTable;
-				}
-				// if we do not have a final table we export the table of the
-				// single
-				// container of a state
-				return tables.get(TableType.SINGLE);
-			case PLANNING_RECORDS: {
-				final Table planTable = tables.get(TableType.DIFF);
-				if (planTable != null) {
-					return planTable;
-				}
-				// if we do not have a diff table we export the table of the
-				// single
-				// container of a state
-				return tables.get(TableType.SINGLE);
-			}
-			default:
-				throw new IllegalArgumentException(exportType.toString());
-		}
-	}
-
 	protected EnumTranslationService enumTranslationService;
 	protected FopService fopService;
 
