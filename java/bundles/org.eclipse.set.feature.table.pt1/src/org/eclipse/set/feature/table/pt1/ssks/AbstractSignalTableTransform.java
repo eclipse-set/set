@@ -388,6 +388,9 @@ public abstract class AbstractSignalTableTransform
 				befestigung,
 				b -> b.getSignalBefestigungAllg().getBefestigungArt().getWert())
 				.orElse(null);
+		if (art == null) {
+			return "";
+		}
 		return switch (art) {
 			case ENUM_BEFESTIGUNG_ART_SONSTIGE -> {
 				final List<ID_Bearbeitungsvermerk_TypeClass> bearbeitungsvermerke = EObjectExtensions

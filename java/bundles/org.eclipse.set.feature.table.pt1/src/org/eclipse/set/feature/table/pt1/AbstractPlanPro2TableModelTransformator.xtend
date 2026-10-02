@@ -99,7 +99,7 @@ abstract class AbstractPlanPro2TableModelTransformator extends AbstractTableMode
 				return translate(wert);
 			}
 			if (wert instanceof Enumerator) {
-				return enumTranslationService.translate(owner, wert).alternative
+				return enumTranslationService.translate(owner, wert)?.alternative ?: ""
 			}
 			return null;
 		} catch (Exception e) {
