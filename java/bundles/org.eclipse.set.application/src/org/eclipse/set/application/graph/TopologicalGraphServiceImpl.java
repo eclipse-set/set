@@ -180,7 +180,7 @@ public class TopologicalGraphServiceImpl
 		}
 		final PathValidator<AsSplitTopGraph.Node, AsSplitTopGraph.Edge> validator = getTopologicalPathValidator();
 
-		final InputData inputData = getInputData(from, to);
+		final InputData inputData = getInputData(from, to, Optional.empty());
 
 		final YenKShortestPath<Node, Edge> yenKShortestPath = new YenKShortestPath<>(
 				inputData.graphView, validator);
@@ -223,7 +223,7 @@ public class TopologicalGraphServiceImpl
 			return Optional.of(
 					new TopPath(List.of(from.edge()), BigDecimal.ZERO, from));
 		}
-		final InputData inputData = getInputData(from, to);
+		final InputData inputData = getInputData(from, to, Optional.empty());
 		return Optional.ofNullable( //
 				findPathBetween(inputData.graphView, inputData.fromNode,
 						inputData.toNode))
@@ -245,7 +245,8 @@ public class TopologicalGraphServiceImpl
 							distance.abs(), distance.abs()))
 					: Optional.empty();
 		}
-		final InputData inputData = getInputData(from, to);
+		final InputData inputData = getInputData(from, to,
+				Optional.of(Boolean.valueOf(inTopDirection)));
 		final Optional<BigDecimal> shortestDistance = findShortestDistance(from,
 				to);
 
@@ -309,7 +310,7 @@ public class TopologicalGraphServiceImpl
 	@Override
 	public Optional<TopPoint> findClosestPoint(final TopPoint from,
 			final List<TopPoint> points, final boolean searchInTopDirection) {
-		final InputData inputData = getInputData(from, null);
+		final InputData inputData = getInputData(from, null, Optional.empty());
 
 		BigDecimal minWeight = BigDecimal.valueOf(1000000);
 		Optional<TopPoint> minPoint = Optional.empty();
@@ -335,7 +336,8 @@ public class TopologicalGraphServiceImpl
 		return minPoint;
 	}
 
-	private InputData getInputData(final TopPoint from, final TopPoint to) {
+	private InputData getInputData(final TopPoint from, final TopPoint to,
+			final Optional<Boolean> inTopDirection) {
 		final MultiContainer_AttributeGroup container = getContainer(
 				from.edge());
 		final PlanPro_Schnittstelle planProSchnittstelle = getPlanProSchnittstelle(
@@ -343,7 +345,9 @@ public class TopologicalGraphServiceImpl
 		final AsSplitTopGraph graphView = new AsSplitTopGraph(
 				getTopGraphBase(planProSchnittstelle));
 
-		final Node fromNode = graphView.splitGraphAt(from);
+		final Node fromNode = inTopDirection.isPresent()
+				? graphView.splitGraphAt(from, inTopDirection.get())
+				: graphView.splitGraphAt(from);
 		if (to == null) {
 			return new InputData(graphView, fromNode, null);
 		}
