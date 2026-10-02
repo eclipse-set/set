@@ -310,7 +310,8 @@ public class TopologicalGraphServiceImpl
 	@Override
 	public Optional<TopPoint> findClosestPoint(final TopPoint from,
 			final List<TopPoint> points, final boolean searchInTopDirection) {
-		final InputData inputData = getInputData(from, null, Optional.empty());
+		final InputData inputData = getInputData(from, null,
+				Optional.of(Boolean.valueOf(searchInTopDirection)));
 
 		BigDecimal minWeight = BigDecimal.valueOf(1000000);
 		Optional<TopPoint> minPoint = Optional.empty();
