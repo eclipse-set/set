@@ -14,10 +14,9 @@ import java.util.List;
 /**
  * Determines points on a Bloss curve with a zero target curvature
  * 
- * The implementation follows the formulas outlined in Appendix 6 of
- * Übergangsbogenberechnung nach Dr.-Ing. Schuhr
+ * The implementation follows the formulas of ProVI
  * 
- * @author Stuecker
+ * @author Truong
  *
  */
 public class Bloss {
@@ -52,6 +51,12 @@ public class Bloss {
 		this(radius, 0, arcLength, iterations);
 	}
 
+	/**
+	 * @param radiusA
+	 * @param radiusB
+	 * @param arcLength
+	 * @param iterations
+	 */
 	public Bloss(final double radiusA, final double radiusB,
 			final double arcLength, final int iterations) {
 		this.totalLength = arcLength;
