@@ -95,19 +95,14 @@ export default class ExportControl extends Control {
     const sheetCutFeatures = this.getSheetcutFeatures()
     const targetPpm = store.state.customPpm
     const exportImageScale = this.determineExportScale(targetPpm)
+    const exportCanvasData = await this.getExportCanvasData(sheetCutFeatures ?? [], exportImageScale)
     if (PlanProToolbox.inPPT()) {
       PlanProToolbox.exportSiteplan(
-        (folder: string | null) => {
-          if (folder === null)
-            return
-
-          this.exportSiteplan(sheetCutFeatures ?? [], exportImageScale)
-        },
-        sheetCutFeatures?.length?.toString() ?? '0',
-        targetPpm?.toString() ?? ''
+        targetPpm?.toString() ?? '',
+        exportCanvasData.map(c => c.canvas.toDataURL())
       )
     } else {
-      this.exportSiteplan(sheetCutFeatures ?? [], exportImageScale)
+      this.downloadExportCanvasData(exportCanvasData)
     }
   }
 
@@ -136,7 +131,10 @@ export default class ExportControl extends Control {
     return layoutInfoLayer?.getFeaturesByType(FeatureType.SheetCut)
   }
 
-  private async exportSiteplan (sheetCutFeatures: Feature<Geometry>[], scale: number) {
+  private async getExportCanvasData (
+    sheetCutFeatures: Feature<Geometry>[],
+    scale: number
+  ): Promise<ExportCanvasData[]> {
     this.lockMapDuringExport(true)
     const result: ExportCanvasData[] = []
     const originalRotation = this.map.getView().getRotation()
@@ -145,40 +143,41 @@ export default class ExportControl extends Control {
     const currentSourceMap = store.state.selectedSourceMap
     store.commit('setSourceMap', new EmptyMap().getIdentifier())
     const visibleLayers = store.state.featureLayers.filter(layer => layer.getVisible())
-    try {
-      visibleLayers.forEach(layer => layer.setVisible(false))
-      setMapScale(this.map.getView(), scale)
-      this.map.getView().setRotation(0)
-      const resolution = this.map.getView().getResolution()
+    visibleLayers.forEach(layer => layer.setVisible(false))
+    setMapScale(this.map.getView(), scale)
+    this.map.getView().setRotation(0)
+    const resolution = this.map.getView().getResolution()
 
-      const exportCanvases = await this.getSiteplanSheetcutExportCanvas(
-        sheetCutFeatures,
-        visibleLayers,
-        resolution ?? 1
-      )
+    const exportCanvases = await this.getSiteplanSheetcutExportCanvas(
+      sheetCutFeatures,
+      visibleLayers,
+      resolution ?? 1
+    )
 
-      result.push(...exportCanvases.filter(canvas => canvas !== null))
+    store.commit('setSourceMap', currentSourceMap)
+    visibleLayers.forEach(layer => layer.setVisible(true))
+    this.map.getView().setRotation(originalRotation)
+    this.map.getView().setZoom(originalZoomLvl ?? 10)
+    this.map.getView().setCenter(originalViewCenter)
 
-      const link = document.createElement('a')
-      let index = 0
-      for (const c of result) {
-        link.setAttribute('download', `siteplan_sheetcut_${c.sheetCutName ?? index}`)
-        console.log(`siteplan_sheetcut_${c.sheetCutName ?? index}`)
-        if (link) {
-          link.href = c.canvas.toDataURL()
-          link.click()
-        }
+    result.push(...exportCanvases.filter(canvas => canvas !== null))
+    this.lockMapDuringExport(false)
+    return result
+  }
 
-        index++
-        await new Promise(resolve => setTimeout(resolve, 500))
+  private async downloadExportCanvasData (exportCanvasData: ExportCanvasData[]) {
+    const link = document.createElement('a')
+    let index = 0
+    for (const c of exportCanvasData) {
+      link.setAttribute('download', `siteplan_sheetcut_${c.sheetCutName ?? index}`)
+      console.log(`siteplan_sheetcut_${c.sheetCutName ?? index}`)
+      if (link) {
+        link.href = c.canvas.toDataURL()
+        link.click()
       }
-    } finally {
-      this.lockMapDuringExport(false)
-      store.commit('setSourceMap', currentSourceMap)
-      visibleLayers.forEach(layer => layer.setVisible(true))
-      this.map.getView().setRotation(originalRotation)
-      this.map.getView().setZoom(originalZoomLvl ?? 10)
-      this.map.getView().setCenter(originalViewCenter)
+
+      index++
+      await new Promise(resolve => setTimeout(resolve, 500) )
     }
   }
 
