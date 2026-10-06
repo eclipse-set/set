@@ -66,8 +66,8 @@ public class NoCacheService implements CacheService {
 	}
 
 	@Override
-	public Cache getCache(final PlanPro_Layoutinfo layoutInfo, final String cacheId)
-			throws IllegalArgumentException {
+	public Cache getCache(final PlanPro_Layoutinfo layoutInfo,
+			final String cacheId) throws IllegalArgumentException {
 		return new NoCache();
 	}
 }
