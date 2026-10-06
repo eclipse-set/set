@@ -20,9 +20,12 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.set.basis.cache.Cache;
 import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.core.services.Services;
+import org.eclipse.set.core.services.cache.CacheService;
+import org.eclipse.set.core.services.cache.NoCacheService;
 import org.eclipse.set.model.planpro.BasisTypen.BasisTypenPackage;
 import org.eclipse.set.model.planpro.BasisTypen.ID_Bearbeitungsvermerk_TypeClass;
 import org.eclipse.set.model.planpro.BasisTypen.Zeiger_TypeClass;
+import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
 import org.eclipse.set.model.planpro.Layoutinformationen.PlanPro_Layoutinfo;
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.set.model.planpro.Verweise.VerweisePackage;
@@ -37,16 +40,34 @@ public class ToolboxIDResolver {
 
 	private ToolboxIDResolver(final PlanPro_Schnittstelle model) {
 		guidCache.prepare(model);
-		final Cache k = Services.getCacheService()
-				.getCache(model, ToolboxConstants.CacheId.GUID_TO_OBJECT);
-		k.set(model.getIdentitaet().getWert(), guidCache);
+		storageGuidCache(model);
 	}
 
 	private ToolboxIDResolver(final PlanPro_Layoutinfo model) {
 		guidCache.prepare(model);
-		final Cache k = Services.getCacheService()
-				.getCache(model, ToolboxConstants.CacheId.GUID_TO_OBJECT);
-		k.set(model.getIdentitaet().getWert(), guidCache);
+		storageGuidCache(model);
+	}
+
+	private <T extends Ur_Objekt> void storageGuidCache(final T model) {
+		final CacheService cacheService = Services.getCacheService();
+
+		if (cacheService == null || cacheService instanceof NoCacheService) {
+			return;
+		}
+		final Cache cache = switch (model) {
+			case final PlanPro_Schnittstelle schnittStelle -> cacheService
+					.getCache(schnittStelle,
+							ToolboxConstants.CacheId.GUID_TO_OBJECT);
+			case final PlanPro_Layoutinfo layoutInto -> cacheService.getCache(
+					layoutInto, ToolboxConstants.CacheId.GUID_TO_OBJECT);
+			default -> null;
+		};
+
+		if (cache == null) {
+			return;
+		}
+
+		cache.set(model.getIdentitaet().getWert(), guidCache);
 	}
 
 	/**
