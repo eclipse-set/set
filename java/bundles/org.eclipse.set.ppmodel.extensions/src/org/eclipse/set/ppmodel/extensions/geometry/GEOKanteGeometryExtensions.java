@@ -216,36 +216,27 @@ public class GEOKanteGeometryExtensions {
 				.getWert()
 				.doubleValue();
 		if (radiusA != 0 && radiusB != 0) {
-			// Bloss curve connecting two curve tracks
-			// logger.warn("Form Bloss between straight tracks not supported.");
-			// //$NON-NLS-1$
-			final Bloss bloss = new Bloss(radiusA, radiusB, length,
-					geometryOptions.precision());
-
-			return blosscurve(bloss, coordinateA, coordinateB, radiusA, length,
-					geometryOptions);
+			// Bloss curve connecting two straight tracks
+			logger.warn("Form Bloss between straight tracks not supported."); //$NON-NLS-1$
+			return getGeometryFactory().createLineString(getCoordinates(edge));
 		} else if (radiusA == 0) {
 			// Curve from node B to node A
-			final Bloss bloss = new Bloss(Math.abs(radiusB), length,
-					geometryOptions.precision());
-			return blosscurve(bloss, coordinateB, coordinateA, radiusB, length,
+			return blosscurve(coordinateB, coordinateA, radiusB, length,
 					geometryOptions);
 		}
 		// Curve from node A to node B
 		// Invert the radius, as left-right is also inverted due to the
 		// drawing direction
-		final Bloss bloss = new Bloss(Math.abs(radiusA), length,
-				geometryOptions.precision());
-		return blosscurve(bloss, coordinateA, coordinateB, -radiusA, length,
+		return blosscurve(coordinateA, coordinateB, -radiusA, length,
 				geometryOptions);
 
 	}
 
-	private static LineString blosscurve(final Bloss bloss,
-			final Coordinate fromCoordinate, final Coordinate toCoordinate,
-			final double radiusA, final double length,
-			final GeometryOptions geometryOptions) {
-
+	private static LineString blosscurve(final Coordinate fromCoordinate,
+			final Coordinate toCoordinate, final double radius,
+			final double length, final GeometryOptions geometryOptions) {
+		final Bloss bloss = new Bloss(Math.abs(radius), length,
+				geometryOptions.precision());
 		final int segmentCount = (int) Math.max(
 				length / geometryOptions.stepSize(),
 				geometryOptions.minSegmentCount());
@@ -254,7 +245,7 @@ public class GEOKanteGeometryExtensions {
 				.map(coor -> {
 					final Coordinate coordinate = new Coordinate(coor[0],
 							coor[1], 0);
-					return radiusA < 0 ? mirrorY(coordinate) : coordinate;
+					return radius < 0 ? mirrorY(coordinate) : coordinate;
 				})
 				.toList();
 
