@@ -487,6 +487,10 @@ class TableExtensions {
 	}
 
 	static def dispatch Iterable<FootnoteInfo> getFootnoteInfos(
+		Void fnContainer) {
+		return #[]
+	}
+	static def dispatch Iterable<FootnoteInfo> getFootnoteInfos(
 		FootnoteContainer fnContainer) {
 		return #[]
 	}

@@ -139,7 +139,7 @@ public abstract class AbstractTransformTableHeader {
 		final Element table = doc.createElement(FO_TABLE);
 		table.setAttribute(TABLE_LAYOUT, LAYOUT_FIXED);
 		table.setAttribute(TABLE_WIDTH, "100%"); //$NON-NLS-1$
-		table.setAttribute("border-collapse", "separate");
+		table.setAttribute("border-collapse", "separate"); //$NON-NLS-1$ //$NON-NLS-2$
 		final Set<Element> tableColumns = transformColumns();
 		tableColumns.forEach(table::appendChild);
 
@@ -317,6 +317,10 @@ public abstract class AbstractTransformTableHeader {
 		final XSSFCellStyle cellStyle = workbook.createCellStyle();
 		cellStyle.cloneStyleFrom(firstCell.getCellStyle());
 		cellStyle.setBorderLeft(BorderStyle.THIN);
+		if (row.getRowNum() == 0) {
+			cellStyle.setBorderTop(BorderStyle.THIN);
+		}
+
 		firstCell.setCellStyle(cellStyle);
 		return createTableCell(Optional.of(firstCell));
 	}

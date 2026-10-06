@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "ignoreDeprecations": "6.0",
     "target": "ES2021",
     "module": "esnext",
     "strict": true,
@@ -15,6 +16,7 @@
     "sourceMap": true,
     "baseUrl": ".",
     "types": [
+      "node",
       "vite/client"
     ],
     "paths": {
@@ -38,5 +40,5 @@
   ],
   "exclude": [
     "node_modules"
-  ]
+  ],
 }

@@ -212,6 +212,11 @@ public class Messages {
 	public String TableTransform_Error;
 
 	/**
+	 * Die Sortierung der Tabelle war nicht erfolgreich
+	 */
+	public String TableTransform_Sort_Error;
+
+	/**
 	 * Es gibt Fehler bei der Tabellengenerierung der Vergleichsplanung. Es wird
 	 * nur die Tabelle der Originalplanung angezeigt.
 	 */
@@ -222,5 +227,10 @@ public class Messages {
 	 * vollständig darstellen
 	 */
 	public String TableTransform_Error_Msg;
+
+	/**
+	 * Keine Tabelle wurde zum Exportieren ausgewählt.
+	 */
+	public String TableExportPart_NoTable;
 
 }
