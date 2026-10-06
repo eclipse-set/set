@@ -315,7 +315,7 @@ class PlanProToTitleboxTransformation {
 		it.variant = "no-logo"
 		if (schriftfeld?.planungsbueroLogo?.anhangAllg?.dateiname?.wert !==
 			null) {
-			val logo = attachmentPathProvider.apply(
+			val logo = attachmentPathProvider?.apply(
 				schriftfeld?.planungsbueroLogo?.identitaet?.wert)?.
 				toAbsolutePath?.normalize?.toString ?: ''
 			val dimension = getImageDimension(logo,
