@@ -512,8 +512,8 @@ npm/npmjs/-/pkg-dir/4.2.0, MIT, approved, clearlydefined
 npm/npmjs/-/pkg-types/1.3.1, MIT, approved, #19641
 npm/npmjs/-/pkg-types/2.3.1, MIT, approved, #29258
 npm/npmjs/-/pkijs/3.3.3, BSD-3-Clause, approved, clearlydefined
-npm/npmjs/-/playwright-core/1.61.1, Apache-2.0 AND MIT AND (ISC AND MIT) AND (BSD-2-Clause AND MIT) AND (BSD-2-Clause AND BSD-3-Clause AND ISC AND MIT), approved, #29545
-npm/npmjs/-/playwright/1.61.1, Apache-2.0 AND MIT AND (ISC AND MIT) AND (Apache-2.0 AND CC-BY-4.0 AND ISC AND MIT), approved, #29465
+npm/npmjs/-/playwright-core/1.62.1, Apache-2.0 AND MIT AND ISC AND BSD-3-Clause AND BSD-2-Clause AND BlueOak-1.0.0 AND (MIT OR NCSA), approved, #30416
+npm/npmjs/-/playwright/1.62.1, Apache-2.0 AND MIT AND (ISC AND MIT) AND (Apache-2.0 AND CC-BY-4.0 AND ISC AND MIT) AND (BSD-3-Clause AND BlueOak-1.0.0 AND MIT), approved, #30161
 npm/npmjs/-/point-in-polygon-hao/1.2.4, MIT, approved, clearlydefined
 npm/npmjs/-/polyclip-ts/0.16.8, MIT, approved, clearlydefined
 npm/npmjs/-/postcss-modules-extract-imports/3.1.0, ISC, approved, #14219
@@ -762,7 +762,7 @@ npm/npmjs/@peculiar/asn1-x509-attr/2.6.1, MIT, approved, #26344
 npm/npmjs/@peculiar/asn1-x509/2.6.1, MIT, approved, #26325
 npm/npmjs/@peculiar/x509/1.14.3, MIT, approved, clearlydefined
 npm/npmjs/@petamoriken/float16/3.9.3, MIT AND (Apache-2.0 AND MIT), approved, #17590
-npm/npmjs/@playwright/test/1.61.1, Apache-2.0, approved, #29485
+npm/npmjs/@playwright/test/1.62.1, Apache-2.0, approved, #30159
 npm/npmjs/@rolldown/binding-android-arm-eabi/1.2.11, MIT, approved, #30516
 npm/npmjs/@rolldown/binding-android-arm64/1.2.11, MIT, approved, #30518
 npm/npmjs/@rolldown/binding-darwin-arm64/1.2.11, MIT, approved, #30396
