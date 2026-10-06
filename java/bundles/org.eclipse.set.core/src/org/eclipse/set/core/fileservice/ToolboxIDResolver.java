@@ -17,12 +17,16 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.set.basis.cache.Cache;
+import org.eclipse.set.basis.constants.ToolboxConstants;
+import org.eclipse.set.core.services.Services;
 import org.eclipse.set.model.planpro.BasisTypen.BasisTypenPackage;
 import org.eclipse.set.model.planpro.BasisTypen.ID_Bearbeitungsvermerk_TypeClass;
 import org.eclipse.set.model.planpro.BasisTypen.Zeiger_TypeClass;
 import org.eclipse.set.model.planpro.Layoutinformationen.PlanPro_Layoutinfo;
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.set.model.planpro.Verweise.VerweisePackage;
+import org.eclipse.set.utils.cache.GuidCache;
 
 /**
  * Helper class to resolve ID reference GUIDs to their respective EMF objects
@@ -33,10 +37,16 @@ public class ToolboxIDResolver {
 
 	private ToolboxIDResolver(final PlanPro_Schnittstelle model) {
 		guidCache.prepare(model);
+		final Cache k = Services.getCacheService()
+				.getCache(model, ToolboxConstants.CacheId.GUID_TO_OBJECT);
+		k.set(model.getIdentitaet().getWert(), guidCache);
 	}
 
 	private ToolboxIDResolver(final PlanPro_Layoutinfo model) {
 		guidCache.prepare(model);
+		final Cache k = Services.getCacheService()
+				.getCache(model, ToolboxConstants.CacheId.GUID_TO_OBJECT);
+		k.set(model.getIdentitaet().getWert(), guidCache);
 	}
 
 	/**
@@ -51,6 +61,7 @@ public class ToolboxIDResolver {
 			return;
 		}
 		resolveIDReferences(model, new ToolboxIDResolver(model));
+
 	}
 
 	/**

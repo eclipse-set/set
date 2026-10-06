@@ -13,6 +13,7 @@ import org.eclipse.set.basis.cache.NoCache;
 import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.eclipse.set.core.services.Services;
+import org.eclipse.set.model.planpro.Layoutinformationen.PlanPro_Layoutinfo;
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
 
 /**
@@ -62,5 +63,11 @@ public class NoCacheService implements CacheService {
 	public Boolean existCache(final ToolboxFileRole role,
 			final String cacheID) {
 		return Boolean.FALSE;
+	}
+
+	@Override
+	public Cache getCache(final PlanPro_Layoutinfo layoutInfo, final String cacheId)
+			throws IllegalArgumentException {
+		return new NoCache();
 	}
 }
