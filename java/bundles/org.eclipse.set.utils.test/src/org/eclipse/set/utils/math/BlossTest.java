@@ -14,6 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.stream.Stream;
 
+import org.apache.commons.lang3.reflect.FieldUtils;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -22,10 +23,19 @@ import org.junit.jupiter.params.provider.MethodSource;
  * The test follow the Bloss data from ProVI document
  */
 public class BlossTest {
+	/**
+	 * [East, North]
+	 */
 	private static double[] START_POINT = new double[] { 1000, 2000 };
+	/**
+	 * Angle of the tangent, measured from the +N axis, clockwise,
+	 */
 	private static double START_ANGLE = Math.toRadians(30);
 	private static final double TOLERANCE = 1.0e-4;
-	boolean leftCurve;
+	/**
+	 * [North, East]
+	 */
+	double[] calculatePoint;
 
 	@SuppressWarnings("boxing")
 	private static Stream<Arguments> straightToCurveReferenceValues() {
@@ -42,7 +52,7 @@ public class BlossTest {
 	}
 
 	@SuppressWarnings("boxing")
-	private static Stream<Arguments> InflectionCurveReferenceValues() {
+	private static Stream<Arguments> inflectionCurveReferenceValues() {
 		return Stream.of(Arguments.of(0, 1000.0, 2000.0), //
 				Arguments.of(10, 1005.1424, 2008.5759), //
 				Arguments.of(20, 1010.5552, 2016.9839), //
@@ -65,32 +75,51 @@ public class BlossTest {
 
 	@ParameterizedTest
 	@MethodSource("straightToCurveReferenceValues")
-	void straightToCurveTest(final double length, final double expectX,
-			final double expectY) {
+	void straightToCurveTest(final double length, final double expectEast,
+			final double expectNorth) {
 		givenStraightToCurveBloss();
-		expectCoordinatenCorrect(length, expectX, expectY);
+		whenCalculateCoordinaten(length);
+		thenExpectTheCoordinateIsCorrect(length, expectEast, expectNorth);
 	}
 
-	private void expectCoordinatenCorrect(final double length,
-			final double expectX, final double expectY) {
-		final double[] localPoint = testee.calculatePoint(length);
+	@ParameterizedTest
+	@MethodSource("inflectionCurveReferenceValues")
+	void inflectionCurveTest(final double length, final double expectEast,
+			final double expectNorth) throws IllegalAccessException {
+		givenInflectionCurveBloss();
+		whenCalculateCoordinaten(length);
+		thenExpectTheCoordinateIsCorrect(length, expectEast, expectNorth);
+	}
 
-		final double[] transformedCoord = transformCoord(localPoint);
-		assertEquals(expectX, transformedCoord[0], TOLERANCE, "X at " + length); //$NON-NLS-1$
-		assertEquals(expectY, transformedCoord[1], TOLERANCE, "Y at " + length); //$NON-NLS-1$
+	private void givenInflectionCurveBloss() throws IllegalAccessException {
+		testee = new Bloss(300, -500, 150, 10);
+		FieldUtils.writeField(testee, "firstLength", Double.valueOf(60), true); //$NON-NLS-1$
+	}
+
+	private void whenCalculateCoordinaten(final double length) {
+		final double[] localPoint = testee.calculatePoint(length);
+		calculatePoint = transformCoord(localPoint);
 	}
 
 	private static double[] transformCoord(final double[] local) {
 		final double sin = Math.sin(START_ANGLE);
 		final double cos = Math.cos(START_ANGLE);
 		return new double[] { //
-				START_POINT[0] + cos * local[0] - sin * local[1], //
-				START_POINT[1] + sin * local[0] + cos * local[1] //
+				START_POINT[1] + cos * local[0] - sin * local[1], //
+				START_POINT[0] + sin * local[0] + cos * local[1] //
 		};
 	}
 
 	private void givenStraightToCurveBloss() {
-		testee = new Bloss(0, -300, 80, 10);
-		leftCurve = false;
+		testee = new Bloss(0, 300, 80, 10);
 	}
+
+	private void thenExpectTheCoordinateIsCorrect(final double length,
+			final double expectEast, final double expectNorth) {
+		assertEquals(expectEast, calculatePoint[1], TOLERANCE,
+				"Y-Value at: " + length); //$NON-NLS-1$
+		assertEquals(expectNorth, calculatePoint[0], TOLERANCE,
+				"X-Value at: " + length); //$NON-NLS-1$
+	}
+
 }

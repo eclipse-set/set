@@ -53,9 +53,13 @@ public class Bloss {
 
 	/**
 	 * @param radiusA
+	 *            the radius at start
 	 * @param radiusB
+	 *            the radius at end
 	 * @param arcLength
+	 *            the curve length
 	 * @param iterations
+	 *            number of iterations to perform during calculation
 	 */
 	public Bloss(final double radiusA, final double radiusB,
 			final double arcLength, final int iterations) {
@@ -96,7 +100,7 @@ public class Bloss {
 	public double[] calculatePoint(final double length) {
 		if (isInflectionCurve && length > firstLength) {
 			final double[] firstPart = integrate(0, firstLength);
-			final double[] secondPart = integrate(firstLength, totalLength);
+			final double[] secondPart = integrate(firstLength, length);
 			return new double[] { firstPart[0] + secondPart[0],
 					firstPart[1] + secondPart[1] };
 		}
@@ -121,8 +125,10 @@ public class Bloss {
 			final double x = from + i * delta;
 			for (int k = 0; k < NC_WEIGHTS.length; k++) {
 				final double angle = directionAngle(x + k * h);
-				coor[0] += NC_WEIGHTS[k] * Math.cos(angle);
-				coor[1] += NC_WEIGHTS[k] * Math.sin(angle);
+				final double xValue = NC_WEIGHTS[k] * Math.cos(angle);
+				final double yValue = NC_WEIGHTS[k] * Math.sin(angle);
+				coor[0] += xValue;
+				coor[1] += yValue;
 			}
 		}
 		coor[0] *= factor;
@@ -137,23 +143,23 @@ public class Bloss {
 	 * @param length
 	 *            Arc length along the curve, measured from the element start
 	 *            point. 0 ≤ l ≤ L.
-	 * @return
+	 * @return the direction angle
 	 */
-	private double directionAngle(final double length) {
+	public double directionAngle(final double length) {
 		if (!isInflectionCurve) {
 			return startCurvature * length + (endCurvature - startCurvature)
 					* totalLength * hermitIntegral(length / totalLength);
 		}
 
-		if (length < firstLength) {
+		if (length <= firstLength) {
 			return startCurvature * firstLength
 					* rampIntegral(length / firstLength);
 		}
-
+		final double psi1 = (double) 5 / 8;
 		final double secondLength = totalLength - firstLength;
 		final double t = (totalLength - length) / secondLength;
-		return 5 / 8 * startCurvature * firstLength
-				+ endCurvature * secondLength * (5 / 8 * rampIntegral(t));
+		return psi1 * startCurvature * firstLength
+				+ endCurvature * secondLength * (psi1 - rampIntegral(t));
 
 	}
 
