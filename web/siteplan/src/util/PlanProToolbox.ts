@@ -16,7 +16,7 @@ declare function planproSelectFolderDialog(key: string): void;
 declare function planproGetSessionState(): TableType
 declare function planproChangeLayoutCRS(crs: DBRef): void;
 declare function planproSiteplanLoadingState(state: boolean): void;
-declare function planproSiteplanExport(key: string, sheetcutCount: string, ppm: string): void;
+declare function planproSiteplanExport(ppm: string, ...exportCanvasDataUrls: string[]): void;
 
 // This callback function is called from PPT
 declare global {
@@ -67,6 +67,7 @@ export default abstract class PlanProToolbox {
   }
 
   static jumpToTextView (guid: string): void {
+    console.log('Jump to text view called for guid:', guid)
     if (!this.inPPT()) {
       console.warn('PlanProToolbox.jumpToTextView called outside PPT')
       return
@@ -132,7 +133,7 @@ export default abstract class PlanProToolbox {
         clearInterval(intervalId)
       }
     }
-    intervalId = setInterval(jumpEvent, 200)
+    intervalId = window.setInterval(jumpEvent, 200)
   }
 
   /**
@@ -158,16 +159,13 @@ export default abstract class PlanProToolbox {
     planproSiteplanLoadingState(state)
   }
 
-  public static exportSiteplan (callback: SelectFolderCallback, sheetcutCount: string, ppm: string): void {
+  public static exportSiteplan (ppm: string, exportCanvasDataUrl: string[]): void {
     if (!this.inPPT()) {
-      console.warn('PlanProToolbox.planproSelectFolderDialog called outside PPT')
+      console.warn('PlanProToolbox.exportSiteplan called outside PPT')
       return
     }
 
-    // Generate a random key
-    const key = Math.random.toString()
-    PlanProToolbox.planproSelectFolderDialogCallbacks.set(key, callback)
-    planproSiteplanExport(key, sheetcutCount, ppm)
+    planproSiteplanExport(ppm, ...exportCanvasDataUrl)
   }
 }
 

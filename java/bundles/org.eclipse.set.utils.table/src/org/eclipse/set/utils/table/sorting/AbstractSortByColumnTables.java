@@ -40,6 +40,7 @@ import org.eclipse.nebula.widgets.nattable.sort.config.SingleClickSortConfigurat
 import org.eclipse.nebula.widgets.nattable.tree.command.TreeCollapseAllCommand;
 import org.eclipse.nebula.widgets.nattable.ui.matcher.KeyEventMatcher;
 import org.eclipse.set.basis.Pair;
+import org.eclipse.set.basis.PlanProXMLNode;
 import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.configurationservice.UserConfigurationService;
 import org.eclipse.set.core.services.dialog.DialogService;
@@ -61,7 +62,6 @@ import org.eclipse.set.utils.xml.XMLNodeFinder;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
-import org.w3c.dom.Node;
 
 /**
  * Table with sorting function, when column header click
@@ -339,7 +339,7 @@ public abstract class AbstractSortByColumnTables {
 
 	protected String getTableRowReferenceObjectGuid(final int rowPosition) {
 		final Integer xmlLineNumber = getXmlLineNumber(rowPosition);
-		final Node nodeByLineNumber = getXMLNodeFinder()
+		final PlanProXMLNode nodeByLineNumber = getXMLNodeFinder()
 				.findNodeByLineNumber(xmlLineNumber.intValue());
 		return XMLNodeFinder.findNearestNodeGUID(nodeByLineNumber);
 	}

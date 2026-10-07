@@ -188,6 +188,8 @@
         eType="#//TrackSection" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="designations" upperBound="-1"
         eType="#//TrackDesignation" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="startCoordinate" eType="#//Coordinate"
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TrackSection" eSuperTypes="#//SiteplanObject">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="shape" eType="#//TrackShape"/>

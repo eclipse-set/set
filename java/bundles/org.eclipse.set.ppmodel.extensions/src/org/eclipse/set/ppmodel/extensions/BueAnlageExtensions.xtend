@@ -40,4 +40,8 @@ class BueAnlageExtensions extends PunktObjektExtensions {
 	 static def Stellelement getStellelement(BUE_Anlage anlage) {
 	 	return anlage?.IDBUESchnittstelle?.value?.IDStellelement?.value
 	 }
+	 
+	 static def String getBezeichnung(BUE_Anlage anlage) {
+	 	return anlage?.bezeichnung?.bezeichnungTabelle?.wert
+	 }
 }

@@ -28,6 +28,8 @@ import org.osgi.service.component.annotations.ReferencePolicy
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
+import static extension org.eclipse.set.ppmodel.extensions.utils.LSTObjectDesignationExtensions.getLSTObjectDesignation
+
 @Component
 class PlazModelServiceImpl implements PlazModelService {
 	@Reference(cardinality=ReferenceCardinality.
@@ -106,6 +108,7 @@ class PlazModelServiceImpl implements PlazModelService {
 		entry.type = error.type
 		entry.severity = error.severity
 		entry.generalMsg = generalErroMsg
+		entry.objectDesignation = error.object.getLSTObjectDesignation
 		if (node !== null) {
 			var line = 0
 			try {

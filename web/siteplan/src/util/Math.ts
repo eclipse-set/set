@@ -38,6 +38,12 @@ export function pointInDistance (origin: number[], angle: number, distance: numb
  */
 export function transformPointWithAngle (origin: number[], angle: number) {
   const rad = angle * Math.PI / 180
+  const tan = Math.tan(rad)
+  // When angle ~ 90°
+  if (Math.abs(tan) > 100) {
+    return [origin[1], origin[0]]
+  }
+
   const x = origin[0] + origin[1] * Math.tan(rad)
   const y = origin[1] - origin[0] * Math.tan(rad)
   return [x, y]

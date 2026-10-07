@@ -6,7 +6,7 @@
  * https://www.eclipse.org/legal/epl-2.0.
  *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  */
 package org.eclipse.set.utils.xml;
 
@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -22,30 +23,32 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
+import org.eclipse.set.basis.PlanProXMLNode;
+import org.eclipse.set.basis.PlanProXMLNode.PlanProXMLNodeAttribute;
 import org.eclipse.set.basis.files.ToolboxFile;
 import org.eclipse.set.model.validationreport.ObjectScope;
 import org.eclipse.set.model.validationreport.ObjectState;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 /**
  * Resolves an EObject to its line number within a XML document
- * 
+ *
  * @author Peters
  */
 @SuppressWarnings("static-method")
 public class EObjectXMLFinder {
-	Document document = null;
+
+	private static final String NIL = "xsi:nil"; //$NON-NLS-1$
+	PlanProXMLNode document = null;
 
 	/**
 	 * LineNotFoundException
 	 */
 	public static class LineNotFoundException extends Exception {
+
 		/**
-		 * 
+		 *
 		 */
 		public LineNotFoundException() {
 			super("No line for given EObject found"); //$NON-NLS-1$
@@ -56,6 +59,7 @@ public class EObjectXMLFinder {
 	 * XmlParseException
 	 */
 	public static class XmlParseException extends Exception {
+
 		/**
 		 * @param m
 		 *            the messages
@@ -87,19 +91,19 @@ public class EObjectXMLFinder {
 
 	/**
 	 * Find Node in XML of EObject
-	 * 
+	 *
 	 * @param object
 	 *            the EObject
 	 * @return node in XMNL
 	 */
-	public Node find(final EObject object) {
+	public PlanProXMLNode find(final EObject object) {
 		if (object == null) {
 			return null;
 		}
 		final EObject parent = object.eContainer();
 		final EStructuralFeature feature = object.eContainingFeature();
 		final String name = ExtendedMetaData.INSTANCE.getName(feature);
-		Node parentNode = null;
+		PlanProXMLNode parentNode = null;
 		if (parent == null || parent.eContainer() == null) {
 			parentNode = document;
 		} else {
@@ -113,21 +117,21 @@ public class EObjectXMLFinder {
 		return getFirstChildByName(parentNode, name);
 	}
 
-	private static Node getFirstChildByName(final Node node,
+	private static PlanProXMLNode getFirstChildByName(final PlanProXMLNode node,
 			final String name) {
 		return getNthChildByName(node, name, 0);
 	}
 
-	private static Node getNthChildByName(final Node node, final String name,
-			final int n) {
+	private static PlanProXMLNode getNthChildByName(final PlanProXMLNode node,
+			final String name, final int n) {
 		if (node == null) {
 			return null;
 		}
 
-		final NodeList children = node.getChildNodes();
-		final Stream<Node> childrenStream = IntStream
-				.range(0, children.getLength())
-				.mapToObj(children::item);
+		final List<PlanProXMLNode> children = node.getChildren();
+		final Stream<PlanProXMLNode> childrenStream = IntStream
+				.range(0, children.size())
+				.mapToObj(children::get);
 		return childrenStream
 				.filter(child -> getSanetizedName(child) != null
 						&& getSanetizedName(child).equals(name))
@@ -136,7 +140,7 @@ public class EObjectXMLFinder {
 				.orElse(null);
 	}
 
-	private static String getSanetizedName(final Node node) {
+	private static String getSanetizedName(final PlanProXMLNode node) {
 		// XML node names can contain a prefix while the EMF model names don't
 		return IterableExtensions
 				.lastOrNull(Arrays.asList(node.getNodeName().split(":"))); //$NON-NLS-1$
@@ -144,7 +148,7 @@ public class EObjectXMLFinder {
 
 	/**
 	 * Resolves an Node to its line number
-	 * 
+	 *
 	 * @param node
 	 *            the Node
 	 * @return the line number in which the Node starts occurring or zero if it
@@ -152,12 +156,12 @@ public class EObjectXMLFinder {
 	 * @throws LineNotFoundException
 	 *             the {@link LineNotFoundException}
 	 */
-	public int getLineNumber(final Node node) throws LineNotFoundException {
+	public int getLineNumber(final PlanProXMLNode node)
+			throws LineNotFoundException {
 		if (node == null) {
 			throw new LineNotFoundException();
 		}
-		final String lineNum = (String) node
-				.getUserData(LineNumberXMLReader.START_LINE_NUMBER_KEY);
+		final String lineNum = String.valueOf(node.getStartLineNumber());
 		if (lineNum == null) {
 			throw new LineNotFoundException();
 		}
@@ -166,45 +170,84 @@ public class EObjectXMLFinder {
 
 	/**
 	 * Returns the type of a object represented by a XML node
-	 * 
+	 *
 	 * @param node
 	 *            the node
 	 * @return the type of the object
 	 */
-	public String getObjectType(final Node node) {
+	public String getObjectType(final PlanProXMLNode node) {
 		return ObjectMetadataXMLReader.getObjectType(node);
 	}
 
 	/**
 	 * Returns the LST state of a object represented by a XML node
-	 * 
+	 *
 	 * @param node
 	 *            the node
 	 * @return the LST state of the object or null
 	 */
-	public ObjectState getObjectState(final Node node) {
+	public ObjectState getObjectState(final PlanProXMLNode node) {
 		return ObjectMetadataXMLReader.getObjectState(node);
 	}
 
 	/**
 	 * Returns the attribute name of a object represented by a XML node
-	 * 
+	 *
 	 * @param node
 	 *            the node
 	 * @return the type of the object
 	 */
-	public String getAttributeName(final Node node) {
+	public String getAttributeName(final PlanProXMLNode node) {
 		return ObjectMetadataXMLReader.getAttributeName(node);
 	}
 
 	/**
 	 * Returns the scope of a object represented by a XML node
-	 * 
+	 *
 	 * @param node
 	 *            the node
 	 * @return the scope of the object
 	 */
-	public ObjectScope getObjectScope(final Node node) {
+	public ObjectScope getObjectScope(final PlanProXMLNode node) {
 		return ObjectMetadataXMLReader.getObjectScope(node);
+	}
+
+	/**
+	 * Check if the object is nil value
+	 *
+	 * @param object
+	 *            the object
+	 * @return true if it the nil value
+	 */
+	public boolean isNilValue(final EObject object) {
+		final PlanProXMLNode node = find(object);
+		if (node == null) {
+			return false;
+		}
+		if (isNilValue(node)) {
+			return true;
+		}
+
+		for (final PlanProXMLNode childNode : node.getChildren()) {
+			// Only check the directly Wert node
+			if (childNode.getNodeName().equals(XMLNodeFinder.NODE_WERT)) {
+				return isNilValue(childNode);
+			}
+		}
+
+		return false;
+	}
+
+	private boolean isNilValue(final PlanProXMLNode node) {
+		if (node == null) {
+			return false;
+		}
+
+		final Optional<PlanProXMLNodeAttribute> nilAttirbute = node
+				.getAttributes()
+				.stream()
+				.filter(attr -> attr.attributeName().equals(NIL))
+				.findFirst();
+		return nilAttirbute.isPresent();
 	}
 }

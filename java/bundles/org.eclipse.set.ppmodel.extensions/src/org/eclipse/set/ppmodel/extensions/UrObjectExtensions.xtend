@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2015 DB Netz AG and others.
+. * Copyright (c) 2015 DB Netz AG and others.
  * 
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
@@ -10,13 +10,15 @@ package org.eclipse.set.ppmodel.extensions
 
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.set.basis.cache.Cache
+import org.eclipse.set.basis.constants.ContainerType
 import org.eclipse.set.core.services.Services
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
-import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
 import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt
 import org.eclipse.set.model.planpro.PlanPro.LST_Zustand
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle
+import org.eclipse.set.utils.ToolboxConfiguration
 
+import static extension org.eclipse.set.ppmodel.extensions.MultiContainer_AttributeGroupExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.StellBereichExtensions.*
 
 /**
@@ -35,14 +37,19 @@ class UrObjectExtensions extends BasisAttributExtensions {
 	}
 
 	def static Cache getCache(Ur_Objekt object, String cacheKey) {
-		return Services.cacheService.getCache(object.planProSchnittstelle,
-			cacheKey)
+		val service = ToolboxConfiguration.isDevelopmentMode
+				? Services.noCacheService
+				: Services.cacheService
+		return service.getCache(object.planProSchnittstelle, cacheKey)
 	}
 
 	def static Cache getCache(Ur_Objekt object, String containerIdCacheId,
 		String cacheKey) {
-		return Services.cacheService.getCache(object.planProSchnittstelle,
-			cacheKey, containerIdCacheId)
+		val service = ToolboxConfiguration.isDevelopmentMode
+				? Services.noCacheService
+				: Services.cacheService
+		return service.getCache(object.planProSchnittstelle, cacheKey,
+			containerIdCacheId)
 	}
 
 	/**
@@ -76,7 +83,7 @@ class UrObjectExtensions extends BasisAttributExtensions {
 	}
 
 	def static boolean isPlanningObject(Ur_Objekt object) {
-		val modelSession = Services.toolboxViewModelService.session.orElse(null)
+		val modelSession = Services.toolboxViewModelService?.session?.orElse(null)
 		if (modelSession !== null && modelSession.isPlanningAreaIgnored) {
 			return true;
 		}
@@ -93,12 +100,16 @@ class UrObjectExtensions extends BasisAttributExtensions {
 		return planData.exists[wert == guid]
 	}
 
-	def static <T extends Basis_Objekt> Iterable<T> filterObjectsInControlArea(
+	def static <T extends Ur_Objekt> Iterable<T> filterObjectsInControlArea(
 		Iterable<T> objects, Stell_Bereich area) {
 		if (area === null) {
 			return objects
 		}
 
 		return objects.filter[area.isInControlArea(it)]
+	}
+
+	def static ContainerType getContainerType(Ur_Objekt obj) {
+		return obj.container.containerType
 	}
 }

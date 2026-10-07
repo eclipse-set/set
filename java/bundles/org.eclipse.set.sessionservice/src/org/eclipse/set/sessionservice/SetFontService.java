@@ -19,7 +19,7 @@ import org.osgi.service.component.annotations.Component;
  * 
  * @author Stuecker
  */
-@Component
+@Component(property = "service.ranking:Integer=5")
 @SuppressWarnings("nls")
 public class SetFontService implements FontService {
 	@Override

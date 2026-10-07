@@ -71,6 +71,11 @@ public class EdgeToPointsCacheProxy implements Cache {
 		return t;
 	}
 
+	@Override
+	public boolean contains(final String key) {
+		return getIfPresent(key) != null;
+	}
+
 	private static void typeCheck(final Object result) {
 		if (!(result instanceof List)) {
 			throw new IllegalArgumentException(

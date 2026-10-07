@@ -87,54 +87,47 @@ public class ExportSiteplanBrowserFunction
 		final Optional<String> optionalOutputDir = dialogService
 				.selectDirectory(shell,
 						ToolboxConfiguration.getDefaultPath().toString());
-		final String key = (String) arguments[0];
-		final int sheetcutCount = Integer.parseInt((String) arguments[1]);
-		// The pixel pro physical meter in Openlayer
-		final double ppm = Double.parseDouble((String) arguments[2]);
-		optionalOutputDir.ifPresentOrElse(outputDir -> {
-			// User selected a folder
-			webBrowser.executeJavascript(String.format("%s('%s', '%s');", //$NON-NLS-1$
-					DIALOG_CALLBACK_FUNCTION, key,
-					outputDir.replace("\\", "\\\\"))); //$NON-NLS-1$ //$NON-NLS-2$
-			webBrowser.setBeforeDownloadFunc(url -> sheetcutImageHandle(url,
-					sheetcutCount, Path.of(outputDir), ppm));
-		}, () -> // User did not select a folder
-		webBrowser.executeJavascript(String.format("%s('%s', null);", //$NON-NLS-1$
-				DIALOG_CALLBACK_FUNCTION, key)));
+		if (!optionalOutputDir.isEmpty()) {
+			final Path outDir = Path.of(optionalOutputDir.get());
+			// The pixel pro physical meter in Openlayer
+			final double ppm = Double.parseDouble((String) arguments[0]);
+			for (int i = 1; i < arguments.length; i++) {
+				sheetcutImageHandle((String) arguments[i]);
+			}
+			generatePdf(outDir, ppm);
+		}
 		return null;
 	}
 
-	private void sheetcutImageHandle(final String url, final int sheetcutcount,
-			final Path outDir, final double ppm) {
+	private void sheetcutImageHandle(final String url) {
 		final String base64Data = url.split(",")[1]; //$NON-NLS-1$
 		final byte[] decode = Base64.getDecoder().decode(base64Data);
 		try (final ByteArrayInputStream inputstream = new ByteArrayInputStream(
 				decode)) {
 			final BufferedImage bufferedImage = ImageIO.read(inputstream);
 			exportImages.add(bufferedImage);
-			if (exportImages.size() >= sheetcutcount) {
-				final PlanProToFreeFieldTransformation planProToFreeField = PlanProToFreeFieldTransformation
-						.create();
-				final FreeFieldInfo freeFieldInfo = planProToFreeField
-						.transform(modelSession);
-				dialogService.showProgressUISync(shell,
-						message.WebSiteplanPart_Export, () -> {
-							exportService.exportSiteplanPdf(exportImages,
-									createTitleBox(), freeFieldInfo, ppm,
-									outDir.toAbsolutePath().toString(),
-									modelSession.getToolboxPaths(),
-									modelSession.getTableType(),
-									OverwriteHandling.forCheckbox(true),
-									new ExceptionHandler(shell, dialogService));
-							exportImages.clear();
-						});
-
-				dialogService.openDirectoryAfterExport(shell, outDir);
-			}
-
 		} catch (final IOException e) {
 			dialogService.error(shell, e);
 		}
+	}
+
+	private void generatePdf(final Path outDir, final double ppm) {
+		final PlanProToFreeFieldTransformation planProToFreeField = PlanProToFreeFieldTransformation
+				.create(sessionService);
+		final FreeFieldInfo freeFieldInfo = planProToFreeField.transform();
+		dialogService.showProgressUISync(shell, message.WebSiteplanPart_Export,
+				() -> {
+					exportService.exportSiteplanPdf(exportImages,
+							createTitleBox(), freeFieldInfo, ppm,
+							outDir.toAbsolutePath().toString(),
+							modelSession.getToolboxPaths(),
+							modelSession.getTableType(),
+							OverwriteHandling.forCheckbox(true),
+							new ExceptionHandler(shell, dialogService));
+					exportImages.clear();
+				});
+
+		dialogService.openDirectoryAfterExport(shell, outDir);
 	}
 
 	private Titlebox createTitleBox() {

@@ -8,12 +8,30 @@
  */
 package org.eclipse.set.utils.table;
 
-import java.util.List;
+import static org.eclipse.set.model.tablemodel.extensions.CellContentExtensions.getStringValueIterable;
 
+import java.util.List;
+import java.util.Objects;
+
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt;
+import org.eclipse.set.model.planpro.PZB.PZB_Element;
+import org.eclipse.set.model.planpro.Signale.Signal;
+import org.eclipse.set.model.tablemodel.CellContent;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
+import org.eclipse.set.model.tablemodel.CompareStateCellContent;
+import org.eclipse.set.model.tablemodel.CompareTableCellContent;
 import org.eclipse.set.model.tablemodel.RowMergeMode;
+import org.eclipse.set.model.tablemodel.StringCellContent;
 import org.eclipse.set.model.tablemodel.TableRow;
+import org.eclipse.set.model.tablemodel.extensions.CellContentExtensions;
 import org.eclipse.set.model.tablemodel.extensions.TableRowExtensions;
+import org.eclipse.set.ppmodel.extensions.EObjectExtensions;
+import org.eclipse.set.ppmodel.extensions.FahrwegExtensions;
+import org.eclipse.set.ppmodel.extensions.FstrZugRangierExtensions;
+import org.eclipse.set.ppmodel.extensions.PZBElementExtensions;
+
+import com.google.common.collect.Streams;
 
 /**
  * Helper class to calculate table spans
@@ -22,6 +40,10 @@ import org.eclipse.set.model.tablemodel.extensions.TableRowExtensions;
  *
  */
 public class TableSpanUtils {
+	@SuppressWarnings("boxing")
+	private static final List<Integer> sskpSpecialHandlingColIndex = List.of(0,
+			7, 8, 9);
+
 	/**
 	 * @param rows
 	 *            the table rows
@@ -80,17 +102,132 @@ public class TableSpanUtils {
 				.getGroup(rowB)) {
 			return false;
 		}
-
-		// And contain the same value
-		final String valueA = TableRowExtensions.getPlainStringValue(rowA,
-				column);
-		final String valueB = TableRowExtensions.getPlainStringValue(rowB,
-				column);
-
-		if (valueA == null) {
-			return valueB == null;
+		final CellContent cellContentA = TableRowExtensions.getContent(rowA)
+				.get(column);
+		final CellContent cellContentB = TableRowExtensions.getContent(rowB)
+				.get(column);
+		if (cellContentA == null) {
+			return cellContentB == null;
 		}
-		return valueA.equals(valueB);
+		if (isEqual(cellContentA, cellContentB)) {
+			return true;
+		}
+
+		// The cell value must not be same to be merge. When the RowMergeMode ==
+		// ENABLE, then should be cells anyway merge.
+		// Here replace the cell content by priority : StringCellContent ->
+		// CompareCellContent (both value not empty or new value not empty) will
+		// set to the second cell
+		final boolean shouldReplaceValue = shouldReplaceValue(cellContentA,
+				cellContentB);
+		if (shouldReplaceValue) {
+			rowB.getCells()
+					.get(column)
+					.setContent(EcoreUtil.copy(cellContentA));
+		}
+		return shouldReplaceValue;
+	}
+
+	private static boolean shouldReplaceValue(final CellContent cellContentA,
+			final CellContent cellContentB) {
+		return switch (cellContentA) {
+			case final StringCellContent stringCellContentA -> !isEmptyCellContentValue(
+					stringCellContentA);
+			case final CompareStateCellContent compareCellContentA -> {
+				if (!isEmptyCellContentValue(compareCellContentA.getNewValue())
+						&& !isEmptyCellContentValue(
+								compareCellContentA.getOldValue())) {
+					yield true;
+				}
+				if (cellContentB instanceof final StringCellContent stringCellContentB) {
+					yield isEmptyCellContentValue(stringCellContentB);
+				}
+
+				if (cellContentB instanceof final CompareStateCellContent compareCellContentB) {
+					yield !isEmptyCellContentValue(
+							compareCellContentA.getNewValue())
+							&& (isEmptyCellContentValue(
+									compareCellContentB.getNewValue())
+									|| isEmptyCellContentValue(
+											compareCellContentB.getOldValue()));
+				}
+				yield true;
+			}
+			case final CompareTableCellContent compareTableCellContentA -> {
+				if (compareTableCellContentA.getMainPlanCellContent() == null) {
+					yield false;
+				}
+				yield switch (cellContentB) {
+					case final CompareTableCellContent compareTableCellContentB -> compareTableCellContentB
+							.getMainPlanCellContent() != null
+							&& shouldReplaceValue(
+									compareTableCellContentA
+											.getMainPlanCellContent(),
+									compareTableCellContentB
+											.getMainPlanCellContent());
+
+					default -> shouldReplaceValue(
+							compareTableCellContentA.getMainPlanCellContent(),
+							cellContentB);
+				};
+			}
+			default -> false;
+		};
+	}
+
+	private static boolean isEqual(final CellContent cellContentA,
+			final CellContent cellContentB) {
+		return switch (cellContentA) {
+			case final StringCellContent stringCellContentA -> isEqual(
+					stringCellContentA, cellContentB);
+			case final CompareStateCellContent compareCellContentA -> isEqual(
+					compareCellContentA, cellContentB);
+			default -> CellContentExtensions.isEqual(cellContentA,
+					cellContentB);
+		};
+	}
+
+	private static boolean isEqual(final StringCellContent stringCellContentA,
+			final CellContent cellContentB) {
+		return switch (cellContentB) {
+			// In the case, that a cell content is StringCellContent and the
+			// another is CompareCellContent, then compare old/new values of the
+			// compare cell content with the another cell. Because when the row
+			// in Final was removed/added will be COmpareCellContent and by
+			// normal compare the row can't be merged
+			case final CompareStateCellContent compareCellContentB -> {
+				final List<String> oldValuesB = Streams
+						.stream(getStringValueIterable(
+								compareCellContentB.getOldValue()))
+						.map(String::trim)
+						.filter(v -> !v.isEmpty() && !v.isBlank())
+						.toList();
+				final List<String> newValuesB = Streams
+						.stream(getStringValueIterable(
+								compareCellContentB.getNewValue()))
+						.map(String::trim)
+						.filter(v -> !v.isEmpty() && !v.isBlank())
+						.toList();
+				if (oldValuesB.isEmpty() == newValuesB.isEmpty()) {
+					yield false;
+				}
+				yield stringCellContentA.getValue()
+						.equals(oldValuesB.isEmpty() ? newValuesB : oldValuesB);
+			}
+			default -> CellContentExtensions.isEqual(stringCellContentA,
+					cellContentB);
+		};
+	}
+
+	private static boolean isEqual(
+			final CompareStateCellContent compareCellContentA,
+			final CellContent cellContentB) {
+		return switch (cellContentB) {
+			case final StringCellContent stringCellContentB -> isEqual(
+					stringCellContentB, compareCellContentA);
+			default -> CellContentExtensions.isEqual(compareCellContentA,
+					cellContentB);
+		};
 	}
 
 	/**
@@ -100,8 +237,20 @@ public class TableSpanUtils {
 	 *            the row
 	 * @return whether merging is allowed for a given column
 	 */
+	@SuppressWarnings("boxing")
 	public boolean isMergeAllowed(final int column, final int row) {
 		final TableRow tableRow = instances.get(row);
+		boolean isSpecialHandling = false;
+		// By default BezugsElement designation column is allowed to merge
+		if (TableRowExtensions
+				.getLeadingObject(tableRow) instanceof final PZB_Element pzb
+				&& isSpecialHanldingPZB(pzb)) {
+			isSpecialHandling = true;
+		}
+
+		if (isSpecialHandling && sskpSpecialHandlingColIndex.contains(column)) {
+			return false;
+		}
 		ColumnDescriptor cd = TableRowExtensions.getColumnDescriptors(tableRow)
 				.get(column);
 
@@ -113,7 +262,43 @@ public class TableSpanUtils {
 				cd = cd.getParent();
 				continue;
 			}
-			return cd.getMergeCommonValues() == RowMergeMode.ENABLED;
+			return cd.getMergeCommonValues() == RowMergeMode.ENABLED
+					|| isSpecialHandling;
 		}
+	}
+
+	private static boolean isSpecialHanldingPZB(final PZB_Element pzb) {
+		final List<Basis_Objekt> bezugsPunkts = PZBElementExtensions
+				.getPZBElementBezugspunkt(pzb)
+				.stream()
+				.filter(Signal.class::isInstance)
+				.toList();
+		if (bezugsPunkts.size() > 1) {
+			final long relevantFstrCount = Streams
+					.stream(PZBElementExtensions
+							.getPZBElementZuordnungFstr(pzb))
+					.map(zuordnungFstr -> EObjectExtensions.getNullableObject(
+							zuordnungFstr,
+							fstr -> FstrZugRangierExtensions.getFstrFahrweg(
+									fstr.getIDFstrZugRangier().getValue()))
+							.orElse(null))
+					.filter(Objects::nonNull)
+					.filter(fstr -> bezugsPunkts
+							.contains(FahrwegExtensions.getZielSignal(fstr)))
+					.count();
+			return relevantFstrCount == bezugsPunkts.size();
+		}
+		return false;
+	}
+
+	private static boolean isEmptyCellContentValue(
+			final CellContent cellContent) {
+		final List<String> values = Streams
+				.stream(getStringValueIterable(cellContent))
+				.toList();
+		return values.isEmpty() || values.stream()
+				.map(String::trim)
+				.filter(v -> !v.isEmpty() && !v.isBlank())
+				.count() == 0;
 	}
 }

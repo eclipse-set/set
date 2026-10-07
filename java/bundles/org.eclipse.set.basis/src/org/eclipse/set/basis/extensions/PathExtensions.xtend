@@ -74,7 +74,7 @@ class PathExtensions {
 	}
 
 	static def String getBaseFileName(Path path) {
-		return path.fileName.toString.replaceFirst("\\.[^.]*$", "")
+		return path?.fileName?.toString?.replaceFirst("\\.[^.]*$", "")
 	}
 
 	/**

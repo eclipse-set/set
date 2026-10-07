@@ -22,7 +22,6 @@ import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Deque;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -37,10 +36,7 @@ import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.basis.geometry.GEOKanteCoordinate;
 import org.eclipse.set.basis.geometry.GEOKanteMetadata;
 import org.eclipse.set.basis.geometry.GeoPosition;
-import org.eclipse.set.basis.geometry.GeometryCalculationOptions.GeometryCalculationOptionsBuilder;
-import org.eclipse.set.basis.geometry.GeometryOptionsBuilder;
 import org.eclipse.set.basis.geometry.SegmentPosition;
-import org.eclipse.set.core.services.geometry.GeoKanteGeometryService;
 import org.eclipse.set.core.services.geometry.PointObjectPositionService;
 import org.eclipse.set.feature.plazmodel.export.TopologicalCoordinate;
 import org.eclipse.set.model.planpro.BasisTypen.ENUMLinksRechts;
@@ -74,6 +70,8 @@ import org.eclipse.set.ppmodel.extensions.TopKnotenExtensions;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.eclipse.set.ppmodel.extensions.geometry.GEOKanteGeometryExtensions;
 import org.eclipse.set.ppmodel.extensions.utils.IterableExtensions;
+import org.eclipse.set.utils.geometry.GeometryCalculationOptions.GeometryCalculationOptionsBuilder;
+import org.eclipse.set.utils.geometry.GeometryOptionsBuilder;
 import org.eclipse.xtext.xbase.lib.Pair;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.LineSegment;
@@ -98,7 +96,6 @@ import com.google.common.collect.Streams;
  */
 
 @Component(service = { PlazCheck.class, EventHandler.class }, property = {
-		EventConstants.EVENT_TOPIC + "=" + Events.FIND_GEOMETRY_PROCESS_DONE,
 		EventConstants.EVENT_TOPIC + "=" + Events.CLOSE_SESSION,
 		"type=geoCoordinate" })
 @SuppressWarnings("nls")
@@ -143,8 +140,6 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 
 	private static final double TOLERANT = 0.1;
 	@Reference
-	GeoKanteGeometryService geometryService;
-	@Reference
 	PointObjectPositionService pointObjectPositionService;
 	@Reference
 	EventAdmin eventAdmin;
@@ -167,19 +162,13 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 		if (event.getTopic().equals(Events.CLOSE_SESSION)) {
 			alreadyFoundMetaData.clear();
 			topologicalCoordinates = Optional.empty();
+			return;
 		}
-		final Map<String, Class<? extends PlazCheck>> properties = new HashMap<>();
-		properties.put("org.eclipse.e4.data", this.getClass()); // $NON-NLS-1$
-		eventAdmin.sendEvent(new Event(Events.DO_PLAZ_CHECK, properties));
 	}
 
 	@Override
 	protected List<PlazError> run(
 			final MultiContainer_AttributeGroup container) {
-		if (!geometryService.isFindGeometryComplete()) {
-			return List.of(createProcessingWarning());
-		}
-
 		final List<PlazError> result = new ArrayList<>();
 		getRelevantPOs(container)
 				.forEach(po -> po.getPunktObjektTOPKante().forEach(potk -> {
@@ -269,8 +258,12 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 		}
 		final Optional<TopologicalCoordinate> target = alreadyCalulatedCoordinates
 				.stream()
-				.filter(ele -> ele.state() == state && ele.po() == po
-						&& ele.potk() == potk)
+				.filter(ele -> ele.state() == state)
+				.filter(ele -> ele.po()
+						.getIdentitaet()
+						.getWert()
+						.equals(po.getIdentitaet().getWert()))
+				.filter(ele -> ele.potk() == potk)
 				.findFirst();
 		if (target.isPresent()) {
 			return target.get().coordinate();
@@ -422,8 +415,7 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 		final LineSegment tangent = getTangent(md.getGeoKante(), position);
 		final GeoPosition geoPosition = getCoordinate(tangent, position,
 				lateralDistance, wirkrichtung);
-		return new GEOKanteCoordinate(geoPosition, md,
-				getCRS(md.getGeoKnoten()));
+		return new GEOKanteCoordinate(geoPosition, md);
 	}
 
 	private static GEOKanteMetadata getGeoKanteMetaData(
@@ -457,7 +449,8 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 			return new GEOKanteMetadata(geoKante,
 					relevantGeoKnotenRange.startDistance(), geoKanteLength,
 					bereichObjekts, topkante,
-					relevantGeoKnotenRange.startNode(), geometry);
+					relevantGeoKnotenRange.startNode(), geometry,
+					getCRS(relevantGeoKnotenRange.startNode()));
 		} catch (final NullPointerException | IllegalArgumentException e) {
 			return null;
 		}
@@ -577,15 +570,6 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 	@Override
 	public String getGeneralErrMsg() {
 		return "Die topologische Verortung des Punkt-Objekts stimmt nicht mit den berechneten Geo-Koordinaten überein.";
-	}
-
-	private PlazError createProcessingWarning() {
-		final PlazError plazError = PlazFactory.eINSTANCE.createPlazError();
-		plazError.setType(checkType());
-		plazError.setSeverity(ValidationSeverity.WARNING);
-		plazError.setMessage(
-				"Die Prüfung auf ID_GEO_Punkt_Berechnen is noch nicht beenden");
-		return plazError;
 	}
 
 	/**

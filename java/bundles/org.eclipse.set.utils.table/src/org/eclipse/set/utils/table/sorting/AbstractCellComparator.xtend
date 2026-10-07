@@ -12,7 +12,7 @@ import java.util.Comparator
 import java.util.List
 import org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum
 import org.eclipse.set.model.tablemodel.CellContent
-import org.eclipse.set.model.tablemodel.CompareCellContent
+import org.eclipse.set.model.tablemodel.CompareStateCellContent
 import org.eclipse.set.model.tablemodel.StringCellContent
 import org.eclipse.set.model.tablemodel.TableCell
 
@@ -61,8 +61,8 @@ package abstract class AbstractCellComparator implements Comparator<TableCell> {
 	}
 
 	private def dispatch int compareDispatch(
-		CompareCellContent c1,
-		CompareCellContent c2
+		CompareStateCellContent c1,
+		CompareStateCellContent c2
 	) {
 		// To avoid compare error, the compare cell shouldn't separate compare new/old value 
 		return c1.compareCellContentString.compareCell(
@@ -79,13 +79,13 @@ package abstract class AbstractCellComparator implements Comparator<TableCell> {
 
 	private def dispatch int compareDispatch(
 		StringCellContent c1,
-		CompareCellContent c2
+		CompareStateCellContent c2
 	) {
 		return c1.value.compareCell(c2.compareCellContentString)
 	}
 
 	private def dispatch int compareDispatch(
-		CompareCellContent c1,
+		CompareStateCellContent c1,
 		StringCellContent c2
 	) {
 		return c1.compareCellContentString.compareCell(c2.value)
@@ -107,8 +107,9 @@ package abstract class AbstractCellComparator implements Comparator<TableCell> {
 	}
 
 	private def Iterable<String> compareCellContentString(
-		CompareCellContent content) {
-		return #[content.newValue, content.oldValue].flatten.toSet
+		CompareStateCellContent content) {
+		return #[content.newValue.stringValueIterable,
+			content.oldValue.stringValueIterable].flatten.toSet
 	}
 
 	private def boolean isInteger(String text) {
@@ -145,10 +146,13 @@ package abstract class AbstractCellComparator implements Comparator<TableCell> {
 
 	def int compareCell(Iterable<String> iterable1,
 		Iterable<String> iterable2) {
-		// For compare, the separator should be empty
-		val text1 = iterable1.iterableToString("").splitNumericPrefix
-		val text2 = iterable2.iterableToString("").splitNumericPrefix
+		return iterable1.iterableToString(" ").compareCell(
+			iterable2.iterableToString(" "))
+	}
 
+	def int compareCell(String first, String second) {
+		val text1 = first.splitNumericPrefix
+		val text2 = second.splitNumericPrefix
 		// Find minimum integer prefix
 		val minPrefixLength = Math.min(text1.key.length, text2.key.length)
 

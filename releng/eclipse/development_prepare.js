@@ -98,7 +98,7 @@ async function compilePdfJs(fileUrl, outputPath) {
 }
 
 function createEnvSymlink(path) {
-  fs.copyFileSync(`${projectRoot}/releng/eclipse/env-symlink`, `${projectRoot}/${path}/.env`)
+  fs.copyFileSync(`${projectRoot}/releng/eclipse/.env`, `${projectRoot}/${path}/.env`)
 }
 
 async function doCommand(command) {

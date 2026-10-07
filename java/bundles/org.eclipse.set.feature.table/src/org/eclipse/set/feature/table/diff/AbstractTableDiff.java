@@ -13,13 +13,14 @@ package org.eclipse.set.feature.table.diff;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.stream.IntStream;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.set.core.services.session.SessionService;
-import org.eclipse.set.model.planpro.Basisobjekte.Bearbeitungsvermerk;
 import org.eclipse.set.model.tablemodel.CellContent;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.CompareFootnoteContainer;
+import org.eclipse.set.model.tablemodel.Footnote;
 import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.model.tablemodel.StringCellContent;
 import org.eclipse.set.model.tablemodel.Table;
@@ -27,6 +28,7 @@ import org.eclipse.set.model.tablemodel.TableCell;
 import org.eclipse.set.model.tablemodel.TableRow;
 import org.eclipse.set.model.tablemodel.TablemodelFactory;
 import org.eclipse.set.model.tablemodel.extensions.FootnoteContainerExtensions;
+import org.eclipse.set.model.tablemodel.extensions.TableCellExtensions;
 import org.eclipse.set.model.tablemodel.extensions.TableExtensions;
 import org.eclipse.set.ppmodel.extensions.EObjectExtensions;
 import org.eclipse.set.services.table.TableDiffService;
@@ -93,6 +95,20 @@ public abstract class AbstractTableDiff implements TableDiffService {
 						TablemodelFactory.eINSTANCE.createTableContent());
 			}
 			mergedTable.getTablecontent().getRowgroups().add(newRowGroup);
+		} else if (match.getRows().size() != newTableRowGroup.getRows()
+				.size()) {
+			final int diff = Math.abs(
+					match.getRows().size() - newTableRowGroup.getRows().size());
+			final RowGroup missingRowInGroup = match.getRows()
+					.size() > newTableRowGroup.getRows().size()
+							? newTableRowGroup
+							: match;
+			IntStream.range(0, diff).forEach(index -> {
+				missingRowInGroup.getRows()
+						.add(createEmptyRow(
+								TableExtensions.getColumns(mergedTable)));
+
+			});
 		}
 	}
 
@@ -136,7 +152,17 @@ public abstract class AbstractTableDiff implements TableDiffService {
 		if (diffContent == null) {
 			return;
 		}
+
+		if (first.getRowObject() == null && second != null
+				&& second.getRowObject() != null) {
+			first.setRowObject(second.getRowObject());
+		}
 		oldCell.setContent(diffContent);
+		if (newCell != null && TableCellExtensions.getFormat(newCell)
+				.isTopologicalCalculation()) {
+			TableCellExtensions.getFormat(oldCell)
+					.setTopologicalCalculation(true);
+		}
 	}
 
 	abstract CellContent createDiffContent(TableCell first, TableCell second);
@@ -146,36 +172,50 @@ public abstract class AbstractTableDiff implements TableDiffService {
 		if (mergedRow == null) {
 			return;
 		}
-		final List<Bearbeitungsvermerk> firstFootnotes = FootnoteContainerExtensions
+		final List<Footnote> firstFootnotes = FootnoteContainerExtensions
 				.getFootnotes(mergedRow.getFootnotes());
-		final List<Bearbeitungsvermerk> secondFootnotes = newRow == null
+		final List<Footnote> secondFootnotes = newRow == null
 				? Collections.emptyList()
 				: FootnoteContainerExtensions
 						.getFootnotes(newRow.getFootnotes());
 
 		final CompareFootnoteContainer diffFootnotes = TablemodelFactory.eINSTANCE
 				.createCompareFootnoteContainer();
+		diffFootnotes.setUnchangedFootnotes(
+				TablemodelFactory.eINSTANCE.createSimpleFootnoteContainer());
+		diffFootnotes.setOldFootnotes(
+				TablemodelFactory.eINSTANCE.createSimpleFootnoteContainer());
+		diffFootnotes.setNewFootnotes(
+				TablemodelFactory.eINSTANCE.createSimpleFootnoteContainer());
 
 		firstFootnotes.forEach(f -> compareFootnotes(f, secondFootnotes,
 				unchanged -> diffFootnotes.getUnchangedFootnotes()
+						.getFootnotes()
 						.add(unchanged),
-				changed -> diffFootnotes.getOldFootnotes().add(changed)));
+				changed -> diffFootnotes.getOldFootnotes()
+						.getFootnotes()
+						.add(changed)));
 		secondFootnotes
 				.forEach(f -> compareFootnotes(f, firstFootnotes, unchange -> {
 					// do nothing (already added by for loop above)
-				}, changed -> diffFootnotes.getNewFootnotes().add(changed)));
+				}, changed -> diffFootnotes.getNewFootnotes()
+						.getFootnotes()
+						.add(changed)));
 		mergedRow.setFootnotes(diffFootnotes);
 	}
 
 	@SuppressWarnings("static-method")
-	protected void compareFootnotes(final Bearbeitungsvermerk footnote,
-			final List<Bearbeitungsvermerk> anotherFootnotes,
-			final Consumer<Bearbeitungsvermerk> addUnchangedConsumer,
-			final Consumer<Bearbeitungsvermerk> addChangedConsumer) {
+	protected void compareFootnotes(final Footnote footnote,
+			final List<Footnote> anotherFootnotes,
+			final Consumer<Footnote> addUnchangedConsumer,
+			final Consumer<Footnote> addChangedConsumer) {
 		if (anotherFootnotes.stream()
-				.anyMatch(f -> f.getIdentitaet()
+				.anyMatch(f -> f.getBearbeitungsvermerk()
+						.getIdentitaet()
 						.getWert()
-						.equals(footnote.getIdentitaet().getWert()))) {
+						.equals(footnote.getBearbeitungsvermerk()
+								.getIdentitaet()
+								.getWert()))) {
 			addUnchangedConsumer.accept(footnote);
 		} else {
 			addChangedConsumer.accept(footnote);

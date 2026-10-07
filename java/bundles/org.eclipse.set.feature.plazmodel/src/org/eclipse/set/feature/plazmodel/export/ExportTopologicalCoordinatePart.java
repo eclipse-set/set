@@ -16,6 +16,8 @@ import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -29,6 +31,7 @@ import org.eclipse.set.core.services.configurationservice.UserConfigurationServi
 import org.eclipse.set.feature.plazmodel.Messages;
 import org.eclipse.set.feature.plazmodel.check.GeoCoordinateValid;
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt;
+import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup;
 import org.eclipse.set.model.planpro.Ortung.FMA_Komponente;
 import org.eclipse.set.model.planpro.PZB.PZB_Element;
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
@@ -68,12 +71,12 @@ public class ExportTopologicalCoordinatePart extends BasePart {
 	Messages messages;
 
 	private static String HEADER_PATTERN = """
-			PlaZ Modell-Prüfung Topologische Coordinate
+			PlaZ Modell-Prüfung Topologische Koordinaten
 			Datei: %s
 			Prüfungszeit: %s
 
 
-			"Lfd. Nr.";"Zustand";"Objektart";"Guid";"Koordinatensystem";"x";"y"
+			"Lfd. Nr.";"Zustand";"Objektart";"Punkt_Objekt";"TopKante";"Koordinatensystem";"x";"y"
 			""";
 
 	ExportToCSV<String> csvExport;
@@ -90,7 +93,7 @@ public class ExportTopologicalCoordinatePart extends BasePart {
 	protected void createView(final Composite parent) {
 		final Button exportButton = new Button(parent, SWT.PUSH);
 		exportButton.setText(
-				"Exportieren Topologische Coordinate von Punkt_Objekt (csv)");
+				"Export topologischer Koordinaten der Punkt_Objekte (csv)");
 		exportButton.addListener(SWT.Selection, event -> exportHandle());
 	}
 
@@ -107,7 +110,7 @@ public class ExportTopologicalCoordinatePart extends BasePart {
 								IProgressMonitor.UNKNOWN);
 						final Path exportPath = getModelSession()
 								.getToolboxPaths()
-								.getTableExportPath("tologische_coordinate",
+								.getTableExportPath("topologische_koordinaten",
 										Path.of(outputDir), null,
 										ExportPathExtension.TABLE_CSV_EXPORT_EXTENSION);
 						exportCoordinateToCSV(exportPath);
@@ -166,8 +169,9 @@ public class ExportTopologicalCoordinatePart extends BasePart {
 
 		final PlanPro_Schnittstelle planProSchnittstelle = getModelSession()
 				.getPlanProSchnittstelle();
-		List.of(ContainerType.FINAL, ContainerType.INITIAL,
-				ContainerType.SINGLE)
+		final List<Punkt_Objekt> pos = List
+				.of(ContainerType.FINAL, ContainerType.INITIAL,
+						ContainerType.SINGLE)
 				.stream()
 				.map(type -> PlanProSchnittstelleExtensions
 						.getContainer(planProSchnittstelle, type))
@@ -177,14 +181,21 @@ public class ExportTopologicalCoordinatePart extends BasePart {
 				.filter(po -> PunktObjektExtensions.existLateralDistance(po)
 						|| po instanceof FMA_Komponente
 						|| po instanceof PZB_Element)
-				.forEach(po -> po.getPunktObjektTOPKante().forEach(potk -> {
-					final MultiContainer_AttributeGroup container = BasisAttributExtensions
-							.getContainer(po);
-					final ContainerType containerType = MultiContainer_AttributeGroupExtensions
-							.getContainerType(container);
-					geoCoordinateValid.calculateCoordinate(containerType, po,
-							potk);
-				}));
+				.toList();
+		final List<Entry<Punkt_Objekt, Punkt_Objekt_TOP_Kante_AttributeGroup>> entries = pos
+				.stream()
+				.flatMap(po -> po.getPunktObjektTOPKante()
+						.stream()
+						.map(potk -> Map.entry(po, potk)))
+				.toList();
+		entries.forEach(entry -> {
+			final MultiContainer_AttributeGroup container = BasisAttributExtensions
+					.getContainer(entry.getKey());
+			final ContainerType containerType = MultiContainer_AttributeGroupExtensions
+					.getContainerType(container);
+			geoCoordinateValid.calculateCoordinate(containerType,
+					entry.getKey(), entry.getValue());
+		});
 		return geoCoordinateValid.getTopologischeCoordinaten();
 	}
 
@@ -210,7 +221,8 @@ public class ExportTopologicalCoordinatePart extends BasePart {
 				.of(String.valueOf(index), state,
 						instanceClassName.substring(
 								instanceClassName.lastIndexOf(".") + 1),
-						topCoor.po().getIdentitaet().getWert(), crs,
+						topCoor.po().getIdentitaet().getWert(),
+						topCoor.potk().getIDTOPKante().getWert(), crs,
 						coord == null ? "Fehler bei der Berechnung"
 								: String.valueOf(coord.x).replace(".", ","),
 						coord == null ? "Fehler bei der Berechnung"

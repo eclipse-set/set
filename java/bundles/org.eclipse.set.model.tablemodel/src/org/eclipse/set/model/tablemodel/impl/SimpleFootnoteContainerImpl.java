@@ -13,7 +13,7 @@ import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
-import org.eclipse.set.model.planpro.Basisobjekte.Bearbeitungsvermerk;
+import org.eclipse.set.model.tablemodel.Footnote;
 import org.eclipse.set.model.tablemodel.SimpleFootnoteContainer;
 import org.eclipse.set.model.tablemodel.TablemodelPackage;
 
@@ -40,7 +40,7 @@ public class SimpleFootnoteContainerImpl extends FootnoteContainerImpl
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<Bearbeitungsvermerk> footnotes;
+	protected EList<Footnote> footnotes;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -67,10 +67,10 @@ public class SimpleFootnoteContainerImpl extends FootnoteContainerImpl
 	 * @generated
 	 */
 	@Override
-	public EList<Bearbeitungsvermerk> getFootnotes() {
+	public EList<Footnote> getFootnotes() {
 		if (footnotes == null) {
-			footnotes = new EObjectResolvingEList<Bearbeitungsvermerk>(
-					Bearbeitungsvermerk.class, this,
+			footnotes = new EObjectResolvingEList<Footnote>(Footnote.class,
+					this,
 					TablemodelPackage.SIMPLE_FOOTNOTE_CONTAINER__FOOTNOTES);
 		}
 		return footnotes;
@@ -101,8 +101,8 @@ public class SimpleFootnoteContainerImpl extends FootnoteContainerImpl
 		switch (featureID) {
 			case TablemodelPackage.SIMPLE_FOOTNOTE_CONTAINER__FOOTNOTES:
 				getFootnotes().clear();
-				getFootnotes().addAll(
-						(Collection<? extends Bearbeitungsvermerk>) newValue);
+				getFootnotes()
+						.addAll((Collection<? extends Footnote>) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);

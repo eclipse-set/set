@@ -10,7 +10,6 @@ package org.eclipse.set.utils.table;
 
 import java.util.Collection;
 
-import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
 import org.eclipse.set.model.tablemodel.Table;
 
 /**
@@ -33,21 +32,6 @@ public interface TableModelTransformator<T> {
 	 * @return the table model
 	 */
 	public Table transformTableContent(T model, TMFactory factory);
-
-	/**
-	 * Transforms the given container and control area of a PlanPro model to a
-	 * particular table of the table model.
-	 * 
-	 * @param model
-	 *            the model
-	 * @param factory
-	 *            factory to create new rows of the table model
-	 * @param controlArea
-	 *            the {@link Stell_Bereich}
-	 * @return the table model
-	 */
-	public Table transformTableContent(T model, TMFactory factory,
-			Stell_Bereich controlArea);
 
 	/**
 	 * Errors that occurred during transformation

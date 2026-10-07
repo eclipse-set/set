@@ -31,12 +31,13 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Queue;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.StreamSupport;
 
 import org.eclipse.e4.core.services.events.IEventBroker;
+import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.Pair;
 import org.eclipse.set.basis.constants.ContainerType;
 import org.eclipse.set.basis.constants.Events;
@@ -73,6 +74,7 @@ import org.eclipse.set.ppmodel.extensions.GeoKnotenExtensions;
 import org.eclipse.set.ppmodel.extensions.MultiContainer_AttributeGroupExtensions;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
 import org.eclipse.set.ppmodel.extensions.StreckeExtensions;
+import org.eclipse.set.ppmodel.extensions.UrObjectExtensions;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.eclipse.set.ppmodel.extensions.utils.CacheUtils;
 import org.locationtech.jts.geom.Coordinate;
@@ -100,37 +102,39 @@ import org.slf4j.LoggerFactory;
 				GeoKanteGeometryService.class, EventHandler.class })
 public class GeoKanteGeometryServiceImpl
 		implements GeoKanteGeometryService, EventHandler {
-	/**
-	 * Helper class for storage geometry and metadata of Geo_Kante each sessions
-	 */
-	public static class GeoKanteGeometrySessionData {
-		private final Map<GEO_Kante, LineString> edgeGeometry;
-		private final Map<String, List<GEOKanteMetadata>> geoKanteMetadas;
 
-		/**
-		 * COnstructor
-		 */
-		public GeoKanteGeometrySessionData() {
-			edgeGeometry = new ConcurrentHashMap<>();
-			geoKanteMetadas = new ConcurrentHashMap<>();
+	private class FindGeometryProcess {
+		ToolboxFileRole role;
+		Thread processThread;
+		boolean isProcessComplete;
+
+		public FindGeometryProcess(final ToolboxFileRole role) {
+			this.role = role;
+
 		}
 
-		/**
-		 * @return the geometry data
-		 */
-		public Map<GEO_Kante, LineString> getEdgeGeometry() {
-			return edgeGeometry;
+		public Thread getProcessThread() {
+			return processThread;
 		}
 
-		/**
-		 * @return the geokante metada
-		 */
-		public Map<String, List<GEOKanteMetadata>> getGeoKanteMetadas() {
-			return geoKanteMetadas;
+		public void setProcessThread(final Thread processThread) {
+			this.processThread = processThread;
+		}
+
+		public boolean isProcessComplete() {
+			return isProcessComplete;
+		}
+
+		public void setProcessComplete(final boolean isProcessComplete) {
+			this.isProcessComplete = isProcessComplete;
+		}
+
+		public ToolboxFileRole getRole() {
+			return role;
 		}
 	}
 
-	private Thread findGeometryThread;
+	private final List<FindGeometryProcess> findGeometryProcesses;
 	// Acceptable tolerance between the length of all GEO_Kante on a TOP_Kante
 	// and the length of the TOP_Kante
 	static double GEO_LENGTH_DEVIATION_TOLERANCE = 0.001;
@@ -143,7 +147,6 @@ public class GeoKanteGeometryServiceImpl
 	static final Logger logger = LoggerFactory
 			.getLogger(GeoKanteGeometryServiceImpl.class);
 
-	private boolean isProcessComplete = false;
 	private final Map<PlanPro_Schnittstelle, GeoKanteGeometrySessionData> sessionesData = new HashMap<>();
 	@Reference
 	private EventAdmin eventAdmin;
@@ -156,23 +159,27 @@ public class GeoKanteGeometryServiceImpl
 	 */
 	public GeoKanteGeometryServiceImpl() {
 		Services.setGeometryService(this);
+		findGeometryProcesses = new ArrayList<>();
 	}
 
 	@Override
 	public void handleEvent(final Event event) {
 		final String topic = event.getTopic();
 		if (topic.equals(Events.TOPMODEL_CHANGED) && event.getProperty(
-				IEventBroker.DATA) instanceof final PlanPro_Schnittstelle schnitstelle) {
+				IEventBroker.DATA) instanceof final IModelSession modelSession) {
+			final PlanPro_Schnittstelle schnitstelle = modelSession
+					.getPlanProSchnittstelle();
 			// Only clear geometry data when main session change
 			final GeoKanteGeometrySessionData sessionData = getSessionData(
 					schnitstelle);
-			sessionData.getEdgeGeometry().clear();
-			sessionData.getGeoKanteMetadas().clear();
-
-			findGeometryThread = new Thread(() -> {
+			sessionData.clear();
+			final ToolboxFileRole role = modelSession.getToolboxFile()
+					.getRole();
+			final FindGeometryProcess process = new FindGeometryProcess(role);
+			final Thread t = new Thread(() -> {
 				try {
 					logger.debug("Start find geometry of GEO_Kante"); //$NON-NLS-1$
-					isProcessComplete = false;
+					process.setProcessComplete(false);
 					findGeoKanteGeometry(sessionData,
 							PlanProSchnittstelleExtensions.getContainer(
 									schnitstelle, ContainerType.INITIAL));
@@ -182,7 +189,7 @@ public class GeoKanteGeometryServiceImpl
 					findGeoKanteGeometry(sessionData,
 							PlanProSchnittstelleExtensions.getContainer(
 									schnitstelle, ContainerType.SINGLE));
-					isProcessComplete = true;
+					process.setProcessComplete(true);
 					final HashMap<String, Object> properties = new HashMap<>();
 					properties.put(EventConstants.EVENT_TOPIC,
 							Events.FIND_GEOMETRY_PROCESS_DONE);
@@ -191,28 +198,34 @@ public class GeoKanteGeometryServiceImpl
 					logger.debug(
 							"Find geometry of GEO_Kante process is complete"); //$NON-NLS-1$
 				} catch (final InterruptedException e) {
-					isProcessComplete = true;
+					process.setProcessComplete(true);
 					Thread.currentThread().interrupt();
 				}
 			}, ToolboxConstants.CacheId.GEOKANTE_GEOMETRY);
-			findGeometryThread.start();
+			t.start();
+			process.setProcessThread(t);
+			findGeometryProcesses.add(process);
 		}
 
 		if (topic.equals(Events.CLOSE_SESSION)) {
-			if (!isProcessComplete) {
-				findGeometryThread.interrupt();
-				isProcessComplete = false;
-			}
+			findGeometryProcesses.forEach(process -> {
+				if (!process.isProcessComplete()) {
+					process.getProcessThread().interrupt();
+				}
+			});
 
 			final ToolboxFileRole role = (ToolboxFileRole) event
 					.getProperty(IEventBroker.DATA);
 			if (role == ToolboxFileRole.SESSION) {
 				sessionesData.clear();
+				findGeometryProcesses.clear();
 			} else {
 				final PlanPro_Schnittstelle closed = sessionService
 						.getLoadedSession(role)
 						.getPlanProSchnittstelle();
 				sessionesData.remove(closed);
+				findGeometryProcesses
+						.removeIf(process -> process.getRole() == role);
 			}
 		}
 	}
@@ -261,7 +274,9 @@ public class GeoKanteGeometryServiceImpl
 	 */
 	@Override
 	public LineString getGeometry(final GEO_Kante edge) {
-		while (!isFindGeometryComplete()) {
+		final PlanPro_Schnittstelle planProSchnittstelle = UrObjectExtensions
+				.getPlanProSchnittstelle(edge);
+		while (!isFindGeometryComplete(planProSchnittstelle)) {
 			try {
 				Thread.sleep(4000);
 			} catch (final InterruptedException e) {
@@ -295,8 +310,35 @@ public class GeoKanteGeometryServiceImpl
 	 * @return true, if the process is done
 	 */
 	@Override
-	public boolean isFindGeometryComplete() {
-		return isProcessComplete;
+	public boolean isFindGeometryComplete(final ToolboxFileRole role) {
+		final Optional<FindGeometryProcess> processOpt = findGeometryProcesses
+				.stream()
+				.filter(process -> process.getRole() == role)
+				.findFirst();
+		return processOpt.isEmpty() || processOpt.get().isProcessComplete();
+	}
+
+	/**
+	 * Check if find geometry process still runing
+	 * 
+	 * @return true, if the process is done
+	 */
+	@Override
+	public boolean isFindGeometryComplete(
+			final PlanPro_Schnittstelle schnittstelle) {
+		final Optional<Entry<ToolboxFileRole, IModelSession>> targetSession = sessionService
+				.getLoadedSessions()
+				.entrySet()
+				.stream()
+				.filter(session -> session.getValue()
+						.getPlanProSchnittstelle()
+						.equals(schnittstelle))
+				.findFirst();
+		if (targetSession.isEmpty()) {
+			throw new IllegalArgumentException(
+					"The PlanPro_Schnittstelle isn't loaded"); //$NON-NLS-1$
+		}
+		return isFindGeometryComplete(targetSession.get().getKey());
 	}
 
 	@Override
@@ -379,14 +421,12 @@ public class GeoKanteGeometryServiceImpl
 								RoundingMode.HALF_UP)
 				: BigDecimal.ZERO;
 		final SegmentPosition position = Geometries.getSegmentPosition(
-				md.getGeometry(),
-				GeoKnotenExtensions.getCoordinate(md.getGeoKnoten()),
+				md.getGeometry(), getGeoNodeCoordinate(md.getGeoKnoten()),
 				scaledDistance);
 		final LineSegment tangent = getTangent(md.getGeoKante(), position);
 		final GeoPosition coordinate = GeoKanteExtensions.getCoordinate(tangent,
 				position, lateralDistance, wirkrichtung);
-		return new GEOKanteCoordinate(coordinate, md,
-				getCRS(md.getGeoKnoten()));
+		return new GEOKanteCoordinate(coordinate, md);
 	}
 
 	@Override
@@ -505,9 +545,7 @@ public class GeoKanteGeometryServiceImpl
 			if (relevantSegments == null) {
 				throw new IllegalArgumentException();
 			}
-			return new Pair<>(
-					new GEOKanteCoordinate(projectionCoor, metadata,
-							getCRS(metadata.getGeoKnoten())),
+			return new Pair<>(new GEOKanteCoordinate(projectionCoor, metadata),
 					projectionDistance);
 		} catch (final IllegalArgumentException | NullPointerException e) {
 			logger.error(
@@ -661,9 +699,9 @@ public class GeoKanteGeometryServiceImpl
 			final GEOKanteMetadata metadata = switch (geoArt) {
 				case final TOP_Kante topKante -> new GEOKanteMetadata(geoKante,
 						distance, geoKanteLength, bereichObjekte, topKante,
-						geoKnoten, geometry);
+						geoKnoten, geometry, getCRS(geoKnoten));
 				case final Strecke streck -> new GEOKanteMetadata(geoKante,
-						distance, geoKnoten, geometry);
+						distance, geoKnoten, geometry, getCRS(geoKnoten));
 				default -> throw new IllegalArgumentException(
 						"Unexpected value: " + geoArt); //$NON-NLS-1$
 			};
@@ -674,5 +712,11 @@ public class GeoKanteGeometryServiceImpl
 			// Get the next GEO_Knoten (on the other end of the GEO_Kante)
 			geoKnoten = getOpposite(geoKante, geoKnoten);
 		}
+	}
+
+	private Coordinate getGeoNodeCoordinate(final GEO_Knoten node) {
+		final GeoKanteGeometrySessionData sessionData = getSessionData(node);
+		return sessionData.getGeoNodeCoordinates()
+				.computeIfAbsent(node, GeoKnotenExtensions::getCoordinate);
 	}
 }

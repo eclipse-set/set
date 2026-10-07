@@ -32,6 +32,16 @@ public interface Cache {
 	public <T> T get(final String key, final MissingSupplier<T> valueLoader);
 
 	/**
+	 * Checks if there already is a cached value for key
+	 * 
+	 * @param key
+	 *            the key
+	 * 
+	 * @return true if present, false otherwise
+	 */
+	public boolean contains(String key);
+
+	/**
 	 * @param key
 	 *            the key
 	 * @param value

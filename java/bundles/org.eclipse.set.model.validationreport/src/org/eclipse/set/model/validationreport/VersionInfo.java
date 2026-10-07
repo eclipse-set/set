@@ -8,6 +8,7 @@
  */
 package org.eclipse.set.model.validationreport;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -18,10 +19,10 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
- * <li>{@link org.eclipse.set.model.validationreport.VersionInfo#getPlanPro
- * <em>Plan Pro</em>}</li>
- * <li>{@link org.eclipse.set.model.validationreport.VersionInfo#getSignals
- * <em>Signals</em>}</li>
+ * <li>{@link org.eclipse.set.model.validationreport.VersionInfo#getPlanProVersions
+ * <em>Plan Pro Versions</em>}</li>
+ * <li>{@link org.eclipse.set.model.validationreport.VersionInfo#getSignalbegriffeVersions
+ * <em>Signalbegriffe Versions</em>}</li>
  * </ul>
  *
  * @see org.eclipse.set.model.validationreport.ValidationreportPackage#getVersionInfo()
@@ -30,63 +31,28 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface VersionInfo extends EObject {
 	/**
-	 * Returns the value of the '<em><b>Plan Pro</b></em>' attribute. <!--
-	 * begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Plan Pro</em>' attribute isn't clear, there
-	 * really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
+	 * Returns the value of the '<em><b>Plan Pro Versions</b></em>' attribute
+	 * list. The list contents are of type {@link java.lang.String}. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @return the value of the '<em>Plan Pro</em>' attribute.
-	 * @see #setPlanPro(String)
-	 * @see org.eclipse.set.model.validationreport.ValidationreportPackage#getVersionInfo_PlanPro()
+	 * @return the value of the '<em>Plan Pro Versions</em>' attribute list.
+	 * @see org.eclipse.set.model.validationreport.ValidationreportPackage#getVersionInfo_PlanProVersions()
 	 * @model
 	 * @generated
 	 */
-	String getPlanPro();
+	EList<String> getPlanProVersions();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.set.model.validationreport.VersionInfo#getPlanPro
-	 * <em>Plan Pro</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
-	 * -->
+	 * Returns the value of the '<em><b>Signalbegriffe Versions</b></em>'
+	 * attribute list. The list contents are of type {@link java.lang.String}.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @param value
-	 *            the new value of the '<em>Plan Pro</em>' attribute.
-	 * @see #getPlanPro()
-	 * @generated
-	 */
-	void setPlanPro(String value);
-
-	/**
-	 * Returns the value of the '<em><b>Signals</b></em>' attribute. <!--
-	 * begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Signals</em>' attribute isn't clear, there
-	 * really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * 
-	 * @return the value of the '<em>Signals</em>' attribute.
-	 * @see #setSignals(String)
-	 * @see org.eclipse.set.model.validationreport.ValidationreportPackage#getVersionInfo_Signals()
+	 * @return the value of the '<em>Signalbegriffe Versions</em>' attribute
+	 *         list.
+	 * @see org.eclipse.set.model.validationreport.ValidationreportPackage#getVersionInfo_SignalbegriffeVersions()
 	 * @model
 	 * @generated
 	 */
-	String getSignals();
-
-	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.set.model.validationreport.VersionInfo#getSignals
-	 * <em>Signals</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
-	 * -->
-	 * 
-	 * @param value
-	 *            the new value of the '<em>Signals</em>' attribute.
-	 * @see #getSignals()
-	 * @generated
-	 */
-	void setSignals(String value);
+	EList<String> getSignalbegriffeVersions();
 
 } // VersionInfo

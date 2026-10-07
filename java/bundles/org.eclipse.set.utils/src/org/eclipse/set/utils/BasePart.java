@@ -302,7 +302,7 @@ public abstract class BasePart implements ToolboxPart {
 	}
 
 	@PreDestroy
-	private void preDestroy() {
+	protected void preDestroy() {
 		toolboxPart.setVisible(false);
 		toolboxPart.setToBeRendered(false);
 		if (toolboxPart.getWidget() instanceof final Widget widget) {

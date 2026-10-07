@@ -8,15 +8,18 @@
  */
 package org.eclipse.set.swtbot;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 
 import org.eclipse.nebula.widgets.nattable.layer.ILayer;
 import org.eclipse.set.swtbot.table.AbstractTableTest;
 import org.eclipse.set.swtbot.table.TestFailHandle;
+import org.eclipse.set.swtbot.utils.SWTBotUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+
+import com.google.common.html.HtmlEscapers;
 
 /**
  * Test for changes in PlaZ Model
@@ -28,12 +31,14 @@ public class PlaZModelTest extends AbstractTableTest {
 	private static final String RICHTEXT_REPLACE_REGEX = "<[^>]+>";
 
 	@Override
-	public String getTestTableName() {
+	public String getTestTableReferenceName() {
 		return PLAZ_MODEL_TABLE;
 	}
 
 	private void whenOpeningPlaZModelNatTable() {
 		givenNattableBot("PlaZ Modell");
+		SWTBotUtils.checkBoxWithText(bot, "technische Meldungen ausblenden")
+				.click();
 		bot.button("Alle ausklappen").click();
 
 	}
@@ -59,7 +64,13 @@ public class PlaZModelTest extends AbstractTableTest {
 						.get(columnIndex)
 						.replaceAll(CELL_VALUE_REPLACE_REGEX, "")
 						.replaceAll(ZERO_WIDTH_SPACE, "");
-				assertEquals(referenceValue, cellValue);
+				final String toHtmlString = HtmlEscapers.htmlEscaper()
+						.escape(referenceValue);
+				assertTrue(
+						referenceValue.equals(cellValue)
+								|| toHtmlString.equals(cellValue),
+						getErrorMessage(columnIndex, rowIndex, referenceValue,
+								toHtmlString));
 			}
 		}
 	}
@@ -86,6 +97,6 @@ public class PlaZModelTest extends AbstractTableTest {
 		givenReferenceCSV();
 		whenOpeningPlaZModelNatTable();
 		thenRowAndColumnCountEqualReferenceCSV();
-		thenTableDataEqualReferenceCSV();
+		thenExpectTableDataEqualReferenceCSV();
 	}
 }

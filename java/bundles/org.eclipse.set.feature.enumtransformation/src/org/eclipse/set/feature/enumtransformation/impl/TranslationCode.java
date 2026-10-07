@@ -49,32 +49,34 @@ public class TranslationCode {
 			}""";
 
 	private static final String MESSAGES_INTRODUCTION_PATTERN = """
-			  /**
-			   * Copyright (c) %s DB Netz AG and others.
-			   *
-			   * All rights reserved. This program and the accompanying materials
-			   * are made available under the terms of the Eclipse Public License v2.0
-			   * which accompanies this distribution, and is available at
-			   * http://www.eclipse.org/legal/epl-v20.html
-			   */
-			  package org.eclipse.set.core.enumtranslation;
+			   /**
+				* Copyright (c) %s DB InfraGO AG and others
+				*
+				* This program and the accompanying materials are made available under the
+				* terms of the Eclipse Public License v2.0 which is available at
+				* https://www.eclipse.org/legal/epl-2.0.
+				*
+				* SPDX-License-Identifier: EPL-2.0
+				*
+				*/
+				package org.eclipse.set.core.enumtranslation;
 
-			  import org.eclipse.set.core.AbstractMessageService;
-			  import org.osgi.service.component.annotations.Activate;
-			  import org.osgi.service.component.annotations.Component;
+				import org.eclipse.set.core.AbstractMessageService;
+				import org.osgi.service.component.annotations.Activate;
+				import org.osgi.service.component.annotations.Component;
 
 			  /**
-			   * Translations for enumerators.
-			   *
-			   * @generated
-			   */
+				* Translations for enumerators.
+				*
+				* @generated
+				*/
 			  @Component(service = Enumerators.class)
 			  public class Enumerators extends AbstractMessageService {
 			  		@Activate
 			  		private void setupLocalization()
 			  				throws IllegalArgumentException, IllegalAccessException {
 			  			super.setupLocalization(
-			  					"platform:/plugin/org.eclipse.set.core/translation/Enumerators");
+			  					"platform:/plugin/org.eclipse.set.core/translation/Enumerators"); //$NON-NLS-1$
 			  		}
 			""";
 

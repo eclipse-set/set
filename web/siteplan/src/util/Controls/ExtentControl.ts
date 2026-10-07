@@ -52,6 +52,7 @@ export default class ExtentControl extends Control {
     this.view.set(ExtentControl.EXTENT_CONTROL_KEY, this)
     button.addEventListener('click', () => {
       this.fit()
+      button.blur()
     }, false)
   }
 

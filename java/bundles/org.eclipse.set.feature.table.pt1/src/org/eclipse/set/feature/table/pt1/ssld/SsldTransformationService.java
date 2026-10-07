@@ -9,19 +9,33 @@
 package org.eclipse.set.feature.table.pt1.ssld;
 
 import static org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum.ASC;
+import static org.eclipse.set.feature.table.pt1.ssld.SsldColumns.Aufloeseabschnitt_Laenge;
+import static org.eclipse.set.feature.table.pt1.ssld.SsldColumns.Bezeichnung;
+import static org.eclipse.set.feature.table.pt1.ssld.SsldColumns.Freigemeldet;
+import static org.eclipse.set.feature.table.pt1.ssld.SsldColumns.Laenge_Ist;
+import static org.eclipse.set.feature.table.pt1.ssld.SsldColumns.massgebende_Neigung;
+import static org.eclipse.set.feature.table.pt1.ssld.SsldColumns.v_Aufwertung_Verzicht;
+import static org.eclipse.set.feature.table.pt1.ssld.SsldColumns.von;
 import static org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparatorType.MIXED_STRING;
 
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
+import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.core.services.graph.TopologicalGraphService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.messages.Messages;
+import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_DWeg;
 import org.eclipse.set.model.tablemodel.RowGroup;
+import org.eclipse.set.ppmodel.extensions.DwegExtensions;
+import org.eclipse.set.ppmodel.extensions.FahrwegExtensions;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
+import org.eclipse.set.utils.table.TableInfo.Pt1TableCategory;
 import org.eclipse.set.utils.table.sorting.TableRowGroupComparator;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -63,10 +77,18 @@ public final class SsldTransformationService
 	}
 
 	@Override
-	public Comparator<RowGroup> getRowGroupComparator() {
-		return TableRowGroupComparator.builder()
-				.sort("A", MIXED_STRING, ASC) //$NON-NLS-1$
-				.sort("E", MIXED_STRING, ASC) //$NON-NLS-1$
+	public Comparator<RowGroup> getRowGroupComparator(
+			final TableType tableType) {
+		return TableRowGroupComparator.builder(tableType)
+				.sortByRouteAndKm(obj -> {
+					if (obj instanceof final Fstr_DWeg fstr) {
+						return FahrwegExtensions
+								.getStart(DwegExtensions.getFstrFahrweg(fstr));
+					}
+					return null;
+				})
+				.sort(von, MIXED_STRING, ASC)
+				.sort(Bezeichnung, MIXED_STRING, ASC)
 				.build();
 	}
 
@@ -74,7 +96,8 @@ public final class SsldTransformationService
 	public TableNameInfo getTableNameInfo() {
 		return new TableNameInfo(messages.ToolboxTableNameSsldLong,
 				messages.ToolboxTableNameSsldPlanningNumber,
-				messages.ToolboxTableNameSsldShort);
+				messages.ToolboxTableNameSsldShort,
+				messages.ToolboxTableNameSsldRil);
 	}
 
 	@Override
@@ -89,8 +112,22 @@ public final class SsldTransformationService
 
 	@Override
 	protected List<String> getTopologicalColumnPosition() {
-		return List.of(SsldColumns.Freigemeldet,
-				SsldColumns.Aufloeseabschnitt_Laenge);
+		return List.of(Freigemeldet, Aufloeseabschnitt_Laenge, Laenge_Ist,
+				massgebende_Neigung, v_Aufwertung_Verzicht);
 	}
 
+	@Override
+	protected String getRemarkColumnPosition() {
+		return SsldColumns.Bemerkung;
+	}
+
+	@Override
+	protected Map<Class<?>, String> getFootnotesColumnReferences() {
+		return Collections.emptyMap();
+	}
+
+	@Override
+	protected Pt1TableCategory getTableCategory() {
+		return Pt1TableCategory.ESTW;
+	}
 }

@@ -8,6 +8,7 @@
  */
 package org.eclipse.set.utils.graph
 
+import java.math.BigDecimal
 import java.util.Set
 import org.eclipse.set.basis.graph.Digraphs
 import org.eclipse.set.basis.graph.DirectedEdge
@@ -29,7 +30,7 @@ class DirectedEdgeExtensions extends org.eclipse.set.basis.graph.DirectedEdgeExt
 	 * direction given by this starting edge
 	 */
 	static def <E, N, P> Set<DirectedEdgePath<E, N, P>> getPaths(
-		DirectedEdge<E, N, P> startEdge, Routing<E, N, P> routing, P start, P end) {
-		return Digraphs.getPaths(startEdge, routing, start, end)
+		DirectedEdge<E, N, P> startEdge, Routing<E, N, P> routing, P start, P end, BigDecimal maximalPathLength) {
+		return Digraphs.getPaths(startEdge, routing, start, end, maximalPathLength)
 	}
 }

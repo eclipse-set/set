@@ -8,10 +8,13 @@
  */
 package org.eclipse.set.feature.table.export;
 
+import java.util.List;
+
 import org.eclipse.set.basis.constants.ExportType;
 import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.model.titlebox.Titlebox;
 import org.eclipse.set.model.titlebox.extensions.TitleboxExtensions;
+import org.eclipse.set.services.export.TableExport.ExportFormat;
 
 /**
  * Part for exporting inventory records (Bestandsunterlagen erstellen).
@@ -44,5 +47,10 @@ public class ExportInventoryRecordsPart extends PlanProExportPart {
 	@Override
 	public TableType getTableType() {
 		return TableType.FINAL;
+	}
+
+	@Override
+	protected List<ExportFormat> getExportFormats() {
+		return List.of(ExportFormat.PDF);
 	}
 }

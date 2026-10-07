@@ -19,8 +19,10 @@ import java.util.Set
 import javax.xml.datatype.DatatypeConfigurationException
 import javax.xml.datatype.DatatypeFactory
 import javax.xml.datatype.XMLGregorianCalendar
+import org.eclipse.emf.common.util.Diagnostic
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.resource.Resource
+import org.eclipse.emf.ecore.util.Diagnostician
 import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.emf.ecore.xmi.XMLResource
 import org.eclipse.emf.edit.command.SetCommand
@@ -52,6 +54,8 @@ import org.eclipse.set.utils.ToolboxConfiguration
 import static extension org.eclipse.set.ppmodel.extensions.EObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PlanungEinzelExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PlanungProjektExtensions.*
+import static extension org.eclipse.set.utils.StringExtensions.*
+import org.eclipse.set.model.temporaryintegration.TemporaryIntegration
 
 /**
  * Extensions for {@link PlanPro_Schnittstelle}.
@@ -208,9 +212,10 @@ class PlanProSchnittstelleExtensions {
 				copy.LSTPlanungProjekt.leadingPlanungGruppe.LSTPlanungEinzel.
 					anhangMaterialBesonders
 			)
-		destination.LSTPlanungProjekt.leadingPlanungGruppe.LSTPlanungEinzel.anhangVzG.
-			addAll(
-				copy.LSTPlanungProjekt.leadingPlanungGruppe.LSTPlanungEinzel.anhangVzG
+		destination.LSTPlanungProjekt.leadingPlanungGruppe.LSTPlanungEinzel.
+			anhangVzG.addAll(
+				copy.LSTPlanungProjekt.leadingPlanungGruppe.LSTPlanungEinzel.
+					anhangVzG
 			)
 		destination.LSTPlanungProjekt.leadingPlanungGruppe.
 			LSTPlanungEinzel.planungEAllg = copy.LSTPlanungProjekt.
@@ -221,10 +226,11 @@ class PlanProSchnittstelleExtensions {
 		destination.LSTPlanungProjekt.leadingPlanungGruppe.planungGAllg = copy.
 			LSTPlanungProjekt.leadingPlanungGruppe.planungGAllg
 		destination.LSTPlanungProjekt.
-			leadingPlanungGruppe.planungGFuehrendeStrecke = copy.LSTPlanungProjekt.
-			leadingPlanungGruppe.planungGFuehrendeStrecke
-		destination.LSTPlanungProjekt.leadingPlanungGruppe.planungGSchriftfeld = copy.
-			LSTPlanungProjekt.leadingPlanungGruppe.planungGSchriftfeld
+			leadingPlanungGruppe.planungGFuehrendeStrecke = copy.
+			LSTPlanungProjekt.leadingPlanungGruppe.planungGFuehrendeStrecke
+		destination.LSTPlanungProjekt.
+			leadingPlanungGruppe.planungGSchriftfeld = copy.LSTPlanungProjekt.
+			leadingPlanungGruppe.planungGSchriftfeld
 		destination.LSTPlanungProjekt.planungPAllg = copy.LSTPlanungProjekt.
 			planungPAllg
 
@@ -326,6 +332,8 @@ class PlanProSchnittstelleExtensions {
 		val root = contents.head
 		if (root instanceof DocumentRoot) {
 			return root.planProSchnittstelle
+		} else if (root instanceof TemporaryIntegration) {
+			return root.compositePlanning
 		}
 		throw new IllegalArgumentException(
 			"Ressource contains no PlanPro model with the requested version."
@@ -351,88 +359,88 @@ class PlanProSchnittstelleExtensions {
 	static def Optional<String> getBauphase(
 		PlanPro_Schnittstelle schnittstelle) {
 		return Optional.ofNullable(
-			schnittstelle?.LSTPlanungProjekt?.leadingPlanungGruppe?.LSTPlanungEinzel?.
-				planungEAllg?.bauphase?.wert
+			schnittstelle?.LSTPlanungProjekt?.leadingPlanungGruppe?.
+				LSTPlanungEinzel?.planungEAllg?.bauphase?.wert
 		)
 	}
 
 	static def Optional<String> getBauzustandKurzbezeichnung(
 		PlanPro_Schnittstelle schnittstelle) {
 		return Optional.ofNullable(
-			schnittstelle?.LSTPlanungProjekt?.leadingPlanungGruppe?.LSTPlanungEinzel?.
-				planungEAllg?.bauzustandKurzbezeichnung?.wert
+			schnittstelle?.LSTPlanungProjekt?.leadingPlanungGruppe?.
+				LSTPlanungEinzel?.planungEAllg?.bauzustandKurzbezeichnung?.wert
 		)
 	}
 
 	static def Optional<XMLGregorianCalendar> getDatumAbschlussEinzel(
 		PlanPro_Schnittstelle schnittstelle) {
 		return Optional.ofNullable(
-			schnittstelle?.LSTPlanungProjekt?.leadingPlanungGruppe?.LSTPlanungEinzel?.
-				planungEAllg?.datumAbschlussEinzel?.wert
+			schnittstelle?.LSTPlanungProjekt?.leadingPlanungGruppe?.
+				LSTPlanungEinzel?.planungEAllg?.datumAbschlussEinzel?.wert
 		)
 	}
 
 	static def Optional<String> getIndexAusgabe(
 		PlanPro_Schnittstelle schnittstelle) {
 		return Optional.ofNullable(
-			schnittstelle?.LSTPlanungProjekt?.leadingPlanungGruppe?.LSTPlanungEinzel?.
-				planungEAllg?.indexAusgabe?.wert
+			schnittstelle?.LSTPlanungProjekt?.leadingPlanungGruppe?.
+				LSTPlanungEinzel?.planungEAllg?.indexAusgabe?.wert
 		)
 	}
 
 	static def Optional<Boolean> getInformativ(
 		PlanPro_Schnittstelle schnittstelle) {
 		return Optional.ofNullable(
-			schnittstelle?.LSTPlanungProjekt?.leadingPlanungGruppe?.LSTPlanungEinzel?.
-				planungEAllg?.informativ?.wert
+			schnittstelle?.LSTPlanungProjekt?.leadingPlanungGruppe?.
+				LSTPlanungEinzel?.planungEAllg?.informativ?.wert
 		)
 	}
 
 	static def Optional<String> getLaufendeNummerAusgabe(
 		PlanPro_Schnittstelle schnittstelle) {
 		return Optional.ofNullable(
-			schnittstelle?.LSTPlanungProjekt?.leadingPlanungGruppe?.LSTPlanungEinzel?.
-				planungEAllg?.laufendeNummerAusgabe?.wert
+			schnittstelle?.LSTPlanungProjekt?.leadingPlanungGruppe?.
+				LSTPlanungEinzel?.planungEAllg?.laufendeNummerAusgabe?.wert
 		)
 	}
 
 	static def Optional<ENUMPlanungEArt> getPlanungArt(
 		PlanPro_Schnittstelle schnittstelle) {
 		return Optional.ofNullable(
-			schnittstelle?.LSTPlanungProjekt?.leadingPlanungGruppe?.LSTPlanungEinzel?.
-				planungEAllg?.planungEArt?.wert
+			schnittstelle?.LSTPlanungProjekt?.leadingPlanungGruppe?.
+				LSTPlanungEinzel?.planungEAllg?.planungEArt?.wert
 		)
 	}
 
 	static def Optional<ENUMPlanungPhase> getPlanungPhase(
 		PlanPro_Schnittstelle schnittstelle) {
 		return Optional.ofNullable(
-			schnittstelle?.LSTPlanungProjekt?.leadingPlanungGruppe?.LSTPlanungEinzel?.
-				planungEAllg?.planungPhase?.wert
+			schnittstelle?.LSTPlanungProjekt?.leadingPlanungGruppe?.
+				LSTPlanungEinzel?.planungEAllg?.planungPhase?.wert
 		)
 	}
 
 	static def Optional<XMLGregorianCalendar> getDatumAbschlussGruppe(
 		PlanPro_Schnittstelle schnittstelle) {
 		return Optional.ofNullable(
-			schnittstelle?.LSTPlanungProjekt?.leadingPlanungGruppe?.planungGAllg?.
-				datumAbschlussGruppe?.wert
+			schnittstelle?.LSTPlanungProjekt?.leadingPlanungGruppe?.
+				planungGAllg?.datumAbschlussGruppe?.wert
 		)
 	}
 
 	static def Optional<String> getPlanProXSDVersion(
 		PlanPro_Schnittstelle schnittstelle) {
 		return Optional.ofNullable(
-			schnittstelle?.LSTPlanungProjekt?.leadingPlanungGruppe?.planungGAllg?.
-				planProXSDVersion?.wert
+			schnittstelle?.LSTPlanungProjekt?.leadingPlanungGruppe?.
+				planungGAllg?.planProXSDVersion?.wert
 		)
 	}
 
 	static def Optional<String> getVerantwortlicheStelleDB(
 		PlanPro_Schnittstelle schnittstelle) {
 		return Optional.ofNullable(
-			schnittstelle?.LSTPlanungProjekt?.leadingPlanungGruppe?.planungGAllg?.
-				verantwortlicheStelleDB?.wert
+			schnittstelle?.LSTPlanungProjekt?.leadingPlanungGruppe?.
+				planungGAllg?.verantwortlicheStelleDB?.wert
 		)
 	}
 
@@ -530,14 +538,14 @@ class PlanProSchnittstelleExtensions {
 	static def Optional<String> getLSTPlanungEinzelIdentitaet(
 		PlanPro_Schnittstelle schnittstelle) {
 		return Optional.ofNullable(
-			schnittstelle?.LSTPlanungProjekt?.leadingPlanungGruppe?.LSTPlanungEinzel?.
-				identitaet?.wert)
+			schnittstelle?.LSTPlanungProjekt?.leadingPlanungGruppe?.
+				LSTPlanungEinzel?.identitaet?.wert)
 	}
 
 	static def Optional<String> getLSTPlanungGruppeIdentitaet(
 		PlanPro_Schnittstelle schnittstelle) {
-		val wert = schnittstelle?.LSTPlanungProjekt?.leadingPlanungGruppe?.identitaet?.
-			wert
+		val wert = schnittstelle?.LSTPlanungProjekt?.leadingPlanungGruppe?.
+			identitaet?.wert
 		return Optional.ofNullable(wert)
 	}
 
@@ -833,5 +841,37 @@ class PlanProSchnittstelleExtensions {
 			leadingPlanungGruppe.LSTPlanungEinzel.ausgabeFachdaten
 		newAusgabeFachdaten.LSTZustandStart = copyContainer
 		return newSchnittstelle
+	}
+
+	/**
+	 * Update a planning for the primary planning of a planning integration.
+	 * This will update several attributes used to derive the path of the model.
+	 * 
+	 * @param schnittstelle the PlanPro Schnittstelle
+	 */
+	static def void updateForIntegrationCopy(
+		PlanPro_Schnittstelle schnittstelle, EditingDomain domain) {
+
+		// update Kurzbezeichnung Bauzustand
+		val kurzbezeichnung = schnittstelle.bauzustandKurzbezeichnung.orElse("")
+		val kurzbezeichnungShort1 = kurzbezeichnung.shortenBy(1)
+		val kurzbezeichnungShort2 = kurzbezeichnung.shortenBy(2)
+		val kurzbezeichnung_G = '''«kurzbezeichnung»_G'''
+		val kurzbezeichnungShort1_G = '''«kurzbezeichnungShort1»_G'''
+		val kurzbezeichnungShort2_G = '''«kurzbezeichnungShort2»_G'''
+		val bauzustandKurzbezeichnung = schnittstelle.LSTPlanungProjekt.
+			leadingPlanungGruppe.LSTPlanungEinzel.planungEAllg.
+			bauzustandKurzbezeichnung
+		bauzustandKurzbezeichnung.wert = kurzbezeichnung_G
+		var Diagnostic diagnostic = Diagnostician.INSTANCE.validate(
+			bauzustandKurzbezeichnung);
+		if (diagnostic.getSeverity() != Diagnostic.OK) {
+			bauzustandKurzbezeichnung.wert = kurzbezeichnungShort1_G
+			diagnostic = Diagnostician.INSTANCE.validate(
+				bauzustandKurzbezeichnung);
+			if (diagnostic.getSeverity() != Diagnostic.OK) {
+				bauzustandKurzbezeichnung.wert = kurzbezeichnungShort2_G
+			}
+		}
 	}
 }

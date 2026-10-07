@@ -28,7 +28,7 @@ class ValidationReportTableTransformator extends AbstractValidationProblemTransf
 		super()
 		this.columns = columns;
 		excludeColumns = newArrayList(columns.RowIndex, columns.Message,
-			columns.LineNumber)
+			columns.ObjectDesignation, columns.LineNumber)
 	}
 
 	override getProblems(ValidationReport report) {
@@ -43,16 +43,18 @@ class ValidationReportTableTransformator extends AbstractValidationProblemTransf
 			fillNumeric(instance, columns.LineNumber, problem, [lineNumber])
 		}
 		fill(instance, columns.ObjectType, problem, [objectArt])
+		fill(instance, columns.ObjectDesignation, problem, [objectDesignation])
 		fill(instance, columns.AttributeGroup, problem, [attributeName])
 		fill(instance, columns.ObjectScope, problem, [objectScope?.toString])
 		fill(instance, columns.ObjectState, problem, [objectState?.literal])
 		fill(instance, columns.Message, problem, [message])
 	}
 
-	override createGroupAbstractRow(TMFactory factory, List<TableRow> groupRows) {
+	override createGroupAbstractRow(TMFactory factory,
+		List<TableRow> groupRows) {
 		val rootRow = super.createGroupAbstractRow(factory, groupRows)
 		val allMsg = groupRows.map [
-			//Replace specific value like attribute name in report message
+			// Replace specific value like attribute name in report message
 			getPlainStringValue(messagesColumn)?.replaceAll(
 				SPECIFIC_VALUE_REGEX, "...")
 		].filterNull.toSet

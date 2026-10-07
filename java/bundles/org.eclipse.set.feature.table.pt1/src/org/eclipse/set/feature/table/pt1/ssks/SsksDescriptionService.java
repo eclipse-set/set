@@ -34,4 +34,9 @@ public class SsksDescriptionService extends AbstractESTWTableDescription {
 	protected String getToolboxViewTooltip() {
 		return messages.SsksDescriptionService_ViewTooltip;
 	}
+
+	@Override
+	protected String getTableShortcut() {
+		return messages.ToolboxTableNameSsksShort;
+	}
 }

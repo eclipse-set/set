@@ -12,7 +12,6 @@ import com.google.common.collect.Lists
 import java.util.Set
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
-import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
 import org.eclipse.set.model.planpro.Bedienung.Bedien_Einrichtung_Oertlich
 import org.eclipse.set.model.planpro.Schluesselabhaengigkeiten.Schluesselsperre
@@ -23,6 +22,7 @@ import org.eclipse.set.model.tablemodel.Table
 import org.eclipse.set.model.tablemodel.TableRow
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.utils.table.TMFactory
+import org.osgi.service.event.EventAdmin
 
 import static org.eclipse.set.feature.table.pt1.ssit.SsitColumns.*
 
@@ -32,10 +32,8 @@ import static extension org.eclipse.set.ppmodel.extensions.NbBedienAnzeigeElemen
 import static extension org.eclipse.set.ppmodel.extensions.NbZoneElementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.NbZoneExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektStreckeExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspKomponenteExtensions.*
 import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
-import org.osgi.service.event.EventAdmin
 
 /**
  * Table transformation for a Bedieneinrichtungstabelle ESTW (Ssit).
@@ -52,22 +50,21 @@ class SsitTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
-		TMFactory factory, Stell_Bereich controlArea) {
+		TMFactory factory) {
 		this.factory = factory
-		return container.transform(controlArea)
+		return container.transform
 	}
 
 	private def Table create factory.table transform(
-		MultiContainer_AttributeGroup container, Stell_Bereich controlArea) {
-		container.bedienEinrichtungOertlich.filter[isPlanningObject].
-			filterObjectsInControlArea(controlArea).filter [
-				bedienAnzeigeElemente.forall[bueBedienAnzeigeElemente.empty]
-			].forEach [ it |
-				if (Thread.currentThread.interrupted) {
-					return
-				}
-				it.transform
-			]
+		MultiContainer_AttributeGroup container) {
+		container.bedienEinrichtungOertlich.filter [
+			bedienAnzeigeElemente.forall[bueBedienAnzeigeElemente.empty]
+		].forEach [ it |
+			if (Thread.currentThread.interrupted) {
+				return
+			}
+			it.transform
+		]
 		return
 	}
 

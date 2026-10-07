@@ -105,4 +105,14 @@ public interface Events {
 	 * The find GEO_Kante geometry process is done
 	 */
 	String FIND_GEOMETRY_PROCESS_DONE = "geometryService/done";
+
+	/**
+	 * When a subwork is selected
+	 */
+	String SUBWORK_CHANGED = "subwork/change";
+
+	/**
+	 * When a table open after Worknotes table - Sxxx
+	 */
+	String RELOAD_WORKNOTES_TABLE = "table/reload/Sxxx";
 }

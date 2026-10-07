@@ -24,20 +24,19 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-import org.eclipse.set.basis.Pair;
 import org.eclipse.set.basis.graph.TopPoint;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.core.services.graph.BankService;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator;
 import org.eclipse.set.feature.table.pt1.ssks.SignalSideDistance;
+import org.eclipse.set.feature.table.pt1.ssks.SignalSideDistance.SideDistance;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Aussenelementansteuerung;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.ENUMAussenelementansteuerungArt;
-import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stellelement;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Tueranschlag_TypeClass;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Unterbringung_Befestigung_TypeClass;
@@ -47,6 +46,7 @@ import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
 import org.eclipse.set.model.planpro.Ortung.FMA_Komponente;
 import org.eclipse.set.model.planpro.PZB.PZB_Art_TypeClass;
 import org.eclipse.set.model.planpro.PZB.PZB_Element;
+import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.set.model.planpro.Schluesselabhaengigkeiten.Schluesselsperre;
 import org.eclipse.set.model.planpro.Signale.Signal;
 import org.eclipse.set.model.planpro.Verweise.ID_Aussenelementansteuerung_TypeClass;
@@ -54,9 +54,10 @@ import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.TableRow;
+import org.eclipse.set.ppmodel.extensions.AussenelementansteuerungExtensions;
+import org.eclipse.set.ppmodel.extensions.MultiContainer_AttributeGroupExtensions;
 import org.eclipse.set.ppmodel.extensions.PZBElementExtensions;
 import org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteExtensions;
-import org.eclipse.set.ppmodel.extensions.UrObjectExtensions;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.eclipse.set.ppmodel.extensions.utils.Case;
 import org.eclipse.set.utils.math.BigDecimalExtensions;
@@ -132,21 +133,20 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 	@Override
 	public Table transformTableContent(
 			final MultiContainer_AttributeGroup container,
-			final TMFactory factory, final Stell_Bereich controlArea) {
+			final TMFactory factory) {
 		final List<Aussenelementansteuerung> outsideControls = Streams
 				.stream(container.getAussenelementansteuerung())
-				.filter(UrObjectExtensions::isPlanningObject)
 				.toList();
-		final Iterable<Aussenelementansteuerung> relevantControlsInArea = UrObjectExtensions
-				.filterObjectsInControlArea(outsideControls, controlArea);
-		return transform(relevantControlsInArea, factory);
+		final PlanPro_Schnittstelle schnittStelle = MultiContainer_AttributeGroupExtensions
+				.getPlanProSchnittstelle(container);
+		return transform(outsideControls, factory, schnittStelle);
 	}
 
 	private Table transform(final Iterable<Aussenelementansteuerung> controls,
-			final TMFactory factory) {
+			final TMFactory factory,
+			final PlanPro_Schnittstelle schnittStelle) {
 		for (final Aussenelementansteuerung control : controls) {
-			Thread.currentThread();
-			if (Thread.interrupted()) {
+			if (Thread.currentThread().isInterrupted()) {
 				return null;
 			}
 
@@ -230,7 +230,7 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 				// G: Sskz.Abstand_FEAx_Gleismitte
 				if (getNullableObject(potk,
 						p -> p.getSeitlicherAbstand().getWert()).isPresent()) {
-					fillTrackMitteDistance(row, control, potk);
+					fillTrackMitteDistance(row, control, potk, schnittStelle);
 				}
 			}
 
@@ -247,23 +247,18 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 	@SuppressWarnings("boxing")
 	private void fillTrackMitteDistance(final TableRow row,
 			final Aussenelementansteuerung control,
-			final Punkt_Objekt_TOP_Kante_AttributeGroup potk) {
+			final Punkt_Objekt_TOP_Kante_AttributeGroup potk,
+			final PlanPro_Schnittstelle schnittStelle) {
 		fillIterableMultiCellWhenAllowed(row,
 				getColumn(cols, Abstand_FEAx_Gleismitte), control,
-				() -> isFindGeometryComplete(), ele -> {
-					final Pair<Long, Long> sideDistance = getSideDistance(potk);
-					if (sideDistance != null) {
-						final String trackDistance = sideDistance.getSecond()
-								.longValue() > 0 ? String.format("(%d)", //$NON-NLS-1$
-										sideDistance.getSecond()) : ""; //$NON-NLS-1$
-						if (!trackDistance.isEmpty()) {
+				() -> isFindGeometryComplete(schnittStelle), ele -> {
+					final SideDistance sideDistance = getSideDistance(potk);
+					if (sideDistance.getDistanceToMainTrack() != null) {
+						if (sideDistance.getDistanceToNeighborTrack() != null) {
 							addTopologicalCell(row, getColumn(cols,
 									SskzColumns.Abstand_FEAx_Gleismitte));
 						}
-						return String.format("%s%s", //$NON-NLS-1$
-								Math.abs(sideDistance.getFirst()),
-								trackDistance.isEmpty() ? "" //$NON-NLS-1$
-										: " " + trackDistance); //$NON-NLS-1$
+						return sideDistance.toString();
 					}
 					return ""; //$NON-NLS-1$
 				});
@@ -359,7 +354,7 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 	@SuppressWarnings("nls")
 	private String getPzbDesignation(final PZB_Element pzb) {
 		final PZB_Art_TypeClass pzbArt = getNullableObject(pzb,
-				ele -> ele.getPZBArt()).orElse(null);
+				PZB_Element::getPZBArt).orElse(null);
 		if (pzbArt == null) {
 			return "";
 		}
@@ -422,14 +417,16 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 		final List<T> elements = Streams.stream(getElementFunc.apply(container))
 				.map(clazz::cast)
 				.toList();
-
+		final Predicate<Aussenelementansteuerung> findRecursiveCondition = aea -> AussenelementansteuerungExtensions
+				.findRecursiveAEAInformation(aea,
+						ele -> ele == control) != null;
 		return elements.parallelStream()
-				.filter(ele -> getControlFromFieldELement(ele)
-						.contains(control))
+				.filter(ele -> getControlFromFieldELement(ele).stream()
+						.anyMatch(findRecursiveCondition::test))
 				.toList();
 	}
 
-	private static Pair<Long, Long> getSideDistance(
+	private static SideDistance getSideDistance(
 			final Punkt_Objekt_TOP_Kante_AttributeGroup potk) {
 		final double rotation = PunktObjektTopKanteExtensions
 				.getCoordinate(potk)
@@ -439,14 +436,16 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 		// Find neighbor track in two side
 		if (direction == null
 				|| direction == ENUMWirkrichtung.ENUM_WIRKRICHTUNG_BEIDE) {
-			return Optional
-					.ofNullable(SignalSideDistance.getSideDistance(potk,
-							ENUMWirkrichtung.ENUM_WIRKRICHTUNG_IN, rotation))
-					.orElse(SignalSideDistance.getSideDistance(potk,
-							ENUMWirkrichtung.ENUM_WIRKRICHTUNG_GEGEN,
-							rotation));
+			final SideDistance sideDistanceInDirection = SignalSideDistance
+					.determinSideDistanceValue(potk,
+							ENUMWirkrichtung.ENUM_WIRKRICHTUNG_IN, rotation);
+			if (sideDistanceInDirection.getDistanceToNeighborTrack() != null) {
+				return sideDistanceInDirection;
+			}
+			return SignalSideDistance.determinSideDistanceValue(potk,
+					ENUMWirkrichtung.ENUM_WIRKRICHTUNG_GEGEN, rotation);
 		}
-		return SignalSideDistance.getSideDistance(potk,
+		return SignalSideDistance.determinSideDistanceValue(potk,
 				potk.getWirkrichtung().getWert(), rotation);
 
 	}

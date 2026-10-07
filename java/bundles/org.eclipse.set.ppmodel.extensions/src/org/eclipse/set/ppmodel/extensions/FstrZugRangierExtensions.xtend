@@ -9,13 +9,16 @@
 package org.eclipse.set.ppmodel.extensions
 
 import java.math.BigInteger
+import java.util.Iterator
 import java.util.LinkedList
 import java.util.List
+import java.util.Optional
 import java.util.Set
 import org.eclipse.set.basis.graph.DirectedEdgePoint
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.Bahnuebergang.BUE_Anlage
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
+import org.eclipse.set.model.planpro.Fahrstrasse.ENUMFstrZugArt
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_DWeg
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Fahrweg
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Nichthaltfall
@@ -50,7 +53,6 @@ import static extension org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteEx
 import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalRahmenExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalbegriffExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.StellBereichExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspKomponenteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 import static extension org.eclipse.set.utils.math.BigIntegerExtensions.*
@@ -132,7 +134,6 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 	 */
 	def static List<GestellteWeiche> getEntscheidungsweichen(
 		Fstr_Zug_Rangier fstrZugRangier, List<ENUMGleisart> notUsable) {
-
 		val fstrFahrweg = fstrZugRangier.fstrFahrweg
 
 		val path = fstrFahrweg.path
@@ -149,24 +150,20 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 	/**
 	 * @param fstrZugRangier this Fstr_Zug_Rangier
 	 * 
-	 * @return Fahrweggeschwindigkeit at Startsignal in km/h (Integer.MAX_VALUE means "MAX")
+	 * @return Fahrweggeschwindigkeit at Startsignal in km/h
 	 */
-	def static int geschwindigkeit(Fstr_Zug_Rangier fstrZugRangier) {
-		var int vmin = -1
+	def static Optional<BigInteger> geschwindigkeit(
+		Fstr_Zug_Rangier fstrZugRangier) {
 		val fw = fstrZugRangier.fstrFahrweg
 		val vmax = fw.path.pointIterator.map[punktObjekt].map[getVmax(fw)].
-			filter [
-				it >= 0
-			].toList
-		vmax.addAll(fw.gleisabschnitte.map[getVmax(fw)].filter[it >= 0])
+			filter[present].toList
+		vmax.addAll(fw.gleisabschnitte.map[getVmax(fw)].filter[present])
 		if (!vmax.empty) {
-			vmin = vmax.min
+			return Optional.of(vmax.map[get].min [ first, second |
+				first.compareTo(second)
+			])
 		}
-		if (vmin < 0) {
-			return Integer.MAX_VALUE
-		} else {
-			return vmin;
-		}
+		return Optional.empty
 	}
 
 	/**
@@ -183,15 +180,16 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 
 	def static Set<BUE_Anlage> getBUesImGefahrraum(
 		Fstr_Zug_Rangier fstrZugRangier) {
+		val bueEinschaltungen = fstrZugRangier?.fstrZug?.IDBUEEinschaltung?.map [
+			value
+		] ?: #[]
 		return fstrZugRangier.container.BUEAnlage.filter [
 			gleisbezogeneGefahrraeume.map [
 				einschaltungZuordnungen
 			].flatten.toSet.map[einschaltung].exists [
-				fstrZugRangier.fstrZug.IDBUEEinschaltung.map [
-					value.identitaet.wert
-				].contains(
-					identitaet.wert
-				)
+				bueEinschaltungen.exists [ bue |
+					bue.identitaet.wert == identitaet.wert
+				]
 			]
 		].toSet
 	}
@@ -377,12 +375,13 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 			substring(0, 1) == "R"
 	}
 
-	private def static dispatch int getVmax(Object object, Fstr_Fahrweg fw) {
-		return -1
+	private def static dispatch Optional<BigInteger> getVmax(Object object,
+		Fstr_Fahrweg fw) {
+		return Optional.empty
 	}
 
-	private def static dispatch int getVmax(W_Kr_Gsp_Komponente object,
-		Fstr_Fahrweg fw) {
+	private def static dispatch Optional<BigInteger> getVmax(
+		W_Kr_Gsp_Komponente object, Fstr_Fahrweg fw) {
 		val kreuzung = object.kreuzung
 		val zungenpaar = object.zungenpaar
 
@@ -396,39 +395,34 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 
 		// Max.V für bewegliche Brücke?
 		// -> object.besonderesFahrwegelement
-		return Integer.MAX_VALUE
+		return Optional.empty
 	}
 
-	private def static dispatch int getVmax(Gleis_Abschnitt object,
-		Fstr_Fahrweg fw) {
-		val geschwindigkeit = object.geschwindigkeit?.wert
-		if (geschwindigkeit !== null) {
-			return geschwindigkeit.intValue
-		} else {
-			return -1
-		}
+	private def static dispatch Optional<BigInteger> getVmax(
+		Gleis_Abschnitt object, Fstr_Fahrweg fw) {
+		return Optional.ofNullable(object?.geschwindigkeit?.wert)
 	}
 
-	private def static int getVmaxKreuzung(
+	private def static Optional<BigInteger> getVmaxKreuzung(
 		Kreuzung_AttributeGroup object,
 		Fstr_Fahrweg fw
 	) {
 		val crossingRoute = fw.getCrossingRoute(object)
 		if (crossingRoute == CrossingRoute.LEFT) {
-			return object.geschwindigkeitL.wert.intValue
+			return Optional.ofNullable(object?.geschwindigkeitL?.wert)
 		}
 		if (crossingRoute == CrossingRoute.RIGHT) {
-			return object.geschwindigkeitR.wert.intValue
+			return Optional.ofNullable(object?.geschwindigkeitR?.wert)
 		}
 		throw new IllegalArgumentException(crossingRoute.toString)
 	}
 
-	private def static int getVmaxWeiche(Zungenpaar_AttributeGroup object,
-		WeichenSchenkel schenkel) {
+	private def static Optional<BigInteger> getVmaxWeiche(
+		Zungenpaar_AttributeGroup object, WeichenSchenkel schenkel) {
 		if (schenkel.lage === WeichenSchenkel.Lage.L) {
-			return (object?.geschwindigkeitL?.wert ?: BigInteger.ZERO).intValue
+			return Optional.ofNullable(object?.geschwindigkeitL?.wert)
 		}
-		return (object?.geschwindigkeitR?.wert ?: BigInteger.ZERO).intValue
+		return Optional.ofNullable(object?.geschwindigkeitR?.wert)
 	}
 
 	def static boolean isBelongToControlArea(Fstr_Zug_Rangier fstrZugRangier,
@@ -451,7 +445,7 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 			return false
 		}
 		val startSignal = fstrZugRangier?.IDFstrFahrweg?.value?.IDStart?.value
-		return controlArea.isInControlArea(startSignal)
+		return startSignal.isSsksSignalBelongToArea(controlArea)
 	}
 
 	private def static boolean isZugStrBelongToControlArea(
@@ -467,6 +461,69 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 		}
 		// TODO: 2. Condition for target signal isn't clearly 
 		return startSignal !== null &&
-			startSignal.isBelongToControlArea(controlArea)
+			startSignal.isSsksSignalBelongToArea(controlArea)
+	}
+
+	def static Signal getStartSignal(Fstr_Zug_Rangier fstrZug) {
+		return fstrZug?.fstrFahrweg?.start
+	}
+
+	def static Signal getZielSignal(Fstr_Zug_Rangier fstrZug) {
+		return fstrZug?.fstrFahrweg?.zielSignal
+	}
+
+	def static Iterable<Fstr_Zug_Rangier> getNextBlockFstrZugRangier(
+		Fstr_Zug_Rangier it) {
+		val zielSignal = IDFstrFahrweg?.value.IDZiel?.value
+		return zielSignal.container.fstrZugRangier.filter [
+			IDFstrFahrweg?.value?.IDStart?.value == zielSignal &&
+				fstrZug?.fstrZugArt?.wert === ENUMFstrZugArt.ENUM_FSTR_ZUG_ART_B
+		]
+	}
+
+	def static Iterable<Fstr_Zug_Rangier> getRecursiveNextBlockFstrZugRangier(
+		Fstr_Zug_Rangier it) {
+		val it = new Iterator<Fstr_Zug_Rangier>() {
+			var Fstr_Zug_Rangier next = it
+
+			override hasNext() {
+				val nextFstrZugRangier = getNextBlockFstrZugRangier(next)
+				next = nextFstrZugRangier?.firstOrNull // clarify if there be multiple blocks at the same signal
+				return next !== null
+			}
+
+			override next() {
+				next
+			}
+		}
+		return it.toList
+	}
+
+	/**
+	 * Return ENUmFstrZugArt
+	 */
+	def static String getFstrZugArt(Fstr_Zug_Rangier fstrZugRangier) {
+		if (!fstrZugRangier.isZ) {
+			return ""
+		}
+		val fstrZug = fstrZugRangier.fstrZug
+		val fstrZugArt = fstrZug?.fstrZugArt?.wert?.literal
+		if (!fstrZugRangier.nextBlockFstrZugRangier.nullOrEmpty) {
+			return '''«fstrZugArt.substring(1) ?: ""»B'''
+		}
+
+		if (fstrZug?.IDSignalGruppenausfahrt !== null) {
+			return '''G«fstrZugArt.substring(1) ?: ""»'''
+		}
+
+		if (fstrZugArt !== null) {
+			return fstrZugArt.substring(1)
+		}
+
+		if (fstrZugRangier.fstrMittel?.fstrMittelArt?.wert !== null) {
+			return fstrZugRangier.fstrMittel?.fstrMittelArt?.wert.literal.
+				substring(1);
+		}
+		return ""
 	}
 }

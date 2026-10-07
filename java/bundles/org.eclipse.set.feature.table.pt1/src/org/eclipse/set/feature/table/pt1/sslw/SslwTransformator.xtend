@@ -11,7 +11,6 @@ package org.eclipse.set.feature.table.pt1.sslw
 import java.util.Set
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
-import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.Flankenschutz.Fla_Schutz
 import org.eclipse.set.model.planpro.Flankenschutz.Fla_Schutz_Weitergabe_AttributeGroup
 import org.eclipse.set.model.planpro.Flankenschutz.Fla_Zwieschutz
@@ -33,7 +32,6 @@ import static org.eclipse.set.model.planpro.Weichen_und_Gleissperren.ENUMWKrArt.
 import static extension org.eclipse.set.ppmodel.extensions.FlaFreimeldeZuordnungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FlaSchutzExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FlaZwieschutzExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 
 /**
  * Table transformation for a Zwieschutzweichentabelle (SSLW).
@@ -49,11 +47,9 @@ class SslwTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	override transformTableContent(
 		MultiContainer_AttributeGroup container,
-		TMFactory factory,
-		Stell_Bereich controlArea
+		TMFactory factory
 	) {
-		val flaZwieSchutzList = container.flaZwieschutz.
-			filter[isPlanningObject].filterObjectsInControlArea(controlArea)
+		val flaZwieSchutzList = container.flaZwieschutz
 		for (flaZwieSchutz : flaZwieSchutzList) {
 			if (Thread.currentThread.interrupted) {
 				return null

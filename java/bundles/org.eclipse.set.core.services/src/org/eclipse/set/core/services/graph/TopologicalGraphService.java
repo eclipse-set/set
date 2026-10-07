@@ -30,11 +30,13 @@ public interface TopologicalGraphService {
 	 *            the target point
 	 * @param limit
 	 *            maximum path distance to consider
+	 * @param includeIncompletePath
+	 *            include incomplete path or not
 	 * @return a list of all possible not-self intersecting paths between the
 	 *         two points, include not complete path
 	 */
 	List<TopPath> findAllPathsBetween(final TopPoint from, final TopPoint to,
-			int limit);
+			int limit, boolean includeIncompletePath);
 
 	/**
 	 * @param from
@@ -84,6 +86,18 @@ public interface TopologicalGraphService {
 	 *         found
 	 */
 	Optional<TopPath> findShortestPath(final TopPoint from, final TopPoint to);
+
+	/**
+	 * @param from
+	 *            starting point to search from
+	 * @param to
+	 *            end point to search toward
+	 * @param inTopDirection
+	 *            is in topological direction
+	 * @return the optional of {@link TopPath} in direction of start point
+	 */
+	Optional<TopPath> findShortestPathInDirection(TopPoint from, TopPoint to,
+			boolean inTopDirection);
 
 	/**
 	 * Finds the closest point of a set

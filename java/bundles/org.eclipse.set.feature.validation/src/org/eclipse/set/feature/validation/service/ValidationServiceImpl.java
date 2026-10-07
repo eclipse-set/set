@@ -33,6 +33,7 @@ import org.eclipse.set.feature.validation.FilterDiagnostician;
 import org.eclipse.set.model.planpro.Layoutinformationen.PlanPro_Layoutinfo;
 import org.eclipse.set.model.planpro.PlanPro.DocumentRoot;
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
+import org.eclipse.set.model.temporaryintegration.TemporaryIntegration;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXNotRecognizedException;
@@ -82,6 +83,11 @@ public class ValidationServiceImpl implements ValidationService {
 				.getPlanProDocumentRoot();
 		if (planProSourceModel != null) {
 			emfValidation(planProSourceModel.getPlanProSchnittstelle(), result);
+		} else if (toolboxFile.getFormat().isTemporaryIntegration()
+				&& toolboxFile.getPlanProResource()
+						.getContents()
+						.getFirst() instanceof final TemporaryIntegration tmpInt) {
+			emfValidation(tmpInt.getCompositePlanning(), result);
 		}
 		customValidation(toolboxFile, result, FileType.Model);
 	}

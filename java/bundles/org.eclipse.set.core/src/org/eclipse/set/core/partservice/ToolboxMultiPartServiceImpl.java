@@ -376,7 +376,8 @@ public class ToolboxMultiPartServiceImpl implements ToolboxPartService {
 			return null;
 		}
 
-		if (session.getNature() == PlanProFileNature.INVALID) {
+		if (session.getNature() == PlanProFileNature.INVALID
+				|| session.getNature() == PlanProFileNature.INFORMATION_STATE) {
 			return ToolboxConstants.VALIDATION_PART_ID;
 		}
 		final Outcome outcome = session

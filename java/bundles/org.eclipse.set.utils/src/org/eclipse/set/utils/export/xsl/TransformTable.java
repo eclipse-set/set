@@ -203,9 +203,15 @@ public class TransformTable {
 	}
 
 	private File getTemplatePath() {
+		// IMPROVE: this is only a temporary situation for the table
+		// Sskp_dm
+		String tableShortcut = shortcut;
+		if (shortcut.equals("sskp_dm")) { //$NON-NLS-1$
+			tableShortcut = "sskp"; //$NON-NLS-1$
+		}
 		return Paths
 				.get(String.format("%s/%s_vorlage.xlsx", EXCEL_TEMPLATE_PATH, //$NON-NLS-1$
-						shortcut))
+						tableShortcut))
 				.toAbsolutePath()
 				.toFile();
 	}

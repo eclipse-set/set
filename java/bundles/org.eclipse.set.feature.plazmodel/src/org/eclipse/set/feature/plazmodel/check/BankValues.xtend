@@ -29,6 +29,9 @@ import org.osgi.service.event.Event
 import org.osgi.service.event.EventAdmin
 import org.osgi.service.event.EventConstants
 import org.osgi.service.event.EventHandler
+import org.eclipse.e4.core.services.events.IEventBroker
+import org.eclipse.set.basis.IModelSession
+import org.eclipse.set.basis.files.ToolboxFileRole
 
 /**
  * Validates that there's a valid top path for each bank line
@@ -64,7 +67,7 @@ class BankValues extends AbstractPlazContainerCheck implements PlazCheck, EventH
 			val end = new TopPoint(IDUeberhoehungB.value)
 			val paths = topologicalService.findAllPathsBetween(begin, end,
 				(bankLength.doubleValue +
-					ToolboxConfiguration.bankLineTopOffsetLimit + 1) as int)
+					ToolboxConfiguration.bankLineTopOffsetLimit + 1) as int, true)
 			if (paths.isEmpty) {
 				return createError(
 					"Es konnte kein topologischer Pfad für die Überhöhungslinie {GUID} gefunden werden.",
@@ -144,9 +147,18 @@ class BankValues extends AbstractPlazContainerCheck implements PlazCheck, EventH
 	}
 
 	override handleEvent(Event event) {
-		val properties = newHashMap;
-		properties.put("org.eclipse.e4.data", this.class); // $NON-NLS-1$
-		eventAdmin.sendEvent(new Event(Events.DO_PLAZ_CHECK, properties));
+		if (event.getProperty(IEventBroker.DATA) instanceof IModelSession) {
+			val role = (event.getProperty(IEventBroker.DATA) as IModelSession).
+				toolboxFile.role
+			// Only do PlazCheck by main session
+			if (role === ToolboxFileRole.SESSION) {
+				val properties = newHashMap;
+				properties.put(IEventBroker.DATA, this.class); // $NON-NLS-1$
+				eventAdmin.sendEvent(
+					new Event(Events.DO_PLAZ_CHECK, properties));
+			}
+		}
+
 	}
 
 }

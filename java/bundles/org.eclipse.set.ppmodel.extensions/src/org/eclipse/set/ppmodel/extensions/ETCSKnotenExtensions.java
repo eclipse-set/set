@@ -24,6 +24,8 @@ import org.eclipse.set.model.planpro.Balisentechnik_ETCS.Knoten_Auf_TOP_Kante_At
 import org.eclipse.set.model.planpro.Geodaten.TOP_Kante;
 import org.eclipse.set.model.planpro.Geodaten.TOP_Knoten;
 
+import com.google.common.collect.Streams;
+
 /**
  * Extensions for {@link ETCS_Knoten}
  */
@@ -39,8 +41,7 @@ public class ETCSKnotenExtensions extends BasisObjektExtensions {
 		final TOP_Knoten topNode = getNullableObject(etcsNode,
 				node -> node.getIDTOPKnoten().getValue()).orElse(null);
 		if (topNode != null) {
-			return TopKnotenExtensions.getTopKanten(topNode)
-					.stream()
+			return Streams.stream(TopKnotenExtensions.getTopKanten(topNode))
 					.map(topEdge -> {
 						if (topNode == getTOPKnotenA(topEdge)) {
 							return Map.entry(topEdge, BigDecimal.ZERO);

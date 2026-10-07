@@ -9,21 +9,19 @@
 package org.eclipse.set.feature.table.pt1.ssld
 
 import java.math.BigDecimal
-import java.math.RoundingMode
 import java.util.Set
 import org.eclipse.set.basis.graph.TopPath
 import org.eclipse.set.basis.graph.TopPoint
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.core.services.graph.TopologicalGraphService
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
-import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_DWeg
+import org.eclipse.set.model.planpro.Geodaten.ENUMTOPAnschluss
 import org.eclipse.set.model.planpro.Signale.Signal
 import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.ppmodel.extensions.utils.Case
-import org.eclipse.set.ppmodel.extensions.utils.TopGraph
 import org.eclipse.set.utils.table.TMFactory
 import org.osgi.service.event.EventAdmin
 
@@ -38,7 +36,9 @@ import static extension org.eclipse.set.ppmodel.extensions.FstrDWegSpezifischExt
 import static extension org.eclipse.set.ppmodel.extensions.FstrDWegWKrExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.TopKnotenExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.WKrGspElementExtensions.*
 import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
 
 /**
@@ -68,11 +68,11 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 		].filter[present].map[get].minBy[length]
 	}
 
-	def String getFreigemeldetLaenge(Fstr_DWeg dweg, TopGraph topGraph,
-		BigDecimal maxLength) {
+	def String getFreigemeldetLaenge(Fstr_DWeg dweg, BigDecimal maxLength) {
 		val startSignal = dweg?.fstrFahrweg?.start
 		val fmas = dweg?.fmaAnlageFreimeldung?.map[fmaGrenzen]?.flatten.toSet.
-			filter[topGraph.isInWirkrichtungOfSignal(startSignal, it)].toList
+			filter[topGraphService.isInWirkrichtungOfSignal(startSignal, it)].
+			toList
 		val pathFromSignalToFMA = fmas?.map [
 			it -> getShortestPath(dweg?.fstrFahrweg?.start, it)
 		]
@@ -101,19 +101,16 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 		}
 
 		val distance = relevantFmas.map[value.length].max
-		return distance > maxLength
+		return distance > maxLength.add(BigDecimal.ONE)
 			? '''> «maxLength.toTableIntegerAgateDown»'''
 			: distance.toTableIntegerAgateDown
 	}
 
 	override transformTableContent(
 		MultiContainer_AttributeGroup container,
-		TMFactory factory,
-		Stell_Bereich controlArea
+		TMFactory factory
 	) {
-		val topGraph = new TopGraph(container.TOPKante)
-		val fstDwegList = container.fstrDWeg.filter[isPlanningObject].
-			filterObjectsInControlArea(controlArea)
+		val fstDwegList = container.fstrDWeg
 
 		// var footnoteNumber = 1;
 		for (dweg : fstDwegList) {
@@ -189,16 +186,16 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 				instance,
 				cols.getColumn(Laenge_Soll),
 				dweg,
-				[fstrDWegAllg.laengeSoll.wert.toString]
+				[fstrDWegAllg?.laengeSoll?.wert?.toString]
 			)
 
 			// H: Ssld.Eigenschaften.Laenge.Ist
-			val fstrFahrWegLength = dweg.fstrFahrweg.length
+			val fstrFahrWegLength = dweg.fstrFahrweg?.length
 			fill(
 				instance,
 				cols.getColumn(Laenge_Ist),
 				dweg,
-				[fstrFahrWegLength.toTableIntegerAgateDown]
+				[fstrFahrWegLength?.toTableIntegerAgateDown]
 			)
 
 			// I: Ssld.Eigenschaften.Laenge.Freigemeldet
@@ -206,7 +203,10 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 				instance,
 				cols.getColumn(Freigemeldet),
 				dweg,
-				[getFreigemeldetLaenge(topGraph, fstrFahrWegLength)]
+				[
+					getFreigemeldetLaenge(fstrFahrWegLength ?:
+						BigDecimal.valueOf(Integer.MAX_VALUE))
+				]
 			)
 
 			// J: Ssld.Eigenschaften.massgebende_Neigung
@@ -215,8 +215,7 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 				cols.getColumn(massgebende_Neigung),
 				dweg,
 				[
-					fstrDWegAllg.massgebendeNeigung?.wert?.setScale(1,
-						RoundingMode.FLOOR)?.toString
+					fstrDWegAllg.massgebendeNeigung?.wert?.toTableDecimal(1, 1)
 				]
 			)
 
@@ -225,12 +224,7 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 				instance,
 				cols.getColumn(Weichen_Kreuzungen_mit_Verschluss),
 				dweg,
-				[
-					zuordnungen.filter[elementVerschluss?.wert == Boolean.TRUE].
-						map [
-							WKrGspElement.bezeichnung.bezeichnungTabelle.wert
-						]
-				],
+				[fillWeichenKreuzungen(Boolean.TRUE)],
 				MIXED_STRING_COMPARATOR
 			)
 
@@ -239,12 +233,7 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 				instance,
 				cols.getColumn(Weichen_Kreuzungen_ohne_Verschluss),
 				dweg,
-				[
-					zuordnungen.
-						filter[elementVerschluss?.wert == Boolean.FALSE].map [
-							WKrGspElement.bezeichnung.bezeichnungTabelle.wert
-						]
-				],
+				[fillWeichenKreuzungen(Boolean.FALSE)],
 				MIXED_STRING_COMPARATOR
 			)
 
@@ -324,7 +313,7 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 				dweg,
 				[fstrDWegSpezifisch !== null],
 				[
-					getZielGleisAbschnittLength(topGraph)
+					getZielGleisAbschnittLength
 				]
 			)
 
@@ -347,13 +336,12 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 		return factory.table
 	}
 
-	private def String getZielGleisAbschnittLength(Fstr_DWeg dweg,
-		TopGraph topGraph) {
+	private def String getZielGleisAbschnittLength(Fstr_DWeg dweg) {
 		val startSignal = dweg?.fstrFahrweg?.start
 		val fmaAnlage = dweg.fstrDWegSpezifisch?.IDFMAAnlageZielgleis?.value
 		// The relevant FMA shouldn't lie on direction of start signal
 		val fmaKomponenten = fmaAnlage.fmaGrenzen.filter [
-			!topGraph.isInWirkrichtungOfSignal(startSignal, it)
+			!topGraphService.isInWirkrichtungOfSignal(startSignal, it)
 		].toList
 		val pathsFromSignalToFMA = fmaKomponenten.map [
 			startSignal.getShortestPath(it)
@@ -375,5 +363,38 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 		// of all the relevant paths between fmaGrenzen and startSignal we take the longest path
 		val maxDistance = relevantPaths.map[it -> length].maxBy[value]
 		return maxDistance.value.toTableIntegerAgateDown
+	}
+
+	private def Iterable<String> fillWeichenKreuzungen(Fstr_DWeg dweg,
+		Boolean closure) {
+		val dwegTopKante = dweg.fstrFahrweg.topKanten
+		return dweg.zuordnungen.filter[elementVerschluss?.wert == closure].map [
+			val gspElement = WKrGspElement
+			val weichenKnoten = gspElement.WKrGspKomponenten.map[topKnoten].
+				filterNull
+			val relevantKnoten = weichenKnoten.filter [ knoten |
+				return knoten.topKanten.exists [ knotenKante |
+					dwegTopKante.exists[knotenKante === it]
+				]
+			]
+			val anschluss = relevantKnoten.flatMap [ knoten |
+				knoten.topKanten.filter[dwegTopKante.contains(it)].map [
+					getTOPAnschluss(knoten)
+				].filter[it !== ENUMTOPAnschluss.ENUMTOP_ANSCHLUSS_SPITZE]
+			]
+			return gspElement -> anschluss
+		].map [ pair |
+			val lage = pair.value.map [
+				switch (it) {
+					case ENUMTOP_ANSCHLUSS_LINKS:
+						"L"
+					case ENUMTOP_ANSCHLUSS_RECHTS:
+						"R"
+					default:
+						throw new IllegalArgumentException('''Ambiguous connection at Gsp_Element: «pair.key.identitaet.wert»''')
+				}
+			]
+			return '''«pair.key.bezeichnung?.bezeichnungTabelle?.wert»«IF !lage.nullOrEmpty» («lage.join(", ")»)«ENDIF»'''
+		]
 	}
 }

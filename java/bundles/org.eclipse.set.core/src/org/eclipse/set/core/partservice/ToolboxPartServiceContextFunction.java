@@ -9,6 +9,7 @@
 package org.eclipse.set.core.partservice;
 
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.e4.core.contexts.ContextFunction;
 import org.eclipse.e4.core.contexts.ContextInjectionFactory;
@@ -17,6 +18,7 @@ import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.e4.ui.model.application.MApplication;
 import org.eclipse.set.core.services.part.PartDescriptionService;
 import org.eclipse.set.core.services.part.ToolboxPartService;
+import org.eclipse.set.utils.ToolboxConfiguration;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ReferenceCardinality;
@@ -39,10 +41,18 @@ public class ToolboxPartServiceContextFunction extends ContextFunction {
 	/**
 	 * @param descriptionService
 	 *            the description service
+	 * @param properties
+	 *            the service properties
 	 */
 	@Reference(cardinality = ReferenceCardinality.MULTIPLE, policy = ReferencePolicy.DYNAMIC)
 	public void addDescriptionService(
-			final PartDescriptionService descriptionService) {
+			final PartDescriptionService descriptionService,
+			final Map<String, Object> properties) {
+		final Object isInDevMode = properties.get("devMode"); //$NON-NLS-1$
+		if (isInDevMode != null && Boolean.parseBoolean(isInDevMode
+				.toString()) != ToolboxConfiguration.isDevelopmentMode()) {
+			return;
+		}
 		descriptions.add(descriptionService);
 		if (partService != null) {
 			partService.put(descriptionService);
@@ -64,8 +74,10 @@ public class ToolboxPartServiceContextFunction extends ContextFunction {
 	 * @param descriptionService
 	 *            the description service
 	 */
+	@SuppressWarnings("unused")
 	public void removeDescriptionService(
-			final PartDescriptionService descriptionService) {
+			final PartDescriptionService descriptionService,
+			final Map<String, Object> properties) {
 		// we do not support the removal of a description service
 	}
 }

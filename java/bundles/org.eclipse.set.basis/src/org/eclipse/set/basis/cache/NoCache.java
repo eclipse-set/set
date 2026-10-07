@@ -26,6 +26,11 @@ public class NoCache implements Cache {
 	}
 
 	@Override
+	public boolean contains(final String key) {
+		return getIfPresent(key) != null;
+	}
+
+	@Override
 	public void set(final String key, final Object value) {
 		// do nothing
 	}

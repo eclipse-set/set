@@ -47,9 +47,9 @@ export interface State {
   map: OlMap
   model: SiteplanModel | null
   routeVisible: boolean
-  trackSectionMarkerVisible: boolean
-  trackOutlineVisible: boolean
   trackSectionColorVisible: boolean
+  trackOutlineVisible: boolean
+  trackColorVisible: boolean
   loading: boolean
   error: IError
   selectedSourceMap: string
@@ -97,9 +97,9 @@ export const store = createStore<State>({
     }),
     model: null,
     routeVisible: false,
-    trackSectionMarkerVisible: false,
-    trackOutlineVisible: false,
     trackSectionColorVisible: false,
+    trackOutlineVisible: false,
+    trackColorVisible: false,
     loading: false,
     error: {
       iserror: false,
@@ -151,16 +151,16 @@ export const store = createStore<State>({
       state.routeVisible = payload
       store.commit('refreshMap')
     },
-    setTrackSectionMarkerVisible (state, payload: boolean) {
-      state.trackSectionMarkerVisible = payload
+    setTrackSectionColorVisible (state, payload: boolean) {
+      state.trackSectionColorVisible = payload
       store.commit('refreshMap')
     },
     setTrackOutlineVisible (state, payload: boolean) {
       state.trackOutlineVisible = payload
       store.commit('refreshMap')
     },
-    setTrackSectionColorVisible (state, payload: boolean) {
-      state.trackSectionColorVisible = payload
+    setTrackColorVisible (state, payload: boolean) {
+      state.trackColorVisible = payload
       store.commit('refreshMap')
     },
     resetMap (state) {
@@ -170,6 +170,7 @@ export const store = createStore<State>({
       state.map.getLayers().forEach(layer => layer.changed())
     },
     setLoading (state, payload: boolean) {
+      console.info('Set loading flag. New: ', payload, ' Old: ', state.loading)
       state.loading = payload
       if (PlanProToolbox.inPPT() && state.planproModelType === PlanProModelType.SITEPLAN) {
         PlanProToolbox.setSiteplanLoadingState(payload)

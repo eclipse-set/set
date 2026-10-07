@@ -96,4 +96,15 @@ public class TableModelExport implements TableExport {
 		// do nothing
 
 	}
+
+	@Override
+	public void export(final Map<TableType, Table> tables,
+			final ExportType exportType, final Titlebox titleBox,
+			final FreeFieldInfo freeFieldInfo, final String shortcut,
+			final TableType tableType, final Path outPath,
+			final OverwriteHandling overwriteHandling)
+			throws FileExportException {
+		// do nothing
+
+	}
 }

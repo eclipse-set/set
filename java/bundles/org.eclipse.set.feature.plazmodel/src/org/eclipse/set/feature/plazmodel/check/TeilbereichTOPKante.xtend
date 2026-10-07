@@ -17,6 +17,8 @@ import org.eclipse.set.model.planpro.Basisobjekte.Bereich_Objekt_Teilbereich_Att
 import org.osgi.service.component.annotations.Component
 
 import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
+import org.eclipse.set.basis.constants.ToolboxConstants
+import java.math.BigDecimal
 
 /**
  * Validates that Bereich_Objekt_Teilbereich entries
@@ -38,7 +40,6 @@ class TeilbereichTOPKante extends AbstractPlazContainerCheck implements PlazChec
 			// Missing entries are handled via schema/nil validation
 			if (limitA === null || limitB === null || topLength === null)
 				return null
-
 			val errmsg = getErrorMessage(limitA.doubleValue, limitB.doubleValue,
 				topLength.doubleValue)
 			if (errmsg !== null) {
@@ -46,8 +47,7 @@ class TeilbereichTOPKante extends AbstractPlazContainerCheck implements PlazChec
 				err.message = errmsg
 				err.type = checkType
 				err.object = it
-				err.severity = getErrorSeverity(limitA.doubleValue,
-					limitB.doubleValue)
+				err.severity = getErrorSeverity(limitA, limitB, topLength)
 				return err
 			}
 			return null
@@ -69,7 +69,17 @@ class TeilbereichTOPKante extends AbstractPlazContainerCheck implements PlazChec
 		return null
 	}
 
-	private def getErrorSeverity(double limitA, double limitB) {
+	private def getErrorSeverity(BigDecimal limitA, BigDecimal limitB,
+		BigDecimal topLength) {
+		if ((limitA > topLength &&
+			limitA.subtract(topLength).compareTo(
+				ToolboxConstants.TEILBEREICH_TOP_KANTE_TOLERANCE) <= 0) ||
+			(limitB > topLength &&
+				limitB.subtract(topLength).compareTo(
+					ToolboxConstants.TEILBEREICH_TOP_KANTE_TOLERANCE) <= 0)) {
+			return ValidationSeverity.WARNING
+		}
+
 		return ValidationSeverity.ERROR;
 	}
 

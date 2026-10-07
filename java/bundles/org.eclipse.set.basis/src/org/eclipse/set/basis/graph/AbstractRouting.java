@@ -8,7 +8,9 @@
  */
 package org.eclipse.set.basis.graph;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.runtime.Assert;
@@ -26,6 +28,12 @@ import org.eclipse.core.runtime.Assert;
  * @author Schaefer
  */
 public abstract class AbstractRouting<E, N, P> implements Routing<E, N, P> {
+
+	protected Map<N, Set<E>> edgesOfNode;
+
+	protected AbstractRouting() {
+		edgesOfNode = new HashMap<>();
+	}
 
 	@Override
 	public Set<DirectedEdge<E, N, P>> getDirectPredecessors(

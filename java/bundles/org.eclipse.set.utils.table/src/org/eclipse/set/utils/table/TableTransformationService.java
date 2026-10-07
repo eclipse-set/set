@@ -11,7 +11,7 @@ package org.eclipse.set.utils.table;
 import java.util.Collection;
 import java.util.Comparator;
 
-import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
+import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.model.tablemodel.Table;
 
@@ -34,9 +34,12 @@ public interface TableTransformationService<T> {
 	void format(Table table);
 
 	/**
+	 * @param tableType
+	 *            the table type for which the comparator is requested
+	 * 
 	 * @return the comparator for sorting row groups
 	 */
-	Comparator<RowGroup> getRowGroupComparator();
+	Comparator<RowGroup> getRowGroupComparator(TableType tableType);
 
 	/**
 	 * Transforms a model to a table model.
@@ -47,17 +50,6 @@ public interface TableTransformationService<T> {
 	 * @return the transformed table
 	 */
 	Table transform(T model);
-
-	/**
-	 * Transforms a model within control area to a table model.
-	 * 
-	 * @param model
-	 *            the model to be used
-	 * @param controlArea
-	 *            the {@link Stell_Bereich}
-	 * @return the transformed table
-	 */
-	Table transform(T model, Stell_Bereich controlArea);
 
 	/**
 	 * Errors that occurred during transformation

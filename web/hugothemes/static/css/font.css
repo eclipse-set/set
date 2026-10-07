@@ -18,7 +18,7 @@ ol, ul {
   margin-top: 1.3em;
 }
 li p {
-    margin-top: -1em;
+    margin: 0;
 }
 
 /* open-sans-regular - latin-ext_latin */

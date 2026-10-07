@@ -34,4 +34,9 @@ public class SslbDescriptionService extends AbstractESTWTableDescription {
 	protected String getToolboxViewTooltip() {
 		return messages.SslbDescriptionService_ViewTooltip;
 	}
+
+	@Override
+	protected String getTableShortcut() {
+		return messages.ToolboxTableNameSslbShort;
+	}
 }

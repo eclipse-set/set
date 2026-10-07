@@ -16,8 +16,10 @@ on:
 jobs:
   release-tag:
     uses: eclipse-set/build/.github/workflows/release-tag.yml@main
+    secrets: inherit
     permissions:
       contents: write
     with:
       version: ${{ inputs.version }}
       target: "java/bundles/org.eclipse.set.releng.target/org.eclipse.set.releng.target.target"
+      pom: "java/pom.xml"

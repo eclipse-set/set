@@ -11,6 +11,10 @@ package org.eclipse.set.ppmodel.extensions.utils
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle
 import org.eclipse.set.basis.FreeFieldInfo
 import org.eclipse.set.basis.IModelSession
+import org.eclipse.set.core.services.session.SessionService
+import org.eclipse.set.basis.files.ToolboxFileRole
+import org.eclipse.set.basis.FreeFieldInfo.SignificantInformation
+import org.eclipse.set.basis.FreeFieldInfo.LoadedPlanInformation
 
 /**
  * Transformation from {@link IModelSession} to {@link FreeFieldInfo}.
@@ -18,27 +22,46 @@ import org.eclipse.set.basis.IModelSession
  * @author Schaefer
  */
 class PlanProToFreeFieldTransformation {
+	SessionService sessionService
 
-	private new() {
+	private new(SessionService sessionService) {
+		this.sessionService = sessionService
+	}
+
+	private def IModelSession mainSession() {
+		return sessionService.getLoadedSession(ToolboxFileRole.SESSION)
+	}
+
+	private def IModelSession compareSession() {
+		return sessionService.getLoadedSession(ToolboxFileRole.COMPARE_PLANNING)
 	}
 
 	/**
 	 * Creates a new transformation.
 	 */
-	def static PlanProToFreeFieldTransformation create() {
-		return new PlanProToFreeFieldTransformation
+	def static PlanProToFreeFieldTransformation create(
+		SessionService sessionService) {
+		return new PlanProToFreeFieldTransformation(sessionService)
 	}
 
 	/**
 	 * Transforms a PlanPro Schnittstelle to a FreeFieldInfo.
 	 */
-	def FreeFieldInfo create new FreeFieldInfo transform(
-		IModelSession session) {
-		val filename = session.toolboxFile.path.fileName.toString
+	def FreeFieldInfo transform() {
+
+		return new FreeFieldInfo(
+			new SignificantInformation(mainSession.transformLoadedPlan,
+				compareSession.transformLoadedPlan))
+	}
+
+	def LoadedPlanInformation transformLoadedPlan(IModelSession session) {
+		if (session === null) {
+			return null
+		}
+		val name = session?.toolboxFile?.path?.fileName?.toString
 		val timestamp = session.planProSchnittstelle.timestamp
 		val checksum = session.toolboxFile.checksum
-		significantInformation = '''«filename» «timestamp» MD5: «checksum»'''
-		return
+		return new LoadedPlanInformation(name, checksum, timestamp)
 	}
 
 	private def String getTimestamp(PlanPro_Schnittstelle schnittstelle) {

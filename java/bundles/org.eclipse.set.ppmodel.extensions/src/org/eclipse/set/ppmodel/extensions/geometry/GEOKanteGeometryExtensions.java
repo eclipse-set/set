@@ -17,16 +17,13 @@ import static org.eclipse.set.ppmodel.extensions.geometry.CoordinateExtensions.*
 import static org.eclipse.xtext.xbase.lib.IterableExtensions.lastOrNull;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.eclipse.set.basis.geometry.Chord;
 import org.eclipse.set.basis.geometry.Geometries;
-import org.eclipse.set.basis.geometry.GeometryCalculationOptions;
-import org.eclipse.set.basis.geometry.GeometryOptionsBuilder.GeometryOptions;
 import org.eclipse.set.basis.graph.DirectedEdge;
 import org.eclipse.set.basis.graph.DirectedElement;
 import org.eclipse.set.core.services.Services;
@@ -34,6 +31,9 @@ import org.eclipse.set.core.services.geometry.GeoKanteGeometryService;
 import org.eclipse.set.model.planpro.Geodaten.ENUMGEOForm;
 import org.eclipse.set.model.planpro.Geodaten.GEO_Kante;
 import org.eclipse.set.model.planpro.Geodaten.GEO_Knoten;
+import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
+import org.eclipse.set.utils.geometry.GeometryCalculationOptions;
+import org.eclipse.set.utils.geometry.GeometryOptionsBuilder.GeometryOptions;
 import org.eclipse.set.utils.math.Bloss;
 import org.eclipse.set.utils.math.Clothoid;
 import org.locationtech.jts.geom.Coordinate;
@@ -132,63 +132,43 @@ public class GEOKanteGeometryExtensions {
 		final Coordinate coordinateA = getCoordinate(
 				edge.getIDGEOKnotenA().getValue());
 		final Coordinate coordinateB = getCoordinateNodeB(edge);
-		final double angle = edge.getGEOKanteAllg()
-				.getGEORichtungswinkel()
-				.getWert()
-				.doubleValue();
 		final double length = edge.getGEOKanteAllg()
 				.getGEOLaenge()
 				.getWert()
 				.doubleValue();
+
 		if (radiusA != 0 && radiusB != 0) {
-			// Clothoid connecting two curved tracks
-			// Split the clothoid into two connected clothoids, each of half
-			// length
-			// Determine the center point
-			final Clothoid clothoid = new Clothoid(Math.abs(radiusB), length,
-					geometryOptions.precision());
-			final double angleRad = Math.PI / 200 * (100 - angle);
-			final double[] point = clothoid.getPoint(length / 2);
-			Coordinate centerCoordinate = new Coordinate(point[0], point[1]);
-			if (radiusB > 0) {
-				centerCoordinate = mirrorY(centerCoordinate);
-			}
-
-			final Coordinate center = offsetBy(
-					rotateAroundOrigin(centerCoordinate, angleRad),
-					coordinateA.x, coordinateA.y);
-
-			// Draw the segments
-			final Coordinate[] segmentA = clothoid(coordinateA, center, radiusB,
-					length / 2, geometryOptions).getCoordinates();
-			final Coordinate[] segmentB = clothoid(center, coordinateB, radiusA,
-					length / 2, geometryOptions).getCoordinates();
-			final List<Coordinate> segment = new ArrayList<>();
-			segment.addAll(Arrays.asList(segmentA));
-			segment.addAll(Arrays.asList(segmentB));
-			return getGeometryFactory()
-					.createLineString(segment.toArray(new Coordinate[0]));
+			// Curve from node A to node B with non zero starting radius
+			final Clothoid clothoid = new Clothoid(Math.abs(radiusA),
+					Math.abs(radiusB), length, geometryOptions.precision());
+			return clothoid(clothoid, coordinateA, coordinateB, radiusA, length,
+					geometryOptions);
 
 		} else if (radiusA == 0) {
 			// Curve from node A to node B
-			return clothoid(coordinateA, coordinateB, radiusB, length,
+			final Clothoid clothoid = new Clothoid(Math.abs(radiusB), length,
+					geometryOptions.precision());
+			return clothoid(clothoid, coordinateA, coordinateB, radiusB, length,
 					geometryOptions);
+
 		}
 		// Curve from node B to node A
+		final Clothoid clothoid = new Clothoid(Math.abs(radiusA), length,
+				geometryOptions.precision());
 		// Invert the radius, as left-right is also inverted due to the
 		// drawing direction
-		return clothoid(coordinateB, coordinateA, -radiusA, length,
+		return clothoid(clothoid, coordinateB, coordinateA, -radiusA, length,
 				geometryOptions);
 	}
 
-	private static LineString clothoid(final Coordinate fromCoordinate,
-			final Coordinate toCoordinate, final double radius,
-			final double length, final GeometryOptions options) {
+	private static LineString clothoid(final Clothoid clothoid,
+			final Coordinate fromCoordinate, final Coordinate toCoordinate,
+			final double radius, final double length,
+			final GeometryOptions options) {
 		// Calculate the base clothoid
-		final int segmentCount = (int) Math.max(length * options.stepSize(),
+		final int segmentCount = (int) Math.max(length / options.stepSize(),
 				options.minSegmentCount());
-		final Clothoid clothoid = new Clothoid(Math.abs(radius), length,
-				options.precision());
+
 		final List<double[]> clothoidCoordinates = clothoid
 				.getPoints(segmentCount);
 		final List<Coordinate> coords = clothoidCoordinates.stream()
@@ -258,7 +238,7 @@ public class GEOKanteGeometryExtensions {
 		final Bloss bloss = new Bloss(Math.abs(radius), length,
 				geometryOptions.precision());
 		final int segmentCount = (int) Math.max(
-				length * geometryOptions.stepSize(),
+				length / geometryOptions.stepSize(),
 				geometryOptions.minSegmentCount());
 		final List<Coordinate> coords = bloss.calculate(segmentCount)
 				.stream()
@@ -350,9 +330,22 @@ public class GEOKanteGeometryExtensions {
 	}
 
 	/**
-	 * @return {@link GeoKanteGeometryService#isFindGeometryComplete()}
+	 * @param role
+	 *            the session role
+	 * @return {@link GeoKanteGeometryService#isFindGeometryComplete(ToolboxFileRole)}
 	 */
-	public static boolean isFindGeometryComplete() {
-		return Services.getGeometryService().isFindGeometryComplete();
+	public static boolean isFindGeometryComplete(final ToolboxFileRole role) {
+		return Services.getGeometryService().isFindGeometryComplete(role);
+	}
+
+	/**
+	 * @param schnittStelle
+	 *            the {@link PlanPro_Schnittstelle}
+	 * @return {@link GeoKanteGeometryService#isFindGeometryComplete(PlanPro_Schnittstelle)}
+	 */
+	public static boolean isFindGeometryComplete(
+			final PlanPro_Schnittstelle schnittStelle) {
+		return Services.getGeometryService()
+				.isFindGeometryComplete(schnittStelle);
 	}
 }

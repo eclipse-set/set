@@ -47,6 +47,9 @@ public class ToolboxIDResolver {
 	 *            the model
 	 */
 	public static void resolveIDReferences(final PlanPro_Schnittstelle model) {
+		if (model == null) {
+			return;
+		}
 		resolveIDReferences(model, new ToolboxIDResolver(model));
 	}
 
@@ -58,6 +61,9 @@ public class ToolboxIDResolver {
 	 *            the model
 	 */
 	public static void resolveIDReferences(final PlanPro_Layoutinfo model) {
+		if (model == null) {
+			return;
+		}
 		resolveIDReferences(model, new ToolboxIDResolver(model));
 	}
 

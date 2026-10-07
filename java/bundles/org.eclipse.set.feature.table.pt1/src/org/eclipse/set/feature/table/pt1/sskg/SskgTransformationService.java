@@ -13,15 +13,21 @@ import static org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparat
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
+import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.core.services.graph.TopologicalGraphService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.messages.Messages;
+import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt;
+import org.eclipse.set.model.planpro.Basisobjekte.Strecke_Km_TypeClass;
+import org.eclipse.set.model.planpro.Verweise.ID_Strecke_TypeClass;
 import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
+import org.eclipse.set.utils.table.TableInfo.Pt1TableCategory;
 import org.eclipse.set.utils.table.sorting.TableRowGroupComparator;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -63,9 +69,18 @@ public final class SskgTransformationService
 	}
 
 	@Override
-	public Comparator<RowGroup> getRowGroupComparator() {
-		return TableRowGroupComparator.builder()
-				.sort("A", LEXICOGRAPHICAL, ASC) //$NON-NLS-1$
+	public Comparator<RowGroup> getRowGroupComparator(
+			final TableType tableType) {
+		// It can be directly compare by Column J/K but for consistent
+		// with another table the CompareRouteAndKm will be used.
+		return TableRowGroupComparator.builder(tableType)
+				.sortByRouteAndKm(obj -> {
+					if (obj instanceof final Punkt_Objekt po) {
+						return po;
+					}
+					return null;
+				})
+				.sort(SskgColumns.Bezeichnung, LEXICOGRAPHICAL, ASC)
 				.build();
 	}
 
@@ -73,12 +88,18 @@ public final class SskgTransformationService
 	public TableNameInfo getTableNameInfo() {
 		return new TableNameInfo(messages.ToolboxTableNameSskgLong,
 				messages.ToolboxTableNameSskgPlanningNumber,
-				messages.ToolboxTableNameSskgShort);
+				messages.ToolboxTableNameSskgShort,
+				messages.ToolboxTableNameSskgRil);
 	}
 
 	@Override
 	protected String getTableHeading() {
 		return messages.SskgTableView_Heading;
+	}
+
+	@Override
+	protected Pt1TableCategory getTableCategory() {
+		return Pt1TableCategory.ESTW;
 	}
 
 	@Override
@@ -89,5 +110,16 @@ public final class SskgTransformationService
 	@Override
 	protected List<String> getTopologicalColumnPosition() {
 		return List.of(SskgColumns.Bezugspunkt_Abstand);
+	}
+
+	@Override
+	protected String getRemarkColumnPosition() {
+		return SskgColumns.Bemerkung;
+	}
+
+	@Override
+	protected Map<Class<?>, String> getFootnotesColumnReferences() {
+		return Map.of(ID_Strecke_TypeClass.class, SskgColumns.Standort_Strecke,
+				Strecke_Km_TypeClass.class, SskgColumns.Standort_km);
 	}
 }

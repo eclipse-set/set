@@ -33,7 +33,7 @@ class PlazModelTableTransformator extends AbstractValidationProblemTransformator
 		this.columns = columns
 		this.enumTranslationService = enumTranslationService
 		excludeColumns = newArrayList(columns.RowIndex, columns.Message,
-			columns.LineNumber)
+			columns.LineNumber, columns.ObjectDesignation)
 	}
 
 	 override fillProblem(TableRow instance, ValidationProblem problem) {
@@ -46,6 +46,7 @@ class PlazModelTableTransformator extends AbstractValidationProblemTransformator
 			fillNumeric(instance, columns.LineNumber, problem, [lineNumber])
 		}
 		fill(instance, columns.ObjectType, problem, [objectArt])
+		fill(instance, columns.ObjectDesignation, problem, [objectDesignation])
 		fill(instance, columns.AttributeGroup, problem, [attributeName])
 		fill(instance, columns.ObjectScope, problem, [objectScope?.literal])
 		fill(instance, columns.ObjectState, problem, [objectState?.literal])

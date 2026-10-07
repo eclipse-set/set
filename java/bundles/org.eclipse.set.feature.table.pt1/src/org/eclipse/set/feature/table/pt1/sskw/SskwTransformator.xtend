@@ -12,11 +12,12 @@ import java.math.BigInteger
 import java.util.LinkedList
 import java.util.List
 import java.util.Set
+import org.eclipse.set.basis.IModelSession
 import org.eclipse.set.basis.constants.ContainerType
 import org.eclipse.set.basis.constants.ToolboxConstants
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
+import org.eclipse.set.core.services.session.SessionService
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
-import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.BasisTypen.ENUMLinksRechts
 import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung
 import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
@@ -36,6 +37,7 @@ import org.eclipse.set.model.tablemodel.TablemodelFactory
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.ppmodel.extensions.utils.Case
 import org.eclipse.set.utils.table.TMFactory
+import org.eclipse.set.utils.xml.EObjectXMLFinder
 import org.osgi.service.event.EventAdmin
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -53,10 +55,10 @@ import static extension org.eclipse.set.ppmodel.extensions.GleisAbschnittExtensi
 import static extension org.eclipse.set.ppmodel.extensions.MultiContainer_AttributeGroupExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalbegriffExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspElementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspKomponenteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.ENUMWKrGspStellart
 
 /**
  * Table transformation for a Weichentabelle (SSKW).
@@ -65,12 +67,17 @@ import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensi
  */
 class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 
+	SessionService sessionService
 	static val Logger logger = LoggerFactory.getLogger(
 		typeof(SskwTransformator))
 
+	EObjectXMLFinder xmlFinder
+
 	new(Set<ColumnDescriptor> cols,
-		EnumTranslationService enumTranslationService, EventAdmin eventAdmin) {
+		EnumTranslationService enumTranslationService, EventAdmin eventAdmin,
+		SessionService sessionService) {
 		super(cols, enumTranslationService, eventAdmin)
+		this.sessionService = sessionService
 	}
 
 	private static def String angrenzendesElementL(W_Kr_Gsp_Element element,
@@ -94,9 +101,15 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
-		TMFactory factory, Stell_Bereich controlArea) {
-		val weichen = container.WKrGspElement.filter[isPlanningObject].
-			filterObjectsInControlArea(controlArea)
+		TMFactory factory) {
+		xmlFinder = createEObjetXMLFinder(container)
+		val weichen = container.WKrGspElement.filter [
+			val stellArt = WKrGspElementAllg?.WKrGspStellart?.wert
+			return stellArt !==
+				ENUMWKrGspStellart.ENUMW_KR_GSP_STELLART_STILLGELEGT_LINKS &&
+				stellArt !==
+					ENUMWKrGspStellart.ENUMW_KR_GSP_STELLART_STILLGELEGT_RECHTS
+		]
 
 		for (element : weichen) {
 			if (Thread.currentThread.interrupted) {
@@ -264,25 +277,18 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 			)
 
 			// K: Sskw.Weiche.Antriebe
+			instance.fillAntrieb(
+				cols.getColumn(Weiche_Antriebe),
+				element,
+				[zungenpaar?.elektrischerAntriebAnzahl?.wert],
+				[zungenpaar?.elektrischerAntriebLage],
+				[true]
+			)
+
 			val elementKomponenten = element.container.WKrGspKomponente.filter [
 				IDWKrGspElement?.value?.identitaet?.wert ==
 					element.identitaet.wert && zungenpaar !== null
 			].toList
-
-			fillMultiColorIterable(
-				instance,
-				cols.getColumn(Weiche_Antriebe),
-				element,
-				[
-					transformMultiColorContent(
-						elementKomponenten,
-						[zungenpaar?.elektrischerAntriebAnzahl?.wert],
-						[zungenpaar?.elektrischerAntriebLage],
-						[true]
-					)
-				],
-				"+"
-			)
 
 			// L: Sskw.Weiche.Weichensignal
 			val weichensignal = elementKomponenten.map [
@@ -360,6 +366,10 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 					[
 						val isPMaxL = element.
 							isGeschwindigkeitPMax(element.topKanteL)
+						if (isPMaxL) {
+							instance.addTopologicalCell(
+								cols.getColumn(Weiche_v_zul_W_Links))
+						}
 						wKrGspKomponenten.map[zungenpaar].
 							printGeschwindingkeitL(isPMaxL)
 					]
@@ -369,6 +379,10 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 					[
 						val isPMaxL = element.
 							isGeschwindigkeitPMax(element.topKanteL)
+						if (isPMaxL) {
+							instance.addTopologicalCell(
+								cols.getColumn(Weiche_v_zul_W_Links))
+						}
 						wKrGspKomponenten.filter [
 							zungenpaar?.kreuzungsgleis?.wert ==
 								ENUM_LINKS_RECHTS_RECHTS
@@ -395,6 +409,10 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 					[
 						val isPMaxR = element.
 							isGeschwindigkeitPMax(element.topKanteR)
+						if (isPMaxR) {
+							instance.addTopologicalCell(
+								cols.getColumn(Weiche_v_zul_W_Rechts))
+						}
 						wKrGspKomponenten.map [
 							zungenpaar
 						].printGeschwindingkeitR(isPMaxR)
@@ -405,6 +423,10 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 					[
 						val isPMaxR = element.
 							isGeschwindigkeitPMax(element.topKanteR)
+						if (isPMaxR) {
+							instance.addTopologicalCell(
+								cols.getColumn(Weiche_v_zul_W_Rechts))
+						}
 						wKrGspKomponenten.filter [
 							zungenpaar?.kreuzungsgleis?.wert ==
 								ENUM_LINKS_RECHTS_LINKS
@@ -437,6 +459,8 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 				fillingIterableCase(
 					[art_ekw],
 					[
+						instance.addTopologicalCell(
+							cols.getColumn(Kreuzung_v_zul_K_Links))
 						val isPMaxL = element.
 							isGeschwindigkeitPMax(element.topKanteL)
 						getKreuzungEKWGroup(wKrGspKomponenten,
@@ -447,6 +471,8 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 				fillingIterableCase(
 					[art_dkw && exKrLinksKomponenten],
 					[
+						instance.addTopologicalCell(
+							cols.getColumn(Kreuzung_v_zul_K_Links))
 						val isPMaxL = element.
 							isGeschwindigkeitPMax(element.topKanteL)
 						krLinksKomponenten.map [
@@ -459,6 +485,10 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 					[
 						val isPMaxL = element.
 							isGeschwindigkeitPMax(element.topKanteL)
+						if (isPMaxL) {
+							instance.addTopologicalCell(
+								cols.getColumn(Kreuzung_v_zul_K_Links))
+						}
 						wKrGspKomponenten.map[kreuzung].
 							printGeschwindingkeitL(isPMaxL)
 					]
@@ -485,6 +515,8 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 				fillingIterableCase(
 					[art_ekw],
 					[
+						instance.addTopologicalCell(
+							cols.getColumn(Kreuzung_v_zul_K_Rechts))
 						val isPMaxR = element.
 							isGeschwindigkeitPMax(element.topKanteR)
 						getKreuzungEKWGroup(wKrGspKomponenten,
@@ -495,6 +527,8 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 				fillingIterableCase(
 					[art_dkw && exKrRechtsKomponenten],
 					[
+						instance.addTopologicalCell(
+							cols.getColumn(Kreuzung_v_zul_K_Rechts))
 						val isPMaxR = element.
 							isGeschwindigkeitPMax(element.topKanteR)
 						krRechtsKomponenten.map [
@@ -507,6 +541,10 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 					[
 						val isPMaxR = element.
 							isGeschwindigkeitPMax(element.topKanteR)
+						if (isPMaxR) {
+							instance.addTopologicalCell(
+								cols.getColumn(Kreuzung_v_zul_K_Rechts))
+						}
 						wKrGspKomponenten.map[kreuzung].
 							printGeschwindingkeitR(isPMaxR)
 					]
@@ -616,12 +654,19 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 			)
 
 			// W: Sskw.Sonstiges.Regelzeichnung_Nr
-			fillIterable(
+			fill(
 				instance,
 				cols.getColumn(Sonstiges_Regelzeichnung_Nr),
 				element,
-				[element.regelzeichnungen.map[fillRegelzeichnung]],
-				null
+				[
+					val regelZeichnung = element.regelzeichnungen.map [
+						fillRegelzeichnung
+					]
+					val anhangDWS = WKrAnlage?.IDAnhangDWS?.value?.anhangAllg?.
+						dateiname?.wert
+					return '''«regelZeichnung.join(ITERABLE_FILLING_SEPARATOR)»«
+						»«IF anhangDWS !== null»«ITERABLE_FILLING_SEPARATOR»«anhangDWS»«ENDIF»'''
+				]
 			)
 
 			// X: Sskw.Sonstiges.DWs
@@ -631,7 +676,7 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 				element,
 				[IDWKrAnlage === null],
 				[""],
-				[(WKrAnlage.IDAnhangDWS !== null).translate]
+				[(WKrAnlage.IDAnhangDWS?.value !== null).translate]
 			)
 
 			// Y: Sskw.Sonderanlage.Art
@@ -654,6 +699,28 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 		return factory.table
 	}
 
+	def EObjectXMLFinder createEObjetXMLFinder(
+		MultiContainer_AttributeGroup container) {
+		try {
+			val loadedSession = sessionService.loadedSessions
+			var IModelSession modelSession = null
+			if (loadedSession.size === 1) {
+				modelSession = loadedSession.values.firstOrNull
+			} else {
+				val planproSchnittstelle = container.planProSchnittstelle
+				modelSession = loadedSession.values.filter [
+					it.planProSchnittstelle == planproSchnittstelle
+				].firstOrNull
+			}
+			return new EObjectXMLFinder(modelSession.toolboxFile,
+				modelSession.toolboxFile.modelPath)
+		} catch (Exception e) {
+			logger.error("Can't create EObjectXMLFinder: {}", e.message)
+			return null
+		}
+
+	}
+
 	/**
 	 * Create filling Iterable case with compartor as ToolboxConstants.NUMERIC_COMPARATOR
 	 * and separator as ","
@@ -672,28 +739,14 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 		val elektrischerAntriebAnzahl = element.WKrGspKomponenten.map [
 			kreuzung?.elektrischerAntriebAnzahl?.wert
 		].filterNull.map[intValue]
-		val fillFunc = [ (W_Kr_Gsp_Komponente)=>BigInteger actuatorCount, (W_Kr_Gsp_Komponente)=>Elektrischer_Antrieb_Lage_TypeClass actuatorPosition |
-			fillMultiColorIterable(
-				row,
-				cols.getColumn(Herzstueck_Antriebe),
-				element,
-				[
-					transformMultiColorContent(
-						WKrGspKomponenten,
-						actuatorCount,
-						actuatorPosition,
-						[kreuzung !== null]
-					)
-				],
-				"+"
-			)
-		]
 		if (herzstueckAntriebe.exists[it > 0]) {
-			fillFunc.apply([zungenpaar?.herzstueckAntriebe?.wert], [null])
+			row.fillAntrieb(cols.getColumn(Herzstueck_Antriebe), element, [
+				zungenpaar?.herzstueckAntriebe?.wert
+			], [null], [kreuzung !== null])
 		} else if (elektrischerAntriebAnzahl.exists[it > 0]) {
-			fillFunc.apply([kreuzung?.elektrischerAntriebAnzahl?.wert], [
-				kreuzung?.elektrischerAntriebLage
-			])
+			row.fillAntrieb(cols.getColumn(Herzstueck_Antriebe), element, [
+				kreuzung?.elektrischerAntriebAnzahl?.wert
+			], [kreuzung?.elektrischerAntriebLage], [kreuzung !== null])
 		} else {
 			fill(
 				row,
@@ -701,6 +754,58 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 				element,
 				[]
 			)
+		}
+	}
+
+	def void fillAntrieb(TableRow row, ColumnDescriptor column,
+		W_Kr_Gsp_Element element,
+		(W_Kr_Gsp_Komponente)=>BigInteger actuatorNumberSelector,
+		(W_Kr_Gsp_Komponente)=>Elektrischer_Antrieb_Lage_TypeClass actuatorPositionSelector,
+		(W_Kr_Gsp_Komponente)=>Boolean fillPositionSupplementCondition) {
+		val components = element.WKrGspKomponenten
+		if (components.map[actuatorNumberSelector.apply(it)].filterNull.
+			nullOrEmpty) {
+			return
+		}
+		if (components.size > 1 && column === cols.getColumn(Weiche_Antriebe)) {
+			row.addTopologicalCell(column)
+		}
+		if (element.container?.containerType === ContainerType.FINAL &&
+			components.exists [
+				austauschAntriebe?.wert !== null && austauschAntriebe?.wert
+			]) {
+			fillMultiColorIterable(
+				row,
+				column,
+				element,
+				[
+					transformMultiColorContent(
+						WKrGspKomponenten,
+						actuatorNumberSelector,
+						actuatorPositionSelector,
+						[kreuzung !== null]
+					)
+				],
+				"+"
+			)
+		} else {
+			val actuatorCount = components.
+				map[actuatorNumberSelector.apply(it)].filterNull.reduce [ p1, p2 |
+					p1 + p2
+				]
+			val position = components.filter [
+				fillPositionSupplementCondition.apply(it)
+			].map [
+				it -> actuatorNumberSelector.apply(it)
+			].map[key.getPosition(value, actuatorPositionSelector)].filter [
+				!nullOrEmpty && !blank
+			].toSet.join(", ")
+			if (actuatorCount === null) {
+				return
+			}
+			fill(row, column, element, [
+				'''«actuatorCount» «IF !position.nullOrEmpty && !position.blank »(«position»)«ENDIF»'''
+			])
 		}
 	}
 
@@ -814,8 +919,7 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 			val position = it.getPosition(actuator, actuatorPositionSelector)
 			val fillPositionCondition = noOfActuators > 0 &&
 				position !== null && fillPositionSupplementCondition.apply(it)
-			if (austauschAntriebe?.wert === true &&
-				container.containerType == ContainerType.FINAL) {
+			if (austauschAntriebe?.wert !== null && austauschAntriebe?.wert) {
 				multiColorContent.multiColorValue = noOfActuators.toString
 				multiColorContent.stringFormat = '''%s«IF fillPositionCondition» («position»)«ENDIF»'''
 			} else {
@@ -832,12 +936,19 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 		BigInteger actuator,
 		(W_Kr_Gsp_Komponente)=>Elektrischer_Antrieb_Lage_TypeClass actuatorPositionSelector
 	) {
-		if (actuator != BigInteger.ZERO) {
-			return actuatorPositionSelector.apply(component)?.translate ?:
-				"keine Lage"
-		} else {
-			return null
+
+		if (actuator !== null && actuator != BigInteger.ZERO) {
+			val lage = actuatorPositionSelector.apply(component)
+			val enumTranslateValue = lage?.translate
+			if (enumTranslateValue === null) {
+				if (xmlFinder !== null && xmlFinder.isNilValue(lage)) {
+					return "keine Lage"
+				}
+				return ""
+			}
+			return enumTranslateValue
 		}
+		return null
 	}
 
 	private def String getGleissperreAntrieb(W_Kr_Gsp_Element element) {

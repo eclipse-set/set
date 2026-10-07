@@ -1,0 +1,151 @@
+/**
+ * Copyright (c) 2026 DB InfraGO AG and others
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License v2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ * 
+ */
+package org.eclipse.set.feature.table.pt1.sxxx;
+
+import static org.eclipse.set.feature.table.pt1.sxxx.SxxxColumns.*;
+import static org.eclipse.set.ppmodel.extensions.utils.LSTObjectDesignationExtensions.getLSTObjectDesignation;
+
+import java.util.List;
+import java.util.Set;
+
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
+import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator;
+import org.eclipse.set.model.planpro.BasisTypen.BasisAttribut_AttributeGroup;
+import org.eclipse.set.model.planpro.BasisTypen.ID_Bearbeitungsvermerk_TypeClass;
+import org.eclipse.set.model.planpro.Basisobjekte.Bearbeitungsvermerk;
+import org.eclipse.set.model.tablemodel.ColumnDescriptor;
+import org.eclipse.set.model.tablemodel.Table;
+import org.eclipse.set.model.tablemodel.TableRow;
+import org.eclipse.set.ppmodel.extensions.EObjectExtensions;
+import org.eclipse.set.ppmodel.extensions.UrObjectExtensions;
+import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
+import org.eclipse.set.utils.EnumeratorExtensions;
+import org.eclipse.set.utils.table.RowFactory;
+import org.eclipse.set.utils.table.TMFactory;
+import org.osgi.service.event.EventAdmin;
+
+import com.google.common.collect.Streams;
+
+/**
+ * Table transformation for a Bearbeitungsvermerke tabelle
+ * 
+ * @author truong
+ */
+public class SxxxTransformator extends AbstractPlanPro2TableModelTransformator {
+	/**
+	 * @param cols
+	 *            the columns descriptor
+	 * @param enumTranslationService
+	 *            the {@link EnumTranslationService}
+	 * @param eventAdmin
+	 *            the {@link EventAdmin}
+	 */
+	public SxxxTransformator(final Set<ColumnDescriptor> cols,
+			final EnumTranslationService enumTranslationService,
+			final EventAdmin eventAdmin) {
+		super(cols, enumTranslationService, eventAdmin);
+	}
+
+	@Override
+	public Table transformTableContent(
+			final MultiContainer_AttributeGroup container,
+			final TMFactory factory) {
+		final List<ID_Bearbeitungsvermerk_TypeClass> idReferences = Streams
+				.stream(container.getAllContents())
+				.parallel()
+				.filter(ID_Bearbeitungsvermerk_TypeClass.class::isInstance)
+				.map(ID_Bearbeitungsvermerk_TypeClass.class::cast)
+				.toList();
+		for (final Bearbeitungsvermerk bv : container
+				.getBearbeitungsvermerk()) {
+			if (Thread.currentThread().isInterrupted()) {
+				return null;
+			}
+			final RowFactory rowGroup = factory.newRowGroup(bv);
+			final List<EObject> referencedByList = idReferences.stream()
+					.parallel()
+					.filter(ref -> ref.getValue().equals(bv))
+					.map(EObject::eContainer)
+					.toList();
+
+			final List<EObject> sonstigeEnumReferee = referencedByList.stream()
+					.filter(obj -> obj instanceof final BasisAttribut_AttributeGroup basisAttribut
+							&& EnumeratorExtensions
+									.isSonstigeEnumWert(basisAttribut))
+					.toList();
+
+			if (!sonstigeEnumReferee.isEmpty()
+					&& referencedByList.size() == sonstigeEnumReferee.size()) {
+				// bearbeitungsvermerke that are only used at sonstige enum
+				// values shall not be displayed at all
+				continue;
+			}
+
+			if (referencedByList.isEmpty()) {
+				final TableRow row = rowGroup.newTableRow();
+				fillBearbeitungsvermerkContent(row, bv);
+				continue;
+			}
+			for (final EObject referencedBy : referencedByList) {
+				if (Thread.currentThread().isInterrupted()) {
+					return null;
+				}
+				if (sonstigeEnumReferee.contains(referencedBy)) {
+					// ignore those referees that are connected to a sonstige
+					// enum value
+					continue;
+				}
+				final TableRow row = rowGroup.newTableRow();
+				row.setRowObject(referencedBy);
+
+				fillBearbeitungsvermerkContent(row, bv);
+
+				// C: Referenziert von Objects Art
+				fill(row, getColumn(cols, Reference_Object_Art), bv,
+						note -> UrObjectExtensions.getTypeName(referencedBy)
+								.replace("_TypeClass", "")); //$NON-NLS-1$ //$NON-NLS-2$
+
+				// D: Referenziert von Objects Bezeichnung
+				fill(row, getColumn(cols, Reference_Object_Bezeichnung), bv,
+						note -> getLSTObjectDesignation(referencedBy));
+
+				// E: Ausgabe in Plan
+				// Will fill later in TableService
+
+			}
+		}
+
+		return factory.getTable();
+
+	}
+
+	private void fillBearbeitungsvermerkContent(final TableRow row,
+			final Bearbeitungsvermerk bv) {
+		// A: Bearbeitungsvermerke.Kurztext
+		fill(row, getColumn(cols, Kurztext_Content), bv,
+				note -> EObjectExtensions
+						.getNullableObject(note,
+								e -> e.getBearbeitungsvermerkAllg()
+										.getKurztext()
+										.getWert())
+						.orElse("")); //$NON-NLS-1$
+
+		// B: Bearbeitungsvermerke inhalt
+		fill(row, getColumn(cols, Text_Content), bv,
+				note -> EObjectExtensions
+						.getNullableObject(note,
+								e -> e.getBearbeitungsvermerkAllg()
+										.getKommentar()
+										.getWert())
+						.orElse("")); //$NON-NLS-1$
+	}
+}

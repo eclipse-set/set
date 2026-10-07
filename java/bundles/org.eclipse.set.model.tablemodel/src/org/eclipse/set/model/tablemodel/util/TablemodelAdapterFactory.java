@@ -113,8 +113,9 @@ public class TablemodelAdapterFactory extends AdapterFactoryImpl {
 		}
 
 		@Override
-		public Adapter caseCompareCellContent(CompareCellContent object) {
-			return createCompareCellContentAdapter();
+		public Adapter caseCompareStateCellContent(
+				CompareStateCellContent object) {
+			return createCompareStateCellContentAdapter();
 		}
 
 		@Override
@@ -164,6 +165,11 @@ public class TablemodelAdapterFactory extends AdapterFactoryImpl {
 		@Override
 		public Adapter casePlanCompareRow(PlanCompareRow object) {
 			return createPlanCompareRowAdapter();
+		}
+
+		@Override
+		public Adapter caseFootnote(Footnote object) {
+			return createFootnoteAdapter();
 		}
 
 		@Override
@@ -312,17 +318,17 @@ public class TablemodelAdapterFactory extends AdapterFactoryImpl {
 
 	/**
 	 * Creates a new adapter for an object of class
-	 * '{@link org.eclipse.set.model.tablemodel.CompareCellContent <em>Compare
-	 * Cell Content</em>}'. <!-- begin-user-doc --> This default implementation
-	 * returns null so that we can easily ignore cases; it's useful to ignore a
-	 * case when inheritance will catch all the cases anyway. <!-- end-user-doc
-	 * -->
+	 * '{@link org.eclipse.set.model.tablemodel.CompareStateCellContent
+	 * <em>Compare State Cell Content</em>}'. <!-- begin-user-doc --> This
+	 * default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases
+	 * anyway. <!-- end-user-doc -->
 	 * 
 	 * @return the new adapter.
-	 * @see org.eclipse.set.model.tablemodel.CompareCellContent
+	 * @see org.eclipse.set.model.tablemodel.CompareStateCellContent
 	 * @generated
 	 */
-	public Adapter createCompareCellContentAdapter() {
+	public Adapter createCompareStateCellContentAdapter() {
 		return null;
 	}
 
@@ -466,6 +472,21 @@ public class TablemodelAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createPlanCompareRowAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class
+	 * '{@link org.eclipse.set.model.tablemodel.Footnote <em>Footnote</em>}'.
+	 * <!-- begin-user-doc --> This default implementation returns null so that
+	 * we can easily ignore cases; it's useful to ignore a case when inheritance
+	 * will catch all the cases anyway. <!-- end-user-doc -->
+	 * 
+	 * @return the new adapter.
+	 * @see org.eclipse.set.model.tablemodel.Footnote
+	 * @generated
+	 */
+	public Adapter createFootnoteAdapter() {
 		return null;
 	}
 

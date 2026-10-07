@@ -15,7 +15,7 @@ import org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum
  * 
  * @author Schaefer
  */
-package class LexicographicalCellComparator extends AbstractCellComparator {
+class LexicographicalCellComparator extends AbstractCellComparator {
 
 	/**
 	 * @param direction the sort direction

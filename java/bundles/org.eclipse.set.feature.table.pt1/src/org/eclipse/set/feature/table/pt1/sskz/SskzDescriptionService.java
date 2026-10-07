@@ -37,4 +37,9 @@ public class SskzDescriptionService
 		return messages.SskzDescriptionService_ViewTooltip;
 	}
 
+	@Override
+	protected String getTableShortcut() {
+		return messages.ToolboxTableNameSskzShort;
+	}
+
 }

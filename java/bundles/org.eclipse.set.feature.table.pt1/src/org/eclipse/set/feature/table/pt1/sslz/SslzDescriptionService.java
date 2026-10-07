@@ -34,4 +34,9 @@ public class SslzDescriptionService extends AbstractESTWTableDescription {
 	protected String getToolboxViewTooltip() {
 		return messages.SslzDescriptionService_ViewTooltip;
 	}
+
+	@Override
+	protected String getTableShortcut() {
+		return messages.ToolboxTableNameSslzShort;
+	}
 }

@@ -13,7 +13,6 @@ import Configuration from '@/util/Configuration'
 import NamedFeatureLayer from '@/util/NamedFeatureLayer'
 import { compare } from '@/util/ObjectExtension'
 import SvgDraw from '@/util/SVG/Draw/SvgDraw'
-import axios from 'axios'
 import { Feature, Map as OlMap } from 'ol'
 import { Extent, getHeight, getWidth } from 'ol/extent'
 import Geometry from 'ol/geom/Geometry'
@@ -46,7 +45,7 @@ export interface ILageplanFeature {
 
 export default abstract class LageplanFeature<T extends SiteplanObject> implements ILageplanFeature {
   map: OlMap
-  svgService = new SvgService(axios)
+  svgService = new SvgService()
   constructor (map: OlMap) {
     this.map = map
   }

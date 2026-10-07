@@ -411,7 +411,7 @@ http://www.eclipse.org/legal/epl-v20.html
 								<fo:table-column column-number="9" column-width="{10.25 - $titlebox-WB}mm" />
 								<fo:table-body>
 									<!-- Zeile 1 -->
-									<fo:table-row height="{4 - $titlebox-WB - $titlebox-WB}mm" text-align="left">
+									<fo:table-row height="{4 - $titlebox-WB - $titlebox-WB}mm" text-align="center">
 										<fo:table-cell height="inherit" column-number="1" border="{$titlebox-wide-border-style}" border-left-width="0px" border-top-width="0px">
 											<xsl:apply-templates select="Field[@address=40]">
 												<xsl:with-param name="fontSize" select="'2.5mm'"/>

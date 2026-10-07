@@ -139,6 +139,9 @@ public class Banderole {
 	 *            whether to enable the export button
 	 */
 	public void setEnableExport(final boolean enabled) {
+		if (exportButton.isDisposed()) {
+			return;
+		}
 		exportButton.setEnabled(enabled);
 	}
 

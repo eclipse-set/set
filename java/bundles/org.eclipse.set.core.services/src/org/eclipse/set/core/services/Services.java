@@ -11,6 +11,7 @@ package org.eclipse.set.core.services;
 import org.eclipse.set.core.services.cache.CacheService;
 import org.eclipse.set.core.services.cache.NoCacheService;
 import org.eclipse.set.core.services.configurationservice.UserConfigurationService;
+import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.core.services.geometry.GeoKanteGeometryService;
 import org.eclipse.set.core.services.geometry.PointObjectPositionService;
 import org.eclipse.set.core.services.graph.TopologicalGraphService;
@@ -35,6 +36,7 @@ public class Services {
 	private static TopologicalGraphService topGraphService;
 	private static PointObjectPositionService pointObjectPositionService;
 	private static PlanProVersionService planProVersionService;
+	private static EnumTranslationService enumTranslationService;
 
 	/**
 	 * @return the siteplan service
@@ -200,5 +202,21 @@ public class Services {
 	 */
 	public static PlanProVersionService getPlanProVersionService() {
 		return planProVersionService;
+	}
+
+	/**
+	 * @param enumTranslationService
+	 *            {@link EnumTranslationService}
+	 */
+	public static void setEnumTranslationServie(
+			final EnumTranslationService enumTranslationService) {
+		Services.enumTranslationService = enumTranslationService;
+	}
+
+	/**
+	 * @return {@link EnumTranslationService}
+	 */
+	public static EnumTranslationService getEnumTranslationService() {
+		return enumTranslationService;
 	}
 }

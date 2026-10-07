@@ -242,8 +242,10 @@ public class SourceWebTextViewPart extends BasePart {
 
 	}
 
+	@Override
 	@PreDestroy
-	private void preDestroy() {
+	protected void preDestroy() {
+		super.preDestroy();
 		eventRegistration.unsubscribeAll();
 		getBroker().unsubscribe(problemsChangeEventHandler);
 	}

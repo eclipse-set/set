@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Sessionservice
 Bundle-SymbolicName: org.eclipse.set.sessionservice;singleton:=true
-Bundle-Version: 2.6.0.qualifier
+Bundle-Version: 2.7.0.qualifier
 Automatic-Module-Name: org.eclipse.set.sessionservice
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Bundle-Vendor: Eclipse Signalling Engineering Toolbox
@@ -51,5 +51,4 @@ Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.set.sessionservice
 Require-Bundle: org.eclipse.nebula.widgets.nattable.core
 Service-Component: OSGI-INF/org.eclipse.set.sessionservice.SetBrandingServiceContextFunction.xml,
- OSGI-INF/org.eclipse.set.sessionservice.SetFontService.xml,
- OSGI-INF/org.eclipse.set.sessionservice.SetFontServiceContextFunction.xml
+ OSGI-INF/org.eclipse.set.sessionservice.SetFontService.xml

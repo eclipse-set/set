@@ -10,8 +10,11 @@ package org.eclipse.set.utils.table.sorting;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Function;
 
 import org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum;
+import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt;
+import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
 import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.model.tablemodel.TableCell;
 
@@ -25,7 +28,7 @@ public class ComparatorBuilder {
 	/**
 	 * The cell comparator to use for sorting.
 	 */
-	public static enum CellComparatorType {
+	public enum CellComparatorType {
 		/**
 		 * Sort string content lexicographical.
 		 */
@@ -130,4 +133,29 @@ public class ComparatorBuilder {
 		return this;
 	}
 
+	/**
+	 * @param getPunktObjectFunc
+	 *            the get {@link Punkt_Objekt} function
+	 * @return this builder
+	 */
+	public ComparatorBuilder sortByRouteAndKm(
+			final Function<Ur_Objekt, Punkt_Objekt> getPunktObjectFunc) {
+		tableRowGroupComparator.addRouteAndKmCriterion(getPunktObjectFunc);
+		return this;
+	}
+
+	/**
+	 * @param getPunktObjectFunc
+	 *            the function to get {@link Punkt_Objekt}
+	 * @param direction
+	 *            the direction
+	 * @return this builder
+	 */
+	public ComparatorBuilder sortByRouteAndKm(
+			final Function<Ur_Objekt, Punkt_Objekt> getPunktObjectFunc,
+			final SortDirectionEnum direction) {
+		tableRowGroupComparator.addRouteAndKmCriterion(getPunktObjectFunc,
+				direction);
+		return this;
+	}
 }

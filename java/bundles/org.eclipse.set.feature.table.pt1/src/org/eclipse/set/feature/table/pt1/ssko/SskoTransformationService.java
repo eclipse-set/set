@@ -10,13 +10,17 @@ package org.eclipse.set.feature.table.pt1.ssko;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.messages.Messages;
+import org.eclipse.set.model.planpro.Basisobjekte.Strecke_Km_TypeClass;
+import org.eclipse.set.model.planpro.Verweise.ID_Strecke_TypeClass;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
+import org.eclipse.set.utils.table.TableInfo.Pt1TableCategory;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.event.EventAdmin;
@@ -57,7 +61,8 @@ public final class SskoTransformationService
 	public TableNameInfo getTableNameInfo() {
 		return new TableNameInfo(messages.ToolboxTableNameSskoLong,
 				messages.ToolboxTableNameSskoPlanningNumber,
-				messages.ToolboxTableNameSskoShort);
+				messages.ToolboxTableNameSskoShort,
+				messages.ToolboxTableNameSskoRil);
 	}
 
 	@Override
@@ -73,5 +78,23 @@ public final class SskoTransformationService
 	@Override
 	protected List<String> getTopologicalColumnPosition() {
 		return Collections.emptyList();
+	}
+
+	@Override
+	protected String getRemarkColumnPosition() {
+		return SskoColumns.Bemerkung;
+	}
+
+	@Override
+	protected Map<Class<?>, String> getFootnotesColumnReferences() {
+		return Map.of(ID_Strecke_TypeClass.class,
+				SskoColumns.Sk_Ssp_Unterbringung_Strecke,
+				Strecke_Km_TypeClass.class,
+				SskoColumns.Sk_Ssp_Unterbringung_km);
+	}
+
+	@Override
+	protected Pt1TableCategory getTableCategory() {
+		return Pt1TableCategory.ESTW;
 	}
 }

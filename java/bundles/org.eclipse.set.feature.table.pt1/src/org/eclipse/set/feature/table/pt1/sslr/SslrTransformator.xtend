@@ -13,7 +13,6 @@ import java.util.Collections
 import java.util.Set
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
-import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Zug_Rangier
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element
 import org.eclipse.set.model.tablemodel.ColumnDescriptor
@@ -25,7 +24,6 @@ import org.eclipse.set.utils.table.TMFactory
 import org.osgi.service.event.EventAdmin
 
 import static org.eclipse.set.feature.table.pt1.sslr.SslrColumns.*
-import static org.eclipse.set.model.planpro.Fahrstrasse.ENUMRangierGegenfahrtausschluss.*
 
 import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BedienAnzeigeElementExtensions.*
@@ -36,7 +34,6 @@ import static extension org.eclipse.set.ppmodel.extensions.FstrAbhaengigkeitExte
 import static extension org.eclipse.set.ppmodel.extensions.FstrRangierFlaZuordnungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FstrZugRangierExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 
 /**
  * Table transformation for a Rangierstraßentabelle (Sslr).
@@ -53,15 +50,14 @@ class SslrTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
-		TMFactory factory, Stell_Bereich controlArea) {
+		TMFactory factory) {
 		this.factory = factory
-		return container.transform(controlArea)
+		return container.transform
 	}
 
 	private def Table create factory.table transform(
-		MultiContainer_AttributeGroup container, Stell_Bereich controlArea) {
-		container.fstrZugRangier.filter[isPlanningObject].
-			filterObjectsInControlArea(controlArea).filter[isR].forEach [ it |
+		MultiContainer_AttributeGroup container) {
+		container.fstrZugRangier.filter[isR].forEach [ it |
 				if (Thread.currentThread.interrupted) {
 					return
 				}
@@ -145,34 +141,29 @@ class SslrTransformator extends AbstractPlanPro2TableModelTransformator {
 		// I: Sslr.Abhaengigkeiten.Inselgleis.Bezeichnung
 		val raFahrtGleichzeitigVerbot = fstrZugRangier?.fstrFahrweg?.
 			zielSignal?.raFahrtGleichzeitigVerbot ?: Collections.emptySet
-		fillSwitch(
+		fillIterable(
 			cols.getColumn(Inselgleis_Bezeichnung),
 			fstrZugRangier,
-			new Case<Fstr_Zug_Rangier>(
-				[!raFahrtGleichzeitigVerbot.empty],
-				[
-					raFahrtGleichzeitigVerbot.map [
+			[ fstr |
+				val result = newHashSet
+				if (!raFahrtGleichzeitigVerbot.nullOrEmpty) {
+					result.addAll(raFahrtGleichzeitigVerbot.map [
 						bezeichnung?.bezGleisBezeichnung?.wert
-					]
-				],
-				ITERABLE_FILLING_SEPARATOR,
-				MIXED_STRING_COMPARATOR
-			),
-			new Case<Fstr_Zug_Rangier>(
-				[
-					#{
-						ENUM_RANGIER_GEGENFAHRTAUSSCHLUSS_JA,
-						ENUM_RANGIER_GEGENFAHRTAUSSCHLUSS_INSELGLEIS_FREI
-					}.contains(fstrRangier?.rangierGegenfahrtausschluss?.wert)
-				],
-				[
-					fstrZugRangier.container.gleisBezeichnung.filter [
-						intersects(fstrZugRangier?.fstrFahrweg?.zielSignal)
-					].map[bezeichnung?.bezGleisBezeichnung?.wert]
-				],
-				ITERABLE_FILLING_SEPARATOR,
-				MIXED_STRING_COMPARATOR
-			)
+					].filterNull)
+				}
+				
+				if (fstr.fstrRangier?.rangierGegenfahrtausschluss?.wert !==
+					null) {
+						val bezeichnung = fstr.container.gleisBezeichnung.filter [
+						intersects(fstr?.fstrFahrweg?.zielSignal)
+					].map[bezeichnung?.bezGleisBezeichnung?.wert].filterNull
+					if (!bezeichnung.empty && result.addAll(bezeichnung)) {
+						addTopologicalCell(cols.getColumn(Inselgleis_Bezeichnung))	
+					}
+				}
+				return result
+			],
+			MIXED_STRING_COMPARATOR
 		)
 
 		// J: Sslr.Abhaengigkeiten.Inselgleis.Gegenfahrtausschluss

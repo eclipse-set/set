@@ -50,7 +50,7 @@ class TableContentExtensions {
 		val newRowGroup = TablemodelFactory.eINSTANCE.createRowGroup
 		content.rowgroups.add(newRowGroup)
 		groupToAdd.rows.forEach[row |
-			newRowGroup.addRow(row.cells)
+			newRowGroup.addRow(row)
 		]
 		newRowGroup.leadingObject = groupToAdd.leadingObject
 		newRowGroup.leadingObjectIndex = groupToAdd.leadingObjectIndex

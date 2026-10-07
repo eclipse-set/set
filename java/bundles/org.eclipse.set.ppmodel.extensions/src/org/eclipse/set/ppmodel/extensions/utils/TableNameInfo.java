@@ -20,6 +20,8 @@ public class TableNameInfo {
 	private String planningNumber;
 	private String shortName;
 
+	private final String rilNumber;
+
 	/**
 	 * @param longName
 	 *            the long name
@@ -27,12 +29,15 @@ public class TableNameInfo {
 	 *            the planning number
 	 * @param shortName
 	 *            the short name
+	 * @param rilNumber
+	 *            the Ril number
 	 */
 	public TableNameInfo(final String longName, final String planningNumber,
-			final String shortName) {
+			final String shortName, final String rilNumber) {
 		this.longName = longName;
 		this.planningNumber = planningNumber;
 		this.shortName = shortName;
+		this.rilNumber = rilNumber;
 	}
 
 	/**
@@ -54,6 +59,13 @@ public class TableNameInfo {
 	 */
 	public String getShortName() {
 		return shortName;
+	}
+
+	/**
+	 * @return the Ril number
+	 */
+	public String getRilNumber() {
+		return rilNumber;
 	}
 
 	/**

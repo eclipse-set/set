@@ -36,4 +36,9 @@ public class SsbbDescriptionService extends AbstractESTWTableDescription {
 		return messages.SsbbDescriptionService_ViewTooltip;
 	}
 
+	@Override
+	protected String getTableShortcut() {
+		return messages.ToolboxTableNameSsbbShort;
+	}
+
 }

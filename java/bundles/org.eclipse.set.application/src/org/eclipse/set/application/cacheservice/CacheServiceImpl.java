@@ -8,9 +8,11 @@
  */
 package org.eclipse.set.application.cacheservice;
 
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.set.basis.IModelSession;
@@ -58,10 +60,8 @@ public class CacheServiceImpl implements CacheService, EventHandler {
 
 	@Override
 	public Cache getCache(final PlanPro_Schnittstelle schnittstelle,
-			final String cacheId, final String containerCacheId)
-			throws IllegalArgumentException {
-		return getCache(getSessionRole(schnittstelle), cacheId,
-				containerCacheId);
+			final String... cacheId) throws IllegalArgumentException {
+		return getCache(getSessionRole(schnittstelle), cacheId);
 	}
 
 	private void invalidate(final ToolboxFileRole role) {
@@ -71,7 +71,10 @@ public class CacheServiceImpl implements CacheService, EventHandler {
 					.flatMap(ele -> ele.values().stream())
 					.forEach(Cache::invalidate);
 		} else {
-			caches.get(role).values().forEach(Cache::invalidate);
+			caches.computeIfPresent(role, (k, v) -> {
+				v.values().forEach(Cache::invalidate);
+				return v;
+			});
 		}
 
 	}
@@ -97,7 +100,7 @@ public class CacheServiceImpl implements CacheService, EventHandler {
 		return existCache(getSessionRole(schnittstelle), cacheID);
 	}
 
-	private ToolboxFileRole getSessionRole(
+	protected ToolboxFileRole getSessionRole(
 			final PlanPro_Schnittstelle schnittStelle) {
 		final Map<ToolboxFileRole, IModelSession> loadedSessions = sessionService
 				.getLoadedSessions();
@@ -123,9 +126,10 @@ public class CacheServiceImpl implements CacheService, EventHandler {
 	}
 
 	@Override
-	public Cache getCache(final ToolboxFileRole role, final String cacheId,
-			final String containerCacheId) throws IllegalArgumentException {
-		final String cacheKey = cacheId + "/" + containerCacheId; //$NON-NLS-1$
+	public Cache getCache(final ToolboxFileRole role, final String... cacheId)
+			throws IllegalArgumentException {
+		final String cacheKey = Arrays.stream(cacheId)
+				.collect(Collectors.joining("/")); //$NON-NLS-1$
 		return getCache(role, cacheKey);
 	}
 

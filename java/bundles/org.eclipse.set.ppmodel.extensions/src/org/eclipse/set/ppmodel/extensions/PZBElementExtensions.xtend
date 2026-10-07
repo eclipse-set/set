@@ -25,6 +25,7 @@ import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element
 import static extension org.eclipse.set.ppmodel.extensions.AussenelementansteuerungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FstrFahrwegExtensions.getFstrDweg
+import org.eclipse.set.model.planpro.Signale.ENUMSignalFunktion
 
 /**
  * Extensions for {@link PZB_Element}.
@@ -52,27 +53,28 @@ class PZBElementExtensions extends BasisObjektExtensions {
 	def static List<Basis_Objekt> getPZBElementBezugspunkt(PZB_Element pzb) {
 		return pzb.IDPZBElementZuordnung?.value?.PZBElementZuordnungBP?.map [
 			IDPZBElementBezugspunkt?.value
-		]
+		]?.filterNull?.toList ?: emptyList
 	}
 
-	def static Iterable<Fstr_DWeg> getFstrDWegs(PZB_Element pzb) {
-		val bezugspunkts = pzb.PZBElementBezugspunkt?.filter(Signal)
-		val fstrFahrwegs = pzb.container.fstrFahrweg.filter [ fstrFahrweg |
-			(bezugspunkts ?: #[]).filterNull.exists [
-				it === fstrFahrweg?.IDStart?.value
-			]
-		]
-		return fstrFahrwegs.map[fstrDweg].flatten
+	def static Iterable<Fstr_DWeg> getFstrDWegs(PZB_Element pzb,
+		Basis_Objekt bezugspunkt) {
+		if (bezugspunkt !== null && bezugspunkt instanceof Signal) {
+			return pzb.container.fstrFahrweg.filter[bezugspunkt === IDStart?.value].
+				filterNull.flatMap[fstrDweg]
+		}
+		return #[]
 	}
 
 	def static Iterable<PZB_Element_Zuordnung_BP_AttributeGroup> getPZBElementZuordnungBP(
 		PZB_Element pzb) {
-		return pzb.IDPZBElementZuordnung?.value?.PZBElementZuordnungBP
+		return pzb.IDPZBElementZuordnung?.value?.PZBElementZuordnungBP?.
+			filterNull ?: #[]
 	}
 
 	def static Iterable<PZB_Element_Zuordnung_Fstr_AttributeGroup> getPZBElementZuordnungFstr(
 		PZB_Element pzb) {
-		return pzb.IDPZBElementZuordnung?.value?.PZBElementZuordnungFstr
+		return pzb.IDPZBElementZuordnung?.value?.PZBElementZuordnungFstr?.
+			filterNull ?: #[]
 	}
 
 	def static Iterable<PZB_Zuordnung_Signal> getPZBZuordnungSignal(
@@ -84,16 +86,42 @@ class PZBElementExtensions extends BasisObjektExtensions {
 
 	def static boolean isBelongToControlArea(PZB_Element pzb,
 		Stell_Bereich controlArea) {
+		val relevantStellelement = pzb?.stellelements?.filterNull?.filter [
+			IDInformation?.value.isBelongToControlArea(controlArea)
+		]
+		if (!relevantStellelement.isNullOrEmpty) {
+			return true
+		}
 		val signals = pzb?.PZBElementBezugspunkt?.filter(Signal)?.filter [
 			signalReal !== null && signalReal.signalRealAktiv === null
 		]
-		return !signals.nullOrEmpty && !pzb?.stellelements?.filterNull?.filter [
-			IDInformation?.value.isBelongToControlArea(controlArea)
-		].nullOrEmpty && signals.exists[controlArea.contains(it)]
+		return !signals.nullOrEmpty && signals.exists[controlArea.contains(it)]
 	}
 
 	def static Iterable<Stellelement> getStellelements(PZB_Element pzb) {
 		return pzb?.PZBElementBezugspunkt?.map[stellelement]
+	}
+
+	def static Iterable<String> getBezugsElementBezeichnungen(PZB_Element pzb) {
+		return pzb?.PZBElementBezugspunkt.filterNull.map [
+			getBezugElementBezeichnung
+		]
+	}
+
+	static dispatch def String getBezugElementBezeichnung(Basis_Objekt object) {
+		throw new IllegalArgumentException(object.class.simpleName)
+	}
+
+	static dispatch def String getBezugElementBezeichnung(
+		W_Kr_Gsp_Element object) {
+		return object?.bezeichnung?.bezeichnungTabelle?.wert
+	}
+
+	static dispatch def String getBezugElementBezeichnung(Signal object) {
+		return object?.signalReal?.signalFunktion?.wert ===
+			ENUMSignalFunktion.ENUM_SIGNAL_FUNKTION_BUE_UEBERWACHUNGSSIGNAL
+			? '''BÜ-K «object?.bezeichnung?.bezeichnungTabelle?.wert»'''
+			: object?.bezeichnung?.bezeichnungTabelle?.wert
 	}
 
 	private def static dispatch Stellelement getStellelement(

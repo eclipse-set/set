@@ -15,6 +15,8 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -22,15 +24,13 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.core.services.nls.Translation;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.set.basis.FreeFieldInfo;
+import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.OverwriteHandling;
 import org.eclipse.set.basis.Pair;
 import org.eclipse.set.basis.constants.ExportType;
 import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.basis.export.CheckBoxTreeElement;
-import org.eclipse.set.basis.export.CheckboxModelElement;
-import org.eclipse.set.basis.guid.Guid;
 import org.eclipse.set.core.services.export.AdditionalExportService;
 import org.eclipse.set.core.services.part.ToolboxPartService;
 import org.eclipse.set.feature.export.checkboxmodel.CheckboxTreeModel;
@@ -40,10 +40,10 @@ import org.eclipse.set.model.planpro.PlanPro.Container_AttributeGroup;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.extensions.TableExtensions;
 import org.eclipse.set.model.titlebox.Titlebox;
-import org.eclipse.set.ppmodel.extensions.utils.PlanProToFreeFieldTransformation;
-import org.eclipse.set.ppmodel.extensions.utils.PlanProToTitleboxTransformation;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
+import org.eclipse.set.services.export.ExportService.TableToExportPath;
 import org.eclipse.set.services.export.TableCompileService;
+import org.eclipse.set.services.export.TableExport.ExportFormat;
 import org.eclipse.set.services.table.TableService;
 import org.eclipse.set.utils.SaveAndRefreshAction;
 import org.eclipse.set.utils.SelectableAction;
@@ -70,6 +70,11 @@ import jakarta.inject.Inject;
  * @author rumpf
  */
 public abstract class PlanProExportPart extends DocumentExportPart {
+
+	private record TreeElementWithExportPaths(CheckBoxTreeElement treeElement,
+			List<Path> exportFilePaths) {
+
+	}
 
 	protected static final Logger logger = LoggerFactory
 			.getLogger(PlanProExportPart.class);
@@ -145,8 +150,8 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 			getDialogService().showProgress(getToolboxShell(), monitor -> {
 				logger.debug("Start update tree elements"); //$NON-NLS-1$
 				final Map<TableInfo, Table> pt1Tables = tableService
-						.transformTables(monitor, getModelSession(),
-								avaibleTables, tableType, areaIds);
+						.transformTables(monitor, avaibleTables, tableType,
+								areaIds);
 				Display.getDefault().asyncExec(() -> {
 					pt1Tables.forEach((tableInfo, table) -> {
 						CheckBoxTreeElement element = treeDataModel
@@ -174,8 +179,10 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 		}
 	}
 
+	@Override
 	@PreDestroy
-	private void preDestroy() {
+	protected void preDestroy() {
+		super.preDestroy();
 		logger.trace("preDestroy"); //$NON-NLS-1$ LOG
 		ToolboxEvents.unsubscribe(getBroker(), selectionControlAreaHandler);
 	}
@@ -185,10 +192,8 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 		final List<CheckBoxTreeElement> elements = new ArrayList<>();
 		final Collection<TableInfo> availableTables = tableService
 				.getAvailableTables();
-
 		availableTables.forEach(tableInfo -> {
-			final TableNameInfo nameInfo = tableService
-					.getTableNameInfo(tableInfo.shortcut());
+			final TableNameInfo nameInfo = tableInfo.nameInfo();
 			CheckBoxTreeElement parentElement = elements.stream()
 					.filter(ele -> ele.getId()
 							.equals(tableInfo.category().getId()))
@@ -225,53 +230,109 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 						.forEach(ele -> ele.deselect()));
 	}
 
-	private Path getAttachmentPath(final String guid) {
-		try {
-			return getModelSession().getToolboxFile()
-					.getMediaPath(Guid.create(guid));
-		} catch (final UnsupportedOperationException e) {
-			return null; // .ppxml-Files do not support attachments
+	@Override
+	protected void export(final List<CheckBoxTreeElement> elements,
+			final IModelSession modelSession, final IProgressMonitor monitor) {
+		if (additionalExportService != null && elements.stream()
+				.anyMatch(ele -> additionalExportService
+						.isAdditionalExportId(ele.getId()))) {
+			additionalExportService.createAdditionalExport(modelSession,
+					monitor, getSelectedDirectory(), getExportType(),
+					OverwriteHandling.forCheckbox(true));
 		}
+		final List<TableToExportPath> tablesToExport = getTablesToExport(
+				elements, modelSession);
+		monitor.setTaskName(getTaskMessage());
+		getExportService().exportMultiTable(getExportType(), tablesToExport,
+				modelSession, compileService, getTableType(),
+				modelSession.getSelectedControlAreas()
+						.stream()
+						.map(Pair::getSecond)
+						.collect(Collectors.toSet()),
+				monitor, OverwriteHandling.forCheckbox(true),
+				new ExceptionHandler(getToolboxShell(), getDialogService()));
 	}
 
 	@Override
-	protected void export(final CheckboxModelElement element,
-			final IModelSession modelSession,
-			final OverwriteHandling overwriteHandling,
-			final IProgressMonitor monitor) {
-		final String id = element.getId();
-		// Skip table category element
-		if (TableInfo.Pt1TableCategory.getCategoryEnum(id) != null) {
-			return;
-		}
+	protected List<CheckBoxTreeElement> filterOverwriteConfirmationFiles(
+			final Object[] checkedElements) {
+		final List<TreeElementWithExportPaths> treeElementWithExportPaths = toTreeElementWithExportPaths(
+				checkedElements);
+		final Map<Path, String> pathsAndDisplayName = treeElementWithExportPaths
+				.stream()
+				.flatMap(ele -> ele.exportFilePaths.stream()
+						.map(p -> Map.entry(p, ele.treeElement.getName())))
+				.collect(Collectors.toMap(Entry::getKey, Entry::getValue));
+		final Set<Entry<Path, String>> confirmationOverwriteFiles = getExportService()
+				.getConfirmationOverwriteFiles(pathsAndDisplayName,
+						getToolboxShell(),
+						files -> getDialogService().confirmOverwriteMultiFile(
+								getToolboxShell(), files,
+								IDialogConstants.OK_LABEL, null))
+				.entrySet();
 
-		if (additionalExportService != null
-				&& additionalExportService.isAdditionalExportId(id)) {
-			additionalExportService.createAdditionalExport(id, modelSession,
-					monitor, getSelectedDirectory(), getExportType(),
-					overwriteHandling);
-		} else {
-			final Map<TableType, Table> tables = compileService.compile(id,
-					modelSession,
-					modelSession.getSelectedControlAreas()
-							.stream()
-							.map(Pair::getSecond)
-							.collect(Collectors.toSet()));
-			final PlanProToTitleboxTransformation planProToTitlebox = new PlanProToTitleboxTransformation(
-					getSessionService());
-			final Titlebox titlebox = planProToTitlebox.transform(
-					tableService.getTableNameInfo(id), this::getAttachmentPath);
-			updateTitlebox(titlebox);
-			final PlanProToFreeFieldTransformation planProToFreeField = PlanProToFreeFieldTransformation
-					.create();
-			final FreeFieldInfo freeFieldInfo = planProToFreeField
-					.transform(modelSession);
-			getExportService().exportPdf(tables, getExportType(), titlebox,
-					freeFieldInfo, id, getSelectedDirectory().toString(),
-					modelSession.getToolboxPaths(), getTableType(),
-					overwriteHandling, new ExceptionHandler(getToolboxShell(),
-							getDialogService()));
-		}
+		return treeElementWithExportPaths.stream()
+				.filter(ele -> confirmationOverwriteFiles.stream()
+						.anyMatch(file -> file.getValue()
+								.equals(ele.treeElement.getName())))
+				.map(TreeElementWithExportPaths::treeElement)
+				.toList();
+	}
+
+	private List<TreeElementWithExportPaths> toTreeElementWithExportPaths(
+			final Object[] elements) {
+		return Arrays.stream(elements)
+				.filter(CheckBoxTreeElement.class::isInstance)
+				.map(CheckBoxTreeElement.class::cast)
+				.map(treeElement -> {
+					if (additionalExportService != null
+							&& additionalExportService.isAdditionalExportId(
+									treeElement.getId())) {
+						return new TreeElementWithExportPaths(treeElement,
+								additionalExportService.getExportPaths(
+										getModelSession(),
+										getSelectedDirectory(),
+										getExportType()));
+					}
+					if (getTreeDataModel() instanceof final TableCheckboxTreeModel tableCheckboxTreeModel) {
+						final TableInfo tableInfo = tableCheckboxTreeModel
+								.getTableInfo(treeElement)
+								.orElse(null);
+						if (tableInfo != null) {
+							final TableToExportPath instance = TableToExportPath
+									.createInstance(tableInfo,
+											getModelSession(), getExportType(),
+											getSelectedDirectory(),
+											getExportFormats());
+							return new TreeElementWithExportPaths(treeElement,
+									List.copyOf(
+											instance.getExportFormatAndPaths()
+													.values()));
+						}
+					}
+					return null;
+				})
+				.filter(Objects::nonNull)
+				.toList();
+	}
+
+	private List<TableToExportPath> getTablesToExport(
+			final List<CheckBoxTreeElement> elements,
+			final IModelSession modelSession) {
+		return elements.stream().map(treeElement -> {
+			if (getTreeDataModel() instanceof final TableCheckboxTreeModel tableCheckboxTreeModel) {
+				final TableInfo tableInfo = tableCheckboxTreeModel
+						.getTableInfo(treeElement)
+						.orElse(null);
+				if (tableInfo == null) {
+					return null;
+				}
+				return TableToExportPath.createInstance(tableInfo, modelSession,
+						getExportType(), getSelectedDirectory(),
+						getExportFormats());
+			}
+			return null;
+		}).filter(Objects::nonNull).toList();
 	}
 
 	protected abstract ExportType getExportType();
@@ -280,6 +341,8 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 	protected SelectableAction getOutdatedAction() {
 		return new SaveAndRefreshAction(this);
 	}
+
+	protected abstract List<ExportFormat> getExportFormats();
 
 	@Override
 	protected String getTaskMessage() {

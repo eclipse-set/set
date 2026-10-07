@@ -32,6 +32,11 @@ public class SslaDescriptionService extends AbstractESTWTableDescription {
 
 	@Override
 	protected String getToolboxViewTooltip() {
-		return messages.SslaDescriptionService_ViewTooltip;
+		return messages.SslsDescriptionService_ViewTooltip;
+	}
+
+	@Override
+	protected String getTableShortcut() {
+		return messages.ToolboxTableNameSslaShort;
 	}
 }

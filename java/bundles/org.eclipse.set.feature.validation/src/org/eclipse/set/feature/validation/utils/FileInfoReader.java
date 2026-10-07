@@ -17,13 +17,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.xml.type.internal.XMLCalendar;
+import org.eclipse.set.basis.PlanProXMLNode;
 import org.eclipse.set.basis.files.ToolboxFile;
 import org.eclipse.set.core.services.version.PlanProVersionService;
 import org.eclipse.set.model.validationreport.ContainerContent;
 import org.eclipse.set.model.validationreport.FileInfo;
 import org.eclipse.set.model.validationreport.ValidationreportFactory;
 import org.eclipse.set.utils.xml.XMLNodeFinder;
-import org.w3c.dom.Node;
 
 /**
  * @author Truong
@@ -78,10 +78,11 @@ public class FileInfoReader {
 	}
 
 	private String getFileTimeStamp() {
-		final Node timeStampValueNode = getValueNode(FILE_TIME_STAMP_NODE_NAME);
+		final PlanProXMLNode timeStampValueNode = getValueNode(
+				FILE_TIME_STAMP_NODE_NAME);
 		if (timeStampValueNode != null) {
 			final XMLCalendar xmlCalendar = new XMLCalendar(
-					timeStampValueNode.getTextContent(), XMLCalendar.DATETIME);
+					timeStampValueNode.getTextValue(), XMLCalendar.DATETIME);
 			return String.format("%1$td.%1$tm.%1$tY %1$tT", //$NON-NLS-1$
 					xmlCalendar.toGregorianCalendar());
 		}
@@ -89,18 +90,19 @@ public class FileInfoReader {
 	}
 
 	private String getFileGuid() {
-		final Node guidValueNode = getValueNode(FILE_GUID_NODE_NAME);
+		final PlanProXMLNode guidValueNode = getValueNode(FILE_GUID_NODE_NAME);
 		if (guidValueNode != null) {
-			return guidValueNode.getTextContent();
+			return guidValueNode.getTextValue();
 		}
 		return null;
 
 	}
 
-	private Node getValueNode(final String nodeName) {
-		final Node node = nodeFinder.findFirstNodeByNodeName(nodeName);
-		final Node valueNode = nodeFinder.findFirstNodeByNodeName(node,
-				VALUE_NODE_NAME);
+	private PlanProXMLNode getValueNode(final String nodeName) {
+		final PlanProXMLNode node = nodeFinder
+				.findFirstNodeByNodeName(nodeName);
+		final PlanProXMLNode valueNode = nodeFinder
+				.findFirstNodeByNodeName(node, VALUE_NODE_NAME);
 		if (valueNode != null) {
 
 			return valueNode;

@@ -119,8 +119,6 @@ public class TableTypeSelectionControl {
 			@Override
 			public boolean changed(final IEclipseContext context) {
 				setCombo(context.get(IModelSession.class));
-				ToolboxEvents.send(broker,
-						new NewTableTypeEvent(oldSelectedValue));
 				return true;
 			}
 		});

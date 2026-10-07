@@ -253,13 +253,28 @@ public class TransformStyle {
 	 */
 	public static void setExcelCellBorderStyle(final Optional<Cell> cell,
 			final BorderDirection direction, final BorderStyle style) {
-		if (cell.isEmpty()) {
+		setExcelCellBorderStyle(cell.orElse(null), direction, style);
+	}
+
+	/**
+	 * Set border style for excel cell
+	 * 
+	 * @param cell
+	 *            the excel cell
+	 * @param direction
+	 *            the border to set style
+	 * @param style
+	 *            the style
+	 */
+	public static void setExcelCellBorderStyle(final Cell cell,
+			final BorderDirection direction, final BorderStyle style) {
+		if (cell == null) {
 			return;
 		}
 
-		try (final Workbook workbook = cell.get().getSheet().getWorkbook()) {
+		try (final Workbook workbook = cell.getSheet().getWorkbook()) {
 			final CellStyle newStyle = workbook.createCellStyle();
-			newStyle.cloneStyleFrom(cell.get().getCellStyle());
+			newStyle.cloneStyleFrom(cell.getCellStyle());
 			switch (direction) {
 				case LEFT:
 					newStyle.setBorderLeft(style);
@@ -277,7 +292,7 @@ public class TransformStyle {
 					break;
 			}
 
-			cell.get().setCellStyle(newStyle);
+			cell.setCellStyle(newStyle);
 
 		} catch (final IOException e) {
 			throw new RuntimeException(e);

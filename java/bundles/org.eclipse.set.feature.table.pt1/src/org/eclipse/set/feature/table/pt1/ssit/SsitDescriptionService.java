@@ -35,4 +35,9 @@ public class SsitDescriptionService extends AbstractESTWTableDescription {
 		return messages.SsitDescriptionService_ViewTooltip;
 	}
 
+	@Override
+	protected String getTableShortcut() {
+		return messages.ToolboxTableNameSsitShort;
+	}
+
 }

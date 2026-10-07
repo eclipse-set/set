@@ -14,7 +14,9 @@ import static org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparat
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
+import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator;
@@ -22,8 +24,11 @@ import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableTransformationServ
 import org.eclipse.set.feature.table.pt1.messages.Messages;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Aussenelementansteuerung;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.ESTW_Zentraleinheit;
+import org.eclipse.set.model.planpro.Basisobjekte.Strecke_Km_TypeClass;
+import org.eclipse.set.model.planpro.Verweise.ID_Strecke_TypeClass;
 import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
+import org.eclipse.set.utils.table.TableInfo.Pt1TableCategory;
 import org.eclipse.set.utils.table.sorting.TableRowGroupComparator;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -62,8 +67,9 @@ public final class SskaTransformationService
 	}
 
 	@Override
-	public Comparator<RowGroup> getRowGroupComparator() {
-		return TableRowGroupComparator.builder()
+	public Comparator<RowGroup> getRowGroupComparator(
+			final TableType tableType) {
+		return TableRowGroupComparator.builder(tableType)
 				.sort(ESTW_Zentraleinheit.class, Aussenelementansteuerung.class)
 				.sort("A", LEXICOGRAPHICAL, ASC) //$NON-NLS-1$
 				.build();
@@ -73,7 +79,8 @@ public final class SskaTransformationService
 	public TableNameInfo getTableNameInfo() {
 		return new TableNameInfo(messages.ToolboxTableNameSskaLong,
 				messages.ToolboxTableNameSskaPlanningNumber,
-				messages.ToolboxTableNameSskaShort);
+				messages.ToolboxTableNameSskaShort,
+				messages.ToolboxTableNameSskaRil);
 	}
 
 	@Override
@@ -91,4 +98,20 @@ public final class SskaTransformationService
 		return Collections.emptyList();
 	}
 
+	@Override
+	protected String getRemarkColumnPosition() {
+		return SskaColumns.Bemerkung;
+	}
+
+	@Override
+	protected Map<Class<?>, String> getFootnotesColumnReferences() {
+		return Map.of(ID_Strecke_TypeClass.class,
+				SskaColumns.Unterbringung_Strecke, Strecke_Km_TypeClass.class,
+				SskaColumns.Unterbringung_km);
+	}
+
+	@Override
+	protected Pt1TableCategory getTableCategory() {
+		return Pt1TableCategory.ESTW;
+	}
 }

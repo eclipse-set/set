@@ -9,7 +9,6 @@
 
 package org.eclipse.set.core.modelservice;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -33,14 +32,8 @@ import org.osgi.service.component.annotations.Component;
  */
 @Component
 public class PlanningAccessServiceImpl implements PlanningAccessService {
-	private static LinkedList<ENUMUntergewerkArt> subworkByPriority = new LinkedList<>() {
-		{
-			add(ENUMUntergewerkArt.ENUM_UNTERGEWERK_ART_ATO);
-			add(ENUMUntergewerkArt.ENUM_UNTERGEWERK_ART_ETCS);
-			add(ENUMUntergewerkArt.ENUM_UNTERGEWERK_ART_ESTW);
-			add(ENUMUntergewerkArt.ENUM_UNTERGEWERK_ART_GEO);
-		}
-	};
+
+	private ENUMUntergewerkArt currentUntergewerkArt = null;
 
 	private static void createPrerequisiteElements(
 			final PlanPro_Schnittstelle planProIterface) {
@@ -119,22 +112,33 @@ public class PlanningAccessServiceImpl implements PlanningAccessService {
 	@Override
 	public Planung_Gruppe getLeadingPlanungGruppe(
 			final Planung_Projekt project) {
+
 		final List<Planung_Gruppe> planingGroups = project
 				.getLSTPlanungGruppe();
+
 		if (planingGroups.isEmpty()) {
 			return null;
 		}
+
+		final var currentArt = getCurrentUntergewerkArt();
+		if (currentArt == null) {
+			return planingGroups.get(0);
+		}
+
 		final Map<ENUMUntergewerkArt, List<Planung_Gruppe>> groupsBySubWork = planingGroups
 				.stream()
-				.filter(group -> getUntergewerkArt(group) != null)
+				.filter(group -> {
+					final var groupArt = getUntergewerkArt(group);
+					return groupArt != null && groupArt.equals(currentArt);
+				})
 				.collect(Collectors
 						.groupingBy(group -> getUntergewerkArt(group)));
-		for (final ENUMUntergewerkArt subWork : subworkByPriority) {
-			if (groupsBySubWork.containsKey(subWork)) {
-				return groupsBySubWork.get(subWork).getFirst();
-			}
+
+		if (groupsBySubWork.containsKey(currentArt)) {
+			return groupsBySubWork.get(currentArt).get(0);
 		}
-		return planingGroups.getFirst();
+
+		return planingGroups.get(0);
 	}
 
 	@Override
@@ -184,5 +188,16 @@ public class PlanningAccessServiceImpl implements PlanningAccessService {
 				groups.remove(groupToBeReplaced);
 			}
 		}
+	}
+
+	@Override
+	public ENUMUntergewerkArt getCurrentUntergewerkArt() {
+		return currentUntergewerkArt;
+	}
+
+	@Override
+	public void setCurrentUntergewerkArt(
+			final ENUMUntergewerkArt untergewerkArt) {
+		currentUntergewerkArt = untergewerkArt;
 	}
 }

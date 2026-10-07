@@ -14,7 +14,6 @@ import java.util.Set
 import org.eclipse.set.basis.Wrapper
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
-import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.Gleis.Gleis_Schaltgruppe
 import org.eclipse.set.model.planpro.Ortung.FMA_Anlage
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element
@@ -30,7 +29,6 @@ import static org.eclipse.set.model.planpro.Ortung.ENUMUebertragungFMinfoRichtun
 import static extension org.eclipse.set.ppmodel.extensions.AussenelementansteuerungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FmaAnlageExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspElementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspKomponenteExtensions.*
 
@@ -50,11 +48,9 @@ class SskfTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
-		TMFactory factory, Stell_Bereich controlArea) {
+		TMFactory factory) {
 		// Maßgebendes Objekt: FMA_Anlage
-		val Iterable<FMA_Anlage> fmaAnlageList = container.FMAAnlage.filter [
-			isPlanningObject
-		].filterObjectsInControlArea(controlArea)
+		val Iterable<FMA_Anlage> fmaAnlageList = container.FMAAnlage
 
 		for (fmaAnlage : fmaAnlageList) {
 			if (Thread.currentThread.interrupted) {

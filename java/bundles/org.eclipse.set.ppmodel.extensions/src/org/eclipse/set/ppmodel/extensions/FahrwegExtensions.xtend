@@ -8,6 +8,7 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
+import java.math.BigDecimal
 import java.util.LinkedList
 import java.util.List
 import java.util.Set
@@ -201,10 +202,13 @@ class FahrwegExtensions extends BereichObjektExtensions {
 		W_Kr_Gsp_Komponente komponente) {
 		val path = fahrweg.path
 		val weichenKnoten = komponente.topKnoten
+
 		val schenkels = path.getEdges(weichenKnoten).filter [
 			element.getTOPAnschluss(weichenKnoten) != ENUMTOP_ANSCHLUSS_SPITZE
 		]
-		Assert.isTrue(schenkels.size == 1)
+
+		Assert.isTrue(schenkels.size == 1, '''Unplausible Verbindung bei «IF weichenKnoten !== null» Top_Knoten: «weichenKnoten.identitaet.wert»«
+			»«ELSEIF komponente !== null» Weiche: «komponente?.identitaet?.wert»«ENDIF»''')
 		val schenkel = schenkels.get(0)
 		val anschluss = schenkel.element.getTOPAnschluss(weichenKnoten)
 		if (anschluss === ENUMTOP_ANSCHLUSS_LINKS) {
@@ -213,7 +217,7 @@ class FahrwegExtensions extends BereichObjektExtensions {
 		if (anschluss === ENUMTOP_ANSCHLUSS_RECHTS) {
 			return new WeichenSchenkel(schenkel, WeichenSchenkel.Lage.R)
 		}
-		throw new IllegalArgumentException(komponente.identitaet.wert)
+		throw new IllegalArgumentException('''Unplausible Weicheschenkel: «komponente.identitaet.wert»''')
 	}
 
 	/**
@@ -307,9 +311,9 @@ class FahrwegExtensions extends BereichObjektExtensions {
 		val notUsableGleisArt = fahrweg.container.gleisArt.filter [
 			notUsable.contains(gleisart.wert)
 		]
-
+		val maximalPathLength = fahrwegPath.length * BigDecimal.TEN
 		val routes = startEdge.getPaths(new TopRouting, fahrwegPath.start,
-			fahrwegPath.end).filter [ r |
+			fahrwegPath.end, maximalPathLength).filter [ r |
 			notUsableGleisArt.forall[!areaIntersects(r)]
 		].toList
 

@@ -11,7 +11,6 @@ package org.eclipse.set.feature.table.pt1.sskt
 import java.util.Set
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
-import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.Ansteuerung_Element.TSO_IP_AB_Teilsystem_AttributeGroup
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Technik_Standort
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Unterbringung
@@ -31,7 +30,6 @@ import static org.eclipse.set.feature.table.pt1.sskt.SsktColumns.*
 import static extension org.eclipse.set.ppmodel.extensions.BedienStandortExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TechnikStandortExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.UnterbringungExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 
 /**
  * Table transformation for Sskt.
@@ -48,16 +46,14 @@ class SsktTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
-		TMFactory factory, Stell_Bereich controlArea) {
+		TMFactory factory) {
 		this.factory = factory
-		return container.transformToTable(controlArea)
+		return container.transformToTable
 	}
 
 	private def Table create factory.table transformToTable(
-		MultiContainer_AttributeGroup container, Stell_Bereich controlArea) {
+		MultiContainer_AttributeGroup container) {
 		(container.technikStandort + container.bedienStandort).filter [
-			isPlanningObject
-		].filterObjectsInControlArea(controlArea).filter [
 			generalbedingung
 		].forEach [
 			if (Thread.currentThread.interrupted) {
