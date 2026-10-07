@@ -10,6 +10,7 @@ package org.eclipse.set.core.services.cache;
 
 import org.eclipse.set.basis.cache.Cache;
 import org.eclipse.set.basis.files.ToolboxFileRole;
+import org.eclipse.set.model.planpro.Layoutinformationen.PlanPro_Layoutinfo;
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
 
 /**
@@ -31,6 +32,20 @@ public interface CacheService {
 	 *             if no cache for the given id is found
 	 */
 	public Cache getCache(PlanPro_Schnittstelle schnittstelle, String cacheId)
+			throws IllegalArgumentException;
+
+	/**
+	 * @param layoutInfo
+	 *            the {@link PlanPro_Layoutinfo}
+	 * @param cacheId
+	 *            the id for the cache
+	 * 
+	 * @return the cache
+	 * 
+	 * @throws IllegalArgumentException
+	 *             if no cache for the given id is found
+	 */
+	public Cache getCache(PlanPro_Layoutinfo layoutInfo, String cacheId)
 			throws IllegalArgumentException;
 
 	/**
