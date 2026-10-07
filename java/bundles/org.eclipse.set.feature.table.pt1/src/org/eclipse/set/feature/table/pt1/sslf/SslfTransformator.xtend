@@ -11,6 +11,7 @@ package org.eclipse.set.feature.table.pt1.sslf
 import java.util.Set
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
+import org.eclipse.set.model.planpro.Flankenschutz.ENUMFahrtUeber
 import org.eclipse.set.model.planpro.Flankenschutz.Fla_Schutz
 import org.eclipse.set.model.planpro.Nahbedienung.NB_Zone_Grenze
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element
@@ -23,7 +24,6 @@ import static org.eclipse.set.feature.table.pt1.sslf.SslfColumns.*
 
 import static extension org.eclipse.set.ppmodel.extensions.FlaFreimeldeZuordnungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FlaSchutzExtensions.*
-import org.eclipse.set.ppmodel.extensions.FlaSchutzExtensions
 
 /**
  * Table transformation for a Flankenschutztabelle (SSLF).
@@ -43,7 +43,7 @@ class SslfTransformator extends AbstractPlanPro2TableModelTransformator {
 	) {
 		val flaSchutzList = container.flaSchutz.filter[generalbedingung].sortBy [
 			WLageNbGrenze
-			]
+		]
 
 		for (flaSchutz : flaSchutzList) {
 			if (Thread.currentThread.interrupted) {
@@ -170,10 +170,10 @@ class SslfTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	private def boolean isGeneralbedingung(Fla_Schutz flaSchutz) {
-		return newLinkedList(ENUM_FAHRT_UEBER_LINKS, ENUM_FAHRT_UEBER_RECHTS).
-			contains(
-				flaSchutz?.flaSchutzAnforderer?.fahrtUeber?.wert
-			) || flaSchutz?.anforderer instanceof NB_Zone_Grenze
+		return newLinkedList(ENUMFahrtUeber.ENUM_FAHRT_UEBER_LINKS,
+			ENUMFahrtUeber.ENUM_FAHRT_UEBER_RECHTS).contains(
+			flaSchutz?.flaSchutzAnforderer?.fahrtUeber?.wert
+		) || flaSchutz?.anforderer instanceof NB_Zone_Grenze
 	}
 
 	private def String getWeitergabeWKrBezeichnung(Fla_Schutz flaSchutz) {
