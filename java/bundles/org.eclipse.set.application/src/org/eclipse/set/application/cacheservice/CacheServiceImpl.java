@@ -64,8 +64,7 @@ public class CacheServiceImpl implements CacheService, EventHandler {
 	@Override
 	public Cache getCache(final PlanPro_Layoutinfo layoutInfo,
 			final String cacheId) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+		return getCache(getSessionRole(layoutInfo), cacheId);
 	}
 
 	@Override
