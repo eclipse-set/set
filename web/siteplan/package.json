@@ -38,7 +38,7 @@
     "@types/geojson": "^7946.0.15",
     "@typescript-eslint/eslint-plugin": "^8.70.1",
     "@typescript-eslint/parser": "^8.32.1",
-    "@vitejs/plugin-vue": "^6.0.8",
+    "@vitejs/plugin-vue": "^6.0.9",
     "@eslint/eslintrc": "^3.3.7",
     "@eslint/js": "^10.0.1",
     "dotenv": "^18.0.4",
