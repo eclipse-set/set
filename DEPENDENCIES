@@ -270,7 +270,7 @@ npm/npmjs/-/dom-converter/0.2.0, MIT, approved, clearlydefined
 npm/npmjs/-/dom-serializer/1.4.1, MIT, approved, clearlydefined
 npm/npmjs/-/domelementtype/2.3.0, BSD-2-Clause, approved, #24835
 npm/npmjs/-/domhandler/4.3.1, BSD-2-Clause, approved, clearlydefined
-npm/npmjs/-/dompurify/3.4.8, Apache-2.0 OR MPL-2.0, approved, #27185
+npm/npmjs/-/dompurify/3.4.15, Apache-2.0 OR MPL-2.0, approved, #27185
 npm/npmjs/-/domutils/2.8.0, BSD-2-Clause, approved, clearlydefined
 npm/npmjs/-/dot-case/3.0.4, MIT, approved, clearlydefined
 npm/npmjs/-/dotenv/18.0.4, BSD-2-Clause, approved, #31606
@@ -404,7 +404,6 @@ npm/npmjs/-/isexe/2.0.0, ISC, approved, clearlydefined
 npm/npmjs/-/isobject/3.0.1, MIT, approved, clearlydefined
 npm/npmjs/-/jest-worker/27.5.1, 0BSD AND Apache-2.0 AND BSD-2-Clause AND MIT, approved, #1952
 npm/npmjs/-/js-yaml/4.3.2, MIT, approved, #29473
-npm/npmjs/-/jsesc/3.1.0, MIT, approved, #18401
 npm/npmjs/-/json-schema-traverse/0.4.1, MIT, approved, clearlydefined
 npm/npmjs/-/json-schema-traverse/1.0.0, MIT, approved, #24851
 npm/npmjs/-/json-stable-stringify-without-jsonify/1.0.1, MIT, approved, clearlydefined
@@ -454,7 +453,7 @@ npm/npmjs/-/minimist/1.2.8, MIT, approved, #5886
 npm/npmjs/-/minimizer-webpack-plugin/5.10.1, MIT AND BSD-3-Clause, approved, #30865
 npm/npmjs/-/minimizer-webpack-plugin/5.12.0, MIT AND BSD-3-Clause, approved, #31764
 npm/npmjs/-/mlly/1.8.2, MIT, approved, #22998
-npm/npmjs/-/monaco-editor/0.56.0, MIT AND Apache-2.0 AND CC-BY-4.0 AND Unicode-TOU AND MIT AND W3C-20150513 AND MPL-2.0, approved, #29901
+npm/npmjs/-/monaco-editor/0.57.0, MIT AND Apache-2.0 AND X11 AND W3C-20150513 AND Unicode-DFS-2016 AND Unicode-TOU AND MPL-2.0 AND CC-BY-4.0, approved, #32034
 npm/npmjs/-/ms/2.0.0, MIT, approved, #31386
 npm/npmjs/-/ms/2.1.2, MIT, approved, #5895
 npm/npmjs/-/ms/2.1.3, MIT, approved, #5895
@@ -642,7 +641,7 @@ npm/npmjs/-/vite/8.3.1, Apache-2.0 AND BSD-2-Clause AND CC0-1.0 AND ISC AND MIT,
 npm/npmjs/-/vscode-uri/3.2.0, MIT, approved, #30482
 npm/npmjs/-/vue-class-component/8.0.0-rc.1, MIT, approved, clearlydefined
 npm/npmjs/-/vue-eslint-parser/10.4.0, MIT, approved, #27057
-npm/npmjs/-/vue-router/5.2.0, MIT, approved, #29850
+npm/npmjs/-/vue-router/5.3.1, MIT, approved, #32167
 npm/npmjs/-/vue-tsc/3.3.11, MIT, approved, #31948
 npm/npmjs/-/vue/3.5.43, MIT AND ISC, approved, #16083
 npm/npmjs/-/vuex/4.1.0, MIT, approved, clearlydefined
@@ -663,20 +662,14 @@ npm/npmjs/-/ws/8.21.0, MIT, approved, #28417
 npm/npmjs/-/wsl-utils/0.3.1, MIT, approved, #25885
 npm/npmjs/-/xml-name-validator/5.0.0, Apache-2.0, approved, clearlydefined
 npm/npmjs/-/xml-utils/1.10.2, CC0-1.0, approved, clearlydefined
-npm/npmjs/-/yaml/2.9.0, ISC, approved, #28113
 npm/npmjs/-/yocto-queue/0.1.0, MIT, approved, clearlydefined
 npm/npmjs/-/zarrita/0.7.2, MIT, approved, #27543
 npm/npmjs/-/zstddec/0.2.0, BSD-3-Clause AND MIT AND BSD-3-Clause, approved, #27018
 npm/npmjs/@aashutoshrathi/word-wrap/1.2.6, MIT, approved, #9212
-npm/npmjs/@babel/generator/8.0.0, MIT, approved, #28304
 npm/npmjs/@babel/helper-string-parser/7.29.7, MIT, approved, #28396
-npm/npmjs/@babel/helper-string-parser/8.0.0, MIT, approved, #28305
 npm/npmjs/@babel/helper-validator-identifier/7.29.7, MIT, approved, #28398
-npm/npmjs/@babel/helper-validator-identifier/8.0.4, MIT, approved, #28307
 npm/npmjs/@babel/parser/7.29.8, MIT, approved, #25809
-npm/npmjs/@babel/parser/8.0.4, MIT, approved, #28308
 npm/npmjs/@babel/types/7.29.8, MIT, approved, #25827
-npm/npmjs/@babel/types/8.0.4, MIT, approved, #28306
 npm/npmjs/@cacheable/memory/2.2.0, MIT, approved, clearlydefined
 npm/npmjs/@cacheable/utils/2.5.0, MIT, approved, clearlydefined
 npm/npmjs/@discoveryjs/json-ext/1.1.0, MIT, approved, clearlydefined
@@ -811,7 +804,6 @@ npm/npmjs/@types/express/5.0.6, MIT, approved, clearlydefined
 npm/npmjs/@types/geojson/7946.0.16, MIT, approved, #11480
 npm/npmjs/@types/html-minifier-terser/6.1.0, MIT, approved, clearlydefined
 npm/npmjs/@types/http-errors/2.0.5, MIT, approved, #10815
-npm/npmjs/@types/jsesc/2.5.1, MIT, approved, clearlydefined
 npm/npmjs/@types/json-schema/7.0.15, MIT, approved, clearlydefined
 npm/npmjs/@types/mime/1.3.2, MIT, approved, #10834
 npm/npmjs/@types/node/18.0.0, MIT, approved, clearlydefined
@@ -835,7 +827,7 @@ npm/npmjs/@typescript-eslint/types/8.70.1, MIT, approved, #31770
 npm/npmjs/@typescript-eslint/typescript-estree/8.70.1, MIT, approved, #31778
 npm/npmjs/@typescript-eslint/utils/8.70.1, MIT, approved, #31776
 npm/npmjs/@typescript-eslint/visitor-keys/8.70.1, MIT, approved, #31759
-npm/npmjs/@vitejs/plugin-vue/6.0.8, MIT, approved, #26690
+npm/npmjs/@vitejs/plugin-vue/6.0.9, MIT, approved, #26690
 npm/npmjs/@volar/language-core/2.4.28, MIT, approved, #15619
 npm/npmjs/@volar/source-map/2.4.28, MIT, approved, #15620
 npm/npmjs/@volar/typescript/2.4.28, MIT, approved, #15615
