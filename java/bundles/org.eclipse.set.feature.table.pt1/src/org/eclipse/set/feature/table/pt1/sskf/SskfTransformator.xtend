@@ -61,9 +61,13 @@ class SskfTransformator extends AbstractPlanPro2TableModelTransformator {
 
 			val List<Gleis_Schaltgruppe> schaltgruppen = fmaAnlage.
 				getGleisSchaltgruppen(MIN_GLEIS_SCHALTGRUPPE_OVERLAP_LENGTH)
-			schaltgruppen.forEach [ group |
-				transform(rowGroup.newTableRow, fmaAnlage, group)
-			]
+			if (schaltgruppen.nullOrEmpty) {
+				transform(rowGroup.newTableRow, fmaAnlage, null)
+			} else {
+				schaltgruppen.forEach [ group |
+					transform(rowGroup.newTableRow, fmaAnlage, group)
+				]
+			}
 		}
 
 		return factory.table
@@ -264,21 +268,23 @@ class SskfTransformator extends AbstractPlanPro2TableModelTransformator {
 			ITERABLE_FILLING_SEPARATOR
 		)
 
-		// R: Sonstiges.OlA.Schaltgruppe
-		fill(
-			instance,
-			cols.getColumn(Sonstiges_OlA_Schaltgruppe),
-			schaltGruppe,
-			[bezeichnung?.bezeichnungAussenanlage?.wert ?: ""]
-		)
+		if (schaltGruppe !== null) {
+			// R: Sonstiges.OlA.Schaltgruppe
+			fill(
+				instance,
+				cols.getColumn(Sonstiges_OlA_Schaltgruppe),
+				schaltGruppe,
+				[bezeichnung?.bezeichnungAussenanlage?.wert ?: ""]
+			)
 
-		// S: Sonstiges.OlA.Bezeichner
-		fill(
-			instance,
-			cols.getColumn(Sonstiges_OlA_Bezeichner),
-			schaltGruppe,
-			[bezeichnung?.bezeichnungTabelle?.wert ?: ""]
-		)
+			// S: Sonstiges.OlA.Bezeichner
+			fill(
+				instance,
+				cols.getColumn(Sonstiges_OlA_Bezeichner),
+				schaltGruppe,
+				[bezeichnung?.bezeichnungTabelle?.wert ?: ""]
+			)
+		}
 
 		// T: Sonstiges.zul_v
 		fill(
