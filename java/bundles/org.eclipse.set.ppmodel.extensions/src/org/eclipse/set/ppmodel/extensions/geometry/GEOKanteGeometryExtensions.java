@@ -217,8 +217,6 @@ public class GEOKanteGeometryExtensions {
 				.doubleValue();
 		if (radiusA != 0 && radiusB != 0) {
 			// Bloss curve connecting two curve tracks
-			// logger.warn("Form Bloss between straight tracks not supported.");
-			// //$NON-NLS-1$
 			final Bloss bloss = new Bloss(radiusA, radiusB, length,
 					geometryOptions.precision());
 
