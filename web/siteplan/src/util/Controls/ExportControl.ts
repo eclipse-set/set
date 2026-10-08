@@ -195,10 +195,13 @@ export default class ExportControl extends Control {
         return []
       }
 
-      const directionLineAngle = directionLineCoords.length > 1
+      const hasDirectionLine = directionLineCoords.length > 1
+      const directionLineAngle = hasDirectionLine
         ? angle(directionLineCoords[1], directionLineCoords[0])
         : toRad(90)
-      const anchor = (sheetCutGeometry as Polygon).getFirstCoordinate()
+      const anchor = hasDirectionLine
+        ? directionLineCoords[1]
+        : (sheetCutGeometry as Polygon).getFirstCoordinate()
 
       // To fit the size of the sheet cut, the sheet cut was rotated
       // to align with the North Pole and then split to match the size of the viewport.
