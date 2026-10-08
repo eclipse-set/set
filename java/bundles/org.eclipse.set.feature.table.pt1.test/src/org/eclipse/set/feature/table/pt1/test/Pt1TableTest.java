@@ -113,7 +113,7 @@ public abstract class Pt1TableTest extends AbstractToolboxTest {
 	protected String failMessages(
 			final Collection<PlanPro2TableTransformationService> transformationServices) {
 		return "Missing: " + expectedTransformationServices.stream()
-				.filter(expect -> !transformationServices.stream()
+				.filter(expect -> transformationServices.stream()
 						.noneMatch(actual -> actual.getClass()
 								.getName()
 								.endsWith(expect)))
