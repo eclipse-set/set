@@ -15,6 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.eclipse.e4.core.contexts.IContextFunction;
 import org.eclipse.set.basis.constants.TableType;
@@ -128,8 +129,15 @@ public class Pt1TableDataTest extends AbstractPt1TableDataTest {
 	@Test
 	void testExistTableTransformService() throws Exception {
 		givenTableService();
-		assertTrue(assertInjectedAllTransformationService(
-				modelServiceMap.values().stream().toList()));
+		assertTrue(
+				assertInjectedAllTransformationService(
+						modelServiceMap.values().stream().toList()),
+				"Actual TransformationService: " + System.lineSeparator()
+						+ modelServiceMap.values()
+								.stream()
+								.map(service -> service.getClass().getName())
+								.collect(Collectors
+										.joining(System.lineSeparator())));
 	}
 
 	@ParameterizedTest
