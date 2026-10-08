@@ -11,7 +11,7 @@
     "lint": "eslint src",
     "test:e2e": "playwright test",
     "typecheck": "vue-tsc --noEmit",
-    "test:e2e:docker": "docker run --rm --ipc=host -v .:/app -v /app/node_modules -w /app mcr.microsoft.com/playwright:v1.61.1-noble",
+    "test:e2e:docker": "docker run --rm --ipc=host -v .:/app -v /app/node_modules -w /app mcr.microsoft.com/playwright:v1.62.1-noble",
     "test:e2e:run":  "npm run test:e2e:docker -- bash -c 'npm ci && npm run test:e2e'",
     "test:e2e:update": "npm run test:e2e:docker -- bash -c 'npm ci && npm run test:e2e -- -u'"
   },
@@ -28,17 +28,17 @@
     "ol-mapbox-style": "^13.5.1",
     "vue": "^3.5.43",
     "vue-class-component": "^8.0.0-1",
-    "vue-router": "^5.2.0",
+    "vue-router": "^5.3.1",
     "vuex": "^4.1.0"
   },
   "devDependencies": {
     "@types/node": "^26.6.4",
-    "@playwright/test": "^1.61.1",
+    "@playwright/test": "^1.63.0",
     "@stylistic/eslint-plugin": "5.10.0",
     "@types/geojson": "^7946.0.15",
-    "@typescript-eslint/eslint-plugin": "^8.70.1",
+    "@typescript-eslint/eslint-plugin": "^8.71.0",
     "@typescript-eslint/parser": "^8.32.1",
-    "@vitejs/plugin-vue": "^6.0.8",
+    "@vitejs/plugin-vue": "^6.0.9",
     "@eslint/eslintrc": "^3.3.7",
     "@eslint/js": "^10.0.1",
     "dotenv": "^18.0.4",
@@ -49,6 +49,6 @@
     "tslib": "^2.8.1",
     "typescript": "^6.0.3",
     "vite": "^8.3.1",
-    "vue-tsc": "^3.3.4"
+    "vue-tsc": "^3.3.12"
   }
 }
