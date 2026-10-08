@@ -96,13 +96,6 @@ class PlanProToTitleboxTransformation {
 			lastQualitaetPruefung?.handelnder?.akteurAllg?.nameAkteur?.wert ?:
 				"")
 
-		val lastPlanungFreigabe = planungEinzel?.planungEHandlung?.
-			planungEFreigabe?.lastOrNull
-		it.set(91,
-			lastPlanungFreigabe?.datum?.wert?.toString(DATE_FORMAT_LONG) ?: "")
-		it.set(92,
-			lastPlanungFreigabe?.handelnder?.akteurAllg?.nameAkteur?.wert ?: "")
-
 		val lastPlanungAbnahme = planungEinzel?.planungEHandlung?.
 			planungEAbnahme?.lastOrNull
 		val lastPlanungUebernahme = planungEinzel?.planungEHandlung?.
@@ -178,7 +171,7 @@ class PlanProToTitleboxTransformation {
 				planungEinzel?.planungEHandlung?.planungEErstellung?.lastOrNull
 			it.set(48, comparePlanungAllgemein?.buildLastEditionNumber)
 			it.set(62,
-				compareLastPlanungEErstellung?.datum.wert?.toString(
+				compareLastPlanungEErstellung?.datum?.wert?.toString(
 					DATE_FORMAT) ?: "")
 
 			// Fill main plan information

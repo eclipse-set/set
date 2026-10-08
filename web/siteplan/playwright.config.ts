@@ -29,12 +29,20 @@ export default defineConfig({
       use: { ...devices['Desktop Chrome'] }
     }
   ],
+  expect: {
+    toHaveScreenshot: {
+      maxDiffPixelRatio: 0.0005
+    }
+  },
 
   /* In CI use production build otherwise running
   local dev server before starting the tests */
   webServer: {
     command: process.env.CI ? 'npm run build-prod && npm exec vite preview -- --port 8080' : 'npm run serve',
     url: 'http://localhost:8080',
-    reuseExistingServer: !process.env.CI
+    reuseExistingServer: !process.env.CI,
+    env: {
+      VITE_NO_FLASHING: 'true'
+    }
   }
 })

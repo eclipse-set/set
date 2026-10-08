@@ -297,6 +297,12 @@ public class ToolboxTableView extends BasePart {
 					t.getControlAreas()
 							.forEach(area -> controlAreaIds.add(area.areaId()));
 					tableType = t.getTableType();
+					final TableStatus tableStatus = tableService
+							.getTablesStatus(tableInfo.category())
+							.getOrDefault(tableInfo, null);
+					if (tableStatus != null) {
+						tableStatus.reset();
+					}
 					updateTableView(t.getControlAreas().isEmpty()
 							? Collections.emptyList()
 							: List.of(Pt1TableCategory.ESTW));
@@ -367,6 +373,7 @@ public class ToolboxTableView extends BasePart {
 					if (transformedTable == null) {
 						return;
 					}
+					showErroneousTableStatus();
 					updateModel(getToolboxPart(), transformedTable);
 					natTable.doCommand(new RowHeightResetCommand());
 					natTable.refresh();
@@ -402,14 +409,8 @@ public class ToolboxTableView extends BasePart {
 		if (table == null) {
 			return;
 		}
+		showErroneousTableStatus();
 		subcribeTriggerResortEvent();
-		final TableStatus status = tableService
-				.getTablesStatus(tableInfo.category())
-				.getOrDefault(tableInfo, null);
-		if (status == null || status.isNonTransformable()) {
-			getDialogService().error(getToolboxShell(),
-					messages.TableTransform_Error_Msg);
-		}
 
 		final ColumnDescriptor rootColumnDescriptor = table
 				.getColumndescriptors()
@@ -901,7 +902,8 @@ public class ToolboxTableView extends BasePart {
 				.getRowGroupComparator(tableInfo, tableType);
 		if (table != null
 				&& comparator instanceof final TableRowGroupComparator rowGroupComparator) {
-			// This is new instance of Comparator, therefore need call sort here
+			// This is new instance of Comparator, therefore need call sort
+			// here
 			// to determine the waiting on another service criterion
 			ECollections.sort(table.getTablecontent().getRowgroups(),
 					rowGroupComparator);
@@ -936,6 +938,28 @@ public class ToolboxTableView extends BasePart {
 							natTable.refresh();
 						}
 					}));
+			if (!rowGroupComparator.getCriterionsException().isEmpty()) {
+				getDialogService().openInformation(getToolboxShell(),
+						getViewTitle(), messages.TableTransform_Sort_Error);
+			}
+		}
+	}
+
+	private void showErroneousTableStatus() {
+		final TableStatus status = tableService
+				.getTablesStatus(tableInfo.category())
+				.getOrDefault(tableInfo, null);
+		if (status == null) {
+			getDialogService().error(getToolboxShell(),
+					messages.TableTransform_Error_Msg);
+		} else if (status.isNonTransformable()) {
+			getDialogService().error(getToolboxShell(),
+					messages.TableTransform_Error,
+					messages.TableTransform_Error_Msg,
+					status.getTransformException().get());
+		} else if (!status.isSortSuccess()) {
+			getDialogService().openInformation(getToolboxShell(),
+					getViewTitle(), messages.TableTransform_Sort_Error);
 		}
 	}
 

@@ -344,7 +344,6 @@ public final class TableServiceImpl implements TableService {
 		}
 
 		// sorting
-		sortTable(transformedTable, tableInfo, tableType);
 		saveTableToCache(transformedTable, modelSession, tableInfo,
 				tableStatus);
 		return transformedTable;
@@ -474,7 +473,6 @@ public final class TableServiceImpl implements TableService {
 					.orElse(Collections.emptyList())
 					.isEmpty());
 		}
-		sortTable(resultTable, tableInfo, tableType);
 
 		return resultTable;
 	}
@@ -624,6 +622,16 @@ public final class TableServiceImpl implements TableService {
 				throw new RuntimeException(e);
 			} catch (final InterruptedException e) {
 				Thread.currentThread().interrupt();
+			} finally {
+				transformTableThreads.stream()
+						.map(t -> getTableInfo(t.getKey()))
+						.filter(tableInfo -> {
+							final TableStatus status = tablesStatus
+									.get(tableInfo);
+							return !status.isSortSuccess()
+									|| status.getTransformException()
+											.isPresent();
+						});
 			}
 		}
 	}
@@ -670,7 +678,6 @@ public final class TableServiceImpl implements TableService {
 			// stop progress
 			monitor.done();
 			logger.info("ProgressMonitorDialog done."); //$NON-NLS-1$
-
 		};
 	}
 
@@ -717,6 +724,7 @@ public final class TableServiceImpl implements TableService {
 					controlAreaIds, tableStatus);
 			storageFootnotes(ToolboxFileRole.SESSION, tableInfo,
 					mainSessionTable);
+			sortTable(mainSessionTable, tableInfo, tableType);
 			if (sessionService.getLoadedSession(
 					ToolboxFileRole.COMPARE_PLANNING) == null) {
 				tableStatus.setEmpty(
@@ -731,7 +739,7 @@ public final class TableServiceImpl implements TableService {
 		} catch (final Exception e) {
 			logger.error("Transformation Error: {} : {}", //$NON-NLS-1$
 					tableInfo.shortcut(), e.getMessage());
-			tableStatus.setErrorMessages(e.getMessage());
+			tableStatus.setTransformException(e);
 			broker.post(Events.TABLEERROR_CHANGED, null);
 			// Give empty table back
 			return createEmptyTable(tableInfo);
@@ -774,10 +782,14 @@ public final class TableServiceImpl implements TableService {
 
 	@Override
 	public void sortTable(final Table table, final TableInfo tableInfo,
-			final TableType tableType) {
-		final Comparator<RowGroup> comparator = getModelService(tableInfo)
-				.getRowGroupComparator(tableType);
-		ECollections.sort(table.getTablecontent().getRowgroups(), comparator);
+			final TableType tableTypes) {
+		final TableRowGroupComparator rowGroupComparator = getRowGroupComparator(
+				tableInfo, tableTypes);
+		ECollections.sort(table.getTablecontent().getRowgroups(),
+				rowGroupComparator);
+		tablesStatus.get(tableInfo)
+				.setSortSuccess(
+						rowGroupComparator.getCriterionsException().isEmpty());
 	}
 
 	@Override

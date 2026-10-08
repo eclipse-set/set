@@ -289,7 +289,10 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 							&& additionalExportService.isAdditionalExportId(
 									treeElement.getId())) {
 						return new TreeElementWithExportPaths(treeElement,
-								additionalExportService.getExportPaths());
+								additionalExportService.getExportPaths(
+										getModelSession(),
+										getSelectedDirectory(),
+										getExportType()));
 					}
 					if (getTreeDataModel() instanceof final TableCheckboxTreeModel tableCheckboxTreeModel) {
 						final TableInfo tableInfo = tableCheckboxTreeModel

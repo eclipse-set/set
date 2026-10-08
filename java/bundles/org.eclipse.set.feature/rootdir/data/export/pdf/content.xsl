@@ -201,9 +201,6 @@
 	<xsl:template match="CompareProjectContent">
 		<fo:block>
 			<fo:inline>
-				<xsl:if test="../../@compareType='CHANGED_GUID_ROW'">
-					<xsl:attribute name="text-decoration">line-through</xsl:attribute>
-				</xsl:if>
 				<xsl:apply-templates />
 			</fo:inline>
 		</fo:block>
