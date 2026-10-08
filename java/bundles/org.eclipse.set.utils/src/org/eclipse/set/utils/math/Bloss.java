@@ -157,9 +157,9 @@ public class Bloss {
 		}
 		final double psi1 = (double) 5 / 8;
 		final double secondLength = totalLength - firstLength;
-		final double t = (totalLength - length) / secondLength;
+		final double m = totalLength - length;
 		return psi1 * startCurvature * firstLength
-				+ endCurvature * secondLength * (psi1 - rampIntegral(t));
+				+ endCurvature * secondLength * (psi1 - rampIntegral(m/secondLength));
 
 	}
 
