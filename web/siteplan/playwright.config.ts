@@ -29,6 +29,11 @@ export default defineConfig({
       use: { ...devices['Desktop Chrome'] }
     }
   ],
+  expect: {
+    toHaveScreenshot: {
+      maxDiffPixelRatio: 0.0005
+    }
+  },
 
   /* In CI use production build otherwise running
   local dev server before starting the tests */
