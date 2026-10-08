@@ -95,9 +95,8 @@ class Pt1TableTransformationTest extends Pt1TableTest {
 
 	@Test
 	void testExistTableTransformService() {
-		assertTrue(
-				assertInjectedAllTransformationService(transformationServices),
-				() -> failMessages(transformationServices));
+		assertDoesNotThrow(() -> assertInjectedAllTransformationService(
+				transformationServices));
 	}
 
 	@Test

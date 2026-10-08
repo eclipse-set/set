@@ -10,8 +10,8 @@
  */
 package org.eclipse.set.feature.table.pt1.test.tabledata;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Collections;
 import java.util.List;
@@ -157,10 +157,8 @@ public class Pt1TableStateDataTest extends AbstractPt1TableDataTest {
 	@Test
 	void testExistTableTransformService() throws Exception {
 		givenTableService();
-		assertTrue(
-				assertInjectedAllTransformationService(
-						modelServiceMap.values().stream().toList()),
-				failMessages(modelServiceMap.values()));
+		assertDoesNotThrow(() -> assertInjectedAllTransformationService(
+				modelServiceMap.values()));
 	}
 
 	@ParameterizedTest

@@ -10,6 +10,8 @@
  */
 package org.eclipse.set.feature.table.pt1.test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
 import java.io.IOException;
@@ -56,16 +58,20 @@ public abstract class Pt1TableTest extends AbstractToolboxTest {
 
 	protected String TEMPLATE_LOCAL_DIR = "./data/export";
 
-	protected boolean assertInjectedAllTransformationService(
-			final List<PlanPro2TableTransformationService> transformationServices) {
+	protected void assertInjectedAllTransformationService(
+			final Collection<PlanPro2TableTransformationService> transformationServices) {
 		givenExpectedTransformationServices();
-		return expectedTransformationServices.size() == transformationServices
-				.size()
-				&& expectedTransformationServices.stream()
-						.allMatch(expect -> transformationServices.stream()
-								.anyMatch(actual -> actual.getClass()
-										.getName()
-										.endsWith(expect)));
+		assertEquals(expectedTransformationServices.size(),
+				transformationServices.size());
+		final List<String> actualServicesName = transformationServices.stream()
+				.map(service -> service.getClass().getName())
+				.map(className -> className
+						.substring(className.lastIndexOf(".") + 1))
+				.toList();
+		assertTrue(
+				expectedTransformationServices.containsAll(actualServicesName));
+		assertTrue(
+				actualServicesName.containsAll(expectedTransformationServices));
 	}
 
 	@BeforeAll
@@ -161,6 +167,7 @@ public abstract class Pt1TableTest extends AbstractToolboxTest {
 				"SsliTransformationService", //
 				"SslnTransformationService", //
 				"SslrTransformationService", //
+				"SslsTransformationService", //
 				"SslwTransformationService", //
 				"SslzTransformationService", //
 				"SsvuTransformationService", //
