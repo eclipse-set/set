@@ -16,11 +16,13 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.eclipse.e4.core.services.events.IEventBroker;
@@ -33,7 +35,6 @@ import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.eclipse.set.unittest.utils.AbstractToolboxTest;
-import org.eclipse.set.utils.ToolboxConfiguration;
 import org.junit.jupiter.api.BeforeAll;
 import org.mockito.Mockito;
 import org.osgi.service.event.Event;
@@ -109,6 +110,16 @@ public abstract class Pt1TableTest extends AbstractToolboxTest {
 		}
 	}
 
+	protected String failMessages(
+			final Collection<PlanPro2TableTransformationService> transformationServices) {
+		return "Missing: " + expectedTransformationServices.stream()
+				.filter(expect -> !transformationServices.stream()
+						.noneMatch(actual -> actual.getClass()
+								.getName()
+								.endsWith(expect)))
+				.collect(Collectors.joining(System.lineSeparator()));
+	}
+
 	protected List<MultiContainer_AttributeGroup> getLSTContainer() {
 		return List
 				.of(ContainerType.FINAL, ContainerType.INITIAL,
@@ -150,7 +161,6 @@ public abstract class Pt1TableTest extends AbstractToolboxTest {
 				"SsliTransformationService", //
 				"SslnTransformationService", //
 				"SslrTransformationService", //
-				"SslsTransformationService", //
 				"SslwTransformationService", //
 				"SslzTransformationService", //
 				"SsvuTransformationService", //
@@ -159,9 +169,6 @@ public abstract class Pt1TableTest extends AbstractToolboxTest {
 				"SszwTransformationService", //
 				"SxxxTransformationService" //
 		);
-		if (!ToolboxConfiguration.isDevelopmentMode()) {
-			expectedTransformationServices.remove("SslsTransformationService");
-		}
 	}
 
 	/**

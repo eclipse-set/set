@@ -220,12 +220,7 @@ public class Pt1TableControlAreaDataTest extends AbstractPt1TableDataTest {
 		assertTrue(
 				assertInjectedAllTransformationService(
 						modelServiceMap.values().stream().toList()),
-				"Actual TransformationService: " + System.lineSeparator()
-						+ modelServiceMap.values()
-								.stream()
-								.map(service -> service.getClass().getName())
-								.collect(Collectors
-										.joining(System.lineSeparator())));
+				failMessages(modelServiceMap.values()));
 	}
 
 	/**
