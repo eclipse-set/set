@@ -252,7 +252,7 @@ class PlanProToTitleboxTransformation {
 	}
 
 	def Planung_Gruppe getPlanungGruppe(PlanPro_Schnittstelle schnittstelle) {
-		return schnittstelle?.LSTPlanungProjekt?.leadingPlanungGruppe
+		return schnittstelle?.LSTPlanungProjektsleadingPlanungGruppe
 	}
 
 	def Planung_Einzel getPlanungEinzel(PlanPro_Schnittstelle schnittstelle) {

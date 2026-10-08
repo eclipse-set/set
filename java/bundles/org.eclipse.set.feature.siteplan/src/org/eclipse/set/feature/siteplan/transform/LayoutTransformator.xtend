@@ -86,14 +86,13 @@ class LayoutTransformator {
 			}
 		]
 		return result.filter[x !== 0 && y !== 0].map [
-			positionService.transformCoordinate(x, y,
-				LayoutTransformator.
-					selectedCRS)
+			positionService.transformCoordinate(x, y, LayoutTransformator.
+				selectedCRS)
 		]
 	}
 
 	static def ENUMGEOKoordinatensystem setCRS(String newCRS) {
-		//By default fallback to CR0 System
+		// By default fallback to CR0 System
 		selectedCRS = crsMap.getOrDefault(newCRS,
 			ENUMGEOKoordinatensystem.ENUMGEO_KOORDINATENSYSTEM_CR0)
 	}
