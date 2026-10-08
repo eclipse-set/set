@@ -33,6 +33,7 @@ import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.eclipse.set.unittest.utils.AbstractToolboxTest;
+import org.eclipse.set.utils.ToolboxConfiguration;
 import org.junit.jupiter.api.BeforeAll;
 import org.mockito.Mockito;
 import org.osgi.service.event.Event;
@@ -157,8 +158,10 @@ public abstract class Pt1TableTest extends AbstractToolboxTest {
 				"SszsTransformationService", //
 				"SszwTransformationService", //
 				"SxxxTransformationService" //
-
 		);
+		if (!ToolboxConfiguration.isDevelopmentMode()) {
+			expectedTransformationServices.remove("SslsTransformationService");
+		}
 	}
 
 	/**
