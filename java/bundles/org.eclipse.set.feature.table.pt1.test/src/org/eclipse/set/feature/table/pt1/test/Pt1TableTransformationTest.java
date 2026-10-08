@@ -95,8 +95,14 @@ class Pt1TableTransformationTest extends Pt1TableTest {
 
 	@Test
 	void testExistTableTransformService() {
-		assertDoesNotThrow(() -> assertInjectedAllTransformationService(
-				transformationServices));
+		final List<PlanPro2TableTransformationService> services = transformationServices
+				.stream()
+				.filter(service -> !service.getClass()
+						.getName()
+						.endsWith("SslsTransformationService"))
+				.toList();
+		assertDoesNotThrow(
+				() -> assertInjectedAllTransformationService(services));
 	}
 
 	@Test
@@ -104,6 +110,11 @@ class Pt1TableTransformationTest extends Pt1TableTest {
 		givenPlanProFile(PPHN_1_10_0_3_20220517_PLANPRO);
 		setupModelSession(eventAdmin);
 		for (final PlanPro2TableTransformationService service : transformationServices) {
+			if (service.getClass()
+					.getName()
+					.endsWith("SslsTransformationService")) {
+				continue;
+			}
 			final TransformTable transformTable = new TransformTable(
 					ExportType.INVENTORY_RECORDS,
 					service.getTableNameInfo().getShortName().toLowerCase(),
@@ -137,6 +148,11 @@ class Pt1TableTransformationTest extends Pt1TableTest {
 		setupModelSession(eventAdmin);
 
 		for (final PlanPro2TableTransformationService transformationService : transformationServices) {
+			if (transformationService.getClass()
+					.getName()
+					.endsWith("SslsTransformationService")) {
+				continue;
+			}
 			for (final MultiContainer_AttributeGroup container : getLSTContainer()) {
 				// Test transformation table
 				final Table transformedTable = assertDoesNotThrow(

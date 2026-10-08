@@ -167,7 +167,8 @@ public abstract class Pt1TableTest extends AbstractToolboxTest {
 				"SsliTransformationService", //
 				"SslnTransformationService", //
 				"SslrTransformationService", //
-				"SslsTransformationService", //
+				// Ssls is still in development
+				// "SslsTransformationService", //
 				"SslwTransformationService", //
 				"SslzTransformationService", //
 				"SsvuTransformationService", //

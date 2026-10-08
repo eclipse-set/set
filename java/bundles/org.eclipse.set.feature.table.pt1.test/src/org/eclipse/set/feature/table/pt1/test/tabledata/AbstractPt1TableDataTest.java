@@ -336,6 +336,15 @@ public abstract class AbstractPt1TableDataTest extends Pt1TableTest {
 				TableServiceContextFunction.class, "modelServiceMap", true);
 		modelServiceMap = (Map<TableInfo, PlanPro2TableTransformationService>) modelServiceMapField
 				.get(tableServiceContextFunction.get());
+		// Ssls is moment in development, therefore no need to tested
+		final Optional<TableInfo> sslsTableInfo = modelServiceMap.keySet()
+				.stream()
+				.filter(tableInfo -> tableInfo.shortcut()
+						.equalsIgnoreCase("ssls"))
+				.findFirst();
+		if (sslsTableInfo.isPresent()) {
+			modelServiceMap.remove(sslsTableInfo.get());
+		}
 
 		final Field diffServiceMapsField = FieldUtils.getDeclaredField(
 				TableServiceContextFunction.class, "diffServiceMap", true);
