@@ -23,7 +23,7 @@ import org.osgi.service.component.annotations.Component;
  */
 @Component(immediate = true, service = CustomValidator.class)
 public class LayoutInfoRequired extends AbstractCustomValidator {
-	public static final String LAYOUT_VALIDATION_TYPE = "Metainformationen"; //$NON-NLS-1$
+	public static final String METADATA_VALIDATION_TYPE = "Metainformationen"; //$NON-NLS-1$
 
 	@Override
 	public void validate(final ToolboxFile toolboxFile,
@@ -55,7 +55,7 @@ public class LayoutInfoRequired extends AbstractCustomValidator {
 
 	@Override
 	public String validationType() {
-		return LAYOUT_VALIDATION_TYPE;
+		return METADATA_VALIDATION_TYPE;
 	}
 
 }

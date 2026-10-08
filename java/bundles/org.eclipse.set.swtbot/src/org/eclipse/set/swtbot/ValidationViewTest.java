@@ -29,6 +29,8 @@ import org.eclipse.set.swtbot.table.TestFailHandle;
 import org.eclipse.set.swtbot.utils.AbstractSWTBotTest;
 import org.eclipse.set.swtbot.utils.SWTBotUtils;
 import org.eclipse.set.utils.table.export.ExportToCSV;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotButton;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotCTabItem;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotText;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -209,6 +211,13 @@ public class ValidationViewTest extends AbstractTableTest {
 	}
 
 	protected void whenOpeningValidateView() {
+		final SWTBotCTabItem cTabItem = bot.cTabItem("Validierung");
+		cTabItem.activate();
+	}
+
+	protected void whenOpenReportTable() {
+		whenOpeningValidateView();
+		bot.button("Zeige Meldungen").click();
 		nattableBot = SWTBotUtils.waitForNattable(bot, 30000);
 		layers = SWTBotUtils.getNattableLayers(nattableBot);
 	}
@@ -223,8 +232,11 @@ public class ValidationViewTest extends AbstractTableTest {
 	@ExtendWith(TestFailHandle.class)
 	void testValidateReport() throws Exception {
 		givenReferenceCSV();
-		whenOpeningValidateView();
-		bot.button("Alle ausklappen").click();
+		whenOpenReportTable();
+		final SWTBotButton ausKlappenButton = bot.button("Alle ausklappen");
+		if (ausKlappenButton != null) {
+			ausKlappenButton.click();
+		}
 		thenRowAndColumnCountEqualReferenceCSV();
 		thenExpectTableDataEqualReferenceCSV();
 	}
