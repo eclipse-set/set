@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * Determines points on a Bloss curve with a zero target curvature
  * 
- * The implementation follows the formulas of ProVI
+ * The implementation follows the formulas of DB Netz AG and ProVI
  * 
  * @author Truong
  *
@@ -29,6 +29,7 @@ public class Bloss {
 	private final boolean isInflectionCurve;
 
 	private final double totalLength;
+	private final double secondLength;
 
 	/**
 	 * 7 point closed Newton-Cotes rule
@@ -71,6 +72,7 @@ public class Bloss {
 		firstLength = isInflectionCurve
 				? arcLength * startCurvature / (startCurvature - endCurvature)
 				: arcLength;
+		secondLength = arcLength - firstLength;
 	}
 
 	/**
@@ -138,7 +140,9 @@ public class Bloss {
 
 	/**
 	 * Calculate direction angle of the tangent, measured from the +N axis,
-	 * clockwise, in radians.
+	 * clockwise, in radiant. The curve is calculated in its own local
+	 * coordinate system. Therefore, the tangent angle at the start point is
+	 * defined as 0°.
 	 * 
 	 * @param length
 	 *            Arc length along the curve, measured from the element start
@@ -156,10 +160,9 @@ public class Bloss {
 					* rampIntegral(length / firstLength);
 		}
 		final double psi1 = (double) 5 / 8;
-		final double secondLength = totalLength - firstLength;
 		final double m = totalLength - length;
-		return psi1 * startCurvature * firstLength
-				+ endCurvature * secondLength * (psi1 - rampIntegral(m/secondLength));
+		return psi1 * startCurvature * firstLength + endCurvature * secondLength
+				* (psi1 - rampIntegral(m / secondLength));
 
 	}
 
