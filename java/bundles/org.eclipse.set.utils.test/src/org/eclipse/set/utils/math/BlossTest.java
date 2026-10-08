@@ -94,6 +94,7 @@ public class BlossTest {
 	private void givenInflectionCurveBloss() throws IllegalAccessException {
 		testee = new Bloss(300, -500, 150, 10);
 		FieldUtils.writeField(testee, "firstLength", Double.valueOf(60), true); //$NON-NLS-1$
+		FieldUtils.writeField(testee, "secondLength", Double.valueOf(90), true); //$NON-NLS-1$
 	}
 
 	private void whenCalculateCoordinaten(final double length) {
