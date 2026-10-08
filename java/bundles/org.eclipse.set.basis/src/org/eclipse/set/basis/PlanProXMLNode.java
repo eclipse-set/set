@@ -108,7 +108,7 @@ public class PlanProXMLNode {
 			}
 
 			private void addTextIfNeeded() {
-				if (nodeText.length() > 0) {
+				if (!nodeText.isEmpty()) {
 					String text = nodeText.toString();
 					text = text.replace("\n", ""); //$NON-NLS-1$ //$NON-NLS-2$
 					text = text.replace("\r", ""); //$NON-NLS-1$ //$NON-NLS-2$
