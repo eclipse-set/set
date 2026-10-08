@@ -41,11 +41,11 @@ maven/mavencentral/org.apache.felix/org.apache.felix.scr/2.2.14, Apache-2.0, app
 maven/mavencentral/org.apache.logging.log4j/log4j-api/2.18.0, Apache-2.0, approved, clearlydefined
 maven/mavencentral/org.apache.pdfbox/fontbox/2.0.33, Apache-2.0 AND BSD-3-Clause AND OFL-1.1, approved, #3390
 maven/mavencentral/org.apache.pdfbox/pdfbox/2.0.33, Apache-2.0 AND BSD-3-Clause AND APAFML AND Adobe-Glyph AND Unicode-DFS-2015 AND Zlib AND OFL-1.1, approved, CQ13673
-maven/mavencentral/org.apache.poi/poi-ooxml-lite/5.0.0, Apache-2.0, approved, clearlydefined
-maven/mavencentral/org.apache.poi/poi-ooxml/5.0.0, Apache-2.0 AND BSD-3-Clause AND MIT AND Apache-2.0, approved, #8428
-maven/mavencentral/org.apache.poi/poi/5.0.0, Apache-2.0, approved, clearlydefined
+maven/mavencentral/org.apache.poi/poi-ooxml-lite/5.5.1, Apache-2.0 AND MIT AND Apache-2.0 AND W3C-19980720, approved, #25946
+maven/mavencentral/org.apache.poi/poi-ooxml/5.5.1, Apache-2.0 AND MIT, approved, clearlydefined
+maven/mavencentral/org.apache.poi/poi/5.5.1, Apache-2.0 AND MIT, approved, clearlydefined
 maven/mavencentral/org.apache.tika/tika-core/2.4.1, Apache-2.0 AND BSD-2-Clause AND LicenseRef-scancode-iptc-2006, approved, #15342
-maven/mavencentral/org.apache.xmlbeans/xmlbeans/5.1.1, Apache-2.0, approved, #15366
+maven/mavencentral/org.apache.xmlbeans/xmlbeans/5.4.0, Apache-2.0 AND W3C-19980720, approved, clearlydefined
 maven/mavencentral/org.apache.xmlgraphics/fop/2.6, Apache-2.0, approved, #968
 maven/mavencentral/org.apfloat/apfloat/1.10.1, MIT, approved, clearlydefined
 maven/mavencentral/org.apfloat/apfloat/1.12.0, MIT, approved, #15393
