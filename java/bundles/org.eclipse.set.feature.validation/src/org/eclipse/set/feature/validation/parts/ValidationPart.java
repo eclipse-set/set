@@ -27,6 +27,7 @@ import org.eclipse.set.core.services.dialog.DialogService;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.core.services.part.ToolboxPartService;
 import org.eclipse.set.core.services.version.PlanProVersionService;
+import org.eclipse.set.core.services.viewmodel.ToolboxViewModelService;
 import org.eclipse.set.feature.validation.Messages;
 import org.eclipse.set.feature.validation.report.SessionToValidationReportTransformation;
 import org.eclipse.set.feature.validation.table.ValidationTableView;
@@ -75,6 +76,9 @@ public class ValidationPart extends BasePart {
 
 	@Inject
 	private PlanProVersionService versionService;
+
+	@Inject
+	private ToolboxViewModelService viewModelService;
 
 	@Inject
 	EnumTranslationService enumTranslationService;
@@ -190,6 +194,7 @@ public class ValidationPart extends BasePart {
 							problem.getType(), problem.getLineNumber(),
 							severity, problem.getObjectScope().getLiteral()));
 				});
+		viewModelService.put(VIEW_VALIDATION_REPORT, validationReport);
 		getBroker().post(Events.PROBLEMS_CHANGED, null);
 	}
 

@@ -16,12 +16,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -75,8 +73,23 @@ public class PlanProXMLNode {
 	public static PlanProXMLNode read(final Path location)
 			throws IOException, SAXException, ParserConfigurationException {
 		try (final InputStream inputStream = Files.newInputStream(location)) {
-			return read(inputStream);
+			final PlanProXMLNode loadedXML = read(inputStream);
+			sortChildren(loadedXML);
+			return loadedXML;
 		}
+	}
+
+	private static void sortChildren(final PlanProXMLNode node) {
+		final List<PlanProXMLNode> childItems = node.getChildren();
+		if (childItems.isEmpty()) {
+			return;
+		}
+		childItems.sort(nodeComparator());
+		childItems.forEach(PlanProXMLNode::sortChildren);
+	}
+
+	private static Comparator<PlanProXMLNode> nodeComparator() {
+		return Comparator.comparingInt(PlanProXMLNode::getStartLineNumber);
 	}
 
 	/**
@@ -211,21 +224,7 @@ public class PlanProXMLNode {
 	}
 
 	protected void addChild(final PlanProXMLNode child) {
-		if (children.isEmpty()) {
-			children.add(child);
-		} else {
-			int index = Collections.binarySearch(children, child, Comparator
-					.comparingInt(PlanProXMLNode::getStartLineNumber));
-
-			// the binarySearch returns -(insertionPoint) - 1. Because the child
-			// isn't exist in list. Convert the negative result back to the
-			// insertion index.
-			if (index < 0) {
-				index = -index - 1;
-			}
-			children.add(index, child);
-		}
-
+		children.add(child);
 		child.setParent(this);
 	}
 
@@ -265,7 +264,7 @@ public class PlanProXMLNode {
 
 	protected PlanProXMLNode(final String nodeName) {
 		this.nodeName = nodeName;
-		this.children = new LinkedList<>();
+		this.children = new ArrayList<>();
 		this.attributes = new ArrayList<>();
 		this.startLineNumber = Optional.empty();
 		this.endLineNumber = Optional.empty();

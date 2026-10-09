@@ -28,8 +28,6 @@ import org.xml.sax.SAXException;
  */
 public class XMLNodeFinder {
 	PlanProXMLNode rootNode;
-	PlanProXMLNode[] nodeByLine;
-	int[] depthByLine;
 	private static final String NODE_IDENTITAET = "Identitaet"; //$NON-NLS-1$
 	/**
 	 * Wert
@@ -45,51 +43,19 @@ public class XMLNodeFinder {
 	 * @return the found node or null
 	 */
 	public PlanProXMLNode findNodeByLineNumber(final int lineNumber) {
-		if (lineNumber == 2995306) {
-			System.out.println("TEST");
-		}
-		final PlanProXMLNode nodeByLineNumber = findNodeByLineNumber(rootNode,
-				lineNumber);
-		final PlanProXMLNode nodeByLineNumberBinary = findNodeByLineNumberBinary(
-				rootNode, lineNumber);
-
-		if (nodeByLineNumber != nodeByLineNumberBinary) {
-			System.out.println(lineNumber);
-			throw new RuntimeException();
-		}
-		return nodeByLineNumberBinary;
+		return findNodeByLineNumberBinary(rootNode, lineNumber);
 	}
 
-	private PlanProXMLNode findNodeByLineNumber(
-			final PlanProXMLNode currentNode, final int lineNumber) {
-		if (currentNode == null || lineNumber < 0) {
-			return null;
-		}
-		final List<PlanProXMLNode> children = currentNode.getChildren();
-		for (final PlanProXMLNode node : children) {
-			if (isLineNumberInNode(lineNumber, node)) {
-				return findNodeByLineNumber(node, lineNumber);
-			}
-		}
-
-		return currentNode;
-	}
-
-	private PlanProXMLNode findNodeByLineNumberWithLookup(
-			final PlanProXMLNode currentNode, final int lineNumber) {
-		if (currentNode == null || lineNumber < 0) {
-			return null;
-		}
-		final List<PlanProXMLNode> children = currentNode.getChildren();
-		for (final PlanProXMLNode node : children) {
-			if (isLineNumberInNode(lineNumber, node)) {
-				return findNodeByLineNumber(node, lineNumber);
-			}
-		}
-
-		return currentNode;
-	}
-
+	/**
+	 * Use combine between Deep first search and Binary search for find Node
+	 * with line number
+	 * 
+	 * @param node
+	 *            the node
+	 * @param lineNumber
+	 *            the line number of target node
+	 * @return target node
+	 */
 	private PlanProXMLNode findNodeByLineNumberBinary(final PlanProXMLNode node,
 			final int lineNumber) {
 		if (node == null || lineNumber < 0) {
@@ -119,7 +85,9 @@ public class XMLNodeFinder {
 		while (left <= right) {
 			final int mid = left + (right - left) / 2;
 			final PlanProXMLNode midItem = children.get(mid);
-			if (isLineNumberInNode(lineNumber, midItem)) {
+			if (isCorrectNode(midItem, lineNumber)) {
+				return midItem;
+			} else if (isLineNumberInNode(lineNumber, midItem)) {
 				return findNodeByLineNumberBinary(midItem, lineNumber);
 			}
 
@@ -132,7 +100,7 @@ public class XMLNodeFinder {
 		return null;
 	}
 
-	private boolean isCorrectNode(final PlanProXMLNode node,
+	private static boolean isCorrectNode(final PlanProXMLNode node,
 			final int lineNumber) {
 		return node.getStartLineNumber() != -1
 				&& node.getStartLineNumber() == lineNumber
@@ -205,11 +173,6 @@ public class XMLNodeFinder {
 	public void read(final ToolboxFile toolboxfile, final Path docPath) {
 		try {
 			rootNode = ObjectMetadataXMLReader.read(toolboxfile, docPath);
-			// nodeByLine = new PlanProXMLNode[Integer
-			// .parseInt(rootNode.getEndLineNumber()) + 1];
-			// depthByLine = new
-			// int[Integer.parseInt(rootNode.getEndLineNumber())
-			// + 1];
 		} catch (IOException | SAXException | ParserConfigurationException e) {
 			// Discard exceptions
 		}
