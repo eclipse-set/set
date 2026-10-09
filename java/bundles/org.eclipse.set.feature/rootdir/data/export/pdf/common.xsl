@@ -169,13 +169,6 @@ http://www.eclipse.org/legal/epl-v20.html
 	<xsl:template match="Row">
 		<fo:table-row xsl:use-attribute-sets="body-row-style" keep-together.within-page="always">
 			<fo:table-cell xsl:use-attribute-sets="body-row-cell-style">
-				<xsl:if test="Cell/CompareProjectContent">
-					<fo:marker marker-class-name="ComparePageText">
-						<fo:inline border-width="0.2mm" border-style="solid" border-color="#0066FF" color="#0066FF" padding="2px">
-								<xsl:text>Änderung gegenüber vorheriger Ausgabe</xsl:text>
-						</fo:inline>
-					</fo:marker>
-				</xsl:if>
 				<fo:block>
 					<xsl:value-of select="@group-number" />
 				</fo:block>
