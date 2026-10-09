@@ -19,6 +19,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.set.core.services.Services;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Aussenelementansteuerung;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.ESTW_Zentraleinheit;
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stellelement;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Technik_Standort;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Uebertragungsweg;
 import org.eclipse.set.model.planpro.Bedienung.Bedien_Einrichtung_Oertlich;
@@ -28,8 +29,10 @@ import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_DWeg;
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Fahrweg;
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Zug_Rangier;
 import org.eclipse.set.model.planpro.Fahrstrasse.Markanter_Punkt;
+import org.eclipse.set.model.planpro.Flankenschutz.Fla_Schutz;
 import org.eclipse.set.model.planpro.Flankenschutz.Fla_Zwieschutz;
 import org.eclipse.set.model.planpro.Gleis.Gleis_Bezeichnung;
+import org.eclipse.set.model.planpro.Nahbedienung.NB;
 import org.eclipse.set.model.planpro.Nahbedienung.NB_Zone;
 import org.eclipse.set.model.planpro.Ortung.FMA_Anlage;
 import org.eclipse.set.model.planpro.Ortung.FMA_Komponente;
@@ -39,6 +42,7 @@ import org.eclipse.set.model.planpro.PZB.PZB_Element;
 import org.eclipse.set.model.planpro.PlanPro.Container_AttributeGroup;
 import org.eclipse.set.model.planpro.Schluesselabhaengigkeiten.Schloss;
 import org.eclipse.set.model.planpro.Signale.Signal;
+import org.eclipse.set.model.planpro.Signale.Signal_Rahmen;
 import org.eclipse.set.model.planpro.Signale.Signal_Signalbegriff;
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element;
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Komponente;
@@ -46,12 +50,15 @@ import org.eclipse.set.ppmodel.extensions.AussenelementansteuerungExtensions;
 import org.eclipse.set.ppmodel.extensions.DwegExtensions;
 import org.eclipse.set.ppmodel.extensions.EObjectExtensions;
 import org.eclipse.set.ppmodel.extensions.FahrwegExtensions;
+import org.eclipse.set.ppmodel.extensions.FlaSchutzExtensions;
 import org.eclipse.set.ppmodel.extensions.FmaAnlageExtensions;
 import org.eclipse.set.ppmodel.extensions.FstrAneinanderExtensions;
 import org.eclipse.set.ppmodel.extensions.FstrZugRangierExtensions;
 import org.eclipse.set.ppmodel.extensions.NbZoneExtensions;
 import org.eclipse.set.ppmodel.extensions.PZBElementExtensions;
+import org.eclipse.set.ppmodel.extensions.SignalRahmenExtensions;
 import org.eclipse.set.ppmodel.extensions.SignalbegriffExtensions;
+import org.eclipse.set.ppmodel.extensions.StellelementExtensions;
 
 import com.google.common.collect.Streams;
 
@@ -84,21 +91,26 @@ public class LSTObjectDesignationExtensions {
 					.getBzBezeichner(anlage);
 			case final FMA_Komponente fmaKomponent -> getLSTObjectDesignation(
 					fmaKomponent);
+			case final Fla_Schutz fla -> getLSTObjectDesignation(fla);
 			case final Fla_Zwieschutz fla -> getLSTObjectDesignation(fla);
 			case final Fstr_Aneinander fstrAneiander -> getLSTObjectDesignation(
 					fstrAneiander);
 			case final Fstr_DWeg dweg -> getLSTObjectDesignation(dweg);
+			case final Fstr_Fahrweg fahrweg -> getLSTObjectDesignation(fahrweg);
 			case final Fstr_Zug_Rangier fstrZR -> getLSTObjectDesignation(
 					fstrZR);
 			case final Gleis_Bezeichnung gleis -> getLSTObjectDesignation(
 					gleis);
 			case final Markanter_Punkt markanter -> getLSTObjectDesignation(
 					markanter);
+			case final NB nb -> getLSTObjectDesignation(nb);
 			case final NB_Zone nbZone -> getLSTObjectDesignation(nbZone);
 			case final Schloss schloss -> getLSTObjectDesignation(schloss);
 			case final Signal signal -> getLSTObjectDesignation(signal);
 			case final Signal_Signalbegriff signalbegriff -> getLSTObjectDesignation(
 					signalbegriff);
+			case final Stellelement stellement -> getLSTObjectDesignation(
+					stellement);
 			case final Technik_Standort ts -> getLSTObjectDesignation(ts);
 			case final Uebertragungsweg uebertragungsweg -> getLSTObjectDesignation(
 					uebertragungsweg);
@@ -167,6 +179,20 @@ public class LSTObjectDesignationExtensions {
 
 	/**
 	 * @param fla
+	 *            the {@link Fla_Schutz}
+	 * @return the object designation
+	 */
+	public static String getLSTObjectDesignation(final Fla_Schutz fla) {
+		return getEmptyStringWhenNull(fla, f -> {
+			final String designation = FlaSchutzExtensions.getBezeichnungTabelle(fla,
+					FlaSchutzExtensions.getAnforderer(fla));
+			final String wLageNbGrenze = FlaSchutzExtensions.getWLageNbGrenze(fla);
+			return designation + " " + wLageNbGrenze; //$NON-NLS-1$
+		});
+	}
+
+	/**
+	 * @param fla
 	 *            the {@link Fla_Zwieschutz}
 	 * @return the object designation
 	 */
@@ -201,6 +227,24 @@ public class LSTObjectDesignationExtensions {
 			return startBezeichnung + " " + dwegDesignation; //$NON-NLS-1$
 		}
 		return ""; //$NON-NLS-1$
+	}
+
+	/**
+	 * @param fstrFahrweg
+	 *            the {@link Fstr_Fahrweg}
+	 * @return the object designation
+	 */
+	public static String getLSTObjectDesignation(
+			final Fstr_Fahrweg fstrFahrweg) {
+		return getEmptyStringWhenNull(fstrFahrweg, fstr -> {
+			final String start = FahrwegExtensions.getStart(fstrFahrweg)
+					.getBezeichnung()
+					.getBezeichnungTabelle()
+					.getWert();
+			final String ziel = getLSTObjectDesignation(
+					FahrwegExtensions.getZielObjekt(fstrFahrweg));
+			return String.format("%s/%s", start, ziel); //$NON-NLS-1$
+		});
 	}
 
 	/**
@@ -239,6 +283,16 @@ public class LSTObjectDesignationExtensions {
 	}
 
 	/**
+	 * @param nb
+	 *            the {@link NB}
+	 * @return the object designation
+	 */
+	public static String getLSTObjectDesignation(final NB nb) {
+		return getEmptyStringWhenNull(nb,
+				n -> n.getBezeichnung().getKennzahl().getWert());
+	}
+
+	/**
 	 * @param nbZone
 	 *            the {@link NB_Zone}
 	 * @return the object designation
@@ -274,9 +328,35 @@ public class LSTObjectDesignationExtensions {
 	 */
 	public static String getLSTObjectDesignation(
 			final Signal_Signalbegriff signalbegriff) {
-		return getEmptyStringWhenNull(signalbegriff,
-				s -> SignalbegriffExtensions
-						.getSignalBegriffIDName(s.getSignalbegriffID()));
+		return getEmptyStringWhenNull(signalbegriff, s -> {
+			final String signalBegriffSymbol = SignalbegriffExtensions
+					.getSignalBegriffIDName(s.getSignalbegriffID());
+			final Signal_Rahmen signalRahmen = SignalbegriffExtensions
+					.signalRahmen(signalbegriff);
+			final Signal signal = SignalRahmenExtensions
+					.getSignal(signalRahmen);
+			final String signalDesignation = getLSTObjectDesignation(signal);
+			if (!signalBegriffSymbol.isEmpty()) {
+				return String.format("%s [%s]", signalBegriffSymbol, //$NON-NLS-1$
+						signalDesignation);
+			}
+			return "[" + signalDesignation + "]"; //$NON-NLS-1$//$NON-NLS-2$
+		});
+	}
+
+	/**
+	 * @param stellelement
+	 *            the {@link Stellelement}
+	 * @return the object designation
+	 */
+	public static String getLSTObjectDesignation(
+			final Stellelement stellelement) {
+		return getEmptyStringWhenNull(stellelement, s -> {
+			final Aussenelementansteuerung information = StellelementExtensions
+					.getInformation(stellelement);
+			return getLSTObjectDesignation(information);
+		});
+
 	}
 
 	/**
@@ -316,7 +396,7 @@ public class LSTObjectDesignationExtensions {
 					if (pzbArt.isEmpty()) {
 						return designation;
 					}
-					return String.format("%s %s", designation, //$NON-NLS-1$
+					return String.format("%s %sHz", designation, //$NON-NLS-1$
 							Services.getEnumTranslationService()
 									.translate(pzbArt.get())
 									.getAlternative());
