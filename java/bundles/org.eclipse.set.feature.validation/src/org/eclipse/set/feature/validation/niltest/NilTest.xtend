@@ -98,7 +98,7 @@ class NilTest extends AbstractCustomValidator {
 
 	private def dispatch CustomValidationProblem transform(PlanProXMLNode node) {
 		val it = new CustomValidationProblemImpl
-		lineNumber = Integer.parseInt(node.startLineNumber)
+		lineNumber = node.startLineNumber
 		message = messages.NilTestProblem_Message
 		severity = ValidationSeverity.WARNING
 		type = validationType

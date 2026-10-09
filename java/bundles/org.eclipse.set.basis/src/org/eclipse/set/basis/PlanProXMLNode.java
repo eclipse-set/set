@@ -16,6 +16,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -72,8 +73,23 @@ public class PlanProXMLNode {
 	public static PlanProXMLNode read(final Path location)
 			throws IOException, SAXException, ParserConfigurationException {
 		try (final InputStream inputStream = Files.newInputStream(location)) {
-			return read(inputStream);
+			final PlanProXMLNode loadedXML = read(inputStream);
+			sortChildren(loadedXML);
+			return loadedXML;
 		}
+	}
+
+	private static void sortChildren(final PlanProXMLNode node) {
+		final List<PlanProXMLNode> childItems = node.getChildren();
+		if (childItems.isEmpty()) {
+			return;
+		}
+		childItems.sort(nodeComparator());
+		childItems.forEach(PlanProXMLNode::sortChildren);
+	}
+
+	private static Comparator<PlanProXMLNode> nodeComparator() {
+		return Comparator.comparingInt(PlanProXMLNode::getStartLineNumber);
 	}
 
 	/**
@@ -226,10 +242,9 @@ public class PlanProXMLNode {
 	/**
 	 * @return the start line number of node
 	 */
-	public String getStartLineNumber() {
-		return startLineNumber.isPresent()
-				? Integer.toString(startLineNumber.get().intValue())
-				: null;
+	public int getStartLineNumber() {
+		return startLineNumber.isPresent() ? startLineNumber.get().intValue()
+				: -1;
 	}
 
 	protected void setEndLineNumber(final int lineNumber) {
@@ -239,10 +254,8 @@ public class PlanProXMLNode {
 	/**
 	 * @return the end line number of node
 	 */
-	public String getEndLineNumber() {
-		return endLineNumber.isPresent()
-				? Integer.toString(endLineNumber.get().intValue())
-				: null;
+	public int getEndLineNumber() {
+		return endLineNumber.isPresent() ? endLineNumber.get().intValue() : -1;
 	}
 
 	protected void setTextValue(final String value) {
@@ -253,6 +266,8 @@ public class PlanProXMLNode {
 		this.nodeName = nodeName;
 		this.children = new ArrayList<>();
 		this.attributes = new ArrayList<>();
+		this.startLineNumber = Optional.empty();
+		this.endLineNumber = Optional.empty();
 	}
 
 	/**
