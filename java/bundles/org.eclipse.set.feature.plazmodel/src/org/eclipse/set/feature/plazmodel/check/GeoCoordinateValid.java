@@ -27,6 +27,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.commons.text.StringSubstitutor;
 import org.eclipse.emf.ecore.EObject;
@@ -151,10 +154,13 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 
 	private List<GEOKanteMetadata> alreadyFoundMetaData;
 
+	private List<TOP_Kante> topKanteWithInvalidCRS;
+
 	@Activate
 	void active() {
 		topologicalCoordinates = Optional.empty();
 		alreadyFoundMetaData = new ArrayList<>();
+		topKanteWithInvalidCRS = new ArrayList<>();
 	}
 
 	@Override
@@ -162,7 +168,7 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 		if (event.getTopic().equals(Events.CLOSE_SESSION)) {
 			alreadyFoundMetaData.clear();
 			topologicalCoordinates = Optional.empty();
-			return;
+			topKanteWithInvalidCRS.clear();
 		}
 	}
 
@@ -170,7 +176,12 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 	protected List<PlazError> run(
 			final MultiContainer_AttributeGroup container) {
 		final List<PlazError> result = new ArrayList<>();
-		getRelevantPOs(container)
+		getTopKanteWithDifferentCRS(container);
+		getRelevantPOs(container).stream()
+				.filter(po -> PunktObjektExtensions.getTopKanten(po)
+						.stream()
+						.noneMatch(topKante -> topKanteWithInvalidCRS.stream()
+								.anyMatch(t -> t.equals(topKante))))
 				.forEach(po -> po.getPunktObjektTOPKante().forEach(potk -> {
 					if (isNotDistinctCoordinateSystem(potk)) {
 						result.add(createGeoCoordinateError(po,
@@ -199,6 +210,33 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 					}
 				}));
 		return result;
+	}
+
+	private void getTopKanteWithDifferentCRS(
+			final MultiContainer_AttributeGroup container) {
+		Streams.stream(container.getTOPKante()).forEach(topKante -> {
+			final Set<ENUMGEOKoordinatensystem> topKanteCrs = TopKanteExtensions
+					.getGeoKanten(topKante)
+					.stream()
+					.flatMap(geoKante -> Stream.of(
+							GeoKanteExtensions.getGeoKnotenA(geoKante),
+							GeoKanteExtensions.getGeoKnotenB(geoKante)))
+					.flatMap(geoKnoten -> Streams.stream(
+							GeoKnotenExtensions.getGeoPunkte(geoKnoten)))
+					.map(geoPunkt -> EObjectExtensions
+							.getNullableObject(geoPunkt,
+									g -> g.getGEOPunktAllg()
+											.getGEOKoordinatensystem()
+											.getWert())
+							.orElse(null))
+					.filter(Objects::nonNull)
+					.collect(Collectors.toSet());
+			if (topKanteCrs.size() > 1 || topKanteCrs.stream()
+					.anyMatch(
+							crs -> crs == ENUMGEOKoordinatensystem.ENUMGEO_KOORDINATENSYSTEM_SONSTIGE)) {
+				topKanteWithInvalidCRS.add(topKante);
+			}
+		});
 	}
 
 	private PlazError validGeoCoordinate(final Punkt_Objekt po,
