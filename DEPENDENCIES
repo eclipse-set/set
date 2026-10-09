@@ -307,7 +307,7 @@ npm/npmjs/-/eslint-visitor-keys/1.3.0, Apache-2.0, approved, #2501
 npm/npmjs/-/eslint-visitor-keys/3.4.3, Apache-2.0, approved, #18264
 npm/npmjs/-/eslint-visitor-keys/4.2.1, BSD-2-Clause AND MIT AND Apache-2.0 AND (BSD-2-Clause AND BSD-3-Clause AND MIT) AND BSD-3-Clause AND (BSD-2-Clause AND MIT) AND (BSD-3-Clause AND LGPL-2.0-or-later AND MIT) AND LGPL-2.1-or-later, approved, #17084
 npm/npmjs/-/eslint-visitor-keys/5.0.1, Apache-2.0, approved, #25950
-npm/npmjs/-/eslint/10.11.0, MIT AND BSD-3-Clause, approved, #31947
+npm/npmjs/-/eslint/10.12.0, MIT AND BSD-3-Clause, approved, #32306
 npm/npmjs/-/espree/10.4.0, BSD-2-Clause AND BSD-3-Clause AND MIT AND BSD-2-Clause, approved, #22104
 npm/npmjs/-/espree/11.2.0, BSD-2-Clause AND BSD-3-Clause AND MIT AND BSD-2-Clause, approved, #28102
 npm/npmjs/-/esquery/1.7.0, BSD-3-Clause AND (BSD-2-Clause AND MIT), approved, #29268
@@ -636,7 +636,7 @@ npm/npmjs/-/uri-js/4.4.1, BSD-2-Clause, approved, #1086
 npm/npmjs/-/util-deprecate/1.0.2, MIT, approved, #5885
 npm/npmjs/-/utila/0.4.0, MIT, approved, clearlydefined
 npm/npmjs/-/vary/1.1.2, MIT, approved, clearlydefined
-npm/npmjs/-/vite/8.3.1, Apache-2.0 AND BSD-2-Clause AND CC0-1.0 AND ISC AND MIT, approved, #31750
+npm/npmjs/-/vite/8.3.3, Apache-2.0 AND BSD-2-Clause AND CC0-1.0 AND ISC AND MIT, approved, #31750
 npm/npmjs/-/vscode-uri/3.2.0, MIT, approved, #30482
 npm/npmjs/-/vue-class-component/8.0.0-rc.1, MIT, approved, clearlydefined
 npm/npmjs/-/vue-eslint-parser/10.4.0, MIT, approved, #27057
@@ -816,16 +816,16 @@ npm/npmjs/@types/serve-index/1.9.4, MIT, approved, #10976
 npm/npmjs/@types/serve-static/2.2.0, MIT, approved, clearlydefined
 npm/npmjs/@types/trusted-types/2.0.7, MIT, approved, clearlydefined
 npm/npmjs/@types/ws/8.18.1, MIT, approved, #19981
-npm/npmjs/@typescript-eslint/eslint-plugin/8.71.0, MIT, approved, #32302
-npm/npmjs/@typescript-eslint/parser/8.71.0, MIT, approved, #32301
-npm/npmjs/@typescript-eslint/project-service/8.71.0, MIT, approved, #32191
-npm/npmjs/@typescript-eslint/scope-manager/8.71.0, MIT, approved, #32183
-npm/npmjs/@typescript-eslint/tsconfig-utils/8.71.0, MIT, approved, #32233
-npm/npmjs/@typescript-eslint/type-utils/8.71.0, MIT, approved, #32300
-npm/npmjs/@typescript-eslint/types/8.71.0, MIT, approved, #32180
-npm/npmjs/@typescript-eslint/typescript-estree/8.71.0, MIT, approved, #32218
-npm/npmjs/@typescript-eslint/utils/8.71.0, MIT, approved, #32299
-npm/npmjs/@typescript-eslint/visitor-keys/8.71.0, MIT, approved, #32211
+npm/npmjs/@typescript-eslint/eslint-plugin/8.71.1, MIT, approved, #32302
+npm/npmjs/@typescript-eslint/parser/8.71.1, MIT, approved, #32301
+npm/npmjs/@typescript-eslint/project-service/8.71.1, MIT, approved, #32191
+npm/npmjs/@typescript-eslint/scope-manager/8.71.1, MIT, approved, #32183
+npm/npmjs/@typescript-eslint/tsconfig-utils/8.71.1, MIT, approved, #32233
+npm/npmjs/@typescript-eslint/type-utils/8.71.1, MIT, approved, #32300
+npm/npmjs/@typescript-eslint/types/8.71.1, MIT, approved, #32180
+npm/npmjs/@typescript-eslint/typescript-estree/8.71.1, MIT, approved, #32218
+npm/npmjs/@typescript-eslint/utils/8.71.1, MIT, approved, #32299
+npm/npmjs/@typescript-eslint/visitor-keys/8.71.1, MIT, approved, #32211
 npm/npmjs/@vitejs/plugin-vue/6.0.9, MIT, approved, #26690
 npm/npmjs/@volar/language-core/2.4.28, MIT, approved, #15619
 npm/npmjs/@volar/source-map/2.4.28, MIT, approved, #15620
