@@ -16,9 +16,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -208,7 +211,21 @@ public class PlanProXMLNode {
 	}
 
 	protected void addChild(final PlanProXMLNode child) {
-		children.add(child);
+		if (children.isEmpty()) {
+			children.add(child);
+		} else {
+			int index = Collections.binarySearch(children, child, Comparator
+					.comparingInt(PlanProXMLNode::getStartLineNumber));
+
+			// the binarySearch returns -(insertionPoint) - 1. Because the child
+			// isn't exist in list. Convert the negative result back to the
+			// insertion index.
+			if (index < 0) {
+				index = -index - 1;
+			}
+			children.add(index, child);
+		}
+
 		child.setParent(this);
 	}
 
@@ -226,10 +243,9 @@ public class PlanProXMLNode {
 	/**
 	 * @return the start line number of node
 	 */
-	public String getStartLineNumber() {
-		return startLineNumber.isPresent()
-				? Integer.toString(startLineNumber.get().intValue())
-				: null;
+	public int getStartLineNumber() {
+		return startLineNumber.isPresent() ? startLineNumber.get().intValue()
+				: -1;
 	}
 
 	protected void setEndLineNumber(final int lineNumber) {
@@ -239,10 +255,8 @@ public class PlanProXMLNode {
 	/**
 	 * @return the end line number of node
 	 */
-	public String getEndLineNumber() {
-		return endLineNumber.isPresent()
-				? Integer.toString(endLineNumber.get().intValue())
-				: null;
+	public int getEndLineNumber() {
+		return endLineNumber.isPresent() ? endLineNumber.get().intValue() : -1;
 	}
 
 	protected void setTextValue(final String value) {
@@ -251,8 +265,10 @@ public class PlanProXMLNode {
 
 	protected PlanProXMLNode(final String nodeName) {
 		this.nodeName = nodeName;
-		this.children = new ArrayList<>();
+		this.children = new LinkedList<>();
 		this.attributes = new ArrayList<>();
+		this.startLineNumber = Optional.empty();
+		this.endLineNumber = Optional.empty();
 	}
 
 	/**
