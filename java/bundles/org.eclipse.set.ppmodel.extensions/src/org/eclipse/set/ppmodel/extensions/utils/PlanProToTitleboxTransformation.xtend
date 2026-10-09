@@ -252,7 +252,7 @@ class PlanProToTitleboxTransformation {
 	}
 
 	def Planung_Gruppe getPlanungGruppe(PlanPro_Schnittstelle schnittstelle) {
-		return schnittstelle?.LSTPlanungProjekt?.leadingPlanungGruppe
+		return schnittstelle?.LSTPlanungProjekts?.leadingPlanungGruppe
 	}
 
 	def Planung_Einzel getPlanungEinzel(PlanPro_Schnittstelle schnittstelle) {
@@ -315,7 +315,7 @@ class PlanProToTitleboxTransformation {
 		it.variant = "no-logo"
 		if (schriftfeld?.planungsbueroLogo?.anhangAllg?.dateiname?.wert !==
 			null) {
-			val logo = attachmentPathProvider.apply(
+			val logo = attachmentPathProvider?.apply(
 				schriftfeld?.planungsbueroLogo?.identitaet?.wert)?.
 				toAbsolutePath?.normalize?.toString ?: ''
 			val dimension = getImageDimension(logo,

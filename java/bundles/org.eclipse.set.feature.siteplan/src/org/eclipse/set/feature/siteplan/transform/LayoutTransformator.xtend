@@ -51,7 +51,7 @@ class LayoutTransformator {
 			val layoutInfo = SiteplanFactory.eINSTANCE.createLayoutinfo
 			layoutInfo.guid = identitaet?.wert
 			layoutInfo.label = bezeichnung?.bezeichnungLageplan?.wert
-			IDLageplanBlattschnitt.forEach [
+			IDLageplanBlattschnitt.filter[value !== null].forEach [
 				layoutInfo.sheetsCut.add(value.transformSheetCut)
 			]
 			siteplan.layoutInfo.add(layoutInfo)
@@ -86,14 +86,13 @@ class LayoutTransformator {
 			}
 		]
 		return result.filter[x !== 0 && y !== 0].map [
-			positionService.transformCoordinate(x, y,
-				LayoutTransformator.
-					selectedCRS)
+			positionService.transformCoordinate(x, y, LayoutTransformator.
+				selectedCRS)
 		]
 	}
 
 	static def ENUMGEOKoordinatensystem setCRS(String newCRS) {
-		//By default fallback to CR0 System
+		// By default fallback to CR0 System
 		selectedCRS = crsMap.getOrDefault(newCRS,
 			ENUMGEOKoordinatensystem.ENUMGEO_KOORDINATENSYSTEM_CR0)
 	}
