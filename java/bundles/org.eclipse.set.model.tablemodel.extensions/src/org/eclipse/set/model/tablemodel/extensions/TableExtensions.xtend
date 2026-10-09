@@ -113,6 +113,10 @@ class TableExtensions {
 			rows.addAll(rowgroup.rows)
 		return rows
 	}
+	
+	static def List<Pair<Integer, TableRow>> getTableRowsWithIndex(Table table) {
+		return table.tableRows.indexed.toList
+	}
 
 	/** 
 	 * @param table this table
@@ -713,6 +717,5 @@ class TableExtensions {
 			default:
 				false
 		}
-
 	}
 }

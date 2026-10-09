@@ -1,0 +1,7 @@
+﻿Lfd. Nr.;A;B;C;D;E;F;G;H;I;J;K;L;M;N;O;P;Q;R;S;T;U;V;W
+1;Anschaltung ÜS BÜ 17,1;BÜ-Anschaltung;;Schalthaus;;;;;;;Landesnetz VNB;Batterie;;;;;;;;;;;
+2;ESTW-A Linksdorf;ESTW-A;SIMIS-C;Gebäude;;8980;120,340;;ESTW-UZ N-Stadt;;Landesnetz VNB;Notstromaggregat (NEA stationär);;;;;;;;;;;
+3;ESTW-A P-Hausen;ESTW-A;SIMIS-C;Gebäude;;8980;120,362;;ESTW-UZ N-Stadt;;Landesnetz VNB;Notstromaggregat (NEA stationär);;;;;;;;;;;
+4;ESTW-UZ N-Stadt;ESTW-ZE;SIMIS-C;Gebäude;;8980;120,340;;;;Landesnetz VNB;Notstromaggregat (NEA stationär);;;;;;;;;;;
+5;Linksdorf Achszählrechner;Gleisfreimelde-Innenanlage;;Gebäude;;8980;120,340;;ESTW-A Linksdorf;;ESTW-UZ N-Stadt;ESTW-UZ N-Stadt;;;;;;;;;;;
+6;P-Hausen Achszählrechner;Gleisfreimelde-Innenanlage;;Gebäude;;8980;120,362;;ESTW-A P-Hausen;;ESTW-A P-Hausen;ESTW-A P-Hausen;;;;;;;;;;;
