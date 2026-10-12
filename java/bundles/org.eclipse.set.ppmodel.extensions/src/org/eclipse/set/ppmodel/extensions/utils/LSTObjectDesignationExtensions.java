@@ -184,9 +184,11 @@ public class LSTObjectDesignationExtensions {
 	 */
 	public static String getLSTObjectDesignation(final Fla_Schutz fla) {
 		return getEmptyStringWhenNull(fla, f -> {
-			final String designation = FlaSchutzExtensions.getBezeichnungTabelle(fla,
-					FlaSchutzExtensions.getAnforderer(fla));
-			final String wLageNbGrenze = FlaSchutzExtensions.getWLageNbGrenze(fla);
+			final String designation = FlaSchutzExtensions
+					.getBezeichnungTabelle(fla,
+							FlaSchutzExtensions.getAnforderer(fla));
+			final String wLageNbGrenze = FlaSchutzExtensions
+					.getWLageNbGrenze(fla);
 			return designation + " " + wLageNbGrenze; //$NON-NLS-1$
 		});
 	}
