@@ -24,11 +24,13 @@ import org.apache.commons.lang3.reflect.FieldUtils;
 import org.eclipse.set.application.cacheservice.CacheServiceImpl;
 import org.eclipse.set.basis.constants.ContainerType;
 import org.eclipse.set.basis.files.ToolboxFileRole;
+import org.eclipse.set.basis.graph.TopPath;
 import org.eclipse.set.basis.graph.TopPoint;
 import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.cache.CacheService;
 import org.eclipse.set.core.services.graph.TopologicalGraphService;
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt;
+import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
@@ -88,8 +90,8 @@ public class TopologicalGraphServiceTest extends AbstractToolboxTest {
 	void givenCacheService() {
 		cachService = new CacheServiceImpl() {
 			@Override
-			protected ToolboxFileRole getSessionRole(
-					final PlanPro_Schnittstelle schnittStelle) {
+			protected <T extends Ur_Objekt> ToolboxFileRole getSessionRole(
+					final T schnittStelle) {
 				return ToolboxFileRole.SESSION;
 			}
 		};
@@ -127,7 +129,40 @@ public class TopologicalGraphServiceTest extends AbstractToolboxTest {
 							true);
 			// It given't relevant path from 60AA -> 60P1
 			assertFalse(testDistance3.isPresent());
+		}
+	}
 
+	@Test
+	void testFindShortesRelevantPath() throws Exception {
+		try (MockedStatic<Services> mockServices = Mockito
+				.mockStatic(Services.class)) {
+			setupTest(mockServices);
+			// 60L107X -> 60L106X
+			// it give no relevant path from 60L107X to 60L106X
+			final Optional<TopPath> testPath1 = testee
+					.findTopologicalShortesPath(
+							getTopPoint("2B347074-8B80-48F8-960D-DF2F8DC0244F"),
+							getTopPoint("78BB7C0E-A90D-4A6E-9F60-0A855A010B6B") //
+					);
+
+			assertTrue(testPath1.isEmpty());
+
+			// 60L107X -> 60L123Y
+			final Optional<TopPath> testPath2 = testee
+					.findTopologicalShortesPath(
+							getTopPoint("2B347074-8B80-48F8-960D-DF2F8DC0244F"),
+							getTopPoint("3941E450-42FE-4F9A-9370-262C50E2BC9F") //
+					);
+
+			assertTrue(testPath2.isPresent());
+
+			final Optional<BigDecimal> shortestDistance = testee
+					.findShortestDistance(
+							getTopPoint("2B347074-8B80-48F8-960D-DF2F8DC0244F"),
+							getTopPoint("3941E450-42FE-4F9A-9370-262C50E2BC9F") //
+					);
+
+			assertEquals(shortestDistance.get(), testPath2.get().length());
 		}
 	}
 

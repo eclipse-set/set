@@ -6,7 +6,7 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v20.html
  */
-package org.eclipse.set.core.fileservice
+package org.eclipse.set.utils.cache
 
 import java.util.HashMap
 import java.util.Map
@@ -60,12 +60,32 @@ class GuidCache {
 		}
 	}
 
+	def EObject get(String guid, ContainerType containerType) {
+		if (containerType === null) {
+			return null;
+		}
+		switch (containerType) {
+			case ContainerType.Initial:
+				return initialGuidToObjectMap.get(guid)
+			case ContainerType.Planning:
+				return planningGuidToObjectMap.get(guid)
+			case ContainerType.Single:
+				return singleGuidToObjectMap.get(guid)
+			case ContainerType.Global:
+				return globalGuidToObjectMap.get(guid)
+			case ContainerType.Layout:
+				return layoutGuidToObjectMap.get(guid)
+			default:
+				return null
+		}
+	}
+
 	/**
 	 * Initialize the cache
 	 * 
 	 * @param planProSchnittstelle the PlanPro_Schnittstelle
 	 */
-	def void prepare(PlanPro_Schnittstelle planProSchnittstelle) {
+	def dispatch void prepare(PlanPro_Schnittstelle planProSchnittstelle) {
 		prepare(planProSchnittstelle, ContainerType.Global,
 			globalGuidToObjectMap);
 		prepare(planProSchnittstelle, ContainerType.Single,
@@ -81,7 +101,7 @@ class GuidCache {
 	 * 
 	 * @param planProSchnittstelle the PlanPro_Schnittstelle
 	 */
-	def void prepare(PlanPro_Layoutinfo layout) {
+	def dispatch void prepare(PlanPro_Layoutinfo layout) {
 		prepare(layout, layoutGuidToObjectMap);
 	}
 
@@ -111,8 +131,8 @@ class GuidCache {
 			}
 			case Planning: {
 				return planProSchnittstelle?.getLSTPlanung?.fachdaten?.
-					ausgabeFachdaten?.map[LSTZustandZiel?.container]?.filterNull?.
-					flatMap [
+					ausgabeFachdaten?.map[LSTZustandZiel?.container]?.
+					filterNull?.flatMap [
 						eContents
 					]?.filter(Ur_Objekt)
 			}
@@ -159,11 +179,11 @@ class GuidCache {
 		// The top level node has been reached (-> Global type)
 		// or A Container_AttributeGroup has been reached (-> Signle/Initial/Planning type)  
 		if (referenceObject === null) return ContainerType::Global
-		
+
 		if (referenceObject instanceof PlanPro_Layoutinfo) {
 			return ContainerType::Layout
 		}
-		
+
 		if (!(referenceObject instanceof Container_AttributeGroup))
 			return getContainerType(referenceObject.eContainer())
 

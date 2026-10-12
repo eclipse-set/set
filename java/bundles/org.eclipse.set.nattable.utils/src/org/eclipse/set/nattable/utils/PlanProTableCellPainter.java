@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017 DB Netz AG and others.
+ * Copyright (c) 2017 DB Netz AG and others. 
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
@@ -39,18 +39,27 @@ public class PlanProTableCellPainter extends BackgroundPainter {
 	public PlanProTableCellPainter(final ICellPainter interiorPainter,
 			final Image yellowWarningImage, final Image redWarningImage,
 			final Image blackWarningImage) {
-		super(new PaddingDecorator(new BasePainterDecorator(
-				new BasePainterDecorator(new BasePainterDecorator(
-						interiorPainter, BaseEdgeEnum.BEFORE,
-						new WarningPainter(redWarningImage,
-								CellContentExtensions.WARNING_MARK_RED)),
-						BaseEdgeEnum.BEFORE,
-						new WarningPainter(blackWarningImage,
-								CellContentExtensions.WARNING_MARK_BLACK)),
-				BaseEdgeEnum.BEFORE,
-				new WarningPainter(yellowWarningImage,
-						CellContentExtensions.WARNING_MARK_YELLOW)),
-				TOP_PADDING, RIGHT_PADDING, BOTTOM_PADDING, LEFT_PADDING,
+		super(new PaddingDecorator( //
+				new BasePainterDecorator( //
+						new BasePainterDecorator( //
+								new BasePainterDecorator( //
+										interiorPainter, //
+										BaseEdgeEnum.BEFORE,
+										new WarningPainter(redWarningImage,
+												CellContentExtensions.WARNING_MARK_RED) //
+								), //
+								BaseEdgeEnum.BEFORE, //
+								new WarningPainter(blackWarningImage,
+										CellContentExtensions.WARNING_MARK_BLACK) //
+						), //
+						BaseEdgeEnum.BEFORE, //
+						new WarningPainter(yellowWarningImage,
+								CellContentExtensions.WARNING_MARK_YELLOW) //
+				), //
+				TOP_PADDING, //
+				RIGHT_PADDING, //
+				BOTTOM_PADDING, //
+				LEFT_PADDING, //
 				false));
 	}
 }

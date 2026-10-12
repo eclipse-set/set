@@ -332,7 +332,7 @@ class SessionToValidationReportTransformation {
 
 		if (objectScope === null || objectScope === ObjectScope.UNKNOWN) {
 			if (validationSourceClass == PlanPro_Layoutinfo ||
-				type === LayoutInfoRequired.LAYOUT_VALIDATION_TYPE) {
+				type === LayoutInfoRequired.METADATA_VALIDATION_TYPE) {
 				objectScope = ObjectScope.LAYOUT
 			} else {
 				objectScope = ObjectScope.CONTENT

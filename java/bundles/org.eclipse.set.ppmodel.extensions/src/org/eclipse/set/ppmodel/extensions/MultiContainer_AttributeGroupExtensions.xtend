@@ -8,7 +8,6 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import java.util.concurrent.ExecutionException
 import org.eclipse.set.basis.constants.ContainerType
 import org.eclipse.set.basis.constants.ToolboxConstants
 import org.eclipse.set.core.services.Services
@@ -16,7 +15,7 @@ import org.eclipse.set.model.planpro.BasisTypen.Zeiger_TypeClass
 import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
-import org.eclipse.set.ppmodel.extensions.utils.UrObjectLoader
+import org.eclipse.set.utils.cache.GuidCache
 
 import static extension org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PlanungEinzelExtensions.*
@@ -40,16 +39,27 @@ class MultiContainer_AttributeGroupExtensions {
 		}
 
 		val cacheService = Services.getCacheService();
-		val cache = cacheService.getCache(container.planProSchnittstelle,
-			ToolboxConstants.CacheId.GUID_TO_OBJECT, container.cacheString)
-		try {
-			return cache.get(guid,
-				new UrObjectLoader<T>(container.contents.filter [
-					clazz.isInstance(it)
-				].map[it as T], guid)) as T
-		} catch (ExecutionException exc) {
-			throw new RuntimeException(exc)
+		val schnittStelle = container.planProSchnittstelle
+		val cache = cacheService.getCache(schnittStelle,
+			ToolboxConstants.CacheId.GUID_TO_OBJECT)
+		val guidCache = cache.get(schnittStelle.identitaet.wert, [
+			val guidCache = new GuidCache
+			guidCache.prepare(schnittStelle)
+			return guidCache
+		])
+		var cacheContainer = switch (container.containerType) {
+			case FINAL: GuidCache.ContainerType.Planning
+			case INITIAL: GuidCache.ContainerType.Initial
+			case SINGLE: GuidCache.ContainerType.Single
+			default: null
 		}
+
+		val obj = guidCache.get(guid, cacheContainer)
+		if (clazz.isInstance(obj)) {
+			return obj as T
+		}
+		return null
+
 	}
 
 	def static ContainerType getContainerType(
@@ -81,7 +91,7 @@ class MultiContainer_AttributeGroupExtensions {
 
 		throw new IllegalArgumentException('''PlanProSchinttStelle not contains LST_Zustand: «lstZustand.identitaet.wert»''')
 	}
-	
+
 	def static PlanPro_Schnittstelle getPlanProSchnittstelle(
 		MultiContainer_AttributeGroup container) {
 		val lstZustand = container.firstLSTZustand

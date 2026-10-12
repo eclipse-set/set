@@ -171,7 +171,7 @@ class PlanProToTitleboxTransformation {
 				planungEinzel?.planungEHandlung?.planungEErstellung?.lastOrNull
 			it.set(48, comparePlanungAllgemein?.buildLastEditionNumber)
 			it.set(62,
-				compareLastPlanungEErstellung?.datum.wert?.toString(
+				compareLastPlanungEErstellung?.datum?.wert?.toString(
 					DATE_FORMAT) ?: "")
 
 			// Fill main plan information
