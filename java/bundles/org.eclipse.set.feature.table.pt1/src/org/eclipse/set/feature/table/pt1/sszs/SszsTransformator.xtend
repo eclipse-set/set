@@ -807,11 +807,12 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 		val signal = etcsSignal.IDSignal?.value
 		if (signal !== null && po !== null) {
 			val signalTopPoint = new TopPoint(signal)
-			val topPoint = new TopPoint(po)
-			val distance = topGraphService.findShortestDistance(signalTopPoint,
-				topPoint)
-			if (distance.present) {
-				return distance.get
+			val distances = po.singlePoints.map [
+				topGraphService.findTopologicalShortesPath(signalTopPoint,
+					new TopPoint(it))
+			].filter[isPresent].map[get.length]
+			if (!distances.nullOrEmpty) {
+				return distances.min
 			}
 		}
 
