@@ -124,7 +124,7 @@ public class PlanProXMLNode {
 			}
 
 			private void addTextIfNeeded() {
-				if (nodeText.length() > 0) {
+				if (!nodeText.isEmpty()) {
 					String text = nodeText.toString();
 					text = text.replace("\n", ""); //$NON-NLS-1$ //$NON-NLS-2$
 					text = text.replace("\r", ""); //$NON-NLS-1$ //$NON-NLS-2$
@@ -243,7 +243,8 @@ public class PlanProXMLNode {
 	 * @return the start line number of node
 	 */
 	public int getStartLineNumber() {
-		return startLineNumber.isPresent() ? startLineNumber.get().intValue()
+		return startLineNumber.isPresent() //
+				? startLineNumber.get().intValue() //
 				: -1;
 	}
 
@@ -255,7 +256,9 @@ public class PlanProXMLNode {
 	 * @return the end line number of node
 	 */
 	public int getEndLineNumber() {
-		return endLineNumber.isPresent() ? endLineNumber.get().intValue() : -1;
+		return endLineNumber.isPresent() //
+				? endLineNumber.get().intValue() //
+				: -1;
 	}
 
 	protected void setTextValue(final String value) {

@@ -10,7 +10,6 @@ package org.eclipse.set.utils.xml;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -66,8 +65,7 @@ public class XMLNodeFinder {
 			return node;
 		}
 
-		final List<PlanProXMLNode> children = new LinkedList<>(
-				node.getChildren());
+		final List<PlanProXMLNode> children = node.getChildren();
 		if (children.isEmpty()) {
 			return isLineNumberInNode(lineNumber, node) ? node : null;
 		}
