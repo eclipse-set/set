@@ -201,7 +201,10 @@ public class GeoKanteGeometryServiceImpl
 					process.setProcessComplete(true);
 					Thread.currentThread().interrupt();
 				}
-			}, ToolboxConstants.CacheId.GEOKANTE_GEOMETRY);
+			}, String.format("%s/%s/%s", //$NON-NLS-1$
+					ToolboxConstants.BACKGROUND_PROGESS_THREAD_NAME_PREFIX,
+					role.toString(),
+					ToolboxConstants.GEOKANTE_GEOMETRY_PROGRESS));
 			t.start();
 			process.setProcessThread(t);
 			findGeometryProcesses.add(process);
