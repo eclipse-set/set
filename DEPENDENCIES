@@ -527,7 +527,7 @@ npm/npmjs/-/powershell-utils/0.1.0, MIT, approved, clearlydefined
 npm/npmjs/-/prelude-ls/1.2.1, MIT, approved, clearlydefined
 npm/npmjs/-/pretty-error/4.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/protocol-buffers-schema/3.6.1, MIT, approved, clearlydefined
-npm/npmjs/-/proxy-addr/2.0.7, MIT, approved, clearlydefined
+npm/npmjs/-/proxy-addr/2.0.8, MIT, approved, clearlydefined
 npm/npmjs/-/proxy-from-env/2.1.0, MIT, approved, #26987
 npm/npmjs/-/punycode/2.1.1, MIT, approved, clearlydefined
 npm/npmjs/-/punycode/2.3.1, MIT, approved, #6373
@@ -583,7 +583,7 @@ npm/npmjs/-/setprototypeof/1.2.0, ISC, approved, clearlydefined
 npm/npmjs/-/shallow-clone/3.0.1, MIT, approved, clearlydefined
 npm/npmjs/-/shebang-command/2.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/shebang-regex/3.0.0, MIT, approved, clearlydefined
-npm/npmjs/-/shell-quote/1.9.0, MIT, approved, #29483
+npm/npmjs/-/shell-quote/1.12.0, MIT, approved, #32324
 npm/npmjs/-/side-channel-list/1.0.1, MIT, approved, #18387
 npm/npmjs/-/side-channel-map/1.0.1, MIT, approved, #18386
 npm/npmjs/-/side-channel-weakmap/1.0.2, MIT, approved, #18384
