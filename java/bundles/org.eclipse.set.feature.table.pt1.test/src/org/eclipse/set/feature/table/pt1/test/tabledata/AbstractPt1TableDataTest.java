@@ -369,6 +369,10 @@ public abstract class AbstractPt1TableDataTest extends Pt1TableTest {
 				ArgumentMatchers.any()))).thenReturn(Boolean.TRUE);
 
 		setupModelSession(getEventAdmin());
+		while (!getGeometryService()
+				.isFindGeometryComplete(ToolboxFileRole.SESSION)) {
+			Thread.sleep(2000);
+		}
 		getSessionService().getLoadedSessions()
 				.put(ToolboxFileRole.SESSION, modelSession);
 		givenToolboxViewModelService();
