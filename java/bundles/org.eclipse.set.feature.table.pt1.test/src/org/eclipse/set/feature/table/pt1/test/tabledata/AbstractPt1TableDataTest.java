@@ -17,6 +17,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.lang.reflect.Field;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +34,7 @@ import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.eclipse.e4.core.contexts.IContextFunction;
 import org.eclipse.e4.core.services.events.IEventBroker;
+import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.eclipse.set.core.services.Services;
@@ -61,13 +63,16 @@ import org.eclipse.set.services.table.TableStatus;
 import org.eclipse.set.utils.ToolboxConfiguration;
 import org.eclipse.set.utils.table.TableInfo;
 import org.eclipse.set.utils.table.TableInfo.Pt1TableCategory;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.function.Executable;
 import org.junit.jupiter.params.provider.Arguments;
 import org.mockito.ArgumentMatchers;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
+import org.osgi.service.event.Event;
 import org.osgi.service.event.EventAdmin;
+import org.osgi.service.event.EventConstants;
 
 /**
  * 
@@ -170,6 +175,14 @@ public abstract class AbstractPt1TableDataTest extends Pt1TableTest {
 		Mockito.when(toolboxViewModelService.getSession())
 				.thenReturn(Optional.of(modelSession));
 
+	}
+
+	@AfterAll
+	protected void afterAll() {
+		final Map<String, Object> properties = new HashMap<>();
+		properties.put(EventConstants.EVENT_TOPIC, Events.CLOSE_SESSION);
+		properties.put(IEventBroker.DATA, ToolboxFileRole.SESSION);
+		getEventAdmin().sendEvent(new Event(Events.CLOSE_SESSION, properties));
 	}
 
 	@BeforeAll
