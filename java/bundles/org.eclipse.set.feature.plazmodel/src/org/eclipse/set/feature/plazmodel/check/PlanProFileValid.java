@@ -10,6 +10,8 @@
  */
 package org.eclipse.set.feature.plazmodel.check;
 
+import static org.eclipse.set.basis.constants.PlanProZipFileContent.*;
+
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -24,6 +26,7 @@ import java.util.stream.Stream;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.PlanProXMLNode;
+import org.eclipse.set.basis.constants.PlanProZipFileContent;
 import org.eclipse.set.basis.files.ToolboxFile;
 import org.eclipse.set.model.plazmodel.PlazError;
 import org.eclipse.set.model.plazmodel.PlazFactory;
@@ -38,8 +41,6 @@ import org.osgi.service.component.annotations.Component;
 @Component
 @SuppressWarnings("nls")
 public class PlanProFileValid implements PlazCheck {
-	List<String> EXPECT_FILES_NAME = List.of("content.xml", "layout.xml",
-			"manifest.xml", "media");
 
 	@Override
 	public List<PlazError> run(final IModelSession modelSession) {
@@ -64,7 +65,7 @@ public class PlanProFileValid implements PlazCheck {
 		final List<File> listFiles = Arrays
 				.asList(unzipDirectory.toFile().listFiles());
 		final Optional<File> manifestFileOpt = listFiles.stream()
-				.filter(f -> f.getName().equalsIgnoreCase("manifest.xml"))
+				.filter(f -> MANIFEST_XML.equalsIgnoreCase(f.getName()))
 				.findFirst();
 		if (manifestFileOpt.isEmpty()) {
 			return null;
@@ -84,7 +85,7 @@ public class PlanProFileValid implements PlazCheck {
 			for (final PlanProXMLNode child : manifestNode.getChildren()) {
 				if (child.getNodeName().equals("contentList")) {
 					error = inValidXMLNode(child, "content", "name",
-							"content.xml");
+							CONTENT_XML.toString());
 				}
 
 				if (child.getNodeName().equals("layoutList")
@@ -92,7 +93,7 @@ public class PlanProFileValid implements PlazCheck {
 					error = listFiles.stream()
 							.noneMatch(f -> f.getName().equals("layout.xml"))
 							|| inValidXMLNode(child, "layout", "name",
-									"layout.xml");
+									LAYOUT_XML.toString());
 				}
 
 				if (child.getNodeName().equals("mediaList")
@@ -151,12 +152,12 @@ public class PlanProFileValid implements PlazCheck {
 
 	private List<PlazError> validPlanProStructure(final Path unzipDirectory) {
 		final File[] files = unzipDirectory.toFile().listFiles();
-		if (files.length != EXPECT_FILES_NAME.size()) {
+		if (files.length != PlanProZipFileContent.values().length) {
 			return List.of(createError(getGeneralErrMsg()));
 		}
 
 		final List<File> missingFiles = Stream.of(files)
-				.filter(f -> !EXPECT_FILES_NAME.contains(f.getName()))
+				.filter(f -> !isPlanProZipFileContent(f.getName()))
 				.toList();
 		if (!missingFiles.isEmpty()) {
 			return List.of(createError(getGeneralErrMsg()));
