@@ -71,56 +71,8 @@ public class SheetCutValidator extends AbstractCustomValidator {
 				for (final Lageplan_Blattschnitt sheetCut : sheetCuts) {
 					anyProblems |= validateDirectionLine(result, nodeFinder,
 							sheetCut);
-					final PlanProXMLNode node = nodeFinder.find(sheetCut);
-					final int line = node == null ? 0
-							: nodeFinder.getLineNumber(node);
-					final String objektArt = nodeFinder.getObjectType(node);
-
-					final Polygonzug_Blattschnitt_TypeClass polygon = sheetCut
-							.getPolygonzugBlattschnitt();
-					final PlanProXMLNode polygonNode = nodeFinder.find(polygon);
-					final int polygonLine = polygonNode == null ? line
-							: nodeFinder.getLineNumber(polygonNode);
-
-					final String polygonWert = polygon == null ? null
-							: polygon.getWert();
-					if (polygonWert == null || polygonWert.isBlank()) {
-						anyProblems = true;
-						final CustomValidationProblemImpl problem = new CustomValidationProblemImpl(
-								"Blattschnitt ohne Polygon", //$NON-NLS-1$
-								ValidationSeverity.WARNING,
-								this.validationType(), objektArt, null, null);
-						problem.setLineNumber(polygonLine);
-						result.addCustomProblem(problem);
-					} else {
-						final String[] polygonTokens = polygonWert.trim()
-								.split("\\s+"); //$NON-NLS-1$
-						if (polygonTokens.length % 2 != 0) {
-							anyProblems = true;
-							final CustomValidationProblemImpl problem = new CustomValidationProblemImpl(
-									String.format(
-											"Polygon hat %d Koordinaten (ungerade Anzahl)", //$NON-NLS-1$
-											Integer.valueOf(
-													polygonTokens.length)),
-									ValidationSeverity.WARNING,
-									this.validationType(), objektArt, null,
-									null);
-							problem.setLineNumber(polygonLine);
-							result.addCustomProblem(problem);
-						} else if (polygonTokens.length / 2 < 3) {
-							anyProblems = true;
-							final CustomValidationProblemImpl problem = new CustomValidationProblemImpl(
-									String.format(
-											"Polygon hat %d Punkte, mindestens 3 erforderlich", //$NON-NLS-1$
-											Integer.valueOf(
-													polygonTokens.length / 2)),
-									ValidationSeverity.WARNING,
-									this.validationType(), objektArt, null,
-									null);
-							problem.setLineNumber(polygonLine);
-							result.addCustomProblem(problem);
-						}
-					}
+					anyProblems |= validatePolygon(result, nodeFinder,
+							sheetCut);
 				}
 
 				if (!anyProblems) {
@@ -178,6 +130,54 @@ public class SheetCutValidator extends AbstractCustomValidator {
 					ValidationSeverity.WARNING, this.validationType(),
 					objektArt, null, null);
 			problem.setLineNumber(ausrichtungsLine);
+			result.addCustomProblem(problem);
+			return true;
+		}
+		return false;
+	}
+
+	private boolean validatePolygon(final ValidationResult result,
+			final EObjectXMLFinder finder, final Lageplan_Blattschnitt sheetCut)
+			throws EObjectXMLFinder.LineNotFoundException {
+		final PlanProXMLNode node = finder.find(sheetCut);
+		final int line = node == null ? 0 : finder.getLineNumber(node);
+		final String objektArt = finder.getObjectType(node);
+		final Polygonzug_Blattschnitt_TypeClass polygon = sheetCut
+				.getPolygonzugBlattschnitt();
+		final PlanProXMLNode polygonNode = finder.find(polygon);
+		final int polygonLine = polygonNode == null ? line
+				: finder.getLineNumber(polygonNode);
+
+		final String polygonWert = polygon == null ? null : polygon.getWert();
+		if (polygonWert == null || polygonWert.isBlank()) {
+			final CustomValidationProblemImpl problem = new CustomValidationProblemImpl(
+					"Blattschnitt ohne Polygon", //$NON-NLS-1$
+					ValidationSeverity.WARNING, this.validationType(),
+					objektArt, null, null);
+			problem.setLineNumber(polygonLine);
+			result.addCustomProblem(problem);
+			return true;
+		}
+
+		final String[] polygonTokens = polygonWert.trim().split("\\s+"); //$NON-NLS-1$
+		if (polygonTokens.length % 2 != 0) {
+			final CustomValidationProblemImpl problem = new CustomValidationProblemImpl(
+					String.format(
+							"Polygon hat %d Koordinaten (ungerade Anzahl)", //$NON-NLS-1$
+							Integer.valueOf(polygonTokens.length)),
+					ValidationSeverity.WARNING, this.validationType(),
+					objektArt, null, null);
+			problem.setLineNumber(polygonLine);
+			result.addCustomProblem(problem);
+			return true;
+		} else if (polygonTokens.length / 2 < 3) {
+			final CustomValidationProblemImpl problem = new CustomValidationProblemImpl(
+					String.format(
+							"Polygon hat %d Punkte, mindestens 3 erforderlich", //$NON-NLS-1$
+							Integer.valueOf(polygonTokens.length / 2)),
+					ValidationSeverity.WARNING, this.validationType(),
+					objektArt, null, null);
+			problem.setLineNumber(polygonLine);
 			result.addCustomProblem(problem);
 			return true;
 		}
