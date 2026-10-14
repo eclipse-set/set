@@ -68,43 +68,12 @@ public class SheetCutValidator extends AbstractCustomValidator {
 						toolboxFile, toolboxFile.getLayoutPath());
 				boolean anyProblems = false;
 				for (final Lageplan_Blattschnitt sheetCut : sheetCuts) {
+					anyProblems |= validateDirectionLine(result, nodeFinder,
+							sheetCut);
 					final PlanProXMLNode node = nodeFinder.find(sheetCut);
 					final int line = node == null ? 0
 							: nodeFinder.getLineNumber(node);
 					final String objektArt = nodeFinder.getObjectType(node);
-
-					final Polygonzug_Ausrichtung_TypeClass ausrichtung = sheetCut
-							.getPolygonzugAusrichtung();
-					final PlanProXMLNode ausrichtungsNode = nodeFinder
-							.find(ausrichtung);
-					final int ausrichtungsLine = ausrichtungsNode == null ? line
-							: nodeFinder.getLineNumber(ausrichtungsNode);
-
-					final String wert = ausrichtung == null ? null
-							: ausrichtung.getWert();
-					if (wert == null || wert.isBlank()) {
-						anyProblems = true;
-						final CustomValidationProblemImpl problem = new CustomValidationProblemImpl(
-								"Blattschnitt ohne Ausrichtung", //$NON-NLS-1$
-								ValidationSeverity.WARNING,
-								this.validationType(), objektArt, null, null);
-						problem.setLineNumber(ausrichtungsLine);
-						result.addCustomProblem(problem);
-					} else {
-						final String[] tokens = wert.trim().split("\\s+"); //$NON-NLS-1$
-						if (tokens.length != 4) {
-							anyProblems = true;
-							final CustomValidationProblemImpl problem = new CustomValidationProblemImpl(
-									String.format(
-											"Ausrichtung hat %d Koordinaten (erwartet 4)", //$NON-NLS-1$
-											Integer.valueOf(tokens.length)),
-									ValidationSeverity.WARNING,
-									this.validationType(), objektArt, null,
-									null);
-							problem.setLineNumber(ausrichtungsLine);
-							result.addCustomProblem(problem);
-						}
-					}
 
 					final Polygonzug_Blattschnitt_TypeClass polygon = sheetCut
 							.getPolygonzugBlattschnitt();
@@ -165,6 +134,43 @@ public class SheetCutValidator extends AbstractCustomValidator {
 					ValidationSeverity.WARNING, this.validationType(), null,
 					null, null));
 		}
+	}
+
+	private boolean validateDirectionLine(final ValidationResult result,
+			final EObjectXMLFinder finder, final Lageplan_Blattschnitt sheetCut)
+			throws EObjectXMLFinder.LineNotFoundException {
+		final PlanProXMLNode node = finder.find(sheetCut);
+		final int line = node == null ? 0 : finder.getLineNumber(node);
+		final String objektArt = finder.getObjectType(node);
+
+		final Polygonzug_Ausrichtung_TypeClass ausrichtung = sheetCut
+				.getPolygonzugAusrichtung();
+		final PlanProXMLNode ausrichtungsNode = finder.find(ausrichtung);
+		final int ausrichtungsLine = ausrichtungsNode == null ? line
+				: finder.getLineNumber(ausrichtungsNode);
+
+		final String wert = ausrichtung == null ? null : ausrichtung.getWert();
+		if (wert == null || wert.isBlank()) {
+			final CustomValidationProblemImpl problem = new CustomValidationProblemImpl(
+					"Blattschnitt ohne Ausrichtung", //$NON-NLS-1$
+					ValidationSeverity.WARNING, this.validationType(),
+					objektArt, null, null);
+			problem.setLineNumber(ausrichtungsLine);
+			result.addCustomProblem(problem);
+			return true;
+		}
+		final String[] tokens = wert.trim().split("\\s+"); //$NON-NLS-1$
+		if (tokens.length != 4) {
+			final CustomValidationProblemImpl problem = new CustomValidationProblemImpl(
+					String.format("Ausrichtung hat %d Koordinaten (erwartet 4)", //$NON-NLS-1$
+							Integer.valueOf(tokens.length)),
+					ValidationSeverity.WARNING, this.validationType(),
+					objektArt, null, null);
+			problem.setLineNumber(ausrichtungsLine);
+			result.addCustomProblem(problem);
+			return true;
+		}
+		return false;
 	}
 
 	@Override
