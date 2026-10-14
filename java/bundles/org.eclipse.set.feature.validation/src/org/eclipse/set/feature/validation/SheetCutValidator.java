@@ -23,6 +23,7 @@ import org.eclipse.set.model.planpro.Layoutinformationen.PlanPro_Layoutinfo;
 import org.eclipse.set.model.planpro.Layoutinformationen.Polygonzug_Ausrichtung_TypeClass;
 import org.eclipse.set.model.planpro.Layoutinformationen.Polygonzug_Blattschnitt_TypeClass;
 import org.eclipse.set.model.validationreport.ValidationSeverity;
+import org.eclipse.set.ppmodel.extensions.EObjectExtensions;
 import org.eclipse.set.utils.xml.EObjectXMLFinder;
 import org.osgi.service.component.annotations.Component;
 
@@ -102,7 +103,11 @@ public class SheetCutValidator extends AbstractCustomValidator {
 		final int ausrichtungsLine = ausrichtungsNode == null ? line
 				: finder.getLineNumber(ausrichtungsNode);
 
-		final String wert = ausrichtung == null ? null : ausrichtung.getWert();
+		final String wert = EObjectExtensions
+				.getNullableObject(sheetCut,
+						s -> s.getPolygonzugAusrichtung().getWert())
+				.orElse(null);
+
 		if (wert == null || wert.isBlank()) {
 			final CustomValidationProblemImpl problem = new CustomValidationProblemImpl(
 					"Blattschnitt ohne Ausrichtung", //$NON-NLS-1$
@@ -148,7 +153,10 @@ public class SheetCutValidator extends AbstractCustomValidator {
 		final int polygonLine = polygonNode == null ? line
 				: finder.getLineNumber(polygonNode);
 
-		final String polygonWert = polygon == null ? null : polygon.getWert();
+		final String polygonWert = EObjectExtensions
+				.getNullableObject(sheetCut,
+						s -> s.getPolygonzugBlattschnitt().getWert())
+				.orElse(null);
 		if (polygonWert == null || polygonWert.isBlank()) {
 			final CustomValidationProblemImpl problem = new CustomValidationProblemImpl(
 					"Blattschnitt ohne Polygon", //$NON-NLS-1$
