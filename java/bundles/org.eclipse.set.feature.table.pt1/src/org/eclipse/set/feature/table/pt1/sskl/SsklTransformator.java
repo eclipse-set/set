@@ -8,9 +8,9 @@
  * SPDX-License-Identifier: EPL-2.0
  * 
  */
-package org.eclipse.set.feature.table.pt1.sskx;
+package org.eclipse.set.feature.table.pt1.sskl;
 
-import static org.eclipse.set.feature.table.pt1.sskx.SskxColumns.Regelzeichnung;
+import static org.eclipse.set.feature.table.pt1.sskl.SsklColumns.Regelzeichnung;
 import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.*;
 
 import java.util.LinkedList;
@@ -62,11 +62,11 @@ import org.osgi.service.event.EventAdmin;
 import com.google.common.collect.Streams;
 
 /**
- * Table transformation for Tabelle der Tafeln (Sskx).
+ * Table transformation for Signaltabelle der Tafeln (Sskl).
  * 
  * @author Truong
  */
-public class SskxTransformator extends AbstractSignalTableTransform {
+public class SsklTransformator extends AbstractSignalTableTransform {
 
 	private static final String SIGNAL_BEGRIFFE_BEZEICHNUNG_SEPERATOR = ", "; //$NON-NLS-1$
 	private static final List<Class<? extends Signalbegriff_ID_TypeClass>> SPEICAL_BEZEICHNUNG_HANDLE_BEGRIFFE = List
@@ -87,7 +87,7 @@ public class SskxTransformator extends AbstractSignalTableTransform {
 	 * @param tableShortcut
 	 *            the table shortcut
 	 */
-	SskxTransformator(final Set<ColumnDescriptor> cols,
+	SsklTransformator(final Set<ColumnDescriptor> cols,
 			final EnumTranslationService enumTranslationService,
 			final BankService bankingService, final EventAdmin eventAdmin,
 			final String tableShortCut) {
@@ -147,8 +147,8 @@ public class SskxTransformator extends AbstractSignalTableTransform {
 			final boolean isHauptbefestigung,
 			final List<Signal_Rahmen> signalRahmen) {
 
-		// D: Sskx.Standortmerkmale.Standort.Gleis
-		fillIterable(row, getColumn(cols, SskxColumns.Gleis), signal,
+		// D: Sskl.Standortmerkmale.Standort.Gleis
+		fillIterable(row, getColumn(cols, SsklColumns.Gleis), signal,
 				s -> getRelevantGleisBezeichnuung(signal).stream()
 						.map(gleis -> EObjectExtensions
 								.getNullableObject(gleis,
@@ -160,9 +160,9 @@ public class SskxTransformator extends AbstractSignalTableTransform {
 						.toList(),
 				MIXED_STRING_COMPARATOR);
 
-		// M: Sskx.Signalisierung.Signalbegriffe.Bezeichnung
+		// M: Sskl.Signalisierung.Signalbegriffe.Bezeichnung
 		fillIterable(row,
-				getColumn(cols, SskxColumns.Signalbegriffe_Bezeichnung), signal,
+				getColumn(cols, SsklColumns.Signalbegriffe_Bezeichnung), signal,
 				this::transformSignalbegriffeBezeichnung,
 				MIXED_STRING_COMPARATOR, s -> s,
 				SIGNAL_BEGRIFFE_BEZEICHNUNG_SEPERATOR);
@@ -173,10 +173,10 @@ public class SskxTransformator extends AbstractSignalTableTransform {
 						SignalBefestigungExtensions.getAttachmentSignal(mount)))
 				.filter(s -> !s.equals(signal))
 				.toList();
-		// N: Sskx.Signalisierung.Signalbegriffe.Regelzeichnung
+		// N: Sskl.Signalisierung.Signalbegriffe.Regelzeichnung
 		fillIterableWithConditional( //
 				row, //
-				getColumn(cols, SskxColumns.Signalbegriffe_Regelzeichnung), //
+				getColumn(cols, SsklColumns.Signalbegriffe_Regelzeichnung), //
 				signalRahmen, //
 				rahmen -> Boolean.valueOf(!anotherSignals.isEmpty()), //
 				rahmen -> anotherSignals.stream()
@@ -194,9 +194,9 @@ public class SskxTransformator extends AbstractSignalTableTransform {
 				ITERABLE_FILLING_SEPARATOR //
 		);
 
-		// Sskx.Bermerkung
+		// Sskl.Bermerkung
 		fillFootnotes(row, signal);
-		fillIterable(row, getColumn(cols, SskxColumns.Bemerkung), signalRahmen,
+		fillIterable(row, getColumn(cols, SsklColumns.Bemerkung), signalRahmen,
 				rahmen -> rahmen.stream().map(r -> {
 					final boolean isAngestrahlt = Streams
 							.stream(SignalRahmenExtensions.getSignalbegriffe(r))
@@ -233,50 +233,50 @@ public class SskxTransformator extends AbstractSignalTableTransform {
 
 	@Override
 	protected ColumnDescriptor getFundamentHoeheColumn() {
-		return getColumn(cols, SskxColumns.Hoehe);
+		return getColumn(cols, SsklColumns.Hoehe);
 	}
 
 	@Override
 	protected ColumnDescriptor getArtRegelzeichnungColumn() {
-		return getColumn(cols, SskxColumns.Art_Regelzeichnung);
+		return getColumn(cols, SsklColumns.Art_Regelzeichnung);
 	}
 
 	@Override
 	protected ColumnDescriptor getBefestigungColumn() {
-		return getColumn(cols, SskxColumns.Befestigung);
+		return getColumn(cols, SsklColumns.Befestigung);
 	}
 
 	@Override
 	protected Map<ENUMLinksRechts, ColumnDescriptor> getAbstandMastMitteColumn() {
 		return Map.of(ENUMLinksRechts.ENUM_LINKS_RECHTS_LINKS,
-				getColumn(cols, SskxColumns.Abstand_Mastmitte_links),
+				getColumn(cols, SsklColumns.Abstand_Mastmitte_links),
 				ENUMLinksRechts.ENUM_LINKS_RECHTS_RECHTS,
-				getColumn(cols, SskxColumns.Abstand_Mastmitte_rechts));
+				getColumn(cols, SsklColumns.Abstand_Mastmitte_rechts));
 	}
 
 	@Override
 	protected ColumnDescriptor getUeberhoehungColumn() {
-		return getColumn(cols, SskxColumns.Ueberhoehung);
+		return getColumn(cols, SsklColumns.Ueberhoehung);
 	}
 
 	@Override
 	protected ColumnDescriptor getLichtraumProfilColumn() {
-		return getColumn(cols, SskxColumns.Lichtraumprofil);
+		return getColumn(cols, SsklColumns.Lichtraumprofil);
 	}
 
 	@Override
 	protected ColumnDescriptor getStreckeColumn() {
-		return getColumn(cols, SskxColumns.Strecke);
+		return getColumn(cols, SsklColumns.Strecke);
 	}
 
 	@Override
 	protected ColumnDescriptor getKmColumn() {
-		return getColumn(cols, SskxColumns.km);
+		return getColumn(cols, SsklColumns.km);
 	}
 
 	@Override
 	protected ColumnDescriptor getBezeichnungColumn() {
-		return getColumn(cols, SskxColumns.Bezeichnung_Signal);
+		return getColumn(cols, SsklColumns.Bezeichnung_Signal);
 	}
 
 	@Override

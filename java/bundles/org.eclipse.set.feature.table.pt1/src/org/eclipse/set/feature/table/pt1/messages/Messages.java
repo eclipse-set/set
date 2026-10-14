@@ -955,38 +955,38 @@ public class Messages extends AbstractMessageService {
 	public String ToolboxTableNameSxxxRil;
 
 	/**
-	 * Tabelle der Tafeln – Sskx
+	 * Signaltabelle der Tafeln – Sskl
 	 */
-	public String SskxTableView_Heading;
+	public String SsklTableView_Heading;
 
 	/**
-	 * Tabelle der Tafeln
+	 * Signaltabelle der Tafeln
 	 */
-	public String ToolboxTableNameSskxLong;
+	public String ToolboxTableNameSsklLong;
 
 	/**
 	 * 10/18
 	 */
-	public String ToolboxTableNameSskxPlanningNumber;
+	public String ToolboxTableNameSsklPlanningNumber;
 
 	/**
-	 * Sskx
+	 * Sskl
 	 */
-	public String ToolboxTableNameSskxShort;
+	public String ToolboxTableNameSsklShort;
 
 	/**
-	 * Tabelle der Tafeln
+	 * Signaltabelle der Tafeln
 	 */
-	public String SskxDescriptionService_ViewTooltip;
+	public String SsklDescriptionService_ViewTooltip;
 
 	/**
-	 * Sskx – Tabelle der Tafeln
+	 * Sskl – Signaltabelle der Tafeln
 	 */
-	public String SskxDescriptionService_ViewName;
+	public String SsklDescriptionService_ViewName;
 
 	/**
 	 * 
 	 */
-	public String ToolboxTableNameSskxRil;
+	public String ToolboxTableNameSsklRil;
 
 }

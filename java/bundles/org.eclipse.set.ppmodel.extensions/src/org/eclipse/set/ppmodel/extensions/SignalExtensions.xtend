@@ -449,7 +449,7 @@ class SignalExtensions extends PunktObjektExtensions {
 		return false
 	}
 
-	def static boolean isSskxSignalBelongToArea(Signal signal,
+	def static boolean isSsklSignalBelongToArea(Signal signal,
 		Stell_Bereich area) {
 		return area.contains(signal, tolerantDistance)
 	}
