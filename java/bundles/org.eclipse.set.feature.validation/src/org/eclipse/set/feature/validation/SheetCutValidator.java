@@ -35,6 +35,8 @@ import org.osgi.service.component.annotations.Component;
 public class SheetCutValidator extends AbstractCustomValidator {
 	public static final String SHEET_CUT_VALIDATION_TYPE = "Blattschnitte"; //$NON-NLS-1$
 
+	private static final String NUMBER_REGEX = "-?\\d+(\\.\\d+)?"; //$NON-NLS-1$
+
 	@Override
 	public void validate(final ToolboxFile toolboxFile,
 			final ValidationResult result, final FileType type) {
@@ -113,7 +115,6 @@ public class SheetCutValidator extends AbstractCustomValidator {
 					"Blattschnitt ohne Ausrichtung", //$NON-NLS-1$
 					ValidationSeverity.WARNING, this.validationType(),
 					objektArt, null, null);
-			problem.setLineNumber(ausrichtungsLine);
 			result.addCustomProblem(problem);
 			return true;
 		}
@@ -128,8 +129,7 @@ public class SheetCutValidator extends AbstractCustomValidator {
 			result.addCustomProblem(problem);
 			return true;
 		}
-		if (Arrays.stream(tokens)
-				.anyMatch(t -> !t.matches("-?\\d+(\\.\\d+)?"))) { //$NON-NLS-1$
+		if (Arrays.stream(tokens).anyMatch(t -> !t.matches(NUMBER_REGEX))) {
 			final CustomValidationProblemImpl problem = new CustomValidationProblemImpl(
 					"Ausrichtung hat nicht numerische Koordinaten", //$NON-NLS-1$
 					ValidationSeverity.WARNING, this.validationType(),
@@ -183,6 +183,16 @@ public class SheetCutValidator extends AbstractCustomValidator {
 					String.format(
 							"Polygon hat %d Punkte, mindestens 3 erforderlich", //$NON-NLS-1$
 							Integer.valueOf(polygonTokens.length / 2)),
+					ValidationSeverity.WARNING, this.validationType(),
+					objektArt, null, null);
+			problem.setLineNumber(polygonLine);
+			result.addCustomProblem(problem);
+			return true;
+		}
+		if (Arrays.stream(polygonTokens)
+				.anyMatch(t -> !t.matches(NUMBER_REGEX))) {
+			final CustomValidationProblemImpl problem = new CustomValidationProblemImpl(
+					"Polygon hat nicht numerische Koordinaten", //$NON-NLS-1$
 					ValidationSeverity.WARNING, this.validationType(),
 					objektArt, null, null);
 			problem.setLineNumber(polygonLine);
