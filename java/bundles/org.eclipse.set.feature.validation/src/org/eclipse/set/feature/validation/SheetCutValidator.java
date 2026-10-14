@@ -10,6 +10,7 @@
  */
 package org.eclipse.set.feature.validation;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.set.basis.PlanProXMLNode;
@@ -164,6 +165,16 @@ public class SheetCutValidator extends AbstractCustomValidator {
 			final CustomValidationProblemImpl problem = new CustomValidationProblemImpl(
 					String.format("Ausrichtung hat %d Koordinaten (erwartet 4)", //$NON-NLS-1$
 							Integer.valueOf(tokens.length)),
+					ValidationSeverity.WARNING, this.validationType(),
+					objektArt, null, null);
+			problem.setLineNumber(ausrichtungsLine);
+			result.addCustomProblem(problem);
+			return true;
+		}
+		if (Arrays.stream(tokens)
+				.anyMatch(t -> !t.matches("-?\\d+(\\.\\d+)?"))) { //$NON-NLS-1$
+			final CustomValidationProblemImpl problem = new CustomValidationProblemImpl(
+					"Ausrichtung hat nicht numerische Koordinaten", //$NON-NLS-1$
 					ValidationSeverity.WARNING, this.validationType(),
 					objektArt, null, null);
 			problem.setLineNumber(ausrichtungsLine);
