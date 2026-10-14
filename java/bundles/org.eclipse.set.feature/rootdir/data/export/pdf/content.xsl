@@ -200,6 +200,13 @@
 
 	<xsl:template match="CompareProjectContent">
 		<fo:block>
+			<xsl:if test="Cell/CompareProjectContent">
+					<fo:marker marker-class-name="ComparePageText">
+						<fo:inline border-width="0.2mm" border-style="solid" border-color="#0066FF" color="#0066FF" padding="2px">
+								<xsl:text>Änderung gegenüber vorheriger Ausgabe</xsl:text>
+						</fo:inline>
+					</fo:marker>
+				</xsl:if>
 			<fo:inline>
 				<xsl:apply-templates />
 			</fo:inline>
