@@ -21,6 +21,8 @@ import org.eclipse.set.model.planpro.Layoutinformationen.Lageplan_Blattschnitt;
 import org.eclipse.set.model.planpro.Layoutinformationen.PlanPro_Layoutinfo;
 import org.eclipse.set.model.planpro.Layoutinformationen.Polygonzug_Ausrichtung_TypeClass;
 import org.eclipse.set.model.planpro.Layoutinformationen.Polygonzug_Blattschnitt_TypeClass;
+import org.eclipse.set.model.validationreport.ObjectScope;
+import org.eclipse.set.model.validationreport.ObjectState;
 import org.eclipse.set.model.validationreport.ValidationSeverity;
 import org.eclipse.set.ppmodel.extensions.EObjectExtensions;
 import org.eclipse.set.utils.xml.EObjectXMLFinder;
@@ -62,7 +64,7 @@ public class SheetCutValidator extends AbstractCustomValidator {
 				result.addCustomProblem(new CustomValidationProblemImpl(
 						"Keine Blattschnitte vorhanden", //$NON-NLS-1$
 						ValidationSeverity.WARNING, this.validationType(), null,
-						null, null));
+						ObjectScope.LAYOUT, ObjectState.NONE));
 			} else {
 				final EObjectXMLFinder nodeFinder = new EObjectXMLFinder(
 						toolboxFile, toolboxFile.getLayoutPath());
@@ -84,7 +86,7 @@ public class SheetCutValidator extends AbstractCustomValidator {
 			result.addCustomProblem(new CustomValidationProblemImpl(
 					"Blattschnitte konnten nicht geprüft werden", //$NON-NLS-1$
 					ValidationSeverity.WARNING, this.validationType(), null,
-					null, null));
+					ObjectScope.LAYOUT, ObjectState.NONE));
 		}
 	}
 
@@ -110,7 +112,7 @@ public class SheetCutValidator extends AbstractCustomValidator {
 			final CustomValidationProblemImpl problem = new CustomValidationProblemImpl(
 					"Blattschnitt ohne Ausrichtung", //$NON-NLS-1$
 					ValidationSeverity.WARNING, this.validationType(),
-					objektArt, null, null);
+					objektArt, ObjectScope.LAYOUT, ObjectState.NONE);
 			result.addCustomProblem(problem);
 			return true;
 		}
@@ -120,7 +122,7 @@ public class SheetCutValidator extends AbstractCustomValidator {
 					String.format("Ausrichtung hat %d Koordinaten (erwartet 4)", //$NON-NLS-1$
 							Integer.valueOf(tokens.length)),
 					ValidationSeverity.WARNING, this.validationType(),
-					objektArt, null, null);
+					objektArt, ObjectScope.LAYOUT, ObjectState.NONE);
 			problem.setLineNumber(ausrichtungsLine);
 			result.addCustomProblem(problem);
 			return true;
@@ -129,7 +131,7 @@ public class SheetCutValidator extends AbstractCustomValidator {
 			final CustomValidationProblemImpl problem = new CustomValidationProblemImpl(
 					"Ausrichtung hat nicht numerische Koordinaten", //$NON-NLS-1$
 					ValidationSeverity.WARNING, this.validationType(),
-					objektArt, null, null);
+					objektArt, ObjectScope.LAYOUT, ObjectState.NONE);
 			problem.setLineNumber(ausrichtungsLine);
 			result.addCustomProblem(problem);
 			return true;
@@ -157,7 +159,7 @@ public class SheetCutValidator extends AbstractCustomValidator {
 			final CustomValidationProblemImpl problem = new CustomValidationProblemImpl(
 					"Blattschnitt ohne Polygon", //$NON-NLS-1$
 					ValidationSeverity.WARNING, this.validationType(),
-					objektArt, null, null);
+					objektArt, ObjectScope.LAYOUT, ObjectState.NONE);
 			problem.setLineNumber(polygonLine);
 			result.addCustomProblem(problem);
 			return true;
@@ -170,7 +172,7 @@ public class SheetCutValidator extends AbstractCustomValidator {
 							"Polygon hat %d Koordinaten (ungerade Anzahl)", //$NON-NLS-1$
 							Integer.valueOf(polygonTokens.length)),
 					ValidationSeverity.WARNING, this.validationType(),
-					objektArt, null, null);
+					objektArt, ObjectScope.LAYOUT, ObjectState.NONE);
 			problem.setLineNumber(polygonLine);
 			result.addCustomProblem(problem);
 			return true;
@@ -180,7 +182,7 @@ public class SheetCutValidator extends AbstractCustomValidator {
 							"Polygon hat %d Punkte, mindestens 3 erforderlich", //$NON-NLS-1$
 							Integer.valueOf(polygonTokens.length / 2)),
 					ValidationSeverity.WARNING, this.validationType(),
-					objektArt, null, null);
+					objektArt, ObjectScope.LAYOUT, ObjectState.NONE);
 			problem.setLineNumber(polygonLine);
 			result.addCustomProblem(problem);
 			return true;
@@ -190,7 +192,7 @@ public class SheetCutValidator extends AbstractCustomValidator {
 			final CustomValidationProblemImpl problem = new CustomValidationProblemImpl(
 					"Polygon hat nicht numerische Koordinaten", //$NON-NLS-1$
 					ValidationSeverity.WARNING, this.validationType(),
-					objektArt, null, null);
+					objektArt, ObjectScope.LAYOUT, ObjectState.NONE);
 			problem.setLineNumber(polygonLine);
 			result.addCustomProblem(problem);
 			return true;
