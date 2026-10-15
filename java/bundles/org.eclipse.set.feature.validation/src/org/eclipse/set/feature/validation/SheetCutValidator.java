@@ -117,6 +117,7 @@ public class SheetCutValidator extends AbstractCustomValidator {
 					"Blattschnitt ohne Ausrichtung", //$NON-NLS-1$
 					ValidationSeverity.WARNING, this.validationType(),
 					objektArt, ObjectScope.LAYOUT, ObjectState.NONE);
+			problem.setLineNumber(ausrichtungsLine);
 			result.addCustomProblem(problem);
 			return true;
 		}
