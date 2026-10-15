@@ -76,10 +76,10 @@ public class SheetCutValidator extends AbstractCustomValidator {
 							: nodeFinder.getLineNumber(node);
 					final String objektArt = nodeFinder.getObjectType(node);
 
-					anyProblems |= validateDirectionLine(result, nodeFinder,
+					anyProblems |= isInvalidDirectionLine(result, nodeFinder,
 							sheetCut, line, objektArt);
-					anyProblems |= validatePolygon(result, nodeFinder, sheetCut,
-							line, objektArt);
+					anyProblems |= isInvalidPolygon(result, nodeFinder,
+							sheetCut, line, objektArt);
 				}
 
 				if (!anyProblems) {
@@ -96,7 +96,7 @@ public class SheetCutValidator extends AbstractCustomValidator {
 		}
 	}
 
-	private boolean validateDirectionLine(final ValidationResult result,
+	private boolean isInvalidDirectionLine(final ValidationResult result,
 			final EObjectXMLFinder finder, final Lageplan_Blattschnitt sheetCut,
 			final int line, final String objektArt)
 			throws EObjectXMLFinder.LineNotFoundException {
@@ -143,7 +143,7 @@ public class SheetCutValidator extends AbstractCustomValidator {
 		return false;
 	}
 
-	private boolean validatePolygon(final ValidationResult result,
+	private boolean isInvalidPolygon(final ValidationResult result,
 			final EObjectXMLFinder finder, final Lageplan_Blattschnitt sheetCut,
 			final int line, final String objektArt)
 			throws EObjectXMLFinder.LineNotFoundException {
