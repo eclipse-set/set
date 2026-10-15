@@ -17,7 +17,6 @@ import org.eclipse.set.basis.PlanProXMLNode;
 import org.eclipse.set.basis.constants.ValidationResult;
 import org.eclipse.set.basis.files.ToolboxFile;
 import org.eclipse.set.core.services.validation.CustomValidator;
-import org.eclipse.set.model.planpro.Layoutinformationen.DocumentRoot;
 import org.eclipse.set.model.planpro.Layoutinformationen.Lageplan_Blattschnitt;
 import org.eclipse.set.model.planpro.Layoutinformationen.PlanPro_Layoutinfo;
 import org.eclipse.set.model.planpro.Layoutinformationen.Polygonzug_Ausrichtung_TypeClass;
@@ -46,7 +45,11 @@ public class SheetCutValidator extends AbstractCustomValidator {
 				return;
 			}
 
-			final PlanPro_Layoutinfo layoutInfo = EObjectExtensions.getNullableObject(toolboxFile, t -> t.getLayoutDocumentRoot().getPlanProLayoutinfo()).orElse(null);
+			final PlanPro_Layoutinfo layoutInfo = EObjectExtensions
+					.getNullableObject(toolboxFile,
+							t -> t.getLayoutDocumentRoot()
+									.getPlanProLayoutinfo())
+					.orElse(null);
 
 			if (layoutInfo == null) {
 				return;
