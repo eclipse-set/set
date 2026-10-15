@@ -70,10 +70,16 @@ public class SheetCutValidator extends AbstractCustomValidator {
 						toolboxFile, toolboxFile.getLayoutPath());
 				boolean anyProblems = false;
 				for (final Lageplan_Blattschnitt sheetCut : sheetCuts) {
+
+					final PlanProXMLNode node = nodeFinder.find(sheetCut);
+					final int line = node == null ? 0
+							: nodeFinder.getLineNumber(node);
+					final String objektArt = nodeFinder.getObjectType(node);
+
 					anyProblems |= validateDirectionLine(result, nodeFinder,
-							sheetCut);
-					anyProblems |= validatePolygon(result, nodeFinder,
-							sheetCut);
+							sheetCut, line, objektArt);
+					anyProblems |= validatePolygon(result, nodeFinder, sheetCut,
+							line, objektArt);
 				}
 
 				if (!anyProblems) {
@@ -91,11 +97,9 @@ public class SheetCutValidator extends AbstractCustomValidator {
 	}
 
 	private boolean validateDirectionLine(final ValidationResult result,
-			final EObjectXMLFinder finder, final Lageplan_Blattschnitt sheetCut)
+			final EObjectXMLFinder finder, final Lageplan_Blattschnitt sheetCut,
+			final int line, final String objektArt)
 			throws EObjectXMLFinder.LineNotFoundException {
-		final PlanProXMLNode node = finder.find(sheetCut);
-		final int line = node == null ? 0 : finder.getLineNumber(node);
-		final String objektArt = finder.getObjectType(node);
 
 		final Polygonzug_Ausrichtung_TypeClass ausrichtung = sheetCut
 				.getPolygonzugAusrichtung();
@@ -140,11 +144,9 @@ public class SheetCutValidator extends AbstractCustomValidator {
 	}
 
 	private boolean validatePolygon(final ValidationResult result,
-			final EObjectXMLFinder finder, final Lageplan_Blattschnitt sheetCut)
+			final EObjectXMLFinder finder, final Lageplan_Blattschnitt sheetCut,
+			final int line, final String objektArt)
 			throws EObjectXMLFinder.LineNotFoundException {
-		final PlanProXMLNode node = finder.find(sheetCut);
-		final int line = node == null ? 0 : finder.getLineNumber(node);
-		final String objektArt = finder.getObjectType(node);
 		final Polygonzug_Blattschnitt_TypeClass polygon = sheetCut
 				.getPolygonzugBlattschnitt();
 		final PlanProXMLNode polygonNode = finder.find(polygon);
