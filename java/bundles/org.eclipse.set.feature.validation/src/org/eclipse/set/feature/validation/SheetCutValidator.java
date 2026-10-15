@@ -46,14 +46,7 @@ public class SheetCutValidator extends AbstractCustomValidator {
 				return;
 			}
 
-			final DocumentRoot layoutRoot = toolboxFile.getLayoutDocumentRoot();
-
-			if (layoutRoot == null) {
-				return;
-			}
-
-			final PlanPro_Layoutinfo layoutInfo = layoutRoot
-					.getPlanProLayoutinfo();
+			final PlanPro_Layoutinfo layoutInfo = EObjectExtensions.getNullableObject(toolboxFile, t -> t.getLayoutDocumentRoot().getPlanProLayoutinfo()).orElse(null);
 
 			if (layoutInfo == null) {
 				return;
