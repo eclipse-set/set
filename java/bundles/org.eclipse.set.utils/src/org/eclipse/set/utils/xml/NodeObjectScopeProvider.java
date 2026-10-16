@@ -51,6 +51,8 @@ public class NodeObjectScopeProvider {
 		return isChildOfNode(node.getParent(), parentNodeName);
 	}
 
+	// Use a SortedSet to speed up checks for whether a GUID is in planing
+	// region.
 	private SortedSet<String> guidPlanungsbereichCache;
 
 	/**

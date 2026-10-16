@@ -81,6 +81,7 @@ public class GeoKanteUniqueCoordinate extends AbstractPlazContainerCheck
 				.stream(container.getGEOKante())
 				.toList();
 		final List<PlazError> errors = new ArrayList<>();
+		// Storage the GEO_Knoten CRS for reuse
 		final Map<GEO_Knoten, Set<ENUMGEOKoordinatensystem>> geoKnotenWithCRS = new HashMap<>();
 		geoKanten.parallelStream().filter(geoKante -> {
 			final Optional<BigDecimal> kanteLength = getNullableObject(geoKante,

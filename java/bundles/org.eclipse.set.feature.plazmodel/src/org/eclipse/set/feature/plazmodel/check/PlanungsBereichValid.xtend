@@ -41,6 +41,7 @@ import static extension org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleE
  */
 @Component(immediate=true)
 class PlanungsBereichValid extends AbstractPlazContainerCheck implements PlazCheck {
+	// Use a SortedSet to speed up checks for whether a GUID is in planing region.
 	SortedSet<String> planningsObjectGuids = newTreeSet(
 		String.CASE_INSENSITIVE_ORDER)
 	static val relevantTypeObjects = #[
