@@ -30,7 +30,12 @@ public interface Events {
 	 * <li><b>DATA:</b> the second PlanPro Schnittstelle</li>
 	 * </ul>
 	 */
-	String COMPARE_MODEL_LOADED = "modelsession/loaded/compare";
+	String COMPARE_MODEL_LOADED = "modelsession/load/compare";
+
+	/**
+	 * The compare plan complete loaded (modelsession and background process)
+	 */
+	String COMPARE_PLAN_COMPLETE_LOADED = "loaded/compare/complete";
 
 	/**
 	 * The layout information in focus of the model session changed.

@@ -34,10 +34,16 @@ public class BankingInformationSession {
 		this.bankingInformations = new ConcurrentHashMap<>();
 	}
 
+	/**
+	 * @return
+	 */
 	public Map<TOP_Kante, Set<BankingInformation>> getTopEdgeBanking() {
 		return topEdgeBanking;
 	}
 
+	/**
+	 * @return
+	 */
 	public Map<Ueberhoehungslinie, Optional<BankingInformation>> getBankingInformations() {
 		return bankingInformations;
 	}
