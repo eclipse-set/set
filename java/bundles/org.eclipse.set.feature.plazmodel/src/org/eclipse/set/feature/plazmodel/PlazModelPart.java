@@ -131,7 +131,8 @@ public class PlazModelPart extends AbstractEmfFormsPart {
 		final DialogService dialogService = getDialogService();
 		dialogService.showProgressUISync(shell,
 				messages.PlaZService_MonitorDisplay_GeneratePlazModel,
-				() -> create(parent));
+				() -> plazModelService.runPlazModel(getModelSession()),
+				report -> create(parent, report));
 		if (createException != null) {
 			dialogService.error(shell, createException);
 			MApplicationElementExtensions.setViewState(part,
@@ -166,11 +167,14 @@ public class PlazModelPart extends AbstractEmfFormsPart {
 
 	}
 
-	private void create(final Composite parent) {
+	private void create(final Composite parent, final PlazReport report) {
 		try {
-			updatePlazModel();
-			tableView.create(parent, plazReport);
-			createException = null;
+			if (report != null) {
+				plazReport = report;
+				storagePlaZReport();
+				tableView.create(parent, plazReport);
+				createException = null;
+			}
 		} catch (final Exception e) {
 			createException = e;
 		}
@@ -180,7 +184,11 @@ public class PlazModelPart extends AbstractEmfFormsPart {
 		plazReport = plazModelService.runPlazModel(getModelSession());
 		tableView.updateView(plazReport);
 		setOutdated(false);
+		storagePlaZReport();
 
+	}
+
+	private void storagePlaZReport() {
 		// record in cache service
 		final Cache cache = cacheService.getCache(ToolboxFileRole.SESSION,
 				ToolboxConstants.CacheId.PROBLEM_MESSAGE);

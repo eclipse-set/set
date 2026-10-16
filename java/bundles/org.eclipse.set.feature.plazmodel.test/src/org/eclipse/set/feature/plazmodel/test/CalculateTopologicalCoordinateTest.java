@@ -26,7 +26,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVFormat.Builder;
@@ -40,6 +39,7 @@ import org.eclipse.set.basis.Pair;
 import org.eclipse.set.basis.constants.ContainerType;
 import org.eclipse.set.feature.plazmodel.check.GeoCoordinateValid;
 import org.eclipse.set.feature.plazmodel.export.TopologicalCoordinate;
+import org.eclipse.set.model.planpro.Basisobjekte.Bereich_Objekt;
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt;
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup;
 import org.eclipse.set.model.planpro.Ortung.FMA_Komponente;
@@ -54,6 +54,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.locationtech.jts.geom.Coordinate;
+
+import com.google.common.collect.Streams;
 
 /**
  * Test calculate topological Coordinate of {@link Punkt_Objekt}
@@ -186,16 +188,18 @@ public class CalculateTopologicalCoordinateTest extends AbstractToolboxTest {
 		final Method calculatedMethode = GeoCoordinateValid.class
 				.getDeclaredMethod("calculateCoordinate", ContainerType.class,
 						Punkt_Objekt.class,
-						Punkt_Objekt_TOP_Kante_AttributeGroup.class);
+						Punkt_Objekt_TOP_Kante_AttributeGroup.class,
+						List.class);
 		calculatedMethode.setAccessible(true);
 		List.of(ContainerType.INITIAL, ContainerType.FINAL)
 				.stream()
 				.forEach(type -> {
 					final MultiContainer_AttributeGroup container = PlanProSchnittstelleExtensions
 							.getContainer(planProSchnittstelle, type);
-					StreamSupport
-							.stream(container.getPunktObjekts().spliterator(),
-									false)
+					final List<Bereich_Objekt> bereichObjects = Streams
+							.stream(container.getBereichObjekt())
+							.toList();
+					Streams.stream(container.getPunktObjekts())
 							.filter(po -> PunktObjektExtensions
 									.existLateralDistance(po)
 									|| po instanceof FMA_Komponente
@@ -204,7 +208,8 @@ public class CalculateTopologicalCoordinateTest extends AbstractToolboxTest {
 									.forEach(potk -> {
 										try {
 											calculatedMethode.invoke(testee,
-													type, po, potk);
+													type, po, potk,
+													bereichObjects);
 										} catch (final Exception e) {
 											throw new RuntimeException(e);
 										}
