@@ -19,7 +19,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  GITHUB_TOKEN: ${{secrets.GH_BOT_TOKEN}}
+  GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
   DEPLOY_DIR: ${{ github.workspace }}/java/java-test/m2deploy
   DIFF_DIR: java/java-test/diff
   TEST_APPLICATION_DIR: ${{ github.workspace }}/java/java-test/application-under-test
