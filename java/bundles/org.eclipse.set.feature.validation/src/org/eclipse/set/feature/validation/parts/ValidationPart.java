@@ -133,7 +133,8 @@ public class ValidationPart extends BasePart {
 		}
 	}
 
-	protected void create(final Composite parent, final ValidationReport report) {
+	protected void create(final Composite parent,
+			final ValidationReport report) {
 		try {
 			validationReport = report;
 			storageReport();
