@@ -16,7 +16,9 @@ import java.util.Optional;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.function.BiPredicate;
+import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 import org.eclipse.e4.ui.di.UISynchronize;
 import org.eclipse.jface.operation.IRunnableWithProgress;
@@ -307,6 +309,12 @@ public class MockDialogService implements DialogService {
 	public void showProgressUISync(final Shell shell, final String message,
 			final Runnable runnable) {
 		sync.syncExec(runnable);
+	}
+
+	@Override
+	public <T> void showProgressUISync(final Shell shell, final String message,
+			final Supplier<T> calculateData, final Consumer<T> rendereUI) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
