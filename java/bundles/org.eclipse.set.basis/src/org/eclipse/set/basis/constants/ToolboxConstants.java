@@ -15,6 +15,7 @@ import org.eclipse.set.basis.MixedStringComparator;
 import org.eclipse.set.basis.NumericFirstComparatorDecorator;
 import org.eclipse.set.basis.ToolboxProperties;
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt;
+import org.eclipse.set.model.planpro.Geodaten.GEO_Knoten;
 
 /**
  * Common toolbox constants.
@@ -99,6 +100,10 @@ public final class ToolboxConstants {
 		 */
 		public static final String POINT_OBJECT_ROUTE_KM = "toolbox.cache.point-object-route-km";
 
+		/**
+		 * The cache id for the coordinate of {@link GEO_Knoten}
+		 */
+		public static final String GEO_KNOTEN_COORDINATE = "toolbox.cache.geoKnoten.coordinate";
 	}
 
 	/**

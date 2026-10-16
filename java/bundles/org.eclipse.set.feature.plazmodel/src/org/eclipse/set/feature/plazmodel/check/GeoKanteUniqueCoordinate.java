@@ -17,9 +17,11 @@ import static org.eclipse.set.ppmodel.extensions.GeoKnotenExtensions.getGeoPunkt
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -79,6 +81,7 @@ public class GeoKanteUniqueCoordinate extends AbstractPlazContainerCheck
 				.stream(container.getGEOKante())
 				.toList();
 		final List<PlazError> errors = new ArrayList<>();
+		final Map<GEO_Knoten, Set<ENUMGEOKoordinatensystem>> geoKnotenWithCRS = new HashMap<>();
 		geoKanten.parallelStream().filter(geoKante -> {
 			final Optional<BigDecimal> kanteLength = getNullableObject(geoKante,
 					kante -> kante.getGEOKanteAllg().getGEOLaenge().getWert());
@@ -86,7 +89,8 @@ public class GeoKanteUniqueCoordinate extends AbstractPlazContainerCheck
 			// considered
 			return !(kanteLength.isEmpty()
 					|| kanteLength.get().compareTo(BigDecimal.ZERO) == 0
-					|| MeridianBetweenGEOKante.isMeridianGEOKante(geoKante)
+					|| MeridianBetweenGEOKante.isMeridianGEOKante(geoKante,
+							geoKnotenWithCRS)
 					|| geoKante.getGEOKanteAllg()
 							.getGEOForm()
 							.getWert() == ENUMGEOForm.ENUMGEO_FORM_KM_SPRUNG);

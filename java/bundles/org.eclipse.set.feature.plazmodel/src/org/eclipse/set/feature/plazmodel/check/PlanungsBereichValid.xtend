@@ -11,7 +11,8 @@ package org.eclipse.set.feature.plazmodel.check
 import java.util.List
 import java.util.Map
 import java.util.Set
-import org.eclipse.set.basis.constants.Events
+import java.util.SortedSet
+import org.eclipse.set.basis.IModelSession
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Aussenelementansteuerung
 import org.eclipse.set.model.planpro.Bahnsteig.Bahnsteig_Anlage
 import org.eclipse.set.model.planpro.Bahnsteig.Bahnsteig_Kante
@@ -30,9 +31,6 @@ import org.eclipse.set.model.plazmodel.PlazFactory
 import org.eclipse.set.model.validationreport.ValidationSeverity
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.osgi.service.component.annotations.Component
-import org.osgi.service.event.Event
-import org.osgi.service.event.EventConstants
-import org.osgi.service.event.EventHandler
 
 import static extension org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions.*
 
@@ -41,11 +39,10 @@ import static extension org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleE
  * 
  * @author Truong
  */
-@Component(immediate=true, property=#[EventConstants.EVENT_TOPIC + "=" +
-	Events.CLOSE_SESSION,
-	EventConstants.EVENT_TOPIC + "=" + Events.MODEL_CHANGED])
-class PlanungsBereichValid extends AbstractPlazContainerCheck implements PlazCheck, EventHandler {
-	Set<String> planningsObjectGuids = newHashSet
+@Component(immediate=true)
+class PlanungsBereichValid extends AbstractPlazContainerCheck implements PlazCheck {
+	SortedSet<String> planningsObjectGuids = newTreeSet(
+		String.CASE_INSENSITIVE_ORDER)
 	static val relevantTypeObjects = #[
 		Signal,
 		Signal_Rahmen,
@@ -59,8 +56,16 @@ class PlanungsBereichValid extends AbstractPlazContainerCheck implements PlazChe
 		W_Kr_Gsp_Komponente,
 		Aussenelementansteuerung
 	]
+	
+	override List<PlazError> run(IModelSession modelSession) {
+		val result = super.run(modelSession)
+		// Clear temporary list after check
+		planningsObjectGuids.clear
+		return result;
+	}
 
 	override List<PlazError> run(MultiContainer_AttributeGroup container) {
+
 		modelSession.planProSchnittstelle.LSTPlanungGruppe.orElse(null)?.forEach [
 			val objects = LSTPlanungEinzel?.LSTObjektePlanungsbereich?.
 				IDLSTObjektPlanungsbereich?.filterNull?.map[wert]
@@ -70,18 +75,20 @@ class PlanungsBereichValid extends AbstractPlazContainerCheck implements PlazChe
 			planningsObjectGuids.addAll(objects)
 		]
 
-		val objectWithReferences = container.urObjekt.filter [ obj |
-			relevantTypeObjects.exists[isInstance(obj)]
-		].toMap([it], [eAllContents.filter(Zeiger_TypeClass).toSet]).filter [ obj, references |
-			!references.nullOrEmpty
-		]
-
 		if (planningsObjectGuids.nullOrEmpty) {
 			return #[]
 		}
-		return container.urObjekt.filter [ obj |
+
+		val relevantObjects = container.urObjekt.filter [ obj |
 			relevantTypeObjects.exists[isInstance(obj)]
-		].flatMap[checkObject(objectWithReferences)].toList
+		]
+		val objectWithReferences = relevantObjects.toMap([it], [
+			eAllContents.filter(Zeiger_TypeClass).toSet
+		]).filter [ obj, references |
+			!references.nullOrEmpty
+		]
+
+		return relevantObjects.flatMap[checkObject(objectWithReferences)].toList
 	}
 
 	private def Iterable<PlazError> checkObject(Ur_Objekt source,
@@ -119,7 +126,7 @@ class PlanungsBereichValid extends AbstractPlazContainerCheck implements PlazChe
 	}
 
 	private def boolean isPlanningObject(Ur_Objekt parent) {
-		return planningsObjectGuids.exists[it == parent.identitaet.wert]
+		return planningsObjectGuids.contains(parent.identitaet.wert)
 	}
 
 	override checkType() {
@@ -133,12 +140,4 @@ class PlanungsBereichValid extends AbstractPlazContainerCheck implements PlazChe
 	override getGeneralErrMsg() {
 		return "Das Objekt {REF_TYP} {REF_GUID} verweist auf das zugehörige Objekt {TYP} {GUID}, die Objekte liegen aber uneinheitlich in Planungs- und Betrachtungsbereich."
 	}
-
-	override handleEvent(Event event) {
-		if (event.topic == Events.CLOSE_SESSION ||
-			event.topic === Events.MODEL_CHANGED) {
-			planningsObjectGuids.clear
-		}
-	}
-
 }

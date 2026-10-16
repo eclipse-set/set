@@ -8,9 +8,9 @@
  */
 package org.eclipse.set.utils.xml;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import org.eclipse.set.basis.PlanProXMLNode;
 import org.eclipse.set.model.validationreport.ObjectScope;
@@ -51,7 +51,7 @@ public class NodeObjectScopeProvider {
 		return isChildOfNode(node.getParent(), parentNodeName);
 	}
 
-	private List<String> guidPlanungsbereichCache;
+	private SortedSet<String> guidPlanungsbereichCache;
 
 	/**
 	 * @param node
@@ -89,7 +89,8 @@ public class NodeObjectScopeProvider {
 		// For performance reasons, build a cache of all guids for objects
 		// inside the ID_LST_Objekt_Planungsbereich
 		if (guidPlanungsbereichCache == null) {
-			guidPlanungsbereichCache = new ArrayList<>();
+			guidPlanungsbereichCache = new TreeSet<>(
+					String.CASE_INSENSITIVE_ORDER);
 			try {
 				final PlanProXMLNode rootNode = node.getRootNode();
 				final Set<PlanProXMLNode> evaluateXPath = PlanProXMLNode
