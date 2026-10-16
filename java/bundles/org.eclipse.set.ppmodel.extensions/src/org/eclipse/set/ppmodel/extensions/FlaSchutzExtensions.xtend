@@ -19,6 +19,8 @@ import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.ENUMWKrArt
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element
 
 import static extension org.eclipse.set.ppmodel.extensions.FlaZwieschutzExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.WKrAnlageExtensions.*
+import org.eclipse.set.model.planpro.Flankenschutz.ENUMFahrtUeber
 
 /**
  * Extensions for {@link Fla_Schutz}.
@@ -50,8 +52,8 @@ class FlaSchutzExtensions extends BasisObjektExtensions {
 	 * @return whether the Weiche or Gleissperre providing the Flankenschutz is a Zwieschutz
 	 */
 	def static boolean hasZwieschutz(Fla_Schutz flaSchutz) {
-		return flaSchutz?.container.flaZwieschutz?.map[zwieschutzweiche].contains(
-			flaSchutz?.weicheGleissperreElement)
+		return flaSchutz?.container.flaZwieschutz?.map[zwieschutzweiche].
+			contains(flaSchutz?.weicheGleissperreElement)
 	}
 
 	/**
@@ -130,5 +132,49 @@ class FlaSchutzExtensions extends BasisObjektExtensions {
 			default:
 				throw new IllegalArgumentException()
 		}
+	}
+
+	def static dispatch String getBezeichnungTabelle(Fla_Schutz flaSchutz,
+		Basis_Objekt object) {
+		throw new IllegalArgumentException(object.class.simpleName)
+	}
+
+	def static dispatch String getBezeichnungTabelle(Fla_Schutz flaSchutz,
+		W_Kr_Gsp_Element wKrGspElement) {
+		val wkrArt = wKrGspElement?.IDWKrAnlage?.value?.WKrAnlageArt
+		if (wkrArt === ENUMWKrArt.ENUMW_KR_ART_EKW &&
+			flaSchutz?.flaSchutzAnforderer?.EKWKrAnteil?.wert === true) {
+			return '''«wKrGspElement?.bezeichnung?.kennzahl?.wert»Kr«wKrGspElement?.bezeichnung?.oertlicherElementname?.wert»'''
+		} else {
+			return wKrGspElement?.bezeichnung?.bezeichnungTabelle?.wert
+		}
+	}
+
+	def static dispatch String getBezeichnungTabelle(Fla_Schutz flaSchutz,
+		NB_Zone_Grenze nbZoneGrenze) {
+		val zone = nbZoneGrenze.IDNBZone?.value
+		val nb = zone.IDNB?.value
+		return '''«nb?.bezeichnung?.kennzahl?.wert» Nb«nb?.bezeichnung?.bezeichnungNB?.wert.intValue»/«zone?.bezeichnung?.bezeichnungNBZone?.wert.intValue»'''
+	}
+
+	def static String getWLageNbGrenze(Fla_Schutz flaSchutz) {
+		val fahrtUeber = flaSchutz?.flaSchutzAnforderer?.fahrtUeber?.wert
+
+		if (fahrtUeber == ENUMFahrtUeber.ENUM_FAHRT_UEBER_LINKS) {
+			return "L"
+		}
+
+		if (fahrtUeber == ENUMFahrtUeber.ENUM_FAHRT_UEBER_RECHTS) {
+			return "R"
+		}
+
+		val anforderer = flaSchutz.anforderer
+
+		if (anforderer instanceof NB_Zone_Grenze) {
+			return anforderer?.IDMarkanterPunkt?.value?.bezeichnung?.
+				bezeichnungMarkanterPunkt?.wert ?: ""
+		}
+
+		return ""
 	}
 }
