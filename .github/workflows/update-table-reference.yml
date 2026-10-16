@@ -21,9 +21,10 @@ jobs:
       issues: write
     steps:
       - name: Get target branch
+        env:
+          ISSUE_TITLE: ${{ github.event.issue.title }}
         run: |
-          issue_tilte="${{ github.event.issue.title }}"
-          branch_name=$(echo "$issue_tilte" | sed 's/ - Tables different//g')
+          branch_name=$(echo "$ISSUE_TITLE" | sed 's/ - Tables different//g')
           echo "Branch name: $branch_name"
           echo "TARGET_BRANCH=${branch_name}" >> $GITHUB_ENV
 
@@ -40,7 +41,7 @@ jobs:
             const payload = await github.rest.repos.getCollaboratorPermissionLevel({
               ...context.repo, username: context.actor
             });
-            const { date: user} = await github.rest.users.getByUsername({
+            const { data: user} = await github.rest.users.getByUsername({
               username: context.actor
             });
             const userPermission = payload?.data?.permission;
@@ -57,11 +58,13 @@ jobs:
       
       - name: Apply changes
         shell: bash
+        env:
+          COMMENT_BODY: ${{ github.event.comment.body }}
         run: |
           ls
           python -u -m updatereference \
             --issueNumber=${{ github.event.issue.number }} \
-            --commentBody="${{ github.event.comment.body}}"
+            --commentBody="$COMMENT_BODY"
           
       - name: Push
         shell: bash
