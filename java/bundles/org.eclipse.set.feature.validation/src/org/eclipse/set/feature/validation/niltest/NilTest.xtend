@@ -83,7 +83,7 @@ class NilTest extends AbstractCustomValidator {
 		for(var PlanProXMLNode currentNode; (currentNode = nodes.poll) !== null;) {
 			val nilAttribute = currentNode?.attributes.exists[attributeName == NIL]
 			if (nilAttribute) {
-				it.add(node.transform)
+				it.add(currentNode.transform)
 			}	
 			nodes.addAll(currentNode.children)
 		}
