@@ -8,87 +8,87 @@
  * SPDX-License-Identifier: EPL-2.0
  * 
  */
-package org.eclipse.set.feature.table.pt1.sskx;
+package org.eclipse.set.feature.table.pt1.sskl;
 
 /**
- * Symbolic addressing for Sskx columns.
+ * Symbolic addressing for Sskl columns.
  * 
  * @author Truong
  */
 @SuppressWarnings("nls")
-public class SskxColumns {
+public class SsklColumns {
 	/**
-	 * Sskx.Bezeichnung_Signal
+	 * Sskl.Bezeichnung_Signal
 	 */
 	public static final String Bezeichnung_Signal = "A";
 
 	/**
-	 * Sskx.Standortmerkmale.Standort.Strecke
+	 * Sskl.Standortmerkmale.Standort.Strecke
 	 */
 	public static final String Strecke = "B";
 
 	/**
-	 * Sskx.Standortmerkmale.Standort.km
+	 * Sskl.Standortmerkmale.Standort.km
 	 */
 	public static final String km = "C";
 
 	/**
-	 * Sskx.Standortmerkmale.Standort.Gleis
+	 * Sskl.Standortmerkmale.Standort.Gleis
 	 */
 	public static final String Gleis = "D";
 
 	/**
-	 * Sskx.Standortmerkmale.Lichtraumprofil
+	 * Sskl.Standortmerkmale.Lichtraumprofil
 	 */
 	public static final String Lichtraumprofil = "E";
 
 	/**
-	 * Sskx.Standortmerkmale.Ueberhoehung
+	 * Sskl.Standortmerkmale.Ueberhoehung
 	 */
 	public static final String Ueberhoehung = "F";
 
 	/**
-	 * Sskx.Standortmerkmale.Abstand_Mastmitte.links
+	 * Sskl.Standortmerkmale.Abstand_Mastmitte.links
 	 */
 	public static final String Abstand_Mastmitte_links = "G";
 
 	/**
-	 * Sskx.Standortmerkmale.Abstand_Mastmitte.rechts
+	 * Sskl.Standortmerkmale.Abstand_Mastmitte.rechts
 	 */
 	public static final String Abstand_Mastmitte_rechts = "H";
 
 	/**
-	 * Sskx.konstruktive_Merkmale.Anordnung.Befestigung
+	 * Sskl.konstruktive_Merkmale.Anordnung.Befestigung
 	 */
 	public static final String Befestigung = "I";
 
 	/**
-	 * Sskx.konstruktive_Merkmale.Anordnung.Regelzeichnung
+	 * Sskl.konstruktive_Merkmale.Anordnung.Regelzeichnung
 	 */
 	public static final String Regelzeichnung = "J";
 
 	/**
-	 * Sskx.konstruktive_Merkmale.Fundament.Art_Regelzeichnung
+	 * Sskl.konstruktive_Merkmale.Fundament.Art_Regelzeichnung
 	 */
 	public static final String Art_Regelzeichnung = "K";
 
 	/**
-	 * Sskx.konstruktive_Merkmale.Fundament.Hoehe
+	 * Sskl.konstruktive_Merkmale.Fundament.Hoehe
 	 */
 	public static final String Hoehe = "L";
 
 	/**
-	 * Sskx.Signalisierung.Signalbegriffe.Bezeichnung
+	 * Sskl.Signalisierung.Signalbegriffe.Bezeichnung
 	 */
 	public static final String Signalbegriffe_Bezeichnung = "M";
 
 	/**
-	 * Sskx.Signalisierung.Signalbegriffe.Regelzeichnung
+	 * Sskl.Signalisierung.Signalbegriffe.Regelzeichnung
 	 */
 	public static final String Signalbegriffe_Regelzeichnung = "N";
 
 	/**
-	 * Sskx.Bemerkung
+	 * Sskl.Bemerkung
 	 */
 	public static final String Bemerkung = "O";
 }
