@@ -1,0 +1,211 @@
+/**
+ * Copyright (c) 2026 DB InfraGO AG and others
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License v2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ * 
+ */
+package org.eclipse.set.feature.validation;
+
+import java.util.Arrays;
+import java.util.List;
+
+import org.eclipse.set.basis.PlanProXMLNode;
+import org.eclipse.set.basis.constants.ValidationResult;
+import org.eclipse.set.basis.files.ToolboxFile;
+import org.eclipse.set.core.services.validation.CustomValidator;
+import org.eclipse.set.model.planpro.Layoutinformationen.Lageplan_Blattschnitt;
+import org.eclipse.set.model.planpro.Layoutinformationen.PlanPro_Layoutinfo;
+import org.eclipse.set.model.planpro.Layoutinformationen.Polygonzug_Ausrichtung_TypeClass;
+import org.eclipse.set.model.planpro.Layoutinformationen.Polygonzug_Blattschnitt_TypeClass;
+import org.eclipse.set.model.validationreport.ObjectScope;
+import org.eclipse.set.model.validationreport.ObjectState;
+import org.eclipse.set.model.validationreport.ValidationSeverity;
+import org.eclipse.set.ppmodel.extensions.EObjectExtensions;
+import org.eclipse.set.utils.xml.EObjectXMLFinder;
+import org.osgi.service.component.annotations.Component;
+
+/**
+ * 
+ * @author brombacher
+ */
+@Component(immediate = true, service = CustomValidator.class)
+public class SheetCutValidator extends AbstractCustomValidator {
+	public static final String SHEET_CUT_VALIDATION_TYPE = "Blattschnitte"; //$NON-NLS-1$
+
+	private static final String NUMBER_REGEX = "-?\\d+(\\.\\d+)?"; //$NON-NLS-1$
+
+	@Override
+	public void validate(final ToolboxFile toolboxFile,
+			final ValidationResult result, final FileType type) {
+		try {
+
+			if (type != FileType.Layout) {
+				return;
+			}
+
+			final PlanPro_Layoutinfo layoutInfo = EObjectExtensions
+					.getNullableObject(toolboxFile,
+							t -> t.getLayoutDocumentRoot()
+									.getPlanProLayoutinfo())
+					.orElse(null);
+
+			if (layoutInfo == null) {
+				return;
+			}
+
+			final List<Lageplan_Blattschnitt> sheetCuts = layoutInfo
+					.getLageplanBlattschnitt();
+
+			if (sheetCuts.isEmpty()) {
+				result.addCustomProblem(new CustomValidationProblemImpl(
+						"Keine Blattschnitte vorhanden", //$NON-NLS-1$
+						ValidationSeverity.WARNING, this.validationType(), null,
+						ObjectScope.LAYOUT, ObjectState.NONE));
+			} else {
+				final EObjectXMLFinder nodeFinder = new EObjectXMLFinder(
+						toolboxFile, toolboxFile.getLayoutPath());
+				boolean anyProblems = false;
+				for (final Lageplan_Blattschnitt sheetCut : sheetCuts) {
+
+					final PlanProXMLNode node = nodeFinder.find(sheetCut);
+					final int line = node == null ? 0
+							: nodeFinder.getLineNumber(node);
+					final String objektArt = nodeFinder.getObjectType(node);
+
+					anyProblems |= isInvalidDirectionLine(result, nodeFinder,
+							sheetCut, line, objektArt);
+					anyProblems |= isInvalidPolygon(result, nodeFinder,
+							sheetCut, line, objektArt);
+				}
+
+				if (!anyProblems) {
+					result.addCustomProblem(getSuccessValidationReport(
+							String.format("%d Blattschnitte sind vorhanden", //$NON-NLS-1$
+									Integer.valueOf(sheetCuts.size()))));
+				}
+			}
+		} catch (final Exception ex) {
+			result.addCustomProblem(new CustomValidationProblemImpl(
+					"Blattschnitte konnten nicht geprüft werden", //$NON-NLS-1$
+					ValidationSeverity.WARNING, this.validationType(), null,
+					ObjectScope.LAYOUT, ObjectState.NONE));
+		}
+	}
+
+	private boolean isInvalidDirectionLine(final ValidationResult result,
+			final EObjectXMLFinder finder, final Lageplan_Blattschnitt sheetCut,
+			final int line, final String objektArt)
+			throws EObjectXMLFinder.LineNotFoundException {
+
+		final Polygonzug_Ausrichtung_TypeClass ausrichtung = sheetCut
+				.getPolygonzugAusrichtung();
+		final PlanProXMLNode ausrichtungsNode = finder.find(ausrichtung);
+		final int ausrichtungsLine = ausrichtungsNode == null ? line
+				: finder.getLineNumber(ausrichtungsNode);
+
+		final String wert = EObjectExtensions
+				.getNullableObject(sheetCut,
+						s -> s.getPolygonzugAusrichtung().getWert())
+				.orElse(null);
+
+		if (wert == null || wert.isBlank()) {
+			final CustomValidationProblemImpl problem = new CustomValidationProblemImpl(
+					"Blattschnitt ohne Ausrichtung", //$NON-NLS-1$
+					ValidationSeverity.WARNING, this.validationType(),
+					objektArt, ObjectScope.LAYOUT, ObjectState.NONE);
+			problem.setLineNumber(ausrichtungsLine);
+			result.addCustomProblem(problem);
+			return true;
+		}
+		final String[] tokens = wert.trim().split("\\s+"); //$NON-NLS-1$
+		if (tokens.length != 4) {
+			final CustomValidationProblemImpl problem = new CustomValidationProblemImpl(
+					String.format("Ausrichtung hat %d Koordinaten (erwartet 4)", //$NON-NLS-1$
+							Integer.valueOf(tokens.length)),
+					ValidationSeverity.WARNING, this.validationType(),
+					objektArt, ObjectScope.LAYOUT, ObjectState.NONE);
+			problem.setLineNumber(ausrichtungsLine);
+			result.addCustomProblem(problem);
+			return true;
+		}
+		if (Arrays.stream(tokens).anyMatch(t -> !t.matches(NUMBER_REGEX))) {
+			final CustomValidationProblemImpl problem = new CustomValidationProblemImpl(
+					"Ausrichtung hat nicht numerische Koordinaten", //$NON-NLS-1$
+					ValidationSeverity.WARNING, this.validationType(),
+					objektArt, ObjectScope.LAYOUT, ObjectState.NONE);
+			problem.setLineNumber(ausrichtungsLine);
+			result.addCustomProblem(problem);
+			return true;
+		}
+		return false;
+	}
+
+	private boolean isInvalidPolygon(final ValidationResult result,
+			final EObjectXMLFinder finder, final Lageplan_Blattschnitt sheetCut,
+			final int line, final String objektArt)
+			throws EObjectXMLFinder.LineNotFoundException {
+		final Polygonzug_Blattschnitt_TypeClass polygon = sheetCut
+				.getPolygonzugBlattschnitt();
+		final PlanProXMLNode polygonNode = finder.find(polygon);
+		final int polygonLine = polygonNode == null ? line
+				: finder.getLineNumber(polygonNode);
+
+		final String polygonWert = EObjectExtensions
+				.getNullableObject(sheetCut,
+						s -> s.getPolygonzugBlattschnitt().getWert())
+				.orElse(null);
+		if (polygonWert == null || polygonWert.isBlank()) {
+			final CustomValidationProblemImpl problem = new CustomValidationProblemImpl(
+					"Blattschnitt ohne Polygon", //$NON-NLS-1$
+					ValidationSeverity.WARNING, this.validationType(),
+					objektArt, ObjectScope.LAYOUT, ObjectState.NONE);
+			problem.setLineNumber(polygonLine);
+			result.addCustomProblem(problem);
+			return true;
+		}
+
+		final String[] polygonTokens = polygonWert.trim().split("\\s+"); //$NON-NLS-1$
+		if (polygonTokens.length % 2 != 0) {
+			final CustomValidationProblemImpl problem = new CustomValidationProblemImpl(
+					String.format(
+							"Polygon hat %d Koordinaten (ungerade Anzahl)", //$NON-NLS-1$
+							Integer.valueOf(polygonTokens.length)),
+					ValidationSeverity.WARNING, this.validationType(),
+					objektArt, ObjectScope.LAYOUT, ObjectState.NONE);
+			problem.setLineNumber(polygonLine);
+			result.addCustomProblem(problem);
+			return true;
+		} else if (polygonTokens.length / 2 < 3) {
+			final CustomValidationProblemImpl problem = new CustomValidationProblemImpl(
+					String.format(
+							"Polygon hat %d Punkte, mindestens 3 erforderlich", //$NON-NLS-1$
+							Integer.valueOf(polygonTokens.length / 2)),
+					ValidationSeverity.WARNING, this.validationType(),
+					objektArt, ObjectScope.LAYOUT, ObjectState.NONE);
+			problem.setLineNumber(polygonLine);
+			result.addCustomProblem(problem);
+			return true;
+		}
+		if (Arrays.stream(polygonTokens)
+				.anyMatch(t -> !t.matches(NUMBER_REGEX))) {
+			final CustomValidationProblemImpl problem = new CustomValidationProblemImpl(
+					"Polygon hat nicht numerische Koordinaten", //$NON-NLS-1$
+					ValidationSeverity.WARNING, this.validationType(),
+					objektArt, ObjectScope.LAYOUT, ObjectState.NONE);
+			problem.setLineNumber(polygonLine);
+			result.addCustomProblem(problem);
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public String validationType() {
+		return SHEET_CUT_VALIDATION_TYPE;
+	}
+
+}

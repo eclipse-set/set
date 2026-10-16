@@ -190,12 +190,18 @@ export default class ExportControl extends Control {
     for (const sheetCutFeature of sheetCutFeatures) {
       const featureData = getFeatureData(sheetCutFeature) as SheetCutFeatureData
       const directionLineCoords = featureData.directionLine.getCoordinates()
-      const directionLineAngle = angle(directionLineCoords[1], directionLineCoords[0])
       const sheetCutGeometry = sheetCutFeature.getGeometry()
-      const anchor = directionLineCoords[1]
       if (!sheetCutGeometry) {
         return []
       }
+
+      const hasDirectionLine = directionLineCoords.length > 1
+      const directionLineAngle = hasDirectionLine
+        ? angle(directionLineCoords[1], directionLineCoords[0])
+        : toRad(90)
+      const anchor = hasDirectionLine
+        ? directionLineCoords[1]
+        : (sheetCutGeometry as Polygon).getFirstCoordinate()
 
       // To fit the size of the sheet cut, the sheet cut was rotated
       // to align with the North Pole and then split to match the size of the viewport.
