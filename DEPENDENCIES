@@ -588,7 +588,7 @@ npm/npmjs/-/side-channel-list/1.0.1, MIT, approved, #18387
 npm/npmjs/-/side-channel-map/1.0.1, MIT, approved, #18386
 npm/npmjs/-/side-channel-weakmap/1.0.2, MIT, approved, #18384
 npm/npmjs/-/side-channel/1.1.1, MIT, approved, #28669
-npm/npmjs/-/source-map-js/1.2.1, BSD-3-Clause, approved, #15272
+npm/npmjs/-/source-map-js/1.2.2, BSD-3-Clause, approved, #15272
 npm/npmjs/-/source-map-support/0.5.21, MIT, approved, clearlydefined
 npm/npmjs/-/source-map/0.6.1, BSD-3-Clause, approved, #2417
 npm/npmjs/-/source-map/0.7.4, BSD-3-Clause, approved, #2416
