@@ -98,24 +98,8 @@ public abstract class AbstractOpenHandler extends AbstractHandler {
 		newSessionWrapper.setValue(null);
 
 		// we create a Runnable with progress for loading the planpro file
-		final IRunnableWithProgress loadFileThread = new IRunnableWithProgress() {
-			@Override
-			public void run(final IProgressMonitor monitor)
-					throws InvocationTargetException, InterruptedException {
-				// start a single task with unknown timeframe
-				monitor.beginTask(getTaskMessage(), IProgressMonitor.UNKNOWN);
-
-				// create the session
-				logger.trace("Loading session..."); //$NON-NLS-1$
-				newSessionWrapper.setValue(createSession(path));
-				newSessionWrapper.getValue()
-						.getModels()
-						.forEach(m -> modelUpdateService.add(m));
-				// stop progress
-				monitor.done();
-				logger.trace("Loading session done."); //$NON-NLS-1$
-			}
-		};
+		final IRunnableWithProgress loadFileThread = createLoadDataProgress(
+				newSessionWrapper, path);
 
 		// we start our new defined thread with a progress dialog
 		try {
@@ -140,6 +124,28 @@ public abstract class AbstractOpenHandler extends AbstractHandler {
 		}
 
 		logger.trace("Execute done."); //$NON-NLS-1$
+	}
+
+	protected IRunnableWithProgress createLoadDataProgress(
+			final Wrapper<IModelSession> newSessionWrapper, final Path path) {
+		return new IRunnableWithProgress() {
+			@Override
+			public void run(final IProgressMonitor monitor)
+					throws InvocationTargetException, InterruptedException {
+				// start a single task with unknown timeframe
+				monitor.beginTask(getTaskMessage(), IProgressMonitor.UNKNOWN);
+
+				// create the session
+				logger.trace("Loading session..."); //$NON-NLS-1$
+				newSessionWrapper.setValue(createSession(path));
+				newSessionWrapper.getValue()
+						.getModels()
+						.forEach(m -> modelUpdateService.add(m));
+				// stop progress
+				monitor.done();
+				logger.trace("Loading session done."); //$NON-NLS-1$
+			}
+		};
 	}
 
 	protected void closeOldSession(final Shell shell) {
