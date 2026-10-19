@@ -107,6 +107,7 @@
 		<module>bundles/org.eclipse.set.utils.table</module>
 		<module>bundles/org.eclipse.set.utils.table.test</module>
 		<module>bundles/org.eclipse.set.utils.test</module>
+		<module>bundles/org.eclipse.set.feature.plazlst</module>
 		<module>java-test</module>
 	</modules>
 

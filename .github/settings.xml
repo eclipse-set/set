@@ -13,17 +13,17 @@
       <password>${env.GITHUB_TOKEN}</password>
     </server>
     <server>
-      <id>set-github-toolboxmodel</id>
-      <username>${env.GITHUB_ACTOR}</username>
-      <password>${env.GITHUB_TOKEN}</password>
-    </server>
-    <server>
       <id>set-github-browser</id>
       <username>${env.GITHUB_ACTOR}</username>
       <password>${env.GITHUB_TOKEN}</password>
     </server>
     <server>
       <id>set-github-build</id>
+      <username>${env.GITHUB_ACTOR}</username>
+      <password>${env.GITHUB_TOKEN}</password>
+    </server>
+    <server>
+      <id>set-github-plazlst</id>
       <username>${env.GITHUB_ACTOR}</username>
       <password>${env.GITHUB_TOKEN}</password>
     </server>
