@@ -136,6 +136,7 @@ export default class ExportControl extends Control {
     scale: number
   ): Promise<ExportCanvasData[]> {
     this.lockMapDuringExport(true)
+    await new Promise(r => setTimeout(r))
     const result: ExportCanvasData[] = []
     const originalRotation = this.map.getView().getRotation()
     const originalZoomLvl = this.map.getView().getZoom()
