@@ -244,7 +244,7 @@ public class LSTObjectDesignationExtensions {
 	 * @return the object designation
 	 */
 	public static String getLSTObjectDesignation(final NB_Zone nbZone) {
-		return NbZoneExtensions.getBezeichnung(nbZone);
+		return getEmptyStringWhenNull(nbZone, NbZoneExtensions::getBezeichnung);
 	}
 
 	/**
