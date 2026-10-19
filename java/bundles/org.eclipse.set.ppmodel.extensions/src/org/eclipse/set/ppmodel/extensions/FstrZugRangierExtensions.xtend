@@ -208,27 +208,23 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 	def static List<Signal> getVorsignalisierung(
 		Fstr_Zug_Rangier fstrZugRangier) {
 		val fstrZugArt = fstrZugRangier?.fstrZug?.fstrZugArt?.wert
-		if (fstrZugArt === null ||
-			fstrZugArt === ENUMFstrZugArt.ENUM_FSTR_ZUG_ART_ZTU ||
+		if (fstrZugArt === ENUMFstrZugArt.ENUM_FSTR_ZUG_ART_ZTU ||
 			fstrZugArt === ENUMFstrZugArt.ENUM_FSTR_ZUG_ART_ZT) {
-			return #[]
-		}
-
-		val zielSignal = fstrZugRangier.zielSignal
-		val fiktiveSignal = zielSignal?.signalFiktiv
-		val relevantFiktiveSignalFunktion = //
-		(fiktiveSignal === null ? #[] : fiktiveSignal.fiktivesSignalFunktion).
-			exists [
+			val zielSignal = fstrZugRangier.zielSignal
+			val fiktiveSignal = zielSignal?.signalFiktiv
+			val relevantFiktiveSignalFunktion = //
+			(fiktiveSignal === null ? #[] : fiktiveSignal.
+				fiktivesSignalFunktion).exists [
 				wert === ENUMFiktivesSignalFunktion.
 					ENUM_FIKTIVES_SIGNAL_FUNKTION_ZUG_START_ZIEL_BK || wert ===
 					ENUMFiktivesSignalFunktion.
 						ENUM_FIKTIVES_SIGNAL_FUNKTION_ZUG_START_ZIEL_NE_14
 			]
-		val signalBegriff = zielSignal.signalbegriffe
-		if (!relevantFiktiveSignalFunktion &&
-			!hasSignalbegriffID(zielSignal, Ne14) &&
-			!hasSignalbegriffID(zielSignal, OzBk)) {
-			return #[]
+			if (relevantFiktiveSignalFunktion ||
+				hasSignalbegriffID(zielSignal, Ne14) ||
+				hasSignalbegriffID(zielSignal, OzBk)) {
+				return #[]
+			}
 		}
 
 		return fstrZugRangier.fstrFahrweg.path.edgePointIterator.filter [
