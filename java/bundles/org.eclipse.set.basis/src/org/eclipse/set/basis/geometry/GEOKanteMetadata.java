@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
+import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.model.planpro.Basisobjekte.Bereich_Objekt;
 import org.eclipse.set.model.planpro.Geodaten.ENUMGEOKoordinatensystem;
 import org.eclipse.set.model.planpro.Geodaten.GEO_Kante;
@@ -328,5 +329,28 @@ public class GEOKanteMetadata {
 						&& segment.getEnd().compareTo(distance) >= 0)
 				.findFirst()
 				.orElse(null);
+	}
+
+	/**
+	 * @param pointDistance
+	 *            topological position
+	 * @return true, if the point lie on the GEO_Kante
+	 */
+	public boolean isIntersection(final BigDecimal pointDistance) {
+		final BigDecimal tolerant = BigDecimal
+				.valueOf(ToolboxConstants.TOP_GEO_LENGTH_TOLERANCE);
+		final BigDecimal distanceToStart = pointDistance.subtract(start);
+
+		if (distanceToStart.compareTo(tolerant) < 0) {
+			return false;
+		}
+
+		final BigDecimal distanceToEnd = getEnd().subtract(pointDistance);
+
+		if (distanceToEnd.compareTo(tolerant) < 0) {
+			return false;
+		}
+
+		return true;
 	}
 }
