@@ -315,12 +315,13 @@ public class ToolboxTableView extends BasePart {
 				selectionControlAreaHandler);
 
 		secondaryPlanningLoadedHandler = this::comparePlaningLoadedHandler;
-		getBroker().subscribe(Events.COMPARE_MODEL_LOADED,
+		getBroker().subscribe(Events.COMPARE_PLAN_COMPLETE_LOADED,
 				secondaryPlanningLoadedHandler);
 	}
 
 	protected void comparePlaningLoadedHandler(final Event event) {
-		if (!event.getTopic().equalsIgnoreCase(Events.COMPARE_MODEL_LOADED)) {
+		if (!event.getTopic()
+				.equalsIgnoreCase(Events.COMPARE_PLAN_COMPLETE_LOADED)) {
 			return;
 		}
 		updateTableView(Arrays.asList(Pt1TableCategory.values()));

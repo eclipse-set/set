@@ -108,6 +108,7 @@ Export-Package: org.eclipse.set.feature.validation,
  org.eclipse.set.feature.validation.session,
  org.eclipse.set.feature.validation.utils
 Service-Component: OSGI-INF/org.eclipse.set.feature.validation.LayoutInfoRequired.xml,
+ OSGI-INF/org.eclipse.set.feature.validation.SheetCutValidator.xml,
  OSGI-INF/org.eclipse.set.feature.validation.descriptions.ValidationTableDescriptionService.xml,
  OSGI-INF/org.eclipse.set.feature.validation.descriptions.ValidationViewDescriptionService.xml,
  OSGI-INF/org.eclipse.set.feature.validation.modelloader.ModelLoaderContextFunction.xml,
