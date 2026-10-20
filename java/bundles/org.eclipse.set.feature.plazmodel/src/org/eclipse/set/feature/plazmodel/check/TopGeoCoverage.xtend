@@ -69,11 +69,11 @@ class TopGeoCoverage extends AbstractPlazContainerCheck implements PlazCheck {
 	}
 
 	override getDescription() {
-		return "TOP_Kanten und GEO_Kanten haben übereinstimmende Längen."
+		return "TOP_Kanten und zugehörige GEO_Kanten haben übereinstimmende Längen."
 	}
 
 	override getGeneralErrMsg() {
-		return "Es gibt TOP_Kanten/GEO_Kanten mit fehlerhaften Längen."
+		return "Es gibt TOP_Kanten, bei denen die Länge mit den zugehörigen GEO_Kanten nicht übereinstimmt."
 	}
 
 }
