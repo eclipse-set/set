@@ -93,6 +93,11 @@ class Pt1TableTransformationTest extends Pt1TableTest {
 	@InjectService
 	EnumTranslationService translationService;
 
+	@Override
+	protected EventAdmin getEventAdmin() {
+		return eventAdmin;
+	}
+
 	@Test
 	void testExistTableTransformService() {
 		final List<PlanPro2TableTransformationService> services = transformationServices

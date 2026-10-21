@@ -12,7 +12,6 @@ package org.eclipse.set.feature.table.pt1.test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -20,40 +19,26 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.Collection;
 import java.util.Comparator;
-import java.util.Dictionary;
-import java.util.Hashtable;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.eclipse.e4.core.services.events.IEventBroker;
-import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.constants.ContainerType;
-import org.eclipse.set.basis.constants.Events;
-import org.eclipse.set.basis.files.ToolboxFile;
-import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
-import org.eclipse.set.unittest.utils.AbstractToolboxTest;
+import org.eclipse.set.unittest.utils.AbstractOSGiServiceTest;
 import org.junit.jupiter.api.BeforeAll;
-import org.mockito.Mockito;
-import org.osgi.service.event.Event;
-import org.osgi.service.event.EventAdmin;
-import org.osgi.service.event.EventConstants;
-import org.osgi.test.common.annotation.InjectService;
 
 /**
  * Abstract class for test transformation of Pt1 tables
  * 
  * @author Truong
  */
-public abstract class Pt1TableTest extends AbstractToolboxTest {
+public abstract class Pt1TableTest extends AbstractOSGiServiceTest {
 	protected static final String TEST_RESOURCE_DIR = "res/";
 	protected List<String> expectedTransformationServices;
-	protected IModelSession modelSession;
-
 	protected String TEMPLATE_DIR = "../org.eclipse.set.feature/rootdir/data/export";
 
 	protected String TEMPLATE_LOCAL_DIR = "./data/export";
@@ -177,26 +162,5 @@ public abstract class Pt1TableTest extends AbstractToolboxTest {
 				"SszwTransformationService", //
 				"SxxxTransformationService" //
 		);
-	}
-
-	/**
-	 * @param eventAdmin
-	 *            injection throw {@link InjectService}
-	 */
-	protected void setupModelSession(final EventAdmin eventAdmin) {
-		if (planProSchnittstelle == null) {
-			modelSession = null;
-		}
-
-		final ToolboxFile mockToolboxFile = Mockito.mock(ToolboxFile.class);
-		when(mockToolboxFile.getRole()).thenReturn(ToolboxFileRole.SESSION);
-		modelSession = Mockito.mock(IModelSession.class);
-		Mockito.when(modelSession.getPlanProSchnittstelle())
-				.thenReturn(planProSchnittstelle);
-		Mockito.when(modelSession.getToolboxFile()).thenReturn(mockToolboxFile);
-		final Dictionary<String, Object> d = new Hashtable<>(2);
-		d.put(EventConstants.EVENT_TOPIC, Events.MODEL_CHANGED);
-		d.put(IEventBroker.DATA, modelSession);
-		eventAdmin.sendEvent(new Event(Events.MODEL_CHANGED, d));
 	}
 }

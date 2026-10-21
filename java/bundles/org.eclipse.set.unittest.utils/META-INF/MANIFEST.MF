@@ -14,10 +14,13 @@ Require-Bundle: org.hamcrest.core,
  org.mockito.mockito-core
 Import-Package: net.bytebuddy,
  net.bytebuddy.agent,
+ org.eclipse.e4.core.services.events,
  org.eclipse.emf.common.util,
  org.eclipse.emf.ecore.resource,
  org.eclipse.emf.ecore.xmi,
  org.eclipse.emf.edit.domain,
+ org.eclipse.set.basis,
+ org.eclipse.set.basis.constants,
  org.eclipse.set.basis.files,
  org.eclipse.set.core.fileservice,
  org.eclipse.set.core.modelservice,
@@ -34,7 +37,8 @@ Import-Package: net.bytebuddy,
  org.junit.jupiter.api.function,
  org.junit.jupiter.params,
  org.junit.jupiter.params.provider,
- org.osgi.framework
+ org.osgi.framework,
+ org.osgi.service.event;version="[1.4.0,2.0.0)"
 Export-Package: org.eclipse.set.unittest.utils,
  org.eclipse.set.unittest.utils.session,
  org.eclipse.set.unittest.utils.toolboxfile

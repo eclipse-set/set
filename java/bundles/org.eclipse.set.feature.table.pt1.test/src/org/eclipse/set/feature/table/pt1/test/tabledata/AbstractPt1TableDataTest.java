@@ -71,7 +71,6 @@ import org.mockito.ArgumentMatchers;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.osgi.service.event.Event;
-import org.osgi.service.event.EventAdmin;
 import org.osgi.service.event.EventConstants;
 
 /**
@@ -240,8 +239,6 @@ public abstract class AbstractPt1TableDataTest extends Pt1TableTest {
 				getTestTableReferenceName(), rowIndex, columnIndex,
 				expectedValue, actualValue);
 	}
-
-	protected abstract EventAdmin getEventAdmin();
 
 	protected abstract GeoKanteGeometryService getGeometryService();
 
