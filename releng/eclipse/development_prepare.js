@@ -1,4 +1,4 @@
-const exec = require('child_process').exec
+const execFile = require('child_process').execFile
 const https = require('https')
 const fs = require('fs')
 const projectRoot = `${__dirname}/../..`
@@ -93,7 +93,8 @@ async function compilePdfJs(fileUrl, outputPath) {
   })
   if (executeCommand) {
     createEnvSymlink('web/pdf')
-    await doCommand(`cd web/pdf && npm ci && npm run build`)
+    await doCommand({ cmd: 'npm', args: ['ci'], cwd: `${projectRoot}/web/pdf` })
+    await doCommand({ cmd: 'npm', args: ['run', 'build'], cwd: `${projectRoot}/web/pdf` })
   }
 }
 
@@ -101,9 +102,9 @@ function createEnvSymlink(path) {
   fs.copyFileSync(`${projectRoot}/releng/eclipse/.env`, `${projectRoot}/${path}/.env`)
 }
 
-async function doCommand(command) {
+async function doCommand({ cmd, args = [], cwd = projectRoot }) {
   await new Promise(resolve => {
-    exec(`cd ${projectRoot} && ${command}`, (error, stderr, stdout) => {
+    execFile(cmd, args, { cwd }, (error, stdout, stderr) => {
       if (error) {
         console.error(`Error executing command: ${error.message}`)
       } else if (stderr) {
