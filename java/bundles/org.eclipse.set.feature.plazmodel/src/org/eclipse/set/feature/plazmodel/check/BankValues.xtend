@@ -13,10 +13,14 @@ package org.eclipse.set.feature.plazmodel.check
 import java.util.List
 import java.util.Map
 import org.apache.commons.text.StringSubstitutor
+import org.eclipse.e4.core.services.events.IEventBroker
+import org.eclipse.set.basis.IModelSession
 import org.eclipse.set.basis.constants.Events
+import org.eclipse.set.basis.files.ToolboxFileRole
 import org.eclipse.set.basis.graph.TopPoint
 import org.eclipse.set.core.services.graph.BankService
 import org.eclipse.set.core.services.graph.TopologicalGraphService
+import org.eclipse.set.model.planpro.Geodaten.Ueberhoehung
 import org.eclipse.set.model.planpro.Geodaten.Ueberhoehungslinie
 import org.eclipse.set.model.plazmodel.PlazError
 import org.eclipse.set.model.plazmodel.PlazFactory
@@ -29,9 +33,6 @@ import org.osgi.service.event.Event
 import org.osgi.service.event.EventAdmin
 import org.osgi.service.event.EventConstants
 import org.osgi.service.event.EventHandler
-import org.eclipse.e4.core.services.events.IEventBroker
-import org.eclipse.set.basis.IModelSession
-import org.eclipse.set.basis.files.ToolboxFileRole
 
 /**
  * Validates that there's a valid top path for each bank line
@@ -52,26 +53,24 @@ class BankValues extends AbstractPlazContainerCheck implements PlazCheck, EventH
 		if (!bankService.findBankingComplete) {
 			return List.of(createProcessingWarning)
 		}
-		return container.getUeberhoehungslinie.filter [
-			bankService.findTOPBanking(it) === null
-		].map [
-			val bankLength = ueberhoehungslinieAllg.
-				ueberhoehungslinieLaenge.wert
-			if (IDUeberhoehungA?.value === null ||
-				IDUeberhoehungB?.value === null) {
-				return createError(
-					"Die Überhöhungslinie {GUID} hat entweder keine Ueberhoehung_A oder keine Ueberhoehung_B.",
-					Map.of("GUID", it.identitaet.wert))
+		val errors = newArrayList
+		getErrorUeberhoehungslinien(container, errors).forEach [
+			if (!validBankLineData(errors)) {
+				return
 			}
+			val bankLength = ueberhoehungslinieAllg?.ueberhoehungslinieLaenge?.
+				wert
 			val begin = new TopPoint(IDUeberhoehungA.value)
 			val end = new TopPoint(IDUeberhoehungB.value)
 			val paths = topologicalService.findAllPathsBetween(begin, end,
 				(bankLength.doubleValue +
-					ToolboxConfiguration.bankLineTopOffsetLimit + 1) as int, true)
+					ToolboxConfiguration.bankLineTopOffsetLimit + 1) as int,
+				true)
 			if (paths.isEmpty) {
-				return createError(
-					"Es konnte kein topologischer Pfad für die Überhöhungslinie {GUID} gefunden werden.",
-					Map.of("GUID", it.identitaet?.wert))
+				errors.add(
+					createError(
+						"Es konnte kein topologischer Pfad für die Überhöhungslinie {GUID} gefunden werden.",
+						Map.of("GUID", it.identitaet?.wert)))
 			}
 			val completeShortesPath = paths.filter [ path |
 				path.getDistance(end).present
@@ -83,22 +82,23 @@ class BankValues extends AbstractPlazContainerCheck implements PlazCheck, EventH
 				Math.abs(
 					(bankLength - completeShortesPath.length).doubleValue) >
 					ToolboxConfiguration.bankLineTopOffsetLimit) {
-				return createError(
-					"Die Länge des topologischen Pfads ({PFAD}) für die Überhöhungslinie {GUID} weicht von der Länge der Überhöhungslinie ({UEBERHOEHUNG}) ab.",
-					Map.of(
-						"GUID",
-						it.identitaet?.wert,
-						"PFAD",
-						completeShortesPath?.length?.toString,
-						"UEBERHOEHUNG",
-						bankLength.toString
-					))
+				errors.add(
+					createError(
+						"Die Länge des topologischen Pfads ({PFAD}) für die Überhöhungslinie {GUID} weicht von der Länge der Überhöhungslinie ({UEBERHOEHUNG}) ab.",
+						Map.of(
+							"GUID",
+							it.identitaet?.wert,
+							"PFAD",
+							completeShortesPath?.length?.toString,
+							"UEBERHOEHUNG",
+							bankLength.toString
+						)))
 			}
 			val longestPath = paths.reduce [ p1, p2 |
 				p1.length > p2.length
 				return p1
 			]
-			return createError(
+			errors.add(createError(
 				"Es konnte kein passender topologischer Pfad (gesucht bis {PFAD}) für die Überhöhungslinie {GUID} mit entsprechender Länge ({UEBERHOEHUNG}) gefunden werden.",
 				Map.of(
 					"GUID",
@@ -108,9 +108,58 @@ class BankValues extends AbstractPlazContainerCheck implements PlazCheck, EventH
 					"UEBERHOEHUNG",
 					bankLength.toString
 				)
-			)
-		].filterNull.toList
+			))
+		]
+		return errors
+	}
 
+	private def boolean validBankLineData(Ueberhoehungslinie bankLine,
+		List<PlazError> errors) {
+		val bankLength = bankLine?.ueberhoehungslinieAllg?.
+			ueberhoehungslinieLaenge?.wert
+		if (bankLength === null) {
+			errors.add(
+				bankLine.createError(
+					"Die Überhöhungslinie {GUID} hat ungültig Länger.",
+					Map.of("GUID", bankLine.identitaet.wert)))
+			return false;
+		}
+
+		if (bankLine.IDUeberhoehungA?.value === null ||
+			bankLine.IDUeberhoehungB?.value === null) {
+			errors.add(
+				bankLine.createError(
+					"Die Überhöhungslinie {GUID} hat entweder keine Ueberhoehung_A oder keine Ueberhoehung_B.",
+					Map.of("GUID", bankLine.identitaet.wert)))
+			return false;
+		}
+		val validPoint = [ Ueberhoehung point |
+			val potk = point?.punktObjektTOPKante?.head
+			if (potk?.IDTOPKante?.value === null ||
+				potk?.abstand?.wert === null) {
+				errors.add(
+					bankLine.createError(
+						"Die Überhöhungslinie {GUID} hat ungültig Überhöhung Punkt: {POINT_GUID}.",
+						Map.of("GUID", bankLine.identitaet.wert, //
+						"POINT_GUID", point?.identitaet?.wert)))
+				return false
+			}
+			return true
+		]
+		return validPoint.apply(bankLine.IDUeberhoehungA.value) &&
+			validPoint.apply(bankLine.IDUeberhoehungB.value)
+	}
+
+	private def Iterable<Ueberhoehungslinie> getErrorUeberhoehungslinien(
+		MultiContainer_AttributeGroup container, List<PlazError> errors) {
+		return container.ueberhoehungslinie.filter [
+			try {
+				return bankService.findTOPBanking(it) === null
+			} catch (Exception e) {
+				errors.add(createError(it, e.message, newHashMap))
+				return false
+			}
+		]
 	}
 
 	private def createError(Ueberhoehungslinie object, String message,
