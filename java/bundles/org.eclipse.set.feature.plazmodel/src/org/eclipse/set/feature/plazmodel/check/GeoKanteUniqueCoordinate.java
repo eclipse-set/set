@@ -17,11 +17,11 @@ import static org.eclipse.set.ppmodel.extensions.GeoKnotenExtensions.getGeoPunkt
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -82,7 +82,7 @@ public class GeoKanteUniqueCoordinate extends AbstractPlazContainerCheck
 				.toList();
 		final List<PlazError> errors = new ArrayList<>();
 		// Storage the GEO_Knoten CRS for reuse
-		final Map<GEO_Knoten, Set<ENUMGEOKoordinatensystem>> geoKnotenWithCRS = new HashMap<>();
+		final Map<GEO_Knoten, Set<ENUMGEOKoordinatensystem>> geoKnotenWithCRS = new ConcurrentHashMap<>();
 		geoKanten.parallelStream().filter(geoKante -> {
 			final Optional<BigDecimal> kanteLength = getNullableObject(geoKante,
 					kante -> kante.getGEOKanteAllg().getGEOLaenge().getWert());
