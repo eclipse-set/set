@@ -138,7 +138,8 @@ public class EObjectXMLFinder {
 							.keySet()
 							.stream()
 							.filter(nodeName -> {
-								final var sanetized = getSanetizedName(node);
+								final var sanetized = getSanetizedName(
+										nodeName);
 								return sanetized != null
 										&& sanetized.equalsIgnoreCase(name);
 							})
@@ -154,10 +155,10 @@ public class EObjectXMLFinder {
 		return childrenWithName.stream().skip(n).findFirst().orElse(null);
 	}
 
-	private String getSanetizedName(final PlanProXMLNode node) {
+	private String getSanetizedName(final String nodeName) {
 		// XML node names can contain a prefix while the EMF model names don't
 		return IterableExtensions
-				.lastOrNull(Arrays.asList(node.getNodeName().split(":"))); //$NON-NLS-1$
+				.lastOrNull(Arrays.asList(nodeName.split(":"))); //$NON-NLS-1$
 	}
 
 	/**

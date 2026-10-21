@@ -37,6 +37,8 @@ import org.eclipse.set.application.geometry.GeoKanteGeometrySessionData;
 import org.eclipse.set.application.geometry.PointObjectPositionServiceImpl;
 import org.eclipse.set.basis.Pair;
 import org.eclipse.set.basis.constants.ContainerType;
+import org.eclipse.set.core.services.Services;
+import org.eclipse.set.core.services.cache.NoCacheService;
 import org.eclipse.set.feature.plazmodel.check.GeoCoordinateValid;
 import org.eclipse.set.feature.plazmodel.export.TopologicalCoordinate;
 import org.eclipse.set.model.planpro.Basisobjekte.Bereich_Objekt;
@@ -50,10 +52,13 @@ import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
 import org.eclipse.set.ppmodel.extensions.PunktObjektExtensions;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.eclipse.set.unittest.utils.AbstractToolboxTest;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.locationtech.jts.geom.Coordinate;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
 
 import com.google.common.collect.Streams;
 
@@ -92,11 +97,12 @@ public class CalculateTopologicalCoordinateTest extends AbstractToolboxTest {
 				.of(new Pair<>("pphn", PPHN_1_10_0_3_20220517_PLANPRO)));
 	}
 
+	private NoCacheService cacheService;
 	List<CSVRecord> csvRecords;
+
 	GeoKanteGeometryServiceImpl geometryService;
 
 	GeoCoordinateValid testee;
-
 	List<TopologicalCoordinate> topologicalCoordinates;
 
 	private void givenGeoCoordinateValid() throws IllegalAccessException {
@@ -179,7 +185,10 @@ public class CalculateTopologicalCoordinateTest extends AbstractToolboxTest {
 			// No need to compare State and GUID here. It is already valid
 			final Map<Integer, String> valueToCompare = Map.of(5, crs, 6,
 					coordStrArry[0], 7, coordStrArry[1]);
-			assertTrue(isSame(csvEntry, valueToCompare));
+			assertTrue(isSame(csvEntry, valueToCompare), () -> {
+				return "Expect: " + csvEntry.toString() + "- Actual: "
+						+ coord.toString();
+			});
 		});
 	}
 
@@ -219,17 +228,27 @@ public class CalculateTopologicalCoordinateTest extends AbstractToolboxTest {
 		topologicalCoordinates = testee.getTopologischeCoordinaten();
 	}
 
+	@BeforeEach
+	void beforeEach() throws Exception {
+		cacheService = new NoCacheService();
+	}
+
 	@ParameterizedTest
 	@MethodSource("getReferenceFiles")
 	void testTopologischeCoordinateCalculate(
 			final Pair<String, String> testFile) throws Exception {
-		givenGeoKanteGeometryService();
-		givenGeoCoordinateValid();
-		givenTopologicalCoordinaten(testFile.getFirst());
-		givenPlanProFile(testFile.getSecond());
-		whenCalculateCoordinate();
-		thenExpectAllCoordinateAreEqualReference();
-
+		try (MockedStatic<Services> mockStatic = Mockito
+				.mockStatic(Services.class)) {
+			mockStatic.when(Services::getCacheService).thenReturn(cacheService);
+			mockStatic.when(Services::getNoCacheService)
+					.thenReturn(cacheService);
+			givenGeoKanteGeometryService();
+			givenGeoCoordinateValid();
+			givenTopologicalCoordinaten(testFile.getFirst());
+			givenPlanProFile(testFile.getSecond());
+			whenCalculateCoordinate();
+			thenExpectAllCoordinateAreEqualReference();
+		}
 	}
 
 }
