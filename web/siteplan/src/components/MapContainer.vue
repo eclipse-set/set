@@ -125,7 +125,6 @@ onMounted((): void => {
         ppm: Math.round(pixelProMeter)
       })
       console.log(pixelProMeter)
-      store.commit('setCustomPpm', Math.round(pixelProMeter))
     })
   })
 

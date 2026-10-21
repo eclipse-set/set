@@ -9,13 +9,7 @@
 package org.eclipse.set.feature.table.pt1.ssld;
 
 import static org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum.ASC;
-import static org.eclipse.set.feature.table.pt1.ssld.SsldColumns.Aufloeseabschnitt_Laenge;
-import static org.eclipse.set.feature.table.pt1.ssld.SsldColumns.Bezeichnung;
-import static org.eclipse.set.feature.table.pt1.ssld.SsldColumns.Freigemeldet;
-import static org.eclipse.set.feature.table.pt1.ssld.SsldColumns.Laenge_Ist;
-import static org.eclipse.set.feature.table.pt1.ssld.SsldColumns.massgebende_Neigung;
-import static org.eclipse.set.feature.table.pt1.ssld.SsldColumns.v_Aufwertung_Verzicht;
-import static org.eclipse.set.feature.table.pt1.ssld.SsldColumns.von;
+import static org.eclipse.set.feature.table.pt1.ssld.SsldColumns.*;
 import static org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparatorType.MIXED_STRING;
 
 import java.util.Collections;
@@ -113,7 +107,7 @@ public final class SsldTransformationService
 	@Override
 	protected List<String> getTopologicalColumnPosition() {
 		return List.of(Freigemeldet, Aufloeseabschnitt_Laenge, Laenge_Ist,
-				massgebende_Neigung, v_Aufwertung_Verzicht);
+				v_Aufwertung_Verzicht);
 	}
 
 	@Override

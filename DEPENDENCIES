@@ -58,9 +58,9 @@ maven/mavencentral/org.dom4j/dom4j/2.1.3, LicenseRef-Dom4j, approved, CQ21947
 maven/mavencentral/org.eclipse.set/org.eclipse.set.application.set/2.7.0-SNAPSHOT, EPL-2.0, approved, technology.set
 maven/mavencentral/org.eclipse.set/org.eclipse.set.application/2.7.0-SNAPSHOT, EPL-2.0, approved, technology.set
 maven/mavencentral/org.eclipse.set/org.eclipse.set.basis/2.7.0-SNAPSHOT, EPL-2.0, approved, technology.set
-maven/mavencentral/org.eclipse.set/org.eclipse.set.browser.cef.win32/2.7.0-20260929.134128-5, EPL-2.0, approved, technology.set
-maven/mavencentral/org.eclipse.set/org.eclipse.set.browser.lib/2.7.0-20260929.134128-5, EPL-2.0, approved, technology.set
-maven/mavencentral/org.eclipse.set/org.eclipse.set.browser/2.7.0-20260929.134128-5, EPL-2.0, approved, technology.set
+maven/mavencentral/org.eclipse.set/org.eclipse.set.browser.cef.win32/2.7.0-20261020.103338-7, EPL-2.0, approved, technology.set
+maven/mavencentral/org.eclipse.set/org.eclipse.set.browser.lib/2.7.0-20261020.103338-7, EPL-2.0, approved, technology.set
+maven/mavencentral/org.eclipse.set/org.eclipse.set.browser/2.7.0-20261020.103338-7, EPL-2.0, approved, technology.set
 maven/mavencentral/org.eclipse.set/org.eclipse.set.core.services/2.7.0-SNAPSHOT, EPL-2.0, approved, technology.set
 maven/mavencentral/org.eclipse.set/org.eclipse.set.core/2.7.0-SNAPSHOT, EPL-2.0, approved, technology.set
 maven/mavencentral/org.eclipse.set/org.eclipse.set.emfforms/2.7.0-SNAPSHOT, EPL-2.0, approved, technology.set
@@ -85,9 +85,9 @@ maven/mavencentral/org.eclipse.set/org.eclipse.set.i18n.model.nl_de/2.7.0-SNAPSH
 maven/mavencentral/org.eclipse.set/org.eclipse.set.i18n.nl_de.feature/2.7.0-SNAPSHOT, EPL-2.0, approved, technology.set
 maven/mavencentral/org.eclipse.set/org.eclipse.set.i18n.validationreport.nl_de/2.7.0-SNAPSHOT, EPL-2.0, approved, technology.set
 maven/mavencentral/org.eclipse.set/org.eclipse.set.model.integrationview/2.7.0-SNAPSHOT, EPL-2.0, approved, technology.set
-maven/mavencentral/org.eclipse.set/org.eclipse.set.model.planpro.edit/2.7.0-20260928.135625-5, EPL-2.0, approved, technology.set
-maven/mavencentral/org.eclipse.set/org.eclipse.set.model.planpro.editor/2.7.0-20260928.135625-5, EPL-2.0, approved, technology.set
-maven/mavencentral/org.eclipse.set/org.eclipse.set.model.planpro/2.7.0-20260928.135625-5, EPL-2.0, approved, technology.set
+maven/mavencentral/org.eclipse.set/org.eclipse.set.model.planpro.edit/2.7.0-20261020.103315-6, EPL-2.0, approved, technology.set
+maven/mavencentral/org.eclipse.set/org.eclipse.set.model.planpro.editor/2.7.0-20261020.103315-6, EPL-2.0, approved, technology.set
+maven/mavencentral/org.eclipse.set/org.eclipse.set.model.planpro/2.7.0-20261020.103315-6, EPL-2.0, approved, technology.set
 maven/mavencentral/org.eclipse.set/org.eclipse.set.model.plazmodel.edit/2.7.0-SNAPSHOT, EPL-2.0, approved, technology.set
 maven/mavencentral/org.eclipse.set/org.eclipse.set.model.plazmodel/2.7.0-SNAPSHOT, EPL-2.0, approved, technology.set
 maven/mavencentral/org.eclipse.set/org.eclipse.set.model.simplemerge.edit/2.7.0-SNAPSHOT, EPL-2.0, approved, technology.set
@@ -274,7 +274,7 @@ npm/npmjs/-/dompurify/3.4.15, Apache-2.0 OR MPL-2.0, approved, #27185
 npm/npmjs/-/domutils/2.8.0, BSD-2-Clause, approved, clearlydefined
 npm/npmjs/-/dot-case/3.0.4, MIT, approved, clearlydefined
 npm/npmjs/-/dotenv/18.0.4, BSD-2-Clause, approved, #31606
-npm/npmjs/-/dotenv/18.0.7, BSD-2-Clause, approved, #31606
+npm/npmjs/-/dotenv/18.0.8, BSD-2-Clause, approved, #31606
 npm/npmjs/-/dunder-proto/1.0.1, MIT, approved, #17824
 npm/npmjs/-/earcut/3.0.2, ISC, approved, clearlydefined
 npm/npmjs/-/ee-first/1.1.1, MIT, approved, clearlydefined
@@ -588,7 +588,7 @@ npm/npmjs/-/side-channel-list/1.0.1, MIT, approved, #18387
 npm/npmjs/-/side-channel-map/1.0.1, MIT, approved, #18386
 npm/npmjs/-/side-channel-weakmap/1.0.2, MIT, approved, #18384
 npm/npmjs/-/side-channel/1.1.1, MIT, approved, #28669
-npm/npmjs/-/source-map-js/1.2.1, BSD-3-Clause, approved, #15272
+npm/npmjs/-/source-map-js/1.2.2, BSD-3-Clause, approved, #15272
 npm/npmjs/-/source-map-support/0.5.21, MIT, approved, clearlydefined
 npm/npmjs/-/source-map/0.6.1, BSD-3-Clause, approved, #2417
 npm/npmjs/-/source-map/0.7.4, BSD-3-Clause, approved, #2416
