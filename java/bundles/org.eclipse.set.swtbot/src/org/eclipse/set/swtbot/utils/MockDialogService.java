@@ -20,7 +20,9 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.e4.ui.di.UISynchronize;
+import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.ProjectInitializationData;
@@ -314,7 +316,17 @@ public class MockDialogService implements DialogService {
 	@Override
 	public <T> void showProgressUISync(final Shell shell, final String message,
 			final Supplier<T> calculateData, final Consumer<T> rendereUI) {
-		throw new UnsupportedOperationException();
+		try {
+			new ProgressMonitorDialog(shell).run(true, false, monitor -> {
+				monitor.beginTask(message, IProgressMonitor.UNKNOWN);
+				final T data = calculateData.get();
+				shell.getDisplay().syncExec(() -> rendereUI.accept(data));
+				monitor.done();
+			});
+		} catch (InvocationTargetException | InterruptedException e) {
+			Thread.currentThread().interrupt();
+			throw new RuntimeException();
+		}
 	}
 
 	@Override
