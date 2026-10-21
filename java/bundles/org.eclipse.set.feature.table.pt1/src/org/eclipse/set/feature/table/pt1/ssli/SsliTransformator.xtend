@@ -24,8 +24,6 @@ import org.eclipse.set.model.planpro.Gleis.Gleis_Bezeichnung
 import org.eclipse.set.model.planpro.Signale.ENUMSignalArt
 import org.eclipse.set.model.planpro.Signale.Signal
 import org.eclipse.set.model.tablemodel.ColumnDescriptor
-import org.eclipse.set.model.tablemodel.Table
-import org.eclipse.set.model.tablemodel.TableRow
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.ppmodel.extensions.utils.Case
 import org.eclipse.set.utils.table.TMFactory
@@ -36,8 +34,11 @@ import static org.eclipse.set.model.planpro.Fahrstrasse.ENUMRangierGegenfahrtaus
 
 import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.FmaAnlageExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
+import java.math.BigDecimal
+import org.eclipse.set.model.planpro.Ortung.FMA_Anlage
 
 /**
  * Table transformation for a Inselgleistabelle (Ssli).
@@ -64,8 +65,7 @@ class SsliTransformator extends AbstractPlanPro2TableModelTransformator {
 		return container.transform
 	}
 
-	private def Table create factory.table transform(
-		MultiContainer_AttributeGroup container) {
+	private def transform(MultiContainer_AttributeGroup container) {
 		val gleisBezeichnung = container.gleisBezeichnung
 		transformToBegrenzungen(gleisBezeichnung, container.signal.filter [
 			isPlanningObject
@@ -75,7 +75,7 @@ class SsliTransformator extends AbstractPlanPro2TableModelTransformator {
 			}
 			it.transform
 		]
-		return
+		return factory.table
 	}
 
 	private static class Gleis_BezeichnungBegrenzung {
@@ -83,15 +83,18 @@ class SsliTransformator extends AbstractPlanPro2TableModelTransformator {
 		List<Signal> zgFahrtVerbot = new ArrayList<Signal>;
 		List<Signal> raFahrtVerbot = new ArrayList<Signal>;
 		Iterable<Signal> raGegenfahrtausschluss = new ArrayList<Signal>;
+		List<FMA_Anlage> fmaOnGleis = newArrayList
 
 		new(Gleis_Bezeichnung bezeichnung) {
 			gleisBezeichnung = bezeichnung
 		}
 	}
 
-	private def TableRow create factory.newTableRow(gleisBezeichnungBegrenzung.gleisBezeichnung) transform(
+	private def void transform(
 		Gleis_BezeichnungBegrenzung gleisBezeichnungBegrenzung
 	) {
+		val row = factory.newTableRow(
+			gleisBezeichnungBegrenzung.gleisBezeichnung)
 		val gleisBezeichnung = gleisBezeichnungBegrenzung.gleisBezeichnung
 		val begrenzungen = gleisBezeichnungBegrenzung.zgFahrtVerbot +
 			gleisBezeichnungBegrenzung.raFahrtVerbot +
@@ -99,6 +102,7 @@ class SsliTransformator extends AbstractPlanPro2TableModelTransformator {
 
 		// A: Ssli.Grundsatzangaben.Bezeichnung_Inselgleis
 		fill(
+			row,
 			cols.getColumn(Bezeichnung_Inselgleis),
 			gleisBezeichnung,
 			[transformToBezeichnung]
@@ -107,6 +111,7 @@ class SsliTransformator extends AbstractPlanPro2TableModelTransformator {
 		val laengenBegrenzung = gleisBezeichnungBegrenzung.laengenBegrenzung
 		// B: Ssli.Grundsatzangaben.Laenge
 		fillIterable(
+			row,
 			cols.getColumn(Laenge),
 			gleisBezeichnung,
 			[
@@ -120,6 +125,7 @@ class SsliTransformator extends AbstractPlanPro2TableModelTransformator {
 
 		// C: Ssli.Grundsatzangaben.Begrenzende_Signale.PY_Richtung
 		fillIterable(
+			row,
 			cols.getColumn(PY_Richtung),
 			gleisBezeichnung,
 			[
@@ -133,6 +139,7 @@ class SsliTransformator extends AbstractPlanPro2TableModelTransformator {
 
 		// D: Ssli.Grundsatzangaben.Begrenzende_Signale.NX_Richtung
 		fillIterable(
+			row,
 			cols.getColumn(NX_Richtung),
 			gleisBezeichnung,
 			[
@@ -146,6 +153,7 @@ class SsliTransformator extends AbstractPlanPro2TableModelTransformator {
 
 		// E: Ssli.Ausschluss_Fahrten.Zugausfahrt
 		fillSwitch(
+			row,
 			cols.getColumn(Zugausfahrt),
 			gleisBezeichnung,
 			new Case<Gleis_Bezeichnung>([
@@ -163,6 +171,7 @@ class SsliTransformator extends AbstractPlanPro2TableModelTransformator {
 
 		// F: Ssli.Ausschluss_Fahrten.Rangierfahrt.Einfahrt
 		fillSwitch(
+			row,
 			cols.getColumn(Rangierfahrt_Einfahrt),
 			gleisBezeichnung,
 			new Case<Gleis_Bezeichnung>([
@@ -182,6 +191,7 @@ class SsliTransformator extends AbstractPlanPro2TableModelTransformator {
 
 		// G: Ssli.Ausschluss_Fahrten.Rangierfahrt.Ausfahrt
 		fillSwitch(
+			row,
 			cols.getColumn(Rangierfahrt_Ausfahrt),
 			gleisBezeichnung,
 			new Case<Gleis_Bezeichnung>([
@@ -200,9 +210,7 @@ class SsliTransformator extends AbstractPlanPro2TableModelTransformator {
 		)
 
 		// H: Ssli.Bemerkung
-		fillFootnotes(gleisBezeichnung)
-
-		return
+		row.fillFootnotes(gleisBezeichnung)
 	}
 
 	private def List<Double> getLaengenBegrenzung(
@@ -268,11 +276,18 @@ class SsliTransformator extends AbstractPlanPro2TableModelTransformator {
 		Iterable<Gleis_Bezeichnung> gleis,
 		Iterable<Signal> signals
 	) {
-		val Map<String, Gleis_BezeichnungBegrenzung> result = new HashMap<String, Gleis_BezeichnungBegrenzung>
+		val Map<String, Gleis_BezeichnungBegrenzung> result = newHashMap
 		gleis.forEach [ g |
 			val gleisBegrenzung = new Gleis_BezeichnungBegrenzung(g)
 			result.put(g.bezeichnung.bezGleisBezeichnung.wert, gleisBegrenzung)
-
+			
+			gleisBegrenzung.fmaOnGleis.addAll(container.FMAAnlage.filter[
+				IDGleisAbschnitt?.value !== null && g.intersects(IDGleisAbschnitt.value)
+			].filter[
+				val test = g.getOverlappingLength(IDGleisAbschnitt.value)
+				return test.compareTo(IDGleisAbschnitt.value.length) === 0
+			].toSet)
+			
 			val signaleAufGleis = g.filterContained(container.signal)
 			gleisBegrenzung.raGegenfahrtausschluss = signaleAufGleis.filter [
 				val ausschluesse = transformToGegenfahrtausschluesse
