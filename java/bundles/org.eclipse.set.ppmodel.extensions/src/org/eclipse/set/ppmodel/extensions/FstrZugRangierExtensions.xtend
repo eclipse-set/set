@@ -358,11 +358,11 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 		val signal = punktObjekt as Signal
 		val signalTopPoint = new TopPoint(signal)
 		val distanceToStart = Services.topGraphService.
-			findShortestDistanceInDirection(
-				new TopPoint(fstrZugRangier.startSignal), signalTopPoint, true)
+			findShortestDistance(
+				new TopPoint(fstrZugRangier.startSignal), signalTopPoint)
 		val distanceToEnd = Services.topGraphService.
-			findShortestDistanceInDirection(signalTopPoint,
-				new TopPoint(fstrZugRangier.zielSignal), true)
+			findShortestDistance(signalTopPoint,
+				new TopPoint(fstrZugRangier.zielSignal))
 
 		if (distanceToStart.isEmpty || distanceToEnd.isEmpty ||
 			distanceToStart.get < BigDecimal.valueOf(3) ||
