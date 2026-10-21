@@ -43,7 +43,8 @@ public class PlanProRichTextCellPainter extends RichTextCellPainter {
 			final boolean calculateByTextLength,
 			final boolean calculateByTextHeight) {
 		super(wrapText, calculateByTextLength, calculateByTextHeight);
-		richTextPainter.setWordSplitRegex(WORD_SPLIT_REGEX);
+		this.richTextPainter = new PlanProRichTextPainter(wrapText);
+		this.richTextPainter.setWordSplitRegex(WORD_SPLIT_REGEX);
 	}
 
 	@Override

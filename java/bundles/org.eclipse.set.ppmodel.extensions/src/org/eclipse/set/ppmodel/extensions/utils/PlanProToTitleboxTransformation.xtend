@@ -171,7 +171,7 @@ class PlanProToTitleboxTransformation {
 				planungEinzel?.planungEHandlung?.planungEErstellung?.lastOrNull
 			it.set(48, comparePlanungAllgemein?.buildLastEditionNumber)
 			it.set(62,
-				compareLastPlanungEErstellung?.datum.wert?.toString(
+				compareLastPlanungEErstellung?.datum?.wert?.toString(
 					DATE_FORMAT) ?: "")
 
 			// Fill main plan information
@@ -315,7 +315,7 @@ class PlanProToTitleboxTransformation {
 		it.variant = "no-logo"
 		if (schriftfeld?.planungsbueroLogo?.anhangAllg?.dateiname?.wert !==
 			null) {
-			val logo = attachmentPathProvider.apply(
+			val logo = attachmentPathProvider?.apply(
 				schriftfeld?.planungsbueroLogo?.identitaet?.wert)?.
 				toAbsolutePath?.normalize?.toString ?: ''
 			val dimension = getImageDimension(logo,

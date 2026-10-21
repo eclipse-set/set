@@ -6,7 +6,7 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v20.html
  */
-package org.eclipse.set.utils;
+package org.eclipse.set.utils.math;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
