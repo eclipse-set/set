@@ -336,7 +336,7 @@ npm/npmjs/-/find-up/5.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/flat-cache/6.1.23, MIT, approved, clearlydefined
 npm/npmjs/-/flat/5.0.2, BSD-3-Clause, approved, clearlydefined
 npm/npmjs/-/flatted/3.4.4, ISC AND (ISC AND MIT), approved, #26887
-npm/npmjs/-/follow-redirects/1.16.0, MIT, approved, #27183
+npm/npmjs/-/follow-redirects/1.16.1, MIT, approved, #27183
 npm/npmjs/-/form-data/4.0.6, MIT, approved, clearlydefined
 npm/npmjs/-/forwarded/0.2.0, MIT, approved, clearlydefined
 npm/npmjs/-/fresh/2.0.0, MIT, approved, clearlydefined
@@ -816,25 +816,15 @@ npm/npmjs/@types/serve-index/1.9.4, MIT, approved, #10976
 npm/npmjs/@types/serve-static/2.2.0, MIT, approved, clearlydefined
 npm/npmjs/@types/trusted-types/2.0.7, MIT, approved, clearlydefined
 npm/npmjs/@types/ws/8.18.1, MIT, approved, #19981
-npm/npmjs/@typescript-eslint/eslint-plugin/8.71.1, MIT, approved, #32302
 npm/npmjs/@typescript-eslint/eslint-plugin/8.71.2, MIT, approved, #32302
-npm/npmjs/@typescript-eslint/parser/8.71.1, MIT, approved, #32301
 npm/npmjs/@typescript-eslint/parser/8.71.2, MIT, approved, #32301
-npm/npmjs/@typescript-eslint/project-service/8.71.1, MIT, approved, #32191
 npm/npmjs/@typescript-eslint/project-service/8.71.2, MIT, approved, #32191
-npm/npmjs/@typescript-eslint/scope-manager/8.71.1, MIT, approved, #32183
 npm/npmjs/@typescript-eslint/scope-manager/8.71.2, MIT, approved, #32183
-npm/npmjs/@typescript-eslint/tsconfig-utils/8.71.1, MIT, approved, #32233
 npm/npmjs/@typescript-eslint/tsconfig-utils/8.71.2, MIT, approved, #32233
-npm/npmjs/@typescript-eslint/type-utils/8.71.1, MIT, approved, #32300
 npm/npmjs/@typescript-eslint/type-utils/8.71.2, MIT, approved, #32300
-npm/npmjs/@typescript-eslint/types/8.71.1, MIT, approved, #32180
 npm/npmjs/@typescript-eslint/types/8.71.2, MIT, approved, #32180
-npm/npmjs/@typescript-eslint/typescript-estree/8.71.1, MIT, approved, #32218
 npm/npmjs/@typescript-eslint/typescript-estree/8.71.2, MIT, approved, #32218
-npm/npmjs/@typescript-eslint/utils/8.71.1, MIT, approved, #32299
 npm/npmjs/@typescript-eslint/utils/8.71.2, MIT, approved, #32299
-npm/npmjs/@typescript-eslint/visitor-keys/8.71.1, MIT, approved, #32211
 npm/npmjs/@typescript-eslint/visitor-keys/8.71.2, MIT, approved, #32211
 npm/npmjs/@vitejs/plugin-vue/6.0.9, MIT, approved, #26690
 npm/npmjs/@volar/language-core/2.4.28, MIT, approved, #15619
