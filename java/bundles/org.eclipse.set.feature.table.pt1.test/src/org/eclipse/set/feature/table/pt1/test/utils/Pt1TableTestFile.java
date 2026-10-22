@@ -11,6 +11,7 @@
 package org.eclipse.set.feature.table.pt1.test.utils;
 
 import org.eclipse.set.basis.constants.ToolboxConstants;
+import org.eclipse.set.unittest.utils.osgi.TestFile;
 
 /**
  * 

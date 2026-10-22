@@ -17,6 +17,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.lang.reflect.Field;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -46,10 +47,9 @@ import org.eclipse.set.core.services.viewmodel.ToolboxViewModelService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.internal.TableServiceContextFunction;
 import org.eclipse.set.feature.table.internal.TableServiceImpl;
-import org.eclipse.set.feature.table.pt1.test.Pt1TableTest;
+import org.eclipse.set.feature.table.pt1.test.Activator;
 import org.eclipse.set.feature.table.pt1.test.utils.Pt1TableTestFile;
 import org.eclipse.set.feature.table.pt1.test.utils.PtTable;
-import org.eclipse.set.feature.table.pt1.test.utils.TestFile;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.TableCell;
@@ -60,6 +60,8 @@ import org.eclipse.set.model.tablemodel.extensions.TableRowExtensions;
 import org.eclipse.set.services.table.TableDiffService;
 import org.eclipse.set.services.table.TableDiffService.TableCompareType;
 import org.eclipse.set.services.table.TableStatus;
+import org.eclipse.set.unittest.utils.osgi.AbstractOSGiTableTest;
+import org.eclipse.set.unittest.utils.osgi.TestFile;
 import org.eclipse.set.utils.ToolboxConfiguration;
 import org.eclipse.set.utils.table.TableInfo;
 import org.eclipse.set.utils.table.TableInfo.Pt1TableCategory;
@@ -76,16 +78,7 @@ import org.osgi.service.event.EventConstants;
 /**
  * 
  */
-public abstract class AbstractPt1TableDataTest extends Pt1TableTest {
-	/**
-	 * the csv delimiter
-	 */
-	public static final String CSV_DELIMITER = ";";
-
-	/**
-	 * the index column designation
-	 */
-	public static final String ROW_INDEX_COL = "Lfd. Nr.";
+public abstract class AbstractPt1TableDataTest extends AbstractOSGiTableTest {
 
 	/**
 	 * @param table
@@ -99,6 +92,23 @@ public abstract class AbstractPt1TableDataTest extends Pt1TableTest {
 				.map(ColumnDescriptor::getColumnPosition)
 				.collect(Collectors.joining(CSV_DELIMITER));
 		return ROW_INDEX_COL + CSV_DELIMITER + header + System.lineSeparator();
+	}
+
+	protected static void assertInjectedAllTransformationService(
+			final Collection<PlanPro2TableTransformationService> transformationServices) {
+		final List<String> expectedTransformationServices = PtTable
+				.givenExpectedTransformationServices();
+		assertEquals(expectedTransformationServices.size(),
+				transformationServices.size());
+		final List<String> actualServicesName = transformationServices.stream()
+				.map(service -> service.getClass().getName())
+				.map(className -> className
+						.substring(className.lastIndexOf(".") + 1))
+				.toList();
+		assertTrue(
+				expectedTransformationServices.containsAll(actualServicesName));
+		assertTrue(
+				actualServicesName.containsAll(expectedTransformationServices));
 	}
 
 	protected static void mockToolboxConfigurationMethode(
@@ -119,21 +129,24 @@ public abstract class AbstractPt1TableDataTest extends Pt1TableTest {
 
 	protected Map<TableCompareType, TableDiffService> diffServiceMap;
 
-	protected boolean isTableEmpty;
-
 	protected Map<TableInfo, PlanPro2TableTransformationService> modelServiceMap;
 
 	protected List<CSVRecord> referenceData = new LinkedList<>();
 
 	protected TableServiceImpl tableService;
 
+	protected String TEMPLATE_DIR = "../org.eclipse.set.feature/rootdir/data/export";
+
+	protected String TEMPLATE_LOCAL_DIR = "./data/export";
+
 	protected Table testee;
 
 	/**
 	 * @return the location of reference directory
 	 */
+	@Override
 	public String getReferenceDir() {
-		return TEST_RESOURCE_DIR + "table_reference/"
+		return Activator.TEST_RESOURCE_DIR + "table_reference/"
 				+ getTestFile().getShortName() + "/";
 	}
 
@@ -142,7 +155,8 @@ public abstract class AbstractPt1TableDataTest extends Pt1TableTest {
 	 * 
 	 * @return execute test class
 	 */
-	public Class<? extends Pt1TableTest> getTestResourceClass() {
+	@Override
+	public Class<? extends AbstractOSGiTableTest> getTestResourceClass() {
 		// Class for get the default test resource
 		if (getTestFile().equals(Pt1TableTestFile.PPHN_1_10_0_1)) {
 			return AbstractPt1TableDataTest.class;
@@ -153,20 +167,9 @@ public abstract class AbstractPt1TableDataTest extends Pt1TableTest {
 	/**
 	 * @return the current test table
 	 */
+	@Override
 	public Table getTestTable() {
 		return testee;
-	}
-
-	/**
-	 * @return the table reference file name
-	 */
-	public abstract String getTestTableReferenceName();
-
-	/**
-	 * @return whether table is empty
-	 */
-	public boolean isTableEmpty() {
-		return isTableEmpty;
 	}
 
 	private void givenToolboxViewModelService() {
@@ -185,9 +188,7 @@ public abstract class AbstractPt1TableDataTest extends Pt1TableTest {
 	}
 
 	@BeforeAll
-	@Override
 	protected void beforeAll() throws Exception {
-		super.beforeAll();
 		givenPlanProFile(getTestFile().getModel(getTestResourceClass()));
 		setup();
 	}

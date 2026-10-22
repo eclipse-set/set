@@ -10,7 +10,7 @@
  */
 package org.eclipse.set.feature.plazmodel.test;
 
-import org.eclipse.set.unittest.utils.AbstractOSGiServiceTest;
+import org.eclipse.set.unittest.utils.osgi.AbstractOSGiServiceTest;
 
 /**
  * 

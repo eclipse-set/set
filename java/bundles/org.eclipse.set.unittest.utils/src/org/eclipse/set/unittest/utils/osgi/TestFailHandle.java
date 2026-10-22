@@ -8,9 +8,9 @@
  * SPDX-License-Identifier: EPL-2.0
  * 
  */
-package org.eclipse.set.feature.table.pt1.test.utils;
+package org.eclipse.set.unittest.utils.osgi;
 
-import static org.eclipse.set.feature.table.pt1.test.tabledata.AbstractPt1TableDataTest.CSV_DELIMITER;
+import static org.eclipse.set.unittest.utils.osgi.AbstractOSGiTableTest.CSV_DELIMITER;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -22,14 +22,12 @@ import java.nio.file.Path;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.eclipse.set.feature.table.pt1.test.tabledata.AbstractPt1TableDataTest;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.TableRow;
 import org.eclipse.set.model.tablemodel.extensions.TableCellExtensions;
 import org.eclipse.set.model.tablemodel.extensions.TableExtensions;
 import org.eclipse.set.utils.table.export.ExportToCSV;
 import org.eclipse.xtext.xbase.lib.Pair;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.TestWatcher;
 import org.slf4j.Logger;
@@ -40,22 +38,21 @@ import org.slf4j.LoggerFactory;
  * 
  * @author truong
  */
-@Disabled
 public class TestFailHandle implements TestWatcher {
 
-	private static final String CURRENT_CSV_EXTENSIONS = "_current.csv";
-	private static final String DIFF_DIR = "diff";
-	private static final String REFERENCE_CSV_EXTENSIONS = "_reference.csv";
+	private static final String CURRENT_CSV_EXTENSIONS = "_current.csv"; //$NON-NLS-1$
+	private static final String DIFF_DIR = "diff"; //$NON-NLS-1$
+	private static final String REFERENCE_CSV_EXTENSIONS = "_reference.csv"; //$NON-NLS-1$
 
 	protected static void exportCurrentCSV(
-			final AbstractPt1TableDataTest tableTest) {
+			final AbstractOSGiTableTest tableTest) {
 		final File file = getExportFile(tableTest, CURRENT_CSV_EXTENSIONS);
 		if (!file.getParentFile().exists()) {
 			file.getParentFile().mkdirs();
 		}
 		final Table testTable = tableTest.getTestTable();
 		final ExportToCSV<Pair<Integer, TableRow>> exportToCSV = new ExportToCSV<>(
-				AbstractPt1TableDataTest.getTableCSVHeader(testTable));
+				AbstractOSGiTableTest.getTableCSVHeader(testTable));
 		exportToCSV.exportToCSV(Optional.of(file.toPath()),
 				TableExtensions.getTableRowsWithIndex(testTable), row -> {
 					final String rowValue = row.getValue()
@@ -63,15 +60,15 @@ public class TestFailHandle implements TestWatcher {
 							.stream()
 							.map(TableCellExtensions::getPlainStringValue)
 							.map(value -> value.replace(System.lineSeparator(),
-									""))
+									"")) //$NON-NLS-1$
 							.collect(Collectors.joining(CSV_DELIMITER));
 					return row.getKey().intValue() + 1 + CSV_DELIMITER
 							+ rowValue + System.lineSeparator();
 				});
 	}
 
-	protected static File getExportFile(
-			final AbstractPt1TableDataTest tableTest, final String extension) {
+	protected static File getExportFile(final AbstractOSGiTableTest tableTest,
+			final String extension) {
 		try {
 			final URL parent = tableTest.getClass()
 					.getProtectionDomain()
@@ -80,7 +77,7 @@ public class TestFailHandle implements TestWatcher {
 			final File parentDir = Path.of(parent.toURI()).toFile();
 			return new File(parentDir,
 					Path.of(tableTest.getReferenceDir()
-							.replaceFirst(".*table_reference/", DIFF_DIR + "/"),
+							.replaceFirst(".*table_reference/", DIFF_DIR + "/"), //$NON-NLS-1$ //$NON-NLS-2$
 							tableTest.getTestTableReferenceName() + extension)
 							.toString());
 		} catch (final URISyntaxException e) {
@@ -94,8 +91,9 @@ public class TestFailHandle implements TestWatcher {
 	public void testFailed(final ExtensionContext context,
 			final Throwable cause) {
 		final Optional<Object> testInstance = context.getTestInstance();
-		if (testInstance.isPresent() && testInstance
-				.get() instanceof final AbstractPt1TableDataTest tableTest
+		if (testInstance.isPresent()
+				&& testInstance
+						.get() instanceof final AbstractOSGiTableTest tableTest
 				&& !tableTest.isTableEmpty()) {
 			exportCurrentCSV(tableTest);
 			exportReferenceCSV(tableTest);
@@ -103,8 +101,7 @@ public class TestFailHandle implements TestWatcher {
 		TestWatcher.super.testFailed(context, cause);
 	}
 
-	protected void exportReferenceCSV(
-			final AbstractPt1TableDataTest tableTest) {
+	protected void exportReferenceCSV(final AbstractOSGiTableTest tableTest) {
 		final File outFile = getExportFile(tableTest, REFERENCE_CSV_EXTENSIONS);
 		if (!outFile.getParentFile().exists()) {
 			outFile.getParentFile().mkdirs();
@@ -116,8 +113,8 @@ public class TestFailHandle implements TestWatcher {
 						+ REFERENCE_CSV_EXTENSIONS);
 		// New table given't reference datei
 		if (referenceResource == null) {
-			LOGGER.debug(String.format("Cannot find file: %s",
-					tableName + REFERENCE_CSV_EXTENSIONS));
+			LOGGER.debug("Cannot find file: {0}{1}", //$NON-NLS-1$
+					tableName, REFERENCE_CSV_EXTENSIONS);
 			return;
 		}
 		try (final InputStream resourceStream = referenceResource;

@@ -79,4 +79,40 @@ public record PtTable(String shortcut, String tableName, String category,
 			new PtTable("sskx", "Sskx – Tabelle der Tafeln", "supplement-estw",
 					List.of(0)));
 
+	/**
+	 * @return
+	 */
+	public static List<String> givenExpectedTransformationServices() {
+		return List.of( //
+				"SsbbTransformationService", //
+				"SsitTransformationService", //
+				"SskaTransformationService", //
+				"SskfTransformationService", //
+				"SskgTransformationService", //
+				"SskoTransformationService", //
+				"SskpTransformationService", //
+				"SskpDmTransformationService", //
+				"SsksTransformationService", //
+				"SsktTransformationService", //
+				"SskwTransformationService", //
+				"SskxTransformationService", //
+				"SskzTransformationService", //
+				"SslaTransformationService", //
+				"SslbTransformationService", //
+				"SsldTransformationService", //
+				"SslfTransformationService", //
+				"SsliTransformationService", //
+				"SslnTransformationService", //
+				"SslrTransformationService", //
+				// Ssls is still in development
+				// "SslsTransformationService", //
+				"SslwTransformationService", //
+				"SslzTransformationService", //
+				"SsvuTransformationService", //
+				"SszaTransformationService", //
+				"SszsTransformationService", //
+				"SszwTransformationService", //
+				"SxxxTransformationService" //
+		);
+	}
 }

@@ -8,7 +8,7 @@
  * SPDX-License-Identifier: EPL-2.0
  * 
  */
-package org.eclipse.set.feature.table.pt1.test.utils;
+package org.eclipse.set.unittest.utils.osgi;
 
 import java.io.IOException;
 import java.io.InputStream;
