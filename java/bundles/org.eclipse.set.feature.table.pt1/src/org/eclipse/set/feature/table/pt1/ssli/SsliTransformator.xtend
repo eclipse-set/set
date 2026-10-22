@@ -8,8 +8,8 @@
  */
 package org.eclipse.set.feature.table.pt1.ssli
 
+import java.math.BigDecimal
 import java.util.ArrayList
-import java.util.HashMap
 import java.util.HashSet
 import java.util.List
 import java.util.Map
@@ -24,6 +24,7 @@ import org.eclipse.set.model.planpro.Gleis.Gleis_Bezeichnung
 import org.eclipse.set.model.planpro.Signale.ENUMSignalArt
 import org.eclipse.set.model.planpro.Signale.Signal
 import org.eclipse.set.model.tablemodel.ColumnDescriptor
+import org.eclipse.set.model.tablemodel.TableRow
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.ppmodel.extensions.utils.Case
 import org.eclipse.set.utils.table.TMFactory
@@ -34,11 +35,8 @@ import static org.eclipse.set.model.planpro.Fahrstrasse.ENUMRangierGegenfahrtaus
 
 import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.FmaAnlageExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
-import java.math.BigDecimal
-import org.eclipse.set.model.planpro.Ortung.FMA_Anlage
 
 /**
  * Table transformation for a Inselgleistabelle (Ssli).
@@ -46,7 +44,6 @@ import org.eclipse.set.model.planpro.Ortung.FMA_Anlage
  * @author Schaefer
  */
 class SsliTransformator extends AbstractPlanPro2TableModelTransformator {
-
 	var TMFactory factory = null
 	var MultiContainer_AttributeGroup container = null
 	val TopologicalGraphService topGraphService;
@@ -67,13 +64,19 @@ class SsliTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	private def transform(MultiContainer_AttributeGroup container) {
 		val gleisBezeichnung = container.gleisBezeichnung
-		transformToBegrenzungen(gleisBezeichnung, container.signal.filter [
-			isPlanningObject
-		]).filter[generalbedingung].forEach [ it |
-			if (Thread.currentThread.interrupted) {
-				return
-			}
-			it.transform
+		val relevant = transformToBegrenzungen(gleisBezeichnung, container.
+			signal.filter [
+				isPlanningObject
+			]).filter[generalbedingung].toList
+		relevant.groupBy[it.gleisBezeichnung].forEach [ gleis, item |
+			val group = factory.newRowGroup(gleis)
+			item.forEach [
+				if (Thread.currentThread.interrupted) {
+					return
+				}
+				group.newTableRow.transform(it)
+			]
+
 		]
 		return factory.table
 	}
@@ -82,19 +85,24 @@ class SsliTransformator extends AbstractPlanPro2TableModelTransformator {
 		Gleis_Bezeichnung gleisBezeichnung
 		List<Signal> zgFahrtVerbot = new ArrayList<Signal>;
 		List<Signal> raFahrtVerbot = new ArrayList<Signal>;
-		Iterable<Signal> raGegenfahrtausschluss = new ArrayList<Signal>;
-		List<FMA_Anlage> fmaOnGleis = newArrayList
+		List<Signal> raGegenfahrtausschluss
 
 		new(Gleis_Bezeichnung bezeichnung) {
+			this(bezeichnung, new ArrayList<Signal>)
+		}
+
+		new(Gleis_Bezeichnung bezeichnung,
+			Iterable<Signal> raGegenfahrtausschluss) {
 			gleisBezeichnung = bezeichnung
+			this.raGegenfahrtausschluss = newArrayList
+			this.raGegenfahrtausschluss.addAll(raGegenfahrtausschluss)
 		}
 	}
 
 	private def void transform(
+		TableRow row,
 		Gleis_BezeichnungBegrenzung gleisBezeichnungBegrenzung
 	) {
-		val row = factory.newTableRow(
-			gleisBezeichnungBegrenzung.gleisBezeichnung)
 		val gleisBezeichnung = gleisBezeichnungBegrenzung.gleisBezeichnung
 		val begrenzungen = gleisBezeichnungBegrenzung.zgFahrtVerbot +
 			gleisBezeichnungBegrenzung.raFahrtVerbot +
@@ -276,41 +284,81 @@ class SsliTransformator extends AbstractPlanPro2TableModelTransformator {
 		Iterable<Gleis_Bezeichnung> gleis,
 		Iterable<Signal> signals
 	) {
-		val Map<String, Gleis_BezeichnungBegrenzung> result = newHashMap
+		val Map<String, List<Gleis_BezeichnungBegrenzung>> result = newHashMap
 		gleis.forEach [ g |
 			val gleisBegrenzung = new Gleis_BezeichnungBegrenzung(g)
-			result.put(g.bezeichnung.bezGleisBezeichnung.wert, gleisBegrenzung)
-			
-			gleisBegrenzung.fmaOnGleis.addAll(container.FMAAnlage.filter[
-				IDGleisAbschnitt?.value !== null && g.intersects(IDGleisAbschnitt.value)
-			].filter[
-				val test = g.getOverlappingLength(IDGleisAbschnitt.value)
-				return test.compareTo(IDGleisAbschnitt.value.length) === 0
-			].toSet)
-			
+
 			val signaleAufGleis = g.filterContained(container.signal)
-			gleisBegrenzung.raGegenfahrtausschluss = signaleAufGleis.filter [
+			val raGegenfahrtausschluss = signaleAufGleis.filter [
 				val ausschluesse = transformToGegenfahrtausschluesse
 				ausschluesse.contains(ENUM_RANGIER_GEGENFAHRTAUSSCHLUSS_JA) ||
 					ausschluesse.contains(
 						ENUM_RANGIER_GEGENFAHRTAUSSCHLUSS_INSELGLEIS_FREI)
 			]
-
+			if (raGegenfahrtausschluss.size > 2) {
+				splitGleisBezeichnungRegion(g, raGegenfahrtausschluss, result)
+			} else {
+				gleisBegrenzung.raGegenfahrtausschluss = newArrayList(
+					raGegenfahrtausschluss)
+				result.put(g.bezeichnung.bezGleisBezeichnung.wert,
+					newArrayList(gleisBegrenzung))
+			}
 		]
 		signals.forEach [ signal |
 			val rafahrt = signal?.signalFstrAusInselgleis?.
 				IDRaFahrtGleichzeitigVerbot
 			rafahrt?.filter[gl|result.containsKey(gl?.wert)]?.forEach [ gl |
-				result.get(gl?.wert).raFahrtVerbot.add(signal)
+				result.get(gl?.wert).forEach[b|b.raFahrtVerbot.add(signal)]
 			]
 			val zgfahrt = signal?.signalFstrAusInselgleis?.
 				IDZgFahrtGleichzeitigVerbot
 			zgfahrt?.filter[gl|result.containsKey(gl?.wert)]?.forEach [ gl |
-				result.get(gl?.wert).zgFahrtVerbot.add(signal)
+				result.get(gl?.wert).forEach[b|b.zgFahrtVerbot.add(signal)]
 			]
 		]
+		val test = result.values.flatten.toList
+		return test
+	}
 
-		return result.values
+	private def void splitGleisBezeichnungRegion(Gleis_Bezeichnung gleis,
+		Iterable<Signal> raGegenfahrtausschlussSignal,
+		Map<String, List<Gleis_BezeichnungBegrenzung>> result) {
+		val List<Pair<Pair<Signal, Signal>, BigDecimal>> boundariesWithDistance = newArrayList
+		for (var i = 0; i < raGegenfahrtausschlussSignal.size; i++) {
+			for (var j = i + 1; j < raGegenfahrtausschlussSignal.size; j++) {
+				val first = raGegenfahrtausschlussSignal.get(i)
+				val second = raGegenfahrtausschlussSignal.get(j)
+				// Use the TopKantePath length instead of the shortest distance from TopologicalGraphService,
+// as the path within the region may not be the shortest path.
+				val distance = gleis.getPath(first, second).length
+				boundariesWithDistance.add((first -> second) -> distance)
+			}
+		}
+		val startEndBoundaries = boundariesWithDistance.maxBy[value]
+		val start = startEndBoundaries.key.key
+		val topologischSortedSignal = newLinkedList(start)
+		boundariesWithDistance.filter[key.key === start || key.value === start].
+			sortBy[value].forEach [
+				topologischSortedSignal.add(
+					key.key === start ? key.value : key.key)
+			]
+
+		val gleisLabelBoundaries = newArrayList
+		val label = gleis?.bezeichnung?.bezGleisBezeichnung?.wert ?: ""
+		gleisLabelBoundaries.add(
+			new Gleis_BezeichnungBegrenzung(gleis,
+				#[startEndBoundaries.key.key, startEndBoundaries.key.value]))
+		for (var i = 0; i < topologischSortedSignal.size - 1; i++) {
+			val first = topologischSortedSignal.get(i)
+			val second = topologischSortedSignal.get(i + 1)
+			if (topGraphService.isInWirkrichtungOfSignal(first, second) ==
+				topGraphService.isInWirkrichtungOfSignal(second, first)) {
+				gleisLabelBoundaries.add(
+					new Gleis_BezeichnungBegrenzung(gleis, #[first, second]))
+			}
+
+		}
+		result.put(label, gleisLabelBoundaries)
 	}
 
 	private def String createBezeichnung(Gleis_Bezeichnung gleisBezeichnung) {

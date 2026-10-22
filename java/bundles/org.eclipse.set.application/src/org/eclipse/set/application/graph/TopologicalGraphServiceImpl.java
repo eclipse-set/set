@@ -193,19 +193,16 @@ public class TopologicalGraphServiceImpl
 						.distinct()
 						.toList(), getPathWeight(p), from))
 				.findFirst();
-
 	}
 
 	private static PathValidator<AsSplitTopGraph.Node, AsSplitTopGraph.Edge> getTopologicalPathValidator() {
-		final PathValidator<AsSplitTopGraph.Node, AsSplitTopGraph.Edge> validator = (
-				path, edge) -> {
+		return (path, edge) -> {
 			if (path.getEdgeList().isEmpty()) {
 				return true;
 			}
 			return TopKanteExtensions.isRoute(edge.edge(),
 					path.getEdgeList().getLast().edge());
 		};
-		return validator;
 	}
 
 	@Override

@@ -41,6 +41,9 @@ class FMAComponentTransformator extends BaseTransformator<FMA_Komponente> {
 	 */
 	override void transform(FMA_Komponente fma) {
 		val result = SiteplanFactory.eINSTANCE.createFMAComponent
+		if (fma.identitaet.wert == "a58fb2aa-5203-a836-7f2e-88023527f584") {
+			println("TEST")
+		}
 		// Currently only the axle counter is supported
 		if (fma.FMAKomponenteAchszaehlpunkt === null)
 			return;
