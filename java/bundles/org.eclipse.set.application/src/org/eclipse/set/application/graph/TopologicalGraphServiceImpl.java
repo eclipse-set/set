@@ -20,7 +20,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.set.basis.IModelSession;
@@ -46,12 +49,15 @@ import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.alg.shortestpath.PathValidator;
 import org.jgrapht.alg.shortestpath.YenKShortestPath;
 import org.jgrapht.graph.WeightedPseudograph;
+import org.jgrapht.traverse.ClosestFirstIterator;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.event.Event;
 import org.osgi.service.event.EventAdmin;
 import org.osgi.service.event.EventConstants;
 import org.osgi.service.event.EventHandler;
+
+import com.google.common.collect.Streams;
 
 /**
  * TopologicalGraph service for finding distances in the topological model
@@ -337,6 +343,27 @@ public class TopologicalGraphServiceImpl
 		return minPoint;
 	}
 
+	@Override
+	public Set<TOP_Kante> findEdgesInRadisu(final TopPoint start,
+			final double radius, final Optional<Boolean> inTopDIrection) {
+		final InputData inputData = getInputData(start, null, inTopDIrection);
+		final ClosestFirstIterator<Node, Edge> iterator = new ClosestFirstIterator<>(
+				inputData.graphView(), inputData.fromNode(), radius);
+
+		if (!iterator.hasNext()) {
+			return Set.of(start.edge());
+		}
+
+		return Streams.stream(iterator).flatMap(node -> {
+			final double distanceToNode = iterator.getShortestPathLength(node);
+			if (distanceToNode < radius) {
+				return inputData.graphView().outgoingEdgesOf(node).stream();
+			}
+			return Stream.empty();
+		}).map(Edge.class::cast).map(Edge::edge).collect(Collectors.toSet());
+
+	}
+
 	private InputData getInputData(final TopPoint from, final TopPoint to,
 			final Optional<Boolean> inTopDirection) {
 		final MultiContainer_AttributeGroup container = getContainer(
@@ -355,4 +382,5 @@ public class TopologicalGraphServiceImpl
 		final Node toNode = graphView.splitGraphAt(to);
 		return new InputData(graphView, fromNode, toNode);
 	}
+
 }

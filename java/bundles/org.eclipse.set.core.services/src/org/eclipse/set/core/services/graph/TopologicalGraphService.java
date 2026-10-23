@@ -13,10 +13,12 @@ package org.eclipse.set.core.services.graph;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.Predicate;
 
 import org.eclipse.set.basis.graph.TopPath;
 import org.eclipse.set.basis.graph.TopPoint;
+import org.eclipse.set.model.planpro.Geodaten.TOP_Kante;
 
 /**
  * @author Stuecker
@@ -123,4 +125,7 @@ public interface TopologicalGraphService {
 	 * @return the optional of {@link TopPath}
 	 */
 	Optional<TopPath> findTopologicalShortesPath(TopPoint from, TopPoint to);
+
+	Set<TOP_Kante> findEdgesInRadisu(TopPoint start, double radius,
+			Optional<Boolean> inTopDIrection);
 }

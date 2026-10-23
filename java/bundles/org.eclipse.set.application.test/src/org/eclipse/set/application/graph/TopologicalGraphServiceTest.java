@@ -19,6 +19,7 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.eclipse.set.application.cacheservice.CacheServiceImpl;
@@ -31,6 +32,7 @@ import org.eclipse.set.core.services.cache.CacheService;
 import org.eclipse.set.core.services.graph.TopologicalGraphService;
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt;
 import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
+import org.eclipse.set.model.planpro.Geodaten.TOP_Kante;
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
@@ -163,6 +165,20 @@ public class TopologicalGraphServiceTest extends AbstractToolboxTest {
 					);
 
 			assertEquals(shortestDistance.get(), testPath2.get().length());
+		}
+	}
+
+	@Test
+	void testFindEdgesInRadius() throws Exception {
+		try (final MockedStatic<Services> mockServices = Mockito
+				.mockStatic(Services.class)) {
+			setupTest(mockServices);
+			// 60P1
+			final TopPoint start = getTopPoint(
+					"C10AB78B-EA5E-44BA-BAC3-AB3B3D6C503C");
+			final Set<TOP_Kante> edgesInRadisu = testee.findEdgesInRadisu(start,
+					1000, Optional.empty());
+			System.out.println("TEST");
 		}
 	}
 

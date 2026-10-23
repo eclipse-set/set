@@ -32,6 +32,7 @@ import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Zs3v
 import org.eclipse.set.model.planpro.Signalbegriffe_Struktur.Signalbegriff_ID_TypeClass
 import org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt
 import org.eclipse.set.model.planpro.Signale.ENUMRahmenArt
+import org.eclipse.set.model.planpro.Signale.ENUMSignalArt
 import org.eclipse.set.model.planpro.Signale.Signal
 import org.eclipse.set.model.planpro.Signale.Signal_Befestigung
 import org.eclipse.set.model.planpro.Signale.Signal_Rahmen
@@ -451,7 +452,26 @@ class SignalExtensions extends PunktObjektExtensions {
 
 	def static boolean isSskxSignalBelongToArea(Signal signal,
 		Stell_Bereich area) {
-		return area.contains(signal, tolerantDistance)
+		if (area.contains(signal, tolerantDistance)) {
+			return true
+		}
+
+		if (signal?.signalReal?.signalRealAktivSchirm?.signalArt?.wert !==
+			ENUMSignalArt.ENUM_SIGNAL_ART_VORSIGNAL) {
+			return false
+		}
+		val stellellementInforamtion = signal?.signalReal?.signalRealAktiv?.
+			IDStellelement?.value?.IDInformation?.value
+		if (stellellementInforamtion === null ||
+			!area.IDAussenelementansteuerung?.value?.IDInformationPrimaer?.map [
+				value
+			].exists [
+				it === stellellementInforamtion
+			]) {
+			return false
+		}
+		
+		return false
 	}
 
 	def static List<FMA_Komponente> getFmaKomponenten(Signal signal) {
