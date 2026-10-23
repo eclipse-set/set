@@ -570,19 +570,19 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 					BigDecimal.ZERO ? BigDecimal.ZERO : tolerantLimitA
 			}
 
-			if (teilbereich.begrenzungB.wert.compareTo(teilBereichTopKante.laenge) != 0) {
+			if (teilbereich.begrenzungB.wert.compareTo(
+				teilBereichTopKante.laenge) != 0) {
 				val tolerantLimitB = teilbereich.begrenzungB.wert +
 					tolerantBigDecimal
 				clone.begrenzungB.wert = tolerantLimitB >=
-					teilBereichTopKante.laenge
-					? teilBereichTopKante.laenge
-					: tolerantLimitB
+					teilBereichTopKante.laenge ? teilBereichTopKante.
+					laenge : tolerantLimitB
 			}
 
 			val isContains = clone.contains(singlePoint)
 			if (clone.begrenzungA.wert.compareTo(BigDecimal.ZERO) === 0 &&
-				clone.begrenzungB.wert.compareTo(teilBereichTopKante.laenge) == 0 &&
-				!isContains) {
+				clone.begrenzungB.wert.compareTo(teilBereichTopKante.laenge) ==
+					0 && !isContains) {
 				throw new IllegalArgumentException('''The TOP_Kante: «teilbereich.IDTOPKante.wert» should contain the Punkt_Objekt: «singlePoint.identitaet»''')
 			}
 			return isContains
@@ -607,9 +607,9 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 		}
 		val tolerantDistanceFromA = topKanteRange.
 				isStartedBy(A) ? tolerantBigDecimal : tolerantBigDecimal - A
-		val tolerantDistanceFromB = topKanteRange.isEndedBy(B)
-				? tolerantBigDecimal
-				: (tolerantBigDecimal + B) - topKanteRange.maximum
+		val tolerantDistanceFromB = topKanteRange.
+				isEndedBy(B) ? tolerantBigDecimal : (tolerantBigDecimal + B) -
+				topKanteRange.maximum
 		return teilbereich.containsWithinTolerant(singlePoint,
 			teilBereichTopKante.TOPKnotenA, tolerantDistanceFromA) ||
 			teilbereich.containsWithinTolerant(singlePoint,
