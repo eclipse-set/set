@@ -329,7 +329,7 @@ class SsliTransformator extends AbstractPlanPro2TableModelTransformator {
 				val first = raGegenfahrtausschlussSignal.get(i)
 				val second = raGegenfahrtausschlussSignal.get(j)
 				// Use the TopKantePath length instead of the shortest distance from TopologicalGraphService,
-// as the path within the region may not be the shortest path.
+				// as the path within the region may not be the shortest path.
 				val distance = gleis.getPath(first, second).length
 				boundariesWithDistance.add((first -> second) -> distance)
 			}
@@ -351,8 +351,8 @@ class SsliTransformator extends AbstractPlanPro2TableModelTransformator {
 		for (var i = 0; i < topologischSortedSignal.size - 1; i++) {
 			val first = topologischSortedSignal.get(i)
 			val second = topologischSortedSignal.get(i + 1)
-			if (topGraphService.isInWirkrichtungOfSignal(first, second) ==
-				topGraphService.isInWirkrichtungOfSignal(second, first)) {
+			if (!topGraphService.isInWirkrichtungOfSignal(first, second) &&
+				!topGraphService.isInWirkrichtungOfSignal(second, first)) {
 				gleisLabelBoundaries.add(
 					new Gleis_BezeichnungBegrenzung(gleis, #[first, second]))
 			}
