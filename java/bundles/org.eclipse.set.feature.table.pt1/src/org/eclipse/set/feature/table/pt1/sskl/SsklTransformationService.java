@@ -8,7 +8,7 @@
  * SPDX-License-Identifier: EPL-2.0
  * 
  */
-package org.eclipse.set.feature.table.pt1.sskx;
+package org.eclipse.set.feature.table.pt1.sskl;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -49,10 +49,10 @@ import org.osgi.service.event.EventHandler;
  */
 @Component(service = {
 		PlanPro2TableTransformationService.class }, immediate = true, property = {
-				"table.category=supplement-estw", "table.shortcut=sskx",
+				"table.category=estw", "table.shortcut=sskl",
 				EventConstants.EVENT_TOPIC + "=" + Events.CLOSE_PART,
 				EventConstants.EVENT_TOPIC + "=" + Events.CLOSE_SESSION })
-public class SskxTransformationService extends
+public class SsklTransformationService extends
 		AbstractPlanPro2TableTransformationService implements EventHandler {
 
 	@Reference
@@ -69,38 +69,38 @@ public class SskxTransformationService extends
 	/**
 	 * constructor.
 	 */
-	public SskxTransformationService() {
+	public SsklTransformationService() {
 		super();
 	}
 
 	@Override
 	protected String getTableHeading() {
-		return messages.SskxTableView_Heading;
+		return messages.SsklTableView_Heading;
 	}
 
 	@Override
 	public TableNameInfo getTableNameInfo() {
-		return new TableNameInfo(messages.ToolboxTableNameSskxLong,
-				messages.ToolboxTableNameSskxPlanningNumber,
-				messages.ToolboxTableNameSskxShort,
-				messages.ToolboxTableNameSskxRil);
+		return new TableNameInfo(messages.ToolboxTableNameSsklLong,
+				messages.ToolboxTableNameSsklPlanningNumber,
+				messages.ToolboxTableNameSsklShort,
+				messages.ToolboxTableNameSsklRil);
 	}
 
 	@Override
 	public TableModelTransformator<MultiContainer_AttributeGroup> createTransformator() {
-		return new SskxTransformator(cols, enumTranslationService, bankService,
-				eventAdmin, messages.ToolboxTableNameSskxShort);
+		return new SsklTransformator(cols, enumTranslationService, bankService,
+				eventAdmin, messages.ToolboxTableNameSsklShort);
 	}
 
 	@Override
 	public void handleEvent(final Event event) {
 		final String property = (String) event.getProperty(IEventBroker.DATA);
-		if (messages.ToolboxTableNameSskxShort.toLowerCase().equals(property)
+		if (messages.ToolboxTableNameSsklShort.toLowerCase().equals(property)
 				|| event.getTopic().equals(Events.CLOSE_SESSION)) {
 			Thread.getAllStackTraces().keySet().forEach(thread -> {
 				if (thread.getName()
 						.toLowerCase()
-						.startsWith(messages.ToolboxTableNameSskxShort
+						.startsWith(messages.ToolboxTableNameSsklShort
 								.toLowerCase())) {
 					thread.interrupt();
 				}
@@ -110,17 +110,17 @@ public class SskxTransformationService extends
 
 	@Override
 	protected String getShortcut() {
-		return messages.ToolboxTableNameSskxShort.toLowerCase();
+		return messages.ToolboxTableNameSsklShort.toLowerCase();
 	}
 
 	@Override
 	protected List<String> getTopologicalColumnPosition() {
-		return List.of(SskxColumns.Gleis, SskxColumns.Lichtraumprofil);
+		return List.of(SsklColumns.Gleis, SsklColumns.Lichtraumprofil);
 	}
 
 	@Override
 	protected String getRemarkColumnPosition() {
-		return SskxColumns.Bemerkung;
+		return SsklColumns.Bemerkung;
 	}
 
 	@Override
@@ -130,7 +130,7 @@ public class SskxTransformationService extends
 
 	@Override
 	protected Pt1TableCategory getTableCategory() {
-		return Pt1TableCategory.ESTW_SUPPLEMENT;
+		return Pt1TableCategory.ESTW;
 	}
 
 	@Override
@@ -143,7 +143,7 @@ public class SskxTransformationService extends
 					}
 					return null;
 				})
-				.sort(SskxColumns.Bezeichnung_Signal,
+				.sort(SsklColumns.Bezeichnung_Signal,
 						CellComparatorType.LEXICOGRAPHICAL,
 						SortDirectionEnum.ASC)
 				.build();
@@ -158,7 +158,7 @@ public class SskxTransformationService extends
 		if (obj instanceof final Signal signal) {
 			return areas.stream()
 					.anyMatch(area -> SignalExtensions
-							.isSskxSignalBelongToArea(signal, area));
+							.isSsklSignalBelongToArea(signal, area));
 		}
 
 		return false;
