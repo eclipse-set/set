@@ -120,7 +120,7 @@ class BankValues extends AbstractPlazContainerCheck implements PlazCheck, EventH
 		if (bankLength === null) {
 			errors.add(
 				bankLine.createError(
-					"Die Überhöhungslinie {GUID} hat ungültig Länger.",
+					"Die Überhöhungslinie {GUID} hat eine ungültige Länge.",
 					Map.of("GUID", bankLine.identitaet.wert)))
 			return false;
 		}
@@ -139,7 +139,7 @@ class BankValues extends AbstractPlazContainerCheck implements PlazCheck, EventH
 				potk?.abstand?.wert === null) {
 				errors.add(
 					bankLine.createError(
-						"Die Überhöhungslinie {GUID} hat ungültig Überhöhung Punkt: {POINT_GUID}.",
+						"Die Überhöhungslinie {GUID} hat einen ungültigen Überhöhungspunkt: {POINT_GUID}.",
 						Map.of("GUID", bankLine.identitaet.wert, //
 						"POINT_GUID", point?.identitaet?.wert)))
 				return false
