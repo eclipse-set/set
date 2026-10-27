@@ -16,7 +16,6 @@ import java.util.Optional
 import java.util.Set
 import java.util.function.Predicate
 import org.eclipse.set.basis.graph.TopPoint
-import org.eclipse.set.core.services.Services
 import org.eclipse.set.core.services.graph.TopologicalGraphService
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Aussenelementansteuerung
 import org.eclipse.set.model.planpro.Ansteuerung_Element.ENUMAussenelementansteuerungArt
@@ -62,6 +61,7 @@ import static extension org.eclipse.set.ppmodel.extensions.SignalRahmenExtension
 import static extension org.eclipse.set.ppmodel.extensions.SignalbegriffExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.CollectionExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
+import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Ne2
 
 /**
  * This class extends {@link Signal}.
@@ -463,44 +463,39 @@ class SignalExtensions extends PunktObjektExtensions {
 			return true
 		}
 
-		if (signal?.signalReal?.signalRealAktivSchirm?.signalArt?.wert !==
-			ENUMSignalArt.ENUM_SIGNAL_ART_VORSIGNAL) {
+		// When vorsignal of signalbalken in area
+		val vorsignalbalkenTypes = Set.of(Ne31str, Ne32str, Ne33str, Ne34str,
+			Ne35str)
+		if (!signal.signalbegriffe.exists [
+			vorsignalbalkenTypes.exists[type|hasSignalbegriffID(it, type)]
+		]) {
 			return false
 		}
-		val stellellementInforamtion = signal?.signalReal?.signalRealAktiv?.
-			IDStellelement?.value?.IDInformation?.value
-		if (stellellementInforamtion === null ||
-			!area.IDAussenelementansteuerung?.value?.IDInformationPrimaer?.map [
-				value
-			].exists [
-				it === stellellementInforamtion
-			]) {
-			return false
-		}
-		// Relevant Signal_begriff
-		val types = Set.of(Ne31str, Ne32str, Ne33str, Ne34str, Ne35str)
-		return existRelevantSignalInRadius(signal, [ s |
-			val signalBegriffe = signal.signalbegriffe
-			return signalBegriffe.exists [ begriff |
-				types.exists[type|begriff.hasSignalbegriffID(type)]
-			]
-		], 500)
-	}
 
-	def static boolean existRelevantSignalInRadius(Signal signal,
-		(Signal)=>Boolean predicate, double radius) {
-		val relevantSignal = signal.container.signal.filter [
-			predicate.apply(it)
-		]
-		val signalInRadius = Services.topGraphService.findClosestPoints(
-			new TopPoint(signal), relevantSignal.map[new TopPoint(it)].toSet,
-			radius, Optional.of(!signal.singlePoint.isWirkrichtungTopDirection))
-		return !relevantSignal.filter [ s |
-			signalInRadius.exists [ p |
-				s.singlePoint.abstand.wert === p.distance &&
-					s.singlePoint.topKante === p.edge
-			]
-		].isNullOrEmpty
+		return !findRelevantPOInRadius(
+			signal,
+			[ s |
+				val signalRealAktiv = s.signalReal?.signalRealAktiv
+				val aktivSchrimType = s.signalReal?.signalRealAktivSchirm?.
+					signalArt?.wert
+				val aea = signalRealAktiv?.IDStellelement?.value?.
+					IDInformation?.value
+				if (signalRealAktiv !== null && aktivSchrimType ==
+					ENUMSignalArt.ENUM_SIGNAL_ART_VORSIGNAL) {
+					return !area.IDAussenelementansteuerung?.value?.
+						IDInformationPrimaer?.map [
+							value
+						].exists [
+							it === aea
+						]
+				}
+				return s.hasSignalbegriffID(Ne2) && area.contains(s)
+
+			],
+			[it.signal],
+			500,
+			Optional.of(signal.singlePoint.isWirkrichtungTopDirection)
+		).nullOrEmpty
 	}
 
 	def static List<FMA_Komponente> getFmaKomponenten(Signal signal) {

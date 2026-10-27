@@ -457,7 +457,8 @@ public final class TableServiceImpl implements TableService {
 						tableType, tableInfo, modelSession,
 						getModelService(tableInfo), controlAreaIds);
 		TableServiceUtils.clearEmptyRow(resultTable);
-		getModelService(tableInfo).addAdditionRow(stateTable, resultTable);
+		getModelService(tableInfo).addAdditionRow(stateTable, resultTable,
+				controlAreaIds);
 		if (modelSession.getToolboxFile()
 				.getRole() == ToolboxFileRole.SESSION) {
 			tableStatus.setContainsStateChanged(

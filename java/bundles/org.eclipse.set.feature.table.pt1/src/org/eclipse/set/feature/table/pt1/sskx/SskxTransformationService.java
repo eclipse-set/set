@@ -14,6 +14,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum;
@@ -28,6 +29,8 @@ import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
 import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
 import org.eclipse.set.model.planpro.Signale.Signal;
 import org.eclipse.set.model.tablemodel.RowGroup;
+import org.eclipse.set.model.tablemodel.Table;
+import org.eclipse.set.model.tablemodel.extensions.TableExtensions;
 import org.eclipse.set.ppmodel.extensions.SignalExtensions;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
@@ -162,5 +165,35 @@ public class SskxTransformationService extends
 		}
 
 		return false;
+	}
+
+	/**
+	 * Filters Vorsignalbalken that do not meet the general conditions but are
+	 * still eligible for rendering because they satisfy the conditions of their
+	 * associated control area.
+	 */
+	@Override
+	public void addAdditionRow(final Table originalTable,
+			final Table filteredTable, final Set<String> controlAreaIds) {
+		// Only filter when no area area selected
+		if (TableExtensions.getTableRows(originalTable).isEmpty()
+				|| !controlAreaIds.isEmpty()) {
+			return;
+		}
+
+		final List<RowGroup> vorbalkenSignalGroup = TableExtensions
+				.getTableRowGroups(filteredTable)
+				.stream()
+				.filter(group -> {
+					return group
+							.getLeadingObject() instanceof final Signal signal
+							&& !SskxTransformator.generalCondition()
+									.test(signal);
+				})
+				.toList();
+
+		vorbalkenSignalGroup.forEach(group -> filteredTable.getTablecontent()
+				.getRowgroups()
+				.remove(group));
 	}
 }

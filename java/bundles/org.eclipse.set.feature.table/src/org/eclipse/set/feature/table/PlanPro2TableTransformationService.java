@@ -89,9 +89,11 @@ public abstract class PlanPro2TableTransformationService extends
 	 *            the origin table, which contains all value
 	 * @param filteredTable
 	 *            the filtered table
+	 * @param controlAreaIds
+	 *            the selected control area
 	 */
 	public void addAdditionRow(final Table originalTable,
-			final Table filteredTable) {
+			final Table filteredTable, final Set<String> controlAreaIds) {
 		// do nothing by default
 	}
 }
