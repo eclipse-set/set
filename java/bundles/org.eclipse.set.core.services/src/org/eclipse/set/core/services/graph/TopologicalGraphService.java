@@ -18,7 +18,6 @@ import java.util.function.Predicate;
 
 import org.eclipse.set.basis.graph.TopPath;
 import org.eclipse.set.basis.graph.TopPoint;
-import org.eclipse.set.model.planpro.Geodaten.TOP_Kante;
 
 /**
  * @author Stuecker
@@ -116,6 +115,23 @@ public interface TopologicalGraphService {
 			final List<TopPoint> points, final boolean searchInTopDirection);
 
 	/**
+	 * Finds the points, which lie on radius from start point and give
+	 * topological path to this point
+	 * 
+	 * @param start
+	 *            the start point
+	 * @param candiates
+	 *            the list of points to search
+	 * @param radius
+	 *            the radius
+	 * @param inTopDIrection
+	 *            the direction
+	 * @return the points or empty
+	 */
+	Set<TopPoint> findClosestPoints(TopPoint start, Set<TopPoint> candiates,
+			double radius, Optional<Boolean> inTopDIrection);
+
+	/**
 	 * Finds the shortest path, which have plausible branch
 	 * 
 	 * @param from
@@ -125,7 +141,4 @@ public interface TopologicalGraphService {
 	 * @return the optional of {@link TopPath}
 	 */
 	Optional<TopPath> findTopologicalShortesPath(TopPoint from, TopPoint to);
-
-	Set<TOP_Kante> findEdgesInRadisu(TopPoint start, double radius,
-			Optional<Boolean> inTopDIrection);
 }

@@ -12,9 +12,11 @@ import java.math.BigDecimal
 import java.util.Collections
 import java.util.LinkedList
 import java.util.List
+import java.util.Optional
 import java.util.Set
 import java.util.function.Predicate
 import org.eclipse.set.basis.graph.TopPoint
+import org.eclipse.set.core.services.Services
 import org.eclipse.set.core.services.graph.TopologicalGraphService
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Aussenelementansteuerung
 import org.eclipse.set.model.planpro.Ansteuerung_Element.ENUMAussenelementansteuerungArt
@@ -28,6 +30,11 @@ import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
 import org.eclipse.set.model.planpro.Gleis.Gleis_Bezeichnung
 import org.eclipse.set.model.planpro.Ortung.FMA_Komponente
 import org.eclipse.set.model.planpro.Ortung.Schaltmittel_Zuordnung
+import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Ne31str
+import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Ne32str
+import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Ne33str
+import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Ne34str
+import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Ne35str
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Zs3v
 import org.eclipse.set.model.planpro.Signalbegriffe_Struktur.Signalbegriff_ID_TypeClass
 import org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt
@@ -470,8 +477,30 @@ class SignalExtensions extends PunktObjektExtensions {
 			]) {
 			return false
 		}
-		
-		return false
+		// Relevant Signal_begriff
+		val types = Set.of(Ne31str, Ne32str, Ne33str, Ne34str, Ne35str)
+		return existRelevantSignalInRadius(signal, [ s |
+			val signalBegriffe = signal.signalbegriffe
+			return signalBegriffe.exists [ begriff |
+				types.exists[type|begriff.hasSignalbegriffID(type)]
+			]
+		], 500)
+	}
+
+	def static boolean existRelevantSignalInRadius(Signal signal,
+		(Signal)=>Boolean predicate, double radius) {
+		val relevantSignal = signal.container.signal.filter [
+			predicate.apply(it)
+		]
+		val signalInRadius = Services.topGraphService.findClosestPoints(
+			new TopPoint(signal), relevantSignal.map[new TopPoint(it)].toSet,
+			radius, Optional.of(!signal.singlePoint.isWirkrichtungTopDirection))
+		return !relevantSignal.filter [ s |
+			signalInRadius.exists [ p |
+				s.singlePoint.abstand.wert === p.distance &&
+					s.singlePoint.topKante === p.edge
+			]
+		].isNullOrEmpty
 	}
 
 	def static List<FMA_Komponente> getFmaKomponenten(Signal signal) {

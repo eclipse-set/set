@@ -102,7 +102,7 @@ public class SskxTransformator extends AbstractSignalTableTransform {
 			}
 
 			if (signal.getSignalReal().getSignalRealAktiv() != null
-					|| signal.getSignalReal()
+					&& signal.getSignalReal()
 							.getSignalRealAktivSchirm() != null) {
 				return false;
 			}
