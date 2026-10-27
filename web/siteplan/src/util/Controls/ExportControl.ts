@@ -529,8 +529,15 @@ export default class ExportControl extends Control {
     // Disable pointer event and hidden all element expect openlayer map by export
     document.body.style.pointerEvents = lock ? 'none' : 'auto'
     document.body.style.visibility = visibilityState
-    this.map.getViewport().style.visibility = 'visible'
-    this.map.getOverlayContainerStopEvent().style.visibility = visibilityState
+    const viewport = this.map.getViewport()
+    if (viewport) {
+      viewport.style.visibility = 'visible'
+    }
+
+    const overlayContainerStopEvent = this.map.getOverlayContainerStopEvent()
+    if (overlayContainerStopEvent) {
+      overlayContainerStopEvent.style.visibility = visibilityState
+    }
 
     this.map.getInteractions().forEach(i => i.setActive(!lock))
     store.commit('setLoading', lock)
