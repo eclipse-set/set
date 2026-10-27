@@ -158,8 +158,8 @@ class BlockElementExtensions extends BasisObjektExtensions {
 
 	def static boolean isBelongToControlArea(Block_Element blockElement,
 		Stell_Bereich controlArea) {
-		val blockAs = blockElement.blockAnlagenStart.map[IDBlockElementB.value]
-		val blockBs = blockElement.blockAnlagenZiel.map[IDBlockElementA.value]
+		val blockAs = blockElement.blockAnlagenStart.map[IDBlockElementB?.value].filterNull
+		val blockBs = blockElement.blockAnlagenZiel.map[IDBlockElementA?.value].filterNull
 		return #[blockAs, blockBs].flatten.map[IDSignal?.value].filterNull.
 			filter [
 				signalFiktiv?.fiktivesSignalFunktion.exists [ funktion |
