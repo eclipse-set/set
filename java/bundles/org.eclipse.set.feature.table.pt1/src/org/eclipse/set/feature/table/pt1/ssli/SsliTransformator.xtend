@@ -351,6 +351,8 @@ class SsliTransformator extends AbstractPlanPro2TableModelTransformator {
 		for (var i = 0; i < topologischSortedSignal.size - 1; i++) {
 			val first = topologischSortedSignal.get(i)
 			val second = topologischSortedSignal.get(i + 1)
+			// The two signals must have different directions of effect.
+			// Furthermore, neither signal may be positioned in the effective direction of the other.
 			if (!topGraphService.isInWirkrichtungOfSignal(first, second) &&
 				!topGraphService.isInWirkrichtungOfSignal(second, first)) {
 				gleisLabelBoundaries.add(
