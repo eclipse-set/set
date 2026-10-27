@@ -38,24 +38,27 @@ async function copyResourceDirectory() {
 async function compileWebPackages() {
   // News
   console.log("****Compile News****")
-  await doCommand(`cd web/news && hugo -d ${eclipseHome}/web/news`)
+  await doCommand({ cmd: 'hugo', args: ['-d', `${eclipseHome}/web/news`], cwd: `${projectRoot}/web/news`})
 
   // Developerhelp
   console.log("****Compile Developerhelp****")
-  await doCommand(`cd web/developerhelp && hugo -d ${eclipseHome}/web/developerhelp`)
+  await doCommand({ cmd: 'hugo', args: ['-d', `${eclipseHome}/web/developerhelp`], cwd: `${projectRoot}/web/developerhelp`})
 
   // About
   console.log("****Compile About****")
-  await doCommand(`cd web/about && hugo -d ${eclipseHome}/web/about`)
+  await doCommand({ cmd: 'hugo', args: ['-d', `${eclipseHome}/web/about`], cwd: `${projectRoot}/web/about`})
+
   // Textviewer
   console.log("****Compile Textviewer****")
   createEnvSymlink('web/textviewer')
-  await doCommand(`cd web/textviewer && npm ci && npm run build`)
+  await doCommand({ cmd: 'npm', args: ['ci'], cwd: `${projectRoot}/web/textviewer` })
+  await doCommand({ cmd: 'npm', args: ['run', 'build'], cwd: `${projectRoot}/web/textviewer` })
 
   // Siteplan
   console.log("****Compile Siteplan****")
   createEnvSymlink('web/siteplan')
-  await doCommand(`cd web/siteplan && npm ci && npm run build`)
+  await doCommand({ cmd: 'npm', args: ['ci'], cwd: `${projectRoot}/web/siteplan` })
+  await doCommand({ cmd: 'npm', args: ['run', 'build'], cwd: `${projectRoot}/web/siteplan` })
 
   // Pdfjs
   console.log("****Compile Pdfjs****")
