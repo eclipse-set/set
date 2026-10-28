@@ -17,7 +17,7 @@ on:
 concurrency: 
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
-  
+
 env:
   GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
@@ -71,7 +71,14 @@ jobs:
       
       - name: Setup Java
         uses: eclipse-set/build/.github/actions/setup-java@main
-      
+
+      - name: Prepare temporary resource
+        run: |
+          mkdir -p web/news/public
+          touch web/news/public/index.html
+          mkdir -p web/about/dist
+          touch web/about/dist/index.html
+
       - name: Run Tests
         run: | 
           mvn ${{ env.MVN_FLAGS }} -f java/pom.xml verify \
