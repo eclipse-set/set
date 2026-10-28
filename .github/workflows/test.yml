@@ -20,6 +20,7 @@ concurrency:
 
 env:
   GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+  MVN_FLAGS: -T 1.5C -B --settings ./.github/settings.xml --no-transfer-progress
 
 jobs:
   typecheck-siteplan:
@@ -82,11 +83,10 @@ jobs:
       - name: Run Tests
         run: | 
           mvn ${{ env.MVN_FLAGS }} -f java/pom.xml verify \
+            -DskipTests \
             -Dtycho.source.skip=true \
             -DskipP2Metadata=true \
             -Dosgi-test=true \
-            # Skip normal integration test
-            -DskipTests
             -Dmaven.javadoc.skip=true
       
       - name: Publish Test Results
