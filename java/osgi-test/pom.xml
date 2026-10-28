@@ -74,6 +74,7 @@
             <artifactId>tycho-surefire-plugin</artifactId>
             <version>${tycho-version}</version>
             <configuration>
+              <skipTests>false</skipTests>
               <argLine>-javaagent:${org.mockito:mockito-core:jar}</argLine>
             </configuration>
           </plugin>
