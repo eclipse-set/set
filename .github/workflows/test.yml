@@ -13,6 +13,13 @@ on:
     branches:
       - 'release/**'
       - 'main'
+# Enable concurrency to avoid multiple builds at the same time
+concurrency: 
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+  
+env:
+  GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
 jobs:
   typecheck-siteplan:
