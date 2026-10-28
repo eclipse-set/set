@@ -27,6 +27,8 @@ import org.osgi.service.component.annotations.Component
 import org.xml.sax.SAXException
 
 import static extension org.eclipse.set.utils.xml.ObjectMetadataXMLReader.*
+import java.util.Deque
+import java.util.ArrayDeque
 
 /** 
  * Test for intentionally incomplete data.
@@ -75,12 +77,16 @@ class NilTest extends AbstractCustomValidator {
 	}
 
 	private def List<CustomValidationProblem> validate(PlanProXMLNode node) {
-		val it = newLinkedList
-		val nilAttribute = node?.attributes.exists[attributeName == NIL]
-		if (nilAttribute) {
-			it.add(node.transform)
+		val it = newArrayList
+		val nodes = new ArrayDeque
+		nodes.add(node)
+		for(var PlanProXMLNode currentNode; (currentNode = nodes.poll) !== null;) {
+			val nilAttribute = currentNode?.attributes.exists[attributeName == NIL]
+			if (nilAttribute) {
+				it.add(currentNode.transform)
+			}	
+			nodes.addAll(currentNode.children)
 		}
-		it.addAll(node.getChildren.flatMap[validate])
 		return it
 	}
 

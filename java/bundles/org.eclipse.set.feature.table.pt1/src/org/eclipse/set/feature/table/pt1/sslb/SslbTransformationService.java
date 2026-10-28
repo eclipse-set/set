@@ -209,15 +209,17 @@ public final class SslbTransformationService
 				.stream(container.getBlockAnlage())
 				.filter(anlage -> EObjectExtensions
 						.getNullableObject(anlage,
-								ele -> ele.getIDBlockElementA().getValue())
-						.orElse(null)
-						.equals(current)
-						|| EObjectExtensions
-								.getNullableObject(anlage,
-										ele -> ele.getIDBlockElementB()
-												.getValue())
-								.orElse(null)
-								.equals(current))
+								ele -> Boolean.valueOf(ele.getIDBlockElementA()
+										.getValue()
+										.equals(current)))
+						.orElse(Boolean.FALSE)
+						.booleanValue()
+						|| EObjectExtensions.getNullableObject(anlage,
+								ele -> Boolean.valueOf(ele.getIDBlockElementB()
+										.getValue()
+										.equals(current)))
+								.orElse(Boolean.FALSE)
+								.booleanValue())
 				.findFirst();
 
 		if (blockAnlage.isEmpty()) {

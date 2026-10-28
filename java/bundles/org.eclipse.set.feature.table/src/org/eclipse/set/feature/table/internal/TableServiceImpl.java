@@ -57,6 +57,7 @@ import org.eclipse.set.core.services.part.ToolboxPartService;
 import org.eclipse.set.core.services.session.SessionService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.messages.Messages;
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.CompareStateCellContent;
 import org.eclipse.set.model.tablemodel.CompareTableCellContent;
@@ -379,9 +380,11 @@ public final class TableServiceImpl implements TableService {
 	public String transformToCsv(final TableInfo tableInfo,
 			final TableType tableType, final IModelSession modelSession,
 			final Set<String> controlAreas) {
-		final Table table = transformToTable(tableInfo, tableType, modelSession,
+		final Table[] latest = { null };
+
+		transformToTable(t -> latest[0] = t, tableInfo, tableType, modelSession,
 				controlAreas, new TableStatus());
-		return transformToCsv(table);
+		return transformToCsv(latest[0]);
 	}
 
 	/**
@@ -422,10 +425,25 @@ public final class TableServiceImpl implements TableService {
 		return builder.toString();
 	}
 
-	@Override
-	public Table transformToTable(final TableInfo tableInfo,
-			final TableType tableType, final IModelSession modelSession,
-			final Set<String> controlAreaIds, final TableStatus tableStatus) {
+	/**
+	 * 
+	 * @param saveLastSuccessfulTable
+	 *            the consumer to save last successful transformed table
+	 * @param tableInfo
+	 *            the {@link TableInfo}
+	 * @param tableType
+	 *            the {@link TableType}
+	 * @param modelSession
+	 *            the {@link IModelSession}
+	 * @param controlAreaIds
+	 *            the GUID of the selected {@link Stell_Bereich}
+	 * @param tableStatus
+	 *            the {@link TableStatus}
+	 */
+	private void transformToTable(final Consumer<Table> saveLastSuccessfulTable,
+			final TableInfo tableInfo, final TableType tableType,
+			final IModelSession modelSession, final Set<String> controlAreaIds,
+			final TableStatus tableStatus) {
 		final Cache cache = getCacheService().getCache(
 				modelSession.getPlanProSchnittstelle(),
 				ToolboxConstants.SHORTCUT_TO_TABLE_CACHE_ID);
@@ -440,7 +458,7 @@ public final class TableServiceImpl implements TableService {
 		});
 
 		if (!(table instanceof Table)) {
-			return null;
+			return;
 		}
 
 		if (tableType != TableType.DIFF && !controlAreaIds.isEmpty()
@@ -449,32 +467,25 @@ public final class TableServiceImpl implements TableService {
 								modelSession.getContainer(
 										tableType.getContainerForTable()),
 								area))) {
-			return createEmptyTable(tableInfo);
+			saveLastSuccessfulTable.accept(createEmptyTable(tableInfo));
 		}
+
+		saveLastSuccessfulTable.accept((Table) table);
+
 		// Filter the table row, which belong to current table state
 		final Table stateTable = TableServiceUtils
 				.filterTableByState(EcoreUtil.copy((Table) table), tableType);
+		saveLastSuccessfulTable.accept(stateTable);
 		// Filter the table row, which belong to current control area
 		final Table resultTable = TableServiceUtils
 				.filterRowGroupBelongToControlArea(EcoreUtil.copy(stateTable),
 						tableType, tableInfo, modelSession,
 						getModelService(tableInfo), controlAreaIds);
 		TableServiceUtils.clearEmptyRow(resultTable);
-		getModelService(tableInfo).addAdditionRow(stateTable, resultTable);
-		if (modelSession.getToolboxFile()
-				.getRole() == ToolboxFileRole.SESSION) {
-			tableStatus.setContainsStateChanged(
-					TableServiceUtils.isTableExistChangedCompareContent(
-							resultTable, CompareStateCellContent.class));
-			tableStatus.setContainsErrors(!TableServiceUtils
-					.getCachedTableError(getCacheService(), tableInfo,
-							modelSession, getModelService(tableInfo),
-							controlAreaIds)
-					.orElse(Collections.emptyList())
-					.isEmpty());
-		}
+		saveLastSuccessfulTable.accept(resultTable);
 
-		return resultTable;
+		getModelService(tableInfo).addAdditionRow(stateTable, resultTable);
+		saveLastSuccessfulTable.accept(resultTable);
 	}
 
 	private Table createEmptyTable(final TableInfo tableInfo) {
@@ -713,23 +724,38 @@ public final class TableServiceImpl implements TableService {
 	public Table createDiffTable(final TableInfo tableInfo,
 			final TableType tableType, final Set<String> controlAreaIds,
 			final boolean updateTableStatus) {
-		Table mainSessionTable = null;
+		final Table[] mainSessionTable = { null };
 		final TableStatus tableStatus = updateTableStatus
 				? tablesStatus.computeIfAbsent(tableInfo,
 						k -> new TableStatus())
 				: new TableStatus();
+		final IModelSession mainSession = sessionService
+				.getLoadedSession(ToolboxFileRole.SESSION);
+		final Consumer<Table> updateTableStatusAfterTransformTable = t -> {
+			tableStatus.setContainsStateChanged(TableServiceUtils
+					.isTableExistChangedCompareContent(mainSessionTable[0],
+							CompareStateCellContent.class));
+			tableStatus.setContainsErrors(!TableServiceUtils
+					.getCachedTableError(getCacheService(), tableInfo,
+							mainSession, getModelService(tableInfo),
+							controlAreaIds)
+					.orElse(Collections.emptyList())
+					.isEmpty());
+		};
 		try {
-			mainSessionTable = transformToTable(tableInfo, tableType,
-					sessionService.getLoadedSession(ToolboxFileRole.SESSION),
-					controlAreaIds, tableStatus);
+
+			transformToTable(t -> mainSessionTable[0] = t, tableInfo, tableType,
+					mainSession, controlAreaIds, tableStatus);
 			storageFootnotes(ToolboxFileRole.SESSION, tableInfo,
-					mainSessionTable);
-			sortTable(mainSessionTable, tableInfo, tableType);
+					mainSessionTable[0]);
+			// Update table status after transformed
+			updateTableStatusAfterTransformTable.accept(mainSessionTable[0]);
+			sortTable(mainSessionTable[0], tableInfo, tableType);
 			if (sessionService.getLoadedSession(
 					ToolboxFileRole.COMPARE_PLANNING) == null) {
 				tableStatus.setEmpty(
-						TableExtensions.isTableEmpty(mainSessionTable));
-				return mainSessionTable;
+						TableExtensions.isTableEmpty(mainSessionTable[0]));
+				return mainSessionTable[0];
 			}
 			// Waiting table compare transform, then create compare table
 			// between to plan
@@ -740,14 +766,15 @@ public final class TableServiceImpl implements TableService {
 			logger.error("Transformation Error: {} : {}", //$NON-NLS-1$
 					tableInfo.shortcut(), e.getMessage());
 			tableStatus.setTransformException(e);
+			updateTableStatusAfterTransformTable.accept(mainSessionTable[0]);
 			broker.post(Events.TABLEERROR_CHANGED, null);
-			// Give empty table back
-			return createEmptyTable(tableInfo);
+			// Give last successful transform table back
+			return mainSessionTable[0];
 		} finally {
 			broker.post(Events.TABLEERROR_CHANGED, null);
 		}
 
-		if (mainSessionTable == null) {
+		if (mainSessionTable[0] == null) {
 			return null;
 		}
 		// When it give Exception by transform second plan, then return the
@@ -755,13 +782,15 @@ public final class TableServiceImpl implements TableService {
 		try {
 			final IModelSession compareSession = sessionService
 					.getLoadedSession(ToolboxFileRole.COMPARE_PLANNING);
-			final Table compareSessionTable = transformToTable(tableInfo,
+			final Table[] compareSessionTable = { null };
+			transformToTable(t -> compareSessionTable[0] = t, tableInfo,
 					tableType, compareSession, controlAreaIds, tableStatus);
 			storageFootnotes(ToolboxFileRole.COMPARE_PLANNING, tableInfo,
-					compareSessionTable);
+					compareSessionTable[0]);
 			final Table compareTable = diffServiceMap
 					.get(TableCompareType.PROJECT)
-					.createDiffTable(mainSessionTable, compareSessionTable);
+					.createDiffTable(mainSessionTable[0],
+							compareSessionTable[0]);
 			sortTable(compareTable, tableInfo, tableType);
 			tableStatus.setContainsPlanChanged(
 					TableServiceUtils.isTableExistChangedCompareContent(
@@ -772,9 +801,9 @@ public final class TableServiceImpl implements TableService {
 			dialogService.error(Display.getCurrent().getActiveShell(),
 					messages.TableTransform_Error,
 					messages.TableTransform_ComparePlanError_Msg, e);
-			tableStatus
-					.setEmpty(TableExtensions.isTableEmpty(mainSessionTable));
-			return mainSessionTable;
+			tableStatus.setEmpty(
+					TableExtensions.isTableEmpty(mainSessionTable[0]));
+			return mainSessionTable[0];
 		} finally {
 			broker.post(Events.TABLEERROR_CHANGED, null);
 		}

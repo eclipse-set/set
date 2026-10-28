@@ -14,7 +14,6 @@ import java.util.Comparator
 import java.util.List
 import java.util.Set
 import org.eclipse.set.basis.MixedStringComparator
-import org.eclipse.set.basis.Wrapper
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
 import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
@@ -22,9 +21,9 @@ import org.eclipse.set.model.planpro.Fahrstrasse.ENUMFstrMittelArt
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Signalisierung
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Zug_Rangier
 import org.eclipse.set.model.planpro.Gleis.ENUMGleisart
-import org.eclipse.set.model.planpro.Gleis.Gleis_Abschnitt
 import org.eclipse.set.model.planpro.Gleis.Gleis_Bezeichnung
 import org.eclipse.set.model.planpro.Ortung.FMA_Anlage
+import org.eclipse.set.model.planpro.Ortung.FMA_Komponente
 import org.eclipse.set.model.planpro.Ortung.Zugeinwirkung
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Hp0
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Kl
@@ -55,6 +54,7 @@ import static org.eclipse.set.model.planpro.Gleis.ENUMGleisart.*
 import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BedienAnzeigeElementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FahrwegExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.FmaAnlageExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FstrAbhaengigkeitExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FstrNichthaltfallExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FstrSignalisierungExtensions.*
@@ -64,6 +64,7 @@ import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalRahmenExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalbegriffExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.Debug.*
+import org.eclipse.set.model.planpro.Gleis.Gleis_Abschnitt
 
 /**
  * Table transformation for a Zugstraßentabelle (SSLZ).
@@ -259,65 +260,34 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 				fstrZugRangier,
 				[
 					followBlocks([
-						(fstrFahrweg?.start?.zweitesHaltfallkriterium?.
-							schalter as Zugeinwirkung)?.bezeichnung?.
-							bezeichnungTabelle?.wert
+						fstrFahrweg?.start?.zweitesHaltfallkriterium?.schalter?.
+							schalterBezeichnung ?: ""
 					], nextBlockFstr)
 				]
 			)
 
 			// O: Sslz.Abhaengigkeiten.Anrueckverschluss
-			val schaltmittel = new Wrapper<Set<Basis_Objekt>>
-			val gleisabschnitte = new Wrapper<Set<Gleis_Abschnitt>>
-			val zugeinwirkungen = new Wrapper<Set<String>>
 			fillIterable(
 				instance,
 				cols.getColumn(Anrueckverschluss),
 				fstrZugRangier,
 				[
-					followBlocks([ b |
-						val switchCase = b.getSwitchCase(
-							new Case<Fstr_Zug_Rangier>(
-								[
-									schaltmittel.value = fstrFahrweg?.start?.
-										anrueckverschluss?.map[schalter]?.
-										toSet ?: Collections.emptySet
-									gleisabschnitte.value = schaltmittel.value.
-										filter(FMA_Anlage).map [
-											IDGleisAbschnitt?.value
-										].filterNull.toSet
-									!gleisabschnitte.value.empty
-								],
-								[
-									gleisabschnitte.value.map [
-										bezeichnung?.bezeichnungTabelle?.wert
-									].filterNull
-								],
-								ITERABLE_FILLING_SEPARATOR,
-								MIXED_STRING_COMPARATOR
-							),
-							new Case<Fstr_Zug_Rangier>(
-								[
-									zugeinwirkungen.value = schaltmittel.value.
-										filter(Zugeinwirkung).map [
-											bezeichnung?.bezeichnungTabelle?.
-												wert
-										].toSet
-									!zugeinwirkungen.value.empty
-								],
-								[
-									zugeinwirkungen.value
-								],
-								ITERABLE_FILLING_SEPARATOR,
-								MIXED_STRING_COMPARATOR
-							)
-						)
-						val content = switchCase?.filling?.apply(b)
-						return content?.filterNull?.sortWith(
-							switchCase?.comparator)?.join(
-							switchCase?.seperator === null
-								? ITERABLE_FILLING_SEPARATOR
-								: switchCase.seperator)
+					followBlocks([
+						fstrFahrweg?.start?.anrueckverschluss?.filterNull //
+						?.map[schalter] //
+						?.filterNull.toSet //
+						?.map [
+							switch (it) {
+								case FMA_Anlage:
+									(it as FMA_Anlage).IDGleisAbschnitt?.value
+								default:
+									it
+							}
+						] //
+						?.filterNull //
+						?.map[schalterBezeichnung] //
+						?.sortWith(MIXED_STRING_COMPARATOR) //
+						?.join(ITERABLE_FILLING_SEPARATOR) ?: ""
 					], nextBlockFstr)
 				]
 			)
@@ -600,9 +570,9 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 						val content = switchCase?.filling?.apply(fstr)
 						return content?.filterNull?.sortWith(
 							switchCase?.comparator)?.join(
-							switchCase?.seperator === null
-								? ITERABLE_FILLING_SEPARATOR
-								: switchCase.seperator)
+							switchCase?.seperator ===
+								null ? ITERABLE_FILLING_SEPARATOR : switchCase.
+								seperator)
 					], nextBlockFstr)
 				]
 			)
@@ -806,4 +776,28 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 		return '''«signalBegriff.signalbegriffID?.symbol»«
 		»«IF !signalBegriff.signalSignalbegriffAllg?.geschaltet?.wert»F«ENDIF»'''
 	}
+
+	private def dispatch String getSchalterBezeichnung(Basis_Objekt obj) {
+		return ""
+	}
+
+	private def dispatch String getSchalterBezeichnung(FMA_Anlage fmaAnalge) {
+		return fmaAnalge.bzBezeichner
+	}
+
+	private def dispatch String getSchalterBezeichnung(
+		FMA_Komponente fmaKomponent) {
+		return fmaKomponent?.bezeichnung?.bezeichnungTabelle?.wert
+	}
+
+	private def dispatch String getSchalterBezeichnung(
+		Zugeinwirkung zugEinwickung) {
+		return zugEinwickung?.bezeichnung?.bezeichnungTabelle?.wert
+	}
+
+	private def dispatch String getSchalterBezeichnung(
+		Gleis_Abschnitt gleisAbschnitte) {
+		return gleisAbschnitte?.bezeichnung?.bezeichnungTabelle?.wert
+	}
+
 }

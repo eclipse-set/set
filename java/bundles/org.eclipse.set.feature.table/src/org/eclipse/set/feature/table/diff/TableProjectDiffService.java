@@ -80,6 +80,7 @@ public class TableProjectDiffService extends AbstractTableDiff {
 					.createPlanCompareRow();
 			planCompareRow.setRowType(PlanCompareRowType.NEW_ROW);
 			planCompareRow.getCells().addAll(mergedTableRow.getCells());
+			planCompareRow.setFootnotes(mergedTableRow.getFootnotes());
 			final RowGroup group = TableRowExtensions.getGroup(mergedTableRow);
 			final int indexOf = group.getRows().indexOf(mergedTableRow);
 			group.getRows().remove(mergedTableRow);

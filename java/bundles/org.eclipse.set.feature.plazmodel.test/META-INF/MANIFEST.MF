@@ -8,12 +8,15 @@ Fragment-Host: org.eclipse.set.feature.plazmodel
 Require-Bundle: org.eclipse.swt,
  org.eclipse.jface,
  org.eclipse.osgi;bundle-version="3.23.100",
- org.eclipse.set.model.planpro;bundle-version="2.6.0"
+ org.eclipse.set.model.planpro;bundle-version="2.6.0",
+ org.mockito.mockito-core
 Automatic-Module-Name: org.eclipse.set.feature.plazmodel.test
 Bundle-ClassPath: resource/,
  .
 Bundle-RequiredExecutionEnvironment: JavaSE-21
-Import-Package: org.apache.commons.csv;version="[1.9.0,2.0.0)",
+Import-Package: net.bytebuddy;version="[1.17.0,2.0.0)",
+ net.bytebuddy.agent;version="[1.17.0,2.0.0)",
+ org.apache.commons.csv;version="[1.9.0,2.0.0)",
  org.apache.commons.lang3.reflect;version="[3.17.0,4.0.0)",
  org.eclipse.emf.common.util;version="[2.42.0,3.0.0)",
  org.eclipse.set.application.geometry,

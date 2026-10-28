@@ -15,6 +15,7 @@ import org.eclipse.set.basis.MixedStringComparator;
 import org.eclipse.set.basis.NumericFirstComparatorDecorator;
 import org.eclipse.set.basis.ToolboxProperties;
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt;
+import org.eclipse.set.model.planpro.Geodaten.GEO_Knoten;
 
 /**
  * Common toolbox constants.
@@ -60,11 +61,6 @@ public final class ToolboxConstants {
 		public static final String TOPKANTE_TO_ADJACENT_TOPKANTEN = "toolbox.cache.topkante-to-adjacent-topkanten";
 
 		/**
-		 * The geometry of the GEO_Kante
-		 */
-		public static final String GEOKANTE_GEOMETRY = "toolbox.cache.geokante-geometry";
-
-		/**
 		 * The id of the problem message cache.
 		 */
 		public static final String PROBLEM_MESSAGE = "toolbox.cache.problem-message";
@@ -99,6 +95,10 @@ public final class ToolboxConstants {
 		 */
 		public static final String POINT_OBJECT_ROUTE_KM = "toolbox.cache.point-object-route-km";
 
+		/**
+		 * The cache id for the coordinate of {@link GEO_Knoten}
+		 */
+		public static final String GEO_KNOTEN_COORDINATE = "toolbox.cache.geoKnoten.coordinate";
 	}
 
 	/**
@@ -394,6 +394,21 @@ public final class ToolboxConstants {
 	 * length, which belong to this TOP_Kante (in Meter)
 	 */
 	public static final double TOP_GEO_LENGTH_TOLERANCE = 0.01;
+
+	/**
+	 * The progress to determine GEO_Kante Geometry
+	 */
+	public static final String GEOKANTE_GEOMETRY_PROGRESS = "geokante-geometry-progress";
+
+	/**
+	 * The progress to calculate Banking line
+	 */
+	public static final String BANKING_PROGRESS = "geokante-geometry-progress";
+
+	/**
+	 * The prefix name for background progress
+	 */
+	public static final String BACKGROUND_PROGESS_THREAD_NAME_PREFIX = "background-progress";
 
 	/**
 	 * The separator for supported PlanPro, Signalbegriffe_Ril301 versions

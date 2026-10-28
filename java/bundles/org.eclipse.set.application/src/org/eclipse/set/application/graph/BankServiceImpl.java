@@ -101,35 +101,34 @@ public class BankServiceImpl implements BankService, EventHandler {
 
 			// final Use thread for final find banking value,
 			// because this process can take a long time
-			findBankingThread = new Thread() {
-				@Override
-				public void run() {
-					try {
-						isComplete = false;
-						addBankingForContainer(collection,
-								PlanProSchnittstelleExtensions.getContainer(
-										planProSchnittstelle,
-										ContainerType.INITIAL));
-						addBankingForContainer(collection,
-								PlanProSchnittstelleExtensions.getContainer(
-										planProSchnittstelle,
-										ContainerType.FINAL));
-						addBankingForContainer(collection,
-								PlanProSchnittstelleExtensions.getContainer(
-										planProSchnittstelle,
-										ContainerType.SINGLE));
-						isComplete = true;
-						final HashMap<String, Object> properties = new HashMap<>();
-						properties.put(EventConstants.EVENT_TOPIC,
-								Events.BANKING_PROCESS_DONE);
-						properties.put(IEventBroker.DATA, modelSession);
-						eventAdmin.sendEvent(new Event(
-								Events.BANKING_PROCESS_DONE, properties));
-					} catch (final InterruptedException e) {
-						Thread.currentThread().interrupt();
-					}
+			findBankingThread = new Thread(() -> {
+				try {
+					isComplete = false;
+					addBankingForContainer(collection,
+							PlanProSchnittstelleExtensions.getContainer(
+									planProSchnittstelle,
+									ContainerType.INITIAL));
+					addBankingForContainer(collection,
+							PlanProSchnittstelleExtensions.getContainer(
+									planProSchnittstelle, ContainerType.FINAL));
+					addBankingForContainer(collection,
+							PlanProSchnittstelleExtensions.getContainer(
+									planProSchnittstelle,
+									ContainerType.SINGLE));
+					isComplete = true;
+					final HashMap<String, Object> properties = new HashMap<>();
+					properties.put(EventConstants.EVENT_TOPIC,
+							Events.BANKING_PROCESS_DONE);
+					properties.put(IEventBroker.DATA, modelSession);
+					eventAdmin.sendEvent(
+							new Event(Events.BANKING_PROCESS_DONE, properties));
+				} catch (final InterruptedException e) {
+					Thread.currentThread().interrupt();
 				}
-			};
+			}, String.format("%s/%s/%s", //$NON-NLS-1$ ,
+					ToolboxConstants.BACKGROUND_PROGESS_THREAD_NAME_PREFIX,
+					modelSession.getToolboxFile().getRole().toString(), //
+					ToolboxConstants.BANKING_PROGRESS));
 			findBankingThread.start();
 
 		}
