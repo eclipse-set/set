@@ -51,7 +51,6 @@
 		<module>bundles/org.eclipse.set.feature.table</module>
 		<module>bundles/org.eclipse.set.feature.table.test</module>
 		<module>bundles/org.eclipse.set.feature.table.pt1</module>
-		<module>bundles/org.eclipse.set.feature.table.pt1.test</module>
 		<module>bundles/org.eclipse.set.feature.export</module>
 		<module>bundles/org.eclipse.set.feature.integration</module>
 		<!-- Currently given't test in this package -->
@@ -108,6 +107,7 @@
 		<module>bundles/org.eclipse.set.utils.table.test</module>
 		<module>bundles/org.eclipse.set.utils.test</module>
 		<module>java-test</module>
+		<module>osgi-test</module>
 	</modules>
 
 	<profiles>
@@ -266,6 +266,12 @@
 					</plugin>
 
 					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>build-helper-maven-plugin</artifactId>
+						<version>3.6.2</version>
+					</plugin>
+
+					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-checkstyle-plugin</artifactId>
 						<version>3.6.0</version>
@@ -314,13 +320,7 @@
 									<os>win32</os>
 									<ws>win32</ws>
 									<arch>x86_64</arch>
-								</environment>
-								<!-- Only for osgi plugin test -->
-								<environment>
-									<os>linux</os>
-									<ws>gtk</ws>
-									<arch>x86_64</arch>
-								</environment>						
+								</environment>				
 							</environments>
 							<dependency-resolution>
 								<optionalDependencies>ignore</optionalDependencies>

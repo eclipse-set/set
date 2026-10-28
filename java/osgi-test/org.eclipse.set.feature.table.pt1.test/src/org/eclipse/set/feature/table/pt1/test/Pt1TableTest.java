@@ -54,7 +54,7 @@ public abstract class Pt1TableTest extends AbstractToolboxTest {
 	protected List<String> expectedTransformationServices;
 	protected IModelSession modelSession;
 
-	protected String TEMPLATE_DIR = "../org.eclipse.set.feature/rootdir/data/export";
+	protected String TEMPLATE_DIR = "../data/export";
 
 	protected String TEMPLATE_LOCAL_DIR = "./data/export";
 
