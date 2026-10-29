@@ -420,9 +420,15 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 								filter [
 									hasSignalbegriffID(typeof(Zs6))
 								]
-							fstrSignalisierung.map[signalSignalbegriff].exists [
+							val existZs6Begriffe = fstrSignalisierung.map [
+								signalSignalbegriff
+							].exists [
 								zs6Begriffes.contains(it)
-							].translate
+							]
+							if (existZs6Begriffe) {
+								return '''«Boolean.TRUE.translate»«IF zs6Begriffes.exists[signalSignalbegriffAllg?.geschaltet?.wert]» (F)«ENDIF»'''
+							}
+							return Boolean.FALSE.translate
 						} else {
 							return null
 						}
@@ -437,11 +443,15 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 				fstrZugRangier,
 				[
 					followBlocks([
-						fstrSignalisierung.map [
+						val zs13Begriff = fstrSignalisierung.map [
 							signalSignalbegriff
-						].exists [
+						].filter [
 							signalbegriffID instanceof Zs13
-						] ? "x" : null
+						]
+						if (zs13Begriff.nullOrEmpty) {
+							return ''
+						}
+						return '''«Boolean.TRUE.translate»«IF zs13Begriff.exists[signalSignalbegriffAllg?.geschaltet?.wert]» (F)«ENDIF»'''
 					], nextBlockFstr)
 				]
 			)
@@ -490,13 +500,19 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 				fstrZugRangier,
 				[
 					followBlocks([
-						fstrFahrweg.signalbegriffeImFahrweg.findFirst [ b1 |
-							b1.hasSignalbegriffID(typeof(Zs6)) &&
-								fstrSignalisierung.exists [ b2 |
-									b2.signalSignalbegriff === b1
-								]
-						]?.signalRahmen?.signal?.bezeichnung?.
-							bezeichnungTabelle?.wert
+						val begriff = fstrFahrweg.signalbegriffeImFahrweg.
+							findFirst [ b1 |
+								b1.hasSignalbegriffID(typeof(Zs6)) &&
+									fstrSignalisierung.exists [ b2 |
+										b2.signalSignalbegriff === b1
+									]
+							]
+						if (begriff === null) {
+							return ""
+						}
+						return '''«begriff.signalRahmen?.signal?.bezeichnung?.
+							bezeichnungTabelle?.wert»«IF begriff?.signalSignalbegriffAllg?.geschaltet?.wert» (F)«ENDIF»'''
+
 					], nextBlockFstr)
 				]
 			)
@@ -570,9 +586,9 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 						val content = switchCase?.filling?.apply(fstr)
 						return content?.filterNull?.sortWith(
 							switchCase?.comparator)?.join(
-							switchCase?.seperator ===
-								null ? ITERABLE_FILLING_SEPARATOR : switchCase.
-								seperator)
+							switchCase?.seperator === null
+								? ITERABLE_FILLING_SEPARATOR
+								: switchCase.seperator)
 					], nextBlockFstr)
 				]
 			)
