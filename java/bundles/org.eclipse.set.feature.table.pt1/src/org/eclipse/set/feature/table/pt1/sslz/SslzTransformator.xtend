@@ -449,7 +449,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 							signalbegriffID instanceof Zs13
 						]
 						if (zs13Begriff.nullOrEmpty) {
-							return Boolean.FALSE.translate
+							return ''
 						}
 						return '''«Boolean.TRUE.translate»«IF zs13Begriff.exists[signalSignalbegriffAllg?.geschaltet?.wert]» (F)«ENDIF»'''
 					], nextBlockFstr)
