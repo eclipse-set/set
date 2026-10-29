@@ -62,6 +62,7 @@ import static extension org.eclipse.set.ppmodel.extensions.SignalbegriffExtensio
 import static extension org.eclipse.set.ppmodel.extensions.utils.CollectionExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Ne2
+import org.eclipse.set.core.services.Services
 
 /**
  * This class extends {@link Signal}.
@@ -164,11 +165,16 @@ class SignalExtensions extends PunktObjektExtensions {
 	def static boolean isInWirkrichtungOfSignal(
 		TopologicalGraphService topGraphService, Signal signal,
 		Punkt_Objekt object) {
-		val startPoint = new TopPoint(signal)
-		val endPoint = new TopPoint(object)
-		val inDirection = signal.singlePoint.isWirkrichtungTopDirection
-		return topGraphService.findShortestPathInDirection(startPoint, endPoint,
-			inDirection).isPresent
+		return signal.singlePoints.forall [ signalPotk |
+			val startPoint = new TopPoint(signalPotk)
+			val inDirection = signalPotk.isWirkrichtungTopDirection
+			return object.singlePoints.forall [ potk |
+				val endPoint = new TopPoint(potk)
+				return topGraphService.
+					findShortestPathInDirection(startPoint, endPoint,
+						inDirection).isPresent
+			]
+		]
 	}
 
 	def static boolean isInWirkrichtungOfSignal(
@@ -462,7 +468,6 @@ class SignalExtensions extends PunktObjektExtensions {
 		if (area.contains(signal, tolerantDistance)) {
 			return true
 		}
-
 		// When vorsignal of signalbalken in area
 		val vorsignalbalkenTypes = Set.of(Ne31str, Ne32str, Ne33str, Ne34str,
 			Ne35str)
@@ -474,28 +479,38 @@ class SignalExtensions extends PunktObjektExtensions {
 
 		return !findRelevantPOInRadius(
 			signal,
-			[ s |
-				val signalRealAktiv = s.signalReal?.signalRealAktiv
-				val aktivSchrimType = s.signalReal?.signalRealAktivSchirm?.
-					signalArt?.wert
-				val aea = signalRealAktiv?.IDStellelement?.value?.
-					IDInformation?.value
-				if (signalRealAktiv !== null && aktivSchrimType ==
-					ENUMSignalArt.ENUM_SIGNAL_ART_VORSIGNAL) {
-					return !area.IDAussenelementansteuerung?.value?.
-						IDInformationPrimaer?.map [
-							value
-						].exists [
-							it === aea
-						]
-				}
-				return s.hasSignalbegriffID(Ne2) && area.contains(s)
-
+			[
+				Services.topGraphService.
+					isVorsignalOfSignalBalken(signal, it, #[area])
 			],
 			[it.signal],
 			500,
 			Optional.of(signal.singlePoint.isWirkrichtungTopDirection)
 		).nullOrEmpty
+	}
+
+	def static boolean isVorsignalOfSignalBalken(
+		TopologicalGraphService topGraphSerivce, Signal balkenSignal,
+		Signal vorsignal, Iterable<Stell_Bereich> controlAreas) {
+		val signalRealAktiv = vorsignal.signalReal?.signalRealAktiv
+		val aktivSchrimType = vorsignal.signalReal?.signalRealAktivSchirm?.
+			signalArt?.wert
+		val aea = signalRealAktiv?.IDStellelement?.value?.IDInformation?.value
+		if (signalRealAktiv !== null && aktivSchrimType ==
+			ENUMSignalArt.ENUM_SIGNAL_ART_VORSIGNAL) {
+			return controlAreas.
+				exists[IDAussenelementansteuerung?.value == aea] && //
+			// Only do check direction, when necessary
+			!isInWirkrichtungOfSignal(Services.topGraphService, vorsignal,
+				balkenSignal)
+		}
+		return vorsignal.hasSignalbegriffID(Ne2) && controlAreas.exists [
+			contains(vorsignal)
+		] && //
+		// Only do check direction, when necessary
+		!isInWirkrichtungOfSignal(Services.topGraphService, vorsignal,
+			balkenSignal)
+
 	}
 
 	def static List<FMA_Komponente> getFmaKomponenten(Signal signal) {

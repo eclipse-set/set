@@ -12,7 +12,6 @@ package org.eclipse.set.feature.table.pt1.sskx;
 
 import static org.eclipse.set.feature.table.pt1.sskx.SskxColumns.Regelzeichnung;
 import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.*;
-import static org.eclipse.set.ppmodel.extensions.EObjectExtensions.getNullableObject;
 import static org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.getSinglePoint;
 import static org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteExtensions.isWirkrichtungTopDirection;
 import static org.eclipse.set.ppmodel.extensions.SignalExtensions.getSignalbegriffe;
@@ -31,15 +30,14 @@ import java.util.stream.Stream;
 
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.core.services.graph.BankService;
+import org.eclipse.set.core.services.graph.TopologicalGraphService;
 import org.eclipse.set.feature.table.pt1.ssks.AbstractSignalTableTransform;
-import org.eclipse.set.model.planpro.Ansteuerung_Element.Aussenelementansteuerung;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
 import org.eclipse.set.model.planpro.BasisTypen.ENUMLinksRechts;
 import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt;
 import org.eclipse.set.model.planpro.Geodaten.Technischer_Punkt;
 import org.eclipse.set.model.planpro.Gleis.Gleis_Bezeichnung;
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Ne14;
-import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Ne2;
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Ne31str;
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Ne32str;
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Ne33str;
@@ -51,13 +49,10 @@ import org.eclipse.set.model.planpro.Signalbegriffe_Struktur.Signalbegriff_ID_Ty
 import org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt;
 import org.eclipse.set.model.planpro.Signale.ENUMBeleuchtet;
 import org.eclipse.set.model.planpro.Signale.ENUMGeltungsbereich;
-import org.eclipse.set.model.planpro.Signale.ENUMSignalArt;
 import org.eclipse.set.model.planpro.Signale.ENUMSignalFunktion;
 import org.eclipse.set.model.planpro.Signale.Signal;
 import org.eclipse.set.model.planpro.Signale.Signal_Rahmen;
-import org.eclipse.set.model.planpro.Signale.Signal_Real_Aktiv_AttributeGroup;
 import org.eclipse.set.model.planpro.Signale.Signal_Signalbegriff;
-import org.eclipse.set.model.planpro.Verweise.ID_Information_Primaer_TypeClass;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.TableRow;
 import org.eclipse.set.ppmodel.extensions.BasisAttributExtensions;
@@ -68,7 +63,6 @@ import org.eclipse.set.ppmodel.extensions.SignalBefestigungExtensions;
 import org.eclipse.set.ppmodel.extensions.SignalExtensions;
 import org.eclipse.set.ppmodel.extensions.SignalRahmenExtensions;
 import org.eclipse.set.ppmodel.extensions.SignalbegriffExtensions;
-import org.eclipse.set.ppmodel.extensions.StellBereichExtensions;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.eclipse.set.utils.table.AbstractTableModelTransformator;
 import org.eclipse.set.utils.table.TMFactory;
@@ -87,6 +81,7 @@ public class SskxTransformator extends AbstractSignalTableTransform {
 	private static final List<Class<? extends Signalbegriff_ID_TypeClass>> DISTANCE_SIGNAL_INDICATOR_BAR_BEGRIFF = List
 			.of(Ne31str.class, Ne32str.class, Ne33str.class, Ne34str.class,
 					Ne35str.class);
+	private final TopologicalGraphService topgraphService;
 
 	/**
 	 * Constructor
@@ -104,10 +99,12 @@ public class SskxTransformator extends AbstractSignalTableTransform {
 	 */
 	SskxTransformator(final Set<ColumnDescriptor> cols,
 			final EnumTranslationService enumTranslationService,
-			final BankService bankingService, final EventAdmin eventAdmin,
-			final String tableShortCut) {
+			final BankService bankingService,
+			final TopologicalGraphService topgraphService,
+			final EventAdmin eventAdmin, final String tableShortCut) {
 		super(cols, enumTranslationService, bankingService, eventAdmin,
 				tableShortCut);
+		this.topgraphService = topgraphService;
 	}
 
 	/**
@@ -143,7 +140,7 @@ public class SskxTransformator extends AbstractSignalTableTransform {
 	}
 
 	@SuppressWarnings("boxing")
-	private static Predicate<Signal> vorSignalBalkenCondition(
+	private Predicate<Signal> vorSignalBalkenCondition(
 			final Set<Stell_Bereich> areas) {
 		return signal -> {
 			final Set<Signal_Signalbegriff> signalbegriffe = getSignalbegriffe(
@@ -160,43 +157,8 @@ public class SskxTransformator extends AbstractSignalTableTransform {
 			// Check if exist relevant Vorsignal, which lie in 500m in direction
 			// of SignalBalken
 			return !PunktObjektExtensions.findRelevantPOInRadius(signal, //
-					s -> {
-						final Signal_Real_Aktiv_AttributeGroup signalRealAktiv = getNullableObject(
-								s, e -> e.getSignalReal().getSignalRealAktiv())
-										.orElse(null);
-						final Aussenelementansteuerung aea = getNullableObject(
-								s,
-								e -> signalRealAktiv.getIDStellelement()
-										.getValue()
-										.getIDInformation()
-										.getValue()).orElse(null);
-						final ENUMSignalArt aktivSchrimType = getNullableObject(
-								s,
-								e -> e.getSignalReal()
-										.getSignalRealAktivSchirm()
-										.getSignalArt()
-										.getWert()).orElse(null);
-						if (signalRealAktiv != null && aea != null
-								&& aktivSchrimType == ENUMSignalArt.ENUM_SIGNAL_ART_VORSIGNAL) {
-							return areas.stream()
-									.map(StellBereichExtensions::getAussenElementAnsteuerung)
-									.filter(Objects::nonNull)
-									.flatMap(areaAea -> areaAea
-											.getIDInformationPrimaer()
-											.stream())
-									.map(ID_Information_Primaer_TypeClass::getValue)
-									.filter(Objects::nonNull)
-									.anyMatch(areaAEA -> areaAEA.equals(aea));
-						}
-
-						return SignalExtensions.hasSignalbegriffID(signal,
-								Ne2.class)
-								&& areas.stream()
-										.anyMatch(
-												area -> BereichObjektExtensions
-														.contains(area, s));
-
-					}, //
+					s -> SignalExtensions.isVorsignalOfSignalBalken(
+							topgraphService, signal, s, areas), //
 					MultiContainer_AttributeGroup::getSignal, //
 					500, //
 					// The Vorsignal should lie in direction of SignalBalken

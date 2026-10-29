@@ -22,6 +22,7 @@ import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.core.services.graph.BankService;
+import org.eclipse.set.core.services.graph.TopologicalGraphService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.messages.Messages;
@@ -69,6 +70,9 @@ public class SskxTransformationService extends
 	@Reference
 	private EventAdmin eventAdmin;
 
+	@Reference
+	private TopologicalGraphService topgraphService;
+
 	/**
 	 * constructor.
 	 */
@@ -92,7 +96,8 @@ public class SskxTransformationService extends
 	@Override
 	public TableModelTransformator<MultiContainer_AttributeGroup> createTransformator() {
 		return new SskxTransformator(cols, enumTranslationService, bankService,
-				eventAdmin, messages.ToolboxTableNameSskxShort);
+				topgraphService, eventAdmin,
+				messages.ToolboxTableNameSskxShort);
 	}
 
 	@Override
