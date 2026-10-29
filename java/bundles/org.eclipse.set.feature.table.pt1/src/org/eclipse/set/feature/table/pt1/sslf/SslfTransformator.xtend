@@ -254,6 +254,6 @@ class SslfTransformator extends AbstractPlanPro2TableModelTransformator {
 		NB_Zone_Grenze nbZoneGrenze) {
 		val zone = nbZoneGrenze.IDNBZone?.value
 		val nb = zone.IDNB?.value
-		return '''«nb?.bezeichnung?.kennzahl?.wert» Nb«nb?.bezeichnung?.bezeichnungNB?.wert.intValue»/«zone?.bezeichnung?.bezeichnungNBZone?.wert.intValue»'''
+		return '''«nb?.bezeichnung?.kennzahl?.wert»Nb«nb?.bezeichnung?.bezeichnungNB?.wert.intValue»/«zone?.bezeichnung?.bezeichnungNBZone?.wert.intValue»'''
 	}
 }
