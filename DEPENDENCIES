@@ -58,9 +58,9 @@ maven/mavencentral/org.dom4j/dom4j/2.1.3, LicenseRef-Dom4j, approved, CQ21947
 maven/mavencentral/org.eclipse.set/org.eclipse.set.application.set/2.7.0-SNAPSHOT, EPL-2.0, approved, technology.set
 maven/mavencentral/org.eclipse.set/org.eclipse.set.application/2.7.0-SNAPSHOT, EPL-2.0, approved, technology.set
 maven/mavencentral/org.eclipse.set/org.eclipse.set.basis/2.7.0-SNAPSHOT, EPL-2.0, approved, technology.set
-maven/mavencentral/org.eclipse.set/org.eclipse.set.browser.cef.win32/2.7.0-20261020.103338-7, EPL-2.0, approved, technology.set
-maven/mavencentral/org.eclipse.set/org.eclipse.set.browser.lib/2.7.0-20261020.103338-7, EPL-2.0, approved, technology.set
-maven/mavencentral/org.eclipse.set/org.eclipse.set.browser/2.7.0-20261020.103338-7, EPL-2.0, approved, technology.set
+maven/mavencentral/org.eclipse.set/org.eclipse.set.browser.cef.win32/2.7.0-20261029.145543-14, EPL-2.0, approved, technology.set
+maven/mavencentral/org.eclipse.set/org.eclipse.set.browser.lib/2.7.0-20261029.145543-14, EPL-2.0, approved, technology.set
+maven/mavencentral/org.eclipse.set/org.eclipse.set.browser/2.7.0-20261029.145543-14, EPL-2.0, approved, technology.set
 maven/mavencentral/org.eclipse.set/org.eclipse.set.core.services/2.7.0-SNAPSHOT, EPL-2.0, approved, technology.set
 maven/mavencentral/org.eclipse.set/org.eclipse.set.core/2.7.0-SNAPSHOT, EPL-2.0, approved, technology.set
 maven/mavencentral/org.eclipse.set/org.eclipse.set.emfforms/2.7.0-SNAPSHOT, EPL-2.0, approved, technology.set
@@ -839,7 +839,7 @@ npm/npmjs/@typescript-eslint/types/8.71.2, MIT, approved, #32180
 npm/npmjs/@typescript-eslint/typescript-estree/8.71.2, MIT, approved, #32218
 npm/npmjs/@typescript-eslint/utils/8.71.2, MIT, approved, #32299
 npm/npmjs/@typescript-eslint/visitor-keys/8.71.2, MIT, approved, #32211
-npm/npmjs/@vitejs/plugin-vue/6.0.9, MIT, approved, #26690
+npm/npmjs/@vitejs/plugin-vue/6.0.10, MIT, approved, #26690
 npm/npmjs/@volar/language-core/2.4.28, MIT, approved, #15619
 npm/npmjs/@volar/source-map/2.4.28, MIT, approved, #15620
 npm/npmjs/@volar/typescript/2.4.28, MIT, approved, #15615
