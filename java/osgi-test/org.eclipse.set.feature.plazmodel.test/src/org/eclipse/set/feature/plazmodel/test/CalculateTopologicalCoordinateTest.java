@@ -38,7 +38,12 @@ import org.eclipse.set.application.geometry.PointObjectPositionServiceImpl;
 import org.eclipse.set.basis.Pair;
 import org.eclipse.set.basis.constants.ContainerType;
 import org.eclipse.set.core.services.Services;
+import org.eclipse.set.core.services.cache.CacheService;
 import org.eclipse.set.core.services.cache.NoCacheService;
+import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
+import org.eclipse.set.core.services.geometry.GeoKanteGeometryService;
+import org.eclipse.set.core.services.graph.TopologicalGraphService;
+import org.eclipse.set.core.services.session.SessionService;
 import org.eclipse.set.feature.plazmodel.check.GeoCoordinateValid;
 import org.eclipse.set.feature.plazmodel.export.TopologicalCoordinate;
 import org.eclipse.set.model.planpro.Basisobjekte.Bereich_Objekt;
@@ -47,11 +52,13 @@ import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_Attribu
 import org.eclipse.set.model.planpro.Ortung.FMA_Komponente;
 import org.eclipse.set.model.planpro.PZB.PZB_Element;
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
+import org.eclipse.set.osgi.test.utils.AbstractOsgiTableTest;
+import org.eclipse.set.osgi.test.utils.AbstractOsgiTest;
+import org.eclipse.set.osgi.test.utils.TestFile;
 import org.eclipse.set.ppmodel.extensions.EObjectExtensions;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
 import org.eclipse.set.ppmodel.extensions.PunktObjektExtensions;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
-import org.eclipse.set.unittest.utils.AbstractToolboxTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -59,6 +66,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.locationtech.jts.geom.Coordinate;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
+import org.osgi.service.event.EventAdmin;
 
 import com.google.common.collect.Streams;
 
@@ -67,7 +75,7 @@ import com.google.common.collect.Streams;
  * 
  * @author truong
  */
-public class CalculateTopologicalCoordinateTest extends AbstractToolboxTest {
+public class CalculateTopologicalCoordinateTest extends AbstractOsgiTableTest {
 
 	private static String[] getCoordinateString(final Coordinate coord) {
 		if (coord == null) {
@@ -104,6 +112,18 @@ public class CalculateTopologicalCoordinateTest extends AbstractToolboxTest {
 
 	GeoCoordinateValid testee;
 	List<TopologicalCoordinate> topologicalCoordinates;
+
+	@Override
+	public String getTableCSVHeader(Table table) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getTestTableReferenceName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	private void givenGeoCoordinateValid() throws IllegalAccessException {
 		testee = new GeoCoordinateValid();
@@ -226,6 +246,60 @@ public class CalculateTopologicalCoordinateTest extends AbstractToolboxTest {
 									}));
 				});
 		topologicalCoordinates = testee.getTopologischeCoordinaten();
+	}
+
+	@Override
+	protected CacheService getCacheService() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected EnumTranslationService getEnumTranslationService() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected EventAdmin getEventAdmin() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected GeoKanteGeometryService getGeometryService() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected String getReferenceDir() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected SessionService getSessionService() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected TestFile getTestFile() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected Class<? extends AbstractOsgiTest> getTestResourceClass() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected TopologicalGraphService getTopologicalGraphService() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@BeforeEach
