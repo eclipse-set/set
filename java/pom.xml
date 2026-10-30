@@ -57,7 +57,6 @@
 		<!-- <module>bundles/org.eclipse.set.feature.export.test</module> -->
 		<module>bundles/org.eclipse.set.feature.validation</module>
 		<module>bundles/org.eclipse.set.feature.plazmodel</module>
-		<module>bundles/org.eclipse.set.feature.plazmodel.test</module>
 		<module>bundles/org.eclipse.set.feature.enumtransformation</module>
 		<module>bundles/org.eclipse.set.feature.siteplan</module>
 		<module>bundles/org.eclipse.set.feature.siteplan.test</module>

@@ -16,6 +16,7 @@
   </parent>
   <modules>
     <module>org.eclipse.set.feature.table.pt1.test</module>
+    <module>org.eclipse.set.feature.plazmodel.test</module>
   </modules>
   <profiles>
     <profile>
