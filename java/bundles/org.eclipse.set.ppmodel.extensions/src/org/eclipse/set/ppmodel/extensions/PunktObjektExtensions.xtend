@@ -12,6 +12,7 @@ import com.google.common.collect.Range
 import java.math.BigDecimal
 import java.util.List
 import java.util.Optional
+import java.util.Set
 import org.eclipse.set.basis.constants.ToolboxConstants
 import org.eclipse.set.basis.graph.DirectedEdge
 import org.eclipse.set.basis.graph.TopPoint
@@ -28,6 +29,7 @@ import org.eclipse.set.model.planpro.Geodaten.TOP_Knoten
 import org.eclipse.set.model.planpro.Ortung.FMA_Komponente
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Ra12
 import org.eclipse.set.model.planpro.Signale.Signal
+import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.locationtech.jts.geom.Coordinate
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -267,8 +269,8 @@ class PunktObjektExtensions extends BasisObjektExtensions {
 		val result = routeThroughBereichObjekt.map [ route |
 			try {
 				return route ->
-					po?.singlePoints?.first?.getStreckeKmThroughProjection(route)?.
-						toTableDecimal(3)
+					po?.singlePoints?.first?.
+						getStreckeKmThroughProjection(route)?.toTableDecimal(3)
 			} catch (Exception e) {
 				logger.error(
 					"Can't find the Signal route km through projection point on route",
@@ -345,5 +347,23 @@ class PunktObjektExtensions extends BasisObjektExtensions {
 
 	def static boolean existLateralDistance(Punkt_Objekt po) {
 		return po.singlePoints.exists[seitlicherAbstand?.wert !== null]
+	}
+
+	def static <T extends Punkt_Objekt> Set<T> findRelevantPOInRadius(T po,
+		(T)=>Boolean predicate,
+		(MultiContainer_AttributeGroup)=>Iterable<T> getPoFromContainer,
+		double radius, Optional<Boolean> inTopDirection) {
+		val relevantPO = getPoFromContainer.apply(po.container).filter [
+			predicate.apply(it)
+		]
+		val poInRadius = Services.topGraphService.findClosestPoints(
+			new TopPoint(po), relevantPO.map[new TopPoint(it)].toSet, radius,
+			inTopDirection)
+		return relevantPO.filter [ s |
+			poInRadius.exists [ p |
+				s.singlePoint.abstand.wert === p.distance &&
+					s.singlePoint.topKante === p.edge
+			]
+		].toSet
 	}
 }

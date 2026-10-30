@@ -481,7 +481,8 @@ public final class TableServiceImpl implements TableService {
 		TableServiceUtils.clearEmptyRow(resultTable);
 		saveLastSuccessfulTable.accept(resultTable);
 
-		getModelService(tableInfo).addAdditionRow(stateTable, resultTable);
+		getModelService(tableInfo).addAdditionRow(stateTable, resultTable,
+				controlAreaIds);
 		saveLastSuccessfulTable.accept(resultTable);
 	}
 
@@ -630,16 +631,6 @@ public final class TableServiceImpl implements TableService {
 				throw new RuntimeException(e);
 			} catch (final InterruptedException e) {
 				Thread.currentThread().interrupt();
-			} finally {
-				transformTableThreads.stream()
-						.map(t -> getTableInfo(t.getKey()))
-						.filter(tableInfo -> {
-							final TableStatus status = tablesStatus
-									.get(tableInfo);
-							return !status.isSortSuccess()
-									|| status.getTransformException()
-											.isPresent();
-						});
 			}
 		}
 	}

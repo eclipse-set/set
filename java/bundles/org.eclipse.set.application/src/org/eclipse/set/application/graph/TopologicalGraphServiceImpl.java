@@ -14,12 +14,16 @@ import static org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.getCont
 import static org.eclipse.set.ppmodel.extensions.MultiContainer_AttributeGroupExtensions.getPlanProSchnittstelle;
 
 import java.math.BigDecimal;
+import java.util.Collections;
 import java.util.Deque;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 import org.eclipse.e4.core.services.events.IEventBroker;
@@ -46,12 +50,15 @@ import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.alg.shortestpath.PathValidator;
 import org.jgrapht.alg.shortestpath.YenKShortestPath;
 import org.jgrapht.graph.WeightedPseudograph;
+import org.jgrapht.traverse.ClosestFirstIterator;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.event.Event;
 import org.osgi.service.event.EventAdmin;
 import org.osgi.service.event.EventConstants;
 import org.osgi.service.event.EventHandler;
+
+import com.google.common.collect.Streams;
 
 /**
  * TopologicalGraph service for finding distances in the topological model
@@ -178,7 +185,8 @@ public class TopologicalGraphServiceImpl
 			return Optional.of(
 					new TopPath(List.of(from.edge()), BigDecimal.ZERO, from));
 		}
-		final PathValidator<AsSplitTopGraph.Node, AsSplitTopGraph.Edge> validator = getTopologicalPathValidator();
+		final PathValidator<AsSplitTopGraph.Node, AsSplitTopGraph.Edge> validator = getTopologicalPathValidator(
+				Edge::edge);
 
 		final InputData inputData = getInputData(from, to, Optional.empty());
 
@@ -196,16 +204,15 @@ public class TopologicalGraphServiceImpl
 
 	}
 
-	private static PathValidator<AsSplitTopGraph.Node, AsSplitTopGraph.Edge> getTopologicalPathValidator() {
-		final PathValidator<AsSplitTopGraph.Node, AsSplitTopGraph.Edge> validator = (
-				path, edge) -> {
+	private static <V, E> PathValidator<V, E> getTopologicalPathValidator(
+			final Function<E, TOP_Kante> toTopKanteFunc) {
+		return (path, edge) -> {
 			if (path.getEdgeList().isEmpty()) {
 				return true;
 			}
-			return TopKanteExtensions.isRoute(edge.edge(),
-					path.getEdgeList().getLast().edge());
+			return TopKanteExtensions.isRoute(toTopKanteFunc.apply(edge),
+					toTopKanteFunc.apply(path.getEdgeList().getLast()));
 		};
-		return validator;
 	}
 
 	@Override
@@ -335,6 +342,52 @@ public class TopologicalGraphServiceImpl
 		}
 
 		return minPoint;
+	}
+
+	@Override
+	public Set<TopPoint> findClosestPoints(final TopPoint start,
+			final Set<TopPoint> candidates, final double radius,
+			final Optional<Boolean> inTopDirection) {
+		if (candidates.isEmpty()) {
+			return Collections.emptySet();
+		}
+
+		final InputData inputData = getInputData(start, null, inTopDirection);
+		// Add candidates point to graph view
+		final Map<Node, TopPoint> pointMap = new HashMap<>();
+		for (final TopPoint point : candidates) {
+			try {
+				pointMap.put(inputData.graphView().splitGraphAt(point), point);
+			} catch (final IllegalArgumentException e) {
+				// the candidates point lie on the edge, which opposite of
+				// inTopDirection
+				continue;
+			}
+		}
+
+		final ClosestFirstIterator<Node, Edge> closestFirstIterator = new ClosestFirstIterator<>(
+				inputData.graphView(), inputData.fromNode(), radius);
+		if (!closestFirstIterator.hasNext()) {
+			return Collections.emptySet();
+		}
+
+		final Set<TopPoint> points = new HashSet<>();
+		Streams.stream(closestFirstIterator).forEach(node -> {
+			if (node == inputData.fromNode || node.node() != null) {
+				return;
+			}
+			final Optional<TopPath> topologicalShortesPath = inTopDirection
+					.isPresent()
+							? findShortestPathInDirection(start,
+									pointMap.get(node),
+									inTopDirection.get().booleanValue())
+							: findTopologicalShortesPath(start,
+									pointMap.get(node));
+			if (!topologicalShortesPath.isEmpty()) {
+				points.add(pointMap.get(node));
+			}
+		});
+		return points;
 	}
 
 	private InputData getInputData(final TopPoint from, final TopPoint to,
