@@ -14,59 +14,50 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVFormat.Builder;
-import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.lang3.reflect.FieldUtils;
-import org.eclipse.set.application.geometry.GeoKanteGeometryServiceImpl;
-import org.eclipse.set.application.geometry.GeoKanteGeometrySessionData;
-import org.eclipse.set.application.geometry.PointObjectPositionServiceImpl;
 import org.eclipse.set.basis.Pair;
 import org.eclipse.set.basis.constants.ContainerType;
-import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.cache.CacheService;
-import org.eclipse.set.core.services.cache.NoCacheService;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.core.services.geometry.GeoKanteGeometryService;
+import org.eclipse.set.core.services.geometry.PointObjectPositionService;
 import org.eclipse.set.core.services.graph.TopologicalGraphService;
 import org.eclipse.set.core.services.session.SessionService;
 import org.eclipse.set.feature.plazmodel.check.GeoCoordinateValid;
-import org.eclipse.set.feature.plazmodel.export.TopologicalCoordinate;
+import org.eclipse.set.feature.plazmodel.utils.TopologicalCoordinate;
 import org.eclipse.set.model.planpro.Basisobjekte.Bereich_Objekt;
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt;
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup;
 import org.eclipse.set.model.planpro.Ortung.FMA_Komponente;
 import org.eclipse.set.model.planpro.PZB.PZB_Element;
-import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
+import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.osgi.test.utils.AbstractOsgiTableTest;
 import org.eclipse.set.osgi.test.utils.AbstractOsgiTest;
+import org.eclipse.set.osgi.test.utils.OsgiTestTestFile;
+import org.eclipse.set.osgi.test.utils.TestFailHandle;
 import org.eclipse.set.osgi.test.utils.TestFile;
 import org.eclipse.set.ppmodel.extensions.EObjectExtensions;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
 import org.eclipse.set.ppmodel.extensions.PunktObjektExtensions;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
 import org.locationtech.jts.geom.Coordinate;
-import org.mockito.MockedStatic;
-import org.mockito.Mockito;
 import org.osgi.service.event.EventAdmin;
+import org.osgi.test.common.annotation.InjectService;
+import org.osgi.test.junit5.service.ServiceExtension;
 
 import com.google.common.collect.Streams;
 
@@ -75,7 +66,13 @@ import com.google.common.collect.Streams;
  * 
  * @author truong
  */
+@TestInstance(Lifecycle.PER_CLASS)
+@ExtendWith(ServiceExtension.class)
 public class CalculateTopologicalCoordinateTest extends AbstractOsgiTableTest {
+
+	private static final String CSV_HEADER = "Lfd. Nr.;Zustand;Objektart;Punkt_Objekt;TopKante;Koordinatensystem;x;y";
+
+	private static final String REF_DIR = "resource/";
 
 	private static String[] getCoordinateString(final Coordinate coord) {
 		if (coord == null) {
@@ -105,78 +102,52 @@ public class CalculateTopologicalCoordinateTest extends AbstractOsgiTableTest {
 				.of(new Pair<>("pphn", PPHN_1_10_0_3_20220517_PLANPRO)));
 	}
 
-	private NoCacheService cacheService;
-	List<CSVRecord> csvRecords;
+	@InjectService
+	CacheService cacheService;
 
-	GeoKanteGeometryServiceImpl geometryService;
+	@InjectService
+	EnumTranslationService enumTranslationService;
+	@InjectService
+	EventAdmin eventAdmin;
+	GeoCoordinateValid geoCoordinateValid;
+	@InjectService
+	GeoKanteGeometryService geometryService;
+	@InjectService
+	PointObjectPositionService pointObjectPositionService;
+	@InjectService
+	SessionService sessionService;
 
-	GeoCoordinateValid testee;
+	@InjectService
+	TopologicalGraphService topgraphService;
 	List<TopologicalCoordinate> topologicalCoordinates;
 
 	@Override
-	public String getTableCSVHeader(Table table) {
-		// TODO Auto-generated method stub
-		return null;
+	public String getTableCSVHeader(final Table table) {
+		return CSV_HEADER;
 	}
 
 	@Override
 	public String getTestTableReferenceName() {
-		// TODO Auto-generated method stub
-		return null;
+		return "topological_coordinate";
 	}
 
 	private void givenGeoCoordinateValid() throws IllegalAccessException {
-		testee = new GeoCoordinateValid();
+		geoCoordinateValid = new GeoCoordinateValid();
 		FieldUtils.writeField(testee, "topologicalCoordinates",
 				Optional.empty(), true);
 		FieldUtils.writeField(testee, "alreadyFoundMetaData", new ArrayList<>(),
 				true);
-		FieldUtils.writeField(testee, "pointObjectPositionService",
-				new PointObjectPositionServiceImpl(), true);
+		// FieldUtils.writeField(testee, "pointObjectPositionService",
+		// new PointObjectPositionServiceImpl(), true);
 	}
 
-	private void givenGeoKanteGeometryService() throws Exception {
-		geometryService = new GeoKanteGeometryServiceImpl();
-		final Map<PlanPro_Schnittstelle, GeoKanteGeometrySessionData> sessionesData = new HashMap<>();
-		final GeoKanteGeometrySessionData geoKanteGeometrySessionData = new GeoKanteGeometrySessionData();
-		sessionesData.put(planProSchnittstelle, geoKanteGeometrySessionData);
-		FieldUtils.writeField(geometryService, "sessionesData", sessionesData,
-				true);
-		final Method declaredMethod = geometryService.getClass()
-				.getDeclaredMethod("findGeoKanteGeometry",
-						GeoKanteGeometrySessionData.class,
-						MultiContainer_AttributeGroup.class);
-		declaredMethod.setAccessible(true);
-		declaredMethod.invoke(geometryService, geoKanteGeometrySessionData,
-				PlanProSchnittstelleExtensions.getContainer(
-						planProSchnittstelle, ContainerType.INITIAL));
-		declaredMethod.invoke(geometryService, geoKanteGeometrySessionData,
-				PlanProSchnittstelleExtensions.getContainer(
-						planProSchnittstelle, ContainerType.FINAL));
-
-	}
-
-	private void givenTopologicalCoordinaten(final String testFile)
-			throws IOException {
-		final String fileName = testFile + "_topological_coordinate.csv";
-
-		final Builder builder = CSVFormat.Builder.create(CSVFormat.DEFAULT);
-		builder.setDelimiter(";");
-		try (InputStream refResource = CalculateTopologicalCoordinateTest.class
-				.getClassLoader()
-				.getResourceAsStream(fileName);
-				final Reader reader = new InputStreamReader(refResource);
-				final CSVParser parser = new CSVParser(reader,
-						builder.build())) {
-			csvRecords = parser.getRecords();
-			// Remove CSV header info
-			csvRecords = csvRecords.subList(4, csvRecords.size());
-		}
+	private void givenTopologicalCoordinaten() {
+		referenceData = loadReferenceFile(getTestTableReferenceName());
 	}
 
 	@SuppressWarnings("boxing")
 	private void thenExpectAllCoordinateAreEqualReference() {
-		assertEquals(csvRecords.size(), topologicalCoordinates.size());
+		assertEquals(referenceData.size(), topologicalCoordinates.size());
 		topologicalCoordinates.forEach(coord -> {
 			final String state = switch (coord.state()) {
 				case FINAL -> "Ziel";
@@ -185,7 +156,7 @@ public class CalculateTopologicalCoordinateTest extends AbstractOsgiTableTest {
 			};
 			final String poGuid = coord.po().getIdentitaet().getWert();
 			final String topKanteGuid = coord.potk().getIDTOPKante().getWert();
-			final List<CSVRecord> csvEntries = csvRecords.stream()
+			final List<CSVRecord> csvEntries = referenceData.stream()
 					.filter(entry -> entry.get(1).equals(state))
 					.filter(entry -> entry.get(3).equals(poGuid))
 					.filter(entry -> entry.get(4).equals(topKanteGuid))
@@ -245,84 +216,68 @@ public class CalculateTopologicalCoordinateTest extends AbstractOsgiTableTest {
 
 									}));
 				});
-		topologicalCoordinates = testee.getTopologischeCoordinaten();
+		topologicalCoordinates = geoCoordinateValid
+				.getTopologischeCoordinaten();
+		isTableEmpty = topologicalCoordinates.isEmpty();
 	}
 
 	@Override
 	protected CacheService getCacheService() {
-		// TODO Auto-generated method stub
-		return null;
+		return cacheService;
 	}
 
 	@Override
 	protected EnumTranslationService getEnumTranslationService() {
-		// TODO Auto-generated method stub
-		return null;
+		return enumTranslationService;
 	}
 
 	@Override
 	protected EventAdmin getEventAdmin() {
-		// TODO Auto-generated method stub
-		return null;
+		return eventAdmin;
 	}
 
 	@Override
 	protected GeoKanteGeometryService getGeometryService() {
-		// TODO Auto-generated method stub
-		return null;
+		return geometryService;
 	}
 
 	@Override
 	protected String getReferenceDir() {
-		// TODO Auto-generated method stub
-		return null;
+		return REF_DIR;
 	}
 
 	@Override
 	protected SessionService getSessionService() {
-		// TODO Auto-generated method stub
-		return null;
+		return sessionService;
 	}
 
 	@Override
 	protected TestFile getTestFile() {
-		// TODO Auto-generated method stub
-		return null;
+		return OsgiTestTestFile.PPHN_1_10_0_3;
 	}
 
 	@Override
 	protected Class<? extends AbstractOsgiTest> getTestResourceClass() {
-		// TODO Auto-generated method stub
-		return null;
+		return getClass();
 	}
 
 	@Override
 	protected TopologicalGraphService getTopologicalGraphService() {
-		// TODO Auto-generated method stub
-		return null;
+		return topgraphService;
 	}
 
-	@BeforeEach
-	void beforeEach() throws Exception {
-		cacheService = new NoCacheService();
-	}
-
-	@ParameterizedTest
-	@MethodSource("getReferenceFiles")
-	void testTopologischeCoordinateCalculate(
-			final Pair<String, String> testFile) throws Exception {
-		try (MockedStatic<Services> mockStatic = Mockito
-				.mockStatic(Services.class)) {
-			mockStatic.when(Services::getCacheService).thenReturn(cacheService);
-			mockStatic.when(Services::getNoCacheService)
-					.thenReturn(cacheService);
-			givenGeoKanteGeometryService();
+	@Test
+	@ExtendWith(TestFailHandle.class)
+	void testTopologischeCoordinateCalculate() throws Throwable {
+		doTestInMockEnvironment(() -> {
+			givenTopologicalCoordinaten();
 			givenGeoCoordinateValid();
-			givenTopologicalCoordinaten(testFile.getFirst());
-			givenPlanProFile(testFile.getSecond());
 			whenCalculateCoordinate();
+			if (isTableEmpty) {
+				thenExpectNotExistReference();
+				return;
+			}
 			thenExpectAllCoordinateAreEqualReference();
-		}
+		});
 	}
-
 }

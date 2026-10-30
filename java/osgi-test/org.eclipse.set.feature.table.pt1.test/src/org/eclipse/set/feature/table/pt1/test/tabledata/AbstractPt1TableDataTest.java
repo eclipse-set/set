@@ -214,10 +214,6 @@ public abstract class AbstractPt1TableDataTest extends AbstractOsgiTableTest {
 		givenToolboxViewModelService();
 	}
 
-	protected void thenExpectNotExistReference() {
-		assertNull(referenceData, "Empty Table shoundn't have csv reference");
-	}
-
 	protected void thenExpectTableDataEqualReferenceCSV() {
 		assertDoesNotThrow(
 				() -> compareValue(0, TableExtensions.getTableRows(testee)));

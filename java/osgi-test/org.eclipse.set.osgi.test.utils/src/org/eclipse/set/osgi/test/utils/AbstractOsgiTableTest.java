@@ -10,8 +10,7 @@
  */
 package org.eclipse.set.osgi.test.utils;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -100,7 +99,7 @@ public abstract class AbstractOsgiTableTest extends AbstractOsgiTest {
 	public abstract String getTestTableReferenceName();
 
 	/**
-	 * @return
+	 * @return true, if test table empty
 	 */
 	public boolean isTableEmpty() {
 		return isTableEmpty;
@@ -231,6 +230,10 @@ public abstract class AbstractOsgiTableTest extends AbstractOsgiTest {
 		getSessionService().getLoadedSessions()
 				.put(ToolboxFileRole.SESSION, modelSession);
 
+	}
+
+	protected void thenExpectNotExistReference() {
+		assertNull(referenceData, "Empty Table shoundn't have csv reference");
 	}
 
 }

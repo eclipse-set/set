@@ -81,7 +81,8 @@ Import-Package: jakarta.annotation,
  org.osgi.service.event,
  org.slf4j
 Bundle-ActivationPolicy: lazy
-Export-Package: org.eclipse.set.feature.plazmodel.check
+Export-Package: org.eclipse.set.feature.plazmodel.check,
+ org.eclipse.set.feature.plazmodel.utils
 Service-Component: OSGI-INF/org.eclipse.set.feature.plazmodel.PlazModelDescriptionService.xml,
  OSGI-INF/org.eclipse.set.feature.plazmodel.check.AttachmentPresent.xml,
  OSGI-INF/org.eclipse.set.feature.plazmodel.check.AttachmentReferenced.xml,
