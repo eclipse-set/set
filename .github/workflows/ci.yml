@@ -112,6 +112,7 @@ jobs:
 
       - name: Build
         run: |
+          node -v
           npm ci
           npm run build-prod
         working-directory: web/siteplan

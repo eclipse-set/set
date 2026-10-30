@@ -63,9 +63,9 @@ public abstract class PlanPro2TableTransformationService extends
 	public boolean isObjectBelongToRendereArea(final Ur_Objekt obj,
 			final List<Stell_Bereich> areas) {
 		return switch (getTableCategory()) {
-			case ESTW, ESTW_SUPPLEMENT -> {
-				yield StellBereichExtensions.isInControlArea(areas, obj);
-			}
+			case ESTW, ESTW_SUPPLEMENT -> StellBereichExtensions
+					.isInControlArea(areas, obj);
+
 			default -> true;
 		};
 	}
