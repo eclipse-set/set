@@ -16,6 +16,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.set.basis.constants.TableType;
@@ -142,7 +143,7 @@ public final class SslbTransformationService
 	// current selected area
 	// See: ppmtab - Relevant area
 	public void addAdditionRow(final Table originalTable,
-			final Table filteredTable) {
+			final Table filteredTable, final Set<String> controlAreaIds) {
 		final List<RowGroup> originalTableRowGroups = TableExtensions
 				.getTableRowGroups(originalTable);
 		final List<RowGroup> filteredTableRowGroups = TableExtensions
