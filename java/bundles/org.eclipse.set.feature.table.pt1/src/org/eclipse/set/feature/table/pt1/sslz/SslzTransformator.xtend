@@ -426,7 +426,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 								zs6Begriffes.contains(it)
 							]
 							if (existZs6Begriffe) {
-								return '''«Boolean.TRUE.translate»«IF zs6Begriffes.exists[signalSignalbegriffAllg?.geschaltet?.wert]» (F)«ENDIF»'''
+								return '''«Boolean.TRUE.translate»«IF zs6Begriffes.exists[!signalSignalbegriffAllg?.geschaltet?.wert]» (F)«ENDIF»'''
 							}
 							return Boolean.FALSE.translate
 						} else {
@@ -451,7 +451,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 						if (zs13Begriff.nullOrEmpty) {
 							return ''
 						}
-						return '''«Boolean.TRUE.translate»«IF zs13Begriff.exists[signalSignalbegriffAllg?.geschaltet?.wert]» (F)«ENDIF»'''
+						return '''«Boolean.TRUE.translate»«IF zs13Begriff.exists[!signalSignalbegriffAllg?.geschaltet?.wert]» (F)«ENDIF»'''
 					], nextBlockFstr)
 				]
 			)
@@ -511,8 +511,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 							return ""
 						}
 						return '''«begriff.signalRahmen?.signal?.bezeichnung?.
-							bezeichnungTabelle?.wert»«IF begriff?.signalSignalbegriffAllg?.geschaltet?.wert» (F)«ENDIF»'''
-
+							bezeichnungTabelle?.wert»«IF !begriff?.signalSignalbegriffAllg?.geschaltet?.wert» (F)«ENDIF»'''
 					], nextBlockFstr)
 				]
 			)
