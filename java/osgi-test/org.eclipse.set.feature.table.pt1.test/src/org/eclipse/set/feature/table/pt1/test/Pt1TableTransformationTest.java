@@ -16,21 +16,27 @@ import java.io.File;
 import java.nio.file.Path;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 import org.dom4j.Document;
 import org.dom4j.io.SAXReader;
 import org.eclipse.emf.common.util.ECollections;
+import org.eclipse.set.basis.constants.ContainerType;
 import org.eclipse.set.basis.constants.ExportType;
 import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.test.utils.CustomDOMReader;
 import org.eclipse.set.feature.table.pt1.test.utils.CustomNodeComparator;
-import org.eclipse.set.feature.table.pt1.test.utils.TestFailHandle;
 import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.model.tablemodel.Table;
+import org.eclipse.set.osgi.test.utils.AbstractOsgiTest;
+import org.eclipse.set.osgi.test.utils.OsgiTestTestFile;
+import org.eclipse.set.osgi.test.utils.TestFailHandle;
+import org.eclipse.set.osgi.test.utils.TestFile;
 import org.eclipse.set.ppmodel.extensions.MultiContainer_AttributeGroupExtensions;
+import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.eclipse.set.utils.export.xsl.TransformTable;
 import org.junit.jupiter.api.Test;
@@ -51,7 +57,7 @@ import org.osgi.test.junit5.service.ServiceExtension;
  */
 @TestInstance(Lifecycle.PER_CLASS)
 @ExtendWith(ServiceExtension.class)
-class Pt1TableTransformationTest extends Pt1TableTest {
+class Pt1TableTransformationTest extends AbstractOsgiTest {
 
 	private static List<String> Ssks_Pagebreak_Column_Index = List.of("49",
 			"76");
@@ -93,6 +99,22 @@ class Pt1TableTransformationTest extends Pt1TableTest {
 	@InjectService
 	EnumTranslationService translationService;
 
+	protected List<MultiContainer_AttributeGroup> getLSTContainer() {
+		return List
+				.of(ContainerType.FINAL, ContainerType.INITIAL,
+						ContainerType.SINGLE)
+				.stream()
+				.map(containerType -> PlanProSchnittstelleExtensions
+						.getContainer(planProSchnittstelle, containerType))
+				.filter(Objects::nonNull)
+				.toList();
+	}
+
+	@Override
+	protected TestFile getTestFile() {
+		return OsgiTestTestFile.PPHN_1_10_0_3;
+	}
+
 	@Test
 	void testExistTableTransformService() {
 		final List<PlanPro2TableTransformationService> services = transformationServices
@@ -101,8 +123,8 @@ class Pt1TableTransformationTest extends Pt1TableTest {
 						.getName()
 						.endsWith("SslsTransformationService"))
 				.toList();
-		assertDoesNotThrow(
-				() -> assertInjectedAllTransformationService(services));
+		assertDoesNotThrow(() -> Activator
+				.assertInjectedAllTransformationService(services));
 	}
 
 	@Test
@@ -175,5 +197,4 @@ class Pt1TableTransformationTest extends Pt1TableTest {
 			}
 		}
 	}
-
 }

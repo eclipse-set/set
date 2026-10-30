@@ -8,14 +8,14 @@
  * SPDX-License-Identifier: EPL-2.0
  * 
  */
-package org.eclipse.set.feature.table.pt1.test.utils;
+package org.eclipse.set.osgi.test.utils;
 
 import org.eclipse.set.basis.constants.ToolboxConstants;
 
 /**
  * 
  */
-public enum Pt1TableTestFile implements TestFile {
+public enum OsgiTestTestFile implements TestFile {
 
 	/**
 	 * PHausen 1.10.0.1
@@ -30,24 +30,23 @@ public enum Pt1TableTestFile implements TestFile {
 	private final String fullName;
 	private final String shortName;
 
-	Pt1TableTestFile(final String shortName, final String fullName) {
+	OsgiTestTestFile(final String shortName, final String fullName) {
 		this.shortName = shortName;
 		this.fullName = fullName;
 	}
 
-	/**
-	 * @return the full name of test file
-	 */
 	@Override
 	public String getFullName() {
 		return fullName;
 	}
 
-	/**
-	 * @return the short name of test file
-	 */
 	@Override
 	public String getShortName() {
 		return shortName;
+	}
+
+	@Override
+	public String getTestFilePath() {
+		return getModel(getClass());
 	}
 }

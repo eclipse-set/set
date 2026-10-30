@@ -28,9 +28,10 @@ import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.core.services.geometry.GeoKanteGeometryService;
 import org.eclipse.set.core.services.graph.TopologicalGraphService;
 import org.eclipse.set.core.services.session.SessionService;
+import org.eclipse.set.feature.table.pt1.test.Activator;
 import org.eclipse.set.feature.table.pt1.test.utils.PtTable;
-import org.eclipse.set.feature.table.pt1.test.utils.TestFailHandle;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
+import org.eclipse.set.osgi.test.utils.TestFailHandle;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
 import org.eclipse.set.ppmodel.extensions.StellBereichExtensions;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
@@ -168,7 +169,7 @@ public class Pt1TableControlAreaDataTest extends AbstractPt1TableDataTest {
 	}
 
 	@Override
-	protected Object getEnumTranslationService() {
+	protected EnumTranslationService getEnumTranslationService() {
 		return enumTranslationService;
 	}
 
@@ -217,8 +218,9 @@ public class Pt1TableControlAreaDataTest extends AbstractPt1TableDataTest {
 	@Test
 	void testExistTableTransformService() throws Exception {
 		givenTableService();
-		assertDoesNotThrow(() -> assertInjectedAllTransformationService(
-				modelServiceMap.values()));
+		assertDoesNotThrow(
+				() -> Activator.assertInjectedAllTransformationService(
+						modelServiceMap.values()));
 	}
 
 	/**

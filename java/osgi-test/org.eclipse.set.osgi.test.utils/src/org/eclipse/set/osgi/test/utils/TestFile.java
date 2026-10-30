@@ -8,7 +8,7 @@
  * SPDX-License-Identifier: EPL-2.0
  * 
  */
-package org.eclipse.set.feature.table.pt1.test.utils;
+package org.eclipse.set.osgi.test.utils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,18 +23,23 @@ import java.nio.file.Paths;
  */
 public interface TestFile {
 	/**
-	 * @return
+	 * @return the full test file name
 	 */
 	public String getFullName();
 
 	/**
-	 * @return
+	 * @return the short name
 	 */
 	public String getShortName();
 
 	/**
+	 * @return the absolute path of test file
+	 */
+	public String getTestFilePath();
+
+	/**
 	 * @param clazz
-	 * @return
+	 * @return the absolute path of test file
 	 */
 	default String getModel(final Class<?> clazz) {
 		final URL res = clazz.getClassLoader().getResource(getFullName());
