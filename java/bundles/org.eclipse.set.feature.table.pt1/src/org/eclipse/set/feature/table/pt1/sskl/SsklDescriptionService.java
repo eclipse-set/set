@@ -8,10 +8,10 @@
  * SPDX-License-Identifier: EPL-2.0
  * 
  */
-package org.eclipse.set.feature.table.pt1.sskx;
+package org.eclipse.set.feature.table.pt1.sskl;
 
 import org.eclipse.set.core.services.part.PartDescriptionService;
-import org.eclipse.set.feature.table.AbstractESTWSupplementTableDesciption;
+import org.eclipse.set.feature.table.AbstractESTWTableDescription;
 import org.eclipse.set.feature.table.pt1.messages.Messages;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -22,24 +22,23 @@ import org.osgi.service.component.annotations.Reference;
  * @author Truong
  */
 @Component(service = PartDescriptionService.class)
-public class SskxDescriptionService
-		extends AbstractESTWSupplementTableDesciption {
+public class SsklDescriptionService extends AbstractESTWTableDescription {
 	@Reference
 	Messages messages;
 
 	@Override
 	protected String getToolboxViewName() {
-		return messages.SskxDescriptionService_ViewName;
+		return messages.SsklDescriptionService_ViewName;
 	}
 
 	@Override
 	protected String getToolboxViewTooltip() {
-		return messages.SskxDescriptionService_ViewTooltip;
+		return messages.SsklDescriptionService_ViewTooltip;
 	}
 
 	@Override
 	protected String getTableShortcut() {
-		return messages.ToolboxTableNameSskxShort;
+		return messages.ToolboxTableNameSsklShort;
 	}
 
 }
