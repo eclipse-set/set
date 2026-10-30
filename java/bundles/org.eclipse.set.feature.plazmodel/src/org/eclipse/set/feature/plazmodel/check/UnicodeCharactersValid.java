@@ -95,7 +95,7 @@ public class UnicodeCharactersValid implements PlazCheck {
 		plazError.setSeverity(ValidationSeverity.ERROR);
 		plazError.setObject(obj);
 		plazError.setMessage(String
-				.format("Der Wert: %s enthält ungültige Sonderzeichen", value)); //$NON-NLS-1$
+				.format("Der Wert %s enthält ungültige Sonderzeichen.", value)); //$NON-NLS-1$
 		return plazError;
 	}
 
@@ -106,12 +106,12 @@ public class UnicodeCharactersValid implements PlazCheck {
 
 	@Override
 	public String getDescription() {
-		return "Es gibt keine ungültigen Sonderzeichen"; //$NON-NLS-1$
+		return "Es gibt keine ungültigen Sonderzeichen."; //$NON-NLS-1$
 	}
 
 	@Override
 	public String getGeneralErrMsg() {
-		return "Es gibt Objekte mit ungültigen Sonderzeichen"; //$NON-NLS-1$
+		return "Es gibt Objekte mit ungültigen Sonderzeichen."; //$NON-NLS-1$
 	}
 
 	private PlazError createFontError(final Exception e) {
