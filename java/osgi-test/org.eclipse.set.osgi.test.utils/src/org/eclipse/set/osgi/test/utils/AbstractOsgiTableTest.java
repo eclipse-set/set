@@ -41,8 +41,6 @@ import org.eclipse.set.model.tablemodel.TableRow;
 import org.eclipse.set.model.tablemodel.extensions.TableCellExtensions;
 import org.eclipse.set.model.tablemodel.extensions.TableExtensions;
 import org.eclipse.set.model.tablemodel.extensions.TableRowExtensions;
-import org.eclipse.set.services.table.TableDiffService;
-import org.eclipse.set.services.table.TableDiffService.TableCompareType;
 import org.eclipse.set.utils.ToolboxConfiguration;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -77,16 +75,36 @@ public abstract class AbstractOsgiTableTest extends AbstractOsgiTest {
 	}
 
 	protected IEventBroker broker;
-	protected Map<TableCompareType, TableDiffService> diffServiceMap;
 	protected boolean isTableEmpty;
 	protected List<CSVRecord> referenceData = new LinkedList<>();
 
 	protected Table testee;
 
 	/**
+	 * @param table
+	 *            test table
+	 * @return the csv header of test table
+	 */
+	public abstract String getTableCSVHeader(Table table);
+
+	/**
+	 * @return the current test table
+	 */
+	public Table getTestTable() {
+		return testee;
+	}
+
+	/**
 	 * @return the table reference file name
 	 */
 	public abstract String getTestTableReferenceName();
+
+	/**
+	 * @return
+	 */
+	public boolean isTableEmpty() {
+		return isTableEmpty;
+	}
 
 	@AfterAll
 	protected void afterAll() {
@@ -96,9 +114,10 @@ public abstract class AbstractOsgiTableTest extends AbstractOsgiTest {
 		getEventAdmin().sendEvent(new Event(Events.CLOSE_SESSION, properties));
 	}
 
+	@Override
 	@BeforeAll
 	protected void beforeAll() throws Exception {
-		givenPlanProFile(getTestFile().getTestFilePath());
+		super.beforeAll();
 		setup();
 	}
 
@@ -156,11 +175,11 @@ public abstract class AbstractOsgiTableTest extends AbstractOsgiTest {
 
 	protected abstract SessionService getSessionService();
 
-	protected abstract String getTableCSVHeader(Table testee2);
+	protected int getTableRowCount() {
+		return TableExtensions.getTableRows(testee).size();
+	}
 
-	protected abstract OsgiTestTestFile getTestFile();
-
-	protected abstract Object getTestResourceClass();
+	protected abstract Class<? extends AbstractOsgiTest> getTestResourceClass();
 
 	protected abstract TopologicalGraphService getTopologicalGraphService();
 

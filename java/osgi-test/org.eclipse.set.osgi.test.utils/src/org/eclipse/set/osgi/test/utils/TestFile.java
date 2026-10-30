@@ -33,6 +33,11 @@ public interface TestFile {
 	public String getShortName();
 
 	/**
+	 * @return the absolute path of test file
+	 */
+	public String getTestFilePath();
+
+	/**
 	 * @param clazz
 	 * @return the absolute path of test file
 	 */

@@ -45,10 +45,7 @@ public enum OsgiTestTestFile implements TestFile {
 		return shortName;
 	}
 
-	/**
-	 * @param testFile
-	 * @return
-	 */
+	@Override
 	public String getTestFilePath() {
 		return getModel(getClass());
 	}

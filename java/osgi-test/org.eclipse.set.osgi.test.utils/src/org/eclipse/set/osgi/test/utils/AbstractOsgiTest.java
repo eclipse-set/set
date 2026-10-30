@@ -21,6 +21,7 @@ import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.basis.files.ToolboxFile;
 import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.eclipse.set.unittest.utils.AbstractToolboxTest;
+import org.junit.jupiter.api.BeforeAll;
 import org.mockito.Mockito;
 import org.osgi.service.event.Event;
 import org.osgi.service.event.EventAdmin;
@@ -32,6 +33,13 @@ import org.osgi.test.common.annotation.InjectService;
  */
 public abstract class AbstractOsgiTest extends AbstractToolboxTest {
 	protected IModelSession modelSession;
+
+	@BeforeAll
+	protected void beforeAll() throws Exception {
+		givenPlanProFile(getTestFile().getTestFilePath());
+	}
+
+	protected abstract TestFile getTestFile();
 
 	/**
 	 * @param eventAdmin
