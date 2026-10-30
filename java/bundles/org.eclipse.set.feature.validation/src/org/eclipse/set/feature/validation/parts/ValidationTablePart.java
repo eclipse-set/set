@@ -12,6 +12,7 @@ import org.eclipse.e4.core.services.nls.Translation;
 import org.eclipse.set.core.services.configurationservice.UserConfigurationService;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.core.services.version.PlanProVersionService;
+import org.eclipse.set.core.services.viewmodel.ToolboxViewModelService;
 import org.eclipse.set.feature.validation.Messages;
 import org.eclipse.set.feature.validation.report.SessionToValidationReportTransformation;
 import org.eclipse.set.feature.validation.table.ValidationTableView;
@@ -45,7 +46,12 @@ public class ValidationTablePart extends BasePart {
 	@Inject
 	UserConfigurationService userConfigService;
 
+	@Inject
+	ToolboxViewModelService viewModelService;
+
 	private ValidationTableView tableView;
+
+	private ValidationReport validationReport;
 
 	/**
 	 * Create the part.
@@ -57,11 +63,18 @@ public class ValidationTablePart extends BasePart {
 
 	@Override
 	protected void createView(final Composite parent) {
+
 		// create validation report
-		final SessionToValidationReportTransformation transformation = new SessionToValidationReportTransformation(
-				messages, versionService, enumTranslationService);
-		final ValidationReport validationReport = transformation
-				.transform(getModelSession());
+		final Object object = viewModelService
+				.get(ValidationPart.VIEW_VALIDATION_REPORT);
+		if (object != null
+				&& object instanceof final ValidationReport transformedReport) {
+			validationReport = transformedReport;
+		} else {
+			final SessionToValidationReportTransformation transformation = new SessionToValidationReportTransformation(
+					messages, versionService, enumTranslationService);
+			validationReport = transformation.transform(getModelSession());
+		}
 
 		// export action
 		getBanderole().setExportAction(new SelectableAction() {
