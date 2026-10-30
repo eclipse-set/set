@@ -12,19 +12,27 @@ package org.eclipse.set.feature.table.pt1.sskx;
 
 import static org.eclipse.set.feature.table.pt1.sskx.SskxColumns.Regelzeichnung;
 import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.*;
+import static org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.getSinglePoint;
+import static org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteExtensions.isWirkrichtungTopDirection;
+import static org.eclipse.set.ppmodel.extensions.SignalExtensions.getSignalbegriffe;
+import static org.eclipse.set.ppmodel.extensions.SignalbegriffExtensions.hasSignalbegriffID;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.core.services.graph.BankService;
+import org.eclipse.set.core.services.graph.TopologicalGraphService;
 import org.eclipse.set.feature.table.pt1.ssks.AbstractSignalTableTransform;
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
 import org.eclipse.set.model.planpro.BasisTypen.ENUMLinksRechts;
 import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt;
 import org.eclipse.set.model.planpro.Geodaten.Technischer_Punkt;
@@ -50,6 +58,7 @@ import org.eclipse.set.model.tablemodel.TableRow;
 import org.eclipse.set.ppmodel.extensions.BasisAttributExtensions;
 import org.eclipse.set.ppmodel.extensions.BereichObjektExtensions;
 import org.eclipse.set.ppmodel.extensions.EObjectExtensions;
+import org.eclipse.set.ppmodel.extensions.PunktObjektExtensions;
 import org.eclipse.set.ppmodel.extensions.SignalBefestigungExtensions;
 import org.eclipse.set.ppmodel.extensions.SignalExtensions;
 import org.eclipse.set.ppmodel.extensions.SignalRahmenExtensions;
@@ -69,9 +78,10 @@ import com.google.common.collect.Streams;
 public class SskxTransformator extends AbstractSignalTableTransform {
 
 	private static final String SIGNAL_BEGRIFFE_BEZEICHNUNG_SEPERATOR = ", "; //$NON-NLS-1$
-	private static final List<Class<? extends Signalbegriff_ID_TypeClass>> SPEICAL_BEZEICHNUNG_HANDLE_BEGRIFFE = List
+	private static final List<Class<? extends Signalbegriff_ID_TypeClass>> DISTANCE_SIGNAL_INDICATOR_BAR_BEGRIFF = List
 			.of(Ne31str.class, Ne32str.class, Ne33str.class, Ne34str.class,
 					Ne35str.class);
+	private final TopologicalGraphService topgraphService;
 
 	/**
 	 * Constructor
@@ -89,20 +99,25 @@ public class SskxTransformator extends AbstractSignalTableTransform {
 	 */
 	SskxTransformator(final Set<ColumnDescriptor> cols,
 			final EnumTranslationService enumTranslationService,
-			final BankService bankingService, final EventAdmin eventAdmin,
-			final String tableShortCut) {
+			final BankService bankingService,
+			final TopologicalGraphService topgraphService,
+			final EventAdmin eventAdmin, final String tableShortCut) {
 		super(cols, enumTranslationService, bankingService, eventAdmin,
 				tableShortCut);
+		this.topgraphService = topgraphService;
 	}
 
-	private static Predicate<Signal> generalCondition() {
+	/**
+	 * @return true, if the signal meet the general conditions of Sskx signal
+	 */
+	public static Predicate<Signal> generalCondition() {
 		return signal -> {
 			if (signal.getSignalReal() == null) {
 				return false;
 			}
 
 			if (signal.getSignalReal().getSignalRealAktiv() != null
-					|| signal.getSignalReal()
+					&& signal.getSignalReal()
 							.getSignalRealAktivSchirm() != null) {
 				return false;
 			}
@@ -124,6 +139,35 @@ public class SskxTransformator extends AbstractSignalTableTransform {
 		};
 	}
 
+	@SuppressWarnings("boxing")
+	private Predicate<Signal> vorSignalBalkenCondition(
+			final Set<Stell_Bereich> areas) {
+		return signal -> {
+			final Set<Signal_Signalbegriff> signalbegriffe = getSignalbegriffe(
+					signal);
+			final boolean machtBegriff = signalbegriffe.stream()
+					.anyMatch(begriff -> DISTANCE_SIGNAL_INDICATOR_BAR_BEGRIFF
+							.stream()
+							.anyMatch(clazz -> hasSignalbegriffID(begriff,
+									clazz)));
+			if (!machtBegriff) {
+				return false;
+			}
+
+			// Check if exist relevant Vorsignal, which lie in 500m in direction
+			// of SignalBalken
+			return !PunktObjektExtensions.findRelevantPOInRadius(signal, //
+					s -> SignalExtensions.isVorsignalOfSignalBalken(
+							topgraphService, signal, s, areas), //
+					MultiContainer_AttributeGroup::getSignal, //
+					500, //
+					// The Vorsignal should lie in direction of SignalBalken
+					Optional.of(
+							isWirkrichtungTopDirection(getSinglePoint(signal))))
+					.isEmpty();
+		};
+	}
+
 	private static List<Gleis_Bezeichnung> getRelevantGleisBezeichnuung(
 			final Signal signal) {
 		final MultiContainer_AttributeGroup container = BasisAttributExtensions
@@ -136,8 +180,12 @@ public class SskxTransformator extends AbstractSignalTableTransform {
 	@Override
 	protected Iterable<Signal> getRelevantSignal(
 			final MultiContainer_AttributeGroup container) {
+		final Set<Stell_Bereich> controlAreas = Streams
+				.stream(container.getStellBereich())
+				.collect(Collectors.toSet());
 		return Streams.stream(container.getSignal())
-				.filter(generalCondition())
+				.filter(s -> generalCondition().test(s)
+						|| vorSignalBalkenCondition(controlAreas).test(s))
 				.toList();
 	}
 
@@ -362,7 +410,7 @@ public class SskxTransformator extends AbstractSignalTableTransform {
 				.stream()
 				.map(Signal_Signalbegriff::getSignalbegriffID)
 				.map(signalBegriffe -> {
-					if (SPEICAL_BEZEICHNUNG_HANDLE_BEGRIFFE.stream()
+					if (DISTANCE_SIGNAL_INDICATOR_BAR_BEGRIFF.stream()
 							.anyMatch(c -> c.isInstance(signalBegriffe))) {
 						return SignalbegriffExtensions
 								.getSignalBegriffIDName(signalBegriffe);

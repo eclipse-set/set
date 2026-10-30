@@ -13,6 +13,7 @@ package org.eclipse.set.core.services.graph;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.Predicate;
 
 import org.eclipse.set.basis.graph.TopPath;
@@ -112,6 +113,23 @@ public interface TopologicalGraphService {
 	 */
 	Optional<TopPoint> findClosestPoint(final TopPoint from,
 			final List<TopPoint> points, final boolean searchInTopDirection);
+
+	/**
+	 * Finds the points, which lie on radius from start point and give
+	 * topological path to this point
+	 * 
+	 * @param start
+	 *            the start point
+	 * @param candiates
+	 *            the list of points to search
+	 * @param radius
+	 *            the radius
+	 * @param inTopDIrection
+	 *            the direction
+	 * @return the points or empty
+	 */
+	Set<TopPoint> findClosestPoints(TopPoint start, Set<TopPoint> candiates,
+			double radius, Optional<Boolean> inTopDIrection);
 
 	/**
 	 * Finds the shortest path, which have plausible branch
