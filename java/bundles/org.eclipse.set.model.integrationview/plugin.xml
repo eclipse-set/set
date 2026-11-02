@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated integrationview -->
+      <package
+            uri="http://scheidt-bachmann-st.de/2018-06-29/planpro/integrationview"
+            class="org.eclipse.set.model.integrationview.IntegrationviewPackage"
+            genModel="model/integrationview.genmodel"/>
+   </extension>
+
+</plugin>

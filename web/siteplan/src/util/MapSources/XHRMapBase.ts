@@ -40,7 +40,7 @@ export default abstract class XHRMapBase extends MapSource {
           client.responseType = 'blob'
           this.getAPIHeaders().forEach(([key, value]) => client.setRequestHeader(key, value))
           client.onload = () => {
-            tile.getImage().setAttribute('src', URL.createObjectURL(client.response))
+            (tile.getImage() as HTMLImageElement).setAttribute('src', URL.createObjectURL(client.response))
           }
           client.send()
         }

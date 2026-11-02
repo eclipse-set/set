@@ -10,6 +10,7 @@ package org.eclipse.set.basis.graph;
 
 import java.math.BigDecimal;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Deque;
 import java.util.HashSet;
@@ -68,15 +69,17 @@ public class Digraphs {
 	 *            the starting points
 	 * @param end
 	 *            the ending points
+	 * @param maximalLength
+	 *            the maximal path length
 	 * 
 	 * @return all paths from all starting points to all ending points
 	 */
 	public static <E, N, P> Set<DirectedEdgePath<E, N, P>> getPaths(
 			final Digraph<E, N, P> digraph, final Collection<P> start,
-			final Collection<P> end) {
+			final Collection<P> end, final BigDecimal maximalLength) {
 		final Set<DirectedEdgePath<E, N, P>> result = new HashSet<>();
-		start.forEach(
-				s -> end.forEach(e -> result.addAll(getPaths(digraph, s, e))));
+		start.forEach(s -> end.forEach(
+				e -> result.addAll(getPaths(digraph, s, e, maximalLength))));
 		return result;
 	}
 
@@ -94,17 +97,19 @@ public class Digraphs {
 	 *            the start point
 	 * @param endPoint
 	 *            the end point
+	 * @param maximalLength
+	 *            the path maximal length
 	 * 
 	 * @return the set of all paths from the start point to the end point
 	 */
 	public static <E, N, P> Set<DirectedEdgePath<E, N, P>> getPaths(
 			final Digraph<E, N, P> digraph, final P startPoint,
-			final P endPoint) {
+			final P endPoint, final BigDecimal maximalLength) {
 		return digraph.getEdges()
 				.stream()
 				.filter(edge -> edge.contains(startPoint))
 				.flatMap(startEdge -> getPaths(startEdge, digraph, startPoint,
-						endPoint).stream())
+						endPoint, maximalLength).stream())
 				.collect(Collectors.toSet());
 
 	}
@@ -121,13 +126,16 @@ public class Digraphs {
 	 *            the starting edge
 	 * @param routing
 	 *            the routing
+	 * @param maxDistance
+	 *            the maximal path length
 	 * 
 	 * @return the set of all paths from the starting edge to the end of the
 	 *         given routing
 	 */
 	public static <E, N, P> Set<DirectedEdgePath<E, N, P>> getPaths(
-			final DirectedEdge<E, N, P> start, final Routing<E, N, P> routing) {
-		return getPaths(start, routing, BigDecimal.ONE.negate());
+			final DirectedEdge<E, N, P> start, final Routing<E, N, P> routing,
+			final BigDecimal maxDistance) {
+		return getPaths(start, routing, BigDecimal.ONE.negate(), maxDistance);
 	}
 
 	/**
@@ -144,15 +152,36 @@ public class Digraphs {
 	 *            the routing
 	 * @param minDistance
 	 *            the minimum distance (distance is ignored if value < 0)
+	 * @param maxDistance
+	 *            the maximal distance from start
 	 * 
 	 * @return the set of all paths from the starting edge to a distance at
 	 *         least <b>minDistance</b> or until the end of the given routing
 	 */
 	public static <E, N, P> Set<DirectedEdgePath<E, N, P>> getPaths(
 			final DirectedEdge<E, N, P> start, final Routing<E, N, P> routing,
-			final BigDecimal minDistance) {
-		return getCache(start).get(getPathCacheKey(start, routing, minDistance),
-				() -> calculateSubPaths(start, routing, minDistance));
+			final BigDecimal minDistance, final BigDecimal maxDistance) {
+		final String pathCacheKey = getPathCacheKey(start, routing,
+				minDistance);
+		final Cache cache = getCache(start);
+
+		if (!cache.contains(pathCacheKey)) {
+			return cache.get(pathCacheKey, () -> calculateSubPaths(start,
+					routing, minDistance, maxDistance));
+		}
+
+		// Expand the cached path when the maximal distance increase
+		final Set<DirectedEdgePath<E, N, P>> paths = cache.get(pathCacheKey,
+				Collections::emptySet);
+
+		if (paths.stream()
+				.anyMatch(p -> p.getLength().compareTo(maxDistance) > 0)) {
+			return paths;
+		}
+		final Set<DirectedEdgePath<E, N, P>> expandedPaths = calculateSubPaths(
+				start, routing, minDistance, maxDistance);
+		cache.set(pathCacheKey, expandedPaths);
+		return expandedPaths;
 	}
 
 	private static <E, N, P> String getPathCacheKey(
@@ -165,9 +194,9 @@ public class Digraphs {
 
 	private static <E, N, P> Set<DirectedEdgePath<E, N, P>> calculateSubPaths(
 			final DirectedEdge<E, N, P> start, final Routing<E, N, P> routing,
-			final BigDecimal minDistance) {
+			final BigDecimal minDistance, final BigDecimal maxDistance) {
 		final Set<DirectedEdgePath<E, N, P>> subpaths = getSubPaths(start,
-				minDistance, routing, routing.getEmptyPath());
+				minDistance, maxDistance, routing, routing.getEmptyPath());
 		for (final DirectedEdgePath<E, N, P> path : subpaths) {
 			path.prepend(start);
 		}
@@ -204,6 +233,8 @@ public class Digraphs {
 	 *            the start point
 	 * @param endPoint
 	 *            the end point
+	 * @param maxPathLength
+	 *            the path maximal length
 	 * 
 	 * @return the set of all paths from the start point to the end point in the
 	 *         direction given by the start edge
@@ -211,9 +242,9 @@ public class Digraphs {
 	public static <E, N, P> Set<DirectedEdgePath<E, N, P>> getPaths(
 			final DirectedEdge<E, N, P> startEdge,
 			final Routing<E, N, P> routing, final P startPoint,
-			final P endPoint) {
+			final P endPoint, final BigDecimal maxPathLength) {
 		final Set<DirectedEdgePath<E, N, P>> paths = getPaths(startEdge,
-				routing);
+				routing, maxPathLength);
 		final Set<DirectedEdgePath<E, N, P>> routes = new HashSet<>();
 		for (final DirectedEdgePath<E, N, P> path : paths) {
 			final DirectedEdgePath<E, N, P> route = path.subPath(startPoint,
@@ -305,7 +336,8 @@ public class Digraphs {
 			final Set<DirectedEdgePath<E, N, P>> paths) {
 		final StringBuilder builder = new StringBuilder();
 		for (final DirectedEdgePath<E, N, P> path : paths) {
-			builder.append(prettyString(path) + "\n"); //$NON-NLS-1$
+			builder.append(prettyString(path));
+			builder.append("\n"); //$NON-NLS-1$
 		}
 		return builder.toString();
 	}
@@ -396,7 +428,7 @@ public class Digraphs {
 
 	private static <E, N, P> Set<DirectedEdgePath<E, N, P>> getSubPaths(
 			final DirectedEdge<E, N, P> start, final BigDecimal minDistance,
-			final Routing<E, N, P> routing,
+			final BigDecimal maxDistance, final Routing<E, N, P> routing,
 			final DirectedEdgePath<E, N, P> path) {
 		final Set<DirectedEdgePath<E, N, P>> result = new HashSet<>();
 		final Deque<Pair<DirectedEdge<E, N, P>, DirectedEdgePath<E, N, P>>> subPathsCandidates = new LinkedList<>();
@@ -408,9 +440,12 @@ public class Digraphs {
 			final Set<DirectedEdge<E, N, P>> successors = routing
 					.getDirectSuccessors(edge);
 			logger.debug("start={} path={}", edge, edgeWithPath.getSecond()); //$NON-NLS-1$
-			if (successors.isEmpty()) {
+			if (edgeWithPath.getSecond().getLength().compareTo(maxDistance) >= 0
+					|| successors.isEmpty()) {
 				result.add(edgeWithPath.getSecond());
+				continue;
 			}
+
 			for (final DirectedEdge<E, N, P> successor : successors) {
 				final DirectedEdgePath<E, N, P> successorPath = edgeWithPath
 						.getSecond()

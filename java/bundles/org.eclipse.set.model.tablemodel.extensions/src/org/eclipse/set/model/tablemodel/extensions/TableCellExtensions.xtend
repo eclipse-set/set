@@ -11,6 +11,7 @@ package org.eclipse.set.model.tablemodel.extensions
 import java.util.Set
 import org.eclipse.set.model.tablemodel.TableCell
 import org.eclipse.set.model.tablemodel.TableRow
+import org.eclipse.set.model.tablemodel.TablemodelFactory
 import org.eclipse.set.model.tablemodel.format.CellFormat
 import org.eclipse.set.model.tablemodel.format.TableformatFactory
 import org.eclipse.set.model.tablemodel.format.TextAlignment
@@ -98,8 +99,9 @@ class TableCellExtensions {
 		TextAlignment textAlignment) {
 		cell.format.textAlignment = textAlignment
 	}
-	
-	def static void setTopologicalCalcultation(TableCell cell, boolean isTopologicalCalculation) {
+
+	def static void setTopologicalCalcultation(TableCell cell,
+		boolean isTopologicalCalculation) {
 		cell.format.topologicalCalculation = isTopologicalCalculation
 	}
 
@@ -114,5 +116,11 @@ class TableCellExtensions {
 			throw new IllegalArgumentException('''Ambiguous cell formats in «cell».''')
 		}
 		return results.get(0)
+	}
+
+	def static void addContents(TableCell cell, String... contents) {
+		val stringContent = TablemodelFactory.eINSTANCE.createStringCellContent
+		stringContent.value.addAll(contents)
+		cell.content = stringContent
 	}
 }

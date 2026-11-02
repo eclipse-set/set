@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2022 DB Netz AG and others.
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -20,7 +20,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -38,17 +40,24 @@ import org.eclipse.set.core.fileservice.ToolboxIDResolver;
 import org.eclipse.set.core.modelservice.PlanningAccessServiceImpl;
 import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.cache.NoCacheService;
-import org.eclipse.set.core.version.PlanProVersionServiceImpl;
+import org.eclipse.set.core.services.version.PlanProVersionService;
+import org.eclipse.set.model.planpro.Layoutinformationen.PlanPro_Layoutinfo;
 import org.eclipse.set.model.planpro.PlanPro.DocumentRoot;
 import org.eclipse.set.model.planpro.PlanPro.PlanProPackage;
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.set.model.planpro.PlanPro.util.PlanProResourceFactoryImpl;
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Signalbegriffe_Ril_301Package;
+import org.eclipse.set.model.validationreport.ValidationreportFactory;
+import org.eclipse.set.model.validationreport.VersionInfo;
+import org.eclipse.set.ppmodel.extensions.PlanProPackageExtensions;
+import org.eclipse.set.ppmodel.extensions.SignalbegriffeRil301PackageExtensions;
 import org.junit.jupiter.api.BeforeEach;
+import org.mockito.ArgumentMatchers;
+import org.mockito.Mockito;
 
 /**
  * Base class for Siteplan Tests with common utilities
- * 
+ *
  * @author Stuecker
  *
  */
@@ -71,14 +80,20 @@ public class AbstractToolboxTest {
 	public static String PPHN_1_10_0_1_20220517_PPXML = getModel(
 			"PPHN_1.10.0.1_01-02_Ibn-Z._-_2._AeM_2022-05-17_13-44_tg2.ppxml"); //$NON-NLS-1$
 
+	/**
+	 * Info__2026-04-21_10-40.planpro
+	 */
+	public static String SINGLE_STATE_PLAN = getModel(
+			"Info__2026-04-21_10-40.planpro"); //$NON-NLS-1$
 	private static final String UNZIP_DIR = "res/toolbox"; //$NON-NLS-1$
 	private static final String CONTENT_MODEL = "content"; //$NON-NLS-1$
 	private static final String LAYOUT_MODEL = "layout"; //$NON-NLS-1$
 	private static final String PLANPRO_ZIPPED_EXTENSION = "planpro"; //$NON-NLS-1$
-	private static final String PLANPRO_PLAIN_EXTENSION = "ppxml"; //$NON-NLS-1$
 
 	protected PlanPro_Schnittstelle planProSchnittstelle;
+	protected PlanPro_Layoutinfo layoutInfo;
 	private ResourceSet resourceSet;
+	private PlanProVersionService planproVersionService;
 
 	protected static String getModel(final Class<?> clazz, final String name) {
 		final URL res = clazz.getClassLoader().getResource(name);
@@ -111,7 +126,7 @@ public class AbstractToolboxTest {
 
 	/**
 	 * Loads a .ppxml file into the planProSchnittstelle variable
-	 * 
+	 *
 	 * @param filename
 	 *            The path to the .ppxml
 	 * @throws IOException
@@ -154,7 +169,7 @@ public class AbstractToolboxTest {
 				.eClass();
 		org.eclipse.set.model.planpro.Layoutinformationen.LayoutinformationenPackage.eINSTANCE
 				.eClass();
-
+		givenPlanProVersionService();
 		Services.setCacheService(new NoCacheService());
 		Services.setPlanningAccessService(new PlanningAccessServiceImpl());
 
@@ -187,6 +202,9 @@ public class AbstractToolboxTest {
 			if (root instanceof final DocumentRoot model) {
 				planProSchnittstelle = model.getPlanProSchnittstelle();
 				ToolboxIDResolver.resolveIDReferences(planProSchnittstelle);
+			} else if (root instanceof final org.eclipse.set.model.planpro.Layoutinformationen.DocumentRoot layoutRoot) {
+				layoutInfo = layoutRoot.getPlanProLayoutinfo();
+				ToolboxIDResolver.resolveIDReferences(layoutInfo);
 			} else {
 				throw new IllegalArgumentException(
 						"Resource contains no PlanPro model with the requested version."); //$NON-NLS-1$
@@ -196,7 +214,16 @@ public class AbstractToolboxTest {
 
 	private static void unzip(final String filePath) throws IOException {
 		final Path unzipDir = Paths.get(UNZIP_DIR);
-		Files.createDirectories(unzipDir);
+		if (Files.exists(unzipDir)) {
+			try (Stream<Path> paths = Files.walk(unzipDir)) {
+				paths.sorted(Comparator.reverseOrder())
+						.map(Path::toFile)
+						.forEach(File::delete);
+			}
+		} else {
+			Files.createDirectories(unzipDir);
+		}
+
 		// unzip the archive
 		final byte[] buffer = new byte[1024];
 		try (final ZipInputStream zipIn = new ZipInputStream(
@@ -255,8 +282,8 @@ public class AbstractToolboxTest {
 		final XMLResource resource = (XMLResource) resourceSet
 				.createResource(resourceURI);
 		final PlanProFileResource planproResource = new PlanProFileResource(
-				resourceURI, new PlanProXMLHelper(resource,
-						new PlanProVersionServiceImpl()));
+				resourceURI,
+				new PlanProXMLHelper(resource, planproVersionService));
 		try {
 			planproResource.load(null);
 		} catch (final Exception e) {
@@ -266,6 +293,22 @@ public class AbstractToolboxTest {
 			}
 		}
 		return planproResource;
+	}
+
+	@SuppressWarnings("boxing")
+	protected void givenPlanProVersionService() {
+		planproVersionService = Mockito.mock(PlanProVersionService.class);
+		final VersionInfo versionInfo = ValidationreportFactory.eINSTANCE
+				.createVersionInfo();
+		versionInfo.getPlanProVersions()
+				.add(PlanProPackageExtensions.getModelVersion());
+		versionInfo.getSignalbegriffeVersions()
+				.add(SignalbegriffeRil301PackageExtensions.getModelVersion());
+		Mockito.when(planproVersionService
+				.isSupportedVersion(ArgumentMatchers.anyString()))
+				.thenReturn(Boolean.TRUE);
+		Mockito.when(planproVersionService.getCurrentVersion())
+				.thenReturn(versionInfo);
 	}
 
 }

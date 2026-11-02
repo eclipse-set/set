@@ -10,6 +10,8 @@
  ********************************************************************************/
 package org.eclipse.set.application.graph;
 
+import static org.eclipse.set.ppmodel.extensions.EObjectExtensions.getNullableObject;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
@@ -21,7 +23,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -43,7 +44,9 @@ import org.eclipse.set.model.planpro.Geodaten.TOP_Knoten;
 import org.eclipse.set.model.planpro.Geodaten.Ueberhoehung;
 import org.eclipse.set.model.planpro.Geodaten.Ueberhoehungslinie;
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
+import org.eclipse.set.model.planpro.Verweise.ID_TOP_Kante_ohne_Proxy_TypeClass;
 import org.eclipse.set.ppmodel.extensions.BasisAttributExtensions;
+import org.eclipse.set.ppmodel.extensions.EObjectExtensions;
 import org.eclipse.set.ppmodel.extensions.MultiContainer_AttributeGroupExtensions;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
 import org.eclipse.set.ppmodel.extensions.PunktObjektExtensions;
@@ -68,25 +71,6 @@ import org.slf4j.LoggerFactory;
 		EventConstants.EVENT_TOPIC + "=" + Events.CLOSE_SESSION }, service = {
 				EventHandler.class, BankService.class })
 public class BankServiceImpl implements BankService, EventHandler {
-
-	private class BankingInformationSession {
-		private final Map<TOP_Kante, Set<BankingInformation>> topEdgeBanking;
-		private final Map<Ueberhoehungslinie, Optional<BankingInformation>> bankingInformations;
-
-		public BankingInformationSession() {
-			this.topEdgeBanking = new ConcurrentHashMap<>();
-			this.bankingInformations = new ConcurrentHashMap<>();
-		}
-
-		public Map<TOP_Kante, Set<BankingInformation>> getTopEdgeBanking() {
-			return topEdgeBanking;
-		}
-
-		public Map<Ueberhoehungslinie, Optional<BankingInformation>> getBankingInformations() {
-			return bankingInformations;
-		}
-
-	}
 
 	@Reference
 	private TopologicalGraphService topGraph;
@@ -119,35 +103,34 @@ public class BankServiceImpl implements BankService, EventHandler {
 
 			// final Use thread for final find banking value,
 			// because this process can take a long time
-			findBankingThread = new Thread() {
-				@Override
-				public void run() {
-					try {
-						isComplete = false;
-						addBankingForContainer(collection,
-								PlanProSchnittstelleExtensions.getContainer(
-										planProSchnittstelle,
-										ContainerType.INITIAL));
-						addBankingForContainer(collection,
-								PlanProSchnittstelleExtensions.getContainer(
-										planProSchnittstelle,
-										ContainerType.FINAL));
-						addBankingForContainer(collection,
-								PlanProSchnittstelleExtensions.getContainer(
-										planProSchnittstelle,
-										ContainerType.SINGLE));
-						isComplete = true;
-						final HashMap<String, Object> properties = new HashMap<>();
-						properties.put(EventConstants.EVENT_TOPIC,
-								Events.BANKING_PROCESS_DONE);
-						properties.put(IEventBroker.DATA, modelSession);
-						eventAdmin.sendEvent(new Event(
-								Events.BANKING_PROCESS_DONE, properties));
-					} catch (final InterruptedException e) {
-						Thread.currentThread().interrupt();
-					}
+			findBankingThread = new Thread(() -> {
+				try {
+					isComplete = false;
+					addBankingForContainer(collection,
+							PlanProSchnittstelleExtensions.getContainer(
+									planProSchnittstelle,
+									ContainerType.INITIAL));
+					addBankingForContainer(collection,
+							PlanProSchnittstelleExtensions.getContainer(
+									planProSchnittstelle, ContainerType.FINAL));
+					addBankingForContainer(collection,
+							PlanProSchnittstelleExtensions.getContainer(
+									planProSchnittstelle,
+									ContainerType.SINGLE));
+					isComplete = true;
+					final HashMap<String, Object> properties = new HashMap<>();
+					properties.put(EventConstants.EVENT_TOPIC,
+							Events.BANKING_PROCESS_DONE);
+					properties.put(IEventBroker.DATA, modelSession);
+					eventAdmin.sendEvent(
+							new Event(Events.BANKING_PROCESS_DONE, properties));
+				} catch (final InterruptedException e) {
+					Thread.currentThread().interrupt();
 				}
-			};
+			}, String.format("%s/%s/%s", //$NON-NLS-1$ ,
+					ToolboxConstants.BACKGROUND_PROGESS_THREAD_NAME_PREFIX,
+					modelSession.getToolboxFile().getRole().toString(), //
+					ToolboxConstants.BANKING_PROGRESS));
 			findBankingThread.start();
 
 		}
@@ -252,11 +235,12 @@ public class BankServiceImpl implements BankService, EventHandler {
 			return optional.isEmpty() ? null : optional.get();
 		}
 
-		final Ueberhoehung begin = bankingLine.getIDUeberhoehungA().getValue();
-		final Ueberhoehung end = bankingLine.getIDUeberhoehungB().getValue();
-		if (begin == null || end == null) {
+		if (!validBankLine(bankingLine)) {
 			return null;
 		}
+
+		final Ueberhoehung begin = bankingLine.getIDUeberhoehungA().getValue();
+		final Ueberhoehung end = bankingLine.getIDUeberhoehungB().getValue();
 
 		final BigDecimal bankingLineLength = bankingLine
 				.getUeberhoehungslinieAllg()
@@ -269,10 +253,11 @@ public class BankServiceImpl implements BankService, EventHandler {
 				.get(0)
 				.getIDTOPKante()
 				.getValue();
-		if (beginEdge.equals(end.getPunktObjektTOPKante()
+		final TOP_Kante endEdge = end.getPunktObjektTOPKante()
 				.get(0)
 				.getIDTOPKante()
-				.getValue())) {
+				.getValue();
+		if (beginEdge.equals(endEdge)) {
 			final BigDecimal distanceA = begin.getPunktObjektTOPKante()
 					.get(0)
 					.getAbstand()
@@ -330,9 +315,38 @@ public class BankServiceImpl implements BankService, EventHandler {
 		return new BankingInformation(bankingLine, path);
 	}
 
+	private static boolean validBankLine(final Ueberhoehungslinie bank) {
+		final BigDecimal length = getNullableObject(bank,
+				b -> b.getUeberhoehungslinieAllg()
+						.getUeberhoehungslinieLaenge()
+						.getWert()).orElse(null);
+		if (length == null) {
+			return false;
+		}
+		final Predicate<Ueberhoehung> validPoint = point -> {
+			try {
+				final Punkt_Objekt_TOP_Kante_AttributeGroup potk = point
+						.getPunktObjektTOPKante()
+						.getFirst();
+				return potk.getIDTOPKante().getValue() != null
+						&& potk.getAbstand().getWert() != null;
+			} catch (final NullPointerException e) {
+				return false;
+			}
+		};
+
+		final Ueberhoehung begin = getNullableObject(bank,
+				b -> b.getIDUeberhoehungA().getValue()).orElse(null);
+		final Ueberhoehung end = getNullableObject(bank,
+				b -> b.getIDUeberhoehungB().getValue()).orElse(null);
+		return validPoint.test(begin) && validPoint.test(end);
+	}
+
 	/**
 	 * The Banking path is already defined. This function transform the
-	 * information to {@link BankingInformation}
+	 * information to {@link BankingInformation} Attention: The banking path
+	 * isn't contains start and end edge. This only have the TOP_Kante, which
+	 * the banking line complete overlap
 	 * 
 	 * @param bankingLine
 	 *            the {@link Ueberhoehungslinie}
@@ -351,14 +365,11 @@ public class BankServiceImpl implements BankService, EventHandler {
 				.getSinglePoint(bankingLine.getIDUeberhoehungA().getValue());
 		final Punkt_Objekt_TOP_Kante_AttributeGroup end = PunktObjektExtensions
 				.getSinglePoint(bankingLine.getIDUeberhoehungB().getValue());
-		// When the defined path not contains start/end point
-		if (relevantEdges.stream()
-				.noneMatch(edge -> edge == start.getIDTOPKante().getValue())
-				|| relevantEdges.stream()
-						.noneMatch(edge -> edge == end.getIDTOPKante()
-								.getValue())) {
+		// When the defined path not connected to start/end edge
+		if (!isRelevantTOPPath(bankingLine)) {
 			throw new IllegalArgumentException();
 		}
+		final TOP_Kante endEdge = end.getIDTOPKante().getValue();
 		final List<TOP_Kante> sortedEdges = new LinkedList<>();
 		TOP_Kante currentEdge = start.getIDTOPKante().getValue();
 		BigDecimal pathLength = BigDecimal.ZERO;
@@ -366,22 +377,17 @@ public class BankServiceImpl implements BankService, EventHandler {
 		while (!relevantEdges.isEmpty()) {
 			sortedEdges.add(currentEdge);
 			relevantEdges.remove(currentEdge);
-			if (currentEdge == end.getIDTOPKante().getValue()) {
+
+			if (TopKanteExtensions.isConnectedTo(currentEdge,
+					end.getIDTOPKante().getValue())) {
 				// when the path isn't end at end point
 				if (!relevantEdges.isEmpty()) {
 					throw new IllegalArgumentException();
 				}
-				// Edge before last edge
-				final TOP_Kante beforeLastEdge = sortedEdges
-						.get(sortedEdges.size() - 2);
-				final TOP_Knoten connectionNode = TopKanteExtensions
-						.connectionTo(currentEdge, beforeLastEdge);
-				final BigDecimal lastEdgeLength = connectionNode == currentEdge
-						.getIDTOPKnotenA()
-						.getValue() ? end.getAbstand().getWert()
-								: TopKanteExtensions.getLaenge(currentEdge)
-										.subtract(end.getAbstand().getWert());
-				pathLength = pathLength.add(lastEdgeLength);
+				pathLength = pathLength
+						.add(TopKanteExtensions.getLaenge(currentEdge))
+						.add(getStartEndEdgeLength(endEdge, end, currentEdge));
+				sortedEdges.add(endEdge);
 				break;
 			}
 			final List<TOP_Kante> nextEdges = new ArrayList<>();
@@ -396,15 +402,8 @@ public class BankServiceImpl implements BankService, EventHandler {
 				throw new IllegalArgumentException();
 			}
 			if (currentEdge == start.getIDTOPKante().getValue()) {
-				final TOP_Knoten connectionNode = TopKanteExtensions
-						.connectionTo(currentEdge, nextEdges.getFirst());
-				final BigDecimal firstEdgeLength = connectionNode == currentEdge
-						.getIDTOPKnotenB()
-						.getValue()
-								? TopKanteExtensions.getLaenge(currentEdge)
-										.subtract(start.getAbstand().getWert())
-								: start.getAbstand().getWert();
-				pathLength = pathLength.add(firstEdgeLength);
+				pathLength = pathLength.add(getStartEndEdgeLength(currentEdge,
+						start, nextEdges.getFirst()));
 			} else {
 				pathLength = pathLength
 						.add(TopKanteExtensions.getLaenge(currentEdge));
@@ -413,6 +412,56 @@ public class BankServiceImpl implements BankService, EventHandler {
 		}
 		return new BankingInformation(bankingLine,
 				new TopPath(sortedEdges, pathLength, new TopPoint(start)));
+	}
+
+	private static boolean isRelevantTOPPath(
+			final Ueberhoehungslinie bankingLine) {
+		final TOP_Kante beginEdge = EObjectExtensions
+				.getNullableObject(bankingLine,
+						b -> b.getIDUeberhoehungA()
+								.getValue()
+								.getPunktObjektTOPKante()
+								.getFirst()
+								.getIDTOPKante()
+								.getValue())
+				.orElse(null);
+		final TOP_Kante endEdge = EObjectExtensions
+				.getNullableObject(bankingLine,
+						b -> b.getIDUeberhoehungB()
+								.getValue()
+								.getPunktObjektTOPKante()
+								.getFirst()
+								.getIDTOPKante()
+								.getValue())
+				.orElse(null);
+		if (beginEdge == null || endEdge == null) {
+			return false;
+		}
+		final List<ID_TOP_Kante_ohne_Proxy_TypeClass> topPaths = bankingLine
+				.getIDTOPKantePfad();
+		final ID_TOP_Kante_ohne_Proxy_TypeClass connectToBegin = topPaths
+				.stream()
+				.filter(edge -> TopKanteExtensions.isConnectedTo(beginEdge,
+						edge.getValue()))
+				.findFirst()
+				.orElse(null);
+		final ID_TOP_Kante_ohne_Proxy_TypeClass connectToEnd = topPaths.stream()
+				.filter(edge -> TopKanteExtensions.isConnectedTo(endEdge,
+						edge.getValue()))
+				.findFirst()
+				.orElse(null);
+		return connectToBegin != null && connectToEnd != null;
+	}
+
+	private static BigDecimal getStartEndEdgeLength(final TOP_Kante edge,
+			final Punkt_Objekt_TOP_Kante_AttributeGroup potk,
+			final TOP_Kante connectedEdge) {
+		final TOP_Knoten connectionNode = TopKanteExtensions.connectionTo(edge,
+				connectedEdge);
+		return connectionNode == edge.getIDTOPKnotenB().getValue()
+				? TopKanteExtensions.getLaenge(edge)
+						.subtract(potk.getAbstand().getWert())
+				: potk.getAbstand().getWert();
 	}
 
 	@Override
@@ -580,18 +629,18 @@ public class BankServiceImpl implements BankService, EventHandler {
 	/**
 	 * BankingIntervall S-Form to Bloss
 	 * 
-	 * When x <= L / 2, then: u = (3 * U / L^2) * x^2 - (2 * U / L^3) * x^3
-	 * else: u = U / L * x* with: U: the height between banking start and
-	 * banking end L: the length of banking x: distance form start of banking to
-	 * point
+	 * From: u = (3 * U / L^2) * x^2 - (2 * U / L^3) * x^3
+	 * 
+	 * @param h_between
+	 *            the height between start and end banking - U value
+	 * @param h_between
+	 * @param distanceFromLeft
+	 *            distance from start of banking to point - x value
+	 * @param length
+	 *            length of banking line - L value
 	 */
 	private static BigDecimal bankingOfRampeBloss(final BigDecimal h_between,
 			final BigDecimal distanceFromLeft, final BigDecimal length) {
-		if (distanceFromLeft.compareTo(length.divide(BigDecimal.valueOf(2),
-				ToolboxConstants.ROUNDING_TO_PLACE,
-				RoundingMode.HALF_UP)) > 0) {
-			return bankingDefault(h_between, distanceFromLeft, length);
-		}
 		final BigDecimal a = h_between.multiply(BigDecimal.valueOf(3))
 				.multiply(distanceFromLeft.pow(2))
 				.divide(length.pow(2), ToolboxConstants.ROUNDING_TO_PLACE,
@@ -604,11 +653,17 @@ public class BankServiceImpl implements BankService, EventHandler {
 	}
 
 	/**
-	 * BankingIntervall S-Form to Rampe 1. Case: when x =< L/2 => u = 2 * U *
-	 * x^2 / L^2 2. Case: when x > L/2 => u = U - 2 * U * z^2 / L^2 with: U: the
-	 * height between banking start and banking end L: the length of banking x:
-	 * distance form start of banking to point z: distance from end of banking
-	 * to point
+	 * Caculate bankingIntervall S-Form to \n Rampe 1. Case: when x =< L/2 => u
+	 * = 2 * U * x^2 / L^2 2. Case: when x > L/2 => u = U - 2 * U * z^2 / L^2
+	 * 
+	 * @param h_between
+	 *            the height between start and end banking - U value
+	 * @param distanceFromLeft
+	 *            the distance form start of banking to point - x value
+	 * @param distanceFromRight
+	 *            the distance from end of banking to point - z value
+	 * @param length
+	 *            the banking line length - L value
 	 */
 	private static BigDecimal bankingOfRampeS(final BigDecimal h_between,
 			final BigDecimal distanceFromLeft,

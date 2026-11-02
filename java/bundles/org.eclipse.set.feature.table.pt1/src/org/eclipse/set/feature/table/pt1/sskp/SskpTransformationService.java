@@ -16,9 +16,10 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.function.Function;
+import java.util.function.ToIntFunction;
 
 import org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum;
+import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.core.services.graph.TopologicalGraphService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
@@ -40,6 +41,7 @@ import org.eclipse.set.model.tablemodel.extensions.CellContentExtensions;
 import org.eclipse.set.ppmodel.extensions.PZBElementExtensions;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
 import org.eclipse.set.utils.table.ColumnDescriptorModelBuilder;
+import org.eclipse.set.utils.table.TableInfo.Pt1TableCategory;
 import org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparatorType;
 import org.eclipse.set.utils.table.sorting.TableRowGroupComparator;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
@@ -126,19 +128,21 @@ public class SskpTransformationService
 	}
 
 	@Override
-	public Comparator<RowGroup> getRowGroupComparator() {
-		return TableRowGroupComparator.builder().sortByRouteAndKm(obj -> {
-			if (obj instanceof final PZB_Element pzb) {
-				final List<Basis_Objekt> bezugPunkts = PZBElementExtensions
-						.getPZBElementBezugspunkt(pzb);
+	public Comparator<RowGroup> getRowGroupComparator(
+			final TableType tableType) {
+		return TableRowGroupComparator.builder(tableType)
+				.sortByRouteAndKm(obj -> {
+					if (obj instanceof final PZB_Element pzb) {
+						final List<Basis_Objekt> bezugPunkts = PZBElementExtensions
+								.getPZBElementBezugspunkt(pzb);
 
-				if (!bezugPunkts.isEmpty() && bezugPunkts
-						.getFirst() instanceof final Punkt_Objekt po) {
-					return po;
-				}
-			}
-			return null;
-		})
+						if (!bezugPunkts.isEmpty() && bezugPunkts
+								.getFirst() instanceof final Punkt_Objekt po) {
+							return po;
+						}
+					}
+					return null;
+				})
 				.sort(Bezugselement, CellComparatorType.LEXICOGRAPHICAL,
 						SortDirectionEnum.ASC)
 				.sort(Wirkfrequenz,
@@ -149,16 +153,15 @@ public class SskpTransformationService
 
 	}
 
-	@SuppressWarnings("boxing")
 	private static Comparator<String> frequencyComparator() {
 		return (first, second) -> {
-			final Function<String, Integer> getPiority = value -> {
+			final ToIntFunction<String> getPiority = value -> {
 				return FREQUENCY_ODER.indexOf(
 						value.replace(SskpTransformator.GUE_ADDITION, "") //$NON-NLS-1$
 								.trim());
 			};
-			return Integer.compareUnsigned(getPiority.apply(first),
-					getPiority.apply(second));
+			return Integer.compareUnsigned(getPiority.applyAsInt(first),
+					getPiority.applyAsInt(second));
 		};
 	}
 
@@ -172,11 +175,8 @@ public class SskpTransformationService
 				SskpColumns.GeschwindigkeitsKlasse, //
 				SskpColumns.PZB_Schutzstrecke_Soll, //
 				SskpColumns.PZB_Schutzstrecke_Ist)
-				.forEach(it -> cols.forEach(col -> {
-					if (it.equals(col.getColumnPosition())) {
-						col.setMergeCommonValues(RowMergeMode.DISABLED);
-					}
-				}));
+				.forEach(it -> getColumnDescriptor(it).ifPresent(col -> col
+						.setMergeCommonValues(RowMergeMode.DISABLED)));
 
 		return cd;
 	}
@@ -196,7 +196,17 @@ public class SskpTransformationService
 	}
 
 	@Override
+	protected String getRemarkColumnPosition() {
+		return SskpColumns.Bemerkung;
+	}
+
+	@Override
 	protected Map<Class<?>, String> getFootnotesColumnReferences() {
 		return Collections.emptyMap();
+	}
+
+	@Override
+	protected Pt1TableCategory getTableCategory() {
+		return Pt1TableCategory.ESTW;
 	}
 }

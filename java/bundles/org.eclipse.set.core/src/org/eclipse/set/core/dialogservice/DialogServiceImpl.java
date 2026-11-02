@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.Callable;
@@ -23,7 +25,10 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.function.BiPredicate;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.e4.core.services.nls.Translation;
 import org.eclipse.e4.ui.di.UISynchronize;
 import org.eclipse.jface.dialogs.ErrorDialog;
@@ -156,6 +161,35 @@ public class DialogServiceImpl implements DialogService {
 			result.setValue(Boolean.valueOf(confirmDialog.confirmed()));
 		});
 		return result.getValue().booleanValue();
+	}
+
+	@Override
+	public List<String> confirmOverwriteMultiFile(final Shell shell,
+			final List<String> filesName) {
+		return confirmOverwriteMultiFile(shell, filesName,
+				IDialogConstants.OK_LABEL, IDialogConstants.CANCEL_LABEL);
+	}
+
+	@Override
+	public List<String> confirmOverwriteMultiFile(final Shell shell,
+			final List<String> filesName, final String okButtonLabel,
+			final String cancelButtonLabel) {
+
+		final SelectionMultiValueDialog dialog = new SelectionMultiValueDialog(
+				shell, utilMessages.Dialogs_confirmOverwriteTitle,
+				utilMessages.Dialogs_confirmOverwrite_Multi,
+				messages.DialogService_selectAll,
+				messages.DialogService_deselectAll, okButtonLabel,
+				cancelButtonLabel, filesName);
+		dialog.open();
+		final Collection<String> result = dialog.getResult();
+
+		if (result.isEmpty()) {
+			return Collections.emptyList();
+		}
+		return filesName.stream()
+				.filter(file -> result.stream().anyMatch(r -> r.equals(file)))
+				.toList();
 	}
 
 	@Override
@@ -429,6 +463,22 @@ public class DialogServiceImpl implements DialogService {
 		dialog.open();
 		sync.syncExec(runnable);
 		dialog.close();
+	}
+
+	@Override
+	public <T> void showProgressUISync(final Shell shell, final String message,
+			final Supplier<T> calculateData, final Consumer<T> rendereUI) {
+		try {
+			new ProgressMonitorDialog(shell).run(true, false, monitor -> {
+				monitor.beginTask(message, IProgressMonitor.UNKNOWN);
+				final T data = calculateData.get();
+				shell.getDisplay().syncExec(() -> rendereUI.accept(data));
+				monitor.done();
+			});
+		} catch (InvocationTargetException | InterruptedException e) {
+			Thread.currentThread().interrupt();
+			throw new RuntimeException();
+		}
 	}
 
 	@Override

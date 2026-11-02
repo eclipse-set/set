@@ -12,7 +12,6 @@ package org.eclipse.set.feature.table.export;
 import org.eclipse.e4.core.contexts.ContextInjectionFactory;
 import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.e4.core.services.nls.Translation;
-import org.eclipse.set.basis.constants.PlanProFileNature;
 import org.eclipse.set.basis.part.PartDescription;
 import org.eclipse.set.basis.viewgroups.ToolboxViewGroup;
 import org.eclipse.set.core.services.part.PartDescriptionService;
@@ -57,7 +56,7 @@ public class ExportPlanningRecordsDescriptionService
 				// toolboxViewType
 				getToolboxViewGroup(),
 				// defaultForNature
-				PlanProFileNature.INFORMATION_STATE,
+				null,
 				// toolboxViewNeedsLoadedModel
 				true,
 				// toolboxViewNeedsXsdValidation

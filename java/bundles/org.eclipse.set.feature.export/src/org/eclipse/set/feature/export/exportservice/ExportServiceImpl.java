@@ -13,16 +13,24 @@ import java.nio.file.Path;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Consumer;
 
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.set.basis.FreeFieldInfo;
+import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.OverwriteHandling;
 import org.eclipse.set.basis.ToolboxPaths;
 import org.eclipse.set.basis.constants.ExportType;
 import org.eclipse.set.basis.constants.TableType;
+import org.eclipse.set.basis.guid.Guid;
+import org.eclipse.set.core.services.session.SessionService;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.titlebox.Titlebox;
+import org.eclipse.set.ppmodel.extensions.utils.PlanProToFreeFieldTransformation;
+import org.eclipse.set.ppmodel.extensions.utils.PlanProToTitleboxTransformation;
 import org.eclipse.set.services.export.ExportService;
+import org.eclipse.set.services.export.TableCompileService;
 import org.eclipse.set.services.export.TableExport;
 import org.eclipse.set.services.export.TableExport.ExportFormat;
 import org.osgi.service.component.annotations.Component;
@@ -43,6 +51,9 @@ import org.slf4j.LoggerFactory;
 @Component(immediate = true)
 public class ExportServiceImpl implements ExportService {
 
+	@Reference
+	SessionService sessionService;
+
 	private static final Logger logger = LoggerFactory
 			.getLogger(ExportServiceImpl.class);
 
@@ -58,7 +69,70 @@ public class ExportServiceImpl implements ExportService {
 	}
 
 	@Override
-	public void exportPdf(final Map<TableType, Table> tables,
+	public void exportMultiTable(final ExportType exportType,
+			final List<TableToExportPath> tablesToExport,
+			final IModelSession modelSession,
+			final TableCompileService compileService, final TableType tableType,
+			final Set<String> controlAreaIds, final IProgressMonitor monitor,
+			final OverwriteHandling overwriteHandling,
+			final Consumer<Exception> errorHandler) {
+		if (builders.isEmpty()) {
+			logger.warn(
+					"There are no builders registered at the export service."); //$NON-NLS-1$
+		}
+		try {
+			tablesToExport.forEach(tableToExport -> {
+				monitor.subTask(tableToExport.tableInfo()
+						.nameInfo()
+						.getFullDisplayName());
+				final Map<TableType, Table> tables = compileService.compile(
+						tableToExport.tableInfo(), modelSession,
+						controlAreaIds);
+				final PlanProToTitleboxTransformation planProToTitleboxTransformation = new PlanProToTitleboxTransformation(
+						sessionService);
+				final Titlebox titleBox = planProToTitleboxTransformation
+						.transform(tableToExport.tableInfo().nameInfo(),
+								guid -> getAttachmentPath(modelSession, guid));
+
+				final PlanProToFreeFieldTransformation planProToFreeFieldTransformation = PlanProToFreeFieldTransformation
+						.create(sessionService);
+				final FreeFieldInfo freeField = planProToFreeFieldTransformation
+						.transform();
+				tableToExport.getExportFormatAndPaths()
+						.forEach((format, path) -> {
+							final TableExport builder = getBuilder(format,
+									tableToExport.tableInfo().shortcut());
+							if (builder != null && path != null) {
+								try {
+									builder.export(tables, exportType, titleBox,
+											freeField,
+											tableToExport.tableInfo()
+													.shortcut(),
+											tableType, path, overwriteHandling);
+								} catch (final Exception e) {
+									errorHandler.accept(e);
+								}
+							}
+						});
+				monitor.worked(1);
+			});
+		} catch (final Exception e) {
+			errorHandler.accept(e);
+		}
+	}
+
+	private static Path getAttachmentPath(final IModelSession modelSession,
+			final String guid) {
+		try {
+			return modelSession.getToolboxFile()
+					.getMediaPath(Guid.create(guid));
+		} catch (final UnsupportedOperationException e) {
+			return null;
+		}
+	}
+
+	@Override
+	public void exportTable(final Map<TableType, Table> tables,
 			final ExportType exportType, final Titlebox titlebox,
 			final FreeFieldInfo freeFieldInfo, final String shortcut,
 			final String outputDir, final ToolboxPaths toolboxPaths,
@@ -81,7 +155,6 @@ public class ExportServiceImpl implements ExportService {
 				}
 			}
 		});
-
 	}
 
 	private TableExport getBuilder(final ExportFormat format,

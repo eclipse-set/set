@@ -20,15 +20,16 @@ concurrency:
 
 env:
   GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-  DEPLOY_DIR: ${{ github.workspace }}/java-test/m2deploy
-  DIFF_DIR: java-test/diff
-  TEST_APPLICATION_DIR: ${{ github.workspace }}/java-test/application-under-test
+  DEPLOY_DIR: ${{ github.workspace }}/java/java-test/m2deploy
+  DIFF_DIR: java/java-test/diff
+  TEST_APPLICATION_DIR: ${{ github.workspace }}/java/java-test/application-under-test
+  MVN_FLAGS: -T 1.5C -B --settings ./.github/settings.xml --no-transfer-progress
 
 jobs:
   docs:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Install Asciidoctor & Hugo
         uses: eclipse-set/build/.github/actions/setup-asciidoctor@main
@@ -47,7 +48,7 @@ jobs:
   developerhelp:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Install Asciidoctor & Hugo
         uses: eclipse-set/build/.github/actions/setup-asciidoctor@main
@@ -66,7 +67,7 @@ jobs:
   textviewer:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Build
         run: |
           npm ci
@@ -82,7 +83,7 @@ jobs:
   pdfviewer:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Build
         run: |
           wget --no-verbose -O pdfjs.zip https://github.com/mozilla/pdf.js/releases/download/v$(node getVersion.js)/pdfjs-$(node getVersion.js)-dist.zip
@@ -99,10 +100,10 @@ jobs:
   siteplan:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       
       - name: Cache node_modules
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           enableCrossOsArchive: true
           path: ${{ github.workspace }}/web/siteplan/node_modules/
@@ -125,7 +126,7 @@ jobs:
   news:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Setup Java
         uses: eclipse-set/build/.github/actions/setup-java@main
 
@@ -158,21 +159,8 @@ jobs:
       checks: write
       pull-requests: write
       actions: read
-      security-events: write
     steps:
-      - uses: actions/checkout@v6
-
-      - name: Initialize CodeQL
-        uses: github/codeql-action/init@v4
-        if: github.ref == 'refs/heads/main'
-        with:
-          languages: java, javascript
-          config: |
-            paths-ignore: 
-              - '**/dist/**'
-              - '**/target/**'
-              - '**/siteplan/assets/**'
-              - '**/monaco/vs/**'
+      - uses: actions/checkout@v7
       
       - name: Setup Java
         uses: eclipse-set/build/.github/actions/setup-java@main
@@ -212,14 +200,6 @@ jobs:
         with:
           name: news-artifact
           path: web/news/public
-      
-      - name: Cache m2repo
-        uses: actions/cache@v5
-        with:
-          enableCrossOsArchive: true
-          path: ~/.m2/repository/
-          key: ${{ runner.os }}-m2repo-${{ hashFiles('**/java/bundles/org.eclipse.set.releng.target/org.eclipse.set.releng.target.target', 'pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2repo-
 
       - name: Build
         run: |
@@ -227,7 +207,7 @@ jobs:
           if [[ ${{github.ref}} == "refs/heads/main" || "${{github.ref}}" == refs/tags/* ]]; then
             m2RepoPath="set-github::https://maven.pkg.github.com/${{ github.repository }}"
           fi
-          mvn -T 1.5C -U -B clean deploy checkstyle:checkstyle --settings .github/settings.xml -DaltDeploymentRepository="$m2RepoPath"
+          mvn -U ${{ env.MVN_FLAGS }} -f java/pom.xml deploy checkstyle:checkstyle -DaltDeploymentRepository="$m2RepoPath" -DskipTests
         env:
           GITHUB_TOKEN: ${{ github.token }}
       
@@ -255,20 +235,149 @@ jobs:
 
       - name: Upload release asset
         if: startsWith(github.ref, 'refs/tags/')
-        uses: softprops/action-gh-release@b4309332981a82ec1c5618f44dd2e27cc8bfbfda # v3.0.0
+        uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64 # v3.0.3
         with: 
           files: java/bundles/org.eclipse.set.releng.set.product/target/products/unsigned-Eclipse-SET-*.zip
           
+  tests:
+    runs-on: ubuntu-latest
+    needs:
+      - docs
+      - textviewer
+      - pdfviewer
+      - siteplan
+      - developerhelp
+      - news
+    permissions:
+      checks: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v7
+      
+      - name: Setup Java
+        uses: eclipse-set/build/.github/actions/setup-java@main
+      
+      - name: Fetch pdf viewer
+        uses: actions/download-artifact@v8
+        with:
+          name: pdfviewer-artifact
+          path: web/pdf/dist
+      
+      - name: Fetch text viewer
+        uses: actions/download-artifact@v8
+        with:
+          name: textviewer-artifact
+          path: web/textviewer/dist
+      
+      - name: Fetch about
+        uses: actions/download-artifact@v8
+        with:
+          name: about-artifact
+          path: web/about/dist   
+
+      - name: Fetch siteplan
+        uses: actions/download-artifact@v8
+        with:
+          name: siteplan-artifact
+          path: web/siteplan/dist
+
+      - name: Fetch developerhelp
+        uses: actions/download-artifact@v8
+        with:
+          name: developerhelp-artifact
+          path: web/developerhelp/dist
+
+      - name: Fetch news
+        uses: actions/download-artifact@v8
+        with:
+          name: news-artifact
+          path: web/news/public
+
+      - name: Run Tests
+        run: | 
+          mvn ${{ env.MVN_FLAGS }} -f java/pom.xml verify \
+            -Dtycho.source.skip=true \
+            -DskipP2Metadata=true \
+            -Dmaven.javadoc.skip=true
+      
       - name: Publish Test Results
-        uses: EnricoMi/publish-unit-test-result-action@c950f6fb443cb5af20a377fd0dfaa78838901040 # v2.23.0
+        uses: EnricoMi/publish-unit-test-result-action@7622c5bf3d112a72ab4fa3951c2aa5723d8ab92d # v2.25.0
         if: always()
         with:
           files: |
             ${{ github.workspace }}/**/surefire-reports/*.xml
 
+  codeql:
+    runs-on: ubuntu-latest
+    needs:
+      - docs
+      - textviewer
+      - pdfviewer
+      - siteplan
+      - developerhelp
+      - news
+    permissions:
+      security-events: write
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v4.39.1
+        with:
+          languages: java, javascript
+          config: |
+            paths-ignore: 
+              - '**/dist/**'
+              - '**/target/**'
+              - '**/xtend-gen/**'
+              - '**/siteplan/assets/**'
+              - '**/monaco/vs/**'
+
+      - name: Setup Java
+        uses: eclipse-set/build/.github/actions/setup-java@main
+      
+      - name: Fetch pdf viewer
+        uses: actions/download-artifact@v8
+        with:
+          name: pdfviewer-artifact
+          path: web/pdf/dist
+      
+      - name: Fetch text viewer
+        uses: actions/download-artifact@v8
+        with:
+          name: textviewer-artifact
+          path: web/textviewer/dist
+      
+      - name: Fetch about
+        uses: actions/download-artifact@v8
+        with:
+          name: about-artifact
+          path: web/about/dist   
+
+      - name: Fetch siteplan
+        uses: actions/download-artifact@v8
+        with:
+          name: siteplan-artifact
+          path: web/siteplan/dist
+
+      - name: Fetch developerhelp
+        uses: actions/download-artifact@v8
+        with:
+          name: developerhelp-artifact
+          path: web/developerhelp/dist
+
+      - name: Fetch news
+        uses: actions/download-artifact@v8
+        with:
+          name: news-artifact
+          path: web/news/public
+
+      - name: Trace compilation
+        run: mvn ${{ env.MVN_FLAGS }} -f java/pom.xml compile
+
       - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v4
-        if: github.ref == 'refs/heads/main'
+        uses: github/codeql-action/analyze@v4.39.1
 
   swtbot:
     runs-on: windows-latest
@@ -280,7 +389,7 @@ jobs:
       pull-requests: write
       actions: read
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       
       - name: Setup Java
         uses: eclipse-set/build/.github/actions/setup-java@main
@@ -306,14 +415,6 @@ jobs:
           repo: ${{ github.repository }}
         continue-on-error: true
 
-      - name: Cache m2repo
-        uses: actions/cache@v5
-        with:
-          enableCrossOsArchive: true
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-m2repo-${{ hashFiles('**/java/bundles/org.eclipse.set.releng.target/org.eclipse.set.releng.target.target', 'pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2repo-
-
       - name: Run Test
         id: test-steps
         shell: bash
@@ -322,11 +423,13 @@ jobs:
           if [[ "${{ github.event_name }}" == "pull_request" || "${{github.ref}}" == refs/heads/release/* ]]; then
             m2RepoPath="file://${{ env.DEPLOY_DIR }}"
           fi
-          mvn -T 1.5C -U -B -f java-test/pom.xml clean verify  \
-            --settings ./.github/settings.xml \
+          mvn ${{ env.MVN_FLAGS }} -f java/java-test/pom.xml verify  \
             -Dskip-test=false \
             -Dm2-repo-path="$m2RepoPath" \
             -Dapplication-under-test="${{ env.TEST_APPLICATION_DIR }}" \
+            -Dtycho.source.skip=true \
+            -DskipP2Metadata=true \
+            -Dmaven.javadoc.skip=true
       
       - name: Upload csv files
         if: failure() && steps.test-steps.outcome == 'failure'
@@ -339,7 +442,7 @@ jobs:
   table-diff-view:
     runs-on: ubuntu-latest
     needs: swtbot
-    if: always() && github.actor_id != 49699333 && !startsWith(github.ref, 'refs/heads/release/') && !startsWith(github.ref, 'refs/tags/')
+    if: always() && (needs.swtbot.result == 'success' || needs.swtbot.result == 'failure') && github.actor_id != 49699333 && !startsWith(github.ref, 'refs/heads/release/') && !startsWith(github.ref, 'refs/tags/')
     container: ghcr.io/eclipse-set/table-diff-view:latest
     permissions:
       contents: write

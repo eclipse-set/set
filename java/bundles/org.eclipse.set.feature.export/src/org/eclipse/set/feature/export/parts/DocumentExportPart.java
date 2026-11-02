@@ -11,6 +11,7 @@ package org.eclipse.set.feature.export.parts;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.function.Consumer;
 
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -25,7 +26,6 @@ import org.eclipse.jface.viewers.ICheckStateProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.set.basis.IModelSession;
-import org.eclipse.set.basis.OverwriteHandling;
 import org.eclipse.set.basis.export.CheckBoxTreeElement;
 import org.eclipse.set.basis.export.CheckboxModelElement;
 import org.eclipse.set.basis.extensions.Exceptions;
@@ -76,8 +76,6 @@ public abstract class DocumentExportPart extends BasePart {
 
 	@Inject
 	UserConfigurationService userConfigService;
-
-	Button checkOverrideButton;
 
 	@Inject
 	ExportService exportService;
@@ -287,13 +285,6 @@ public abstract class DocumentExportPart extends BasePart {
 									.setText(getSelectedDirectory().toString());
 							userConfigService.setLastExportPath(selectedDir);
 						}));
-
-		// check override
-		checkOverrideButton = new Button(section, SWT.CHECK);
-		checkOverrideButton.setSelection(true);
-		final Label checkOverrideLabel = new Label(section, SWT.NONE);
-		checkOverrideLabel
-				.setText(messages.DocumentExportPart_checkOverrideLabel);
 	}
 
 	private Composite createSection(final Composite parent,
@@ -314,25 +305,26 @@ public abstract class DocumentExportPart extends BasePart {
 
 	private void startExport(final Shell shell,
 			final IModelSession modelSession) {
-		final OverwriteHandling overwriteHandling = OverwriteHandling
-				.forCheckbox(checkOverrideButton.getSelection());
 		final Object[] checkedElements = viewer.getCheckedElements();
+		final List<CheckBoxTreeElement> filterOverwriteConfirmationFiles = filterOverwriteConfirmationFiles(
+				checkedElements);
+		if (filterOverwriteConfirmationFiles.isEmpty()) {
+			getDialogService().openInformation(getToolboxShell(),
+					getTaskMessage(), messages.DocumentExportPart_NoDocument);
+			return;
+		}
 		// runnable for the transformation
 		final IRunnableWithProgress exportThread = new IRunnableWithProgress() {
 			@Override
 			public void run(final IProgressMonitor monitor)
 					throws InvocationTargetException, InterruptedException {
 				// start a single task with unknown timeframe
-				monitor.beginTask(getTaskMessage(), IProgressMonitor.UNKNOWN);
+				monitor.beginTask(getTaskMessage(),
+						filterOverwriteConfirmationFiles.size());
 
 				// listen to cancel
 				Threads.stopCurrentOnCancel(monitor);
-
-				for (final Object entry : checkedElements) {
-					final CheckboxModelElement ele = (CheckboxModelElement) entry;
-					export(ele, modelSession, overwriteHandling, monitor);
-				}
-
+				export(filterOverwriteConfirmationFiles, modelSession, monitor);
 				// stop progress
 				monitor.done();
 			}
@@ -354,6 +346,9 @@ public abstract class DocumentExportPart extends BasePart {
 			userConfigService.setLastExportPath(getSelectedDirectory());
 		}
 	}
+
+	protected abstract void export(List<CheckBoxTreeElement> element,
+			IModelSession modelSession, IProgressMonitor monitor);
 
 	protected abstract CheckboxTreeModel createTreeModelData();
 
@@ -389,10 +384,6 @@ public abstract class DocumentExportPart extends BasePart {
 		setOutdated(getModelSession().isDirty());
 	}
 
-	protected abstract void export(CheckboxModelElement element,
-			IModelSession modelSession, OverwriteHandling overwriteHandling,
-			IProgressMonitor monitor);
-
 	protected abstract String getDescription();
 
 	protected abstract String getExportButtonText();
@@ -419,4 +410,7 @@ public abstract class DocumentExportPart extends BasePart {
 		exportButton.setEnabled(
 				viewer.getCheckedElements().length > 0 && !isSessionDirty);
 	}
+
+	protected abstract List<CheckBoxTreeElement> filterOverwriteConfirmationFiles(
+			Object[] checkedElements);
 }

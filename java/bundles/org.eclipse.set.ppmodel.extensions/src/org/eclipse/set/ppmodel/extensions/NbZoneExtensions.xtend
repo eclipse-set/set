@@ -83,7 +83,10 @@ class NbZoneExtensions extends BasisObjektExtensions {
 	 * @return the Bereich/Zone Bezeichner of this Nahbedienbereichszone
 	 */
 	def static String getBezeichnung(NB_Zone nbZone) {
-		val nb = nbZone.nb
+		val nb = nbZone?.nb
+		if (nb === null) {
+			return ""
+		}
 		return '''«nb?.bezeichnung?.kennzahl?.wert ?: ""»Nb«nb?.bezeichnung.bezeichnungNB.wert ?: ""»/«nbZone.bezeichnung?.bezeichnungNBZone?.wert ?: ""»'''
 	}
 

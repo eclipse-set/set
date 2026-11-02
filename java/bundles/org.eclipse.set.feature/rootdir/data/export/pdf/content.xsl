@@ -15,8 +15,9 @@
 		</fo:block>
 	</xsl:template>
 
+	<!-- Switch to Arial if content contains □ because OpenSans does not know this glyphe -->
 	<xsl:template
-		match="StringContent[starts-with(.,'&#x25a1;')]">
+		match="StringContent[contains(.,'&#x25a1;')]">
 		<fo:block hyphenate="true" language="de" font-family="Arial">
 			<xsl:value-of select="." />
 		</fo:block>
@@ -47,7 +48,7 @@
 			<xsl:choose>
 				<xsl:when test="@keep-inline='true'">
 					<xsl:for-each select="*[not(@isFootNote)]">
-						<fo:block>
+						<fo:block hyphenate="true" language="de">
 							<xsl:apply-templates select="." />
 						</fo:block>
 					</xsl:for-each>
@@ -59,16 +60,18 @@
 					</xsl:for-each>
 				</xsl:when>
 				<xsl:otherwise>
-					<fo:block>
-						<xsl:apply-templates />
-					</fo:block>
+					<xsl:for-each select="*">
+						<fo:block hyphenate="true" language="de">
+							<xsl:apply-templates select="." />
+						</fo:block>
+					</xsl:for-each>
 				</xsl:otherwise>
 			</xsl:choose>
 		</fo:block>
 	</xsl:template>
 
 	<xsl:template match="UnchangedValue">
-		<fo:inline hyphenate="true" language="de">
+		<fo:inline>
 			<xsl:value-of select="." />
 		</fo:inline>
 	</xsl:template>
@@ -76,7 +79,7 @@
 	<xsl:template
 		match="UnchangedValue[starts-with(.,'Error:') or starts-with(.,'&#9203;')]"
 		priority="1">
-		<fo:inline hyphenate="true" language="de">
+		<fo:inline>
 			<fo:external-graphic
 				xsl:use-attribute-sets="external-graphic-style"
 				src="data/pictures/warning_yellow.svg" fox:alt-text="Error" />
@@ -85,14 +88,15 @@
 
 	<xsl:template match="OldValue">
 		<fo:inline background-color="yellow"
-			text-decoration="line-through" hyphenate="true" language="de">
+			text-decoration="line-through">
 			<xsl:value-of select="." />
 		</fo:inline>
 	</xsl:template>
 
-	<xsl:template match="OldValue[starts-with(.,'&#x25a1;')]">
+	<!-- Switch to Arial if content contains □ because OpenSans does not know this glyphe -->
+	<xsl:template match="OldValue[contains(.,'&#x25a1;')]">
 		<fo:inline font-family="Arial" background-color="yellow"
-			text-decoration="line-through" hyphenate="true" language="de">
+			text-decoration="line-through">
 			<xsl:value-of select="." />
 		</fo:inline>
 	</xsl:template>
@@ -100,7 +104,7 @@
 	<xsl:template
 		match="OldValue[starts-with(.,'Error:') or starts-with(.,'&#9203;')]"
 		priority="1">
-		<fo:inline hyphenate="true" language="de">
+		<fo:inline>
 			<fo:external-graphic
 				xsl:use-attribute-sets="external-graphic-style"
 				src="data/pictures/warning_yellow.svg" fox:alt-text="Error" />
@@ -124,9 +128,9 @@
 		</fo:inline>
 	</xsl:template>
 
-	<xsl:template match="NewValue[starts-with(.,'&#x25a1;')]">
-		<fo:inline font-family="Arial" color="#cd0000"
-			hyphenate="true" language="de">
+	<!-- Switch to Arial if content contains □ because OpenSans does not know this glyphe -->
+	<xsl:template match="NewValue[contains(.,'&#x25a1;')]">
+		<fo:inline font-family="Arial" color="#cd0000">
 			<xsl:value-of select="." />
 		</fo:inline>
 	</xsl:template>
@@ -134,7 +138,7 @@
 	<xsl:template
 		match="NewValue[starts-with(.,'Error:') or starts-with(.,'&#9203;')]"
 		priority="1">
-		<fo:inline color="#cd0000" hyphenate="true" language="de">
+		<fo:inline color="#cd0000">
 			<fo:external-graphic
 				xsl:use-attribute-sets="external-graphic-style"
 				src="data/pictures/warning_red.svg" fox:alt-text="Error" />
@@ -144,7 +148,7 @@
 	<xsl:template
 		match="NewValue[starts-with(.,'Error:') or starts-with(.,'&#9203;')]"
 		priority="2">
-		<fo:inline color="#cd0000" hyphenate="true" language="de">
+		<fo:inline color="#cd0000">
 			<fo:external-graphic
 				xsl:use-attribute-sets="external-graphic-style"
 				src="data/pictures/warning_red.svg" fox:alt-text="Error" />
@@ -196,10 +200,12 @@
 
 	<xsl:template match="CompareProjectContent">
 		<fo:block>
+			<fo:marker marker-class-name="ComparePageText">
+				<fo:inline border-width="0.2mm" border-style="solid" border-color="#0066FF" color="#0066FF" padding="2px">
+						<xsl:text>Änderung gegenüber vorheriger Ausgabe</xsl:text>
+				</fo:inline>
+			</fo:marker>
 			<fo:inline>
-				<xsl:if test="../../@compareType='CHANGED_GUID_ROW'">
-					<xsl:attribute name="text-decoration">line-through</xsl:attribute>
-				</xsl:if>
 				<xsl:apply-templates />
 			</fo:inline>
 		</fo:block>

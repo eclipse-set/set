@@ -11,6 +11,7 @@ package org.eclipse.set.basis.graph;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.NoSuchElementException;
 import java.util.Set;
@@ -31,6 +32,8 @@ import com.google.common.collect.Sets;
  */
 @SuppressWarnings({ "boxing", "hiding", "nls" })
 class DigraphsTest {
+	private static final BigDecimal MAX_PATH_LENGTH = BigDecimal
+			.valueOf(100000);
 
 	private static class TestGetPathsDigraphPP {
 		TestDigraph digraph = new TestDigraph();
@@ -133,7 +136,7 @@ class DigraphsTest {
 	}
 
 	private void whenGettingPaths() {
-		paths = Digraphs.getPaths(digraph, start, end);
+		paths = Digraphs.getPaths(digraph, start, end, MAX_PATH_LENGTH);
 	}
 
 	private void thenExpectPaths(final Set<TestPath> expected) {

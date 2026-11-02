@@ -14,12 +14,16 @@ import static org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.getCont
 import static org.eclipse.set.ppmodel.extensions.MultiContainer_AttributeGroupExtensions.getPlanProSchnittstelle;
 
 import java.math.BigDecimal;
+import java.util.Collections;
 import java.util.Deque;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 import org.eclipse.e4.core.services.events.IEventBroker;
@@ -43,13 +47,18 @@ import org.eclipse.set.utils.graph.AsSplitTopGraph.Edge;
 import org.eclipse.set.utils.graph.AsSplitTopGraph.Node;
 import org.jgrapht.GraphPath;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
+import org.jgrapht.alg.shortestpath.PathValidator;
+import org.jgrapht.alg.shortestpath.YenKShortestPath;
 import org.jgrapht.graph.WeightedPseudograph;
+import org.jgrapht.traverse.ClosestFirstIterator;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.event.Event;
 import org.osgi.service.event.EventAdmin;
 import org.osgi.service.event.EventConstants;
 import org.osgi.service.event.EventHandler;
+
+import com.google.common.collect.Streams;
 
 /**
  * TopologicalGraph service for finding distances in the topological model
@@ -63,6 +72,11 @@ public class TopologicalGraphServiceImpl
 	private final Map<PlanPro_Schnittstelle, WeightedPseudograph<AsSplitTopGraph.Node, AsSplitTopGraph.Edge>> topGraphBaseMap;
 	// Tolerance value by find path with topological direction
 	private final int TOLERANT_DISTANCE_TO_FIND_DIRECTION_PATH = 500;
+
+	private record InputData(AsSplitTopGraph graphView, Node fromNode,
+			Node toNode) {
+
+	}
 
 	@Reference
 	EventAdmin eventAdmin;
@@ -141,14 +155,15 @@ public class TopologicalGraphServiceImpl
 
 	@Override
 	public List<TopPath> findAllPathsBetween(final TopPoint from,
-			final TopPoint to, final int limit) {
+			final TopPoint to, final int limit,
+			final boolean includeIncompletePath) {
 		final MultiContainer_AttributeGroup container = getContainer(
 				from.edge());
 		final PlanPro_Schnittstelle planProSchnittstelle = getPlanProSchnittstelle(
 				container);
 		return AsDirectedTopGraph.getAllPaths(
 				new AsSplitTopGraph(getTopGraphBase(planProSchnittstelle)),
-				from, to, limit);
+				from, to, limit, includeIncompletePath);
 	}
 
 	@Override
@@ -161,6 +176,43 @@ public class TopologicalGraphServiceImpl
 		return AsDirectedTopGraph.getPath(
 				new AsSplitTopGraph(getTopGraphBase(planProSchnittstelle)),
 				from, to, limit, condition);
+	}
+
+	@Override
+	public Optional<TopPath> findTopologicalShortesPath(final TopPoint from,
+			final TopPoint to) {
+		if (from.equalLocation(to)) {
+			return Optional.of(
+					new TopPath(List.of(from.edge()), BigDecimal.ZERO, from));
+		}
+		final PathValidator<AsSplitTopGraph.Node, AsSplitTopGraph.Edge> validator = getTopologicalPathValidator(
+				Edge::edge);
+
+		final InputData inputData = getInputData(from, to, Optional.empty());
+
+		final YenKShortestPath<Node, Edge> yenKShortestPath = new YenKShortestPath<>(
+				inputData.graphView, validator);
+		final List<GraphPath<Node, Edge>> paths = yenKShortestPath
+				.getPaths(inputData.fromNode, inputData.toNode, 1);
+		return paths.stream()
+				.map(p -> new TopPath(p.getEdgeList()
+						.stream()
+						.map(Edge::edge)
+						.distinct()
+						.toList(), getPathWeight(p), from))
+				.findFirst();
+
+	}
+
+	private static <V, E> PathValidator<V, E> getTopologicalPathValidator(
+			final Function<E, TOP_Kante> toTopKanteFunc) {
+		return (path, edge) -> {
+			if (path.getEdgeList().isEmpty()) {
+				return true;
+			}
+			return TopKanteExtensions.isRoute(toTopKanteFunc.apply(edge),
+					toTopKanteFunc.apply(path.getEdgeList().getLast()));
+		};
 	}
 
 	@Override
@@ -178,18 +230,10 @@ public class TopologicalGraphServiceImpl
 			return Optional.of(
 					new TopPath(List.of(from.edge()), BigDecimal.ZERO, from));
 		}
-		final MultiContainer_AttributeGroup container = getContainer(
-				from.edge());
-		final PlanPro_Schnittstelle planProSchnittstelle = getPlanProSchnittstelle(
-				container);
-		final AsSplitTopGraph graphView = new AsSplitTopGraph(
-				getTopGraphBase(planProSchnittstelle));
-
-		final Node fromNode = graphView.splitGraphAt(from);
-		final Node toNode = graphView.splitGraphAt(to);
-
+		final InputData inputData = getInputData(from, to, Optional.empty());
 		return Optional.ofNullable( //
-				findPathBetween(graphView, fromNode, toNode))
+				findPathBetween(inputData.graphView, inputData.fromNode,
+						inputData.toNode))
 				.map(p -> new TopPath(p.getEdgeList()
 						.stream()
 						.map(Edge::edge)
@@ -208,16 +252,8 @@ public class TopologicalGraphServiceImpl
 							distance.abs(), distance.abs()))
 					: Optional.empty();
 		}
-		final MultiContainer_AttributeGroup container = getContainer(
-				from.edge());
-		final PlanPro_Schnittstelle planProSchnittstelle = getPlanProSchnittstelle(
-				container);
-		final AsSplitTopGraph graphView = new AsSplitTopGraph(
-				getTopGraphBase(planProSchnittstelle));
-
-		final Node fromNode = graphView.splitGraphAt(from,
-				Boolean.valueOf(inTopDirection));
-		final Node toNode = graphView.splitGraphAt(to);
+		final InputData inputData = getInputData(from, to,
+				Optional.of(Boolean.valueOf(inTopDirection)));
 		final Optional<BigDecimal> shortestDistance = findShortestDistance(from,
 				to);
 
@@ -226,8 +262,10 @@ public class TopologicalGraphServiceImpl
 		}
 
 		final TopPath path = AsDirectedTopGraph
-				.getPath(AsDirectedTopGraph.asDirectedTopGraph(graphView),
-						fromNode, toNode,
+				.getPath(
+						AsDirectedTopGraph
+								.asDirectedTopGraph(inputData.graphView),
+						inputData.fromNode, inputData.toNode,
 						shortestDistance.get().intValue()
 								+ TOLERANT_DISTANCE_TO_FIND_DIRECTION_PATH,
 						topPath -> {
@@ -254,7 +292,6 @@ public class TopologicalGraphServiceImpl
 		try {
 			return DijkstraShortestPath.findPathBetween(graphView, fromNode,
 					toNode);
-
 		} catch (final IllegalArgumentException ex) {
 			if (ex.getMessage().equals("Negative edge weight not allowed")) { //$NON-NLS-1$
 				throw new IllegalArgumentException("Invalid spot location", ex); //$NON-NLS-1$
@@ -280,26 +317,20 @@ public class TopologicalGraphServiceImpl
 	@Override
 	public Optional<TopPoint> findClosestPoint(final TopPoint from,
 			final List<TopPoint> points, final boolean searchInTopDirection) {
-		final MultiContainer_AttributeGroup container = getContainer(
-				from.edge());
-		final PlanPro_Schnittstelle planProSchnittstelle = getPlanProSchnittstelle(
-				container);
-		final AsSplitTopGraph graphView = new AsSplitTopGraph(
-				getTopGraphBase(planProSchnittstelle));
-		final Node fromNode = graphView.splitGraphAt(from,
-				Boolean.valueOf(searchInTopDirection));
+		final InputData inputData = getInputData(from, null,
+				Optional.of(Boolean.valueOf(searchInTopDirection)));
 
 		BigDecimal minWeight = BigDecimal.valueOf(1000000);
 		Optional<TopPoint> minPoint = Optional.empty();
 		for (final TopPoint point : points) {
 			Node toNode = null;
 			try {
-				toNode = graphView.splitGraphAt(point);
+				toNode = inputData.graphView.splitGraphAt(point);
 			} catch (final IllegalArgumentException e) {
 				continue;
 			}
-			final GraphPath<Node, Edge> path = findPathBetween(graphView,
-					fromNode, toNode);
+			final GraphPath<Node, Edge> path = findPathBetween(
+					inputData.graphView, inputData.fromNode, toNode);
 			if (path == null) {
 				continue;
 			}
@@ -311,5 +342,70 @@ public class TopologicalGraphServiceImpl
 		}
 
 		return minPoint;
+	}
+
+	@Override
+	public Set<TopPoint> findClosestPoints(final TopPoint start,
+			final Set<TopPoint> candidates, final double radius,
+			final Optional<Boolean> inTopDirection) {
+		if (candidates.isEmpty()) {
+			return Collections.emptySet();
+		}
+
+		final InputData inputData = getInputData(start, null, inTopDirection);
+		// Add candidates point to graph view
+		final Map<Node, TopPoint> pointMap = new HashMap<>();
+		for (final TopPoint point : candidates) {
+			try {
+				pointMap.put(inputData.graphView().splitGraphAt(point), point);
+			} catch (final IllegalArgumentException e) {
+				// the candidates point lie on the edge, which opposite of
+				// inTopDirection
+				continue;
+			}
+		}
+
+		final ClosestFirstIterator<Node, Edge> closestFirstIterator = new ClosestFirstIterator<>(
+				inputData.graphView(), inputData.fromNode(), radius);
+		if (!closestFirstIterator.hasNext()) {
+			return Collections.emptySet();
+		}
+
+		final Set<TopPoint> points = new HashSet<>();
+		Streams.stream(closestFirstIterator).forEach(node -> {
+			if (node == inputData.fromNode || node.node() != null) {
+				return;
+			}
+			final Optional<TopPath> topologicalShortesPath = inTopDirection
+					.isPresent()
+							? findShortestPathInDirection(start,
+									pointMap.get(node),
+									inTopDirection.get().booleanValue())
+							: findTopologicalShortesPath(start,
+									pointMap.get(node));
+			if (!topologicalShortesPath.isEmpty()) {
+				points.add(pointMap.get(node));
+			}
+		});
+		return points;
+	}
+
+	private InputData getInputData(final TopPoint from, final TopPoint to,
+			final Optional<Boolean> inTopDirection) {
+		final MultiContainer_AttributeGroup container = getContainer(
+				from.edge());
+		final PlanPro_Schnittstelle planProSchnittstelle = getPlanProSchnittstelle(
+				container);
+		final AsSplitTopGraph graphView = new AsSplitTopGraph(
+				getTopGraphBase(planProSchnittstelle));
+
+		final Node fromNode = inTopDirection.isPresent()
+				? graphView.splitGraphAt(from, inTopDirection.get())
+				: graphView.splitGraphAt(from);
+		if (to == null) {
+			return new InputData(graphView, fromNode, null);
+		}
+		final Node toNode = graphView.splitGraphAt(to);
+		return new InputData(graphView, fromNode, toNode);
 	}
 }

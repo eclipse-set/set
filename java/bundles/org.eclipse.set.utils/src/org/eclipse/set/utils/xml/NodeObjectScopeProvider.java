@@ -8,9 +8,9 @@
  */
 package org.eclipse.set.utils.xml;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import org.eclipse.set.basis.PlanProXMLNode;
 import org.eclipse.set.model.validationreport.ObjectScope;
@@ -24,7 +24,10 @@ import org.eclipse.set.model.validationreport.ObjectScope;
 public class NodeObjectScopeProvider {
 	private static final String NODE_AUSGABE_FACHDATEN = "Ausgabe_Fachdaten"; //$NON-NLS-1$
 
-	private static final String NODE_CONTAINER = "Container"; //$NON-NLS-1$
+	/**
+	 * Container node name
+	 */
+	public static final String NODE_CONTAINER = "Container"; //$NON-NLS-1$
 
 	private static final String XPATH_PLANUNGSBEREICH = "//LST_Planung_Gruppe/LST_Planung_Einzel/LST_Objekte_Planungsbereich/ID_LST_Objekt_Planungsbereich/Wert"; //$NON-NLS-1$
 
@@ -48,7 +51,9 @@ public class NodeObjectScopeProvider {
 		return isChildOfNode(node.getParent(), parentNodeName);
 	}
 
-	private List<String> guidPlanungsbereichCache;
+	// Use a SortedSet to speed up checks for whether a GUID is in planing
+	// region.
+	private SortedSet<String> guidPlanungsbereichCache;
 
 	/**
 	 * @param node
@@ -86,7 +91,8 @@ public class NodeObjectScopeProvider {
 		// For performance reasons, build a cache of all guids for objects
 		// inside the ID_LST_Objekt_Planungsbereich
 		if (guidPlanungsbereichCache == null) {
-			guidPlanungsbereichCache = new ArrayList<>();
+			guidPlanungsbereichCache = new TreeSet<>(
+					String.CASE_INSENSITIVE_ORDER);
 			try {
 				final PlanProXMLNode rootNode = node.getRootNode();
 				final Set<PlanProXMLNode> evaluateXPath = PlanProXMLNode

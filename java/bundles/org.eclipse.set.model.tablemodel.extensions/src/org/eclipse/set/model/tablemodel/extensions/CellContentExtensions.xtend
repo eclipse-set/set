@@ -126,7 +126,12 @@ class CellContentExtensions {
 		StringCellContent content, SimpleFootnoteContainer fc) {
 		val footnoteText = fc.footnotes.map [
 			getFootnoteNumber(content, it.bearbeitungsvermerk)
-		].toSet.sort.map['''*«it»'''].iterableToString(FOOTNOTE_SEPARATOR)
+		].toSet.sort.map [
+			if (it == -1) {
+				return WARNING_MARK_BLACK
+			}
+			return '''*«it»'''
+		].iterableToString(FOOTNOTE_SEPARATOR)
 
 		if (footnoteText != "")
 			return '''<p style="text-align:«content.textAlign»">«content.valueFormat» «footnoteText»</p>'''
@@ -150,8 +155,12 @@ class CellContentExtensions {
 			[WARNING_MARK_BLACK],
 			[WARNING_MARK_RED],
 			[ text, mark |
-				getCompareValueFormat(
-					mark, '''*«getFootnoteNumber(content, text)»''')
+				val fnNummer = getFootnoteNumber(content, text)
+				if (fnNummer == -1) {
+					return getCompareValueFormat(mark,
+						"Error: Can't find footnote number")
+				}
+				return getCompareValueFormat(mark, '''*«fnNummer»''')
 			]
 		).toSet
 		result = result + #[footnotes.iterableToString(FOOTNOTE_SEPARATOR)]
@@ -188,7 +197,12 @@ class CellContentExtensions {
 
 	static def dispatch String getPlainStringValue(
 		CompareStateCellContent content) {
-		return '''«content.oldValue.stringValueIterable»/«content.newValue.stringValueIterable»'''
+		val oldValue = content?.oldValue?.stringValueIterable
+		val newValue = content?.newValue?.stringValueIterable
+		if (oldValue.isNullOrEmpty && newValue.nullOrEmpty) {
+			return ""
+		}
+		return '''«oldValue»/«newValue»'''
 	}
 
 	static def dispatch String getPlainStringValue(
@@ -202,8 +216,13 @@ class CellContentExtensions {
 		if (content.mainPlanCellContent === null) {
 			return content.mainPlanCellContent.plainStringValue
 		}
-
-		return '''«content.mainPlanCellContent.plainStringValue»/«content.comparePlanCellContent.plainStringValue»'''
+		
+		val mainContent = content.mainPlanCellContent.plainStringValue
+		val compareContent = content.comparePlanCellContent.plainStringValue
+		if (mainContent.isNullOrEmpty && compareContent.nullOrEmpty) {
+			return ""
+		}
+		return '''«mainContent»/«compareContent»'''
 	}
 
 	static def dispatch Iterable<String> getStringValueIterable(Void content) {
@@ -217,12 +236,21 @@ class CellContentExtensions {
 
 	static def dispatch Iterable<String> getStringValueIterable(
 		StringCellContent content) {
-		return content.value
+		return content?.value?.filterNull?.map[trim]?.filter [
+			!blank && !nullOrEmpty
+		] ?: #[]
+	}
+	
+	static def dispatch Iterable<String> getStringValueIterable(MultiColorCellContent content) {
+		return content?.value?.filterNull?.map[v |
+			String.format(v.stringFormat, v.multiColorValue).trim
+		]?.filter[!blank && !nullOrEmpty]
 	}
 
 	static def List<String> getStringValueList(CellContent content) {
 		return content.stringValueIterable.toList
 	}
+	
 
 	/**
 	 * @param text the text
@@ -385,8 +413,9 @@ class CellContentExtensions {
 
 	private static def String getMultiColorFormat(MultiColorContent content) {
 		if (Strings.isNullOrEmpty(content.multiColorValue)) {
-			return Strings.isNullOrEmpty(content.stringFormat) ? "" : content.
-				stringFormat.htmlString
+			return Strings.isNullOrEmpty(content.stringFormat)
+				? ""
+				: content.stringFormat.htmlString
 		}
 
 		if (content.isDisableMultiColor) {

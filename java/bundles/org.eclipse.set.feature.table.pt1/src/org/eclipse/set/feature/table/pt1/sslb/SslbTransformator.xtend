@@ -39,7 +39,6 @@ import static extension org.eclipse.set.ppmodel.extensions.BlockAnlageExtensions
 import static extension org.eclipse.set.ppmodel.extensions.BlockElementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BlockStreckeExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FmaAnlageExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 
 /**
  * Table transformation for a Inselgleistabelle (Sslb).
@@ -188,12 +187,10 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 		)
 
 		// D: Sslb.Strecke.Streckenziel_Start
-		fillConditional(
+		fill(
 			cols.getColumn(Streckenziel_Start),
 			blockElement,
-			[isPlanningObject],
-			[IDSignal?.value?.bezeichnung?.bezeichnungTabelle?.wert],
-			['''(«IDSignal?.value?.bezeichnung?.bezeichnungTabelle?.wert»)''']
+			[IDSignal?.value?.bezeichnung?.bezeichnungTabelle?.wert]
 		)
 
 		// E: Sslb.Strecke.Betriebsfuehrung
@@ -459,7 +456,7 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 		val oertlichkeitAbk = oertlichkeit?.bezeichnung?.
 			oertlichkeitAbkuerzung?.wert
 		val oertlichkeitAwanst = oertlichkeit?.IDOertlichkeitAwanstBedient?.
-			value?.bezeichnung?.oertlichkeitAbkuerzung
+			value?.bezeichnung?.oertlichkeitAbkuerzung?.wert
 		return '''«oertlichkeitAbk» («oertlichkeitAwanst»)'''
 	}
 }

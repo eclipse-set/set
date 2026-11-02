@@ -214,9 +214,7 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 				instance,
 				cols.getColumn(massgebende_Neigung),
 				dweg,
-				[
-					fstrDWegAllg.massgebendeNeigung?.wert?.toTableDecimal(1, 1)
-				]
+				[fstrDWegAllg.massgebendeNeigung?.wert?.toString ?: "" ]
 			)
 
 			// K: Ssld.Abhaengigkeiten.Weichen_Kreuzungen.mit_Verschluss

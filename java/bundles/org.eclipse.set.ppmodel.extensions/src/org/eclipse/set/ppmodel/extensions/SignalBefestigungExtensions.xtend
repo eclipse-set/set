@@ -11,7 +11,8 @@ package org.eclipse.set.ppmodel.extensions
 import java.util.List
 import org.eclipse.set.model.planpro.Signale.Signal
 import org.eclipse.set.model.planpro.Signale.Signal_Befestigung
-import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
+
+import static extension org.eclipse.set.ppmodel.extensions.SignalRahmenExtensions.*
 
 /**
  * This class extends {@link Signal_Befestigung}.
@@ -46,11 +47,9 @@ class SignalBefestigungExtensions extends BasisObjektExtensions {
 		return mounts
 	}
 
-	def static List<Signal> getAttachmentSignal(Signal_Befestigung mount) {
-		return mount.container.signal.filter [ s |
-			s.signalRahmen.map[IDSignalBefestigung?.value].filterNull.exists [
-				it === mount
-			]
-		].toList
+	def static Iterable<Signal> getAttachmentSignal(Signal_Befestigung mount) {
+		return mount.container.signalRahmen.filter [
+			IDSignalBefestigung?.value === mount
+		].map[signal].toSet
 	}
 }

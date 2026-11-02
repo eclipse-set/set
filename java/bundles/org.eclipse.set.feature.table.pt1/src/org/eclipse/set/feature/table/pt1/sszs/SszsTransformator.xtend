@@ -4,7 +4,7 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
  * 
  */
@@ -55,6 +55,7 @@ import static org.eclipse.set.ppmodel.extensions.geometry.GEOKanteGeometryExtens
 import static extension org.eclipse.set.ppmodel.extensions.AussenelementansteuerungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FstrNichthaltfallExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.MultiContainer_AttributeGroupExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
@@ -79,10 +80,14 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
 		TMFactory factory) {
+		val schnittStelle = container.planProSchnittstelle
 		val etcsRefSignalWithSignalBegriffe = container.ETCSSignal.map [
 			IDSignal?.value
 		].filterNull.toMap([it], [signalbegriffIds])
 		for (etcsSignal : container.ETCSSignal) {
+			if (Thread.currentThread.isInterrupted) {
+				return null
+			}
 			val refSignal = etcsSignal.IDSignal?.value
 			val row = factory.newTableRow(etcsSignal)
 
@@ -210,7 +215,7 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 				cols.getColumn(Standort_Km),
 				refSignal,
 				[
-					isFindGeometryComplete ||
+					isFindGeometryComplete(schnittStelle) ||
 						!streckeAndKm.flatMap[value].filter[!nullOrEmpty].
 							nullOrEmpty
 				],
@@ -501,9 +506,9 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 						return ""
 					}
 					val distanceValue = distance.get
-					return distanceValue <= 5 || distanceValue >= -3
-						? "0"
-						: AgateRounding.roundUp(distanceValue).toString
+					return distanceValue <= 5 ||
+						distanceValue >= -3 ? "0" : AgateRounding.roundUp(
+						distanceValue).toString
 				]
 			)
 
@@ -780,9 +785,9 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 			if (distances.compareTo(BigDecimal.ZERO) == 0) {
 				return fma -> 0.0
 			}
-			return topGraphService.isInWirkrichtungOfSignal(signal, fma)
-				? fma -> distances.doubleValue
-				: fma -> -distances.doubleValue
+			return topGraphService.
+				isInWirkrichtungOfSignal(signal, fma) ? fma ->
+				distances.doubleValue : fma -> -distances.doubleValue
 		].filterNull
 		if (distanceToSignal.empty) {
 			return Optional.empty
@@ -802,11 +807,12 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 		val signal = etcsSignal.IDSignal?.value
 		if (signal !== null && po !== null) {
 			val signalTopPoint = new TopPoint(signal)
-			val topPoint = new TopPoint(po)
-			val distance = topGraphService.findShortestDistance(signalTopPoint,
-				topPoint)
-			if (distance.present) {
-				return distance.get
+			val distances = po.singlePoints.map [
+				topGraphService.findTopologicalShortesPath(signalTopPoint,
+					new TopPoint(it))
+			].filter[isPresent].map[get.length]
+			if (!distances.nullOrEmpty) {
+				return distances.min
 			}
 		}
 

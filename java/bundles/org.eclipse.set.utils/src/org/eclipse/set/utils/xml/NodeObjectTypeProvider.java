@@ -44,4 +44,30 @@ public class NodeObjectTypeProvider {
 		return getObjectType(node.getParent());
 	}
 
+	/**
+	 * @param node
+	 *            the XML node to find the LST object identity
+	 * @return the LST object identity
+	 */
+	public String getLSTObjectIdentitaet(final PlanProXMLNode node) {
+		if (node == null || node.getNodeName()
+				.equals(NodeObjectScopeProvider.NODE_CONTAINER)) {
+			return null;
+		}
+
+		final List<PlanProXMLNode> children = node.getChildren();
+		for (final PlanProXMLNode child : children) {
+			if (child.getNodeName().equals(IDENTITY_ATTRIBUTE_NAME)) {
+				if (!child.getChildren().isEmpty() && child.getChildren()
+						.getFirst()
+						.getNodeName()
+						.equals(NodeAttributeNameProvider.VALUE_ATTRIBUTE_NAME)) {
+					return child.getChildren().getFirst().getTextValue();
+				}
+				break;
+			}
+		}
+		return getLSTObjectIdentitaet(node.getParent());
+	}
+
 }

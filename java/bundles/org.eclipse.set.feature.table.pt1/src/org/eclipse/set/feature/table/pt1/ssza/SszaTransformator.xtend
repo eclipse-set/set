@@ -25,6 +25,7 @@ import org.eclipse.set.model.planpro.Bahnuebergang.BUE_Kante
 import org.eclipse.set.model.planpro.Balisentechnik_ETCS.DP_Typ_GETCS_AttributeGroup
 import org.eclipse.set.model.planpro.Balisentechnik_ETCS.Datenpunkt
 import org.eclipse.set.model.planpro.Balisentechnik_ETCS.ZUB_Streckeneigenschaft
+import org.eclipse.set.model.planpro.BasisTypen.ENUMAusrichtung
 import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung
 import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
@@ -43,7 +44,6 @@ import org.eclipse.set.utils.table.RowFactory
 import org.eclipse.set.utils.table.TMFactory
 import org.osgi.service.event.EventAdmin
 
-import static org.eclipse.set.feature.table.pt1.sskp.SskpTransformator.*
 import static org.eclipse.set.feature.table.pt1.ssza.SszaColumns.*
 
 import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.*
@@ -53,6 +53,7 @@ import static extension org.eclipse.set.ppmodel.extensions.DatenpunktExtensions.
 import static extension org.eclipse.set.ppmodel.extensions.FmaAnlageExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.PZBElementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
@@ -172,7 +173,7 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 				bezugspunktCase(
 					PZB_Element,
 					[
-						'''GM «PZBArt?.translate» «IDPZBElementZuordnung?.value?.PZBElementZuordnungBP?.map[fillBezugsElement(IDPZBElementBezugspunkt?.value)].join»'''
+						'''GM «PZBArt?.translate» «IDPZBElementZuordnung?.value?.PZBElementZuordnungBP?.map[getBezugElementBezeichnung(IDPZBElementBezugspunkt?.value)].join»'''
 					]
 				),
 				bezugspunktCase(
@@ -351,7 +352,7 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 		fill(
 			cols.getColumn(rel_Lage_b_zu_a),
 			datenpunkt,
-			[datenpunktAllg?.datenpunktLaenge?.wert?.toString]
+			[relLageBzuA]
 		)
 
 		fillFootnotes(datenpunkt)
@@ -556,5 +557,29 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 			ENUMWirkrichtung.ENUM_WIRKRICHTUNG_BEIDE)
 		return pointCoordinate.coordinate.
 			getStreckeKmThroughProjection(strecke).toTableDecimal
+	}
+
+	private def String getRelLageBzuA(Datenpunkt dp) {
+		val lange = dp?.datenpunktAllg?.datenpunktLaenge?.wert?.toTableDecimal
+		if (lange === null) {
+			return ""
+		}
+
+		val direction = dp?.datenpunktAllg?.ausrichtung?.wert
+		if (direction === null) {
+			return lange
+		}
+
+		val topKante = dp?.singlePoint?.topKante
+		if (topKante === null) {
+			return lange
+		}
+		val isTopKanteRouteSameDirection = dp.punktObjektStrecke.exists [
+			topKante.isInRouteDirection(IDStrecke.value)
+		]
+		return isTopKanteRouteSameDirection ===
+			(direction === ENUMAusrichtung.ENUM_AUSRICHTUNG_IN)
+			? lange
+			: "-" + lange
 	}
 }

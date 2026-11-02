@@ -298,5 +298,4 @@ public interface ToolboxFile {
 	 * @param path
 	 */
 	void setResourcePath(Resource resource, Path path);
-
 }

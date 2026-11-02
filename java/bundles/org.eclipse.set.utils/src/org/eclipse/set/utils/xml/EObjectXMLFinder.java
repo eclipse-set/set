@@ -13,10 +13,10 @@ package org.eclipse.set.utils.xml;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -41,6 +41,7 @@ public class EObjectXMLFinder {
 
 	private static final String NIL = "xsi:nil"; //$NON-NLS-1$
 	PlanProXMLNode document = null;
+	Map<PlanProXMLNode, Map<String, List<PlanProXMLNode>>> parentNodesWithChildren;
 
 	/**
 	 * LineNotFoundException
@@ -83,6 +84,7 @@ public class EObjectXMLFinder {
 			throws XmlParseException {
 		try {
 			this.document = ObjectMetadataXMLReader.read(toolboxFile, docPath);
+			this.parentNodesWithChildren = new HashMap<>();
 		} catch (IOException | SAXException | ParserConfigurationException e) {
 			throw new XmlParseException(
 					"The given XML document could not be parsed", e); //$NON-NLS-1$
@@ -109,7 +111,6 @@ public class EObjectXMLFinder {
 		} else {
 			parentNode = find(parent);
 		}
-
 		if (feature.isMany()) {
 			final List<?> list = (List<?>) object.eContainer().eGet(feature);
 			return getNthChildByName(parentNode, name, list.indexOf(object));
@@ -117,33 +118,47 @@ public class EObjectXMLFinder {
 		return getFirstChildByName(parentNode, name);
 	}
 
-	private static PlanProXMLNode getFirstChildByName(final PlanProXMLNode node,
+	private PlanProXMLNode getFirstChildByName(final PlanProXMLNode node,
 			final String name) {
 		return getNthChildByName(node, name, 0);
 	}
 
-	private static PlanProXMLNode getNthChildByName(final PlanProXMLNode node,
+	private PlanProXMLNode getNthChildByName(final PlanProXMLNode node,
 			final String name, final int n) {
 		if (node == null) {
 			return null;
 		}
-
-		final List<PlanProXMLNode> children = node.getChildren();
-		final Stream<PlanProXMLNode> childrenStream = IntStream
-				.range(0, children.size())
-				.mapToObj(children::get);
-		return childrenStream
-				.filter(child -> getSanetizedName(child) != null
-						&& getSanetizedName(child).equals(name))
-				.skip(n)
-				.findFirst()
-				.orElse(null);
+		final Map<String, List<PlanProXMLNode>> childrenGroupByName = parentNodesWithChildren
+				.computeIfAbsent(node,
+						key -> IterableExtensions.groupBy(key.getChildren(),
+								PlanProXMLNode::getNodeName));
+		final List<PlanProXMLNode> childrenWithName = childrenGroupByName
+				.computeIfAbsent(name, key -> {
+					final Optional<String> relevantNodeName = childrenGroupByName
+							.keySet()
+							.stream()
+							.filter(nodeName -> {
+								final var sanetized = getSanetizedName(
+										nodeName);
+								return sanetized != null
+										&& sanetized.equalsIgnoreCase(name);
+							})
+							.findFirst();
+					if (relevantNodeName.isPresent()) {
+						return childrenGroupByName.get(relevantNodeName.get());
+					}
+					return null;
+				});
+		if (childrenWithName == null) {
+			return null;
+		}
+		return childrenWithName.stream().skip(n).findFirst().orElse(null);
 	}
 
-	private static String getSanetizedName(final PlanProXMLNode node) {
+	private String getSanetizedName(final String nodeName) {
 		// XML node names can contain a prefix while the EMF model names don't
 		return IterableExtensions
-				.lastOrNull(Arrays.asList(node.getNodeName().split(":"))); //$NON-NLS-1$
+				.lastOrNull(Arrays.asList(nodeName.split(":"))); //$NON-NLS-1$
 	}
 
 	/**

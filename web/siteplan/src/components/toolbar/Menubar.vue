@@ -8,44 +8,15 @@
  -->
 <template>
   <div id="menubar">
-    <KatalogMenuBar v-if="showCatalogMenu" />
+    <KatalogMenuBar v-if="$route.path === '/svg'" />
   </div>
 </template>
-<script lang="ts">
+<script setup lang="ts">
 /**
  * Menu bar
  * @author Truong
  */
-import { Options, Vue } from 'vue-class-component'
 import KatalogMenuBar from './KatalogMenuBar.vue'
-
-@Options({
-  components: {
-    KatalogMenuBar
-  },
-  created () {
-    const currentpath = this.$router.currentRoute.value.path
-    switch (currentpath) {
-      case '/':
-        this.showLageplanMenu = true
-        break
-      case '/svg':
-        this.showCatalogMenu = true
-        break
-      default:
-        break
-    }
-  }
-})
-export default class Menubar extends Vue {
-  showLageplanMenu = false
-  showCatalogMenu = false
-
-  resetState (): void {
-    this.showLageplanMenu = false
-    this.showCatalogMenu = false
-  }
-}
 </script>
 <style scoped>
 #menubar {

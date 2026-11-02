@@ -14,6 +14,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import org.eclipse.set.basis.Pair;
+import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.eclipse.set.basis.geometry.GEOKanteCoordinate;
 import org.eclipse.set.basis.geometry.GEOKanteMetadata;
 import org.eclipse.set.basis.graph.DirectedElement;
@@ -23,6 +24,7 @@ import org.eclipse.set.model.planpro.Geodaten.GEO_Kante;
 import org.eclipse.set.model.planpro.Geodaten.Strecke;
 import org.eclipse.set.model.planpro.Geodaten.TOP_Kante;
 import org.eclipse.set.model.planpro.Geodaten.TOP_Knoten;
+import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.LineString;
 
@@ -128,9 +130,19 @@ public interface GeoKanteGeometryService {
 
 	/**
 	 * 
-	 * @return true, if find process is done
+	 * @param role
+	 *            the {@link ToolboxFileRole}
+	 * @return true, if the find process of this {@link ToolboxFileRole} is done
 	 */
-	boolean isFindGeometryComplete();
+	boolean isFindGeometryComplete(ToolboxFileRole role);
+
+	/**
+	 * 
+	 * @param schnittStelle
+	 *            the {@link PlanPro_Schnittstelle}
+	 * @return true, if the find process of this {@link ToolboxFileRole} is done
+	 */
+	boolean isFindGeometryComplete(PlanPro_Schnittstelle schnittStelle);
 
 	/**
 	 * Determine the projection coordinate of a Point on the {@link TOP_Kante}

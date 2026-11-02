@@ -5,7 +5,7 @@
     modelPluginID="org.eclipse.set.model.validationreport" modelName="Validationreport"
     rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container" codeFormatting="true"
     commentFormatting="true" testsDirectory="" importerID="org.eclipse.emf.importer.ecore"
-    complianceLevel="17.0" copyrightFields="false" operationReflection="true" importOrganizing="true">
+    complianceLevel="21.0" copyrightFields="false" operationReflection="true" importOrganizing="true">
   <foreignModel>validationreport.ecore</foreignModel>
   <genPackages prefix="Validationreport" basePackage="org.eclipse.set.model" disposableProviderFactory="true"
       ecorePackage="validationreport.ecore#/">
@@ -52,14 +52,15 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute validationreport.ecore#//ValidationProblem/lineNumber"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute validationreport.ecore#//ValidationProblem/message"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute validationreport.ecore#//ValidationProblem/objectArt"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute validationreport.ecore#//ValidationProblem/objectDesignation"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute validationreport.ecore#//ValidationProblem/attributeName"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute validationreport.ecore#//ValidationProblem/objectScope"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute validationreport.ecore#//ValidationProblem/objectState"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute validationreport.ecore#//ValidationProblem/generalMsg"/>
     </genClasses>
     <genClasses ecoreClass="validationreport.ecore#//VersionInfo">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute validationreport.ecore#//VersionInfo/planPro"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute validationreport.ecore#//VersionInfo/signals"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute validationreport.ecore#//VersionInfo/planProVersions"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute validationreport.ecore#//VersionInfo/signalbegriffeVersions"/>
     </genClasses>
     <genClasses ecoreClass="validationreport.ecore#//FileInfo">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute validationreport.ecore#//FileInfo/fileName"/>

@@ -11,6 +11,7 @@ package org.eclipse.set.feature.plazmodel;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.ToIntFunction;
 
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.e4.core.services.nls.Translation;
@@ -42,6 +43,7 @@ import org.eclipse.set.utils.emfforms.AbstractEmfFormsPart;
 import org.eclipse.set.utils.events.ContainerDataChanged;
 import org.eclipse.set.utils.events.ProjectDataChanged;
 import org.eclipse.set.utils.table.menu.TableMenuService;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
@@ -129,7 +131,8 @@ public class PlazModelPart extends AbstractEmfFormsPart {
 		final DialogService dialogService = getDialogService();
 		dialogService.showProgressUISync(shell,
 				messages.PlaZService_MonitorDisplay_GeneratePlazModel,
-				() -> create(parent));
+				() -> plazModelService.runPlazModel(getModelSession()),
+				report -> create(parent, report));
 		if (createException != null) {
 			dialogService.error(shell, createException);
 			MApplicationElementExtensions.setViewState(part,
@@ -138,6 +141,7 @@ public class PlazModelPart extends AbstractEmfFormsPart {
 		if (getModelSession().isDirty()) {
 			setOutdated(true);
 		}
+		parent.addListener(SWT.RESIZE, e -> parent.layout(true));
 
 		// export action
 		getBanderole().setEnableExport(true);
@@ -154,6 +158,8 @@ public class PlazModelPart extends AbstractEmfFormsPart {
 			}
 		});
 
+		tableView.createActiveDefaultFilterCheckBox(
+				(Composite) getBanderole().getControl());
 		tableView.createExpandCollapseAllButton(
 				(Composite) getBanderole().getControl(),
 				messages.PlazModellPart_ExpandAllGroup,
@@ -161,11 +167,14 @@ public class PlazModelPart extends AbstractEmfFormsPart {
 
 	}
 
-	private void create(final Composite parent) {
+	private void create(final Composite parent, final PlazReport report) {
 		try {
-			updatePlazModel();
-			tableView.create(parent, plazReport);
-			createException = null;
+			if (report != null) {
+				plazReport = report;
+				storagePlaZReport();
+				tableView.create(parent, plazReport);
+				createException = null;
+			}
 		} catch (final Exception e) {
 			createException = e;
 		}
@@ -175,20 +184,31 @@ public class PlazModelPart extends AbstractEmfFormsPart {
 		plazReport = plazModelService.runPlazModel(getModelSession());
 		tableView.updateView(plazReport);
 		setOutdated(false);
+		storagePlaZReport();
 
+	}
+
+	private void storagePlaZReport() {
 		// record in cache service
 		final Cache cache = cacheService.getCache(ToolboxFileRole.SESSION,
 				ToolboxConstants.CacheId.PROBLEM_MESSAGE);
 		final List<ProblemMessage> problems = cache.get("plazReport", //$NON-NLS-1$
 				ArrayList::new);
 		problems.clear();
+		final ToIntFunction<ValidationSeverity> transformSeverity = severity -> switch (severity) {
+			case WARNING -> 2;
+			case ERROR -> 3;
+			default -> 0;
+		};
 		plazReport.getEntries()
 				.stream()
 				.filter(entry -> entry
 						.getSeverity() != ValidationSeverity.SUCCESS)
 				.forEach(entry -> problems
 						.add(new ProblemMessage(entry.getMessage(),
-								entry.getType(), entry.getLineNumber(), 2,
+								entry.getType(), entry.getLineNumber(),
+								transformSeverity
+										.applyAsInt(entry.getSeverity()),
 								entry.getObjectScope().getLiteral())));
 		getBroker().post(Events.PROBLEMS_CHANGED, null);
 	}

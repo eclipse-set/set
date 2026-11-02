@@ -31,6 +31,10 @@ themesDir = "../hugothemes/themes"
     target = "static/fonts"
 
   [[module.mounts]]
+    source = "../hugothemes/static/fonts"
+    target = "static/js"
+
+  [[module.mounts]]
     source = "static"
     target = "static"
 
@@ -41,3 +45,8 @@ themesDir = "../hugothemes/themes"
 [security]
   [security.exec]
     allow = ['asciidoctor']
+    
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true

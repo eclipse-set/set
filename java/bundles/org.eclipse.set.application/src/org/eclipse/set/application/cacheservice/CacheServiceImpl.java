@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.eclipse.e4.core.services.events.IEventBroker;
@@ -23,6 +24,8 @@ import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.cache.CacheService;
 import org.eclipse.set.core.services.cache.NoCacheService;
 import org.eclipse.set.core.services.session.SessionService;
+import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
+import org.eclipse.set.model.planpro.Layoutinformationen.PlanPro_Layoutinfo;
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -56,6 +59,12 @@ public class CacheServiceImpl implements CacheService, EventHandler {
 	public Cache getCache(final PlanPro_Schnittstelle schnittstelle,
 			final String cacheId) {
 		return getCache(getSessionRole(schnittstelle), cacheId);
+	}
+
+	@Override
+	public Cache getCache(final PlanPro_Layoutinfo layoutInfo,
+			final String cacheId) throws IllegalArgumentException {
+		return getCache(getSessionRole(layoutInfo), cacheId);
 	}
 
 	@Override
@@ -100,15 +109,21 @@ public class CacheServiceImpl implements CacheService, EventHandler {
 		return existCache(getSessionRole(schnittstelle), cacheID);
 	}
 
-	protected ToolboxFileRole getSessionRole(
-			final PlanPro_Schnittstelle schnittStelle) {
+	protected <T extends Ur_Objekt> ToolboxFileRole getSessionRole(
+			final T model) {
+		final Predicate<Map.Entry<ToolboxFileRole, IModelSession>> filterPredicate = entry -> switch (model) {
+			case final PlanPro_Schnittstelle schnittStelle -> entry.getValue()
+					.getPlanProSchnittstelle() == schnittStelle;
+			case final PlanPro_Layoutinfo layoutInfo -> entry.getValue()
+					.getLayoutInformation() == layoutInfo;
+			default -> false;
+		};
 		final Map<ToolboxFileRole, IModelSession> loadedSessions = sessionService
 				.getLoadedSessions();
 		final Entry<ToolboxFileRole, IModelSession> targetSession = loadedSessions
 				.entrySet()
 				.stream()
-				.filter(entry -> entry.getValue()
-						.getPlanProSchnittstelle() == schnittStelle)
+				.filter(filterPredicate::test)
 				.findFirst()
 				.orElse(null);
 		if (targetSession != null) {

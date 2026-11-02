@@ -42,6 +42,7 @@ import org.apache.pdfbox.pdmodel.common.PDMetadata;
 import org.apache.pdfbox.pdmodel.graphics.color.PDOutputIntent;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.eclipse.core.runtime.Assert;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.set.basis.FreeFieldInfo;
 import org.eclipse.set.basis.OverwriteHandling;
 import org.eclipse.set.basis.ToolboxPaths;
@@ -143,33 +144,6 @@ public class FopPdfExportBuilder implements TableExport {
 		return shortcut + "-fop." + extension; //$NON-NLS-1$
 	}
 
-	protected static Table getTableToBeExported(
-			final Map<TableType, Table> tables, final ExportType exportType) {
-		switch (exportType) {
-			case INVENTORY_RECORDS:
-				final Table invTable = tables.get(TableType.FINAL);
-				if (invTable != null) {
-					return invTable;
-				}
-				// if we do not have a final table we export the table of the
-				// single
-				// container of a state
-				return tables.get(TableType.SINGLE);
-			case PLANNING_RECORDS: {
-				final Table planTable = tables.get(TableType.DIFF);
-				if (planTable != null) {
-					return planTable;
-				}
-				// if we do not have a diff table we export the table of the
-				// single
-				// container of a state
-				return tables.get(TableType.SINGLE);
-			}
-			default:
-				throw new IllegalArgumentException(exportType.toString());
-		}
-	}
-
 	protected EnumTranslationService enumTranslationService;
 	protected FopService fopService;
 
@@ -184,17 +158,40 @@ public class FopPdfExportBuilder implements TableExport {
 			final OverwriteHandling overwriteHandling)
 			throws FileExportException {
 		logger.info("Exporting {}", shortcut); //$NON-NLS-1$
+		final Path outputPath = toolboxPaths.getTableExportPath(shortcut,
+				Paths.get(outputDir), exportType,
+				ExportPathExtension.TABLE_PDF_EXPORT_EXTENSION);
+		export(tables, exportType, titlebox, freeFieldInfo, shortcut, tableType,
+				outputPath, overwriteHandling);
+
+	}
+
+	@Override
+	public void export(final Map<TableType, Table> tables,
+			final ExportType exportType, final Titlebox titlebox,
+			final FreeFieldInfo freeFieldInfo, final String shortcut,
+			final TableType tableType, final Path outputPath,
+			final OverwriteHandling overwriteHandling)
+			throws FileExportException {
+		logger.info("Exporting {}", shortcut); //$NON-NLS-1$
 		final Table table = tables.get(tableType);
 
 		final List<String> pageBreakRowsIndex = getPageBreakRowsIndex(table);
 		Assert.isNotNull(table);
-		final Path outputPath = toolboxPaths.getTableExportPath(shortcut,
-				Paths.get(outputDir), exportType,
-				ExportPathExtension.TABLE_PDF_EXPORT_EXTENSION);
+
 		try {
+			final Titlebox clone = EcoreUtil.copy(titlebox);
+			String fieldValue = clone.getField(84);
+			// By export we don't need rendere place holder for "Unteranlage"
+			if (fieldValue.contains("<Unteranlage>")) { //$NON-NLS-1$
+				fieldValue = fieldValue.replace("<Unteranlage>", ""); //$NON-NLS-1$ //$NON-NLS-2$
+				clone.setField(84, fieldValue);
+			}
+
 			final String tableDocumentText = createTableDocumentText(table,
-					titlebox, freeFieldInfo);
+					clone, freeFieldInfo);
 			if (ToolboxConfiguration.isDebugMode()) {
+				final String outputDir = outputPath.getParent().toString();
 				exportTableDocument(
 						Paths.get(outputDir, getFilename(shortcut, "xml")), //$NON-NLS-1$
 						tableDocumentText);
@@ -208,6 +205,7 @@ public class FopPdfExportBuilder implements TableExport {
 		} catch (final UserAbortion e) {
 			// do nothing
 		}
+
 	}
 
 	protected void createTablePdf(final String tableDocumentText,
@@ -496,5 +494,4 @@ public class FopPdfExportBuilder implements TableExport {
 	public ExportFormat getExportFormat() {
 		return ExportFormat.PDF;
 	}
-
 }

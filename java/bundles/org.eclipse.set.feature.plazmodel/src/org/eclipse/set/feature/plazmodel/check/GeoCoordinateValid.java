@@ -27,6 +27,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.commons.text.StringSubstitutor;
 import org.eclipse.emf.ecore.EObject;
@@ -57,7 +60,6 @@ import org.eclipse.set.model.planpro.Verweise.ID_GEO_Punkt_ohne_Proxy_TypeClass;
 import org.eclipse.set.model.plazmodel.PlazError;
 import org.eclipse.set.model.plazmodel.PlazFactory;
 import org.eclipse.set.model.validationreport.ValidationSeverity;
-import org.eclipse.set.ppmodel.extensions.BasisAttributExtensions;
 import org.eclipse.set.ppmodel.extensions.BasisObjektExtensions;
 import org.eclipse.set.ppmodel.extensions.EObjectExtensions;
 import org.eclipse.set.ppmodel.extensions.GeoKanteExtensions;
@@ -151,10 +153,13 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 
 	private List<GEOKanteMetadata> alreadyFoundMetaData;
 
+	private List<TOP_Kante> topKanteWithInvalidCRS;
+
 	@Activate
 	void active() {
 		topologicalCoordinates = Optional.empty();
 		alreadyFoundMetaData = new ArrayList<>();
+		topKanteWithInvalidCRS = new ArrayList<>();
 	}
 
 	@Override
@@ -162,7 +167,7 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 		if (event.getTopic().equals(Events.CLOSE_SESSION)) {
 			alreadyFoundMetaData.clear();
 			topologicalCoordinates = Optional.empty();
-			return;
+			topKanteWithInvalidCRS.clear();
 		}
 	}
 
@@ -170,7 +175,17 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 	protected List<PlazError> run(
 			final MultiContainer_AttributeGroup container) {
 		final List<PlazError> result = new ArrayList<>();
-		getRelevantPOs(container)
+		getTopKanteWithDifferentCRS(container);
+		final List<Bereich_Objekt> bereichsObjects = Streams
+				.stream(container.getBereichObjekt())
+				.toList();
+		final ContainerType containerType = MultiContainer_AttributeGroupExtensions
+				.getContainerType(container);
+		getRelevantPOs(container).stream()
+				.filter(po -> PunktObjektExtensions.getTopKanten(po)
+						.stream()
+						.noneMatch(topKante -> topKanteWithInvalidCRS.stream()
+								.anyMatch(t -> t.equals(topKante))))
 				.forEach(po -> po.getPunktObjektTOPKante().forEach(potk -> {
 					if (isNotDistinctCoordinateSystem(potk)) {
 						result.add(createGeoCoordinateError(po,
@@ -179,9 +194,7 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 						return;
 					}
 					final GEOKanteCoordinate topCoordinate = calculateCoordinate(
-							MultiContainer_AttributeGroupExtensions
-									.getContainerType(container),
-							po, potk);
+							containerType, po, potk, bereichsObjects);
 
 					if (topCoordinate == null
 							|| getNullableObject(topCoordinate,
@@ -199,6 +212,33 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 					}
 				}));
 		return result;
+	}
+
+	private void getTopKanteWithDifferentCRS(
+			final MultiContainer_AttributeGroup container) {
+		Streams.stream(container.getTOPKante()).forEach(topKante -> {
+			final Set<ENUMGEOKoordinatensystem> topKanteCrs = TopKanteExtensions
+					.getGeoKanten(topKante)
+					.stream()
+					.flatMap(geoKante -> Stream.of(
+							GeoKanteExtensions.getGeoKnotenA(geoKante),
+							GeoKanteExtensions.getGeoKnotenB(geoKante)))
+					.flatMap(geoKnoten -> Streams.stream(
+							GeoKnotenExtensions.getGeoPunkte(geoKnoten)))
+					.map(geoPunkt -> EObjectExtensions
+							.getNullableObject(geoPunkt,
+									g -> g.getGEOPunktAllg()
+											.getGEOKoordinatensystem()
+											.getWert())
+							.orElse(null))
+					.filter(Objects::nonNull)
+					.collect(Collectors.toSet());
+			if (topKanteCrs.size() > 1 || topKanteCrs.stream()
+					.anyMatch(
+							crs -> crs == ENUMGEOKoordinatensystem.ENUMGEO_KOORDINATENSYSTEM_SONSTIGE)) {
+				topKanteWithInvalidCRS.add(topKante);
+			}
+		});
 	}
 
 	private PlazError validGeoCoordinate(final Punkt_Objekt po,
@@ -245,11 +285,14 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 	 * @param potk
 	 *            the {@link Punkt_Objekt_TOP_Kante_AttributeGroup} of this
 	 *            {@link Punkt_Objekt}
+	 * @param bereichsObjects
+	 *            the list of {@link Bereich_Objekt}
 	 * @return the {@link GEOKanteCoordinate}
 	 */
 	public GEOKanteCoordinate calculateCoordinate(final ContainerType state,
 			final Punkt_Objekt po,
-			final Punkt_Objekt_TOP_Kante_AttributeGroup potk) {
+			final Punkt_Objekt_TOP_Kante_AttributeGroup potk,
+			final List<Bereich_Objekt> bereichsObjects) {
 		List<TopologicalCoordinate> alreadyCalulatedCoordinates = topologicalCoordinates
 				.orElse(null);
 		if (alreadyCalulatedCoordinates == null) {
@@ -270,14 +313,15 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 		}
 
 		final GEOKanteCoordinate calculateCoordinate = calculateCoordinate(po,
-				potk);
+				potk, bereichsObjects);
 		alreadyCalulatedCoordinates.add(new TopologicalCoordinate(state, po,
 				potk, calculateCoordinate));
 		return calculateCoordinate;
 	}
 
 	private GEOKanteCoordinate calculateCoordinate(final Punkt_Objekt po,
-			final Punkt_Objekt_TOP_Kante_AttributeGroup potk) {
+			final Punkt_Objekt_TOP_Kante_AttributeGroup potk,
+			final List<Bereich_Objekt> bereichsObjects) {
 		try {
 			BigDecimal lateralDistance = null;
 			GEOKanteMetadata geoKanteMetaData = alreadyFoundMetaData
@@ -286,7 +330,7 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 					.findFirst()
 					.orElse(null);
 			if (geoKanteMetaData == null) {
-				geoKanteMetaData = getGeoKanteMetaData(potk);
+				geoKanteMetaData = getGeoKanteMetaData(potk, bereichsObjects);
 				if (geoKanteMetaData == null) {
 					return null;
 				}
@@ -419,7 +463,8 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 	}
 
 	private static GEOKanteMetadata getGeoKanteMetaData(
-			final Punkt_Objekt_TOP_Kante_AttributeGroup potk) {
+			final Punkt_Objekt_TOP_Kante_AttributeGroup potk,
+			final List<Bereich_Objekt> bereichsObjects) {
 		try {
 			final TOP_Kante topkante = potk.getIDTOPKante().getValue();
 			final GeoKnotenRange relevantGeoKnotenRange = getRelevantGeoKnotenRange(
@@ -442,13 +487,9 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 													.setStepSize(0.0001)
 													.build())
 									.build());
-			final List<Bereich_Objekt> bereichObjekts = Streams
-					.stream(BasisAttributExtensions.getContainer(topkante)
-							.getBereichObjekt())
-					.toList();
 			return new GEOKanteMetadata(geoKante,
 					relevantGeoKnotenRange.startDistance(), geoKanteLength,
-					bereichObjekts, topkante,
+					bereichsObjects, topkante,
 					relevantGeoKnotenRange.startNode(), geometry,
 					getCRS(relevantGeoKnotenRange.startNode()));
 		} catch (final NullPointerException | IllegalArgumentException e) {

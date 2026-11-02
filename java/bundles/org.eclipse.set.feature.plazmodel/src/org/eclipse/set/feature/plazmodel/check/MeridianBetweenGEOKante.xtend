@@ -9,13 +9,17 @@
 package org.eclipse.set.feature.plazmodel.check
 
 import java.util.Map
+import java.util.Set
+import org.eclipse.set.model.planpro.Geodaten.ENUMGEOKoordinatensystem
+import org.eclipse.set.model.planpro.Geodaten.GEO_Kante
+import org.eclipse.set.model.planpro.Geodaten.GEO_Knoten
 import org.eclipse.set.model.plazmodel.PlazError
 import org.eclipse.set.model.plazmodel.PlazFactory
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.osgi.service.component.annotations.Component
 
+import static extension org.eclipse.set.ppmodel.extensions.GeoKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.GeoKnotenExtensions.*
-import org.eclipse.set.model.planpro.Geodaten.GEO_Kante
 
 /**
  * Validates that all GEO_Kanten have a valid coordinate reference system.
@@ -37,8 +41,9 @@ class MeridianBetweenGEOKante extends AbstractPlazContainerCheck implements Plaz
 	}
 
 	override protected run(MultiContainer_AttributeGroup container) {
+		val geoKnotenWithCRSs = newHashMap
 		val geoKantenWithMeridianSprung = container.GEOKante.filter [
-			isMeridianGEOKante
+			isMeridianGEOKante(geoKnotenWithCRSs)
 		]
 		if (geoKantenWithMeridianSprung.size === 0) {
 			return #[]
@@ -56,17 +61,20 @@ class MeridianBetweenGEOKante extends AbstractPlazContainerCheck implements Plaz
 		return errList
 	}
 
-	static def boolean isMeridianGEOKante(GEO_Kante edge) {
+	static def boolean isMeridianGEOKante(GEO_Kante edge,
+		Map<GEO_Knoten, Set<ENUMGEOKoordinatensystem>> geoKnotenWithCRSs) {
 		if (edge.GEOKanteAllg?.GEOLaenge?.wert.doubleValue === 0.0) {
 			return false;
 		}
-
-		val crsA = edge.IDGEOKnotenA?.value?.geoPunkte?.map [
-			GEOPunktAllg?.GEOKoordinatensystem?.wert
-		]?.toSet
-		val crsB = edge.IDGEOKnotenB?.value?.geoPunkte?.map [
-			GEOPunktAllg?.GEOKoordinatensystem?.wert
-		]?.toSet
+		val crsA = geoKnotenWithCRSs.computeIfAbsent(edge.geoKnotenA, [ node |
+			node.geoPunkte?.map[GEOPunktAllg?.GEOKoordinatensystem?.wert]?.toSet
+		])
+//		val crsA = edge.IDGEOKnotenA?.value?.geoPunkte?.map [
+//			GEOPunktAllg?.GEOKoordinatensystem?.wert
+//		]?.toSet
+		val crsB = geoKnotenWithCRSs.computeIfAbsent(edge.geoKnotenB, [ node |
+			node.geoPunkte?.map[GEOPunktAllg?.GEOKoordinatensystem?.wert]?.toSet
+		])
 		if (crsA === null || crsB === null)
 			return false
 		return crsA.exists [ a |

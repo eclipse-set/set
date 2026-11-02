@@ -10,7 +10,8 @@
  */
 package org.eclipse.set.feature.table.pt1.sxxx;
 
-import static org.eclipse.set.ppmodel.extensions.EObjectExtensions.getNullableObject;
+import static org.eclipse.set.feature.table.pt1.sxxx.SxxxColumns.*;
+import static org.eclipse.set.ppmodel.extensions.utils.LSTObjectDesignationExtensions.getLSTObjectDesignation;
 
 import java.util.List;
 import java.util.Set;
@@ -18,20 +19,12 @@ import java.util.Set;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator;
-import org.eclipse.set.model.planpro.Ansteuerung_Element.Aussenelementansteuerung;
-import org.eclipse.set.model.planpro.Ansteuerung_Element.ESTW_Zentraleinheit;
 import org.eclipse.set.model.planpro.BasisTypen.BasisAttribut_AttributeGroup;
 import org.eclipse.set.model.planpro.BasisTypen.ID_Bearbeitungsvermerk_TypeClass;
 import org.eclipse.set.model.planpro.Basisobjekte.Bearbeitungsvermerk;
-import org.eclipse.set.model.planpro.Bedienung.Bedien_Einrichtung_Oertlich;
-import org.eclipse.set.model.planpro.Ortung.FMA_Anlage;
-import org.eclipse.set.model.planpro.Ortung.FMA_Komponente;
-import org.eclipse.set.model.planpro.Ortung.Zugeinwirkung;
-import org.eclipse.set.model.planpro.Signale.Signal;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.TableRow;
-import org.eclipse.set.ppmodel.extensions.AussenelementansteuerungExtensions;
 import org.eclipse.set.ppmodel.extensions.EObjectExtensions;
 import org.eclipse.set.ppmodel.extensions.UrObjectExtensions;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
@@ -74,6 +67,9 @@ public class SxxxTransformator extends AbstractPlanPro2TableModelTransformator {
 				.toList();
 		for (final Bearbeitungsvermerk bv : container
 				.getBearbeitungsvermerk()) {
+			if (Thread.currentThread().isInterrupted()) {
+				return null;
+			}
 			final RowFactory rowGroup = factory.newRowGroup(bv);
 			final List<EObject> referencedByList = idReferences.stream()
 					.parallel()
@@ -87,7 +83,7 @@ public class SxxxTransformator extends AbstractPlanPro2TableModelTransformator {
 									.isSonstigeEnumWert(basisAttribut))
 					.toList();
 
-			if (sonstigeEnumReferee.size() > 0
+			if (!sonstigeEnumReferee.isEmpty()
 					&& referencedByList.size() == sonstigeEnumReferee.size()) {
 				// bearbeitungsvermerke that are only used at sonstige enum
 				// values shall not be displayed at all
@@ -96,14 +92,7 @@ public class SxxxTransformator extends AbstractPlanPro2TableModelTransformator {
 
 			if (referencedByList.isEmpty()) {
 				final TableRow row = rowGroup.newTableRow();
-				// A: Bearbeitungsvermerke inhalt
-				fill(row, getColumn(cols, SxxxColumns.Text_Content), bv,
-						note -> EObjectExtensions
-								.getNullableObject(note,
-										e -> e.getBearbeitungsvermerkAllg()
-												.getKommentar()
-												.getWert())
-								.orElse("")); //$NON-NLS-1$
+				fillBearbeitungsvermerkContent(row, bv);
 				continue;
 			}
 			for (final EObject referencedBy : referencedByList) {
@@ -118,60 +107,45 @@ public class SxxxTransformator extends AbstractPlanPro2TableModelTransformator {
 				final TableRow row = rowGroup.newTableRow();
 				row.setRowObject(referencedBy);
 
-				// A: Bearbeitungsvermerke inhalt
-				fill(row, getColumn(cols, SxxxColumns.Text_Content), bv,
-						note -> EObjectExtensions
-								.getNullableObject(note,
-										e -> e.getBearbeitungsvermerkAllg()
-												.getKommentar()
-												.getWert())
-								.orElse("")); //$NON-NLS-1$
+				fillBearbeitungsvermerkContent(row, bv);
 
-				// B: Referenziert von Objects
-				fill(row, getColumn(cols, SxxxColumns.Reference_Object), bv,
-						note -> getReferenceObjDesignation(referencedBy));
+				// C: Referenziert von Objects Art
+				fill(row, getColumn(cols, Reference_Object_Art), bv,
+						note -> UrObjectExtensions.getTypeName(referencedBy)
+								.replace("_TypeClass", "")); //$NON-NLS-1$ //$NON-NLS-2$
 
-				// C: Ausgabe in Plan
-				// Will fill in TableService
+				// D: Referenziert von Objects Bezeichnung
+				fill(row, getColumn(cols, Reference_Object_Bezeichnung), bv,
+						note -> getLSTObjectDesignation(referencedBy));
+
+				// E: Ausgabe in Plan
+				// Will fill later in TableService
+
 			}
 		}
 
 		return factory.getTable();
+
 	}
 
-	@SuppressWarnings("nls")
-	private static String getReferenceObjDesignation(final EObject refObj) {
-		final String typeName = UrObjectExtensions.getTypeName(refObj)
-				.replace("_TypeClass", "");
-		final String objDesignation = switch (refObj) {
-			case final Aussenelementansteuerung aussenelement -> AussenelementansteuerungExtensions
-					.getElementBezeichnung(aussenelement);
-			case final Bedien_Einrichtung_Oertlich beo -> getNullableObject(beo,
-					e -> e.getBezeichnung()
-							.getBedienEinrichtOertlBez()
-							.getWert()).orElse("");
-			case final ESTW_Zentraleinheit estwZentral -> AussenelementansteuerungExtensions
-					.getElementBezeichnung(estwZentral);
-			case final FMA_Anlage fmaAnlage -> getNullableObject(fmaAnlage,
-					fma -> fma.getFMAAnlageKaskade()
-							.getFMAKaskadeBezeichnung()
-							.getWert()).orElse("");
-			case final FMA_Komponente fmaKomponent -> getNullableObject(
-					fmaKomponent,
-					fma -> fma.getBezeichnung()
-							.getBezeichnungTabelle()
-							.getWert()).orElse("");
-			case final Signal signal -> getNullableObject(signal,
-					s -> s.getBezeichnung().getBezeichnungTabelle().getWert())
-							.orElse("");
-			case final Zugeinwirkung ein -> getNullableObject(ein,
-					e -> e.getBezeichnung().getBezeichnungTabelle().getWert())
-							.orElse("");
-			default -> "";
-		};
-		if (objDesignation != null && !objDesignation.isEmpty()) {
-			return typeName + " " + objDesignation;
-		}
-		return typeName;
+	private void fillBearbeitungsvermerkContent(final TableRow row,
+			final Bearbeitungsvermerk bv) {
+		// A: Bearbeitungsvermerke.Kurztext
+		fill(row, getColumn(cols, Kurztext_Content), bv,
+				note -> EObjectExtensions
+						.getNullableObject(note,
+								e -> e.getBearbeitungsvermerkAllg()
+										.getKurztext()
+										.getWert())
+						.orElse("")); //$NON-NLS-1$
+
+		// B: Bearbeitungsvermerke inhalt
+		fill(row, getColumn(cols, Text_Content), bv,
+				note -> EObjectExtensions
+						.getNullableObject(note,
+								e -> e.getBearbeitungsvermerkAllg()
+										.getKommentar()
+										.getWert())
+						.orElse("")); //$NON-NLS-1$
 	}
 }

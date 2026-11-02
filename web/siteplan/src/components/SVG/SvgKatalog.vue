@@ -32,70 +32,62 @@
       </div>
     </div>
 
-    <span v-html="drawElementInGroup()" />
+    <span v-html="html" />
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ISvgElement } from '@/model/SvgElement'
 import SvgDrawSignal from '@/util/SVG/Draw/SvgDrawSingleSignal'
 import { AndereSignalGroup } from '@/util/SVG/SvgEnum'
-import { Vue, Options } from 'vue-class-component'
-import { ISvgElement } from '@/model/SvgElement'
-@Options({
-  props: {
-    listsignalGroup: Object,
-    mastList: Object,
-    listSchirm: Object
-  },
-  watch: {
-    selectedSignalGroup (value: string): void {
-      this.$emit('select-signal-group', value)
-      this.withMast = false
-      if (!this.isWithoutMast(value) && value) {
-        this.haveMast = true
-      } else {
-        this.haveMast = false
-      }
-    },
-
-    selectedZusatzSignal (value: ISvgElement[]): void {
-      this.selectedZusatzSignal = value
-    }
-  },
-  emits: ['select-signal-group']
-})
+import { computed, ref, watch } from 'vue'
 
 /**
  * Draw selected Signal Katalog with or without Mast
  * @author Truong
  */
-export default class SvgKatalog extends Vue {
-  listsignalGroup!: Array<string>
-  mastList!: Array<ISvgElement>
-  listSchirm!: Array<ISvgElement>
-  selectedSignalGroup = ''
-  withMast = false
-  haveMast = false
-  listSignalwithoutMast = [
-    AndereSignalGroup.Richtungspfeil.toString(),
-    AndereSignalGroup.Zuordnungstafel.toString()
-  ]
 
-  public drawElementInGroup (): string | null {
-    if (!this.listSchirm) {
-      return null
-    }
+const props = defineProps<{
+  listsignalGroup: Array<string>
+  mastList: Array<ISvgElement> | null | undefined
+  listSchirm: Array<ISvgElement> | null | undefined
+}>()
 
-    if (this.mastList && this.withMast) {
-      return SvgDrawSignal.drawAllSignalInGroup(this.listSchirm, this.mastList)
-        .outerHTML
-    }
+const emit = defineEmits<{ 'select-signal-group': [value: string], }>()
 
-    return SvgDrawSignal.drawAllElementInGroup(this.listSchirm).outerHTML
+const html = computed(() => drawElementInGroup())
+
+const selectedSignalGroup = ref('')
+const withMast = ref(false)
+const haveMast = ref(false)
+const listSignalwithoutMast = [
+  AndereSignalGroup.Richtungspfeil.toString(),
+  AndereSignalGroup.Zuordnungstafel.toString()
+]
+
+watch(selectedSignalGroup, (value: string): void => {
+  emit('select-signal-group', value)
+  withMast.value = false
+  if (!isWithoutMast(value) && value) {
+    haveMast.value = true
+  } else {
+    haveMast.value = false
+  }
+})
+
+function drawElementInGroup (): string | null {
+  if (!props.listSchirm) {
+    return null
   }
 
-  public isWithoutMast (value: string): boolean {
-    return this.listSignalwithoutMast.includes(value)
+  if (props.mastList && withMast.value) {
+    return SvgDrawSignal.drawAllSignalInGroup(props.listSchirm, props.mastList).outerHTML
   }
+
+  return SvgDrawSignal.drawAllElementInGroup(props.listSchirm).outerHTML
+}
+
+function isWithoutMast (value: string): boolean {
+  return listSignalwithoutMast.includes(value)
 }
 </script>

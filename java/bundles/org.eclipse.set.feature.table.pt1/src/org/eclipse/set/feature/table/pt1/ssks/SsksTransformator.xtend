@@ -50,7 +50,6 @@ import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.MsWsGeWs
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.MsWsRtWs
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.MsWsSwWs
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Ne14
-import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Ne2
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.OzBk
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Sh1
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Vr0
@@ -91,6 +90,18 @@ import org.osgi.service.event.EventAdmin
 import static org.eclipse.set.feature.table.pt1.ssks.SsksColumns.*
 import static org.eclipse.set.model.planpro.Ansteuerung_Element.ENUMAussenelementansteuerungArt.*
 import static org.eclipse.set.model.planpro.Signale.ENUMAnschaltdauer.*
+import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_ARBEITSBUEHNE
+import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_DACH_DECKE
+import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_OL_MAST
+import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_PFOSTEN_HOCH
+import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_PFOSTEN_NIEDRIG
+import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_MAST_HOCH
+import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_MAST_NIEDRIG
+import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_SONSTIGE_HOCH
+import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_SONSTIGE_NIEDRIG
+import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_SONDERANORDNUNG_MAST_HOCH
+import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_SONDERANORDNUNG_MAST_NIEDRIG
+import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_WAND
 import static org.eclipse.set.model.planpro.Signale.ENUMBeleuchtet.*
 import static org.eclipse.set.model.planpro.Signale.ENUMFiktivesSignalFunktion.*
 import static org.eclipse.set.model.planpro.Signale.ENUMGeltungsbereich.*
@@ -99,6 +110,7 @@ import static org.eclipse.set.model.planpro.Signale.ENUMSignalArt.*
 import static org.eclipse.set.model.planpro.Signale.ENUMSignalFunktion.*
 import static org.eclipse.set.model.planpro.Signale.ENUMTunnelsignal.*
 
+import static extension org.eclipse.set.ppmodel.extensions.AussenelementansteuerungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.GeoPunktExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
@@ -121,7 +133,7 @@ class SsksTransformator extends AbstractSignalTableTransform {
 
 	static val SIGNALBEGRIFF_COMPARATOR = new MixedStringComparator(
 		"(?<letters1>[A-Za-z]*)(?<number>[0-9]*)(?<letters2>[A-Za-z]*)")
-	static val inRelevantFiktivFunktion = #[
+	static val irrelevantFiktivFunktion = #[
 		ENUM_FIKTIVES_SIGNAL_FUNKTION_ZUG_START_ZIEL_BK_MIT_ZS_1,
 		ENUM_FIKTIVES_SIGNAL_FUNKTION_ZUG_START_ZIEL_BK_MIT_ZS_7,
 		ENUM_FIKTIVES_SIGNAL_FUNKTION_ZUG_START_ZIEL_NE_14_MIT_ZS_1,
@@ -138,7 +150,7 @@ class SsksTransformator extends AbstractSignalTableTransform {
 		super(cols, enumTranslationService, bankingService, eventAdmin,
 			tableShortCut)
 	}
-	
+
 	override protected fillSpecifyColumns(TableRow row,
 		MultiContainer_AttributeGroup container, Signal signal,
 		boolean isHauptbefestigung, List<Signal_Rahmen> signalRahmen) {
@@ -299,32 +311,35 @@ class SsksTransformator extends AbstractSignalTableTransform {
 					streuscheibeBetriebsstellung?.translate ?: ""
 			]
 		)
+		try {
+			// X: Ssks.Anschluss.Schaltkasten.Bezeichnung
+			val energieAea = signal.getControlElement([stellelement?.energie],
+				#[ENUM_AUSSENELEMENTANSTEUERUNG_ART_OBJEKTCONTROLLER])
+			fill(
+				row,
+				cols.getColumn(Schaltkasten_Bezeichnung),
+				signal,
+				[
+					energieAea?.bezeichnung?.bezeichnungAEA?.wert
+				]
+			)
 
-		// X: Ssks.Anschluss.Schaltkasten.Bezeichnung
-		fillConditional(
-			row,
-			cols.getColumn(Schaltkasten_Bezeichnung),
-			signal,
-			[
-				stellelement?.energie?.AEAAllg?.
-					aussenelementansteuerungArt?.wert ==
-					ENUM_AUSSENELEMENTANSTEUERUNG_ART_OBJEKTCONTROLLER
-			],
-			[
-				stellelement?.energie?.bezeichnung?.bezeichnungAEA?.wert
-			]
-		)
-
-		// Y: Ssks.Anschluss.Schaltkasten.Entfernung
-		fillConditional(
-			row,
-			cols.getColumn(Schaltkasten_Entfernung),
-			signal,
-			[controlBox !== null],
-			[
-				distance(controlBox).toTableIntegerAgateUp
-			]
-		)
+			// Y: Ssks.Anschluss.Schaltkasten.Entfernung
+			fillConditional(
+				row,
+				cols.getColumn(Schaltkasten_Entfernung),
+				signal,
+				[energieAea?.unterbringung !== null],
+				[
+					distance(energieAea?.unterbringung).toTableIntegerAgateUp
+				]
+			)
+		} catch (Exception e) {
+			handleFillingException(e, row,
+				cols.getColumn(Schaltkasten_Bezeichnung))
+			handleFillingException(e, row,
+				cols.getColumn(Schaltkasten_Entfernung))
+		}
 
 		// Z: Ssks.Anschluss.Schaltkasten_separat.Bezeichnung
 		fillConditional(
@@ -333,7 +348,10 @@ class SsksTransformator extends AbstractSignalTableTransform {
 			signal,
 			[hasSchaltkastenSeparatBezeichnung],
 			[
-				stellelement?.information?.bezeichnung?.bezeichnungAEA?.wert
+				val informationAea = getControlElement([ s |
+					s?.stellelement?.information
+				], #[ENUM_AUSSENELEMENTANSTEUERUNG_ART_OBJEKTCONTROLLER])
+				informationAea?.bezeichnung?.bezeichnungAEA?.wert
 			]
 		)
 
@@ -621,11 +639,10 @@ class SsksTransformator extends AbstractSignalTableTransform {
 		)
 	}
 
-
 	private static def boolean isSsksSignal(Signal signal) {
 		if (signal?.signalFiktiv !== null &&
 			!signal?.signalFiktiv?.fiktivesSignalFunktion.exists [
-				inRelevantFiktivFunktion.contains(it)
+				irrelevantFiktivFunktion.contains(it)
 			]) {
 			return true
 		}
@@ -974,33 +991,19 @@ class SsksTransformator extends AbstractSignalTableTransform {
 
 	private static def List<String> fillSignalisierungWeitere(Signal signal,
 		List<Signal_Rahmen> signalRahmen) {
-		// 1.Case: Signal_Rahmen contains Ne2 or Ne14
-		val rahmen = signalRahmen.filter [
-			!signalbegriffe.filter [
-				signalbegriffID instanceof Ne2 ||
-					signalbegriffID instanceof Ne14
-			].empty
-		].toList
-		if (!rahmen.nullOrEmpty) {
-			return rahmen.map[IDRegelzeichnung?.value].filterNull.map [
-				fillRegelzeichnung
-			].toList
-		}
-
-		// 2.Case: It give another Signal Ne2/Ne14, which have same Mast with current Signal
 		val sameMastSignal = signalRahmen.map[IDSignalBefestigung?.value].
 			filterNull.flatMap [
 				attachmentSignal
 			].filter [
-				it !== signal && (hasSignalbegriffID(typeof(Ne2)) ||
-					hasSignalbegriffID(typeof(Ne14)))
+				it !== signal
 			].toList
 		if (sameMastSignal.nullOrEmpty) {
 			return #[]
 		}
 		return sameMastSignal.filter[!signalRahmen.nullOrEmpty].flatMap [ s |
 			s.signalRahmen.map[IDRegelzeichnung?.value].filterNull.map [
-				'''«fillRegelzeichnung» («s.bezeichnung?.bezeichnungTabelle?.wert ?: ""»)'''
+				'''«fillRegelzeichnung»
+				(«s.bezeichnung?.bezeichnungTabelle?.wert ?: ""»)'''
 			]
 		].filterNull.toList
 	}
@@ -1166,8 +1169,7 @@ class SsksTransformator extends AbstractSignalTableTransform {
 		}
 		return BigDecimal.valueOf(c1.distance(c2))
 	}
-	
-	
+
 	override protected getRelevantSignal(
 		MultiContainer_AttributeGroup contanier) {
 		return contanier.signal.filter[isSsksSignal]
@@ -1204,16 +1206,16 @@ class SsksTransformator extends AbstractSignalTableTransform {
 		return cols.getColumn(Lichtraumprofil)
 	}
 
-	override protected getRegelzeichnungColumn() {
-		return cols.getColumn(Anordnung_Regelzeichnung)
-	}
-
 	override protected getStreckeColumn() {
 		return cols.getColumn(Strecke)
 	}
 
 	override protected getUeberhoehungColumn() {
 		return cols.getColumn(Ueberhoehung)
+	}
+
+	override protected getAnordnungRegelzeichnungColumn() {
+		return cols.getColumn(Anordnung_Regelzeichnung)
 	}
 
 	override protected handledThrowException(TMFactory factory, Signal signal,
@@ -1225,6 +1227,19 @@ class SsksTransformator extends AbstractSignalTableTransform {
 			signal,
 			[throw new RuntimeException(e)]
 		)
+	}
+
+	override protected getSideDistanceMastType() {
+		return List.of(ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_MAST_HOCH,
+			ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_MAST_NIEDRIG,
+			ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_SONSTIGE_HOCH,
+			ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_SONSTIGE_NIEDRIG,
+			ENUM_BEFESTIGUNG_ART_SONDERANORDNUNG_MAST_HOCH,
+			ENUM_BEFESTIGUNG_ART_SONDERANORDNUNG_MAST_NIEDRIG,
+			ENUM_BEFESTIGUNG_ART_PFOSTEN_HOCH,
+			ENUM_BEFESTIGUNG_ART_PFOSTEN_NIEDRIG,
+			ENUM_BEFESTIGUNG_ART_ARBEITSBUEHNE, ENUM_BEFESTIGUNG_ART_OL_MAST,
+			ENUM_BEFESTIGUNG_ART_WAND, ENUM_BEFESTIGUNG_ART_DACH_DECKE);
 	}
 
 }

@@ -8,8 +8,6 @@
  */
 package org.eclipse.set.emfforms.text;
 
-import jakarta.inject.Inject;
-
 import org.eclipse.emf.ecp.view.spi.context.ViewModelContext;
 import org.eclipse.emf.ecp.view.spi.core.swt.renderer.TextControlSWTRenderer;
 import org.eclipse.emf.ecp.view.spi.model.VControl;
@@ -22,6 +20,8 @@ import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+
+import jakarta.inject.Inject;
 
 /**
  * Renders texts in multiline field
@@ -79,9 +79,8 @@ public class TextFieldRenderer extends TextControlSWTRenderer {
 
 	@Override
 	protected int getTextWidgetStyle() {
-		final int textStyle = SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.H_SCROLL
-				| SWT.BORDER | getDefaultAlignment();
-		return textStyle;
+		return SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.H_SCROLL | SWT.BORDER
+				| getDefaultAlignment();
 	}
 
 }

@@ -8,6 +8,7 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
+import java.math.BigDecimal
 import java.util.LinkedList
 import java.util.List
 import java.util.Set
@@ -310,9 +311,9 @@ class FahrwegExtensions extends BereichObjektExtensions {
 		val notUsableGleisArt = fahrweg.container.gleisArt.filter [
 			notUsable.contains(gleisart.wert)
 		]
-
+		val maximalPathLength = fahrwegPath.length * BigDecimal.TEN
 		val routes = startEdge.getPaths(new TopRouting, fahrwegPath.start,
-			fahrwegPath.end).filter [ r |
+			fahrwegPath.end, maximalPathLength).filter [ r |
 			notUsableGleisArt.forall[!areaIntersects(r)]
 		].toList
 

@@ -22,26 +22,18 @@
   </ul>
 </template>
 
-<script lang="ts">
-import { Options, Vue } from 'vue-class-component'
-import { RouteLocation, RouteObject } from '@/model/RouteObject'
+<script setup lang="ts">
+import { computed } from 'vue'
+import { RouteObject } from '@/model/RouteObject'
 
 /**
  * Route info for features
  *
  * @author Stuecker
  */
-@Options({
-  props: {
-    feature: Object
-  },
-  computed: {
-    entries: function () {
-      return (this.feature as RouteObject).routeLocations
-    }
-  }
-})
-export default class RouteInfo extends Vue {
-  entries!: RouteLocation[]
-}
+
+const props = defineProps<{
+  feature: RouteObject
+}>()
+const entries = computed(() => props.feature.routeLocations)
 </script>

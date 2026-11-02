@@ -25,29 +25,22 @@ import org.osgi.service.event.EventAdmin;
  */
 public class TableDataChangeEvent implements ToolboxEvent {
 
-	private static final String TOPIC = "toolboxevents/update/tabledata/"; //$NON-NLS-1$
-
 	/**
-	 * Returns the topic for a specific table that the event should affect
-	 * 
-	 * @param table
-	 *            the element id for the table component
-	 * @return a topic for the event
+	 * The event topic
 	 */
-	public static String getTopic(final String table) {
-		return TOPIC + table.replace(".", "/"); //$NON-NLS-1$ //$NON-NLS-2$
-	}
+	public static final String TOPIC = "toolboxevents/update/tabledata"; //$NON-NLS-1$
 
 	private final List<Object> properties;
-	private final String tableName;
+	private final String tableShortcut;
 
 	/**
-	 * @param tableName
-	 *            name of table
+	 * @param tableShortcut
+	 *            the table shortcut
 	 * @param property
 	 *            the property for change data
 	 */
-	public TableDataChangeEvent(final String tableName, final Object property) {
+	public TableDataChangeEvent(final String tableShortcut,
+			final Object property) {
 		this.properties = new ArrayList<>();
 		if (property instanceof final List<?> list) {
 			properties.addAll(list);
@@ -55,7 +48,7 @@ public class TableDataChangeEvent implements ToolboxEvent {
 			properties.add(property);
 		}
 
-		this.tableName = tableName;
+		this.tableShortcut = tableShortcut;
 	}
 
 	/**
@@ -65,9 +58,16 @@ public class TableDataChangeEvent implements ToolboxEvent {
 		return properties;
 	}
 
+	/**
+	 * @return the table shortcut
+	 */
+	public String getTableShortcut() {
+		return tableShortcut;
+	}
+
 	@Override
 	public String getTopic() {
-		return getTopic(tableName);
+		return TOPIC;
 	}
 
 	/**

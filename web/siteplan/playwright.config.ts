@@ -10,7 +10,7 @@ export default defineConfig({
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
   /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 1 : undefined,
+  workers: process.env.CI ? 1 : 3,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: 'html',
 
@@ -29,12 +29,20 @@ export default defineConfig({
       use: { ...devices['Desktop Chrome'] }
     }
   ],
+  expect: {
+    toHaveScreenshot: {
+      maxDiffPixelRatio: 0.0005
+    }
+  },
 
   /* In CI use production build otherwise running
   local dev server before starting the tests */
   webServer: {
     command: process.env.CI ? 'npm run build-prod && npm exec vite preview -- --port 8080' : 'npm run serve',
     url: 'http://localhost:8080',
-    reuseExistingServer: !process.env.CI
+    reuseExistingServer: !process.env.CI,
+    env: {
+      VITE_NO_FLASHING: 'true'
+    }
   }
 })

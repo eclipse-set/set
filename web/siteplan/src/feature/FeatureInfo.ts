@@ -192,6 +192,8 @@ export function getFeatureName (type: FeatureType): string {
       return 'Überhöhungslinie'
     case FeatureType.Unknown:
       return 'Unbekannt'
+    case FeatureType.Flash:
+      return 'Hightlight'
     case FeatureType.TrackDirectionArrow:
       return 'GleisausrichtungsPfeil'
     default:

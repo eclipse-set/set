@@ -14,8 +14,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
+import org.eclipse.set.core.services.font.FontService.FopFont;
 import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.utils.SWTBotPreferences;
 import org.junit.jupiter.api.BeforeEach;
@@ -39,7 +43,11 @@ public abstract class AbstractSWTBotTest {
 		dialogService = getDialogService();
 		dialogService.openFileDialogHandler = filters -> Optional
 				.of(getFilePath(getTestFile().getFullName()));
+		MockFontService.getFopFontsHandler = () -> loadTestFonts(
+				defaultTestFonts());
 	}
+
+	public abstract TestFile getTestFile();
 
 	/**
 	 * Call execute test class to get test resource location
@@ -54,7 +62,15 @@ public abstract class AbstractSWTBotTest {
 		return getClass();
 	}
 
-	public abstract TestFile getTestFile();
+	protected Iterable<FopFont> defaultTestFonts() {
+		return List.of( //
+				new FopFont(Paths.get(
+						"test_res/test_font/Open_Sans_Condensed/OpenSans-CondLight.ttf"),
+						"Open Sans Condensed", "normal", "normal"),
+				new FopFont(Paths.get(
+						"test_res/test_font/Open_Sans_Condensed/OpenSans-CondBold.ttf"),
+						"Open Sans Condensed", "bold", "normal"));
+	}
 
 	protected MockDialogService getDialogService() {
 		return MockDialogServiceContextFunction.mockService;
@@ -91,5 +107,32 @@ public abstract class AbstractSWTBotTest {
 				.getCodeSource()
 				.getLocation();
 		return new File(projectLocation.getPath() + fileName);
+	}
+
+	protected Iterable<FopFont> loadTestFonts(
+			final Iterable<FopFont> testFont) {
+		final List<FopFont> fonts = new ArrayList<>();
+		for (final FopFont font : testFont) {
+			final File testFontFile = getTestFileLocation(
+					font.path().toString());
+			if (!testFontFile.exists()) {
+				if (!testFontFile.getParentFile().exists()) {
+					testFontFile.getParentFile().mkdirs();
+				}
+				try (final InputStream inputStream = getTestResourceClass()
+						.getClassLoader()
+						.getResourceAsStream(font.path().toString());
+						FileOutputStream outputStream = new FileOutputStream(
+								testFontFile)) {
+					outputStream.write(inputStream.readAllBytes());
+				} catch (final IOException e) {
+					throw new RuntimeException(e.getMessage());
+				}
+			}
+
+			fonts.add(new FopFont(Paths.get(testFontFile.getAbsolutePath()),
+					font.name(), font.weight(), font.style()));
+		}
+		return fonts;
 	}
 }

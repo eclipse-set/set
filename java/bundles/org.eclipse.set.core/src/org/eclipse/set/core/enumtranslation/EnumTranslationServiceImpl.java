@@ -60,6 +60,9 @@ public class EnumTranslationServiceImpl implements EnumTranslationService {
 
 	@Override
 	public EnumTranslation translate(final Enumerator obj) {
+		if (obj == null) {
+			return null;
+		}
 		final Enumerator enumerator = obj;
 		final String enumeratorName = EnumTranslationUtils
 				.getKeyBasis(enumerator);
@@ -71,7 +74,9 @@ public class EnumTranslationServiceImpl implements EnumTranslationService {
 	public EnumTranslation translate(final BasisAttribut_AttributeGroup owner,
 			final Enumerator enumerator) {
 		final EnumTranslation translate = translate(enumerator);
-
+		if (translate == null) {
+			return null;
+		}
 		if (!translate.getAlternative().equals("sonstige")) { //$NON-NLS-1$
 			return translate;
 		}

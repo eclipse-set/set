@@ -13,6 +13,7 @@ package org.eclipse.set.core.services.graph;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.Predicate;
 
 import org.eclipse.set.basis.graph.TopPath;
@@ -30,11 +31,13 @@ public interface TopologicalGraphService {
 	 *            the target point
 	 * @param limit
 	 *            maximum path distance to consider
+	 * @param includeIncompletePath
+	 *            include incomplete path or not
 	 * @return a list of all possible not-self intersecting paths between the
 	 *         two points, include not complete path
 	 */
 	List<TopPath> findAllPathsBetween(final TopPoint from, final TopPoint to,
-			int limit);
+			int limit, boolean includeIncompletePath);
 
 	/**
 	 * @param from
@@ -110,4 +113,32 @@ public interface TopologicalGraphService {
 	 */
 	Optional<TopPoint> findClosestPoint(final TopPoint from,
 			final List<TopPoint> points, final boolean searchInTopDirection);
+
+	/**
+	 * Finds the points, which lie on radius from start point and give
+	 * topological path to this point
+	 * 
+	 * @param start
+	 *            the start point
+	 * @param candiates
+	 *            the list of points to search
+	 * @param radius
+	 *            the radius
+	 * @param inTopDIrection
+	 *            the direction
+	 * @return the points or empty
+	 */
+	Set<TopPoint> findClosestPoints(TopPoint start, Set<TopPoint> candiates,
+			double radius, Optional<Boolean> inTopDIrection);
+
+	/**
+	 * Finds the shortest path, which have plausible branch
+	 * 
+	 * @param from
+	 *            starting point to search from
+	 * @param to
+	 *            end point
+	 * @return the optional of {@link TopPath}
+	 */
+	Optional<TopPath> findTopologicalShortesPath(TopPoint from, TopPoint to);
 }

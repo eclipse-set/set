@@ -257,13 +257,22 @@ public interface ValidationreportPackage extends EPackage {
 	int VALIDATION_PROBLEM__OBJECT_ART = 6;
 
 	/**
+	 * The feature id for the '<em><b>Object Designation</b></em>' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 * @ordered
+	 */
+	int VALIDATION_PROBLEM__OBJECT_DESIGNATION = 7;
+
+	/**
 	 * The feature id for the '<em><b>Attribute Name</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @generated
 	 * @ordered
 	 */
-	int VALIDATION_PROBLEM__ATTRIBUTE_NAME = 7;
+	int VALIDATION_PROBLEM__ATTRIBUTE_NAME = 8;
 
 	/**
 	 * The feature id for the '<em><b>Object Scope</b></em>' attribute. <!--
@@ -272,7 +281,7 @@ public interface ValidationreportPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int VALIDATION_PROBLEM__OBJECT_SCOPE = 8;
+	int VALIDATION_PROBLEM__OBJECT_SCOPE = 9;
 
 	/**
 	 * The feature id for the '<em><b>Object State</b></em>' attribute. <!--
@@ -281,7 +290,7 @@ public interface ValidationreportPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int VALIDATION_PROBLEM__OBJECT_STATE = 9;
+	int VALIDATION_PROBLEM__OBJECT_STATE = 10;
 
 	/**
 	 * The feature id for the '<em><b>General Msg</b></em>' attribute. <!--
@@ -290,7 +299,7 @@ public interface ValidationreportPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int VALIDATION_PROBLEM__GENERAL_MSG = 10;
+	int VALIDATION_PROBLEM__GENERAL_MSG = 11;
 
 	/**
 	 * The number of structural features of the '<em>Validation Problem</em>'
@@ -299,7 +308,7 @@ public interface ValidationreportPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int VALIDATION_PROBLEM_FEATURE_COUNT = 11;
+	int VALIDATION_PROBLEM_FEATURE_COUNT = 12;
 
 	/**
 	 * The number of operations of the '<em>Validation Problem</em>' class. <!--
@@ -323,22 +332,22 @@ public interface ValidationreportPackage extends EPackage {
 	int VERSION_INFO = 2;
 
 	/**
-	 * The feature id for the '<em><b>Plan Pro</b></em>' attribute. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
+	 * The feature id for the '<em><b>Plan Pro Versions</b></em>' attribute
+	 * list. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @generated
 	 * @ordered
 	 */
-	int VERSION_INFO__PLAN_PRO = 0;
+	int VERSION_INFO__PLAN_PRO_VERSIONS = 0;
 
 	/**
-	 * The feature id for the '<em><b>Signals</b></em>' attribute. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
+	 * The feature id for the '<em><b>Signalbegriffe Versions</b></em>'
+	 * attribute list. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @generated
 	 * @ordered
 	 */
-	int VERSION_INFO__SIGNALS = 1;
+	int VERSION_INFO__SIGNALBEGRIFFE_VERSIONS = 1;
 
 	/**
 	 * The number of structural features of the '<em>Version Info</em>' class.
@@ -721,6 +730,19 @@ public interface ValidationreportPackage extends EPackage {
 
 	/**
 	 * Returns the meta object for the attribute
+	 * '{@link org.eclipse.set.model.validationreport.ValidationProblem#getObjectDesignation
+	 * <em>Object Designation</em>}'. <!-- begin-user-doc --> <!-- end-user-doc
+	 * -->
+	 * 
+	 * @return the meta object for the attribute '<em>Object Designation</em>'.
+	 * @see org.eclipse.set.model.validationreport.ValidationProblem#getObjectDesignation()
+	 * @see #getValidationProblem()
+	 * @generated
+	 */
+	EAttribute getValidationProblem_ObjectDesignation();
+
+	/**
+	 * Returns the meta object for the attribute
 	 * '{@link org.eclipse.set.model.validationreport.ValidationProblem#getAttributeName
 	 * <em>Attribute Name</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
@@ -779,28 +801,32 @@ public interface ValidationreportPackage extends EPackage {
 	EClass getVersionInfo();
 
 	/**
-	 * Returns the meta object for the attribute
-	 * '{@link org.eclipse.set.model.validationreport.VersionInfo#getPlanPro
-	 * <em>Plan Pro</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * Returns the meta object for the attribute list
+	 * '{@link org.eclipse.set.model.validationreport.VersionInfo#getPlanProVersions
+	 * <em>Plan Pro Versions</em>}'. <!-- begin-user-doc --> <!-- end-user-doc
+	 * -->
 	 * 
-	 * @return the meta object for the attribute '<em>Plan Pro</em>'.
-	 * @see org.eclipse.set.model.validationreport.VersionInfo#getPlanPro()
+	 * @return the meta object for the attribute list '<em>Plan Pro
+	 *         Versions</em>'.
+	 * @see org.eclipse.set.model.validationreport.VersionInfo#getPlanProVersions()
 	 * @see #getVersionInfo()
 	 * @generated
 	 */
-	EAttribute getVersionInfo_PlanPro();
+	EAttribute getVersionInfo_PlanProVersions();
 
 	/**
-	 * Returns the meta object for the attribute
-	 * '{@link org.eclipse.set.model.validationreport.VersionInfo#getSignals
-	 * <em>Signals</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * Returns the meta object for the attribute list
+	 * '{@link org.eclipse.set.model.validationreport.VersionInfo#getSignalbegriffeVersions
+	 * <em>Signalbegriffe Versions</em>}'. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
 	 * 
-	 * @return the meta object for the attribute '<em>Signals</em>'.
-	 * @see org.eclipse.set.model.validationreport.VersionInfo#getSignals()
+	 * @return the meta object for the attribute list '<em>Signalbegriffe
+	 *         Versions</em>'.
+	 * @see org.eclipse.set.model.validationreport.VersionInfo#getSignalbegriffeVersions()
 	 * @see #getVersionInfo()
 	 * @generated
 	 */
-	EAttribute getVersionInfo_Signals();
+	EAttribute getVersionInfo_SignalbegriffeVersions();
 
 	/**
 	 * Returns the meta object for class
@@ -1137,6 +1163,15 @@ public interface ValidationreportPackage extends EPackage {
 				.getValidationProblem_ObjectArt();
 
 		/**
+		 * The meta object literal for the '<em><b>Object Designation</b></em>'
+		 * attribute feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * 
+		 * @generated
+		 */
+		EAttribute VALIDATION_PROBLEM__OBJECT_DESIGNATION = eINSTANCE
+				.getValidationProblem_ObjectDesignation();
+
+		/**
 		 * The meta object literal for the '<em><b>Attribute Name</b></em>'
 		 * attribute feature. <!-- begin-user-doc --> <!-- end-user-doc -->
 		 * 
@@ -1185,20 +1220,23 @@ public interface ValidationreportPackage extends EPackage {
 		EClass VERSION_INFO = eINSTANCE.getVersionInfo();
 
 		/**
-		 * The meta object literal for the '<em><b>Plan Pro</b></em>' attribute
-		 * feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * The meta object literal for the '<em><b>Plan Pro Versions</b></em>'
+		 * attribute list feature. <!-- begin-user-doc --> <!-- end-user-doc -->
 		 * 
 		 * @generated
 		 */
-		EAttribute VERSION_INFO__PLAN_PRO = eINSTANCE.getVersionInfo_PlanPro();
+		EAttribute VERSION_INFO__PLAN_PRO_VERSIONS = eINSTANCE
+				.getVersionInfo_PlanProVersions();
 
 		/**
-		 * The meta object literal for the '<em><b>Signals</b></em>' attribute
-		 * feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * The meta object literal for the '<em><b>Signalbegriffe
+		 * Versions</b></em>' attribute list feature. <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
 		 * 
 		 * @generated
 		 */
-		EAttribute VERSION_INFO__SIGNALS = eINSTANCE.getVersionInfo_Signals();
+		EAttribute VERSION_INFO__SIGNALBEGRIFFE_VERSIONS = eINSTANCE
+				.getVersionInfo_SignalbegriffeVersions();
 
 		/**
 		 * The meta object literal for the

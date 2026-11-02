@@ -13,10 +13,7 @@ package org.eclipse.set.ppmodel.extensions.geometry;
 import static org.eclipse.set.ppmodel.extensions.GeoKanteExtensions.isCRSConsistent;
 import static org.eclipse.set.ppmodel.extensions.GeoKnotenExtensions.getCRS;
 import static org.eclipse.set.ppmodel.extensions.GeoKnotenExtensions.getCoordinate;
-import static org.eclipse.set.ppmodel.extensions.geometry.CoordinateExtensions.getAngleBetweenPoints;
-import static org.eclipse.set.ppmodel.extensions.geometry.CoordinateExtensions.mirrorY;
-import static org.eclipse.set.ppmodel.extensions.geometry.CoordinateExtensions.offsetBy;
-import static org.eclipse.set.ppmodel.extensions.geometry.CoordinateExtensions.rotateAroundPoint;
+import static org.eclipse.set.ppmodel.extensions.geometry.CoordinateExtensions.*;
 import static org.eclipse.xtext.xbase.lib.IterableExtensions.lastOrNull;
 
 import java.math.BigDecimal;
@@ -24,6 +21,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.eclipse.set.basis.geometry.Chord;
 import org.eclipse.set.basis.geometry.Geometries;
 import org.eclipse.set.basis.graph.DirectedEdge;
@@ -33,6 +31,7 @@ import org.eclipse.set.core.services.geometry.GeoKanteGeometryService;
 import org.eclipse.set.model.planpro.Geodaten.ENUMGEOForm;
 import org.eclipse.set.model.planpro.Geodaten.GEO_Kante;
 import org.eclipse.set.model.planpro.Geodaten.GEO_Knoten;
+import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.set.utils.geometry.GeometryCalculationOptions;
 import org.eclipse.set.utils.geometry.GeometryOptionsBuilder.GeometryOptions;
 import org.eclipse.set.utils.math.Bloss;
@@ -217,27 +216,34 @@ public class GEOKanteGeometryExtensions {
 				.getWert()
 				.doubleValue();
 		if (radiusA != 0 && radiusB != 0) {
-			// Bloss curve connecting two straight tracks
-			logger.warn("Form Bloss between straight tracks not supported."); //$NON-NLS-1$
-			return getGeometryFactory().createLineString(getCoordinates(edge));
+			// Bloss curve connecting two curve tracks
+			final Bloss bloss = new Bloss(radiusA, radiusB, length,
+					geometryOptions.precision());
+
+			return blosscurve(bloss, coordinateA, coordinateB, radiusA, length,
+					geometryOptions);
 		} else if (radiusA == 0) {
 			// Curve from node B to node A
-			return blosscurve(coordinateB, coordinateA, radiusB, length,
+			final Bloss bloss = new Bloss(Math.abs(radiusB), length,
+					geometryOptions.precision());
+			return blosscurve(bloss, coordinateB, coordinateA, radiusB, length,
 					geometryOptions);
 		}
 		// Curve from node A to node B
 		// Invert the radius, as left-right is also inverted due to the
 		// drawing direction
-		return blosscurve(coordinateA, coordinateB, -radiusA, length,
+		final Bloss bloss = new Bloss(Math.abs(radiusA), length,
+				geometryOptions.precision());
+		return blosscurve(bloss, coordinateA, coordinateB, -radiusA, length,
 				geometryOptions);
 
 	}
 
-	private static LineString blosscurve(final Coordinate fromCoordinate,
-			final Coordinate toCoordinate, final double radius,
-			final double length, final GeometryOptions geometryOptions) {
-		final Bloss bloss = new Bloss(Math.abs(radius), length,
-				geometryOptions.precision());
+	private static LineString blosscurve(final Bloss bloss,
+			final Coordinate fromCoordinate, final Coordinate toCoordinate,
+			final double radiusA, final double length,
+			final GeometryOptions geometryOptions) {
+
 		final int segmentCount = (int) Math.max(
 				length / geometryOptions.stepSize(),
 				geometryOptions.minSegmentCount());
@@ -246,7 +252,7 @@ public class GEOKanteGeometryExtensions {
 				.map(coor -> {
 					final Coordinate coordinate = new Coordinate(coor[0],
 							coor[1], 0);
-					return radius < 0 ? mirrorY(coordinate) : coordinate;
+					return radiusA < 0 ? mirrorY(coordinate) : coordinate;
 				})
 				.toList();
 
@@ -331,9 +337,22 @@ public class GEOKanteGeometryExtensions {
 	}
 
 	/**
-	 * @return {@link GeoKanteGeometryService#isFindGeometryComplete()}
+	 * @param role
+	 *            the session role
+	 * @return {@link GeoKanteGeometryService#isFindGeometryComplete(ToolboxFileRole)}
 	 */
-	public static boolean isFindGeometryComplete() {
-		return Services.getGeometryService().isFindGeometryComplete();
+	public static boolean isFindGeometryComplete(final ToolboxFileRole role) {
+		return Services.getGeometryService().isFindGeometryComplete(role);
+	}
+
+	/**
+	 * @param schnittStelle
+	 *            the {@link PlanPro_Schnittstelle}
+	 * @return {@link GeoKanteGeometryService#isFindGeometryComplete(PlanPro_Schnittstelle)}
+	 */
+	public static boolean isFindGeometryComplete(
+			final PlanPro_Schnittstelle schnittStelle) {
+		return Services.getGeometryService()
+				.isFindGeometryComplete(schnittStelle);
 	}
 }

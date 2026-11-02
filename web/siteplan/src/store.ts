@@ -123,7 +123,7 @@ export const store = createStore<State>({
     planproModelType: PlanProModelType.SITEPLAN,
     measureEnable: false,
     pixelPerMeterAtScale: new Map(),
-    customPpm: 5
+    customPpm: Configuration.MIN_EXPORT_PPM
   },
   mutations: {
     setpptConfiguration (state, payload: ToolboxConfiguration) {

@@ -11,50 +11,68 @@ package org.eclipse.set.utils.math;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.common.math.BigIntegerMath;
-
 /**
  * Determines points on a Bloss curve with a zero target curvature
  * 
- * The implementation follows the formulas outlined in Appendix 6 of
- * Übergangsbogenberechnung nach Dr.-Ing. Schuhr
+ * The implementation follows the formulas of DB Netz AG and ProVI
  * 
- * @author Stuecker
+ * @author Truong
  *
  */
 public class Bloss {
-	private final double[][] amnCache;
-	private final double curvature;
+	private final double startCurvature;
+	private final double endCurvature;
+
+	private final double firstLength;
 	private final int maxIterations;
 
+	private final boolean isInflectionCurve;
+
 	private final double totalLength;
+	private final double secondLength;
 
 	/**
+	 * 7 point closed Newton-Cotes rule
+	 */
+	private static final double[] NC_WEIGHTS = { 41, 216, 27, 272, 27, 216,
+			41 };
+
+	/**
+	 * Simple bloss curve from RadiusA to a straight line.
+	 * 
 	 * @param radius
 	 *            radius of the curve
-	 * @param totalLength
+	 * @param arcLength
 	 *            total length of the curve
 	 * @param iterations
 	 *            number of iterations to perform during calculation
 	 */
-	public Bloss(final double radius, final double totalLength,
+	public Bloss(final double radius, final double arcLength,
 			final int iterations) {
-		this.totalLength = totalLength;
+		this(radius, 0, arcLength, iterations);
+	}
+
+	/**
+	 * @param radiusA
+	 *            the radius at start
+	 * @param radiusB
+	 *            the radius at end
+	 * @param arcLength
+	 *            the curve length
+	 * @param iterations
+	 *            number of iterations to perform during calculation
+	 */
+	public Bloss(final double radiusA, final double radiusB,
+			final double arcLength, final int iterations) {
+		this.totalLength = arcLength;
 		this.maxIterations = iterations;
-		this.curvature = radius != 0 ? 1 / radius : 0;
-
-		// Prepare the cache for a_m,n
-		// n is at most 4m
-		final int nMax = 4 * iterations;
-		amnCache = new double[iterations][nMax];
-		for (int i = 0; i < iterations; ++i) {
-			amnCache[i] = new double[nMax];
-			for (int j = 0; j < nMax; ++j) {
-				// Set all values to NaN
-				amnCache[i][j] = Double.NaN;
-			}
-		}
-
+		startCurvature = radiusA == 0 ? 0 : 1 / radiusA;
+		endCurvature = radiusB == 0 ? 0 : 1 / radiusB;
+		isInflectionCurve = startCurvature * endCurvature < 0 && arcLength > 0;
+		firstLength = isInflectionCurve
+				? arcLength * startCurvature / (startCurvature - endCurvature)
+				: arcLength;
+		secondLength = arcLength - firstLength;
 	}
 
 	/**
@@ -82,121 +100,92 @@ public class Bloss {
 	 * @return a xy-position on the curve
 	 */
 	public double[] calculatePoint(final double length) {
-		return new double[] { x(length), y(length) };
+		if (isInflectionCurve && length > firstLength) {
+			final double[] firstPart = integrate(0, firstLength);
+			final double[] secondPart = integrate(firstLength, length);
+			return new double[] { firstPart[0] + secondPart[0],
+					firstPart[1] + secondPart[1] };
+		}
+		return integrate(0, length);
 	}
 
 	/**
-	 * Calculates the term a_m,n using a cache
 	 * 
-	 * @param m
-	 *            value for m
-	 * @param n
-	 *            value for n
-	 * @return a_m,n
+	 * @param from
+	 * @param to
+	 * @return
 	 */
-	private double amn(final int m, final int n) {
-		// Check if the value is not yet present
-		// For the empty state we use Double.NaN and NaN != NaN
-		if (amnCache[m - 1][n - 1] != amnCache[m - 1][n - 1]) {
-			amnCache[m - 1][n - 1] = amnUncached(m, n);
+	private double[] integrate(final double from, final double to) {
+		final double[] coor = new double[2];
+		if (from == to) {
+			return coor;
 		}
-		return amnCache[m - 1][n - 1];
+		final double factor = (to - from) / (840 * maxIterations);
+		final double delta = (to - from) / maxIterations;
+		final double h = delta / 6;
+		for (int i = 0; i < maxIterations; i++) {
+			final double x = from + i * delta;
+			for (int k = 0; k < NC_WEIGHTS.length; k++) {
+				final double angle = directionAngle(x + k * h);
+				final double xValue = NC_WEIGHTS[k] * Math.cos(angle);
+				final double yValue = NC_WEIGHTS[k] * Math.sin(angle);
+				coor[0] += xValue;
+				coor[1] += yValue;
+			}
+		}
+		coor[0] *= factor;
+		coor[1] *= factor;
+		return coor;
 	}
 
 	/**
-	 * Calculates the term a_m,n
+	 * Calculate direction angle of the tangent, measured from the +N axis,
+	 * clockwise, in radiant. The curve is calculated in its own local
+	 * coordinate system. Therefore, the tangent angle at the start point is
+	 * defined as 0°.
 	 * 
-	 * @param m
-	 *            value for m
-	 * @param n
-	 *            value for n
-	 * @return a_m,n
+	 * @param length
+	 *            Arc length along the curve, measured from the element start
+	 *            point. 0 ≤ l ≤ L.
+	 * @return the direction angle
 	 */
-	private double amnUncached(final int m, final int n) {
-		if (m == 1) {
-			return an(n);
+	public double directionAngle(final double length) {
+		if (!isInflectionCurve) {
+			return startCurvature * length + (endCurvature - startCurvature)
+					* totalLength * hermitIntegral(length / totalLength);
 		}
 
-		double result = 0.0;
-		// First sum term
-		if (n == m || n == m + 1 || n == m + 2) {
+		if (length <= firstLength) {
+			return startCurvature * firstLength
+					* rampIntegral(length / firstLength);
+		}
+		final double psi1 = (double) 5 / 8;
+		final double m = totalLength - length;
+		return psi1 * startCurvature * firstLength + endCurvature * secondLength
+				* (psi1 - rampIntegral(m / secondLength));
 
-			for (int j = 1; j <= n - m + 1; ++j) {
-				result += amn(m - 1, n - j) * an(j);
-			}
-		}
-		// Second sum term
-		else if (n >= m + 3 && n <= 4 * m - 3) {
-			for (int j = 1; j <= 4; ++j) {
-				result += amn(m - 1, n - j) * an(j);
-			}
-		}
-		// Third sum term
-		else if (n == 4 * m || n == 4 * m - 1 || n == 4 * m - 2) {
-			for (int j = n - 4 * m + 4; j <= 4; ++j) {
-				result += amn(m - 1, n - j) * an(j);
-			}
-		} else {
-			// This should be unreachable
-			throw new RuntimeException("Invalid value for n in amn"); //$NON-NLS-1$
-		}
-		return result;
 	}
 
 	/**
-	 * Definition of a_n
+	 * Hermit Integral with s = segmentLength / totalLength
 	 * 
-	 * @param n
-	 *            index
-	 * @return a_n
+	 * @param s
+	 *            segmentLength / totalLength
+	 * @return
 	 */
-	private double an(final int n) {
-		if (n == 1) {
-			return curvature;
-		}
-		if (n == 2) {
-			return 0;
-		}
-		if (n == 3) {
-			return -curvature / Math.pow(totalLength, 2);
-		}
-		if (n == 4) {
-			return curvature / (2 * Math.pow(totalLength, 3));
-		}
-
-		// This should be unreachable
-		throw new RuntimeException("Invalid value for n in an"); //$NON-NLS-1$
+	private static double hermitIntegral(final double s) {
+		return Math.pow(s, 3) - Math.pow(s, 4) / 2;
 	}
 
-	private double x(final double l) {
-		double result = l;
-		for (int m = 2; m <= maxIterations; m += 2) {
-			final double sign = Math.pow(-1, m / 2f);
-			final double fact = BigIntegerMath.factorial(m).doubleValue();
+	/**
+	 * Bloss ramp Integral with t = segmentLength / firstLength
+	 * 
+	 * @param t
+	 *            segmentLength / firstLength
+	 * @return
+	 */
 
-			double innerSum = 0.0;
-			for (int n = m; n <= 4 * m; ++n) {
-				innerSum += amn(m, n) * Math.pow(l, n + 1f) / (n + 1);
-			}
-
-			result += sign / fact * innerSum;
-		}
-		return result;
-	}
-
-	private double y(final double l) {
-		double result = 0.0;
-		for (int m = 1; m <= maxIterations; m += 2) {
-			final double sign = Math.pow(-1, (m - 1) / 2f);
-			final double fact = BigIntegerMath.factorial(m).doubleValue();
-
-			double innerSum = 0.0;
-			for (int n = m; n <= 4 * m; ++n) {
-				innerSum += amn(m, n) * Math.pow(l, n + 1f) / (n + 1);
-			}
-
-			result += sign / fact * innerSum;
-		}
-		return result;
+	private static double rampIntegral(final double t) {
+		return t - Math.pow(t, 3) / 2 + Math.pow(t, 4) / 8;
 	}
 }

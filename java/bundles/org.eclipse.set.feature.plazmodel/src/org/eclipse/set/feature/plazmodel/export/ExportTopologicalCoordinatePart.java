@@ -30,6 +30,7 @@ import org.eclipse.set.basis.constants.ContainerType;
 import org.eclipse.set.core.services.configurationservice.UserConfigurationService;
 import org.eclipse.set.feature.plazmodel.Messages;
 import org.eclipse.set.feature.plazmodel.check.GeoCoordinateValid;
+import org.eclipse.set.model.planpro.Basisobjekte.Bereich_Objekt;
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt;
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup;
 import org.eclipse.set.model.planpro.Ortung.FMA_Komponente;
@@ -193,8 +194,11 @@ public class ExportTopologicalCoordinatePart extends BasePart {
 					.getContainer(entry.getKey());
 			final ContainerType containerType = MultiContainer_AttributeGroupExtensions
 					.getContainerType(container);
+			final List<Bereich_Objekt> bereichsObjects = Streams
+					.stream(container.getBereichObjekt())
+					.toList();
 			geoCoordinateValid.calculateCoordinate(containerType,
-					entry.getKey(), entry.getValue());
+					entry.getKey(), entry.getValue(), bereichsObjects);
 		});
 		return geoCoordinateValid.getTopologischeCoordinaten();
 	}

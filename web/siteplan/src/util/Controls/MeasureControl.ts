@@ -189,13 +189,21 @@ export default class MeasureControl extends Control {
     }
 
     this.map.addLayer(this.vectorLayer)
-    this.map.getTargetElement().style.cursor = 'crosshair'
+    const targetElement = this.map.getTargetElement()
+    if (targetElement) {
+      targetElement.style.cursor = 'crosshair'
+    }
+
     this.map.addInteraction(this.drawLineInteraction)
     this.createMeasureTooltip()
   }
 
   deactiveMeasure () {
-    this.map.getTargetElement().style.cursor = 'auto'
+    const targetElement = this.map.getTargetElement()
+    if (targetElement) {
+      targetElement.style.cursor = 'auto'
+    }
+
     this.map.getInteractions().forEach(interaction => {
       if (toRaw(interaction) === this.drawLineInteraction) {
         this.map.removeInteraction(interaction)

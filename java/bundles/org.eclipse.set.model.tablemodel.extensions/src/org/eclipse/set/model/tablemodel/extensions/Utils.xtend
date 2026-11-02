@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2017 DB Netz AG and others.
- *
+ * 
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -51,9 +51,10 @@ class Utils {
 			return ""
 		return '''"«stringColumn.value»"'''
 	}
-	
-	
-	static def int getFootnoteNumber(EObject container, Bearbeitungsvermerk footnote) {
-		return getFootnoteInfo(container, footnote).index
+
+	static def int getFootnoteNumber(EObject container,
+		Bearbeitungsvermerk footnote) {
+		val relevantFn = getFootnoteInfo(container, footnote)
+		return relevantFn === null ? -1 : relevantFn.index
 	}
 }

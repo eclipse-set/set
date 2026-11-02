@@ -42,6 +42,8 @@ import org.eclipse.set.model.validationreport.ValidationreportPackage;
  * <em>Message</em>}</li>
  * <li>{@link org.eclipse.set.model.validationreport.impl.ValidationProblemImpl#getObjectArt
  * <em>Object Art</em>}</li>
+ * <li>{@link org.eclipse.set.model.validationreport.impl.ValidationProblemImpl#getObjectDesignation
+ * <em>Object Designation</em>}</li>
  * <li>{@link org.eclipse.set.model.validationreport.impl.ValidationProblemImpl#getAttributeName
  * <em>Attribute Name</em>}</li>
  * <li>{@link org.eclipse.set.model.validationreport.impl.ValidationProblemImpl#getObjectScope
@@ -195,6 +197,28 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container
 	 * @ordered
 	 */
 	protected String objectArt = OBJECT_ART_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getObjectDesignation() <em>Object
+	 * Designation</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
+	 * -->
+	 * 
+	 * @see #getObjectDesignation()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String OBJECT_DESIGNATION_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getObjectDesignation() <em>Object
+	 * Designation</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
+	 * -->
+	 * 
+	 * @see #getObjectDesignation()
+	 * @generated
+	 * @ordered
+	 */
+	protected String objectDesignation = OBJECT_DESIGNATION_EDEFAULT;
 
 	/**
 	 * The default value of the '{@link #getAttributeName() <em>Attribute
@@ -475,6 +499,31 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container
 	 * @generated
 	 */
 	@Override
+	public String getObjectDesignation() {
+		return objectDesignation;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
+	public void setObjectDesignation(String newObjectDesignation) {
+		String oldObjectDesignation = objectDesignation;
+		objectDesignation = newObjectDesignation;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					ValidationreportPackage.VALIDATION_PROBLEM__OBJECT_DESIGNATION,
+					oldObjectDesignation, objectDesignation));
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
 	public String getAttributeName() {
 		return attributeName;
 	}
@@ -593,6 +642,8 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container
 				return getMessage();
 			case ValidationreportPackage.VALIDATION_PROBLEM__OBJECT_ART:
 				return getObjectArt();
+			case ValidationreportPackage.VALIDATION_PROBLEM__OBJECT_DESIGNATION:
+				return getObjectDesignation();
 			case ValidationreportPackage.VALIDATION_PROBLEM__ATTRIBUTE_NAME:
 				return getAttributeName();
 			case ValidationreportPackage.VALIDATION_PROBLEM__OBJECT_SCOPE:
@@ -633,6 +684,9 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container
 				return;
 			case ValidationreportPackage.VALIDATION_PROBLEM__OBJECT_ART:
 				setObjectArt((String) newValue);
+				return;
+			case ValidationreportPackage.VALIDATION_PROBLEM__OBJECT_DESIGNATION:
+				setObjectDesignation((String) newValue);
 				return;
 			case ValidationreportPackage.VALIDATION_PROBLEM__ATTRIBUTE_NAME:
 				setAttributeName((String) newValue);
@@ -679,6 +733,9 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container
 			case ValidationreportPackage.VALIDATION_PROBLEM__OBJECT_ART:
 				setObjectArt(OBJECT_ART_EDEFAULT);
 				return;
+			case ValidationreportPackage.VALIDATION_PROBLEM__OBJECT_DESIGNATION:
+				setObjectDesignation(OBJECT_DESIGNATION_EDEFAULT);
+				return;
 			case ValidationreportPackage.VALIDATION_PROBLEM__ATTRIBUTE_NAME:
 				setAttributeName(ATTRIBUTE_NAME_EDEFAULT);
 				return;
@@ -722,6 +779,11 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container
 			case ValidationreportPackage.VALIDATION_PROBLEM__OBJECT_ART:
 				return OBJECT_ART_EDEFAULT == null ? objectArt != null
 						: !OBJECT_ART_EDEFAULT.equals(objectArt);
+			case ValidationreportPackage.VALIDATION_PROBLEM__OBJECT_DESIGNATION:
+				return OBJECT_DESIGNATION_EDEFAULT == null
+						? objectDesignation != null
+						: !OBJECT_DESIGNATION_EDEFAULT
+								.equals(objectDesignation);
 			case ValidationreportPackage.VALIDATION_PROBLEM__ATTRIBUTE_NAME:
 				return ATTRIBUTE_NAME_EDEFAULT == null ? attributeName != null
 						: !ATTRIBUTE_NAME_EDEFAULT.equals(attributeName);
@@ -761,6 +823,8 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container
 		result.append(message);
 		result.append(", objectArt: ");
 		result.append(objectArt);
+		result.append(", objectDesignation: ");
+		result.append(objectDesignation);
 		result.append(", attributeName: ");
 		result.append(attributeName);
 		result.append(", objectScope: ");

@@ -56,6 +56,8 @@ import org.eclipse.set.model.tablemodel.TablemodelPackage;
  * <em>Merge Common Values</em>}</li>
  * <li>{@link org.eclipse.set.model.tablemodel.impl.ColumnDescriptorImpl#getColumnPosition
  * <em>Column Position</em>}</li>
+ * <li>{@link org.eclipse.set.model.tablemodel.impl.ColumnDescriptorImpl#isIsRemarkColumn
+ * <em>Is Remark Column</em>}</li>
  * </ul>
  *
  * @generated
@@ -241,6 +243,26 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container
 	 * @ordered
 	 */
 	protected String columnPosition = COLUMN_POSITION_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #isIsRemarkColumn() <em>Is Remark
+	 * Column</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @see #isIsRemarkColumn()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean IS_REMARK_COLUMN_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isIsRemarkColumn() <em>Is Remark
+	 * Column</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @see #isIsRemarkColumn()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean isRemarkColumn = IS_REMARK_COLUMN_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -560,6 +582,31 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container
 	 * 
 	 * @generated
 	 */
+	@Override
+	public boolean isIsRemarkColumn() {
+		return isRemarkColumn;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
+	public void setIsRemarkColumn(boolean newIsRemarkColumn) {
+		boolean oldIsRemarkColumn = isRemarkColumn;
+		isRemarkColumn = newIsRemarkColumn;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					TablemodelPackage.COLUMN_DESCRIPTOR__IS_REMARK_COLUMN,
+					oldIsRemarkColumn, isRemarkColumn));
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd,
@@ -626,6 +673,8 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container
 				return getMergeCommonValues();
 			case TablemodelPackage.COLUMN_DESCRIPTOR__COLUMN_POSITION:
 				return getColumnPosition();
+			case TablemodelPackage.COLUMN_DESCRIPTOR__IS_REMARK_COLUMN:
+				return isIsRemarkColumn();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -671,6 +720,9 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container
 			case TablemodelPackage.COLUMN_DESCRIPTOR__COLUMN_POSITION:
 				setColumnPosition((String) newValue);
 				return;
+			case TablemodelPackage.COLUMN_DESCRIPTOR__IS_REMARK_COLUMN:
+				setIsRemarkColumn((Boolean) newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -713,6 +765,9 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container
 			case TablemodelPackage.COLUMN_DESCRIPTOR__COLUMN_POSITION:
 				setColumnPosition(COLUMN_POSITION_EDEFAULT);
 				return;
+			case TablemodelPackage.COLUMN_DESCRIPTOR__IS_REMARK_COLUMN:
+				setIsRemarkColumn(IS_REMARK_COLUMN_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -748,6 +803,8 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container
 			case TablemodelPackage.COLUMN_DESCRIPTOR__COLUMN_POSITION:
 				return COLUMN_POSITION_EDEFAULT == null ? columnPosition != null
 						: !COLUMN_POSITION_EDEFAULT.equals(columnPosition);
+			case TablemodelPackage.COLUMN_DESCRIPTOR__IS_REMARK_COLUMN:
+				return isRemarkColumn != IS_REMARK_COLUMN_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -779,6 +836,8 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container
 		result.append(mergeCommonValues);
 		result.append(", columnPosition: ");
 		result.append(columnPosition);
+		result.append(", isRemarkColumn: ");
+		result.append(isRemarkColumn);
 		result.append(')');
 		return result.toString();
 	}

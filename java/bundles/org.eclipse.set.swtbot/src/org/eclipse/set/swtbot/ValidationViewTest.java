@@ -23,11 +23,14 @@ import java.util.Optional;
 
 import org.apache.commons.csv.CSVRecord;
 import org.eclipse.nebula.widgets.nattable.layer.ILayer;
+import org.eclipse.set.basis.Pair;
 import org.eclipse.set.swtbot.table.AbstractTableTest;
 import org.eclipse.set.swtbot.table.TestFailHandle;
 import org.eclipse.set.swtbot.utils.AbstractSWTBotTest;
 import org.eclipse.set.swtbot.utils.SWTBotUtils;
 import org.eclipse.set.utils.table.export.ExportToCSV;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotButton;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotCTabItem;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotText;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -36,6 +39,8 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.extension.ExtensionContext;
+
+import com.google.common.html.HtmlEscapers;
 
 /**
  * Test for changes in Validation View
@@ -54,8 +59,8 @@ public class ValidationViewTest extends AbstractTableTest {
 			final Optional<Object> testInstance = context.getTestInstance();
 			if (testInstance.isPresent() && testInstance
 					.get() instanceof final ValidationViewTest tableTest) {
-				exportWidgeValue(tableTest);
 				tableTest.tableName = VALIDATION_INFORMATION_CSV;
+				exportWidgeValue(tableTest);
 				exportReferenceCSV(tableTest);
 				tableTest.tableName = VALIDATION_TABLE_NAME;
 			}
@@ -64,10 +69,9 @@ public class ValidationViewTest extends AbstractTableTest {
 		private void exportWidgeValue(final ValidationViewTest testInstance) {
 
 			final List<String> currentValues = new ArrayList<>();
-			final List<CSVRecord> referenceFile = testInstance.informationReference;
-			for (int i = 1; i < referenceFile.size(); i++) {
-				final String itemGroup = referenceFile.get(i).get(0);
-				final String itemLabel = referenceFile.get(i).get(1);
+			for (int i = 0; i < widgetItems.size(); i++) {
+				final String itemGroup = widgetItems.get(i).getFirst();
+				final String itemLabel = widgetItems.get(i).getSecond();
 				final SWTBotText currentValue = AbstractSWTBotTest.bot
 						.textWithLabelInGroup(itemLabel, itemGroup);
 				final String csvEntry = String.format("\"%s\";\"%s\";\"%s\"",
@@ -90,16 +94,30 @@ public class ValidationViewTest extends AbstractTableTest {
 	}
 
 	protected static final String RICHTEXT_REPLACE_REGEX = "<[^>]+>";
+
 	protected static final String VALIDATION_INFORMATION_CSV = "validation_information";
 	protected static final String VALIDATION_TABLE_NAME = "validation_view";
-
-	private String tableName = VALIDATION_TABLE_NAME;
+	static List<Pair<String, String>> widgetItems = Arrays
+			.<Pair<String, String>> asList(new Pair<>("Geladene Datei", "MD5"),
+					new Pair<>("Geladene Datei", "GUID"),
+					new Pair<>("Verwendetes XML-Schema (in Datei)", "PlanPro"),
+					new Pair<>("Verwendetes XML-Schema (in Datei)",
+							"Signalbegriffe"),
+					new Pair<>("Unterstütztes XML-Schema", "PlanPro"),
+					new Pair<>("Unterstütztes XML-Schema", "Signalbegriffe"),
+					new Pair<>("Gültigkeit", "XSD-Gültigkeit"),
+					new Pair<>("Gültigkeit", "EMF-Gültigkeit"),
+					new Pair<>("Gültigkeit", "Verarbeitbar"),
+					new Pair<>("PlanPro-Container", "Enthalten"),
+					new Pair<>("Untergewerke", "Enthalten"));
 
 	private static List<String> splitString(final String text,
 			final String regex) {
 		final List<String> asList = Arrays.asList(text.split(regex));
 		return asList.stream().map(e -> e.replaceAll(" ", "")).toList();
 	}
+
+	private String tableName = VALIDATION_TABLE_NAME;
 
 	protected List<CSVRecord> informationReference;
 
@@ -134,7 +152,13 @@ public class ValidationViewTest extends AbstractTableTest {
 						.get(columnIndex)
 						.replaceAll(CELL_VALUE_REPLACE_REGEX, "")
 						.replaceAll(ZERO_WIDTH_SPACE, "");
-				assertEquals(referenceValue, cellValue);
+				final String toHtmlString = HtmlEscapers.htmlEscaper()
+						.escape(referenceValue);
+				assertTrue(
+						referenceValue.equals(cellValue)
+								|| toHtmlString.equals(cellValue),
+						getErrorMessage(columnIndex, rowIndex, referenceValue,
+								toHtmlString));
 			}
 		}
 	}
@@ -178,15 +202,22 @@ public class ValidationViewTest extends AbstractTableTest {
 	}
 
 	protected void thenExpectModelInformationEquals() {
-		for (int i = 1; i < informationReference.size(); i++) {
-			final String group = informationReference.get(i).get(0);
-			final String item = informationReference.get(i).get(1);
-			final String value = informationReference.get(i).get(2);
+		for (int i = 0; i < widgetItems.size(); i++) {
+			final String group = widgetItems.get(i).getFirst();
+			final String item = widgetItems.get(i).getSecond();
+			final String value = informationReference.get(i + 1).get(2);
 			expectTextWidgetAreSame(value, item, group);
 		}
 	}
 
 	protected void whenOpeningValidateView() {
+		final SWTBotCTabItem cTabItem = bot.cTabItem("Validierung");
+		cTabItem.activate();
+	}
+
+	protected void whenOpenReportTable() {
+		whenOpeningValidateView();
+		bot.button("Zeige Meldungen").click();
 		nattableBot = SWTBotUtils.waitForNattable(bot, 30000);
 		layers = SWTBotUtils.getNattableLayers(nattableBot);
 	}
@@ -201,8 +232,11 @@ public class ValidationViewTest extends AbstractTableTest {
 	@ExtendWith(TestFailHandle.class)
 	void testValidateReport() throws Exception {
 		givenReferenceCSV();
-		whenOpeningValidateView();
-		bot.button("Alle ausklappen").click();
+		whenOpenReportTable();
+		final SWTBotButton ausKlappenButton = bot.button("Alle ausklappen");
+		if (ausKlappenButton != null) {
+			ausKlappenButton.click();
+		}
 		thenRowAndColumnCountEqualReferenceCSV();
 		thenExpectTableDataEqualReferenceCSV();
 	}

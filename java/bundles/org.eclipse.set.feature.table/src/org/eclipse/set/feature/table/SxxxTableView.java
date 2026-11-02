@@ -55,7 +55,7 @@ public class SxxxTableView extends ToolboxTableView {
 					.equalsIgnoreCase(Events.RELOAD_WORKNOTES_TABLE)) {
 				return;
 			}
-			updateModel(getToolboxPart());
+			updateModel(getToolboxPart(), transformToTableModel());
 			updateCalculateMissingTablesPanel();
 			natTable.refresh();
 		};
@@ -74,8 +74,6 @@ public class SxxxTableView extends ToolboxTableView {
 	protected void createView(final Composite parent) {
 		super.createView(parent);
 		addCalculateMissingTablesPanel(parent);
-		// Move the panel to top position
-		calculateMissingTablesPanel.moveAbove(parent.getChildren()[0]);
 	}
 
 	@Override
@@ -174,10 +172,13 @@ public class SxxxTableView extends ToolboxTableView {
 
 		calculateMissingTablesPanel = panel;
 		updateCalculateMissingTablesPanel();
+		// Move the panel to top of view
+		calculateMissingTablesPanel.moveAbove(parent.getChildren()[0]);
 	}
 
 	private void updateCalculateMissingTablesPanel() {
-		if (calculateMissingTablesPanel == null) {
+		if (calculateMissingTablesPanel == null
+				|| calculateMissingTablesPanel.isDisposed()) {
 			return;
 		}
 		if (getMissingTables().isEmpty()) {
@@ -185,7 +186,7 @@ public class SxxxTableView extends ToolboxTableView {
 			calculateMissingTablesPanel.dispose();
 			parent.layout(true, true);
 			parent.update();
-			calculateMissingTablesPanel = null;
+
 		}
 	}
 

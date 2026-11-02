@@ -211,13 +211,22 @@ public interface TablemodelPackage extends EPackage {
 	int COLUMN_DESCRIPTOR__COLUMN_POSITION = 9;
 
 	/**
+	 * The feature id for the '<em><b>Is Remark Column</b></em>' attribute. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 * @ordered
+	 */
+	int COLUMN_DESCRIPTOR__IS_REMARK_COLUMN = 10;
+
+	/**
 	 * The number of structural features of the '<em>Column Descriptor</em>'
 	 * class. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @generated
 	 * @ordered
 	 */
-	int COLUMN_DESCRIPTOR_FEATURE_COUNT = 10;
+	int COLUMN_DESCRIPTOR_FEATURE_COUNT = 11;
 
 	/**
 	 * The number of operations of the '<em>Column Descriptor</em>' class. <!--
@@ -1305,6 +1314,19 @@ public interface TablemodelPackage extends EPackage {
 	EAttribute getColumnDescriptor_ColumnPosition();
 
 	/**
+	 * Returns the meta object for the attribute
+	 * '{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#isIsRemarkColumn
+	 * <em>Is Remark Column</em>}'. <!-- begin-user-doc --> <!-- end-user-doc
+	 * -->
+	 * 
+	 * @return the meta object for the attribute '<em>Is Remark Column</em>'.
+	 * @see org.eclipse.set.model.tablemodel.ColumnDescriptor#isIsRemarkColumn()
+	 * @see #getColumnDescriptor()
+	 * @generated
+	 */
+	EAttribute getColumnDescriptor_IsRemarkColumn();
+
+	/**
 	 * Returns the meta object for class
 	 * '{@link org.eclipse.set.model.tablemodel.TableContent <em>Table
 	 * Content</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -2082,6 +2104,15 @@ public interface TablemodelPackage extends EPackage {
 		 */
 		EAttribute COLUMN_DESCRIPTOR__COLUMN_POSITION = eINSTANCE
 				.getColumnDescriptor_ColumnPosition();
+
+		/**
+		 * The meta object literal for the '<em><b>Is Remark Column</b></em>'
+		 * attribute feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * 
+		 * @generated
+		 */
+		EAttribute COLUMN_DESCRIPTOR__IS_REMARK_COLUMN = eINSTANCE
+				.getColumnDescriptor_IsRemarkColumn();
 
 		/**
 		 * The meta object literal for the

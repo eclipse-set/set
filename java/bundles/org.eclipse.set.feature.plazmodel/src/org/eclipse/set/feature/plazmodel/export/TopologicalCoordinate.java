@@ -33,4 +33,16 @@ public record TopologicalCoordinate(ContainerType state, Punkt_Objekt po,
 		Punkt_Objekt_TOP_Kante_AttributeGroup potk,
 		GEOKanteCoordinate coordinate) {
 
+	@SuppressWarnings({ "boxing", "nls" })
+	@Override
+	public String toString() {
+		return String.format("%s;%s;%s;%s;%s;%f;%f", //
+				state.toString(), //
+				po.getClass().getName(), //
+				po.getIdentitaet().getWert(), //
+				potk.getIDTOPKante().getWert(), //
+				coordinate.getCRS().getLiteral(), //
+				coordinate.getCoordinate().getX(), //
+				coordinate.getCoordinate().getY());
+	}
 }

@@ -19,7 +19,6 @@ import java.util.Set;
 import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 
-import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.model.planpro.BasisTypen.BasisTypenFactory;
@@ -42,6 +41,7 @@ import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.TableRow;
 import org.eclipse.set.model.tablemodel.TablemodelFactory;
 import org.eclipse.set.ppmodel.extensions.SignalRahmenExtensions;
+import org.eclipse.set.ppmodel.extensions.SignalbegriffExtensions;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.eclipse.xtext.xbase.lib.Pair;
 
@@ -163,7 +163,7 @@ public class FootnoteExtensions {
 	 * @param extractTableShortName
 	 *            extract table name form footnotesPerTable key value
 	 */
-	public static void fillSxxxTableColumnC(final Table sxxxTable,
+	public static void fillSxxxTableColumnD(final Table sxxxTable,
 			final Map<String, Set<Footnote>> footnotesPerTable,
 			final boolean allTablesGenerated,
 			final UnaryOperator<String> extractTableShortName) {
@@ -193,12 +193,13 @@ public class FootnoteExtensions {
 	}
 
 	private static void fillValue(final TableRow row, final String value) {
-		final CellContent content = row.getCells().get(2).getContent();
+		// IMPROVE: the get row cell is hard code
+		final CellContent content = row.getCells().get(4).getContent();
 		if (content == null) {
 			final StringCellContent cellContent = TablemodelFactory.eINSTANCE
 					.createStringCellContent();
 			cellContent.getValue().add(value);
-			row.getCells().get(2).setContent(cellContent);
+			row.getCells().get(3).setContent(cellContent);
 		} else if (content instanceof final StringCellContent stringCellContent) {
 			stringCellContent.getValue().add(value);
 			stringCellContent.getValue().removeIf(String::isEmpty);
@@ -298,29 +299,12 @@ public class FootnoteExtensions {
 		}
 		final Signalbegriff_ID_TypeClass signalBegriffId = signalBegriff
 				.getSignalbegriffID();
-		final String prefix = getSignalBregiffIDName(signalBegriffId);
+		final String prefix = SignalbegriffExtensions
+				.getSignalBegriffIDName(signalBegriffId);
 		if (withSymbol && signalBegriffId.getSymbol() != null) {
 			return new Pair<>(prefix, signalBegriffId.getSymbol());
 		}
 		return new Pair<>(prefix, null);
-	}
-
-	/**
-	 * @param signalBegriffId
-	 *            the {@link Signalbegriff_ID_TypeClass}
-	 * @return the name of this signalbegriff
-	 */
-	public static String getSignalBregiffIDName(
-			final Signalbegriff_ID_TypeClass signalBegriffId) {
-		try {
-			return signalBegriffId.eClass()
-					.getEAnnotation(ExtendedMetaData.ANNOTATION_URI)
-					.getDetails()
-					.get("name") //$NON-NLS-1$
-					.replace("_", " "); //$NON-NLS-1$ //$NON-NLS-2$
-		} catch (final Exception e) {
-			return signalBegriffId.eClass().getName();
-		}
 	}
 
 	/**

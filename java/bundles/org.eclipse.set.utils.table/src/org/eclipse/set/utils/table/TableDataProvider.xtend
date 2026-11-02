@@ -66,6 +66,10 @@ class TableDataProvider implements IDataProvider {
 		].filter[filterMatch].toList
 	}
 
+	def Map<Integer, Object> getCurrentFilters() {
+		return filters
+	}
+
 	/**
 	 * Checks whether a row fulfils the applied filters
 	 * 
@@ -75,15 +79,19 @@ class TableDataProvider implements IDataProvider {
 		for (var i = 0; i < columnCount; i++) {
 			if (filters.containsKey(i)) {
 				val content = row.contents.get(i).plainStringValue.toLowerCase
-				var filterValue = filters.get(i).toString.toLowerCase
-				val isExcludeFilter = filterValue.substring(0, 1).equals(
-					EXCULDE_FILTER_SIGN)
-				filterValue = isExcludeFilter ? filterValue.
-					substring(1) : filterValue
+				var filterValues = filters.get(i).toString.split(",")
+				for (v : filterValues) {
+					if (!v.nullOrEmpty) {
+						val isExcludeFilter = v.substring(0, 1).equals(
+							EXCULDE_FILTER_SIGN)
+						var value = isExcludeFilter ? v.substring(1) : v
 
-				// Equivalence logic
-				if (isExcludeFilter === content.contains(filterValue)) {
-					return false
+						// Equivalence logic
+						if (isExcludeFilter ===
+							content.contains(value.toLowerCase)) {
+							return false
+						}
+					}
 				}
 			}
 		}

@@ -15,17 +15,29 @@ on:
       - 'main'
 
 jobs:
-  test-siteplan:
+  typecheck-siteplan:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Install dependencies
         run: npm ci
         working-directory: web/siteplan
 
-      - name: Install Playwright Browsers
-        run: npm exec playwright install --with-deps
+      - name: Run typecheck
+        run: npm run typecheck
+        working-directory: web/siteplan
+
+  test-siteplan:
+    runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v1.63.0-noble
+      options: --ipc=host
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Install dependencies
+        run: npm ci
         working-directory: web/siteplan
 
       - name: Run Playwright tests

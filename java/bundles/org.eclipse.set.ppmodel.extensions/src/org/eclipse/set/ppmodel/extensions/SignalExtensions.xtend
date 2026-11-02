@@ -12,14 +12,15 @@ import java.math.BigDecimal
 import java.util.Collections
 import java.util.LinkedList
 import java.util.List
+import java.util.Optional
 import java.util.Set
-import org.eclipse.core.runtime.Assert
-import org.eclipse.set.basis.graph.Digraphs
+import java.util.function.Predicate
 import org.eclipse.set.basis.graph.TopPoint
 import org.eclipse.set.core.services.graph.TopologicalGraphService
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Aussenelementansteuerung
+import org.eclipse.set.model.planpro.Ansteuerung_Element.ENUMAussenelementansteuerungArt
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stellelement
-import org.eclipse.set.model.planpro.Ansteuerung_Element.Unterbringung
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Zug_Rangier
@@ -28,22 +29,24 @@ import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
 import org.eclipse.set.model.planpro.Gleis.Gleis_Bezeichnung
 import org.eclipse.set.model.planpro.Ortung.FMA_Komponente
 import org.eclipse.set.model.planpro.Ortung.Schaltmittel_Zuordnung
+import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Ne31str
+import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Ne32str
+import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Ne33str
+import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Ne34str
+import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Ne35str
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Zs3v
 import org.eclipse.set.model.planpro.Signalbegriffe_Struktur.Signalbegriff_ID_TypeClass
 import org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt
 import org.eclipse.set.model.planpro.Signale.ENUMRahmenArt
+import org.eclipse.set.model.planpro.Signale.ENUMSignalArt
 import org.eclipse.set.model.planpro.Signale.Signal
 import org.eclipse.set.model.planpro.Signale.Signal_Befestigung
 import org.eclipse.set.model.planpro.Signale.Signal_Rahmen
 import org.eclipse.set.model.planpro.Signale.Signal_Signalbegriff
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element
-import org.eclipse.set.ppmodel.extensions.utils.DirectedTopKante
-import org.eclipse.set.ppmodel.extensions.utils.TopRouting
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-import static org.eclipse.set.model.planpro.Ansteuerung_Element.ENUMAussenelementansteuerungArt.*
-import static org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung.*
 import static org.eclipse.set.model.planpro.Signale.ENUMFiktivesSignalFunktion.*
 import static org.eclipse.set.model.planpro.Signale.ENUMSignalFunktion.*
 
@@ -56,10 +59,10 @@ import static extension org.eclipse.set.ppmodel.extensions.FstrZugRangierExtensi
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalRahmenExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalbegriffExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.StellelementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.CollectionExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.utils.Debug.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
+import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Ne2
+import org.eclipse.set.core.services.Services
 
 /**
  * This class extends {@link Signal}.
@@ -67,8 +70,6 @@ import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensi
 class SignalExtensions extends PunktObjektExtensions {
 
 	static val Logger logger = LoggerFactory.getLogger(typeof(SignalExtensions))
-
-	static val BigDecimal ABSTAND_VORSIGNALBAKE = BigDecimal.valueOf(260)
 
 	static val String PREFIX_VORSIGNALBAKE = "Ne3"
 
@@ -164,11 +165,16 @@ class SignalExtensions extends PunktObjektExtensions {
 	def static boolean isInWirkrichtungOfSignal(
 		TopologicalGraphService topGraphService, Signal signal,
 		Punkt_Objekt object) {
-		val startPoint = new TopPoint(signal)
-		val endPoint = new TopPoint(object)
-		val inDirection = signal.singlePoint.isWirkrichtungTopDirection
-		return topGraphService.findShortestPathInDirection(startPoint, endPoint,
-			inDirection).isPresent
+		return signal.singlePoints.forall [ signalPotk |
+			val startPoint = new TopPoint(signalPotk)
+			val inDirection = signalPotk.isWirkrichtungTopDirection
+			return object.singlePoints.forall [ potk |
+				val endPoint = new TopPoint(potk)
+				return topGraphService.
+					findShortestPathInDirection(startPoint, endPoint,
+						inDirection).isPresent
+			]
+		]
 	}
 
 	def static boolean isInWirkrichtungOfSignal(
@@ -220,35 +226,6 @@ class SignalExtensions extends PunktObjektExtensions {
 	}
 
 	/**
-	 * @param signal this Signal
-	 * 
-	 * @returns the Vorsignalbaken of this signal
-	 */
-	def static List<Signal> getVorsignalbaken(Signal signal) {
-		val topKanten = signal.topKanten
-		Assert.isTrue(topKanten.size == 1)
-		val topKante = topKanten.get(0)
-		val wirkrichtung = signal.getWirkrichtung(topKante)
-		val isForward = wirkrichtung == ENUM_WIRKRICHTUNG_GEGEN
-		val DirectedTopKante start = new DirectedTopKante(topKante, isForward)
-		val paths = Digraphs.getPaths(start, new TopRouting,
-			ABSTAND_VORSIGNALBAKE)
-		paths.forEach[start = signal.singlePoint]
-		if (logger.debugEnabled) {
-			val bezeichnung = signal?.bezeichnung?.bezeichnungTabelle?.wert
-			logger.debug('''Searchpaths for Vorsignalbaken of «bezeichnung»:''')
-			logger.debug(paths.debugString)
-		}
-		return paths.map [
-			val itsPath = it
-			pointIterator.map[punktObjekt].filter(Signal).filter [
-				itsPath.distance(signal.singlePoint, singlePoint) <
-					ABSTAND_VORSIGNALBAKE
-			].filter[vorsignalbake].toList
-		].flatten.toList
-	}
-
-	/**
 	 * @param signal this signal
 	 * 
 	 * @return set of all Signalbegriffe of all Signalrahmen of this signal
@@ -294,17 +271,20 @@ class SignalExtensions extends PunktObjektExtensions {
 
 	/**
 	 * @param signal this signal
-	 * 
-	 * @return the Schaltkasten for this Signal; or {@code null}, if this
-	 * signal has no Schaltkasten
+	 * @param getFirstControlFunc the function to get Aussenelemntansteuerung from signal
+	 * @return the relevant Aussenelementansteuerung or null, if no element matched the condition
 	 */
-	def static Unterbringung getControlBox(Signal signal) {
-		val energie = signal.realAktivStellelement?.energie
-		if (energie?.AEAAllg?.aussenelementansteuerungArt?.wert ===
-			ENUM_AUSSENELEMENTANSTEUERUNG_ART_OBJEKTCONTROLLER) {
-			return energie.unterbringung
-		}
-		return null
+	def static Aussenelementansteuerung getControlElement(Signal signal,
+		(Signal)=>Aussenelementansteuerung getFirstControlFunc,
+		List<ENUMAussenelementansteuerungArt> requiredType) {
+		val aea = getFirstControlFunc.apply(signal)
+		val Predicate<Aussenelementansteuerung> isRelevantAea = [ ele |
+			requiredType.exists [
+				it == aea?.AEAAllg?.aussenelementansteuerungArt?.wert
+			]
+		]
+
+		return isRelevantAea.test(aea) ? aea : null
 	}
 
 	/**
@@ -442,11 +422,13 @@ class SignalExtensions extends PunktObjektExtensions {
 				isBelongToControlArea(controlArea)) {
 			return true
 		}
+
 		val existsFiktivesSignalFAPStart = signal.signalFiktiv !== null &&
 			signal.signalFiktiv.fiktivesSignalFunktion.exists [
 				wert === ENUM_FIKTIVES_SIGNAL_FUNKTION_FAP_START ||
 					wert === ENUM_FIKTIVES_SIGNAL_FUNKTION_ZENTRALBLOCK_START
 			]
+
 		if (existsFiktivesSignalFAPStart) {
 			val fstrFahrwegs = signal.container.fstrZugRangier.map [
 				IDFstrFahrweg.value
@@ -469,17 +451,66 @@ class SignalExtensions extends PunktObjektExtensions {
 				exists[controlArea.contains(it)]
 		}
 
-		if (signal.signalReal !== null ||
-			(!existsFiktivesSignalFAPStart && !existsFiktivesSignalFAPZiel)) {
+		if ((signal.signalReal !== null &&
+			signal.signalReal.signalRealAktiv === null) ||
+			(signal.signalFiktiv !== null && !existsFiktivesSignalFAPStart &&
+				!existsFiktivesSignalFAPZiel)) {
 			return signal.punktObjektTOPKante.exists [
 				controlArea.contains(it, tolerantDistance)
 			]
 		}
+
 		return false
 	}
-	
-	def static boolean isSskxSignalBelongToArea(Signal signal, Stell_Bereich area) {
-		return area.contains(signal, tolerantDistance)
+
+	def static boolean isSskxSignalBelongToArea(Signal signal,
+		Stell_Bereich area) {
+		if (area.contains(signal, tolerantDistance)) {
+			return true
+		}
+		// When vorsignal of signalbalken in area
+		val vorsignalbalkenTypes = Set.of(Ne31str, Ne32str, Ne33str, Ne34str,
+			Ne35str)
+		if (!signal.signalbegriffe.exists [
+			vorsignalbalkenTypes.exists[type|hasSignalbegriffID(it, type)]
+		]) {
+			return false
+		}
+
+		return !findRelevantPOInRadius(
+			signal,
+			[
+				Services.topGraphService.
+					isVorsignalOfSignalBalken(signal, it, #[area])
+			],
+			[it.signal],
+			500,
+			Optional.of(signal.singlePoint.isWirkrichtungTopDirection)
+		).nullOrEmpty
+	}
+
+	def static boolean isVorsignalOfSignalBalken(
+		TopologicalGraphService topGraphSerivce, Signal balkenSignal,
+		Signal vorsignal, Iterable<Stell_Bereich> controlAreas) {
+		val signalRealAktiv = vorsignal.signalReal?.signalRealAktiv
+		val aktivSchrimType = vorsignal.signalReal?.signalRealAktivSchirm?.
+			signalArt?.wert
+		val aea = signalRealAktiv?.IDStellelement?.value?.IDInformation?.value
+		if (signalRealAktiv !== null && aktivSchrimType ==
+			ENUMSignalArt.ENUM_SIGNAL_ART_VORSIGNAL) {
+			return controlAreas.
+				exists[IDAussenelementansteuerung?.value == aea] && //
+			// Only do check direction, when necessary
+			!isInWirkrichtungOfSignal(Services.topGraphService, vorsignal,
+				balkenSignal)
+		}
+		return vorsignal.hasSignalbegriffID(Ne2) && controlAreas.exists [
+			contains(vorsignal)
+		] && //
+		// Only do check direction, when necessary
+		!isInWirkrichtungOfSignal(Services.topGraphService, vorsignal,
+			balkenSignal)
+
 	}
 
 	def static List<FMA_Komponente> getFmaKomponenten(Signal signal) {
@@ -504,12 +535,15 @@ class SignalExtensions extends PunktObjektExtensions {
 		val rahmen = signal.signalRahmen
 		val befestigungen = rahmen.map[it -> signalBefestigung].distinctBy [
 			value
-		].toList
+		].filterNull.toList
 
-		switch mast : befestigungen.filter [
-			mastTypeOfSignalWithTwoMast.contains(
-				value?.signalBefestigungAllg?.befestigungArt?.wert)
-		] {
+		val mast = befestigungen.filter [
+			val befestigungArt = value?.signalBefestigungAllg?.befestigungArt?.
+				wert
+			befestigungArt !== null &&
+				mastTypeOfSignalWithTwoMast.contains(befestigungArt)
+		]
+		switch mast {
 			// condition "zwei Befestigungen"
 			case mast.size == 2: {
 				val mainMast = befestigungen.filter [

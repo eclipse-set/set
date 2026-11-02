@@ -22,6 +22,7 @@ import org.eclipse.set.feature.table.pt1.messages.Messages;
 import org.eclipse.set.model.planpro.Basisobjekte.Strecke_Km_TypeClass;
 import org.eclipse.set.model.planpro.Verweise.ID_Strecke_TypeClass;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
+import org.eclipse.set.utils.table.TableInfo.Pt1TableCategory;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.event.EventAdmin;
@@ -85,8 +86,18 @@ public final class SszwTransformationService
 	}
 
 	@Override
+	protected String getRemarkColumnPosition() {
+		return SszwColumns.Bemerkung;
+	}
+
+	@Override
 	protected Map<Class<?>, String> getFootnotesColumnReferences() {
 		return Map.of(ID_Strecke_TypeClass.class, SszwColumns.Strecke,
 				Strecke_Km_TypeClass.class, SszwColumns.km);
+	}
+
+	@Override
+	protected Pt1TableCategory getTableCategory() {
+		return Pt1TableCategory.ETCS;
 	}
 }

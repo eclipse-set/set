@@ -13,7 +13,6 @@ package org.eclipse.set.utils.graph;
 import java.math.BigDecimal;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -179,10 +178,13 @@ public class AsDirectedTopGraph {
 	 *            the end point
 	 * @param maxPathWeight
 	 *            max weight of path
+	 * @param includeIncompletePath
+	 *            include incomplete path or not
 	 * @return the list of path
 	 */
 	public static List<TopPath> getAllPaths(final AsSplitTopGraph graph,
-			final TopPoint from, final TopPoint to, final int maxPathWeight) {
+			final TopPoint from, final TopPoint to, final int maxPathWeight,
+			final boolean includeIncompletePath) {
 		final Node startNode = graph.splitGraphAt(from);
 		final Node endNode = graph.splitGraphAt(to);
 		final Graph<Node, DirectedTOPEdge<Edge>> directedTopGraph = AsDirectedTopGraph
@@ -197,14 +199,16 @@ public class AsDirectedTopGraph {
 				return List.of(topPath);
 			}
 		}
+		final List<DirectedTOPEdge<Edge>> relevantEdgesFromTarget = findRelevantEdgesFromTarget(
+				directedTopGraph, endNode, maxPathWeight);
 		final List<TopPath> result = new ArrayList<>();
 		for (final DirectedTOPEdge<Edge> edge : directedTopGraph
 				.outgoingEdgesOf(startNode)) {
 			final DirectedPathSearch path = new DirectedPathSearch(
 					directedTopGraph, startNode, endNode, maxPathWeight);
 			path.addEdge(edge);
-			final List<TopPath> topPath = getPath(path, Collections.emptyList(),
-					null, true);
+			final List<TopPath> topPath = getPath(path, relevantEdgesFromTarget,
+					null, includeIncompletePath);
 			result.addAll(topPath);
 		}
 

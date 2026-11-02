@@ -33,6 +33,7 @@ import static extension org.eclipse.set.ppmodel.extensions.GeoKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.GeoPunktExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.CollectionExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
+import org.eclipse.set.basis.constants.ToolboxConstants
 
 /**
  * This class extends {@link GEO_Knoten}.
@@ -93,24 +94,28 @@ class GeoKnotenExtensions extends BasisObjektExtensions {
 	 * @returns the coordinate of this GEO Knoten
 	 */
 	def static Coordinate getCoordinate(GEO_Knoten geoKnoten) {
-		val geoPunkte = geoKnoten.geoPunkte
-		val GEO_Punkt geoPunkt = geoPunkte.getGeoPunkt(geoKnoten)
-		return geoPunkt.coordinate
+		val cache = getCache(geoKnoten,
+			ToolboxConstants.CacheId.GEO_KNOTEN_COORDINATE,
+			geoKnoten.container.cacheString)
+		return cache.get(geoKnoten.identitaet.wert, [
+			val geoPunkte = geoKnoten.geoPunkte
+			val GEO_Punkt geoPunkt = geoPunkte.getGeoPunkt(geoKnoten)
+			return geoPunkt.coordinate
+		])
 	}
 
 	def static ENUMGEOKoordinatensystem getCRS(GEO_Knoten geoKnoten) {
 		val crs = geoKnoten.geoPunkte.map [
 			GEOPunktAllg?.GEOKoordinatensystem?.wert
 		].toSet.uniqueOrNull
-		return crs !== null
-			? crs
-			: ENUMGEOKoordinatensystem.ENUMGEO_KOORDINATENSYSTEM_SONSTIGE
+		return crs !== null ? crs : ENUMGEOKoordinatensystem.
+			ENUMGEO_KOORDINATENSYSTEM_SONSTIGE
 	}
 
 	def static GEO_Punkt getGeoPunkt(Iterable<GEO_Punkt> geoPunkte,
 		GEO_Knoten geoKnoten) {
 		if (geoPunkte.size === 1) {
-			return geoPunkte.get(0)
+			return geoPunkte.head
 		}
 		val crs = geoPunkte.map[GEOPunktAllg?.GEOKoordinatensystem?.wert].toSet
 		// A Geo_Knoten reference to two Geo_Punkt only when the Geo_Knoten have 2 Coordinatensystem

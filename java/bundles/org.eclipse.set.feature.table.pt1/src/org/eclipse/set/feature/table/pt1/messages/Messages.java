@@ -22,7 +22,7 @@ import org.osgi.service.component.annotations.Reference;
 public class Messages extends AbstractMessageService {
 
 	@Reference
-	private void bindBundleLocalization(
+	protected void bindBundleLocalization(
 			final BundleLocalization bundleLocalization)
 			throws IllegalArgumentException, IllegalAccessException {
 		super.setupLocalization(bundleLocalization);
@@ -855,7 +855,7 @@ public class Messages extends AbstractMessageService {
 	public String ToolboxTableNameSskzLong;
 
 	/**
-	 * ???
+	 * 10/03
 	 */
 	public String ToolboxTableNameSskzPlanningNumber;
 
@@ -965,7 +965,7 @@ public class Messages extends AbstractMessageService {
 	public String ToolboxTableNameSskxLong;
 
 	/**
-	 * ???
+	 * 10/18
 	 */
 	public String ToolboxTableNameSskxPlanningNumber;
 

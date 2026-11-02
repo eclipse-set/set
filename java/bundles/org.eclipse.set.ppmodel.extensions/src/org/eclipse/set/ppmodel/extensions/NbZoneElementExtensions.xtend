@@ -24,6 +24,6 @@ class NbZoneElementExtensions extends BasisObjektExtensions {
 	 * @return the NB Element
 	 */
 	def static Basis_Objekt getNbElement(NB_Zone_Element nbZoneElement) {
-		return nbZoneElement.IDNBElement?.value
+		return nbZoneElement?.IDNBElement?.value
 	}
 }

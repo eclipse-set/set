@@ -28,6 +28,10 @@ export default class ScaleBarControl extends ScaleLine {
       text: true,
       minWidth: 140
     })
+    if (!this.element) {
+      return
+    }
+
     this.element.addEventListener('click', () => {
       clickCallback()
     }, false)

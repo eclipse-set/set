@@ -9,6 +9,7 @@
 package org.eclipse.set.ppmodel.extensions
 
 import java.math.BigInteger
+import java.util.Iterator
 import java.util.LinkedList
 import java.util.List
 import java.util.Optional
@@ -55,6 +56,12 @@ import static extension org.eclipse.set.ppmodel.extensions.SignalbegriffExtensio
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspKomponenteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 import static extension org.eclipse.set.utils.math.BigIntegerExtensions.*
+import org.eclipse.set.model.planpro.Signale.ENUMFiktivesSignalFunktion
+import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Ne14
+import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.OzBk
+import org.eclipse.set.basis.graph.TopPoint
+import org.eclipse.set.core.services.Services
+import java.math.BigDecimal
 
 /**
  * This class extends {@link Fstr_Zug_Rangier}.
@@ -133,7 +140,6 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 	 */
 	def static List<GestellteWeiche> getEntscheidungsweichen(
 		Fstr_Zug_Rangier fstrZugRangier, List<ENUMGleisart> notUsable) {
-
 		val fstrFahrweg = fstrZugRangier.fstrFahrweg
 
 		val path = fstrFahrweg.path
@@ -201,6 +207,26 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 	 */
 	def static List<Signal> getVorsignalisierung(
 		Fstr_Zug_Rangier fstrZugRangier) {
+		val fstrZugArt = fstrZugRangier?.fstrZug?.fstrZugArt?.wert
+		if (fstrZugArt === ENUMFstrZugArt.ENUM_FSTR_ZUG_ART_ZTU ||
+			fstrZugArt === ENUMFstrZugArt.ENUM_FSTR_ZUG_ART_ZT) {
+			val zielSignal = fstrZugRangier.zielSignal
+			val fiktiveSignal = zielSignal?.signalFiktiv
+			val relevantFiktiveSignalFunktion = //
+			(fiktiveSignal === null ? #[] : fiktiveSignal.
+				fiktivesSignalFunktion).exists [
+				wert === ENUMFiktivesSignalFunktion.
+					ENUM_FIKTIVES_SIGNAL_FUNKTION_ZUG_START_ZIEL_BK || wert ===
+					ENUMFiktivesSignalFunktion.
+						ENUM_FIKTIVES_SIGNAL_FUNKTION_ZUG_START_ZIEL_NE_14
+			]
+			if (relevantFiktiveSignalFunktion ||
+				hasSignalbegriffID(zielSignal, Ne14) ||
+				hasSignalbegriffID(zielSignal, OzBk)) {
+				return #[]
+			}
+		}
+
 		return fstrZugRangier.fstrFahrweg.path.edgePointIterator.filter [
 			fstrZugRangier.isVorsignalisierung(it)
 		].map[point].map[punktObjekt].filter(Signal).toList
@@ -330,6 +356,19 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 		}
 
 		val signal = punktObjekt as Signal
+		val signalTopPoint = new TopPoint(signal)
+		val distanceToStart = Services.topGraphService.
+			findShortestDistance(
+				new TopPoint(fstrZugRangier.startSignal), signalTopPoint)
+		val distanceToEnd = Services.topGraphService.
+			findShortestDistance(signalTopPoint,
+				new TopPoint(fstrZugRangier.zielSignal))
+
+		if (distanceToStart.isEmpty || distanceToEnd.isEmpty ||
+			distanceToStart.get < BigDecimal.valueOf(3) ||
+			distanceToEnd.get < BigDecimal.valueOf(3)) {
+			return false
+		}
 		val signalArt = signal.signalReal?.signalRealAktivSchirm?.signalArt?.
 			wert
 		if (signalArt !== ENUM_SIGNAL_ART_VORSIGNAL &&
@@ -479,6 +518,24 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 			IDFstrFahrweg?.value?.IDStart?.value == zielSignal &&
 				fstrZug?.fstrZugArt?.wert === ENUMFstrZugArt.ENUM_FSTR_ZUG_ART_B
 		]
+	}
+
+	def static Iterable<Fstr_Zug_Rangier> getRecursiveNextBlockFstrZugRangier(
+		Fstr_Zug_Rangier it) {
+		val it = new Iterator<Fstr_Zug_Rangier>() {
+			var Fstr_Zug_Rangier next = it
+
+			override hasNext() {
+				val nextFstrZugRangier = getNextBlockFstrZugRangier(next)
+				next = nextFstrZugRangier?.firstOrNull // clarify if there be multiple blocks at the same signal
+				return next !== null
+			}
+
+			override next() {
+				next
+			}
+		}
+		return it.toList
 	}
 
 	/**

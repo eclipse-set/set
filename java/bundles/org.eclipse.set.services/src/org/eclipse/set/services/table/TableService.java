@@ -13,7 +13,9 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.set.basis.IModelSession;
@@ -22,8 +24,9 @@ import org.eclipse.set.basis.part.PartDescription;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
 import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.model.tablemodel.Table;
-import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
+import org.eclipse.set.model.tablemodel.TableRow;
 import org.eclipse.set.utils.BasePart;
+import org.eclipse.set.utils.table.Pt1TableChangeProperties;
 import org.eclipse.set.utils.table.TableError;
 import org.eclipse.set.utils.table.TableInfo;
 import org.eclipse.set.utils.table.TableInfo.Pt1TableCategory;
@@ -34,6 +37,20 @@ import org.eclipse.set.utils.table.TableInfo.Pt1TableCategory;
  * @author rumpf
  */
 public interface TableService {
+
+	/**
+	 * Helper class for transform and reload table
+	 * 
+	 * @param transformTableAction
+	 *            create table from PlanPro model data
+	 * @param updateTableUIAction
+	 *            update table ui
+	 */
+	public static record TableRendererUtil(Supplier<Table> transformTableAction,
+			Consumer<Table> updateTableUIAction) {
+
+	}
+
 	/**
 	 * Extract the shortcut from an configuration element.
 	 * 
@@ -53,14 +70,6 @@ public interface TableService {
 	 * @return the shortcut
 	 */
 	String extractShortcut(String elementId);
-
-	/**
-	 * @param tableInfo
-	 *            the {@link TableInfo}
-	 * 
-	 * @return the name info
-	 */
-	TableNameInfo getTableNameInfo(TableInfo tableInfo);
 
 	/**
 	 * Gets information about all available tables.
@@ -89,7 +98,7 @@ public interface TableService {
 	 * @param tableCategory
 	 * @return the tables, which throw Exception during transformation
 	 */
-	Set<TableInfo> getNonTransformableTables(Pt1TableCategory tableCategory);
+	Map<TableInfo, TableStatus> getTablesStatus(Pt1TableCategory tableCategory);
 
 	/**
 	 * Transform the selected container to a string with CSV format.
@@ -106,23 +115,6 @@ public interface TableService {
 	 * @return the table
 	 */
 	String transformToCsv(final TableInfo tableInfo, TableType tableType,
-			final IModelSession modelSession, Set<String> controlAreaIds);
-
-	/**
-	 * Transform the selected container and control area to a table model.
-	 * 
-	 * @param tableInfo
-	 *            the {@link TableInfo}
-	 * @param tableType
-	 *            the table type
-	 * @param modelSession
-	 *            the model session
-	 * @param controlAreaIds
-	 *            the list of {@link Stell_Bereich} and the belonging container
-	 * 
-	 * @return the table
-	 */
-	Table transformToTable(final TableInfo tableInfo, TableType tableType,
 			final IModelSession modelSession, Set<String> controlAreaIds);
 
 	/**
@@ -148,13 +140,11 @@ public interface TableService {
 	 * @param tableCategories
 	 *            the list of table category. when the list is empty, then
 	 *            update all table
-	 * @param updateTableHandler
-	 *            the update table handler
-	 * @param clearInstance
-	 *            the clear table instance handler
+	 * @param rendereUtil
+	 *            the {@link TableRendererUtil}
 	 */
 	void updateTable(BasePart part, List<Pt1TableCategory> tableCategories,
-			Runnable updateTableHandler, Runnable clearInstance);
+			TableRendererUtil rendereUtil);
 
 	/**
 	 * Get fixed columns
@@ -204,10 +194,12 @@ public interface TableService {
 	 *            the table type
 	 * @param controlAreaIds
 	 *            the list of {@link Stell_Bereich} and the belonging container
+	 * @param updateTableStatus
+	 *            whether to update the table status or not
 	 * @return the compare table
 	 */
 	Table createDiffTable(TableInfo tableInfo, TableType tableType,
-			Set<String> controlAreaIds);
+			Set<String> controlAreaIds, boolean updateTableStatus);
 
 	/**
 	 * Sort the table after transformation.
@@ -216,15 +208,20 @@ public interface TableService {
 	 *            the table
 	 * @param tableInfo
 	 *            the {@link TableInfo}
+	 * @param tableType
+	 *            the table type for which the table shall be sorted
 	 */
-	void sortTable(Table table, TableInfo tableInfo);
+	void sortTable(Table table, TableInfo tableInfo, final TableType tableType);
 
 	/**
 	 * @param tableInfo
 	 *            the {@link TableInfo}
+	 * @param tableType
+	 *            the table type for which the comparator is requested
 	 * @return the row group comparator
 	 */
-	Comparator<RowGroup> getRowGroupComparator(TableInfo tableInfo);
+	Comparator<RowGroup> getRowGroupComparator(TableInfo tableInfo,
+			final TableType tableType);
 
 	/**
 	 * @param part
@@ -239,4 +236,18 @@ public interface TableService {
 	 * @return the {@link TableInfo}
 	 */
 	TableInfo getTableInfo(String shortcut);
+
+	/**
+	 * Fill table cell after table complete renderer
+	 * 
+	 * @param tableRow
+	 *            the row with delay cells
+	 * @param changedDatas
+	 *            the {@link Pt1TableChangeProperties}
+	 * @param tableType
+	 *            the table type
+	 */
+	void fillDelayCells(List<TableRow> tableRow,
+			List<Pt1TableChangeProperties> changedDatas, TableType tableType);
+
 }

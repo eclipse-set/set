@@ -17,6 +17,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.core.services.graph.TopologicalGraphService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
@@ -28,6 +29,7 @@ import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.ppmodel.extensions.DwegExtensions;
 import org.eclipse.set.ppmodel.extensions.FahrwegExtensions;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
+import org.eclipse.set.utils.table.TableInfo.Pt1TableCategory;
 import org.eclipse.set.utils.table.sorting.TableRowGroupComparator;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -69,14 +71,16 @@ public final class SsldTransformationService
 	}
 
 	@Override
-	public Comparator<RowGroup> getRowGroupComparator() {
-		return TableRowGroupComparator.builder().sortByRouteAndKm(obj -> {
-			if (obj instanceof final Fstr_DWeg fstr) {
-				return FahrwegExtensions
-						.getStart(DwegExtensions.getFstrFahrweg(fstr));
-			}
-			return null;
-		})
+	public Comparator<RowGroup> getRowGroupComparator(
+			final TableType tableType) {
+		return TableRowGroupComparator.builder(tableType)
+				.sortByRouteAndKm(obj -> {
+					if (obj instanceof final Fstr_DWeg fstr) {
+						return FahrwegExtensions
+								.getStart(DwegExtensions.getFstrFahrweg(fstr));
+					}
+					return null;
+				})
 				.sort(von, MIXED_STRING, ASC)
 				.sort(Bezeichnung, MIXED_STRING, ASC)
 				.build();
@@ -103,11 +107,21 @@ public final class SsldTransformationService
 	@Override
 	protected List<String> getTopologicalColumnPosition() {
 		return List.of(Freigemeldet, Aufloeseabschnitt_Laenge, Laenge_Ist,
-				massgebende_Neigung, v_Aufwertung_Verzicht);
+				v_Aufwertung_Verzicht);
+	}
+
+	@Override
+	protected String getRemarkColumnPosition() {
+		return SsldColumns.Bemerkung;
 	}
 
 	@Override
 	protected Map<Class<?>, String> getFootnotesColumnReferences() {
 		return Collections.emptyMap();
+	}
+
+	@Override
+	protected Pt1TableCategory getTableCategory() {
+		return Pt1TableCategory.ESTW;
 	}
 }

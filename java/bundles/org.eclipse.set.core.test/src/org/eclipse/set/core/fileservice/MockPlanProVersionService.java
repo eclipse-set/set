@@ -13,7 +13,10 @@ package org.eclipse.set.core.fileservice;
 import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.version.PlanProVersionService;
 import org.eclipse.set.core.services.version.PlanProVersionService.PlanProVersionFormat;
+import org.eclipse.set.model.validationreport.ValidationreportFactory;
+import org.eclipse.set.model.validationreport.VersionInfo;
 import org.junit.function.ThrowingRunnable;
+import org.mockito.ArgumentMatchers;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 
@@ -24,6 +27,14 @@ public class MockPlanProVersionService {
 	private static final PlanProVersionFormat currentVersion = new PlanProVersionFormat(
 			"1.10", "0", "3"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
+	private static VersionInfo givenCurrentVersionInfo() {
+		final VersionInfo currentVersionInfo = ValidationreportFactory.eINSTANCE
+				.createVersionInfo();
+		currentVersionInfo.getPlanProVersions().add("1.10.0.3"); //$NON-NLS-1$
+		currentVersionInfo.getSignalbegriffeVersions().add("1.10.0.4"); //$NON-NLS-1$
+		return currentVersionInfo;
+	}
+
 	/**
 	 * Mock {@link PlanProVersionService}
 	 * 
@@ -32,12 +43,17 @@ public class MockPlanProVersionService {
 	 * @throws Throwable
 	 *             the exception
 	 */
+	@SuppressWarnings("boxing")
 	public static void mockPlanProVersionService(final ThrowingRunnable doTest)
 			throws Throwable {
 		final PlanProVersionService mockVersionService = Mockito
 				.mock(PlanProVersionService.class);
+
 		Mockito.when(mockVersionService.getCurrentVersion())
-				.thenReturn(currentVersion.getFullVersion());
+				.thenReturn(givenCurrentVersionInfo());
+		Mockito.when(mockVersionService
+				.isSupportedVersion(ArgumentMatchers.anyString()))
+				.thenReturn(Boolean.TRUE);
 		Mockito.when(mockVersionService.getSupportedVersionFormat())
 				.thenReturn(currentVersion);
 		try (MockedStatic<Services> mockStatic = Mockito

@@ -2,12 +2,14 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Utils Tests
 Bundle-SymbolicName: org.eclipse.set.utils.test
-Bundle-Version: 2.6.0.qualifier
+Bundle-Version: 2.8.0.qualifier
 Fragment-Host: org.eclipse.set.utils;bundle-version="0.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Bundle-Vendor: Eclipse Signalling Engineering Toolbox
 Require-Bundle: org.hamcrest
-Import-Package: org.junit.jupiter.api,
+Import-Package: org.apache.commons.lang3,
+ org.apache.commons.lang3.reflect;version="[3.20.0,4.0.0)",
+ org.junit.jupiter.api,
  org.junit.jupiter.api.function,
  org.junit.jupiter.params,
  org.junit.jupiter.params.provider

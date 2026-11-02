@@ -8,13 +8,12 @@
  */
 package org.eclipse.set.model.validationreport.impl;
 
-import org.eclipse.emf.common.notify.Notification;
-
+import java.util.Collection;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
-
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
+import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
 import org.eclipse.set.model.validationreport.ValidationreportPackage;
 import org.eclipse.set.model.validationreport.VersionInfo;
 
@@ -25,10 +24,10 @@ import org.eclipse.set.model.validationreport.VersionInfo;
  * The following features are implemented:
  * </p>
  * <ul>
- * <li>{@link org.eclipse.set.model.validationreport.impl.VersionInfoImpl#getPlanPro
- * <em>Plan Pro</em>}</li>
- * <li>{@link org.eclipse.set.model.validationreport.impl.VersionInfoImpl#getSignals
- * <em>Signals</em>}</li>
+ * <li>{@link org.eclipse.set.model.validationreport.impl.VersionInfoImpl#getPlanProVersions
+ * <em>Plan Pro Versions</em>}</li>
+ * <li>{@link org.eclipse.set.model.validationreport.impl.VersionInfoImpl#getSignalbegriffeVersions
+ * <em>Signalbegriffe Versions</em>}</li>
  * </ul>
  *
  * @generated
@@ -36,44 +35,26 @@ import org.eclipse.set.model.validationreport.VersionInfo;
 public class VersionInfoImpl extends MinimalEObjectImpl.Container
 		implements VersionInfo {
 	/**
-	 * The default value of the '{@link #getPlanPro() <em>Plan Pro</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getPlanProVersions() <em>Plan Pro
+	 * Versions</em>}' attribute list. <!-- begin-user-doc --> <!-- end-user-doc
+	 * -->
 	 * 
-	 * @see #getPlanPro()
+	 * @see #getPlanProVersions()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String PLAN_PRO_EDEFAULT = null;
+	protected EList<String> planProVersions;
 
 	/**
-	 * The cached value of the '{@link #getPlanPro() <em>Plan Pro</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getSignalbegriffeVersions()
+	 * <em>Signalbegriffe Versions</em>}' attribute list. <!-- begin-user-doc
+	 * --> <!-- end-user-doc -->
 	 * 
-	 * @see #getPlanPro()
+	 * @see #getSignalbegriffeVersions()
 	 * @generated
 	 * @ordered
 	 */
-	protected String planPro = PLAN_PRO_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getSignals() <em>Signals</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @see #getSignals()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String SIGNALS_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getSignals() <em>Signals</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @see #getSignals()
-	 * @generated
-	 * @ordered
-	 */
-	protected String signals = SIGNALS_EDEFAULT;
+	protected EList<String> signalbegriffeVersions;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -100,8 +81,13 @@ public class VersionInfoImpl extends MinimalEObjectImpl.Container
 	 * @generated
 	 */
 	@Override
-	public String getPlanPro() {
-		return planPro;
+	public EList<String> getPlanProVersions() {
+		if (planProVersions == null) {
+			planProVersions = new EDataTypeUniqueEList<String>(String.class,
+					this,
+					ValidationreportPackage.VERSION_INFO__PLAN_PRO_VERSIONS);
+		}
+		return planProVersions;
 	}
 
 	/**
@@ -110,38 +96,13 @@ public class VersionInfoImpl extends MinimalEObjectImpl.Container
 	 * @generated
 	 */
 	@Override
-	public void setPlanPro(String newPlanPro) {
-		String oldPlanPro = planPro;
-		planPro = newPlanPro;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					ValidationreportPackage.VERSION_INFO__PLAN_PRO, oldPlanPro,
-					planPro));
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated
-	 */
-	@Override
-	public String getSignals() {
-		return signals;
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated
-	 */
-	@Override
-	public void setSignals(String newSignals) {
-		String oldSignals = signals;
-		signals = newSignals;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					ValidationreportPackage.VERSION_INFO__SIGNALS, oldSignals,
-					signals));
+	public EList<String> getSignalbegriffeVersions() {
+		if (signalbegriffeVersions == null) {
+			signalbegriffeVersions = new EDataTypeUniqueEList<String>(
+					String.class, this,
+					ValidationreportPackage.VERSION_INFO__SIGNALBEGRIFFE_VERSIONS);
+		}
+		return signalbegriffeVersions;
 	}
 
 	/**
@@ -152,10 +113,10 @@ public class VersionInfoImpl extends MinimalEObjectImpl.Container
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case ValidationreportPackage.VERSION_INFO__PLAN_PRO:
-				return getPlanPro();
-			case ValidationreportPackage.VERSION_INFO__SIGNALS:
-				return getSignals();
+			case ValidationreportPackage.VERSION_INFO__PLAN_PRO_VERSIONS:
+				return getPlanProVersions();
+			case ValidationreportPackage.VERSION_INFO__SIGNALBEGRIFFE_VERSIONS:
+				return getSignalbegriffeVersions();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -165,14 +126,19 @@ public class VersionInfoImpl extends MinimalEObjectImpl.Container
 	 * 
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case ValidationreportPackage.VERSION_INFO__PLAN_PRO:
-				setPlanPro((String) newValue);
+			case ValidationreportPackage.VERSION_INFO__PLAN_PRO_VERSIONS:
+				getPlanProVersions().clear();
+				getPlanProVersions()
+						.addAll((Collection<? extends String>) newValue);
 				return;
-			case ValidationreportPackage.VERSION_INFO__SIGNALS:
-				setSignals((String) newValue);
+			case ValidationreportPackage.VERSION_INFO__SIGNALBEGRIFFE_VERSIONS:
+				getSignalbegriffeVersions().clear();
+				getSignalbegriffeVersions()
+						.addAll((Collection<? extends String>) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -186,11 +152,11 @@ public class VersionInfoImpl extends MinimalEObjectImpl.Container
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case ValidationreportPackage.VERSION_INFO__PLAN_PRO:
-				setPlanPro(PLAN_PRO_EDEFAULT);
+			case ValidationreportPackage.VERSION_INFO__PLAN_PRO_VERSIONS:
+				getPlanProVersions().clear();
 				return;
-			case ValidationreportPackage.VERSION_INFO__SIGNALS:
-				setSignals(SIGNALS_EDEFAULT);
+			case ValidationreportPackage.VERSION_INFO__SIGNALBEGRIFFE_VERSIONS:
+				getSignalbegriffeVersions().clear();
 				return;
 		}
 		super.eUnset(featureID);
@@ -204,12 +170,11 @@ public class VersionInfoImpl extends MinimalEObjectImpl.Container
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case ValidationreportPackage.VERSION_INFO__PLAN_PRO:
-				return PLAN_PRO_EDEFAULT == null ? planPro != null
-						: !PLAN_PRO_EDEFAULT.equals(planPro);
-			case ValidationreportPackage.VERSION_INFO__SIGNALS:
-				return SIGNALS_EDEFAULT == null ? signals != null
-						: !SIGNALS_EDEFAULT.equals(signals);
+			case ValidationreportPackage.VERSION_INFO__PLAN_PRO_VERSIONS:
+				return planProVersions != null && !planProVersions.isEmpty();
+			case ValidationreportPackage.VERSION_INFO__SIGNALBEGRIFFE_VERSIONS:
+				return signalbegriffeVersions != null
+						&& !signalbegriffeVersions.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
@@ -225,10 +190,10 @@ public class VersionInfoImpl extends MinimalEObjectImpl.Container
 			return super.toString();
 
 		StringBuilder result = new StringBuilder(super.toString());
-		result.append(" (planPro: ");
-		result.append(planPro);
-		result.append(", signals: ");
-		result.append(signals);
+		result.append(" (planProVersions: ");
+		result.append(planProVersions);
+		result.append(", signalbegriffeVersions: ");
+		result.append(signalbegriffeVersions);
 		result.append(')');
 		return result.toString();
 	}

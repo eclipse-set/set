@@ -146,8 +146,8 @@ package abstract class AbstractCellComparator implements Comparator<TableCell> {
 
 	def int compareCell(Iterable<String> iterable1,
 		Iterable<String> iterable2) {
-		return iterable1.iterableToString("").compareCell(
-			iterable2.iterableToString(""))
+		return iterable1.iterableToString(" ").compareCell(
+			iterable2.iterableToString(" "))
 	}
 
 	def int compareCell(String first, String second) {

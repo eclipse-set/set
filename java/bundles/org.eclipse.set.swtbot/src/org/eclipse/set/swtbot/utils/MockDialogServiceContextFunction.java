@@ -13,9 +13,8 @@ import org.eclipse.e4.core.contexts.ContextInjectionFactory;
 import org.eclipse.e4.core.contexts.IContextFunction;
 import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.e4.ui.model.application.MApplication;
-import org.osgi.service.component.annotations.Component;
-
 import org.eclipse.set.core.services.dialog.DialogService;
+import org.osgi.service.component.annotations.Component;
 
 /**
  * Helper component to override the dialog service of SET

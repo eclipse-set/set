@@ -18,6 +18,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableTransformationService;
@@ -28,6 +29,7 @@ import org.eclipse.set.model.tablemodel.RowMergeMode;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
 import org.eclipse.set.utils.table.ColumnDescriptorModelBuilder;
+import org.eclipse.set.utils.table.TableInfo.Pt1TableCategory;
 import org.eclipse.set.utils.table.TableModelTransformator;
 import org.eclipse.set.utils.table.sorting.TableRowGroupComparator;
 import org.osgi.service.component.annotations.Component;
@@ -80,10 +82,11 @@ public class SxxxTransformationService
 	}
 
 	@Override
-	public Comparator<RowGroup> getRowGroupComparator() {
-		return TableRowGroupComparator.builder()
+	public Comparator<RowGroup> getRowGroupComparator(
+			final TableType tableType) {
+		return TableRowGroupComparator.builder(tableType)
 				.sort(SxxxColumns.Text_Content, LEXICOGRAPHICAL, ASC)
-				.sort(SxxxColumns.Reference_Object, LEXICOGRAPHICAL, ASC)
+				.sort(SxxxColumns.Reference_Object_Art, LEXICOGRAPHICAL, ASC)
 				.build();
 	}
 
@@ -93,12 +96,11 @@ public class SxxxTransformationService
 		final ColumnDescriptor cd = super.fillHeaderDescriptions(builder);
 		// only merge on column A
 		cd.setMergeCommonValues(RowMergeMode.ENABLED);
-		List.of(SxxxColumns.Reference_Object, SxxxColumns.Visualation_In_Table)
-				.forEach(it -> cols.forEach(col -> {
-					if (it.equals(col.getColumnPosition())) {
-						col.setMergeCommonValues(RowMergeMode.DISABLED);
-					}
-				}));
+		List.of(SxxxColumns.Reference_Object_Art,
+				SxxxColumns.Reference_Object_Bezeichnung,
+				SxxxColumns.Visualation_In_Table)
+				.forEach(it -> getColumnDescriptor(it).ifPresent(col -> col
+						.setMergeCommonValues(RowMergeMode.DISABLED)));
 
 		return cd;
 	}
@@ -109,7 +111,18 @@ public class SxxxTransformationService
 	}
 
 	@Override
+	protected String getRemarkColumnPosition() {
+		// Sxxx does not have a remark column
+		return null;
+	}
+
+	@Override
 	protected Map<Class<?>, String> getFootnotesColumnReferences() {
 		return Collections.emptyMap();
+	}
+
+	@Override
+	protected Pt1TableCategory getTableCategory() {
+		return Pt1TableCategory.SUPPLEMENT;
 	}
 }

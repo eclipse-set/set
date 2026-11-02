@@ -2,12 +2,14 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Toolbox Application
 Bundle-SymbolicName: org.eclipse.set.application;singleton:=true
-Bundle-Version: 2.6.0.qualifier
+Bundle-Version: 2.8.0.qualifier
 Bundle-Activator: org.eclipse.set.application.Activator
 Bundle-Vendor: Eclipse Signalling Engineering Toolbox
 Export-Package: org.eclipse.set.application,
+ org.eclipse.set.application.cacheservice,
  org.eclipse.set.application.controlarea,
  org.eclipse.set.application.geometry,
+ org.eclipse.set.application.graph,
  org.eclipse.set.application.handler,
  org.eclipse.set.application.nameservice
 Require-Bundle: org.eclipse.core.runtime,
@@ -163,6 +165,8 @@ Import-Package: ch.qos.logback.classic;version="1.0.7",
  org.jgrapht;version="1.5.2",
  org.jgrapht.alg.shortestpath;version="1.5.2",
  org.jgrapht.graph;version="1.5.2",
+ org.jgrapht.traverse;version="[1.5.0,2.0.0)",
+ org.jheaps,
  org.osgi.service.component.annotations;version="1.2.0",
  org.osgi.service.event;version="1.4.0"
 Service-Component: OSGI-INF/org.eclipse.set.application.actionservice.ActionServiceImpl.xml,

@@ -55,7 +55,11 @@ public enum ToolboxFileRole {
 	/**
 	 * The ToolboxFile is used as a temporary integration
 	 */
-	TEMPORARY_INTEGRATION,;
+	TEMPORARY_INTEGRATION,
+	/**
+	* 
+	*/
+	MERGE_PLANNING;
 
 	/**
 	 * Translates the role name into a directory name
@@ -70,6 +74,8 @@ public enum ToolboxFileRole {
 			case FIRST_PLANNING_TO_IMPORT -> ToolboxConstants.TOOLBOX_DIRECTORY_NAME_FIRST_PLANNING_TO_IMPORT;
 			case SECOND_PLANNING_TO_IMPORT -> ToolboxConstants.TOOLBOX_DIRECTORY_NAME_SECOND_PLANNING_TO_IMPORT;
 			case COMPARE_PLANNING -> ToolboxConstants.TOOLBOX_DIRECTORY_NAME_COMPARE_PLANNING;
+			case TEMPORARY_INTEGRATION -> ToolboxConstants.TOOLBOX_DIRECTORY_NAME_TEMPORARY_INTEGRATION;
+			case MERGE_PLANNING -> ToolboxConstants.TOOLBOX_DIRECTORY_NAME_MERGE_PLANNING;
 			default -> ToolboxConstants.TOOLBOX_DIRECTORY_NAME_SESSION;
 		};
 	}

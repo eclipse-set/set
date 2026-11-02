@@ -13,6 +13,7 @@ import static org.eclipse.set.feature.table.abstracttableview.ToolboxTableModelT
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -97,6 +98,8 @@ import org.eclipse.set.ppmodel.extensions.utils.PlanProToTitleboxTransformation;
 import org.eclipse.set.services.export.ExportService;
 import org.eclipse.set.services.export.TableCompileService;
 import org.eclipse.set.services.table.TableService;
+import org.eclipse.set.services.table.TableService.TableRendererUtil;
+import org.eclipse.set.services.table.TableStatus;
 import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.RefreshAction;
 import org.eclipse.set.utils.SelectableAction;
@@ -192,7 +195,7 @@ public class ToolboxTableView extends BasePart {
 
 	private TableModelInstanceBodyDataProvider bodyDataProvider;
 
-	private EventHandler secondaryPlanningLoadedHanlder;
+	private EventHandler secondaryPlanningLoadedHandler;
 	protected TableInfo tableInfo;
 
 	/**
@@ -225,8 +228,7 @@ public class ToolboxTableView extends BasePart {
 	private Titlebox getTitlebox() {
 		final PlanProToTitleboxTransformation planProToTitlebox = new PlanProToTitleboxTransformation(
 				getSessionService());
-		return planProToTitlebox.transform(
-				tableService.getTableNameInfo(tableInfo),
+		return planProToTitlebox.transform(tableInfo.nameInfo(),
 				this::getAttachmentPath);
 	}
 
@@ -246,6 +248,10 @@ public class ToolboxTableView extends BasePart {
 		}
 	}
 
+	private String extractShortcut() {
+		return tableService.extractShortcut(getToolboxPart().getElementId());
+	}
+
 	@PostConstruct
 	protected void postConstruct() {
 		tableSelectRowHandler = new DefaultToolboxEventHandler<>() {
@@ -261,21 +267,22 @@ public class ToolboxTableView extends BasePart {
 		tableDataChangeHandler = new DefaultToolboxEventHandler<>() {
 			@Override
 			public void accept(final TableDataChangeEvent t) {
-				if (!t.getProperties().isEmpty() && t.getProperties()
-						.getFirst() instanceof Pt1TableChangeProperties) {
-
-					t.getProperties().forEach(ele -> {
-						bodyDataProvider.updateContent(tableType,
-								(Pt1TableChangeProperties) ele);
-					});
+				if (!t.getProperties().isEmpty()
+						&& t.getProperties()
+								.getFirst() instanceof Pt1TableChangeProperties
+						&& t.getTableShortcut()
+								.equalsIgnoreCase(extractShortcut())) {
+					bodyDataProvider.updateContent(row -> tableService
+							.fillDelayCells(row, t.getProperties()
+									.stream()
+									.map(Pt1TableChangeProperties.class::cast)
+									.toList(), tableType));
 					natTable.refresh();
 				}
 			}
 		};
 		ToolboxEvents.subscribe(getBroker(), TableDataChangeEvent.class,
-				tableDataChangeHandler,
-				TableDataChangeEvent.getTopic(tableInfo.shortcut())
-						.toLowerCase());
+				tableDataChangeHandler, TableDataChangeEvent.TOPIC);
 
 		selectionControlAreaHandler = new DefaultToolboxEventHandler<>() {
 			@Override
@@ -283,13 +290,19 @@ public class ToolboxTableView extends BasePart {
 				// Only ESTW tables regard to control area,
 				// when given't selected area, that mean PlaningArea or AlL File
 				// Content was selected, then update all table.
-				if (getToolboxPart().getElementId()
-						.startsWith(ToolboxConstants.ESTW_TABLE_PART_ID_PREFIX)
+				if (SelectedControlAreaChangedEvent
+						.istRelevantTable(getToolboxPart().getElementId())
 						|| t.getControlAreas().isEmpty()) {
 					controlAreaIds.clear();
 					t.getControlAreas()
 							.forEach(area -> controlAreaIds.add(area.areaId()));
 					tableType = t.getTableType();
+					final TableStatus tableStatus = tableService
+							.getTablesStatus(tableInfo.category())
+							.getOrDefault(tableInfo, null);
+					if (tableStatus != null) {
+						tableStatus.reset();
+					}
 					updateTableView(t.getControlAreas().isEmpty()
 							? Collections.emptyList()
 							: List.of(Pt1TableCategory.ESTW));
@@ -301,16 +314,17 @@ public class ToolboxTableView extends BasePart {
 				SelectedControlAreaChangedEvent.class,
 				selectionControlAreaHandler);
 
-		secondaryPlanningLoadedHanlder = this::comparePlaningLoadedHandler;
-		getBroker().subscribe(Events.COMPARE_MODEL_LOADED,
-				secondaryPlanningLoadedHanlder);
+		secondaryPlanningLoadedHandler = this::comparePlaningLoadedHandler;
+		getBroker().subscribe(Events.COMPARE_PLAN_COMPLETE_LOADED,
+				secondaryPlanningLoadedHandler);
 	}
 
 	protected void comparePlaningLoadedHandler(final Event event) {
-		if (!event.getTopic().equalsIgnoreCase(Events.COMPARE_MODEL_LOADED)) {
+		if (!event.getTopic()
+				.equalsIgnoreCase(Events.COMPARE_PLAN_COMPLETE_LOADED)) {
 			return;
 		}
-		updateModel(getToolboxPart());
+		updateTableView(Arrays.asList(Pt1TableCategory.values()));
 	}
 
 	@Override
@@ -321,8 +335,8 @@ public class ToolboxTableView extends BasePart {
 		ToolboxEvents.unsubscribe(getBroker(), tableSelectRowHandler);
 		ToolboxEvents.unsubscribe(getBroker(), tableDataChangeHandler);
 		ToolboxEvents.unsubscribe(getBroker(), selectionControlAreaHandler);
-		getBroker().unsubscribe(secondaryPlanningLoadedHanlder);
-		getBroker().send(Events.CLOSE_PART, tableInfo.shortcut());
+		getBroker().unsubscribe(secondaryPlanningLoadedHandler);
+		getBroker().send(Events.CLOSE_PART, extractShortcut());
 	}
 
 	private void tableSelectRowHandler(final JumpToTableEvent event) {
@@ -349,23 +363,28 @@ public class ToolboxTableView extends BasePart {
 	 * 
 	 * @return the table view model
 	 */
-	private Table transformToTableModel() {
+	protected Table transformToTableModel() {
 		return tableService.createDiffTable(tableInfo, tableType,
-				controlAreaIds);
+				controlAreaIds, true);
 	}
 
 	private void updateTableView(final List<Pt1TableCategory> tableCategories) {
-		tableService.updateTable(this, tableCategories, () -> {
-			updateModel(getToolboxPart());
-			natTable.doCommand(new RowHeightResetCommand());
-			natTable.refresh();
-			updateButtons();
+		tableService.updateTable(this, tableCategories, new TableRendererUtil(
+				this::transformToTableModel, transformedTable -> {
+					if (transformedTable == null) {
+						return;
+					}
+					showErroneousTableStatus();
+					updateModel(getToolboxPart(), transformedTable);
+					natTable.doCommand(new RowHeightResetCommand());
+					natTable.refresh();
+					updateButtons();
 
-			// Update footnotes
-			tableFooting.updateFootnotes(table);
-			// Update widget layout
-			natTable.getParent().layout();
-		}, tableInstances::clear);
+					// Update footnotes
+					tableFooting.updateFootnotes(transformedTable);
+					// Update widget layout
+					natTable.getParent().layout();
+				}));
 	}
 
 	@Override
@@ -377,15 +396,22 @@ public class ToolboxTableView extends BasePart {
 				.stream()
 				.map(Pair::getSecond)
 				.collect(Collectors.toSet());
-
 		tableService.updateTable(this, Collections.emptyList(),
-				() -> updateModel(getToolboxPart()), tableInstances::clear);
-		subcribeTriggerResortEvent();
+				new TableRendererUtil(this::transformToTableModel,
+						transformedTable -> {
+							if (transformedTable == null) {
+								return;
+							}
+							updateModel(getToolboxPart(), transformedTable);
+						}));
+
 		// if the table was not created (possibly the creation was canceled by
 		// the user), we stop here with creating the view
 		if (table == null) {
 			return;
 		}
+		showErroneousTableStatus();
+		subcribeTriggerResortEvent();
 
 		final ColumnDescriptor rootColumnDescriptor = table
 				.getColumndescriptors()
@@ -410,8 +436,7 @@ public class ToolboxTableView extends BasePart {
 		// is called
 		Assert.isNotNull(tableInstances);
 		bodyDataProvider = new TableModelInstanceBodyDataProvider(
-				TableExtensions.getPropertyCount(table), tableInstances,
-				getSessionService());
+				TableExtensions.getPropertyCount(table), tableInstances);
 
 		final SpanningDataLayer bodyDataLayer = new SpanningDataLayer(
 				bodyDataProvider);
@@ -537,6 +562,7 @@ public class ToolboxTableView extends BasePart {
 	}
 
 	class FilterStrategy<T> implements IFilterStrategy<T> {
+
 		private final TableModelInstanceBodyDataProvider tableDataProvider;
 
 		public FilterStrategy(
@@ -738,13 +764,17 @@ public class ToolboxTableView extends BasePart {
 		final List<Thread> transformatorThreads = ThreadUtils.getAllThreads()
 				.stream()
 				.filter(t -> t != null
-						&& t.getName().startsWith(tableInfo.shortcut())
+						&& t.getName().startsWith(extractShortcut())
 						&& t.isAlive())
 				.toList();
 		if (!transformatorThreads.isEmpty() && !getDialogService()
 				.confirmExportNotCompleteTable(getToolboxShell())) {
 			return;
 		}
+
+		// IMPROVE: we should use current table to export instead of new compile
+		// currently the Excel export only INITIAL or FINAL state, therefore
+		// need to new compile to take INITAL/FINAL state table
 		final Map<TableType, Table> tables = compileService.compile(tableInfo,
 				getModelSession(), controlAreaIds);
 		final Optional<String> optionalOutputDir = getDialogService()
@@ -755,9 +785,9 @@ public class ToolboxTableView extends BasePart {
 					monitor -> optionalOutputDir.ifPresent(outputDir -> {
 						monitor.beginTask(messages.ToolboxTableView_ExportTable,
 								IProgressMonitor.UNKNOWN);
-						exportService.exportPdf(tables,
+						exportService.exportTable(tables,
 								ExportType.PLANNING_RECORDS, getTitlebox(),
-								getFreeFieldInfo(), tableInfo.shortcut(),
+								getFreeFieldInfo(), extractShortcut(),
 								outputDir, getModelSession().getToolboxPaths(),
 								getModelSession().getTableType(),
 								OverwriteHandling
@@ -784,11 +814,10 @@ public class ToolboxTableView extends BasePart {
 		getBanderole().setEnableExport(!getModelSession().isDirty());
 	}
 
-	void updateModel(final MPart part) {
+	void updateModel(final MPart part, final Table transformedTable) {
 		// update banderole
 		getBanderole().setTableType(tableType);
-
-		table = transformToTableModel();
+		table = transformedTable;
 		// flag creation
 		MApplicationElementExtensions.setViewState(part,
 				ToolboxViewState.CREATED);
@@ -871,10 +900,11 @@ public class ToolboxTableView extends BasePart {
 	 */
 	private void subcribeTriggerResortEvent() {
 		final Comparator<RowGroup> comparator = tableService
-				.getRowGroupComparator(tableInfo);
+				.getRowGroupComparator(tableInfo, tableType);
 		if (table != null
 				&& comparator instanceof final TableRowGroupComparator rowGroupComparator) {
-			// This is new instance of Comparator, therefore need call sort here
+			// This is new instance of Comparator, therefore need call sort
+			// here
 			// to determine the waiting on another service criterion
 			ECollections.sort(table.getTablecontent().getRowgroups(),
 					rowGroupComparator);
@@ -899,7 +929,7 @@ public class ToolboxTableView extends BasePart {
 								.size()
 								&& triggeredEvents
 										.containsAll(triggerComparisonEvent)) {
-							tableService.sortTable(table, tableInfo);
+							tableService.sortTable(table, tableInfo, tableType);
 							tableInstances.clear();
 							tableInstances.addAll(
 									TableExtensions.getTableRows(table));
@@ -909,6 +939,28 @@ public class ToolboxTableView extends BasePart {
 							natTable.refresh();
 						}
 					}));
+			if (!rowGroupComparator.getCriterionsException().isEmpty()) {
+				getDialogService().openInformation(getToolboxShell(),
+						getViewTitle(), messages.TableTransform_Sort_Error);
+			}
+		}
+	}
+
+	private void showErroneousTableStatus() {
+		final TableStatus status = tableService
+				.getTablesStatus(tableInfo.category())
+				.getOrDefault(tableInfo, null);
+		if (status == null) {
+			getDialogService().error(getToolboxShell(),
+					messages.TableTransform_Error_Msg);
+		} else if (status.isNonTransformable()) {
+			getDialogService().error(getToolboxShell(),
+					messages.TableTransform_Error,
+					messages.TableTransform_Error_Msg,
+					status.getTransformException().get());
+		} else if (!status.isSortSuccess()) {
+			getDialogService().openInformation(getToolboxShell(),
+					getViewTitle(), messages.TableTransform_Sort_Error);
 		}
 	}
 

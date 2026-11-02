@@ -86,10 +86,10 @@ export default class CantFeature extends LageplanFeature<Cant> {
       // to keep a constant size
       style
         .getImage()
-        .setScale(scale)
+        ?.setScale(scale)
 
       // Rotate the feature
-      style.getImage().setRotation((cantPoint.position.rotation * Math.PI) / 180)
+      style.getImage()?.setRotation((cantPoint.position.rotation * Math.PI) / 180)
 
       return style
     })

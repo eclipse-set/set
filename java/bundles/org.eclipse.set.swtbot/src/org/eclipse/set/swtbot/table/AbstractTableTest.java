@@ -17,6 +17,7 @@ import java.util.stream.Stream;
 
 import org.apache.commons.csv.CSVRecord;
 import org.eclipse.nebula.widgets.nattable.layer.ILayer;
+import org.eclipse.nebula.widgets.nattable.layer.cell.ILayerCell;
 import org.eclipse.set.swtbot.utils.AbstractPPHNTest;
 import org.eclipse.set.swtbot.utils.SWTBotUtils;
 import org.eclipse.set.swtbot.utils.SWTBotUtils.NattableLayers;
@@ -25,6 +26,8 @@ import org.eclipse.swtbot.nebula.nattable.finder.widgets.SWTBotNatTable;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotExpandItem;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.provider.Arguments;
+
+import com.google.common.html.HtmlEscapers;
 
 /**
  * Abstract class for table test
@@ -76,8 +79,9 @@ public abstract class AbstractTableTest extends AbstractPPHNTest {
 		for (int rowIndex = 0; rowIndex < endRow; rowIndex++) {
 			for (int columnIndex = 0; columnIndex < layers.selectionLayer()
 					.getPreferredColumnCount(); columnIndex++) {
-				final String cellValue = nattableLayer
-						.getDataValueByPosition(columnIndex, rowIndex)
+				final ILayerCell dataCell = nattableLayer
+						.getCellByPosition(columnIndex, rowIndex);
+				final String cellValue = dataCell.getDataValue()
 						.toString()
 						.replaceAll(CELL_VALUE_REPLACE_REGEX, "");
 				final String referenceValue = referenceData
@@ -88,8 +92,13 @@ public abstract class AbstractTableTest extends AbstractPPHNTest {
 						// richtext
 						// value
 						.replace("\"\"", "\"");
-				assertEquals(referenceValue, cellValue, getErrorMessage(
-						columnIndex, rowIndex, referenceValue, cellValue));
+				final String toHtmlString = HtmlEscapers.htmlEscaper()
+						.escape(referenceValue);
+				assertTrue(
+						referenceValue.equals(cellValue)
+								|| toHtmlString.equals(cellValue),
+						getErrorMessage(columnIndex, rowIndex, referenceValue,
+								toHtmlString));
 			}
 		}
 	}

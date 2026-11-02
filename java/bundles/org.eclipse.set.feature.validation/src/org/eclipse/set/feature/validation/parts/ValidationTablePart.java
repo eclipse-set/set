@@ -9,7 +9,6 @@
 package org.eclipse.set.feature.validation.parts;
 
 import org.eclipse.e4.core.services.nls.Translation;
-import org.eclipse.emf.ecp.ui.view.ECPRendererException;
 import org.eclipse.set.core.services.configurationservice.UserConfigurationService;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.core.services.version.PlanProVersionService;
@@ -17,8 +16,8 @@ import org.eclipse.set.feature.validation.Messages;
 import org.eclipse.set.feature.validation.report.SessionToValidationReportTransformation;
 import org.eclipse.set.feature.validation.table.ValidationTableView;
 import org.eclipse.set.model.validationreport.ValidationReport;
+import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.SelectableAction;
-import org.eclipse.set.utils.emfforms.AbstractEmfFormsPart;
 import org.eclipse.set.utils.table.menu.TableMenuService;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Composite;
@@ -30,7 +29,7 @@ import jakarta.inject.Inject;
  * 
  * @author Schaefer
  */
-public class ValidationTablePart extends AbstractEmfFormsPart {
+public class ValidationTablePart extends BasePart {
 
 	@Inject
 	@Translation
@@ -57,8 +56,7 @@ public class ValidationTablePart extends AbstractEmfFormsPart {
 	}
 
 	@Override
-	protected void createFormsView(final Composite parent)
-			throws ECPRendererException {
+	protected void createView(final Composite parent) {
 		// create validation report
 		final SessionToValidationReportTransformation transformation = new SessionToValidationReportTransformation(
 				messages, versionService, enumTranslationService);
