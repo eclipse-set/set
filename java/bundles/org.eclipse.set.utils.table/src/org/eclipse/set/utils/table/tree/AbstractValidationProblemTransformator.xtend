@@ -34,11 +34,21 @@ abstract class AbstractValidationProblemTransformator<T> extends AbstractTableMo
 			factory.transformProblem(it)
 			listProblems.add(it)
 		]
+		factory.table.tablecontent.rowgroups.forEach [
+			val sortedRows = rows.sortWith(new Comparator<TableRow>() {
+				override compare(TableRow r1, TableRow r2) {
+					return r1.rowIndex.compareTo(r2.rowIndex)
+				}
+			})
+			rows.clear
+			rows.addAll(sortedRows)
+		]
+		factory.splitNotConsecutiveGroup
 		factory.instertGroupAbstractRow
 		factory.reGroupingTree
 		return factory.table
 	}
-	
+
 	abstract def List<ValidationProblem> getProblems(T report)
 
 	protected def void transformProblem(TMFactory factory,
@@ -55,17 +65,36 @@ abstract class AbstractValidationProblemTransformator<T> extends AbstractTableMo
 
 	abstract def void fillProblem(TableRow instance, ValidationProblem problem)
 
+	private def void splitNotConsecutiveGroup(TMFactory factory) {
+		val newGroups = newLinkedList
+		factory.table.tablecontent.rowgroups.filter [
+			rows.last.rowIndex - rows.head.rowIndex !== rows.size - 1
+		].forEach [
+			var subGroup = newLinkedList
+			var TableRow previous = null
+			for (row : rows) {
+				if (previous === null ||
+					row.rowIndex - previous.rowIndex != 1) {
+					subGroup = newLinkedList
+					newGroups.add(subGroup)
+				}
+				subGroup.add(row)
+				previous = row
+			}
+		]
+		newGroups.forEach[factory.newRowGroup(null).rowGroup.rows.addAll(it)]
+		factory.table.tablecontent.rowgroups.removeIf [
+			rows.nullOrEmpty
+		]
+	}
+
 	private def void instertGroupAbstractRow(TMFactory factory) {
 		val rowGroups = factory.table.tablecontent.rowgroups.filter [
 			rows.size >= ToolboxConfiguration.tableTreeMinimum
 		]
+
 		rowGroups.forEach [
-			val sortedRows = rows.sortWith(new Comparator<TableRow>() {
-				override compare(TableRow r1, TableRow r2) {
-					return r1.rowIndex.compareTo(r2.rowIndex)
-				}
-			})
-			rows.add(0, factory.createGroupAbstractRow(sortedRows))
+			rows.add(0, factory.createGroupAbstractRow(rows))
 		]
 	}
 
