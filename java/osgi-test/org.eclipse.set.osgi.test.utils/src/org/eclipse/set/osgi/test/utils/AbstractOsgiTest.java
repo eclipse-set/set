@@ -12,8 +12,8 @@ package org.eclipse.set.osgi.test.utils;
 
 import static org.mockito.Mockito.when;
 
-import java.util.Dictionary;
-import java.util.Hashtable;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.set.basis.IModelSession;
@@ -21,7 +21,7 @@ import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.basis.files.ToolboxFile;
 import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.eclipse.set.unittest.utils.AbstractToolboxTest;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mockito;
 import org.osgi.service.event.Event;
 import org.osgi.service.event.EventAdmin;
@@ -34,12 +34,20 @@ import org.osgi.test.common.annotation.InjectService;
 public abstract class AbstractOsgiTest extends AbstractToolboxTest {
 	protected IModelSession modelSession;
 
-	@BeforeAll
-	protected void beforeAll() throws Exception {
+	@BeforeEach
+	protected void beforeEach() throws Exception {
 		givenPlanProFile(getTestFile().getTestFilePath());
 	}
 
 	protected abstract TestFile getTestFile();
+
+	@SuppressWarnings("static-method")
+	protected ToolboxFile mockToolboxFile() {
+		final ToolboxFile mock = Mockito.mock(ToolboxFile.class);
+		when(mock.getRole()).thenReturn(ToolboxFileRole.SESSION);
+		return mock;
+
+	}
 
 	/**
 	 * @param eventAdmin
@@ -50,13 +58,12 @@ public abstract class AbstractOsgiTest extends AbstractToolboxTest {
 			modelSession = null;
 		}
 
-		final ToolboxFile mockToolboxFile = Mockito.mock(ToolboxFile.class);
-		when(mockToolboxFile.getRole()).thenReturn(ToolboxFileRole.SESSION);
+		final ToolboxFile mockToolboxFile = mockToolboxFile();
 		modelSession = Mockito.mock(IModelSession.class);
 		Mockito.when(modelSession.getPlanProSchnittstelle())
 				.thenReturn(planProSchnittstelle);
 		Mockito.when(modelSession.getToolboxFile()).thenReturn(mockToolboxFile);
-		final Dictionary<String, Object> d = new Hashtable<>(2);
+		final Map<String, Object> d = new HashMap<>(2);
 		d.put(EventConstants.EVENT_TOPIC, Events.MODEL_CHANGED);
 		d.put(IEventBroker.DATA, modelSession);
 		eventAdmin.sendEvent(new Event(Events.MODEL_CHANGED, d));

@@ -20,6 +20,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVFormat.Builder;
@@ -41,8 +43,9 @@ import org.eclipse.set.model.tablemodel.extensions.TableCellExtensions;
 import org.eclipse.set.model.tablemodel.extensions.TableExtensions;
 import org.eclipse.set.model.tablemodel.extensions.TableRowExtensions;
 import org.eclipse.set.utils.ToolboxConfiguration;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
+import org.eclipse.xtext.xbase.lib.Pair;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.function.Executable;
 import org.mockito.ArgumentMatchers;
 import org.mockito.MockedStatic;
@@ -65,18 +68,10 @@ public abstract class AbstractOsgiTableTest extends AbstractOsgiTest {
 	 */
 	public static final String ROW_INDEX_COL = "Lfd. Nr.";
 
-	protected static void mockToolboxConfigurationMethode(
-			final MockedStatic<ToolboxConfiguration> mockConfiguration) {
-		mockConfiguration.when(ToolboxConfiguration::isDevelopmentMode)
-				.thenReturn(Boolean.FALSE);
-		mockConfiguration.when(ToolboxConfiguration::isDebugMode)
-				.thenReturn(Boolean.FALSE);
-	}
-
 	protected IEventBroker broker;
+
 	protected boolean isTableEmpty;
 	protected List<CSVRecord> referenceData = new LinkedList<>();
-
 	protected Table testee;
 
 	/**
@@ -105,8 +100,8 @@ public abstract class AbstractOsgiTableTest extends AbstractOsgiTest {
 		return isTableEmpty;
 	}
 
-	@AfterAll
-	protected void afterAll() {
+	@AfterEach
+	protected void afterEach() {
 		final Map<String, Object> properties = new HashMap<>();
 		properties.put(EventConstants.EVENT_TOPIC, Events.CLOSE_SESSION);
 		properties.put(IEventBroker.DATA, ToolboxFileRole.SESSION);
@@ -114,9 +109,9 @@ public abstract class AbstractOsgiTableTest extends AbstractOsgiTest {
 	}
 
 	@Override
-	@BeforeAll
-	protected void beforeAll() throws Exception {
-		super.beforeAll();
+	@BeforeEach
+	protected void beforeEach() throws Exception {
+		super.beforeEach();
 		setup();
 	}
 
@@ -133,7 +128,7 @@ public abstract class AbstractOsgiTableTest extends AbstractOsgiTest {
 						.replace(System.lineSeparator(), "");
 				final String referenceValue = referenceData
 						.get(rowIndex + startRow)
-						.get(columnIndex + 1);
+						.get(columnIndex + (skipCompareCountColumn() ? 1 : 0));
 				assertEquals(referenceValue, cellValue, getErrorMessage(
 						columnIndex, rowIndex, referenceValue, cellValue));
 			}
@@ -167,6 +162,8 @@ public abstract class AbstractOsgiTableTest extends AbstractOsgiTest {
 	}
 
 	protected abstract EventAdmin getEventAdmin();
+
+	protected abstract int getExpectedColumnCount();
 
 	protected abstract GeoKanteGeometryService getGeometryService();
 
@@ -205,6 +202,10 @@ public abstract class AbstractOsgiTableTest extends AbstractOsgiTest {
 		}
 	}
 
+	protected void mockMethodeTest() {
+		broker = null;
+	}
+
 	protected void mockServicesMethode(
 			final MockedStatic<Services> mockServices) {
 		mockServices.when(Services::getCacheService)
@@ -215,6 +216,15 @@ public abstract class AbstractOsgiTableTest extends AbstractOsgiTest {
 				.thenReturn(getGeometryService());
 		mockServices.when(Services::getEnumTranslationService)
 				.thenReturn(getEnumTranslationService());
+	}
+
+	@SuppressWarnings("static-method")
+	protected void mockToolboxConfigurationMethode(
+			final MockedStatic<ToolboxConfiguration> mockConfiguration) {
+		mockConfiguration.when(ToolboxConfiguration::isDevelopmentMode)
+				.thenReturn(Boolean.FALSE);
+		mockConfiguration.when(ToolboxConfiguration::isDebugMode)
+				.thenReturn(Boolean.FALSE);
 	}
 
 	protected void setup() throws Exception {
@@ -232,8 +242,45 @@ public abstract class AbstractOsgiTableTest extends AbstractOsgiTest {
 
 	}
 
+	protected abstract boolean skipCompareCountColumn();
+
+	@SuppressWarnings("static-method")
+	protected Function<Pair<Integer, TableRow>, String> tableRowToString() {
+		return row -> {
+			final String rowValue = row.getValue()
+					.getCells()
+					.stream()
+					.map(TableCellExtensions::getPlainStringValue)
+					.map(value -> value.replace(System.lineSeparator(), ""))
+					.collect(Collectors.joining(CSV_DELIMITER));
+			return row.getKey().intValue() + 1 + CSV_DELIMITER + rowValue
+					+ System.lineSeparator();
+		};
+	}
+
 	protected void thenExpectNotExistReference() {
 		assertNull(referenceData, "Empty Table shoundn't have csv reference");
 	}
 
+	protected void thenExpectTableDataEqualReferenceCSV() {
+		assertDoesNotThrow(
+				() -> compareValue(0, TableExtensions.getTableRows(testee)));
+	}
+
+	@SuppressWarnings("boxing")
+	protected void thenRowAndColumnCountEqualReferenceCSV() {
+		final int nattableColumnCount = TableExtensions.getColumns(testee)
+				.size();
+		final int referenceColumnCount = getExpectedColumnCount();
+		assertEquals(referenceColumnCount, nattableColumnCount,
+				() -> String.format("%s expected column count: %d but was: %d",
+						getTestTableReferenceName(), referenceColumnCount,
+						nattableColumnCount));
+		final long nattableRowCount = getTableRowCount();
+		final long referenceRowCount = referenceData.size();
+		assertEquals(referenceRowCount, nattableRowCount,
+				() -> String.format("%s expected row count: %d but was: %d",
+						getTestTableReferenceName(), referenceRowCount,
+						nattableRowCount));
+	}
 }

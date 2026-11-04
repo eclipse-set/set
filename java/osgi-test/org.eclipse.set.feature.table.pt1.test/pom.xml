@@ -25,6 +25,28 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+	            <artifactId>maven-resources-plugin</artifactId>
+	            <version>3.5.0</version>
+	            <executions>
+	              <execution>
+	                <id>copy-resources</id>
+	                <phase>process-resources</phase>
+	                <goals>
+	                  <goal>copy-resources</goal>
+	                </goals>
+	                <configuration>
+	                  <outputDirectory>${basedir}/data/export</outputDirectory>
+	                  <resources>
+	                    <resource>
+	                      <directory>
+	                        ${basedir}/../../bundles/org.eclipse.set.feature/rootdir/data/export</directory>
+	                    </resource>
+	                  </resources>
+	                </configuration>
+	              </execution>
+	            </executions>
+          	</plugin>
 		</plugins>
 	</build>
 </project>

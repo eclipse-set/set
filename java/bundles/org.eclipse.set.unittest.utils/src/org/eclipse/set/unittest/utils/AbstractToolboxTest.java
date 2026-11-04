@@ -85,7 +85,7 @@ public class AbstractToolboxTest {
 	 */
 	public static String SINGLE_STATE_PLAN = getModel(
 			"Info__2026-04-21_10-40.planpro"); //$NON-NLS-1$
-	private static final String UNZIP_DIR = "res/toolbox"; //$NON-NLS-1$
+	protected static final String UNZIP_DIR = "res/toolbox"; //$NON-NLS-1$
 	private static final String CONTENT_MODEL = "content"; //$NON-NLS-1$
 	private static final String LAYOUT_MODEL = "layout"; //$NON-NLS-1$
 	private static final String PLANPRO_ZIPPED_EXTENSION = "planpro"; //$NON-NLS-1$

@@ -47,28 +47,6 @@
       </activation>
       <build>
         <plugins>
-          <plugin>
-            <artifactId>maven-resources-plugin</artifactId>
-            <version>3.5.0</version>
-            <executions>
-              <execution>
-                <id>copy-about</id>
-                <phase>process-resources</phase>
-                <goals>
-                  <goal>copy-resources</goal>
-                </goals>
-                <configuration>
-                  <outputDirectory>${basedir}/data/export</outputDirectory>
-                  <resources>
-                    <resource>
-                      <directory>
-                        ${basedir}/../bundles/org.eclipse.set.feature/rootdir/data/export</directory>
-                    </resource>
-                  </resources>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
           <!-- Use mockito as java agent
           https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3 -->
           <plugin>
@@ -80,7 +58,6 @@
               <argLine>-javaagent:${org.mockito:mockito-core:jar}</argLine>
             </configuration>
           </plugin>
-
           <plugin>
             <groupId>org.eclipse.tycho</groupId>
             <artifactId>target-platform-configuration</artifactId>

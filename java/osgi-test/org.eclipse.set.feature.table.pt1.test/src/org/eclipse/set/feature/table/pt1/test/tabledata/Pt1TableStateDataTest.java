@@ -28,7 +28,6 @@ import org.eclipse.set.feature.table.pt1.test.Activator;
 import org.eclipse.set.feature.table.pt1.test.utils.PtTable;
 import org.eclipse.set.osgi.test.utils.TestFailHandle;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
@@ -90,12 +89,6 @@ public class Pt1TableStateDataTest extends AbstractPt1TableDataTest {
 			return tableToTest.shortcut();
 		}
 		return null;
-	}
-
-	@BeforeAll
-	@Override
-	protected void beforeAll() throws Exception {
-		super.beforeAll();
 	}
 
 	@Override
