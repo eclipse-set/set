@@ -249,7 +249,7 @@ public class Pt1TableControlAreaDataTest extends AbstractPt1TableDataTest {
 			}
 
 			whenExistReferenceCSV();
-			thenRowAndColumnCountEqualReferenceCSV();
+			thenExpectRowAndColumnCountEqualReferenceCSV();
 			thenExpectTableDataEqualReferenceCSV();
 		};
 

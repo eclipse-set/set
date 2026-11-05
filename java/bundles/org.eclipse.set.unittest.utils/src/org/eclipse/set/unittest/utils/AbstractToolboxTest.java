@@ -93,7 +93,9 @@ public class AbstractToolboxTest {
 	protected PlanPro_Schnittstelle planProSchnittstelle;
 	protected PlanPro_Layoutinfo layoutInfo;
 	private ResourceSet resourceSet;
-	private PlanProVersionService planproVersionService;
+	protected PlanProFileResource modelResource;
+	protected PlanProFileResource layoutResource;
+	protected PlanProVersionService planproVersionService;
 
 	protected static String getModel(final Class<?> clazz, final String name) {
 		final URL res = clazz.getClassLoader().getResource(name);
@@ -185,7 +187,7 @@ public class AbstractToolboxTest {
 
 	private void loadZippedPlanProFile(final String filePath)
 			throws IOException {
-		final List<XMLResource> listResource = new ArrayList<>();
+		final List<PlanProFileResource> listResource = new ArrayList<>();
 		unzip(filePath);
 		final URI contentURI = URI
 				.createFileURI(getModelPath(CONTENT_MODEL).toString());
@@ -199,14 +201,18 @@ public class AbstractToolboxTest {
 
 		listResource.forEach(resource -> {
 			final EObject root = resource.getContents().get(0);
-			if (root instanceof final DocumentRoot model) {
-				planProSchnittstelle = model.getPlanProSchnittstelle();
-				ToolboxIDResolver.resolveIDReferences(planProSchnittstelle);
-			} else if (root instanceof final org.eclipse.set.model.planpro.Layoutinformationen.DocumentRoot layoutRoot) {
-				layoutInfo = layoutRoot.getPlanProLayoutinfo();
-				ToolboxIDResolver.resolveIDReferences(layoutInfo);
-			} else {
-				throw new IllegalArgumentException(
+			switch (root) {
+				case final DocumentRoot model -> {
+					planProSchnittstelle = model.getPlanProSchnittstelle();
+					modelResource = resource;
+					ToolboxIDResolver.resolveIDReferences(planProSchnittstelle);
+				}
+				case final org.eclipse.set.model.planpro.Layoutinformationen.DocumentRoot layoutRoot -> {
+					layoutInfo = layoutRoot.getPlanProLayoutinfo();
+					layoutResource = resource;
+					ToolboxIDResolver.resolveIDReferences(layoutInfo);
+				}
+				default -> throw new IllegalArgumentException(
 						"Resource contains no PlanPro model with the requested version."); //$NON-NLS-1$
 			}
 		});
@@ -278,7 +284,8 @@ public class AbstractToolboxTest {
 		return Paths.get(UNZIP_DIR, modelName + ".xml"); //$NON-NLS-1$
 	}
 
-	private XMLResource loadResource(final URI resourceURI) throws IOException {
+	private PlanProFileResource loadResource(final URI resourceURI)
+			throws IOException {
 		final XMLResource resource = (XMLResource) resourceSet
 				.createResource(resourceURI);
 		final PlanProFileResource planproResource = new PlanProFileResource(

@@ -13,12 +13,10 @@ package org.eclipse.set.feature.plazmodel.test;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -32,19 +30,16 @@ import org.eclipse.set.feature.plazmodel.Messages;
 import org.eclipse.set.feature.plazmodel.check.GeoCoordinateValid;
 import org.eclipse.set.feature.plazmodel.service.PlazModelService;
 import org.eclipse.set.feature.plazmodel.table.PlazModelTableTransformationService;
-import org.eclipse.set.feature.plazmodel.test.utils.PlaZReportRowIndexComparator;
+import org.eclipse.set.feature.plazmodel.table.PlazModelTableView;
 import org.eclipse.set.model.plazmodel.PlazReport;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.TableRow;
 import org.eclipse.set.model.tablemodel.extensions.TableCellExtensions;
 import org.eclipse.set.model.tablemodel.extensions.TableExtensions;
-import org.eclipse.set.osgi.test.utils.AbstractOsgiTableTest;
 import org.eclipse.set.osgi.test.utils.AbstractOsgiTest;
-import org.eclipse.set.osgi.test.utils.TestFailHandle;
+import org.eclipse.set.osgi.test.utils.TreeTableTestFailed;
 import org.eclipse.set.utils.ToolboxConfiguration;
-import org.eclipse.set.utils.table.export.ExportToCSV;
 import org.eclipse.xtext.xbase.lib.Pair;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
@@ -63,35 +58,6 @@ import org.osgi.test.junit5.service.ServiceExtension;
 @ExtendWith(ServiceExtension.class)
 @ExtendWith(BundleContextExtension.class)
 public class PlaZModelReportTest extends AbstractPlaZModelTest {
-	private static class CustomTestFailHandle extends TestFailHandle {
-		@Override
-		protected void exportCurrentCSV(final AbstractOsgiTableTest tableTest) {
-			if (tableTest instanceof final PlaZModelReportTest plazTest) {
-				final File file = getExportFile(tableTest,
-						CURRENT_CSV_EXTENSIONS);
-				if (!file.getParentFile().exists()) {
-					file.getParentFile().mkdirs();
-				}
-				final Table testTable = plazTest.getTestTable();
-				final ExportToCSV<TableRow> exportToCSV = new ExportToCSV<>(
-						tableTest.getTableCSVHeader(testTable));
-				final List<TableRow> rows = TableExtensions
-						.getTableRows(testTable);
-				rows.sort(new PlaZReportRowIndexComparator());
-				exportToCSV.exportToCSV(Optional.of(file.toPath()), rows,
-						row -> row.getCells()
-								.stream()
-								.map(TableCellExtensions::getPlainStringValue)
-								.collect(Collectors.joining(CSV_DELIMITER))
-								+ System.lineSeparator());
-				return;
-			}
-			super.exportCurrentCSV(tableTest);
-		}
-	}
-
-	private static final String CSV_HEADER = "Lfd. Nr.;Schweregrad;Problemart;Zeilennummer;Objektart;Objekbezeichnung;Attribut/-gruppe;Bereich;Zustand;Meldung";
-
 	private static Path getMediaDirectoryPath() {
 		return Path.of(UNZIP_DIR, "media");
 	}
@@ -125,7 +91,7 @@ public class PlaZModelReportTest extends AbstractPlaZModelTest {
 
 	@Override
 	public String getTableCSVHeader(final Table table) {
-		return CSV_HEADER + System.lineSeparator();
+		return PlazModelTableView.HEADER_PATTERN;
 	}
 
 	@Override
@@ -145,22 +111,6 @@ public class PlaZModelReportTest extends AbstractPlaZModelTest {
 	private void givenPlaZModelTransformationService() {
 		plazModelTransformationService = new PlazModelTableTransformationService(
 				new Messages(), enumTranslationService);
-	}
-
-	@Override
-	@BeforeEach
-	protected void beforeEach() throws Exception {
-		super.beforeEach();
-		// context.registerService(FontService.class, new SetFontService() {
-		// @Override
-		// public Iterable<FopFont> getFopFonts() {
-		// return Streams.stream(super.getFopFonts())
-		// .map(font -> new FopFont(
-		// Paths.get("../" + font.path().toString()),
-		// font.name(), font.weight(), font.style()))
-		// .toList();
-		// }
-		// }, null);
 	}
 
 	@Override
@@ -255,12 +205,12 @@ public class PlaZModelReportTest extends AbstractPlaZModelTest {
 	@Override
 	protected void thenExpectTableDataEqualReferenceCSV() {
 		final List<TableRow> tableRows = TableExtensions.getTableRows(testee);
-		tableRows.sort(new PlaZReportRowIndexComparator());
+		tableRows.sort(TreeTableTestFailed.treeRowComparator());
 		assertDoesNotThrow(() -> compareValue(0, tableRows));
 	}
 
 	@Test
-	@ExtendWith(CustomTestFailHandle.class)
+	@ExtendWith(TreeTableTestFailed.class)
 	void testPlaZModelReport() throws Throwable {
 		doTestInMockEnvironment(() -> {
 			givenPlaZModelReport();
@@ -273,7 +223,7 @@ public class PlaZModelReportTest extends AbstractPlaZModelTest {
 				thenExpectNotExistReference();
 			}
 
-			thenRowAndColumnCountEqualReferenceCSV();
+			thenExpectRowAndColumnCountEqualReferenceCSV();
 			thenExpectTableDataEqualReferenceCSV();
 		});
 	}

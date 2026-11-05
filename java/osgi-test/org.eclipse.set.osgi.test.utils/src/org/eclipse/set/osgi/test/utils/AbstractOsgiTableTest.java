@@ -262,13 +262,8 @@ public abstract class AbstractOsgiTableTest extends AbstractOsgiTest {
 		assertNull(referenceData, "Empty Table shoundn't have csv reference");
 	}
 
-	protected void thenExpectTableDataEqualReferenceCSV() {
-		assertDoesNotThrow(
-				() -> compareValue(0, TableExtensions.getTableRows(testee)));
-	}
-
 	@SuppressWarnings("boxing")
-	protected void thenRowAndColumnCountEqualReferenceCSV() {
+	protected void thenExpectRowAndColumnCountEqualReferenceCSV() {
 		final int nattableColumnCount = TableExtensions.getColumns(testee)
 				.size();
 		final int referenceColumnCount = getExpectedColumnCount();
@@ -282,5 +277,10 @@ public abstract class AbstractOsgiTableTest extends AbstractOsgiTest {
 				() -> String.format("%s expected row count: %d but was: %d",
 						getTestTableReferenceName(), referenceRowCount,
 						nattableRowCount));
+	}
+
+	protected void thenExpectTableDataEqualReferenceCSV() {
+		assertDoesNotThrow(
+				() -> compareValue(0, TableExtensions.getTableRows(testee)));
 	}
 }

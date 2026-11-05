@@ -154,7 +154,7 @@ public class Pt1TableDataTest extends AbstractPt1TableDataTest {
 			}
 
 			whenExistReferenceCSV();
-			thenRowAndColumnCountEqualReferenceCSV();
+			thenExpectRowAndColumnCountEqualReferenceCSV();
 			thenExpectTableDataEqualReferenceCSV();
 		};
 
