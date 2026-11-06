@@ -101,7 +101,7 @@ public class GeoKanteUniqueCoordinate extends AbstractPlazContainerCheck
 			if (geoKnotenA == null || geoKnotenB == null) {
 				final PlazError error = createError(geoKante);
 				error.setMessage(
-						String.format("Die GEO_Kante %s fehlt GEO_Knoten",
+						String.format("Der GEO_Kante %s fehlen GEO_Knoten.",
 								getGEOKanteGUID(geoKante)));
 				errors.add(error);
 				return;

@@ -91,7 +91,7 @@ public class SubworkValid implements PlazCheck {
 		if (subworkType.isPresent() && planGroupSubWorkType.isPresent()
 				&& subworkType.get() != planGroupSubWorkType.get()) {
 			return createPlazError(subwork,
-					"Die Ausgabe_Fachdaten {GUID} und die dazu gehörige Planung_Gruppe haben verschiedene Untergewerk_Art",
+					"Die Ausgabe_Fachdaten {GUID} und die dazu gehörige Planung_Gruppe haben verschiedene Untergewerksarten.",
 					subworkGuidMap);
 		}
 		return null;
@@ -115,7 +115,7 @@ public class SubworkValid implements PlazCheck {
 											.orElse(""));
 			if (type.isEmpty()) {
 				subworks.forEach(ele -> errors.add(createPlazError(ele,
-						"Die Ausgabe_Fachdaten {GUID} hat keine Untergewerk_Art",
+						"Die Ausgabe_Fachdaten {GUID} hat keine Untergewerksart.",
 						getSubworkGuidMap.apply(ele))));
 				return;
 			}
@@ -125,7 +125,7 @@ public class SubworkValid implements PlazCheck {
 						.translate(untergewerkArt)
 						.getAlternative();
 				subworks.forEach(ele -> errors.add(createPlazError(ele,
-						"Die Ausgabe_Fachdaten zu Untergewerk_Art {Type} ist nicht eindeutig.",
+						"Die Ausgabe_Fachdaten zu Untergewerksart {Type} ist nicht eindeutig.",
 						Map.of("Type", subworkTypeStr))));
 			}
 		});
@@ -180,12 +180,12 @@ public class SubworkValid implements PlazCheck {
 
 	@Override
 	public String getDescription() {
-		return "Jedes Untergewerk ist eindeutig und passt zu der zugehörigen Planung_Gruppe";
+		return "Jedes Untergewerk ist eindeutig und passt zu der zugehörigen Planung_Gruppe.";
 	}
 
 	@Override
 	public String getGeneralErrMsg() {
-		return "Die Untergewerke sind entweder nicht eindeutig oder passen nicht zu der zugehörigen Planung_Gruppe";
+		return "Die Untergewerke sind entweder nicht eindeutig oder passen nicht zu der zugehörigen Planung_Gruppe.";
 	}
 
 }
