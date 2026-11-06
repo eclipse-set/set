@@ -408,7 +408,6 @@
         <setEntry value="org.eclipse.equinox.security@default:default"/>
         <setEntry value="org.eclipse.equinox.transforms.hook@default:false"/>
         <setEntry value="org.eclipse.equinox.weaving.hook@default:false"/>
-        <setEntry value="org.eclipse.fx.osgi@default:false"/>
         <setEntry value="org.eclipse.help.nl_de@default:false"/>
         <setEntry value="org.eclipse.help@default:default"/>
         <setEntry value="org.eclipse.jdt.annotation.nl_de@default:false"/>
@@ -444,8 +443,6 @@
         <setEntry value="org.eclipse.set.browser.cef.win32@default:default"/>
         <setEntry value="org.eclipse.set.browser.lib@default:default"/>
         <setEntry value="org.eclipse.set.browser@default:default"/>
-        <setEntry value="org.eclipse.set.model.planpro.edit@default:default"/>
-        <setEntry value="org.eclipse.set.model.planpro@default:default"/>
         <setEntry value="org.eclipse.swt.nl_de@default:false"/>
         <setEntry value="org.eclipse.swt.svg@default:false"/>
         <setEntry value="org.eclipse.swt.win32.win32.x86_64@default:false"/>
@@ -557,6 +554,9 @@
         <setEntry value="org.eclipse.set.i18n.validationreport.nl_de@default:false"/>
         <setEntry value="org.eclipse.set.model.integrationview.edit@default:default"/>
         <setEntry value="org.eclipse.set.model.integrationview@default:default"/>
+        <setEntry value="org.eclipse.set.model.planpro.edit@default:default"/>
+        <setEntry value="org.eclipse.set.model.planpro.editor@default:default"/>
+        <setEntry value="org.eclipse.set.model.planpro@default:default"/>
         <setEntry value="org.eclipse.set.model.plazmodel.edit@default:default"/>
         <setEntry value="org.eclipse.set.model.plazmodel@default:default"/>
         <setEntry value="org.eclipse.set.model.simplemerge.edit@default:default"/>
