@@ -59,10 +59,10 @@ public class PlanProFileValid implements PlazCheck {
 			return List.of(createError(getGeneralErrMsg()));
 		}
 
-		final List<File> missingFiles = Stream.of(files)
+		final List<File> otherFiles = Stream.of(files)
 				.filter(f -> !isPlanProZipFileContent(f.getName()))
 				.toList();
-		if (!missingFiles.isEmpty()) {
+		if (!otherFiles.isEmpty()) {
 			return List.of(createError(getGeneralErrMsg()));
 		}
 		return Collections.emptyList();

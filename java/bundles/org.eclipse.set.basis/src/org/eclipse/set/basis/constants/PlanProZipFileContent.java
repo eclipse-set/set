@@ -52,15 +52,6 @@ public enum PlanProZipFileContent {
 	}
 
 	/**
-	 * @param value
-	 *            the file name to compare
-	 * @return whether file name equals
-	 */
-	public boolean equalsIgnoreCase(final String value) {
-		return fileName.equals(value);
-	}
-
-	/**
 	 * @param fileName
 	 *            the file name
 	 * @return true, if the {@link PlanProZipFileContent} contains this file
