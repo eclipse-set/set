@@ -95,6 +95,7 @@ jobs:
         if: steps.do-test.outcome == 'failure'
         shell: bash
         run: |
+          git config --global --add safe.directory /__w/set/set
           python -m tablediffview \
             --diffDirName=table-diff-dir \
             --parentDir=java/osgi-test
