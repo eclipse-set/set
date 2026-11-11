@@ -41,7 +41,7 @@ import org.eclipse.set.basis.geometry.GEOKanteMetadata;
 import org.eclipse.set.basis.geometry.GeoPosition;
 import org.eclipse.set.basis.geometry.SegmentPosition;
 import org.eclipse.set.core.services.geometry.PointObjectPositionService;
-import org.eclipse.set.feature.plazmodel.export.TopologicalCoordinate;
+import org.eclipse.set.feature.plazmodel.utils.TopologicalCoordinate;
 import org.eclipse.set.model.planpro.BasisTypen.ENUMLinksRechts;
 import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung;
 import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt;

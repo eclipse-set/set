@@ -13,6 +13,14 @@ on:
     branches:
       - 'release/**'
       - 'main'
+# Enable concurrency to avoid multiple builds at the same time
+concurrency: 
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+  MVN_FLAGS: -T 1.5C -B --settings ./.github/settings.xml --no-transfer-progress
 
 jobs:
   typecheck-siteplan:
@@ -50,3 +58,76 @@ jobs:
           name: playwright-report
           path: web/siteplan/playwright-report/
           retention-days: 1
+
+  test-table-data:
+    runs-on: ubuntu-latest
+    container: ghcr.io/truongquangsb/table-diff-view:latest
+    permissions:
+      contents: write
+      packages: write
+      checks: write
+      pull-requests: write
+      actions: read
+      issues: write
+    env:
+      GITHUB_REPO: ${{ github.repository }}
+    steps:
+      - uses: actions/checkout@v7
+      
+      - name: Setup Java
+        uses: eclipse-set/build/.github/actions/setup-java@main
+
+      - name: Prepare temporary resource
+        run: |
+          git config --global --add safe.directory /__w/set/set
+          mkdir -p web/news/public
+          touch web/news/public/index.html
+          mkdir -p web/about/dist
+          touch web/about/dist/index.html
+      
+      - name: Get Branchname
+        shell: bash
+        run: |
+            if [ "${{ github.event_name }}" == "pull_request" ]; then
+              echo "BRANCH_NAME=${{ github.head_ref }}" >> $GITHUB_ENV
+            else
+              echo "BRANCH_NAME=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
+            fi
+
+      - name: Run Tests
+        id: do-test
+        run: | 
+          mvn ${{ env.MVN_FLAGS }} -f java/pom.xml verify \
+            -DskipTests \
+            -Dtycho.source.skip=true \
+            -DskipP2Metadata=true \
+            -Dosgi-test=true \
+            -Dmaven.javadoc.skip=true
+
+      - name: Create Diff View
+        id: create-diff-view
+        if: failure() && steps.do-test.outcome == 'failure'
+        shell: bash
+        run: |
+          python -m tablediffview \
+            --diffDirName=table-diff-dir \
+            --parentDir=java/osgi-test \
+            --branchName=${{ env.BRANCH_NAME }} \
+            --prNumber=${{github.event.pull_request.number}} \
+            --runId=${{github.run_id}}
+
+      - name: Upload Diff-Files
+        if: failure() && steps.create-diff-view.outcome == 'success'
+        uses: actions/upload-artifact@v7
+        with:
+          name: table-diff-files-${{github.run_number}}
+          path: java/osgi-test/diff-md
+          retention-days: 5
+      
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action@d0a4676d0e0b938bc201470d88276b7c74c712b3 # v2.24.0
+        if: always()
+        with:
+          files: |
+            ${{ github.workspace }}/**/surefire-reports/*.xml
+    
