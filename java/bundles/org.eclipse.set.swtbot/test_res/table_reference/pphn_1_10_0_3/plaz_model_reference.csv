@@ -1,6 +1,6 @@
 ﻿PlaZ Modell-Prüfung
 Datei: plaz_model_current.csv
-Prüfungszeit: 2026-10-27 14:42:51
+Prüfungszeit: 2026-11-10 16:56:38
 Werkzeugkofferversion: ${application-version}
 
 
@@ -641,18 +641,19 @@ Werkzeugkofferversion: ${application-version}
 "620";"Erfolg";"Anhänge";"";"";"";"";"Fachdaten";"";"Anhänge in der .planpro-Datei werden referenziert."
 "621";"Erfolg";"Anhänge";"";"";"";"";"Fachdaten";"";"Referenzierte Anhänge sind in der .planpro-Datei vorhanden."
 "622";"Erfolg";"Bearbeitungsvermerk";"";"";"";"";"Fachdaten";"";"Alles mit Referenz 'sonstige' hat einen Bearbeitungsvermerk."
-"623";"Erfolg";"GUID-Eindeutigkeit";"";"";"";"";"Fachdaten";"";"Die GUIDs aller Objekte sind eindeutig."
-"624";"Erfolg";"GUID-Zustände";"";"";"";"";"Fachdaten";"";"Die GUIDs aller Zustände sind eindeutig."
-"625";"Erfolg";"Koordinaten";"";"";"";"";"Fachdaten";"";"Alle Geo-Kanten haben unterschiedliche Anfangs- und End-Koordinaten."
-"626";"Erfolg";"Koordinatensystem";"";"";"";"";"Fachdaten";"";"Instanzen von GEO_Punkt_Allg haben ein gültiges Koordinatensystem."
-"627";"Erfolg";"Mehrfache Koordinatensystem";"";"";"";"";"Fachdaten";"";"Instanzen von GEO_Kante haben ein konsistentes Koordinatensystem."
-"628";"Erfolg";"Mehrfache Teilbereiche";"";"";"";"";"Fachdaten";"";"Alle Bereichsobjekte haben eindeutige TOP-Kanten definiert."
-"629";"Erfolg";"Mehrfache Teilbereiche";"";"";"";"";"Fachdaten";"";"Teilbereichsgrenzen der LST-Objekte sind einzigartig."
-"630";"Erfolg";"Punktobjektabstand";"";"";"";"";"Fachdaten";"";"Der Punktobjektabstand aller LST-Objekte ist gültig."
-"631";"Erfolg";"Signalbefestigungsketten";"";"";"";"";"Fachdaten";"";"Die Verweisketten der Signalbefestigungen sind pausibel"
-"632";"Erfolg";"Sonderzeichen";"";"";"";"";"Fachdaten";"";"Es gibt keine ungültigen Sonderzeichen"
-"633";"Erfolg";"TOP_Kante";"";"";"";"";"Fachdaten";"";"TOP_Kanten haben eindeutige Endknoten."
-"634";"Erfolg";"TOP_Kante";"";"";"";"";"Fachdaten";"";"TOP_Kanten und GEO_Kanten haben übereinstimmende Längen."
-"635";"Erfolg";"Untergewerk Art";"";"";"";"";"Fachdaten";"";"Jedes Untergewerk ist eindeutig und passt zu der zugehörigen Planung_Gruppe"
-"636";"Erfolg";"Überhöhungslinie";"";"";"";"";"Fachdaten";"";"Topologische Pfade konnten für Überhöhungslinien gefunden werden."
-"637";"Erfolg";"Überlappende Teilbereiche";"";"";"";"";"Fachdaten";"";"Teilbereichsgrenzen der LST-Objekte sind plausibel"
+"623";"Erfolg";"Dateiinhalte";"";"";"";"";"Fachdaten";"";"Die geladene Datei entspricht der Struktur einer PlanPro-Datei."
+"624";"Erfolg";"GUID-Eindeutigkeit";"";"";"";"";"Fachdaten";"";"Die GUIDs aller Objekte sind eindeutig."
+"625";"Erfolg";"GUID-Zustände";"";"";"";"";"Fachdaten";"";"Die GUIDs aller Zustände sind eindeutig."
+"626";"Erfolg";"Koordinaten";"";"";"";"";"Fachdaten";"";"Alle Geo-Kanten haben unterschiedliche Anfangs- und End-Koordinaten."
+"627";"Erfolg";"Koordinatensystem";"";"";"";"";"Fachdaten";"";"Instanzen von GEO_Punkt_Allg haben ein gültiges Koordinatensystem."
+"628";"Erfolg";"Mehrfache Koordinatensystem";"";"";"";"";"Fachdaten";"";"Instanzen von GEO_Kante haben ein konsistentes Koordinatensystem."
+"629";"Erfolg";"Mehrfache Teilbereiche";"";"";"";"";"Fachdaten";"";"Alle Bereichsobjekte haben eindeutige TOP-Kanten definiert."
+"630";"Erfolg";"Mehrfache Teilbereiche";"";"";"";"";"Fachdaten";"";"Teilbereichsgrenzen der LST-Objekte sind einzigartig."
+"631";"Erfolg";"Punktobjektabstand";"";"";"";"";"Fachdaten";"";"Der Punktobjektabstand aller LST-Objekte ist gültig."
+"632";"Erfolg";"Signalbefestigungsketten";"";"";"";"";"Fachdaten";"";"Die Verweisketten der Signalbefestigungen sind pausibel"
+"633";"Erfolg";"Sonderzeichen";"";"";"";"";"Fachdaten";"";"Es gibt keine ungültigen Sonderzeichen"
+"634";"Erfolg";"TOP_Kante";"";"";"";"";"Fachdaten";"";"TOP_Kanten haben eindeutige Endknoten."
+"635";"Erfolg";"TOP_Kante";"";"";"";"";"Fachdaten";"";"TOP_Kanten und GEO_Kanten haben übereinstimmende Längen."
+"636";"Erfolg";"Untergewerk Art";"";"";"";"";"Fachdaten";"";"Jedes Untergewerk ist eindeutig und passt zu der zugehörigen Planung_Gruppe"
+"637";"Erfolg";"Überhöhungslinie";"";"";"";"";"Fachdaten";"";"Topologische Pfade konnten für Überhöhungslinien gefunden werden."
+"638";"Erfolg";"Überlappende Teilbereiche";"";"";"";"";"Fachdaten";"";"Teilbereichsgrenzen der LST-Objekte sind plausibel"
