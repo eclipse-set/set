@@ -93,7 +93,8 @@ jobs:
             -Dmaven.javadoc.skip=true
 
       - name: Create Diff View
-        if: steps.do-test.outcome == 'failure'
+        id: create-diff-view
+        if: failure() && steps.do-test.outcome == 'failure'
         shell: bash
         run: |
           python -m tablediffview \
@@ -104,7 +105,7 @@ jobs:
             --runId=${{github.run_id}}
 
       - name: Upload Diff-Files
-        if: steps.do-test.outcome == 'failure'
+        if: failure() && steps.create-diff-view.outcome == 'success'
         uses: actions/upload-artifact@v7
         with:
           name: table-diff-files-${{github.run_number}}
