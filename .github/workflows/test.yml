@@ -61,6 +61,7 @@ jobs:
 
   test-table-data:
     runs-on: ubuntu-latest
+    container: ghcr.io/truongquangsb/table-diff-view:latest
     permissions:
       contents: write
       packages: write
@@ -81,6 +82,7 @@ jobs:
           touch web/about/dist/index.html
 
       - name: Run Tests
+        id: do-test
         run: | 
           mvn ${{ env.MVN_FLAGS }} -f java/pom.xml verify \
             -DskipTests \
@@ -88,6 +90,25 @@ jobs:
             -DskipP2Metadata=true \
             -Dosgi-test=true \
             -Dmaven.javadoc.skip=true
+
+      - name: Create Diff View
+        if: steps.do-test.outcome == 'failure'
+        shell: bash
+        run: |
+          python -m tablediffview \
+            --diffDirName=table-diff-dir \
+            --parentDir=java/osgi-test
+            --branchName=${{ env.BRANCH_NAME }} \
+            --prNumber=${{github.event.pull_request.number}} \
+            --runId=${{github.run_id}}
+
+      - name: Upload Diff-Files
+        if: steps.do-test.outcome == 'failure'
+        uses: actions/upload-artiface@v7
+        with:
+          name: table-diff-files-${{github.run_number}}
+          path: java/osgi-test/diff-md
+          retention-days: 5
       
       - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action@d0a4676d0e0b938bc201470d88276b7c74c712b3 # v2.24.0
