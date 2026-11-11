@@ -81,6 +81,15 @@ jobs:
           touch web/news/public/index.html
           mkdir -p web/about/dist
           touch web/about/dist/index.html
+      
+      - name: Get Branchname
+        shell: bash
+        run: |
+            if [ "${{ github.event_name }}" == "pull_request" ]; then
+              echo "BRANCH_NAME=${{ github.head_ref }}" >> $GITHUB_ENV
+            else
+              echo "BRANCH_NAME=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
+            fi
 
       - name: Run Tests
         id: do-test
