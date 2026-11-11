@@ -71,6 +71,7 @@ jobs:
       issues: write
     env:
       GITHUB_REPO: ${{ github.repository }}
+      GITHUB_TOKEN: ${{secrets.GH_TOKEN}}
     steps:
       - uses: actions/checkout@v7
       
