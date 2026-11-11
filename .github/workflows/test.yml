@@ -68,6 +68,7 @@ jobs:
       checks: write
       pull-requests: write
       actions: read
+      issues: write
     steps:
       - uses: actions/checkout@v7
       
