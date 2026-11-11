@@ -86,6 +86,7 @@ jobs:
       - name: Get Branchname
         shell: bash
         run: |
+            echo "GITHUB_REPO=${{ github.repository }}" >> $GITHUB_ENV
             if [ "${{ github.event_name }}" == "pull_request" ]; then
               echo "BRANCH_NAME=${{ github.head_ref }}" >> $GITHUB_ENV
             else
