@@ -69,6 +69,8 @@ jobs:
       pull-requests: write
       actions: read
       issues: write
+    env:
+      GITHUB_REPO: ${{ github.repository }}
     steps:
       - uses: actions/checkout@v7
       
@@ -86,7 +88,6 @@ jobs:
       - name: Get Branchname
         shell: bash
         run: |
-            echo "GITHUB_REPO=${{ github.repository }}" >> $GITHUB_ENV
             if [ "${{ github.event_name }}" == "pull_request" ]; then
               echo "BRANCH_NAME=${{ github.head_ref }}" >> $GITHUB_ENV
             else
