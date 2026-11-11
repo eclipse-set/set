@@ -108,7 +108,7 @@ jobs:
         run: |
           python -m tablediffview \
             --diffDirName=table-diff-dir \
-            --parentDir=java/osgi-test
+            --parentDir=java/osgi-test \
             --branchName=${{ env.BRANCH_NAME }} \
             --prNumber=${{github.event.pull_request.number}} \
             --runId=${{github.run_id}}
