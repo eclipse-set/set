@@ -76,6 +76,7 @@ jobs:
 
       - name: Prepare temporary resource
         run: |
+          git config --global --add safe.directory /__w/set/set
           mkdir -p web/news/public
           touch web/news/public/index.html
           mkdir -p web/about/dist
@@ -95,7 +96,6 @@ jobs:
         if: steps.do-test.outcome == 'failure'
         shell: bash
         run: |
-          git config --global --add safe.directory /__w/set/set
           python -m tablediffview \
             --diffDirName=table-diff-dir \
             --parentDir=java/osgi-test
