@@ -61,7 +61,7 @@ jobs:
 
   test-table-data:
     runs-on: ubuntu-latest
-    container: ghcr.io/truongquangsb/table-diff-view:latest
+    container: ghcr.io/eclipse-set/table-diff-view:latest
     permissions:
       contents: write
       packages: write
