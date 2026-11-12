@@ -76,7 +76,7 @@ public record PtTable(String shortcut, String tableName, String category,
 					"etcs", List.of(0)),
 			new PtTable("sskz", "Sskz – Zuordnungstabelle FEAK/FEAS",
 					"supplement-estw", List.of(0)),
-			new PtTable("Sskl", "Sskl – Signaltabelle der Tafeln", "estw",
+			new PtTable("sskl", "Sskl – Signaltabelle der Tafeln", "estw",
 					List.of(0)));
 
 }
