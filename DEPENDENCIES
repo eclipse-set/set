@@ -196,6 +196,7 @@ npm/npmjs/-/ast-kit/3.0.0, MIT, approved, #32682
 npm/npmjs/-/ast-walker-scope/0.10.0, MIT, approved, #32684
 npm/npmjs/-/asynckit/0.4.0, MIT, approved, clearlydefined
 npm/npmjs/-/axios/1.20.0, MIT, approved, #30578
+npm/npmjs/-/axios/1.21.0, MIT, approved, #33130
 npm/npmjs/-/balanced-match/1.0.2, MIT, approved, #24802
 npm/npmjs/-/balanced-match/4.0.4, MIT, approved, clearlydefined
 npm/npmjs/-/baseline-browser-mapping/2.10.0, Apache-2.0, approved, #26300
@@ -343,7 +344,6 @@ npm/npmjs/-/form-data/4.0.6, MIT, approved, clearlydefined
 npm/npmjs/-/forwarded/0.2.0, MIT, approved, clearlydefined
 npm/npmjs/-/fresh/2.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/fsevents/2.3.3, MIT, approved, #15309
-npm/npmjs/-/function-bind/1.1.1, MIT, approved, #11063
 npm/npmjs/-/function-bind/1.1.2, MIT, approved, #11063
 npm/npmjs/-/geojson/0.5.0, MIT, approved, clearlydefined
 npm/npmjs/-/geotiff/3.1.0-beta.0, MIT AND (Apache-2.0 AND MIT AND Zlib) AND (Apache-2.0 AND BSD-3-Clause AND MIT AND Zlib) AND Apache-2.0, approved, #30379
@@ -359,7 +359,6 @@ npm/npmjs/-/graceful-fs/4.2.11, ISC, approved, #7413
 npm/npmjs/-/has-flag/4.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/has-symbols/1.1.0, MIT, approved, #17606
 npm/npmjs/-/has-tostringtag/1.0.2, MIT, approved, #13161
-npm/npmjs/-/has/1.0.3, MIT, approved, #10930
 npm/npmjs/-/hashery/1.5.1, MIT, approved, clearlydefined
 npm/npmjs/-/hasown/2.0.4, MIT, approved, #11097
 npm/npmjs/-/he/1.2.0, MIT, approved, #24846
@@ -388,7 +387,6 @@ npm/npmjs/-/interpret/3.1.1, MIT, approved, clearlydefined
 npm/npmjs/-/ipaddr.js/1.9.1, MIT, approved, clearlydefined
 npm/npmjs/-/ipaddr.js/2.4.0, MIT, approved, #28091
 npm/npmjs/-/is-builtin-module/3.2.1, MIT, approved, clearlydefined
-npm/npmjs/-/is-core-module/2.13.0, MIT, approved, #9885
 npm/npmjs/-/is-core-module/2.16.1, MIT, approved, #18369
 npm/npmjs/-/is-docker/3.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/is-extglob/2.1.1, MIT, approved, #24820
@@ -547,6 +545,7 @@ npm/npmjs/-/rbush/3.0.1, MIT, approved, clearlydefined
 npm/npmjs/-/rbush/4.0.1, MIT, approved, clearlydefined
 npm/npmjs/-/readdirp/5.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/rechoir/0.8.0, MIT, approved, clearlydefined
+npm/npmjs/-/rechoir/1.0.0, MIT, approved, #33197
 npm/npmjs/-/reference-spec-reader/0.2.0, MIT, approved, #27021
 npm/npmjs/-/reflect-metadata/0.2.2, Apache-2.0, approved, clearlydefined
 npm/npmjs/-/regexpp/3.2.0, MIT, approved, clearlydefined
@@ -654,6 +653,7 @@ npm/npmjs/-/vuex/4.1.0, MIT, approved, clearlydefined
 npm/npmjs/-/watchpack/2.6.3, MIT, approved, #32579
 npm/npmjs/-/web-worker/1.5.0, Apache-2.0, approved, #19303
 npm/npmjs/-/webpack-cli/7.2.3, MIT, approved, #29569
+npm/npmjs/-/webpack-cli/7.3.1, MIT, approved, #33196
 npm/npmjs/-/webpack-dev-middleware/8.5.0, MIT, approved, #32962
 npm/npmjs/-/webpack-dev-server/6.1.0, MIT, approved, #32961
 npm/npmjs/-/webpack-merge/6.0.1, MIT, approved, #17983
