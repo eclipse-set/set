@@ -69,7 +69,7 @@ import org.xml.sax.SAXException;
 @Component(immediate = true, service = TableExport.class)
 public class SiteplanPdfExportBuilder extends FopPdfExportBuilder {
 
-	private static final String SITEPLAN_EXPORT_NAME = "SI"; //$NON-NLS-1$
+	private static final String SITEPLAN_EXPORT_NAME = "Slxx"; //$NON-NLS-1$
 	private static final String SITEPLAN_TMP_DIR = "siteplanTmp"; //$NON-NLS-1$
 
 	/**
