@@ -59,8 +59,8 @@ import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.events.ContainerDataChanged;
 import org.eclipse.set.utils.events.DefaultToolboxEventHandler;
 import org.eclipse.set.utils.events.ProjectDataChanged;
-import org.eclipse.set.utils.events.SelectedControlAreaChangedEvent;
-import org.eclipse.set.utils.events.SelectedControlAreaChangedEvent.ControlAreaValue;
+import org.eclipse.set.utils.events.SelectedOperationalAreaChangedEvent;
+import org.eclipse.set.utils.events.SelectedOperationalAreaChangedEvent.OperationalAreaComboValue;
 import org.eclipse.set.utils.events.ToolboxEventHandler;
 import org.eclipse.set.utils.events.ToolboxEvents;
 import org.eclipse.set.utils.exception.ExceptionHandler;
@@ -115,7 +115,7 @@ public class TableOverviewPart extends BasePart {
 	private TableErrorTableView tableErrorTableView;
 
 	private final EventHandler tableErrorsChangeEventHandler = event -> onTableErrorsChange();
-	private ToolboxEventHandler<SelectedControlAreaChangedEvent> selectionControlAreaHandler;
+	private ToolboxEventHandler<SelectedOperationalAreaChangedEvent> selectionControlAreaHandler;
 	private EventHandler comparePlaningLoadedHandler;
 	private boolean ignoreChangeEvent = false;
 	private Set<String> controlAreaIds = new HashSet<>();
@@ -132,11 +132,11 @@ public class TableOverviewPart extends BasePart {
 	void postConstruct() {
 		selectionControlAreaHandler = new DefaultToolboxEventHandler<>() {
 			@Override
-			public void accept(final SelectedControlAreaChangedEvent t) {
+			public void accept(final SelectedOperationalAreaChangedEvent t) {
 				tableType = t.getTableType();
-				controlAreaIds = t.getControlAreas()
+				controlAreaIds = t.getOperationalAreas()
 						.stream()
-						.map(ControlAreaValue::areaId)
+						.map(OperationalAreaComboValue::areaId)
 						.collect(Collectors.toSet());
 				// When all table already transformation, that mean the
 				// calculate all table button is disable, therefore need to
@@ -154,7 +154,7 @@ public class TableOverviewPart extends BasePart {
 		};
 
 		ToolboxEvents.subscribe(getBroker(),
-				SelectedControlAreaChangedEvent.class,
+				SelectedOperationalAreaChangedEvent.class,
 				selectionControlAreaHandler);
 
 		comparePlaningLoadedHandler = event -> {

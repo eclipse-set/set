@@ -50,7 +50,7 @@ import org.eclipse.set.utils.SelectableAction;
 import org.eclipse.set.utils.events.ContainerDataChanged;
 import org.eclipse.set.utils.events.DefaultToolboxEventHandler;
 import org.eclipse.set.utils.events.ProjectDataChanged;
-import org.eclipse.set.utils.events.SelectedControlAreaChangedEvent;
+import org.eclipse.set.utils.events.SelectedOperationalAreaChangedEvent;
 import org.eclipse.set.utils.events.ToolboxEventHandler;
 import org.eclipse.set.utils.events.ToolboxEvents;
 import org.eclipse.set.utils.exception.ExceptionHandler;
@@ -96,7 +96,7 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 	@Inject
 	TableCompileService compileService;
 
-	private ToolboxEventHandler<SelectedControlAreaChangedEvent> selectionControlAreaHandler;
+	private ToolboxEventHandler<SelectedOperationalAreaChangedEvent> selectionControlAreaHandler;
 
 	/**
 	 * creates the part.
@@ -116,8 +116,8 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 		updateTreeElements(currentAreaIds);
 		selectionControlAreaHandler = new DefaultToolboxEventHandler<>() {
 			@Override
-			public void accept(final SelectedControlAreaChangedEvent t) {
-				final Set<String> areaIds = t.getControlAreas()
+			public void accept(final SelectedOperationalAreaChangedEvent t) {
+				final Set<String> areaIds = t.getOperationalAreas()
 						.stream()
 						.map(area -> area.areaId())
 						.collect(Collectors.toSet());
@@ -126,7 +126,7 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 		};
 
 		ToolboxEvents.subscribe(getBroker(),
-				SelectedControlAreaChangedEvent.class,
+				SelectedOperationalAreaChangedEvent.class,
 				selectionControlAreaHandler);
 	}
 

@@ -88,8 +88,8 @@ import org.eclipse.set.utils.ToolboxConfiguration;
 import org.eclipse.set.utils.events.DataEvent;
 import org.eclipse.set.utils.events.DefaultToolboxEventHandler;
 import org.eclipse.set.utils.events.EditingCompleted;
-import org.eclipse.set.utils.events.SelectedControlAreaChangedEvent;
-import org.eclipse.set.utils.events.SelectedControlAreaChangedEvent.ControlAreaValue;
+import org.eclipse.set.utils.events.SelectedOperationalAreaChangedEvent;
+import org.eclipse.set.utils.events.SelectedOperationalAreaChangedEvent.OperationalAreaComboValue;
 import org.eclipse.set.utils.events.SessionDirtyChanged;
 import org.eclipse.set.utils.events.ToolboxEvents;
 import org.eclipse.swt.widgets.Display;
@@ -170,7 +170,7 @@ public class ModelSession implements IModelSession {
 	private EContentAdapter contentAdapter;
 	private final Guid guid;
 	private boolean isNewProject = false;
-	private DefaultToolboxEventHandler<SelectedControlAreaChangedEvent> selectedControlAreaChangedEventHandler;
+	private DefaultToolboxEventHandler<SelectedOperationalAreaChangedEvent> selectedControlAreaChangedEventHandler;
 	private PlanPro_Schnittstelle planPro_Schnittstelle;
 	private PlanPro_Layoutinfo layoutInfo;
 	private final Map<Integer, Boolean> reportSavedDialogSuppressed = new HashMap<>();
@@ -190,7 +190,7 @@ public class ModelSession implements IModelSession {
 	ProjectInitializationData projectInitializationData;
 	final ServiceProvider serviceProvider;
 	TableType tableType = null;
-	Set<ControlAreaValue> selectedControlAreas = new HashSet<>();
+	Set<OperationalAreaComboValue> selectedControlAreas = new HashSet<>();
 
 	private boolean isPlanningAreaIgnored = false;
 	private SaveFixResult saveFixResult = SaveFixResult.NONE;
@@ -260,8 +260,8 @@ public class ModelSession implements IModelSession {
 		selectedControlAreaChangedEventHandler = new DefaultToolboxEventHandler<>() {
 
 			@Override
-			public void accept(final SelectedControlAreaChangedEvent t) {
-				final Set<ControlAreaValue> changeAreas = t.getControlAreas();
+			public void accept(final SelectedOperationalAreaChangedEvent t) {
+				final Set<OperationalAreaComboValue> changeAreas = t.getOperationalAreas();
 				selectedControlAreas.clear();
 				tableType = t.getTableType();
 				changeAreas.forEach(area -> selectedControlAreas.add(area));
@@ -269,7 +269,7 @@ public class ModelSession implements IModelSession {
 			}
 		};
 		ToolboxEvents.subscribe(this.serviceProvider.broker,
-				SelectedControlAreaChangedEvent.class,
+				SelectedOperationalAreaChangedEvent.class,
 				selectedControlAreaChangedEventHandler);
 	}
 

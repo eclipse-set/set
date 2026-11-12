@@ -42,8 +42,8 @@ import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.eclipse.set.utils.events.DefaultToolboxEventHandler;
 import org.eclipse.set.utils.events.NewTableTypeEvent;
-import org.eclipse.set.utils.events.SelectedControlAreaChangedEvent;
-import org.eclipse.set.utils.events.SelectedControlAreaChangedEvent.ControlAreaValue;
+import org.eclipse.set.utils.events.SelectedOperationalAreaChangedEvent;
+import org.eclipse.set.utils.events.SelectedOperationalAreaChangedEvent.OperationalAreaComboValue;
 import org.eclipse.set.utils.events.ToolboxEventHandler;
 import org.eclipse.set.utils.events.ToolboxEvents;
 import org.eclipse.swt.widgets.Composite;
@@ -69,7 +69,7 @@ public class ControlAreaSelectionControl {
 
 		@Override
 		public String getText(final Object element) {
-			if (element instanceof final ControlAreaValue value) {
+			if (element instanceof final OperationalAreaComboValue value) {
 				return value.areaName();
 			}
 			return super.getText(element);
@@ -81,10 +81,10 @@ public class ControlAreaSelectionControl {
 
 	private final IEventBroker broker;
 
-	private ComboViewer comboViewer;
+	protected ComboViewer comboViewer;
 
 	@Translation
-	private final Messages messages;
+	protected final Messages messages;
 
 	ToolboxPartService partService;
 
@@ -155,9 +155,9 @@ public class ControlAreaSelectionControl {
 		});
 	}
 
-	private void setCombo(final TableType type) {
+	protected void setCombo(final TableType type) {
 		comboViewer.getCombo().removeAll();
-		final List<ControlAreaValue> values = new LinkedList<>();
+		final List<OperationalAreaComboValue> values = new LinkedList<>();
 		switch (type) {
 			case FINAL:
 				values.addAll(
@@ -201,8 +201,8 @@ public class ControlAreaSelectionControl {
 
 		int selectIndex = -1;
 
-		if (oldSelectionValue instanceof final ControlAreaValue oldArea) {
-			for (final ControlAreaValue v : values) {
+		if (oldSelectionValue instanceof final OperationalAreaComboValue oldArea) {
+			for (final OperationalAreaComboValue v : values) {
 				if (v.areaId() != null && v.areaId().equals(oldArea.areaId())) {
 					selectIndex = comboViewer.getCombo().indexOf(v.areaName());
 					break;
@@ -211,16 +211,15 @@ public class ControlAreaSelectionControl {
 		}
 
 		comboViewer.getCombo().select(selectIndex >= 0 ? selectIndex : 0);
-
 		comboViewer.getCombo().setEnabled(true);
 	}
 
-	private List<ControlAreaValue> getDiffComboValues() {
-		final List<ControlAreaValue> values = new LinkedList<>();
+	protected List<OperationalAreaComboValue> getDiffComboValues() {
+		final List<OperationalAreaComboValue> values = new LinkedList<>();
 		if (getSession() == null) {
 			return values;
 		}
-		final List<ControlAreaValue> initialValues = getComboValues(
+		final List<OperationalAreaComboValue> initialValues = getComboValues(
 				getSession(), ContainerType.INITIAL);
 		values.addAll(initialValues);
 		final MultiContainer_AttributeGroup finalContainer = getSession()
@@ -235,7 +234,8 @@ public class ControlAreaSelectionControl {
 
 		for (final Stell_Bereich finalArea : finalContainer.getStellBereich()) {
 			final String finalAreaId = finalArea.getIdentitaet().getWert();
-			final Optional<ControlAreaValue> initialArea = values.stream()
+			final Optional<OperationalAreaComboValue> initialArea = values
+					.stream()
 					.filter(area -> area.areaId().equals(finalAreaId))
 					.findFirst();
 
@@ -244,7 +244,8 @@ public class ControlAreaSelectionControl {
 				if (areaName == null) {
 					areaName = getDefaultAreaName(values.size());
 				}
-				values.add(new ControlAreaValue(areaName, finalAreaId));
+				values.add(
+						new OperationalAreaComboValue(areaName, finalAreaId));
 			}
 		}
 		return values;
@@ -260,8 +261,8 @@ public class ControlAreaSelectionControl {
 	 *            the table type
 	 * @return
 	 */
-	private List<ControlAreaValue> getComboValues(final IModelSession session,
-			final ContainerType containerType) {
+	private List<OperationalAreaComboValue> getComboValues(
+			final IModelSession session, final ContainerType containerType) {
 		if (session == null) {
 			return Collections.emptyList();
 		}
@@ -277,43 +278,43 @@ public class ControlAreaSelectionControl {
 			comboViewer.getCombo().setEnabled(false);
 			return Collections.emptyList();
 		}
-		final List<ControlAreaValue> values = new LinkedList<>();
+		final List<OperationalAreaComboValue> values = new LinkedList<>();
 		int i = 1;
 		for (final Stell_Bereich area : selectedContainer.getStellBereich()) {
 			String areaName = getStellBeteichBezeichnung(area);
 			if (areaName == null) {
 				areaName = getDefaultAreaName(i);
 			}
-			values.add(new ControlAreaValue(areaName,
+			values.add(new OperationalAreaComboValue(areaName,
 					area.getIdentitaet().getWert()));
 			i++;
 		}
 		return values;
 	}
 
-	private void setEmtpyControlAreaCombo() {
+	protected void setEmtpyControlAreaCombo() {
 		comboViewer.add(getDefaultValue());
 		comboViewer.add(messages.ControlAreaCombo_All_Objects_Value);
 		comboViewer.getCombo().select(0);
 		comboViewer.getCombo().setEnabled(true);
 	}
 
-	private void setSinglePlanControlAreaCombo() {
+	protected void setSinglePlanControlAreaCombo() {
 		comboViewer.add(messages.ControlAreaCombo_All_Objects_Value);
 		comboViewer.getCombo().select(0);
 		comboViewer.getCombo().setEnabled(false);
 	}
 
-	private String getDefaultAreaName(final int index) {
+	protected String getDefaultAreaName(final int index) {
 		return String.format(messages.ControlAreaCombo_Default_Area_Name,
 				Integer.valueOf(index));
 	}
 
-	private IModelSession getSession() {
+	protected IModelSession getSession() {
 		return application.getContext().get(IModelSession.class);
 	}
 
-	private void initCombo() {
+	protected void initCombo() {
 		comboViewer.getCombo().removeAll();
 		comboViewer
 				.setInput(List.of(messages.TableTypeSelectionControl_noSession,
@@ -334,7 +335,7 @@ public class ControlAreaSelectionControl {
 		return messages.ControlAreaCombo_PlanningArea_Value;
 	}
 
-	private void seletcionControlArea(final ISelection s,
+	protected void seletcionControlArea(final ISelection s,
 			final TableType type) {
 		if (s instanceof final IStructuredSelection selection) {
 			final Object selectedElement = selection.getFirstElement();
@@ -345,10 +346,10 @@ public class ControlAreaSelectionControl {
 
 			tableType = type;
 			oldSelectionValue = selectedElement;
-			if (selectedElement instanceof final ControlAreaValue selected) {
+			if (selectedElement instanceof final OperationalAreaComboValue selected) {
 				// All objects in Control area should displayed regardless of
 				// the planning area
-				ToolboxEvents.send(broker, new SelectedControlAreaChangedEvent(
+				ToolboxEvents.send(broker, new SelectedOperationalAreaChangedEvent(
 						selected, tableType, true));
 				return;
 			}
@@ -361,24 +362,24 @@ public class ControlAreaSelectionControl {
 	private void handleStringValue(final String msg) {
 		if (msg.equals(messages.ControlAreaCombo_All_Objects_Value)) {
 			ToolboxEvents.send(broker,
-					new SelectedControlAreaChangedEvent(tableType, true));
+					new SelectedOperationalAreaChangedEvent(tableType, true));
 			return;
 		}
 
 		if (msg.equals(messages.ControlAreaCombo_PlanningArea_Value)) {
 			ToolboxEvents.send(broker,
-					new SelectedControlAreaChangedEvent(tableType, false));
+					new SelectedOperationalAreaChangedEvent(tableType, false));
 			return;
 		}
 
 		if (msg.equals(messages.ControlAreaCombo_All_ControlArea)) {
 			try {
 				@SuppressWarnings("unchecked")
-				final List<ControlAreaValue> allValues = List.class
+				final List<OperationalAreaComboValue> allValues = List.class
 						.cast(comboViewer.getInput());
 				// Objects in all control area should displayed regardless of
 				// the planning area
-				ToolboxEvents.send(broker, new SelectedControlAreaChangedEvent(
+				ToolboxEvents.send(broker, new SelectedOperationalAreaChangedEvent(
 						Set.copyOf(allValues), tableType, true));
 			} catch (final Exception exc) {
 				throw new RuntimeException(exc);

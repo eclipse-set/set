@@ -108,7 +108,7 @@ import org.eclipse.set.utils.events.DefaultToolboxEventHandler;
 import org.eclipse.set.utils.events.JumpToSiteplanEvent;
 import org.eclipse.set.utils.events.JumpToSourceLineEvent;
 import org.eclipse.set.utils.events.JumpToTableEvent;
-import org.eclipse.set.utils.events.SelectedControlAreaChangedEvent;
+import org.eclipse.set.utils.events.SelectedOperationalAreaChangedEvent;
 import org.eclipse.set.utils.events.TableDataChangeEvent;
 import org.eclipse.set.utils.events.ToolboxEventHandler;
 import org.eclipse.set.utils.events.ToolboxEvents;
@@ -160,7 +160,7 @@ public class ToolboxTableView extends BasePart {
 
 	private ToolboxEventHandler<JumpToTableEvent> tableSelectRowHandler;
 	private ToolboxEventHandler<TableDataChangeEvent> tableDataChangeHandler;
-	private ToolboxEventHandler<SelectedControlAreaChangedEvent> selectionControlAreaHandler;
+	private ToolboxEventHandler<SelectedOperationalAreaChangedEvent<?>> selectionControlAreaHandler;
 	private int scrollToPositionRequested = -1;
 	private ToolboxTableFootnoteView tableFooting;
 	@Inject
@@ -286,15 +286,14 @@ public class ToolboxTableView extends BasePart {
 
 		selectionControlAreaHandler = new DefaultToolboxEventHandler<>() {
 			@Override
-			public void accept(final SelectedControlAreaChangedEvent t) {
+			public void accept(final SelectedOperationalAreaChangedEvent<?> t) {
 				// Only ESTW tables regard to control area,
 				// when given't selected area, that mean PlaningArea or AlL File
 				// Content was selected, then update all table.
-				if (SelectedControlAreaChangedEvent
-						.istRelevantTable(getToolboxPart().getElementId())
-						|| t.getControlAreas().isEmpty()) {
+				if (t.istRelevantTable(getToolboxPart().getElementId())
+						|| t.getOperationalAreas().isEmpty()) {
 					controlAreaIds.clear();
-					t.getControlAreas()
+					t.getOperationalAreas()
 							.forEach(area -> controlAreaIds.add(area.areaId()));
 					tableType = t.getTableType();
 					final TableStatus tableStatus = tableService
@@ -303,7 +302,7 @@ public class ToolboxTableView extends BasePart {
 					if (tableStatus != null) {
 						tableStatus.reset();
 					}
-					updateTableView(t.getControlAreas().isEmpty()
+					updateTableView(t.getOperationalAreas().isEmpty()
 							? Collections.emptyList()
 							: List.of(Pt1TableCategory.ESTW));
 				}
@@ -311,7 +310,7 @@ public class ToolboxTableView extends BasePart {
 		};
 
 		ToolboxEvents.subscribe(getBroker(),
-				SelectedControlAreaChangedEvent.class,
+				SelectedOperationalAreaChangedEvent.class,
 				selectionControlAreaHandler);
 
 		secondaryPlanningLoadedHandler = this::comparePlaningLoadedHandler;

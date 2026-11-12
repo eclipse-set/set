@@ -212,4 +212,19 @@ public class Messages {
 	 * zu unvorhergesehenen Fehlern und Abstürzen kommen.
 	 */
 	public String InvalidFileDialog_Message;
+
+	/**
+	 * Kein RBC vorhanden
+	 */
+	public String RBC_Control_No_RBC;
+
+	/**
+	 * Alle RBC
+	 */
+	public String RBC_Control_All_RBC;
+
+	/**
+	 * RBC %d
+	 */
+	public String RBCCombo_Default_RBC_Name;
 }
