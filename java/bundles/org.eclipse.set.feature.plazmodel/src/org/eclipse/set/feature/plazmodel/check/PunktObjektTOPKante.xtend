@@ -19,7 +19,7 @@ import org.osgi.service.component.annotations.Component
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteExtensions.*
 
 /**
- * Validates that GUID references point to object which exists
+ * Validates that distances of Punkt_Objekt are valid on the TOP_Kante
  * 
  * @author Stuecker
  */
