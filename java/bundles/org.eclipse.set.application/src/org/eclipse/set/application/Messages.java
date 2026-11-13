@@ -179,7 +179,7 @@ public class Messages {
 	/**
 	 * Gesamter Planungsinhalt
 	 */
-	public String ControlAreaCombo_All_Objects_Value;
+	public String OperationalAreaCombo_All_Objects_Value;
 
 	/**
 	 * Stellbereich %d
@@ -189,7 +189,7 @@ public class Messages {
 	/**
 	 * Planungsbereich
 	 */
-	public String ControlAreaCombo_PlanningArea_Value;
+	public String OperationalAreaCombo_PlanningArea_Value;
 
 	/**
 	 * Unvöllständige PlanPro-Datei
@@ -212,11 +212,6 @@ public class Messages {
 	 * zu unvorhergesehenen Fehlern und Abstürzen kommen.
 	 */
 	public String InvalidFileDialog_Message;
-
-	/**
-	 * Kein RBC vorhanden
-	 */
-	public String RBC_Control_No_RBC;
 
 	/**
 	 * Alle RBC

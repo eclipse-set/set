@@ -8,7 +8,7 @@
  * SPDX-License-Identifier: EPL-2.0
  * 
  */
-package org.eclipse.set.application.toolcontrol;
+package org.eclipse.set.application.operationalarea;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -27,6 +27,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.set.application.Messages;
+import org.eclipse.set.application.toolcontrol.ServiceProvider;
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.constants.ContainerType;
 import org.eclipse.set.basis.constants.Events;
@@ -40,8 +41,8 @@ import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.eclipse.set.utils.events.DefaultToolboxEventHandler;
 import org.eclipse.set.utils.events.NewTableTypeEvent;
+import org.eclipse.set.utils.events.SelectedOperationalAreaChangedEvent;
 import org.eclipse.set.utils.events.SelectedOperationalAreaChangedEvent.OperationalAreaComboValue;
-import org.eclipse.set.utils.events.ToolboxEvent;
 import org.eclipse.set.utils.events.ToolboxEventHandler;
 import org.eclipse.set.utils.events.ToolboxEvents;
 import org.eclipse.swt.widgets.Composite;
@@ -74,7 +75,7 @@ public abstract class AbstractOperationalAreaSelectionControl<T extends Ur_Objek
 
 	private final MApplication application;
 
-	private final IEventBroker broker;
+	protected final IEventBroker broker;
 
 	protected ComboViewer comboViewer;
 
@@ -83,9 +84,9 @@ public abstract class AbstractOperationalAreaSelectionControl<T extends Ur_Objek
 
 	ToolboxPartService partService;
 	private ToolboxEventHandler<NewTableTypeEvent> newTableTypeHandler;
-	private TableType tableType;
+	protected TableType tableType;
 
-	private Object oldSelectionValue;
+	protected Object oldSelectionValue;
 
 	protected AbstractOperationalAreaSelectionControl(final Composite parent,
 			final ServiceProvider serviceProvider) {
@@ -143,21 +144,12 @@ public abstract class AbstractOperationalAreaSelectionControl<T extends Ur_Objek
 
 	protected void setCombo(final TableType type) {
 		comboViewer.getCombo().removeAll();
-		final List<OperationalAreaComboValue> values = new LinkedList<>();
+		final List<OperationalAreaComboValue<T>> values = new LinkedList<>();
 		switch (type) {
-			case FINAL:
-				values.addAll(
-						getComboValues(getSession(), ContainerType.FINAL));
+			case FINAL, INITIAL, SINGLE:
+				values.addAll(getComboValues(getSession(),
+						type.getContainerForTable()));
 				break;
-			case INITIAL:
-				values.addAll(
-						getComboValues(getSession(), ContainerType.INITIAL));
-				break;
-			case SINGLE:
-				setSinglePlanOperationalAreaCombo();
-				seletcionOperationalArea(comboViewer.getSelection(),
-						TableType.SINGLE);
-				return;
 			case DIFF:
 				values.addAll(getDiffComboValues());
 				break;
@@ -176,7 +168,7 @@ public abstract class AbstractOperationalAreaSelectionControl<T extends Ur_Objek
 		}
 
 		comboViewer.insert(getDefaultValue(), 0);
-		comboViewer.insert(messages.ControlAreaCombo_All_Objects_Value, 1);
+		comboViewer.insert(messages.OperationalAreaCombo_All_Objects_Value, 1);
 
 		if (oldSelectionValue instanceof final String oldText) {
 			final int i = comboViewer.getCombo().indexOf(oldText);
@@ -188,7 +180,7 @@ public abstract class AbstractOperationalAreaSelectionControl<T extends Ur_Objek
 		int selectIndex = -1;
 
 		if (oldSelectionValue instanceof final OperationalAreaComboValue oldArea) {
-			for (final OperationalAreaComboValue v : values) {
+			for (final OperationalAreaComboValue<T> v : values) {
 				if (v.areaId() != null && v.areaId().equals(oldArea.areaId())) {
 					selectIndex = comboViewer.getCombo().indexOf(v.areaName());
 					break;
@@ -211,11 +203,13 @@ public abstract class AbstractOperationalAreaSelectionControl<T extends Ur_Objek
 
 			tableType = type;
 			oldSelectionValue = selectedElement;
-			if (selectedElement instanceof final OperationalAreaComboValue selected) {
+			if (selectedElement instanceof final OperationalAreaComboValue<?> selected) {
 				// All objects in Control area should displayed regardless of
 				// the planning area
-				ToolboxEvents.send(broker, getSelectedOperationAreaEvent(
-						selected, tableType, true));
+				ToolboxEvents.send(broker,
+						new SelectedOperationalAreaChangedEvent(
+								getOperationalAreaClass(), selected, type,
+								true));
 				return;
 			}
 			if (selectedElement instanceof final String msg) {
@@ -225,18 +219,25 @@ public abstract class AbstractOperationalAreaSelectionControl<T extends Ur_Objek
 
 	}
 
-	protected abstract void handleStringValue(String msg);
+	protected void handleStringValue(final String msg) {
+		if (msg.equals(messages.OperationalAreaCombo_All_Objects_Value)) {
+			ToolboxEvents.send(broker, new SelectedOperationalAreaChangedEvent(
+					getOperationalAreaClass(), tableType, true));
+			return;
+		}
 
-	protected abstract ToolboxEvent getSelectedOperationAreaEvent(
-			OperationalAreaComboValue selected, TableType type);
+		if (msg.equals(messages.OperationalAreaCombo_PlanningArea_Value)) {
+			ToolboxEvents.send(broker, new SelectedOperationalAreaChangedEvent(
+					getOperationalAreaClass(), tableType, false));
+			return;
+		}
+	}
 
 	private void selectionListerner(final SelectionChangedEvent e) {
 		seletcionOperationalArea(e.getSelection(), tableType);
 	}
 
-	protected abstract void setSinglePlanOperationalAreaCombo();
-
-	protected List<OperationalAreaComboValue> getComboValues(
+	protected List<OperationalAreaComboValue<T>> getComboValues(
 			final IModelSession session, final ContainerType initial) {
 		final MultiContainer_AttributeGroup container = PlanProSchnittstelleExtensions
 				.getContainer(session.getPlanProSchnittstelle(), initial);
@@ -245,25 +246,26 @@ public abstract class AbstractOperationalAreaSelectionControl<T extends Ur_Objek
 			comboViewer.getCombo().setEnabled(false);
 			return Collections.emptyList();
 		}
-		final List<OperationalAreaComboValue> values = new LinkedList<>();
+		final List<OperationalAreaComboValue<T>> values = new LinkedList<>();
 		for (int i = 0; i < areas.size(); i++) {
 			String label = getOperationalAreaLabelFunction()
 					.apply(areas.get(i));
 			if (label == null || label.isEmpty()) {
 				label = getDefaultAreaName(i);
 			}
-			values.add(new OperationalAreaComboValue(label,
-					areas.get(i).getIdentitaet().getWert()));
+			values.add(
+					new OperationalAreaComboValue<>(getOperationalAreaClass(),
+							label, areas.get(i).getIdentitaet().getWert()));
 		}
 		return values;
 	}
 
 	protected abstract String getDefaultAreaName(int i);
 
-	private List<OperationalAreaComboValue> getDiffComboValues() {
-		final List<OperationalAreaComboValue> initialValues = getComboValues(
+	private List<OperationalAreaComboValue<T>> getDiffComboValues() {
+		final List<OperationalAreaComboValue<T>> initialValues = getComboValues(
 				getSession(), ContainerType.INITIAL);
-		final List<OperationalAreaComboValue> finalValues = getComboValues(
+		final List<OperationalAreaComboValue<T>> finalValues = getComboValues(
 				getSession(), ContainerType.FINAL);
 
 		if (finalValues == null || finalValues.isEmpty()) {
@@ -272,9 +274,9 @@ public abstract class AbstractOperationalAreaSelectionControl<T extends Ur_Objek
 			return finalValues;
 		}
 
-		final List<OperationalAreaComboValue> values = new LinkedList<>();
+		final List<OperationalAreaComboValue<T>> values = new LinkedList<>();
 		values.addAll(initialValues);
-		for (final OperationalAreaComboValue value : finalValues) {
+		for (final OperationalAreaComboValue<T> value : finalValues) {
 			if (values.stream()
 					.noneMatch(
 							v -> v.areaId().equalsIgnoreCase(value.areaId()))) {
@@ -288,13 +290,25 @@ public abstract class AbstractOperationalAreaSelectionControl<T extends Ur_Objek
 
 	protected abstract Function<T, String> getOperationalAreaLabelFunction();
 
-	protected abstract void setEmtpyOperationalAreaCombo();
+	protected void setEmtpyOperationalAreaCombo() {
+		comboViewer.add(getDefaultValue());
+		comboViewer.add(messages.OperationalAreaCombo_All_Objects_Value);
+		comboViewer.getCombo().select(0);
+		comboViewer.getCombo().setEnabled(true);
+	}
 
-	protected abstract Object getDefaultValue();
+	/**
+	 * @return the default value of operational area combo
+	 */
+	protected String getDefaultValue() {
+		return messages.OperationalAreaCombo_PlanningArea_Value;
+	}
 
 	protected IModelSession getSession() {
 		return application.getContext().get(IModelSession.class);
 	}
+
+	protected abstract Class<T> getOperationalAreaClass();
 
 	private void closeSession(final Event event) {
 		final Object property = event.getProperty(IEventBroker.DATA);
@@ -305,5 +319,13 @@ public abstract class AbstractOperationalAreaSelectionControl<T extends Ur_Objek
 		}
 	}
 
-	protected abstract void initCombo();
+	protected void initCombo() {
+		comboViewer.getCombo().removeAll();
+		comboViewer
+				.setInput(List.of(messages.TableTypeSelectionControl_noSession,
+						messages.OperationalAreaCombo_All_Objects_Value));
+		comboViewer.getCombo().select(0);
+		comboViewer.getCombo().setEnabled(false);
+		oldSelectionValue = getDefaultValue();
+	}
 }

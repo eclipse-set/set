@@ -8,17 +8,19 @@
  * SPDX-License-Identifier: EPL-2.0
  * 
  */
-package org.eclipse.set.application.toolcontrol;
+package org.eclipse.set.application.operationalarea;
 
 import java.util.List;
+import java.util.Set;
 import java.util.function.Function;
 
-import org.eclipse.set.basis.constants.TableType;
+import org.eclipse.set.application.toolcontrol.ServiceProvider;
 import org.eclipse.set.model.planpro.Balisentechnik_ETCS.RBC;
 import org.eclipse.set.ppmodel.extensions.EObjectExtensions;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
+import org.eclipse.set.utils.events.SelectedOperationalAreaChangedEvent;
 import org.eclipse.set.utils.events.SelectedOperationalAreaChangedEvent.OperationalAreaComboValue;
-import org.eclipse.set.utils.events.ToolboxEvent;
+import org.eclipse.set.utils.events.ToolboxEvents;
 import org.eclipse.swt.widgets.Composite;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,23 +37,13 @@ public class RBCSelectionControl
 
 	/**
 	 * @param parent
+	 *            the parent composite
 	 * @param serviceProvider
+	 *            the {@link ServiceProvider}
 	 */
 	public RBCSelectionControl(final Composite parent,
 			final ServiceProvider serviceProvider) {
 		super(parent, serviceProvider);
-	}
-
-	@Override
-	protected void setEmtpyOperationalAreaCombo() {
-		comboViewer.add(messages.RBC_Control_No_RBC);
-		comboViewer.getCombo().select(0);
-		comboViewer.getCombo().setEnabled(false);
-	}
-
-	@Override
-	public String getDefaultValue() {
-		return messages.RBC_Control_All_RBC;
 	}
 
 	@Override
@@ -60,30 +52,22 @@ public class RBCSelectionControl
 				Integer.valueOf(index));
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void handleStringValue(final String msg) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	protected ToolboxEvent getSelectedOperationAreaEvent(
-			final OperationalAreaComboValue selected,
-			final TableType tableType) {
-		return null;
-	}
-
-	@Override
-	protected void setSinglePlanOperationalAreaCombo() {
-		comboViewer.add(getDefaultValue());
-		comboViewer.getCombo().select(0);
-		comboViewer.getCombo().setEnabled(true);
-	}
-
-	@Override
-	protected void initCombo() {
-		// TODO Auto-generated method stub
-
+		super.handleStringValue(msg);
+		if (msg.equals(messages.RBC_Control_All_RBC)) {
+			final Object input = comboViewer.getInput();
+			if (input instanceof final List<?> listInput && listInput
+					.getFirst() instanceof OperationalAreaComboValue<?>) {
+				ToolboxEvents.send(broker,
+						new SelectedOperationalAreaChangedEvent(
+								getOperationalAreaClass(),
+								Set.copyOf(
+										(List<OperationalAreaComboValue<RBC>>) listInput),
+								tableType, false));
+			}
+		}
 	}
 
 	@Override
@@ -97,6 +81,11 @@ public class RBCSelectionControl
 				.getNullableObject(rbc,
 						r -> r.getBezeichnung().getBezeichnungRBC().getWert())
 				.orElse(null);
+	}
+
+	@Override
+	protected Class<RBC> getOperationalAreaClass() {
+		return RBC.class;
 	}
 
 }

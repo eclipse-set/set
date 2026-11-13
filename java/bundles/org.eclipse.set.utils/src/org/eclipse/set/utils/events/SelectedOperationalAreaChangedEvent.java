@@ -24,34 +24,44 @@ import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
  * Changed event of selection control area widges
  * 
  * @author Truong
- * @param <T>
- *            type of operation area
  */
-public class SelectedOperationalAreaChangedEvent<T extends Ur_Objekt>
-		implements ToolboxEvent {
+public class SelectedOperationalAreaChangedEvent implements ToolboxEvent {
 
 	/**
 	 * Helper class for define control area
+	 * 
+	 * @param <T>
+	 *            the operational area type
+	 * @param clazz
+	 *            the operation area class
 	 * 
 	 * @param areaName
 	 *            the name of area
 	 * @param areaId
 	 *            the guid {@link Stell_Bereich}
 	 */
-	public record OperationalAreaComboValue(String areaName, String areaId) {
+	public record OperationalAreaComboValue<T extends Ur_Objekt>(Class<T> clazz,
+			String areaName, String areaId) {
 	}
 
 	private static final String TOPIC = "toolboxevents/controlarea/selection"; //$NON-NLS-1$
-	Set<OperationalAreaComboValue> areas;
+	Set<OperationalAreaComboValue<?>> areas;
 	private final TableType tableType;
 	private final boolean isPlanningAreaIgnored;
-	private Class<T> areaClass;
+	private final Class<? extends Ur_Objekt> areaClass;
 
 	/**
 	 * @return the table type
 	 */
 	public TableType getTableType() {
 		return tableType;
+	}
+
+	/**
+	 * Default constructor
+	 */
+	public SelectedOperationalAreaChangedEvent() {
+		this(null, null, false);
 	}
 
 	/**
@@ -64,7 +74,8 @@ public class SelectedOperationalAreaChangedEvent<T extends Ur_Objekt>
 	 *            planning area
 	 * 
 	 */
-	public SelectedOperationalAreaChangedEvent(final Class<T> areaClass,
+	public SelectedOperationalAreaChangedEvent(
+			final Class<? extends Ur_Objekt> areaClass,
 			final TableType tableType, final boolean isPlanningAreaIgnored) {
 		this(areaClass, Collections.emptySet(), tableType,
 				isPlanningAreaIgnored);
@@ -84,8 +95,9 @@ public class SelectedOperationalAreaChangedEvent<T extends Ur_Objekt>
 	 *            should displayed all objects in project or only the objects in
 	 *            planning area
 	 */
-	public SelectedOperationalAreaChangedEvent(final Class<T> areaClass,
-			final OperationalAreaComboValue area, final TableType tableType,
+	public SelectedOperationalAreaChangedEvent(
+			final Class<? extends Ur_Objekt> areaClass,
+			final OperationalAreaComboValue<?> area, final TableType tableType,
 			final boolean isPlanningAreaIgnored) {
 		this(areaClass, Set.of(area), tableType, isPlanningAreaIgnored);
 	}
@@ -104,8 +116,9 @@ public class SelectedOperationalAreaChangedEvent<T extends Ur_Objekt>
 	 *            should displayed all objects in project or only the objects in
 	 *            planning area
 	 */
-	public SelectedOperationalAreaChangedEvent(final Class<T> areaClass,
-			final Set<OperationalAreaComboValue> areas,
+	public SelectedOperationalAreaChangedEvent(
+			final Class<? extends Ur_Objekt> areaClass,
+			final Set<OperationalAreaComboValue<?>> areas,
 			final TableType tableType, final boolean isPlanningAreaIgnored) {
 		this.areaClass = areaClass;
 		this.areas = areas;
@@ -116,7 +129,7 @@ public class SelectedOperationalAreaChangedEvent<T extends Ur_Objekt>
 	/**
 	 * @return the control areas
 	 */
-	public Set<OperationalAreaComboValue> getOperationalAreas() {
+	public Set<OperationalAreaComboValue<?>> getOperationalAreas() {
 		return areas;
 	}
 
@@ -131,6 +144,13 @@ public class SelectedOperationalAreaChangedEvent<T extends Ur_Objekt>
 	@Override
 	public String getTopic() {
 		return TOPIC;
+	}
+
+	/**
+	 * @return the class of operational area
+	 */
+	public Class<? extends Ur_Objekt> getOperationalAreaClass() {
+		return areaClass;
 	}
 
 	/**

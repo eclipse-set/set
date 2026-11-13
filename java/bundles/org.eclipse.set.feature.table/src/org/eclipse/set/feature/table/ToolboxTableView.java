@@ -9,6 +9,7 @@
 package org.eclipse.set.feature.table;
 
 import static org.eclipse.set.feature.table.abstracttableview.ToolboxTableModelThemeConfiguration.toPixel;
+import static org.eclipse.set.utils.table.TableInfo.Pt1TableCategory.getCategoryFromPartId;
 
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
@@ -21,7 +22,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.ThreadUtils;
 import org.eclipse.core.runtime.Assert;
@@ -61,7 +61,6 @@ import org.eclipse.nebula.widgets.nattable.selection.SelectionLayer;
 import org.eclipse.nebula.widgets.nattable.viewport.command.ShowRowInViewportCommand;
 import org.eclipse.set.basis.FreeFieldInfo;
 import org.eclipse.set.basis.OverwriteHandling;
-import org.eclipse.set.basis.Pair;
 import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.basis.constants.ExportType;
 import org.eclipse.set.basis.constants.TableType;
@@ -77,6 +76,8 @@ import org.eclipse.set.feature.table.abstracttableview.NatTableColumnGroupHelper
 import org.eclipse.set.feature.table.abstracttableview.ToolboxTableModelThemeConfiguration;
 import org.eclipse.set.feature.table.messages.Messages;
 import org.eclipse.set.feature.table.messages.MessagesWrapper;
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
+import org.eclipse.set.model.planpro.Balisentechnik_ETCS.RBC;
 import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
 import org.eclipse.set.model.planpro.PlanPro.Container_AttributeGroup;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
@@ -109,6 +110,7 @@ import org.eclipse.set.utils.events.JumpToSiteplanEvent;
 import org.eclipse.set.utils.events.JumpToSourceLineEvent;
 import org.eclipse.set.utils.events.JumpToTableEvent;
 import org.eclipse.set.utils.events.SelectedOperationalAreaChangedEvent;
+import org.eclipse.set.utils.events.SelectedOperationalAreaChangedEvent.OperationalAreaComboValue;
 import org.eclipse.set.utils.events.TableDataChangeEvent;
 import org.eclipse.set.utils.events.ToolboxEventHandler;
 import org.eclipse.set.utils.events.ToolboxEvents;
@@ -160,7 +162,7 @@ public class ToolboxTableView extends BasePart {
 
 	private ToolboxEventHandler<JumpToTableEvent> tableSelectRowHandler;
 	private ToolboxEventHandler<TableDataChangeEvent> tableDataChangeHandler;
-	private ToolboxEventHandler<SelectedOperationalAreaChangedEvent<?>> selectionControlAreaHandler;
+	private ToolboxEventHandler<SelectedOperationalAreaChangedEvent> selectionControlAreaHandler;
 	private int scrollToPositionRequested = -1;
 	private ToolboxTableFootnoteView tableFooting;
 	@Inject
@@ -183,7 +185,7 @@ public class ToolboxTableView extends BasePart {
 
 	protected TableType tableType;
 
-	protected Set<String> controlAreaIds;
+	protected Optional<?> controlAreaIds;
 
 	/**
 	 * this injection is only needed to invoke the call of the respective
@@ -286,25 +288,32 @@ public class ToolboxTableView extends BasePart {
 
 		selectionControlAreaHandler = new DefaultToolboxEventHandler<>() {
 			@Override
-			public void accept(final SelectedOperationalAreaChangedEvent<?> t) {
+			public void accept(final SelectedOperationalAreaChangedEvent t) {
 				// Only ESTW tables regard to control area,
 				// when given't selected area, that mean PlaningArea or AlL File
 				// Content was selected, then update all table.
-				if (t.istRelevantTable(getToolboxPart().getElementId())
-						|| t.getOperationalAreas().isEmpty()) {
-					controlAreaIds.clear();
-					t.getOperationalAreas()
-							.forEach(area -> controlAreaIds.add(area.areaId()));
-					tableType = t.getTableType();
-					final TableStatus tableStatus = tableService
-							.getTablesStatus(tableInfo.category())
-							.getOrDefault(tableInfo, null);
-					if (tableStatus != null) {
-						tableStatus.reset();
+				if (t.getOperationalAreaClass() == getOperationalAreaClass()) {
+					final Set<OperationalAreaComboValue<?>> operationalAreas = t
+							.getOperationalAreas();
+					if (operationalAreas.isEmpty()
+							&& t.isPlanningAreaIgnored()) {
+						controlAreaIds = Optional.empty();
+					} else if (operationalAreas.isEmpty()) {
+						controlAreaIds = Optional.of(Collections.emptySet());
+					} else {
+
+						tableType = t.getTableType();
+						final TableStatus tableStatus = tableService
+								.getTablesStatus(tableInfo.category())
+								.getOrDefault(tableInfo, null);
+						if (tableStatus != null) {
+							tableStatus.reset();
+						}
+						updateTableView(t.getOperationalAreas().isEmpty()
+								? Collections.emptyList()
+								: List.of(Pt1TableCategory.ESTW));
 					}
-					updateTableView(t.getOperationalAreas().isEmpty()
-							? Collections.emptyList()
-							: List.of(Pt1TableCategory.ESTW));
+
 				}
 			}
 		};
@@ -391,10 +400,8 @@ public class ToolboxTableView extends BasePart {
 		tableInfo = tableService.getTableInfo(this);
 		// initialize table type
 		tableType = getModelSession().getTableType();
-		controlAreaIds = getModelSession().getSelectedControlAreas()
-				.stream()
-				.map(Pair::getSecond)
-				.collect(Collectors.toSet());
+		controlAreaIds = getModelSession()
+				.getSelectedOperationalAreas(getOperationalAreaClass());
 		tableService.updateTable(this, Collections.emptyList(),
 				new TableRendererUtil(this::transformToTableModel,
 						transformedTable -> {
@@ -963,4 +970,14 @@ public class ToolboxTableView extends BasePart {
 		}
 	}
 
+	private Class<? extends Ur_Objekt> getOperationalAreaClass() {
+		final Pt1TableCategory tableCategory = getCategoryFromPartId(
+				getToolboxPart().getElementId());
+		return switch (tableCategory) {
+			case ESTW, ESTW_SUPPLEMENT -> Stell_Bereich.class;
+			case ETCS -> RBC.class;
+			default -> null;
+		};
+
+	}
 }
