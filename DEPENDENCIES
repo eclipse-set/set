@@ -196,7 +196,7 @@ npm/npmjs/-/ast-kit/3.0.0, MIT, approved, #32682
 npm/npmjs/-/ast-walker-scope/0.10.0, MIT, approved, #32684
 npm/npmjs/-/asynckit/0.4.0, MIT, approved, clearlydefined
 npm/npmjs/-/axios/1.20.0, MIT, approved, #30578
-npm/npmjs/-/axios/1.21.0, MIT, approved, #33130
+npm/npmjs/-/axios/1.21.1, MIT, approved, #33130
 npm/npmjs/-/balanced-match/1.0.2, MIT, approved, #24802
 npm/npmjs/-/balanced-match/4.0.4, MIT, approved, clearlydefined
 npm/npmjs/-/baseline-browser-mapping/2.10.0, Apache-2.0, approved, #26300
@@ -275,8 +275,8 @@ npm/npmjs/-/domhandler/4.3.1, BSD-2-Clause, approved, clearlydefined
 npm/npmjs/-/dompurify/3.4.15, Apache-2.0 OR MPL-2.0, approved, #27185
 npm/npmjs/-/domutils/2.8.0, BSD-2-Clause, approved, clearlydefined
 npm/npmjs/-/dot-case/3.0.4, MIT, approved, clearlydefined
+npm/npmjs/-/dotenv/18.0.10, BSD-2-Clause, approved, #31606
 npm/npmjs/-/dotenv/18.0.4, BSD-2-Clause, approved, #31606
-npm/npmjs/-/dotenv/18.0.9, BSD-2-Clause, approved, #31606
 npm/npmjs/-/dunder-proto/1.0.1, MIT, approved, #17824
 npm/npmjs/-/earcut/3.0.2, ISC, approved, clearlydefined
 npm/npmjs/-/ee-first/1.1.1, MIT, approved, clearlydefined
@@ -339,6 +339,7 @@ npm/npmjs/-/flat-cache/6.1.23, MIT, approved, clearlydefined
 npm/npmjs/-/flat/5.0.2, BSD-3-Clause, approved, clearlydefined
 npm/npmjs/-/flatted/3.4.4, ISC AND (ISC AND MIT), approved, #26887
 npm/npmjs/-/follow-redirects/1.16.1, MIT, approved, #27183
+npm/npmjs/-/follow-redirects/1.16.3, MIT, approved, #27183
 npm/npmjs/-/form-data/4.0.6, MIT, approved, clearlydefined
 npm/npmjs/-/forwarded/0.2.0, MIT, approved, clearlydefined
 npm/npmjs/-/fresh/2.0.0, MIT, approved, clearlydefined
@@ -817,15 +818,25 @@ npm/npmjs/@types/serve-static/2.2.0, MIT, approved, clearlydefined
 npm/npmjs/@types/trusted-types/2.0.7, MIT, approved, clearlydefined
 npm/npmjs/@types/ws/8.18.1, MIT, approved, #19981
 npm/npmjs/@typescript-eslint/eslint-plugin/8.72.1, MIT, approved, #32968
+npm/npmjs/@typescript-eslint/eslint-plugin/8.72.2, MIT, approved, #32968
 npm/npmjs/@typescript-eslint/parser/8.72.1, MIT, approved, #32966
+npm/npmjs/@typescript-eslint/parser/8.72.2, MIT, approved, #32966
 npm/npmjs/@typescript-eslint/project-service/8.72.1, MIT, approved, #32969
+npm/npmjs/@typescript-eslint/project-service/8.72.2, MIT, approved, #32969
 npm/npmjs/@typescript-eslint/scope-manager/8.72.1, MIT, approved, #32970
+npm/npmjs/@typescript-eslint/scope-manager/8.72.2, MIT, approved, #32970
 npm/npmjs/@typescript-eslint/tsconfig-utils/8.72.1, MIT, approved, #32965
+npm/npmjs/@typescript-eslint/tsconfig-utils/8.72.2, MIT, approved, #32965
 npm/npmjs/@typescript-eslint/type-utils/8.72.1, MIT, approved, #32964
+npm/npmjs/@typescript-eslint/type-utils/8.72.2, MIT, approved, #32964
 npm/npmjs/@typescript-eslint/types/8.72.1, MIT, approved, #32971
+npm/npmjs/@typescript-eslint/types/8.72.2, MIT, approved, #32971
 npm/npmjs/@typescript-eslint/typescript-estree/8.72.1, MIT, approved, #32972
+npm/npmjs/@typescript-eslint/typescript-estree/8.72.2, MIT, approved, #32972
 npm/npmjs/@typescript-eslint/utils/8.72.1, MIT, approved, #32967
+npm/npmjs/@typescript-eslint/utils/8.72.2, MIT, approved, #32967
 npm/npmjs/@typescript-eslint/visitor-keys/8.72.1, MIT, approved, #32963
+npm/npmjs/@typescript-eslint/visitor-keys/8.72.2, MIT, approved, #32963
 npm/npmjs/@vitejs/plugin-vue/6.0.10, MIT, approved, #26690
 npm/npmjs/@volar/language-core/2.4.30, MIT, approved, #15619
 npm/npmjs/@volar/language-service/2.4.30, MIT, approved, #15618
