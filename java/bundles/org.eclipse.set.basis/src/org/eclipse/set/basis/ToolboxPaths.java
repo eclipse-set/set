@@ -11,6 +11,7 @@ package org.eclipse.set.basis;
 import java.nio.file.Path;
 
 import org.eclipse.set.basis.constants.ExportType;
+import org.eclipse.set.basis.table.OperationalAreaEnum;
 
 /**
  * Provides various toolbox file paths.
@@ -53,6 +54,8 @@ public interface ToolboxPaths {
 	/**
 	 * @param shortcut
 	 *            the table shortcut
+	 * @param operationalAreaType
+	 *            the operational area type
 	 * @param base
 	 *            the base path
 	 * @param exportType
@@ -62,6 +65,7 @@ public interface ToolboxPaths {
 	 * 
 	 * @return the path to the table xlsx export
 	 */
-	Path getTableExportPath(String shortcut, Path base, ExportType exportType,
-			ExportPathExtension pattern);
+	Path getTableExportPath(String shortcut,
+			OperationalAreaEnum operationalAreaType, Path base,
+			ExportType exportType, ExportPathExtension pattern);
 }

@@ -13,6 +13,7 @@ import java.nio.file.Path;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Consumer;
 
@@ -73,7 +74,7 @@ public class ExportServiceImpl implements ExportService {
 			final List<TableToExportPath> tablesToExport,
 			final IModelSession modelSession,
 			final TableCompileService compileService, final TableType tableType,
-			final Set<String> controlAreaIds, final IProgressMonitor monitor,
+			final IProgressMonitor monitor,
 			final OverwriteHandling overwriteHandling,
 			final Consumer<Exception> errorHandler) {
 		if (builders.isEmpty()) {
@@ -85,9 +86,13 @@ public class ExportServiceImpl implements ExportService {
 				monitor.subTask(tableToExport.tableInfo()
 						.nameInfo()
 						.getFullDisplayName());
+				final Optional<Set<String>> selectedOperationalAreas = modelSession
+						.getSelectedOperationalAreas(tableToExport.tableInfo()
+								.getOperationalAreaType());
+
 				final Map<TableType, Table> tables = compileService.compile(
 						tableToExport.tableInfo(), modelSession,
-						controlAreaIds);
+						selectedOperationalAreas);
 				final PlanProToTitleboxTransformation planProToTitleboxTransformation = new PlanProToTitleboxTransformation(
 						sessionService);
 				final Titlebox titleBox = planProToTitleboxTransformation

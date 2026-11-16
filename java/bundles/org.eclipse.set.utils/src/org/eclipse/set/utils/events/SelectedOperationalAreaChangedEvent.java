@@ -16,9 +16,8 @@ import java.util.Set;
 
 import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.basis.constants.ToolboxConstants;
-import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
-import org.eclipse.set.model.planpro.Balisentechnik_ETCS.RBC;
-import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
+import org.eclipse.set.basis.table.OperationalAreaEnum;
+import org.eclipse.set.basis.table.OperationalAreaEnum.OperationalAreaObject;
 
 /**
  * Changed event of selection control area widges
@@ -27,28 +26,11 @@ import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
  */
 public class SelectedOperationalAreaChangedEvent implements ToolboxEvent {
 
-	/**
-	 * Helper class for define control area
-	 * 
-	 * @param <T>
-	 *            the operational area type
-	 * @param clazz
-	 *            the operation area class
-	 * 
-	 * @param areaName
-	 *            the name of area
-	 * @param areaId
-	 *            the guid {@link Stell_Bereich}
-	 */
-	public record OperationalAreaComboValue<T extends Ur_Objekt>(Class<T> clazz,
-			String areaName, String areaId) {
-	}
-
 	private static final String TOPIC = "toolboxevents/controlarea/selection"; //$NON-NLS-1$
-	Set<OperationalAreaComboValue<?>> areas;
+	Set<OperationalAreaObject> areas;
 	private final TableType tableType;
 	private final boolean isPlanningAreaIgnored;
-	private final Class<? extends Ur_Objekt> areaClass;
+	private final OperationalAreaEnum operationalAreaType;
 
 	/**
 	 * @return the table type
@@ -65,8 +47,8 @@ public class SelectedOperationalAreaChangedEvent implements ToolboxEvent {
 	}
 
 	/**
-	 * @param areaClass
-	 *            the class of the operation area
+	 * @param operationalAreaEnum
+	 *            the operational area enum
 	 * @param tableType
 	 *            current tableType
 	 * @param isPlanningAreaIgnored
@@ -75,20 +57,21 @@ public class SelectedOperationalAreaChangedEvent implements ToolboxEvent {
 	 * 
 	 */
 	public SelectedOperationalAreaChangedEvent(
-			final Class<? extends Ur_Objekt> areaClass,
+			final OperationalAreaEnum operationalAreaEnum,
 			final TableType tableType, final boolean isPlanningAreaIgnored) {
-		this(areaClass, Collections.emptySet(), tableType,
+		this(operationalAreaEnum, Collections.emptySet(), tableType,
 				isPlanningAreaIgnored);
 	}
 
 	/**
 	 * Constructor
 	 * 
-	 * @param areaClass
-	 *            the class of the operation area
+	 * @param operationalAreaEnum
+	 *            the operational area enum
+	 * 
 	 * 
 	 * @param area
-	 *            the {@link OperationalAreaComboValue}
+	 *            the {@link OperationalAreaObject}
 	 * @param tableType
 	 *            current tableType
 	 * @param isPlanningAreaIgnored
@@ -96,17 +79,19 @@ public class SelectedOperationalAreaChangedEvent implements ToolboxEvent {
 	 *            planning area
 	 */
 	public SelectedOperationalAreaChangedEvent(
-			final Class<? extends Ur_Objekt> areaClass,
-			final OperationalAreaComboValue<?> area, final TableType tableType,
+			final OperationalAreaEnum operationalAreaEnum,
+			final OperationalAreaObject area, final TableType tableType,
 			final boolean isPlanningAreaIgnored) {
-		this(areaClass, Set.of(area), tableType, isPlanningAreaIgnored);
+		this(operationalAreaEnum, Set.of(area), tableType,
+				isPlanningAreaIgnored);
 	}
 
 	/**
 	 * Constructor
 	 * 
-	 * @param areaClass
-	 *            the class of the operation area
+	 * @param operationalAreaEnum
+	 *            the operational area enum
+	 * 
 	 * 
 	 * @param areas
 	 *            the list of area
@@ -117,10 +102,10 @@ public class SelectedOperationalAreaChangedEvent implements ToolboxEvent {
 	 *            planning area
 	 */
 	public SelectedOperationalAreaChangedEvent(
-			final Class<? extends Ur_Objekt> areaClass,
-			final Set<OperationalAreaComboValue<?>> areas,
-			final TableType tableType, final boolean isPlanningAreaIgnored) {
-		this.areaClass = areaClass;
+			final OperationalAreaEnum operationalAreaEnum,
+			final Set<OperationalAreaObject> areas, final TableType tableType,
+			final boolean isPlanningAreaIgnored) {
+		this.operationalAreaType = operationalAreaEnum;
 		this.areas = areas;
 		this.tableType = tableType;
 		this.isPlanningAreaIgnored = isPlanningAreaIgnored;
@@ -129,12 +114,12 @@ public class SelectedOperationalAreaChangedEvent implements ToolboxEvent {
 	/**
 	 * @return the control areas
 	 */
-	public Set<OperationalAreaComboValue<?>> getOperationalAreas() {
+	public Set<OperationalAreaObject> getOperationalAreas() {
 		return areas;
 	}
 
 	/**
-	 * @return should displayed all obejects in project or only the objects in
+	 * @return should displayed all objects in project or only the objects in
 	 *         planning area
 	 */
 	public boolean isPlanningAreaIgnored() {
@@ -149,8 +134,8 @@ public class SelectedOperationalAreaChangedEvent implements ToolboxEvent {
 	/**
 	 * @return the class of operational area
 	 */
-	public Class<? extends Ur_Objekt> getOperationalAreaClass() {
-		return areaClass;
+	public OperationalAreaEnum getOperationalAreaType() {
+		return operationalAreaType;
 	}
 
 	/**
@@ -159,20 +144,16 @@ public class SelectedOperationalAreaChangedEvent implements ToolboxEvent {
 	 * @return true, if the table relevant to the event
 	 */
 	public boolean istRelevantTable(final String elementId) {
-		if (areaClass == Stell_Bereich.class) {
-			return List
+		return switch (operationalAreaType) {
+			case Interlocking -> List
 					.of(ToolboxConstants.ESTW_TABLE_PART_ID_PREFIX,
 							ToolboxConstants.ESTW_SUPPLEMENT_PART_ID_PREFIX)
 					.stream()
 					.anyMatch(elementId::startsWith);
-		}
-
-		if (areaClass == RBC.class) {
-			return elementId
+			case RBC -> elementId
 					.startsWith(ToolboxConstants.ETCS_TABLE_PART_ID_PREFIX);
-		}
-
-		return false;
+			default -> false;
+		};
 	}
 
 }

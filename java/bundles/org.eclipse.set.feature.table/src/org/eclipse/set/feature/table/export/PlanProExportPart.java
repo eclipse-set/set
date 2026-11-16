@@ -27,10 +27,10 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.OverwriteHandling;
-import org.eclipse.set.basis.Pair;
 import org.eclipse.set.basis.constants.ExportType;
 import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.basis.export.CheckBoxTreeElement;
+import org.eclipse.set.basis.table.OperationalAreaEnum;
 import org.eclipse.set.core.services.export.AdditionalExportService;
 import org.eclipse.set.core.services.part.ToolboxPartService;
 import org.eclipse.set.feature.export.checkboxmodel.CheckboxTreeModel;
@@ -51,6 +51,7 @@ import org.eclipse.set.utils.events.ContainerDataChanged;
 import org.eclipse.set.utils.events.DefaultToolboxEventHandler;
 import org.eclipse.set.utils.events.ProjectDataChanged;
 import org.eclipse.set.utils.events.SelectedOperationalAreaChangedEvent;
+import org.eclipse.set.utils.events.SelectedOperationalAreaChangedEvent.OperationalAreaComboValue;
 import org.eclipse.set.utils.events.ToolboxEventHandler;
 import org.eclipse.set.utils.events.ToolboxEvents;
 import org.eclipse.set.utils.exception.ExceptionHandler;
@@ -108,20 +109,25 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 
 	@PostConstruct
 	private void postConstruct() {
-		final Set<String> currentAreaIds = getModelSession()
-				.getSelectedControlAreas()
-				.stream()
-				.map(Pair::getSecond)
-				.collect(Collectors.toSet());
+		final Map<OperationalAreaEnum, java.util.Optional<Set<String>>> currentAreaIds = Arrays
+				.stream(OperationalAreaEnum.values())
+				.collect(
+						Collectors.toMap(type -> type, type -> getModelSession()
+								.getSelectedOperationalAreas(type)));
 		updateTreeElements(currentAreaIds);
 		selectionControlAreaHandler = new DefaultToolboxEventHandler<>() {
 			@Override
 			public void accept(final SelectedOperationalAreaChangedEvent t) {
-				final Set<String> areaIds = t.getOperationalAreas()
-						.stream()
-						.map(area -> area.areaId())
-						.collect(Collectors.toSet());
-				updateTreeElements(areaIds);
+
+				final java.util.Optional<Set<String>> areaIds = t
+						.isPlanningAreaIgnored()
+						&& t.getOperationalAreas().isEmpty()
+								? java.util.Optional.empty()
+								: java.util.Optional.of(t.getOperationalAreas()
+										.stream()
+										.map(OperationalAreaComboValue::areaId)
+										.collect(Collectors.toSet()));
+				updateTreeElements(Map.of(t.getOperationalAreaType(), areaIds));
 			}
 		};
 
@@ -138,7 +144,8 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 		throw new IllegalArgumentException();
 	}
 
-	protected void updateTreeElements(final Set<String> areaIds) {
+	protected void updateTreeElements(
+			final Map<OperationalAreaEnum, java.util.Optional<Set<String>>> areaIds) {
 		final Set<TableInfo> avaibleTables = new HashSet<>(
 				tableService.getAvailableTables());
 		final TableType tableType = getModelSession().getTableType();
@@ -244,12 +251,8 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 				elements, modelSession);
 		monitor.setTaskName(getTaskMessage());
 		getExportService().exportMultiTable(getExportType(), tablesToExport,
-				modelSession, compileService, getTableType(),
-				modelSession.getSelectedControlAreas()
-						.stream()
-						.map(Pair::getSecond)
-						.collect(Collectors.toSet()),
-				monitor, OverwriteHandling.forCheckbox(true),
+				modelSession, compileService, getTableType(), monitor,
+				OverwriteHandling.forCheckbox(true),
 				new ExceptionHandler(getToolboxShell(), getDialogService()));
 	}
 

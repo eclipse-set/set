@@ -11,8 +11,10 @@
 package org.eclipse.set.feature.table;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -25,6 +27,11 @@ import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.eclipse.set.feature.table.internal.TableServiceUtils;
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
+import org.eclipse.set.model.planpro.Balisentechnik_ETCS.RBC;
+import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
+import org.eclipse.set.utils.ToolboxConfiguration;
+import org.eclipse.set.utils.table.TableError;
 import org.eclipse.set.utils.table.TableInfo;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -45,6 +52,8 @@ import jakarta.annotation.PreDestroy;
 public class SxxxTableView extends ToolboxTableView {
 	private Composite calculateMissingTablesPanel;
 	private EventHandler reloadWorkNotesTable;
+	private static Set<Class<? extends Ur_Objekt>> operationalAreaClasses = Set
+			.of(Stell_Bereich.class, RBC.class);
 
 	@Override
 	@PostConstruct
@@ -90,9 +99,8 @@ public class SxxxTableView extends ToolboxTableView {
 			final IModelSession compareSession = getSessionService()
 					.getLoadedSession(ToolboxFileRole.COMPARE_PLANNING);
 			final Collection<TableInfo> mainSessionMissingTables = getMissingTables();
-			final Collection<TableInfo> compareSessionMissingTables = TableServiceUtils
-					.getMissingTables(tableService, compareSession,
-							controlAreaIds);
+			final Collection<TableInfo> compareSessionMissingTables = getMissingTablesCompareSession(
+					compareSession);
 			// All tables at both session are already loaded
 			if (mainSessionMissingTables.isEmpty()
 					&& compareSessionMissingTables.isEmpty()) {
@@ -131,7 +139,7 @@ public class SxxxTableView extends ToolboxTableView {
 							tablesToTransform,
 							compareSession.isSingleState() ? TableType.SINGLE
 									: TableType.DIFF,
-							controlAreaIds));
+							operationalAreaIds));
 		} catch (InvocationTargetException | InterruptedException e) {
 			getDialogService().error(getToolboxShell(), e);
 			Thread.currentThread().interrupt();
@@ -191,13 +199,29 @@ public class SxxxTableView extends ToolboxTableView {
 	}
 
 	private Collection<TableInfo> getMissingTables() {
-		return TableServiceUtils.getMissingTables(tableService,
-				getModelSession(), controlAreaIds);
+		return TableServiceUtils.getMissingTables(tableService, null);
+	}
+
+	private Collection<TableInfo> getMissingTablesCompareSession(
+			final IModelSession compareSession) {
+		final Map<TableInfo, Collection<TableError>> tableErrors = tableService
+				.getTableErrors(compareSession, operationalAreaIds, null);
+		final Collection<TableInfo> availableTables = tableService
+				.getAvailableTables();
+		final ArrayList<TableInfo> missingTables = new ArrayList<>();
+		missingTables.addAll(availableTables);
+		if (!ToolboxConfiguration.isDebugMode()) {
+			// in debug mode we want to be able to recompute the errors
+			// that's why we mark all as missing
+			missingTables.removeIf(tableErrors::containsKey);
+		}
+		return missingTables;
 	}
 
 	private void calculateAllMissingTables(final IProgressMonitor monitor) {
-		TableServiceUtils.calculateAllMissingTables(tableService,
-				getModelSession(), controlAreaIds, monitor, messages);
+		operationalAreaClasses.forEach(clazz -> TableServiceUtils
+				.calculateAllMissingTables(tableService, getModelSession(),
+						operationalAreaIds, monitor, messages));
 	}
 
 	private void calculateAllMissingTablesEvent() {

@@ -15,6 +15,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collections;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -56,6 +57,8 @@ import org.eclipse.set.basis.files.ToolboxFile;
 import org.eclipse.set.basis.files.ToolboxFile.Format;
 import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.eclipse.set.basis.guid.Guid;
+import org.eclipse.set.basis.table.OperationalAreaEnum;
+import org.eclipse.set.basis.table.OperationalAreaEnum.OperationalAreaObject;
 import org.eclipse.set.core.services.branding.BrandingService;
 import org.eclipse.set.core.services.cache.CacheService;
 import org.eclipse.set.core.services.defaultvalue.DefaultValueService;
@@ -71,7 +74,6 @@ import org.eclipse.set.core.services.session.SessionService;
 import org.eclipse.set.core.services.validation.ValidationService;
 import org.eclipse.set.feature.validation.Messages;
 import org.eclipse.set.feature.validation.utils.ValidationOutcome;
-import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
 import org.eclipse.set.model.planpro.Layoutinformationen.LayoutinformationenFactory;
 import org.eclipse.set.model.planpro.Layoutinformationen.PlanPro_Layoutinfo;
 import org.eclipse.set.model.planpro.PlanPro.DocumentRoot;
@@ -87,15 +89,12 @@ import org.eclipse.set.utils.events.DataEvent;
 import org.eclipse.set.utils.events.DefaultToolboxEventHandler;
 import org.eclipse.set.utils.events.EditingCompleted;
 import org.eclipse.set.utils.events.SelectedOperationalAreaChangedEvent;
-import org.eclipse.set.utils.events.SelectedOperationalAreaChangedEvent.OperationalAreaComboValue;
 import org.eclipse.set.utils.events.SessionDirtyChanged;
 import org.eclipse.set.utils.events.ToolboxEvents;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.google.common.collect.Streams;
 
 import jakarta.inject.Inject;
 
@@ -190,7 +189,8 @@ public class ModelSession implements IModelSession {
 	ProjectInitializationData projectInitializationData;
 	final ServiceProvider serviceProvider;
 	TableType tableType = null;
-	Map<Class<? extends Ur_Objekt>, Set<OperationalAreaComboValue<?>>> selectedControlAreas = new HashMap<>();
+	Map<OperationalAreaEnum, Set<OperationalAreaObject>> selectedControlAreas = new EnumMap<>(
+			OperationalAreaEnum.class);
 
 	private SaveFixResult saveFixResult = SaveFixResult.NONE;
 	protected ValidationResult layoutinfoValidationResult = null;
@@ -260,19 +260,19 @@ public class ModelSession implements IModelSession {
 
 			@Override
 			public void accept(final SelectedOperationalAreaChangedEvent t) {
-				final Set<OperationalAreaComboValue<?>> changeAreas = t
+				final Set<OperationalAreaObject> changeAreas = t
 						.getOperationalAreas();
 				tableType = t.getTableType();
 				if (changeAreas.isEmpty()) {
-					selectedControlAreas.put(t.getOperationalAreaClass(),
+					selectedControlAreas.put(t.getOperationalAreaType(),
 							t.isPlanningAreaIgnored() ? null
 									: Collections.emptySet());
 					return;
 				}
-				// selectedControlAreas.clear();
 
-				selectedControlAreas.put(t.getOperationalAreaClass(),
+				selectedControlAreas.put(t.getOperationalAreaType(),
 						changeAreas);
+
 			}
 		};
 		ToolboxEvents.subscribe(this.serviceProvider.broker,
@@ -527,43 +527,27 @@ public class ModelSession implements IModelSession {
 	}
 
 	@Override
-	public <T extends Ur_Objekt> Optional<Set<T>> getSelectedOperationalAreas(
-			final Class<T> operationalAreaClass) {
-		final Set<OperationalAreaComboValue<?>> values = selectedControlAreas
-				.get(operationalAreaClass);
+	public Optional<Set<OperationalAreaObject>> getSelectedOperationalAreas(
+			final OperationalAreaEnum operationalAreaType) {
+		final Set<OperationalAreaObject> values = selectedControlAreas
+				.get(operationalAreaType);
 		if (values == null) {
 			return Optional.empty();
 		}
-
-		if (values.isEmpty()) {
-			return Optional.of(Collections.emptySet());
-		}
-		final Set<String> areaIds = values.stream()
-				.map(OperationalAreaComboValue::areaId)
-				.collect(Collectors.toSet());
-		final Set<T> selectedOperationalObj = switch (tableType) {
-			case INITIAL, FINAL, SINGLE -> getOperationalAreaObject(
-					tableType.getContainerForTable(), operationalAreaClass,
-					areaIds);
-			case DIFF -> Stream.of(ContainerType.INITIAL, ContainerType.FINAL)
-					.flatMap(container -> getOperationalAreaObject(container,
-							operationalAreaClass, areaIds).stream())
-					.collect(Collectors.toSet());
-			default -> throw new IllegalArgumentException(
-					"Unexpected value: " + tableType);
-		};
-		return Optional.of(selectedOperationalObj);
+		return Optional.of(values);
 	}
 
-	private <T extends Ur_Objekt> Set<T> getOperationalAreaObject(
-			final ContainerType containerType,
-			final Class<T> operationAreaClass, final Set<String> areaIds) {
-		return Streams
-				.stream(PlanProSchnittstelleExtensions
-						.getContainer(planPro_Schnittstelle, containerType)
-						.get(operationAreaClass))
-				.filter(obj -> areaIds.contains(obj.getIdentitaet().getWert()))
-				.collect(Collectors.toSet());
+	@Override
+	public Optional<Set<String>> getSelectedOperationalAreasId(
+			final OperationalAreaEnum operationalAreaType) {
+		final Set<OperationalAreaObject> values = selectedControlAreas
+				.get(operationalAreaType);
+		if (values == null) {
+			return Optional.empty();
+		}
+		return Optional.of(values.stream()
+				.map(OperationalAreaObject::areaId)
+				.collect(Collectors.toSet()));
 	}
 
 	@Override

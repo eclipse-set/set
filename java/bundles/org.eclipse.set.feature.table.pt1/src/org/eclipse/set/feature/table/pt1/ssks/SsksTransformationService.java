@@ -34,6 +34,7 @@ import org.eclipse.set.model.planpro.Signale.Signal;
 import org.eclipse.set.model.planpro.Verweise.ID_Strecke_TypeClass;
 import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.ppmodel.extensions.SignalExtensions;
+import org.eclipse.set.ppmodel.extensions.UrObjectExtensions;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
 import org.eclipse.set.utils.table.TableInfo.Pt1TableCategory;
 import org.eclipse.set.utils.table.sorting.TableRowGroupComparator;
@@ -157,17 +158,24 @@ public final class SsksTransformationService extends
 	}
 
 	@Override
-	public boolean isObjectBelongToRendereArea(final Ur_Objekt obj,
-			final List<Stell_Bereich> areas) {
+	public <T extends Ur_Objekt> boolean isObjectBelongToRendereArea(
+			final Ur_Objekt obj, final List<T> areas) {
 		if (areas.isEmpty()) {
-			return true;
+			return UrObjectExtensions.isPlanningObject(obj);
 		}
-		if (obj instanceof final Signal signal) {
-			return areas.stream()
-					.anyMatch(area -> SignalExtensions
-							.isSsksSignalBelongToArea(signal, area));
+		try {
+			if (obj instanceof final Signal signal) {
+				return areas.stream()
+						.map(Stell_Bereich.class::cast)
+						.anyMatch(area -> SignalExtensions
+								.isSsksSignalBelongToArea(signal, area));
+			}
+
+			return false;
+		} catch (final Exception e) {
+			throw new IllegalArgumentException("Wrong operational area type: " //$NON-NLS-1$
+					+ areas.getFirst().getClass().getName());
 		}
 
-		return false;
 	}
 }

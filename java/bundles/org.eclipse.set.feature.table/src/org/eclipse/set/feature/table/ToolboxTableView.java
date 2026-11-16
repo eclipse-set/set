@@ -9,7 +9,6 @@
 package org.eclipse.set.feature.table;
 
 import static org.eclipse.set.feature.table.abstracttableview.ToolboxTableModelThemeConfiguration.toPixel;
-import static org.eclipse.set.utils.table.TableInfo.Pt1TableCategory.getCategoryFromPartId;
 
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
@@ -22,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.ThreadUtils;
 import org.eclipse.core.runtime.Assert;
@@ -68,6 +68,8 @@ import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.basis.constants.ToolboxViewState;
 import org.eclipse.set.basis.extensions.MApplicationElementExtensions;
 import org.eclipse.set.basis.guid.Guid;
+import org.eclipse.set.basis.table.OperationalAreaEnum;
+import org.eclipse.set.basis.table.OperationalAreaEnum.OperationalAreaObject;
 import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.configurationservice.UserConfigurationService;
 import org.eclipse.set.feature.table.abstracttableview.ColumnGroup4HeaderLayer;
@@ -76,8 +78,6 @@ import org.eclipse.set.feature.table.abstracttableview.NatTableColumnGroupHelper
 import org.eclipse.set.feature.table.abstracttableview.ToolboxTableModelThemeConfiguration;
 import org.eclipse.set.feature.table.messages.Messages;
 import org.eclipse.set.feature.table.messages.MessagesWrapper;
-import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
-import org.eclipse.set.model.planpro.Balisentechnik_ETCS.RBC;
 import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
 import org.eclipse.set.model.planpro.PlanPro.Container_AttributeGroup;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
@@ -110,7 +110,6 @@ import org.eclipse.set.utils.events.JumpToSiteplanEvent;
 import org.eclipse.set.utils.events.JumpToSourceLineEvent;
 import org.eclipse.set.utils.events.JumpToTableEvent;
 import org.eclipse.set.utils.events.SelectedOperationalAreaChangedEvent;
-import org.eclipse.set.utils.events.SelectedOperationalAreaChangedEvent.OperationalAreaComboValue;
 import org.eclipse.set.utils.events.TableDataChangeEvent;
 import org.eclipse.set.utils.events.ToolboxEventHandler;
 import org.eclipse.set.utils.events.ToolboxEvents;
@@ -185,7 +184,7 @@ public class ToolboxTableView extends BasePart {
 
 	protected TableType tableType;
 
-	protected Optional<?> controlAreaIds;
+	protected Optional<Set<String>> operationalAreaIds;
 
 	/**
 	 * this injection is only needed to invoke the call of the respective
@@ -199,6 +198,8 @@ public class ToolboxTableView extends BasePart {
 
 	private EventHandler secondaryPlanningLoadedHandler;
 	protected TableInfo tableInfo;
+
+	private OperationalAreaEnum operationalAreaType;
 
 	/**
 	 * constructor
@@ -289,32 +290,38 @@ public class ToolboxTableView extends BasePart {
 		selectionControlAreaHandler = new DefaultToolboxEventHandler<>() {
 			@Override
 			public void accept(final SelectedOperationalAreaChangedEvent t) {
-				// Only ESTW tables regard to control area,
-				// when given't selected area, that mean PlaningArea or AlL File
-				// Content was selected, then update all table.
-				if (t.getOperationalAreaClass() == getOperationalAreaClass()) {
-					final Set<OperationalAreaComboValue<?>> operationalAreas = t
+				// Check if current table belong to the operational event
+				if (t.getOperationalAreaType() == operationalAreaType) {
+					final Set<OperationalAreaObject> operationalAreas = t
 							.getOperationalAreas();
+					// When the combo value: all content was selected then
+					// operational areas is empty and planing area ignored is
+					// true
 					if (operationalAreas.isEmpty()
 							&& t.isPlanningAreaIgnored()) {
-						controlAreaIds = Optional.empty();
+						operationalAreaIds = Optional.empty();
+						// When the combo value: planing area was selected
 					} else if (operationalAreas.isEmpty()) {
-						controlAreaIds = Optional.of(Collections.emptySet());
+						operationalAreaIds = Optional
+								.of(Collections.emptySet());
 					} else {
-
-						tableType = t.getTableType();
+						operationalAreaIds = Optional
+								.of(operationalAreas.stream()
+										.map(OperationalAreaObject::areaId)
+										.collect(Collectors.toSet()));
 						final TableStatus tableStatus = tableService
 								.getTablesStatus(tableInfo.category())
 								.getOrDefault(tableInfo, null);
 						if (tableStatus != null) {
 							tableStatus.reset();
 						}
-						updateTableView(t.getOperationalAreas().isEmpty()
-								? Collections.emptyList()
-								: List.of(Pt1TableCategory.ESTW));
 					}
-
+					tableType = t.getTableType();
+					updateTableView(Pt1TableCategory
+							.getTableCategoriesByOperationalArea(
+									operationalAreaType));
 				}
+
 			}
 		};
 
@@ -373,7 +380,7 @@ public class ToolboxTableView extends BasePart {
 	 */
 	protected Table transformToTableModel() {
 		return tableService.createDiffTable(tableInfo, tableType,
-				controlAreaIds, true);
+				operationalAreaIds, true);
 	}
 
 	private void updateTableView(final List<Pt1TableCategory> tableCategories) {
@@ -400,8 +407,9 @@ public class ToolboxTableView extends BasePart {
 		tableInfo = tableService.getTableInfo(this);
 		// initialize table type
 		tableType = getModelSession().getTableType();
-		controlAreaIds = getModelSession()
-				.getSelectedOperationalAreas(getOperationalAreaClass());
+		operationalAreaIds = getModelSession().getSelectedOperationalAreasId(
+				tableInfo.getOperationalAreaType());
+		operationalAreaType = tableInfo.getOperationalAreaType();
 		tableService.updateTable(this, Collections.emptyList(),
 				new TableRendererUtil(this::transformToTableModel,
 						transformedTable -> {
@@ -782,7 +790,7 @@ public class ToolboxTableView extends BasePart {
 		// currently the Excel export only INITIAL or FINAL state, therefore
 		// need to new compile to take INITAL/FINAL state table
 		final Map<TableType, Table> tables = compileService.compile(tableInfo,
-				getModelSession(), controlAreaIds);
+				getModelSession(), operationalAreaIds);
 		final Optional<String> optionalOutputDir = getDialogService()
 				.selectDirectory(getToolboxShell(),
 						userConfigService.getLastExportPath().toString());
@@ -968,16 +976,5 @@ public class ToolboxTableView extends BasePart {
 			getDialogService().openInformation(getToolboxShell(),
 					getViewTitle(), messages.TableTransform_Sort_Error);
 		}
-	}
-
-	private Class<? extends Ur_Objekt> getOperationalAreaClass() {
-		final Pt1TableCategory tableCategory = getCategoryFromPartId(
-				getToolboxPart().getElementId());
-		return switch (tableCategory) {
-			case ESTW, ESTW_SUPPLEMENT -> Stell_Bereich.class;
-			case ETCS -> RBC.class;
-			default -> null;
-		};
-
 	}
 }

@@ -15,11 +15,12 @@ import java.util.Set;
 import java.util.function.Function;
 
 import org.eclipse.set.application.toolcontrol.ServiceProvider;
+import org.eclipse.set.basis.table.OperationalAreaEnum;
+import org.eclipse.set.basis.table.OperationalAreaEnum.OperationalAreaObject;
 import org.eclipse.set.model.planpro.Balisentechnik_ETCS.RBC;
 import org.eclipse.set.ppmodel.extensions.EObjectExtensions;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.eclipse.set.utils.events.SelectedOperationalAreaChangedEvent;
-import org.eclipse.set.utils.events.SelectedOperationalAreaChangedEvent.OperationalAreaComboValue;
 import org.eclipse.set.utils.events.ToolboxEvents;
 import org.eclipse.swt.widgets.Composite;
 import org.slf4j.Logger;
@@ -58,13 +59,13 @@ public class RBCSelectionControl
 		super.handleStringValue(msg);
 		if (msg.equals(messages.RBC_Control_All_RBC)) {
 			final Object input = comboViewer.getInput();
-			if (input instanceof final List<?> listInput && listInput
-					.getFirst() instanceof OperationalAreaComboValue<?>) {
+			if (input instanceof final List<?> listInput
+					&& listInput.getFirst() instanceof OperationalAreaObject) {
 				ToolboxEvents.send(broker,
 						new SelectedOperationalAreaChangedEvent(
-								getOperationalAreaClass(),
+								getOperationalAreaType(),
 								Set.copyOf(
-										(List<OperationalAreaComboValue<RBC>>) listInput),
+										(List<OperationalAreaObject>) listInput),
 								tableType, false));
 			}
 		}
@@ -84,8 +85,8 @@ public class RBCSelectionControl
 	}
 
 	@Override
-	protected Class<RBC> getOperationalAreaClass() {
-		return RBC.class;
+	protected OperationalAreaEnum getOperationalAreaType() {
+		return OperationalAreaEnum.RBC;
 	}
 
 }
