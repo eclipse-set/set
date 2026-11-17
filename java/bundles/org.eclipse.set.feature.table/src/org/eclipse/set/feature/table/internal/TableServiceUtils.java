@@ -296,10 +296,6 @@ public class TableServiceUtils {
 			filterRowGroupBelongToControlAreaByDiffState(table, modelsession,
 					transformationService, operationalAreaType,
 					controlAreaIds.get());
-			table.getTablecontent()
-					.getRowgroups()
-					.removeIf(group -> !UrObjectExtensions
-							.isPlanningObject(group.getLeadingObject()));
 			return table;
 		}
 		table.getTablecontent().getRowgroups().removeIf(group -> {
