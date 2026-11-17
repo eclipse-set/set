@@ -12,7 +12,6 @@ package org.eclipse.set.feature.table.pt1.test.utils;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
@@ -21,7 +20,6 @@ import java.util.function.Predicate;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.set.basis.IModelSession;
-import org.eclipse.set.basis.Pair;
 import org.eclipse.set.basis.ToolboxPaths;
 import org.eclipse.set.basis.constants.ContainerType;
 import org.eclipse.set.basis.constants.PlanProFileNature;
@@ -31,6 +29,8 @@ import org.eclipse.set.basis.constants.ValidationResult.FileValidateState;
 import org.eclipse.set.basis.constants.ValidationResult.Outcome;
 import org.eclipse.set.basis.exceptions.UserAbortion;
 import org.eclipse.set.basis.files.ToolboxFile;
+import org.eclipse.set.basis.table.OperationalAreaEnum;
+import org.eclipse.set.basis.table.OperationalAreaEnum.OperationalAreaObject;
 import org.eclipse.set.model.planpro.Layoutinformationen.PlanPro_Layoutinfo;
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.set.model.temporaryintegration.TemporaryIntegration;
@@ -44,19 +44,19 @@ public class MockModelSession implements IModelSession {
 	PlanPro_Schnittstelle schnittstelle;
 	ToolboxFile toolboxfile;
 
-	public MockModelSession(PlanPro_Schnittstelle schnittstelle,
-			ToolboxFile toolboxfile) {
+	public MockModelSession(final PlanPro_Schnittstelle schnittstelle,
+			final ToolboxFile toolboxfile) {
 		this.schnittstelle = schnittstelle;
 		this.toolboxfile = toolboxfile;
 	}
 
 	@Override
-	public void addSymbolRotation(double rotation) {
+	public void addSymbolRotation(final double rotation) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public void cancelMergeMode(Predicate<Path> confirmDeletion)
+	public void cancelMergeMode(final Predicate<Path> confirmDeletion)
 			throws IOException, UserAbortion {
 		throw new UnsupportedOperationException();
 	}
@@ -77,17 +77,34 @@ public class MockModelSession implements IModelSession {
 	}
 
 	@Override
-	public void exitMergeMode(Shell shell) throws IOException, UserAbortion {
+	public void exitMergeMode(final Shell shell)
+			throws IOException, UserAbortion {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public MultiContainer_AttributeGroup getContainer(ContainerType container) {
+	public MultiContainer_AttributeGroup getContainer(
+			final ContainerType container) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public EditingDomain getEditingDomain() {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public FileValidateState getFileValidateState() {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public String getGuid() {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public PlanPro_Layoutinfo getLayoutInformation() {
 		throw new UnsupportedOperationException();
 	}
 
@@ -112,8 +129,22 @@ public class MockModelSession implements IModelSession {
 	}
 
 	@Override
-	public PlanPro_Layoutinfo getLayoutInformation() {
+	public SaveFixResult getSaveFixResult() {
 		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public Optional<Set<OperationalAreaObject>> getSelectedOperationalAreas(
+			final OperationalAreaEnum operationalAreaType) {
+		// TODO Auto-generated method stub
+		return Optional.empty();
+	}
+
+	@Override
+	public Optional<Set<String>> getSelectedOperationalAreasId(
+			final OperationalAreaEnum operationalAreaType) {
+		// TODO Auto-generated method stub
+		return Optional.empty();
 	}
 
 	@Override
@@ -127,17 +158,12 @@ public class MockModelSession implements IModelSession {
 	}
 
 	@Override
-	public List<Pair<String, String>> getSelectedControlAreas() {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public boolean isPlanningAreaIgnored() {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
 	public Path getTempDir() {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public Optional<TemporaryIntegration> getTemporaryIntegration() {
 		throw new UnsupportedOperationException();
 	}
 
@@ -153,18 +179,13 @@ public class MockModelSession implements IModelSession {
 
 	@Override
 	public ValidationResult getValidationResult(
-			Class<? extends EObject> sourceClass) {
+			final Class<? extends EObject> sourceClass) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public Outcome getValidationsOutcome(
-			Function<ValidationResult, Outcome> outcome) {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public FileValidateState getFileValidateState() {
+			final Function<ValidationResult, Outcome> outcome) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -194,7 +215,12 @@ public class MockModelSession implements IModelSession {
 	}
 
 	@Override
-	public boolean isReportSavedDialogSuppressed(int kind) {
+	public boolean isReportSavedDialogSuppressed(final int kind) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public boolean isSingleState() {
 		throw new UnsupportedOperationException();
 	}
 
@@ -209,48 +235,32 @@ public class MockModelSession implements IModelSession {
 	}
 
 	@Override
-	public boolean save(Shell shell) throws UserAbortion {
+	public boolean save(final Shell shell) throws UserAbortion {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public boolean save(Shell shell, boolean askUser) throws UserAbortion {
+	public boolean save(final Shell shell, final boolean askUser)
+			throws UserAbortion {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public boolean saveNew(Shell shell) throws UserAbortion {
+	public boolean saveNew(final Shell shell) throws UserAbortion {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public void setReportSavedDialogSuppressed(int kind, boolean value) {
+	public void setReportSavedDialogSuppressed(final int kind,
+			final boolean value) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public boolean isSingleState() {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public SaveFixResult getSaveFixResult() {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public EditingDomain getEditingDomain() {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public Optional<TemporaryIntegration> getTemporaryIntegration() {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public void switchToMergeMode(TemporaryIntegration newTemporaryIntegration,
-			String mergeDir, Shell shell, ToolboxFile temporaryToolboxFile)
+	public void switchToMergeMode(
+			final TemporaryIntegration newTemporaryIntegration,
+			final String mergeDir, final Shell shell,
+			final ToolboxFile temporaryToolboxFile)
 			throws IOException, UserAbortion {
 		throw new UnsupportedOperationException();
 	}
