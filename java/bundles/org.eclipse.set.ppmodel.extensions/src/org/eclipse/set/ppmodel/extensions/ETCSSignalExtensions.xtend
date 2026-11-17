@@ -21,7 +21,7 @@ import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Ne14
  * Extensions for ETCS-Signal object
  */
 class ETCSSignalExtensions extends UrObjectExtensions {
-	static def boolean isBelongToRBCAreas(RBC rbc, ETCS_Signal etcsSignal) {
+	static def boolean isBelongToRBCArea(RBC rbc, ETCS_Signal etcsSignal) {
 		if (etcsSignal.IDRBC.exists[value !== null && value === rbc]) {
 			return true
 		}
