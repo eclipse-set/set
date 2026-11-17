@@ -11,6 +11,7 @@ package org.eclipse.set.feature.table.compile;
 import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 import org.eclipse.set.basis.IModelSession;
@@ -36,7 +37,7 @@ public class TableCompileServiceImpl implements TableCompileService {
 	@Override
 	public Map<TableType, Table> compile(final TableInfo tableInfo,
 			final IModelSession modelSession,
-			final Set<String> controlAreaIds) {
+			final Optional<Set<String>> controlAreaIds) {
 		final Map<TableType, Table> result = new EnumMap<>(TableType.class);
 		// always recreate tables here (e.g. for exports) but don't update table
 		// status here as this transformation is only temporary

@@ -18,8 +18,10 @@ import static org.eclipse.set.ppmodel.extensions.StellBereichExtensions.getStell
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Optional;
@@ -38,6 +40,7 @@ import org.eclipse.set.basis.constants.ContainerType;
 import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.basis.files.ToolboxFileRole;
+import org.eclipse.set.basis.table.OperationalAreaEnum;
 import org.eclipse.set.core.services.cache.CacheService;
 import org.eclipse.set.core.services.session.SessionService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
@@ -119,7 +122,7 @@ public class TableServiceUtils {
 			final CacheService cachService, final TableInfo tableInfo,
 			final IModelSession modelSession,
 			final PlanPro2TableTransformationService transformationService,
-			final Set<String> controlAreaIds) {
+			final Optional<Set<String>> operationalAreaIds) {
 		final Cache cache = cachService.getCache(
 				modelSession.getPlanProSchnittstelle(),
 				ToolboxConstants.CacheId.TABLE_ERRORS);
@@ -138,11 +141,10 @@ public class TableServiceUtils {
 						|| tableType == error.getContainerType()
 								.getDefaultTableType())
 				.toList();
-		if (controlAreaIds.isEmpty()) {
-			return Optional.ofNullable(errorsByCurrentTableState.stream()
-					.filter(error -> UrObjectExtensions
-							.isPlanningObject(error.getLeadingObject()))
-					.toList());
+
+		// When operational area is optional empty, then no need to filter area
+		if (operationalAreaIds.isEmpty()) {
+			return Optional.ofNullable(errorsByCurrentTableState);
 		}
 		final Function<TableError, UrObjektEachContainer> getObj = error -> switch (error
 				.getContainerType()) {
@@ -155,8 +157,9 @@ public class TableServiceUtils {
 			default -> throw new IllegalArgumentException();
 		};
 		return Optional.ofNullable(filterElementBelongToControlArea(
-				errorsByCurrentTableState, getObj, controlAreaIds, modelSession,
-				transformationService, null));
+				errorsByCurrentTableState, getObj,
+				tableInfo.getOperationalAreaType(), operationalAreaIds.get(),
+				modelSession, transformationService, null));
 	}
 
 	/**
@@ -164,36 +167,13 @@ public class TableServiceUtils {
 	 * 
 	 * @param tableService
 	 *            the table service to fetch available tables
-	 * @param modelSession
-	 *            the current model session
-	 * @param controlAreaIds
-	 *            the set of control area id's
-	 * @return list of tables that are not yet generated
-	 */
-	public static Collection<TableInfo> getMissingTables(
-			final TableService tableService, final IModelSession modelSession,
-			final Set<String> controlAreaIds) {
-		return getMissingTables(tableService, modelSession, controlAreaIds,
-				null);
-	}
-
-	/**
-	 * Provides a list of all not yet generated tables.
-	 * 
-	 * @param tableService
-	 *            the table service to fetch available tables
-	 * @param modelSession
-	 *            the current model session
-	 * @param controlAreaIds
-	 *            the set of control area id's
 	 * @param tableCategory
 	 *            an optional table category to only calculate tables of this
 	 *            category. Provide null if this filter shall not be applied
 	 * @return list of tables that are not yet generated
 	 */
 	public static Collection<TableInfo> getMissingTables(
-			final TableService tableService, final IModelSession modelSession,
-			final Set<String> controlAreaIds,
+			final TableService tableService,
 			final Pt1TableCategory tableCategory) {
 
 		final Collection<TableInfo> allTableInfos = tableService
@@ -219,12 +199,17 @@ public class TableServiceUtils {
 	/**
 	 * Generates all not yet generated tables.
 	 * 
+	 * 
 	 * @param tableService
 	 *            the table service to fetch not yet generated tables tables
 	 * @param modelSession
 	 *            the current model session
-	 * @param controlAreaIds
-	 *            the set of control area id's
+	 * @param operationalAreaIds
+	 *            when the optional empty, that mean should be show all
+	 *            content,<br>
+	 *            when the optional is present and the set is empty, that mean
+	 *            should be show only the element in planing area, <br>
+	 *            else show the element in operational area
 	 * @param monitor
 	 *            the monitor to display progress
 	 * @param messages
@@ -232,10 +217,10 @@ public class TableServiceUtils {
 	 */
 	public static void calculateAllMissingTables(
 			final TableService tableService, final IModelSession modelSession,
-			final Set<String> controlAreaIds, final IProgressMonitor monitor,
-			final Messages messages) {
-		calculateAllMissingTables(tableService, modelSession, controlAreaIds,
-				null, monitor, messages);
+			final Optional<Set<String>> operationalAreaIds,
+			final IProgressMonitor monitor, final Messages messages) {
+		calculateAllMissingTables(tableService, modelSession, null, null,
+				monitor, messages);
 	}
 
 	/**
@@ -245,8 +230,12 @@ public class TableServiceUtils {
 	 *            the table service to fetch not yet generated tables tables
 	 * @param modelSession
 	 *            the current model session
-	 * @param controlAreaIds
-	 *            the set of control area id's
+	 * @param operationalAreaIds
+	 *            when the optional empty, that mean should be show all
+	 *            content,<br>
+	 *            when the optional is present and the set is empty, that mean
+	 *            should be show only the element in planing area, <br>
+	 *            else show the element in operational area
 	 * @param tableCategory
 	 *            an optional table category to only calculate tables of this
 	 *            category. Provide null if this filter shall not be applied
@@ -257,39 +246,56 @@ public class TableServiceUtils {
 	 */
 	public static void calculateAllMissingTables(
 			final TableService tableService, final IModelSession modelSession,
-			final Set<String> controlAreaIds,
+			final Optional<Set<String>> operationalAreaIds,
 			final Pt1TableCategory tableCategory,
 			final IProgressMonitor monitor, final Messages messages) {
 		final Collection<TableInfo> missingTables = getMissingTables(
-				tableService, modelSession, controlAreaIds, tableCategory);
+				tableService, tableCategory);
 		monitor.beginTask(messages.TableOverviewPart_CalculateMissingTask,
 				missingTables.size());
+
+		final Map<OperationalAreaEnum, Optional<Set<String>>> selectedOperationalAreas = new EnumMap<>(
+				OperationalAreaEnum.class);
+		if (tableCategory == null) {
+			final Set<OperationalAreaEnum> operationalAreaTypes = missingTables
+					.stream()
+					.map(TableInfo::getOperationalAreaType)
+					.collect(Collectors.toSet());
+			final Map<OperationalAreaEnum, Optional<Set<String>>> collect = operationalAreaTypes
+					.stream()
+					.collect(Collectors.toMap(t -> t,
+							modelSession::getSelectedOperationalAreasId));
+			selectedOperationalAreas.putAll(collect);
+		} else {
+			selectedOperationalAreas.put(tableCategory.getOperationalAreaType(),
+					operationalAreaIds);
+		}
 		if (!modelSession.isSingleState()) {
 			tableService.transformTables(monitor, new HashSet<>(missingTables),
-					TableType.DIFF, controlAreaIds);
+					TableType.DIFF, selectedOperationalAreas);
 		} else {
 			tableService.transformTables(monitor, new HashSet<>(missingTables),
-					TableType.SINGLE, controlAreaIds);
+					TableType.SINGLE, selectedOperationalAreas);
 		}
 	}
 
-	protected static Table filterRowGroupBelongToControlArea(final Table table,
-			final TableType tableType, final TableInfo tableInfo,
-			final IModelSession modelsession,
+	protected static Table filterRowGroupBelongToOperationalArea(
+			final Table table, final TableType tableType,
+			final TableInfo tableInfo, final IModelSession modelsession,
 			final PlanPro2TableTransformationService transformationService,
-			final Set<String> controlAreaIds) {
+			final Optional<Set<String>> controlAreaIds) {
 		// Worknotes table need only regard on table state
 		if (tableInfo.shortcut()
-				.equalsIgnoreCase(ToolboxConstants.WORKNOTES_TABLE_SHORTCUT)) {
+				.equalsIgnoreCase(ToolboxConstants.WORKNOTES_TABLE_SHORTCUT)
+				|| controlAreaIds.isEmpty()) {
 			return table;
 		}
+		final OperationalAreaEnum operationalAreaType = tableInfo
+				.getOperationalAreaType();
 		if (tableType == TableType.DIFF) {
 			filterRowGroupBelongToControlAreaByDiffState(table, modelsession,
-					transformationService, controlAreaIds);
-			table.getTablecontent()
-					.getRowgroups()
-					.removeIf(group -> !UrObjectExtensions
-							.isPlanningObject(group.getLeadingObject()));
+					transformationService, operationalAreaType,
+					controlAreaIds.get());
 			return table;
 		}
 		table.getTablecontent().getRowgroups().removeIf(group -> {
@@ -299,13 +305,15 @@ public class TableServiceUtils {
 					.getObject(tableType);
 			final MultiContainer_AttributeGroup container = modelsession
 					.getContainer(tableType.getContainerForTable());
-			final List<Stell_Bereich> areas = controlAreaIds.stream()
-					.map(areaId -> getStellBereich(container, areaId))
+
+			final List<Ur_Objekt> areas = controlAreaIds.get()
+					.stream()
+					.map(areaId -> getOperationalAreaObj(container,
+							operationalAreaType, areaId))
+					.filter(Objects::nonNull)
 					.toList();
 			return !transformationService
-					.isObjectBelongToRendereArea(leadingObj)
-					|| !transformationService
-							.isObjectBelongToRendereArea(leadingObj, areas);
+					.isObjectBelongToRendereArea(leadingObj, areas);
 
 		});
 		return table;
@@ -393,6 +401,7 @@ public class TableServiceUtils {
 	private static void filterRowGroupBelongToControlAreaByDiffState(
 			final Table result, final IModelSession modelsession,
 			final PlanPro2TableTransformationService transformationService,
+			final OperationalAreaEnum operationalAreaType,
 			final Set<String> controlAreaIds) {
 		if (controlAreaIds.isEmpty()) {
 			return;
@@ -401,7 +410,8 @@ public class TableServiceUtils {
 				result.getTablecontent().getRowgroups(),
 				rowGroup -> UrObjektEachContainer.createInstance(
 						rowGroup.getLeadingObject(), modelsession),
-				controlAreaIds, modelsession, transformationService,
+				operationalAreaType, controlAreaIds, modelsession,
+				transformationService,
 				(rowGroup, notBelongToAreaState) -> rowGroup.getRows()
 						.forEach(row -> handleTableRowNotBelongToArea()
 								.accept(row, notBelongToAreaState)));
@@ -413,11 +423,13 @@ public class TableServiceUtils {
 	private static <T> List<T> filterElementBelongToControlArea(
 			final List<T> listElement,
 			final Function<T, UrObjektEachContainer> getUrObj,
-			final Set<String> controlAreas, final IModelSession modelSession,
+			final OperationalAreaEnum operationalAreaType,
+			final Set<String> operationalAreas,
+			final IModelSession modelSession,
 			final PlanPro2TableTransformationService transformationService,
 			final BiConsumer<T, TableType> handleByInitialOrFinalElementNotBelongToArea) {
 		if (modelSession.getTableType() == TableType.SINGLE) {
-			final List<Stell_Bereich> areas = controlAreas.stream()
+			final List<Stell_Bereich> areas = operationalAreas.stream()
 					.map(area -> getStellBereich(
 							modelSession.getContainer(ContainerType.SINGLE),
 							area))
@@ -429,14 +441,16 @@ public class TableServiceUtils {
 			}).toList();
 		}
 
-		final List<Stell_Bereich> inititalControlAreas = controlAreas.stream()
-				.map(area -> getStellBereich(
-						modelSession.getContainer(ContainerType.INITIAL), area))
+		final List<Ur_Objekt> inititalControlAreas = operationalAreas.stream()
+				.map(area -> getOperationalAreaObj(
+						modelSession.getContainer(ContainerType.INITIAL),
+						operationalAreaType, area))
 				.filter(Objects::nonNull)
 				.toList();
-		final List<Stell_Bereich> finalControlAreas = controlAreas.stream()
-				.map(area -> getStellBereich(
-						modelSession.getContainer(ContainerType.FINAL), area))
+		final List<Ur_Objekt> finalControlAreas = operationalAreas.stream()
+				.map(area -> getOperationalAreaObj(
+						modelSession.getContainer(ContainerType.FINAL),
+						operationalAreaType, area))
 				.filter(Objects::nonNull)
 				.toList();
 
@@ -457,6 +471,18 @@ public class TableServiceUtils {
 			}
 			return isInitialObjBelongToAreas || isFinalObjBelongToAreas;
 		}).toList();
+	}
+
+	private static Ur_Objekt getOperationalAreaObj(
+			final MultiContainer_AttributeGroup container,
+			final OperationalAreaEnum operationalAreaType,
+			final String areaId) {
+		return Streams
+				.stream(container
+						.get(operationalAreaType.getOperationalAreaClass()))
+				.filter(obj -> obj.getIdentitaet().getWert().equals(areaId))
+				.findFirst()
+				.orElse(null);
 	}
 
 	private static BiConsumer<TableRow, TableType> handleTableRowNotBelongToArea() {

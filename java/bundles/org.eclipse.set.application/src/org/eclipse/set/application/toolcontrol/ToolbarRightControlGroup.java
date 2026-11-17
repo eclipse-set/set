@@ -12,7 +12,8 @@ package org.eclipse.set.application.toolcontrol;
 
 import org.eclipse.e4.core.contexts.ContextInjectionFactory;
 import org.eclipse.e4.core.contexts.IEclipseContext;
-import org.eclipse.set.application.controlarea.ControlAreaSelectionControl;
+import org.eclipse.set.application.operationalarea.ControlAreaSelectionControl;
+import org.eclipse.set.application.operationalarea.RBCSelectionControl;
 import org.eclipse.set.application.subwork.SubworkSelectionControl;
 import org.eclipse.set.application.tabletype.TableTypeSelectionControl;
 import org.eclipse.swt.SWT;
@@ -39,7 +40,7 @@ public class ToolbarRightControlGroup {
 		serviceProvider = ContextInjectionFactory.make(ServiceProvider.class,
 				context);
 		composite = new Composite(parent, SWT.NONE);
-		final GridLayout gridLayout = new GridLayout(4, false);
+		final GridLayout gridLayout = new GridLayout(5, false);
 		composite.setLayout(gridLayout);
 		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		initControl(shell);
@@ -54,6 +55,8 @@ public class ToolbarRightControlGroup {
 		final TableTypeSelectionControl tableTypeSelectionControl = new TableTypeSelectionControl(
 				composite, serviceProvider);
 		final ControlAreaSelectionControl controlAreaSelectionControlcontrolArea = new ControlAreaSelectionControl(
+				composite, serviceProvider);
+		final RBCSelectionControl rcbSelectionControl = new RBCSelectionControl(
 				composite, serviceProvider);
 	}
 }

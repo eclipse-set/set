@@ -9,13 +9,14 @@
 package org.eclipse.set.feature.table;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
 import org.eclipse.set.model.planpro.Balisentechnik_ETCS.RBC;
 import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
-import org.eclipse.set.model.planpro.PlanPro.LST_Objekte_Planungsbereich_AttributeGroup;
 import org.eclipse.set.model.tablemodel.Table;
+import org.eclipse.set.ppmodel.extensions.RBCExtensions;
 import org.eclipse.set.ppmodel.extensions.StellBereichExtensions;
 import org.eclipse.set.ppmodel.extensions.UrObjectExtensions;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
@@ -54,31 +55,37 @@ public abstract class PlanPro2TableTransformationService extends
 	 * Check if the object belong to the current selected
 	 * {@link Stell_Bereich}/{@link RBC} area
 	 * 
+	 * @param <T>
+	 *            the type operational area
+	 * 
 	 * @param obj
 	 *            the table object
 	 * @param areas
 	 *            the selected control area
 	 * @return true, if the object is relevant
 	 */
-	public boolean isObjectBelongToRendereArea(final Ur_Objekt obj,
-			final List<Stell_Bereich> areas) {
-		return switch (getTableCategory()) {
-			case ESTW, ESTW_SUPPLEMENT -> {
-				yield StellBereichExtensions.isInControlArea(areas, obj);
-			}
-			default -> true;
-		};
-	}
+	@SuppressWarnings("unchecked")
+	public <T extends Ur_Objekt> boolean isObjectBelongToRendereArea(
+			final Ur_Objekt obj, final List<T> areas) {
+		// If areas object here empty, that mean should show only the object in
+		// PlaningArea
+		if (areas.isEmpty()) {
+			return UrObjectExtensions.isPlanningObject(obj);
+		}
+		try {
+			return switch (getTableCategory()) {
+				case ESTW, ESTW_SUPPLEMENT -> StellBereichExtensions
+						.isInInterlockingArea((List<Stell_Bereich>) areas, obj);
+				case ETCS -> RBCExtensions.isBelongToRBCAreas((List<RBC>) areas,
+						obj);
+				default -> throw new IllegalArgumentException();
+			};
+		} catch (final Exception e) {
+			throw new IllegalArgumentException(
+					"Unsupport type of operational area: " //$NON-NLS-1$
+							+ areas.get(0).getClass().getName());
+		}
 
-	/**
-	 * @param obj
-	 *            the table object
-	 * @return true if the object belong to
-	 *         {@link LST_Objekte_Planungsbereich_AttributeGroup#getIDLSTObjektPlanungsbereich()}
-	 */
-	@SuppressWarnings("static-method")
-	public boolean isObjectBelongToRendereArea(final Ur_Objekt obj) {
-		return UrObjectExtensions.isPlanningObject(obj);
 	}
 
 	/**
@@ -93,7 +100,8 @@ public abstract class PlanPro2TableTransformationService extends
 	 *            the selected control area
 	 */
 	public void addAdditionRow(final Table originalTable,
-			final Table filteredTable, final Set<String> controlAreaIds) {
+			final Table filteredTable,
+			final Optional<Set<String>> controlAreaIds) {
 		// do nothing by default
 	}
 }

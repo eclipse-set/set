@@ -9,6 +9,7 @@
 package org.eclipse.set.services.export;
 
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 import org.eclipse.set.basis.IModelSession;
@@ -24,6 +25,7 @@ import org.eclipse.set.utils.table.TableInfo;
 public interface TableCompileService {
 
 	/**
+	 * 
 	 * @param tableInfo
 	 *            the {@link TableInfo}
 	 * @param modelSession
@@ -34,5 +36,5 @@ public interface TableCompileService {
 	 * @return a mapping of possible tables
 	 */
 	Map<TableType, Table> compile(TableInfo tableInfo,
-			IModelSession modelSession, Set<String> controlAreaIds);
+			IModelSession modelSession, Optional<Set<String>> controlAreaIds);
 }

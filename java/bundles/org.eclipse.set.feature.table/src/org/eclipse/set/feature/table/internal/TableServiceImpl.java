@@ -28,7 +28,6 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.e4.core.services.events.IEventBroker;
@@ -49,6 +48,7 @@ import org.eclipse.set.basis.constants.ToolboxViewState;
 import org.eclipse.set.basis.extensions.MApplicationElementExtensions;
 import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.eclipse.set.basis.part.PartDescription;
+import org.eclipse.set.basis.table.OperationalAreaEnum;
 import org.eclipse.set.basis.threads.Threads;
 import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.cache.CacheService;
@@ -57,7 +57,6 @@ import org.eclipse.set.core.services.part.ToolboxPartService;
 import org.eclipse.set.core.services.session.SessionService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.messages.Messages;
-import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.CompareStateCellContent;
 import org.eclipse.set.model.tablemodel.CompareTableCellContent;
@@ -91,6 +90,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.Streams;
 
 import jakarta.inject.Inject;
 
@@ -277,7 +277,8 @@ public final class TableServiceImpl implements TableService {
 
 	@Override
 	public Map<TableInfo, Collection<TableError>> getTableErrors(
-			final IModelSession modelSession, final Set<String> controlAreaIds,
+			final IModelSession modelSession,
+			final Optional<Set<String>> controlAreaIds,
 			final Pt1TableCategory tableCategory) {
 		final HashMap<TableInfo, Collection<TableError>> result = new HashMap<>();
 		getAvailableTables().forEach(tableInfo -> {
@@ -349,9 +350,11 @@ public final class TableServiceImpl implements TableService {
 
 	private static boolean isContainerContainArea(
 			final MultiContainer_AttributeGroup container,
+			final OperationalAreaEnum operationalAreaType,
 			final String areaId) {
-		return StreamSupport
-				.stream(container.getStellBereich().spliterator(), false)
+		return Streams
+				.stream(container
+						.get(operationalAreaType.getOperationalAreaClass()))
 				.anyMatch(sb -> sb.getIdentitaet().getWert().equals(areaId));
 	}
 
@@ -376,11 +379,11 @@ public final class TableServiceImpl implements TableService {
 	@Override
 	public String transformToCsv(final TableInfo tableInfo,
 			final TableType tableType, final IModelSession modelSession,
-			final Set<String> controlAreas) {
+			final Optional<Set<String>> operationalAreas) {
 		final Table[] latest = { null };
 
 		transformToTable(t -> latest[0] = t, tableInfo, tableType, modelSession,
-				controlAreas, new TableStatus());
+				operationalAreas, new TableStatus());
 		return transformToCsv(latest[0]);
 	}
 
@@ -432,14 +435,15 @@ public final class TableServiceImpl implements TableService {
 	 *            the {@link TableType}
 	 * @param modelSession
 	 *            the {@link IModelSession}
-	 * @param controlAreaIds
-	 *            the GUID of the selected {@link Stell_Bereich}
+	 * @param operationalAreaIds
+	 *            the GUID of the selected operational area
 	 * @param tableStatus
 	 *            the {@link TableStatus}
 	 */
 	private void transformToTable(final Consumer<Table> saveLastSuccessfulTable,
 			final TableInfo tableInfo, final TableType tableType,
-			final IModelSession modelSession, final Set<String> controlAreaIds,
+			final IModelSession modelSession,
+			final Optional<Set<String>> operationalAreaIds,
 			final TableStatus tableStatus) {
 		final Cache cache = getCacheService().getCache(
 				modelSession.getPlanProSchnittstelle(),
@@ -458,12 +462,17 @@ public final class TableServiceImpl implements TableService {
 			return;
 		}
 
-		if (tableType != TableType.DIFF && !controlAreaIds.isEmpty()
-				&& controlAreaIds.stream()
+		// Return empty table, when the selected table state not contains the
+		// selected operational
+		// area
+		if (tableType != TableType.DIFF && !operationalAreaIds.isEmpty()
+				&& !operationalAreaIds.get().isEmpty()
+				&& operationalAreaIds.get()
+						.stream()
 						.noneMatch(area -> isContainerContainArea(
 								modelSession.getContainer(
 										tableType.getContainerForTable()),
-								area))) {
+								tableInfo.getOperationalAreaType(), area))) {
 			saveLastSuccessfulTable.accept(createEmptyTable(tableInfo));
 		}
 
@@ -475,14 +484,15 @@ public final class TableServiceImpl implements TableService {
 		saveLastSuccessfulTable.accept(stateTable);
 		// Filter the table row, which belong to current control area
 		final Table resultTable = TableServiceUtils
-				.filterRowGroupBelongToControlArea(EcoreUtil.copy(stateTable),
-						tableType, tableInfo, modelSession,
-						getModelService(tableInfo), controlAreaIds);
+				.filterRowGroupBelongToOperationalArea(
+						EcoreUtil.copy(stateTable), tableType, tableInfo,
+						modelSession, getModelService(tableInfo),
+						operationalAreaIds);
 		TableServiceUtils.clearEmptyRow(resultTable);
 		saveLastSuccessfulTable.accept(resultTable);
 
 		getModelService(tableInfo).addAdditionRow(stateTable, resultTable,
-				controlAreaIds);
+				operationalAreaIds);
 		saveLastSuccessfulTable.accept(resultTable);
 	}
 
@@ -601,8 +611,8 @@ public final class TableServiceImpl implements TableService {
 				.filter(part -> tablePrefixes.stream()
 						.anyMatch(prefix -> part.getElementId()
 								.startsWith(prefix))
-						// IMPROVE: currently table overview isn't regard on
-						// control area
+						// Table overview will be update through changed table
+						// errors
 						&& !part.getElementId()
 								.endsWith(ToolboxConstants.TABLE_OVERVIEW_ID))
 				.map(MPart.class::cast)
@@ -683,7 +693,7 @@ public final class TableServiceImpl implements TableService {
 	@Override
 	public Map<TableInfo, Table> transformTables(final IProgressMonitor monitor,
 			final Set<TableInfo> tablesToTransfrom, final TableType tableType,
-			final Set<String> controlAreaIds) {
+			final Map<OperationalAreaEnum, Optional<Set<String>>> operationalAreaIds) {
 		final Map<TableInfo, Table> result = new HashMap<>();
 		monitor.beginTask(messages.TableOverviewPart_CalculateMissingTask,
 				tablesToTransfrom.size());
@@ -694,7 +704,10 @@ public final class TableServiceImpl implements TableService {
 				monitor.subTask(nameInfo.getFullDisplayName());
 
 				final Table table = createDiffTable(tableInfo, tableType,
-						controlAreaIds, true);
+						operationalAreaIds.getOrDefault(
+								tableInfo.getOperationalAreaType(),
+								Optional.empty()),
+						true);
 				while (!TableService.isTransformComplete(tableInfo, null)) {
 					Thread.sleep(2000);
 				}
@@ -710,7 +723,8 @@ public final class TableServiceImpl implements TableService {
 
 	@Override
 	public Table createDiffTable(final TableInfo tableInfo,
-			final TableType tableType, final Set<String> controlAreaIds,
+			final TableType tableType,
+			final Optional<Set<String>> operationalAreaIds,
 			final boolean updateTableStatus) {
 		final Table[] mainSessionTable = { null };
 		final TableStatus tableStatus = updateTableStatus
@@ -726,14 +740,14 @@ public final class TableServiceImpl implements TableService {
 			tableStatus.setContainsErrors(!TableServiceUtils
 					.getCachedTableError(getCacheService(), tableInfo,
 							mainSession, getModelService(tableInfo),
-							controlAreaIds)
+							operationalAreaIds)
 					.orElse(Collections.emptyList())
 					.isEmpty());
 		};
 		try {
 
 			transformToTable(t -> mainSessionTable[0] = t, tableInfo, tableType,
-					mainSession, controlAreaIds, tableStatus);
+					mainSession, operationalAreaIds, tableStatus);
 			storageFootnotes(ToolboxFileRole.SESSION, tableInfo,
 					mainSessionTable[0]);
 			// Update table status after transformed
@@ -772,7 +786,7 @@ public final class TableServiceImpl implements TableService {
 					.getLoadedSession(ToolboxFileRole.COMPARE_PLANNING);
 			final Table[] compareSessionTable = { null };
 			transformToTable(t -> compareSessionTable[0] = t, tableInfo,
-					tableType, compareSession, controlAreaIds, tableStatus);
+					tableType, compareSession, operationalAreaIds, tableStatus);
 			storageFootnotes(ToolboxFileRole.COMPARE_PLANNING, tableInfo,
 					compareSessionTable[0]);
 			final Table compareTable = diffServiceMap

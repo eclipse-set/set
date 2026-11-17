@@ -10,10 +10,13 @@
  */
 package org.eclipse.set.utils.table;
 
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.set.basis.constants.ToolboxConstants;
+import org.eclipse.set.basis.table.OperationalAreaEnum;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
 import org.eclipse.set.utils.viewgroups.SetViewGroups;
 
@@ -89,6 +92,17 @@ public record TableInfo(Pt1TableCategory category, String shortcut,
 		}
 
 		/**
+		 * @return the operational area class of the table category
+		 */
+		public OperationalAreaEnum getOperationalAreaType() {
+			return switch (this) {
+				case ESTW, ESTW_SUPPLEMENT -> OperationalAreaEnum.Interlocking;
+				case ETCS -> OperationalAreaEnum.RBC;
+				default -> null;
+			};
+		}
+
+		/**
 		 * Get Pt1Category enumerator from category id
 		 * 
 		 * @param categoryId
@@ -148,6 +162,22 @@ public record TableInfo(Pt1TableCategory category, String shortcut,
 			}
 			throw new IllegalArgumentException();
 		}
+
+		/**
+		 * 
+		 * @param operationalArea
+		 *            the {@link OperationalAreaEnum}
+		 * @return the table categories, which belong to operational area
+		 */
+		public static List<Pt1TableCategory> getTableCategoriesByOperationalArea(
+				final OperationalAreaEnum operationalArea) {
+			return switch (operationalArea) {
+				case Interlocking -> List.of(Pt1TableCategory.ESTW,
+						Pt1TableCategory.ESTW_SUPPLEMENT);
+				case RBC -> List.of(Pt1TableCategory.ETCS);
+				default -> Collections.emptyList();
+			};
+		}
 	}
 
 	/**
@@ -157,6 +187,13 @@ public record TableInfo(Pt1TableCategory category, String shortcut,
 		return String.format("%s.%s", //$NON-NLS-1$
 				Pt1TableCategory.getTablePartPrefix(category),
 				shortcut().toLowerCase());
+	}
+
+	/**
+	 * @return the operational area class of this table
+	 */
+	public OperationalAreaEnum getOperationalAreaType() {
+		return category.getOperationalAreaType();
 	}
 
 	/**

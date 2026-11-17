@@ -111,7 +111,7 @@ public class ExportTopologicalCoordinatePart extends BasePart {
 								IProgressMonitor.UNKNOWN);
 						final Path exportPath = getModelSession()
 								.getToolboxPaths()
-								.getTableExportPath("topologische_koordinaten",
+								.getExportPath("topologische_koordinaten",
 										Path.of(outputDir), null,
 										ExportPathExtension.TABLE_CSV_EXPORT_EXTENSION);
 						exportCoordinateToCSV(exportPath);

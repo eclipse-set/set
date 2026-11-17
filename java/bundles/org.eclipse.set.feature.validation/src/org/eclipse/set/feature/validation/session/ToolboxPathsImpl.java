@@ -12,12 +12,15 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
-import org.eclipse.set.basis.Pair;
 import org.eclipse.set.basis.ToolboxPaths;
 import org.eclipse.set.basis.constants.ExportType;
 import org.eclipse.set.basis.extensions.PathExtensions;
+import org.eclipse.set.basis.table.OperationalAreaEnum;
+import org.eclipse.set.basis.table.OperationalAreaEnum.OperationalAreaObject;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
 
 import com.google.common.base.Strings;
@@ -40,13 +43,14 @@ public class ToolboxPathsImpl implements ToolboxPaths {
 	}
 
 	@Override
-	public Path getTableExportPath(final String shortcut, final Path base,
+	public Path getTableExportPath(final String shortcut,
+			final OperationalAreaEnum operationalAreaType, final Path base,
 			final ExportType exportType, final ExportPathExtension extension) {
 		final List<String> pathPart = new LinkedList<>();
 		pathPart.add(getModelBaseName(exportType));
 		pathPart.add(StringUtils.capitalize(shortcut));
 
-		final String areaName = getControlAreaName();
+		final String areaName = getControlAreaName(operationalAreaType);
 		if (!Strings.isNullOrEmpty(areaName)) {
 			pathPart.add(areaName);
 		}
@@ -62,12 +66,23 @@ public class ToolboxPathsImpl implements ToolboxPaths {
 		return PathExtensions.getBaseFileName(derivedPath);
 	}
 
-	private String getControlAreaName() {
-		final List<Pair<String, String>> controlAreaIds = modelSession
-				.getSelectedControlAreas();
-		if (controlAreaIds.size() != 1) {
+	private String getControlAreaName(
+			final OperationalAreaEnum operationalAreaType) {
+		final Optional<Set<OperationalAreaObject>> controlAreaIds = modelSession
+				.getSelectedOperationalAreas(operationalAreaType);
+		if (controlAreaIds.isEmpty() || controlAreaIds.get().size() != 1) {
 			return null;
 		}
-		return controlAreaIds.getFirst().getFirst();
+		return List.copyOf(controlAreaIds.get()).getFirst().areaName();
+	}
+
+	@Override
+	public Path getExportPath(final String exportFileName, final Path base,
+			final ExportType exportType, final ExportPathExtension extension) {
+		final List<String> pathPart = new LinkedList<>();
+		pathPart.add(getModelBaseName(exportType));
+		pathPart.add(StringUtils.capitalize(exportFileName));
+		return Paths.get(base.toString(),
+				String.join("_", pathPart) + extension.value); //$NON-NLS-1$
 	}
 }

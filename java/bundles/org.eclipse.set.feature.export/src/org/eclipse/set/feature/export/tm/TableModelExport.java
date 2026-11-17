@@ -27,6 +27,7 @@ import org.eclipse.set.model.tablemodel.extensions.TableExtensions;
 import org.eclipse.set.model.titlebox.Titlebox;
 import org.eclipse.set.services.export.TableExport;
 import org.eclipse.set.utils.ToolboxConfiguration;
+import org.eclipse.set.utils.table.TableInfo;
 import org.osgi.service.component.annotations.Component;
 
 /**
@@ -42,7 +43,7 @@ public class TableModelExport implements TableExport {
 	@Override
 	public void export(final Map<TableType, Table> tables,
 			final ExportType exportType, final Titlebox titlebox,
-			final FreeFieldInfo freeFieldInfo, final String shortcut,
+			final FreeFieldInfo freeFieldInfo, final TableInfo tableInfo,
 			final String outputDir, final ToolboxPaths toolboxPaths,
 			final TableType tableType,
 			final OverwriteHandling overwriteHandling)
@@ -51,7 +52,8 @@ public class TableModelExport implements TableExport {
 			return;
 		}
 
-		final Path filepath = toolboxPaths.getTableExportPath(shortcut,
+		final Path filepath = toolboxPaths.getTableExportPath(
+				tableInfo.shortcut(), tableInfo.getOperationalAreaType(),
 				Paths.get(outputDir), exportType,
 				ExportPathExtension.TABLE_MODEL_EXPORT_EXTENSION);
 		final Table finalTable = tables.get(TableType.FINAL);
@@ -100,7 +102,7 @@ public class TableModelExport implements TableExport {
 	@Override
 	public void export(final Map<TableType, Table> tables,
 			final ExportType exportType, final Titlebox titleBox,
-			final FreeFieldInfo freeFieldInfo, final String shortcut,
+			final FreeFieldInfo freeFieldInfo, final TableInfo tableInfo,
 			final TableType tableType, final Path outPath,
 			final OverwriteHandling overwriteHandling)
 			throws FileExportException {

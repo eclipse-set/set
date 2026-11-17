@@ -179,7 +179,7 @@ public class Messages {
 	/**
 	 * Gesamter Planungsinhalt
 	 */
-	public String ControlAreaCombo_All_Objects_Value;
+	public String OperationalAreaCombo_All_Objects_Value;
 
 	/**
 	 * Stellbereich %d
@@ -189,7 +189,7 @@ public class Messages {
 	/**
 	 * Planungsbereich
 	 */
-	public String ControlAreaCombo_PlanningArea_Value;
+	public String OperationalAreaCombo_PlanningArea_Value;
 
 	/**
 	 * Unvöllständige PlanPro-Datei
@@ -212,4 +212,19 @@ public class Messages {
 	 * zu unvorhergesehenen Fehlern und Abstürzen kommen.
 	 */
 	public String InvalidFileDialog_Message;
+
+	/**
+	 * Alle RBC
+	 */
+	public String RBC_Control_All_RBC;
+
+	/**
+	 * RBC %d
+	 */
+	public String RBCCombo_Default_RBC_Name;
+
+	/**
+	 * Kein ETCS-Daten vorhanden
+	 */
+	public String RBCControl_No_ETCS_Data;
 }

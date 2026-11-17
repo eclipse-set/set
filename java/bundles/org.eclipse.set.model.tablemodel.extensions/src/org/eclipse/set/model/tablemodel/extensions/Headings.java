@@ -10,7 +10,7 @@ package org.eclipse.set.model.tablemodel.extensions;
 
 import java.util.Collection;
 
-import org.eclipse.set.basis.tables.Tables;
+import org.eclipse.set.basis.table.Tables;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.utils.ToolboxConfiguration;
 

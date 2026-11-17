@@ -61,7 +61,6 @@ import org.eclipse.nebula.widgets.nattable.selection.SelectionLayer;
 import org.eclipse.nebula.widgets.nattable.viewport.command.ShowRowInViewportCommand;
 import org.eclipse.set.basis.FreeFieldInfo;
 import org.eclipse.set.basis.OverwriteHandling;
-import org.eclipse.set.basis.Pair;
 import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.basis.constants.ExportType;
 import org.eclipse.set.basis.constants.TableType;
@@ -69,6 +68,8 @@ import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.basis.constants.ToolboxViewState;
 import org.eclipse.set.basis.extensions.MApplicationElementExtensions;
 import org.eclipse.set.basis.guid.Guid;
+import org.eclipse.set.basis.table.OperationalAreaEnum;
+import org.eclipse.set.basis.table.OperationalAreaEnum.OperationalAreaObject;
 import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.configurationservice.UserConfigurationService;
 import org.eclipse.set.feature.table.abstracttableview.ColumnGroup4HeaderLayer;
@@ -108,7 +109,7 @@ import org.eclipse.set.utils.events.DefaultToolboxEventHandler;
 import org.eclipse.set.utils.events.JumpToSiteplanEvent;
 import org.eclipse.set.utils.events.JumpToSourceLineEvent;
 import org.eclipse.set.utils.events.JumpToTableEvent;
-import org.eclipse.set.utils.events.SelectedControlAreaChangedEvent;
+import org.eclipse.set.utils.events.SelectedOperationalAreaChangedEvent;
 import org.eclipse.set.utils.events.TableDataChangeEvent;
 import org.eclipse.set.utils.events.ToolboxEventHandler;
 import org.eclipse.set.utils.events.ToolboxEvents;
@@ -160,7 +161,7 @@ public class ToolboxTableView extends BasePart {
 
 	private ToolboxEventHandler<JumpToTableEvent> tableSelectRowHandler;
 	private ToolboxEventHandler<TableDataChangeEvent> tableDataChangeHandler;
-	private ToolboxEventHandler<SelectedControlAreaChangedEvent> selectionControlAreaHandler;
+	private ToolboxEventHandler<SelectedOperationalAreaChangedEvent> selectionControlAreaHandler;
 	private int scrollToPositionRequested = -1;
 	private ToolboxTableFootnoteView tableFooting;
 	@Inject
@@ -183,7 +184,7 @@ public class ToolboxTableView extends BasePart {
 
 	protected TableType tableType;
 
-	protected Set<String> controlAreaIds;
+	protected Optional<Set<String>> operationalAreaIds;
 
 	/**
 	 * this injection is only needed to invoke the call of the respective
@@ -197,6 +198,8 @@ public class ToolboxTableView extends BasePart {
 
 	private EventHandler secondaryPlanningLoadedHandler;
 	protected TableInfo tableInfo;
+
+	private OperationalAreaEnum operationalAreaType;
 
 	/**
 	 * constructor
@@ -286,32 +289,44 @@ public class ToolboxTableView extends BasePart {
 
 		selectionControlAreaHandler = new DefaultToolboxEventHandler<>() {
 			@Override
-			public void accept(final SelectedControlAreaChangedEvent t) {
-				// Only ESTW tables regard to control area,
-				// when given't selected area, that mean PlaningArea or AlL File
-				// Content was selected, then update all table.
-				if (SelectedControlAreaChangedEvent
-						.istRelevantTable(getToolboxPart().getElementId())
-						|| t.getControlAreas().isEmpty()) {
-					controlAreaIds.clear();
-					t.getControlAreas()
-							.forEach(area -> controlAreaIds.add(area.areaId()));
-					tableType = t.getTableType();
-					final TableStatus tableStatus = tableService
-							.getTablesStatus(tableInfo.category())
-							.getOrDefault(tableInfo, null);
-					if (tableStatus != null) {
-						tableStatus.reset();
+			public void accept(final SelectedOperationalAreaChangedEvent t) {
+				// Check if current table belong to the operational event
+				if (t.getOperationalAreaType() == operationalAreaType) {
+					final Set<OperationalAreaObject> operationalAreas = t
+							.getOperationalAreas();
+					// When the combo value: all content was selected then
+					// operational areas is empty and planing area ignored is
+					// true
+					if (operationalAreas.isEmpty()
+							&& t.isPlanningAreaIgnored()) {
+						operationalAreaIds = Optional.empty();
+						// When the combo value: planing area was selected
+					} else if (operationalAreas.isEmpty()) {
+						operationalAreaIds = Optional
+								.of(Collections.emptySet());
+					} else {
+						operationalAreaIds = Optional
+								.of(operationalAreas.stream()
+										.map(OperationalAreaObject::areaId)
+										.collect(Collectors.toSet()));
+						final TableStatus tableStatus = tableService
+								.getTablesStatus(tableInfo.category())
+								.getOrDefault(tableInfo, null);
+						if (tableStatus != null) {
+							tableStatus.reset();
+						}
 					}
-					updateTableView(t.getControlAreas().isEmpty()
-							? Collections.emptyList()
-							: List.of(Pt1TableCategory.ESTW));
+					tableType = t.getTableType();
+					updateTableView(Pt1TableCategory
+							.getTableCategoriesByOperationalArea(
+									operationalAreaType));
 				}
+
 			}
 		};
 
 		ToolboxEvents.subscribe(getBroker(),
-				SelectedControlAreaChangedEvent.class,
+				SelectedOperationalAreaChangedEvent.class,
 				selectionControlAreaHandler);
 
 		secondaryPlanningLoadedHandler = this::comparePlaningLoadedHandler;
@@ -365,7 +380,7 @@ public class ToolboxTableView extends BasePart {
 	 */
 	protected Table transformToTableModel() {
 		return tableService.createDiffTable(tableInfo, tableType,
-				controlAreaIds, true);
+				operationalAreaIds, true);
 	}
 
 	private void updateTableView(final List<Pt1TableCategory> tableCategories) {
@@ -392,10 +407,11 @@ public class ToolboxTableView extends BasePart {
 		tableInfo = tableService.getTableInfo(this);
 		// initialize table type
 		tableType = getModelSession().getTableType();
-		controlAreaIds = getModelSession().getSelectedControlAreas()
-				.stream()
-				.map(Pair::getSecond)
-				.collect(Collectors.toSet());
+		operationalAreaType = tableInfo.getOperationalAreaType();
+		operationalAreaIds = operationalAreaType == null ? Optional.empty()
+				: getModelSession()
+						.getSelectedOperationalAreasId(operationalAreaType);
+
 		tableService.updateTable(this, Collections.emptyList(),
 				new TableRendererUtil(this::transformToTableModel,
 						transformedTable -> {
@@ -776,7 +792,7 @@ public class ToolboxTableView extends BasePart {
 		// currently the Excel export only INITIAL or FINAL state, therefore
 		// need to new compile to take INITAL/FINAL state table
 		final Map<TableType, Table> tables = compileService.compile(tableInfo,
-				getModelSession(), controlAreaIds);
+				getModelSession(), operationalAreaIds);
 		final Optional<String> optionalOutputDir = getDialogService()
 				.selectDirectory(getToolboxShell(),
 						userConfigService.getLastExportPath().toString());
@@ -787,8 +803,8 @@ public class ToolboxTableView extends BasePart {
 								IProgressMonitor.UNKNOWN);
 						exportService.exportTable(tables,
 								ExportType.PLANNING_RECORDS, getTitlebox(),
-								getFreeFieldInfo(), extractShortcut(),
-								outputDir, getModelSession().getToolboxPaths(),
+								getFreeFieldInfo(), tableInfo, outputDir,
+								getModelSession().getToolboxPaths(),
 								getModelSession().getTableType(),
 								OverwriteHandling
 										.forUserConfirmation(path -> Boolean
@@ -963,5 +979,4 @@ public class ToolboxTableView extends BasePart {
 					getViewTitle(), messages.TableTransform_Sort_Error);
 		}
 	}
-
 }
