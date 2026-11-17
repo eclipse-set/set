@@ -68,4 +68,18 @@ public interface ToolboxPaths {
 	Path getTableExportPath(String shortcut,
 			OperationalAreaEnum operationalAreaType, Path base,
 			ExportType exportType, ExportPathExtension pattern);
+
+	/**
+	 * @param exportFileName
+	 *            name of exported file
+	 * @param base
+	 *            the export directory
+	 * @param exportType
+	 *            the export type
+	 * @param extension
+	 *            the export file extension
+	 * @return the export path
+	 */
+	Path getExportPath(String exportFileName, Path base, ExportType exportType,
+			ExportPathExtension extension);
 }

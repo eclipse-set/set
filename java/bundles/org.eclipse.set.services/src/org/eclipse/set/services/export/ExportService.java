@@ -183,8 +183,8 @@ public interface ExportService {
 	 *            the titlebox
 	 * @param freeFieldInfo
 	 *            the free field info
-	 * @param shortcut
-	 *            the table shortcut (view id)
+	 * @param tableInfo
+	 *            the {@link TableInfo}
 	 * @param outputDir
 	 *            the output directory for the export
 	 * @param toolboxPaths
@@ -197,7 +197,7 @@ public interface ExportService {
 	 *            the error handler
 	 */
 	void exportTable(Map<TableType, Table> tables, ExportType exportType,
-			Titlebox titlebox, FreeFieldInfo freeFieldInfo, String shortcut,
+			Titlebox titlebox, FreeFieldInfo freeFieldInfo, TableInfo tableInfo,
 			String outputDir, ToolboxPaths toolboxPaths, TableType tableTye,
 			OverwriteHandling overwriteHandling,
 			Consumer<Exception> errorHandler);

@@ -46,7 +46,11 @@ import org.eclipse.set.utils.events.NewTableTypeEvent;
 import org.eclipse.set.utils.events.SelectedOperationalAreaChangedEvent;
 import org.eclipse.set.utils.events.ToolboxEventHandler;
 import org.eclipse.set.utils.events.ToolboxEvents;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
 import org.osgi.service.event.Event;
 
 /**
@@ -101,18 +105,23 @@ public abstract class AbstractOperationalAreaSelectionControl<T extends Ur_Objek
 	}
 
 	protected void createCombo(final Composite parent) {
-		comboViewer = new ComboViewer(parent);
+		final Composite container = new Composite(parent, SWT.NONE);
+		container.setLayout(new GridLayout(2, false));
+		container.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		final Label label = new Label(container, SWT.NONE);
+		label.setText(getOperationalAreaType().toString() + ":"); //$NON-NLS-1$
+		comboViewer = new ComboViewer(container);
 		comboViewer.setContentProvider(ArrayContentProvider.getInstance());
 		comboViewer.setLabelProvider(new OperationalAreaLabelProvider());
-		initCombo();
+		initNoSessionCombo();
 		comboViewer.addSelectionChangedListener(this::selectionListerner);
 		newTableTypeHandler = new DefaultToolboxEventHandler<>() {
 
 			@Override
 			public void accept(final NewTableTypeEvent t) {
-				setCombo(t.getTableType());
+				initCombo(t.getTableType());
 				// Send update event, when table type change
-				seletcionOperationalArea(comboViewer.getSelection(),
+				selectionOperationalArea(comboViewer.getSelection(),
 						t.getTableType());
 			}
 		};
@@ -128,14 +137,14 @@ public abstract class AbstractOperationalAreaSelectionControl<T extends Ur_Objek
 					final IModelSession session = context
 							.get(IModelSession.class);
 					if (session == null) {
-						initCombo();
+						initNoSessionCombo();
 					} else {
 						// Default table type
 						tableType = PlanProSchnittstelleExtensions
 								.isPlanning(session.getPlanProSchnittstelle())
 										? TableType.DIFF
 										: TableType.SINGLE;
-						setCombo(tableType);
+						initCombo(tableType);
 					}
 				}
 				return true;
@@ -143,7 +152,7 @@ public abstract class AbstractOperationalAreaSelectionControl<T extends Ur_Objek
 		});
 	}
 
-	protected void setCombo(final TableType type) {
+	protected void initCombo(final TableType type) {
 		comboViewer.getCombo().removeAll();
 		final List<OperationalAreaObject> values = new LinkedList<>();
 		switch (type) {
@@ -193,7 +202,7 @@ public abstract class AbstractOperationalAreaSelectionControl<T extends Ur_Objek
 		comboViewer.getCombo().setEnabled(true);
 	}
 
-	protected void seletcionOperationalArea(final ISelection s,
+	protected void selectionOperationalArea(final ISelection s,
 			final TableType type) {
 		if (s instanceof final IStructuredSelection selection) {
 			final Object selectedElement = selection.getFirstElement();
@@ -235,7 +244,7 @@ public abstract class AbstractOperationalAreaSelectionControl<T extends Ur_Objek
 	}
 
 	private void selectionListerner(final SelectionChangedEvent e) {
-		seletcionOperationalArea(e.getSelection(), tableType);
+		selectionOperationalArea(e.getSelection(), tableType);
 	}
 
 	protected List<OperationalAreaObject> getComboValues(
@@ -315,11 +324,11 @@ public abstract class AbstractOperationalAreaSelectionControl<T extends Ur_Objek
 		if (property instanceof final ToolboxFileRole role
 				&& role.equals(ToolboxFileRole.SESSION)) {
 			// Reset combo to default
-			initCombo();
+			initNoSessionCombo();
 		}
 	}
 
-	protected void initCombo() {
+	protected void initNoSessionCombo() {
 		comboViewer.getCombo().removeAll();
 		comboViewer
 				.setInput(List.of(messages.TableTypeSelectionControl_noSession,

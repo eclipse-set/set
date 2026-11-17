@@ -12,9 +12,11 @@ package org.eclipse.set.feature.table;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -26,6 +28,7 @@ import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.basis.files.ToolboxFileRole;
+import org.eclipse.set.basis.table.OperationalAreaEnum;
 import org.eclipse.set.feature.table.internal.TableServiceUtils;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
 import org.eclipse.set.model.planpro.Balisentechnik_ETCS.RBC;
@@ -134,12 +137,15 @@ public class SxxxTableView extends ToolboxTableView {
 	private void transformComparePlanTables(final IModelSession compareSession,
 			final Set<TableInfo> tablesToTransform) {
 		try {
+			final Map<OperationalAreaEnum, Optional<Set<String>>> areaIds = Arrays
+					.stream(OperationalAreaEnum.values())
+					.collect(Collectors.toMap(t -> t, t -> Optional.empty()));
 			getDialogService().showProgress(getToolboxShell(),
 					monitor -> tableService.transformTables(monitor,
 							tablesToTransform,
 							compareSession.isSingleState() ? TableType.SINGLE
 									: TableType.DIFF,
-							operationalAreaIds));
+							areaIds));
 		} catch (InvocationTargetException | InterruptedException e) {
 			getDialogService().error(getToolboxShell(), e);
 			Thread.currentThread().interrupt();

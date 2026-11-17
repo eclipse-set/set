@@ -75,4 +75,14 @@ public class ToolboxPathsImpl implements ToolboxPaths {
 		}
 		return List.copyOf(controlAreaIds.get()).getFirst().areaName();
 	}
+
+	@Override
+	public Path getExportPath(final String exportFileName, final Path base,
+			final ExportType exportType, final ExportPathExtension extension) {
+		final List<String> pathPart = new LinkedList<>();
+		pathPart.add(getModelBaseName(exportType));
+		pathPart.add(StringUtils.capitalize(exportFileName));
+		return Paths.get(base.toString(),
+				String.join("_", pathPart) + extension.value); //$NON-NLS-1$
+	}
 }

@@ -31,6 +31,7 @@ import org.eclipse.set.basis.constants.ExportType;
 import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.basis.export.CheckBoxTreeElement;
 import org.eclipse.set.basis.table.OperationalAreaEnum;
+import org.eclipse.set.basis.table.OperationalAreaEnum.OperationalAreaObject;
 import org.eclipse.set.core.services.export.AdditionalExportService;
 import org.eclipse.set.core.services.part.ToolboxPartService;
 import org.eclipse.set.feature.export.checkboxmodel.CheckboxTreeModel;
@@ -51,7 +52,6 @@ import org.eclipse.set.utils.events.ContainerDataChanged;
 import org.eclipse.set.utils.events.DefaultToolboxEventHandler;
 import org.eclipse.set.utils.events.ProjectDataChanged;
 import org.eclipse.set.utils.events.SelectedOperationalAreaChangedEvent;
-import org.eclipse.set.utils.events.SelectedOperationalAreaChangedEvent.OperationalAreaComboValue;
 import org.eclipse.set.utils.events.ToolboxEventHandler;
 import org.eclipse.set.utils.events.ToolboxEvents;
 import org.eclipse.set.utils.exception.ExceptionHandler;
@@ -113,7 +113,7 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 				.stream(OperationalAreaEnum.values())
 				.collect(
 						Collectors.toMap(type -> type, type -> getModelSession()
-								.getSelectedOperationalAreas(type)));
+								.getSelectedOperationalAreasId(type)));
 		updateTreeElements(currentAreaIds);
 		selectionControlAreaHandler = new DefaultToolboxEventHandler<>() {
 			@Override
@@ -125,7 +125,7 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 								? java.util.Optional.empty()
 								: java.util.Optional.of(t.getOperationalAreas()
 										.stream()
-										.map(OperationalAreaComboValue::areaId)
+										.map(OperationalAreaObject::areaId)
 										.collect(Collectors.toSet()));
 				updateTreeElements(Map.of(t.getOperationalAreaType(), areaIds));
 			}

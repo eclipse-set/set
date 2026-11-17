@@ -407,9 +407,11 @@ public class ToolboxTableView extends BasePart {
 		tableInfo = tableService.getTableInfo(this);
 		// initialize table type
 		tableType = getModelSession().getTableType();
-		operationalAreaIds = getModelSession().getSelectedOperationalAreasId(
-				tableInfo.getOperationalAreaType());
 		operationalAreaType = tableInfo.getOperationalAreaType();
+		operationalAreaIds = operationalAreaType == null ? Optional.empty()
+				: getModelSession()
+						.getSelectedOperationalAreasId(operationalAreaType);
+
 		tableService.updateTable(this, Collections.emptyList(),
 				new TableRendererUtil(this::transformToTableModel,
 						transformedTable -> {
@@ -801,8 +803,8 @@ public class ToolboxTableView extends BasePart {
 								IProgressMonitor.UNKNOWN);
 						exportService.exportTable(tables,
 								ExportType.PLANNING_RECORDS, getTitlebox(),
-								getFreeFieldInfo(), extractShortcut(),
-								outputDir, getModelSession().getToolboxPaths(),
+								getFreeFieldInfo(), tableInfo, outputDir,
+								getModelSession().getToolboxPaths(),
 								getModelSession().getTableType(),
 								OverwriteHandling
 										.forUserConfirmation(path -> Boolean

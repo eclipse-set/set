@@ -44,6 +44,15 @@ public enum OperationalAreaEnum {
 		return areaClass;
 	}
 
+	@SuppressWarnings("nls")
+	@Override
+	public String toString() {
+		return switch (this) {
+			case RBC -> "RBC";
+			case Interlocking -> "Stellbereich";
+		};
+	}
+
 	/**
 	 * @param clazz
 	 *            the area class

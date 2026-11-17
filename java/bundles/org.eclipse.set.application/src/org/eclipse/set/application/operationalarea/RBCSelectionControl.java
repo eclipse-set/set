@@ -15,10 +15,13 @@ import java.util.Set;
 import java.util.function.Function;
 
 import org.eclipse.set.application.toolcontrol.ServiceProvider;
+import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.basis.table.OperationalAreaEnum;
 import org.eclipse.set.basis.table.OperationalAreaEnum.OperationalAreaObject;
 import org.eclipse.set.model.planpro.Balisentechnik_ETCS.RBC;
+import org.eclipse.set.model.planpro.PlanPro.ENUMUntergewerkArt;
 import org.eclipse.set.ppmodel.extensions.EObjectExtensions;
+import org.eclipse.set.ppmodel.extensions.PlanungGruppeExtensions;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.eclipse.set.utils.events.SelectedOperationalAreaChangedEvent;
 import org.eclipse.set.utils.events.ToolboxEvents;
@@ -89,4 +92,28 @@ public class RBCSelectionControl
 		return OperationalAreaEnum.RBC;
 	}
 
+	@Override
+	protected void initCombo(final TableType type) {
+		if (existsETCSData()) {
+			super.initCombo(type);
+			return;
+		}
+		comboViewer.getCombo().removeAll();
+		comboViewer.add(messages.RBCControl_No_ETCS_Data);
+		comboViewer.getCombo().select(0);
+		comboViewer.getCombo().setEnabled(false);
+	}
+
+	private boolean existsETCSData() {
+		if (getSession() == null) {
+			return false;
+		}
+		return EObjectExtensions.getNullableObject(getSession(),
+				s -> PlanungGruppeExtensions
+						.getPlanungGruppe(s.getPlanProSchnittstelle(),
+								ENUMUntergewerkArt.ENUM_UNTERGEWERK_ART_ETCS)
+						.orElse(null))
+				.orElse(null) != null;
+
+	}
 }

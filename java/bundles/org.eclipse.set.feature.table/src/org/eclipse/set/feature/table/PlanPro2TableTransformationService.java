@@ -16,6 +16,7 @@ import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
 import org.eclipse.set.model.planpro.Balisentechnik_ETCS.RBC;
 import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
 import org.eclipse.set.model.tablemodel.Table;
+import org.eclipse.set.ppmodel.extensions.RBCExtensions;
 import org.eclipse.set.ppmodel.extensions.StellBereichExtensions;
 import org.eclipse.set.ppmodel.extensions.UrObjectExtensions;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
@@ -74,8 +75,9 @@ public abstract class PlanPro2TableTransformationService extends
 		try {
 			return switch (getTableCategory()) {
 				case ESTW, ESTW_SUPPLEMENT -> StellBereichExtensions
-						.isInControlArea((List<Stell_Bereich>) areas, obj);
-				case ETCS -> true; // TODO
+						.isInInterlockingArea((List<Stell_Bereich>) areas, obj);
+				case ETCS -> RBCExtensions.isBelongToRBCAreas((List<RBC>) areas,
+						obj);
 				default -> throw new IllegalArgumentException();
 			};
 		} catch (final Exception e) {
