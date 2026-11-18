@@ -8,9 +8,9 @@
  * SPDX-License-Identifier: EPL-2.0
  * 
  */
-package org.eclipse.set.feature.table.pt1.test.utils;
+package org.eclipse.set.osgi.test.utils;
 
-import static org.eclipse.set.feature.table.pt1.test.tabledata.AbstractPt1TableDataTest.CSV_DELIMITER;
+import static org.eclipse.set.osgi.test.utils.AbstractOsgiTableTest.CSV_DELIMITER;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -22,7 +22,6 @@ import java.nio.file.Path;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.eclipse.set.feature.table.pt1.test.tabledata.AbstractPt1TableDataTest;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.TableRow;
 import org.eclipse.set.model.tablemodel.extensions.TableCellExtensions;
@@ -44,18 +43,18 @@ import org.slf4j.LoggerFactory;
 public class TestFailHandle implements TestWatcher {
 
 	private static final String CURRENT_CSV_EXTENSIONS = "_current.csv";
-	private static final String DIFF_DIR = "diff";
+	private static final String DIFF_DIR = "table-diff-dir";
 	private static final String REFERENCE_CSV_EXTENSIONS = "_reference.csv";
 
 	protected static void exportCurrentCSV(
-			final AbstractPt1TableDataTest tableTest) {
+			final AbstractOsgiTableTest tableTest) {
 		final File file = getExportFile(tableTest, CURRENT_CSV_EXTENSIONS);
 		if (!file.getParentFile().exists()) {
 			file.getParentFile().mkdirs();
 		}
 		final Table testTable = tableTest.getTestTable();
 		final ExportToCSV<Pair<Integer, TableRow>> exportToCSV = new ExportToCSV<>(
-				AbstractPt1TableDataTest.getTableCSVHeader(testTable));
+				tableTest.getTableCSVHeader(testTable));
 		exportToCSV.exportToCSV(Optional.of(file.toPath()),
 				TableExtensions.getTableRowsWithIndex(testTable), row -> {
 					final String rowValue = row.getValue()
@@ -70,8 +69,8 @@ public class TestFailHandle implements TestWatcher {
 				});
 	}
 
-	protected static File getExportFile(
-			final AbstractPt1TableDataTest tableTest, final String extension) {
+	protected static File getExportFile(final AbstractOsgiTableTest tableTest,
+			final String extension) {
 		try {
 			final URL parent = tableTest.getClass()
 					.getProtectionDomain()
@@ -94,8 +93,9 @@ public class TestFailHandle implements TestWatcher {
 	public void testFailed(final ExtensionContext context,
 			final Throwable cause) {
 		final Optional<Object> testInstance = context.getTestInstance();
-		if (testInstance.isPresent() && testInstance
-				.get() instanceof final AbstractPt1TableDataTest tableTest
+		if (testInstance.isPresent()
+				&& testInstance
+						.get() instanceof final AbstractOsgiTableTest tableTest
 				&& !tableTest.isTableEmpty()) {
 			exportCurrentCSV(tableTest);
 			exportReferenceCSV(tableTest);
@@ -103,8 +103,7 @@ public class TestFailHandle implements TestWatcher {
 		TestWatcher.super.testFailed(context, cause);
 	}
 
-	protected void exportReferenceCSV(
-			final AbstractPt1TableDataTest tableTest) {
+	protected void exportReferenceCSV(final AbstractOsgiTableTest tableTest) {
 		final File outFile = getExportFile(tableTest, REFERENCE_CSV_EXTENSIONS);
 		if (!outFile.getParentFile().exists()) {
 			outFile.getParentFile().mkdirs();
