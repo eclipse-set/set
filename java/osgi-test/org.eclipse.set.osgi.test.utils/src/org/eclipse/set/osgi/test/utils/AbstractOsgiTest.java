@@ -12,8 +12,8 @@ package org.eclipse.set.osgi.test.utils;
 
 import static org.mockito.Mockito.when;
 
-import java.util.Dictionary;
-import java.util.Hashtable;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.set.basis.IModelSession;
@@ -32,6 +32,9 @@ import org.osgi.test.common.annotation.InjectService;
  * 
  */
 public abstract class AbstractOsgiTest extends AbstractToolboxTest {
+	@InjectService
+	protected EventAdmin eventAdmin;
+
 	protected IModelSession modelSession;
 
 	@BeforeAll
@@ -45,7 +48,7 @@ public abstract class AbstractOsgiTest extends AbstractToolboxTest {
 	 * @param eventAdmin
 	 *            injection throw {@link InjectService}
 	 */
-	protected void setupModelSession(final EventAdmin eventAdmin) {
+	protected void setupModelSession() {
 		if (planProSchnittstelle == null) {
 			modelSession = null;
 		}
@@ -56,7 +59,7 @@ public abstract class AbstractOsgiTest extends AbstractToolboxTest {
 		Mockito.when(modelSession.getPlanProSchnittstelle())
 				.thenReturn(planProSchnittstelle);
 		Mockito.when(modelSession.getToolboxFile()).thenReturn(mockToolboxFile);
-		final Dictionary<String, Object> d = new Hashtable<>(2);
+		final Map<String, Object> d = new HashMap<>();
 		d.put(EventConstants.EVENT_TOPIC, Events.MODEL_CHANGED);
 		d.put(IEventBroker.DATA, modelSession);
 		eventAdmin.sendEvent(new Event(Events.MODEL_CHANGED, d));

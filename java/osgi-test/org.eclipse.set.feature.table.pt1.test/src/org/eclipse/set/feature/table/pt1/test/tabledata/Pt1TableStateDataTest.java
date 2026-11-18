@@ -14,16 +14,9 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.Collections;
-import java.util.List;
 
-import org.eclipse.e4.core.contexts.IContextFunction;
 import org.eclipse.set.basis.constants.ContainerType;
 import org.eclipse.set.basis.constants.TableType;
-import org.eclipse.set.core.services.cache.CacheService;
-import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
-import org.eclipse.set.core.services.geometry.GeoKanteGeometryService;
-import org.eclipse.set.core.services.graph.TopologicalGraphService;
-import org.eclipse.set.core.services.session.SessionService;
 import org.eclipse.set.feature.table.pt1.test.Activator;
 import org.eclipse.set.feature.table.pt1.test.utils.PtTable;
 import org.eclipse.set.osgi.test.utils.TestFailHandle;
@@ -38,8 +31,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
-import org.osgi.service.event.EventAdmin;
-import org.osgi.test.common.annotation.InjectService;
 import org.osgi.test.junit5.service.ServiceExtension;
 
 /**
@@ -53,33 +44,14 @@ public class Pt1TableStateDataTest extends AbstractPt1TableDataTest {
 
 	private PtTable tableToTest;
 
-	@InjectService
-	CacheService cacheService;
-
-	@InjectService
-	List<IContextFunction> contextFunctions;
-
-	@InjectService
-	EnumTranslationService enumTranslationService;
-
-	@InjectService
-	EventAdmin eventAdmin;
-
-	@InjectService
-	GeoKanteGeometryService geometryService;
-
-	@InjectService
-	SessionService sessionService;
-
-	@InjectService
-	TopologicalGraphService topologicalService;
-
 	@Override
 	public String getReferenceDir() {
 		final String tableStateDir = switch (tableState) {
 			case FINAL -> "finalState";
 			case INITIAL -> "initialState";
-			default -> "diffState";
+			default -> throw new IllegalStateException(
+					"Not support the Tablestate in this test case: "
+							+ tableState);
 		};
 		return super.getReferenceDir() + tableStateDir + "/";
 	}
@@ -99,49 +71,14 @@ public class Pt1TableStateDataTest extends AbstractPt1TableDataTest {
 	}
 
 	@Override
-	protected CacheService getCacheService() {
-		return cacheService;
-	}
-
-	@Override
-	protected List<IContextFunction> getContextFunctions() {
-		return contextFunctions;
-	}
-
-	@Override
-	protected EnumTranslationService getEnumTranslationService() {
-		return enumTranslationService;
-	}
-
-	@Override
-	protected EventAdmin getEventAdmin() {
-		return eventAdmin;
-	}
-
-	@Override
-	protected GeoKanteGeometryService getGeometryService() {
-		return geometryService;
-	}
-
-	@Override
-	protected SessionService getSessionService() {
-		return sessionService;
-	}
-
-	@Override
 	protected PtTable getTableToTest() {
 		return tableToTest;
 	}
 
-	@Override
-	protected TopologicalGraphService getTopologicalGraphService() {
-		return topologicalService;
-	}
-
 	@SuppressWarnings("boxing")
 	@Override
-	protected void setupModelSession(final EventAdmin event) {
-		super.setupModelSession(event);
+	protected void setupModelSession() {
+		super.setupModelSession();
 		Mockito.when(modelSession.isPlanningAreaIgnored())
 				.thenReturn(Boolean.TRUE);
 		Mockito.when(modelSession.getContainer(ArgumentMatchers.any()))
