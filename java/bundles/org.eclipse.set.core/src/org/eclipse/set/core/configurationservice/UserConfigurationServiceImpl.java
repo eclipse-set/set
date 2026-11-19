@@ -261,6 +261,7 @@ public class UserConfigurationServiceImpl implements UserConfigurationService {
 			createPathList(role);
 			return getPathList(role);
 		}
+		list.removeIf(p -> !p.toFile().exists());
 		return list;
 	}
 }
