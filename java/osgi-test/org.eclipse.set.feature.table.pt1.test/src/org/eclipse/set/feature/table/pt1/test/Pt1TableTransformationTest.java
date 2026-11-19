@@ -46,7 +46,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.osgi.service.event.EventAdmin;
 import org.osgi.test.common.annotation.InjectService;
 import org.osgi.test.junit5.service.ServiceExtension;
 
@@ -92,9 +91,6 @@ class Pt1TableTransformationTest extends AbstractOsgiTest {
 	}
 
 	@InjectService
-	EventAdmin eventAdmin;
-
-	@InjectService
 	List<PlanPro2TableTransformationService> transformationServices;
 	@InjectService
 	EnumTranslationService translationService;
@@ -130,7 +126,7 @@ class Pt1TableTransformationTest extends AbstractOsgiTest {
 	@Test
 	void testPDFExportStyle() throws Exception {
 		givenPlanProFile(PPHN_1_10_0_3_20220517_PLANPRO);
-		setupModelSession(eventAdmin);
+		setupModelSession();
 		for (final PlanPro2TableTransformationService service : transformationServices) {
 			if (service.getClass()
 					.getName()
@@ -167,7 +163,7 @@ class Pt1TableTransformationTest extends AbstractOsgiTest {
 	@ExtendWith(TestFailHandle.class)
 	void testTransformator(final String file) throws Exception {
 		givenPlanProFile(file);
-		setupModelSession(eventAdmin);
+		setupModelSession();
 
 		for (final PlanPro2TableTransformationService transformationService : transformationServices) {
 			if (transformationService.getClass()
