@@ -166,6 +166,9 @@ public class ValidationViewModelInfo extends Composite {
 						validationReport.getFileInfo().getTimeStamp())
 				.addTextControl(messages.ValidationReport_GeladeneDatei_MD5,
 						validationReport.getFileInfo().getChecksum())
+				.addTextControl(
+						messages.ValidationReport_GeladeneDatei_LSTDataBase_MD5,
+						validationReport.getFileInfo().getLstCheckSum())
 				.addTextControl(messages.ValidationReport_GeladeneDatei_GUID,
 						validationReport.getFileInfo().getGuid());
 

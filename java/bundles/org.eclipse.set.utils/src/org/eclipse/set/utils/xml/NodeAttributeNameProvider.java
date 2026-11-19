@@ -10,7 +10,7 @@ package org.eclipse.set.utils.xml;
 
 import java.util.List;
 
-import org.eclipse.set.basis.PlanProXMLNode;
+import org.eclipse.set.basis.xml.PlanProXMLNode;
 
 /**
  * Determines an attribute/group name for an XML node

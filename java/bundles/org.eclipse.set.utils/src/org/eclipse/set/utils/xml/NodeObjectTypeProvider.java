@@ -11,7 +11,7 @@ package org.eclipse.set.utils.xml;
 
 import java.util.List;
 
-import org.eclipse.set.basis.PlanProXMLNode;
+import org.eclipse.set.basis.xml.PlanProXMLNode;
 
 /**
  * Determines the LST object type for a given XML node

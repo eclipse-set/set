@@ -11,7 +11,7 @@ package org.eclipse.set.feature.validation.niltest
 import java.io.IOException
 import java.util.List
 import javax.xml.parsers.ParserConfigurationException
-import org.eclipse.set.basis.PlanProXMLNode
+import org.eclipse.set.basis.xml.PlanProXMLNode
 import org.eclipse.set.basis.constants.ValidationResult
 import org.eclipse.set.basis.exceptions.CustomValidationProblem
 import org.eclipse.set.basis.files.ToolboxFile
@@ -27,7 +27,6 @@ import org.osgi.service.component.annotations.Component
 import org.xml.sax.SAXException
 
 import static extension org.eclipse.set.utils.xml.ObjectMetadataXMLReader.*
-import java.util.Deque
 import java.util.ArrayDeque
 
 /** 

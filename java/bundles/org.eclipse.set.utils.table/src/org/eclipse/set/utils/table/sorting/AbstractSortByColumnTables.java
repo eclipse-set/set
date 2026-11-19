@@ -40,7 +40,7 @@ import org.eclipse.nebula.widgets.nattable.sort.config.SingleClickSortConfigurat
 import org.eclipse.nebula.widgets.nattable.tree.command.TreeCollapseAllCommand;
 import org.eclipse.nebula.widgets.nattable.ui.matcher.KeyEventMatcher;
 import org.eclipse.set.basis.Pair;
-import org.eclipse.set.basis.PlanProXMLNode;
+import org.eclipse.set.basis.xml.PlanProXMLNode;
 import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.configurationservice.UserConfigurationService;
 import org.eclipse.set.core.services.dialog.DialogService;
