@@ -42,6 +42,10 @@ import org.eclipse.set.services.table.TableDiffService.TableCompareType;
 import org.eclipse.set.services.table.TableStatus;
 import org.eclipse.set.utils.table.TableInfo;
 import org.eclipse.set.utils.table.TableInfo.Pt1TableCategory;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.provider.Arguments;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
@@ -120,6 +124,28 @@ public abstract class AbstractPt1TableDataTest extends AbstractOsgiTableTest {
 
 	}
 
+	@AfterAll
+	protected void afterAll() {
+		super.afterEach();
+	}
+
+	@Override
+	@AfterEach
+	protected void afterEach() {
+		// do nothing
+	}
+
+	@BeforeAll
+	protected void beforeAll() throws Exception {
+		super.beforeEach();
+	}
+
+	@Override
+	@BeforeEach
+	protected void beforeEach() {
+		// do nothing
+	}
+
 	@Override
 	@SuppressWarnings("boxing")
 	protected String getErrorMessage(final int columnIndex, final int rowIndex,
@@ -128,6 +154,11 @@ public abstract class AbstractPt1TableDataTest extends AbstractOsgiTableTest {
 				"%s at row: %d, column: %d. ExpectedValue: %s - ActualValue: %s",
 				getTestTableReferenceName(), rowIndex, columnIndex,
 				expectedValue, actualValue);
+	}
+
+	@Override
+	protected int getExpectedColumnCount() {
+		return referenceData.get(0).size() - 1;
 	}
 
 	protected abstract PtTable getTableToTest();
@@ -213,13 +244,9 @@ public abstract class AbstractPt1TableDataTest extends AbstractOsgiTableTest {
 		givenToolboxViewModelService();
 	}
 
-	protected void thenExpectNotExistReference() {
-		assertNull(referenceData, "Empty Table shoundn't have csv reference");
-	}
-
-	protected void thenExpectTableDataEqualReferenceCSV() {
-		assertDoesNotThrow(
-				() -> compareValue(0, TableExtensions.getTableRows(testee)));
+	@Override
+	protected boolean skipCompareCountColumn() {
+		return true;
 	}
 
 	protected void thenExpectTableStatusRelevant() {
@@ -238,23 +265,6 @@ public abstract class AbstractPt1TableDataTest extends AbstractOsgiTableTest {
 		assertFalse(status.get().isNonTransformable());
 		assertFalse(status.get().isContainsErrors());
 		isTableEmpty = status.get().isEmpty();
-	}
-
-	@SuppressWarnings("boxing")
-	protected void thenRowAndColumnCountEqualReferenceCSV() {
-		final int nattableColumnCount = TableExtensions.getColumns(testee)
-				.size();
-		final int referenceColumnCount = referenceData.get(0).size() - 1;
-		assertEquals(referenceColumnCount, nattableColumnCount,
-				() -> String.format("%s expected column count: %d but was: %d",
-						getTestTableReferenceName(), referenceColumnCount,
-						nattableColumnCount));
-		final long nattableRowCount = getTableRowCount();
-		final long referenceRowCount = referenceData.size();
-		assertEquals(referenceRowCount, nattableRowCount,
-				() -> String.format("%s expected row count: %d but was: %d",
-						getTestTableReferenceName(), referenceRowCount,
-						nattableRowCount));
 	}
 
 	protected void whenExistReferenceCSV() {

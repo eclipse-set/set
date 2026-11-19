@@ -30,6 +30,7 @@ import org.eclipse.set.basis.constants.ContainerType;
 import org.eclipse.set.core.services.configurationservice.UserConfigurationService;
 import org.eclipse.set.feature.plazmodel.Messages;
 import org.eclipse.set.feature.plazmodel.check.GeoCoordinateValid;
+import org.eclipse.set.feature.plazmodel.utils.TopologicalCoordinate;
 import org.eclipse.set.model.planpro.Basisobjekte.Bereich_Objekt;
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt;
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup;

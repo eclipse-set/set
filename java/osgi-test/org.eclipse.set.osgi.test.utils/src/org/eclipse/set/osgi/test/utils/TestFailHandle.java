@@ -10,8 +10,6 @@
  */
 package org.eclipse.set.osgi.test.utils;
 
-import static org.eclipse.set.osgi.test.utils.AbstractOsgiTableTest.CSV_DELIMITER;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -20,11 +18,9 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Path;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.TableRow;
-import org.eclipse.set.model.tablemodel.extensions.TableCellExtensions;
 import org.eclipse.set.model.tablemodel.extensions.TableExtensions;
 import org.eclipse.set.utils.table.export.ExportToCSV;
 import org.eclipse.xtext.xbase.lib.Pair;
@@ -42,32 +38,9 @@ import org.slf4j.LoggerFactory;
 @Disabled
 public class TestFailHandle implements TestWatcher {
 
-	private static final String CURRENT_CSV_EXTENSIONS = "_current.csv";
-	private static final String DIFF_DIR = "table-diff-dir";
-	private static final String REFERENCE_CSV_EXTENSIONS = "_reference.csv";
-
-	protected static void exportCurrentCSV(
-			final AbstractOsgiTableTest tableTest) {
-		final File file = getExportFile(tableTest, CURRENT_CSV_EXTENSIONS);
-		if (!file.getParentFile().exists()) {
-			file.getParentFile().mkdirs();
-		}
-		final Table testTable = tableTest.getTestTable();
-		final ExportToCSV<Pair<Integer, TableRow>> exportToCSV = new ExportToCSV<>(
-				tableTest.getTableCSVHeader(testTable));
-		exportToCSV.exportToCSV(Optional.of(file.toPath()),
-				TableExtensions.getTableRowsWithIndex(testTable), row -> {
-					final String rowValue = row.getValue()
-							.getCells()
-							.stream()
-							.map(TableCellExtensions::getPlainStringValue)
-							.map(value -> value.replace(System.lineSeparator(),
-									""))
-							.collect(Collectors.joining(CSV_DELIMITER));
-					return row.getKey().intValue() + 1 + CSV_DELIMITER
-							+ rowValue + System.lineSeparator();
-				});
-	}
+	private static final String DIFF_DIR = "table-diff-dir/";
+	protected static final String CURRENT_CSV_EXTENSIONS = "_current.csv";
+	protected static final String REFERENCE_CSV_EXTENSIONS = "_reference.csv";
 
 	protected static File getExportFile(final AbstractOsgiTableTest tableTest,
 			final String extension) {
@@ -79,7 +52,7 @@ public class TestFailHandle implements TestWatcher {
 			final File parentDir = Path.of(parent.toURI()).toFile();
 			return new File(parentDir,
 					Path.of(tableTest.getReferenceDir()
-							.replaceFirst(".*table_reference/", DIFF_DIR + "/"),
+							.replaceFirst(".*table_reference/", DIFF_DIR),
 							tableTest.getTestTableReferenceName() + extension)
 							.toString());
 		} catch (final URISyntaxException e) {
@@ -103,6 +76,20 @@ public class TestFailHandle implements TestWatcher {
 		TestWatcher.super.testFailed(context, cause);
 	}
 
+	@SuppressWarnings("static-method")
+	protected void exportCurrentCSV(final AbstractOsgiTableTest tableTest) {
+		final File file = getExportFile(tableTest, CURRENT_CSV_EXTENSIONS);
+		if (!file.getParentFile().exists()) {
+			file.getParentFile().mkdirs();
+		}
+		final Table testTable = tableTest.getTestTable();
+		final ExportToCSV<Pair<Integer, TableRow>> exportToCSV = new ExportToCSV<>(
+				tableTest.getTableCSVHeader(testTable));
+		exportToCSV.exportToCSV(Optional.of(file.toPath()),
+				TableExtensions.getTableRowsWithIndex(testTable),
+				tableTest.tableRowToString());
+	}
+
 	protected void exportReferenceCSV(final AbstractOsgiTableTest tableTest) {
 		final File outFile = getExportFile(tableTest, REFERENCE_CSV_EXTENSIONS);
 		if (!outFile.getParentFile().exists()) {
@@ -115,8 +102,8 @@ public class TestFailHandle implements TestWatcher {
 						+ REFERENCE_CSV_EXTENSIONS);
 		// New table given't reference datei
 		if (referenceResource == null) {
-			LOGGER.debug(String.format("Cannot find file: %s",
-					tableName + REFERENCE_CSV_EXTENSIONS));
+			LOGGER.debug("Cannot find file: {0}{1}", tableName,
+					REFERENCE_CSV_EXTENSIONS);
 			return;
 		}
 		try (final InputStream resourceStream = referenceResource;
