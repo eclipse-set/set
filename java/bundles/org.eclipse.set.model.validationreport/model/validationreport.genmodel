@@ -69,6 +69,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute validationreport.ecore#//FileInfo/guid"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute validationreport.ecore#//FileInfo/timeStamp"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute validationreport.ecore#//FileInfo/containerContents"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute validationreport.ecore#//FileInfo/lstCheckSum"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

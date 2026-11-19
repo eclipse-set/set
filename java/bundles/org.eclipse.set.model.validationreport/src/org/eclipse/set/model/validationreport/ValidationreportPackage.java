@@ -433,13 +433,22 @@ public interface ValidationreportPackage extends EPackage {
 	int FILE_INFO__CONTAINER_CONTENTS = 5;
 
 	/**
+	 * The feature id for the '<em><b>Lst Check Sum</b></em>' attribute. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 * @ordered
+	 */
+	int FILE_INFO__LST_CHECK_SUM = 6;
+
+	/**
 	 * The number of structural features of the '<em>File Info</em>' class. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @generated
 	 * @ordered
 	 */
-	int FILE_INFO_FEATURE_COUNT = 6;
+	int FILE_INFO_FEATURE_COUNT = 7;
 
 	/**
 	 * The number of operations of the '<em>File Info</em>' class. <!--
@@ -914,6 +923,18 @@ public interface ValidationreportPackage extends EPackage {
 	EAttribute getFileInfo_ContainerContents();
 
 	/**
+	 * Returns the meta object for the attribute
+	 * '{@link org.eclipse.set.model.validationreport.FileInfo#getLstCheckSum
+	 * <em>Lst Check Sum</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @return the meta object for the attribute '<em>Lst Check Sum</em>'.
+	 * @see org.eclipse.set.model.validationreport.FileInfo#getLstCheckSum()
+	 * @see #getFileInfo()
+	 * @generated
+	 */
+	EAttribute getFileInfo_LstCheckSum();
+
+	/**
 	 * Returns the meta object for enum
 	 * '{@link org.eclipse.set.model.validationreport.ValidationSeverity
 	 * <em>Validation Severity</em>}'. <!-- begin-user-doc --> <!-- end-user-doc
@@ -1300,6 +1321,15 @@ public interface ValidationreportPackage extends EPackage {
 		 */
 		EAttribute FILE_INFO__CONTAINER_CONTENTS = eINSTANCE
 				.getFileInfo_ContainerContents();
+
+		/**
+		 * The meta object literal for the '<em><b>Lst Check Sum</b></em>'
+		 * attribute feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * 
+		 * @generated
+		 */
+		EAttribute FILE_INFO__LST_CHECK_SUM = eINSTANCE
+				.getFileInfo_LstCheckSum();
 
 		/**
 		 * The meta object literal for the

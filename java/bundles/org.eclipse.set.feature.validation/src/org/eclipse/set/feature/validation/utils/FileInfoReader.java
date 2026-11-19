@@ -70,6 +70,7 @@ public class FileInfoReader {
 		fileInfo.setTimeStamp(getFileTimeStamp());
 		fileInfo.setGuid(getFileGuid());
 		fileInfo.setChecksum(toolboxFile.getChecksum());
+		fileInfo.setLstCheckSum(toolboxFile.getLstDatabaseCheckSum());
 		final String fileContents = getContainerContents().stream()
 				.map(ContainerContent::getLiteral)
 				.collect(Collectors.joining(", ")); //$NON-NLS-1$

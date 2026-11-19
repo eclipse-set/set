@@ -11,6 +11,7 @@ package org.eclipse.set.core.fileservice;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
@@ -108,10 +109,20 @@ public abstract class AbstractToolboxFile implements ToolboxFile {
 			if (fileName.endsWith(".xml")) { //$NON-NLS-1$
 				ObjectMetadataXMLReader.read(this, file.toPath(),
 						Optional.of(md5Digest));
+			} else {
+				digestFile(md5Digest, file);
 			}
 		}
 		final byte[] hash = md5Digest.digest();
-		lstDatabaseCheckSum = String.format("%032x", new BigInteger(1, hash)); //$NON-NLS-1$
+		lstDatabaseCheckSum = String.format("%032x", new BigInteger(1, hash)) //$NON-NLS-1$
+				.toUpperCase();
+	}
+
+	private static void digestFile(final MessageDigest digest, final File file)
+			throws IOException {
+		try (InputStream input = new FileInputStream(file)) {
+			digest.update(input.readAllBytes());
+		}
 	}
 
 	private static void digestFileAndDirectoryNameCollections(
@@ -277,4 +288,9 @@ public abstract class AbstractToolboxFile implements ToolboxFile {
 			throws IOException;
 
 	protected abstract String getContentType(Path modelPath);
+
+	@Override
+	public String getLstDatabaseCheckSum() {
+		return lstDatabaseCheckSum;
+	}
 }

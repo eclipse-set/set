@@ -298,4 +298,9 @@ public interface ToolboxFile {
 	 * @param path
 	 */
 	void setResourcePath(Resource resource, Path path);
+
+	/**
+	 * @return the check LST-Database checksum
+	 */
+	String getLstDatabaseCheckSum();
 }

@@ -31,6 +31,7 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import javax.xml.transform.dom.DOMResult;
 
+import org.apache.xml.security.Init;
 import org.apache.xml.security.c14n.Canonicalizer;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
@@ -135,6 +136,7 @@ public class PlanProXMLNode {
 			return;
 		}
 		try {
+			Init.init();
 			final Canonicalizer canon = Canonicalizer
 					.getInstance(Canonicalizer.ALGO_ID_C14N_EXCL_OMIT_COMMENTS);
 			final ByteArrayOutputStream baos = new ByteArrayOutputStream();

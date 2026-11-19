@@ -1475,11 +1475,15 @@ http://www.eclipse.org/legal/epl-v20.html
          version="0.0.0"/>
 
    <plugin
-         id="org.apache.commons.codec"
+         id="jakarta.xml.bind-api"
          version="0.0.0"/>
 
    <plugin
          id="jakarta.activation-api"
+         version="0.0.0"/>
+
+   <plugin
+         id="org.apache.commons.commons-codec"
          version="0.0.0"/>
 
 </feature>
