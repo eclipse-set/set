@@ -67,6 +67,9 @@ public abstract class PlanPro2TableTransformationService extends
 	@SuppressWarnings("unchecked")
 	public <T extends Ur_Objekt> boolean isObjectBelongToRendereArea(
 			final Ur_Objekt obj, final List<T> areas) {
+		if (obj == null) {
+			return false;
+		}
 		// If areas object here empty, that mean should show only the object in
 		// PlaningArea
 		if (areas.isEmpty()) {
@@ -80,10 +83,12 @@ public abstract class PlanPro2TableTransformationService extends
 						obj);
 				default -> throw new IllegalArgumentException();
 			};
-		} catch (final Exception e) {
+		} catch (final ClassCastException e) {
 			throw new IllegalArgumentException(
 					"Unsupport type of operational area: " //$NON-NLS-1$
 							+ areas.get(0).getClass().getName());
+		} catch (final IllegalArgumentException e) {
+			throw new IllegalArgumentException(e);
 		}
 
 	}
