@@ -65,9 +65,7 @@ class SsliTransformator extends AbstractPlanPro2TableModelTransformator {
 	private def transform(MultiContainer_AttributeGroup container) {
 		val gleisBezeichnung = container.gleisBezeichnung
 		val relevant = transformToBegrenzungen(gleisBezeichnung, container.
-			signal.filter [
-				isPlanningObject
-			]).filter[generalbedingung].toList
+			signal).filter[generalbedingung].toList
 		relevant.groupBy[it.gleisBezeichnung].forEach [ gleis, item |
 			val group = factory.newRowGroup(gleis)
 			item.forEach [
@@ -300,7 +298,7 @@ class SsliTransformator extends AbstractPlanPro2TableModelTransformator {
 			} else {
 				gleisBegrenzung.raGegenfahrtausschluss = newArrayList(
 					raGegenfahrtausschluss)
-				result.put(g.bezeichnung.bezGleisBezeichnung.wert,
+				result.put(g.identitaet?.wert,
 					newArrayList(gleisBegrenzung))
 			}
 		]
@@ -316,8 +314,7 @@ class SsliTransformator extends AbstractPlanPro2TableModelTransformator {
 				result.get(gl?.wert).forEach[b|b.zgFahrtVerbot.add(signal)]
 			]
 		]
-		val test = result.values.flatten.toList
-		return test
+		return result.values.faltten.toList
 	}
 
 	private def void splitGleisBezeichnungRegion(Gleis_Bezeichnung gleis,
