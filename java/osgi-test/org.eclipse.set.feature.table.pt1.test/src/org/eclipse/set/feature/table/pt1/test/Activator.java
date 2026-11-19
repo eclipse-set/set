@@ -45,9 +45,9 @@ public class Activator implements BundleActivator {
 		return bundleContext;
 	}
 
-	protected String TEMPLATE_DIR = "../data/export";
+	private final String TEMPLATE_DIR = "../data/export";
 
-	protected String TEMPLATE_LOCAL_DIR = "./data/export";
+	private final String TEMPLATE_LOCAL_DIR = "./data/export";
 
 	@Override
 	public void start(final BundleContext context) throws Exception {
