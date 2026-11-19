@@ -70,3 +70,4 @@ org.sonarlint.eclipse.core.prefs
 # Temporary files for tycho pomless build
 .polyglot.*
 .pid
+pom.tycho
