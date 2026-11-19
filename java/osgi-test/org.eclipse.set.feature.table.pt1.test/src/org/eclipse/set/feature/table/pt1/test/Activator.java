@@ -51,9 +51,9 @@ public class Activator implements BundleActivator {
 		return bundleContext;
 	}
 
-	protected String TEMPLATE_DIR = "../data/export";
+	private final String TEMPLATE_DIR = "../data/export";
 
-	protected String TEMPLATE_LOCAL_DIR = "./data/export";
+	private final String TEMPLATE_LOCAL_DIR = "./data/export";
 
 	@Override
 	public void start(final BundleContext context) throws Exception {
@@ -67,10 +67,10 @@ public class Activator implements BundleActivator {
 	}
 
 	protected void copyResource() throws Exception {
-		final Path source = Path.of(TEMPLATE_DIR);
-		final Path target = Path.of(TEMPLATE_LOCAL_DIR);
-		if (!Files.exists(Path.of(TEMPLATE_LOCAL_DIR))) {
-			Files.createDirectories(Path.of(TEMPLATE_LOCAL_DIR));
+		final Path source = Path.of(getTemplateDir());
+		final Path target = Path.of(getTemplateLocalDir());
+		if (!Files.exists(Path.of(getTemplateLocalDir()))) {
+			Files.createDirectories(Path.of(getTemplateLocalDir()));
 		} else {
 			try (Stream<Path> stream = Files.walk(target)) {
 				stream.filter(path -> !path.equals(target))
@@ -103,4 +103,11 @@ public class Activator implements BundleActivator {
 		}
 	}
 
+	protected String getTemplateDir() {
+		return TEMPLATE_DIR;
+	}
+
+	protected String getTemplateLocalDir() {
+		return TEMPLATE_LOCAL_DIR;
+	}
 }
