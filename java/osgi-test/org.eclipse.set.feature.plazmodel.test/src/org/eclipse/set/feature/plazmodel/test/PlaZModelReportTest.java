@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import org.eclipse.set.basis.files.SetFormat;
 import org.eclipse.set.basis.files.ToolboxFile;
 import org.eclipse.set.feature.plazmodel.Messages;
 import org.eclipse.set.feature.plazmodel.check.GeoCoordinateValid;
@@ -132,6 +133,8 @@ public class PlaZModelReportTest extends AbstractPlaZModelTest {
 				});
 		Mockito.when(mockToolboxFile.getModelPath())
 				.thenReturn(Path.of(UNZIP_DIR, "content.xml"));
+		Mockito.when(mockToolboxFile.getFormat())
+				.thenReturn(SetFormat.createZippedPlanPro());
 		Mockito.when(
 				mockToolboxFile.getXMLDocument(ArgumentMatchers.anyString()))
 				.thenReturn(null);
