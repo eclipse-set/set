@@ -32,6 +32,9 @@ import org.osgi.test.common.annotation.InjectService;
  * 
  */
 public abstract class AbstractOsgiTest extends AbstractToolboxTest {
+	@InjectService
+	protected EventAdmin eventAdmin;
+
 	protected IModelSession modelSession;
 
 	@BeforeEach
@@ -53,7 +56,7 @@ public abstract class AbstractOsgiTest extends AbstractToolboxTest {
 	 * @param eventAdmin
 	 *            injection throw {@link InjectService}
 	 */
-	protected void setupModelSession(final EventAdmin eventAdmin) {
+	protected void setupModelSession() {
 		if (planProSchnittstelle == null) {
 			modelSession = null;
 		}
@@ -63,7 +66,7 @@ public abstract class AbstractOsgiTest extends AbstractToolboxTest {
 		Mockito.when(modelSession.getPlanProSchnittstelle())
 				.thenReturn(planProSchnittstelle);
 		Mockito.when(modelSession.getToolboxFile()).thenReturn(mockToolboxFile);
-		final Map<String, Object> d = new HashMap<>(2);
+		final Map<String, Object> d = new HashMap<>();
 		d.put(EventConstants.EVENT_TOPIC, Events.MODEL_CHANGED);
 		d.put(IEventBroker.DATA, modelSession);
 		eventAdmin.sendEvent(new Event(Events.MODEL_CHANGED, d));

@@ -21,11 +21,6 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.eclipse.set.basis.files.ToolboxFile;
-import org.eclipse.set.core.services.cache.CacheService;
-import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
-import org.eclipse.set.core.services.geometry.GeoKanteGeometryService;
-import org.eclipse.set.core.services.graph.TopologicalGraphService;
-import org.eclipse.set.core.services.session.SessionService;
 import org.eclipse.set.feature.plazmodel.Messages;
 import org.eclipse.set.feature.plazmodel.check.GeoCoordinateValid;
 import org.eclipse.set.feature.plazmodel.service.PlazModelService;
@@ -46,7 +41,6 @@ import org.mockito.ArgumentMatchers;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.osgi.framework.BundleContext;
-import org.osgi.service.event.EventAdmin;
 import org.osgi.test.common.annotation.InjectBundleContext;
 import org.osgi.test.common.annotation.InjectService;
 import org.osgi.test.junit5.context.BundleContextExtension;
@@ -62,19 +56,10 @@ public class PlaZModelReportTest extends AbstractPlaZModelTest {
 		return Path.of(UNZIP_DIR, "media");
 	}
 
-	@InjectService
-	CacheService cacheService;
 	@InjectBundleContext
 	BundleContext context;
-	@InjectService
-	EnumTranslationService enumTranslationService;
-	@InjectService
-	EventAdmin eventAdmin;
 
 	GeoCoordinateValid geoCoordinateValid;
-
-	@InjectService
-	GeoKanteGeometryService geometryService;
 
 	@InjectService
 	PlazModelService plazModelService;
@@ -82,12 +67,6 @@ public class PlaZModelReportTest extends AbstractPlaZModelTest {
 	PlazModelTableTransformationService plazModelTransformationService;
 
 	PlazReport plazReport;
-
-	@InjectService
-	SessionService sessionService;
-
-	@InjectService
-	TopologicalGraphService topgraphService;
 
 	@Override
 	public String getTableCSVHeader(final Table table) {
@@ -119,38 +98,8 @@ public class PlaZModelReportTest extends AbstractPlaZModelTest {
 	}
 
 	@Override
-	protected CacheService getCacheService() {
-		return cacheService;
-	}
-
-	@Override
-	protected EnumTranslationService getEnumTranslationService() {
-		return enumTranslationService;
-	}
-
-	@Override
-	protected EventAdmin getEventAdmin() {
-		return eventAdmin;
-	}
-
-	@Override
-	protected GeoKanteGeometryService getGeometryService() {
-		return geometryService;
-	}
-
-	@Override
-	protected SessionService getSessionService() {
-		return sessionService;
-	}
-
-	@Override
 	protected Class<? extends AbstractOsgiTest> getTestResourceClass() {
 		return getClass();
-	}
-
-	@Override
-	protected TopologicalGraphService getTopologicalGraphService() {
-		return topgraphService;
 	}
 
 	@SuppressWarnings("boxing")

@@ -49,6 +49,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.provider.Arguments;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
+import org.osgi.test.common.annotation.InjectService;
 
 /**
  * 
@@ -68,6 +69,9 @@ public abstract class AbstractPt1TableDataTest extends AbstractOsgiTableTest {
 	protected Map<TableInfo, PlanPro2TableTransformationService> modelServiceMap;
 
 	protected TableServiceImpl tableService;
+
+	@InjectService
+	List<IContextFunction> contextFunctions;
 
 	/**
 	 * @return the location of reference directory
@@ -142,8 +146,6 @@ public abstract class AbstractPt1TableDataTest extends AbstractOsgiTableTest {
 		// do nothing
 	}
 
-	protected abstract List<IContextFunction> getContextFunctions();
-
 	@Override
 	@SuppressWarnings("boxing")
 	protected String getErrorMessage(final int columnIndex, final int rowIndex,
@@ -177,14 +179,11 @@ public abstract class AbstractPt1TableDataTest extends AbstractOsgiTableTest {
 				true);
 		FieldUtils.writeField(tableService, "diffServiceMap", diffServiceMap,
 				true);
-		FieldUtils.writeField(tableService, "cacheService", getCacheService(),
+		FieldUtils.writeField(tableService, "cacheService", cacheService, true);
+		FieldUtils.writeField(tableService, "sessionService", sessionService,
 				true);
-		FieldUtils.writeField(tableService, "sessionService",
-				getSessionService(), true);
 		FieldUtils.writeField(tableService, "broker", broker, true);
-		Mockito.doReturn(getCacheService())
-				.when(tableService)
-				.getCacheService();
+		Mockito.doReturn(cacheService).when(tableService).getCacheService();
 
 	}
 
@@ -215,7 +214,7 @@ public abstract class AbstractPt1TableDataTest extends AbstractOsgiTableTest {
 	@SuppressWarnings("unchecked")
 	protected void setup() throws Exception {
 		super.setup();
-		final Optional<IContextFunction> tableServiceContextFunction = getContextFunctions()
+		final Optional<IContextFunction> tableServiceContextFunction = contextFunctions
 				.stream()
 				.filter(cf -> cf.getClass()
 						.getName()

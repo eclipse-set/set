@@ -51,8 +51,8 @@ import org.mockito.ArgumentMatchers;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.osgi.service.event.Event;
-import org.osgi.service.event.EventAdmin;
 import org.osgi.service.event.EventConstants;
+import org.osgi.test.common.annotation.InjectService;
 
 /**
  * 
@@ -69,10 +69,24 @@ public abstract class AbstractOsgiTableTest extends AbstractOsgiTest {
 	public static final String ROW_INDEX_COL = "Lfd. Nr.";
 
 	protected IEventBroker broker;
+	@InjectService
+	protected CacheService cacheService;
+
+	@InjectService
+	protected EnumTranslationService enumTranslationService;
+	@InjectService
+	protected GeoKanteGeometryService geometryService;
 
 	protected boolean isTableEmpty;
 	protected List<CSVRecord> referenceData = new LinkedList<>();
+
+	@InjectService
+	protected SessionService sessionService;
+
 	protected Table testee;
+
+	@InjectService
+	protected TopologicalGraphService topologicalService;
 
 	/**
 	 * @param table
@@ -105,7 +119,7 @@ public abstract class AbstractOsgiTableTest extends AbstractOsgiTest {
 		final Map<String, Object> properties = new HashMap<>();
 		properties.put(EventConstants.EVENT_TOPIC, Events.CLOSE_SESSION);
 		properties.put(IEventBroker.DATA, ToolboxFileRole.SESSION);
-		getEventAdmin().sendEvent(new Event(Events.CLOSE_SESSION, properties));
+		eventAdmin.sendEvent(new Event(Events.CLOSE_SESSION, properties));
 	}
 
 	@Override
@@ -148,10 +162,6 @@ public abstract class AbstractOsgiTableTest extends AbstractOsgiTest {
 		}
 	}
 
-	protected abstract CacheService getCacheService();
-
-	protected abstract EnumTranslationService getEnumTranslationService();
-
 	@SuppressWarnings("boxing")
 	protected String getErrorMessage(final int columnIndex, final int rowIndex,
 			final String expectedValue, final String actualValue) {
@@ -161,23 +171,15 @@ public abstract class AbstractOsgiTableTest extends AbstractOsgiTest {
 				expectedValue, actualValue);
 	}
 
-	protected abstract EventAdmin getEventAdmin();
-
 	protected abstract int getExpectedColumnCount();
 
-	protected abstract GeoKanteGeometryService getGeometryService();
-
 	protected abstract String getReferenceDir();
-
-	protected abstract SessionService getSessionService();
 
 	protected int getTableRowCount() {
 		return TableExtensions.getTableRows(testee).size();
 	}
 
 	protected abstract Class<? extends AbstractOsgiTest> getTestResourceClass();
-
-	protected abstract TopologicalGraphService getTopologicalGraphService();
 
 	protected List<CSVRecord> loadReferenceFile(final String tableName) {
 		final String fileName = getReferenceDir() + tableName
@@ -208,14 +210,13 @@ public abstract class AbstractOsgiTableTest extends AbstractOsgiTest {
 
 	protected void mockServicesMethode(
 			final MockedStatic<Services> mockServices) {
-		mockServices.when(Services::getCacheService)
-				.thenReturn(getCacheService());
+		mockServices.when(Services::getCacheService).thenReturn(cacheService);
 		mockServices.when(Services::getTopGraphService)
-				.thenReturn(getTopologicalGraphService());
+				.thenReturn(topologicalService);
 		mockServices.when(Services::getGeometryService)
-				.thenReturn(getGeometryService());
+				.thenReturn(geometryService);
 		mockServices.when(Services::getEnumTranslationService)
-				.thenReturn(getEnumTranslationService());
+				.thenReturn(enumTranslationService);
 	}
 
 	@SuppressWarnings("static-method")
@@ -232,12 +233,12 @@ public abstract class AbstractOsgiTableTest extends AbstractOsgiTest {
 		Mockito.when(Boolean.valueOf(broker.post(ArgumentMatchers.anyString(),
 				ArgumentMatchers.any()))).thenReturn(Boolean.TRUE);
 
-		setupModelSession(getEventAdmin());
-		while (!getGeometryService()
+		setupModelSession();
+		while (!geometryService
 				.isFindGeometryComplete(ToolboxFileRole.SESSION)) {
 			Thread.sleep(2000);
 		}
-		getSessionService().getLoadedSessions()
+		sessionService.getLoadedSessions()
 				.put(ToolboxFileRole.SESSION, modelSession);
 
 	}

@@ -24,12 +24,8 @@ import java.util.stream.Stream;
 import org.apache.commons.csv.CSVRecord;
 import org.eclipse.set.basis.Pair;
 import org.eclipse.set.basis.constants.ContainerType;
-import org.eclipse.set.core.services.cache.CacheService;
-import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
-import org.eclipse.set.core.services.geometry.GeoKanteGeometryService;
 import org.eclipse.set.core.services.geometry.PointObjectPositionService;
 import org.eclipse.set.core.services.graph.TopologicalGraphService;
-import org.eclipse.set.core.services.session.SessionService;
 import org.eclipse.set.feature.plazmodel.check.GeoCoordinateValid;
 import org.eclipse.set.feature.plazmodel.check.PlazCheck;
 import org.eclipse.set.feature.plazmodel.test.AbstractPlaZModelTest;
@@ -49,7 +45,6 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.locationtech.jts.geom.Coordinate;
 import org.mockito.MockedStatic;
 import org.osgi.framework.BundleContext;
-import org.osgi.service.event.EventAdmin;
 import org.osgi.test.common.annotation.InjectBundleContext;
 import org.osgi.test.common.annotation.InjectService;
 import org.osgi.test.junit5.context.BundleContextExtension;
@@ -96,18 +91,10 @@ public class CalculateTopologicalCoordinateTest extends AbstractPlaZModelTest {
 				.of(new Pair<>("pphn", PPHN_1_10_0_3_20220517_PLANPRO)));
 	}
 
-	@InjectService
-	CacheService cacheService;
 	@InjectBundleContext
 	BundleContext context;
 
-	@InjectService
-	EnumTranslationService enumTranslationService;
-	@InjectService
-	EventAdmin eventAdmin;
 	GeoCoordinateValid geoCoordinateValid;
-	@InjectService
-	GeoKanteGeometryService geometryService;
 
 	@InjectService
 	List<PlazCheck> plazChecks;
@@ -116,8 +103,6 @@ public class CalculateTopologicalCoordinateTest extends AbstractPlaZModelTest {
 
 	@InjectService
 	PointObjectPositionService positionService;
-	@InjectService
-	SessionService sessionService;
 
 	@InjectService
 	TopologicalGraphService topgraphService;
@@ -203,38 +188,8 @@ public class CalculateTopologicalCoordinateTest extends AbstractPlaZModelTest {
 	}
 
 	@Override
-	protected CacheService getCacheService() {
-		return cacheService;
-	}
-
-	@Override
-	protected EnumTranslationService getEnumTranslationService() {
-		return enumTranslationService;
-	}
-
-	@Override
-	protected EventAdmin getEventAdmin() {
-		return eventAdmin;
-	}
-
-	@Override
-	protected GeoKanteGeometryService getGeometryService() {
-		return geometryService;
-	}
-
-	@Override
-	protected SessionService getSessionService() {
-		return sessionService;
-	}
-
-	@Override
 	protected Class<? extends AbstractOsgiTest> getTestResourceClass() {
 		return getClass();
-	}
-
-	@Override
-	protected TopologicalGraphService getTopologicalGraphService() {
-		return topgraphService;
 	}
 
 	@Override

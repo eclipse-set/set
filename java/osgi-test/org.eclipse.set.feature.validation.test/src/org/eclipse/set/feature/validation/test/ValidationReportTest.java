@@ -21,11 +21,6 @@ import org.eclipse.set.basis.constants.ValidationResult;
 import org.eclipse.set.basis.files.SetFormat;
 import org.eclipse.set.basis.files.ToolboxFile;
 import org.eclipse.set.basis.files.ToolboxFileRole;
-import org.eclipse.set.core.services.cache.CacheService;
-import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
-import org.eclipse.set.core.services.geometry.GeoKanteGeometryService;
-import org.eclipse.set.core.services.graph.TopologicalGraphService;
-import org.eclipse.set.core.services.session.SessionService;
 import org.eclipse.set.core.services.validation.CustomValidator;
 import org.eclipse.set.core.services.version.PlanProVersionService;
 import org.eclipse.set.feature.validation.AbstractCustomValidator.MessagesProvider;
@@ -45,14 +40,12 @@ import org.eclipse.set.osgi.test.utils.AbstractOsgiValidationTableTest;
 import org.eclipse.set.osgi.test.utils.TreeTableTestFailed;
 import org.eclipse.set.utils.ToolboxConfiguration;
 import org.eclipse.set.utils.ToolboxVersion;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.osgi.framework.BundleContext;
-import org.osgi.service.event.EventAdmin;
 import org.osgi.test.common.annotation.InjectBundleContext;
 import org.osgi.test.common.annotation.InjectService;
 import org.osgi.test.junit5.context.BundleContextExtension;
@@ -69,16 +62,11 @@ public class ValidationReportTest extends AbstractOsgiValidationTableTest {
 	private ValidationTableTransformationService tableTransformationService;
 	private ValidationReport validationReport;
 
-	@InjectService
-	CacheService cacheService;
 	@InjectBundleContext
 	BundleContext context;
 
 	@InjectService
 	List<CustomValidator> customValidators;
-
-	@InjectService
-	EnumTranslationService enumTranslationService;
 
 	ValidationResult layoutValidationResult;
 
@@ -86,8 +74,6 @@ public class ValidationReportTest extends AbstractOsgiValidationTableTest {
 
 	ValidationResult modelValidationResult;
 	SessionToValidationReportTransformation reportTransformation;
-	@InjectService
-	SessionService sessionService;
 
 	ValidationServiceImpl validationService;
 
@@ -176,32 +162,6 @@ public class ValidationReportTest extends AbstractOsgiValidationTableTest {
 		testee = tableTransformationService.transform(validationReport);
 	}
 
-	@AfterEach
-	@Override
-	protected void afterEach() {
-		// do nothing
-	}
-
-	@Override
-	protected CacheService getCacheService() {
-		return cacheService;
-	}
-
-	@Override
-	protected EnumTranslationService getEnumTranslationService() {
-		return enumTranslationService;
-	}
-
-	@Override
-	protected EventAdmin getEventAdmin() {
-		return null;
-	}
-
-	@Override
-	protected GeoKanteGeometryService getGeometryService() {
-		return null;
-	}
-
 	@Override
 	protected String getReferenceDir() {
 		return REF_DIR + "table_reference/" + getTestFile().getShortName()
@@ -209,18 +169,8 @@ public class ValidationReportTest extends AbstractOsgiValidationTableTest {
 	}
 
 	@Override
-	protected SessionService getSessionService() {
-		return sessionService;
-	}
-
-	@Override
 	protected Class<? extends AbstractOsgiTest> getTestResourceClass() {
 		return getClass();
-	}
-
-	@Override
-	protected TopologicalGraphService getTopologicalGraphService() {
-		return null;
 	}
 
 	@SuppressWarnings("boxing")
@@ -269,13 +219,13 @@ public class ValidationReportTest extends AbstractOsgiValidationTableTest {
 
 	@Override
 	protected void setup() {
-		setupModelSession(getEventAdmin());
-		getSessionService().getLoadedSessions()
+		setupModelSession();
+		sessionService.getLoadedSessions()
 				.put(ToolboxFileRole.SESSION, modelSession);
 	}
 
 	@Override
-	protected void setupModelSession(final EventAdmin eventAdmin) {
+	protected void setupModelSession() {
 		if (planProSchnittstelle == null) {
 			modelSession = null;
 		}
