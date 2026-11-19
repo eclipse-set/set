@@ -10,14 +10,14 @@ package org.eclipse.set.ppmodel.extensions
 
 import java.util.List
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
-import org.eclipse.set.model.planpro.Block.Block_Element
-import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Fahrweg
+import org.eclipse.set.model.planpro.Bahnuebergang.BUE_Ausschaltung
+import org.eclipse.set.model.planpro.Bahnuebergang.BUE_Einschaltung
+import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
 import org.eclipse.set.model.planpro.Ortung.Schaltmittel_Zuordnung
 import org.eclipse.set.model.planpro.Ortung.Zugeinwirkung
 
 import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FmaKomponenteExtensions.*
-import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
 
 /**
  * This class extends {@link Zugeinwirkung}.
@@ -40,9 +40,10 @@ class ZugEinwirkungExtensions extends BasisObjektExtensions {
 		val schaltmittle = zugeinwirkung.container.schaltmittelZuordnung.filter [
 			IDSchalter?.value instanceof Zugeinwirkung
 		].filter[it === zugeinwirkung]
-
-		return schaltmittle.map[IDSchalter?.value].exists [
-			it instanceof Block_Element || it instanceof Fstr_Fahrweg
-		] && area.contains(zugeinwirkung)
+		return (schaltmittle.isNullOrEmpty || schaltmittle.map [
+			IDAnforderung?.value
+		].exists [
+			!(it instanceof BUE_Einschaltung || it instanceof BUE_Ausschaltung)
+		]) && area.contains(zugeinwirkung)
 	}
 }
