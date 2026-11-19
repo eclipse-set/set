@@ -8,16 +8,17 @@
  * SPDX-License-Identifier: EPL-2.0
  * 
  */
-package org.eclipse.set.basis;
+package org.eclipse.set.basis.xml;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayDeque;
+import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -28,10 +29,10 @@ import java.util.Set;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
+import javax.xml.transform.dom.DOMResult;
 
+import org.apache.xml.security.c14n.Canonicalizer;
 import org.w3c.dom.Node;
-import org.xml.sax.Attributes;
-import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
@@ -53,12 +54,13 @@ public class PlanProXMLNode {
 	 */
 	public static record PlanProXMLNodeAttribute(String attributeName,
 			String value) {
-
 	}
 
 	/**
 	 * @param location
 	 *            the file location of the document
+	 * @param digestOpt
+	 *            the {@link MessageDigest} to update check sum
 	 * 
 	 * @return the {@link PlanProXMLNode}
 	 * 
@@ -70,10 +72,11 @@ public class PlanProXMLNode {
 	 *             if a parser cannot be created which satisfies the requested
 	 *             configuration
 	 */
-	public static PlanProXMLNode read(final Path location)
+	public static PlanProXMLNode read(final Path location,
+			final Optional<MessageDigest> digestOpt)
 			throws IOException, SAXException, ParserConfigurationException {
 		try (final InputStream inputStream = Files.newInputStream(location)) {
-			final PlanProXMLNode loadedXML = read(inputStream);
+			final PlanProXMLNode loadedXML = read(inputStream, digestOpt);
 			sortChildren(loadedXML);
 			return loadedXML;
 		}
@@ -95,6 +98,8 @@ public class PlanProXMLNode {
 	/**
 	 * @param input
 	 *            the file input stream
+	 * @param digestOpt
+	 *            the {@link MessageDigest} to update check sum
 	 * @return the root node
 	 * @throws IOException
 	 *             the {@link IOException}
@@ -103,7 +108,8 @@ public class PlanProXMLNode {
 	 * @throws ParserConfigurationException
 	 *             the {@link ParserConfigurationException}
 	 */
-	public static PlanProXMLNode read(final InputStream input)
+	public static PlanProXMLNode read(final InputStream input,
+			final Optional<MessageDigest> digestOpt)
 			throws IOException, SAXException, ParserConfigurationException {
 		final SAXParserFactory factory = SAXParserFactory.newInstance();
 		factory.setFeature(
@@ -111,69 +117,37 @@ public class PlanProXMLNode {
 		factory.setFeature(
 				"http://xml.org/sax/features/external-parameter-entities", //$NON-NLS-1$
 				false);
+		factory.setNamespaceAware(true);
 		final SAXParser parser = factory.newSAXParser();
 		final PlanProXMLNode root = new PlanProXMLNode("document"); //$NON-NLS-1$
-		final Deque<PlanProXMLNode> elementStack = new ArrayDeque<>();
-		final StringBuilder nodeText = new StringBuilder();
-		final DefaultHandler hanlder = new DefaultHandler() {
-			private Locator locator;
-
-			@Override
-			public void setDocumentLocator(final Locator locator) {
-				this.locator = locator;
-			}
-
-			private void addTextIfNeeded() {
-				if (!nodeText.isEmpty()) {
-					String text = nodeText.toString();
-					text = text.replace("\n", ""); //$NON-NLS-1$ //$NON-NLS-2$
-					text = text.replace("\r", ""); //$NON-NLS-1$ //$NON-NLS-2$
-					text = text.trim();
-					if (!text.isEmpty()) {
-						final PlanProXMLNode el = elementStack.peek();
-						el.setTextValue(text);
-					}
-					nodeText.delete(0, nodeText.length());
-				}
-			}
-
-			@Override
-			public void characters(final char[] ch, final int start,
-					final int length) throws SAXException {
-				nodeText.append(ch, start, length);
-			}
-
-			@Override
-			public void endElement(final String uri, final String localName,
-					final String qName) {
-				addTextIfNeeded();
-				final PlanProXMLNode closedElement = elementStack.pop();
-				if (elementStack.isEmpty()) {
-					root.addChild(closedElement);
-				} else {
-					final PlanProXMLNode parentElement = elementStack.peek();
-					parentElement.addChild(closedElement);
-				}
-				closedElement.setEndLineNumber(this.locator.getLineNumber());
-			}
-
-			@Override
-			public void startElement(final String uri, final String localName,
-					final String qName, final Attributes attributes)
-					throws SAXException {
-				addTextIfNeeded();
-				final PlanProXMLNode element = new PlanProXMLNode(qName);
-				for (int i = 0; i < attributes.getLength(); i++) {
-					element.addAttribute(new PlanProXMLNodeAttribute(
-							attributes.getQName(i), attributes.getValue(i)));
-				}
-				element.setStartLineNumber(this.locator.getLineNumber());
-				elementStack.push(element);
-			}
-		};
-
+		final DOMResult domResult = new DOMResult();
+		final DefaultHandler hanlder = digestOpt.isEmpty()
+				? new SAXParserHandler(root)
+				: new SAXParserDOMHandler(root, domResult);
 		parser.parse(input, hanlder);
+		updateDigestSum(digestOpt, domResult);
 		return root;
+	}
+
+	private static void updateDigestSum(final Optional<MessageDigest> digestOpt,
+			final DOMResult domResult) {
+		if (digestOpt.isEmpty()) {
+			return;
+		}
+		try {
+			final Canonicalizer canon = Canonicalizer
+					.getInstance(Canonicalizer.ALGO_ID_C14N_EXCL_OMIT_COMMENTS);
+			final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			canon.canonicalizeSubtree(domResult.getNode(), baos);
+			String canonicalized = baos.toString(StandardCharsets.UTF_8.name());
+			canonicalized = canonicalized.replaceAll("\\s", ""); //$NON-NLS-1$ //$NON-NLS-2$
+			final byte[] canonicalBytes = canonicalized
+					.getBytes(StandardCharsets.UTF_8);
+			digestOpt.get().update(canonicalBytes);
+		} catch (final Exception e) {
+			throw new RuntimeException(e);
+		}
+
 	}
 
 	String nodeName;
@@ -290,7 +264,7 @@ public class PlanProXMLNode {
 	 *            the addition object
 	 */
 	public static void addAdditionsObject(final String key, final Object obj) {
-		addtionsObject.put(key, obj);
+		addtionsObject.putIfAbsent(key, obj);
 	}
 
 	/**

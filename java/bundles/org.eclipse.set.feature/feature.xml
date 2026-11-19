@@ -87,10 +87,6 @@ http://www.eclipse.org/legal/epl-v20.html
          version="0.0.0"/>
 
    <plugin
-         id="org.apache.commons.codec"
-         version="0.0.0"/>
-
-   <plugin
          id="org.eclipse.jface.text"
          version="0.0.0"/>
 
@@ -1472,6 +1468,18 @@ http://www.eclipse.org/legal/epl-v20.html
 
    <plugin
          id="org.eclipse.set.model.temporaryintegration.extensions"
+         version="0.0.0"/>
+
+   <plugin
+         id="org.apache.santuario.xmlsec"
+         version="0.0.0"/>
+
+   <plugin
+         id="org.apache.commons.codec"
+         version="0.0.0"/>
+
+   <plugin
+         id="jakarta.activation-api"
          version="0.0.0"/>
 
 </feature>

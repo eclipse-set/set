@@ -8,11 +8,20 @@
  */
 package org.eclipse.set.core.fileservice;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.security.MessageDigest;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Deque;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Optional;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.eclipse.emf.common.util.EList;
@@ -24,13 +33,14 @@ import org.eclipse.emf.ecore.xmi.FeatureNotFoundException;
 import org.eclipse.emf.ecore.xmi.IllegalValueException;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.edit.domain.EditingDomain;
-import org.eclipse.set.basis.PlanProXMLNode;
 import org.eclipse.set.basis.extensions.PathExtensions;
 import org.eclipse.set.basis.files.ExtendedPlanProValidator;
 import org.eclipse.set.basis.files.PlanProFileResource;
 import org.eclipse.set.basis.files.ToolboxFile;
+import org.eclipse.set.basis.xml.PlanProXMLNode;
 import org.eclipse.set.core.services.version.PlanProVersionService;
 import org.eclipse.set.model.planpro.PlanPro.DocumentRoot;
+import org.eclipse.set.utils.xml.ObjectMetadataXMLReader;
 
 /**
  * Common functionality for toolbox files.
@@ -41,12 +51,16 @@ public abstract class AbstractToolboxFile implements ToolboxFile {
 	private static final String NO = "no"; //$NON-NLS-1$
 
 	protected static final String ENCODING = StandardCharsets.UTF_8.name();
+	private static final String DIGEST_ALGORITH = "MD5"; //$NON-NLS-1$
+	private static final String LINE_ENDING_FOR_FILE_AND_FOLDER_NAMES_COLLECTION = "\r\n"; //$NON-NLS-1$
 
 	private HashMap<String, PlanProXMLNode> domDocument = new HashMap<>();
 
 	private String md5checksum = null;
 
 	protected final HashMap<String, PlanProFileResource> resources = new HashMap<>();
+
+	private String lstDatabaseCheckSum;
 
 	@Override
 	public void setXMLDocument(final String docName, final PlanProXMLNode doc) {
@@ -74,6 +88,65 @@ public abstract class AbstractToolboxFile implements ToolboxFile {
 			this.md5checksum = DigestUtils.md5Hex(input).toUpperCase();
 		}
 
+	}
+
+	protected void generateLSTDatabaseCheckSum() throws Exception {
+		final MessageDigest md5Digest = MessageDigest
+				.getInstance(DIGEST_ALGORITH);
+		final List<String> contentsFileAndDirectoryName = getContentsFileAndDirectoryName();
+		digestFileAndDirectoryNameCollections(md5Digest,
+				contentsFileAndDirectoryName);
+		final Path parent = getModelPath().getParent();
+		for (final String fileName : contentsFileAndDirectoryName) {
+			final File file = Paths
+					.get(parent.toAbsolutePath().toString(), fileName)
+					.toFile();
+			if (file.isDirectory()) {
+				continue;
+			}
+
+			if (fileName.endsWith(".xml")) { //$NON-NLS-1$
+				ObjectMetadataXMLReader.read(this, file.toPath(),
+						Optional.of(md5Digest));
+			}
+		}
+		final byte[] hash = md5Digest.digest();
+		lstDatabaseCheckSum = String.format("%032x", new BigInteger(1, hash)); //$NON-NLS-1$
+	}
+
+	private static void digestFileAndDirectoryNameCollections(
+			final MessageDigest digest, final List<String> collection) {
+		final String fileAndDirectoryNameStr = String.join(
+				LINE_ENDING_FOR_FILE_AND_FOLDER_NAMES_COLLECTION, collection)
+				+ LINE_ENDING_FOR_FILE_AND_FOLDER_NAMES_COLLECTION;
+		digest.update(fileAndDirectoryNameStr.getBytes(StandardCharsets.UTF_8));
+	}
+
+	protected List<String> getContentsFileAndDirectoryName() {
+		final Path modelPath = getModelPath();
+		if (getFormat().isPlain()) {
+			return List.of(modelPath.toFile().getName());
+		}
+		final File tmpDir = modelPath.getParent().toFile();
+		final List<String> result = new ArrayList<>();
+		final Deque<File> listDir = new ArrayDeque<>();
+		listDir.add(tmpDir);
+		for (File file; (file = listDir.poll()) != null;) {
+			for (final File child : file.listFiles()) {
+				if (child.isDirectory()) {
+					if (child.listFiles().length == 0) {
+						continue;
+					}
+					listDir.add(child);
+				}
+				result.add(tmpDir.toPath()
+						.relativize(child.toPath())
+						.toString()
+						.replace(File.separator, "/")); //$NON-NLS-1$
+			}
+		}
+		result.sort(String::compareTo);
+		return result;
 	}
 
 	private void modifyXmlDeclaration() {

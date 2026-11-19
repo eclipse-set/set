@@ -17,8 +17,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.xml.type.internal.XMLCalendar;
-import org.eclipse.set.basis.PlanProXMLNode;
 import org.eclipse.set.basis.files.ToolboxFile;
+import org.eclipse.set.basis.xml.PlanProXMLNode;
 import org.eclipse.set.core.services.version.PlanProVersionService;
 import org.eclipse.set.model.validationreport.ContainerContent;
 import org.eclipse.set.model.validationreport.FileInfo;
