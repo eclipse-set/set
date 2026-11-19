@@ -66,6 +66,7 @@ jobs:
           python -u -m updatereference \
             --issueNumber=${{ github.event.issue.number }} \
             --commentBody="$COMMENT_BODY"
+            --osgiBundlePath="java/osgi-test"
           
       - name: Push
         shell: bash
