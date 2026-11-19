@@ -314,7 +314,7 @@ class SsliTransformator extends AbstractPlanPro2TableModelTransformator {
 				result.get(gl?.wert).forEach[b|b.zgFahrtVerbot.add(signal)]
 			]
 		]
-		return result.values.faltten.toList
+		return result.values.flatten
 	}
 
 	private def void splitGleisBezeichnungRegion(Gleis_Bezeichnung gleis,
