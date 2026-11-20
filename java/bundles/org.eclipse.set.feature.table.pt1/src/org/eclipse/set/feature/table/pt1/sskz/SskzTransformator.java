@@ -303,6 +303,9 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	private List<Aussenelementansteuerung> getControlFromFieldELement(
 			final Ur_Objekt object) {
+		if (object == null) {
+			return Collections.emptyList();
+		}
 		final Function<Ur_Objekt, List<Aussenelementansteuerung>> getAussElement = urObject -> switch (urObject) {
 			case final W_Kr_Gsp_Element gsp -> getControlFromFieldELement(
 					gsp.getIDStellelement().getValue());
@@ -422,6 +425,7 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 						ele -> ele == control) != null;
 		return elements.parallelStream()
 				.filter(ele -> getControlFromFieldELement(ele).stream()
+						.filter(Objects::nonNull)
 						.anyMatch(findRecursiveCondition::test))
 				.toList();
 	}
