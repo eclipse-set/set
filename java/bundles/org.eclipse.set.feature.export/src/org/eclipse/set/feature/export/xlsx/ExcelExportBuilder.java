@@ -178,7 +178,6 @@ public class ExcelExportBuilder implements TableExport {
 			createCellOldValueFont(workbook);
 			// es gibt nur einen
 			final XSSFSheet sheet = workbook.getSheetAt(0);
-			workbook.setSheetName(0, shortcut.substring(0, 1).toUpperCase()
 			final String sheetName = shortcut.substring(0, 1).toUpperCase()
 					+ shortcut.substring(1);
 			if (tableType != TableType.DIFF || tableType != TableType.SINGLE) {
