@@ -37,7 +37,7 @@ public class TableCompileServiceImpl implements TableCompileService {
 	@Override
 	public Map<TableType, Table> compile(final TableInfo tableInfo,
 			final IModelSession modelSession,
-			final Optional<Set<String>> controlAreaIds) {
+			final Optional<Set<String>> operationalAreaIds) {
 		final Map<TableType, Table> result = new EnumMap<>(TableType.class);
 		// always recreate tables here (e.g. for exports) but don't update table
 		// status here as this transformation is only temporary

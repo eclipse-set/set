@@ -97,7 +97,7 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 	@Inject
 	TableCompileService compileService;
 
-	private ToolboxEventHandler<SelectedOperationalAreaChangedEvent> selectionControlAreaHandler;
+	private ToolboxEventHandler<SelectedOperationalAreaChangedEvent> selectionOperationalAreaHandler;
 
 	/**
 	 * creates the part.

@@ -194,7 +194,11 @@ public class SskxTransformationService extends
 		// Only filter when no area area selected
 		if (TableExtensions.getTableRows(originalTable).isEmpty()
 				|| !controlAreaIds.isEmpty()) {
-			return;
+			final Optional<Set<String>> operationalAreaIds) {
+// Only filter when no area area selected
+if (TableExtensions.getTableRows(originalTable).isEmpty()
+|| !operationalAreaIds.isEmpty()) {
+return;
 		}
 
 		final List<RowGroup> vorbalkenSignalGroup = TableExtensions

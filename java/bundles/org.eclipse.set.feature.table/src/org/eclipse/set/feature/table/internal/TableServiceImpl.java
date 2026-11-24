@@ -281,7 +281,7 @@ public final class TableServiceImpl implements TableService {
 	@Override
 	public Map<TableInfo, Collection<TableError>> getTableErrors(
 			final IModelSession modelSession,
-			final Optional<Set<String>> controlAreaIds,
+			final Optional<Set<String>> operationalAreaIds,
 			final Pt1TableCategory tableCategory) {
 		final HashMap<TableInfo, Collection<TableError>> result = new HashMap<>();
 		getAvailableTables().forEach(tableInfo -> {
