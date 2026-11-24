@@ -90,7 +90,7 @@ class ZippedToolboxFileTest extends AbstractToolboxFileTest {
 	
 	@Test
 	def void testLSTDataBaseCheckSum() throws Throwable {
-			MockPlanProVersionService.mockPlanProVersionService([
+		MockPlanProVersionService.mockPlanProVersionService([
 			whenOpen
 			thenExpectContentsExists()
 			thenExpectLayoutContentExists()
