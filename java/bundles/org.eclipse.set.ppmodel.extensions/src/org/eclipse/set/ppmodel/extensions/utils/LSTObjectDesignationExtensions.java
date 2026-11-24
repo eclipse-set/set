@@ -328,6 +328,7 @@ public class LSTObjectDesignationExtensions {
 	 *            the {@link Signal_Signalbegriff}
 	 * @return the object designation
 	 */
+	@SuppressWarnings("nls")
 	public static String getLSTObjectDesignation(
 			final Signal_Signalbegriff signalbegriff) {
 		return getEmptyStringWhenNull(signalbegriff, s -> {
@@ -338,12 +339,15 @@ public class LSTObjectDesignationExtensions {
 			final Signal signal = SignalRahmenExtensions
 					.getSignal(signalRahmen);
 			final String signalDesignation = getLSTObjectDesignation(signal);
-			final String signalDesignationOutput = signalDesignation.isEmpty() ? "" : "[" + signalDesignation + "]";
+			final String signalDesignationOutput = signalDesignation.isEmpty()
+					? ""
+					: "[" + signalDesignation + "]";
 			if (!signalBegriffSymbol.isEmpty()) {
 				return String.format("%s%s", signalBegriffSymbol, //$NON-NLS-1$
-						signalDesignationOutput.isEmpty() ? "", " " + signalDesignationOutput);
+						signalDesignationOutput.isEmpty() ? ""
+								: " " + signalDesignationOutput);
 			}
-			return signalDesignationOutput; //$NON-NLS-1$//$NON-NLS-2$
+			return signalDesignationOutput;
 		});
 	}
 
