@@ -14,7 +14,9 @@ import java.util.Collections;
 import java.util.stream.Collectors;
 
 import org.eclipse.e4.core.di.annotations.CanExecute;
+import org.eclipse.e4.ui.model.application.MApplication;
 import org.eclipse.set.basis.IModelSession;
+import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.eclipse.set.model.planpro.PlanPro.Planung_Einzel;
 import org.eclipse.set.model.planpro.PlanPro.Planung_Gruppe;
@@ -58,4 +60,9 @@ public class ReadEquivalentPlanHandler extends ReadReferencePlanHandler {
 				.isEmpty();
 	}
 
+	@Override
+	protected void success(final IModelSession modelSession,
+			final MApplication application) {
+		eventBroker.send(Events.ADDITIONAL_PLAN_LOADED, modelSession);
+	}
 }

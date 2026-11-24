@@ -531,8 +531,9 @@ class TableToTableDocument {
 	private def Element addContentToElement(String content, Element element,
 		int columnNumber, boolean isRemarkColumn) {
 		val checkOutput = content.checkForTestOutput(columnNumber)
-		element.textContent = isRemarkColumn ? checkOutput : checkOutput.
-			intersperseWithZeroSpacesSC
+		element.textContent = isRemarkColumn
+			? checkOutput
+			: checkOutput.intersperseWithZeroSpacesSC
 		return element
 	}
 
@@ -595,14 +596,21 @@ class TableToTableDocument {
 
 	private def Element create doc.createElement("SignificantInformation") transformToSignificantInformation(
 		SignificantInformation significantInformation) {
-		appendChild(
-			transformLoadedPlanInformation("MainPlan",
-				significantInformation.mainPlan))
-		if (significantInformation.comparePlan !== null) {
+		significantInformation.loadedPlansInformation.forEach [ information |
+			val elementName = switch (information.role) {
+				case SESSION: "MainPlan"
+				case COMPARE_PLANNING: "ComparePlan"
+				case REFERENCE_BASIS_PLAN: "ReferencePlan"
+				case EQUIVALENT_PLAN: "EquivalentPlan"
+				default: ""
+			}
+			if (elementName.isEmpty) {
+				return
+			}
 			appendChild(
-				transformLoadedPlanInformation("ComparePlan",
-					significantInformation.comparePlan))
-		}
+				transformLoadedPlanInformation(elementName, information))
+
+		]
 	}
 
 	private def Element create doc.createElement("LoadedPlan") transformLoadedPlanInformation(
@@ -625,9 +633,9 @@ class TableToTableDocument {
 	private def Element transform(FootnoteInfo footnote) {
 		val it = doc.createElement("Footnote")
 		val footNoteType = doc.createElement(
-			footnote.changedInCompare &&
-				footnote.removedInMain ? 'REMOVED_COMPARE_FOOTNOTE' : footnote.
-				type.toString)
+			footnote.changedInCompare && footnote.removedInMain
+				? 'REMOVED_COMPARE_FOOTNOTE'
+				: footnote.type.toString)
 		footNoteType.attributeNode = createFootnoteNumberAttribute(
 			footnote.index)
 		if (footnote.changedInCompare) {

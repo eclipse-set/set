@@ -11,9 +11,14 @@ package org.eclipse.set.ppmodel.extensions.utils
 import java.awt.Dimension
 import java.io.File
 import java.nio.file.Path
+import java.util.Set
 import java.util.function.Function
 import javax.imageio.ImageIO
 import javax.imageio.stream.FileImageInputStream
+import org.eclipse.set.basis.files.ToolboxFileRole
+import org.eclipse.set.core.services.Services
+import org.eclipse.set.core.services.planningaccess.PlanningAccessService.AdditionalPlanInformation
+import org.eclipse.set.core.services.session.SessionService
 import org.eclipse.set.model.planpro.Basisobjekte.ENUMDateityp
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle
 import org.eclipse.set.model.planpro.PlanPro.Planung_E_Allg_AttributeGroup
@@ -30,8 +35,6 @@ import static extension org.eclipse.set.model.titlebox.extensions.TitleboxExtens
 import static extension org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PlanungProjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.XMLGregorianCalendarExtensions.*
-import org.eclipse.set.core.services.session.SessionService
-import org.eclipse.set.basis.files.ToolboxFileRole
 
 /**
  * Transformation from PlanPro Schnittstelle to Titlebox.
@@ -55,12 +58,15 @@ class PlanProToTitleboxTransformation {
 	static final String ZERO_WIDTH_SPACE = "\u200b"
 	PlanPro_Schnittstelle mainSchnittstelle
 	PlanPro_Schnittstelle compareSchnittstelle
+	Set<AdditionalPlanInformation> additionalsPlanInformation
 
 	new(SessionService sessionService) {
 		mainSchnittstelle = sessionService.getLoadedSession(
 			ToolboxFileRole.SESSION)?.planProSchnittstelle
 		compareSchnittstelle = sessionService.getLoadedSession(
 			ToolboxFileRole.COMPARE_PLANNING)?.planProSchnittstelle
+		additionalsPlanInformation = Services.planningAccessService.
+			additionalPlansInformation.values.toSet
 	}
 
 	/**
@@ -147,9 +153,32 @@ class PlanProToTitleboxTransformation {
 			"")
 		val lastPlanPruefung = planungEinzel?.planungEHandlung?.
 			planungEPruefung?.lastOrNull
-		it.set(59,
-			lastPlanPruefung?.handelnder?.akteurAllg?.nameAkteur5?.wert ?: "")
-		it.set(71, lastPlanPruefung?.datum?.wert?.toString(DATE_FORMAT) ?: "")
+
+		if (additionalsPlanInformation.exists [
+			loadPlanInformation.role === ToolboxFileRole.REFERENCE_BASIS_PLAN
+		]) {
+			val referencePlanInfo = additionalsPlanInformation.findFirst [
+				loadPlanInformation.role ===
+					ToolboxFileRole.REFERENCE_BASIS_PLAN
+			]
+			val referencePlanungEinzeln = referencePlanInfo.planungEinzelns.get(
+				Services.planningAccessService.currentUntergewerkArt)
+			val referencePlanLastPlanPruefung = referencePlanungEinzeln?.
+				planungEHandlung?.planungEPruefung?.lastOrNull
+			it.set(59,
+				referencePlanLastPlanPruefung?.handelnder?.akteurAllg?.
+					nameAkteur5?.wert ?: "")
+			it.set(71,
+				referencePlanLastPlanPruefung?.datum?.wert?.toString(
+					DATE_FORMAT) ?: "")
+		} else {
+			it.set(59,
+				lastPlanPruefung?.handelnder?.akteurAllg?.nameAkteur5?.wert ?:
+					"")
+			it.set(71,
+				lastPlanPruefung?.datum?.wert?.toString(DATE_FORMAT) ?: "")
+		}
+
 		it.set(60,
 			lastPlanungAbnahme?.handelnder?.akteurAllg?.nameAkteur5?.wert ?: "")
 		it.set(72, lastPlanungAbnahme?.datum?.wert?.toString(DATE_FORMAT) ?: "")
@@ -184,6 +213,25 @@ class PlanProToTitleboxTransformation {
 			it.set(62,
 				lastPlanungEErstellung?.datum?.wert?.toString(DATE_FORMAT) ?:
 					"")
+		}
+
+		if (additionalsPlanInformation.exists [
+			loadPlanInformation.role === ToolboxFileRole.EQUIVALENT_PLAN
+		]) {
+			val equivalentPlanInfo = additionalsPlanInformation.findFirst [
+				loadPlanInformation.role === ToolboxFileRole.EQUIVALENT_PLAN
+			]
+			val equivalentPlanPlanungEinzeln = equivalentPlanInfo.
+				planungEinzelns.get(
+					Services.planningAccessService.currentUntergewerkArt)
+			val equivalentPlanPlanungAllgemein = equivalentPlanPlanungEinzeln?.
+				planungEAllg
+			val equivalentPlanLastPlanungEErstellung = equivalentPlanPlanungEinzeln?.
+				planungEHandlung?.planungEErstellung?.lastOrNull
+			it.set(49, equivalentPlanPlanungAllgemein.buildLastEditionNumber)
+			it.set(63,
+				equivalentPlanLastPlanungEErstellung?.datum?.wert?.toString(
+					DATE_FORMAT) ?: "")
 		}
 
 		if (ToolboxConfiguration.pdfExportTestFilling) {

@@ -14,7 +14,6 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.eclipse.core.runtime.Assert;
@@ -31,6 +30,7 @@ import org.eclipse.set.model.planpro.PlanPro.Planung_Einzel;
 import org.eclipse.set.model.planpro.PlanPro.Planung_Gruppe;
 import org.eclipse.set.model.planpro.PlanPro.Planung_Projekt;
 import org.eclipse.set.model.planpro.PlanPro.Untergewerk_Art_TypeClass;
+import org.eclipse.set.ppmodel.extensions.EObjectExtensions;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
 import org.eclipse.set.ppmodel.extensions.PlanungEinzelExtensions;
 import org.eclipse.set.ppmodel.extensions.utils.PlanProToFreeFieldTransformation;
@@ -67,9 +67,23 @@ public class PlanningAccessServiceImpl
 					.getLSTPlanungGruppe(
 							referencePlanSession.getPlanProSchnittstelle())
 					.orElse(Collections.emptyList());
-			final Set<Planung_Einzel> planungsEinzel = Streams.stream(groups)
-					.map(Planung_Gruppe::getLSTPlanungEinzel)
-					.collect(Collectors.toSet());
+			final Map<ENUMUntergewerkArt, Planung_Einzel> planungsEinzel = Streams
+					.stream(groups)
+					.filter(group -> EObjectExtensions
+							.getNullableObject(group,
+									g -> g.getPlanungGAllg()
+											.getUntergewerkArt()
+											.getWert())
+							.isPresent()
+							&& EObjectExtensions
+									.getNullableObject(group,
+											g -> g.getLSTPlanungEinzel())
+									.isPresent())
+					.collect(Collectors.toMap(
+							group -> group.getPlanungGAllg()
+									.getUntergewerkArt()
+									.getWert(),
+							Planung_Gruppe::getLSTPlanungEinzel));
 			additionalPlanInfomration.put(
 					referencePlanSession.getToolboxFile().getRole(),
 					new AdditionalPlanInformation(information, planungsEinzel));

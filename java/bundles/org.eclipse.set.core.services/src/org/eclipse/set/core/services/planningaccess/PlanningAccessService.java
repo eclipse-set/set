@@ -10,7 +10,6 @@
 package org.eclipse.set.core.services.planningaccess;
 
 import java.util.Map;
-import java.util.Set;
 
 import org.eclipse.set.basis.FreeFieldInfo.LoadedPlanInformation;
 import org.eclipse.set.basis.files.ToolboxFileRole;
@@ -35,11 +34,12 @@ public interface PlanningAccessService {
 	 * @param loadPlanInformation
 	 *            the {@link LoadedPlanInformation}
 	 * @param planungEinzelns
-	 *            the list of {@link Planung_Einzel}
+	 *            the list of {@link Planung_Einzel} by
+	 *            {@link ENUMUntergewerkArt}
 	 */
 	public static record AdditionalPlanInformation(
 			LoadedPlanInformation loadPlanInformation,
-			Set<Planung_Einzel> planungEinzelns) {
+			Map<ENUMUntergewerkArt, Planung_Einzel> planungEinzelns) {
 
 	}
 

@@ -248,6 +248,13 @@ public final class ToolboxConstants {
 	 * reference plan.
 	 */
 	public static final String TOOLBOX_DIRECTORY_NAME_REFERENCE_BASIS_PLAN = "referenceplan";
+
+	/**
+	 * The name for the temporary directory of a toolbox file used as a
+	 * equivalent plan.
+	 */
+	public static final String TOOLBOX_DIRECTORY_NAME_EQUIVALENT_PLAN = "equivalentplan";
+
 	/**
 	 * The id of the validation part.
 	 */

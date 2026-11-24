@@ -49,14 +49,19 @@ class PlanProToFreeFieldTransformation {
 	 * Transforms a PlanPro Schnittstelle to a FreeFieldInfo.
 	 */
 	def FreeFieldInfo transform() {
-		val informations = #[mainSession.transformLoadedPlan,
-				compareSession.transformLoadedPlan, Services.planningAccessService.additionalPlansInformation].filterNull
-				
+		val informations = newArrayList
+		informations.add(mainSession.transformLoadedPlan)
+		informations.add(compareSession.transformLoadedPlan)
+		informations.addAll(Services.planningAccessService.
+			additionalPlansInformation.values.map[loadPlanInformation])
 		return new FreeFieldInfo(
-			new SignificantInformation(informations.sortBy[role]))
+			new SignificantInformation(informations.filterNull.sortBy [
+				role
+			]))
 	}
 
-	static def LoadedPlanInformation transformLoadedPlan(IModelSession session) {
+	static def LoadedPlanInformation transformLoadedPlan(
+		IModelSession session) {
 		if (session === null) {
 			return null
 		}
@@ -67,7 +72,7 @@ class PlanProToFreeFieldTransformation {
 		return new LoadedPlanInformation(role, name, checksum, timestamp)
 	}
 
- 	static def String getTimestamp(PlanPro_Schnittstelle schnittstelle) {
+	static def String getTimestamp(PlanPro_Schnittstelle schnittstelle) {
 		return String.format("%1$td.%1$tm.%1$tY %1$tT",
 			schnittstelle.planProSchnittstelleAllg.erzeugungZeitstempel.wert.
 				toGregorianCalendar)
