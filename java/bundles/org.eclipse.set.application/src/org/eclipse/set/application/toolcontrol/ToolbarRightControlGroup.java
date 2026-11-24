@@ -56,7 +56,7 @@ public class ToolbarRightControlGroup {
 				composite, serviceProvider);
 		final ControlAreaSelectionControl controlAreaSelectionControlcontrolArea = new ControlAreaSelectionControl(
 				composite, serviceProvider);
-		final RBCSelectionControl rcbSelectionControl = new RBCSelectionControl(
+		final RBCSelectionControl rbcSelectionControl = new RBCSelectionControl(
 				composite, serviceProvider);
 	}
 }

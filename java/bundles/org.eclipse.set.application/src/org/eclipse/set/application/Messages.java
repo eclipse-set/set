@@ -224,7 +224,7 @@ public class Messages {
 	public String RBCCombo_Default_RBC_Name;
 
 	/**
-	 * Kein ETCS-Daten vorhanden
+	 * Keine ETCS-Daten vorhanden
 	 */
 	public String RBCControl_No_ETCS_Data;
 }

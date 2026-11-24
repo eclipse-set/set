@@ -121,7 +121,7 @@ public abstract class AbstractOperationalAreaSelectionControl<T extends Ur_Objek
 			public void accept(final NewTableTypeEvent t) {
 				initCombo(t.getTableType());
 				// Send update event, when table type change
-				selectionOperationalArea(comboViewer.getSelection(),
+				selectOperationalArea(comboViewer.getSelection(),
 						t.getTableType());
 			}
 		};
