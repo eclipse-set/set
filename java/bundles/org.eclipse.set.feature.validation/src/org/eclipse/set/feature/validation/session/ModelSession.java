@@ -169,7 +169,7 @@ public class ModelSession implements IModelSession {
 	private EContentAdapter contentAdapter;
 	private final Guid guid;
 	private boolean isNewProject = false;
-	private DefaultToolboxEventHandler<SelectedOperationalAreaChangedEvent> selectedControlAreaChangedEventHandler;
+	private DefaultToolboxEventHandler<SelectedOperationalAreaChangedEvent> selectedOperationalAreaChangedEventHandler;
 	private PlanPro_Schnittstelle planPro_Schnittstelle;
 	private PlanPro_Layoutinfo layoutInfo;
 	private final Map<Integer, Boolean> reportSavedDialogSuppressed = new HashMap<>();
@@ -189,7 +189,7 @@ public class ModelSession implements IModelSession {
 	ProjectInitializationData projectInitializationData;
 	final ServiceProvider serviceProvider;
 	TableType tableType = null;
-	Map<OperationalAreaEnum, Set<OperationalAreaObject>> selectedControlAreas = new EnumMap<>(
+	Map<OperationalAreaEnum, Set<OperationalAreaObject>> selectedOperationalAreas = new EnumMap<>(
 			OperationalAreaEnum.class);
 
 	private SaveFixResult saveFixResult = SaveFixResult.NONE;
