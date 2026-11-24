@@ -184,7 +184,7 @@ class BankValues extends AbstractPlazContainerCheck implements PlazCheck, EventH
 	}
 
 	override getDescription() {
-		return "Topologische Pfade konnten für Überhöhungslinien gefunden werden."
+		return "Für alle Überhöhungslinien konnten topologische Pfade gefunden werden."
 	}
 
 	override getGeneralErrMsg() {
@@ -192,7 +192,7 @@ class BankValues extends AbstractPlazContainerCheck implements PlazCheck, EventH
 	}
 
 	static def String getProcessingWarningMsg() {
-		return "Die Suchung nach Topologischen Pfade for Überhöhungslinien ist noch nicht beendet."
+		return "Die Suche nach topologischen Pfaden für Überhöhungslinien ist noch nicht beendet."
 	}
 
 	override handleEvent(Event event) {

@@ -27,8 +27,7 @@ class AttachmentPresent implements PlazCheck {
 				!attachmentPresent(it, modelSession)
 			].map [
 				val err = PlazFactory.eINSTANCE.createPlazError
-				err.message = transformErrorMsg(
-					Map.of("GUID", it.identitaet?.wert ?: "(ohne Identität)"))
+				err.message = '''Der Anhang «it.identitaet?.wert ?: "(ohne Identität)"» wird referenziert, ist aber nicht vorhanden.'''
 				err.type = checkType
 				err.object = it
 				return err
@@ -45,10 +44,10 @@ class AttachmentPresent implements PlazCheck {
 	}
 
 	override getDescription() {
-		return "Referenzierte Anhänge sind in der .planpro-Datei vorhanden."
+		return "Alle referenzierte Anhänge sind in der .planpro-Datei vorhanden."
 	}
 
 	override getGeneralErrMsg() {
-		return "Der Anhang {GUID} wird referenziert, ist aber nicht vorhanden."
+		return "Es werden Anhänge referenziert, die nicht vorhanden sind."
 	}
 }
