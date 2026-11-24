@@ -356,7 +356,7 @@ class SsliTransformator extends AbstractPlanPro2TableModelTransformator {
 			}
 
 		}
-		result.put(gleis.identitaet?.wert ?: "",, gleisLabelBoundaries)
+		result.put(gleis.identitaet?.wert ?: "", gleisLabelBoundaries)
 	}
 
 	private def String createBezeichnung(Gleis_Bezeichnung gleisBezeichnung) {
