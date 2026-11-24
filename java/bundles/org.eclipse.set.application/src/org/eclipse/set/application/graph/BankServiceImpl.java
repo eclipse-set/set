@@ -10,6 +10,8 @@
  ********************************************************************************/
 package org.eclipse.set.application.graph;
 
+import static org.eclipse.set.ppmodel.extensions.EObjectExtensions.getNullableObject;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
@@ -233,11 +235,12 @@ public class BankServiceImpl implements BankService, EventHandler {
 			return optional.isEmpty() ? null : optional.get();
 		}
 
-		final Ueberhoehung begin = bankingLine.getIDUeberhoehungA().getValue();
-		final Ueberhoehung end = bankingLine.getIDUeberhoehungB().getValue();
-		if (begin == null || end == null) {
+		if (!validBankLine(bankingLine)) {
 			return null;
 		}
+
+		final Ueberhoehung begin = bankingLine.getIDUeberhoehungA().getValue();
+		final Ueberhoehung end = bankingLine.getIDUeberhoehungB().getValue();
 
 		final BigDecimal bankingLineLength = bankingLine
 				.getUeberhoehungslinieAllg()
@@ -250,10 +253,11 @@ public class BankServiceImpl implements BankService, EventHandler {
 				.get(0)
 				.getIDTOPKante()
 				.getValue();
-		if (beginEdge.equals(end.getPunktObjektTOPKante()
+		final TOP_Kante endEdge = end.getPunktObjektTOPKante()
 				.get(0)
 				.getIDTOPKante()
-				.getValue())) {
+				.getValue();
+		if (beginEdge.equals(endEdge)) {
 			final BigDecimal distanceA = begin.getPunktObjektTOPKante()
 					.get(0)
 					.getAbstand()
@@ -309,6 +313,33 @@ public class BankServiceImpl implements BankService, EventHandler {
 			return null;
 		}
 		return new BankingInformation(bankingLine, path);
+	}
+
+	private static boolean validBankLine(final Ueberhoehungslinie bank) {
+		final BigDecimal length = getNullableObject(bank,
+				b -> b.getUeberhoehungslinieAllg()
+						.getUeberhoehungslinieLaenge()
+						.getWert()).orElse(null);
+		if (length == null) {
+			return false;
+		}
+		final Predicate<Ueberhoehung> validPoint = point -> {
+			try {
+				final Punkt_Objekt_TOP_Kante_AttributeGroup potk = point
+						.getPunktObjektTOPKante()
+						.getFirst();
+				return potk.getIDTOPKante().getValue() != null
+						&& potk.getAbstand().getWert() != null;
+			} catch (final NullPointerException e) {
+				return false;
+			}
+		};
+
+		final Ueberhoehung begin = getNullableObject(bank,
+				b -> b.getIDUeberhoehungA().getValue()).orElse(null);
+		final Ueberhoehung end = getNullableObject(bank,
+				b -> b.getIDUeberhoehungB().getValue()).orElse(null);
+		return validPoint.test(begin) && validPoint.test(end);
 	}
 
 	/**

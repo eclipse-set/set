@@ -60,7 +60,6 @@ import org.eclipse.set.model.planpro.Verweise.ID_GEO_Punkt_ohne_Proxy_TypeClass;
 import org.eclipse.set.model.plazmodel.PlazError;
 import org.eclipse.set.model.plazmodel.PlazFactory;
 import org.eclipse.set.model.validationreport.ValidationSeverity;
-import org.eclipse.set.ppmodel.extensions.BasisAttributExtensions;
 import org.eclipse.set.ppmodel.extensions.BasisObjektExtensions;
 import org.eclipse.set.ppmodel.extensions.EObjectExtensions;
 import org.eclipse.set.ppmodel.extensions.GeoKanteExtensions;
@@ -177,6 +176,11 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 			final MultiContainer_AttributeGroup container) {
 		final List<PlazError> result = new ArrayList<>();
 		getTopKanteWithDifferentCRS(container);
+		final List<Bereich_Objekt> bereichsObjects = Streams
+				.stream(container.getBereichObjekt())
+				.toList();
+		final ContainerType containerType = MultiContainer_AttributeGroupExtensions
+				.getContainerType(container);
 		getRelevantPOs(container).stream()
 				.filter(po -> PunktObjektExtensions.getTopKanten(po)
 						.stream()
@@ -190,9 +194,7 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 						return;
 					}
 					final GEOKanteCoordinate topCoordinate = calculateCoordinate(
-							MultiContainer_AttributeGroupExtensions
-									.getContainerType(container),
-							po, potk);
+							containerType, po, potk, bereichsObjects);
 
 					if (topCoordinate == null
 							|| getNullableObject(topCoordinate,
@@ -283,11 +285,14 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 	 * @param potk
 	 *            the {@link Punkt_Objekt_TOP_Kante_AttributeGroup} of this
 	 *            {@link Punkt_Objekt}
+	 * @param bereichsObjects
+	 *            the list of {@link Bereich_Objekt}
 	 * @return the {@link GEOKanteCoordinate}
 	 */
 	public GEOKanteCoordinate calculateCoordinate(final ContainerType state,
 			final Punkt_Objekt po,
-			final Punkt_Objekt_TOP_Kante_AttributeGroup potk) {
+			final Punkt_Objekt_TOP_Kante_AttributeGroup potk,
+			final List<Bereich_Objekt> bereichsObjects) {
 		List<TopologicalCoordinate> alreadyCalulatedCoordinates = topologicalCoordinates
 				.orElse(null);
 		if (alreadyCalulatedCoordinates == null) {
@@ -308,14 +313,15 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 		}
 
 		final GEOKanteCoordinate calculateCoordinate = calculateCoordinate(po,
-				potk);
+				potk, bereichsObjects);
 		alreadyCalulatedCoordinates.add(new TopologicalCoordinate(state, po,
 				potk, calculateCoordinate));
 		return calculateCoordinate;
 	}
 
 	private GEOKanteCoordinate calculateCoordinate(final Punkt_Objekt po,
-			final Punkt_Objekt_TOP_Kante_AttributeGroup potk) {
+			final Punkt_Objekt_TOP_Kante_AttributeGroup potk,
+			final List<Bereich_Objekt> bereichsObjects) {
 		try {
 			BigDecimal lateralDistance = null;
 			GEOKanteMetadata geoKanteMetaData = alreadyFoundMetaData
@@ -324,7 +330,7 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 					.findFirst()
 					.orElse(null);
 			if (geoKanteMetaData == null) {
-				geoKanteMetaData = getGeoKanteMetaData(potk);
+				geoKanteMetaData = getGeoKanteMetaData(potk, bereichsObjects);
 				if (geoKanteMetaData == null) {
 					return null;
 				}
@@ -457,7 +463,8 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 	}
 
 	private static GEOKanteMetadata getGeoKanteMetaData(
-			final Punkt_Objekt_TOP_Kante_AttributeGroup potk) {
+			final Punkt_Objekt_TOP_Kante_AttributeGroup potk,
+			final List<Bereich_Objekt> bereichsObjects) {
 		try {
 			final TOP_Kante topkante = potk.getIDTOPKante().getValue();
 			final GeoKnotenRange relevantGeoKnotenRange = getRelevantGeoKnotenRange(
@@ -480,13 +487,9 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 													.setStepSize(0.0001)
 													.build())
 									.build());
-			final List<Bereich_Objekt> bereichObjekts = Streams
-					.stream(BasisAttributExtensions.getContainer(topkante)
-							.getBereichObjekt())
-					.toList();
 			return new GEOKanteMetadata(geoKante,
 					relevantGeoKnotenRange.startDistance(), geoKanteLength,
-					bereichObjekts, topkante,
+					bereichsObjects, topkante,
 					relevantGeoKnotenRange.startNode(), geometry,
 					getCRS(relevantGeoKnotenRange.startNode()));
 		} catch (final NullPointerException | IllegalArgumentException e) {

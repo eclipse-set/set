@@ -178,7 +178,7 @@ abstract class AbstractSiteplanTransformator implements SiteplanTransformator {
 			eGet(ref) as EList<SiteplanObject>
 		val siteplanChangedFinalList = siteplan.changedFinalState.
 			eGet(ref) as EList<SiteplanObject>
-		val diffObjects = createListDiff(initialList, finalList, [guid])
+		val diffObjects = createListDiff(initialList, finalList, [guid.toUpperCase])
 		diffObjects.forEach [
 			if (key === null)
 				siteplanFinalList.add(value)
@@ -231,12 +231,14 @@ abstract class AbstractSiteplanTransformator implements SiteplanTransformator {
 				if (startGuid > targetGuid) {
 					outList.add(null -> targetValue)
 					if (!startIt.hasNext || !targetIt.hasNext) {
+						outList.add(startValue -> null)
 						return
 					}
 					targetValue = targetIt.next
 				} else if (startGuid < targetGuid) {
 					outList.add(startValue -> null)
 					if (!startIt.hasNext || !targetIt.hasNext) {
+						outList.add(null -> targetValue)
 						return
 					}
 					startValue = startIt.next

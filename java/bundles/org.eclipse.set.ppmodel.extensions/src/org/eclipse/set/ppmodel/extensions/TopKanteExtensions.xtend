@@ -706,6 +706,10 @@ class TopKanteExtensions extends BasisObjektExtensions {
 	 */
 	def static boolean isRoute(TOP_Kante topKante, TOP_Kante destination,
 		TOP_Knoten transition) {
+		if (topKante === destination ||
+			topKante.identitaet.wert == destination.identitaet.wert) {
+			return false
+		}
 		val anschlussOrigin = topKante.getTOPAnschluss(transition)
 		val anschlussDestination = destination.getTOPAnschluss(transition)
 

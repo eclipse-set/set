@@ -492,6 +492,9 @@ public class ExcelExportBuilder implements TableExport {
 
 	private static void fillFootnoteCell(final XSSFRichTextString richText,
 			final FootnoteContainer fnContainer, final boolean inlineFootnote) {
+		if (fnContainer == null) {
+			return;
+		}
 		switch (fnContainer) {
 			case final SimpleFootnoteContainer simpleContainer -> {
 				final Iterable<FootnoteInfo> fnsInfo = TableExtensions

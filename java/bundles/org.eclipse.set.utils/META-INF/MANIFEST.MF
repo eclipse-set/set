@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Utils
 Bundle-SymbolicName: org.eclipse.set.utils;singleton:=true
-Bundle-Version: 2.7.0.qualifier
+Bundle-Version: 2.8.0.qualifier
 Bundle-Vendor: Eclipse Signalling Engineering Toolbox
 Export-Package: org.eclipse.set.utils,
  org.eclipse.set.utils.attachment,
@@ -127,6 +127,7 @@ Import-Package: com.fasterxml.jackson.core,
  org.eclipse.set.basis.part,
  org.eclipse.set.basis.text,
  org.eclipse.set.basis.viewgroups,
+ org.eclipse.set.basis.xml,
  org.eclipse.set.browser,
  org.eclipse.set.browser.cef,
  org.eclipse.set.browser.swt,
@@ -147,6 +148,7 @@ Import-Package: com.fasterxml.jackson.core,
  org.eclipse.set.model.tablemodel,
  org.eclipse.set.model.validationreport,
  org.eclipse.set.ppmodel.extensions.container,
+ org.eclipse.swt.widgets,
  org.eclipse.ui.editors.text,
  org.eclipse.ui.internal.editors.text,
  org.eclipse.ui.internal.layout,

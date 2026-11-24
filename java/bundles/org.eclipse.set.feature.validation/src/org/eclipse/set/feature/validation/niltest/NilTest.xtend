@@ -11,7 +11,7 @@ package org.eclipse.set.feature.validation.niltest
 import java.io.IOException
 import java.util.List
 import javax.xml.parsers.ParserConfigurationException
-import org.eclipse.set.basis.PlanProXMLNode
+import org.eclipse.set.basis.xml.PlanProXMLNode
 import org.eclipse.set.basis.constants.ValidationResult
 import org.eclipse.set.basis.exceptions.CustomValidationProblem
 import org.eclipse.set.basis.files.ToolboxFile
@@ -27,6 +27,7 @@ import org.osgi.service.component.annotations.Component
 import org.xml.sax.SAXException
 
 import static extension org.eclipse.set.utils.xml.ObjectMetadataXMLReader.*
+import java.util.ArrayDeque
 
 /** 
  * Test for intentionally incomplete data.
@@ -75,12 +76,16 @@ class NilTest extends AbstractCustomValidator {
 	}
 
 	private def List<CustomValidationProblem> validate(PlanProXMLNode node) {
-		val it = newLinkedList
-		val nilAttribute = node?.attributes.exists[attributeName == NIL]
-		if (nilAttribute) {
-			it.add(node.transform)
+		val it = newArrayList
+		val nodes = new ArrayDeque
+		nodes.add(node)
+		for(var PlanProXMLNode currentNode; (currentNode = nodes.poll) !== null;) {
+			val nilAttribute = currentNode?.attributes.exists[attributeName == NIL]
+			if (nilAttribute) {
+				it.add(currentNode.transform)
+			}	
+			nodes.addAll(currentNode.children)
 		}
-		it.addAll(node.getChildren.flatMap[validate])
 		return it
 	}
 
@@ -98,7 +103,7 @@ class NilTest extends AbstractCustomValidator {
 
 	private def dispatch CustomValidationProblem transform(PlanProXMLNode node) {
 		val it = new CustomValidationProblemImpl
-		lineNumber = Integer.parseInt(node.startLineNumber)
+		lineNumber = node.startLineNumber
 		message = messages.NilTestProblem_Message
 		severity = ValidationSeverity.WARNING
 		type = validationType

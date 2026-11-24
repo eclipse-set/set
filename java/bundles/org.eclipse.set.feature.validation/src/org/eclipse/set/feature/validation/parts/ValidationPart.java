@@ -27,6 +27,7 @@ import org.eclipse.set.core.services.dialog.DialogService;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.core.services.part.ToolboxPartService;
 import org.eclipse.set.core.services.version.PlanProVersionService;
+import org.eclipse.set.core.services.viewmodel.ToolboxViewModelService;
 import org.eclipse.set.feature.validation.Messages;
 import org.eclipse.set.feature.validation.report.SessionToValidationReportTransformation;
 import org.eclipse.set.feature.validation.table.ValidationTableView;
@@ -77,6 +78,9 @@ public class ValidationPart extends BasePart {
 	private PlanProVersionService versionService;
 
 	@Inject
+	private ToolboxViewModelService viewModelService;
+
+	@Inject
 	EnumTranslationService enumTranslationService;
 
 	@Inject
@@ -117,8 +121,12 @@ public class ValidationPart extends BasePart {
 		final Shell shell = getToolboxShell();
 		final MPart part = getToolboxPart();
 		final DialogService dialogService = getDialogService();
+		// create validation report
+		transformation = new SessionToValidationReportTransformation(messages,
+				versionService, enumTranslationService);
 		dialogService.showProgressUISync(shell, messages.ProgressMsg,
-				() -> create(parent));
+				() -> transformation.transform(getModelSession()),
+				report -> create(parent, report));
 		if (createException != null) {
 			dialogService.error(shell, createException);
 			MApplicationElementExtensions.setViewState(part,
@@ -129,12 +137,10 @@ public class ValidationPart extends BasePart {
 		}
 	}
 
-	protected void create(final Composite parent) {
+	protected void create(final Composite parent,
+			final ValidationReport report) {
 		try {
-			// create validation report
-			transformation = new SessionToValidationReportTransformation(
-					messages, versionService, enumTranslationService);
-			validationReport = transformation.transform(getModelSession());
+			validationReport = report;
 			storageReport();
 			final ScrolledComposite sc1 = new ScrolledComposite(parent,
 					SWT.V_SCROLL);
@@ -190,6 +196,7 @@ public class ValidationPart extends BasePart {
 							problem.getType(), problem.getLineNumber(),
 							severity, problem.getObjectScope().getLiteral()));
 				});
+		viewModelService.put(VIEW_VALIDATION_REPORT, validationReport);
 		getBroker().post(Events.PROBLEMS_CHANGED, null);
 	}
 

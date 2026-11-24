@@ -26,7 +26,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVFormat.Builder;
@@ -38,8 +37,11 @@ import org.eclipse.set.application.geometry.GeoKanteGeometrySessionData;
 import org.eclipse.set.application.geometry.PointObjectPositionServiceImpl;
 import org.eclipse.set.basis.Pair;
 import org.eclipse.set.basis.constants.ContainerType;
+import org.eclipse.set.core.services.Services;
+import org.eclipse.set.core.services.cache.NoCacheService;
 import org.eclipse.set.feature.plazmodel.check.GeoCoordinateValid;
 import org.eclipse.set.feature.plazmodel.export.TopologicalCoordinate;
+import org.eclipse.set.model.planpro.Basisobjekte.Bereich_Objekt;
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt;
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup;
 import org.eclipse.set.model.planpro.Ortung.FMA_Komponente;
@@ -50,10 +52,15 @@ import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
 import org.eclipse.set.ppmodel.extensions.PunktObjektExtensions;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.eclipse.set.unittest.utils.AbstractToolboxTest;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.locationtech.jts.geom.Coordinate;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
+
+import com.google.common.collect.Streams;
 
 /**
  * Test calculate topological Coordinate of {@link Punkt_Objekt}
@@ -90,11 +97,12 @@ public class CalculateTopologicalCoordinateTest extends AbstractToolboxTest {
 				.of(new Pair<>("pphn", PPHN_1_10_0_3_20220517_PLANPRO)));
 	}
 
+	private NoCacheService cacheService;
 	List<CSVRecord> csvRecords;
+
 	GeoKanteGeometryServiceImpl geometryService;
 
 	GeoCoordinateValid testee;
-
 	List<TopologicalCoordinate> topologicalCoordinates;
 
 	private void givenGeoCoordinateValid() throws IllegalAccessException {
@@ -177,7 +185,10 @@ public class CalculateTopologicalCoordinateTest extends AbstractToolboxTest {
 			// No need to compare State and GUID here. It is already valid
 			final Map<Integer, String> valueToCompare = Map.of(5, crs, 6,
 					coordStrArry[0], 7, coordStrArry[1]);
-			assertTrue(isSame(csvEntry, valueToCompare));
+			assertTrue(isSame(csvEntry, valueToCompare), () -> {
+				return "Expect: " + csvEntry.toString() + "- Actual: "
+						+ coord.toString();
+			});
 		});
 	}
 
@@ -186,16 +197,18 @@ public class CalculateTopologicalCoordinateTest extends AbstractToolboxTest {
 		final Method calculatedMethode = GeoCoordinateValid.class
 				.getDeclaredMethod("calculateCoordinate", ContainerType.class,
 						Punkt_Objekt.class,
-						Punkt_Objekt_TOP_Kante_AttributeGroup.class);
+						Punkt_Objekt_TOP_Kante_AttributeGroup.class,
+						List.class);
 		calculatedMethode.setAccessible(true);
 		List.of(ContainerType.INITIAL, ContainerType.FINAL)
 				.stream()
 				.forEach(type -> {
 					final MultiContainer_AttributeGroup container = PlanProSchnittstelleExtensions
 							.getContainer(planProSchnittstelle, type);
-					StreamSupport
-							.stream(container.getPunktObjekts().spliterator(),
-									false)
+					final List<Bereich_Objekt> bereichObjects = Streams
+							.stream(container.getBereichObjekt())
+							.toList();
+					Streams.stream(container.getPunktObjekts())
 							.filter(po -> PunktObjektExtensions
 									.existLateralDistance(po)
 									|| po instanceof FMA_Komponente
@@ -204,7 +217,8 @@ public class CalculateTopologicalCoordinateTest extends AbstractToolboxTest {
 									.forEach(potk -> {
 										try {
 											calculatedMethode.invoke(testee,
-													type, po, potk);
+													type, po, potk,
+													bereichObjects);
 										} catch (final Exception e) {
 											throw new RuntimeException(e);
 										}
@@ -214,17 +228,27 @@ public class CalculateTopologicalCoordinateTest extends AbstractToolboxTest {
 		topologicalCoordinates = testee.getTopologischeCoordinaten();
 	}
 
+	@BeforeEach
+	void beforeEach() throws Exception {
+		cacheService = new NoCacheService();
+	}
+
 	@ParameterizedTest
 	@MethodSource("getReferenceFiles")
 	void testTopologischeCoordinateCalculate(
 			final Pair<String, String> testFile) throws Exception {
-		givenGeoKanteGeometryService();
-		givenGeoCoordinateValid();
-		givenTopologicalCoordinaten(testFile.getFirst());
-		givenPlanProFile(testFile.getSecond());
-		whenCalculateCoordinate();
-		thenExpectAllCoordinateAreEqualReference();
-
+		try (MockedStatic<Services> mockStatic = Mockito
+				.mockStatic(Services.class)) {
+			mockStatic.when(Services::getCacheService).thenReturn(cacheService);
+			mockStatic.when(Services::getNoCacheService)
+					.thenReturn(cacheService);
+			givenGeoKanteGeometryService();
+			givenGeoCoordinateValid();
+			givenTopologicalCoordinaten(testFile.getFirst());
+			givenPlanProFile(testFile.getSecond());
+			whenCalculateCoordinate();
+			thenExpectAllCoordinateAreEqualReference();
+		}
 	}
 
 }

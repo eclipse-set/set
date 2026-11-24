@@ -15,6 +15,8 @@ import java.util.Optional;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.function.BiPredicate;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.set.basis.IModelSession;
@@ -512,4 +514,23 @@ public interface DialogService {
 	 *         the loading should be aborted (<code>false</code>)
 	 */
 	boolean sitePlanError(Shell shell, String filename);
+
+	/**
+	 * Shows a progress dialog while calculating data in a background thread,
+	 * then renders the UI
+	 * 
+	 * @param <T>
+	 *            the data type
+	 * 
+	 * @param shell
+	 *            the shell
+	 * @param message
+	 *            the dialog messages
+	 * @param calculateData
+	 *            prepares the required data in a background thread
+	 * @param rendereUI
+	 *            renders the UI after data calculation has completed
+	 */
+	<T> void showProgressUISync(Shell shell, String message,
+			Supplier<T> calculateData, Consumer<T> rendereUI);
 }

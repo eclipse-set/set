@@ -160,7 +160,7 @@ function onFeatureSelect (event: SelectEvent): void {
     return
   }
 
-  infoPopup.value?.setPosition(event.mapBrowserEvent.coordinate)
+  infoPopup.value?.setPosition(event?.mapBrowserEvent?.coordinate)
 }
 
 function onFeatureClick (event: MapBrowserEvent): boolean {

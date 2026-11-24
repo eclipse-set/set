@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Table
 Bundle-SymbolicName: org.eclipse.set.utils.table
-Bundle-Version: 2.7.0.qualifier
+Bundle-Version: 2.8.0.qualifier
 Bundle-Vendor: Eclipse Signalling Engineering Toolbox
 Automatic-Module-Name: org.eclipse.set.utils.table
 Bundle-RequiredExecutionEnvironment: JavaSE-21
@@ -36,6 +36,7 @@ Import-Package: jakarta.inject;version="1.0.0",
  org.eclipse.set.basis.files,
  org.eclipse.set.basis.tables,
  org.eclipse.set.basis.viewgroups,
+ org.eclipse.set.basis.xml,
  org.eclipse.set.core,
  org.eclipse.set.core.services,
  org.eclipse.set.core.services.configurationservice,

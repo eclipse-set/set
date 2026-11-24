@@ -3,13 +3,14 @@ import * as dotenv from 'dotenv'
 import path from 'path'
 import { defineConfig } from 'vite'
 
+const dirName = import.meta.dirname
 dotenv.config()
 export default defineConfig(({_, mode}) => ({
   plugins: [vue()],
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src'),
-      "rbush": __dirname + '/node_modules/rbush/rbush.js',
+      '@': path.resolve(dirName, './src'),
+      "rbush": dirName + '/node_modules/rbush/rbush.js',
     },
 
     // Allow import file from the extension list

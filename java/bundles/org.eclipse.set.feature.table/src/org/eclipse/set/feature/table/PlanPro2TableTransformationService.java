@@ -63,9 +63,9 @@ public abstract class PlanPro2TableTransformationService extends
 	public boolean isObjectBelongToRendereArea(final Ur_Objekt obj,
 			final List<Stell_Bereich> areas) {
 		return switch (getTableCategory()) {
-			case ESTW, ESTW_SUPPLEMENT -> {
-				yield StellBereichExtensions.isInControlArea(areas, obj);
-			}
+			case ESTW, ESTW_SUPPLEMENT -> StellBereichExtensions
+					.isInControlArea(areas, obj);
+
 			default -> true;
 		};
 	}
@@ -89,9 +89,11 @@ public abstract class PlanPro2TableTransformationService extends
 	 *            the origin table, which contains all value
 	 * @param filteredTable
 	 *            the filtered table
+	 * @param controlAreaIds
+	 *            the selected control area
 	 */
 	public void addAdditionRow(final Table originalTable,
-			final Table filteredTable) {
+			final Table filteredTable, final Set<String> controlAreaIds) {
 		// do nothing by default
 	}
 }

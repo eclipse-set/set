@@ -16,6 +16,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.set.basis.constants.TableType;
@@ -142,7 +143,7 @@ public final class SslbTransformationService
 	// current selected area
 	// See: ppmtab - Relevant area
 	public void addAdditionRow(final Table originalTable,
-			final Table filteredTable) {
+			final Table filteredTable, final Set<String> controlAreaIds) {
 		final List<RowGroup> originalTableRowGroups = TableExtensions
 				.getTableRowGroups(originalTable);
 		final List<RowGroup> filteredTableRowGroups = TableExtensions
@@ -209,15 +210,17 @@ public final class SslbTransformationService
 				.stream(container.getBlockAnlage())
 				.filter(anlage -> EObjectExtensions
 						.getNullableObject(anlage,
-								ele -> ele.getIDBlockElementA().getValue())
-						.orElse(null)
-						.equals(current)
-						|| EObjectExtensions
-								.getNullableObject(anlage,
-										ele -> ele.getIDBlockElementB()
-												.getValue())
-								.orElse(null)
-								.equals(current))
+								ele -> Boolean.valueOf(ele.getIDBlockElementA()
+										.getValue()
+										.equals(current)))
+						.orElse(Boolean.FALSE)
+						.booleanValue()
+						|| EObjectExtensions.getNullableObject(anlage,
+								ele -> Boolean.valueOf(ele.getIDBlockElementB()
+										.getValue()
+										.equals(current)))
+								.orElse(Boolean.FALSE)
+								.booleanValue())
 				.findFirst();
 
 		if (blockAnlage.isEmpty()) {

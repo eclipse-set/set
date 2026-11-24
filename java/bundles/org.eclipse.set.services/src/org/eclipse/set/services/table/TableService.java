@@ -118,26 +118,6 @@ public interface TableService {
 			final IModelSession modelSession, Set<String> controlAreaIds);
 
 	/**
-	 * Transform the selected container and control area to a table model.
-	 * 
-	 * @param tableInfo
-	 *            the {@link TableInfo}
-	 * @param tableType
-	 *            the table type
-	 * @param modelSession
-	 *            the model session
-	 * @param controlAreaIds
-	 *            the list of {@link Stell_Bereich} and the belonging container
-	 * @param tableStatus
-	 *            the table status to update when transforming the table
-	 * 
-	 * @return the table
-	 */
-	Table transformToTable(final TableInfo tableInfo, TableType tableType,
-			final IModelSession modelSession, Set<String> controlAreaIds,
-			final TableStatus tableStatus);
-
-	/**
 	 * Transform the selected container and control area to tables model.
 	 * 
 	 * @param monitor

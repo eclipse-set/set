@@ -25,7 +25,10 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.function.BiPredicate;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.e4.core.services.nls.Translation;
 import org.eclipse.e4.ui.di.UISynchronize;
 import org.eclipse.jface.dialogs.ErrorDialog;
@@ -460,6 +463,22 @@ public class DialogServiceImpl implements DialogService {
 		dialog.open();
 		sync.syncExec(runnable);
 		dialog.close();
+	}
+
+	@Override
+	public <T> void showProgressUISync(final Shell shell, final String message,
+			final Supplier<T> calculateData, final Consumer<T> rendereUI) {
+		try {
+			new ProgressMonitorDialog(shell).run(true, false, monitor -> {
+				monitor.beginTask(message, IProgressMonitor.UNKNOWN);
+				final T data = calculateData.get();
+				shell.getDisplay().syncExec(() -> rendereUI.accept(data));
+				monitor.done();
+			});
+		} catch (InvocationTargetException | InterruptedException e) {
+			Thread.currentThread().interrupt();
+			throw new RuntimeException();
+		}
 	}
 
 	@Override
