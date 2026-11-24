@@ -338,11 +338,12 @@ public class LSTObjectDesignationExtensions {
 			final Signal signal = SignalRahmenExtensions
 					.getSignal(signalRahmen);
 			final String signalDesignation = getLSTObjectDesignation(signal);
+			final String signalDesignationOutput = signalDesignation.isEmpty() ? "" : "[" + signalDesignation + "]";
 			if (!signalBegriffSymbol.isEmpty()) {
-				return String.format("%s [%s]", signalBegriffSymbol, //$NON-NLS-1$
-						signalDesignation);
+				return String.format("%s%s", signalBegriffSymbol, //$NON-NLS-1$
+						signalDesignationOutput.isEmpty() ? "", " " + signalDesignationOutput);
 			}
-			return "[" + signalDesignation + "]"; //$NON-NLS-1$//$NON-NLS-2$
+			return signalDesignationOutput; //$NON-NLS-1$//$NON-NLS-2$
 		});
 	}
 
