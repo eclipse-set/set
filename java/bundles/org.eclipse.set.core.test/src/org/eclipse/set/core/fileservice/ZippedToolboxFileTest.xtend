@@ -21,6 +21,7 @@ import org.junit.jupiter.api.Test
 
 import static org.junit.Assert.assertFalse
 import static org.junit.Assert.assertNotNull
+import static org.junit.Assert.assertEquals
 
 /**
  * Test for {@link ZippedPlanProToolboxFile}
@@ -28,6 +29,7 @@ import static org.junit.Assert.assertNotNull
  */
 class ZippedToolboxFileTest extends AbstractToolboxFileTest {
 	static val TESTPATH = PPHN_1_10_0_3_20220517_PLANPRO
+	static val PPHN_1_10_0_3_20220517_PLANPRO_CHECKSUM = "29C04EFDDCA8BBD3A272C47601559641"
 
 	/**
 	 * Test method for {@link ZippedPlanProToolboxFile#open()}
@@ -84,6 +86,20 @@ class ZippedToolboxFileTest extends AbstractToolboxFileTest {
 			thenExpectZippedDirectoryNotExist
 
 		])
+	}
+	
+	@Test
+	def void testLSTDataBaseCheckSum() throws Throwable {
+		MockPlanProVersionService.mockPlanProVersionService([
+			whenOpen
+			thenExpectContentsExists()
+			thenExpectLayoutContentExists()
+			thenExpectCheckSumEqual()
+		])
+	}
+	
+	def void thenExpectCheckSumEqual() {
+		assertEquals(PPHN_1_10_0_3_20220517_PLANPRO_CHECKSUM.toUpperCase,testee.lstDatabaseCheckSum)
 	}
 
 	/**

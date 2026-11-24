@@ -334,6 +334,11 @@ public class ZippedPlanProToolboxFile extends AbstractToolboxFile {
 		if (isLoadable()) {
 			generateMD5CheckSum();
 			unzip();
+			try {
+				generateLSTDatabaseCheckSum();
+			} catch (final Exception e) {
+				throw new RuntimeException();
+			}
 			loadResource(getModelPath(), editingDomain,
 					Services.getPlanProVersionService());
 			final DocumentRoot doc = (org.eclipse.set.model.planpro.PlanPro.DocumentRoot) getPlanProResource()

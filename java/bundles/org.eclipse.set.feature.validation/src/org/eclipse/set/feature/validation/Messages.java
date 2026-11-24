@@ -405,4 +405,9 @@ public class Messages {
 	 * Wesentliche Planungsmetadaten
 	 */
 	public String ValidationReport_Metadata;
+
+	/**
+	 * LST-Datenbank MD5
+	 */
+	public String ValidationReport_GeladeneDatei_LSTDataBase_MD5;
 }
