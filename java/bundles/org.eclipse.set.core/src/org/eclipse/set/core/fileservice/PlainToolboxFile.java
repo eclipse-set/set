@@ -153,6 +153,11 @@ public class PlainToolboxFile extends AbstractToolboxFile {
 	public void openModel() throws IOException {
 		if (isLoadable()) {
 			generateMD5CheckSum();
+			try {
+				generateLSTDatabaseCheckSum();
+			} catch (final Exception e) {
+				throw new RuntimeException();
+			}
 			loadResource(getModelPath(), editingDomain,
 					Services.getPlanProVersionService());
 			final DocumentRoot doc = (org.eclipse.set.model.planpro.PlanPro.DocumentRoot) getPlanProResource()
