@@ -300,7 +300,7 @@ class SsliTransformator extends AbstractPlanPro2TableModelTransformator {
 			} else {
 				gleisBegrenzung.raGegenfahrtausschluss = newArrayList(
 					raGegenfahrtausschluss)
-				result.put(g.identitaet?.wert,
+				result.put(g.bezeichnung.bezGleisBezeichnung.wert,
 					newArrayList(gleisBegrenzung))
 			}
 		]
