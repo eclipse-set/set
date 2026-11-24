@@ -8,7 +8,7 @@
  */
 package org.eclipse.set.basis;
 
-import java.util.Set;
+import java.util.List;
 
 import org.eclipse.set.basis.files.ToolboxFileRole;
 
@@ -22,13 +22,11 @@ import org.eclipse.set.basis.files.ToolboxFileRole;
  */
 public record FreeFieldInfo(SignificantInformation significantInformation) {
 	/**
-	 * @param mainPlan
-	 *            the main {@link LoadedPlanInformation}
-	 * @param comparePlan
-	 *            the compare {@link LoadedPlanInformation}
+	 * @param loadedPlansInformation
+	 *            the loaed plans information
 	 */
 	public record SignificantInformation(
-			Set<LoadedPlanInformation> loadedPlansInformation) {
+			List<LoadedPlanInformation> loadedPlansInformation) {
 
 	}
 
@@ -40,7 +38,7 @@ public record FreeFieldInfo(SignificantInformation significantInformation) {
 	 * @param checksum
 	 *            the checksum
 	 * @param timestamp
-	 *            the timestamp
+	 *            the time stamp
 	 */
 	public record LoadedPlanInformation(ToolboxFileRole role, String name,
 			String checksum, String timestamp) {

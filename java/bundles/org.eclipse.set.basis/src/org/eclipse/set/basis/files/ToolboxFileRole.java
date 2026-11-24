@@ -33,38 +33,43 @@ public enum ToolboxFileRole {
 	REFERENCE_BASIS_PLAN(3),
 
 	/**
+	 * The Toolboxfile is used as a equivalent plan
+	 */
+	EQUIVALENT_PLAN(4),
+
+	/**
 	 * The ToolboxFile is used to be exported
 	 */
-	EXPORT(4),
+	EXPORT(5),
 
 	/**
 	 * The ToolboxFile is used to be imported into the final state
 	 */
-	IMPORT_FINAL_STATE(5),
+	IMPORT_FINAL_STATE(6),
 
 	/**
 	 * The ToolboxFile is used to be imported into the initial state
 	 */
-	IMPORT_INITIAL_STATE(6),
+	IMPORT_INITIAL_STATE(7),
 
 	/**
 	 * The ToolboxFile is used as a first planning to import
 	 */
-	FIRST_PLANNING_TO_IMPORT(7),
+	FIRST_PLANNING_TO_IMPORT(8),
 
 	/**
 	 * The toolboxFile is used as a second planning to import
 	 */
-	SECOND_PLANNING_TO_IMPORT(8),
+	SECOND_PLANNING_TO_IMPORT(9),
 
 	/**
 	 * The ToolboxFile is used as a temporary integration
 	 */
-	TEMPORARY_INTEGRATION(9),
+	TEMPORARY_INTEGRATION(10),
 	/**
 	* 
 	*/
-	MERGE_PLANNING(10);
+	MERGE_PLANNING(11);
 
 	int priority;
 

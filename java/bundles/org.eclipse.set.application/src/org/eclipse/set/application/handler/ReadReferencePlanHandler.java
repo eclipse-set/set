@@ -21,7 +21,6 @@ import org.eclipse.e4.ui.model.application.MApplication;
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.basis.files.ToolboxFileRole;
-import org.eclipse.set.core.services.files.ToolboxFileService;
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.set.model.planpro.PlanPro.Planung_Gruppe;
 import org.eclipse.set.ppmodel.extensions.EObjectExtensions;
@@ -31,17 +30,12 @@ import org.eclipse.swt.widgets.Shell;
 
 import com.google.common.collect.Streams;
 
-import jakarta.inject.Inject;
-
 /**
  * Load reference plan handler
  * 
  * @author truong
  */
 public class ReadReferencePlanHandler extends OpenPlanProHandler {
-
-	@Inject
-	private ToolboxFileService fileService;
 
 	/**
 	 * @return can execute only when main project was loaded and exists
@@ -81,7 +75,7 @@ public class ReadReferencePlanHandler extends OpenPlanProHandler {
 	@Override
 	protected void success(final IModelSession modelSession,
 			final MApplication application) {
-		eventBroker.send(Events.REFERENCE_PLAN_LOADED, modelSession);
+		eventBroker.send(Events.ADDITIONAL_PLAN_LOADED, modelSession);
 	}
 
 	private static Set<String> getReferencesPlanId(

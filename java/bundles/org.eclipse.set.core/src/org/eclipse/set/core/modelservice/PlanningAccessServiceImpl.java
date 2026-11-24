@@ -9,9 +9,12 @@
 
 package org.eclipse.set.core.modelservice;
 
+import java.util.Collections;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.eclipse.core.runtime.Assert;
@@ -19,13 +22,16 @@ import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.set.basis.FreeFieldInfo.LoadedPlanInformation;
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.constants.Events;
+import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.eclipse.set.core.services.planningaccess.PlanningAccessService;
 import org.eclipse.set.model.planpro.PlanPro.ENUMUntergewerkArt;
 import org.eclipse.set.model.planpro.PlanPro.PlanProFactory;
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
+import org.eclipse.set.model.planpro.PlanPro.Planung_Einzel;
 import org.eclipse.set.model.planpro.PlanPro.Planung_Gruppe;
 import org.eclipse.set.model.planpro.PlanPro.Planung_Projekt;
 import org.eclipse.set.model.planpro.PlanPro.Untergewerk_Art_TypeClass;
+import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
 import org.eclipse.set.ppmodel.extensions.PlanungEinzelExtensions;
 import org.eclipse.set.ppmodel.extensions.utils.PlanProToFreeFieldTransformation;
 import org.osgi.service.component.annotations.Component;
@@ -33,27 +39,40 @@ import org.osgi.service.event.Event;
 import org.osgi.service.event.EventConstants;
 import org.osgi.service.event.EventHandler;
 
+import com.google.common.collect.Streams;
+
 /**
  * Implementation of {@link PlanningAccessService}.
  * 
  * @author Schaefer
  */
 @Component(property = { EventConstants.EVENT_TOPIC + "="
-		+ Events.REFERENCE_PLAN_LOADED }, service = {
+		+ Events.ADDITIONAL_PLAN_LOADED }, service = {
 				PlanningAccessService.class, EventHandler.class })
 public class PlanningAccessServiceImpl
 		implements PlanningAccessService, EventHandler {
-	private LoadedPlanInformation referencePlanInformation = null;
+
+	private final Map<ToolboxFileRole, AdditionalPlanInformation> additionalPlanInfomration = new EnumMap<>(
+			ToolboxFileRole.class);
 
 	@Override
 	public void handleEvent(final Event event) {
-		if (event.getTopic().equals(Events.REFERENCE_PLAN_LOADED)
+		if (event.getTopic().equals(Events.ADDITIONAL_PLAN_LOADED)
 				&& event.getProperty(
 						IEventBroker.DATA) instanceof final IModelSession referencePlanSession) {
-			final var transformation = PlanProToFreeFieldTransformation
-					.create(null);
-			referencePlanInformation = transformation
+			// Storage only needed information of additional plan
+			final LoadedPlanInformation information = PlanProToFreeFieldTransformation
 					.transformLoadedPlan(referencePlanSession);
+			final Iterable<Planung_Gruppe> groups = PlanProSchnittstelleExtensions
+					.getLSTPlanungGruppe(
+							referencePlanSession.getPlanProSchnittstelle())
+					.orElse(Collections.emptyList());
+			final Set<Planung_Einzel> planungsEinzel = Streams.stream(groups)
+					.map(Planung_Gruppe::getLSTPlanungEinzel)
+					.collect(Collectors.toSet());
+			additionalPlanInfomration.put(
+					referencePlanSession.getToolboxFile().getRole(),
+					new AdditionalPlanInformation(information, planungsEinzel));
 			// The session isn't needed anymore
 			referencePlanSession.close();
 		}
@@ -229,7 +248,7 @@ public class PlanningAccessServiceImpl
 	}
 
 	@Override
-	public LoadedPlanInformation getReferencePlanInformation() {
-		return referencePlanInformation;
+	public Map<ToolboxFileRole, AdditionalPlanInformation> getAdditionalPlansInformation() {
+		return additionalPlanInfomration;
 	}
 }
