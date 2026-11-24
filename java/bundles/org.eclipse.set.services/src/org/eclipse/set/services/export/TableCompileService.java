@@ -36,5 +36,5 @@ public interface TableCompileService {
 	 * @return a mapping of possible tables
 	 */
 	Map<TableType, Table> compile(TableInfo tableInfo,
-			IModelSession modelSession, Optional<Set<String>> controlAreaIds);
+			IModelSession modelSession, Optional<Set<String>> operationalAreaIds);
 }
