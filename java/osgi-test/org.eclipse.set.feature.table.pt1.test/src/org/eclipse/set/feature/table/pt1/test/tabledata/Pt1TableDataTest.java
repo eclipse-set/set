@@ -26,7 +26,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.function.Executable;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.mockito.Mockito;
 import org.osgi.test.junit5.service.ServiceExtension;
 
 /**
@@ -50,15 +49,6 @@ public class Pt1TableDataTest extends AbstractPt1TableDataTest {
 	@Override
 	protected PtTable getTableToTest() {
 		return tableToTest;
-	}
-
-	@SuppressWarnings("boxing")
-	@Override
-	protected void setupModelSession() {
-		super.setupModelSession();
-		Mockito.when(modelSession.isPlanningAreaIgnored())
-				.thenReturn(Boolean.TRUE);
-
 	}
 
 	@Test

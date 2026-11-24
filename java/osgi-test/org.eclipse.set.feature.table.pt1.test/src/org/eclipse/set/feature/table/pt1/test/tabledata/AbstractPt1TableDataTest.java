@@ -168,7 +168,7 @@ public abstract class AbstractPt1TableDataTest extends AbstractOsgiTableTest {
 					"TableTransformService not exist: " + table.shortcut());
 		}
 		testee = tableService.createDiffTable(optional.get(), tableType,
-				controlAreaIds, true);
+				Optional.of(controlAreaIds), true);
 	}
 
 	@Override
