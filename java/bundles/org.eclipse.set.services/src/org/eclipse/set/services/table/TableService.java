@@ -12,6 +12,7 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -21,7 +22,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.basis.part.PartDescription;
-import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
+import org.eclipse.set.basis.table.OperationalAreaEnum;
 import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.TableRow;
@@ -83,15 +84,20 @@ public interface TableService {
 	 * 
 	 * @param modelSession
 	 *            the current model session in which to get the errors
-	 * @param controlAreaIds
-	 *            the selected control areas for which to get the errors
+	 * @param operationalAreaIds
+	 *            when the optional empty, that mean should be show all
+	 *            content,<br>
+	 *            when the optional is present and the set is empty, that mean
+	 *            should be show only the element in planing area, <br>
+	 *            else show the element in operational area
 	 * @param tableCategory
 	 *            the table category (ESTW or ETCS)
 	 * 
 	 * @return collected table errors
 	 */
 	Map<TableInfo, Collection<TableError>> getTableErrors(
-			IModelSession modelSession, Set<String> controlAreaIds,
+			IModelSession modelSession,
+			Optional<Set<String>> operationalAreaIds,
 			Pt1TableCategory tableCategory);
 
 	/**
@@ -103,19 +109,24 @@ public interface TableService {
 	/**
 	 * Transform the selected container to a string with CSV format.
 	 * 
+	 * 
 	 * @param tableInfo
 	 *            the tableInfo
 	 * @param tableType
 	 *            the table type
 	 * @param modelSession
 	 *            the model session
-	 * @param controlAreaIds
-	 *            the id list of {@link Stell_Bereich} and the belonging
-	 *            container type
+	 * @param operationalAreaIds
+	 *            when the optional empty, that mean should be show all
+	 *            content,<br>
+	 *            when the optional is present and the set is empty, that mean
+	 *            should be show only the element in planing area, <br>
+	 *            else show the element in operational area
 	 * @return the table
 	 */
 	String transformToCsv(final TableInfo tableInfo, TableType tableType,
-			final IModelSession modelSession, Set<String> controlAreaIds);
+			final IModelSession modelSession,
+			Optional<Set<String>> operationalAreaIds);
 
 	/**
 	 * Transform the selected container and control area to tables model.
@@ -126,13 +137,17 @@ public interface TableService {
 	 *            the list of tables need transform
 	 * @param tableType
 	 *            the table type
-	 * @param controlAreaIds
-	 *            the list of {@link Stell_Bereich} and the belonging container
+	 * @param operationalAreaIds
+	 *            when the optional empty, that mean should be show all
+	 *            content,<br>
+	 *            when the optional is present and the set is empty, that mean
+	 *            should be show only the element in planing area, <br>
+	 *            else show the element in operational area
 	 * @return the tables
 	 */
 	Map<TableInfo, Table> transformTables(IProgressMonitor monitor,
 			Set<TableInfo> tablesToTransfrom, TableType tableType,
-			Set<String> controlAreaIds);
+			Map<OperationalAreaEnum, Optional<Set<String>>> operationalAreaIds);
 
 	/**
 	 * @param part
@@ -192,14 +207,19 @@ public interface TableService {
 	 *            the {@link TableInfo}
 	 * @param tableType
 	 *            the table type
-	 * @param controlAreaIds
-	 *            the list of {@link Stell_Bereich} and the belonging container
+	 * @param operationalAreaIds
+	 *            when the optional empty, that mean should be show all
+	 *            content,<br>
+	 *            when the optional is present and the set is empty, that mean
+	 *            should be show only the element in planing area, <br>
+	 *            else show the element in operational area
 	 * @param updateTableStatus
 	 *            whether to update the table status or not
 	 * @return the compare table
 	 */
 	Table createDiffTable(TableInfo tableInfo, TableType tableType,
-			Set<String> controlAreaIds, boolean updateTableStatus);
+			Optional<Set<String>> operationalAreaIds,
+			boolean updateTableStatus);
 
 	/**
 	 * Sort the table after transformation.

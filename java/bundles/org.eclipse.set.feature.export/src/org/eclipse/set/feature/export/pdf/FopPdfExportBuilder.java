@@ -62,6 +62,7 @@ import org.eclipse.set.services.fop.FopService.OutputFormat;
 import org.eclipse.set.services.fop.FopService.PdfAMode;
 import org.eclipse.set.utils.ToolboxConfiguration;
 import org.eclipse.set.utils.export.xsl.TransformTable;
+import org.eclipse.set.utils.table.TableInfo;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ReferenceCardinality;
@@ -152,28 +153,29 @@ public class FopPdfExportBuilder implements TableExport {
 	@Override
 	public void export(final Map<TableType, Table> tables,
 			final ExportType exportType, final Titlebox titlebox,
-			final FreeFieldInfo freeFieldInfo, final String shortcut,
+			final FreeFieldInfo freeFieldInfo, final TableInfo tableInfo,
 			final String outputDir, final ToolboxPaths toolboxPaths,
 			final TableType tableType,
 			final OverwriteHandling overwriteHandling)
 			throws FileExportException {
-		logger.info("Exporting {}", shortcut); //$NON-NLS-1$
-		final Path outputPath = toolboxPaths.getTableExportPath(shortcut,
+		logger.info("Exporting {}", tableInfo.shortcut()); //$NON-NLS-1$
+		final Path outputPath = toolboxPaths.getTableExportPath(
+				tableInfo.shortcut(), tableInfo.getOperationalAreaType(),
 				Paths.get(outputDir), exportType,
 				ExportPathExtension.TABLE_PDF_EXPORT_EXTENSION);
-		export(tables, exportType, titlebox, freeFieldInfo, shortcut, tableType,
-				outputPath, overwriteHandling);
+		export(tables, exportType, titlebox, freeFieldInfo, tableInfo,
+				tableType, outputPath, overwriteHandling);
 
 	}
 
 	@Override
 	public void export(final Map<TableType, Table> tables,
 			final ExportType exportType, final Titlebox titlebox,
-			final FreeFieldInfo freeFieldInfo, final String shortcut,
+			final FreeFieldInfo freeFieldInfo, final TableInfo tableInfo,
 			final TableType tableType, final Path outputPath,
 			final OverwriteHandling overwriteHandling)
 			throws FileExportException {
-		logger.info("Exporting {}", shortcut); //$NON-NLS-1$
+		logger.info("Exporting {}", tableInfo.shortcut()); //$NON-NLS-1$
 		final Table table = tables.get(tableType);
 
 		final List<String> pageBreakRowsIndex = getPageBreakRowsIndex(table);
@@ -193,12 +195,13 @@ public class FopPdfExportBuilder implements TableExport {
 			if (ToolboxConfiguration.isDebugMode()) {
 				final String outputDir = outputPath.getParent().toString();
 				exportTableDocument(
-						Paths.get(outputDir, getFilename(shortcut, "xml")), //$NON-NLS-1$
+						Paths.get(outputDir,
+								getFilename(tableInfo.shortcut(), "xml")), //$NON-NLS-1$
 						tableDocumentText);
 			}
-			createTablePdf(tableDocumentText, outputPath, exportType, shortcut,
-					tableType, PdfAMode.PDF_A_3a, overwriteHandling,
-					pageBreakRowsIndex);
+			createTablePdf(tableDocumentText, outputPath, exportType,
+					tableInfo.shortcut(), tableType, PdfAMode.PDF_A_3a,
+					overwriteHandling, pageBreakRowsIndex);
 		} catch (final ParserConfigurationException | TransformerException
 				| IOException | SAXException e) {
 			throw new FileExportException(outputPath, e);

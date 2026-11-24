@@ -54,6 +54,7 @@ import org.eclipse.set.services.fop.FopService.OutputFormat;
 import org.eclipse.set.services.fop.FopService.PdfAMode;
 import org.eclipse.set.utils.ToolboxConfiguration;
 import org.eclipse.set.utils.export.xsl.siteplan.SiteplanXSL;
+import org.eclipse.set.utils.table.TableInfo;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ReferenceCardinality;
@@ -126,7 +127,7 @@ public class SiteplanPdfExportBuilder extends FopPdfExportBuilder {
 	@Override
 	public void export(final Map<TableType, Table> tables,
 			final ExportType exportType, final Titlebox titlebox,
-			final FreeFieldInfo freeFieldInfo, final String shortcut,
+			final FreeFieldInfo freeFieldInfo, final TableInfo tableInfo,
 			final String outputDir, final ToolboxPaths toolboxPaths,
 			final TableType tableType,
 			final OverwriteHandling overwriteHandling)
@@ -153,7 +154,7 @@ public class SiteplanPdfExportBuilder extends FopPdfExportBuilder {
 		}
 		final PDFMergerUtility pdfMergerUtility = new PDFMergerUtility();
 		pdfMergerUtility.setDestinationFileName(toolboxPaths
-				.getTableExportPath(SITEPLAN_EXPORT_NAME, Paths.get(outputDir),
+				.getExportPath(SITEPLAN_EXPORT_NAME, Paths.get(outputDir),
 						ExportType.PLANNING_RECORDS, TABLE_PDF_EXPORT_EXTENSION)
 				.toString());
 		try {
@@ -180,7 +181,7 @@ public class SiteplanPdfExportBuilder extends FopPdfExportBuilder {
 						imagesData.get(i), ppm, tableType,
 						exportTmpDir.toString(), exportFileName, i + 1,
 						pagePostFix);
-				final Path outputPath = toolboxPaths.getTableExportPath(
+				final Path outputPath = toolboxPaths.getExportPath(
 						String.format("%s_%s_%d", SITEPLAN_EXPORT_NAME, //$NON-NLS-1$
 								xslStreamSource.getFirst(), Integer.valueOf(i)),
 						exportTmpDir, ExportType.PLANNING_RECORDS,

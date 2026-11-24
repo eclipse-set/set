@@ -22,6 +22,7 @@ import org.eclipse.set.basis.exceptions.FileExportException;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.titlebox.Titlebox;
 import org.eclipse.set.utils.ToolboxConfiguration;
+import org.eclipse.set.utils.table.TableInfo;
 
 /**
  * Interface for exporting Tables.
@@ -49,8 +50,8 @@ public interface TableExport {
 	 *            the titlebox
 	 * @param freeFieldInfo
 	 *            the free field info
-	 * @param shortcut
-	 *            the table shortcut (view id)
+	 * @param tableInfo
+	 *            the {@link TableInfo}
 	 * @param outputDir
 	 *            the output directory for the export
 	 * @param toolboxPaths
@@ -64,7 +65,7 @@ public interface TableExport {
 	 *             if an file export exception occurs while exporting
 	 */
 	void export(Map<TableType, Table> tables, ExportType exportType,
-			Titlebox titlebox, FreeFieldInfo freeFieldInfo, String shortcut,
+			Titlebox titlebox, FreeFieldInfo freeFieldInfo, TableInfo tableInfo,
 			String outputDir, ToolboxPaths toolboxPaths, TableType tableType,
 			OverwriteHandling overwriteHandling) throws FileExportException;
 
@@ -73,14 +74,14 @@ public interface TableExport {
 	 * @param exportType
 	 * @param titleBox
 	 * @param freeFieldInfo
-	 * @param shortcut
+	 * @param tableInfo
 	 * @param tableType
 	 * @param outPath
 	 * @param overwriteHandling
 	 * @throws FileExportException
 	 */
 	void export(Map<TableType, Table> tables, ExportType exportType,
-			Titlebox titleBox, FreeFieldInfo freeFieldInfo, String shortcut,
+			Titlebox titleBox, FreeFieldInfo freeFieldInfo, TableInfo tableInfo,
 			TableType tableType, Path outPath,
 			OverwriteHandling overwriteHandling) throws FileExportException;
 

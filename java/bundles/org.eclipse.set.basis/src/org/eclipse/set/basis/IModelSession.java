@@ -10,7 +10,6 @@ package org.eclipse.set.basis;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
@@ -26,6 +25,8 @@ import org.eclipse.set.basis.constants.ValidationResult.FileValidateState;
 import org.eclipse.set.basis.constants.ValidationResult.Outcome;
 import org.eclipse.set.basis.exceptions.UserAbortion;
 import org.eclipse.set.basis.files.ToolboxFile;
+import org.eclipse.set.basis.table.OperationalAreaEnum;
+import org.eclipse.set.basis.table.OperationalAreaEnum.OperationalAreaObject;
 import org.eclipse.set.model.planpro.Layoutinformationen.PlanPro_Layoutinfo;
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.set.model.temporaryintegration.TemporaryIntegration;
@@ -149,13 +150,32 @@ public interface IModelSession {
 	 * @return the pair list of selection control area within: first : area name
 	 *         second: area id
 	 */
-	List<Pair<String, String>> getSelectedControlAreas();
 
 	/**
-	 * @return when true, then displayed all objects in project, else only
-	 *         objects in planning area
+	 * Get selection operational area from tool bar combo
+	 * 
+	 * @param operationalAreaType
+	 *            the type of operational area
+	 * @return - Optional.empty: when no area was selected and should show all
+	 *         LST_Object <br>
+	 *         - Empty Set: when no area was selected and should show only
+	 *         LST_Object in Planning area
 	 */
-	boolean isPlanningAreaIgnored();
+	Optional<Set<OperationalAreaObject>> getSelectedOperationalAreas(
+			OperationalAreaEnum operationalAreaType);
+
+	/**
+	 * Get selection operational area from tool bar combo
+	 * 
+	 * @param operationalAreaType
+	 *            the type of operational area
+	 * @return - Optional.empty: when no area was selected and should show all
+	 *         LST_Object <br>
+	 *         - Empty Set: when no area was selected and should show only
+	 *         LST_Object in Planning area
+	 */
+	Optional<Set<String>> getSelectedOperationalAreasId(
+			OperationalAreaEnum operationalAreaType);
 
 	/**
 	 * @return the temporary directory of this session
@@ -335,8 +355,23 @@ public interface IModelSession {
 	 */
 	SaveFixResult getSaveFixResult();
 
+	/**
+	 * @return the {@link TemporaryIntegration}
+	 */
 	Optional<TemporaryIntegration> getTemporaryIntegration();
 
+	/**
+	 * @param newTemporaryIntegration
+	 *            the new {@link TemporaryIntegration}
+	 * @param mergeDir
+	 *            the directory, where storage merge file
+	 * @param shell
+	 *            the shell
+	 * @param temporaryToolboxFile
+	 *            the {@link ToolboxFile} of temporary file
+	 * @throws IOException
+	 * @throws UserAbortion
+	 */
 	void switchToMergeMode(TemporaryIntegration newTemporaryIntegration,
 			String mergeDir, Shell shell, ToolboxFile temporaryToolboxFile)
 			throws IOException, UserAbortion;

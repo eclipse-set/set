@@ -207,7 +207,7 @@ public class StellBereichExtensions {
 	 *            the LST element
 	 * @return true, if exist a area, which element belong to
 	 */
-	public static boolean isInControlArea(final List<Stell_Bereich> areas,
+	public static boolean isInInterlockingArea(final List<Stell_Bereich> areas,
 			final Ur_Objekt ele) {
 		return ele != null && (areas.isEmpty()
 				|| areas.stream().anyMatch(area -> isInControlArea(area, ele)));

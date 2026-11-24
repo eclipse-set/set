@@ -143,7 +143,8 @@ public final class SslbTransformationService
 	// current selected area
 	// See: ppmtab - Relevant area
 	public void addAdditionRow(final Table originalTable,
-			final Table filteredTable, final Set<String> controlAreaIds) {
+			final Table filteredTable,
+			final Optional<Set<String>> operationalAreaIds) {
 		final List<RowGroup> originalTableRowGroups = TableExtensions
 				.getTableRowGroups(originalTable);
 		final List<RowGroup> filteredTableRowGroups = TableExtensions

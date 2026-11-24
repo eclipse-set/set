@@ -7,11 +7,11 @@ Bundle-Activator: org.eclipse.set.application.Activator
 Bundle-Vendor: Eclipse Signalling Engineering Toolbox
 Export-Package: org.eclipse.set.application,
  org.eclipse.set.application.cacheservice,
- org.eclipse.set.application.controlarea,
  org.eclipse.set.application.geometry,
  org.eclipse.set.application.graph,
  org.eclipse.set.application.handler,
- org.eclipse.set.application.nameservice
+ org.eclipse.set.application.nameservice,
+ org.eclipse.set.application.operationalarea
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.e4.ui.model.workbench,
  org.eclipse.e4.ui.services,
@@ -101,6 +101,7 @@ Import-Package: ch.qos.logback.classic;version="1.0.7",
  org.eclipse.set.basis.info,
  org.eclipse.set.basis.part,
  org.eclipse.set.basis.rename,
+ org.eclipse.set.basis.table,
  org.eclipse.set.basis.ui,
  org.eclipse.set.basis.viewgroups,
  org.eclipse.set.browser,

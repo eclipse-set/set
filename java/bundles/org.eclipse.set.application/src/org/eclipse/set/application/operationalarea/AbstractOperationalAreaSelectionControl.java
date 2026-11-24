@@ -1,0 +1,338 @@
+/**
+ * Copyright (c) 2026 DB InfraGO AG and others
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License v2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ * 
+ */
+package org.eclipse.set.application.operationalarea;
+
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.function.Function;
+
+import org.eclipse.e4.core.contexts.IEclipseContext;
+import org.eclipse.e4.core.contexts.RunAndTrack;
+import org.eclipse.e4.core.services.events.IEventBroker;
+import org.eclipse.e4.core.services.nls.Translation;
+import org.eclipse.e4.ui.model.application.MApplication;
+import org.eclipse.jface.viewers.ArrayContentProvider;
+import org.eclipse.jface.viewers.ComboViewer;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.set.application.Messages;
+import org.eclipse.set.application.toolcontrol.ServiceProvider;
+import org.eclipse.set.basis.IModelSession;
+import org.eclipse.set.basis.constants.ContainerType;
+import org.eclipse.set.basis.constants.Events;
+import org.eclipse.set.basis.constants.TableType;
+import org.eclipse.set.basis.files.ToolboxFileRole;
+import org.eclipse.set.basis.table.OperationalAreaEnum;
+import org.eclipse.set.basis.table.OperationalAreaEnum.OperationalAreaObject;
+import org.eclipse.set.core.services.part.ToolboxPartService;
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
+import org.eclipse.set.model.planpro.Balisentechnik_ETCS.RBC;
+import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
+import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
+import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
+import org.eclipse.set.utils.events.DefaultToolboxEventHandler;
+import org.eclipse.set.utils.events.NewTableTypeEvent;
+import org.eclipse.set.utils.events.SelectedOperationalAreaChangedEvent;
+import org.eclipse.set.utils.events.ToolboxEventHandler;
+import org.eclipse.set.utils.events.ToolboxEvents;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
+import org.osgi.service.event.Event;
+
+/**
+ * Abstract class for create combo selection of operational area like
+ * {@link Stell_Bereich} and {@link RBC}
+ * 
+ * @param <T>
+ *            the type of operational area
+ * @author truong
+ * 
+ */
+public abstract class AbstractOperationalAreaSelectionControl<T extends Ur_Objekt> {
+	private static class OperationalAreaLabelProvider extends LabelProvider {
+		public OperationalAreaLabelProvider() {
+			super();
+		}
+
+		@Override
+		public String getText(final Object element) {
+			if (element instanceof final OperationalAreaObject value) {
+				return value.areaName();
+			}
+			return super.getText(element);
+		}
+
+	}
+
+	private final MApplication application;
+
+	protected final IEventBroker broker;
+
+	protected ComboViewer comboViewer;
+
+	@Translation
+	protected final Messages messages;
+
+	ToolboxPartService partService;
+	private ToolboxEventHandler<NewTableTypeEvent> newTableTypeHandler;
+	protected TableType tableType;
+
+	protected Object oldSelectionValue;
+
+	protected AbstractOperationalAreaSelectionControl(final Composite parent,
+			final ServiceProvider serviceProvider) {
+		application = serviceProvider.application;
+		broker = serviceProvider.broker;
+		messages = serviceProvider.messages;
+		partService = serviceProvider.partService;
+		createCombo(parent);
+		// Reset combo value, when close session
+		broker.subscribe(Events.CLOSE_SESSION, this::closeSession);
+	}
+
+	protected void createCombo(final Composite parent) {
+		final Composite container = new Composite(parent, SWT.NONE);
+		container.setLayout(new GridLayout(2, false));
+		container.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		final Label label = new Label(container, SWT.NONE);
+		label.setText(getOperationalAreaType().toString() + ":"); //$NON-NLS-1$
+		comboViewer = new ComboViewer(container);
+		comboViewer.setContentProvider(ArrayContentProvider.getInstance());
+		comboViewer.setLabelProvider(new OperationalAreaLabelProvider());
+		initNoSessionCombo();
+		comboViewer.addSelectionChangedListener(this::selectionListerner);
+		newTableTypeHandler = new DefaultToolboxEventHandler<>() {
+
+			@Override
+			public void accept(final NewTableTypeEvent t) {
+				initCombo(t.getTableType());
+				// Send update event, when table type change
+				selectOperationalArea(comboViewer.getSelection(),
+						t.getTableType());
+			}
+		};
+
+		ToolboxEvents.subscribe(broker, NewTableTypeEvent.class,
+				newTableTypeHandler);
+
+		// register for session changes
+		application.getContext().runAndTrack(new RunAndTrack() {
+			@Override
+			public boolean changed(final IEclipseContext context) {
+				if (getSession() != null) {
+					final IModelSession session = context
+							.get(IModelSession.class);
+					if (session == null) {
+						initNoSessionCombo();
+					} else {
+						// Default table type
+						tableType = PlanProSchnittstelleExtensions
+								.isPlanning(session.getPlanProSchnittstelle())
+										? TableType.DIFF
+										: TableType.SINGLE;
+						initCombo(tableType);
+					}
+				}
+				return true;
+			}
+		});
+	}
+
+	protected void initCombo(final TableType type) {
+		comboViewer.getCombo().removeAll();
+		final List<OperationalAreaObject> values = new LinkedList<>();
+		switch (type) {
+			case FINAL, INITIAL, SINGLE:
+				values.addAll(getComboValues(getSession(),
+						type.getContainerForTable()));
+				break;
+			case DIFF:
+				values.addAll(getDiffComboValues());
+				break;
+			default:
+				break;
+		}
+		if (values.isEmpty()) {
+			setEmtpyOperationalAreaCombo();
+			return;
+		}
+
+		comboViewer.setInput(values);
+		if (values.size() > 1) {
+			comboViewer.insert(messages.ControlAreaCombo_All_ControlArea,
+					values.size());
+		}
+
+		comboViewer.insert(getDefaultValue(), 0);
+		comboViewer.insert(messages.OperationalAreaCombo_All_Objects_Value, 1);
+
+		if (oldSelectionValue instanceof final String oldText) {
+			final int i = comboViewer.getCombo().indexOf(oldText);
+			comboViewer.getCombo().select(i >= 0 ? i : 0);
+			comboViewer.getCombo().setEnabled(true);
+			return;
+		}
+
+		int selectIndex = -1;
+
+		if (oldSelectionValue instanceof final OperationalAreaObject oldArea) {
+			for (final OperationalAreaObject v : values) {
+				if (v.areaId() != null && v.areaId().equals(oldArea.areaId())) {
+					selectIndex = comboViewer.getCombo().indexOf(v.areaName());
+					break;
+				}
+			}
+		}
+
+		comboViewer.getCombo().select(selectIndex >= 0 ? selectIndex : 0);
+		comboViewer.getCombo().setEnabled(true);
+	}
+
+	protected void selectOperationalArea(final ISelection s,
+			final TableType type) {
+		if (s instanceof final IStructuredSelection selection) {
+			final Object selectedElement = selection.getFirstElement();
+			if (oldSelectionValue.equals(selectedElement) && tableType != null
+					&& tableType.equals(type)) {
+				return;
+			}
+
+			tableType = type;
+			oldSelectionValue = selectedElement;
+			if (selectedElement instanceof final OperationalAreaObject selected) {
+				ToolboxEvents.send(broker,
+						new SelectedOperationalAreaChangedEvent(
+								getOperationalAreaType(), selected, type,
+								true));
+				return;
+			}
+			if (selectedElement instanceof final String msg) {
+				handleStringValue(msg);
+			}
+		}
+
+	}
+
+	protected void handleStringValue(final String msg) {
+		if (msg.equals(messages.OperationalAreaCombo_All_Objects_Value)) {
+			ToolboxEvents.send(broker, new SelectedOperationalAreaChangedEvent(
+					getOperationalAreaType(), tableType, true));
+			return;
+		}
+
+		if (msg.equals(messages.OperationalAreaCombo_PlanningArea_Value)) {
+			ToolboxEvents.send(broker, new SelectedOperationalAreaChangedEvent(
+					getOperationalAreaType(), tableType, false));
+			return;
+		}
+	}
+
+	private void selectionListerner(final SelectionChangedEvent e) {
+		selectOperationalArea(e.getSelection(), tableType);
+	}
+
+	protected List<OperationalAreaObject> getComboValues(
+			final IModelSession session, final ContainerType initial) {
+		final MultiContainer_AttributeGroup container = PlanProSchnittstelleExtensions
+				.getContainer(session.getPlanProSchnittstelle(), initial);
+		final List<T> areas = getOperationalAreaFunction().apply(container);
+		if (areas.isEmpty()) {
+			comboViewer.getCombo().setEnabled(false);
+			return Collections.emptyList();
+		}
+		final List<OperationalAreaObject> values = new LinkedList<>();
+		for (int i = 0; i < areas.size(); i++) {
+			String label = getOperationalAreaLabelFunction()
+					.apply(areas.get(i));
+			if (label == null || label.isEmpty()) {
+				label = getDefaultAreaName(i);
+			}
+			values.add(new OperationalAreaObject(getOperationalAreaType(),
+					label, areas.get(i).getIdentitaet().getWert()));
+		}
+		return values;
+	}
+
+	protected abstract String getDefaultAreaName(int i);
+
+	private List<OperationalAreaObject> getDiffComboValues() {
+		final List<OperationalAreaObject> initialValues = getComboValues(
+				getSession(), ContainerType.INITIAL);
+		final List<OperationalAreaObject> finalValues = getComboValues(
+				getSession(), ContainerType.FINAL);
+
+		if (finalValues == null || finalValues.isEmpty()) {
+			return initialValues;
+		} else if (initialValues == null || initialValues.isEmpty()) {
+			return finalValues;
+		}
+
+		final List<OperationalAreaObject> values = new LinkedList<>();
+		values.addAll(initialValues);
+		for (final OperationalAreaObject value : finalValues) {
+			if (values.stream()
+					.noneMatch(
+							v -> v.areaId().equalsIgnoreCase(value.areaId()))) {
+				values.add(value);
+			}
+		}
+		return values;
+	}
+
+	protected abstract Function<MultiContainer_AttributeGroup, List<T>> getOperationalAreaFunction();
+
+	protected abstract Function<T, String> getOperationalAreaLabelFunction();
+
+	protected void setEmtpyOperationalAreaCombo() {
+		comboViewer.add(getDefaultValue());
+		comboViewer.add(messages.OperationalAreaCombo_All_Objects_Value);
+		comboViewer.getCombo().select(0);
+		comboViewer.getCombo().setEnabled(true);
+	}
+
+	/**
+	 * @return the default value of operational area combo
+	 */
+	protected String getDefaultValue() {
+		return messages.OperationalAreaCombo_PlanningArea_Value;
+	}
+
+	protected IModelSession getSession() {
+		return application.getContext().get(IModelSession.class);
+	}
+
+	protected abstract OperationalAreaEnum getOperationalAreaType();
+
+	private void closeSession(final Event event) {
+		final Object property = event.getProperty(IEventBroker.DATA);
+		if (property instanceof final ToolboxFileRole role
+				&& role.equals(ToolboxFileRole.SESSION)) {
+			// Reset combo to default
+			initNoSessionCombo();
+		}
+	}
+
+	protected void initNoSessionCombo() {
+		comboViewer.getCombo().removeAll();
+		comboViewer
+				.setInput(List.of(messages.TableTypeSelectionControl_noSession,
+						messages.OperationalAreaCombo_All_Objects_Value));
+		comboViewer.getCombo().select(0);
+		comboViewer.getCombo().setEnabled(false);
+		oldSelectionValue = getDefaultValue();
+	}
+}

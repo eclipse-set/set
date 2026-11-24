@@ -1,0 +1,119 @@
+/**
+ * Copyright (c) 2026 DB InfraGO AG and others
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License v2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ * 
+ */
+package org.eclipse.set.application.operationalarea;
+
+import java.util.List;
+import java.util.Set;
+import java.util.function.Function;
+
+import org.eclipse.set.application.toolcontrol.ServiceProvider;
+import org.eclipse.set.basis.constants.TableType;
+import org.eclipse.set.basis.table.OperationalAreaEnum;
+import org.eclipse.set.basis.table.OperationalAreaEnum.OperationalAreaObject;
+import org.eclipse.set.model.planpro.Balisentechnik_ETCS.RBC;
+import org.eclipse.set.model.planpro.PlanPro.ENUMUntergewerkArt;
+import org.eclipse.set.ppmodel.extensions.EObjectExtensions;
+import org.eclipse.set.ppmodel.extensions.PlanungGruppeExtensions;
+import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
+import org.eclipse.set.utils.events.SelectedOperationalAreaChangedEvent;
+import org.eclipse.set.utils.events.ToolboxEvents;
+import org.eclipse.swt.widgets.Composite;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.google.common.collect.Streams;
+
+/**
+ * 
+ */
+public class RBCSelectionControl
+		extends AbstractOperationalAreaSelectionControl<RBC> {
+	static final Logger LOGGER = LoggerFactory
+			.getLogger(RBCSelectionControl.class);
+
+	/**
+	 * @param parent
+	 *            the parent composite
+	 * @param serviceProvider
+	 *            the {@link ServiceProvider}
+	 */
+	public RBCSelectionControl(final Composite parent,
+			final ServiceProvider serviceProvider) {
+		super(parent, serviceProvider);
+	}
+
+	@Override
+	protected String getDefaultAreaName(final int index) {
+		return String.format(messages.RBCCombo_Default_RBC_Name,
+				Integer.valueOf(index));
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	protected void handleStringValue(final String msg) {
+		super.handleStringValue(msg);
+		if (msg.equals(messages.RBC_Control_All_RBC)) {
+			final Object input = comboViewer.getInput();
+			if (input instanceof final List<?> listInput
+					&& listInput.getFirst() instanceof OperationalAreaObject) {
+				ToolboxEvents.send(broker,
+						new SelectedOperationalAreaChangedEvent(
+								getOperationalAreaType(),
+								Set.copyOf(
+										(List<OperationalAreaObject>) listInput),
+								tableType, false));
+			}
+		}
+	}
+
+	@Override
+	protected Function<MultiContainer_AttributeGroup, List<RBC>> getOperationalAreaFunction() {
+		return container -> Streams.stream(container.getRBC()).toList();
+	}
+
+	@Override
+	protected Function<RBC, String> getOperationalAreaLabelFunction() {
+		return rbc -> EObjectExtensions
+				.getNullableObject(rbc,
+						r -> r.getBezeichnung().getBezeichnungRBC().getWert())
+				.orElse(null);
+	}
+
+	@Override
+	protected OperationalAreaEnum getOperationalAreaType() {
+		return OperationalAreaEnum.RBC;
+	}
+
+	@Override
+	protected void initCombo(final TableType type) {
+		if (existsETCSData()) {
+			super.initCombo(type);
+			return;
+		}
+		comboViewer.getCombo().removeAll();
+		comboViewer.add(messages.RBCControl_No_ETCS_Data);
+		comboViewer.getCombo().select(0);
+		comboViewer.getCombo().setEnabled(false);
+	}
+
+	private boolean existsETCSData() {
+		if (getSession() == null) {
+			return false;
+		}
+		return EObjectExtensions.getNullableObject(getSession(),
+				s -> PlanungGruppeExtensions
+						.getPlanungGruppe(s.getPlanProSchnittstelle(),
+								ENUMUntergewerkArt.ENUM_UNTERGEWERK_ART_ETCS)
+						.orElse(null))
+				.orElse(null) != null;
+
+	}
+}
