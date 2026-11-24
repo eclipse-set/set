@@ -256,7 +256,7 @@ public class ModelSession implements IModelSession {
 	}
 
 	private void subcribeToolboxEvent() {
-		selectedControlAreaChangedEventHandler = new DefaultToolboxEventHandler<>() {
+		selectedOperationalAreaChangedEventHandler = new DefaultToolboxEventHandler<>() {
 
 			@Override
 			public void accept(final SelectedOperationalAreaChangedEvent t) {
@@ -264,20 +264,20 @@ public class ModelSession implements IModelSession {
 						.getOperationalAreas();
 				tableType = t.getTableType();
 				if (changeAreas.isEmpty()) {
-					selectedControlAreas.put(t.getOperationalAreaType(),
+					selectedOperationalAreas.put(t.getOperationalAreaType(),
 							t.isPlanningAreaIgnored() ? null
 									: Collections.emptySet());
 					return;
 				}
 
-				selectedControlAreas.put(t.getOperationalAreaType(),
+				selectedOperationalAreas.put(t.getOperationalAreaType(),
 						changeAreas);
 
 			}
 		};
 		ToolboxEvents.subscribe(this.serviceProvider.broker,
 				SelectedOperationalAreaChangedEvent.class,
-				selectedControlAreaChangedEventHandler);
+				selectedOperationalAreaChangedEventHandler);
 	}
 
 	@Override
@@ -319,7 +319,7 @@ public class ModelSession implements IModelSession {
 			removeContentAdapter(getLayoutInformation());
 			// unsubscribe event handler
 			ToolboxEvents.unsubscribe(serviceProvider.broker,
-					selectedControlAreaChangedEventHandler);
+					selectedOperationalAreaChangedEventHandler);
 		} catch (final IOException e) {
 			logger.warn("clean up failed: exception={} message={}", //$NON-NLS-1$
 					e.getClass().getSimpleName(), e.getMessage());
@@ -529,7 +529,7 @@ public class ModelSession implements IModelSession {
 	@Override
 	public Optional<Set<OperationalAreaObject>> getSelectedOperationalAreas(
 			final OperationalAreaEnum operationalAreaType) {
-		final Set<OperationalAreaObject> values = selectedControlAreas
+		final Set<OperationalAreaObject> values = selectedOperationalAreas
 				.get(operationalAreaType);
 		if (values == null) {
 			return Optional.empty();
@@ -540,7 +540,7 @@ public class ModelSession implements IModelSession {
 	@Override
 	public Optional<Set<String>> getSelectedOperationalAreasId(
 			final OperationalAreaEnum operationalAreaType) {
-		final Set<OperationalAreaObject> values = selectedControlAreas
+		final Set<OperationalAreaObject> values = selectedOperationalAreas
 				.get(operationalAreaType);
 		if (values == null) {
 			return Optional.empty();
