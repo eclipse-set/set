@@ -144,8 +144,9 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 
 		val isElementA = blockElement === blockAnlage?.IDBlockElementA?.value
 		val isElementB = blockElement === blockAnlage?.IDBlockElementB?.value
-		val otherBlockElement = isElementA ? blockAnlage?.IDBlockElementB?.
-				value : blockAnlage?.IDBlockElementA?.value
+		val otherBlockElement = isElementA
+				? blockAnlage?.IDBlockElementB?.value
+				: blockAnlage?.IDBlockElementA?.value
 
 		val row = it
 		// A: Sslb.Strecke.Nummer
@@ -288,13 +289,20 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 		)
 
 		// M: Sslb.Erlaubnis.staendig
-		fill(
+		fillConditional(
 			cols.getColumn(Erlaubnis_staendig),
 			blockElement,
 			[
-				blockElementErlaubnis?.erlaubnisStaendigVorhanden?.wert?.
-					translate
-			]
+				IDBlockStrecke?.value?.blockStreckeAllg?.betriebsfuehrung?.
+					wert ==
+					ENUMBetriebsfuehrung.ENUM_BETRIEBSFUEHRUNG_ZWEIGL_GWB
+			],
+			[
+				blockElementErlaubnis?.erlaubnisStaendigVorhanden?.wert
+					? true.translate
+					: ""
+			],
+			[blockElementErlaubnis?.erlaubnisStaendigVorhanden?.wert?.translate]
 		)
 
 		// N: Sslb.Erlaubnis.holen
