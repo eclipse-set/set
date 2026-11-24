@@ -202,7 +202,7 @@ public abstract class AbstractOperationalAreaSelectionControl<T extends Ur_Objek
 		comboViewer.getCombo().setEnabled(true);
 	}
 
-	protected void selectionOperationalArea(final ISelection s,
+	protected void selectOperationalArea(final ISelection s,
 			final TableType type) {
 		if (s instanceof final IStructuredSelection selection) {
 			final Object selectedElement = selection.getFirstElement();
@@ -214,8 +214,6 @@ public abstract class AbstractOperationalAreaSelectionControl<T extends Ur_Objek
 			tableType = type;
 			oldSelectionValue = selectedElement;
 			if (selectedElement instanceof final OperationalAreaObject selected) {
-				// All objects in Control area should displayed regardless of
-				// the planning area
 				ToolboxEvents.send(broker,
 						new SelectedOperationalAreaChangedEvent(
 								getOperationalAreaType(), selected, type,
@@ -244,7 +242,7 @@ public abstract class AbstractOperationalAreaSelectionControl<T extends Ur_Objek
 	}
 
 	private void selectionListerner(final SelectionChangedEvent e) {
-		selectionOperationalArea(e.getSelection(), tableType);
+		selectOperationalArea(e.getSelection(), tableType);
 	}
 
 	protected List<OperationalAreaObject> getComboValues(

@@ -115,7 +115,7 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 						Collectors.toMap(type -> type, type -> getModelSession()
 								.getSelectedOperationalAreasId(type)));
 		updateTreeElements(currentAreaIds);
-		selectionControlAreaHandler = new DefaultToolboxEventHandler<>() {
+		selectionOperationalAreaHandler = new DefaultToolboxEventHandler<>() {
 			@Override
 			public void accept(final SelectedOperationalAreaChangedEvent t) {
 
@@ -133,7 +133,7 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 
 		ToolboxEvents.subscribe(getBroker(),
 				SelectedOperationalAreaChangedEvent.class,
-				selectionControlAreaHandler);
+				selectionOperationalAreaHandler);
 	}
 
 	@Override
@@ -191,7 +191,7 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 	protected void preDestroy() {
 		super.preDestroy();
 		logger.trace("preDestroy"); //$NON-NLS-1$ LOG
-		ToolboxEvents.unsubscribe(getBroker(), selectionControlAreaHandler);
+		ToolboxEvents.unsubscribe(getBroker(), selectionOperationalAreaHandler);
 	}
 
 	@Override

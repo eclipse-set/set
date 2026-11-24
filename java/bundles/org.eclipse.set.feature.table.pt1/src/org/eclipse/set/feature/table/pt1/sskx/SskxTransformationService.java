@@ -190,15 +190,11 @@ public class SskxTransformationService extends
 	@Override
 	public void addAdditionRow(final Table originalTable,
 			final Table filteredTable,
-			final Optional<Set<String>> controlAreaIds) {
+			final Optional<Set<String>> operationalAreaIds) {
 		// Only filter when no area area selected
 		if (TableExtensions.getTableRows(originalTable).isEmpty()
-				|| !controlAreaIds.isEmpty()) {
-			final Optional<Set<String>> operationalAreaIds) {
-// Only filter when no area area selected
-if (TableExtensions.getTableRows(originalTable).isEmpty()
-|| !operationalAreaIds.isEmpty()) {
-return;
+				|| !operationalAreaIds.isEmpty()) {
+			return;
 		}
 
 		final List<RowGroup> vorbalkenSignalGroup = TableExtensions

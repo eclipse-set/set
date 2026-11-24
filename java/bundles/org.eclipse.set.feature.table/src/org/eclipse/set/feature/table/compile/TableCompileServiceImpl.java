@@ -47,12 +47,12 @@ public class TableCompileServiceImpl implements TableCompileService {
 					.filter(type -> type != TableType.SINGLE)
 					.forEach(type -> {
 						final Table table = tableService.createDiffTable(
-								tableInfo, type, controlAreaIds, false);
+								tableInfo, type, operationalAreaIds, false);
 						result.put(type, table);
 					});
 		} else {
 			final Table single = tableService.createDiffTable(tableInfo,
-					TableType.SINGLE, controlAreaIds, false);
+					TableType.SINGLE, operationalAreaIds, false);
 			result.put(TableType.SINGLE, single);
 		}
 

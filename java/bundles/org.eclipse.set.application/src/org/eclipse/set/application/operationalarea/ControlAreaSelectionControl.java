@@ -60,8 +60,6 @@ public class ControlAreaSelectionControl
 				@SuppressWarnings("unchecked")
 				final List<OperationalAreaObject> allValues = List.class
 						.cast(comboViewer.getInput());
-				// Objects in all control area should displayed regardless of
-				// the planning area
 				ToolboxEvents.send(broker,
 						new SelectedOperationalAreaChangedEvent(
 								getOperationalAreaType(), Set.copyOf(allValues),

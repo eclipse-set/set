@@ -441,13 +441,13 @@ public class TableServiceUtils {
 			}).toList();
 		}
 
-		final List<Ur_Objekt> inititalControlAreas = operationalAreas.stream()
+		final List<Ur_Objekt> inititalOperationalAreas = operationalAreas.stream()
 				.map(area -> getOperationalAreaObj(
 						modelSession.getContainer(ContainerType.INITIAL),
 						operationalAreaType, area))
 				.filter(Objects::nonNull)
 				.toList();
-		final List<Ur_Objekt> finalControlAreas = operationalAreas.stream()
+		final List<Ur_Objekt> finalOperationalAreas = operationalAreas.stream()
 				.map(area -> getOperationalAreaObj(
 						modelSession.getContainer(ContainerType.FINAL),
 						operationalAreaType, area))
@@ -456,13 +456,13 @@ public class TableServiceUtils {
 
 		return listElement.stream().filter(ele -> {
 			final UrObjektEachContainer objEachContainer = getUrObj.apply(ele);
-			final boolean isInitialObjBelongToAreas = !inititalControlAreas
+			final boolean isInitialObjBelongToAreas = !inititalOperationalAreas
 					.isEmpty()
 					&& transformationService.isObjectBelongToRendereArea(
-							objEachContainer.initalObj, inititalControlAreas);
-			final boolean isFinalObjBelongToAreas = !finalControlAreas.isEmpty()
+							objEachContainer.initalObj, inititalOperationalAreas);
+			final boolean isFinalObjBelongToAreas = !finalOperationalAreas.isEmpty()
 					&& transformationService.isObjectBelongToRendereArea(
-							objEachContainer.finalObj, finalControlAreas);
+							objEachContainer.finalObj, finalOperationalAreas);
 			if (isInitialObjBelongToAreas != isFinalObjBelongToAreas
 					&& handleByInitialOrFinalElementNotBelongToArea != null) {
 				handleByInitialOrFinalElementNotBelongToArea.accept(ele,

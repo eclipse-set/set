@@ -129,7 +129,7 @@ public class TableOverviewPart extends BasePart {
 
 	@PostConstruct
 	void postConstruct() {
-		selectionControlAreaHandler = new DefaultToolboxEventHandler<>() {
+		selectionOperationalAreaHandler = new DefaultToolboxEventHandler<>() {
 			@Override
 			public void accept(final SelectedOperationalAreaChangedEvent t) {
 				tableType = t.getTableType();
@@ -165,7 +165,7 @@ public class TableOverviewPart extends BasePart {
 
 		ToolboxEvents.subscribe(getBroker(),
 				SelectedOperationalAreaChangedEvent.class,
-				selectionControlAreaHandler);
+				selectionOperationalAreaHandler);
 
 		comparePlaningLoadedHandler = event -> {
 			// When all table already transformation, that mean the calculate
@@ -431,7 +431,7 @@ public class TableOverviewPart extends BasePart {
 	private void unsubscribe() {
 		broker.unsubscribe(tableErrorsChangeEventHandler);
 		broker.unsubscribe(comparePlaningLoadedHandler);
-		ToolboxEvents.unsubscribe(broker, selectionControlAreaHandler);
+		ToolboxEvents.unsubscribe(broker, selectionOperationalAreaHandler);
 	}
 
 	private Set<TableInfo> getTableToReTransform() {
