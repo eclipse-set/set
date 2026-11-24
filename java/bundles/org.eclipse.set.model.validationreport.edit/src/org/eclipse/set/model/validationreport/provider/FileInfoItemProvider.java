@@ -97,6 +97,7 @@ public class FileInfoItemProvider extends ItemProviderAdapter
 			addGuidPropertyDescriptor(object);
 			addTimeStampPropertyDescriptor(object);
 			addContainerContentsPropertyDescriptor(object);
+			addLstCheckSumPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -144,6 +145,7 @@ public class FileInfoItemProvider extends ItemProviderAdapter
 			case ValidationreportPackage.FILE_INFO__GUID:
 			case ValidationreportPackage.FILE_INFO__TIME_STAMP:
 			case ValidationreportPackage.FILE_INFO__CONTAINER_CONTENTS:
+			case ValidationreportPackage.FILE_INFO__LST_CHECK_SUM:
 				fireNotifyChanged(new ViewerNotification(notification,
 						notification.getNotifier(), false, true));
 				return;
@@ -247,6 +249,26 @@ public class FileInfoItemProvider extends ItemProviderAdapter
 				ValidationreportPackage.Literals.FILE_INFO__CONTAINER_CONTENTS,
 				true, false, false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
 				null, null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Lst Check Sum feature. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	protected void addLstCheckSumPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add(createItemPropertyDescriptor(
+				((ComposeableAdapterFactory) adapterFactory)
+						.getRootAdapterFactory(),
+				getResourceLocator(),
+				getString("_UI_FileInfo_lstCheckSum_feature"),
+				getString("_UI_PropertyDescriptor_description",
+						"_UI_FileInfo_lstCheckSum_feature",
+						"_UI_FileInfo_type"),
+				ValidationreportPackage.Literals.FILE_INFO__LST_CHECK_SUM, true,
+				false, false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null,
+				null));
 	}
 
 	/**

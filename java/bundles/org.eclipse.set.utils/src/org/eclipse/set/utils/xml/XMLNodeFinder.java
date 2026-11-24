@@ -15,8 +15,8 @@ import java.util.function.Predicate;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.eclipse.set.basis.PlanProXMLNode;
 import org.eclipse.set.basis.files.ToolboxFile;
+import org.eclipse.set.basis.xml.PlanProXMLNode;
 import org.xml.sax.SAXException;
 
 /**
@@ -182,6 +182,9 @@ public class XMLNodeFinder {
 	 * @return guid of the object contain this node
 	 */
 	public static String findNearestNodeGUID(final PlanProXMLNode node) {
+		if (node == null) {
+			return null;
+		}
 		// Walk up the XML tree
 		return findNearestNodeGUID(node.getParent(), n -> true);
 	}

@@ -14,8 +14,8 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.domain.EditingDomain;
-import org.eclipse.set.basis.PlanProXMLNode;
 import org.eclipse.set.basis.guid.Guid;
+import org.eclipse.set.basis.xml.PlanProXMLNode;
 
 /**
  * Abstraction from concrete file format.
@@ -298,4 +298,9 @@ public interface ToolboxFile {
 	 * @param path
 	 */
 	void setResourcePath(Resource resource, Path path);
+
+	/**
+	 * @return the check LST-Database checksum
+	 */
+	String getLstDatabaseCheckSum();
 }

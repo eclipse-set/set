@@ -12,7 +12,7 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import org.eclipse.set.basis.PlanProXMLNode;
+import org.eclipse.set.basis.xml.PlanProXMLNode;
 import org.eclipse.set.model.validationreport.ObjectScope;
 
 /**

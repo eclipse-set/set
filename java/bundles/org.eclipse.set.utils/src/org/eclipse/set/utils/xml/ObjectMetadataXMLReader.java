@@ -10,12 +10,14 @@ package org.eclipse.set.utils.xml;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.security.MessageDigest;
+import java.util.Optional;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.eclipse.set.basis.PlanProXMLNode;
 import org.eclipse.set.basis.extensions.PathExtensions;
 import org.eclipse.set.basis.files.ToolboxFile;
+import org.eclipse.set.basis.xml.PlanProXMLNode;
 import org.eclipse.set.model.validationreport.ObjectScope;
 import org.eclipse.set.model.validationreport.ObjectState;
 import org.xml.sax.SAXException;
@@ -53,6 +55,30 @@ public class ObjectMetadataXMLReader {
 	public static PlanProXMLNode read(final ToolboxFile toolboxFile,
 			final Path docPath)
 			throws IOException, SAXException, ParserConfigurationException {
+		return read(toolboxFile, docPath, Optional.empty());
+	}
+
+	/**
+	 * Reads a XML Document with additional metadata with update check sum
+	 * through xml content
+	 * 
+	 * @param toolboxFile
+	 *            the ToolboxFile
+	 * @param docPath
+	 *            the path of document
+	 * @param digestOpt
+	 *            the {@link MessageDigest}
+	 * @return The document
+	 * @throws ParserConfigurationException
+	 *             if the underlying LineNumberXMLReader throws
+	 * @throws SAXException
+	 *             if the underlying LineNumberXMLReader throws
+	 * @throws IOException
+	 *             if the underlying LineNumberXMLReader throws
+	 */
+	public static PlanProXMLNode read(final ToolboxFile toolboxFile,
+			final Path docPath, final Optional<MessageDigest> digestOpt)
+			throws IOException, SAXException, ParserConfigurationException {
 		if (docPath == null) {
 			return null;
 		}
@@ -61,16 +87,17 @@ public class ObjectMetadataXMLReader {
 		if (document == null) {
 			final ObjectMetadataXMLReader reader = new ObjectMetadataXMLReader(
 					docPath);
-			document = reader.read();
+			document = reader.read(digestOpt);
 			toolboxFile.setXMLDocument(PathExtensions.getBaseFileName(docPath),
 					document);
 		}
 		return document;
 	}
 
-	private PlanProXMLNode read()
+	private PlanProXMLNode read(final Optional<MessageDigest> digestOpt)
 			throws IOException, SAXException, ParserConfigurationException {
-		final PlanProXMLNode document = PlanProXMLNode.read(documentPath);
+		final PlanProXMLNode document = PlanProXMLNode.read(documentPath,
+				digestOpt);
 		PlanProXMLNode.addAdditionsObject(METADATA_READER_KEY, this);
 		return document;
 	}
