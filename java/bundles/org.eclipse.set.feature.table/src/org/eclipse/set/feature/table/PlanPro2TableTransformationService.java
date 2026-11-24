@@ -106,7 +106,7 @@ public abstract class PlanPro2TableTransformationService extends
 	 */
 	public void addAdditionRow(final Table originalTable,
 			final Table filteredTable,
-			final Optional<Set<String>> controlAreaIds) {
+			final Optional<Set<String>> operationalAreaIds) {
 		// do nothing by default
 	}
 }

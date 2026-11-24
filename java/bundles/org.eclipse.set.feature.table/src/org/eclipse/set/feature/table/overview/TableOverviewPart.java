@@ -114,7 +114,7 @@ public class TableOverviewPart extends BasePart {
 	private TableErrorTableView tableErrorTableView;
 
 	private final EventHandler tableErrorsChangeEventHandler = event -> onTableErrorsChange();
-	private ToolboxEventHandler<SelectedOperationalAreaChangedEvent> selectionControlAreaHandler;
+	private ToolboxEventHandler<SelectedOperationalAreaChangedEvent> selectionOperationalAreaHandler;
 	private EventHandler comparePlaningLoadedHandler;
 	private boolean ignoreChangeEvent = false;
 	private Optional<Set<String>> operationalAreaIds = Optional.empty();
