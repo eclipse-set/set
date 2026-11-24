@@ -48,7 +48,6 @@ class PlanProToFreeFieldTransformation {
 	 * Transforms a PlanPro Schnittstelle to a FreeFieldInfo.
 	 */
 	def FreeFieldInfo transform() {
-
 		return new FreeFieldInfo(
 			new SignificantInformation(mainSession.transformLoadedPlan,
 				compareSession.transformLoadedPlan))
@@ -64,7 +63,7 @@ class PlanProToFreeFieldTransformation {
 		return new LoadedPlanInformation(name, checksum, timestamp)
 	}
 
-	private def String getTimestamp(PlanPro_Schnittstelle schnittstelle) {
+ 	def String getTimestamp(PlanPro_Schnittstelle schnittstelle) {
 		return String.format("%1$td.%1$tm.%1$tY %1$tT",
 			schnittstelle.planProSchnittstelleAllg.erzeugungZeitstempel.wert.
 				toGregorianCalendar)

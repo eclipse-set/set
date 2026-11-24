@@ -90,4 +90,8 @@ class PlanungEinzelExtensions {
 	) {
 		return lstPlanung
 	}
+	
+	static def String getReferencePlanBasisGUID(Planung_Einzel einzelplanung) {
+		return einzelplanung?.referenzPlanungBasis?.wert
+	}
 }

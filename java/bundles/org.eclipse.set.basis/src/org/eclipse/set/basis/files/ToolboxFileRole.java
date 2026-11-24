@@ -18,48 +18,64 @@ import org.eclipse.set.basis.constants.ToolboxConstants;
 public enum ToolboxFileRole {
 
 	/**
-	 * The ToolboxFile is used to be exported
+	 * The ToolboxFile is used to start a session (default)
 	 */
-	EXPORT,
-
-	/**
-	 * The ToolboxFile is used to be imported into the final state
-	 */
-	IMPORT_FINAL_STATE,
-
-	/**
-	 * The ToolboxFile is used to be imported into the initial state
-	 */
-	IMPORT_INITIAL_STATE,
-
-	/**
-	 * The ToolboxFile is used as a first planning to import
-	 */
-	FIRST_PLANNING_TO_IMPORT,
+	SESSION(1),
 
 	/**
 	 * The ToolboxFile is used as a compare planning
 	 */
-	COMPARE_PLANNING,
+	COMPARE_PLANNING(2),
+
+	/**
+	 * The ToolboxFile is used as a reference plan
+	 */
+	REFERENCE_BASIS_PLAN(3),
+
+	/**
+	 * The ToolboxFile is used to be exported
+	 */
+	EXPORT(4),
+
+	/**
+	 * The ToolboxFile is used to be imported into the final state
+	 */
+	IMPORT_FINAL_STATE(5),
+
+	/**
+	 * The ToolboxFile is used to be imported into the initial state
+	 */
+	IMPORT_INITIAL_STATE(6),
+
+	/**
+	 * The ToolboxFile is used as a first planning to import
+	 */
+	FIRST_PLANNING_TO_IMPORT(7),
 
 	/**
 	 * The toolboxFile is used as a second planning to import
 	 */
-	SECOND_PLANNING_TO_IMPORT,
-
-	/**
-	 * The ToolboxFile is used to start a session (default)
-	 */
-	SESSION,
+	SECOND_PLANNING_TO_IMPORT(8),
 
 	/**
 	 * The ToolboxFile is used as a temporary integration
 	 */
-	TEMPORARY_INTEGRATION,
+	TEMPORARY_INTEGRATION(9),
 	/**
 	* 
 	*/
-	MERGE_PLANNING;
+	MERGE_PLANNING(10);
+
+	int priority;
+
+	private ToolboxFileRole(final int priority) {
+		this.priority = priority;
+	}
+
+	// @Override
+	// public int compareTo(final ToolboxFileRole another) {
+	// return Integer.compare(priority, another.priority);
+	// }
 
 	/**
 	 * Translates the role name into a directory name
@@ -76,6 +92,7 @@ public enum ToolboxFileRole {
 			case COMPARE_PLANNING -> ToolboxConstants.TOOLBOX_DIRECTORY_NAME_COMPARE_PLANNING;
 			case TEMPORARY_INTEGRATION -> ToolboxConstants.TOOLBOX_DIRECTORY_NAME_TEMPORARY_INTEGRATION;
 			case MERGE_PLANNING -> ToolboxConstants.TOOLBOX_DIRECTORY_NAME_MERGE_PLANNING;
+			case REFERENCE_BASIS_PLAN -> ToolboxConstants.TOOLBOX_DIRECTORY_NAME_REFERENCE_BASIS_PLAN;
 			default -> ToolboxConstants.TOOLBOX_DIRECTORY_NAME_SESSION;
 		};
 	}

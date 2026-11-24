@@ -242,6 +242,12 @@ public final class ToolboxConstants {
 	 * mergeplanning.
 	 */
 	public static final String TOOLBOX_DIRECTORY_NAME_MERGE_PLANNING = "mergeplanning";
+
+	/**
+	 * The name for the temporary directory of a toolbox file used as a
+	 * reference plan.
+	 */
+	public static final String TOOLBOX_DIRECTORY_NAME_REFERENCE_BASIS_PLAN = "referenceplan";
 	/**
 	 * The id of the validation part.
 	 */

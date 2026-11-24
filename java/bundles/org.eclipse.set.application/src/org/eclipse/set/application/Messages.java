@@ -112,6 +112,11 @@ public class Messages {
 	public String OpenPlanProHandler_LoadingPlanProModelFileErrorTitle;
 
 	/**
+	 * Die ausgewählte Plan ist nicht referenziert von aktuell Plan
+	 */
+	public String OpenPlanProHandler_LoadingWrongReferencePlanMessage;
+
+	/**
 	 * Datei in Textsicht
 	 */
 	public String SourceTextViewDescriptionService_ViewName;

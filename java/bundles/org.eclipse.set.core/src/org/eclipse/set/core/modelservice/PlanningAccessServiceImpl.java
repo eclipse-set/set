@@ -15,6 +15,10 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.eclipse.core.runtime.Assert;
+import org.eclipse.e4.core.services.events.IEventBroker;
+import org.eclipse.set.basis.FreeFieldInfo.LoadedPlanInformation;
+import org.eclipse.set.basis.IModelSession;
+import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.core.services.planningaccess.PlanningAccessService;
 import org.eclipse.set.model.planpro.PlanPro.ENUMUntergewerkArt;
 import org.eclipse.set.model.planpro.PlanPro.PlanProFactory;
@@ -23,15 +27,38 @@ import org.eclipse.set.model.planpro.PlanPro.Planung_Gruppe;
 import org.eclipse.set.model.planpro.PlanPro.Planung_Projekt;
 import org.eclipse.set.model.planpro.PlanPro.Untergewerk_Art_TypeClass;
 import org.eclipse.set.ppmodel.extensions.PlanungEinzelExtensions;
+import org.eclipse.set.ppmodel.extensions.utils.PlanProToFreeFieldTransformation;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.event.Event;
+import org.osgi.service.event.EventConstants;
+import org.osgi.service.event.EventHandler;
 
 /**
  * Implementation of {@link PlanningAccessService}.
  * 
  * @author Schaefer
  */
-@Component
-public class PlanningAccessServiceImpl implements PlanningAccessService {
+@Component(property = { EventConstants.EVENT_TOPIC + "="
+		+ Events.REFERENCE_PLAN_LOADED }, service = {
+				PlanningAccessService.class, EventHandler.class })
+public class PlanningAccessServiceImpl
+		implements PlanningAccessService, EventHandler {
+	private LoadedPlanInformation referencePlanInformation = null;
+
+	@Override
+	public void handleEvent(final Event event) {
+		if (event.getTopic().equals(Events.REFERENCE_PLAN_LOADED)
+				&& event.getProperty(
+						IEventBroker.DATA) instanceof final IModelSession referencePlanSession) {
+			final var transformation = PlanProToFreeFieldTransformation
+					.create(null);
+			referencePlanInformation = transformation
+					.transformLoadedPlan(referencePlanSession);
+			// The session isn't needed anymore
+			referencePlanSession.close();
+		}
+
+	}
 
 	private ENUMUntergewerkArt currentUntergewerkArt = null;
 
@@ -199,5 +226,10 @@ public class PlanningAccessServiceImpl implements PlanningAccessService {
 	public void setCurrentUntergewerkArt(
 			final ENUMUntergewerkArt untergewerkArt) {
 		currentUntergewerkArt = untergewerkArt;
+	}
+
+	@Override
+	public LoadedPlanInformation getReferencePlanInformation() {
+		return referencePlanInformation;
 	}
 }

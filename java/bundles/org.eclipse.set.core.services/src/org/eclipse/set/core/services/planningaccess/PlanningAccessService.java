@@ -9,6 +9,7 @@
 
 package org.eclipse.set.core.services.planningaccess;
 
+import org.eclipse.set.basis.FreeFieldInfo.LoadedPlanInformation;
 import org.eclipse.set.model.planpro.PlanPro.ENUMUntergewerkArt;
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.set.model.planpro.PlanPro.Planung_Gruppe;
@@ -75,4 +76,9 @@ public interface PlanningAccessService {
 	 *            the Planung Gruppe
 	 */
 	public void setPlanungGruppe(Planung_Projekt project, Planung_Gruppe group);
+
+	/**
+	 * @return the information of plan, which main plan reference to
+	 */
+	LoadedPlanInformation getReferencePlanInformation();
 }

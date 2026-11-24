@@ -327,5 +327,4 @@ public class SetSessionService implements SessionService {
 	public IModelSession getLoadedSession(final ToolboxFileRole role) {
 		return loadedModels.getOrDefault(role, null);
 	}
-
 }
