@@ -441,7 +441,8 @@ public class TableServiceUtils {
 			}).toList();
 		}
 
-		final List<Ur_Objekt> inititalOperationalAreas = operationalAreas.stream()
+		final List<Ur_Objekt> inititalOperationalAreas = operationalAreas
+				.stream()
 				.map(area -> getOperationalAreaObj(
 						modelSession.getContainer(ContainerType.INITIAL),
 						operationalAreaType, area))
@@ -459,8 +460,10 @@ public class TableServiceUtils {
 			final boolean isInitialObjBelongToAreas = !inititalOperationalAreas
 					.isEmpty()
 					&& transformationService.isObjectBelongToRendereArea(
-							objEachContainer.initalObj, inititalOperationalAreas);
-			final boolean isFinalObjBelongToAreas = !finalOperationalAreas.isEmpty()
+							objEachContainer.initalObj,
+							inititalOperationalAreas);
+			final boolean isFinalObjBelongToAreas = !finalOperationalAreas
+					.isEmpty()
 					&& transformationService.isObjectBelongToRendereArea(
 							objEachContainer.finalObj, finalOperationalAreas);
 			if (isInitialObjBelongToAreas != isFinalObjBelongToAreas

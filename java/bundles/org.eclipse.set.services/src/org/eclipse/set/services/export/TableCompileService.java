@@ -30,11 +30,12 @@ public interface TableCompileService {
 	 *            the {@link TableInfo}
 	 * @param modelSession
 	 *            the model session
-	 * @param controlAreaIds
-	 *            the selected control areas
+	 * @param operationalAreaIds
+	 *            the selected operational areas
 	 * 
 	 * @return a mapping of possible tables
 	 */
 	Map<TableType, Table> compile(TableInfo tableInfo,
-			IModelSession modelSession, Optional<Set<String>> operationalAreaIds);
+			IModelSession modelSession,
+			Optional<Set<String>> operationalAreaIds);
 }
