@@ -341,7 +341,6 @@ class SsliTransformator extends AbstractPlanPro2TableModelTransformator {
 			]
 
 		val gleisLabelBoundaries = newArrayList
-		val label = gleis?.bezeichnung?.bezGleisBezeichnung?.wert ?: ""
 		gleisLabelBoundaries.add(
 			new Gleis_BezeichnungBegrenzung(gleis,
 				#[startEndBoundaries.key.key, startEndBoundaries.key.value]))
@@ -357,7 +356,7 @@ class SsliTransformator extends AbstractPlanPro2TableModelTransformator {
 			}
 
 		}
-		result.put(label, gleisLabelBoundaries)
+		result.put(gleis.identitaet?.wert ?: "",, gleisLabelBoundaries)
 	}
 
 	private def String createBezeichnung(Gleis_Bezeichnung gleisBezeichnung) {
