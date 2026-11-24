@@ -30,6 +30,8 @@ import org.eclipse.emf.ecore.EObject;
  * <em>Time Stamp</em>}</li>
  * <li>{@link org.eclipse.set.model.validationreport.FileInfo#getContainerContents
  * <em>Container Contents</em>}</li>
+ * <li>{@link org.eclipse.set.model.validationreport.FileInfo#getLstCheckSum
+ * <em>Lst Check Sum</em>}</li>
  * </ul>
  *
  * @see org.eclipse.set.model.validationreport.ValidationreportPackage#getFileInfo()
@@ -172,6 +174,31 @@ public interface FileInfo extends EObject {
 	 * @generated
 	 */
 	void setContainerContents(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Lst Check Sum</b></em>' attribute. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @return the value of the '<em>Lst Check Sum</em>' attribute.
+	 * @see #setLstCheckSum(String)
+	 * @see org.eclipse.set.model.validationreport.ValidationreportPackage#getFileInfo_LstCheckSum()
+	 * @model
+	 * @generated
+	 */
+	String getLstCheckSum();
+
+	/**
+	 * Sets the value of the
+	 * '{@link org.eclipse.set.model.validationreport.FileInfo#getLstCheckSum
+	 * <em>Lst Check Sum</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
+	 * @param value
+	 *            the new value of the '<em>Lst Check Sum</em>' attribute.
+	 * @see #getLstCheckSum()
+	 * @generated
+	 */
+	void setLstCheckSum(String value);
 
 	/**
 	 * Sets the value of the

@@ -37,6 +37,8 @@ import org.eclipse.set.model.validationreport.VersionInfo;
  * <em>Time Stamp</em>}</li>
  * <li>{@link org.eclipse.set.model.validationreport.impl.FileInfoImpl#getContainerContents
  * <em>Container Contents</em>}</li>
+ * <li>{@link org.eclipse.set.model.validationreport.impl.FileInfoImpl#getLstCheckSum
+ * <em>Lst Check Sum</em>}</li>
  * </ul>
  *
  * @generated
@@ -154,6 +156,26 @@ public class FileInfoImpl extends MinimalEObjectImpl.Container
 	protected String containerContents = CONTAINER_CONTENTS_EDEFAULT;
 
 	/**
+	 * The default value of the '{@link #getLstCheckSum() <em>Lst Check
+	 * Sum</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @see #getLstCheckSum()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String LST_CHECK_SUM_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getLstCheckSum() <em>Lst Check
+	 * Sum</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @see #getLstCheckSum()
+	 * @generated
+	 * @ordered
+	 */
+	protected String lstCheckSum = LST_CHECK_SUM_EDEFAULT;
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @generated
@@ -204,6 +226,8 @@ public class FileInfoImpl extends MinimalEObjectImpl.Container
 				return getTimeStamp();
 			case ValidationreportPackage.FILE_INFO__CONTAINER_CONTENTS:
 				return getContainerContents();
+			case ValidationreportPackage.FILE_INFO__LST_CHECK_SUM:
+				return getLstCheckSum();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -250,6 +274,9 @@ public class FileInfoImpl extends MinimalEObjectImpl.Container
 						? containerContents != null
 						: !CONTAINER_CONTENTS_EDEFAULT
 								.equals(containerContents);
+			case ValidationreportPackage.FILE_INFO__LST_CHECK_SUM:
+				return LST_CHECK_SUM_EDEFAULT == null ? lstCheckSum != null
+						: !LST_CHECK_SUM_EDEFAULT.equals(lstCheckSum);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -281,6 +308,9 @@ public class FileInfoImpl extends MinimalEObjectImpl.Container
 			case ValidationreportPackage.FILE_INFO__CONTAINER_CONTENTS:
 				setContainerContents((String) newValue);
 				return;
+			case ValidationreportPackage.FILE_INFO__LST_CHECK_SUM:
+				setLstCheckSum((String) newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -310,6 +340,9 @@ public class FileInfoImpl extends MinimalEObjectImpl.Container
 				return;
 			case ValidationreportPackage.FILE_INFO__CONTAINER_CONTENTS:
 				setContainerContents(CONTAINER_CONTENTS_EDEFAULT);
+				return;
+			case ValidationreportPackage.FILE_INFO__LST_CHECK_SUM:
+				setLstCheckSum(LST_CHECK_SUM_EDEFAULT);
 				return;
 		}
 		super.eUnset(featureID);
@@ -455,6 +488,31 @@ public class FileInfoImpl extends MinimalEObjectImpl.Container
 	 * @generated
 	 */
 	@Override
+	public String getLstCheckSum() {
+		return lstCheckSum;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
+	public void setLstCheckSum(String newLstCheckSum) {
+		String oldLstCheckSum = lstCheckSum;
+		lstCheckSum = newLstCheckSum;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					ValidationreportPackage.FILE_INFO__LST_CHECK_SUM,
+					oldLstCheckSum, lstCheckSum));
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
 	public void setUsedVersion(VersionInfo newUsedVersion) {
 		if (newUsedVersion != usedVersion) {
 			NotificationChain msgs = null;
@@ -498,6 +556,8 @@ public class FileInfoImpl extends MinimalEObjectImpl.Container
 		result.append(timeStamp);
 		result.append(", containerContents: ");
 		result.append(containerContents);
+		result.append(", lstCheckSum: ");
+		result.append(lstCheckSum);
 		result.append(')');
 		return result.toString();
 	}

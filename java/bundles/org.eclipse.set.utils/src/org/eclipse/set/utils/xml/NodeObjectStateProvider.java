@@ -8,7 +8,7 @@
  */
 package org.eclipse.set.utils.xml;
 
-import org.eclipse.set.basis.PlanProXMLNode;
+import org.eclipse.set.basis.xml.PlanProXMLNode;
 import org.eclipse.set.model.validationreport.ObjectState;
 
 /**

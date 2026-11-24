@@ -13,9 +13,9 @@ package org.eclipse.set.feature.validation;
 import java.util.Arrays;
 import java.util.List;
 
-import org.eclipse.set.basis.PlanProXMLNode;
 import org.eclipse.set.basis.constants.ValidationResult;
 import org.eclipse.set.basis.files.ToolboxFile;
+import org.eclipse.set.basis.xml.PlanProXMLNode;
 import org.eclipse.set.core.services.validation.CustomValidator;
 import org.eclipse.set.model.planpro.Layoutinformationen.Lageplan_Blattschnitt;
 import org.eclipse.set.model.planpro.Layoutinformationen.PlanPro_Layoutinfo;

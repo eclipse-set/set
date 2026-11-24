@@ -530,6 +530,16 @@ public class ValidationreportPackageImpl extends EPackageImpl
 	 * @generated
 	 */
 	@Override
+	public EAttribute getFileInfo_LstCheckSum() {
+		return (EAttribute) fileInfoEClass.getEStructuralFeatures().get(6);
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
 	public EEnum getValidationSeverity() {
 		return validationSeverityEEnum;
 	}
@@ -645,6 +655,7 @@ public class ValidationreportPackageImpl extends EPackageImpl
 		createEAttribute(fileInfoEClass, FILE_INFO__GUID);
 		createEAttribute(fileInfoEClass, FILE_INFO__TIME_STAMP);
 		createEAttribute(fileInfoEClass, FILE_INFO__CONTAINER_CONTENTS);
+		createEAttribute(fileInfoEClass, FILE_INFO__LST_CHECK_SUM);
 
 		// Create enums
 		validationSeverityEEnum = createEEnum(VALIDATION_SEVERITY);
@@ -836,6 +847,10 @@ public class ValidationreportPackageImpl extends EPackageImpl
 				ecorePackage.getEString(), "containerContents", null, 0, 1,
 				FileInfo.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
 				!IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getFileInfo_LstCheckSum(), ecorePackage.getEString(),
+				"lstCheckSum", null, 0, 1, FileInfo.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
+				!IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(validationSeverityEEnum, ValidationSeverity.class,
