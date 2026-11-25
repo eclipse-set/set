@@ -1,6 +1,6 @@
 ﻿Validierungsmeldungen
 Datei: validation_view_current.csv
-Validierung: 2026-11-24 12:31:38
+Validierung: 2026-11-25 12:43:28
 Werkzeugkofferversion: ${application-version}
 
 "Lfd. Nr.";"Schweregrad";"Problemart";"Zeilennummer";"Objektart";"Objekbezeichnung";"Attribut/-gruppe";"Bereich";"Zustand";"Meldung"
@@ -5487,10 +5487,10 @@ Werkzeugkofferversion: ${application-version}
 "5416";"Warnung";"Fachliche Vollständigkeit";"153672";"Markanter_Punkt";"60B114/60G102/60W2";"Datum_Regelwerk";"Planung";"Ziel";"Die nach Datenmodell erforderliche Angabe ist nicht vorhanden."
 "5417";"Warnung";"Fachliche Vollständigkeit";"153690";"Markanter_Punkt";"60W30/60W34";"Datum_Regelwerk";"Planung";"Ziel";"Die nach Datenmodell erforderliche Angabe ist nicht vorhanden."
 "5418";"Warnung";"Fachliche Vollständigkeit";"153708";"Markanter_Punkt";"60W28/60W29";"Datum_Regelwerk";"Planung";"Ziel";"Die nach Datenmodell erforderliche Angabe ist nicht vorhanden."
-"5419";"Warnung";"Fachliche Vollständigkeit";"51616";"NB";"60";"Datum_Regelwerk";"Planung";"Start";"Die nach Datenmodell erforderliche Angabe ist nicht vorhanden."
-"5420";"Warnung";"Fachliche Vollständigkeit";"51637";"NB";"60";"Datum_Regelwerk";"Planung";"Start";"Die nach Datenmodell erforderliche Angabe ist nicht vorhanden."
-"5421";"Warnung";"Fachliche Vollständigkeit";"153726";"NB";"60";"Datum_Regelwerk";"Planung";"Ziel";"Die nach Datenmodell erforderliche Angabe ist nicht vorhanden."
-"5422";"Warnung";"Fachliche Vollständigkeit";"153747";"NB";"60";"Datum_Regelwerk";"Planung";"Ziel";"Die nach Datenmodell erforderliche Angabe ist nicht vorhanden."
+"5419";"Warnung";"Fachliche Vollständigkeit";"51616";"NB";"60Nb2";"Datum_Regelwerk";"Planung";"Start";"Die nach Datenmodell erforderliche Angabe ist nicht vorhanden."
+"5420";"Warnung";"Fachliche Vollständigkeit";"51637";"NB";"60Nb1";"Datum_Regelwerk";"Planung";"Start";"Die nach Datenmodell erforderliche Angabe ist nicht vorhanden."
+"5421";"Warnung";"Fachliche Vollständigkeit";"153726";"NB";"60Nb2";"Datum_Regelwerk";"Planung";"Ziel";"Die nach Datenmodell erforderliche Angabe ist nicht vorhanden."
+"5422";"Warnung";"Fachliche Vollständigkeit";"153747";"NB";"60Nb1";"Datum_Regelwerk";"Planung";"Ziel";"Die nach Datenmodell erforderliche Angabe ist nicht vorhanden."
 "5423..5431";"Warnung";"Fachliche Vollständigkeit";"";"NB_Bedien_Anzeige_Element";"";"Datum_Regelwerk";"Planung";"Start";"Die nach Datenmodell erforderliche Angabe ist nicht vorhanden."
 "5423";"Warnung";"Fachliche Vollständigkeit";"51658";"NB_Bedien_Anzeige_Element";"";"Datum_Regelwerk";"Planung";"Start";"Die nach Datenmodell erforderliche Angabe ist nicht vorhanden."
 "5424";"Warnung";"Fachliche Vollständigkeit";"51679";"NB_Bedien_Anzeige_Element";"";"Datum_Regelwerk";"Planung";"Start";"Die nach Datenmodell erforderliche Angabe ist nicht vorhanden."

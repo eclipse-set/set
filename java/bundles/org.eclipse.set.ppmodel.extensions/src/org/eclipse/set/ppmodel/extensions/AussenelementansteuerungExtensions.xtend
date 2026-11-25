@@ -8,19 +8,18 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
+import java.util.LinkedHashSet
 import java.util.List
+import java.util.function.Predicate
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Aussenelementansteuerung
 import org.eclipse.set.model.planpro.Ansteuerung_Element.ESTW_Zentraleinheit
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stellelement
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Unterbringung
 import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
 import org.eclipse.set.model.planpro.Geodaten.Oertlichkeit
-import org.eclipse.set.model.planpro.Ansteuerung_Element.Stellelement
-import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 
 import static extension org.eclipse.set.ppmodel.extensions.StellBereichExtensions.*
-import java.util.function.Predicate
-import java.util.LinkedList
-import java.util.LinkedHashSet
 
 /**
  * Extensions for {@link Aussenelementansteuerung}.
@@ -87,6 +86,10 @@ class AussenelementansteuerungExtensions extends BasisObjektExtensions {
 	def static Oertlichkeit getOertlichkeitNamensgebend(
 		Aussenelementansteuerung aussenelementansteuerung) {
 		return aussenelementansteuerung?.IDOertlichkeitNamensgebend?.value
+	}
+	
+	def static dispatch String getElementBezeichnung(Void element) {
+		throw new NullPointerException
 	}
 
 	def static dispatch String getElementBezeichnung(Basis_Objekt element) {

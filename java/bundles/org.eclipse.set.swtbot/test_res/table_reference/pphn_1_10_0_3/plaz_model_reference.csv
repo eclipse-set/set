@@ -1,6 +1,6 @@
 ﻿PlaZ Modell-Prüfung
 Datei: plaz_model_current.csv
-Prüfungszeit: 2026-11-24 12:28:32
+Prüfungszeit: 2026-11-25 12:40:25
 Werkzeugkofferversion: ${application-version}
 
 
@@ -60,7 +60,7 @@ Werkzeugkofferversion: ${application-version}
 "53";"Warnung";"GUID-Sortierung";"47899";"Gleis_Art";"";"";"Betrachtung";"Start";"Die Elemente des Objekttyps Gleis_Art sind nicht sortiert."
 "54";"Warnung";"GUID-Sortierung";"48982";"Gleis_Bezeichnung";"(2)";"";"Betrachtung";"Start";"Die Elemente des Objekttyps Gleis_Bezeichnung sind nicht sortiert."
 "55";"Warnung";"GUID-Sortierung";"50212";"Markanter_Punkt";"BÜ 121,6";"";"Betrachtung";"Start";"Die Elemente des Objekttyps Markanter_Punkt sind nicht sortiert."
-"56";"Warnung";"GUID-Sortierung";"51631";"NB";"60";"";"Betrachtung";"Start";"Die Elemente des Objekttyps NB sind nicht sortiert."
+"56";"Warnung";"GUID-Sortierung";"51631";"NB";"60Nb1";"";"Betrachtung";"Start";"Die Elemente des Objekttyps NB sind nicht sortiert."
 "57";"Warnung";"GUID-Sortierung";"51673";"NB_Bedien_Anzeige_Element";"";"";"Betrachtung";"Start";"Die Elemente des Objekttyps NB_Bedien_Anzeige_Element sind nicht sortiert."
 "58";"Warnung";"GUID-Sortierung";"51904";"NB_Zone_Element";"";"";"Betrachtung";"Start";"Die Elemente des Objekttyps NB_Zone_Element sind nicht sortiert."
 "59";"Warnung";"GUID-Sortierung";"52475";"NB_Zone_Grenze";"";"";"Betrachtung";"Start";"Die Elemente des Objekttyps NB_Zone_Grenze sind nicht sortiert."
@@ -120,7 +120,7 @@ Werkzeugkofferversion: ${application-version}
 "113";"Warnung";"GUID-Sortierung";"150009";"Gleis_Art";"";"";"Betrachtung";"Ziel";"Die Elemente des Objekttyps Gleis_Art sind nicht sortiert."
 "114";"Warnung";"GUID-Sortierung";"151092";"Gleis_Bezeichnung";"(2)";"";"Betrachtung";"Ziel";"Die Elemente des Objekttyps Gleis_Bezeichnung sind nicht sortiert."
 "115";"Warnung";"GUID-Sortierung";"152322";"Markanter_Punkt";"BÜ 121,6";"";"Betrachtung";"Ziel";"Die Elemente des Objekttyps Markanter_Punkt sind nicht sortiert."
-"116";"Warnung";"GUID-Sortierung";"153741";"NB";"60";"";"Betrachtung";"Ziel";"Die Elemente des Objekttyps NB sind nicht sortiert."
+"116";"Warnung";"GUID-Sortierung";"153741";"NB";"60Nb1";"";"Betrachtung";"Ziel";"Die Elemente des Objekttyps NB sind nicht sortiert."
 "117";"Warnung";"GUID-Sortierung";"153783";"NB_Bedien_Anzeige_Element";"";"";"Betrachtung";"Ziel";"Die Elemente des Objekttyps NB_Bedien_Anzeige_Element sind nicht sortiert."
 "118";"Warnung";"GUID-Sortierung";"154014";"NB_Zone_Element";"";"";"Betrachtung";"Ziel";"Die Elemente des Objekttyps NB_Zone_Element sind nicht sortiert."
 "119";"Warnung";"GUID-Sortierung";"154585";"NB_Zone_Grenze";"";"";"Betrachtung";"Ziel";"Die Elemente des Objekttyps NB_Zone_Grenze sind nicht sortiert."
