@@ -85,4 +85,9 @@ public class ControlAreaSelectionControl
 	protected OperationalAreaEnum getOperationalAreaType() {
 		return OperationalAreaEnum.Interlocking;
 	}
+
+	@Override
+	protected String getAllOperationalAreaValue() {
+		return messages.ControlAreaCombo_All_ControlArea;
+	}
 }
