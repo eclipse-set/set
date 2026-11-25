@@ -99,6 +99,7 @@ public class ReadReferencePlanHandler extends OpenPlanProHandler {
 								.anyMatch(ele -> ele != refEle))) {
 			getDialogService().error(sell,
 					messages.OpenPlanProHandler_LoadingWrongReferencePlanMessage);
+			modelSession.close();
 			return null;
 		}
 		return modelSession;
