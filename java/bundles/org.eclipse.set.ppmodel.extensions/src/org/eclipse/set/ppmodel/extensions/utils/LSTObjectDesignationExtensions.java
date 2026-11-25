@@ -291,8 +291,9 @@ public class LSTObjectDesignationExtensions {
 	 * @return the object designation
 	 */
 	public static String getLSTObjectDesignation(final NB nb) {
-		return getEmptyStringWhenNull(nb,
-				n -> n.getBezeichnung().getKennzahl().getWert());
+		return getEmptyStringWhenNull(nb, n -> String.format("%sNb%s", //$NON-NLS-1$
+				n.getBezeichnung().getKennzahl().getWert(),
+				n.getBezeichnung().getBezeichnungNB().getWert()));
 	}
 
 	/**
