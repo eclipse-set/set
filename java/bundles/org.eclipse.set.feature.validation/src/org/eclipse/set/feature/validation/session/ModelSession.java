@@ -16,9 +16,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.EnumMap;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -41,7 +40,6 @@ import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.set.basis.IModelSession;
-import org.eclipse.set.basis.Pair;
 import org.eclipse.set.basis.ProjectInitializationData;
 import org.eclipse.set.basis.ToolboxPaths;
 import org.eclipse.set.basis.Wrapper;
@@ -61,6 +59,8 @@ import org.eclipse.set.basis.files.ToolboxFile.Format;
 import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.eclipse.set.basis.guid.Guid;
 import org.eclipse.set.core.services.Services;
+import org.eclipse.set.basis.table.OperationalAreaEnum;
+import org.eclipse.set.basis.table.OperationalAreaEnum.OperationalAreaObject;
 import org.eclipse.set.core.services.branding.BrandingService;
 import org.eclipse.set.core.services.cache.CacheService;
 import org.eclipse.set.core.services.defaultvalue.DefaultValueService;
@@ -90,8 +90,7 @@ import org.eclipse.set.utils.ToolboxConfiguration;
 import org.eclipse.set.utils.events.DataEvent;
 import org.eclipse.set.utils.events.DefaultToolboxEventHandler;
 import org.eclipse.set.utils.events.EditingCompleted;
-import org.eclipse.set.utils.events.SelectedControlAreaChangedEvent;
-import org.eclipse.set.utils.events.SelectedControlAreaChangedEvent.ControlAreaValue;
+import org.eclipse.set.utils.events.SelectedOperationalAreaChangedEvent;
 import org.eclipse.set.utils.events.SessionDirtyChanged;
 import org.eclipse.set.utils.events.ToolboxEvents;
 import org.eclipse.swt.widgets.Display;
@@ -172,7 +171,7 @@ public class ModelSession implements IModelSession {
 	private EContentAdapter contentAdapter;
 	private final Guid guid;
 	private boolean isNewProject = false;
-	private DefaultToolboxEventHandler<SelectedControlAreaChangedEvent> selectedControlAreaChangedEventHandler;
+	private DefaultToolboxEventHandler<SelectedOperationalAreaChangedEvent> selectedOperationalAreaChangedEventHandler;
 	private PlanPro_Schnittstelle planPro_Schnittstelle;
 	private PlanPro_Layoutinfo layoutInfo;
 	private final Map<Integer, Boolean> reportSavedDialogSuppressed = new HashMap<>();
@@ -192,9 +191,9 @@ public class ModelSession implements IModelSession {
 	ProjectInitializationData projectInitializationData;
 	final ServiceProvider serviceProvider;
 	TableType tableType = null;
-	Set<ControlAreaValue> selectedControlAreas = new HashSet<>();
+	Map<OperationalAreaEnum, Set<OperationalAreaObject>> selectedOperationalAreas = new EnumMap<>(
+			OperationalAreaEnum.class);
 
-	private boolean isPlanningAreaIgnored = false;
 	private SaveFixResult saveFixResult = SaveFixResult.NONE;
 	protected ValidationResult layoutinfoValidationResult = null;
 
@@ -259,20 +258,28 @@ public class ModelSession implements IModelSession {
 	}
 
 	private void subcribeToolboxEvent() {
-		selectedControlAreaChangedEventHandler = new DefaultToolboxEventHandler<>() {
+		selectedOperationalAreaChangedEventHandler = new DefaultToolboxEventHandler<>() {
 
 			@Override
-			public void accept(final SelectedControlAreaChangedEvent t) {
-				final Set<ControlAreaValue> changeAreas = t.getControlAreas();
-				selectedControlAreas.clear();
+			public void accept(final SelectedOperationalAreaChangedEvent t) {
+				final Set<OperationalAreaObject> changeAreas = t
+						.getOperationalAreas();
 				tableType = t.getTableType();
-				changeAreas.forEach(area -> selectedControlAreas.add(area));
-				isPlanningAreaIgnored = t.isPlanningAreaIgnored();
+				if (changeAreas.isEmpty()) {
+					selectedOperationalAreas.put(t.getOperationalAreaType(),
+							t.isPlanningAreaIgnored() ? null
+									: Collections.emptySet());
+					return;
+				}
+
+				selectedOperationalAreas.put(t.getOperationalAreaType(),
+						changeAreas);
+
 			}
 		};
 		ToolboxEvents.subscribe(this.serviceProvider.broker,
-				SelectedControlAreaChangedEvent.class,
-				selectedControlAreaChangedEventHandler);
+				SelectedOperationalAreaChangedEvent.class,
+				selectedOperationalAreaChangedEventHandler);
 	}
 
 	@Override
@@ -314,7 +321,7 @@ public class ModelSession implements IModelSession {
 			removeContentAdapter(getLayoutInformation());
 			// unsubscribe event handler
 			ToolboxEvents.unsubscribe(serviceProvider.broker,
-					selectedControlAreaChangedEventHandler);
+					selectedOperationalAreaChangedEventHandler);
 		} catch (final IOException e) {
 			logger.warn("clean up failed: exception={} message={}", //$NON-NLS-1$
 					e.getClass().getSimpleName(), e.getMessage());
@@ -522,15 +529,27 @@ public class ModelSession implements IModelSession {
 	}
 
 	@Override
-	public List<Pair<String, String>> getSelectedControlAreas() {
-		return selectedControlAreas.stream()
-				.map(area -> new Pair<>(area.areaName(), area.areaId()))
-				.toList();
+	public Optional<Set<OperationalAreaObject>> getSelectedOperationalAreas(
+			final OperationalAreaEnum operationalAreaType) {
+		final Set<OperationalAreaObject> values = selectedOperationalAreas
+				.get(operationalAreaType);
+		if (values == null) {
+			return Optional.empty();
+		}
+		return Optional.of(values);
 	}
 
 	@Override
-	public boolean isPlanningAreaIgnored() {
-		return isPlanningAreaIgnored;
+	public Optional<Set<String>> getSelectedOperationalAreasId(
+			final OperationalAreaEnum operationalAreaType) {
+		final Set<OperationalAreaObject> values = selectedOperationalAreas
+				.get(operationalAreaType);
+		if (values == null) {
+			return Optional.empty();
+		}
+		return Optional.of(values.stream()
+				.map(OperationalAreaObject::areaId)
+				.collect(Collectors.toSet()));
 	}
 
 	@Override

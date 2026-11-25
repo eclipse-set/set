@@ -317,7 +317,7 @@ public class Messages {
 	public String ValidationReport_GeladeneDatei_TimeStamp;
 
 	/**
-	 * MD5
+	 * MD5 ZIP
 	 */
 	public String ValidationReport_GeladeneDatei_MD5;
 
@@ -407,7 +407,7 @@ public class Messages {
 	public String ValidationReport_Metadata;
 
 	/**
-	 * LST-Datenbank MD5
+	 * MD5 Inhalt
 	 */
 	public String ValidationReport_GeladeneDatei_LSTDataBase_MD5;
 }

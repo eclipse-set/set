@@ -618,7 +618,7 @@ class TableToTableDocument {
 		val idAttr = doc.createAttribute("id")
 		idAttr.value = id
 		attributeNode = idAttr
-		textContent = '''«info.name» «info.timestamp» MD5: «info.checksum»'''
+		textContent = '''«info.name» «info.timestamp» MD5-Zip: «info.checksumZip» MD5-Inhalt:«info.checksumContent»'''
 	}
 
 	private def Element create doc.createElement("Footnotes")

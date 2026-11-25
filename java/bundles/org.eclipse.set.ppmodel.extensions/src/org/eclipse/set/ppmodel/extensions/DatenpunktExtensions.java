@@ -19,6 +19,7 @@ import org.eclipse.set.basis.graph.TopPath;
 import org.eclipse.set.basis.graph.TopPoint;
 import org.eclipse.set.model.planpro.Balisentechnik_ETCS.Datenpunkt;
 import org.eclipse.set.model.planpro.Balisentechnik_ETCS.ETCS_Kante;
+import org.eclipse.set.model.planpro.Balisentechnik_ETCS.RBC;
 import org.eclipse.set.model.planpro.Geodaten.TOP_Kante;
 
 import com.google.common.collect.Streams;
@@ -53,6 +54,20 @@ public class DatenpunktExtensions extends BasisObjektExtensions {
 					.map(TopPoint::new)
 					.anyMatch(point -> topPath.getDistance(point).isPresent());
 		}).collect(Collectors.toSet());
+	}
 
+	/**
+	 * @param rbc
+	 *            the {@link RBC}
+	 * @param dp
+	 *            the {@link Datenpunkt} object
+	 * @return whether the {@link Datenpunkt} belong to {@link RBC} area
+	 */
+	public static boolean isBelongToRBCArea(final RBC rbc,
+			final Datenpunkt dp) {
+		return dp.getIDRBC()
+				.stream()
+				.anyMatch(idRBC -> idRBC.getValue() != null
+						&& idRBC.getValue() == rbc);
 	}
 }

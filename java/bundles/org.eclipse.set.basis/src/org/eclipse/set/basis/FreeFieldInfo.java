@@ -35,13 +35,15 @@ public record FreeFieldInfo(SignificantInformation significantInformation) {
 	 *            the loaded plan role
 	 * @param name
 	 *            the plan name
-	 * @param checksum
-	 *            the checksum
+	 * @param checksumZip
+	 *            the checksum of zip file
+	 * @param checksumContent
+	 *            the checksum of file content
 	 * @param timestamp
 	 *            the time stamp
 	 */
-	public record LoadedPlanInformation(ToolboxFileRole role, String name,
-			String checksum, String timestamp) {
+	public record LoadedPlanInformation(ToolboxFileRole role, String name, String checksumZip,
+			String checksumContent, String timestamp) {
 
 	}
 }

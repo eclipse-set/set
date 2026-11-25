@@ -14,6 +14,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 import org.eclipse.e4.core.services.events.IEventBroker;
@@ -33,6 +34,7 @@ import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.extensions.TableExtensions;
 import org.eclipse.set.ppmodel.extensions.SignalExtensions;
+import org.eclipse.set.ppmodel.extensions.UrObjectExtensions;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
 import org.eclipse.set.utils.table.TableInfo.Pt1TableCategory;
@@ -158,18 +160,26 @@ public class SskxTransformationService extends
 	}
 
 	@Override
-	public boolean isObjectBelongToRendereArea(final Ur_Objekt obj,
-			final List<Stell_Bereich> areas) {
+	public <T extends Ur_Objekt> boolean isObjectBelongToRendereArea(
+			final Ur_Objekt obj, final List<T> areas) {
 		if (areas.isEmpty()) {
-			return true;
+			return UrObjectExtensions.isPlanningObject(obj);
 		}
-		if (obj instanceof final Signal signal) {
-			return areas.stream()
-					.anyMatch(area -> SignalExtensions
-							.isSskxSignalBelongToArea(signal, area));
+		try {
+			if (obj instanceof final Signal signal) {
+				return areas.stream()
+						.map(Stell_Bereich.class::cast)
+						.anyMatch(area -> SignalExtensions
+								.isSskxSignalBelongToArea(signal, area));
+			}
+
+			return false;
+		} catch (final Exception e) {
+			throw new IllegalArgumentException(
+					"Wrong Type of operational area: " //$NON-NLS-1$
+							+ areas.getFirst().getClass().getName());
 		}
 
-		return false;
 	}
 
 	/**
@@ -179,22 +189,20 @@ public class SskxTransformationService extends
 	 */
 	@Override
 	public void addAdditionRow(final Table originalTable,
-			final Table filteredTable, final Set<String> controlAreaIds) {
+			final Table filteredTable,
+			final Optional<Set<String>> operationalAreaIds) {
 		// Only filter when no area area selected
 		if (TableExtensions.getTableRows(originalTable).isEmpty()
-				|| !controlAreaIds.isEmpty()) {
+				|| !operationalAreaIds.isEmpty()) {
 			return;
 		}
 
 		final List<RowGroup> vorbalkenSignalGroup = TableExtensions
 				.getTableRowGroups(filteredTable)
 				.stream()
-				.filter(group -> {
-					return group
-							.getLeadingObject() instanceof final Signal signal
-							&& !SskxTransformator.generalCondition()
-									.test(signal);
-				})
+				.filter(group -> group
+						.getLeadingObject() instanceof final Signal signal
+						&& !SskxTransformator.generalCondition().test(signal))
 				.toList();
 
 		vorbalkenSignalGroup.forEach(group -> filteredTable.getTablecontent()

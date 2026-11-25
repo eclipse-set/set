@@ -13,6 +13,7 @@ import java.nio.file.Path;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Consumer;
 
@@ -33,6 +34,7 @@ import org.eclipse.set.services.export.ExportService;
 import org.eclipse.set.services.export.TableCompileService;
 import org.eclipse.set.services.export.TableExport;
 import org.eclipse.set.services.export.TableExport.ExportFormat;
+import org.eclipse.set.utils.table.TableInfo;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ReferenceCardinality;
@@ -73,7 +75,7 @@ public class ExportServiceImpl implements ExportService {
 			final List<TableToExportPath> tablesToExport,
 			final IModelSession modelSession,
 			final TableCompileService compileService, final TableType tableType,
-			final Set<String> controlAreaIds, final IProgressMonitor monitor,
+			final IProgressMonitor monitor,
 			final OverwriteHandling overwriteHandling,
 			final Consumer<Exception> errorHandler) {
 		if (builders.isEmpty()) {
@@ -85,9 +87,13 @@ public class ExportServiceImpl implements ExportService {
 				monitor.subTask(tableToExport.tableInfo()
 						.nameInfo()
 						.getFullDisplayName());
+				final Optional<Set<String>> selectedOperationalAreas = modelSession
+						.getSelectedOperationalAreasId(tableToExport.tableInfo()
+								.getOperationalAreaType());
+
 				final Map<TableType, Table> tables = compileService.compile(
 						tableToExport.tableInfo(), modelSession,
-						controlAreaIds);
+						selectedOperationalAreas);
 				final PlanProToTitleboxTransformation planProToTitleboxTransformation = new PlanProToTitleboxTransformation(
 						sessionService);
 				final Titlebox titleBox = planProToTitleboxTransformation
@@ -106,8 +112,7 @@ public class ExportServiceImpl implements ExportService {
 								try {
 									builder.export(tables, exportType, titleBox,
 											freeField,
-											tableToExport.tableInfo()
-													.shortcut(),
+											tableToExport.tableInfo(),
 											tableType, path, overwriteHandling);
 								} catch (final Exception e) {
 									errorHandler.accept(e);
@@ -134,7 +139,7 @@ public class ExportServiceImpl implements ExportService {
 	@Override
 	public void exportTable(final Map<TableType, Table> tables,
 			final ExportType exportType, final Titlebox titlebox,
-			final FreeFieldInfo freeFieldInfo, final String shortcut,
+			final FreeFieldInfo freeFieldInfo, final TableInfo tableInfo,
 			final String outputDir, final ToolboxPaths toolboxPaths,
 			final TableType tableType,
 			final OverwriteHandling overwriteHandling,
@@ -144,11 +149,12 @@ public class ExportServiceImpl implements ExportService {
 					"There are no builders registered at the export service."); //$NON-NLS-1$
 		}
 		List.of(ExportFormat.PDF, ExportFormat.EXCEL).forEach(format -> {
-			final TableExport builder = getBuilder(format, shortcut);
+			final TableExport builder = getBuilder(format,
+					tableInfo.shortcut());
 			if (builder != null) {
 				try {
 					builder.export(tables, exportType, titlebox, freeFieldInfo,
-							shortcut, outputDir, toolboxPaths, tableType,
+							tableInfo, outputDir, toolboxPaths, tableType,
 							overwriteHandling);
 				} catch (final Exception e) {
 					errorHandler.accept(e);

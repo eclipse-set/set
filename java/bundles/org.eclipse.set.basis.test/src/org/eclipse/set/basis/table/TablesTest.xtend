@@ -6,12 +6,13 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v20.html
  */
-package org.eclipse.set.basis.tables
+package org.eclipse.set.basis.table
 
 import org.junit.jupiter.api.Test
 
 import static org.hamcrest.MatcherAssert.assertThat
 import static org.hamcrest.core.Is.*
+import org.eclipse.set.basis.table.Tables
 
 /**
  * Tests for {@link Tables}.

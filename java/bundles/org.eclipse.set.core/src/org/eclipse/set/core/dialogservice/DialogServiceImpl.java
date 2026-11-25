@@ -477,7 +477,7 @@ public class DialogServiceImpl implements DialogService {
 			});
 		} catch (InvocationTargetException | InterruptedException e) {
 			Thread.currentThread().interrupt();
-			throw new RuntimeException();
+			throw new RuntimeException(e);
 		}
 	}
 

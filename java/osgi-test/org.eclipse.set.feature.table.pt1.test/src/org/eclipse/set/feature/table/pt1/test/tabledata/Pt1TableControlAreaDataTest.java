@@ -134,12 +134,9 @@ public class Pt1TableControlAreaDataTest extends AbstractPt1TableDataTest {
 		return tableToTest;
 	}
 
-	@SuppressWarnings("boxing")
 	@Override
 	protected void setupModelSession() {
 		super.setupModelSession();
-		Mockito.when(modelSession.isPlanningAreaIgnored())
-				.thenReturn(Boolean.TRUE);
 		Mockito.when(modelSession.getContainer(ArgumentMatchers.any()))
 				.thenAnswer(invocation -> {
 					if (invocation.getArgument(

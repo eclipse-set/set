@@ -69,12 +69,9 @@ public class WorknotesTableDataTest extends AbstractPt1TableDataTest {
 				true);
 	}
 
-	@SuppressWarnings("boxing")
 	@Override
 	protected void setupModelSession() {
 		super.setupModelSession();
-		Mockito.when(modelSession.isPlanningAreaIgnored())
-				.thenReturn(Boolean.TRUE);
 		Mockito.when(modelSession.getContainer(ArgumentMatchers.any()))
 				.thenAnswer(invocation -> {
 					if (invocation.getArgument(

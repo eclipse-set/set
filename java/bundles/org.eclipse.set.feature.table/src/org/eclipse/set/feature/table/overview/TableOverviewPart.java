@@ -15,7 +15,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -35,11 +35,11 @@ import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.set.basis.OverwriteHandling;
-import org.eclipse.set.basis.Pair;
 import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.basis.constants.ExportType;
 import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.basis.extensions.Exceptions;
+import org.eclipse.set.basis.table.OperationalAreaEnum.OperationalAreaObject;
 import org.eclipse.set.basis.threads.Threads;
 import org.eclipse.set.core.services.configurationservice.UserConfigurationService;
 import org.eclipse.set.core.services.dialog.DialogService;
@@ -59,8 +59,7 @@ import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.events.ContainerDataChanged;
 import org.eclipse.set.utils.events.DefaultToolboxEventHandler;
 import org.eclipse.set.utils.events.ProjectDataChanged;
-import org.eclipse.set.utils.events.SelectedControlAreaChangedEvent;
-import org.eclipse.set.utils.events.SelectedControlAreaChangedEvent.ControlAreaValue;
+import org.eclipse.set.utils.events.SelectedOperationalAreaChangedEvent;
 import org.eclipse.set.utils.events.ToolboxEventHandler;
 import org.eclipse.set.utils.events.ToolboxEvents;
 import org.eclipse.set.utils.exception.ExceptionHandler;
@@ -115,10 +114,10 @@ public class TableOverviewPart extends BasePart {
 	private TableErrorTableView tableErrorTableView;
 
 	private final EventHandler tableErrorsChangeEventHandler = event -> onTableErrorsChange();
-	private ToolboxEventHandler<SelectedControlAreaChangedEvent> selectionControlAreaHandler;
+	private ToolboxEventHandler<SelectedOperationalAreaChangedEvent> selectionOperationalAreaHandler;
 	private EventHandler comparePlaningLoadedHandler;
 	private boolean ignoreChangeEvent = false;
-	private Set<String> controlAreaIds = new HashSet<>();
+	private Optional<Set<String>> operationalAreaIds = Optional.empty();
 	private TableType tableType = null;
 
 	private TableStatusGroupView tableStatusGroup;
@@ -130,14 +129,23 @@ public class TableOverviewPart extends BasePart {
 
 	@PostConstruct
 	void postConstruct() {
-		selectionControlAreaHandler = new DefaultToolboxEventHandler<>() {
+		selectionOperationalAreaHandler = new DefaultToolboxEventHandler<>() {
 			@Override
-			public void accept(final SelectedControlAreaChangedEvent t) {
+			public void accept(final SelectedOperationalAreaChangedEvent t) {
 				tableType = t.getTableType();
-				controlAreaIds = t.getControlAreas()
-						.stream()
-						.map(ControlAreaValue::areaId)
-						.collect(Collectors.toSet());
+				if (t.isPlanningAreaIgnored()
+						&& t.getOperationalAreas().isEmpty()) {
+					operationalAreaIds = Optional.empty();
+				} else if (t.getOperationalAreas().isEmpty()
+						&& !t.isPlanningAreaIgnored()) {
+					operationalAreaIds = Optional.of(Collections.emptySet());
+				} else {
+					operationalAreaIds = Optional.of(t.getOperationalAreas()
+							.stream()
+							.map(OperationalAreaObject::areaId)
+							.collect(Collectors.toSet()));
+				}
+
 				// When all table already transformation, that mean the
 				// calculate all table button is disable, therefore need to
 				// reload the
@@ -147,15 +155,17 @@ public class TableOverviewPart extends BasePart {
 					calculateAllMissingTablesEvent(
 							monitor -> tableService.transformTables(monitor,
 									needToTransformTable, t.getTableType(),
-									controlAreaIds));
+									Map.of(getTableCategory()
+											.getOperationalAreaType(),
+											operationalAreaIds)));
 				}
 				update();
 			}
 		};
 
 		ToolboxEvents.subscribe(getBroker(),
-				SelectedControlAreaChangedEvent.class,
-				selectionControlAreaHandler);
+				SelectedOperationalAreaChangedEvent.class,
+				selectionOperationalAreaHandler);
 
 		comparePlaningLoadedHandler = event -> {
 			// When all table already transformation, that mean the calculate
@@ -166,7 +176,9 @@ public class TableOverviewPart extends BasePart {
 				calculateAllMissingTablesEvent(
 						monitor -> tableService.transformTables(monitor,
 								needToTransformTable, getTableType(),
-								controlAreaIds));
+								Map.of(getTableCategory()
+										.getOperationalAreaType(),
+										operationalAreaIds)));
 			}
 			update();
 		};
@@ -179,10 +191,8 @@ public class TableOverviewPart extends BasePart {
 		// initialize table type
 		tableType = getModelSession().getTableType();
 
-		controlAreaIds = getModelSession().getSelectedControlAreas()
-				.stream()
-				.map(Pair::getSecond)
-				.collect(Collectors.toSet());
+		operationalAreaIds = getModelSession().getSelectedOperationalAreasId(
+				getTableCategory().getOperationalAreaType());
 
 		createTableStatusGroup(parent);
 
@@ -273,13 +283,13 @@ public class TableOverviewPart extends BasePart {
 
 	private void calculateAllMissingTables(final IProgressMonitor monitor) {
 		TableServiceUtils.calculateAllMissingTables(tableService,
-				getModelSession(), controlAreaIds, getTableCategory(), monitor,
-				messages);
+				getModelSession(), operationalAreaIds, getTableCategory(),
+				monitor, messages);
 	}
 
 	private Map<TableInfo, Collection<TableError>> getTableErrors() {
-		return tableService.getTableErrors(getModelSession(), controlAreaIds,
-				getTableCategory());
+		return tableService.getTableErrors(getModelSession(),
+				operationalAreaIds, getTableCategory());
 	}
 
 	private void openAllRelevantTable(
@@ -341,7 +351,7 @@ public class TableOverviewPart extends BasePart {
 					Threads.stopCurrentOnCancel(monitor);
 					exportService.exportMultiTable(ExportType.INVENTORY_RECORDS,
 							filterConfirmOverwriteTable, getModelSession(),
-							compileService, tableType, controlAreaIds, monitor,
+							compileService, tableType, monitor,
 							OverwriteHandling.forCheckbox(true),
 							new ExceptionHandler(getToolboxShell(),
 									getDialogService()));
@@ -414,14 +424,14 @@ public class TableOverviewPart extends BasePart {
 
 	private Collection<TableInfo> getMissingTables() {
 		return TableServiceUtils.getMissingTables(tableService,
-				getModelSession(), controlAreaIds, getTableCategory());
+				getTableCategory());
 	}
 
 	@PreDestroy
 	private void unsubscribe() {
 		broker.unsubscribe(tableErrorsChangeEventHandler);
 		broker.unsubscribe(comparePlaningLoadedHandler);
-		ToolboxEvents.unsubscribe(broker, selectionControlAreaHandler);
+		ToolboxEvents.unsubscribe(broker, selectionOperationalAreaHandler);
 	}
 
 	private Set<TableInfo> getTableToReTransform() {

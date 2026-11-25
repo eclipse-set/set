@@ -157,7 +157,7 @@ public abstract class AbstractPt1TableDataTest extends AbstractOsgiTableTest {
 	}
 
 	protected void givenTestTable(final PtTable table,
-			final TableType tableType, final Set<String> controlAreaIds) {
+			final TableType tableType, final Set<String> operationalAreaIds) {
 		final Optional<TableInfo> optional = modelServiceMap.keySet()
 				.stream()
 				.filter(info -> info.shortcut()
@@ -168,7 +168,7 @@ public abstract class AbstractPt1TableDataTest extends AbstractOsgiTableTest {
 					"TableTransformService not exist: " + table.shortcut());
 		}
 		testee = tableService.createDiffTable(optional.get(), tableType,
-				controlAreaIds, true);
+				Optional.of(operationalAreaIds), true);
 	}
 
 	@Override

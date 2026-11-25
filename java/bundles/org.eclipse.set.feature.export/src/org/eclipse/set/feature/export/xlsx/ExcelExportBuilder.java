@@ -75,6 +75,7 @@ import org.eclipse.set.model.tablemodel.extensions.TableExtensions;
 import org.eclipse.set.model.tablemodel.extensions.TableExtensions.FootnoteInfo;
 import org.eclipse.set.model.titlebox.Titlebox;
 import org.eclipse.set.services.export.TableExport;
+import org.eclipse.set.utils.table.TableInfo;
 import org.eclipse.set.utils.table.TableSpanUtils;
 import org.openxmlformats.schemas.spreadsheetml.x2006.main.CTBorder;
 import org.openxmlformats.schemas.spreadsheetml.x2006.main.CTBorderPr;
@@ -133,20 +134,16 @@ public class ExcelExportBuilder implements TableExport {
 	@Override
 	public void export(final Map<TableType, Table> tables,
 			final ExportType exportType, final Titlebox titlebox,
-			final FreeFieldInfo freeFieldInfo, final String shortcut,
+			final FreeFieldInfo freeFieldInfo, final TableInfo tableInfo,
 			final String outputDir, final ToolboxPaths toolboxPaths,
 			final TableType tableType,
 			final OverwriteHandling overwriteHandling)
 			throws FileExportException {
-
-		// IMPROVE: this is only a temporary situation for the table
-		// Sskp_dm
-		final String tableShortcut = shortcut.equals("sskp_dm") ? "sskp" //$NON-NLS-1$//$NON-NLS-2$
-				: shortcut;
-		final Path outputPath = toolboxPaths.getTableExportPath(shortcut,
+		final Path outputPath = toolboxPaths.getTableExportPath(
+				tableInfo.shortcut(), tableInfo.getOperationalAreaType(),
 				Paths.get(outputDir), exportType,
 				ExportPathExtension.TABLE_XLSX_EXPORT_EXTENSION);
-		export(tables, exportType, titlebox, freeFieldInfo, tableShortcut,
+		export(tables, exportType, titlebox, freeFieldInfo, tableInfo,
 				tableType, outputPath, overwriteHandling);
 
 	}
@@ -154,7 +151,7 @@ public class ExcelExportBuilder implements TableExport {
 	@Override
 	public void export(final Map<TableType, Table> tables,
 			final ExportType exportType, final Titlebox titleBox,
-			final FreeFieldInfo freeFieldInfo, final String shortcut,
+			final FreeFieldInfo freeFieldInfo, final TableInfo tableInfo,
 			final TableType tableType, final Path outputPath,
 			final OverwriteHandling overwriteHandling)
 			throws FileExportException {
@@ -163,8 +160,9 @@ public class ExcelExportBuilder implements TableExport {
 				.isInlineFootnote(table);
 		// IMPROVE: this is only a temporary situation for the table
 		// Sskp_dm
-		final String tableShortcut = shortcut.equals("sskp_dm") ? "sskp" //$NON-NLS-1$//$NON-NLS-2$
-				: shortcut;
+		final String tableShortcut = tableInfo.shortcut().equals("sskp_dm") //$NON-NLS-1$
+				? "sskp" //$NON-NLS-1$
+				: tableInfo.shortcut();
 		final Path templatePath = Paths.get(TEMPLATE_DIR,
 				tableShortcut + "_vorlage.xlsx"); //$NON-NLS-1$
 		try (final FileInputStream inputStream = new FileInputStream(
@@ -178,8 +176,16 @@ public class ExcelExportBuilder implements TableExport {
 			createCellOldValueFont(workbook);
 			// es gibt nur einen
 			final XSSFSheet sheet = workbook.getSheetAt(0);
-			workbook.setSheetName(0, shortcut.substring(0, 1).toUpperCase()
-					+ shortcut.substring(1));
+			final String sheetName = tableShortcut.substring(0, 1).toUpperCase()
+					+ tableShortcut.substring(1);
+			if (tableType != TableType.DIFF && tableType != TableType.SINGLE) {
+				workbook.setSheetName(0, String.format("%s_%s", sheetName, //$NON-NLS-1$
+						enumTranslationService.translate(tableType)
+								.getPresentation()));
+			} else {
+				workbook.setSheetName(0, sheetName);
+			}
+
 			defaultCellStyleByColumn = getDefaultCellStyles(workbook, sheet);
 			// dummy-Header erzeugen für die Transformation
 			final String[] headers = getColumnHeaders(sheet);

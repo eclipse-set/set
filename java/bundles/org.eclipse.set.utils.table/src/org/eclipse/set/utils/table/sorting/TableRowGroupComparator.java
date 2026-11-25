@@ -16,7 +16,7 @@ import java.util.function.Function;
 
 import org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum;
 import org.eclipse.set.basis.constants.TableType;
-import org.eclipse.set.basis.tables.Tables;
+import org.eclipse.set.basis.table.Tables;
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt;
 import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
 import org.eclipse.set.model.tablemodel.RowGroup;

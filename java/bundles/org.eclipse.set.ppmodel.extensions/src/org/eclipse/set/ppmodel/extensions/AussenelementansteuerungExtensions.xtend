@@ -8,18 +8,18 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
+import java.util.LinkedHashSet
 import java.util.List
+import java.util.function.Predicate
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Aussenelementansteuerung
 import org.eclipse.set.model.planpro.Ansteuerung_Element.ESTW_Zentraleinheit
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stellelement
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Unterbringung
 import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
 import org.eclipse.set.model.planpro.Geodaten.Oertlichkeit
-import org.eclipse.set.model.planpro.Ansteuerung_Element.Stellelement
-import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 
 import static extension org.eclipse.set.ppmodel.extensions.StellBereichExtensions.*
-import java.util.function.Predicate
-import java.util.LinkedList
 
 /**
  * Extensions for {@link Aussenelementansteuerung}.
@@ -87,6 +87,10 @@ class AussenelementansteuerungExtensions extends BasisObjektExtensions {
 		Aussenelementansteuerung aussenelementansteuerung) {
 		return aussenelementansteuerung?.IDOertlichkeitNamensgebend?.value
 	}
+	
+	def static dispatch String getElementBezeichnung(Void element) {
+		throw new NullPointerException
+	}
 
 	def static dispatch String getElementBezeichnung(Basis_Objekt element) {
 		throw new IllegalArgumentException(element.class.simpleName)
@@ -150,23 +154,19 @@ class AussenelementansteuerungExtensions extends BasisObjektExtensions {
 	def static Aussenelementansteuerung findRecursiveAEAInformation(
 		Aussenelementansteuerung aea,
 		Predicate<Aussenelementansteuerung> condition) {
-		val LinkedList<Aussenelementansteuerung> recursiveList = newLinkedList
-		val addToListFunc = [ Aussenelementansteuerung ele |
-			if (!recursiveList.exists[it === ele]) {
-				recursiveList.add(ele)
-			}
-		]
-		
+		val LinkedHashSet<Aussenelementansteuerung> recursiveList = newLinkedHashSet
+
 		recursiveList.add(aea)
 		while (!recursiveList.nullOrEmpty) {
-			val head = recursiveList.pop
+			val head = recursiveList.first
+			recursiveList.removeFirst
 			if (condition.test(head)) {
 				return head
 			}
-			#[head.informationPrimaer.filter(Aussenelementansteuerung),
-				head.informationSekundaer].flatten.forEach [
-				addToListFunc.apply(it)
-			]
+			recursiveList.addAll(
+				#[head.informationPrimaer.filter(Aussenelementansteuerung),
+					head.informationSekundaer].flatten.filterNull
+			)
 		}
 		return null
 

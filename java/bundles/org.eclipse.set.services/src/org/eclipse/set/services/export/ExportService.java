@@ -111,7 +111,8 @@ public interface ExportService {
 			Path pdfExportPath = null;
 			if (exportFormate.contains(ExportFormat.PDF)) {
 				pdfExportPath = modelSession.getToolboxPaths()
-						.getTableExportPath(tableInfo.shortcut(), outdir,
+						.getTableExportPath(tableInfo.shortcut(),
+								tableInfo.getOperationalAreaType(), outdir,
 								exportType,
 								ExportPathExtension.TABLE_PDF_EXPORT_EXTENSION);
 			}
@@ -119,7 +120,8 @@ public interface ExportService {
 			Path excelExportPath = null;
 			if (exportFormate.contains(ExportFormat.EXCEL)) {
 				excelExportPath = modelSession.getToolboxPaths()
-						.getTableExportPath(tableInfo.shortcut(), outdir,
+						.getTableExportPath(tableInfo.shortcut(),
+								tableInfo.getOperationalAreaType(), outdir,
 								exportType,
 								ExportPathExtension.TABLE_XLSX_EXPORT_EXTENSION);
 			}
@@ -181,8 +183,8 @@ public interface ExportService {
 	 *            the titlebox
 	 * @param freeFieldInfo
 	 *            the free field info
-	 * @param shortcut
-	 *            the table shortcut (view id)
+	 * @param tableInfo
+	 *            the {@link TableInfo}
 	 * @param outputDir
 	 *            the output directory for the export
 	 * @param toolboxPaths
@@ -195,7 +197,7 @@ public interface ExportService {
 	 *            the error handler
 	 */
 	void exportTable(Map<TableType, Table> tables, ExportType exportType,
-			Titlebox titlebox, FreeFieldInfo freeFieldInfo, String shortcut,
+			Titlebox titlebox, FreeFieldInfo freeFieldInfo, TableInfo tableInfo,
 			String outputDir, ToolboxPaths toolboxPaths, TableType tableTye,
 			OverwriteHandling overwriteHandling,
 			Consumer<Exception> errorHandler);
@@ -276,8 +278,6 @@ public interface ExportService {
 	 *            the {@link DialogService}
 	 * @param tableType
 	 *            the {@link TableType}
-	 * @param controlAreaIds
-	 *            the selected control area
 	 * @param outputDir
 	 *            the output directory
 	 * @param monitor
@@ -292,7 +292,6 @@ public interface ExportService {
 	void exportMultiTable(ExportType exportType,
 			List<TableToExportPath> tablesToExport, IModelSession modelSession,
 			TableCompileService compileService, TableType tableType,
-			Set<String> controlAreaIds, IProgressMonitor monitor,
-			OverwriteHandling overwriteHandling,
+			IProgressMonitor monitor, OverwriteHandling overwriteHandling,
 			Consumer<Exception> errorHandler);
 }
