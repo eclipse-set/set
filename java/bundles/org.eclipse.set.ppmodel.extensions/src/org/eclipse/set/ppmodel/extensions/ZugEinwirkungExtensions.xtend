@@ -31,15 +31,13 @@ class ZugEinwirkungExtensions extends BasisObjektExtensions {
 		Zugeinwirkung einwirkung
 	) {
 		return einwirkung.container.schaltmittelZuordnung.filter [
-			einwirkung?.identitaet?.wert == IDSchalter?.value?.identitaet?.wert
+			IDSchalter?.value !== null && einwirkung === IDSchalter?.value
 		].toList
 	}
 
 	def static boolean isBelongToControlArea(Zugeinwirkung zugeinwirkung,
 		Stell_Bereich area) {
-		val schaltmittle = zugeinwirkung.container.schaltmittelZuordnung.filter [
-			IDSchalter?.value instanceof Zugeinwirkung
-		].filter[it === zugeinwirkung]
+		val schaltmittle = zugeinwirkung.schaltMittelZuordnung
 		return (schaltmittle.isNullOrEmpty || schaltmittle.map [
 			IDAnforderung?.value
 		].exists [
