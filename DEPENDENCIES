@@ -62,8 +62,8 @@ maven/mavencentral/org.eclipse.set/org.eclipse.set.application.set/2.8.0-SNAPSHO
 maven/mavencentral/org.eclipse.set/org.eclipse.set.application/2.8.0-SNAPSHOT, EPL-2.0, approved, technology.set
 maven/mavencentral/org.eclipse.set/org.eclipse.set.basis/2.8.0-SNAPSHOT, EPL-2.0, approved, technology.set
 maven/mavencentral/org.eclipse.set/org.eclipse.set.browser.cef.win32/2.8.0-20261030.104554-1, EPL-2.0, approved, technology.set
-maven/mavencentral/org.eclipse.set/org.eclipse.set.browser.lib/2.8.0-20261030.104554-1, EPL-2.0, approved, technology.set
-maven/mavencentral/org.eclipse.set/org.eclipse.set.browser/2.8.0-20261030.104554-1, EPL-2.0, approved, technology.set
+maven/mavencentral/org.eclipse.set/org.eclipse.set.browser.lib/2.8.0-20261125.124509-2, EPL-2.0, approved, technology.set
+maven/mavencentral/org.eclipse.set/org.eclipse.set.browser/2.8.0-20261125.124509-2, EPL-2.0, approved, technology.set
 maven/mavencentral/org.eclipse.set/org.eclipse.set.core.services/2.8.0-SNAPSHOT, EPL-2.0, approved, technology.set
 maven/mavencentral/org.eclipse.set/org.eclipse.set.core/2.8.0-SNAPSHOT, EPL-2.0, approved, technology.set
 maven/mavencentral/org.eclipse.set/org.eclipse.set.emfforms/2.8.0-SNAPSHOT, EPL-2.0, approved, technology.set
