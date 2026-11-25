@@ -131,7 +131,8 @@ public class LSTObjectDesignationExtensions {
 	 */
 	public static String getLSTObjectDesignation(
 			final Aussenelementansteuerung aea) {
-		return AussenelementansteuerungExtensions.getElementBezeichnung(aea);
+		return getEmptyStringWhenNull(aea,
+				AussenelementansteuerungExtensions::getElementBezeichnung);
 	}
 
 	/**

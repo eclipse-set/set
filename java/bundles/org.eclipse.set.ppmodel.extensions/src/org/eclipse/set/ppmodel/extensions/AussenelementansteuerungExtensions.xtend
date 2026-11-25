@@ -88,6 +88,10 @@ class AussenelementansteuerungExtensions extends BasisObjektExtensions {
 		Aussenelementansteuerung aussenelementansteuerung) {
 		return aussenelementansteuerung?.IDOertlichkeitNamensgebend?.value
 	}
+	
+	def static dispatch String getElementBezeichnung(Void element) {
+		throw new NullPointerException
+	}
 
 	def static dispatch String getElementBezeichnung(Basis_Objekt element) {
 		throw new IllegalArgumentException(element.class.simpleName)
