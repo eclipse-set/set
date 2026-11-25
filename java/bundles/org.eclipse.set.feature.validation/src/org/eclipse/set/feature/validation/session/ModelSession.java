@@ -18,6 +18,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.EnumMap;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -58,9 +60,9 @@ import org.eclipse.set.basis.files.ToolboxFile;
 import org.eclipse.set.basis.files.ToolboxFile.Format;
 import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.eclipse.set.basis.guid.Guid;
-import org.eclipse.set.core.services.Services;
 import org.eclipse.set.basis.table.OperationalAreaEnum;
 import org.eclipse.set.basis.table.OperationalAreaEnum.OperationalAreaObject;
+import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.branding.BrandingService;
 import org.eclipse.set.core.services.cache.CacheService;
 import org.eclipse.set.core.services.defaultvalue.DefaultValueService;
@@ -1099,29 +1101,18 @@ public class ModelSession implements IModelSession {
 	@SuppressWarnings("nls")
 	void windowTitleNameBuilder(final Optional<String> fileNameOpt) {
 		Display.getDefault().asyncExec(() -> {
-
-			final String currentTitle = mainWindow.getText();
-			final String splitRegex = String.format("[%s%s(),]",
-					TITLE_SEPARATOR, TITLE_FILE_NAME_SEPARATOR);
-			final List<String> split = Arrays
-					.stream(currentTitle.split(splitRegex))
-					.filter(s -> !s.isBlank())
-					.map(String::trim)
-					.toList();
-			final String programmName = split.getFirst();
 			final StringBuilder titleBuilder = new StringBuilder();
-			titleBuilder.append(programmName);
+			titleBuilder.append(getProgrammTitle());
 			titleBuilder.append(" ");
 			// Open/Close main session
 			if (toolboxFile.getRole() == ToolboxFileRole.SESSION) {
 				if (fileNameOpt.isPresent()) {
-					titleBuilder.append(TITLE_SEPARATOR);
-					titleBuilder.append(" ");
-					titleBuilder.append(fileNameOpt.get());
+					titleBuilder.append(TITLE_SEPARATOR)
+							.append(" ")
+							.append(fileNameOpt.get());
 				}
 			} else {
-				titleBuilder.append(TITLE_SEPARATOR);
-				titleBuilder.append(" ");
+				titleBuilder.append(TITLE_SEPARATOR).append(" ");
 				final IModelSession mainSession = sessionService
 						.getLoadedSession(ToolboxFileRole.SESSION);
 				final String mainSessionFileName = IModelSessionExtensions
@@ -1129,77 +1120,78 @@ public class ModelSession implements IModelSession {
 								serviceProvider.messages.ModelSession_ChangeIndicator);
 				titleBuilder.append(mainSessionFileName);
 
-				switch (toolboxFile.getRole()) {
-					case COMPARE_PLANNING: {
-						if (fileNameOpt.isPresent()) {
-							titleBuilder.append(" ");
-							titleBuilder.append(TITLE_FILE_NAME_SEPARATOR);
-							titleBuilder.append(" ");
-							titleBuilder.append(fileNameOpt.get());
-						}
-						final String additionalPlanName = getAdditionalPlanTileName();
-						if (!additionalPlanName.isEmpty()) {
-							titleBuilder.append(" (");
-							titleBuilder.append(additionalPlanName);
-							titleBuilder.append(")");
-						}
-						break;
-					}
-					case REFERENCE_BASIS_PLAN, EQUIVALENT_PLAN: {
-						final IModelSession comparePlanSession = sessionService
-								.getLoadedSession(
-										ToolboxFileRole.COMPARE_PLANNING);
-						if (comparePlanSession != null) {
-							titleBuilder.append(" ");
-							titleBuilder.append(TITLE_FILE_NAME_SEPARATOR);
-							titleBuilder.append(" ");
-							titleBuilder
-									.append(comparePlanSession.getToolboxFile()
-											.getPath()
-											.getFileName());
-						}
-						final StringBuilder addtionalPlanFileNameBuilder = new StringBuilder();
-						if (fileNameOpt.isPresent()) {
-							addtionalPlanFileNameBuilder
-									.append(fileNameOpt.get());
-						}
-						// The additional session will direct close after
-						// storage necessary information, therefore take the
-						// filename from PlaningAccessService
-						final String additionalPlanTileName = getAdditionalPlanTileName();
-						if (!additionalPlanTileName.isEmpty()) {
-							if (!addtionalPlanFileNameBuilder.isEmpty()) {
-								addtionalPlanFileNameBuilder.append(", ");
-							}
-
-							addtionalPlanFileNameBuilder
-									.append(additionalPlanTileName);
-						}
-						if (!addtionalPlanFileNameBuilder.isEmpty()) {
-							titleBuilder.append(" (")
-									.append(addtionalPlanFileNameBuilder
-											.toString())
-									.append(")");
-						}
-						break;
-					}
-					default:
-						break;
-				}
+				addAdditionalPlanName(fileNameOpt, titleBuilder);
 			}
-
 			mainWindow.setText(titleBuilder.toString());
-
 		});
 	}
 
-	private static String getAdditionalPlanTileName() {
+	@SuppressWarnings("nls")
+	private void addAdditionalPlanName(final Optional<String> fileNameOpt,
+			final StringBuilder titleBuilder) {
+		final List<String> additionalPlanName = new LinkedList<>();
+		additionalPlanName.addAll(getLoadedAdditionalPlanTitle());
+		switch (toolboxFile.getRole()) {
+			case COMPARE_PLANNING: {
+				if (fileNameOpt.isPresent()) {
+					titleBuilder.append(" ")
+							.append(TITLE_FILE_NAME_SEPARATOR)
+							.append(" ")
+							.append(fileNameOpt.get());
+				}
+
+				break;
+			}
+			case REFERENCE_BASIS_PLAN, EQUIVALENT_PLAN: {
+				final IModelSession comparePlanSession = sessionService
+						.getLoadedSession(ToolboxFileRole.COMPARE_PLANNING);
+				if (comparePlanSession != null) {
+					titleBuilder.append(" ")
+							.append(TITLE_FILE_NAME_SEPARATOR)
+							.append(" ")
+							.append(comparePlanSession.getToolboxFile()
+									.getPath()
+									.getFileName());
+				}
+
+				if (fileNameOpt.isPresent()) {
+					additionalPlanName.addFirst(fileNameOpt.get());
+				}
+				break;
+			}
+			default:
+				break;
+		}
+
+		if (!additionalPlanName.isEmpty()) {
+			titleBuilder.append(" (")
+					.append(additionalPlanName.stream()
+							.collect(Collectors.joining(",")))
+					.append(")");
+		}
+	}
+
+	private String getProgrammTitle() {
+		final String currentTitle = mainWindow.getText();
+		final String splitRegex = String.format("[%s%s(),]", TITLE_SEPARATOR, //$NON-NLS-1$
+				TITLE_FILE_NAME_SEPARATOR);
+		final List<String> split = Arrays.stream(currentTitle.split(splitRegex))
+				.filter(s -> !s.isBlank())
+				.map(String::trim)
+				.toList();
+		return split.getFirst();
+	}
+
+	private static List<String> getLoadedAdditionalPlanTitle() {
+		// The additional session will direct close after
+		// storage necessary information, therefore take the
+		// filename from PlaningAccessService
 		return Services.getPlanningAccessService()
 				.getAdditionalPlansInformation()
 				.values()
 				.stream()
 				.map(info -> info.loadPlanInformation().name())
-				.collect(Collectors.joining(", ")); //$NON-NLS-1$
+				.toList();
 	}
 
 	@Override
