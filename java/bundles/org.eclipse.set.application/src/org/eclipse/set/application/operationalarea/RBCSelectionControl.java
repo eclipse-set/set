@@ -116,4 +116,9 @@ public class RBCSelectionControl
 				.orElse(null) != null;
 
 	}
+
+	@Override
+	protected String getAllOperationalAreaValue() {
+		return messages.RBC_Control_All_RBC;
+	}
 }

@@ -173,8 +173,7 @@ public abstract class AbstractOperationalAreaSelectionControl<T extends Ur_Objek
 
 		comboViewer.setInput(values);
 		if (values.size() > 1) {
-			comboViewer.insert(messages.ControlAreaCombo_All_ControlArea,
-					values.size());
+			comboViewer.insert(getAllOperationalAreaValue(), values.size());
 		}
 
 		comboViewer.insert(getDefaultValue(), 0);
@@ -237,9 +236,10 @@ public abstract class AbstractOperationalAreaSelectionControl<T extends Ur_Objek
 		if (msg.equals(messages.OperationalAreaCombo_PlanningArea_Value)) {
 			ToolboxEvents.send(broker, new SelectedOperationalAreaChangedEvent(
 					getOperationalAreaType(), tableType, false));
-			return;
 		}
 	}
+
+	protected abstract String getAllOperationalAreaValue();
 
 	private void selectionListerner(final SelectionChangedEvent e) {
 		selectOperationalArea(e.getSelection(), tableType);
