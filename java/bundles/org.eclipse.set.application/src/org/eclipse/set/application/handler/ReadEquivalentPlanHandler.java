@@ -21,6 +21,7 @@ import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.eclipse.set.model.planpro.PlanPro.Planung_Einzel;
 import org.eclipse.set.model.planpro.PlanPro.Planung_Gruppe;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
+import org.eclipse.swt.widgets.Shell;
 
 import com.google.common.collect.Streams;
 
@@ -44,6 +45,15 @@ public class ReadEquivalentPlanHandler extends ReadReferencePlanHandler {
 	@Override
 	protected ToolboxFileRole getRole() {
 		return ToolboxFileRole.EQUIVALENT_PLAN;
+	}
+
+	@Override
+	protected void closeOldSession(final Shell shell) {
+		final IModelSession currentSession = sessionService
+				.getLoadedSession(getRole());
+		if (currentSession != null) {
+			currentSession.close();
+		}
 	}
 
 	private static boolean existsEquivalentPlan(final IModelSession session) {

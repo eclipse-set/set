@@ -22,6 +22,7 @@ import org.eclipse.set.basis.FreeFieldInfo.LoadedPlanInformation;
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.basis.files.ToolboxFileRole;
+import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.planningaccess.PlanningAccessService;
 import org.eclipse.set.model.planpro.PlanPro.ENUMUntergewerkArt;
 import org.eclipse.set.model.planpro.PlanPro.PlanProFactory;
@@ -51,6 +52,12 @@ import com.google.common.collect.Streams;
 				PlanningAccessService.class, EventHandler.class })
 public class PlanningAccessServiceImpl
 		implements PlanningAccessService, EventHandler {
+	/**
+	 * 
+	 */
+	public PlanningAccessServiceImpl() {
+		Services.setPlanningAccessService(this);
+	}
 
 	private final Map<ToolboxFileRole, AdditionalPlanInformation> additionalPlanInfomration = new EnumMap<>(
 			ToolboxFileRole.class);

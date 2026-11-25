@@ -12,6 +12,7 @@ package org.eclipse.set.application.handler;
 
 import java.nio.file.Path;
 import java.util.Collections;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -21,6 +22,7 @@ import org.eclipse.e4.ui.model.application.MApplication;
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.basis.files.ToolboxFileRole;
+import org.eclipse.set.model.planpro.PlanPro.ENUMUntergewerkArt;
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.set.model.planpro.PlanPro.Planung_Gruppe;
 import org.eclipse.set.ppmodel.extensions.EObjectExtensions;
@@ -43,13 +45,27 @@ public class ReadReferencePlanHandler extends OpenPlanProHandler {
 	 */
 	@CanExecute
 	public boolean canExecute() {
-		return !getReferencesPlanId(oldModelSession).isEmpty()
-				&& oldModelSession != null;
+		return oldModelSession != null
+				&& !getReferencesPlanId(oldModelSession).isEmpty();
 	}
 
 	@Override
 	protected ToolboxFileRole getRole() {
 		return ToolboxFileRole.REFERENCE_BASIS_PLAN;
+	}
+
+	@Override
+	protected void closeOldSession(final Shell shell) {
+		final IModelSession currentSession = sessionService
+				.getLoadedSession(getRole());
+		if (currentSession != null) {
+			currentSession.close();
+		}
+	}
+
+	@Override
+	protected void setLastOpenPath(final Path path) {
+		// do nothing
 	}
 
 	@Override
@@ -61,12 +77,28 @@ public class ReadReferencePlanHandler extends OpenPlanProHandler {
 								.getIdentitaet()
 								.getWert())
 				.orElse(null);
-		final Set<String> referencesPlanId = getReferencesPlanId(
+		final Map<ENUMUntergewerkArt, String> expectedReferencePlan = getReferencesPlanId(
 				oldModelSession);
-		if (referencePlanId == null
-				|| !referencesPlanId.contains(referencePlanId)) {
+		final Set<String> referencesId = expectedReferencePlan.values()
+				.stream()
+				.collect(Collectors.toSet());
+		final Iterable<Planung_Gruppe> referencePlanPlanungGruppe = PlanProSchnittstelleExtensions
+				.getLSTPlanungGruppe(modelSession.getPlanProSchnittstelle())
+				.orElse(Collections.emptyList());
+		final Set<ENUMUntergewerkArt> referencePlanSubwords = Streams
+				.stream(referencePlanPlanungGruppe)
+				.map(group -> EObjectExtensions.getNullableObject(group,
+						g -> g.getPlanungGAllg().getUntergewerkArt().getWert())
+						.orElse(null))
+				.filter(Objects::nonNull)
+				.collect(Collectors.toSet());
+		if (referencePlanId == null || !referencesId.contains(referencePlanId)
+				|| referencePlanSubwords.stream()
+						.noneMatch(refEle -> expectedReferencePlan.keySet()
+								.stream()
+								.anyMatch(ele -> ele != refEle))) {
 			getDialogService().error(sell,
-					messages.OpenPlanProHandler_LoadingPlanProModelFileErrorMessage);
+					messages.OpenPlanProHandler_LoadingWrongReferencePlanMessage);
 			return null;
 		}
 		return modelSession;
@@ -78,7 +110,7 @@ public class ReadReferencePlanHandler extends OpenPlanProHandler {
 		eventBroker.send(Events.ADDITIONAL_PLAN_LOADED, modelSession);
 	}
 
-	private static Set<String> getReferencesPlanId(
+	private static Map<ENUMUntergewerkArt, String> getReferencesPlanId(
 			final IModelSession session) {
 		final PlanPro_Schnittstelle planProSchnittstelle = session
 				.getPlanProSchnittstelle();
@@ -86,10 +118,23 @@ public class ReadReferencePlanHandler extends OpenPlanProHandler {
 				.stream(PlanProSchnittstelleExtensions
 						.getLSTPlanungGruppe(planProSchnittstelle)
 						.orElse(Collections.emptyList()))
-				.map(Planung_Gruppe::getLSTPlanungEinzel)
-				.filter(Objects::nonNull)
-				.map(PlanungEinzelExtensions::getReferencePlanBasisGUID)
-				.filter(Objects::nonNull)
-				.collect(Collectors.toSet());
+				.filter(group -> group.getLSTPlanungEinzel() != null
+						&& !PlanungEinzelExtensions
+								.getReferencePlanBasisGUID(
+										group.getLSTPlanungEinzel())
+								.isEmpty()
+						&& EObjectExtensions
+								.getNullableObject(group,
+										g -> g.getPlanungGAllg()
+												.getUntergewerkArt()
+												.getWert())
+								.isPresent())
+				.collect(Collectors.toMap(
+						group -> group.getPlanungGAllg()
+								.getUntergewerkArt()
+								.getWert(),
+						group -> PlanungEinzelExtensions
+								.getReferencePlanBasisGUID(
+										group.getLSTPlanungEinzel())));
 	}
 }

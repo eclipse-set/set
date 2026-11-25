@@ -72,8 +72,8 @@
   <handlers xmi:id="_tJU5UIYxEeuNU-GyWYwVKw" elementId="org.eclipse.set.application.set.handler.restoreactionarea" contributionURI="bundleclass://org.eclipse.set.application/org.eclipse.set.application.handler.RestoreActionAreaHandler" command="_HBip8IYxEeuNU-GyWYwVKw"/>
   <handlers xmi:id="_kiN_MF0vEe6gKuocBy_cVw" elementId="org.eclipse.set.application.handler.developerHelpCommand" contributionURI="bundleclass://org.eclipse.set.application/org.eclipse.set.application.handler.DeveloperHelpHandler" command="_e2hnsF0vEe6gKuocBy_cVw"/>
   <handlers xmi:id="_fi7AwEXREfC3AqjYdj1JDA" elementId="org.eclipse.set.application.set.handler.openCompareProject" contributionURI="bundleclass://org.eclipse.set.application/org.eclipse.set.application.handler.OpenCompareProjectHandler" command="_XhDcEEXREfC3AqjYdj1JDA"/>
-  <handlers xmi:id="_rXb00OdFEfGgGMWpUkIOrA" elementId="org.eclipse.set.application.set.handler.readReferencePlanHandler" contributionURI="bundleclass://org.eclipse.set.application/org.eclipse.set.application.handler.ReadReferencePlanHandler"/>
-  <handlers xmi:id="_dk3dwOf-EfGZn-b1fxdNPg" elementId="org.eclipse.set.application.set.handler.0"/>
+  <handlers xmi:id="_rXb00OdFEfGgGMWpUkIOrA" elementId="org.eclipse.set.application.set.handler.readReferencePlanHandler" contributionURI="bundleclass://org.eclipse.set.application/org.eclipse.set.application.handler.ReadReferencePlanHandler" command="_kN4_QOdFEfGgGMWpUkIOrA"/>
+  <handlers xmi:id="_dk3dwOf-EfGZn-b1fxdNPg" elementId="org.eclipse.set.application.set.handler.readEquivalentPlanHanlder" contributionURI="bundleclass://org.eclipse.set.application/org.eclipse.set.application.handler.ReadEquivalentPlanHandler" command="_eonZwOf-EfGZn-b1fxdNPg"/>
   <bindingTables xmi:id="_D9x1nh5jEeW1jPyxhgRGUg" bindingContext="_D9x1mR5jEeW1jPyxhgRGUg">
     <bindings xmi:id="_D9x1nx5jEeW1jPyxhgRGUg" keySequence="M1+Q" command="_D9x1nB5jEeW1jPyxhgRGUg"/>
     <bindings xmi:id="_D9x1oh5jEeW1jPyxhgRGUg" keySequence="M1+O" command="_D9x1oB5jEeW1jPyxhgRGUg"/>
