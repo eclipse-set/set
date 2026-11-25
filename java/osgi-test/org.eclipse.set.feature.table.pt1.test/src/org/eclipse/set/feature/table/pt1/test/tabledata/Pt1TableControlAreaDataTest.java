@@ -125,7 +125,7 @@ public class Pt1TableControlAreaDataTest extends AbstractPt1TableDataTest {
 	@BeforeAll
 	@Override
 	protected void beforeAll() throws Exception {
-		super.beforeAll();
+		super.beforeEach();
 		givenControlArea();
 	}
 
@@ -182,7 +182,7 @@ public class Pt1TableControlAreaDataTest extends AbstractPt1TableDataTest {
 			}
 
 			whenExistReferenceCSV();
-			thenRowAndColumnCountEqualReferenceCSV();
+			thenExpectRowAndColumnCountEqualReferenceCSV();
 			thenExpectTableDataEqualReferenceCSV();
 		};
 

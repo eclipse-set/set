@@ -21,7 +21,7 @@ import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.basis.files.ToolboxFile;
 import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.eclipse.set.unittest.utils.AbstractToolboxTest;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mockito;
 import org.osgi.service.event.Event;
 import org.osgi.service.event.EventAdmin;
@@ -37,12 +37,20 @@ public abstract class AbstractOsgiTest extends AbstractToolboxTest {
 
 	protected IModelSession modelSession;
 
-	@BeforeAll
-	protected void beforeAll() throws Exception {
+	@BeforeEach
+	protected void beforeEach() throws Exception {
 		givenPlanProFile(getTestFile().getTestFilePath());
 	}
 
 	protected abstract TestFile getTestFile();
+
+	@SuppressWarnings("static-method")
+	protected ToolboxFile mockToolboxFile() {
+		final ToolboxFile mock = Mockito.mock(ToolboxFile.class);
+		when(mock.getRole()).thenReturn(ToolboxFileRole.SESSION);
+		return mock;
+
+	}
 
 	/**
 	 * @param eventAdmin
@@ -53,8 +61,7 @@ public abstract class AbstractOsgiTest extends AbstractToolboxTest {
 			modelSession = null;
 		}
 
-		final ToolboxFile mockToolboxFile = Mockito.mock(ToolboxFile.class);
-		when(mockToolboxFile.getRole()).thenReturn(ToolboxFileRole.SESSION);
+		final ToolboxFile mockToolboxFile = mockToolboxFile();
 		modelSession = Mockito.mock(IModelSession.class);
 		Mockito.when(modelSession.getPlanProSchnittstelle())
 				.thenReturn(planProSchnittstelle);

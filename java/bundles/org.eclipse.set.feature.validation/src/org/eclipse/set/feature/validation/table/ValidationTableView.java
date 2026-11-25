@@ -34,8 +34,11 @@ import org.eclipse.swt.widgets.Shell;
  *
  */
 public class ValidationTableView extends AbstractTreeLayerTable {
+	/**
+	 * Export CSV header
+	 */
 	@SuppressWarnings("nls")
-	static String CSV_HEADER_PATTERN = """
+	public static final String CSV_HEADER_PATTERN = """
 			Validierungsmeldungen
 			Datei: %s
 			Validierung: %s

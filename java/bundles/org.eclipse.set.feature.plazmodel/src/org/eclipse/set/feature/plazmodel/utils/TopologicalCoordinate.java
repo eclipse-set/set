@@ -8,7 +8,7 @@
  * SPDX-License-Identifier: EPL-2.0
  * 
  */
-package org.eclipse.set.feature.plazmodel.export;
+package org.eclipse.set.feature.plazmodel.utils;
 
 import org.eclipse.set.basis.constants.ContainerType;
 import org.eclipse.set.basis.geometry.GEOKanteCoordinate;

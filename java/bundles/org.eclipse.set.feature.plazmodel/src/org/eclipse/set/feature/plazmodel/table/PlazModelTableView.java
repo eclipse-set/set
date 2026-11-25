@@ -38,8 +38,11 @@ import org.eclipse.swt.widgets.Control;
  *
  */
 public class PlazModelTableView extends AbstractTreeLayerTable {
+	/**
+	 * Export CSV header
+	 */
 	@SuppressWarnings("nls")
-	static final String HEADER_PATTERN = """
+	public static final String HEADER_PATTERN = """
 			PlaZ Modell-Prüfung
 			Datei: %s
 			Prüfungszeit: %s
