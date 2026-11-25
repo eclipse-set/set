@@ -108,39 +108,10 @@ class PlanProToTitleboxTransformation {
 			planungEUebernahme?.lastOrNull
 
 		val planungAllgemein = mainSchnittstelle?.planungAllgemein;
-//		val idPlanungBasis = mainSchnittstelle?.referenzPlanungBasis;
-//
-//		if (idPlanungBasis !== null) {
-//			it.set(34, mainSchnittstelle.referenzPlanungBasis)
-//			it.set(35, planungEinzel?.bauzustandPlanungEinzel)
-//			it.set(36,
-//				lastPlanungEErstellung?.handelnder?.akteurAllg?.
-//					nameAkteur5?.wert ?: "")
-//			it.set(43,
-//				lastPlanungEErstellung?.datum?.wert?.toString(
-//					DATE_FORMAT_SHORT) ?: "")
-//			it.set(37,
-//				lastQualitaetPruefung?.handelnder?.akteurAllg?.
-//					nameAkteur5?.wert ?: "")
-//			it.set(44,
-//				lastQualitaetPruefung?.datum?.wert?.toString(
-//					DATE_FORMAT_SHORT) ?: "")
-//			it.set(38,
-//				lastPlanungAbnahme?.handelnder?.akteurAllg?.nameAkteur5?.wert ?:
-//					"")
-//			it.set(45,
-//				lastPlanungAbnahme?.datum?.wert?.toString(DATE_FORMAT_SHORT) ?:
-//					"")
-//			it.set(39,
-//				lastPlanungUebernahme?.handelnder?.akteurAllg?.
-//					nameAkteur5?.wert ?: "")
-//			it.set(46,
-//				lastPlanungUebernahme?.datum?.wert?.toString(
-//					DATE_FORMAT_SHORT) ?: "")
-//		}
 
 		val version = ToolboxConfiguration.toolboxVersion
-		val currentUntergewerkArt = Services.planningAccessService.currentUntergewerkArt
+		val currentUntergewerkArt = Services.planningAccessService.
+			currentUntergewerkArt
 		it.set(
 			23, '''Geplant mit «mainSchnittstelle?.planProSchnittstelleAllg?.werkzeugName?.wert ?: ""» «mainSchnittstelle?.planProSchnittstelleAllg?.werkzeugVersion?.wert ?: ""»
 		Visualisiert mit «ToolboxConfiguration.shortName» «version.shortVersion»''')
@@ -163,7 +134,7 @@ class PlanProToTitleboxTransformation {
 			]
 			val referencePlanungEinzeln = referencePlanInfo.planungEinzelns.get(
 				currentUntergewerkArt)
-			
+
 			val referencePlanLastPlanPruefung = referencePlanungEinzeln?.
 				planungEHandlung?.planungEPruefung?.lastOrNull
 			it.set(59,
@@ -270,15 +241,6 @@ class PlanProToTitleboxTransformation {
 			return String.join(' ', result)
 		}
 		return bauzustand
-	}
-
-	private def String getBauzustandPlanungEinzel(Planung_Einzel planung) {
-		return getBauzustandPlanungAllgemein(planung?.planungEAllg)
-	}
-
-	private def String getReferenzPlanungBasis(
-		PlanPro_Schnittstelle schnittstelle) {
-		return schnittstelle?.planungEinzel?.referenzPlanungBasis?.wert
 	}
 
 	/**

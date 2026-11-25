@@ -42,8 +42,8 @@ public record FreeFieldInfo(SignificantInformation significantInformation) {
 	 * @param timestamp
 	 *            the time stamp
 	 */
-	public record LoadedPlanInformation(ToolboxFileRole role, String name, String checksumZip,
-			String checksumContent, String timestamp) {
+	public record LoadedPlanInformation(ToolboxFileRole role, String name,
+			String checksumZip, String checksumContent, String timestamp) {
 
 	}
 }

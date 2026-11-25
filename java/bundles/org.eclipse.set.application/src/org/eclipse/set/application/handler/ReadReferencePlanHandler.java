@@ -22,6 +22,7 @@ import org.eclipse.e4.ui.model.application.MApplication;
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.basis.files.ToolboxFileRole;
+import org.eclipse.set.core.services.Services;
 import org.eclipse.set.model.planpro.PlanPro.ENUMUntergewerkArt;
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.set.model.planpro.PlanPro.Planung_Gruppe;
@@ -71,6 +72,12 @@ public class ReadReferencePlanHandler extends OpenPlanProHandler {
 	@Override
 	protected IModelSession validation(final IModelSession modelSession,
 			final Shell sell, final Path path) {
+		if (modelSession == null) {
+			Services.getPlanningAccessService()
+					.getAdditionalPlansInformation()
+					.remove(ToolboxFileRole.REFERENCE_BASIS_PLAN);
+			return null;
+		}
 		final String referencePlanId = EObjectExtensions
 				.getNullableObject(modelSession,
 						session -> session.getPlanProSchnittstelle()
@@ -100,6 +107,9 @@ public class ReadReferencePlanHandler extends OpenPlanProHandler {
 			getDialogService().error(sell,
 					messages.OpenPlanProHandler_LoadingWrongReferencePlanMessage);
 			modelSession.close();
+			Services.getPlanningAccessService()
+					.getAdditionalPlansInformation()
+					.remove(ToolboxFileRole.REFERENCE_BASIS_PLAN);
 			return null;
 		}
 		return modelSession;

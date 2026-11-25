@@ -10,6 +10,7 @@
  */
 package org.eclipse.set.application.handler;
 
+import java.nio.file.Path;
 import java.util.Collections;
 import java.util.stream.Collectors;
 
@@ -18,6 +19,7 @@ import org.eclipse.e4.ui.model.application.MApplication;
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.basis.files.ToolboxFileRole;
+import org.eclipse.set.core.services.Services;
 import org.eclipse.set.model.planpro.PlanPro.Planung_Einzel;
 import org.eclipse.set.model.planpro.PlanPro.Planung_Gruppe;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
@@ -74,5 +76,16 @@ public class ReadEquivalentPlanHandler extends ReadReferencePlanHandler {
 	protected void success(final IModelSession modelSession,
 			final MApplication application) {
 		eventBroker.send(Events.ADDITIONAL_PLAN_LOADED, modelSession);
+	}
+
+	@Override
+	protected IModelSession validation(final IModelSession modelSession,
+			final Shell sell, final Path path) {
+		if (modelSession == null) {
+			Services.getPlanningAccessService()
+					.getAdditionalPlansInformation()
+					.remove(ToolboxFileRole.EQUIVALENT_PLAN);
+		}
+		return modelSession;
 	}
 }

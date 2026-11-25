@@ -290,10 +290,8 @@ public class DialogServiceImpl implements DialogService {
 	@Override
 	public void error(final Shell shell, final String message) {
 		LOGGER.error(message);
-		final ErrorStatus status = new ExceptionTransformation(messages)
-				.transform(null, null);
-		sync.syncExec(() -> ErrorDialog.openError(shell, status.getErrorTitle(),
-				message, status.getStatus()));
+		MessageDialog.openError(shell,
+				messages.ExceptionTransformation_DefaultTitle, message);
 	}
 
 	@Override
