@@ -60,8 +60,9 @@ class PlanProToFreeFieldTransformation {
 		}
 		val name = session?.toolboxFile?.path?.fileName?.toString
 		val timestamp = session.planProSchnittstelle.timestamp
-		val checksum = session.toolboxFile.checksum
-		return new LoadedPlanInformation(name, checksum, timestamp)
+		val checksumZip = session.toolboxFile.checksum
+		val checksumContent = session.toolboxFile.lstDatabaseCheckSum
+		return new LoadedPlanInformation(name, checksumZip, checksumContent,timestamp)
 	}
 
 	private def String getTimestamp(PlanPro_Schnittstelle schnittstelle) {
