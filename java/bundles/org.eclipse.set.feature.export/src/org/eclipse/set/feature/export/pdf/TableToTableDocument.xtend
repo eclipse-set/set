@@ -531,8 +531,9 @@ class TableToTableDocument {
 	private def Element addContentToElement(String content, Element element,
 		int columnNumber, boolean isRemarkColumn) {
 		val checkOutput = content.checkForTestOutput(columnNumber)
-		element.textContent = isRemarkColumn ? checkOutput : checkOutput.
-			intersperseWithZeroSpacesSC
+		element.textContent = isRemarkColumn
+			? checkOutput
+			: checkOutput.intersperseWithZeroSpacesSC
 		return element
 	}
 
@@ -610,7 +611,7 @@ class TableToTableDocument {
 		val idAttr = doc.createAttribute("id")
 		idAttr.value = id
 		attributeNode = idAttr
-		textContent = '''«info.name» «info.timestamp» MD5: «info.checksum»'''
+		textContent = '''«info.name» «info.timestamp» MD5-Zip: «info.checksumZip» MD5-Inhalt:«info.checksumContent»'''
 	}
 
 	private def Element create doc.createElement("Footnotes")
@@ -625,9 +626,9 @@ class TableToTableDocument {
 	private def Element transform(FootnoteInfo footnote) {
 		val it = doc.createElement("Footnote")
 		val footNoteType = doc.createElement(
-			footnote.changedInCompare &&
-				footnote.removedInMain ? 'REMOVED_COMPARE_FOOTNOTE' : footnote.
-				type.toString)
+			footnote.changedInCompare && footnote.removedInMain
+				? 'REMOVED_COMPARE_FOOTNOTE'
+				: footnote.type.toString)
 		footNoteType.attributeNode = createFootnoteNumberAttribute(
 			footnote.index)
 		if (footnote.changedInCompare) {
