@@ -783,8 +783,9 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 						WKrGspKomponenten,
 						actuatorNumberSelector,
 						actuatorPositionSelector,
-						[kreuzung !== null]
+						fillPositionSupplementCondition
 					)
+
 				],
 				"+"
 			)
@@ -917,8 +918,8 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 			}
 			val noOfActuators = actuator.intValue
 			val position = it.getPosition(actuator, actuatorPositionSelector)
-			val fillPositionCondition = noOfActuators > 0 &&
-				position !== null && fillPositionSupplementCondition.apply(it)
+			val fillPositionCondition = !position.nullOrEmpty &&
+				fillPositionSupplementCondition.apply(it)
 			if (austauschAntriebe?.wert !== null && austauschAntriebe?.wert) {
 				multiColorContent.multiColorValue = noOfActuators.toString
 				multiColorContent.stringFormat = '''%s«IF fillPositionCondition» («position»)«ENDIF»'''
@@ -937,7 +938,7 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 		(W_Kr_Gsp_Komponente)=>Elektrischer_Antrieb_Lage_TypeClass actuatorPositionSelector
 	) {
 
-		if (actuator !== null && actuator != BigInteger.ZERO) {
+		if (actuator !== null) {
 			val lage = actuatorPositionSelector.apply(component)
 			val enumTranslateValue = lage?.translate
 			if (enumTranslateValue === null) {
