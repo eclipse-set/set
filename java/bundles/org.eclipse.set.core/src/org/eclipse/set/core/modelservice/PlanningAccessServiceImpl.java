@@ -47,8 +47,9 @@ import com.google.common.collect.Streams;
  * 
  * @author Schaefer
  */
-@Component(property = { EventConstants.EVENT_TOPIC + "="
-		+ Events.ADDITIONAL_PLAN_LOADED }, service = {
+@Component(property = {
+		EventConstants.EVENT_TOPIC + "=" + Events.ADDITIONAL_PLAN_LOADED,
+		EventConstants.EVENT_TOPIC + "=" + Events.CLOSE_SESSION }, service = {
 				PlanningAccessService.class, EventHandler.class })
 public class PlanningAccessServiceImpl
 		implements PlanningAccessService, EventHandler {
@@ -98,6 +99,12 @@ public class PlanningAccessServiceImpl
 			referencePlanSession.close();
 		}
 
+		if (event.getTopic().equals(Events.CLOSE_SESSION)
+				&& event.getProperty(
+						IEventBroker.DATA) instanceof final ToolboxFileRole role
+				&& role == ToolboxFileRole.SESSION) {
+			additionalPlanInfomration.clear();
+		}
 	}
 
 	private ENUMUntergewerkArt currentUntergewerkArt = null;

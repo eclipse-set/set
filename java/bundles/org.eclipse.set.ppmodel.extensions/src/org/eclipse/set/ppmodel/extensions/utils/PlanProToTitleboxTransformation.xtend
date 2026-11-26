@@ -125,31 +125,9 @@ class PlanProToTitleboxTransformation {
 		val lastPlanPruefung = planungEinzel?.planungEHandlung?.
 			planungEPruefung?.lastOrNull
 
-		if (additionalsPlanInformation.exists [
-			loadPlanInformation.role === ToolboxFileRole.REFERENCE_BASIS_PLAN
-		]) {
-			val referencePlanInfo = additionalsPlanInformation.findFirst [
-				loadPlanInformation.role ===
-					ToolboxFileRole.REFERENCE_BASIS_PLAN
-			]
-			val referencePlanungEinzeln = referencePlanInfo.planungEinzelns.get(
-				currentUntergewerkArt)
-
-			val referencePlanLastPlanPruefung = referencePlanungEinzeln?.
-				planungEHandlung?.planungEPruefung?.lastOrNull
-			it.set(59,
-				referencePlanLastPlanPruefung?.handelnder?.akteurAllg?.
-					nameAkteur5?.wert ?: "")
-			it.set(71,
-				referencePlanLastPlanPruefung?.datum?.wert?.toString(
-					DATE_FORMAT) ?: "")
-		} else {
-			it.set(59,
-				lastPlanPruefung?.handelnder?.akteurAllg?.nameAkteur5?.wert ?:
-					"")
-			it.set(71,
-				lastPlanPruefung?.datum?.wert?.toString(DATE_FORMAT) ?: "")
-		}
+		it.set(59,
+			lastPlanPruefung?.handelnder?.akteurAllg?.nameAkteur5?.wert ?: "")
+		it.set(71, lastPlanPruefung?.datum?.wert?.toString(DATE_FORMAT) ?: "")
 
 		it.set(60,
 			lastPlanungAbnahme?.handelnder?.akteurAllg?.nameAkteur5?.wert ?: "")
@@ -199,8 +177,8 @@ class PlanProToTitleboxTransformation {
 				planungEAllg
 			val equivalentPlanLastPlanungEErstellung = equivalentPlanPlanungEinzeln?.
 				planungEHandlung?.planungEErstellung?.lastOrNull
-			it.set(49, equivalentPlanPlanungAllgemein.buildLastEditionNumber)
-			it.set(63,
+			it.set(50, equivalentPlanPlanungAllgemein.buildLastEditionNumber)
+			it.set(64,
 				equivalentPlanLastPlanungEErstellung?.datum?.wert?.toString(
 					DATE_FORMAT) ?: "")
 		}

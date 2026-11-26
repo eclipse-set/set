@@ -50,7 +50,7 @@ public class PlanCompareTest extends AbstractPlanCompareTest {
 	protected void expectApplicationTitleAfterOpenComparePlanEquals() {
 		String applicationTitle = bot.activeShell().getText();
 		assertTrue(applicationTitle.endsWith(getTestFile().getFullName()
-				+ ToolboxConstants.TITLE_FILE_NAME_SEPARATOR
+				+ ToolboxConstants.TITLE_COMPARE_FILE_NAME_SEPARATOR
 				+ getComparePlan().getFullName()));
 	}
 

@@ -8,7 +8,7 @@
  */
 package org.eclipse.set.feature.validation.session;
 
-import static org.eclipse.set.basis.constants.ToolboxConstants.TITLE_FILE_NAME_SEPARATOR;
+import static org.eclipse.set.basis.constants.ToolboxConstants.*;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -18,9 +18,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.EnumMap;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -162,7 +162,7 @@ public class ModelSession implements IModelSession {
 
 	private static final String APPLICATION_NAME = "Werkzeugkoffer"; //$NON-NLS-1$
 	private static final String SESSIONS_SUBDIR = "sessions"; //$NON-NLS-1$
-	protected static final String TITLE_SEPARATOR = "-"; //$NON-NLS-1$
+	protected static final String TITLE_SEPARATOR = " - "; //$NON-NLS-1$
 	static final Logger logger = LoggerFactory.getLogger(ModelSession.class);
 
 	private static String getSessionsSubDir() {
@@ -1103,12 +1103,10 @@ public class ModelSession implements IModelSession {
 		Display.getDefault().asyncExec(() -> {
 			final StringBuilder titleBuilder = new StringBuilder();
 			titleBuilder.append(getProgrammTitle());
-			titleBuilder.append(" ");
 			// Open/Close main session
 			if (toolboxFile.getRole() == ToolboxFileRole.SESSION) {
 				if (fileNameOpt.isPresent()) {
 					titleBuilder.append(TITLE_SEPARATOR)
-							.append(" ")
 							.append(fileNameOpt.get());
 				}
 			} else {
@@ -1126,17 +1124,15 @@ public class ModelSession implements IModelSession {
 		});
 	}
 
-	@SuppressWarnings("nls")
 	private void addAdditionalPlanName(final Optional<String> fileNameOpt,
 			final StringBuilder titleBuilder) {
-		final List<String> additionalPlanName = new LinkedList<>();
-		additionalPlanName.addAll(getLoadedAdditionalPlanTitle());
+		final Map<ToolboxFileRole, String> additionalPlanName = new EnumMap<>(
+				ToolboxFileRole.class);
+		additionalPlanName.putAll(getLoadedAdditionalPlanTitle());
 		switch (toolboxFile.getRole()) {
 			case COMPARE_PLANNING: {
 				if (fileNameOpt.isPresent()) {
-					titleBuilder.append(" ")
-							.append(TITLE_FILE_NAME_SEPARATOR)
-							.append(" ")
+					titleBuilder.append(TITLE_COMPARE_FILE_NAME_SEPARATOR)
 							.append(fileNameOpt.get());
 				}
 
@@ -1146,35 +1142,46 @@ public class ModelSession implements IModelSession {
 				final IModelSession comparePlanSession = sessionService
 						.getLoadedSession(ToolboxFileRole.COMPARE_PLANNING);
 				if (comparePlanSession != null) {
-					titleBuilder.append(" ")
-							.append(TITLE_FILE_NAME_SEPARATOR)
-							.append(" ")
+					titleBuilder.append(TITLE_COMPARE_FILE_NAME_SEPARATOR)
 							.append(comparePlanSession.getToolboxFile()
 									.getPath()
 									.getFileName());
 				}
 
 				if (fileNameOpt.isPresent()) {
-					additionalPlanName.addFirst(fileNameOpt.get());
+					additionalPlanName.put(toolboxFile.getRole(),
+							fileNameOpt.get());
 				}
 				break;
 			}
 			default:
 				break;
 		}
-
 		if (!additionalPlanName.isEmpty()) {
-			titleBuilder.append(" (")
-					.append(additionalPlanName.stream()
-							.collect(Collectors.joining(",")))
-					.append(")");
+			additionalPlanName.forEach((key, value) -> {
+				final String separator = switch (key) {
+					case REFERENCE_BASIS_PLAN:
+						yield TITLE_REFECENCE_FILE_NAME_SEPARATOR;
+					case EQUIVALENT_PLAN:
+						yield TITLE_EQUIVALENT_FILE_NAME_SEPARATOR;
+					default:
+						yield ""; //$NON-NLS-1$
+				};
+				if (separator.isEmpty()) {
+					return;
+				}
+				titleBuilder.append(separator).append(value);
+			});
 		}
 	}
 
 	private String getProgrammTitle() {
 		final String currentTitle = mainWindow.getText();
-		final String splitRegex = String.format("[%s%s(),]", TITLE_SEPARATOR, //$NON-NLS-1$
-				TITLE_FILE_NAME_SEPARATOR);
+		final String splitRegex = String.format("[%s%s(),]", //$NON-NLS-1$
+				TITLE_SEPARATOR.trim(),
+				TITLE_COMPARE_FILE_NAME_SEPARATOR.trim(),
+				TITLE_REFECENCE_FILE_NAME_SEPARATOR.trim(),
+				TITLE_EQUIVALENT_FILE_NAME_SEPARATOR.trim());
 		final List<String> split = Arrays.stream(currentTitle.split(splitRegex))
 				.filter(s -> !s.isBlank())
 				.map(String::trim)
@@ -1182,16 +1189,18 @@ public class ModelSession implements IModelSession {
 		return split.getFirst();
 	}
 
-	private static List<String> getLoadedAdditionalPlanTitle() {
+	private static Map<ToolboxFileRole, String> getLoadedAdditionalPlanTitle() {
 		// The additional session will direct close after
 		// storage necessary information, therefore take the
 		// filename from PlaningAccessService
 		return Services.getPlanningAccessService()
 				.getAdditionalPlansInformation()
-				.values()
+				.entrySet()
 				.stream()
-				.map(info -> info.loadPlanInformation().name())
-				.toList();
+				.collect(Collectors.toMap(Entry::getKey,
+						entry -> entry.getValue()
+								.loadPlanInformation()
+								.name()));
 	}
 
 	@Override

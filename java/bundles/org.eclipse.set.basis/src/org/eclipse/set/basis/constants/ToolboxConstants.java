@@ -380,7 +380,17 @@ public final class ToolboxConstants {
 	/**
 	 * Separator for file name by compare plan
 	 */
-	public static final String TITLE_FILE_NAME_SEPARATOR = "⇔";
+	public static final String TITLE_COMPARE_FILE_NAME_SEPARATOR = " ⇔ ";
+
+	/**
+	 * Separator for file name by compare plan
+	 */
+	public static final String TITLE_REFECENCE_FILE_NAME_SEPARATOR = " → ";
+
+	/**
+	 * Separator for file name by compare plan
+	 */
+	public static final String TITLE_EQUIVALENT_FILE_NAME_SEPARATOR = " = ";
 
 	/**
 	 * Shortcut of Worknotes table

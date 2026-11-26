@@ -20,67 +20,56 @@ public enum ToolboxFileRole {
 	/**
 	 * The ToolboxFile is used to start a session (default)
 	 */
-	SESSION(1),
+	SESSION,
 
 	/**
 	 * The ToolboxFile is used as a compare planning
 	 */
-	COMPARE_PLANNING(2),
+	COMPARE_PLANNING,
 
 	/**
 	 * The ToolboxFile is used as a reference plan
 	 */
-	REFERENCE_BASIS_PLAN(3),
+	REFERENCE_BASIS_PLAN,
 
 	/**
 	 * The Toolboxfile is used as a equivalent plan
 	 */
-	EQUIVALENT_PLAN(4),
+	EQUIVALENT_PLAN,
 
 	/**
 	 * The ToolboxFile is used to be exported
 	 */
-	EXPORT(5),
+	EXPORT,
 
 	/**
 	 * The ToolboxFile is used to be imported into the final state
 	 */
-	IMPORT_FINAL_STATE(6),
+	IMPORT_FINAL_STATE,
 
 	/**
 	 * The ToolboxFile is used to be imported into the initial state
 	 */
-	IMPORT_INITIAL_STATE(7),
+	IMPORT_INITIAL_STATE,
 
 	/**
 	 * The ToolboxFile is used as a first planning to import
 	 */
-	FIRST_PLANNING_TO_IMPORT(8),
+	FIRST_PLANNING_TO_IMPORT,
 
 	/**
 	 * The toolboxFile is used as a second planning to import
 	 */
-	SECOND_PLANNING_TO_IMPORT(9),
+	SECOND_PLANNING_TO_IMPORT,
 
 	/**
 	 * The ToolboxFile is used as a temporary integration
 	 */
-	TEMPORARY_INTEGRATION(10),
+	TEMPORARY_INTEGRATION,
 	/**
 	* 
 	*/
-	MERGE_PLANNING(11);
-
-	int priority;
-
-	private ToolboxFileRole(final int priority) {
-		this.priority = priority;
-	}
-
-	// @Override
-	// public int compareTo(final ToolboxFileRole another) {
-	// return Integer.compare(priority, another.priority);
-	// }
+	MERGE_PLANNING;
 
 	/**
 	 * Translates the role name into a directory name
