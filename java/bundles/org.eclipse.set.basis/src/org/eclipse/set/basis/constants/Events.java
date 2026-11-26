@@ -40,7 +40,7 @@ public interface Events {
 	/**
 	 * The reference plan complete loaded
 	 */
-	String ADDITIONAL_PLAN_LOADED = "loaded/reference/complete";
+	String ADDITIONAL_PLAN_LOADED = "loaded/additional/complete";
 
 	/**
 	 * The layout information in focus of the model session changed.
