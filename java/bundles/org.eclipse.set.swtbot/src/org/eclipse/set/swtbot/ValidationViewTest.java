@@ -98,7 +98,8 @@ public class ValidationViewTest extends AbstractTableTest {
 	protected static final String VALIDATION_INFORMATION_CSV = "validation_information";
 	protected static final String VALIDATION_TABLE_NAME = "validation_view";
 	static List<Pair<String, String>> widgetItems = Arrays
-			.<Pair<String, String>> asList(new Pair<>("Geladene Datei", "MD5"),
+			.<Pair<String, String>> asList(new Pair<>("Geladene Datei", "MD5 ZIP"),
+					new Pair<>("Geladene Datei", "MD5 Inhalt"),
 					new Pair<>("Geladene Datei", "GUID"),
 					new Pair<>("Verwendetes XML-Schema (in Datei)", "PlanPro"),
 					new Pair<>("Verwendetes XML-Schema (in Datei)",
