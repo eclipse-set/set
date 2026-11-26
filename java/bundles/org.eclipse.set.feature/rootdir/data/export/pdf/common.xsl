@@ -207,14 +207,12 @@ http://www.eclipse.org/legal/epl-v20.html
 			<fo:table-column column-width="{180 + $WB + $WB + $WB + $WB}mm" />
 			<fo:table-body start-indent="{$WB + $WB + $WB + $WB}mm" end-indent="{- $WB - $WB - $WB - $WB}mm">
 				<fo:table-row keep-together.within-page="always">
-				  <!-- SignificantInformation -->
+					<!-- SignificantInformation -->
 					<fo:table-cell height="auto" display-align="after">
 						<fo:block-container height="auto" overflow="hidden" display-align="after">
 							<!-- Hint for compare cell -->
-							<fo:block xsl:use-attribute-sets="significant-information-style" margin-top="5px" margin-bottom="5px" >
-								<fo:retrieve-marker retrieve-class-name="ComparePageText"
-																		retrieve-boundary="page"
-																		retrieve-position="first-starting-within-page"/>
+							<fo:block xsl:use-attribute-sets="significant-information-style" margin-top="5px" margin-bottom="5px">
+								<fo:retrieve-marker retrieve-class-name="ComparePageText" retrieve-boundary="page" retrieve-position="first-starting-within-page"/>
 							</fo:block>
 							<!-- Loaded file information -->
 							<xsl:choose>
@@ -228,7 +226,7 @@ http://www.eclipse.org/legal/epl-v20.html
 						</fo:block-container>
 					</fo:table-cell>
 					<!-- TitleBox -->
-					<fo:table-cell column-number="2" padding-top="5mm" >
+					<fo:table-cell column-number="2" padding-top="5mm">
 						<fo:table table-layout="fixed" width="100%">
 							<fo:table-column column-width="100%" />
 							<fo:table-body>
@@ -264,8 +262,16 @@ http://www.eclipse.org/legal/epl-v20.html
 			<xsl:if test="@id = 'EquivalentPlan'">
 				<xsl:text>Gleichgestelt mit: </xsl:text>
 			</xsl:if>
-			<xsl:value-of select="."/>
+			<xsl:value-of select="FileName"/>
+			<fo:inline>
+				<xsl:text > MD5 ZIP: </xsl:text>
+				<xsl:value-of select="CheckSumme/Zip"/>
+				<xsl:text> - </xsl:text>
+				<xsl:text>MD5 Inhalt: </xsl:text>
+				<xsl:value-of select="CheckSumme/Content"/>
+			</fo:inline>
 		</fo:block>
+
 	</xsl:template>
 
 	<xsl:template match="Footnotes[Footnote]">

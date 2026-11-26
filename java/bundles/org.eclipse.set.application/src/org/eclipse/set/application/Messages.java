@@ -112,7 +112,8 @@ public class Messages {
 	public String OpenPlanProHandler_LoadingPlanProModelFileErrorTitle;
 
 	/**
-	 * Die ausgewählte Plan ist nicht referenziert von aktuell Plan
+	 * Die ausgewählte Planung ist in der aktuellen Planung nicht als
+	 * Basisplanung angegeben.
 	 */
 	public String OpenPlanProHandler_LoadingWrongReferencePlanMessage;
 

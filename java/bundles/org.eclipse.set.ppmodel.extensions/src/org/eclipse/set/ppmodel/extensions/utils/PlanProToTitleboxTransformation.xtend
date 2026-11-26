@@ -177,8 +177,9 @@ class PlanProToTitleboxTransformation {
 				planungEAllg
 			val equivalentPlanLastPlanungEErstellung = equivalentPlanPlanungEinzeln?.
 				planungEHandlung?.planungEErstellung?.lastOrNull
-			it.set(50, equivalentPlanPlanungAllgemein.buildLastEditionNumber)
-			it.set(64,
+			it.set(compareSchnittstelle !== null ? 50 : 49,
+				equivalentPlanPlanungAllgemein.buildLastEditionNumber)
+			it.set(compareSchnittstelle !== null ? 64 : 63,
 				equivalentPlanLastPlanungEErstellung?.datum?.wert?.toString(
 					DATE_FORMAT) ?: "")
 		}

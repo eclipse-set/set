@@ -618,7 +618,20 @@ class TableToTableDocument {
 		val idAttr = doc.createAttribute("id")
 		idAttr.value = id
 		attributeNode = idAttr
-		textContent = '''«info.name» «info.timestamp» - MD5 ZIP: «info.checksumZip» - MD5 Inhalt:«info.checksumContent»'''
+		// Filename & time stamp
+		val fileNameNode =doc.createElement("FileName")
+		fileNameNode.textContent = '''«info.name» «info.timestamp»'''
+		appendChild(fileNameNode)
+		
+		val checkSumme = doc.createElement("CheckSumme")
+		val md5Zip = doc.createElement("Zip")
+		md5Zip.textContent = info.checksumZip
+		
+		val md5Content = doc.createElement("Content")
+		md5Content.textContent = info.checksumContent
+		checkSumme.appendChild(md5Zip)
+		checkSumme.appendChild(md5Content)
+		appendChild(checkSumme)
 	}
 
 	private def Element create doc.createElement("Footnotes")
