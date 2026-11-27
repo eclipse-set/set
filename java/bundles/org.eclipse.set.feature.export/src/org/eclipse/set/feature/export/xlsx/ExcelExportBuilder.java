@@ -23,6 +23,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.IntFunction;
 import java.util.function.ToIntFunction;
+import java.util.regex.MatchResult;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -62,6 +64,7 @@ import org.eclipse.set.model.tablemodel.CompareStateCellContent;
 import org.eclipse.set.model.tablemodel.CompareTableCellContent;
 import org.eclipse.set.model.tablemodel.CompareTableFootnoteContainer;
 import org.eclipse.set.model.tablemodel.FootnoteContainer;
+import org.eclipse.set.model.tablemodel.MultiColorCellContent;
 import org.eclipse.set.model.tablemodel.PlanCompareRow;
 import org.eclipse.set.model.tablemodel.PlanCompareRowType;
 import org.eclipse.set.model.tablemodel.SimpleFootnoteContainer;
@@ -357,6 +360,8 @@ public class ExcelExportBuilder implements TableExport {
 					compareTableContent.getMainPlanCellContent());
 			case final CompareStateCellContent compareStateContent -> createRichTextCell(
 					compareStateContent);
+			case final MultiColorCellContent multiColorCellContent -> createRichTextCell(
+					multiColorCellContent);
 			default -> throw new IllegalArgumentException(
 					"Unexpected value: " + content);
 		};
@@ -390,6 +395,43 @@ public class ExcelExportBuilder implements TableExport {
 		}
 
 		return richtText;
+	}
+
+	static final Pattern multiColorContentStringFormatPattern = Pattern
+			.compile("%s");
+
+	private static XSSFRichTextString createRichTextCell(
+			final MultiColorCellContent multiColorCellContent) {
+
+		multiColorCellContent.getValue()
+				.stream()
+				.filter(content -> content.getMultiColorValue() != null
+						&& !content.getMultiColorValue().isEmpty())
+				.map(content -> {
+					if (content.getMultiColorValue() == null
+							|| content.getMultiColorValue().isEmpty()) {
+						return new XSSFRichTextString(
+								content.getStringFormat());
+					}
+					if (content.isDisableMultiColor()) {
+						return new XSSFRichTextString(
+								String.format(content.getStringFormat(),
+										content.getMultiColorValue()));
+					}
+					final XSSFRichTextString richtText = new XSSFRichTextString();
+					final int multiColorContentLength = content
+							.getMultiColorValue()
+							.length();
+					final List<Integer> indexOfMultiValuePlaceHolder = multiColorContentStringFormatPattern
+							.matcher(content.getStringFormat())
+							.results()
+							.map(MatchResult::start)
+							.toList();
+					indexOfMultiValuePlaceHolder.forEach(index -> {
+
+					});
+				});
+		return null;
 	}
 
 	private static XSSFCellStyle getCompareTableCellStyle(
