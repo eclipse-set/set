@@ -20,6 +20,8 @@ import org.eclipse.set.core.services.Services
 import org.eclipse.set.core.services.planningaccess.PlanningAccessService.AdditionalPlanInformation
 import org.eclipse.set.core.services.session.SessionService
 import org.eclipse.set.model.planpro.Basisobjekte.ENUMDateityp
+import org.eclipse.set.model.planpro.PlanPro.Akteur_Zuordnung
+import org.eclipse.set.model.planpro.PlanPro.ENUMUntergewerkArt
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle
 import org.eclipse.set.model.planpro.PlanPro.Planung_E_Allg_AttributeGroup
 import org.eclipse.set.model.planpro.PlanPro.Planung_Einzel
@@ -143,52 +145,74 @@ class PlanProToTitleboxTransformation {
 
 		it.set(40, tableName?.rilNumber ?: "")
 		it.set(99, planungAllgemein.buildLastEditionNumber)
-		if (compareSchnittstelle !== null) {
-			// Fille compare plan information
-			val comparePlanungAllgemein = compareSchnittstelle?.planungAllgemein
-			val compareLastPlanungEErstellung = compareSchnittstelle?.
-				planungEinzel?.planungEHandlung?.planungEErstellung?.lastOrNull
-			it.set(48, comparePlanungAllgemein?.buildLastEditionNumber)
-			it.set(62,
-				compareLastPlanungEErstellung?.datum?.wert?.toString(
-					DATE_FORMAT) ?: "")
-
-			// Fill main plan information
-			it.set(49, planungAllgemein.buildLastEditionNumber)
-			it.set(63,
-				lastPlanungEErstellung?.datum?.wert?.toString(DATE_FORMAT) ?:
-					"")
-		} else {
-			it.set(48, planungAllgemein.buildLastEditionNumber)
-			it.set(62,
-				lastPlanungEErstellung?.datum?.wert?.toString(DATE_FORMAT) ?:
-					"")
-		}
-
-		if (additionalsPlanInformation.exists [
-			loadPlanInformation.role === ToolboxFileRole.EQUIVALENT_PLAN
-		]) {
-			val equivalentPlanInfo = additionalsPlanInformation.findFirst [
-				loadPlanInformation.role === ToolboxFileRole.EQUIVALENT_PLAN
-			]
-			val equivalentPlanPlanungEinzeln = equivalentPlanInfo.
-				planungEinzelns.get(currentUntergewerkArt)
-			val equivalentPlanPlanungAllgemein = equivalentPlanPlanungEinzeln?.
-				planungEAllg
-			val equivalentPlanLastPlanungEErstellung = equivalentPlanPlanungEinzeln?.
-				planungEHandlung?.planungEErstellung?.lastOrNull
-			it.set(compareSchnittstelle !== null ? 50 : 49,
-				equivalentPlanPlanungAllgemein.buildLastEditionNumber)
-			it.set(compareSchnittstelle !== null ? 64 : 63,
-				equivalentPlanLastPlanungEErstellung?.datum?.wert?.toString(
-					DATE_FORMAT) ?: "")
-		}
+		fillLastEditionNumberAndLastEErstellung(it, planungAllgemein,
+			lastPlanungEErstellung, currentUntergewerkArt)
 
 		if (ToolboxConfiguration.pdfExportTestFilling) {
 			fillEmptyFieldsWithAddresses
 		}
 
 		return
+	}
+
+	private def void fillLastEditionNumberAndLastEErstellung(Titlebox it,
+		Planung_E_Allg_AttributeGroup planungAllgemein,
+		Akteur_Zuordnung lastPlanungEErstellung,
+		ENUMUntergewerkArt currentUntergewerkArt) {
+		val existsEquivalentPlan = additionalsPlanInformation.exists [
+			loadPlanInformation.role === ToolboxFileRole.EQUIVALENT_PLAN
+		]
+		val mainPlanAdressShiftValue = (compareSchnittstelle !== null ? 1 : 0) +
+			(existsEquivalentPlan ? 1 : 0)
+		val mainPlanLastEditionNumberAddress = 48 + mainPlanAdressShiftValue
+		val mainPlanLastPlanungEErstellungAddress = 62 +
+			mainPlanAdressShiftValue
+		// Fill main plan information
+		it.set(mainPlanLastEditionNumberAddress,
+			planungAllgemein.buildLastEditionNumber)
+		it.set(mainPlanLastPlanungEErstellungAddress,
+			lastPlanungEErstellung?.datum?.wert?.toString(DATE_FORMAT) ?: "")
+		if (mainPlanAdressShiftValue === 1) {
+			// That mean exist equivalent plan
+			if (compareSchnittstelle === null) {
+				it.fillEquivalentPlanInformation(currentUntergewerkArt, 0)
+			} else {
+				it.fillComparePlanInformation(compareSchnittstelle)
+			}
+
+		} else if (mainPlanAdressShiftValue == 2) {
+			it.fillComparePlanInformation(compareSchnittstelle)
+			it.fillEquivalentPlanInformation(currentUntergewerkArt, 1)
+		}
+	}
+
+	private def void fillComparePlanInformation(Titlebox titlebox,
+		PlanPro_Schnittstelle compareSchnittstelle) {
+		val comparePlanungAllgemein = compareSchnittstelle?.planungAllgemein
+		val compareLastPlanungEErstellung = compareSchnittstelle?.
+			planungEinzel?.planungEHandlung?.planungEErstellung?.lastOrNull
+		titlebox.set(48, comparePlanungAllgemein?.buildLastEditionNumber)
+		titlebox.set(62,
+			compareLastPlanungEErstellung?.datum?.wert?.toString(DATE_FORMAT) ?:
+				"")
+	}
+
+	private def void fillEquivalentPlanInformation(Titlebox titleBox,
+		ENUMUntergewerkArt currentUntergewerkArt, int shiftvalue) {
+		val equivalentPlanInfo = additionalsPlanInformation.findFirst [
+			loadPlanInformation.role === ToolboxFileRole.EQUIVALENT_PLAN
+		]
+		val equivalentPlanPlanungEinzeln = equivalentPlanInfo.planungEinzelns.
+			get(currentUntergewerkArt)
+		val equivalentPlanPlanungAllgemein = equivalentPlanPlanungEinzeln?.
+			planungEAllg
+		val equivalentPlanLastPlanungEErstellung = equivalentPlanPlanungEinzeln?.
+			planungEHandlung?.planungEErstellung?.lastOrNull
+		titleBox.set(48 + shiftvalue,
+			equivalentPlanPlanungAllgemein.buildLastEditionNumber)
+		titleBox.set(62 + shiftvalue,
+			equivalentPlanLastPlanungEErstellung?.datum?.wert?.toString(
+				DATE_FORMAT) ?: "")
 	}
 
 	private def String getOertlichkeit(PlanPro_Schnittstelle schnittstelle) {

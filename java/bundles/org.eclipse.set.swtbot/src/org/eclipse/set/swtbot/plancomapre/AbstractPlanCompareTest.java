@@ -51,7 +51,8 @@ public abstract class AbstractPlanCompareTest extends AbstractPPHNTest {
 		}));
 
 		final SWTBotMenu dateiMenu = bot.menu("Datei");
-		final SWTBotMenu comparePlanMenu = dateiMenu.menu("Weitere Planung laden")
+		final SWTBotMenu comparePlanMenu = dateiMenu
+				.menu("Weiteren Planung laden")
 				.menu("Vergleichsplanung laden");
 		comparePlanMenu.menu("Andere Planung laden...").click();
 		bot.waitUntil(SWTBotUtils.botWaitUntil(bot, () -> {

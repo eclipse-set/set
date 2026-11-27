@@ -25,10 +25,16 @@ import org.junit.jupiter.api.Test;
  * @author truong
  */
 public class PlanCompareTest extends AbstractPlanCompareTest {
-	@Test
-	void testOpenComparePlan() {
-		assertDoesNotThrow(this::openSecondPlan);
-		expectApplicationTitleAfterOpenComparePlanEquals();
+	protected void expectApplicationTitleAfterCloseComparePlanEquals() {
+		final String applicationTitle = bot.activeShell().getText();
+		assertTrue(applicationTitle.endsWith(getTestFile().getFullName()));
+	}
+
+	protected void expectApplicationTitleAfterOpenComparePlanEquals() {
+		final String applicationTitle = bot.activeShell().getText();
+		assertTrue(applicationTitle.endsWith(getTestFile().getFullName()
+				+ ToolboxConstants.TITLE_COMPARE_FILE_NAME_SEPARATOR
+				+ getComparePlan().getFullName()));
 	}
 
 	@Test
@@ -39,23 +45,19 @@ public class PlanCompareTest extends AbstractPlanCompareTest {
 		expectApplicationTitleAfterCloseComparePlanEquals();
 	}
 
+	@Test
+	void testOpenComparePlan() {
+		assertDoesNotThrow(this::openSecondPlan);
+		expectApplicationTitleAfterOpenComparePlanEquals();
+	}
+
 	void whenCloseComparePlan() {
 		getDialogService().openFileDialogHandler = filter -> Optional.empty();
-		SWTBotMenu dateiMenu = bot.menu("Datei");
-		SWTBotMenu comparePlanMenu = dateiMenu.menu("Vergleichsplanung laden");
+		final SWTBotMenu dateiMenu = bot.menu("Datei");
+		final SWTBotMenu comparePlanMenu = dateiMenu
+				.menu("Weiteren Planung laden")
+				.menu("Vergleichsplanung laden");
 		comparePlanMenu.menu("Andere Planung laden...").click();
 		bot.sleep(500);
-	}
-
-	protected void expectApplicationTitleAfterOpenComparePlanEquals() {
-		String applicationTitle = bot.activeShell().getText();
-		assertTrue(applicationTitle.endsWith(getTestFile().getFullName()
-				+ ToolboxConstants.TITLE_COMPARE_FILE_NAME_SEPARATOR
-				+ getComparePlan().getFullName()));
-	}
-
-	protected void expectApplicationTitleAfterCloseComparePlanEquals() {
-		String applicationTitle = bot.activeShell().getText();
-		assertTrue(applicationTitle.endsWith(getTestFile().getFullName()));
 	}
 }
