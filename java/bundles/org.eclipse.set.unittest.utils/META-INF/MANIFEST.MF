@@ -34,7 +34,8 @@ Import-Package: net.bytebuddy,
  org.junit.jupiter.api.function,
  org.junit.jupiter.params,
  org.junit.jupiter.params.provider,
- org.osgi.framework
+ org.osgi.framework,
+ org.osgi.service.event;version="[1.4.0,2.0.0)"
 Export-Package: org.eclipse.set.unittest.utils,
  org.eclipse.set.unittest.utils.session,
  org.eclipse.set.unittest.utils.toolboxfile

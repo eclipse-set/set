@@ -8,20 +8,18 @@
  */
 package org.eclipse.set.emfforms.addon;
 
-import jakarta.inject.Inject;
-
 import org.eclipse.e4.core.contexts.ContextInjectionFactory;
 import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.ui.di.UIEventTopic;
 import org.eclipse.e4.ui.workbench.UIEvents;
-import org.eclipse.set.core.modelservice.PlanningAccessServiceImpl;
 import org.eclipse.set.core.modelservice.SimpleToolboxViewModelService;
 import org.eclipse.set.core.services.Services;
-import org.eclipse.set.core.services.planningaccess.PlanningAccessService;
 import org.eclipse.set.core.services.viewmodel.ToolboxViewModelService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import jakarta.inject.Inject;
 
 /**
  * Add on for EMF Forms Plugin.
@@ -47,12 +45,6 @@ public class EmfFormsAddon {
 			// registering as a true view model service fails
 			Services.setToolboxViewModelService(toolboxViewModelService);
 			context.set(ToolboxViewModelService.class, toolboxViewModelService);
-
-			// create model element provider service
-			final PlanningAccessService planningAccessService = ContextInjectionFactory
-					.make(PlanningAccessServiceImpl.class, context);
-			Services.setPlanningAccessService(planningAccessService);
-			context.set(PlanningAccessService.class, planningAccessService);
 		}
 	}
 }

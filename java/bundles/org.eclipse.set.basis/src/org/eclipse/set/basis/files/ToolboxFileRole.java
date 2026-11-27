@@ -18,6 +18,26 @@ import org.eclipse.set.basis.constants.ToolboxConstants;
 public enum ToolboxFileRole {
 
 	/**
+	 * The ToolboxFile is used to start a session (default)
+	 */
+	SESSION,
+
+	/**
+	 * The ToolboxFile is used as a compare planning
+	 */
+	COMPARE_PLANNING,
+
+	/**
+	 * The ToolboxFile is used as a reference plan
+	 */
+	REFERENCE_BASIS_PLAN,
+
+	/**
+	 * The Toolboxfile is used as a equivalent plan
+	 */
+	EQUIVALENT_PLAN,
+
+	/**
 	 * The ToolboxFile is used to be exported
 	 */
 	EXPORT,
@@ -38,19 +58,9 @@ public enum ToolboxFileRole {
 	FIRST_PLANNING_TO_IMPORT,
 
 	/**
-	 * The ToolboxFile is used as a compare planning
-	 */
-	COMPARE_PLANNING,
-
-	/**
 	 * The toolboxFile is used as a second planning to import
 	 */
 	SECOND_PLANNING_TO_IMPORT,
-
-	/**
-	 * The ToolboxFile is used to start a session (default)
-	 */
-	SESSION,
 
 	/**
 	 * The ToolboxFile is used as a temporary integration
@@ -76,6 +86,8 @@ public enum ToolboxFileRole {
 			case COMPARE_PLANNING -> ToolboxConstants.TOOLBOX_DIRECTORY_NAME_COMPARE_PLANNING;
 			case TEMPORARY_INTEGRATION -> ToolboxConstants.TOOLBOX_DIRECTORY_NAME_TEMPORARY_INTEGRATION;
 			case MERGE_PLANNING -> ToolboxConstants.TOOLBOX_DIRECTORY_NAME_MERGE_PLANNING;
+			case REFERENCE_BASIS_PLAN -> ToolboxConstants.TOOLBOX_DIRECTORY_NAME_REFERENCE_BASIS_PLAN;
+			case EQUIVALENT_PLAN -> ToolboxConstants.TOOLBOX_DIRECTORY_NAME_REFERENCE_BASIS_PLAN;
 			default -> ToolboxConstants.TOOLBOX_DIRECTORY_NAME_SESSION;
 		};
 	}

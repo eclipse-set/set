@@ -9,29 +9,103 @@
 
 package org.eclipse.set.core.modelservice;
 
+import java.util.Collections;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.eclipse.core.runtime.Assert;
+import org.eclipse.e4.core.services.events.IEventBroker;
+import org.eclipse.set.basis.FreeFieldInfo.LoadedPlanInformation;
+import org.eclipse.set.basis.IModelSession;
+import org.eclipse.set.basis.constants.Events;
+import org.eclipse.set.basis.files.ToolboxFileRole;
+import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.planningaccess.PlanningAccessService;
 import org.eclipse.set.model.planpro.PlanPro.ENUMUntergewerkArt;
 import org.eclipse.set.model.planpro.PlanPro.PlanProFactory;
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
+import org.eclipse.set.model.planpro.PlanPro.Planung_Einzel;
 import org.eclipse.set.model.planpro.PlanPro.Planung_Gruppe;
 import org.eclipse.set.model.planpro.PlanPro.Planung_Projekt;
 import org.eclipse.set.model.planpro.PlanPro.Untergewerk_Art_TypeClass;
+import org.eclipse.set.ppmodel.extensions.EObjectExtensions;
+import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
 import org.eclipse.set.ppmodel.extensions.PlanungEinzelExtensions;
+import org.eclipse.set.ppmodel.extensions.utils.PlanProToFreeFieldTransformation;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.event.Event;
+import org.osgi.service.event.EventConstants;
+import org.osgi.service.event.EventHandler;
+
+import com.google.common.collect.Streams;
 
 /**
  * Implementation of {@link PlanningAccessService}.
  * 
  * @author Schaefer
  */
-@Component
-public class PlanningAccessServiceImpl implements PlanningAccessService {
+@Component(property = {
+		EventConstants.EVENT_TOPIC + "=" + Events.ADDITIONAL_PLAN_LOADED,
+		EventConstants.EVENT_TOPIC + "=" + Events.CLOSE_SESSION }, service = {
+				PlanningAccessService.class, EventHandler.class })
+public class PlanningAccessServiceImpl
+		implements PlanningAccessService, EventHandler {
+	/**
+	 * 
+	 */
+	public PlanningAccessServiceImpl() {
+		Services.setPlanningAccessService(this);
+	}
+
+	private final Map<ToolboxFileRole, AdditionalPlanInformation> additionalPlanInfomration = new EnumMap<>(
+			ToolboxFileRole.class);
+
+	@Override
+	public void handleEvent(final Event event) {
+		if (event.getTopic().equals(Events.ADDITIONAL_PLAN_LOADED)
+				&& event.getProperty(
+						IEventBroker.DATA) instanceof final IModelSession referencePlanSession) {
+			// Storage only needed information of additional plan
+			final LoadedPlanInformation information = PlanProToFreeFieldTransformation
+					.transformLoadedPlan(referencePlanSession);
+			final Iterable<Planung_Gruppe> groups = PlanProSchnittstelleExtensions
+					.getLSTPlanungGruppe(
+							referencePlanSession.getPlanProSchnittstelle())
+					.orElse(Collections.emptyList());
+			final Map<ENUMUntergewerkArt, Planung_Einzel> planungsEinzel = Streams
+					.stream(groups)
+					.filter(group -> EObjectExtensions
+							.getNullableObject(group,
+									g -> g.getPlanungGAllg()
+											.getUntergewerkArt()
+											.getWert())
+							.isPresent()
+							&& EObjectExtensions
+									.getNullableObject(group,
+											g -> g.getLSTPlanungEinzel())
+									.isPresent())
+					.collect(Collectors.toMap(
+							group -> group.getPlanungGAllg()
+									.getUntergewerkArt()
+									.getWert(),
+							Planung_Gruppe::getLSTPlanungEinzel));
+			additionalPlanInfomration.put(
+					referencePlanSession.getToolboxFile().getRole(),
+					new AdditionalPlanInformation(information, planungsEinzel));
+			// The session isn't needed anymore
+			referencePlanSession.close();
+		}
+
+		if (event.getTopic().equals(Events.CLOSE_SESSION)
+				&& event.getProperty(
+						IEventBroker.DATA) instanceof final ToolboxFileRole role
+				&& role == ToolboxFileRole.SESSION) {
+			additionalPlanInfomration.clear();
+		}
+	}
 
 	private ENUMUntergewerkArt currentUntergewerkArt = null;
 
@@ -199,5 +273,10 @@ public class PlanningAccessServiceImpl implements PlanningAccessService {
 	public void setCurrentUntergewerkArt(
 			final ENUMUntergewerkArt untergewerkArt) {
 		currentUntergewerkArt = untergewerkArt;
+	}
+
+	@Override
+	public Map<ToolboxFileRole, AdditionalPlanInformation> getAdditionalPlansInformation() {
+		return additionalPlanInfomration;
 	}
 }

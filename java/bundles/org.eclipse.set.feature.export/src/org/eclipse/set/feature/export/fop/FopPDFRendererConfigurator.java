@@ -111,7 +111,7 @@ public class FopPDFRendererConfigurator extends PDFRendererConfigurator {
 			throws FOPException {
 		final FontManager fontManager = userAgent.getFontManager();
 		fontManager.setReferencedFontsMatcher(FontManagerConfigurator
-				.createFontsMatcher(List.of("Arial.*"), false)); //$NON-NLS-1$
+				.createFontsMatcher(List.of("Arial.*", "Courier*"), false)); //$NON-NLS-1$ //$NON-NLS-2$
 		super.setupFontInfo(mimeType, fontInfo);
 	}
 

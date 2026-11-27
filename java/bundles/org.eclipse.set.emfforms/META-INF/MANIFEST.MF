@@ -91,7 +91,8 @@ Import-Package: com.google.common.base;version="15.0.0",
  org.eclipse.swt.layout,
  org.eclipse.swt.widgets,
  org.osgi.framework;version="1.8.0",
- org.osgi.service.component.annotations;version="1.2.0"
+ org.osgi.service.component.annotations;version="1.2.0",
+ org.osgi.service.event;version="[1.4.0,2.0.0)"
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.set.emfforms.utils
 Service-Component: OSGI-INF/org.eclipse.set.emfforms.attachment.AttachmentListRendererService.xml,

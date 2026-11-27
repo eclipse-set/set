@@ -242,6 +242,19 @@ public final class ToolboxConstants {
 	 * mergeplanning.
 	 */
 	public static final String TOOLBOX_DIRECTORY_NAME_MERGE_PLANNING = "mergeplanning";
+
+	/**
+	 * The name for the temporary directory of a toolbox file used as a
+	 * reference plan.
+	 */
+	public static final String TOOLBOX_DIRECTORY_NAME_REFERENCE_BASIS_PLAN = "referenceplan";
+
+	/**
+	 * The name for the temporary directory of a toolbox file used as a
+	 * equivalent plan.
+	 */
+	public static final String TOOLBOX_DIRECTORY_NAME_EQUIVALENT_PLAN = "equivalentplan";
+
 	/**
 	 * The id of the validation part.
 	 */
@@ -367,7 +380,17 @@ public final class ToolboxConstants {
 	/**
 	 * Separator for file name by compare plan
 	 */
-	public static final String TITLE_FILE_NAME_SEPARATOR = " ⇔ ";
+	public static final String TITLE_COMPARE_FILE_NAME_SEPARATOR = " ⇔ ";
+
+	/**
+	 * Separator for file name by compare plan
+	 */
+	public static final String TITLE_REFECENCE_FILE_NAME_SEPARATOR = " ⇒ ";
+
+	/**
+	 * Separator for file name by compare plan
+	 */
+	public static final String TITLE_EQUIVALENT_FILE_NAME_SEPARATOR = " = ";
 
 	/**
 	 * Shortcut of Worknotes table

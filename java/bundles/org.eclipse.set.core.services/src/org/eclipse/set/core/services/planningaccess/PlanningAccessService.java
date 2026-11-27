@@ -9,8 +9,13 @@
 
 package org.eclipse.set.core.services.planningaccess;
 
+import java.util.Map;
+
+import org.eclipse.set.basis.FreeFieldInfo.LoadedPlanInformation;
+import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.eclipse.set.model.planpro.PlanPro.ENUMUntergewerkArt;
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
+import org.eclipse.set.model.planpro.PlanPro.Planung_Einzel;
 import org.eclipse.set.model.planpro.PlanPro.Planung_Gruppe;
 import org.eclipse.set.model.planpro.PlanPro.Planung_Projekt;
 
@@ -23,6 +28,20 @@ import org.eclipse.set.model.planpro.PlanPro.Planung_Projekt;
  * @author Schaefer
  */
 public interface PlanningAccessService {
+	/**
+	 * Information of additional plan
+	 * 
+	 * @param loadPlanInformation
+	 *            the {@link LoadedPlanInformation}
+	 * @param planungEinzelns
+	 *            the list of {@link Planung_Einzel} by
+	 *            {@link ENUMUntergewerkArt}
+	 */
+	public static record AdditionalPlanInformation(
+			LoadedPlanInformation loadPlanInformation,
+			Map<ENUMUntergewerkArt, Planung_Einzel> planungEinzelns) {
+
+	}
 
 	/**
 	 * @return the selected Subwork type
@@ -75,4 +94,9 @@ public interface PlanningAccessService {
 	 *            the Planung Gruppe
 	 */
 	public void setPlanungGruppe(Planung_Projekt project, Planung_Gruppe group);
+
+	/**
+	 * @return the information of plan, which main plan reference to
+	 */
+	Map<ToolboxFileRole, AdditionalPlanInformation> getAdditionalPlansInformation();
 }

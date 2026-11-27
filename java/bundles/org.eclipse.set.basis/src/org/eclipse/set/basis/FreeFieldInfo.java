@@ -8,6 +8,10 @@
  */
 package org.eclipse.set.basis;
 
+import java.util.List;
+
+import org.eclipse.set.basis.files.ToolboxFileRole;
+
 /**
  * Additional information for (and around) the free field of the pdf export.
  * 
@@ -18,17 +22,17 @@ package org.eclipse.set.basis;
  */
 public record FreeFieldInfo(SignificantInformation significantInformation) {
 	/**
-	 * @param mainPlan
-	 *            the main {@link LoadedPlanInformation}
-	 * @param comparePlan
-	 *            the compare {@link LoadedPlanInformation}
+	 * @param loadedPlansInformation
+	 *            the loaed plans information
 	 */
-	public record SignificantInformation(LoadedPlanInformation mainPlan,
-			LoadedPlanInformation comparePlan) {
+	public record SignificantInformation(
+			List<LoadedPlanInformation> loadedPlansInformation) {
 
 	}
 
 	/**
+	 * @param role
+	 *            the loaded plan role
 	 * @param name
 	 *            the plan name
 	 * @param checksumZip
@@ -36,10 +40,10 @@ public record FreeFieldInfo(SignificantInformation significantInformation) {
 	 * @param checksumContent
 	 *            the checksum of file content
 	 * @param timestamp
-	 *            the timestamp
+	 *            the time stamp
 	 */
-	public record LoadedPlanInformation(String name, String checksumZip,
-			String checksumContent, String timestamp) {
+	public record LoadedPlanInformation(ToolboxFileRole role, String name,
+			String checksumZip, String checksumContent, String timestamp) {
 
 	}
 }

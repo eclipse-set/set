@@ -15,6 +15,7 @@ import org.eclipse.set.core.services.session.SessionService
 import org.eclipse.set.basis.files.ToolboxFileRole
 import org.eclipse.set.basis.FreeFieldInfo.SignificantInformation
 import org.eclipse.set.basis.FreeFieldInfo.LoadedPlanInformation
+import org.eclipse.set.core.services.Services
 
 /**
  * Transformation from {@link IModelSession} to {@link FreeFieldInfo}.
@@ -48,24 +49,31 @@ class PlanProToFreeFieldTransformation {
 	 * Transforms a PlanPro Schnittstelle to a FreeFieldInfo.
 	 */
 	def FreeFieldInfo transform() {
-
+		val informations = newArrayList
+		informations.add(mainSession.transformLoadedPlan)
+		informations.add(compareSession.transformLoadedPlan)
+		informations.addAll(Services.planningAccessService.
+			additionalPlansInformation.values.map[loadPlanInformation])
 		return new FreeFieldInfo(
-			new SignificantInformation(mainSession.transformLoadedPlan,
-				compareSession.transformLoadedPlan))
+			new SignificantInformation(informations.filterNull.sortBy [
+				role
+			]))
 	}
 
-	def LoadedPlanInformation transformLoadedPlan(IModelSession session) {
+	static def LoadedPlanInformation transformLoadedPlan(
+		IModelSession session) {
 		if (session === null) {
 			return null
 		}
 		val name = session?.toolboxFile?.path?.fileName?.toString
+		val role = session?.toolboxFile?.role
 		val timestamp = session.planProSchnittstelle.timestamp
 		val checksumZip = session.toolboxFile.checksum
 		val checksumContent = session.toolboxFile.lstDatabaseCheckSum
-		return new LoadedPlanInformation(name, checksumZip, checksumContent,timestamp)
+		return new LoadedPlanInformation(role, name, checksumZip, checksumContent,timestamp)
 	}
 
-	private def String getTimestamp(PlanPro_Schnittstelle schnittstelle) {
+	static def String getTimestamp(PlanPro_Schnittstelle schnittstelle) {
 		return String.format("%1$td.%1$tm.%1$tY %1$tT",
 			schnittstelle.planProSchnittstelleAllg.erzeugungZeitstempel.wert.
 				toGregorianCalendar)

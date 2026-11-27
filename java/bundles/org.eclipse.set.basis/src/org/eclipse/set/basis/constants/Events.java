@@ -38,6 +38,11 @@ public interface Events {
 	String COMPARE_PLAN_COMPLETE_LOADED = "loaded/compare/complete";
 
 	/**
+	 * The reference plan complete loaded
+	 */
+	String ADDITIONAL_PLAN_LOADED = "loaded/additional/complete";
+
+	/**
 	 * The layout information in focus of the model session changed.
 	 * <ul>
 	 * <li><b>DATA:</b> the new PlanPro Schnittstelle</li>

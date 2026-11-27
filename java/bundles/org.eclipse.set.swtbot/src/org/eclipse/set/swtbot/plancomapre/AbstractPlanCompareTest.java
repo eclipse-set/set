@@ -29,6 +29,16 @@ public abstract class AbstractPlanCompareTest extends AbstractPPHNTest {
 	private final Logger LOGGER = LoggerFactory
 			.getLogger(AbstractPlanCompareTest.class);
 
+	@Override
+	public String getReferenceDir() {
+		return TEST_RESOURCE_DIR + "table_reference/"
+				+ getTestFile().getShortName() + "/";
+	}
+
+	protected SWTBotTestFile getComparePlan() {
+		return SWTBotTestFile.PPHN_1_10_0_1;
+	}
+
 	protected void openSecondPlan() throws Exception {
 		LOGGER.info(getFilePath(getComparePlan().getFullName()).toString());
 		getDialogService().openFileDialogHandler = filters -> Optional
@@ -40,8 +50,10 @@ public abstract class AbstractPlanCompareTest extends AbstractPPHNTest {
 					.endsWith(SWTBotTestFile.PPHN_1_10_0_3.getFullName()));
 		}));
 
-		SWTBotMenu dateiMenu = bot.menu("Datei");
-		SWTBotMenu comparePlanMenu = dateiMenu.menu("Vergleichsplanung laden");
+		final SWTBotMenu dateiMenu = bot.menu("Datei");
+		final SWTBotMenu comparePlanMenu = dateiMenu
+				.menu("Weitere Planung laden")
+				.menu("Vergleichsplanung laden");
 		comparePlanMenu.menu("Andere Planung laden...").click();
 		bot.waitUntil(SWTBotUtils.botWaitUntil(bot, () -> {
 			final var shell = List.of(bot.shells());
@@ -51,15 +63,5 @@ public abstract class AbstractPlanCompareTest extends AbstractPPHNTest {
 					.isEmpty());
 		}), 5l * 60 * 1000);
 		bot.sleep(500);
-	}
-
-	@Override
-	public String getReferenceDir() {
-		return TEST_RESOURCE_DIR + "table_reference/"
-				+ getTestFile().getShortName() + "/";
-	}
-
-	protected SWTBotTestFile getComparePlan() {
-		return SWTBotTestFile.PPHN_1_10_0_1;
 	}
 }

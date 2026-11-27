@@ -8,16 +8,19 @@
  */
 package org.eclipse.set.feature.validation.session;
 
-import static org.eclipse.set.basis.constants.ToolboxConstants.TITLE_FILE_NAME_SEPARATOR;
+import static org.eclipse.set.basis.constants.ToolboxConstants.*;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.EnumMap;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -59,6 +62,7 @@ import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.eclipse.set.basis.guid.Guid;
 import org.eclipse.set.basis.table.OperationalAreaEnum;
 import org.eclipse.set.basis.table.OperationalAreaEnum.OperationalAreaObject;
+import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.branding.BrandingService;
 import org.eclipse.set.core.services.cache.CacheService;
 import org.eclipse.set.core.services.defaultvalue.DefaultValueService;
@@ -237,9 +241,9 @@ public class ModelSession implements IModelSession {
 		editingDomain.getCommandStack().addCommandStackListener(event -> {
 			checkForDirtyEvent();
 			if (isDirty()) {
-				setTitleFilename(IModelSessionExtensions.getTitleFilename(
-						session,
-						ModelSession.this.serviceProvider.messages.ModelSession_ChangeIndicator));
+				windowTitleNameBuilder(Optional
+						.of(IModelSessionExtensions.getTitleFilename(session,
+								ModelSession.this.serviceProvider.messages.ModelSession_ChangeIndicator)));
 				ModelSession.this.serviceProvider.broker.post(
 						UIEvents.REQUEST_ENABLEMENT_UPDATE_TOPIC,
 						UIEvents.ALL_ELEMENT_ID);
@@ -371,7 +375,7 @@ public class ModelSession implements IModelSession {
 	@Override
 	public void close() {
 		// reset filename
-		setTitleFilename(null);
+		windowTitleNameBuilder(Optional.empty());
 
 		// close the project
 		sessionService.close(this, getToolboxFile().getRole());
@@ -1067,8 +1071,9 @@ public class ModelSession implements IModelSession {
 	}
 
 	protected void setTitleFilename() {
-		setTitleFilename(IModelSessionExtensions.getTitleFilename(this,
-				serviceProvider.messages.ModelSession_ChangeIndicator));
+		windowTitleNameBuilder(
+				Optional.of(IModelSessionExtensions.getTitleFilename(this,
+						serviceProvider.messages.ModelSession_ChangeIndicator)));
 	}
 
 	void checkForDirtyEvent() {
@@ -1093,32 +1098,109 @@ public class ModelSession implements IModelSession {
 		dataEvents.forEach(e -> ToolboxEvents.send(serviceProvider.broker, e));
 	}
 
-	void setTitleFilename(final String filename) {
+	@SuppressWarnings("nls")
+	void windowTitleNameBuilder(final Optional<String> fileNameOpt) {
 		Display.getDefault().asyncExec(() -> {
-			final String title = mainWindow.getText();
-			final String[] split = title.split(String.format("%s|%s", //$NON-NLS-1$
-					TITLE_SEPARATOR, TITLE_FILE_NAME_SEPARATOR));
-			final String titleProgrammPart = split[0];
-			if (toolboxFile.getRole() == ToolboxFileRole.COMPARE_PLANNING
-					&& split.length > 1) {
-				final String titleFileName = titleProgrammPart + TITLE_SEPARATOR
-						+ split[1];
-				if (filename == null) {
-					mainWindow.setText(titleFileName);
-				} else {
-					mainWindow.setText(titleFileName + TITLE_FILE_NAME_SEPARATOR
-							+ filename);
+			final StringBuilder titleBuilder = new StringBuilder();
+			titleBuilder.append(getProgrammTitle());
+			// Open/Close main session
+			if (toolboxFile.getRole() == ToolboxFileRole.SESSION) {
+				if (fileNameOpt.isPresent()) {
+					titleBuilder.append(TITLE_SEPARATOR)
+							.append(fileNameOpt.get());
 				}
-				return;
-			}
-
-			if (filename != null && !filename.isEmpty()) {
-				mainWindow.setText(
-						titleProgrammPart + TITLE_SEPARATOR + filename);
 			} else {
-				mainWindow.setText(titleProgrammPart);
+				titleBuilder.append(TITLE_SEPARATOR).append(" ");
+				final IModelSession mainSession = sessionService
+						.getLoadedSession(ToolboxFileRole.SESSION);
+				final String mainSessionFileName = IModelSessionExtensions
+						.getTitleFilename(mainSession,
+								serviceProvider.messages.ModelSession_ChangeIndicator);
+				titleBuilder.append(mainSessionFileName);
+
+				addAdditionalPlanName(fileNameOpt, titleBuilder);
 			}
+			mainWindow.setText(titleBuilder.toString());
 		});
+	}
+
+	private void addAdditionalPlanName(final Optional<String> fileNameOpt,
+			final StringBuilder titleBuilder) {
+		final Map<ToolboxFileRole, String> additionalPlanName = new EnumMap<>(
+				ToolboxFileRole.class);
+		additionalPlanName.putAll(getLoadedAdditionalPlanTitle());
+		switch (toolboxFile.getRole()) {
+			case COMPARE_PLANNING: {
+				if (fileNameOpt.isPresent()) {
+					titleBuilder.append(TITLE_COMPARE_FILE_NAME_SEPARATOR)
+							.append(fileNameOpt.get());
+				}
+
+				break;
+			}
+			case REFERENCE_BASIS_PLAN, EQUIVALENT_PLAN: {
+				final IModelSession comparePlanSession = sessionService
+						.getLoadedSession(ToolboxFileRole.COMPARE_PLANNING);
+				if (comparePlanSession != null) {
+					titleBuilder.append(TITLE_COMPARE_FILE_NAME_SEPARATOR)
+							.append(comparePlanSession.getToolboxFile()
+									.getPath()
+									.getFileName());
+				}
+
+				if (fileNameOpt.isPresent()) {
+					additionalPlanName.put(toolboxFile.getRole(),
+							fileNameOpt.get());
+				}
+				break;
+			}
+			default:
+				break;
+		}
+		if (!additionalPlanName.isEmpty()) {
+			additionalPlanName.forEach((key, value) -> {
+				final String separator = switch (key) {
+					case REFERENCE_BASIS_PLAN:
+						yield TITLE_REFECENCE_FILE_NAME_SEPARATOR;
+					case EQUIVALENT_PLAN:
+						yield TITLE_EQUIVALENT_FILE_NAME_SEPARATOR;
+					default:
+						yield ""; //$NON-NLS-1$
+				};
+				if (separator.isEmpty()) {
+					return;
+				}
+				titleBuilder.append(separator).append(value);
+			});
+		}
+	}
+
+	private String getProgrammTitle() {
+		final String currentTitle = mainWindow.getText();
+		final String splitRegex = String.format("[%s%s(),]", //$NON-NLS-1$
+				TITLE_SEPARATOR.trim(),
+				TITLE_COMPARE_FILE_NAME_SEPARATOR.trim(),
+				TITLE_REFECENCE_FILE_NAME_SEPARATOR.trim(),
+				TITLE_EQUIVALENT_FILE_NAME_SEPARATOR.trim());
+		final List<String> split = Arrays.stream(currentTitle.split(splitRegex))
+				.filter(s -> !s.isBlank())
+				.map(String::trim)
+				.toList();
+		return split.getFirst();
+	}
+
+	private static Map<ToolboxFileRole, String> getLoadedAdditionalPlanTitle() {
+		// The additional session will direct close after
+		// storage necessary information, therefore take the
+		// filename from PlaningAccessService
+		return Services.getPlanningAccessService()
+				.getAdditionalPlansInformation()
+				.entrySet()
+				.stream()
+				.collect(Collectors.toMap(Entry::getKey,
+						entry -> entry.getValue()
+								.loadPlanInformation()
+								.name()));
 	}
 
 	@Override

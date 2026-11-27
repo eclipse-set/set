@@ -206,30 +206,27 @@ http://www.eclipse.org/legal/epl-v20.html
 			<!-- IMPROVE: Schriftfeld ist etwas breiter als erwartet -->
 			<fo:table-column column-width="{180 + $WB + $WB + $WB + $WB}mm" />
 			<fo:table-body start-indent="{$WB + $WB + $WB + $WB}mm" end-indent="{- $WB - $WB - $WB - $WB}mm">
-				<fo:table-row>
-					<fo:table-cell height="70mm">
-						<fo:table table-layout="fixed"
-											width="100%">
-							<fo:table-column column-width="100%"/>
-							<fo:table-body>
-								<fo:table-row height="65mm">
-									<fo:table-cell>
-										<fo:block/>
-									</fo:table-cell>
-								</fo:table-row>
-								<fo:table-row>
-									<fo:table-cell display-align="after" >
-										<fo:block xsl:use-attribute-sets="significant-information-style">
-											<fo:retrieve-marker retrieve-class-name="ComparePageText"
-																					retrieve-boundary="page"
-																					retrieve-position="first-starting-within-page"/>
-										</fo:block>
-									</fo:table-cell>
-								</fo:table-row>
-							</fo:table-body>
-						</fo:table>
+				<fo:table-row keep-together.within-page="always">
+					<!-- SignificantInformation -->
+					<fo:table-cell height="auto" display-align="after">
+						<fo:block-container height="auto" overflow="hidden" display-align="after">
+							<!-- Hint for compare cell -->
+							<fo:block xsl:use-attribute-sets="significant-information-style" margin-top="5px" margin-bottom="5px">
+								<fo:retrieve-marker retrieve-class-name="ComparePageText" retrieve-boundary="page" retrieve-position="first-starting-within-page"/>
+							</fo:block>
+							<!-- Loaded file information -->
+							<xsl:choose>
+								<xsl:when test="/Table/Freefield/SignificantInformation">
+									<xsl:apply-templates select="/Table/Freefield/SignificantInformation"/>
+								</xsl:when>
+								<xsl:otherwise>
+									<fo:block></fo:block>
+								</xsl:otherwise>
+							</xsl:choose>
+						</fo:block-container>
 					</fo:table-cell>
-					<fo:table-cell column-number="2" padding-top="5mm" number-rows-spanned="2">
+					<!-- TitleBox -->
+					<fo:table-cell column-number="2" padding-top="5mm">
 						<fo:table table-layout="fixed" width="100%">
 							<fo:table-column column-width="100%" />
 							<fo:table-body>
@@ -244,20 +241,6 @@ http://www.eclipse.org/legal/epl-v20.html
 						</fo:table>
 					</fo:table-cell>
 				</fo:table-row>
-				<fo:table-row>
-					<fo:table-cell display-align="center">
-						<fo:block-container height="10mm" overflow="hidden" display-align="after">
-							<xsl:choose>
-								<xsl:when test="/Table/Freefield/SignificantInformation">
-									<xsl:apply-templates select="/Table/Freefield/SignificantInformation" />
-								</xsl:when>
-								<xsl:otherwise>
-									<fo:block></fo:block>
-								</xsl:otherwise>
-							</xsl:choose>
-						</fo:block-container>
-					</fo:table-cell>
-				</fo:table-row>
 			</fo:table-body>
 		</fo:table>
 	</xsl:template>
@@ -269,12 +252,26 @@ http://www.eclipse.org/legal/epl-v20.html
 	</xsl:template>
 
 	<xsl:template match="LoadedPlan">
-		<fo:block>
+		<fo:block font-family="Courier New" font-size="5">
 			<xsl:if test="@id = 'ComparePlan'">
 				<xsl:text>Vergleich mit: </xsl:text>
 			</xsl:if>
-			<xsl:value-of select="." />
+			<xsl:if test="@id = 'ReferencePlan'">
+				<xsl:text>Basiert auf: </xsl:text>
+			</xsl:if>
+			<xsl:if test="@id = 'EquivalentPlan'">
+				<xsl:text>Gleichgestelt mit: </xsl:text>
+			</xsl:if>
+			<xsl:value-of select="FileName"/>
+			<fo:inline>
+				<xsl:text > MD5 ZIP: </xsl:text>
+				<xsl:value-of select="CheckSumme/Zip"/>
+				<xsl:text> - </xsl:text>
+				<xsl:text>MD5 Inhalt: </xsl:text>
+				<xsl:value-of select="CheckSumme/Content"/>
+			</fo:inline>
 		</fo:block>
+
 	</xsl:template>
 
 	<xsl:template match="Footnotes[Footnote]">
