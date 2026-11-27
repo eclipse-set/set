@@ -252,7 +252,7 @@ http://www.eclipse.org/legal/epl-v20.html
 	</xsl:template>
 
 	<xsl:template match="LoadedPlan">
-		<fo:block>
+		<fo:block font-family="Courier New" font-size="5">
 			<xsl:if test="@id = 'ComparePlan'">
 				<xsl:text>Vergleich mit: </xsl:text>
 			</xsl:if>
