@@ -55,7 +55,7 @@ public class PlanCompareTest extends AbstractPlanCompareTest {
 		getDialogService().openFileDialogHandler = filter -> Optional.empty();
 		final SWTBotMenu dateiMenu = bot.menu("Datei");
 		final SWTBotMenu comparePlanMenu = dateiMenu
-				.menu("Weiteren Planung laden")
+				.menu("Weitere Planung laden")
 				.menu("Vergleichsplanung laden");
 		comparePlanMenu.menu("Andere Planung laden...").click();
 		bot.sleep(500);
